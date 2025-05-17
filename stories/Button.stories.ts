@@ -1,59 +1,59 @@
-import type { Meta, StoryObj } from '@storybook/html';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/html'
+import { fn } from '@storybook/test'
 
-import type { ButtonProps } from './Button';
-import { createButton } from './Button';
+import { Button, ButtonOptions } from '../src/components/button'
+import { renderTempoComponent } from './common'
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+// Create a wrapper function to render the Button with Theme
+const renderButton = (args: ButtonOptions & { text: string }) => {
+  const { text, ...buttonOptions } = args
+
+  return Button(buttonOptions, text)
+}
+
+// Define the Meta for our Button stories
 const meta = {
-  title: 'Example/Button',
+  title: 'Components/Button',
   tags: ['autodocs'],
-  render: (args) => {
-    // You can either use a function to create DOM elements or use a plain html string!
-    // return `<div>${label}</div>`;
-    return createButton(args);
-  },
+  render: renderTempoComponent(renderButton),
   argTypes: {
-    backgroundColor: { control: 'color' },
-    label: { control: 'text' },
-    onClick: { action: 'onClick' },
-    primary: { control: 'boolean' },
-    size: {
+    type: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      options: ['button', 'submit', 'reset'],
     },
+    disabled: { control: 'boolean' },
+    onClick: { action: 'clicked' },
+    text: { control: 'text' },
   },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
-} satisfies Meta<ButtonProps>;
-
-export default meta;
-type Story = StoryObj<ButtonProps>;
-
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary: Story = {
   args: {
-    primary: true,
-    label: 'Button',
+    onClick: fn(),
+    text: 'Button Text',
+    type: 'button',
   },
-};
+} satisfies Meta<ButtonOptions & { text: string }>
 
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
+export default meta
+type Story = StoryObj<ButtonOptions & { text: string }>
 
-export const Large: Story = {
+// Default Button Story
+export const Default: Story = {
   args: {
-    size: 'large',
-    label: 'Button',
+    text: 'Click me!',
   },
-};
+}
 
-export const Small: Story = {
+// Disabled Button Story
+export const Disabled: Story = {
   args: {
-    size: 'small',
-    label: 'Button',
+    text: 'Click me!',
+    disabled: true,
   },
-};
+}
+
+// Submit Button Story
+export const Submit: Story = {
+  args: {
+    text: 'Submit Button',
+    type: 'submit',
+  },
+}
