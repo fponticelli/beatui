@@ -11,49 +11,80 @@ const renderButton = (args: ButtonOptions & { text: string }) => {
   return Button(buttonOptions, text)
 }
 
-// Define the Meta for our Button stories
+// Define the meta for the component
 const meta = {
   title: 'Components/Button',
   tags: ['autodocs'],
   render: renderTempoComponent(renderButton),
   argTypes: {
-    type: {
+    variant: {
       control: { type: 'select' },
-      options: ['button', 'submit', 'reset'],
+      options: ['primary', 'secondary', 'outline', 'text'],
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
     },
     disabled: { control: 'boolean' },
     onClick: { action: 'clicked' },
-    text: { control: 'text' },
   },
   args: {
+    text: 'Button',
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
     onClick: fn(),
-    text: 'Button Text',
-    type: 'button',
   },
-} satisfies Meta<ButtonOptions & { text: string }>
+} satisfies Meta<TailwindButtonOptions & { text: string }>
 
 export default meta
-type Story = StoryObj<ButtonOptions & { text: string }>
+type Story = StoryObj<TailwindButtonOptions & { text: string }>
 
-// Default Button Story
-export const Default: Story = {
+// Define the stories
+export const Primary: Story = {
   args: {
-    text: 'Click me!',
+    variant: 'primary',
   },
 }
 
-// Disabled Button Story
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+  },
+}
+
+export const Outline: Story = {
+  args: {
+    variant: 'outline',
+  },
+}
+
+export const Text: Story = {
+  args: {
+    variant: 'text',
+  },
+}
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+  },
+}
+
+export const Medium: Story = {
+  args: {
+    size: 'medium',
+  },
+}
+
+export const Large: Story = {
+  args: {
+    size: 'large',
+  },
+}
+
 export const Disabled: Story = {
   args: {
-    text: 'Click me!',
     disabled: true,
-  },
-}
-
-// Submit Button Story
-export const Submit: Story = {
-  args: {
-    text: 'Submit Button',
-    type: 'submit',
   },
 }

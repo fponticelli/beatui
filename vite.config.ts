@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { dirname, resolve } from 'path'
+import tailwindcss from '@tailwindcss/vite'
 
 // Use import.meta.url for ESM
 const __dirname = dirname(new URL(import.meta.url).pathname)
@@ -31,5 +32,5 @@ export default defineConfig({
   define: {
     'import.meta.vitest': 'undefined',
   },
-  plugins: [],
+  plugins: [tailwindcss()],
 })
