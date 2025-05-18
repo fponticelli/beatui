@@ -15,13 +15,13 @@ export function Button(
     disabled,
     variant = 'primary',
     size = 'medium',
-    onClick,
+    onClick = () => {},
   }: ButtonOptions,
   ...children: TNode[]
 ) {
   return Use(ThemeProvider, theme => {
     return html.button(
-      attr.type(Value.map(type, String)),
+      attr.type(type as Value<string>),
       attr.disabled(disabled),
       attr.class(
         computedOf(
@@ -29,11 +29,11 @@ export function Button(
           disabled ?? false,
           variant ?? 'primary',
           size ?? 'medium'
-        )(({ button }, disabled, variant, size) =>
+        )(({ theme: { button } }, disabled, variant, size) =>
           button({ disabled, variant, size })
         )
       ),
-      on.click(onClick ?? (() => {})),
+      on.click(onClick),
       ...children
     )
   })

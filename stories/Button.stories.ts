@@ -35,10 +35,10 @@ const meta = {
     disabled: false,
     onClick: fn(),
   },
-} satisfies Meta<TailwindButtonOptions & { text: string }>
+} satisfies Meta<ButtonOptions & { text: string }>
 
 export default meta
-type Story = StoryObj<TailwindButtonOptions & { text: string }>
+type Story = StoryObj<ButtonOptions & { text: string }>
 
 // Define the stories
 export const Primary: Story = {
