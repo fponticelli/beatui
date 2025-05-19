@@ -4,7 +4,7 @@ import { fn } from '@storybook/test'
 import { Button, ButtonOptions } from '../src/components/button'
 import { Icon } from '../src/components/icon'
 import { renderTempoComponent } from './common'
-import { attr, html } from '@tempots/dom'
+import { attr, html, TNode } from '@tempots/dom'
 import { allColors, ThemedColor } from '../src/components/theme/colors'
 import { ButtonVariant } from '../src/components/theme/types'
 
@@ -31,23 +31,27 @@ const renderButton = (
   return html.table(
     colors.map(color =>
       html.tr(
-        variants.map(variant =>
-          html.td(
+        variants.map(variant => {
+          const content: TNode[] = []
+          if (before) {
+            content.push(Icon({ icon: before, size: buttonOptions.size }))
+          }
+          content.push(text)
+          if (after) {
+            content.push(Icon({ icon: after, size: buttonOptions.size }))
+          }
+          return html.td(
             attr.class('p-1'),
-            Button({
-              ...buttonOptions,
-              color,
-              variant,
-              content: text,
-              before: before
-                ? Icon({ icon: before, size: buttonOptions.size })
-                : undefined,
-              after: after
-                ? Icon({ icon: after, size: buttonOptions.size })
-                : undefined,
-            })
+            Button(
+              {
+                ...buttonOptions,
+                color,
+                variant,
+              },
+              ...content
+            )
           )
-        )
+        })
       )
     )
   )

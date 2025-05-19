@@ -106,12 +106,14 @@ export const defaultTheme = ({
                   ? neutralColor
                   : colorName
           const classes = [
+            'transition-all',
             'font-semibold',
             'border',
             'uppercase',
             'inline-flex',
             'items-center',
             'justify-center',
+            'text-shadow-xs',
             getRoundedness(roundedness),
           ]
           classes.push(...getOutline(outlineColor))
@@ -123,6 +125,7 @@ export const defaultTheme = ({
           if (disabled) {
             classes.push('opacity-50 cursor-not-allowed')
           } else {
+            classes.push('hover:scale-105')
             classes.push('cursor-pointer')
           }
           // variant and color
