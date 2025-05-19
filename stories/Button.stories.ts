@@ -3,12 +3,36 @@ import { fn } from '@storybook/test'
 
 import { Button, ButtonOptions } from '../src/components/button'
 import { renderTempoComponent } from './common'
+import { attr, html } from '@tempots/dom'
+import { allColors, ThemedColor } from '../src/components/theme/colors'
+import { ButtonVariant } from '../src/components/theme/types'
+
+const colors: ThemedColor[] = ['primary', 'secondary', 'neutral', ...allColors]
+
+const variants: ButtonVariant[] = [
+  'filled',
+  'light',
+  'outline',
+  'default',
+  'text',
+]
 
 // Create a wrapper function to render the Button with Theme
 const renderButton = (args: ButtonOptions & { text: string }) => {
   const { text, ...buttonOptions } = args
 
-  return Button(buttonOptions, text)
+  return html.table(
+    colors.map(color =>
+      html.tr(
+        variants.map(variant =>
+          html.td(
+            attr.class('p-1'),
+            Button({ ...buttonOptions, color, variant }, text)
+          )
+        )
+      )
+    )
+  )
 }
 
 // Define the meta for the component
@@ -17,20 +41,19 @@ const meta = {
   tags: ['autodocs'],
   render: renderTempoComponent(renderButton),
   argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'text'],
-    },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
     },
     disabled: { control: 'boolean' },
     onClick: { action: 'clicked' },
+    roundedness: {
+      control: { type: 'select' },
+      options: ['none', 'small', 'medium', 'large', 'full'],
+    },
   },
   args: {
     text: 'Button',
-    variant: 'primary',
     size: 'medium',
     disabled: false,
     onClick: fn(),
@@ -41,39 +64,43 @@ export default meta
 type Story = StoryObj<ButtonOptions & { text: string }>
 
 // Define the stories
-export const Primary: Story = {
+export const Standard: Story = {
+  args: { size: 'medium' },
+}
+
+export const RoundedNone: Story = {
   args: {
-    variant: 'primary',
+    roundedness: 'none',
   },
 }
 
-export const Secondary: Story = {
+export const RoundedSmall: Story = {
   args: {
-    variant: 'secondary',
+    roundedness: 'small',
   },
 }
 
-export const Outline: Story = {
+export const RoundedMedium: Story = {
   args: {
-    variant: 'outline',
+    roundedness: 'medium',
   },
 }
 
-export const Text: Story = {
+export const RoundedLarge: Story = {
   args: {
-    variant: 'text',
+    roundedness: 'large',
+  },
+}
+
+export const RoundedFull: Story = {
+  args: {
+    roundedness: 'full',
   },
 }
 
 export const Small: Story = {
   args: {
     size: 'small',
-  },
-}
-
-export const Medium: Story = {
-  args: {
-    size: 'medium',
   },
 }
 
