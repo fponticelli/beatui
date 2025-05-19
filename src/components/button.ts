@@ -11,6 +11,9 @@ export interface ButtonOptions {
   size?: Value<ButtonSize>
   roundedness?: Value<Roundedness>
   onClick?: () => void
+  content: TNode
+  before?: TNode
+  after?: TNode
 }
 
 export function Button(
@@ -22,6 +25,9 @@ export function Button(
     color,
     roundedness = 'medium',
     onClick = () => {},
+    before,
+    after,
+    content,
   }: ButtonOptions,
   ...children: TNode[]
 ) {
@@ -49,6 +55,9 @@ export function Button(
         )
       ),
       on.click(onClick),
+      before,
+      html.span(content),
+      after,
       ...children
     )
   })

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { fn } from '@storybook/test'
 
 import { Button, ButtonOptions } from '../src/components/button'
+import { Icon } from '../src/components/icon'
 import { renderTempoComponent } from './common'
 import { attr, html } from '@tempots/dom'
 import { allColors, ThemedColor } from '../src/components/theme/colors'
@@ -18,8 +19,14 @@ const variants: ButtonVariant[] = [
 ]
 
 // Create a wrapper function to render the Button with Theme
-const renderButton = (args: ButtonOptions & { text: string }) => {
-  const { text, ...buttonOptions } = args
+const renderButton = (
+  args: ButtonOptions & {
+    text: string
+    before: string | undefined
+    after: string | undefined
+  }
+) => {
+  const { text, before, after, ...buttonOptions } = args
 
   return html.table(
     colors.map(color =>
@@ -27,7 +34,18 @@ const renderButton = (args: ButtonOptions & { text: string }) => {
         variants.map(variant =>
           html.td(
             attr.class('p-1'),
-            Button({ ...buttonOptions, color, variant }, text)
+            Button({
+              ...buttonOptions,
+              color,
+              variant,
+              content: text,
+              before: before
+                ? Icon({ icon: before, size: buttonOptions.size })
+                : undefined,
+              after: after
+                ? Icon({ icon: after, size: buttonOptions.size })
+                : undefined,
+            })
           )
         )
       )
@@ -51,6 +69,28 @@ const meta = {
       control: { type: 'select' },
       options: ['none', 'small', 'medium', 'large', 'full'],
     },
+    before: {
+      control: { type: 'select' },
+      options: [
+        undefined,
+        'icon-[mdi-light--home]',
+        'icon-[mdi-light--account]',
+        'icon-[mdi-light--cog]',
+        'icon-[mdi-light--heart]',
+        'icon-[mdi-light--alert]',
+      ],
+    },
+    after: {
+      control: { type: 'select' },
+      options: [
+        undefined,
+        'icon-[mdi-light--home]',
+        'icon-[mdi-light--account]',
+        'icon-[mdi-light--cog]',
+        'icon-[mdi-light--heart]',
+        'icon-[mdi-light--alert]',
+      ],
+    },
   },
   args: {
     text: 'Button',
@@ -58,10 +98,22 @@ const meta = {
     disabled: false,
     onClick: fn(),
   },
-} satisfies Meta<ButtonOptions & { text: string }>
+} satisfies Meta<
+  ButtonOptions & {
+    text: string
+    before: string | undefined
+    after: string | undefined
+  }
+>
 
 export default meta
-type Story = StoryObj<ButtonOptions & { text: string }>
+type Story = StoryObj<
+  ButtonOptions & {
+    text: string
+    before: string | undefined
+    after: string | undefined
+  }
+>
 
 // Define the stories
 export const Standard: Story = {

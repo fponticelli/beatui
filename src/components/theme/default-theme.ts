@@ -109,6 +109,9 @@ export const defaultTheme = ({
             'font-semibold',
             'border',
             'uppercase',
+            'inline-flex',
+            'items-center',
+            'justify-center',
             getRoundedness(roundedness),
           ]
           classes.push(...getOutline(outlineColor))
@@ -195,11 +198,11 @@ export const defaultTheme = ({
           }
           // size
           if (size === 'small') {
-            classes.push('px-2 py-1 text-xs')
+            classes.push('px-2 py-1 text-xs gap-0.5')
           } else if (size === 'medium') {
-            classes.push('px-3 py-1.5 text-sm')
+            classes.push('px-3 py-1.5 text-sm gap-1')
           } else if (size === 'large') {
-            classes.push('px-4 py-2 text-md')
+            classes.push('px-4 py-2 text-md gap-1.5')
           }
           return classes.join(' ')
         },
@@ -213,11 +216,11 @@ export const defaultTheme = ({
           }
 
           if (size === 'small') {
-            classes.push('size-4')
+            classes.push('size-3')
           } else if (size === 'medium') {
-            classes.push('size-6')
+            classes.push('size-4')
           } else if (size === 'large') {
-            classes.push('size-8')
+            classes.push('size-6')
           }
 
           return classes.join(' ')
