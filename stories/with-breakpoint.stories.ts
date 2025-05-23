@@ -8,32 +8,54 @@ import {
   WithTWElementBreakpoint,
 } from '../src/components/with-breakpoint'
 
-const trueOrFale = (value: boolean): string => {
-  return value ? '✅' : '❌'
-}
+const SatisfiesBreakpoint = (
+  info: BreakpointInfo<Breakpoints>,
+  name: keyof Breakpoints
+) =>
+  info.width.map((width: number): string =>
+    info.is(name, width) ? '✅' : '❌'
+  )
 
 function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
   return html.table(
     html.tr(
-      html.th(attr.class('px-4'), 'Breakpoint'),
-      html.th(attr.class('px-4'), 'Width'),
-      html.th(attr.class('px-4'), '='),
-      html.th(attr.class('px-4'), '<'),
-      html.th(attr.class('px-4'), '<='),
-      html.th(attr.class('px-4'), '>'),
-      html.th(attr.class('px-4'), '>='),
-      html.th(attr.class('px-4'), '!=')
+      html.th(attr.class('px-4 text-center'), 'Breakpoint'),
+      html.th(attr.class('px-4 text-center'), 'Width'),
+      html.th(attr.class('px-4 text-center'), '='),
+      html.th(attr.class('px-4 text-center'), '<'),
+      html.th(attr.class('px-4 text-center'), '<='),
+      html.th(attr.class('px-4 text-center'), '>'),
+      html.th(attr.class('px-4 text-center'), '>='),
+      html.th(attr.class('px-4 text-center'), '!=')
     ),
     info.asList.flatMap(([width, name]) => [
       html.tr(
-        html.td(String(name)),
-        html.td(width.toString()),
-        html.td(info.width.map(w => trueOrFale(info.is(name, w)))),
-        html.td(info.width.map(w => trueOrFale(info.is(`<${name}`, w)))),
-        html.td(info.width.map(w => trueOrFale(info.is(`<=${name}`, w)))),
-        html.td(info.width.map(w => trueOrFale(info.is(`>${name}`, w)))),
-        html.td(info.width.map(w => trueOrFale(info.is(`>=${name}`, w)))),
-        html.td(info.width.map(w => trueOrFale(info.is(`!=${name}`, w))))
+        html.th(attr.class('px-4 text-center'), String(name)),
+        html.td(attr.class('px-4 text-center'), width.toString()),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, name)
+        ),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, `<${name}`)
+        ),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, `<=${name}`)
+        ),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, `>${name}`)
+        ),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, `>=${name}`)
+        ),
+        html.td(
+          attr.class('px-4 text-center'),
+          SatisfiesBreakpoint(info, `!=${name}`)
+        )
       ),
     ])
   )
