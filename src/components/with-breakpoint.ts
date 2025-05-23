@@ -1,13 +1,16 @@
 import { Signal, Size, TNode } from '@tempots/dom'
 import { ElementSize, WindowSize } from '@tempots/ui'
 
-export type Breakpoints = Record<string, number>
-export interface BreakpointInfo<T extends Breakpoints> {
+export type Breakpoints = { [_ in string]: number }
+export interface BreakpointInfo<
+  T extends Breakpoints,
+  K extends keyof T = keyof T & string,
+> {
   width: Signal<number>
-  breakpoint: Signal<keyof T>
+  breakpoint: Signal<K>
   breakpoints: T
-  asList: [number, keyof T][]
-  is: <K extends keyof T>(
+  asList: [number, K][]
+  is: <K extends string & keyof T>(
     value: BreakPointComparison<K>,
     width: number
   ) => boolean
@@ -42,11 +45,11 @@ export type Operator = '!=' | '<=' | '>=' | '<' | '>' | '='
 
 const operators: Operator[] = ['!=', '<=', '>=', '<', '>', '=']
 
-export type BreakPointComparison<K> = K extends string
-  ? K | `${Operator}${K}`
-  : never
+export type BreakPointComparison<K extends string> = K | `${Operator}${K}`
 
-function getOperatorAndValue<K>(value: BreakPointComparison<K>): [Operator, K] {
+function getOperatorAndValue<K extends string>(
+  value: BreakPointComparison<K>
+): [Operator, K] {
   for (const operator of operators) {
     if (typeof value === 'string' && value.startsWith(operator)) {
       return [operator, value.slice(operator.length) as K]
@@ -55,12 +58,15 @@ function getOperatorAndValue<K>(value: BreakPointComparison<K>): [Operator, K] {
   return ['=', value as K]
 }
 
-export function compareBreakpoint<T extends Breakpoints>(
+export function compareBreakpoint<
+  T extends Breakpoints,
+  K extends string & keyof T = keyof T & string,
+>(
   sortedList: [number, keyof T][],
-  value: BreakPointComparison<keyof T>,
+  value: BreakPointComparison<K>,
   width: number
 ): boolean {
-  const [operator, v] = getOperatorAndValue<keyof T>(value)
+  const [operator, v] = getOperatorAndValue<K>(value)
 
   // Find the index in the sorted list
   const sortedIndex = sortedList.findIndex(item => item[1] === v)
@@ -136,7 +142,10 @@ export function WithBreakpoint<T extends Breakpoints>(
   )
 
   // Sort the list by width once to ensure correct range comparisons
-  const sortedList = [...list].sort((a, b) => a[0] - b[0])
+  const sortedList = [...list].sort((a, b) => a[0] - b[0]) as [
+    number,
+    keyof T & string,
+  ][]
 
   const sizeCallback = (size: Signal<Size>) => {
     const width = size.map(({ width }) => width)
@@ -154,12 +163,11 @@ export function WithBreakpoint<T extends Breakpoints>(
       }
     })
 
-    const is = (value: BreakPointComparison<keyof T>, width: number): boolean =>
-      compareBreakpoint(
-        sortedList,
-        value as BreakPointComparison<keyof T>,
-        width
-      )
+    const is = <K extends string & keyof T>(
+      value: BreakPointComparison<K>,
+      width: number
+    ): boolean =>
+      compareBreakpoint(sortedList, value as BreakPointComparison<K>, width)
 
     return fn({
       width,
