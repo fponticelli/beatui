@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
 
-import { Icon, IconOptions } from '../src/components/Icon'
+import { Icon, IconOptions } from '../src/components/icon'
 import { renderTempoComponent } from './common'
 
 // Create a wrapper function to render the Icon with Theme
@@ -32,7 +32,7 @@ const meta = {
     },
   },
   args: {
-    icon: 'icon-[mdi-light--home]',
+    icon: 'icon-[line-md--home]',
     size: 'medium',
   },
 } satisfies Meta<IconOptions>
@@ -43,41 +43,41 @@ type Story = StoryObj<IconOptions>
 // Define the stories
 export const Default: Story = {
   args: {
-    icon: 'icon-[mdi-light--home]',
+    icon: 'icon-[line-md--home]',
   },
 }
 
 export const Small: Story = {
   args: {
-    icon: 'icon-[mdi-light--home]',
+    icon: 'icon-[line-md--home]',
     size: 'small',
   },
 }
 
 export const Medium: Story = {
   args: {
-    icon: 'icon-[mdi-light--home]',
+    icon: 'icon-[line-md--home]',
     size: 'medium',
   },
 }
 
 export const Large: Story = {
   args: {
-    icon: 'icon-[mdi-light--home]',
+    icon: 'icon-[line-md--home]',
     size: 'large',
   },
 }
 
 export const ColoredIcon: Story = {
   args: {
-    icon: 'icon-[mdi-light--heart]',
+    icon: 'icon-[line-md--heart]',
     color: 'text-red-500',
   },
 }
 
 export const WithTitle: Story = {
   args: {
-    icon: 'icon-[mdi-light--alert]',
+    icon: 'icon-[line-md--alert]',
     title: 'Warning',
   },
 }
@@ -85,12 +85,12 @@ export const WithTitle: Story = {
 // Different icon examples
 export const UserIcon: Story = {
   args: {
-    icon: 'icon-[mdi-light--account]',
+    icon: 'icon-[line-md--account]',
   },
 }
 
 export const SettingsIcon: Story = {
   args: {
-    icon: 'icon-[mdi-light--cog]',
+    icon: 'icon-[line-md--cog]',
   },
 }

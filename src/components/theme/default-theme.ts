@@ -201,11 +201,11 @@ export const defaultTheme = ({
           }
           // size
           if (size === 'small') {
-            classes.push('px-2 py-1 text-xs gap-0.5')
+            classes.push('px-1 py-1 text-xs gap-0.5')
           } else if (size === 'medium') {
-            classes.push('px-3 py-1.5 text-sm gap-1')
+            classes.push('px-1.5 py-1.5 text-sm gap-1')
           } else if (size === 'large') {
-            classes.push('px-4 py-2 text-md gap-1.5')
+            classes.push('px-2 py-2 text-md gap-1.5')
           }
           return classes.join(' ')
         },

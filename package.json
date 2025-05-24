@@ -27,11 +27,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@iconify-json/tabler": "^1.2.3",
+    "@iconify-json/tabler": "1.2.18",
+    "@iconify-json/line-md": "1.2.8",
     "@iconify/json": "^2.2.339",
     "@tailwindcss/vite": "^4.1.7",
-    "@tempots/dom": "26.7.5",
-    "@tempots/ui": "2.6.0",
+    "@tempots/dom": "26.9.0",
+    "@tempots/ui": "2.7.0",
+    "@tempots/std": "0.18.0",
     "tailwindcss": "^4.1.7",
     "typescript": "5.8.3"
   },
