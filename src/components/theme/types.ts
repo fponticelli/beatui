@@ -5,6 +5,8 @@ export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
 export type ButtonSize = 'small' | 'medium' | 'large'
 export type IconSize = 'small' | 'medium' | 'large'
 export type Roundedness = 'none' | 'small' | 'medium' | 'large' | 'full'
+export type OverlayEffect = 'transparent' | 'visible'
+export type OverlayMode = 'capturing' | 'non-capturing'
 
 export interface Theme {
   button: (options: {
@@ -15,6 +17,7 @@ export interface Theme {
     roundedness?: Roundedness
     fill?: boolean
   }) => string
+  overlay: (options: { effect: OverlayEffect; mode: OverlayMode }) => string
   iconContainer: (options: { size: IconSize; color?: string }) => string
   icon: string
 }

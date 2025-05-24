@@ -7,11 +7,11 @@ import {
   OnDispose,
   render,
   TNode,
+  Use,
   WithBrowserCtx,
 } from '@tempots/dom'
-
-export type OverlayMode = 'capturing' | 'non-capturing'
-export type OverlayEffect = 'transparent' | 'visible'
+import { OverlayEffect } from './theme/types'
+import { ThemeProvider } from './theme'
 
 export type OverlayOptions =
   | {
@@ -33,22 +33,20 @@ export function makeOverlay(ctx: BrowserContext) {
     const disposables: (() => void)[] = []
     const close = () => disposables.forEach(dispose => dispose())
     const container = html.div(
-      attr.class(
-        'absolute inset-0 flex items-center justify-center z-50 w-full h-full top-0 left-0 bottom-0 right-0'
+      Use(ThemeProvider, ({ theme }) =>
+        attr.class(
+          theme.overlay({
+            effect: effect ?? 'visible',
+            mode: rest.mode ?? 'capturing',
+          })
+        )
       ),
-      attr.class(
-        effect === 'transparent'
-          ? 'bg-gray-400/10'
-          : 'backdrop-blur-xs bg-black/30'
-      ),
-      ...(rest.mode === 'capturing'
-        ? [
-            on.click(() => {
-              rest.onClickOutside?.()
-              close()
-            }),
-          ]
-        : [attr.class('pointer-events-none *:pointer-events-auto')]),
+      rest.mode === 'capturing'
+        ? on.click(() => {
+            rest.onClickOutside?.()
+            close()
+          })
+        : null,
       fnNode(close)
     )
     const clear = render(container, ctx.element, {
