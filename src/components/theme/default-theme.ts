@@ -106,7 +106,7 @@ export const defaultTheme = ({
                   ? neutralColor
                   : colorName
           const classes = [
-            'transition-all',
+            'transition',
             'font-semibold',
             'border',
             'uppercase',
@@ -125,8 +125,11 @@ export const defaultTheme = ({
           if (disabled) {
             classes.push('opacity-50 cursor-not-allowed')
           } else {
-            classes.push('hover:scale-105')
-            classes.push('cursor-pointer')
+            classes.push(
+              'hover:scale-105',
+              'cursor-pointer',
+              'active:translate-y-0.5'
+            )
           }
           // variant and color
           if (variant === 'filled') {

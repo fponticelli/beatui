@@ -49,12 +49,29 @@ export function makeOverlay(ctx: BrowserContext) {
         : null,
       fnNode(close)
     )
+    const inertChildren = new Set<Element>()
+    for (const el of ctx.element.querySelectorAll(':scope > *')) {
+      if (el.hasAttribute('inert')) {
+        inertChildren.add(el)
+      } else {
+        el.setAttribute('inert', '')
+      }
+    }
+    disposables.push(() => {
+      for (const el of ctx.element.querySelectorAll(':scope > *')) {
+        if (!inertChildren.has(el)) {
+          el.removeAttribute('inert')
+        }
+      }
+      inertChildren.clear()
+    })
     const clear = render(container, ctx.element, {
       disposeWithParent: true,
       clear: false,
       providers: ctx.providers,
     })
     disposables.push(clear)
+    ;(document.activeElement as HTMLElement)?.blur?.()
     if (rest.mode === 'capturing') {
       const handleEscape = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
@@ -77,18 +94,15 @@ function BaseOverlay(
   fn: (open: (renderFn: (close: () => void) => TNode) => void) => TNode
 ): TNode {
   return WithBrowserCtx(ctx => {
-    const openOverlay = makeOverlay(getContext(ctx))
+    const parentCtx = getContext(ctx)
+    const openOverlay = makeOverlay(parentCtx)
     let currentClose = () => {}
-
     const open = (renderFn: (close: () => void) => TNode) => {
       currentClose()
       currentClose = openOverlay(options, renderFn)
     }
 
-    return Fragment(
-      OnDispose(() => currentClose()),
-      fn(open)
-    )
+    return Fragment(OnDispose(currentClose), fn(open))
   })
 }
 
