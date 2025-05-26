@@ -6,8 +6,7 @@ export interface BreakpointInfo<
   T extends Breakpoints,
   K extends keyof T = keyof T & string,
 > {
-  width: Signal<number>
-  breakpoint: Signal<K>
+  value: Signal<{ width: number; breakpoint: K }>
   breakpoints: T
   asList: [number, K][]
   is: <K extends string & keyof T>(
@@ -123,18 +122,15 @@ export function WithBreakpoint<T extends Breakpoints>(
   ][]
 
   const sizeCallback = (size: Signal<Size>) => {
-    const width = size.map(({ width }) => width)
-    // Use the sorted list for findBreakpoint
-    const breakpoint = width.map(width => {
-      // Find the breakpoint directly without re-sorting
+    const value = size.map(({ width }) => {
       const index = sortedList.findIndex(item => item[0] > width) - 1
 
       if (index >= 0) {
-        return sortedList[index][1]
+        return { width, breakpoint: sortedList[index][1] }
       } else if (sortedList.length > 0 && width >= sortedList[0][0]) {
-        return sortedList[0][1]
+        return { width, breakpoint: sortedList[0][1] }
       } else {
-        return sortedList[0][1]
+        return { width, breakpoint: sortedList[0][1] }
       }
     })
 
@@ -145,8 +141,7 @@ export function WithBreakpoint<T extends Breakpoints>(
       compareBreakpoint(sortedList, value as BreakPointComparison<K>, width)
 
     return fn({
-      width,
-      breakpoint,
+      value,
       breakpoints,
       asList: sortedList,
       is,
@@ -180,12 +175,23 @@ function getCSSVariableInPX(
   return remToPx(style.getPropertyValue(name), alt)
 }
 
+export type TWBreakpoints = {
+  zero: number
+  xs: number
+  sm: number
+  md: number
+  lg: number
+  xl: number
+}
+
+export type TWBreakpoint = keyof TWBreakpoints
+
 export function WithTWBreakpoint(
-  fn: (info: BreakpointInfo<Breakpoints>) => TNode
+  fn: (info: BreakpointInfo<TWBreakpoints>) => TNode
 ) {
   return WithElement(el => {
     const style = getComputedStyle(el)
-    const viewportBreakpoints: Breakpoints = {
+    const viewportBreakpoints: TWBreakpoints = {
       zero: 0,
       xs: getCSSVariableInPX(style, '--breakpoint-xs', 640),
       sm: getCSSVariableInPX(style, '--breakpoint-sm', 768),
@@ -197,12 +203,28 @@ export function WithTWBreakpoint(
   })
 }
 
+export type TWElementBreakpoints = {
+  zero: number
+  '3xs': number
+  '2xs': number
+  xs: number
+  sm: number
+  md: number
+  lg: number
+  xl: number
+  '2xl': number
+  '3xl': number
+  '4xl': number
+  '5xl': number
+  '6xl': number
+}
+
 export function WithTWElementBreakpoint(
-  fn: (info: BreakpointInfo<Breakpoints>) => TNode
+  fn: (info: BreakpointInfo<TWElementBreakpoints>) => TNode
 ) {
   return WithElement(el => {
     const style = getComputedStyle(el)
-    const elementBreakpoints: Breakpoints = {
+    const elementBreakpoints: TWElementBreakpoints = {
       zero: 0,
       '3xs': getCSSVariableInPX(style, '--container-3xs', 256),
       '2xs': getCSSVariableInPX(style, '--container-2xs', 288),

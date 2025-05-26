@@ -11,10 +11,7 @@ import {
 const SatisfiesBreakpoint = (
   info: BreakpointInfo<Breakpoints>,
   name: keyof Breakpoints
-) =>
-  info.width.map((width: number): string =>
-    info.is(name, width) ? '✅' : '❌'
-  )
+) => info.value.map(({ width }): string => (info.is(name, width) ? '✅' : '❌'))
 
 function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
   return html.table(
@@ -71,12 +68,15 @@ const renderWithBreakpoint = () => {
           'Viewport width: ',
           html.span(
             attr.class('font-bold'),
-            info.width.map(v => `${v}px`)
+            info.value.map(({ width }) => `${width}px`)
           )
         ),
         html.div(
           'Current breakpoint: ',
-          html.span(attr.class('font-bold'), info.breakpoint)
+          html.span(
+            attr.class('font-bold'),
+            info.value.$.breakpoint.map(String)
+          )
         ),
         BreakpointsTable(info)
       )
@@ -88,12 +88,15 @@ const renderWithBreakpoint = () => {
           'Element width: ',
           html.span(
             attr.class('font-bold'),
-            info.width.map(v => `${v}px`)
+            info.value.map(({ width }) => `${width}px`)
           )
         ),
         html.div(
           'Current breakpoint: ',
-          html.span(attr.class('font-bold'), info.breakpoint)
+          html.span(
+            attr.class('font-bold'),
+            info.value.$.breakpoint.map(String)
+          )
         ),
         BreakpointsTable(info)
       )
