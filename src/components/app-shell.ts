@@ -13,6 +13,7 @@ export interface AppShellOptions {
 
 export function AppShell(options: AppShellOptions) {
   return html.div(
+    style.height('100%'),
     style.display('grid'),
     style.gridTemplateColumns('1fr 3fr 1fr'),
     style.gridTemplateRows('1fr 1fr 1fr 1fr 1fr 1fr'),

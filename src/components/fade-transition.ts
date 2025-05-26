@@ -5,22 +5,18 @@ import {
   prop,
   Signal,
   TNode,
+  Use,
   WithElement,
 } from '@tempots/dom'
 import { deferred } from '@tempots/std'
+import { FadeTranstionState } from './theme/types'
+import { ThemeProvider } from './theme'
 
 export type FadeTranstionOptions<El extends HTMLElement> = {
   onExit?: () => void
   enter?: (el: El) => Promise<void>
   exit?: (el: El) => Promise<void>
 }
-
-export type FadeTranstionState =
-  | 'initial'
-  | 'entering'
-  | 'entered'
-  | 'exiting'
-  | 'exited'
 
 export function FadeTranstion<El extends HTMLElement>(
   { onExit, enter, exit }: FadeTranstionOptions<El>,
@@ -88,19 +84,8 @@ export function CSSFadeTransition<El extends HTMLElement>(
     },
     (state, exit) =>
       Fragment(
-        attr.class(
-          state.map((value): string | null => {
-            if (value === 'initial') {
-              return 'opacity-0 transition-opacity duration-0 ease-in-out'
-            }
-            if (value === 'entering') {
-              return 'opacity-100 transition-opacity duration-300 ease-in-out'
-            }
-            if (value === 'exiting') {
-              return 'opacity-0 transition-opacity duration-300 ease-in-out'
-            }
-            return 'opacity-100 transition-opacity duration-300 ease-in-out'
-          })
+        Use(ThemeProvider, ({ theme }) =>
+          attr.class(state.map(state => theme.fadeInOut({ state })))
         ),
         onStateChange(state, exit)
       )

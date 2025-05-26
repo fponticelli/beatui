@@ -1,0 +1,9 @@
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#storybook-root, #storybook-root > * {
+  height: 100%;
+  overflow: auto;
+}

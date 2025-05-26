@@ -246,6 +246,18 @@ export const defaultTheme = ({
           }
           return classes.join(' ')
         },
+        fadeInOut: ({ state }) => {
+          if (state === 'initial') {
+            return 'opacity-0 transition-opacity duration-0 ease-in-out'
+          }
+          if (state === 'entering') {
+            return 'opacity-100 transition-opacity duration-300 ease-in-out'
+          }
+          if (state === 'exiting') {
+            return 'opacity-0 transition-opacity duration-300 ease-in-out'
+          }
+          return 'opacity-100 transition-opacity duration-300 ease-in-out'
+        },
       },
     },
     dispose,

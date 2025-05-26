@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
 import { html } from '@tempots/dom'
 import { AppShell, AppShellOptions } from '../src/components/app-shell'
+import './fullpage.css'
 
 // Create a wrapper function to render the Button with Theme
 const renderAppShell = (args: AppShellOptions) => {
@@ -27,6 +28,9 @@ const meta = {
   render: renderTempoComponent(renderAppShell),
   argTypes: {},
   args: {},
+  parameters: {
+    layout: 'fullscreen',
+  },
 } satisfies Meta<AppShellOptions>
 
 export default meta

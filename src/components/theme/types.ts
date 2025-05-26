@@ -7,6 +7,12 @@ export type IconSize = 'small' | 'medium' | 'large'
 export type Roundedness = 'none' | 'small' | 'medium' | 'large' | 'full'
 export type OverlayEffect = 'transparent' | 'visible'
 export type OverlayMode = 'capturing' | 'non-capturing'
+export type FadeTranstionState =
+  | 'initial'
+  | 'entering'
+  | 'entered'
+  | 'exiting'
+  | 'exited'
 
 export interface Theme {
   button: (options: {
@@ -18,6 +24,7 @@ export interface Theme {
     fill?: boolean
   }) => string
   overlay: (options: { effect: OverlayEffect; mode: OverlayMode }) => string
+  fadeInOut: (options: { state: FadeTranstionState }) => string
   iconContainer: (options: { size: IconSize; color?: string }) => string
   icon: string
 }
