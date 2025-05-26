@@ -1,9 +1,9 @@
 import {
   attr,
   BrowserContext,
+  dataAttr,
   Fragment,
   html,
-  on,
   OnDispose,
   render,
   TNode,
@@ -12,6 +12,7 @@ import {
 } from '@tempots/dom'
 import { OverlayEffect } from './theme/types'
 import { ThemeProvider } from './theme'
+import { CSSFadeTransition } from './fade-transition'
 
 export type OverlayOptions =
   | {
@@ -32,58 +33,69 @@ export function makeOverlay(ctx: BrowserContext) {
   ) => {
     const disposables: (() => void)[] = []
     const close = () => disposables.forEach(dispose => dispose())
-    const container = html.div(
-      Use(ThemeProvider, ({ theme }) =>
-        attr.class(
-          theme.overlay({
-            effect: effect ?? 'visible',
-            mode: rest.mode ?? 'capturing',
+    const makeContainer = () =>
+      html.div(
+        dataAttr.overlay('true'),
+        Use(ThemeProvider, ({ theme }) =>
+          attr.class(
+            theme.overlay({
+              effect: effect ?? 'visible',
+              mode: rest.mode ?? 'capturing',
+            })
+          )
+        ),
+        CSSFadeTransition({ onExit: close }, (_, exit) => {
+          const inertChildren = new Set<Element>()
+          for (const el of ctx.element.querySelectorAll(
+            ':scope > :not([data-overlay])'
+          )) {
+            if (el.hasAttribute('inert')) {
+              inertChildren.add(el)
+            } else {
+              el.setAttribute('inert', '')
+            }
+          }
+          disposables.push(() => {
+            for (const el of ctx.element.querySelectorAll(
+              ':scope > :not([data-overlay])'
+            )) {
+              if (!inertChildren.has(el)) {
+                el.removeAttribute('inert')
+              }
+            }
+            inertChildren.clear()
           })
-        )
-      ),
-      rest.mode === 'capturing'
-        ? on.click(() => {
-            rest.onClickOutside?.()
-            close()
-          })
-        : null,
-      fnNode(close)
-    )
-    const inertChildren = new Set<Element>()
-    for (const el of ctx.element.querySelectorAll(':scope > *')) {
-      if (el.hasAttribute('inert')) {
-        inertChildren.add(el)
-      } else {
-        el.setAttribute('inert', '')
-      }
-    }
-    disposables.push(() => {
-      for (const el of ctx.element.querySelectorAll(':scope > *')) {
-        if (!inertChildren.has(el)) {
-          el.removeAttribute('inert')
-        }
-      }
-      inertChildren.clear()
-    })
-    const clear = render(container, ctx.element, {
+          ;(document.activeElement as HTMLElement)?.blur?.()
+          if (rest.mode === 'capturing') {
+            const handleEscape = (event: KeyboardEvent) => {
+              if (event.key === 'Escape') {
+                rest.onEscape?.()
+                exit()
+              }
+            }
+            document.addEventListener('keydown', handleEscape)
+            disposables.push(() =>
+              document.removeEventListener('keydown', handleEscape)
+            )
+            const handler = () => {
+              rest.onClickOutside?.()
+              exit()
+            }
+            ctx.element.addEventListener('mousedown', handler)
+            disposables.push(() =>
+              ctx.element.removeEventListener('mousedown', handler)
+            )
+          }
+          return fnNode(exit)
+        })
+      )
+
+    const clear = render(makeContainer(), ctx.element, {
       disposeWithParent: true,
       clear: false,
       providers: ctx.providers,
     })
     disposables.push(clear)
-    ;(document.activeElement as HTMLElement)?.blur?.()
-    if (rest.mode === 'capturing') {
-      const handleEscape = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          rest.onEscape?.()
-          close()
-        }
-      }
-      document.addEventListener('keydown', handleEscape)
-      disposables.push(() =>
-        document.removeEventListener('keydown', handleEscape)
-      )
-    }
     return close
   }
 }
