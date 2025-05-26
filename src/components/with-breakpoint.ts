@@ -1,4 +1,4 @@
-import { Signal, Size, TNode } from '@tempots/dom'
+import { Signal, Size, TNode, WithElement } from '@tempots/dom'
 import { ElementSize, WindowSize } from '@tempots/ui'
 
 export type Breakpoints = { [_ in string]: number }
@@ -14,31 +14,6 @@ export interface BreakpointInfo<
     value: BreakPointComparison<K>,
     width: number
   ) => boolean
-}
-
-export const elementBreakpoints: Breakpoints = {
-  zero: 0,
-  '3xs': 256,
-  '2xs': 288,
-  xs: 320,
-  sm: 384,
-  md: 448,
-  lg: 512,
-  xl: 640,
-  '2xl': 768,
-  '3xl': 1024,
-  '4xl': 1280,
-  '5xl': 1536,
-  '6xl': 2048,
-}
-
-export const viewportBreakpoints: Breakpoints = {
-  zero: 0,
-  xs: 640,
-  sm: 768,
-  md: 1024,
-  lg: 1280,
-  xl: 1536,
 }
 
 export type Operator = '!=' | '<=' | '>=' | '<' | '>' | '='
@@ -185,17 +160,66 @@ export function WithBreakpoint<T extends Breakpoints>(
   return WindowSize(sizeCallback)
 }
 
-export function WithTWBreakpoint(
-  fn: (info: BreakpointInfo<typeof viewportBreakpoints>) => TNode
+let multiplier = NaN
+
+function remToPx(rem: string | undefined, alt: number): number {
+  if (!rem) {
+    return alt
+  }
+  if (isNaN(multiplier)) {
+    multiplier = parseFloat(getComputedStyle(document.documentElement).fontSize)
+  }
+  return parseFloat(rem) * multiplier
+}
+
+function getCSSVariableInPX(
+  style: CSSStyleDeclaration,
+  name: string,
+  alt: number
 ) {
-  return WithBreakpoint(fn, { breakpoints: viewportBreakpoints })
+  return remToPx(style.getPropertyValue(name), alt)
+}
+
+export function WithTWBreakpoint(
+  fn: (info: BreakpointInfo<Breakpoints>) => TNode
+) {
+  return WithElement(el => {
+    const style = getComputedStyle(el)
+    const viewportBreakpoints: Breakpoints = {
+      zero: 0,
+      xs: getCSSVariableInPX(style, '--breakpoint-xs', 640),
+      sm: getCSSVariableInPX(style, '--breakpoint-sm', 768),
+      md: getCSSVariableInPX(style, '--breakpoint-md', 1024),
+      lg: getCSSVariableInPX(style, '--breakpoint-lg', 1280),
+      xl: getCSSVariableInPX(style, '--breakpoint-xl', 1536),
+    }
+    return WithBreakpoint(fn, { breakpoints: viewportBreakpoints })
+  })
 }
 
 export function WithTWElementBreakpoint(
-  fn: (info: BreakpointInfo<typeof elementBreakpoints>) => TNode
+  fn: (info: BreakpointInfo<Breakpoints>) => TNode
 ) {
-  return WithBreakpoint(fn, {
-    breakpoints: elementBreakpoints,
-    mode: 'element',
+  return WithElement(el => {
+    const style = getComputedStyle(el)
+    const elementBreakpoints: Breakpoints = {
+      zero: 0,
+      '3xs': getCSSVariableInPX(style, '--container-3xs', 256),
+      '2xs': getCSSVariableInPX(style, '--container-2xs', 288),
+      xs: getCSSVariableInPX(style, '--container-xs', 320),
+      sm: getCSSVariableInPX(style, '--container-sm', 384),
+      md: getCSSVariableInPX(style, '--container-md', 448),
+      lg: getCSSVariableInPX(style, '--container-lg', 512),
+      xl: getCSSVariableInPX(style, '--container-xl', 640),
+      '2xl': getCSSVariableInPX(style, '--container-2xl', 768),
+      '3xl': getCSSVariableInPX(style, '--container-3xl', 1024),
+      '4xl': getCSSVariableInPX(style, '--container-4xl', 1280),
+      '5xl': getCSSVariableInPX(style, '--container-5xl', 1536),
+      '6xl': getCSSVariableInPX(style, '--container-6xl', 2048),
+    }
+    return WithBreakpoint(fn, {
+      breakpoints: elementBreakpoints,
+      mode: 'element',
+    })
   })
 }
