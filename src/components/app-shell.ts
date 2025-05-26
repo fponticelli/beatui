@@ -1,10 +1,12 @@
-import { attr, html, style, TNode } from '@tempots/dom'
+import { aria, attr, computedOf, html, style, TNode } from '@tempots/dom'
 import {
   BreakpointInfo,
   TWBreakpoint,
   TWBreakpoints,
   WithTWBreakpoint,
 } from './with-breakpoint'
+import { Button } from './button'
+import { Icon } from './icon'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -193,8 +195,10 @@ function makeMapBreakpoint({
       areas[0]![1] = 'banner'
     }
     // header
-    if (horizontal.header) {
-      rows.push(horizontal.header[breakpoint] + 'px')
+    if (horizontal.header || vertical.menu || vertical.aside) {
+      rows.push(
+        (horizontal.header?.[breakpoint] ?? defaults.header[breakpoint]) + 'px'
+      )
       areas[1]![1] = 'header'
     }
     // mainHeader
@@ -254,8 +258,10 @@ function makeMapBreakpoint({
       areas[0]![1] = 'banner'
     }
     // header
-    if (horizontal.header) {
-      rows.push(horizontal.header[breakpoint] + 'px')
+    if (horizontal.header || vertical.aside) {
+      rows.push(
+        (horizontal.header?.[breakpoint] ?? defaults.header[breakpoint]) + 'px'
+      )
       areas[1]![0] = '?header'
       areas[1]![1] = 'header'
     }
@@ -427,6 +433,35 @@ export function AppShell({
       is,
     })
     const template = value.map(mapBreakpoint)
+    const displayHeader = computedOf(
+      horizontal.header != null,
+      template
+    )((
+      hasHeader: boolean,
+      {
+        displayMenu,
+        displayAside,
+      }: { displayMenu: boolean; displayAside: boolean }
+    ) => {
+      return hasHeader || displayMenu || displayAside
+    })
+    const displayAsideButton = computedOf(
+      vertical.aside != null,
+      template
+    )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
+      return hasAside && !displayAside
+    })
+    const displayMenuButton = computedOf(
+      vertical.menu != null,
+      template
+    )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
+      return hasMenu && !displayMenu
+    })
+    displayHeader.on(v => console.log('displayHeader', v))
+    displayAsideButton.on(v => console.log('displayAsideButton', v))
+    displayMenuButton.on(v => console.log('displayMenuButton', v))
+    template.$.displayAside.on(v => console.log('displayAside', v))
+    template.$.displayMenu.on(v => console.log('displayMenu', v))
     return html.div(
       style.height('100%'),
       style.display('grid'),
@@ -438,20 +473,70 @@ export function AppShell({
       options.banner
         ? html.header(
             attr.class('bg-green-300'),
+            style.height('100%'),
             style.gridArea('banner'),
             options.banner.content
           )
         : null,
-      options.header
-        ? html.header(
-            attr.class('bg-cyan-300'),
-            style.gridArea('header'),
-            options.header.content
+      html.header(
+        attr.class('bg-cyan-300'),
+        style.display(displayHeader.map((v): string => (v ? 'block' : 'none'))),
+        style.gridArea('header'),
+        html.div(
+          style.display('flex'),
+          style.height('100%'),
+          html.div(
+            style.display(
+              displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
+            ),
+            style.alignItems('center'),
+            style.justifyContent('center'),
+            style.height('100%'),
+            style.width('48px'),
+            Button(
+              {
+                onClick: () => console.log('burger'),
+                color: 'neutral',
+                variant: 'text',
+              },
+              aria.label('Open menu'),
+              Icon({
+                icon: 'icon-[line-md--close-to-menu-alt-transition]', // icon-[line-md--menu-to-close-alt-transition]
+              })
+            )
+          ),
+          html.div(
+            style.height('100%'),
+            style.flexGrow('1'),
+            options.header?.content
+          ),
+          html.div(
+            style.alignItems('center'),
+            style.justifyContent('center'),
+            style.height('100%'),
+            style.width('48px'),
+            style.display(
+              displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
+            ),
+            Button(
+              {
+                onClick: () => console.log('aside'),
+                roundedness: 'full',
+                variant: 'outline',
+                color: 'neutral',
+              },
+              aria.label('Open aside'),
+              Icon({
+                icon: 'icon-[line-md--chevron-left]', // line-md--chevron-right
+              })
+            )
           )
-        : null,
+        )
+      ),
       options.menu
         ? html.nav(
-            attr.class('bg-red-300'),
+            attr.class('bg-stone-300'),
+            style.height('100%'),
             style.gridArea('menu'),
             style.display(
               template.$.displayMenu.map((v): string => (v ? 'block' : 'none'))
@@ -462,18 +547,22 @@ export function AppShell({
       options.mainHeader
         ? html.header(
             attr.class('bg-rose-300'),
+            style.height('100%'),
             style.gridArea('mainHeader'),
             options.mainHeader.content
           )
         : null,
       html.main(
         attr.class('bg-purple-300'),
+        style.height('100%'),
+        style.overflow('hidden'),
         style.gridArea('main'),
         options.main.content
       ),
       options.mainFooter
         ? html.footer(
             attr.class('bg-teal-300'),
+            style.height('100%'),
             style.gridArea('mainFooter'),
             options.mainFooter.content
           )
@@ -481,6 +570,7 @@ export function AppShell({
       options.aside
         ? html.aside(
             attr.class('bg-blue-300'),
+            style.height('100%'),
             style.gridArea('aside'),
             style.display(
               template.$.displayAside.map((v): string => (v ? 'block' : 'none'))
@@ -491,6 +581,7 @@ export function AppShell({
       options.footer
         ? html.footer(
             attr.class('bg-sky-300'),
+            style.height('100%'),
             style.gridArea('footer'),
             options.footer.content
           )
