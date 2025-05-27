@@ -1,5 +1,5 @@
 import { Signal, Size, TNode, WithElement } from '@tempots/dom'
-import { ElementSize, WindowSize } from '@tempots/ui'
+import { ElementRect, Rect, WindowSize } from '@tempots/ui'
 
 export type Breakpoints = { [_ in string]: number }
 export interface BreakpointInfo<
@@ -121,7 +121,7 @@ export function WithBreakpoint<T extends Breakpoints>(
     keyof T & string,
   ][]
 
-  const sizeCallback = (size: Signal<Size>) => {
+  const sizeCallback = (size: Signal<Size> | Signal<Rect>) => {
     const value = size.map(({ width }) => {
       const index = sortedList.findIndex(item => item[0] > width) - 1
 
@@ -149,7 +149,7 @@ export function WithBreakpoint<T extends Breakpoints>(
   }
 
   if (mode === 'element') {
-    return ElementSize(sizeCallback)
+    return ElementRect(sizeCallback)
   }
 
   return WindowSize(sizeCallback)
