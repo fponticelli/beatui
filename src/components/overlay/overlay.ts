@@ -10,9 +10,9 @@ import {
   Use,
   WithBrowserCtx,
 } from '@tempots/dom'
-import { OverlayEffect } from './theme/types'
-import { ThemeProvider } from './theme'
-import { CSSFadeTransition } from './fade-transition'
+import { OverlayEffect } from '../theme/types'
+import { ThemeProvider } from '../theme'
+import { CSSFadeTransition } from '../animation/fade-transition'
 
 export type OverlayOptions =
   | {
