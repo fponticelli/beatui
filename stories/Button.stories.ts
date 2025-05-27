@@ -1,12 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { fn } from '@storybook/test'
 
-import { Button, ButtonOptions } from '../src/components/button'
-import { Icon } from '../src/components/icon'
+import {
+  allColors,
+  Button,
+  ButtonOptions,
+  ButtonVariant,
+  Icon,
+  ThemedColor,
+} from '../src/'
 import { renderTempoComponent } from './common'
 import { attr, html, TNode } from '@tempots/dom'
-import { allColors, ThemedColor } from '../src/components/theme/colors'
-import { ButtonVariant } from '../src/components/theme/types'
 
 const colors: ThemedColor[] = ['primary', 'secondary', 'neutral', ...allColors]
 

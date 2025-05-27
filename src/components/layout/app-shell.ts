@@ -15,12 +15,10 @@ import {
   TWBreakpoints,
   WithTWBreakpoint,
 } from './with-breakpoint'
-import { Button } from './button'
-import { Icon } from './icon'
+import { Button } from '../button'
+import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
-import { ThemeProvider } from './theme'
-import { PanelColor, PanelShadow } from './theme/types'
-import { FadeTranstion } from './fade-transition'
+import { ThemeProvider, PanelColor, PanelShadow } from '../theme'
 
 export interface AppShellBreakpointOptions {
   zero: number

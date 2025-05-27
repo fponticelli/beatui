@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
 import { html } from '@tempots/dom'
-import { AppShell } from '../src/components/app-shell'
+import { AppShell } from '../src/'
 import './fullpage.css'
 
 type Options = {

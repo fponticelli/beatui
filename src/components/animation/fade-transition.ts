@@ -9,8 +9,7 @@ import {
   WithElement,
 } from '@tempots/dom'
 import { deferred } from '@tempots/std'
-import { FadeTranstionState } from './theme/types'
-import { ThemeProvider } from './theme'
+import { FadeTranstionState, ThemeProvider } from '../theme'
 
 export type FadeTranstionOptions<El extends HTMLElement> = {
   onExit?: () => void

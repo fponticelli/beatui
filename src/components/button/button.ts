@@ -1,7 +1,11 @@
 import { attr, computedOf, html, on, TNode, Use, Value } from '@tempots/dom'
-import { ThemeProvider } from './theme'
-import { ThemedColor } from './theme/colors'
-import { ButtonSize, ButtonVariant, Roundedness } from './theme/types'
+import {
+  ButtonSize,
+  ButtonVariant,
+  Roundedness,
+  ThemedColor,
+  ThemeProvider,
+} from '../theme'
 
 export interface ButtonOptions {
   type?: Value<'submit' | 'reset' | 'button'>

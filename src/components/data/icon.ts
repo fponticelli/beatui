@@ -1,6 +1,5 @@
 import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
-import { ThemeProvider } from './theme'
-import { IconSize } from './theme/types'
+import { IconSize, ThemeProvider } from '../theme'
 
 export interface IconOptions {
   icon: Value<string>
