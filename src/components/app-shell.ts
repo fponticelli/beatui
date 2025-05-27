@@ -20,6 +20,7 @@ import { Icon } from './icon'
 import { ElementRect } from '@tempots/ui'
 import { ThemeProvider } from './theme'
 import { PanelColor, PanelShadow } from './theme/types'
+import { FadeTranstion } from './fade-transition'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -448,6 +449,28 @@ const horizontalSections = [
 ] as const
 type HorizontalSection = (typeof horizontalSections)[number]
 
+function displayMenuPanel(
+  hasMenu: boolean,
+  { displayMenu }: { displayMenu: boolean },
+  open: boolean
+) {
+  if (!hasMenu) return 'none'
+  if (displayMenu) return 'block'
+  if (open) return 'float'
+  return 'none'
+}
+
+function displayAsidePanel(
+  hasAside: boolean,
+  { displayAside }: { displayAside: boolean },
+  open: boolean
+) {
+  if (!hasAside) return 'none'
+  if (displayAside) return 'block'
+  if (open) return 'float'
+  return 'none'
+}
+
 export function AppShell({
   smallBreakpoint = 'sm',
   mediumBreakpoint = 'md',
@@ -515,30 +538,13 @@ export function AppShell({
         vertical.menu != null,
         template,
         menuOpen
-      )((
-        hasMenu: boolean,
-        { displayMenu }: { displayMenu: boolean },
-        open: boolean
-      ) => {
-        if (!hasMenu) return 'none'
-        if (displayMenu) return 'block'
-        if (open) return 'float'
-        return 'none'
-      })
+      )(displayMenuPanel)
       const displayAsideAs = computedOf(
         vertical.aside != null,
         template,
         asideOpen
-      )((
-        hasAside: boolean,
-        { displayAside }: { displayAside: boolean },
-        open
-      ) => {
-        if (!hasAside) return 'none'
-        if (displayAside) return 'block'
-        if (open) return 'float'
-        return 'none'
-      })
+      )(displayAsidePanel)
+
       return html.div(
         attr.class(
           theme.panel({ side: 'none', color: 'white', shadow: 'none' })
@@ -681,7 +687,7 @@ export function AppShell({
               ),
               style.width(template.$.menuWidth),
               style.bottom(headerBottom.map(v => `${v}px`)),
-              options.menu.content
+              options.menu?.content
             )
           : null,
         options.mainHeader
