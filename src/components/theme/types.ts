@@ -14,6 +14,18 @@ export type FadeTranstionState =
   | 'exiting'
   | 'exited'
 
+export type Side =
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom'
+  | 'none'
+  | 'all'
+  | ('left' | 'right' | 'top' | 'bottom')[]
+
+export type PanelColor = ThemedColor | 'white' | 'black' | 'transparent'
+export type PanelShadow = 'none' | 'small' | 'medium' | 'large'
+
 export interface Theme {
   button: (options: {
     disabled: boolean
@@ -26,6 +38,11 @@ export interface Theme {
   overlay: (options: { effect: OverlayEffect; mode: OverlayMode }) => string
   fadeInOut: (options: { state: FadeTranstionState }) => string
   iconContainer: (options: { size: IconSize; color?: string }) => string
+  panel: (options: {
+    side: Side
+    color: PanelColor
+    shadow: PanelShadow
+  }) => string
   icon: string
 }
 
