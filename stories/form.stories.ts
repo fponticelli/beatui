@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
-import { html } from '@tempots/dom'
+import { attr, Ensure, html } from '@tempots/dom'
 import { z } from 'zod/v4'
 import { useForm } from '../src/'
 
@@ -22,7 +22,32 @@ const renderForm = () => {
   const form = useForm({
     schema,
   })
-  return html.form(html.input(form.string('name').connect()))
+  const name = form.string('name')
+  const email = form.string('email')
+  email.disable()
+  return html.form(
+    html.div(
+      html.div(
+        html.label(attr.for(name.name), 'Name: '),
+        html.input(name.connect())
+      ),
+      Ensure(name.error, e => html.div(attr.class('text-red-600 text-xs'), e))
+    ),
+    html.div(
+      html.div(
+        html.label(attr.for(email.name), 'Email: '),
+        html.input(email.connect())
+      ),
+      Ensure(email.error, e => html.div(attr.class('text-red-600 text-xs'), e))
+    ),
+    html.div(
+      html.div(
+        html.label('Phones: ')
+        // html.input(email.connect())
+      ),
+      Ensure(email.error, e => html.div(attr.class('text-red-600 text-xs'), e))
+    )
+  )
 }
 
 // Define the meta for the component

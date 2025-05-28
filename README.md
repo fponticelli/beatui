@@ -134,6 +134,7 @@ ISC
   - [ ] Load
   - [ ] Notification
 - [ ] Inputs
+  - [ ] https://maz-ui.com/components/maz-btn
 - [ ] Forms
 - [ ] Combobox
 - [ ] Navigation
