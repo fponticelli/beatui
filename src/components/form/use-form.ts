@@ -6,7 +6,6 @@ import {
   Fragment,
   on,
   prop,
-  Renderable,
   Signal,
 } from '@tempots/dom'
 import { StandardSchemaV1 } from './standard-schema-v1'
@@ -74,18 +73,12 @@ function convertStandardSchemaIssues(
         if (current.dependencies == null) {
           current.dependencies = {}
         }
-        // if (current.dependencies[segment] == null) {
-        //   current.dependencies[segment] = { type: 'Valid' }
-        // }
         current = current.dependencies[segment]!
       }
       if (current.dependencies == null) {
         current.dependencies = {}
       }
-      current.dependencies[last] = {
-        // type: 'Invalid',
-        error: i.message,
-      }
+      current.dependencies[last] = { error: i.message }
       return acc
     }, {} as InvalidDependencies)
   const error = topIssues.join('\n')
@@ -95,7 +88,7 @@ function convertStandardSchemaIssues(
   }
 }
 
-export abstract class ValueProxy<In> {
+export class ValueProxy<In> {
   readonly path: Path
   readonly change: (value: In) => void
   readonly value: Signal<In>
@@ -104,10 +97,10 @@ export abstract class ValueProxy<In> {
   readonly dependencyErrors: Signal<
     undefined | Record<string | number, InvalidDependencies>
   >
-  readonly local = {
+  readonly #local = {
     disabled: prop(false),
   }
-  readonly parent: {
+  protected readonly parent: {
     disabled: Signal<boolean>
   }
   readonly disabled: Signal<boolean>
@@ -131,7 +124,7 @@ export abstract class ValueProxy<In> {
     )
     this.parent = parent
     this.disabled = computedOf(
-      this.local.disabled,
+      this.#local.disabled,
       parent.disabled
     )((local, parent) => local || parent)
   }
@@ -140,26 +133,38 @@ export abstract class ValueProxy<In> {
     return pathToString(this.path)
   }
 
-  readonly dispose = () => {
-    // this.value.dispose()
-    // this.status.dispose()
-    // this.error.dispose()
-    // this.dependencyErrors.dispose()
+  dispose() {
+    this.#local.disabled.dispose()
+  }
+
+  readonly disable = () => {
+    this.#local.disabled.set(true)
+  }
+
+  readonly enable = () => {
+    this.#local.disabled.set(false)
   }
 }
 
 export class ArrayProxy<In> extends ValueProxy<In> {}
 
+function makeMapStatus(field: string | number) {
+  return function mapStatus(status: Status): Status {
+    if (status.type === 'Valid') return status
+    const dependencies = status.dependencies?.[field]
+    if (dependencies != null) {
+      return { type: 'Invalid', ...dependencies }
+    } else {
+      return { type: 'Valid' }
+    }
+  }
+}
+
 export class ObjectProxy<
   In extends { [K in string]: In[K] },
 > extends ValueProxy<In> {
-  readonly string = <K extends keyof In & string>(
-    field: In[K] extends string ? K : never,
-    {
-      triggerOn = 'change',
-    }: {
-      triggerOn?: 'change' | 'input'
-    } = {}
+  readonly field = <K extends keyof In & string, T>(
+    field: In[K] extends T ? K : never
   ) => {
     const onChange = async (value: string) => {
       this.change({
@@ -167,28 +172,26 @@ export class ObjectProxy<
         [field]: value,
       })
     }
-    return new StringProxy(
+    return new ValueProxy(
       [...this.path, field],
       onChange,
       this.value.map((v: In) => v[field] as string),
-      this.status.map((s: Status): Status => {
-        if (s.type === 'Valid') return s
-        const dependencies = s.dependencies?.[field]
-        if (dependencies != null) {
-          return { type: 'Invalid', ...dependencies }
-        } else {
-          return { type: 'Valid' }
-        }
-      }),
-      { disabled: this.disabled },
-      triggerOn
+      this.status.map(makeMapStatus(field)),
+      { disabled: this.disabled }
     )
   }
 }
 
 export class RootProxy<
   In extends { [K in string]: In[K] },
-> extends ObjectProxy<In> {}
+> extends ObjectProxy<In> {
+  override dispose() {
+    super.dispose()
+    this.parent.disabled.dispose()
+    this.value.dispose()
+    this.status.dispose()
+  }
+}
 
 function wrapSegment(v: number | string) {
   return typeof v === 'number' ? `[${v}]` : `.${v}`
@@ -204,61 +207,40 @@ function pathToString(path: Path) {
   return segments.join('')
 }
 
-export abstract class PrimitiveProxy<In> extends ValueProxy<In> {
-  readonly triggerOn: 'change' | 'input'
-
-  constructor(
-    path: Path,
-    change: (value: In) => void,
-    value: Signal<In>,
-    status: Signal<Status>,
-    parent: {
-      disabled: Signal<boolean>
-    },
-    triggerOn: 'change' | 'input'
-  ) {
-    super(path, change, value, status, parent)
-    this.triggerOn = triggerOn
-  }
-  abstract connectValue(): Renderable
-
-  readonly connect = (): Renderable => {
-    return Fragment(
-      attr.disabled(this.disabled),
-      attr.name(this.name),
-      this.connectValue()
-    )
-  }
-
-  readonly disable = () => {
-    this.local.disabled.set(true)
-  }
-
-  readonly enable = () => {
-    this.local.disabled.set(false)
-  }
+export function connectCommonAttributes<T>(value: ValueProxy<T>) {
+  return Fragment(attr.disabled(value.disabled), attr.name(value.name))
 }
 
-export class NumberProxy extends PrimitiveProxy<number> {
-  readonly connectValue = (): Renderable => {
-    return Fragment(
-      attr.valueAsNumber(this.value),
-      (this.triggerOn === 'input' ? on.input : on.change)(
-        emitValueAsNumber(this.change)
-      )
-    )
-  }
+export function connectStringInput(
+  value: ValueProxy<string>,
+  {
+    triggerOn = 'change',
+  }: {
+    triggerOn?: 'change' | 'input'
+  } = {}
+) {
+  return Fragment(
+    connectCommonAttributes(value),
+    attr.value(value.value),
+    (triggerOn === 'input' ? on.input : on.change)(emitValue(value.change))
+  )
 }
 
-export class StringProxy extends PrimitiveProxy<string> {
-  readonly connectValue = (): Renderable => {
-    return Fragment(
-      attr.value(this.value),
-      (this.triggerOn === 'input' ? on.input : on.change)(
-        emitValue(this.change)
-      )
+export function connectNumberInput(
+  value: ValueProxy<number>,
+  {
+    triggerOn = 'change',
+  }: {
+    triggerOn?: 'change' | 'input'
+  } = {}
+) {
+  return Fragment(
+    connectCommonAttributes(value),
+    attr.valueAsNumber(value.value),
+    (triggerOn === 'input' ? on.input : on.change)(
+      emitValueAsNumber(value.change)
     )
-  }
+  )
 }
 
 export function useForm<In extends { [K in string]: In[K] }, Out = In>({
@@ -283,7 +265,6 @@ export function useForm<In extends { [K in string]: In[K] }, Out = In>({
   const value = prop(defaultValue)
   const status = prop<Status>({ type: 'Valid' })
   const disabled = prop(false)
-  status.on(v => console.log(v))
   const change = async (v: In) => {
     value.set(v)
     const result = await schema['~standard'].validate(v)
@@ -292,11 +273,9 @@ export function useForm<In extends { [K in string]: In[K] }, Out = In>({
         type: 'Invalid',
         ...convertStandardSchemaIssues(result.issues),
       })
-      console.warn(result.issues)
     } else {
       status.set({ type: 'Valid' })
     }
-    console.log(v)
   }
   const proxy = new RootProxy<In>([], change, value, status, { disabled })
   return proxy

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
 import { attr, Ensure, html } from '@tempots/dom'
 import { z } from 'zod/v4'
-import { useForm } from '../src/'
+import { connectStringInput, useForm } from '../src/'
 
 const schema = z.object({
   name: z.string().min(1),
@@ -22,21 +22,21 @@ const renderForm = () => {
   const form = useForm({
     schema,
   })
-  const name = form.string('name')
-  const email = form.string('email')
+  const name = form.field('name')
+  const email = form.field('email')
   email.disable()
   return html.form(
     html.div(
       html.div(
         html.label(attr.for(name.name), 'Name: '),
-        html.input(name.connect())
+        html.input(connectStringInput(name))
       ),
       Ensure(name.error, e => html.div(attr.class('text-red-600 text-xs'), e))
     ),
     html.div(
       html.div(
         html.label(attr.for(email.name), 'Email: '),
-        html.input(email.connect())
+        html.input(connectStringInput(email))
       ),
       Ensure(email.error, e => html.div(attr.class('text-red-600 text-xs'), e))
     ),
