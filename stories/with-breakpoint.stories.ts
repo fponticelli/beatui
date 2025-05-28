@@ -6,7 +6,7 @@ import {
   Breakpoints,
   WithTWBreakpoint,
   WithTWElementBreakpoint,
-} from '../src/components/with-breakpoint'
+} from '../src/'
 
 const SatisfiesBreakpoint = (
   info: BreakpointInfo<Breakpoints>,

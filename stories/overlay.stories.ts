@@ -6,8 +6,7 @@ import {
   OverlayElement,
   OverlayOptions,
 } from '../src/components/overlay'
-import { Button } from '../src/components/button'
-import { Icon } from '../src/components/icon'
+import { Button, Icon } from '../src/'
 
 const renderOverlay = ({ mode, effect }: OverlayOptions) => {
   return html.div(

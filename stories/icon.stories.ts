@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
 
-import { Icon, IconOptions } from '../src/components/icon'
+import { Icon, IconOptions } from '../src/'
 import { renderTempoComponent } from './common'
 
 // Create a wrapper function to render the Icon with Theme

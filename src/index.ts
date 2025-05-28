@@ -1,6 +1,7 @@
 export * from './components/animation'
 export * from './components/button'
 export * from './components/data'
+export * from './components/form'
 export * from './components/layout'
 export * from './components/overlay'
 export * from './components/theme'
