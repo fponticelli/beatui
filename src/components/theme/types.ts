@@ -25,6 +25,70 @@ export type Side =
 
 export type PanelColor = ThemedColor | 'white' | 'black' | 'transparent'
 export type PanelShadow = 'none' | 'small' | 'medium' | 'large'
+export type LabelType = 'emphasis' | 'default' | 'muted' | 'error'
+
+export type JustifyContent =
+  | 'flex-start'
+  | 'flex-end'
+  | 'safe flex-end'
+  | 'center'
+  | 'safe center'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly'
+  | 'stretch'
+  | 'baseline'
+  | 'normal'
+
+export type JustifyItems =
+  | 'start'
+  | 'end'
+  | 'safe end'
+  | 'center'
+  | 'safe center'
+  | 'stretch'
+  | 'normal'
+
+export type JustifySelf =
+  | 'auto'
+  | 'start'
+  | 'center'
+  | 'safe center'
+  | 'end'
+  | 'safe end'
+  | 'stretch'
+
+export type AlignContent =
+  | 'normal'
+  | 'center'
+  | 'flex-start'
+  | 'flex-end'
+  | 'space-between'
+  | 'space-around'
+  | 'space-evenly'
+  | 'baseline'
+  | 'stretch'
+
+export type AlignItems =
+  | 'flex-start'
+  | 'flex-end'
+  | 'safe flex-end'
+  | 'center'
+  | 'safe-center'
+  | 'baseline'
+  | 'last-baseline'
+  | 'stretch'
+
+export type AlignSelf =
+  | 'auto'
+  | 'flex-start'
+  | 'flex-end'
+  | 'safe flex-end'
+  | 'center'
+  | 'safe center'
+  | 'stretch'
+  | 'baseline'
+  | 'last baseline'
 
 export interface Theme {
   button: (options: {
@@ -43,6 +107,7 @@ export interface Theme {
     color: PanelColor
     shadow: PanelShadow
   }) => string
+  label: (options: { type: LabelType }) => string
   icon: string
 }
 

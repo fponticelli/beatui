@@ -346,6 +346,36 @@ export const defaultTheme = ({
           classes.push(getShadow(shadow))
           return classes.join(' ')
         },
+        label: ({ type }) => {
+          const classes = ['text-sm']
+          switch (type) {
+            case 'default': {
+              const color = getColor('neutral')
+              classes.push(textColors[color][shades.darkest].normal)
+              classes.push(textColors[color][shades.lightest].dark)
+              break
+            }
+            case 'muted': {
+              const color = getColor('neutral')
+              classes.push(textColors[color][shades.dark].normal)
+              classes.push(textColors[color][shades.light].dark)
+              break
+            }
+            case 'error': {
+              const color = getColor('red')
+              classes.push(textColors[color][shades.dark].normal)
+              classes.push(textColors[color][shades.light].dark)
+              break
+            }
+            case 'emphasis': {
+              const color = getColor('primary')
+              classes.push(textColors[color][shades.dark].normal)
+              classes.push(textColors[color][shades.light].dark)
+              break
+            }
+          }
+          return classes.join(' ')
+        },
       },
     },
     dispose,

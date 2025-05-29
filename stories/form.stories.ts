@@ -2,7 +2,13 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
 import { attr, Ensure, html } from '@tempots/dom'
 import { z } from 'zod/v4'
-import { connectStringInput, useForm } from '../src/'
+import {
+  connectStringInput,
+  EmailControl,
+  Stack,
+  TextControl,
+  useForm,
+} from '../src/'
 
 const schema = z.object({
   name: z.string().min(1),
@@ -22,30 +28,30 @@ const renderForm = () => {
   const form = useForm({
     schema,
   })
-  const name = form.field('name')
-  const email = form.field('email')
-  email.disable()
+  const phones = form.field('phones')
   return html.form(
-    html.div(
+    Stack(
+      {},
+      attr.class('gap-4'),
+      TextControl({
+        label: 'Name',
+        required: true,
+        controller: form.field('name'),
+      }),
+      EmailControl({
+        label: 'Email',
+        required: true,
+        controller: form.field('email'),
+      }),
       html.div(
-        html.label(attr.for(name.name), 'Name: '),
-        html.input(connectStringInput(name))
-      ),
-      Ensure(name.error, e => html.div(attr.class('text-red-600 text-xs'), e))
-    ),
-    html.div(
-      html.div(
-        html.label(attr.for(email.name), 'Email: '),
-        html.input(connectStringInput(email))
-      ),
-      Ensure(email.error, e => html.div(attr.class('text-red-600 text-xs'), e))
-    ),
-    html.div(
-      html.div(
-        html.label('Phones: ')
-        // html.input(email.connect())
-      ),
-      Ensure(email.error, e => html.div(attr.class('text-red-600 text-xs'), e))
+        html.div(
+          html.label('Phones: ')
+          // html.input(email.connect())
+        ),
+        Ensure(phones.error, e =>
+          html.div(attr.class('text-red-600 text-xs'), e)
+        )
+      )
     )
   )
 }

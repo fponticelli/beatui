@@ -88,12 +88,13 @@ function convertStandardSchemaIssues(
   }
 }
 
-export class FieldController<In> {
+export class ValueController<In> {
   readonly path: Path
   readonly change: (value: In) => void
   readonly value: Signal<In>
   readonly status: Signal<Status>
   readonly error: Signal<undefined | string>
+  readonly hasError: Signal<boolean>
   readonly dependencyErrors: Signal<
     undefined | Record<string | number, InvalidDependencies>
   >
@@ -119,6 +120,7 @@ export class FieldController<In> {
     this.value = value
     this.status = status
     this.error = status.map(s => (s.type === 'Invalid' ? s.error : undefined))
+    this.hasError = status.map(s => s.type === 'Invalid')
     this.dependencyErrors = status.map(s =>
       s.type === 'Invalid' ? s.dependencies : undefined
     )
@@ -146,7 +148,7 @@ export class FieldController<In> {
   }
 }
 
-export class ListController<In> extends FieldController<In> {}
+export class ListController<In> extends ValueController<In> {}
 
 function makeMapStatus(field: string | number) {
   return function mapStatus(status: Status): Status {
@@ -160,31 +162,25 @@ function makeMapStatus(field: string | number) {
   }
 }
 
-export class GroupController<
-  In extends { [K in string]: In[K] },
-> extends FieldController<In> {
-  readonly field = <K extends keyof In & string, T>(
-    field: In[K] extends T ? K : never
-  ) => {
-    const onChange = async (value: string) => {
+export class GroupController<In> extends ValueController<In> {
+  readonly field = <K extends keyof In & string>(field: K) => {
+    const onChange = async (value: In[K]) => {
       this.change({
         ...this.value.value,
         [field]: value,
       })
     }
-    return new FieldController(
+    return new ValueController<In[K]>(
       [...this.path, field],
       onChange,
-      this.value.map((v: In) => v[field] as string),
+      this.value.map((v: In) => v[field] as In[K]),
       this.status.map(makeMapStatus(field)),
       { disabled: this.disabled }
     )
   }
 }
 
-export class FormController<
-  In extends { [K in string]: In[K] },
-> extends GroupController<In> {
+export class FormController<In> extends GroupController<In> {
   override dispose() {
     super.dispose()
     this.parent.disabled.dispose()
@@ -207,12 +203,12 @@ function pathToString(path: Path) {
   return segments.join('')
 }
 
-export function connectCommonAttributes<T>(value: FieldController<T>) {
+export function connectCommonAttributes<T>(value: ValueController<T>) {
   return Fragment(attr.disabled(value.disabled), attr.name(value.name))
 }
 
 export function connectStringInput(
-  value: FieldController<string>,
+  value: ValueController<string>,
   {
     triggerOn = 'change',
   }: {
@@ -227,7 +223,7 @@ export function connectStringInput(
 }
 
 export function connectNumberInput(
-  value: FieldController<number>,
+  value: ValueController<number>,
   {
     triggerOn = 'change',
   }: {
@@ -243,7 +239,7 @@ export function connectNumberInput(
   )
 }
 
-export function useForm<In extends { [K in string]: In[K] }, Out = In>({
+export function useForm<In, Out = In>({
   defaultValue = {} as In,
   schema,
 }: UseFormOptions<In, Out>) {
