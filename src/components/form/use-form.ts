@@ -88,7 +88,7 @@ function convertStandardSchemaIssues(
   }
 }
 
-export class ValueProxy<In> {
+export class FieldController<In> {
   readonly path: Path
   readonly change: (value: In) => void
   readonly value: Signal<In>
@@ -146,7 +146,7 @@ export class ValueProxy<In> {
   }
 }
 
-export class ArrayProxy<In> extends ValueProxy<In> {}
+export class ListController<In> extends FieldController<In> {}
 
 function makeMapStatus(field: string | number) {
   return function mapStatus(status: Status): Status {
@@ -160,9 +160,9 @@ function makeMapStatus(field: string | number) {
   }
 }
 
-export class ObjectProxy<
+export class GroupController<
   In extends { [K in string]: In[K] },
-> extends ValueProxy<In> {
+> extends FieldController<In> {
   readonly field = <K extends keyof In & string, T>(
     field: In[K] extends T ? K : never
   ) => {
@@ -172,7 +172,7 @@ export class ObjectProxy<
         [field]: value,
       })
     }
-    return new ValueProxy(
+    return new FieldController(
       [...this.path, field],
       onChange,
       this.value.map((v: In) => v[field] as string),
@@ -182,9 +182,9 @@ export class ObjectProxy<
   }
 }
 
-export class RootProxy<
+export class FormController<
   In extends { [K in string]: In[K] },
-> extends ObjectProxy<In> {
+> extends GroupController<In> {
   override dispose() {
     super.dispose()
     this.parent.disabled.dispose()
@@ -207,12 +207,12 @@ function pathToString(path: Path) {
   return segments.join('')
 }
 
-export function connectCommonAttributes<T>(value: ValueProxy<T>) {
+export function connectCommonAttributes<T>(value: FieldController<T>) {
   return Fragment(attr.disabled(value.disabled), attr.name(value.name))
 }
 
 export function connectStringInput(
-  value: ValueProxy<string>,
+  value: FieldController<string>,
   {
     triggerOn = 'change',
   }: {
@@ -227,7 +227,7 @@ export function connectStringInput(
 }
 
 export function connectNumberInput(
-  value: ValueProxy<number>,
+  value: FieldController<number>,
   {
     triggerOn = 'change',
   }: {
@@ -277,6 +277,8 @@ export function useForm<In extends { [K in string]: In[K] }, Out = In>({
       status.set({ type: 'Valid' })
     }
   }
-  const proxy = new RootProxy<In>([], change, value, status, { disabled })
-  return proxy
+  const controller = new FormController<In>([], change, value, status, {
+    disabled,
+  })
+  return controller
 }
