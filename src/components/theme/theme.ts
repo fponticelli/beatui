@@ -1,9 +1,9 @@
 import { Provider, makeProviderMark } from '@tempots/dom'
 
-// Import Tailwind CSS
+// Import CSS with variables and BEM classes
 import './index.css'
 import { ThemeValue } from './types'
-import { defaultTheme } from './default-theme'
+import { bemTheme as defaultTheme } from './theme-system'
 
 export const ThemeProvider: Provider<ThemeValue, object> = {
   mark: makeProviderMark<ThemeValue>('Theme'),

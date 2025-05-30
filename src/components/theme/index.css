@@ -1,2 +1,76 @@
-@import "tailwindcss";
-@plugin "@iconify/tailwind4";
+/* Tempo UI Library - BEM-based CSS */
+/* This file imports the generated CSS and provides base styles */
+
+/* Import generated CSS variables and component styles */
+@import url('./generated.css');
+
+/* Base reset and typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--color-gray-900);
+  background-color: var(--color-white, #ffffff);
+}
+
+/* Dark mode support */
+:root.dark body {
+  color: var(--color-gray-100);
+  background-color: var(--color-gray-900);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-sky-500);
+  outline-offset: 2px;
+}
+
+/* Utility classes for common patterns */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Transition utilities */
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Text shadow utility */
+.text-shadow-xs {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon support */
+.iconify {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}

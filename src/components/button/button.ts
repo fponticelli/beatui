@@ -49,7 +49,14 @@ export function Button(
             size,
             color,
             roundedness
-          ) => button({ disabled, variant, size, color, roundedness })
+          ) =>
+            button({
+              disabled,
+              variant,
+              size,
+              color,
+              roundedness,
+            })
         )
       ),
       on.click(onClick),

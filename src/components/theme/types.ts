@@ -95,7 +95,7 @@ export interface Theme {
     disabled: boolean
     variant: ButtonVariant
     size: ButtonSize
-    color?: ThemedColor
+    color?: string
     roundedness?: Roundedness
     fill?: boolean
   }) => string

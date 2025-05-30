@@ -23,10 +23,18 @@ export function Icon(
           iconTheme({ size, color })
         )
       ),
-      html.i(
-        attr.class(theme.icon),
-        attr.class(icon as Value<string>),
-        attr.title(title)
+      // Use iconify-icon web component for modern Iconify support
+      html.div(
+        attr.style('display: contents;'),
+        attr.innerHTML(
+          computedOf(
+            icon,
+            title
+          )((iconName, titleText) => {
+            const titleAttr = titleText ? ` title="${titleText}"` : ''
+            return `<iconify-icon icon="${iconName}"${titleAttr}></iconify-icon>`
+          })
+        )
       ),
       ...children
     )
