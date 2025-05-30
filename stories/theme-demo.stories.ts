@@ -173,17 +173,6 @@ const renderThemeDemo = () => {
             'background: #f8f9fa; padding: 1.5rem; border-radius: 0.5rem; margin: 1rem 0;'
           ),
           html.h3('BEM Class Structure'),
-          html.div(
-            attr.style(
-              'font-family: monospace; font-size: 0.875rem; line-height: 1.5;'
-            ),
-            html.div('Generated classes:'),
-            html.div('• .tempo-button (base)'),
-            html.div('• .tempo-button--size-medium (size modifier)'),
-            html.div('• .tempo-button--variant-filled (variant modifier)'),
-            html.div('• .tempo-button--color-purple (color modifier)'),
-            html.div('• .tempo-button--rounded-medium (roundedness modifier)')
-          ),
           html.br(),
           html.h3('CSS Variables'),
           html.div(

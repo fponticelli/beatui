@@ -172,12 +172,6 @@ const renderIconShowcase = () => {
         html.div('✅ BEM theme system for sizing and colors'),
         html.div('✅ CSS variables for dynamic theming'),
         html.br(),
-        html.h3('Generated CSS Structure'),
-        html.div('• .tempo-icon (base container)'),
-        html.div('• .tempo-icon--size-medium (size modifier)'),
-        html.div('• .tempo-icon--color-red (color modifier)'),
-        html.div('• <iconify-icon> (modern web component)'),
-        html.br(),
         html.h3('Usage Example'),
         html.div(
           'Icon({ icon: "line-md:home", size: "medium", color: "blue" })'
