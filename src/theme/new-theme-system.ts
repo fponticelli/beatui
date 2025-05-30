@@ -37,12 +37,14 @@ export class LayeredTheme {
     })
 
     // Listen for system preference changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (this.appearancePreference.get() === 'system') {
-        // Trigger re-computation by setting the same value to force update
-        this.appearancePreference.set('system')
-      }
-    })
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => {
+        if (this.appearancePreference.get() === 'system') {
+          // Trigger re-computation by setting the same value to force update
+          this.appearancePreference.set('system')
+        }
+      })
   }
 
   // Appearance management
@@ -60,23 +62,31 @@ export class LayeredTheme {
 
   // Component class generators using new bc-/bu- prefixes
   button(options: any = {}): string {
-    const { size = 'md', variant = 'primary', disabled, fill, color, roundedness, ...rest } = options
+    const {
+      size = 'md',
+      variant = 'primary',
+      disabled,
+      fill,
+      color,
+      roundedness,
+      ...rest
+    } = options
 
     const classes = ['bc-button']
 
     // Map legacy sizes to new sizes
     const sizeMap: Record<string, string> = {
-      'small': 'sm',
-      'medium': 'md',
-      'large': 'lg'
+      small: 'sm',
+      medium: 'md',
+      large: 'lg',
     }
 
     // Map legacy variants to new variants
     const variantMap: Record<string, string> = {
-      'filled': 'primary',
-      'light': 'secondary',
-      'text': 'ghost',
-      'default': 'outline'
+      filled: 'primary',
+      light: 'secondary',
+      text: 'ghost',
+      default: 'outline',
     }
 
     const mappedSize = sizeMap[size] || size
@@ -95,11 +105,11 @@ export class LayeredTheme {
     // Add roundedness if specified
     if (roundedness) {
       const roundednessMap: Record<string, string> = {
-        'none': 'rounded-none',
-        'small': 'rounded-sm',
-        'medium': 'rounded',
-        'large': 'rounded-lg',
-        'full': 'rounded-full'
+        none: 'rounded-none',
+        small: 'rounded-sm',
+        medium: 'rounded',
+        large: 'rounded-lg',
+        full: 'rounded-full',
       }
       const mappedRoundedness = roundednessMap[roundedness] || roundedness
       classes.push(`bu-${mappedRoundedness}`)
@@ -246,24 +256,34 @@ export class LayeredTheme {
     return `bc-fade bc-fade--state-${options.state}`
   }
 
+  // Legacy iconContainer method for compatibility
   iconContainer(options: { size: string; color?: string }): string {
     const { size = 'md', color } = options
 
-    const classes = ['bc-icon']
-
-    if (size) {
-      classes.push(`bc-icon--${size}`)
+    // Map old size values to new ones
+    const sizeMap: Record<string, 'sm' | 'md' | 'lg' | 'xl'> = {
+      small: 'sm',
+      medium: 'md',
+      large: 'lg',
+      xs: 'sm',
+      sm: 'sm',
+      md: 'md',
+      lg: 'lg',
+      xl: 'xl',
     }
 
-    if (color) {
-      classes.push(`bc-icon--color-${color}`)
-    }
+    const mappedSize = sizeMap[size] || 'md'
 
-    return classes.join(' ')
+    return this.iconComponent({
+      size: mappedSize,
+      color,
+    })
   }
 
   panel(options: { side: any; color: any; shadow: any }): string {
-    const sideStr = Array.isArray(options.side) ? options.side.join('-') : options.side
+    const sideStr = Array.isArray(options.side)
+      ? options.side.join('-')
+      : options.side
     return `bc-panel bc-panel--side-${sideStr} bc-panel--color-${options.color} bc-panel--shadow-${options.shadow}`
   }
 
@@ -318,7 +338,15 @@ export class LayeredTheme {
 export const theme = new LayeredTheme()
 
 // Export for compatibility with existing code
-export function createTheme(): [{ theme: LayeredTheme; appearance: any; appearancePreference: any; setAppearance: any }, () => void] {
+export function createTheme(): [
+  {
+    theme: LayeredTheme
+    appearance: any
+    appearancePreference: any
+    setAppearance: any
+  },
+  () => void,
+] {
   const themeInstance = new LayeredTheme()
 
   return [

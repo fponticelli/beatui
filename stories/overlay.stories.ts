@@ -29,13 +29,13 @@ const renderOverlay = ({ mode, effect }: OverlayOptions) => {
                       color: 'neutral',
                       variant: 'outline',
                       roundedness: 'full',
-                      size: 'medium',
+                      size: 'md',
                     },
                     aria.label('Close'),
                     attr.class('absolute top-1 right-1 shadow'),
                     Icon({
                       icon: 'icon-[line-md--close]',
-                      size: 'medium',
+                      size: 'md',
                     })
                   )
                 ),
@@ -60,7 +60,7 @@ const renderOverlayBody = ({ mode, effect }: OverlayOptions) => {
             open(close =>
               Button(
                 {
-                  size: 'small',
+                  size: 'sm',
                   onClick: close,
                   color: 'neutral',
                   variant: 'outline',
@@ -70,11 +70,11 @@ const renderOverlayBody = ({ mode, effect }: OverlayOptions) => {
                 attr.class('absolute top-1 right-1 shadow'),
                 Icon({
                   icon: 'icon-[line-md--close]',
-                  size: 'medium',
+                  size: 'md',
                 })
               )
             ),
-          size: 'small',
+          size: 'sm',
         },
         'Open: ' + mode + ' / ' + effect
       )

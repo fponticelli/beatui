@@ -20,7 +20,7 @@ const meta = {
     },
     size: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large', 'custom'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
     color: {
       control: 'text',
@@ -33,7 +33,7 @@ const meta = {
   },
   args: {
     icon: 'line-md:home',
-    size: 'medium',
+    size: 'md',
   },
 } satisfies Meta<IconOptions>
 
@@ -50,21 +50,21 @@ export const Default: Story = {
 export const Small: Story = {
   args: {
     icon: 'line-md:home',
-    size: 'small',
+    size: 'sm',
   },
 }
 
 export const Medium: Story = {
   args: {
     icon: 'line-md:home',
-    size: 'medium',
+    size: 'md',
   },
 }
 
 export const Large: Story = {
   args: {
     icon: 'line-md:home',
-    size: 'large',
+    size: 'lg',
   },
 }
 

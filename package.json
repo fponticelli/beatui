@@ -34,7 +34,6 @@
     "@tempots/dom": "26.10.0",
     "@tempots/std": "0.18.0",
     "@tempots/ui": "2.9.0",
-    "iconify-icon": "^3.0.0",
     "typescript": "5.8.3"
   },
   "devDependencies": {

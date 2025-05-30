@@ -1,7 +1,5 @@
 import type { Preview } from '@storybook/html'
-// Import Iconify web component
-import 'iconify-icon'
-// Import the generated CSS with all BEM classes and CSS variables
+// Import the generated CSS with all layered CSS and pure CSS icons
 import '../dist/tempo-ui-lib.css'
 
 const preview: Preview = {

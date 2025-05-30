@@ -9,7 +9,7 @@ export interface IconOptions {
 }
 
 export function Icon(
-  { icon, size = 'medium', color, title }: IconOptions,
+  { icon, size = 'md', color, title }: IconOptions,
   ...children: TNode[]
 ) {
   return Use(ThemeProvider, ({ theme }) => {
@@ -19,22 +19,18 @@ export function Icon(
           theme,
           size,
           color
-        )(({ iconContainer: iconTheme }, size, color) =>
-          iconTheme({ size, color })
-        )
+        )((theme, size, color) => theme.iconContainer({ size, color }))
       ),
-      // Use iconify-icon web component for modern Iconify support
-      html.div(
-        attr.style('display: contents;'),
-        attr.innerHTML(
-          computedOf(
-            icon,
-            title
-          )((iconName, titleText) => {
-            const titleAttr = titleText ? ` title="${titleText}"` : ''
-            return `<iconify-icon icon="${iconName}"${titleAttr}></iconify-icon>`
+      // Use pure CSS solution with icon-[collection:name] classes
+      html.span(
+        attr.class(
+          computedOf(icon)(iconName => {
+            // Convert iconify format (collection:name) to CSS class (icon-[collection:name])
+            return `icon-[${iconName}]`
           })
-        )
+        ),
+        attr.title(title || ''),
+        attr.role('img')
       ),
       ...children
     )

@@ -3,7 +3,7 @@ import { ThemedColor } from './colors'
 
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
 export type ButtonSize = 'small' | 'medium' | 'large'
-export type IconSize = 'small' | 'medium' | 'large'
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type Roundedness = 'none' | 'small' | 'medium' | 'large' | 'full'
 export type OverlayEffect = 'transparent' | 'visible'
 export type OverlayMode = 'capturing' | 'non-capturing'

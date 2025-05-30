@@ -125,7 +125,7 @@ type Story = StoryObj<
 
 // Define the stories
 export const Standard: Story = {
-  args: { size: 'medium' },
+  args: { size: 'md' },
 }
 
 export const RoundedNone: Story = {
@@ -160,13 +160,13 @@ export const RoundedFull: Story = {
 
 export const Small: Story = {
   args: {
-    size: 'small',
+    size: 'sm',
   },
 }
 
 export const Large: Story = {
   args: {
-    size: 'large',
+    size: 'lg',
   },
 }
 

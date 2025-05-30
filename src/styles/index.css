@@ -1,13 +1,14 @@
-/* Tempo UI Library - Layered CSS Architecture */
+/* Beat UI Library - Layered CSS Architecture */
 /* Modern CSS architecture with explicit layers and design tokens */
 
 /* Define layer order - this is critical for specificity management */
 @layer reset, base, components, variants, utilities, overrides;
 
 /* Import all layers in order */
-@import './layers/reset.css';
-@import './layers/base.css';
-@import './layers/components.css';
-@import './layers/variants.css';
-@import './layers/utilities.css';
-@import './layers/overrides.css';
+@import './layers/01. reset/reset.css';
+@import './layers/02. base/base.css';
+@import './layers/02. base/iconify-icons.css';
+@import './layers/03. components/components.css';
+@import './layers/04. variants/variants.css';
+@import './layers/05. utilities/utilities.css';
+@import './layers/06. overrides/overrides.css';

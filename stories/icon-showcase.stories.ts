@@ -72,7 +72,7 @@ const renderIconShowcase = () => {
   return html.div(
     html.h1('Icon System Showcase'),
     html.p(
-      'Demonstrating Iconify icons with UnoCSS integration and BEM theme system'
+      'Demonstrating pure CSS Iconify icons with layered CSS architecture'
     ),
 
     // Size demonstration
@@ -165,17 +165,22 @@ const renderIconShowcase = () => {
           'font-family: monospace; font-size: 0.875rem; line-height: 1.6;'
         ),
         html.h3('Icon System Stack'),
-        html.div('✅ Iconify web component (iconify-icon)'),
+        html.div('✅ Pure CSS solution with CSS mask'),
+        html.div('✅ Vite plugin for build-time icon processing'),
         html.div(
           '✅ Iconify JSON collections (@iconify-json/line-md, @iconify-json/tabler)'
         ),
-        html.div('✅ BEM theme system for sizing and colors'),
+        html.div('✅ Layered CSS architecture for sizing and colors'),
         html.div('✅ CSS variables for dynamic theming'),
+        html.div('✅ No JavaScript runtime dependencies'),
         html.br(),
         html.h3('Usage Example'),
         html.div(
           'Icon({ icon: "line-md:home", size: "medium", color: "blue" })'
-        )
+        ),
+        html.br(),
+        html.h3('Generated CSS Classes'),
+        html.div('.icon-\\[line-md\\:home\\] { -webkit-mask-image: url(...); }')
       )
     ),
 
@@ -184,17 +189,19 @@ const renderIconShowcase = () => {
       attr.style(
         'margin: 3rem 0; background: #e0f2fe; padding: 1.5rem; border-radius: 0.5rem;'
       ),
-      html.h2('Migration Success'),
+      html.h2('Pure CSS Migration Success'),
       html.ul(
         attr.style('line-height: 1.6;'),
-        html.li('✅ Icons working with modern Iconify web component'),
-        html.li('✅ BEM theme system provides consistent sizing and colors'),
-        html.li('✅ Clean icon syntax (collection:name format)'),
+        html.li('✅ Pure CSS solution - no JavaScript runtime dependencies'),
+        html.li('✅ CSS mask for perfect color control and performance'),
+        html.li('✅ Vite plugin processes icons at build time'),
+        html.li('✅ Layered CSS architecture for consistent sizing'),
+        html.li('✅ Clean icon syntax (collection:name format unchanged)'),
         html.li('✅ Multiple icon collections available (line-md, tabler)'),
         html.li('✅ CSS variables enable runtime theming'),
         html.li('✅ Zero breaking changes to Icon component API'),
-        html.li('✅ File watching regenerates CSS during development'),
-        html.li('✅ Automatic icon loading - no build-time processing needed')
+        html.li('✅ Smaller bundle size - removed iconify-icon dependency'),
+        html.li('✅ Better browser compatibility - no web components needed')
       )
     )
   )
