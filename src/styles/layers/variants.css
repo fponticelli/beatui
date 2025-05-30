@@ -1,0 +1,291 @@
+@layer variants {
+  /* Button Variants */
+  
+  /* Button Sizes */
+  .bc-button--sm {
+    padding: var(--spacing-1.5) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    gap: var(--spacing-1.5);
+  }
+
+  .bc-button--md {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    gap: var(--spacing-2);
+  }
+
+  .bc-button--lg {
+    padding: var(--spacing-2.5) var(--spacing-6);
+    font-size: var(--font-size-base);
+    gap: var(--spacing-2);
+  }
+
+  .bc-button--xl {
+    padding: var(--spacing-3) var(--spacing-8);
+    font-size: var(--font-size-lg);
+    gap: var(--spacing-2.5);
+  }
+
+  /* Button Styles */
+  .bc-button--primary {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+    color: white;
+  }
+
+  .bc-button--primary:hover:not(:disabled) {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+  }
+
+  .bc-button--primary:active:not(:disabled) {
+    background-color: var(--color-primary-700);
+    border-color: var(--color-primary-700);
+  }
+
+  .bc-button--secondary {
+    background-color: var(--color-secondary-500);
+    border-color: var(--color-secondary-500);
+    color: white;
+  }
+
+  .bc-button--secondary:hover:not(:disabled) {
+    background-color: var(--color-secondary-600);
+    border-color: var(--color-secondary-600);
+  }
+
+  .bc-button--secondary:active:not(:disabled) {
+    background-color: var(--color-secondary-700);
+    border-color: var(--color-secondary-700);
+  }
+
+  .bc-button--outline {
+    background-color: transparent;
+    border-color: var(--color-neutral-300);
+    color: var(--color-neutral-700);
+  }
+
+  :root.dark .bc-button--outline {
+    border-color: var(--color-neutral-600);
+    color: var(--color-neutral-300);
+  }
+
+  .bc-button--outline:hover:not(:disabled) {
+    background-color: var(--color-neutral-50);
+    border-color: var(--color-neutral-400);
+    color: var(--color-neutral-900);
+  }
+
+  :root.dark .bc-button--outline:hover:not(:disabled) {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-500);
+    color: var(--color-neutral-100);
+  }
+
+  .bc-button--ghost {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--color-neutral-700);
+  }
+
+  :root.dark .bc-button--ghost {
+    color: var(--color-neutral-300);
+  }
+
+  .bc-button--ghost:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+  }
+
+  :root.dark .bc-button--ghost:hover:not(:disabled) {
+    background-color: var(--color-neutral-800);
+    color: var(--color-neutral-100);
+  }
+
+  .bc-button--destructive {
+    background-color: var(--color-error-500);
+    border-color: var(--color-error-500);
+    color: white;
+  }
+
+  .bc-button--destructive:hover:not(:disabled) {
+    background-color: var(--color-error-600);
+    border-color: var(--color-error-600);
+  }
+
+  .bc-button--destructive:active:not(:disabled) {
+    background-color: var(--color-error-700);
+    border-color: var(--color-error-700);
+  }
+
+  /* Icon Sizes */
+  .bc-icon--xs {
+    width: var(--spacing-3);
+    height: var(--spacing-3);
+    font-size: var(--spacing-3);
+  }
+
+  .bc-icon--sm {
+    width: var(--spacing-4);
+    height: var(--spacing-4);
+    font-size: var(--spacing-4);
+  }
+
+  .bc-icon--md {
+    width: var(--spacing-5);
+    height: var(--spacing-5);
+    font-size: var(--spacing-5);
+  }
+
+  .bc-icon--lg {
+    width: var(--spacing-6);
+    height: var(--spacing-6);
+    font-size: var(--spacing-6);
+  }
+
+  .bc-icon--xl {
+    width: var(--spacing-8);
+    height: var(--spacing-8);
+    font-size: var(--spacing-8);
+  }
+
+  /* Badge Variants */
+  .bc-badge--primary {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-800);
+  }
+
+  :root.dark .bc-badge--primary {
+    background-color: var(--color-primary-900);
+    color: var(--color-primary-200);
+  }
+
+  .bc-badge--secondary {
+    background-color: var(--color-secondary-100);
+    color: var(--color-secondary-800);
+  }
+
+  :root.dark .bc-badge--secondary {
+    background-color: var(--color-secondary-900);
+    color: var(--color-secondary-200);
+  }
+
+  .bc-badge--success {
+    background-color: var(--color-success-100);
+    color: var(--color-success-800);
+  }
+
+  :root.dark .bc-badge--success {
+    background-color: var(--color-success-900);
+    color: var(--color-success-200);
+  }
+
+  .bc-badge--warning {
+    background-color: var(--color-warning-100);
+    color: var(--color-warning-800);
+  }
+
+  :root.dark .bc-badge--warning {
+    background-color: var(--color-warning-900);
+    color: var(--color-warning-200);
+  }
+
+  .bc-badge--error {
+    background-color: var(--color-error-100);
+    color: var(--color-error-800);
+  }
+
+  :root.dark .bc-badge--error {
+    background-color: var(--color-error-900);
+    color: var(--color-error-200);
+  }
+
+  .bc-badge--neutral {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-800);
+  }
+
+  :root.dark .bc-badge--neutral {
+    background-color: var(--color-neutral-800);
+    color: var(--color-neutral-200);
+  }
+
+  /* Alert Variants */
+  .bc-alert--info {
+    background-color: var(--color-info-50);
+    border-color: var(--color-info-200);
+    color: var(--color-info-800);
+  }
+
+  :root.dark .bc-alert--info {
+    background-color: var(--color-info-950);
+    border-color: var(--color-info-800);
+    color: var(--color-info-200);
+  }
+
+  .bc-alert--success {
+    background-color: var(--color-success-50);
+    border-color: var(--color-success-200);
+    color: var(--color-success-800);
+  }
+
+  :root.dark .bc-alert--success {
+    background-color: var(--color-success-950);
+    border-color: var(--color-success-800);
+    color: var(--color-success-200);
+  }
+
+  .bc-alert--warning {
+    background-color: var(--color-warning-50);
+    border-color: var(--color-warning-200);
+    color: var(--color-warning-800);
+  }
+
+  :root.dark .bc-alert--warning {
+    background-color: var(--color-warning-950);
+    border-color: var(--color-warning-800);
+    color: var(--color-warning-200);
+  }
+
+  .bc-alert--error {
+    background-color: var(--color-error-50);
+    border-color: var(--color-error-200);
+    color: var(--color-error-800);
+  }
+
+  :root.dark .bc-alert--error {
+    background-color: var(--color-error-950);
+    border-color: var(--color-error-800);
+    color: var(--color-error-200);
+  }
+
+  /* Input Variants */
+  .bc-input--error {
+    border-color: var(--color-error-500);
+  }
+
+  .bc-input--error:focus {
+    border-color: var(--color-error-500);
+    box-shadow: 0 0 0 3px rgb(239 68 68 / 0.1);
+  }
+
+  .bc-input--success {
+    border-color: var(--color-success-500);
+  }
+
+  .bc-input--success:focus {
+    border-color: var(--color-success-500);
+    box-shadow: 0 0 0 3px rgb(34 197 94 / 0.1);
+  }
+
+  /* Navigation Variants */
+  .bc-nav-item--active {
+    color: var(--color-primary-600);
+    background-color: var(--color-primary-50);
+  }
+
+  :root.dark .bc-nav-item--active {
+    color: var(--color-primary-400);
+    background-color: var(--color-primary-950);
+  }
+}

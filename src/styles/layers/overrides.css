@@ -1,0 +1,83 @@
+@layer overrides {
+  /* Override layer for edge cases and consumer customizations */
+  /* This layer should be used sparingly and only when necessary */
+  
+  /* Force important utilities for edge cases */
+  .bu-important-hidden {
+    display: none !important;
+  }
+  
+  .bu-important-block {
+    display: block !important;
+  }
+  
+  .bu-important-flex {
+    display: flex !important;
+  }
+  
+  /* Print styles */
+  @media print {
+    .bu-print-hidden {
+      display: none !important;
+    }
+    
+    .bu-print-block {
+      display: block !important;
+    }
+    
+    /* Ensure good contrast for printing */
+    .bc-button {
+      border: 1px solid #000 !important;
+      background: transparent !important;
+      color: #000 !important;
+    }
+    
+    .bc-card {
+      border: 1px solid #000 !important;
+      box-shadow: none !important;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bc-button {
+      border-width: 2px;
+    }
+    
+    .bc-input {
+      border-width: 2px;
+    }
+    
+    .bc-card {
+      border-width: 2px;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-button {
+      transition: none;
+    }
+    
+    .bc-input {
+      transition: none;
+    }
+    
+    .bc-nav-item {
+      transition: none;
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Focus visible improvements for accessibility */
+  @media (prefers-reduced-motion: no-preference) {
+    *:focus-visible {
+      transition: outline-offset 0.15s ease-in-out;
+    }
+  }
+}

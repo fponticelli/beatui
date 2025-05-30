@@ -598,8 +598,7 @@ export function AppShell({
               Button(
                 {
                   onClick: () => menuOpen.update(v => !v),
-                  color: 'neutral',
-                  variant: 'text',
+                  variant: 'ghost',
                 },
                 aria.label('Open menu'),
                 Icon({
@@ -629,7 +628,6 @@ export function AppShell({
                   onClick: () => asideOpen.update(v => !v),
                   roundedness: 'full',
                   variant: 'outline',
-                  color: 'neutral',
                 },
                 aria.label('Open aside'),
                 Icon(

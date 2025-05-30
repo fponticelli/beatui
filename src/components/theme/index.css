@@ -1,40 +1,8 @@
-/* Tempo UI Library - BEM-based CSS */
-/* This file imports the generated CSS and provides base styles */
+/* Tempo UI Library - Layered CSS Architecture */
+/* This file imports the new layered CSS system */
 
-/* Import generated CSS variables and component styles */
-@import url('./generated.css');
-
-/* Base reset and typography */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  color: var(--color-gray-900);
-  background-color: var(--color-white, #ffffff);
-}
-
-/* Dark mode support */
-:root.dark body {
-  color: var(--color-gray-100);
-  background-color: var(--color-gray-900);
-}
-
-/* Focus styles */
-*:focus-visible {
-  outline: 2px solid var(--color-sky-500);
-  outline-offset: 2px;
-}
+/* Import the new layered CSS system */
+@import url('../../styles/index.css');
 
 /* Utility classes for common patterns */
 .sr-only {

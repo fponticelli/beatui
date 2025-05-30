@@ -1,19 +1,13 @@
 import { attr, computedOf, html, on, TNode, Use, Value } from '@tempots/dom'
-import {
-  ButtonSize,
-  ButtonVariant,
-  Roundedness,
-  ThemedColor,
-  ThemeProvider,
-} from '../theme'
+import { ThemeProvider } from '../theme'
 
 export interface ButtonOptions {
   type?: Value<'submit' | 'reset' | 'button'>
   disabled?: Value<boolean>
-  variant?: Value<ButtonVariant>
-  color?: Value<ThemedColor>
-  size?: Value<ButtonSize>
-  roundedness?: Value<Roundedness>
+  variant?: Value<'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'>
+  size?: Value<'sm' | 'md' | 'lg' | 'xl'>
+  color?: Value<string>
+  roundedness?: Value<'none' | 'small' | 'medium' | 'large' | 'full'>
   onClick?: () => void
 }
 
@@ -21,10 +15,10 @@ export function Button(
   {
     type = 'button',
     disabled,
-    variant = 'filled',
-    size = 'medium',
+    variant = 'primary',
+    size = 'md',
     color,
-    roundedness = 'medium',
+    roundedness,
     onClick = () => {},
   }: ButtonOptions,
   ...children: TNode[]
@@ -38,25 +32,17 @@ export function Button(
           theme,
           disabled ?? false,
           variant ?? 'primary',
-          size ?? 'medium',
+          size ?? 'md',
           color,
-          roundedness ?? 'medium'
-        )(
-          (
-            { theme: { button } },
-            disabled,
+          roundedness
+        )(({ theme }, disabled, variant, size, color, roundedness) =>
+          theme.button({
             variant,
             size,
+            disabled,
             color,
-            roundedness
-          ) =>
-            button({
-              disabled,
-              variant,
-              size,
-              color,
-              roundedness,
-            })
+            roundedness,
+          })
         )
       ),
       on.click(onClick),

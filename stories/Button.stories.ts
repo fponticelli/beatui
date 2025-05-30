@@ -102,7 +102,7 @@ const meta = {
   },
   args: {
     text: 'Button',
-    size: 'medium',
+    size: 'md',
     disabled: false,
     onClick: fn(),
   },

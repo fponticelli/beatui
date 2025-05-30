@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layered CSS Architecture Demo</title>
+    <link rel="stylesheet" href="src/styles/index.css">
+    <style>
+        body {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 1px solid var(--color-neutral-200);
+            border-radius: var(--radius-lg);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="bu-text-3xl bu-font-bold bu-mb-8">Layered CSS Architecture Demo</h1>
+    
+    <!-- Button Components -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Button Components</h2>
+        
+        <h3 class="bu-text-lg bu-font-medium bu-mb-2">Variants</h3>
+        <div class="bu-flex bu-gap-4 bu-mb-4">
+            <button class="bc-button bc-button--md bc-button--primary">Primary</button>
+            <button class="bc-button bc-button--md bc-button--secondary">Secondary</button>
+            <button class="bc-button bc-button--md bc-button--outline">Outline</button>
+            <button class="bc-button bc-button--md bc-button--ghost">Ghost</button>
+            <button class="bc-button bc-button--md bc-button--destructive">Destructive</button>
+        </div>
+        
+        <h3 class="bu-text-lg bu-font-medium bu-mb-2">Sizes</h3>
+        <div class="bu-flex bu-gap-4 bu-items-center bu-mb-4">
+            <button class="bc-button bc-button--sm bc-button--primary">Small</button>
+            <button class="bc-button bc-button--md bc-button--primary">Medium</button>
+            <button class="bc-button bc-button--lg bc-button--primary">Large</button>
+            <button class="bc-button bc-button--xl bc-button--primary">Extra Large</button>
+        </div>
+        
+        <h3 class="bu-text-lg bu-font-medium bu-mb-2">States</h3>
+        <div class="bu-flex bu-gap-4">
+            <button class="bc-button bc-button--md bc-button--primary">Normal</button>
+            <button class="bc-button bc-button--md bc-button--primary" disabled>Disabled</button>
+        </div>
+    </div>
+    
+    <!-- Card Components -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Card Components</h2>
+        
+        <div class="demo-grid">
+            <div class="bc-card">
+                <div class="bc-card-header">
+                    <h3 class="bu-text-lg bu-font-semibold">Card Title</h3>
+                </div>
+                <div class="bc-card-body">
+                    <p class="bu-text-sm bu-mb-4">This is a basic card component with header, body, and footer sections.</p>
+                </div>
+                <div class="bc-card-footer">
+                    <button class="bc-button bc-button--sm bc-button--primary">Action</button>
+                </div>
+            </div>
+            
+            <div class="bc-card">
+                <div class="bc-card-body">
+                    <h3 class="bu-text-lg bu-font-semibold bu-mb-2">Simple Card</h3>
+                    <p class="bu-text-sm">A card with just a body section.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Form Components -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Form Components</h2>
+        
+        <div class="bu-flex bu-flex-col bu-gap-4 bu-max-w-md">
+            <div>
+                <label class="bc-label">Email Address</label>
+                <input type="email" class="bc-input" placeholder="Enter your email">
+            </div>
+            
+            <div>
+                <label class="bc-label">Password</label>
+                <input type="password" class="bc-input" placeholder="Enter your password">
+            </div>
+            
+            <div>
+                <label class="bc-label">Error State</label>
+                <input type="text" class="bc-input bc-input--error" placeholder="This field has an error">
+            </div>
+            
+            <div>
+                <label class="bc-label">Success State</label>
+                <input type="text" class="bc-input bc-input--success" placeholder="This field is valid">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Badge Components -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Badge Components</h2>
+        
+        <div class="bu-flex bu-gap-2 bu-flex-wrap">
+            <span class="bc-badge bc-badge--primary">Primary</span>
+            <span class="bc-badge bc-badge--secondary">Secondary</span>
+            <span class="bc-badge bc-badge--success">Success</span>
+            <span class="bc-badge bc-badge--warning">Warning</span>
+            <span class="bc-badge bc-badge--error">Error</span>
+            <span class="bc-badge bc-badge--neutral">Neutral</span>
+        </div>
+    </div>
+    
+    <!-- Alert Components -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Alert Components</h2>
+        
+        <div class="bu-flex bu-flex-col bu-gap-4">
+            <div class="bc-alert bc-alert--info">
+                <div class="bc-alert-content">
+                    <div class="bc-alert-title">Information</div>
+                    <div class="bc-alert-description">This is an informational alert message.</div>
+                </div>
+            </div>
+            
+            <div class="bc-alert bc-alert--success">
+                <div class="bc-alert-content">
+                    <div class="bc-alert-title">Success</div>
+                    <div class="bc-alert-description">Your action was completed successfully.</div>
+                </div>
+            </div>
+            
+            <div class="bc-alert bc-alert--warning">
+                <div class="bc-alert-content">
+                    <div class="bc-alert-title">Warning</div>
+                    <div class="bc-alert-description">Please review this information carefully.</div>
+                </div>
+            </div>
+            
+            <div class="bc-alert bc-alert--error">
+                <div class="bc-alert-content">
+                    <div class="bc-alert-title">Error</div>
+                    <div class="bc-alert-description">An error occurred while processing your request.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Utility Classes Demo -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Utility Classes</h2>
+        
+        <div class="bu-flex bu-flex-col bu-gap-4">
+            <div class="bu-p-4 bu-rounded-lg" style="background-color: var(--color-primary-50);">
+                <p class="bu-text-sm">Padding and rounded corners using utility classes</p>
+            </div>
+            
+            <div class="bu-flex bu-justify-between bu-items-center bu-p-4 bu-rounded" style="background-color: var(--color-neutral-100);">
+                <span class="bu-font-medium">Flexbox utilities</span>
+                <span class="bc-badge bc-badge--primary">Badge</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <div class="demo-section">
+        <h2 class="bu-text-2xl bu-font-semibold bu-mb-4">Dark Mode</h2>
+        
+        <button id="darkModeToggle" class="bc-button bc-button--md bc-button--outline">
+            Toggle Dark Mode
+        </button>
+    </div>
+    
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            darkModeToggle.textContent = isDark ? 'Switch to Light Mode' : 'Toggle Dark Mode';
+        });
+    </script>
+</body>
+</html>

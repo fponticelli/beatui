@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/html-vite';
-import { tempoUIPlugin } from '../src/components/theme/vite-plugin';
 
 const config: StorybookConfig = {
   "stories": [
@@ -18,12 +17,6 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/html-vite",
     "options": {}
-  },
-  async viteFinal(config) {
-    // Add Tempo theme plugin for CSS generation
-    config.plugins = config.plugins || [];
-    config.plugins.push(tempoUIPlugin());
-    return config;
   }
 };
 export default config;

@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import { dirname, resolve } from 'path'
-import { tempoUIPlugin } from './src/components/theme/vite-plugin'
 
 // Use import.meta.url for ESM
 const __dirname = dirname(new URL(import.meta.url).pathname)
@@ -32,12 +31,4 @@ export default defineConfig({
   define: {
     'import.meta.vitest': 'undefined',
   },
-  plugins: [
-    tempoUIPlugin({
-      outputDir: 'dist',
-      filename: 'tempo-ui-lib.css',
-      generateMinified: true,
-      generateVariablesOnly: true,
-    }),
-  ],
 })

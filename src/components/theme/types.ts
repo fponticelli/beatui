@@ -92,9 +92,9 @@ export type AlignSelf =
 
 export interface Theme {
   button: (options: {
-    disabled: boolean
-    variant: ButtonVariant
-    size: ButtonSize
+    disabled?: boolean
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
+    size?: 'sm' | 'md' | 'lg' | 'xl'
     color?: string
     roundedness?: Roundedness
     fill?: boolean

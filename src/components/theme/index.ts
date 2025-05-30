@@ -1,17 +1,26 @@
-// Core theme system exports
+// New Layered CSS Theme System
 export * from './types'
-export * from './bem-classes'
-export * from './css-variables'
-export * from './css-generator'
+
+// Export design tokens
+export * from '../../tokens'
+
+// Export new theme system
+export {
+  LayeredTheme,
+  theme as defaultTheme,
+  createTheme,
+  type ComponentClassOptions,
+} from '../../theme/new-theme-system'
+
+// Legacy exports for backward compatibility (deprecated)
 export * from './theme'
 
-// BEM theme exports
-export type { ThemeColor, ThemeColorShade, ThemedColor } from './theme-system'
-
+// Legacy color utilities (deprecated - use new color tokens instead)
 export {
   allColors,
   darkerShade,
   lighterShade,
-  bemTheme,
-  bemTheme as defaultTheme,
-} from './theme-system'
+  type ThemeColor,
+  type ThemeColorShade,
+  type ThemedColor,
+} from './colors'

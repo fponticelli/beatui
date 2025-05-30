@@ -10,8 +10,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run generate:css && vite build && tsc -p tsconfig.build.json",
-    "generate:css": "tsx scripts/generate-css.ts",
+    "build": "vite build && tsc -p tsconfig.build.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
@@ -20,8 +19,9 @@
     "storybook:ci": "start-server-and-test storybook http://localhost:6006 test:e2e:ci",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "storybook": "npm run generate:css && storybook dev -p 6006",
-    "storybook:build": "npm run generate:css && storybook build"
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "mcp:browser": "npx @agentdeskai/browser-tools-server@latest"
   },
   "keywords": [],
   "author": "Franco Ponticelli",
