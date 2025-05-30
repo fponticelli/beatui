@@ -2,13 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
 import { attr, Ensure, html } from '@tempots/dom'
 import { z } from 'zod/v4'
-import {
-  connectStringInput,
-  EmailControl,
-  Stack,
-  TextControl,
-  useForm,
-} from '../src/'
+import { EmailControl, Stack, TextControl, useForm } from '../src/'
 
 const schema = z.object({
   name: z.string().min(1),
