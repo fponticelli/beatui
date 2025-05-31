@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'TempoUIFramework',
+      name: 'BeatUIFramework',
       fileName: format => `index.${format}.js`,
     },
     rollupOptions: {
