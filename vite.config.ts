@@ -1,19 +1,12 @@
 import { defineConfig } from 'vite'
 import { dirname, resolve } from 'path'
-import { iconifyCSS } from './src/plugins/iconify-css-plugin'
 
 // Use import.meta.url for ESM
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
 // Create a merged configuration for Vite and Vitest
 export default defineConfig({
-  plugins: [
-    iconifyCSS({
-      collections: ['line-md', 'tabler'],
-      outputFile: 'iconify-icons.css',
-      prefix: 'bc-icon'
-    })
-  ],
+  plugins: [],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

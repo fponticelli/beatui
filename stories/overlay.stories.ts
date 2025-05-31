@@ -34,7 +34,7 @@ const renderOverlay = ({ mode, effect }: OverlayOptions) => {
                     aria.label('Close'),
                     attr.class('absolute top-1 right-1 shadow'),
                     Icon({
-                      icon: 'icon-[line-md--close]',
+                      icon: 'line-md:close',
                       size: 'md',
                     })
                   )
@@ -69,7 +69,7 @@ const renderOverlayBody = ({ mode, effect }: OverlayOptions) => {
                 aria.label('Close'),
                 attr.class('absolute top-1 right-1 shadow'),
                 Icon({
-                  icon: 'icon-[line-md--close]',
+                  icon: 'line-md:close',
                   size: 'md',
                 })
               )

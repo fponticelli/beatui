@@ -73,7 +73,7 @@ export const EditableText = ({
             ),
             aria.label('Edit'),
             on.click(() => isEditing.set(true)),
-            Icon({ icon: 'icon-[line-md--pencil]' })
+            Icon({ icon: 'line-md/pencil' })
           )
         )
     )

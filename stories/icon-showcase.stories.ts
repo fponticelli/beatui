@@ -166,10 +166,6 @@ const renderIconShowcase = () => {
         ),
         html.h3('Icon System Stack'),
         html.div('✅ Pure CSS solution with CSS mask'),
-        html.div('✅ Vite plugin for build-time icon processing'),
-        html.div(
-          '✅ Iconify JSON collections (@iconify-json/line-md, @iconify-json/tabler)'
-        ),
         html.div('✅ Layered CSS architecture for sizing and colors'),
         html.div('✅ CSS variables for dynamic theming'),
         html.div('✅ No JavaScript runtime dependencies'),
@@ -177,10 +173,7 @@ const renderIconShowcase = () => {
         html.h3('Usage Example'),
         html.div(
           'Icon({ icon: "line-md:home", size: "medium", color: "blue" })'
-        ),
-        html.br(),
-        html.h3('Generated CSS Classes'),
-        html.div('.icon-\\[line-md\\:home\\] { -webkit-mask-image: url(...); }')
+        )
       )
     ),
 

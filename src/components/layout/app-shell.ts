@@ -604,8 +604,8 @@ export function AppShell({
                 Icon({
                   icon: menuOpen.map((v): string =>
                     v
-                      ? 'icon-[line-md--menu-to-close-alt-transition]'
-                      : 'icon-[line-md--close-to-menu-alt-transition]'
+                      ? 'line-md/menu-to-close-alt-transition'
+                      : 'line-md/close-to-menu-alt-transition'
                   ),
                 })
               )
@@ -631,7 +631,7 @@ export function AppShell({
                 },
                 aria.label('Open aside'),
                 Icon(
-                  { icon: 'icon-[line-md--chevron-left]' },
+                  { icon: 'line-md/chevron-left' },
                   attr.class('transition-transform'),
                   attr.class(
                     asideOpen.map((v): string => (v ? 'rotate-180' : ''))
