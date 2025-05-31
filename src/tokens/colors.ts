@@ -1,150 +1,181 @@
-// Color Design Tokens
-// TypeScript-defined colors that generate CSS variables at build time
+import { objectEntries } from '@tempots/std'
+import { colors } from './base-colors'
 
-export const colors = {
-  // Primary color scale
-  primary: {
-    50: '#f0f9ff',
-    100: '#e0f2fe',
-    200: '#bae6fd',
-    300: '#7dd3fc',
-    400: '#38bdf8',
-    500: '#0ea5e9',
-    600: '#0284c7',
-    700: '#0369a1',
-    800: '#075985',
-    900: '#0c4a6e',
-    950: '#082f49',
-  },
+export type ColorName = keyof typeof colors
 
-  // Secondary color scale
-  secondary: {
-    50: '#f0fdf4',
-    100: '#dcfce7',
-    200: '#bbf7d0',
-    300: '#86efac',
-    400: '#4ade80',
-    500: '#22c55e',
-    600: '#16a34a',
-    700: '#15803d',
-    800: '#166534',
-    900: '#14532d',
-    950: '#052e16',
-  },
+export type ColorShade =
+  | 50
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 600
+  | 700
+  | 800
+  | 900
+  | 950
 
-  // Neutral/Gray scale
-  neutral: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
-    950: '#030712',
-  },
+export const colorShades = [
+  50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950,
+] as ColorShade[]
 
-  // Semantic colors
-  success: {
-    50: '#f0fdf4',
-    100: '#dcfce7',
-    200: '#bbf7d0',
-    300: '#86efac',
-    400: '#4ade80',
-    500: '#22c55e',
-    600: '#16a34a',
-    700: '#15803d',
-    800: '#166534',
-    900: '#14532d',
-    950: '#052e16',
-  },
+export type SemanticColorName =
+  | 'primary'
+  | 'secondary'
+  | 'base'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info'
 
-  warning: {
-    50: '#fffbeb',
-    100: '#fef3c7',
-    200: '#fde68a',
-    300: '#fcd34d',
-    400: '#fbbf24',
-    500: '#f59e0b',
-    600: '#d97706',
-    700: '#b45309',
-    800: '#92400e',
-    900: '#78350f',
-    950: '#451a03',
-  },
+export type AnyColorName = ColorName | SemanticColorName
 
-  error: {
-    50: '#fef2f2',
-    100: '#fee2e2',
-    200: '#fecaca',
-    300: '#fca5a5',
-    400: '#f87171',
-    500: '#ef4444',
-    600: '#dc2626',
-    700: '#b91c1c',
-    800: '#991b1b',
-    900: '#7f1d1d',
-    950: '#450a0a',
-  },
+export const semanticColorNames = [
+  'primary',
+  'secondary',
+  'base',
+  'success',
+  'warning',
+  'error',
+  'info',
+] as const
 
-  info: {
-    50: '#eff6ff',
-    100: '#dbeafe',
-    200: '#bfdbfe',
-    300: '#93c5fd',
-    400: '#60a5fa',
-    500: '#3b82f6',
-    600: '#2563eb',
-    700: '#1d4ed8',
-    800: '#1e40af',
-    900: '#1e3a8a',
-    950: '#172554',
-  },
-} as const
+export const semanticColors = {
+  primary: 'blue',
+  secondary: 'gray',
+  base: 'gray',
+  success: 'green',
+  warning: 'amber',
+  error: 'red',
+  info: 'blue',
+} as Record<SemanticColorName, ColorName>
 
-// CSS Variable accessors
-export const colorPrimary = 'var(--color-primary-500)'
-export const colorSecondary = 'var(--color-secondary-500)'
-export const colorNeutral = 'var(--color-neutral-500)'
-export const colorSuccess = 'var(--color-success-500)'
-export const colorWarning = 'var(--color-warning-500)'
-export const colorError = 'var(--color-error-500)'
-export const colorInfo = 'var(--color-info-500)'
+export type BackgroundColorName =
+  | 'background'
+  | 'surface'
+  | 'subtle'
+  | 'elevated'
+  | 'raised'
+  | 'overlay'
 
 // Background colors
-export const colorBackground = 'var(--color-neutral-50)'
-export const colorBackgroundDark = 'var(--color-neutral-900)'
-export const colorSurface = 'var(--color-neutral-100)'
-export const colorSurfaceDark = 'var(--color-neutral-800)'
+export const bgColors = {
+  light: {
+    background: ['base', 50],
+    surface: ['base', 100],
+    subtle: ['base', 200],
+    elevated: ['base', 300],
+    raised: ['base', 400],
+    overlay: ['base', 500],
+  },
+  dark: {
+    background: ['base', 950],
+    surface: ['base', 900],
+    subtle: ['base', 800],
+    elevated: ['base', 700],
+    raised: ['base', 600],
+    overlay: ['base', 500],
+  },
+} as {
+  light: Record<BackgroundColorName, [AnyColorName, ColorShade]>
+  dark: Record<BackgroundColorName, [AnyColorName, ColorShade]>
+}
 
-// Text colors
-export const colorText = 'var(--color-neutral-900)'
-export const colorTextDark = 'var(--color-neutral-100)'
-export const colorTextMuted = 'var(--color-neutral-600)'
-export const colorTextMutedDark = 'var(--color-neutral-400)'
+export type TextColorName = 'text' | 'muted'
 
-// Border colors
-export const colorBorder = 'var(--color-neutral-200)'
-export const colorBorderDark = 'var(--color-neutral-700)'
+export const textColors = {
+  light: {
+    text: ['base', 900],
+    muted: ['base', 600],
+  },
+  dark: {
+    text: ['base', 100],
+    muted: ['base', 400],
+  },
+} as {
+  light: Record<TextColorName, [AnyColorName, ColorShade]>
+  dark: Record<TextColorName, [AnyColorName, ColorShade]>
+}
+
+export type BorderColorName = 'border' | 'divider'
+
+export const borderColors = {
+  light: {
+    border: ['base', 200],
+    divider: ['base', 300],
+  },
+  dark: {
+    border: ['base', 700],
+    divider: ['base', 600],
+  },
+} as {
+  light: Record<BorderColorName, [AnyColorName, ColorShade]>
+  dark: Record<BorderColorName, [AnyColorName, ColorShade]>
+}
 
 // Helper function to get color CSS variable
-export function getColorVar(
-  color: keyof typeof colors,
-  shade: keyof typeof colors.primary
-): string {
-  return `var(--color-${color}-${shade})`
+export function normalizeColorName(color: AnyColorName) {
+  if (semanticColorNames.includes(color as SemanticColorName)) {
+    return semanticColors[color as SemanticColorName]
+  }
+  return color
+}
+
+export function getColorVarName(
+  color: AnyColorName,
+  shade: ColorShade
+): `--color-${AnyColorName}-${ColorShade}` {
+  return `--color-${color}-${shade}`
+}
+
+export function getColorVar(color: AnyColorName, shade: ColorShade) {
+  return `var(${getColorVarName(color, shade)})`
 }
 
 // Generate CSS variables from color tokens
 export function generateColorVariables(): Record<string, string> {
-  const variables: Record<string, string> = {}
+  const variables = {} as Record<string, string>
 
-  Object.entries(colors).forEach(([colorName, shades]) => {
-    Object.entries(shades).forEach(([shade, value]) => {
-      variables[`--color-${colorName}-${shade}`] = value
+  // base colors
+  objectEntries(colors).forEach(([colorName, shades]) => {
+    objectEntries(shades).forEach(([shade, value]) => {
+      variables[getColorVarName(colorName, shade)] = value
+    })
+  })
+
+  // semantic colors
+  semanticColorNames.forEach(colorName => {
+    const baseColor = semanticColors[colorName]
+    colorShades.forEach(shade => {
+      variables[getColorVarName(colorName, shade)] = getColorVar(
+        baseColor,
+        shade
+      )
+    })
+  })
+
+  // background colors
+  objectEntries(bgColors).forEach(([mode, colors]) => {
+    objectEntries(colors).forEach(([bgName, [baseColor, shade]]) => {
+      variables[`--bg-${bgName}-${mode}`] = getColorVar(baseColor, shade)
+    })
+  })
+
+  // text colors
+  objectEntries(textColors).forEach(([mode, colors]) => {
+    objectEntries(colors).forEach(([textName, [baseColor, shade]]) => {
+      variables[`--text-${textName}-${mode}`] = getColorVar(baseColor, shade)
+    })
+  })
+
+  // border colors
+  objectEntries(borderColors).forEach(([mode, colors]) => {
+    objectEntries(colors).forEach(([borderName, [baseColor, shade]]) => {
+      variables[`--border-${borderName}-${mode}`] = getColorVar(
+        baseColor,
+        shade
+      )
     })
   })
 

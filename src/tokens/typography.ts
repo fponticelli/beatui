@@ -17,6 +17,8 @@ export const fontSize = {
   '9xl': ['8rem', { lineHeight: '1' }], // 128px
 } as const
 
+export type FontSize = keyof typeof fontSize
+
 export const fontWeight = {
   thin: '100',
   extralight: '200',
@@ -29,6 +31,8 @@ export const fontWeight = {
   black: '900',
 } as const
 
+export type FontWeight = keyof typeof fontWeight
+
 export const lineHeight = {
   none: '1',
   tight: '1.25',
@@ -38,6 +42,8 @@ export const lineHeight = {
   loose: '2',
 } as const
 
+export type LineHeight = keyof typeof lineHeight
+
 export const letterSpacing = {
   tighter: '-0.05em',
   tight: '-0.025em',
@@ -46,6 +52,8 @@ export const letterSpacing = {
   wider: '0.05em',
   widest: '0.1em',
 } as const
+
+export type LetterSpacing = keyof typeof letterSpacing
 
 // Font families
 export const fontFamily = {
@@ -83,32 +91,47 @@ export const fontFamily = {
   ],
 } as const
 
-// CSS Variable accessors
-export const fontSizeXs = 'var(--font-size-xs)'
-export const fontSizeSm = 'var(--font-size-sm)'
-export const fontSizeBase = 'var(--font-size-base)'
-export const fontSizeLg = 'var(--font-size-lg)'
-export const fontSizeXl = 'var(--font-size-xl)'
-export const fontSize2xl = 'var(--font-size-2xl)'
-export const fontSize3xl = 'var(--font-size-3xl)'
-export const fontSize4xl = 'var(--font-size-4xl)'
-
-export const fontWeightNormal = 'var(--font-weight-normal)'
-export const fontWeightMedium = 'var(--font-weight-medium)'
-export const fontWeightSemibold = 'var(--font-weight-semibold)'
-export const fontWeightBold = 'var(--font-weight-bold)'
-
-export const fontFamilySans = 'var(--font-family-sans)'
-export const fontFamilySerif = 'var(--font-family-serif)'
-export const fontFamilyMono = 'var(--font-family-mono)'
+export type FontFamily = keyof typeof fontFamily
 
 // Helper functions
-export function getFontSizeVar(size: keyof typeof fontSize): string {
-  return `var(--font-size-${size})`
+export function getFontSizeVarName(size: FontSize): string {
+  return `--font-size-${size}`
 }
 
-export function getFontWeightVar(weight: keyof typeof fontWeight): string {
-  return `var(--font-weight-${weight})`
+export function getFontSizeVar(size: FontSize): string {
+  return `var(${getFontSizeVarName(size)})`
+}
+
+export function getFontWeightVarName(weight: FontWeight): string {
+  return `--font-weight-${weight}`
+}
+
+export function getFontWeightVar(weight: FontWeight): string {
+  return `var(${getFontWeightVar(weight)})`
+}
+
+export function getLineHeightVarName(height: LineHeight): string {
+  return `--line-height-${height}`
+}
+
+export function getLineHeightVar(height: LineHeight): string {
+  return `var(${getLineHeightVarName(height)})`
+}
+
+export function getLetterSpacingVarName(spacing: LetterSpacing): string {
+  return `--letter-spacing-${spacing}`
+}
+
+export function getLetterSpacingVar(spacing: LetterSpacing): string {
+  return `var(${getLetterSpacingVarName(spacing)})`
+}
+
+export function getFontFamilyVarName(family: FontFamily): string {
+  return `--font-family-${family}`
+}
+
+export function getFontFamilyVar(family: FontFamily): string {
+  return `var(${getFontFamilyVarName(family)})`
 }
 
 // Generate CSS variables from typography tokens
@@ -118,27 +141,27 @@ export function generateTypographyVariables(): Record<string, string> {
   // Font sizes
   Object.entries(fontSize).forEach(([key, value]) => {
     const [size] = Array.isArray(value) ? value : [value]
-    variables[`--font-size-${key}`] = size as string
+    variables[getFontSizeVarName(key as FontSize)] = size as string
   })
 
   // Font weights
   Object.entries(fontWeight).forEach(([key, value]) => {
-    variables[`--font-weight-${key}`] = value
+    variables[getFontWeightVarName(key as FontWeight)] = value
   })
 
   // Line heights
   Object.entries(lineHeight).forEach(([key, value]) => {
-    variables[`--line-height-${key}`] = value
+    variables[getLineHeightVarName(key as LineHeight)] = value
   })
 
   // Letter spacing
   Object.entries(letterSpacing).forEach(([key, value]) => {
-    variables[`--letter-spacing-${key}`] = value
+    variables[getLetterSpacingVarName(key as LetterSpacing)] = value
   })
 
   // Font families
   Object.entries(fontFamily).forEach(([key, value]) => {
-    variables[`--font-family-${key}`] = value.join(', ')
+    variables[getFontFamilyVarName(key as FontFamily)] = value.join(', ')
   })
 
   return variables

@@ -1,4 +1,4 @@
-# Tempo UI Library
+# BeatUI Library
 
 A modern UI component library built with [@tempots/dom](https://tempo-ts.com).
 
@@ -33,7 +33,7 @@ const button = Button({
 // Create a card with the button
 const card = Card({
   title: 'My Card',
-  content: 'This is a card component from Tempo UI Library',
+  content: 'This is a card component from BeatUI Library',
   children: [button],
 });
 
