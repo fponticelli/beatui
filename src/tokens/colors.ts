@@ -82,32 +82,36 @@ export const bgColors = {
   dark: Record<BackgroundColorName, [AnyColorName, ColorShade]>
 }
 
-export type TextColorName = 'text' | 'muted'
+export type TextColorName = 'normal' | 'muted' | 'inverted'
 
 export const textColors = {
   light: {
-    text: ['base', 900],
+    normal: ['base', 900],
     muted: ['base', 600],
+    inverted: ['base', 100],
   },
   dark: {
-    text: ['base', 100],
+    normal: ['base', 100],
     muted: ['base', 400],
+    inverted: ['base', 900],
   },
 } as {
   light: Record<TextColorName, [AnyColorName, ColorShade]>
   dark: Record<TextColorName, [AnyColorName, ColorShade]>
 }
 
-export type BorderColorName = 'border' | 'divider'
+export type BorderColorName = 'border' | 'divider' | 'inverted'
 
 export const borderColors = {
   light: {
     border: ['base', 200],
     divider: ['base', 300],
+    inverted: ['base', 100],
   },
   dark: {
     border: ['base', 700],
     divider: ['base', 600],
+    inverted: ['base', 900],
   },
 } as {
   light: Record<BorderColorName, [AnyColorName, ColorShade]>

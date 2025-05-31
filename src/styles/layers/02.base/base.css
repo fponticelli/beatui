@@ -1,0 +1,36 @@
+@layer base {
+  /* Base styles */
+  html {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-neutral-900);
+    background-color: var(--color-neutral-50);
+    line-height: var(--line-height-tight);
+  }
+
+  body {
+    font-family: inherit;
+    color: inherit;
+    background-color: inherit;
+    line-height: var(--line-height-normal);
+  }
+
+  /* Dark mode */
+  .b-dark {
+    color-scheme: dark;
+    color: var(--text-normal-dark);
+    background-color: var(--bg-background-dark);
+  }
+
+  .b-light {
+    color-scheme: light;
+    color: var(--text-normal-light);
+    background-color: var(--bg-background-light);
+  }
+  /* Focus styles */
+  *:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
