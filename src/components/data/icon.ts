@@ -1,6 +1,6 @@
 import { aria, attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
 import { IconSize, ThemeProvider } from '../theme'
-import { Resource } from '@tempots/ui'
+import { Resource, WhenInViewport } from '@tempots/ui'
 
 const dbName = 'bui-icons'
 function openIconDB() {
@@ -91,16 +91,18 @@ export function Icon(
         )((theme, size, color) => theme.iconContainer({ size, color }))
       ),
       aria.label(title),
-      Resource<string, string, string>({
-        request: icon,
-        load: ({ request }) => loadIconSvg(request),
-        mapError: String,
-      })({
-        success: svg => attr.innerHTML(svg),
-        loading: () => html.span(attr.class('animate-spin'), '↻'),
-        failure: err =>
-          html.span(attr.title(err), attr.class('text-red-500'), '🚫'),
-      }),
+      WhenInViewport({ once: true }, () =>
+        Resource<string, string, string>({
+          request: icon,
+          load: ({ request }) => loadIconSvg(request),
+          mapError: String,
+        })({
+          success: svg => attr.innerHTML(svg),
+          loading: () => html.span(attr.class('animate-spin'), '↻'),
+          failure: err =>
+            html.span(attr.title(err), attr.class('text-red-500'), '🚫'),
+        })
+      ),
       ...children
     )
   })

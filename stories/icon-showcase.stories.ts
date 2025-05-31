@@ -15,7 +15,7 @@ const renderIconShowcase = () => {
         'line-md:heart',
         'line-md:alert',
         'line-md:close',
-        'line-md:check',
+        'line-md:check-all',
         'line-md:arrow-left',
         'line-md:arrow-right',
         'line-md:arrow-up',
@@ -23,7 +23,7 @@ const renderIconShowcase = () => {
         'line-md:plus',
         'line-md:minus',
         'line-md:edit',
-        'line-md:delete',
+        'line-md:trash',
         'line-md:search',
         'line-md:menu',
         'line-md:star',
@@ -55,9 +55,9 @@ const renderIconShowcase = () => {
   ]
 
   const sizes = [
-    { name: 'Small', value: 'small' },
-    { name: 'Medium', value: 'medium' },
-    { name: 'Large', value: 'large' },
+    { name: 'Small', value: 'sm' },
+    { name: 'Medium', value: 'md' },
+    { name: 'Large', value: 'lg' },
   ] as const
 
   const colors = [
@@ -111,7 +111,7 @@ const renderIconShowcase = () => {
               attr.style('margin-bottom: 0.5rem;'),
               Icon({
                 icon: 'line-md:heart',
-                size: 'medium',
+                size: 'md',
                 color: color.value,
               })
             ),
@@ -140,7 +140,7 @@ const renderIconShowcase = () => {
               ),
               html.div(
                 attr.style('margin-bottom: 0.5rem;'),
-                Icon({ icon: iconName, size: 'medium' })
+                Icon({ icon: iconName, size: 'md' })
               ),
               html.div(
                 attr.style(
