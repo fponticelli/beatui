@@ -97,7 +97,7 @@ export function Icon(
           load: ({ request }) => loadIconSvg(request),
           mapError: String,
         })({
-          success: svg => attr.innerHTML(svg),
+          success: svg => html.span(attr.innerHTML(svg)),
           loading: () => html.span(attr.class('animate-spin'), '↻'),
           failure: err =>
             html.span(attr.title(err), attr.class('text-red-500'), '🚫'),

@@ -23,6 +23,26 @@
     padding: var(--spacing-xl) calc(2 * var(--spacing-xl));
   }
 
+  .bc-control--padding-xs:has(> .bc-icon:only-child) {
+    padding: var(--spacing-xs);
+  }
+
+  .bc-control--padding-sm:has(> .bc-icon:only-child) {
+    padding: var(--spacing-sm);
+  }
+
+  .bc-control--padding-md:has(> .bc-icon:only-child) {
+    padding: var(--spacing-md);
+  }
+
+  .bc-control--padding-lg:has(> .bc-icon:only-child) {
+    padding: var(--spacing-lg);
+  }
+
+  .bc-control--padding-xl:has(> .bc-icon:only-child) {
+    padding: var(--spacing-xl);
+  }
+
   .bc-control--rounded-none {
     border-radius: 0;
   }

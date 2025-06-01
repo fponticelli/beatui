@@ -2,12 +2,14 @@ import {
   aria,
   attr,
   computedOf,
+  dataAttr,
   html,
+  OnDispose,
   prop,
-  Signal,
   style,
   TNode,
   Use,
+  WithElement,
 } from '@tempots/dom'
 import {
   BreakpointInfo,
@@ -19,6 +21,7 @@ import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
 import { PanelColor, PanelShadow, Theme } from '../theme'
+import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -122,33 +125,6 @@ const defaults = {
     lg: 280,
     xl: 280,
   },
-}
-
-function delaySignal<T>(
-  signal: Signal<T>,
-  delay = 0,
-  predicate: (v: T) => boolean = () => true
-) {
-  let timeout: ReturnType<typeof setTimeout> | null = null
-  let value: T
-  const result = prop(signal.value)
-  signal.on(v => {
-    value = v
-    if (!predicate(v)) {
-      result.set(v)
-    } else if (timeout == null) {
-      timeout = setTimeout(() => {
-        timeout = null
-        result.set(value)
-      }, delay)
-    }
-  })
-  signal.onDispose(() => {
-    if (timeout != null) {
-      clearTimeout(timeout)
-    }
-  })
-  return result
 }
 
 function fillBreakpoints(
@@ -529,24 +505,30 @@ export function AppShell({
       )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
         return hasMenu && !displayMenu
       })
+
+      const menuStatus = useAnimatedElementToggle()
+      const asideStatus = useAnimatedElementToggle()
       const headerBottom = prop(0)
-      const menuOpen = prop(false)
-      const asideOpen = prop(false)
       const displayMenuAs = computedOf(
         vertical.menu != null,
         template,
-        menuOpen
+        menuStatus.isOpen
       )(displayMenuPanel)
       const displayAsideAs = computedOf(
         vertical.aside != null,
         template,
-        asideOpen
+        asideStatus.isOpen
       )(displayAsidePanel)
 
       return html.div(
-        attr.class(
-          theme.panel({ side: 'none', color: 'white', shadow: 'none' })
-        ),
+        OnDispose(() => {
+          headerBottom.dispose()
+          menuStatus.dispose()
+          asideStatus.dispose()
+        }),
+        // attr.class(
+        //   theme.panel({ side: 'none', color: 'base', shadow: 'none' })
+        // ),
         style.height('100%'),
         style.display('grid'),
         style.gridTemplateColumns(template.$.columns),
@@ -559,7 +541,7 @@ export function AppShell({
               attr.class(
                 theme.panel({
                   side: 'none',
-                  color: options.banner.color ?? 'neutral',
+                  color: options.banner.color ?? 'white',
                   shadow: options.banner.shadow ?? 'none',
                 })
               ),
@@ -576,6 +558,7 @@ export function AppShell({
               shadow: options.header?.shadow ?? 'none',
             })
           ),
+          attr.class('bu-z-10'),
           style.display(
             displayHeader.map((v): string => (v ? 'block' : 'none'))
           ),
@@ -597,12 +580,12 @@ export function AppShell({
               style.width('48px'),
               Button(
                 {
-                  onClick: () => menuOpen.update(v => !v),
-                  variant: 'outline',
+                  onClick: () => menuStatus.toggle(),
+                  variant: 'text',
                 },
                 aria.label('Open menu'),
                 Icon({
-                  icon: menuOpen.map((v): string =>
+                  icon: menuStatus.isOpen.map((v): string =>
                     v
                       ? 'line-md/menu-to-close-alt-transition'
                       : 'line-md/close-to-menu-alt-transition'
@@ -625,16 +608,18 @@ export function AppShell({
               ),
               Button(
                 {
-                  onClick: () => asideOpen.update(v => !v),
+                  onClick: () => asideStatus.toggle(),
                   roundedness: 'full',
-                  variant: 'outline',
+                  variant: 'text',
                 },
                 aria.label('Open aside'),
                 Icon(
                   { icon: 'line-md/chevron-left' },
-                  attr.class('transition-transform'),
+                  attr.class('bu-transition-transform'),
                   attr.class(
-                    asideOpen.map((v): string => (v ? 'rotate-180' : ''))
+                    asideStatus.isOpen.map((v): string =>
+                      v ? 'bu-rotate-180' : ''
+                    )
                   )
                 )
               )
@@ -643,13 +628,16 @@ export function AppShell({
         ),
         options.menu
           ? html.nav(
+              WithElement(el => {
+                menuStatus.setElement(el)
+              }),
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
                     ? theme.panel({
                         side: 'right',
-                        color: options.menu?.color ?? 'neutral',
-                        shadow: options.menu?.shadow ?? 'large',
+                        color: options.menu?.color ?? 'white',
+                        shadow: options.menu?.shadow ?? 'md',
                       })
                     : theme.panel({
                         side: 'right',
@@ -671,18 +659,16 @@ export function AppShell({
                 )
               ),
               style.top(headerBottom.map(v => `${v}px`)),
-              style.transition('all 0.2s ease-in-out'),
+              style.transition('left 0.3s ease-in-out'),
               style.left(
-                delaySignal(
-                  computedOf(
-                    menuOpen,
-                    template.$.menuWidth
-                  )((v, w) => (v ? '0' : `-${w}`)),
-                  0
-                )
+                computedOf(
+                  menuStatus.displayOpen,
+                  template.$.menuWidth
+                )((v, w) => (v ? '0' : `-${w}`))
               ),
               style.width(template.$.menuWidth),
               style.bottom(headerBottom.map(v => `${v}px`)),
+              dataAttr.status(menuStatus.status.map(String)),
               options.menu?.content
             )
           : null,
@@ -693,7 +679,7 @@ export function AppShell({
               attr.class(
                 theme.panel({
                   side: 'none',
-                  color: options.mainHeader?.color ?? 'transparent',
+                  color: options.mainHeader?.color ?? 'white',
                   shadow: options.mainHeader?.shadow ?? 'none',
                 })
               ),
@@ -707,7 +693,7 @@ export function AppShell({
           attr.class(
             theme.panel({
               side: 'none',
-              color: options.main?.color ?? 'transparent',
+              color: options.main?.color ?? 'white',
               shadow: options.main?.shadow ?? 'none',
             })
           ),
@@ -720,7 +706,7 @@ export function AppShell({
               attr.class(
                 theme.panel({
                   side: 'none',
-                  color: options.mainFooter?.color ?? 'transparent',
+                  color: options.mainFooter?.color ?? 'white',
                   shadow: options.mainFooter?.shadow ?? 'none',
                 })
               ),
@@ -729,13 +715,16 @@ export function AppShell({
           : null,
         options.aside
           ? html.aside(
+              WithElement(el => {
+                asideStatus.setElement(el)
+              }),
               attr.class(
                 displayAsideAs.map((v): string =>
                   v === 'float'
                     ? theme.panel({
                         side: 'left',
-                        color: 'neutral',
-                        shadow: 'large',
+                        color: 'white',
+                        shadow: 'md',
                       })
                     : theme.panel({
                         side: 'left',
@@ -757,15 +746,12 @@ export function AppShell({
                 )
               ),
               style.top(headerBottom.map(v => `${v}px`)),
-              style.transition('all 0.2s ease-in-out'),
+              style.transition('right 0.3s ease-in-out'),
               style.right(
-                delaySignal(
-                  computedOf(
-                    asideOpen,
-                    template.$.asideWidth
-                  )((v, w) => (v ? '0' : `-${w}`)),
-                  0
-                )
+                computedOf(
+                  asideStatus.displayOpen,
+                  template.$.asideWidth
+                )((v, w) => (v ? '0' : `-${w}`))
               ),
               style.width(template.$.menuWidth),
               style.bottom(headerBottom.map(v => `${v}px`)),

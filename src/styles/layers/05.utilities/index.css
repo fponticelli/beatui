@@ -1,7 +1,9 @@
+@import './transition.css';
 @import './bg.css';
 @import './bg-hover.css';
 @import './border.css';
 @import './text.css';
 @import './text-color.css';
+@import './transform.css';
 @import './utilities.css';
 @import './breakpoint-utilities.css';

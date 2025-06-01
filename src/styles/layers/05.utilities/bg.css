@@ -281,7 +281,7 @@
     color: var(--text-normal-light);
   }
   .bu-bg--light-white {
-    background-color: var(--text-normal-light);
+    background-color: var(--color-white);
     color: var(--color-base-900);
   }
   .bu-bg--light-black {
@@ -411,8 +411,8 @@
     color: var(--text-normal-dark);
   }
   .b-dark .bu-bg--light-white {
-    background-color: var(--text-normal-dark);
-    color: var(--color-base-900);
+    background-color: var(--color-black);
+    color: var(--color-base-100);
   }
   .b-dark .bu-bg--light-black {
     background-color: black;
@@ -508,6 +508,266 @@
   }
   .b-dark .bu-bg--light-stone {
     background-color: var(--color-stone-800);
+    color: var(--text-normal-dark);
+  }
+
+  /* lighter */
+  .bu-bg--lighter-primary {
+    background-color: var(--color-primary-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-secondary {
+    background-color: var(--color-secondary-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-base {
+    background-color: var(--color-base-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-success {
+    background-color: var(--color-success-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-warning {
+    background-color: var(--color-warning-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-error {
+    background-color: var(--color-error-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-info {
+    background-color: var(--color-info-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-white {
+    background-color: var(--color-white);
+    color: var(--color-base-900);
+  }
+  .bu-bg--lighter-black {
+    background-color: black;
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-transparent {
+    background-color: transparent;
+    color: inherit;
+  }
+  .bu-bg--lighter-red {
+    background-color: var(--color-red-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-orange {
+    background-color: var(--color-orange-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-amber {
+    background-color: var(--color-amber-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-yellow {
+    background-color: var(--color-yellow-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-lime {
+    background-color: var(--color-lime-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-green {
+    background-color: var(--color-green-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-emerald {
+    background-color: var(--color-emerald-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-teal {
+    background-color: var(--color-teal-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-cyan {
+    background-color: var(--color-cyan-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-sky {
+    background-color: var(--color-sky-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-blue {
+    background-color: var(--color-blue-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-indigo {
+    background-color: var(--color-indigo-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-violet {
+    background-color: var(--color-violet-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-purple {
+    background-color: var(--color-purple-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-fuchsia {
+    background-color: var(--color-fuchsia-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-pink {
+    background-color: var(--color-pink-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-rose {
+    background-color: var(--color-rose-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-slate {
+    background-color: var(--color-slate-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-gray {
+    background-color: var(--color-gray-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-zinc {
+    background-color: var(--color-zinc-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-neutral {
+    background-color: var(--color-neutral-100);
+    color: var(--text-normal-light);
+  }
+  .bu-bg--lighter-stone {
+    background-color: var(--color-stone-100);
+    color: var(--text-normal-light);
+  }
+
+  /* light dark */
+  .b-dark .bu-bg--lighter-primary {
+    background-color: var(--color-primary-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-secondary {
+    background-color: var(--color-secondary-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-base {
+    background-color: var(--color-base-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-success {
+    background-color: var(--color-success-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-warning {
+    background-color: var(--color-warning-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-error {
+    background-color: var(--color-error-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-info {
+    background-color: var(--color-info-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-white {
+    background-color: var(--color-black);
+    color: var(--color-base-100);
+  }
+  .b-dark .bu-bg--lighter-black {
+    background-color: black;
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-transparent {
+    background-color: transparent;
+    color: inherit;
+  }
+  .b-dark .bu-bg--lighter-red {
+    background-color: var(--color-red-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-orange {
+    background-color: var(--color-orange-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-amber {
+    background-color: var(--color-amber-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-yellow {
+    background-color: var(--color-yellow-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-lime {
+    background-color: var(--color-lime-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-green {
+    background-color: var(--color-green-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-emerald {
+    background-color: var(--color-emerald-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-teal {
+    background-color: var(--color-teal-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-cyan {
+    background-color: var(--color-cyan-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-sky {
+    background-color: var(--color-sky-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-blue {
+    background-color: var(--color-blue-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-indigo {
+    background-color: var(--color-indigo-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-violet {
+    background-color: var(--color-violet-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-purple {
+    background-color: var(--color-purple-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-fuchsia {
+    background-color: var(--color-fuchsia-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-pink {
+    background-color: var(--color-pink-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-rose {
+    background-color: var(--color-rose-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-slate {
+    background-color: var(--color-slate-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-gray {
+    background-color: var(--color-gray-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-zinc {
+    background-color: var(--color-zinc-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-neutral {
+    background-color: var(--color-neutral-900);
+    color: var(--text-normal-dark);
+  }
+  .b-dark .bu-bg--lighter-stone {
+    background-color: var(--color-stone-900);
     color: var(--text-normal-dark);
   }
 }

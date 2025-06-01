@@ -29,7 +29,7 @@ export type PanelColor =
   | 'white'
   | 'black'
   | 'transparent'
-export type PanelShadow = 'none' | 'small' | 'medium' | 'large'
+export type PanelShadow = 'none' | 'sm' | 'md' | 'lg'
 export type LabelType = 'emphasis' | 'default' | 'muted' | 'error'
 
 export type JustifyContent =

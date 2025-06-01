@@ -62,7 +62,7 @@ export class BeatUITheme implements ThemeDefinition {
     const sideStr = Array.isArray(options.side)
       ? options.side.join('-')
       : options.side
-    return `bc-panel bc-panel--side-${sideStr} bc-panel--color-${options.color} bc-panel--shadow-${options.shadow}`
+    return `bc-panel bc-panel--side-${sideStr} bu-bg--lighter-${options.color} bc-panel--shadow-${options.shadow}`
   }
 
   label(options: LabelStyleOptions): string {
