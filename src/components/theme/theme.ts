@@ -3,8 +3,8 @@ import {
   Use,
   attr,
   computedOf,
+  localStorageProp,
   makeProviderMark,
-  prop,
 } from '@tempots/dom'
 
 // Import CSS with new layered architecture
@@ -21,7 +21,10 @@ export const Theme: Provider<ThemeValue, object> = {
   create: (_options?: object) => {
     const theme = new BeatUITheme()
     const systemAppearance = useAppearence()
-    const appearancePreference = prop<AppearancePreference>('system')
+    const appearancePreference = localStorageProp<AppearancePreference>({
+      key: 'beatui-appearance-preference',
+      defaultValue: 'system',
+    })
     const dispose = () => {
       systemAppearance.dispose()
       appearancePreference.dispose()

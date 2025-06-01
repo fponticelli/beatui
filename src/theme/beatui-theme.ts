@@ -40,8 +40,6 @@ export class BeatUITheme implements ThemeDefinition {
         classes.push(`hover:bu-underline`)
         break
     }
-    // `bc-button--variant-${variant}`,
-    // `bc-button--color-${color}`,
 
     return classes.join(' ')
   }
