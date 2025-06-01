@@ -2,39 +2,39 @@
   /* solid */
   .hover\:bu-bg--primary:hover {
     background-color: var(--color-primary-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--secondary:hover {
     background-color: var(--color-secondary-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--base:hover {
     background-color: var(--color-base-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--success:hover {
     background-color: var(--color-success-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--warning:hover {
     background-color: var(--color-warning-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--error:hover {
     background-color: var(--color-error-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--info:hover {
     background-color: var(--color-info-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--white:hover {
-    background-color: var(--text-inverted-light);
+    background-color: var(--color-white);
     color: var(--color-base-700);
   }
   .hover\:bu-bg--black:hover {
     background-color: black;
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--transparent:hover {
     background-color: transparent;
@@ -42,91 +42,91 @@
   }
   .hover\:bu-bg--red:hover {
     background-color: var(--color-red-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--orange:hover {
     background-color: var(--color-orange-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--amber:hover {
     background-color: var(--color-amber-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--yellow:hover {
     background-color: var(--color-yellow-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--lime:hover {
     background-color: var(--color-lime-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--green:hover {
     background-color: var(--color-green-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--emerald:hover {
     background-color: var(--color-emerald-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--teal:hover {
     background-color: var(--color-teal-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--cyan:hover {
     background-color: var(--color-cyan-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--sky:hover {
     background-color: var(--color-sky-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--blue:hover {
     background-color: var(--color-blue-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--indigo:hover {
     background-color: var(--color-indigo-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--violet:hover {
     background-color: var(--color-violet-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--purple:hover {
     background-color: var(--color-purple-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--fuchsia:hover {
     background-color: var(--color-fuchsia-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--pink:hover {
     background-color: var(--color-pink-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--rose:hover {
     background-color: var(--color-rose-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--slate:hover {
     background-color: var(--color-slate-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--gray:hover {
     background-color: var(--color-gray-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--zinc:hover {
     background-color: var(--color-zinc-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--neutral:hover {
     background-color: var(--color-neutral-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .hover\:bu-bg--stone:hover {
     background-color: var(--color-stone-600);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
 
   .b-dark .hover\:bu-bg--primary:hover {

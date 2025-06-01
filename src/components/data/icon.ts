@@ -88,7 +88,7 @@ export function Icon(
           theme,
           size,
           color
-        )((theme, size, color) => theme.iconContainer({ size, color }))
+        )((theme, size, color) => theme.icon({ size, color }))
       ),
       aria.label(title),
       WhenInViewport({ once: true }, () =>

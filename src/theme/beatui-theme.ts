@@ -1,9 +1,10 @@
-// New Layered CSS Theme System
-// Replaces BEM-based theme system with layered CSS architecture
-
 import {
   ButtonStyleOptions,
+  FadeInOutStyleOptions,
+  IconStyleOptions,
+  LabelStyleOptions,
   OverlayStyleOptions,
+  PanelStyleOptions,
   ThemeDefinition,
 } from '@/components/theme'
 
@@ -48,43 +49,23 @@ export class BeatUITheme implements ThemeDefinition {
     return `bc-overlay bc-overlay--effect-${options.effect} bc-overlay--mode-${options.mode}`
   }
 
-  fadeInOut(options: { state: string }): string {
+  fadeInOut(options: FadeInOutStyleOptions): string {
     return `bc-fade bc-fade--state-${options.state}`
   }
 
-  iconContainer(options: { size: string; color?: string }): string {
+  icon(options: IconStyleOptions): string {
     const classes = ['bc-icon']
-    const { size = 'md', color } = options
-
-    // Map old size values to new ones
-    const sizeMap: Record<string, 'sm' | 'md' | 'lg' | 'xl'> = {
-      small: 'sm',
-      medium: 'md',
-      large: 'lg',
-      xs: 'sm',
-      sm: 'sm',
-      md: 'md',
-      lg: 'lg',
-      xl: 'xl',
-    }
-
-    const mappedSize = sizeMap[size] || 'md'
-
     return classes.join(' ')
   }
 
-  panel(options: { side: any; color: any; shadow: any }): string {
+  panel(options: PanelStyleOptions): string {
     const sideStr = Array.isArray(options.side)
       ? options.side.join('-')
       : options.side
     return `bc-panel bc-panel--side-${sideStr} bc-panel--color-${options.color} bc-panel--shadow-${options.shadow}`
   }
 
-  label(options: { type: string }): string {
+  label(options: LabelStyleOptions): string {
     return `bc-label bc-label--type-${options.type}`
-  }
-
-  get icon(): string {
-    return 'bc-icon'
   }
 }

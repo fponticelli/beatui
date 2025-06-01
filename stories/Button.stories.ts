@@ -37,7 +37,7 @@ const renderButton = (
             content.push(Icon({ icon: after, size: buttonOptions.size }))
           }
           return html.td(
-            attr.class('bu-text-center'),
+            attr.class('bu-text-center bc-control--padding-sm'),
             Button(
               {
                 ...buttonOptions,

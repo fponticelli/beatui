@@ -7,39 +7,39 @@
   /* solid */
   .bu-bg--primary {
     background-color: var(--color-primary-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--secondary {
     background-color: var(--color-secondary-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--base {
     background-color: var(--color-base-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--success {
     background-color: var(--color-success-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--warning {
     background-color: var(--color-warning-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--error {
     background-color: var(--color-error-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--info {
     background-color: var(--color-info-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--white {
-    background-color: var(--text-inverted-light);
+    background-color: var(--color-white);
     color: var(--color-base-900);
   }
   .bu-bg--black {
     background-color: black;
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--transparent {
     background-color: transparent;
@@ -47,208 +47,208 @@
   }
   .bu-bg--red {
     background-color: var(--color-red-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--orange {
     background-color: var(--color-orange-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--amber {
     background-color: var(--color-amber-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--yellow {
     background-color: var(--color-yellow-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--lime {
     background-color: var(--color-lime-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--green {
     background-color: var(--color-green-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--emerald {
     background-color: var(--color-emerald-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--teal {
     background-color: var(--color-teal-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--cyan {
     background-color: var(--color-cyan-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--sky {
     background-color: var(--color-sky-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--blue {
     background-color: var(--color-blue-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--indigo {
     background-color: var(--color-indigo-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--violet {
     background-color: var(--color-violet-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--purple {
     background-color: var(--color-purple-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--fuchsia {
     background-color: var(--color-fuchsia-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--pink {
     background-color: var(--color-pink-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--rose {
     background-color: var(--color-rose-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--slate {
     background-color: var(--color-slate-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--gray {
     background-color: var(--color-gray-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--zinc {
     background-color: var(--color-zinc-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--neutral {
     background-color: var(--color-neutral-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
   .bu-bg--stone {
     background-color: var(--color-stone-500);
-    color: var(--text-inverted-light);
+    color: var(--color-white);
   }
 
   .b-dark .bu-bg--primary {
     background-color: var(--color-primary-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--secondary {
     background-color: var(--color-secondary-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--base {
     background-color: var(--color-base-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--success {
     background-color: var(--color-success-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--warning {
     background-color: var(--color-warning-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--error {
     background-color: var(--color-error-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--info {
     background-color: var(--color-info-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--red {
     background-color: var(--color-red-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--orange {
     background-color: var(--color-orange-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--amber {
     background-color: var(--color-amber-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--yellow {
     background-color: var(--color-yellow-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--lime {
     background-color: var(--color-lime-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--green {
     background-color: var(--color-green-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--emerald {
     background-color: var(--color-emerald-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--teal {
     background-color: var(--color-teal-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--cyan {
     background-color: var(--color-cyan-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--sky {
     background-color: var(--color-sky-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--blue {
     background-color: var(--color-blue-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--indigo {
     background-color: var(--color-indigo-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--violet {
     background-color: var(--color-violet-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--purple {
     background-color: var(--color-purple-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--fuchsia {
     background-color: var(--color-fuchsia-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--pink {
     background-color: var(--color-pink-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--rose {
     background-color: var(--color-rose-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--slate {
     background-color: var(--color-slate-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--gray {
     background-color: var(--color-gray-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--zinc {
     background-color: var(--color-zinc-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--neutral {
     background-color: var(--color-neutral-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
   .b-dark .bu-bg--stone {
     background-color: var(--color-stone-600);
-    color: var(--text-inverted-dark);
+    color: var(--color-black);
   }
 
   /* light */

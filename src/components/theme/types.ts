@@ -107,18 +107,32 @@ export type OverlayStyleOptions = {
   mode: OverlayMode
 }
 
+export type PanelStyleOptions = {
+  side: Side
+  color: PanelColor
+  shadow: PanelShadow
+}
+
+export type LabelStyleOptions = {
+  type: LabelType
+}
+
+export type IconStyleOptions = {
+  size: IconSize
+  color?: string
+}
+
+export type FadeInOutStyleOptions = {
+  state: FadeTranstionState
+}
+
 export interface ThemeDefinition {
   button: (options: ButtonStyleOptions) => string
   overlay: (options: OverlayStyleOptions) => string
-  fadeInOut: (options: { state: FadeTranstionState }) => string
-  iconContainer: (options: { size: IconSize; color?: string }) => string
-  panel: (options: {
-    side: Side
-    color: PanelColor
-    shadow: PanelShadow
-  }) => string
-  label: (options: { type: LabelType }) => string
-  icon: string
+  fadeInOut: (options: FadeInOutStyleOptions) => string
+  icon: (options: IconStyleOptions) => string
+  panel: (options: PanelStyleOptions) => string
+  label: (options: LabelStyleOptions) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'

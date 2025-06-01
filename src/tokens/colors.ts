@@ -146,6 +146,10 @@ export function getColorVar(color: ThemeColorName, shade: ColorShade) {
 export function generateColorVariables(): Record<string, string> {
   const variables = {} as Record<string, string>
 
+  variables['--color-white'] = 'white'
+  variables['--color-black'] = 'black'
+  variables['--color-inherit'] = 'inherit'
+
   // base colors
   objectEntries(colors).forEach(([colorName, shades]) => {
     objectEntries(shades).forEach(([shade, value]) => {
