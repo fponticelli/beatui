@@ -1,5 +1,5 @@
 import { aria, attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
-import { IconSize, ThemeProvider } from '../theme'
+import { IconSize, Theme } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
 
 const dbName = 'bui-icons'
@@ -81,7 +81,7 @@ export function Icon(
   { icon, size = 'md', color, title }: IconOptions,
   ...children: TNode[]
 ) {
-  return Use(ThemeProvider, ({ theme }) => {
+  return Use(Theme, ({ theme }) => {
     return html.span(
       attr.class(
         computedOf(

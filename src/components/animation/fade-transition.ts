@@ -9,7 +9,7 @@ import {
   WithElement,
 } from '@tempots/dom'
 import { deferred } from '@tempots/std'
-import { FadeTranstionState, ThemeProvider } from '../theme'
+import { FadeTranstionState, Theme } from '../theme'
 
 export type FadeTranstionOptions<El extends HTMLElement> = {
   onExit?: () => void
@@ -83,7 +83,7 @@ export function CSSFadeTransition<El extends HTMLElement>(
     },
     (state, exit) =>
       Fragment(
-        Use(ThemeProvider, ({ theme }) =>
+        Use(Theme, ({ theme }) =>
           attr.class(state.map(state => theme.fadeInOut({ state })))
         ),
         onStateChange(state, exit)

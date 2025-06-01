@@ -4,10 +4,13 @@
 export * from './colors'
 export * from './spacing'
 export * from './typography'
+export * from './breakpoints'
 
 import { generateColorVariables } from './colors'
 import { generateSpacingVariables } from './spacing'
 import { generateTypographyVariables } from './typography'
+import { generateBreakpointVariables } from './breakpoints'
+import { generateRadiusVariables } from './radius'
 
 // Generate all CSS variables
 export function generateAllTokenVariables(): Record<string, string> {
@@ -15,6 +18,8 @@ export function generateAllTokenVariables(): Record<string, string> {
     ...generateColorVariables(),
     ...generateSpacingVariables(),
     ...generateTypographyVariables(),
+    ...generateBreakpointVariables(),
+    ...generateRadiusVariables(),
   }
 }
 

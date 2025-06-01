@@ -1,0 +1,53 @@
+@layer components {
+  .bc-control--padding-none {
+    padding: 0;
+  }
+
+  .bc-control--padding-xs {
+    padding: var(--spacing-xs) calc(2 * var(--spacing-xs));
+  }
+
+  .bc-control--padding-sm {
+    padding: var(--spacing-sm) calc(2 * var(--spacing-sm));
+  }
+
+  .bc-control--padding-md {
+    padding: var(--spacing-md) calc(2 * var(--spacing-md));
+  }
+
+  .bc-control--padding-lg {
+    padding: var(--spacing-lg) calc(2 * var(--spacing-lg));
+  }
+
+  .bc-control--padding-xl {
+    padding: var(--spacing-xl) calc(2 * var(--spacing-xl));
+  }
+
+  .bc-control--rounded-none {
+    border-radius: 0;
+  }
+
+  .bc-control--rounded-xs {
+    border-radius: var(--radius-xs);
+  }
+
+  .bc-control--rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+
+  .bc-control--rounded-md {
+    border-radius: var(--radius-md);
+  }
+
+  .bc-control--rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+
+  .bc-control--rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+
+  .bc-control--rounded-full {
+    border-radius: var(--radius-full);
+  }
+}

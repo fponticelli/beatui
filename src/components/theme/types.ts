@@ -1,10 +1,10 @@
+import { BackgroundColorName, ThemeColorName } from '@/tokens'
+import { RadiusName } from '@/tokens/radius'
 import { Signal } from '@tempots/dom'
-import { ThemedColor } from './colors'
 
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
-export type ButtonSize = 'small' | 'medium' | 'large'
+export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-export type Roundedness = 'none' | 'small' | 'medium' | 'large' | 'full'
 export type OverlayEffect = 'transparent' | 'visible'
 export type OverlayMode = 'capturing' | 'non-capturing'
 export type FadeTranstionState =
@@ -23,7 +23,12 @@ export type Side =
   | 'all'
   | ('left' | 'right' | 'top' | 'bottom')[]
 
-export type PanelColor = ThemedColor | 'white' | 'black' | 'transparent'
+export type PanelColor =
+  | BackgroundColorName
+  | ThemeColorName
+  | 'white'
+  | 'black'
+  | 'transparent'
 export type PanelShadow = 'none' | 'small' | 'medium' | 'large'
 export type LabelType = 'emphasis' | 'default' | 'muted' | 'error'
 
@@ -90,16 +95,21 @@ export type AlignSelf =
   | 'baseline'
   | 'last baseline'
 
-export interface Theme {
-  button: (options: {
-    disabled?: boolean
-    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
-    size?: 'sm' | 'md' | 'lg' | 'xl'
-    color?: string
-    roundedness?: Roundedness
-    fill?: boolean
-  }) => string
-  overlay: (options: { effect: OverlayEffect; mode: OverlayMode }) => string
+export type ButtonStyleOptions = {
+  variant: ButtonVariant
+  size: ControlSize
+  color: string
+  roundedness: RadiusName
+}
+
+export type OverlayStyleOptions = {
+  effect: OverlayEffect
+  mode: OverlayMode
+}
+
+export interface ThemeDefinition {
+  button: (options: ButtonStyleOptions) => string
+  overlay: (options: OverlayStyleOptions) => string
   fadeInOut: (options: { state: FadeTranstionState }) => string
   iconContainer: (options: { size: IconSize; color?: string }) => string
   panel: (options: {
@@ -115,8 +125,8 @@ export type AppearancePreference = 'light' | 'dark' | 'system'
 export type Appearance = 'light' | 'dark'
 
 export interface ThemeValue {
+  setAppearancePreference: (appearance: AppearancePreference) => void
   appearancePreference: Signal<AppearancePreference>
   appearance: Signal<Appearance>
-  setAppearance: (appearance: Appearance) => void
-  theme: Theme
+  theme: ThemeDefinition
 }

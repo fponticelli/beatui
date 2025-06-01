@@ -18,7 +18,7 @@ import {
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
-import { ThemeProvider, PanelColor, PanelShadow } from '../theme'
+import { PanelColor, PanelShadow, Theme } from '../theme'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -474,7 +474,7 @@ export function AppShell({
   mediumBreakpoint = 'md',
   ...options
 }: AppShellOptions) {
-  return Use(ThemeProvider, ({ theme }) => {
+  return Use(Theme, ({ theme }) => {
     const vertical = Object.fromEntries(
       verticalSections
         .filter(section => options[section])
@@ -598,7 +598,7 @@ export function AppShell({
               Button(
                 {
                   onClick: () => menuOpen.update(v => !v),
-                  variant: 'ghost',
+                  variant: 'outline',
                 },
                 aria.label('Open menu'),
                 Icon({

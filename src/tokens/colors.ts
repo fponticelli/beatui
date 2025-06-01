@@ -29,7 +29,7 @@ export type SemanticColorName =
   | 'error'
   | 'info'
 
-export type AnyColorName = ColorName | SemanticColorName
+export type ThemeColorName = ColorName | SemanticColorName
 
 export const semanticColorNames = [
   'primary',
@@ -40,6 +40,11 @@ export const semanticColorNames = [
   'error',
   'info',
 ] as const
+
+export const themeColorNames = [
+  ...semanticColorNames,
+  ...objectEntries(colors).map(([colorName]) => colorName),
+]
 
 export const semanticColors = {
   primary: 'blue',
@@ -78,8 +83,8 @@ export const bgColors = {
     overlay: ['base', 500],
   },
 } as {
-  light: Record<BackgroundColorName, [AnyColorName, ColorShade]>
-  dark: Record<BackgroundColorName, [AnyColorName, ColorShade]>
+  light: Record<BackgroundColorName, [ThemeColorName, ColorShade]>
+  dark: Record<BackgroundColorName, [ThemeColorName, ColorShade]>
 }
 
 export type TextColorName = 'normal' | 'muted' | 'inverted'
@@ -96,8 +101,8 @@ export const textColors = {
     inverted: ['base', 900],
   },
 } as {
-  light: Record<TextColorName, [AnyColorName, ColorShade]>
-  dark: Record<TextColorName, [AnyColorName, ColorShade]>
+  light: Record<TextColorName, [ThemeColorName, ColorShade]>
+  dark: Record<TextColorName, [ThemeColorName, ColorShade]>
 }
 
 export type BorderColorName = 'border' | 'divider' | 'inverted'
@@ -114,12 +119,12 @@ export const borderColors = {
     inverted: ['base', 900],
   },
 } as {
-  light: Record<BorderColorName, [AnyColorName, ColorShade]>
-  dark: Record<BorderColorName, [AnyColorName, ColorShade]>
+  light: Record<BorderColorName, [ThemeColorName, ColorShade]>
+  dark: Record<BorderColorName, [ThemeColorName, ColorShade]>
 }
 
 // Helper function to get color CSS variable
-export function normalizeColorName(color: AnyColorName) {
+export function normalizeColorName(color: ThemeColorName) {
   if (semanticColorNames.includes(color as SemanticColorName)) {
     return semanticColors[color as SemanticColorName]
   }
@@ -127,13 +132,13 @@ export function normalizeColorName(color: AnyColorName) {
 }
 
 export function getColorVarName(
-  color: AnyColorName,
+  color: ThemeColorName,
   shade: ColorShade
-): `--color-${AnyColorName}-${ColorShade}` {
+): `--color-${ThemeColorName}-${ColorShade}` {
   return `--color-${color}-${shade}`
 }
 
-export function getColorVar(color: AnyColorName, shade: ColorShade) {
+export function getColorVar(color: ThemeColorName, shade: ColorShade) {
   return `var(${getColorVarName(color, shade)})`
 }
 

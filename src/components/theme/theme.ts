@@ -1,20 +1,57 @@
-import { Provider, makeProviderMark } from '@tempots/dom'
+import {
+  Provider,
+  Use,
+  attr,
+  computedOf,
+  makeProviderMark,
+  prop,
+} from '@tempots/dom'
 
 // Import CSS with new layered architecture
-import './index.css'
-import { ThemeValue } from './types'
-import { createTheme } from '../../theme/new-theme-system'
+import '../../styles/index.css'
+import { AppearancePreference, ThemeValue } from './types'
+import { BeatUITheme } from '../../theme/beatui-theme'
+import { useAppearence } from '@tempots/ui'
 
-export const ThemeProvider: Provider<ThemeValue, object> = {
+export const Theme: Provider<ThemeValue, object> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   create: (_options?: object) => {
-    const [selectedTheme, dispose] = createTheme()
+    const theme = new BeatUITheme()
+    const systemAppearance = useAppearence()
+    const appearancePreference = prop<AppearancePreference>('system')
+    const dispose = () => {
+      systemAppearance.dispose()
+      appearancePreference.dispose()
+    }
+    const appearance = computedOf(
+      systemAppearance,
+      appearancePreference
+    )((system, pref) => {
+      if (pref === 'system') {
+        return system
+      }
+      return pref
+    })
+    const setAppearancePreference = (value: AppearancePreference) => {
+      appearancePreference.set(value)
+    }
     return {
-      value: selectedTheme,
-      dispose: () => dispose(),
+      value: {
+        theme,
+        appearance,
+        appearancePreference,
+        setAppearancePreference,
+      },
+      dispose,
     }
   },
+}
+
+export const ThemeAppeareance = () => {
+  return Use(Theme, ({ appearance }) =>
+    attr.class(appearance.map(a => `b-${a}`))
+  )
 }

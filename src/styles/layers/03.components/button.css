@@ -1,0 +1,33 @@
+@layer components {
+  /* Button Component */
+  .bc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--spacing-base) / 2);
+    padding: var(--spacing-base) calc(var(--spacing-base) * 2);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: var(--line-height-normal);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease-in-out;
+    text-transform: capitalize;
+  }
+
+  .bc-button:hover:not(:disabled) {
+    transform: scale(1.1);
+  }
+
+  .bc-button:active:not(:disabled) {
+    z-index: 1;
+    transform: translateY(var(--spacing-base));
+  }
+
+  .bc-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

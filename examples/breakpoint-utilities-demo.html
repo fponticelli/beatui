@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakpoint Utilities Demo - BeatUI</title>
+    <link rel="stylesheet" href="../dist/tempo-ui-lib.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: var(--color-neutral-50);
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-box {
+            padding: 1rem;
+            background: var(--color-primary-100);
+            border: 2px solid var(--color-primary-300);
+            border-radius: 0.25rem;
+            margin: 0.5rem 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .current-breakpoint {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--color-primary-600);
+            color: white;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            z-index: 1000;
+        }
+        
+        .current-breakpoint::before {
+            content: "Base";
+        }
+        
+        @media (width >= 40rem) {
+            .current-breakpoint::before {
+                content: "SM (≥40rem)";
+            }
+        }
+        
+        @media (width >= 48rem) {
+            .current-breakpoint::before {
+                content: "MD (≥48rem)";
+            }
+        }
+        
+        @media (width >= 64rem) {
+            .current-breakpoint::before {
+                content: "LG (≥64rem)";
+            }
+        }
+        
+        @media (width >= 80rem) {
+            .current-breakpoint::before {
+                content: "XL (≥80rem)";
+            }
+        }
+        
+        @media (width >= 96rem) {
+            .current-breakpoint::before {
+                content: "2XL (≥96rem)";
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="current-breakpoint"></div>
+    
+    <h1>BeatUI Breakpoint Utilities Demo</h1>
+    <p>Resize your browser window to see the responsive utilities in action!</p>
+    
+    <div class="demo-section">
+        <h2>Responsive Display</h2>
+        <p>These boxes show/hide at different breakpoints:</p>
+        
+        <div class="demo-box bu-block bu-sm:hidden">
+            Visible on BASE only (hidden on SM+)
+        </div>
+        
+        <div class="demo-box bu-hidden bu-sm:block bu-md:hidden">
+            Visible on SM only (40rem+)
+        </div>
+        
+        <div class="demo-box bu-hidden bu-md:block bu-lg:hidden">
+            Visible on MD only (48rem+)
+        </div>
+        
+        <div class="demo-box bu-hidden bu-lg:block bu-xl:hidden">
+            Visible on LG only (64rem+)
+        </div>
+        
+        <div class="demo-box bu-hidden bu-xl:block bu-2xl:hidden">
+            Visible on XL only (80rem+)
+        </div>
+        
+        <div class="demo-box bu-hidden bu-2xl:block">
+            Visible on 2XL+ (96rem+)
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Responsive Flexbox</h2>
+        <p>Layout changes from column to row at different breakpoints:</p>
+        
+        <div class="bu-flex-col bu-md:flex-row bu-gap-4">
+            <div class="demo-box">Item 1</div>
+            <div class="demo-box">Item 2</div>
+            <div class="demo-box">Item 3</div>
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Responsive Text Alignment</h2>
+        <p>Text alignment changes at different breakpoints:</p>
+        
+        <div class="demo-box bu-text-left bu-sm:text-center bu-lg:text-right">
+            Left → Center (SM) → Right (LG)
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Responsive Sizing</h2>
+        <p>Width changes at different breakpoints:</p>
+        
+        <div class="demo-box bu-w-full bu-sm:w-fit bu-lg:w-max">
+            Full → Fit-content (SM) → Max-content (LG)
+        </div>
+    </div>
+    
+    <div class="demo-section">
+        <h2>Available Breakpoint Prefixes</h2>
+        <p>All utility classes can be prefixed with these breakpoints:</p>
+        <ul>
+            <li><code>bu-sm:</code> - Small screens (≥40rem / 640px)</li>
+            <li><code>bu-md:</code> - Medium screens (≥48rem / 768px)</li>
+            <li><code>bu-lg:</code> - Large screens (≥64rem / 1024px)</li>
+            <li><code>bu-xl:</code> - Extra large screens (≥80rem / 1280px)</li>
+            <li><code>bu-2xl:</code> - 2X large screens (≥96rem / 1536px)</li>
+        </ul>
+        
+        <h3>Example Usage:</h3>
+        <pre><code>&lt;div class="bu-flex-col bu-md:flex-row bu-gap-2 bu-lg:gap-4"&gt;
+  &lt;div class="bu-w-full bu-md:w-fit"&gt;Content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+</body>
+</html>

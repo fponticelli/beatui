@@ -391,5 +391,17 @@
     --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    --breakpoint-sm: 40rem;
+    --breakpoint-md: 48rem;
+    --breakpoint-lg: 64rem;
+    --breakpoint-xl: 80rem;
+    --breakpoint-2xl: 96rem;
+    --radius-none: 0;
+    --radius-xs: calc(var(--spacing-base) / 2);
+    --radius-sm: var(--spacing-base);
+    --radius-md: calc(var(--spacing-base) * 1.5);
+    --radius-lg: calc(var(--spacing-base) * 2);
+    --radius-xl: calc(var(--spacing-base) * 3);
+    --radius-full: 9999px;
   }
 }

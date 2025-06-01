@@ -1,18 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { fn } from '@storybook/test'
 
-import {
-  allColors,
-  Button,
-  ButtonOptions,
-  ButtonVariant,
-  Icon,
-  ThemedColor,
-} from '../src/'
+import { Button, ButtonOptions, ButtonVariant, Icon } from '../src/'
+import { themeColorNames } from '../src/tokens'
 import { renderTempoComponent } from './common'
 import { attr, html, TNode } from '@tempots/dom'
-
-const colors: ThemedColor[] = ['primary', 'secondary', 'neutral', ...allColors]
 
 const variants: ButtonVariant[] = [
   'filled',
@@ -30,22 +22,22 @@ const renderButton = (
     after: string | undefined
   }
 ) => {
-  const { text, before, after, ...buttonOptions } = args
+  const { before, after, ...buttonOptions } = args
 
   return html.table(
-    colors.map(color =>
+    themeColorNames.map(color =>
       html.tr(
         variants.map(variant => {
           const content: TNode[] = []
           if (before) {
             content.push(Icon({ icon: before, size: buttonOptions.size }))
           }
-          content.push(text)
+          content.push(color)
           if (after) {
             content.push(Icon({ icon: after, size: buttonOptions.size }))
           }
           return html.td(
-            attr.class('p-1'),
+            attr.class('bu-text-center'),
             Button(
               {
                 ...buttonOptions,
@@ -69,13 +61,13 @@ const meta = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
     disabled: { control: 'boolean' },
     onClick: { action: 'clicked' },
     roundedness: {
       control: { type: 'select' },
-      options: ['none', 'small', 'medium', 'large', 'full'],
+      options: ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'full'],
     },
     before: {
       control: { type: 'select' },
@@ -136,19 +128,19 @@ export const RoundedNone: Story = {
 
 export const RoundedSmall: Story = {
   args: {
-    roundedness: 'small',
+    roundedness: 'sm',
   },
 }
 
 export const RoundedMedium: Story = {
   args: {
-    roundedness: 'medium',
+    roundedness: 'md',
   },
 }
 
 export const RoundedLarge: Story = {
   args: {
-    roundedness: 'large',
+    roundedness: 'lg',
   },
 }
 

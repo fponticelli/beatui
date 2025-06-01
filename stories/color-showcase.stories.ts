@@ -1,18 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { Button } from '../src/'
 import { renderTempoComponent } from './common'
-import { html, attr, on } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 
 // Create a comprehensive color showcase
 const renderColorShowcase = () => {
-  const variants = [
-    'primary',
-    'secondary',
-    'outline',
-    'ghost',
-    'destructive',
-  ] as const
-  const sizes = ['sm', 'md', 'lg', 'xl'] as const
+  const variants = ['filled', 'light', 'outline', 'default', 'text'] as const
+  const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 
   return html.div(
     html.h1('Tempo UI Color Showcase'),
@@ -64,7 +58,6 @@ const renderColorShowcase = () => {
         sizes.map(size =>
           Button(
             {
-              variant: 'primary',
               size,
               disabled: false,
             },
@@ -83,19 +76,22 @@ const renderColorShowcase = () => {
         ),
         html.div(
           html.h3('Normal'),
-          Button({ variant: 'primary', size: 'md' }, 'Primary Button')
+          Button({ variant: 'filled', size: 'md' }, 'Primary Button')
         ),
         html.div(
           html.h3('Disabled'),
-          Button({ variant: 'primary', size: 'md', disabled: true }, 'Disabled')
+          Button({ variant: 'filled', size: 'md', disabled: true }, 'Disabled')
         ),
         html.div(
           html.h3('Hover States'),
           html.div(
             attr.style('display: flex; gap: 0.5rem; align-items: center;'),
-            Button({ variant: 'outline', size: 'md' }, 'Outline'),
-            Button({ variant: 'ghost', size: 'md' }, 'Ghost'),
-            Button({ variant: 'destructive', size: 'md' }, 'Destructive')
+            Button({ variant: 'filled', size: 'md' }, 'Outline'),
+            Button({ variant: 'outline', size: 'md' }, 'Ghost'),
+            Button(
+              { variant: 'filled', color: 'orange', size: 'md' },
+              'Destructive'
+            )
           )
         )
       )

@@ -11,8 +11,8 @@ import {
   WithBrowserCtx,
 } from '@tempots/dom'
 import { OverlayEffect } from '../theme/types'
-import { ThemeProvider } from '../theme'
 import { CSSFadeTransition } from '../animation/fade-transition'
+import { Theme } from '../theme'
 
 export type OverlayOptions =
   | {
@@ -36,7 +36,7 @@ export function makeOverlay(ctx: BrowserContext) {
     const makeContainer = () =>
       html.div(
         dataAttr.overlay('true'),
-        Use(ThemeProvider, ({ theme }) =>
+        Use(Theme, ({ theme }) =>
           attr.class(
             theme.overlay({
               effect: effect ?? 'visible',
