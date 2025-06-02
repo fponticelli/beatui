@@ -8,6 +8,5 @@
 @import './layers/01.reset/index.css';
 @import './layers/02.base/index.css';
 @import './layers/03.components/index.css';
-@import './layers/04.variants/index.css';
 @import './layers/05.utilities/index.css';
 @import './layers/06.overrides/index.css';

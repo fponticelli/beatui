@@ -1,0 +1,7 @@
+@layer components {
+  .bc-group {
+    display: flex;
+    justify-items: center;
+    gap: calc(var(--spacing-base) * 2);
+  }
+}

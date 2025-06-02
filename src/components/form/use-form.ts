@@ -51,7 +51,8 @@ export function connectNumberInput(
   )
 }
 
-export function useForm<In, Out = In>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useForm<In extends Record<string, any>, Out = In>({
   defaultValue = {} as In,
   schema,
 }: UseFormOptions<In, Out>) {

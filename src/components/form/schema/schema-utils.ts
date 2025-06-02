@@ -30,7 +30,7 @@ export function convertStandardSchemaIssues(
         if (current.dependencies == null) {
           current.dependencies = {}
         }
-        current = current.dependencies[segment]!
+        current = current.dependencies[segment] ?? {}
       }
       if (current.dependencies == null) {
         current.dependencies = {}

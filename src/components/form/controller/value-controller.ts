@@ -61,3 +61,13 @@ export class ValueController<In> {
     this.#local.disabled.set(false)
   }
 }
+
+export type CreateController<In, VC extends ValueController<In>> = (
+  path: Path,
+  onChange: (value: In) => void,
+  value: Signal<In>,
+  status: Signal<ValidationResult>,
+  parent: {
+    disabled: Signal<boolean>
+  }
+) => VC

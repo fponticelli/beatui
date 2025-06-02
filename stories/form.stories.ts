@@ -1,12 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
-import { attr, Ensure, html } from '@tempots/dom'
+import { attr, html, Repeat } from '@tempots/dom'
 import { z } from 'zod/v4'
-import { EmailControl, Stack, TextControl, useForm } from '../src/'
+import {
+  Button,
+  EmailControl,
+  Group,
+  Icon,
+  Stack,
+  TextControl,
+  useForm,
+} from '../src/'
 
 const schema = z.object({
   name: z.string().min(1),
-  email: z.email(),
+  emails: z.array(z.email()),
   addresses: z.array(
     z.object({
       street: z.string().min(1),
@@ -15,14 +23,13 @@ const schema = z.object({
       zip: z.string().min(1),
     })
   ),
-  phones: z.array(z.string().min(1)),
 })
 
 const renderForm = () => {
   const form = useForm({
     schema,
   })
-  const phones = form.field('phones')
+  const emails = form.list('emails')
   return html.form(
     Stack(
       {},
@@ -32,18 +39,36 @@ const renderForm = () => {
         required: true,
         controller: form.field('name'),
       }),
-      EmailControl({
-        label: 'Email',
-        required: true,
-        controller: form.field('email'),
-      }),
-      html.div(
-        html.div(
-          html.label('Phones: ')
-          // html.input(email.connect())
-        ),
-        Ensure(phones.error, e =>
-          html.div(attr.class('text-red-600 text-xs'), e)
+      Stack(
+        {},
+        attr.class('gap-4'),
+        Repeat(emails.length, ({ index }) => {
+          return Group(
+            {},
+            EmailControl({
+              label: `Email ${index}`,
+              required: true,
+              controller: emails.item(index),
+            }),
+            Button(
+              {
+                onClick: () => {
+                  emails.removeAt(index)
+                },
+                size: 'sm',
+                variant: 'outline',
+              },
+              Icon({ icon: 'line-md:close', color: 'red', size: 'sm' })
+            )
+          )
+        }),
+        Button(
+          {
+            onClick: () => {
+              emails.push('')
+            },
+          },
+          'Add Email'
         )
       )
     )

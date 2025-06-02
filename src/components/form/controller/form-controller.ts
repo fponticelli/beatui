@@ -1,6 +1,9 @@
 import { GroupController } from './group-controller'
 
-export class FormController<In> extends GroupController<In> {
+export class FormController<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  In extends Record<string, any>,
+> extends GroupController<In> {
   override dispose() {
     super.dispose()
     this.parent.disabled.dispose()
