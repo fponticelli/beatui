@@ -1,6 +1,5 @@
 import {
   ButtonStyleOptions,
-  FadeInOutStyleOptions,
   IconStyleOptions,
   LabelStyleOptions,
   OverlayStyleOptions,
@@ -49,10 +48,6 @@ export class BeatUITheme implements ThemeDefinition {
     return `bc-overlay bc-overlay--effect-${effect} bc-overlay--mode-${mode}`
   }
 
-  fadeInOut({ state }: FadeInOutStyleOptions): string {
-    return `bc-fade bc-fade--state-${state}`
-  }
-
   icon({ size, color }: IconStyleOptions): string {
     const classes = ['bc-icon', `bc-icon--${size}`]
     if (color) {
@@ -62,11 +57,13 @@ export class BeatUITheme implements ThemeDefinition {
   }
 
   panel({ side, color, shadow }: PanelStyleOptions): string {
-    const sideStr = Array.isArray(side) ? side.join('-') : side
-    return `bc-panel bc-panel--side-${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
+    const sideStr = (Array.isArray(side) ? side : [side])
+      .map(s => `bc-panel--side-${s}`)
+      .join(' ')
+    return `bc-panel ${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
   }
 
   label(options: LabelStyleOptions): string {
-    return `bc-label bc-label--type-${options.type}`
+    return `bc-label bc-label--${options.type}`
   }
 }

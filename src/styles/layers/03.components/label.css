@@ -1,0 +1,27 @@
+/*
+'emphasis' | 'default' | 'muted' | 'error'
+*/
+@layer components {
+  .bc-label {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+  }
+
+  .bc-label--emphasis {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .bc-label--default {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .bc-label--muted {
+    font-weight: var(--font-weight-medium);
+    opacity: 0.5;
+  }
+
+  .bc-label--error {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-error-500);
+  }
+}

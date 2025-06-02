@@ -129,7 +129,6 @@ export type FadeInOutStyleOptions = {
 export interface ThemeDefinition {
   button: (options: ButtonStyleOptions) => string
   overlay: (options: OverlayStyleOptions) => string
-  fadeInOut: (options: FadeInOutStyleOptions) => string
   icon: (options: IconStyleOptions) => string
   panel: (options: PanelStyleOptions) => string
   label: (options: LabelStyleOptions) => string
