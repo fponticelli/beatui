@@ -30,7 +30,7 @@
   }
   /* Focus styles */
   *:focus-visible {
-    outline: 3.5px solid var(--color-primary-300);
+    outline: 3.5px solid var(--color-primary-400);
     outline-offset: 0.5px;
   }
 }

@@ -1,4 +1,5 @@
 export * from './control'
+export * from './controller'
 export * from './input'
-export * from './standard-schema-v1'
+export * from './schema'
 export * from './use-form'

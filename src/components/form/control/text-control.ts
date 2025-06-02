@@ -1,7 +1,7 @@
 import { ControlInputWrapper } from './control-input-wrapper'
 import { TextInput } from '../input/text-input'
 import { ControlOptions } from './control-options'
-import { ValueController } from '../use-form'
+import { ValueController } from '../controller/value-controller'
 import { inputOptionsFromController } from '../input/input-options'
 
 export const makeOnBlurHandler =

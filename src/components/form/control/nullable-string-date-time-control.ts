@@ -21,9 +21,12 @@ export const NullableStringDateTimeControl = (
     ...rest,
     content: NullableDateTimeInput({
       ...rest,
-      ...inputOptionsFromMappedController(rest.controller, v => {
-        return v != null && v !== '' ? tzDateToDate(v) : null
-      }),
+      ...inputOptionsFromMappedController(
+        rest.controller,
+        (v: string | null) => {
+          return v != null && v !== '' ? tzDateToDate(v) : null
+        }
+      ),
       onChange: makeMappedOnChangeHandler(
         rest.controller,
         v => (v != null ? dateToTzDate(v) : null),

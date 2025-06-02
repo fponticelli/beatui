@@ -10,7 +10,10 @@ export const StringDateControl = (options: ControlOptions<string>) => {
     ...rest,
     content: DateInput({
       ...rest,
-      ...inputOptionsFromMappedController(rest.controller, v => new Date(v)),
+      ...inputOptionsFromMappedController(
+        rest.controller,
+        (v: string) => new Date(v)
+      ),
       onChange: makeMappedOnChangeHandler(
         rest.controller,
         v => v.toISOString(),
