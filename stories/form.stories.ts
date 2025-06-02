@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html'
+import type { Meta, StoryObj } from '@storybook/html-vite'
 import { renderTempoComponent } from './common'
 import { attr, html, Repeat } from '@tempots/dom'
 import { z } from 'zod/v4'
@@ -42,11 +42,11 @@ const renderForm = () => {
       Stack(
         {},
         attr.class('gap-4'),
-        Repeat(emails.length, ({ index }) => {
+        Repeat(emails.length, ({ index, counter }) => {
           return Group(
             {},
             EmailControl({
-              label: `Email ${index}`,
+              label: `Email #${counter}`,
               required: true,
               controller: emails.item(index),
             }),

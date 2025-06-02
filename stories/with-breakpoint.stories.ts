@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html'
+import type { Meta, StoryObj } from '@storybook/html-vite'
 import { renderTempoComponent } from './common'
 import { attr, html } from '@tempots/dom'
 import {

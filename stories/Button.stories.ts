@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/html'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/html-vite'
+import { fn } from 'storybook/test'
 
 import { Button, ButtonOptions, ButtonVariant, Icon } from '../src/'
 import { themeColorNames } from '../src/tokens'

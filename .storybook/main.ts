@@ -5,15 +5,7 @@ const config: StorybookConfig = {
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
-  "addons": [
-    {
-      "name": "@storybook/addon-essentials",
-      "options": {
-        "docs": false
-      }
-    },
-    "@storybook/addon-interactions"
-  ],
+  "addons": [],
   "framework": {
     "name": "@storybook/html-vite",
     "options": {}
