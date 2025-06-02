@@ -40,6 +40,13 @@ export function useAnimatedToggle({
       close()
     }
   }
+  const onClosed = (fn: () => void) => {
+    return status.on(value => {
+      if (value === 'closed') {
+        fn()
+      }
+    })
+  }
   let clean = () => {}
   status.on(value => {
     clean()
@@ -65,6 +72,7 @@ export function useAnimatedToggle({
     isOpen,
     displayOpen,
     dispose: () => status.dispose(),
+    onClosed,
   }
 }
 

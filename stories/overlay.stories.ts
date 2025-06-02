@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { renderTempoComponent } from './common'
-import { aria, attr, html } from '@tempots/dom'
+import { aria, html, style } from '@tempots/dom'
 import {
   OverlayBody,
   OverlayElement,
@@ -10,9 +10,23 @@ import { Button, Icon } from '../src/'
 
 const renderOverlay = ({ mode, effect }: OverlayOptions) => {
   return html.div(
-    html.div(attr.class('text-sm'), mode, ' / ', effect),
     html.div(
-      attr.class('relative flex items-center justify-center size-32 border'),
+      style.textAlign('center'),
+      style.fontSize('0.75rem'),
+      mode,
+      ' / ',
+      effect
+    ),
+    html.div(
+      style.overflow('hidden'),
+      style.borderRadius('0.5rem'),
+      style.position('relative'),
+      style.display('flex'),
+      style.alignItems('center'),
+      style.justifyContent('center'),
+      style.height('12rem'),
+      style.width('12rem'),
+      style.border('1px solid #ccc'),
       OverlayElement(
         {
           mode,
@@ -27,12 +41,17 @@ const renderOverlay = ({ mode, effect }: OverlayOptions) => {
                     {
                       onClick: close,
                       color: 'neutral',
-                      variant: 'outline',
+                      variant: 'light',
                       roundedness: 'full',
                       size: 'md',
                     },
                     aria.label('Close'),
-                    attr.class('absolute top-1 right-1 shadow'),
+                    style.position('absolute'),
+                    style.top('0.25rem'),
+                    style.right('0.25rem'),
+                    style.boxShadow(
+                      '0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.075)'
+                    ),
                     Icon({
                       icon: 'line-md:close',
                       size: 'md',
@@ -63,11 +82,14 @@ const renderOverlayBody = ({ mode, effect }: OverlayOptions) => {
                   size: 'sm',
                   onClick: close,
                   color: 'neutral',
-                  variant: 'outline',
+                  variant: 'light',
                   roundedness: 'full',
                 },
                 aria.label('Close'),
-                attr.class('absolute top-1 right-1 shadow'),
+                style.position('absolute'),
+                style.top('0.25rem'),
+                style.right('0.25rem'),
+                style.boxShadow('0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.075)'),
                 Icon({
                   icon: 'line-md:close',
                   size: 'md',
@@ -83,16 +105,20 @@ const renderOverlayBody = ({ mode, effect }: OverlayOptions) => {
 
 const renderOverlays = () => {
   return html.div(
-    attr.class('flex flex-col gap-4'),
+    style.display('flex'),
+    style.flexDirection('column'),
+    style.gap('1rem'),
     html.div(
-      attr.class('flex gap-4'),
+      style.display('flex'),
+      style.gap('1rem'),
       renderOverlay({ mode: 'capturing', effect: 'visible' }),
       renderOverlay({ mode: 'capturing', effect: 'transparent' }),
       renderOverlay({ mode: 'non-capturing', effect: 'visible' }),
       renderOverlay({ mode: 'non-capturing', effect: 'transparent' })
     ),
     html.div(
-      attr.class('flex gap-4'),
+      style.display('flex'),
+      style.gap('1rem'),
       renderOverlayBody({ mode: 'capturing', effect: 'visible' }),
       renderOverlayBody({ mode: 'capturing', effect: 'transparent' }),
       renderOverlayBody({ mode: 'non-capturing', effect: 'visible' }),
