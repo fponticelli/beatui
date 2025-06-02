@@ -55,9 +55,11 @@ const renderIconShowcase = () => {
   ]
 
   const sizes = [
+    { name: 'Extra Small', value: 'xs' },
     { name: 'Small', value: 'sm' },
     { name: 'Medium', value: 'md' },
     { name: 'Large', value: 'lg' },
+    { name: 'Extra Large', value: 'xl' },
   ] as const
 
   const colors = [

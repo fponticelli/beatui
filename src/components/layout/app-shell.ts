@@ -577,11 +577,12 @@ export function AppShell({
               style.alignItems('center'),
               style.justifyContent('center'),
               style.height('100%'),
-              style.width('48px'),
+              style.width('60px'),
               Button(
                 {
                   onClick: () => menuStatus.toggle(),
-                  variant: 'text',
+                  variant: 'light',
+                  color: 'base',
                 },
                 aria.label('Open menu'),
                 Icon({
@@ -602,7 +603,7 @@ export function AppShell({
               style.alignItems('center'),
               style.justifyContent('center'),
               style.height('100%'),
-              style.width('48px'),
+              style.width('60px'),
               style.display(
                 displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
               ),
@@ -610,7 +611,8 @@ export function AppShell({
                 {
                   onClick: () => asideStatus.toggle(),
                   roundedness: 'full',
-                  variant: 'text',
+                  variant: 'light',
+                  color: 'base',
                 },
                 aria.label('Open aside'),
                 Icon(

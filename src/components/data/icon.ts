@@ -1,4 +1,13 @@
-import { aria, attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
+import {
+  aria,
+  attr,
+  computedOf,
+  html,
+  style,
+  TNode,
+  Use,
+  Value,
+} from '@tempots/dom'
 import { IconSize, Theme } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
 
@@ -97,7 +106,12 @@ export function Icon(
           load: ({ request }) => loadIconSvg(request),
           mapError: String,
         })({
-          success: svg => html.span(attr.innerHTML(svg)),
+          success: svg =>
+            html.span(
+              style.width('100%'),
+              style.height('100%'),
+              attr.innerHTML(svg)
+            ),
           loading: () => html.span(attr.class('animate-spin'), '↻'),
           failure: err =>
             html.span(attr.title(err), attr.class('text-red-500'), '🚫'),

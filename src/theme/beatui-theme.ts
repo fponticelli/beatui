@@ -45,24 +45,25 @@ export class BeatUITheme implements ThemeDefinition {
     return classes.join(' ')
   }
 
-  overlay(options: OverlayStyleOptions): string {
-    return `bc-overlay bc-overlay--effect-${options.effect} bc-overlay--mode-${options.mode}`
+  overlay({ effect, mode }: OverlayStyleOptions): string {
+    return `bc-overlay bc-overlay--effect-${effect} bc-overlay--mode-${mode}`
   }
 
-  fadeInOut(options: FadeInOutStyleOptions): string {
-    return `bc-fade bc-fade--state-${options.state}`
+  fadeInOut({ state }: FadeInOutStyleOptions): string {
+    return `bc-fade bc-fade--state-${state}`
   }
 
-  icon(options: IconStyleOptions): string {
-    const classes = ['bc-icon']
+  icon({ size, color }: IconStyleOptions): string {
+    const classes = ['bc-icon', `bc-icon--${size}`]
+    if (color) {
+      classes.push(`bu-fg--${color}`)
+    }
     return classes.join(' ')
   }
 
-  panel(options: PanelStyleOptions): string {
-    const sideStr = Array.isArray(options.side)
-      ? options.side.join('-')
-      : options.side
-    return `bc-panel bc-panel--side-${sideStr} bu-bg--lighter-${options.color} bc-panel--shadow-${options.shadow}`
+  panel({ side, color, shadow }: PanelStyleOptions): string {
+    const sideStr = Array.isArray(side) ? side.join('-') : side
+    return `bc-panel bc-panel--side-${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
   }
 
   label(options: LabelStyleOptions): string {
