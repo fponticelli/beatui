@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
 import { renderTempoComponent } from './common'
-import { attr, html } from '@tempots/dom'
+import { attr, html, style } from '@tempots/dom'
 import {
   BreakpointInfo,
   Breakpoints,
+  Icon,
   WithTWBreakpoint,
   WithTWElementBreakpoint,
 } from '../src/'
@@ -11,46 +12,73 @@ import {
 const SatisfiesBreakpoint = (
   info: BreakpointInfo<Breakpoints>,
   name: keyof Breakpoints
-) => info.value.map(({ width }): string => (info.is(name, width) ? '✅' : '❌'))
+) => {
+  const isSuccess = info.value.map(({ width }) => info.is(name, width))
+  return Icon({
+    color: isSuccess.map((is): string => (is ? 'green' : 'red')),
+    icon: isSuccess.map((is): string =>
+      is ? 'line-md:confirm-square' : 'line-md:minus-circle'
+    ),
+  })
+}
 
 function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
   return html.table(
+    style.borderCollapse('collapse'),
     html.tr(
-      html.th(attr.class('px-4 text-center'), 'Breakpoint'),
-      html.th(attr.class('px-4 text-center'), 'Width'),
-      html.th(attr.class('px-4 text-center'), '='),
-      html.th(attr.class('px-4 text-center'), '<'),
-      html.th(attr.class('px-4 text-center'), '<='),
-      html.th(attr.class('px-4 text-center'), '>'),
-      html.th(attr.class('px-4 text-center'), '>='),
-      html.th(attr.class('px-4 text-center'), '!=')
+      html.th(
+        style.border('1px solid #ccc'),
+        style.padding('4px'),
+        'Breakpoint'
+      ),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), 'Width'),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '='),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '<'),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '<='),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '>'),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '>='),
+      html.th(style.border('1px solid #ccc'), style.padding('4px'), '!=')
     ),
     info.asList.flatMap(([width, name]) => [
       html.tr(
-        html.th(attr.class('px-4 text-center'), String(name)),
-        html.td(attr.class('px-4 text-center'), width.toString()),
+        html.th(
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
+          String(name)
+        ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
+          width.toString()
+        ),
+        html.td(
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, name)
         ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, `<${name}`)
         ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, `<=${name}`)
         ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, `>${name}`)
         ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, `>=${name}`)
         ),
         html.td(
-          attr.class('px-4 text-center'),
+          style.border('1px solid #ccc'),
+          style.padding('4px'),
           SatisfiesBreakpoint(info, `!=${name}`)
         )
       ),

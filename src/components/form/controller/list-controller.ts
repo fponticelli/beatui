@@ -116,11 +116,11 @@ export class ListController<In extends any[]> extends ValueController<In> {
   }
 
   readonly pop = () => {
-    this.slice(0, -1)
+    this.splice(this.value.value.length - 1, 1)
   }
 
   readonly shift = () => {
-    this.slice(1)
+    this.splice(0, 1)
   }
 
   readonly unshift = (...value: In[number]) => {
@@ -128,14 +128,16 @@ export class ListController<In extends any[]> extends ValueController<In> {
   }
 
   readonly removeAt = (index: number) => {
-    this.slice(index, index + 1)
+    this.splice(index, 1)
   }
 
-  readonly slice = (start: number, end?: number) => {
-    this.change(this.value.value.slice(start, end) as In)
-    const controllers = this.#controllers.splice(start, end)
+  readonly splice = (start: number, deleteCount?: number) => {
+    const controllers = this.#controllers.splice(start, deleteCount)
     for (const controller of controllers) {
       controller.dispose()
     }
+    const copy = this.value.value.slice() as In
+    copy.splice(start, deleteCount)
+    this.change(copy)
   }
 }

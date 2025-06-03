@@ -30,7 +30,10 @@ export function convertStandardSchemaIssues(
         if (current.dependencies == null) {
           current.dependencies = {}
         }
-        current = current.dependencies[segment] ?? {}
+        if (current.dependencies[segment] == null) {
+          current.dependencies[segment] = {}
+        }
+        current = current.dependencies[segment]
       }
       if (current.dependencies == null) {
         current.dependencies = {}
@@ -38,6 +41,7 @@ export function convertStandardSchemaIssues(
       current.dependencies[last] = { error: i.message }
       return acc
     }, {} as InvalidDependencies)
+
   const error = topIssues.join('\n')
   return {
     ...dependencies,

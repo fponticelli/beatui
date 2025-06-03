@@ -1,7 +1,8 @@
 @layer components {
-  .bc-group {
+  .bc-stack {
     display: flex;
-    justify-items: center;
+    flex-direction: column;
+    justify-items: flex-start;
     gap: var(--spacing-md);
   }
 }

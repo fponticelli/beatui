@@ -19,8 +19,8 @@ const schema = z.object({
     z.object({
       street: z.string().min(1),
       city: z.string().min(1),
-      state: z.string().min(1),
-      zip: z.string().min(1),
+      state: z.string().length(2),
+      zip: z.string().length(5),
     })
   ),
 })
@@ -28,47 +28,107 @@ const schema = z.object({
 const renderForm = () => {
   const form = useForm({
     schema,
+    defaultValue: {
+      name: 'John Doe',
+      emails: ['john@doe.com'],
+      addresses: [
+        {
+          street: '123 Main St',
+          city: 'Anytown',
+          state: 'CA',
+          zip: '12345',
+        },
+      ],
+    },
   })
   const emails = form.list('emails')
+  const addresses = form.list('addresses')
   return html.form(
     Stack(
-      {},
-      attr.class('gap-4'),
       TextControl({
         label: 'Name',
         required: true,
         controller: form.field('name'),
       }),
-      Stack(
-        {},
-        attr.class('gap-4'),
-        Repeat(emails.length, ({ index, counter }) => {
-          return Group(
-            {},
-            EmailControl({
-              label: `Email #${counter}`,
-              required: true,
-              controller: emails.item(index),
-            }),
-            Button(
-              {
-                onClick: () => {
-                  emails.removeAt(index)
+      Group(
+        attr.class('bu-items-start bu-justify-between'),
+        Stack(
+          html.h2('Emails'),
+          Repeat(emails.length, ({ index, counter }) => {
+            return Group(
+              EmailControl({
+                label: `Email #${counter}`,
+                required: true,
+                controller: emails.item(index),
+              }),
+              Button(
+                {
+                  onClick: () => emails.removeAt(index),
+                  size: 'sm',
+                  roundedness: 'full',
+                  variant: 'outline',
                 },
-                size: 'sm',
-                variant: 'outline',
-              },
-              Icon({ icon: 'line-md:close', color: 'red', size: 'sm' })
+                Icon({ icon: 'line-md:close', color: 'red', size: 'sm' })
+              )
             )
-          )
-        }),
-        Button(
-          {
-            onClick: () => {
-              emails.push('')
+          }),
+          Button(
+            {
+              onClick: () => emails.push(''),
             },
-          },
-          'Add Email'
+            'Add Email'
+          )
+        ),
+        Stack(
+          html.h2('Addresses'),
+          Repeat(addresses.length, ({ index, counter }) => {
+            const address = addresses.group(index)
+            return Group(
+              Stack(
+                TextControl({
+                  label: `Street #${counter}`,
+                  required: true,
+                  controller: address.field(`street`),
+                }),
+                TextControl({
+                  label: `City`,
+                  required: true,
+                  controller: address.field(`city`),
+                }),
+                TextControl({
+                  label: `State`,
+                  required: true,
+                  controller: address.field(`state`),
+                }),
+                TextControl({
+                  label: `Zip`,
+                  required: true,
+                  controller: address.field(`zip`),
+                })
+              ),
+              Button(
+                {
+                  onClick: () => form.list('addresses').removeAt(index),
+                  size: 'sm',
+                  roundedness: 'full',
+                  variant: 'outline',
+                },
+                Icon({ icon: 'line-md:close', color: 'red', size: 'sm' })
+              )
+            )
+          }),
+          Button(
+            {
+              onClick: () =>
+                form.list('addresses').push({
+                  street: '',
+                  city: '',
+                  state: '',
+                  zip: '',
+                }),
+            },
+            'Add Address'
+          )
         )
       )
     )
