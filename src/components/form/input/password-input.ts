@@ -57,8 +57,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
         () => Fragment(attr.type('password')),
         () => Fragment(attr.type('text'))
       ),
-      attr.class('w-full'),
-      attr.class('focus:outline-none bg-transparent'),
+      attr.class('bc-input'),
       attr.value(value),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null ? on.change(emitValue(onChange)) : Empty,
@@ -67,7 +66,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
     after:
       after ??
       html.button(
-        attr.class('text-sm fill-gray-400 rounded-full p-1'),
+        attr.class('bc-input-container__password-toggle'),
         aria.label('Toggle password visibility'),
         on.click(() => hidePassword.update(v => !v)),
         When(

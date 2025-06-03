@@ -20,8 +20,7 @@ export const EmailInput = (options: InputOptions<string>) => {
     input: input.email(
       CommonInputAttributes(updatedOptions),
       attr.value(value),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null ? on.change(emitValue(onChange)) : Empty,
       onInput != null ? on.input(emitValue(onInput)) : Empty

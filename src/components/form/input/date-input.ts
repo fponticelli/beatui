@@ -17,8 +17,7 @@ export const DateInput = (options: InputOptions<Date>) => {
     input: input.date(
       CommonInputAttributes(options),
       attr.valueAsDate(value),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null ? on.change(emitValueAsDate(onChange)) : Empty
     ),

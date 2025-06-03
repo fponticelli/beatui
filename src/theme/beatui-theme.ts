@@ -1,6 +1,8 @@
 import {
   ButtonStyleOptions,
+  ControlInputWrapperStyleOptions,
   IconStyleOptions,
+  InputContainerStyleOptions,
   LabelStyleOptions,
   OverlayStyleOptions,
   PanelStyleOptions,
@@ -65,5 +67,46 @@ export class BeatUITheme implements ThemeDefinition {
 
   label(options: LabelStyleOptions): string {
     return `bc-label bc-label--${options.type}`
+  }
+
+  inputContainer({ disabled, hasError }: InputContainerStyleOptions): string {
+    const classes = ['bc-input-container']
+
+    if (disabled) {
+      classes.push('bc-input-container--disabled')
+    } else {
+      classes.push('bc-input-container--default')
+    }
+
+    if (hasError) {
+      classes.push('bc-input-container--error')
+    }
+
+    return classes.join(' ')
+  }
+
+  controlInputWrapper(_options: ControlInputWrapperStyleOptions): string {
+    const classes = ['bc-control-input-wrapper']
+
+    // The wrapper itself doesn't have state classes, but we return the base class
+    // State-specific styling is handled by child elements
+    return classes.join(' ')
+  }
+
+  controlInputWrapperLabelText({
+    hasError,
+    disabled,
+  }: ControlInputWrapperStyleOptions): string {
+    const classes = ['bc-control-input-wrapper__label-text']
+
+    if (hasError) {
+      classes.push('bc-control-input-wrapper__label-text--error')
+    } else if (disabled) {
+      classes.push('bc-control-input-wrapper__label-text--disabled')
+    } else {
+      classes.push('bc-control-input-wrapper__label-text--default')
+    }
+
+    return classes.join(' ')
   }
 }

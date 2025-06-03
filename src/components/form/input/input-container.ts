@@ -5,8 +5,10 @@ import {
   WithElement,
   TNode,
   Value,
-  When,
+  Use,
+  computedOf,
 } from '@tempots/dom'
+import { Theme } from '../../theme'
 
 export const InputContainer = ({
   child,
@@ -29,39 +31,46 @@ export const InputContainer = ({
 }) => {
   const isDisabled = Value.map(disabled ?? false, d => d)
 
-  return html.div(
-    child,
-    WithElement(el => {
-      const handler = () => {
-        const focusable = el.querySelector(focusableSelector) as
-          | HTMLElement
-          | undefined
-        focusable?.focus()
-      }
-      el.addEventListener('click', handler)
-      return OnDispose(() => el.removeEventListener('click', handler))
-    }),
-    attr.class('flex flex-row items-center gap-2'),
-    attr.class(
-      Value.map(isDisabled, (d): string =>
-        d
-          ? 'bg-gray-200 text-gray-500 shadow-sm w-full rounded-md border-0 py-2 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus-within:z-10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-sky-600 sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-gray-100 dark:ring-gray-700 dark:placeholder:text-gray-500'
-          : 'shadow-sm bg-white w-full rounded-md border-0 py-2 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus-within:z-10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-sky-600 sm:text-sm sm:leading-6 dark:bg-gray-900 dark:text-gray-100 dark:ring-gray-700 dark:placeholder:text-gray-500'
-      )
-    ),
-    When(hasError ?? false, () =>
-      attr.class('ring-red-500 dark:ring-red-500 focus-within:ring-red-600 ')
-    ),
-    before != null
-      ? html.span(attr.class('flex flex-row items-center'), before)
-      : null,
-    html.div(
-      attr.class('flex flex-row items-center'),
-      attr.class(Value.map(growInput, (v): string => (v ? 'flex-grow' : ''))),
-      input
-    ),
-    after != null
-      ? html.span(attr.class('flex flex-row items-center'), after)
-      : null
-  )
+  return Use(Theme, theme => {
+    return html.div(
+      child,
+      WithElement(el => {
+        const handler = () => {
+          const focusable = el.querySelector(focusableSelector) as
+            | HTMLElement
+            | undefined
+          focusable?.focus()
+        }
+        el.addEventListener('click', handler)
+        return OnDispose(() => el.removeEventListener('click', handler))
+      }),
+      attr.class(
+        computedOf(
+          theme,
+          isDisabled,
+          hasError ?? false
+        )(({ theme }, disabled, hasError) =>
+          theme.inputContainer({
+            disabled,
+            hasError,
+          })
+        )
+      ),
+      before != null
+        ? html.span(attr.class('bc-input-container__before'), before)
+        : null,
+      html.div(
+        attr.class('bc-input-container__input'),
+        attr.class(
+          Value.map(growInput, (v): string =>
+            v ? 'bc-input-container__input--grow' : ''
+          )
+        ),
+        input
+      ),
+      after != null
+        ? html.span(attr.class('bc-input-container__after'), after)
+        : null
+    )
+  })
 }

@@ -122,6 +122,16 @@ export type IconStyleOptions = {
   color?: string
 }
 
+export type InputContainerStyleOptions = {
+  disabled?: boolean
+  hasError?: boolean
+}
+
+export type ControlInputWrapperStyleOptions = {
+  hasError?: boolean
+  disabled?: boolean
+}
+
 export type FadeInOutStyleOptions = {
   state: FadeTranstionState
 }
@@ -132,6 +142,9 @@ export interface ThemeDefinition {
   icon: (options: IconStyleOptions) => string
   panel: (options: PanelStyleOptions) => string
   label: (options: LabelStyleOptions) => string
+  inputContainer: (options: InputContainerStyleOptions) => string
+  controlInputWrapper: (options: ControlInputWrapperStyleOptions) => string
+  controlInputWrapperLabelText: (options: ControlInputWrapperStyleOptions) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'

@@ -15,8 +15,7 @@ export const NullableTextInput = (options: InputOptions<null | string>) => {
     input: input.text(
       CommonInputAttributes(rest),
       attr.value(Value.map(value, nullToEmpty)),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-input'),
       onBlur != null ? on.blur(onBlur) : Empty,
       onChange != null
         ? on.change(emitValue(v => onChange(emptyToNull(v))))

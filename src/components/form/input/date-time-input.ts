@@ -19,8 +19,7 @@ export const DateTimeInput = (options: InputOptions<Date>) => {
     input: input['datetime-local'](
       CommonInputAttributes(options),
       attr.value(Value.map(value, localDateToString)),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null
         ? on.change(emitValue(v => onChange(new Date(v))))
