@@ -90,4 +90,4 @@ See the [monorepo README](../../README.md) for development instructions.
 
 ## License
 
-ISC
+MIT

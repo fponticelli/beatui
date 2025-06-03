@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "author": "Franco Ponticelli",
-  "license": "ISC",
+  "license": "MIT",
   "description": "BeatUI Monorepo - Modern UI component library and documentation",
   "devDependencies": {
     "turbo": "2.5.4"

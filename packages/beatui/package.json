@@ -25,7 +25,7 @@
   },
   "keywords": ["ui", "components", "typescript", "beatui"],
   "author": "Franco Ponticelli",
-  "license": "ISC",
+  "license": "MIT",
   "description": "BeatUI - Modern TypeScript UI component library",
   "dependencies": {
     "@tempots/dom": "26.11.0",

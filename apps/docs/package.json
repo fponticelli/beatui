@@ -11,7 +11,7 @@
   },
   "keywords": ["documentation", "beatui", "vitepress"],
   "author": "Franco Ponticelli",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "beatui": "workspace:*"
   },
