@@ -1,0 +1,163 @@
+@layer components {
+  /* Tag Component */
+  .bc-tag {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 calc(var(--spacing-base) * 1.5) 0 calc(var(--spacing-base) * 3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Base/Default state */
+  .bc-tag--base {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-900);
+    border-color: var(--color-gray-300);
+  }
+
+  /* Primary color */
+  .bc-tag--primary {
+    background-color: var(--color-blue-100);
+    color: var(--color-blue-900);
+    border-color: var(--color-blue-200);
+  }
+
+  /* Secondary color */
+  .bc-tag--secondary {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-900);
+    border-color: var(--color-gray-300);
+  }
+
+  /* Success color */
+  .bc-tag--success {
+    background-color: var(--color-green-100);
+    color: var(--color-green-900);
+    border-color: var(--color-green-200);
+  }
+
+  /* Warning color */
+  .bc-tag--warning {
+    background-color: var(--color-amber-100);
+    color: var(--color-amber-900);
+    border-color: var(--color-amber-200);
+  }
+
+  /* Error color */
+  .bc-tag--error {
+    background-color: var(--color-red-100);
+    color: var(--color-red-900);
+    border-color: var(--color-red-200);
+  }
+
+  /* Info color */
+  .bc-tag--info {
+    background-color: var(--color-blue-100);
+    color: var(--color-blue-900);
+    border-color: var(--color-blue-200);
+  }
+
+  /* Disabled state */
+  .bc-tag--disabled {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-500);
+    cursor: not-allowed;
+  }
+
+  /* Tag text content */
+  .bc-tag__text {
+    padding-right: calc(var(--spacing-base) * 1.5);
+  }
+
+  /* Close button */
+  .bc-tag__close {
+    background: transparent;
+    border: none;
+    color: var(--color-gray-400);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--spacing-base) * 4);
+    height: calc(var(--spacing-base) * 4);
+    border-radius: var(--radius-full);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bc-tag__close:hover:not(:disabled) {
+    color: var(--color-gray-700);
+    background-color: var(--color-gray-300);
+  }
+
+  .bc-tag__close:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .bc-tag--base {
+      background-color: var(--color-gray-700);
+      color: var(--color-gray-100);
+      border-color: var(--color-gray-600);
+    }
+
+    .bc-tag--primary {
+      background-color: var(--color-blue-800);
+      color: var(--color-blue-100);
+      border-color: var(--color-blue-700);
+    }
+
+    .bc-tag--secondary {
+      background-color: var(--color-gray-700);
+      color: var(--color-gray-100);
+      border-color: var(--color-gray-600);
+    }
+
+    .bc-tag--success {
+      background-color: var(--color-green-800);
+      color: var(--color-green-100);
+      border-color: var(--color-green-700);
+    }
+
+    .bc-tag--warning {
+      background-color: var(--color-amber-800);
+      color: var(--color-amber-100);
+      border-color: var(--color-amber-700);
+    }
+
+    .bc-tag--error {
+      background-color: var(--color-red-800);
+      color: var(--color-red-100);
+      border-color: var(--color-red-700);
+    }
+
+    .bc-tag--info {
+      background-color: var(--color-blue-800);
+      color: var(--color-blue-100);
+      border-color: var(--color-blue-700);
+    }
+
+    .bc-tag--disabled {
+      background-color: var(--color-gray-700);
+      color: var(--color-gray-500);
+    }
+
+    .bc-tag__close {
+      color: var(--color-gray-500);
+    }
+
+    .bc-tag__close:hover:not(:disabled) {
+      color: var(--color-gray-300);
+      background-color: var(--color-gray-600);
+    }
+  }
+}

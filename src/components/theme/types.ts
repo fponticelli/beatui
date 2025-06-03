@@ -132,6 +132,23 @@ export type ControlInputWrapperStyleOptions = {
   disabled?: boolean
 }
 
+export type TagStyleOptions = {
+  disabled?: boolean
+  color?: string
+}
+
+export type CheckboxInputStyleOptions = {
+  disabled?: boolean
+}
+
+export type EditableTextStyleOptions = {
+  isEditing?: boolean
+}
+
+export type NumberInputStyleOptions = {
+  disabled?: boolean
+}
+
 export type FadeInOutStyleOptions = {
   state: FadeTranstionState
 }
@@ -147,6 +164,10 @@ export interface ThemeDefinition {
   controlInputWrapperLabelText: (
     options: ControlInputWrapperStyleOptions
   ) => string
+  tag: (options: TagStyleOptions) => string
+  checkboxInput: (options: CheckboxInputStyleOptions) => string
+  editableText: (options: EditableTextStyleOptions) => string
+  numberInput: (options: NumberInputStyleOptions) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'

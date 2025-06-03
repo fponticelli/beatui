@@ -29,8 +29,7 @@ export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
     input: input['datetime-local'](
       CommonInputAttributes(options),
       attr.value(Value.map(date, v => v ?? null)),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null
         ? on.change(emitValueAsNullableDateTime(onChange))

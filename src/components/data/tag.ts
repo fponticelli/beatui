@@ -1,33 +1,44 @@
-import { attr, Empty, html, on, Value } from '@tempots/dom'
+import { attr, Empty, html, on, Value, Use, computedOf } from '@tempots/dom'
+import { Theme } from '../theme'
+import { ThemeColorName } from '@/tokens'
 
 export const Tag = ({
   disabled,
   value,
+  color = 'base',
   onClose,
 }: {
   value: Value<string>
   disabled?: Value<boolean>
+  color?: Value<ThemeColorName>
   onClose?: (value: string) => void
 }) => {
-  return html.span(
-    attr.class(
-      'flex flex-row items-center pl-3 pr-1.5 py-0 rounded-full inline-block text-sm dark:text-gray-100 '
-    ),
-    attr.class(
-      Value.map(disabled ?? false, (d): string =>
-        d
-          ? 'bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-500'
-          : 'bg-gray-200 border border-gray-300 dark:bg-gray-700 dark:border-gray-600'
-      )
-    ),
-    html.span(attr.class('pr-1.5'), value),
-    onClose != null
-      ? html.button(
-          attr.disabled(disabled),
-          html.span('×'),
-          attr.class('text-gray-400 hover:text-gray-700'),
-          on.click(() => onClose?.(Value.get(value)))
+  const isDisabled = Value.map(disabled ?? false, d => d)
+  const tagColor = Value.map(color ?? 'base', c => c)
+
+  return Use(Theme, theme => {
+    return html.span(
+      attr.class(
+        computedOf(
+          theme,
+          isDisabled,
+          tagColor
+        )(({ theme }, disabled, color) =>
+          theme.tag({
+            disabled,
+            color,
+          })
         )
-      : Empty
-  )
+      ),
+      html.span(attr.class('bc-tag__text'), value),
+      onClose != null
+        ? html.button(
+            attr.disabled(disabled),
+            attr.class('bc-tag__close'),
+            html.span('×'),
+            on.click(() => onClose?.(Value.get(value)))
+          )
+        : Empty
+    )
+  })
 }

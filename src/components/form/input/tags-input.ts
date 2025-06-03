@@ -32,13 +32,12 @@ export const TagsInput = (options: InputOptions<string[]>) => {
   return InputContainer({
     ...options,
     input: Fragment(
-      attr.class('flex flex-row flex-wrap gap-2'),
+      attr.class('bc-input-container__tags'),
       ForEach(value, v => Tag({ value: v, onClose: () => removeOne(v.value) })),
       input.text(
         CommonInputAttributes(options),
         attr.value(currentValue),
-        attr.class('focus:outline-none bg-transparent'),
-        attr.class('w-min'),
+        attr.class('bc-input bc-input-container__tags-input'),
         on.input(emitValue(currentValue.set)),
         onChange != null ? on.change(addOne) : Empty,
         onBlur != null ? on.blur(onBlur) : Empty

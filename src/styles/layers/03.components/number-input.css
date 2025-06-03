@@ -1,0 +1,17 @@
+@layer components {
+  /* Number Input Component */
+  .bc-number-input {
+    text-align: right;
+  }
+
+  /* Remove default number input spinners */
+  .bc-number-input::-webkit-outer-spin-button,
+  .bc-number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .bc-number-input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}

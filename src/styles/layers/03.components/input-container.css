@@ -114,6 +114,21 @@
     background-color: var(--color-gray-100);
   }
 
+  /* Tags input wrapper */
+  .bc-input-container__tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: calc(var(--spacing-base) * 2);
+    align-items: center;
+  }
+
+  /* Tags input text field */
+  .bc-input-container__tags-input {
+    min-width: 8rem;
+    flex-shrink: 0;
+  }
+
   /* Dark mode styles */
   @media (prefers-color-scheme: dark) {
     .bc-input-container--default {

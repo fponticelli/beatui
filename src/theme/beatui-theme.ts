@@ -1,11 +1,15 @@
 import {
   ButtonStyleOptions,
+  CheckboxInputStyleOptions,
   ControlInputWrapperStyleOptions,
+  EditableTextStyleOptions,
   IconStyleOptions,
   InputContainerStyleOptions,
   LabelStyleOptions,
+  NumberInputStyleOptions,
   OverlayStyleOptions,
   PanelStyleOptions,
+  TagStyleOptions,
   ThemeDefinition,
 } from '@/components/theme'
 
@@ -109,5 +113,29 @@ export class BeatUITheme implements ThemeDefinition {
     }
 
     return classes.join(' ')
+  }
+
+  tag({ disabled, color = 'base' }: TagStyleOptions): string {
+    const classes = ['bc-tag']
+
+    if (disabled) {
+      classes.push('bc-tag--disabled')
+    } else {
+      classes.push(`bc-tag--${color}`)
+    }
+
+    return classes.join(' ')
+  }
+
+  checkboxInput(_options: CheckboxInputStyleOptions): string {
+    return 'bc-checkbox-input'
+  }
+
+  editableText(_options: EditableTextStyleOptions): string {
+    return 'bc-editable-text'
+  }
+
+  numberInput(_options: NumberInputStyleOptions): string {
+    return 'bc-number-input'
   }
 }
