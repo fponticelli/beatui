@@ -11,7 +11,6 @@ const renderThemeDemo = () => {
       html.div(
         ThemeAppeareance(),
         html.h1('Theme System Demo'),
-        html.p('Demonstrates the BEM-based theme system with CSS variables'),
 
         // Theme controls
         html.div(
@@ -133,7 +132,6 @@ const renderThemeDemo = () => {
             attr.style(
               'background: #f8f9fa; padding: 1.5rem; border-radius: 0.5rem; margin: 1rem 0;'
             ),
-            html.h3('BEM Class Structure'),
             html.br(),
             html.h3('CSS Variables'),
             html.div(
@@ -153,7 +151,6 @@ const renderThemeDemo = () => {
           html.h2('Migration Benefits'),
           html.ul(
             attr.style('line-height: 1.6;'),
-            html.li('✅ Pure BEM methodology - Clean, semantic class names'),
             html.li(
               '✅ All 22 colors supported - Complete Tailwind color palette'
             ),
