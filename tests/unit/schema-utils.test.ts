@@ -164,9 +164,18 @@ describe('Schema Utils', () => {
 
     it('should handle complex nested object structures', () => {
       const issues: StandardSchemaV1.Issue[] = [
-        { message: 'User name required', path: ['users', 0, 'profile', 'name'] },
-        { message: 'User email invalid', path: ['users', 0, 'contact', 'email'] },
-        { message: 'Second user age invalid', path: ['users', 1, 'profile', 'age'] },
+        {
+          message: 'User name required',
+          path: ['users', 0, 'profile', 'name'],
+        },
+        {
+          message: 'User email invalid',
+          path: ['users', 0, 'contact', 'email'],
+        },
+        {
+          message: 'Second user age invalid',
+          path: ['users', 1, 'profile', 'age'],
+        },
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({

@@ -85,7 +85,8 @@ export class BeatUITheme implements ThemeDefinition {
     return classes.join(' ')
   }
 
-  controlInputWrapper(_options: ControlInputWrapperStyleOptions): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  controlInputWrapper(_options?: ControlInputWrapperStyleOptions): string {
     const classes = ['bc-control-input-wrapper']
 
     // The wrapper itself doesn't have state classes, but we return the base class

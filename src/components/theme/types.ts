@@ -144,7 +144,9 @@ export interface ThemeDefinition {
   label: (options: LabelStyleOptions) => string
   inputContainer: (options: InputContainerStyleOptions) => string
   controlInputWrapper: (options: ControlInputWrapperStyleOptions) => string
-  controlInputWrapperLabelText: (options: ControlInputWrapperStyleOptions) => string
+  controlInputWrapperLabelText: (
+    options: ControlInputWrapperStyleOptions
+  ) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'
