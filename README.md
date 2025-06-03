@@ -1,193 +1,115 @@
-# BeatUI Library
+# BeatUI Monorepo
 
-A modern UI component library built with [@tempots/dom](https://tempo-ts.com).
+A modern TypeScript UI component library with design tokens and layered CSS architecture.
 
-## Features
+## 📦 Packages
 
-- Built with @tempots/dom for lightweight and efficient DOM manipulation
-- TypeScript for type safety and better developer experience
-- Vite for fast development and optimized builds
-- Vitest for unit testing
-- Playwright for browser testing
-- Storybook for component documentation and showcasing
-- ESLint and Prettier for code quality and consistent formatting
+This monorepo contains the following packages:
 
-## Installation
+- **[`beatui`](./packages/beatui/)** - The main UI component library
+- **[`@beatui/docs`](./apps/docs/)** - Documentation site built with VitePress
 
-```bash
-npm install tempo-ui-lib
-```
+## 🚀 Getting Started
 
-## Usage
+### Prerequisites
 
-```typescript
-import { Button, Card } from 'tempo-ui-lib';
+- Node.js 18+
+- pnpm 8+
 
-// Create a button
-const button = Button({
-  text: 'Click me',
-  variant: 'primary',
-  onClick: () => console.log('Button clicked'),
-});
-
-// Create a card with the button
-const card = Card({
-  title: 'My Card',
-  content: 'This is a card component from BeatUI Library',
-  children: [button],
-});
-
-// Add the card to the DOM
-document.body.appendChild(card);
-```
-
-## Available Components
-
-### Button
-
-```typescript
-import { Button } from 'tempo-ui-lib';
-
-const button = Button({
-  text: 'Click me',
-  variant: 'primary', // 'primary' | 'secondary' | 'outline' | 'text'
-  size: 'medium', // 'small' | 'medium' | 'large'
-  disabled: false,
-  onClick: (event) => console.log('Button clicked', event),
-});
-```
-
-### Card
-
-```typescript
-import { Card } from 'tempo-ui-lib';
-
-const card = Card({
-  title: 'Card Title',
-  content: 'Card content goes here',
-  shadow: true,
-  className: 'custom-class',
-  children: [/* HTMLElements */],
-});
-```
-
-## Development
-
-### Setup
+### Installation
 
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd tempo-ui-lib
+cd beatui
 
 # Install dependencies
-npm install
+pnpm install
 ```
 
-### Development Commands
+### Development
 
 ```bash
-# Start development server
-npm run dev
+# Build all packages
+pnpm build
 
-# Run unit tests
-npm test
+# Run development servers
+pnpm dev                    # Run all dev servers
+pnpm dev --filter=beatui    # Run only BeatUI dev server
+pnpm dev --filter=@beatui/docs  # Run only docs dev server
 
-# Run unit tests in watch mode
-npm run test:watch
+# Run Storybook
+pnpm storybook --filter=beatui
 
-# Run browser tests
-npm run test:e2e
+# Run tests
+pnpm test
+pnpm test:e2e
+pnpm test:all
 
-# Run linting
-npm run lint
-
-# Format code
-npm run format
-
-# Start Storybook
-npm run storybook
-
-# Build the library
-npm run build
-
-# Build Storybook
-npm run build-storybook
+# Lint and format
+pnpm lint
+pnpm format
 ```
 
-## License
+## 🏗️ Monorepo Structure
 
-ISC
+```
+beatui/
+├── packages/
+│   └── beatui/              # Main UI component library
+│       ├── src/             # Source code
+│       ├── stories/         # Storybook stories
+│       ├── tests/           # Unit and E2E tests
+│       └── package.json
+├── apps/
+│   └── docs/                # Documentation site
+│       ├── .vitepress/      # VitePress configuration
+│       ├── guide/           # Documentation guides
+│       ├── components/      # Component documentation
+│       └── package.json
+├── turbo.json               # Turborepo configuration
+├── pnpm-workspace.yaml      # pnpm workspace configuration
+└── package.json             # Root package.json
+```
 
-## TODO
+## 🛠️ Technology Stack
 
-### Important
+- **Build System**: Turborepo for monorepo management
+- **Package Manager**: pnpm with workspaces
+- **UI Library**: TypeScript + Vite + Tempo DOM
+- **Documentation**: VitePress
+- **Testing**: Vitest + Playwright
+- **Styling**: Layered CSS with design tokens
+- **Icons**: Iconify integration
 
-- [ ] Layout
-  - [ ] Center
-  - [ ] Container
-  - [ ] Group
-  - [ ] Stack
-  - [ ] Table
-- [ ] Feedback
-  - [ ] Alert
-  - [ ] Load
-  - [ ] Notification
-- [ ] Inputs
-  - [ ] https://maz-ui.com/components/maz-btn
-- [ ] Forms
-- [ ] Combobox
-- [ ] Navigation
-  - [ ] Anchor
-  - [ ] NavLink
-  - [ ] Tabs
-- [ ] Overlays
-  - [ ] Dialog
-  - [ ] Drawer
-  - [ ] FloatingIndicator
-  - [ ] HoverCard
-  - [ ] Menu
-  - [ ] Modal
-  - [ ] Popover
-  - [ ] Tooltip
-- [ ] DataDisplay
-  - [ ] Badge
-  - [ ] Card
-  - [ ] NumberFormatter
-- [ ] Typography
-  - [ ] Text
-  - [ ] Title
-  - [ ] Blockquote
-  - [ ] Code
-  - [ ] List
-- [ ] Miscellaneous
-  - [ ] Divider
+## 📚 Documentation
 
-### Secondary
+Visit the [documentation site](./apps/docs/) for:
 
-- [ ] Layout
-  - [ ] Space
-  - [ ] Flex
-  - [ ] Grid
-  - [ ] Collapse
-- [ ] Navigation
-  - [ ] Pagination
-  - [ ] Breadcrumbs
-  - [ ] Tree
-  - [ ] Stepper
-  - [ ] Burger
-- [ ] Feedback
-  - [ ] Skeleton
-  - [ ] Progress
-  - [ ] RingProgress
-  - [ ] SemiCircleProgress
-- [ ] Overlays
-  - [ ] Affix
-  - [ ] LoadingOverlay
-- [ ] DataDisplay
-  - [ ] Accordion
-  - [ ] Avatar
-  - [ ] Indicator
-  - [ ] Kbd
-- [ ] Typography
-  - [ ] Highlight / Mark
+- Getting started guide
+- Component documentation
+- Design system guidelines
+- API reference
+
+## 🎨 Design System
+
+BeatUI follows a layered CSS architecture:
+
+- `@layer reset` - CSS resets and normalizations
+- `@layer base` - Base styles and design tokens
+- `@layer components` - Component styles (bc- prefix)
+- `@layer variants` - Component variants and modifiers
+- `@layer utilities` - Utility classes (bu- prefix)
+- `@layer overrides` - Custom overrides
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests and documentation
+5. Submit a pull request
+
+## 📄 License
+
+ISC License - see LICENSE file for details.

@@ -45,7 +45,8 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
           CheckboxInput({
             value: prop(false),
             placeholder: prop('I agree to the terms'),
-            onChange: (value: boolean) => console.log('Unchecked changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Unchecked changed:', value),
           })
         ),
         html.div(
@@ -54,7 +55,8 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
           CheckboxInput({
             value: prop(true),
             placeholder: prop('I agree to the terms'),
-            onChange: (value: boolean) => console.log('Checked changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Checked changed:', value),
           })
         ),
         html.div(
@@ -64,7 +66,8 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
             value: prop(false),
             disabled: prop(true),
             placeholder: prop('Disabled option'),
-            onChange: (value: boolean) => console.log('Disabled unchecked changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Disabled unchecked changed:', value),
           })
         ),
         html.div(
@@ -74,7 +77,8 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
             value: prop(true),
             disabled: prop(true),
             placeholder: prop('Disabled checked option'),
-            onChange: (value: boolean) => console.log('Disabled checked changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Disabled checked changed:', value),
           })
         ),
         html.div(
@@ -84,7 +88,8 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
             value: prop(false),
             hasError: prop(true),
             placeholder: prop('Required checkbox'),
-            onChange: (value: boolean) => console.log('Error checkbox changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Error checkbox changed:', value),
           })
         )
       ),
@@ -101,12 +106,14 @@ const renderCheckboxInput = (args: CheckboxInputStoryOptions) => {
           CheckboxInput({
             value: prop(false),
             placeholder: prop('I want to receive marketing emails'),
-            onChange: (value: boolean) => console.log('Marketing emails:', value),
+            onChange: (value: boolean) =>
+              console.log('Marketing emails:', value),
           }),
           CheckboxInput({
             value: prop(true),
             placeholder: prop('Remember my preferences'),
-            onChange: (value: boolean) => console.log('Remember preferences:', value),
+            onChange: (value: boolean) =>
+              console.log('Remember preferences:', value),
           })
         )
       )

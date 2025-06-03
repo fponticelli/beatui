@@ -40,7 +40,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
             console.log('Value changed:', newValue)
             numberValue.set(newValue)
           },
-          onInput: (newValue: number) => console.log('Input changed:', newValue),
+          onInput: (newValue: number) =>
+            console.log('Input changed:', newValue),
         })
       ),
       html.div(
@@ -62,7 +63,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
             value: prop(100),
             disabled: prop(true),
             placeholder: 'Disabled input',
-            onChange: (value: number) => console.log('Disabled changed:', value),
+            onChange: (value: number) =>
+              console.log('Disabled changed:', value),
           })
         ),
         html.div(
@@ -97,7 +99,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
             max: prop(100),
             step: prop(1),
             placeholder: 'Percentage',
-            onChange: (value: number) => console.log('Percentage changed:', value),
+            onChange: (value: number) =>
+              console.log('Percentage changed:', value),
           })
         ),
         html.div(
@@ -132,7 +135,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
             max: prop(50),
             step: prop(0.5),
             placeholder: 'Temperature',
-            onChange: (value: number) => console.log('Temperature changed:', value),
+            onChange: (value: number) =>
+              console.log('Temperature changed:', value),
           })
         )
       ),
@@ -140,7 +144,9 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
         attr.class('bu-flex bu-flex-col bu-gap-sm'),
         html.span('Form Example:'),
         html.form(
-          attr.class('bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'),
+          attr.class(
+            'bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'
+          ),
           html.div(
             attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center'),
             html.span('Quantity:'),
@@ -150,7 +156,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
               max: prop(99),
               step: prop(1),
               placeholder: 'Qty',
-              onChange: (value: number) => console.log('Quantity changed:', value),
+              onChange: (value: number) =>
+                console.log('Quantity changed:', value),
             })
           ),
           html.div(
@@ -173,7 +180,8 @@ const renderNumberInput = (args: NumberInputStoryOptions) => {
               max: prop(100),
               step: prop(5),
               placeholder: 'Discount',
-              onChange: (value: number) => console.log('Discount changed:', value),
+              onChange: (value: number) =>
+                console.log('Discount changed:', value),
             })
           )
         )

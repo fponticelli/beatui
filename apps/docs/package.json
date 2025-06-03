@@ -1,0 +1,23 @@
+{
+  "name": "@beatui/docs",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "BeatUI Documentation Site",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "clean": "rm -rf .vitepress/dist"
+  },
+  "keywords": ["documentation", "beatui", "vitepress"],
+  "author": "Franco Ponticelli",
+  "license": "ISC",
+  "dependencies": {
+    "beatui": "workspace:*"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.11.0"
+}

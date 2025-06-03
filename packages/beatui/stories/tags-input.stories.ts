@@ -50,7 +50,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['JavaScript', 'TypeScript', 'React']),
               placeholder: 'Add technology',
-              onChange: (tags: string[]) => console.log('With tags changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('With tags changed:', tags),
             })
           ),
           html.div(
@@ -67,7 +68,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
               value: prop(['Read-only', 'Disabled']),
               disabled: prop(true),
               placeholder: 'Cannot edit',
-              onChange: (tags: string[]) => console.log('Disabled changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Disabled changed:', tags),
             })
           ),
           html.div(
@@ -91,7 +93,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['JavaScript', 'Python', 'Go', 'Rust']),
               placeholder: 'Add programming language',
-              onChange: (tags: string[]) => console.log('Skills changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Skills changed:', tags),
             })
           ),
           html.div(
@@ -99,7 +102,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['Frontend', 'Backend', 'DevOps']),
               placeholder: 'Add category',
-              onChange: (tags: string[]) => console.log('Categories changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Categories changed:', tags),
             })
           ),
           html.div(
@@ -107,7 +111,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['web', 'development', 'ui', 'ux']),
               placeholder: 'Add keyword',
-              onChange: (tags: string[]) => console.log('Keywords changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Keywords changed:', tags),
             })
           ),
           html.div(
@@ -115,7 +120,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['Music', 'Photography', 'Travel', 'Cooking']),
               placeholder: 'Add interest',
-              onChange: (tags: string[]) => console.log('Interests changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Interests changed:', tags),
             })
           )
         )
@@ -124,37 +130,41 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
         attr.class('bu-flex bu-flex-col bu-gap-sm'),
         html.span('Form Example:'),
         html.form(
-          attr.class('bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'),
+          attr.class(
+            'bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'
+          ),
           html.div(
             attr.class('bu-flex bu-flex-col bu-gap-sm'),
             html.span('Technologies:'),
             TagsInput({
               value: prop(['React', 'Node.js', 'PostgreSQL']),
               placeholder: 'Add technology',
-              onChange: (tags: string[]) => console.log('Technologies changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Technologies changed:', tags),
             })
           ),
-        html.div(
-          attr.class('bu-flex bu-flex-col bu-gap-sm'),
-          html.span('Individual Colored Tags (using Tag component):'),
           html.div(
-            attr.class('bu-flex bu-flex-row bu-gap-sm bu-flex-wrap'),
-            Tag({ value: prop('JavaScript'), color: prop('primary') }),
-            Tag({ value: prop('TypeScript'), color: prop('info') }),
-            Tag({ value: prop('React'), color: prop('success') }),
-            Tag({ value: prop('Vue'), color: prop('success') }),
-            Tag({ value: prop('Angular'), color: prop('error') }),
-            Tag({ value: prop('Svelte'), color: prop('warning') }),
-            Tag({ value: prop('Node.js'), color: prop('secondary') })
-          )
-        ),
+            attr.class('bu-flex bu-flex-col bu-gap-sm'),
+            html.span('Individual Colored Tags (using Tag component):'),
+            html.div(
+              attr.class('bu-flex bu-flex-row bu-gap-sm bu-flex-wrap'),
+              Tag({ value: prop('JavaScript'), color: prop('primary') }),
+              Tag({ value: prop('TypeScript'), color: prop('info') }),
+              Tag({ value: prop('React'), color: prop('success') }),
+              Tag({ value: prop('Vue'), color: prop('success') }),
+              Tag({ value: prop('Angular'), color: prop('error') }),
+              Tag({ value: prop('Svelte'), color: prop('warning') }),
+              Tag({ value: prop('Node.js'), color: prop('secondary') })
+            )
+          ),
           html.div(
             attr.class('bu-flex bu-flex-col bu-gap-sm'),
             html.span('Project Tags:'),
             TagsInput({
               value: prop(['urgent', 'frontend', 'responsive']),
               placeholder: 'Add project tag',
-              onChange: (tags: string[]) => console.log('Project tags changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Project tags changed:', tags),
             })
           ),
           html.div(
@@ -163,7 +173,8 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             TagsInput({
               value: prop(['alice', 'bob', 'charlie']),
               placeholder: 'Add team member',
-              onChange: (tags: string[]) => console.log('Team members changed:', tags),
+              onChange: (tags: string[]) =>
+                console.log('Team members changed:', tags),
             })
           )
         )
@@ -189,7 +200,7 @@ const renderTagsInput = (args: TagsInputStoryOptions) => {
             'Another Extremely Long Tag That Shows How The Component Handles Extended Content',
             'Short',
             'Medium Length Tag',
-            'Yet Another Long Tag Name For Testing Purposes'
+            'Yet Another Long Tag Name For Testing Purposes',
           ]),
           placeholder: 'Add long tag',
           onChange: (tags: string[]) => console.log('Long tags changed:', tags),
@@ -273,9 +284,25 @@ export const WithError: Story = {
 export const ManyTags: Story = {
   args: {
     tags: [
-      'JavaScript', 'TypeScript', 'React', 'Vue', 'Angular', 'Svelte',
-      'Node.js', 'Express', 'Fastify', 'Koa', 'Python', 'Django',
-      'Flask', 'FastAPI', 'Go', 'Gin', 'Echo', 'Rust', 'Actix'
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Vue',
+      'Angular',
+      'Svelte',
+      'Node.js',
+      'Express',
+      'Fastify',
+      'Koa',
+      'Python',
+      'Django',
+      'Flask',
+      'FastAPI',
+      'Go',
+      'Gin',
+      'Echo',
+      'Rust',
+      'Actix',
     ],
     disabled: false,
     hasError: false,
@@ -290,7 +317,7 @@ export const LongTags: Story = {
       'Another Extremely Long Tag That Shows Component Flexibility',
       'Short',
       'Medium Length Tag Name',
-      'Yet Another Very Long Tag Name For Comprehensive Testing'
+      'Yet Another Very Long Tag Name For Comprehensive Testing',
     ],
     disabled: false,
     hasError: false,

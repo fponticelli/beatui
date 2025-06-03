@@ -13,7 +13,9 @@ interface NullableDateTimeInputStoryOptions {
 }
 
 // Create a wrapper function to render the NullableDateTimeInput with Theme
-const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) => {
+const renderNullableDateTimeInput = (
+  args: NullableDateTimeInputStoryOptions
+) => {
   const { value, disabled, hasError, placeholder } = args
   const dateValue = prop(value ? new Date(value) : null)
 
@@ -46,7 +48,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(new Date('2024-01-15T14:30:00')),
             placeholder: 'Select date and time',
-            onChange: (value: Date | null) => console.log('With value changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('With value changed:', value),
           })
         ),
         html.div(
@@ -55,7 +58,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(null),
             placeholder: 'No date selected',
-            onChange: (value: Date | null) => console.log('Empty changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Empty changed:', value),
           })
         ),
         html.div(
@@ -65,7 +69,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
             value: prop(new Date('2024-12-25T09:00:00')),
             disabled: prop(true),
             placeholder: 'Disabled input',
-            onChange: (value: Date | null) => console.log('Disabled changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Disabled changed:', value),
           })
         ),
         html.div(
@@ -75,7 +80,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
             value: prop(null),
             hasError: prop(true),
             placeholder: 'Required field',
-            onChange: (value: Date | null) => console.log('Error changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Error changed:', value),
           })
         ),
         html.div(
@@ -84,7 +90,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(new Date()),
             placeholder: 'Current date and time',
-            onChange: (value: Date | null) => console.log('Current time changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Current time changed:', value),
           })
         )
       ),
@@ -97,7 +104,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(new Date('2024-02-01T10:00:00')),
             placeholder: 'Meeting start time',
-            onChange: (value: Date | null) => console.log('Meeting start changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Meeting start changed:', value),
           })
         ),
         html.div(
@@ -106,7 +114,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(new Date('2024-03-15T23:59:00')),
             placeholder: 'Project deadline',
-            onChange: (value: Date | null) => console.log('Deadline changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Deadline changed:', value),
           })
         ),
         html.div(
@@ -115,7 +124,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(null),
             placeholder: 'Set reminder (optional)',
-            onChange: (value: Date | null) => console.log('Reminder changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Reminder changed:', value),
           })
         ),
         html.div(
@@ -124,7 +134,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
           NullableDateTimeInput({
             value: prop(new Date('2024-06-30T18:00:00')),
             placeholder: 'Event end time',
-            onChange: (value: Date | null) => console.log('Event end changed:', value),
+            onChange: (value: Date | null) =>
+              console.log('Event end changed:', value),
           })
         )
       ),
@@ -132,14 +143,17 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
         attr.class('bu-flex bu-flex-col bu-gap-sm'),
         html.span('Form Example:'),
         html.form(
-          attr.class('bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'),
+          attr.class(
+            'bu-flex bu-flex-col bu-gap-sm bu-p-md bu-border bu-rounded'
+          ),
           html.div(
             attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center'),
             html.span('Start Date:'),
             NullableDateTimeInput({
               value: prop(new Date('2024-01-01T09:00:00')),
               placeholder: 'Project start',
-              onChange: (value: Date | null) => console.log('Start date changed:', value),
+              onChange: (value: Date | null) =>
+                console.log('Start date changed:', value),
             })
           ),
           html.div(
@@ -148,7 +162,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
             NullableDateTimeInput({
               value: prop(new Date('2024-12-31T17:00:00')),
               placeholder: 'Project end',
-              onChange: (value: Date | null) => console.log('End date changed:', value),
+              onChange: (value: Date | null) =>
+                console.log('End date changed:', value),
             })
           ),
           html.div(
@@ -157,7 +172,8 @@ const renderNullableDateTimeInput = (args: NullableDateTimeInputStoryOptions) =>
             NullableDateTimeInput({
               value: prop(null),
               placeholder: 'Optional review',
-              onChange: (value: Date | null) => console.log('Review date changed:', value),
+              onChange: (value: Date | null) =>
+                console.log('Review date changed:', value),
             })
           )
         )

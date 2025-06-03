@@ -17,7 +17,6 @@ export const Theme: Provider<ThemeValue, object> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   create: (_options?: object) => {
     const theme = new BeatUITheme()
     const systemAppearance = useAppearence()

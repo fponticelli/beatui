@@ -40,7 +40,9 @@ const renderTag = (args: TagStoryOptions) => {
       attr.class('bu-flex bu-flex-col bu-gap-sm'),
       html.span('Color Variants:'),
       html.div(
-        attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'),
+        attr.class(
+          'bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'
+        ),
         Tag({
           value: prop('Base'),
           color: prop('base'),
@@ -54,7 +56,8 @@ const renderTag = (args: TagStoryOptions) => {
         Tag({
           value: prop('Secondary'),
           color: prop('secondary'),
-          onClose: (value: string) => console.log('Secondary tag closed:', value),
+          onClose: (value: string) =>
+            console.log('Secondary tag closed:', value),
         }),
         Tag({
           value: prop('Success'),
@@ -97,7 +100,8 @@ const renderTag = (args: TagStoryOptions) => {
           value: prop('Disabled Tag'),
           color: prop('primary'),
           disabled: prop(true),
-          onClose: (value: string) => console.log('Disabled tag closed:', value),
+          onClose: (value: string) =>
+            console.log('Disabled tag closed:', value),
         })
       ),
       html.div(
@@ -115,7 +119,9 @@ const renderTag = (args: TagStoryOptions) => {
       html.div(
         attr.class('bu-flex bu-flex-col bu-gap-sm'),
         html.div(
-          attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'),
+          attr.class(
+            'bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'
+          ),
           html.span('Technologies:'),
           Tag({ value: prop('JavaScript'), color: prop('primary') }),
           Tag({ value: prop('TypeScript'), color: prop('info') }),
@@ -125,7 +131,9 @@ const renderTag = (args: TagStoryOptions) => {
           Tag({ value: prop('Svelte'), color: prop('warning') })
         ),
         html.div(
-          attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'),
+          attr.class(
+            'bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'
+          ),
           html.span('Status:'),
           Tag({ value: prop('Active'), color: prop('success') }),
           Tag({ value: prop('Pending'), color: prop('warning') }),
@@ -133,22 +141,24 @@ const renderTag = (args: TagStoryOptions) => {
           Tag({ value: prop('Draft'), color: prop('secondary') })
         ),
         html.div(
-          attr.class('bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'),
+          attr.class(
+            'bu-flex bu-flex-row bu-gap-sm bu-items-center bu-flex-wrap'
+          ),
           html.span('Categories:'),
           Tag({
             value: prop('Frontend'),
             color: prop('primary'),
-            onClose: (value: string) => console.log('Category removed:', value)
+            onClose: (value: string) => console.log('Category removed:', value),
           }),
           Tag({
             value: prop('Backend'),
             color: prop('info'),
-            onClose: (value: string) => console.log('Category removed:', value)
+            onClose: (value: string) => console.log('Category removed:', value),
           }),
           Tag({
             value: prop('DevOps'),
             color: prop('warning'),
-            onClose: (value: string) => console.log('Category removed:', value)
+            onClose: (value: string) => console.log('Category removed:', value),
           })
         )
       )
@@ -176,7 +186,15 @@ const meta = {
     },
     color: {
       control: 'select',
-      options: ['base', 'primary', 'secondary', 'success', 'warning', 'error', 'info'],
+      options: [
+        'base',
+        'primary',
+        'secondary',
+        'success',
+        'warning',
+        'error',
+        'info',
+      ],
       description: 'The color variant of the tag',
     },
   },
