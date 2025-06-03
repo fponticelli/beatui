@@ -1,0 +1,53 @@
+@layer components {
+  /* Center Component */
+  .bc-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    gap: var(--spacing-lg);
+  }
+
+  /* Center Horizontal Only */
+  .bc-center-h {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Center gap variants */
+  .bc-center--gap-none {
+    gap: 0;
+  }
+
+  .bc-center--gap-xs {
+    gap: var(--spacing-xs);
+  }
+
+  .bc-center--gap-sm {
+    gap: var(--spacing-sm);
+  }
+
+  .bc-center--gap-md {
+    gap: var(--spacing-md);
+  }
+
+  .bc-center--gap-lg {
+    gap: var(--spacing-lg);
+  }
+
+  .bc-center--gap-xl {
+    gap: var(--spacing-xl);
+  }
+
+  /* Center content wrapper */
+  .bc-center__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: inherit;
+  }
+}

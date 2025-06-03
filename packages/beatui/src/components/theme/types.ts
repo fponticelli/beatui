@@ -153,6 +153,32 @@ export type FadeInOutStyleOptions = {
   state: FadeTranstionState
 }
 
+export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
+
+export type CardStyleOptions = {
+  variant?: CardVariant
+  size?: ControlSize
+  roundedness?: RadiusName
+}
+
+export type CenterGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+export type CenterStyleOptions = {
+  gap?: CenterGap
+}
+
+export type SinkVariant = 'default' | 'deep' | 'shallow' | 'flat'
+
+export type SinkStyleOptions = {
+  variant?: SinkVariant
+  size?: ControlSize
+  roundedness?: RadiusName
+}
+
+export type SegmentedControlStyleOptions = {
+  size?: ControlSize
+}
+
 export interface ThemeDefinition {
   button: (options: ButtonStyleOptions) => string
   overlay: (options: OverlayStyleOptions) => string
@@ -168,6 +194,10 @@ export interface ThemeDefinition {
   checkboxInput: (options: CheckboxInputStyleOptions) => string
   editableText: (options: EditableTextStyleOptions) => string
   numberInput: (options: NumberInputStyleOptions) => string
+  card: (options: CardStyleOptions) => string
+  center: (options: CenterStyleOptions) => string
+  sink: (options: SinkStyleOptions) => string
+  segmentedControl: (options: SegmentedControlStyleOptions) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'

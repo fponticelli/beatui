@@ -1,0 +1,74 @@
+@layer components {
+  /* Card Component */
+  .bc-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-base-300);
+    padding: var(--spacing-md);
+    box-shadow: 0 0 0.5rem 0.125rem rgba(0, 0, 0, 0.075);
+    background-color: var(--color-base-100);
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Card variants */
+  .bc-card--elevated {
+    box-shadow: 0 0 1rem 0.25rem rgba(0, 0, 0, 0.15);
+  }
+
+  .bc-card--flat {
+    box-shadow: none;
+    border: 1px solid var(--color-base-200);
+  }
+
+  .bc-card--outlined {
+    box-shadow: none;
+    border: 2px solid var(--color-base-300);
+  }
+
+  /* Card sizes */
+  .bc-card--padding-xs {
+    padding: var(--spacing-xs);
+  }
+
+  .bc-card--padding-sm {
+    padding: var(--spacing-sm);
+  }
+
+  .bc-card--padding-md {
+    padding: var(--spacing-md);
+  }
+
+  .bc-card--padding-lg {
+    padding: var(--spacing-lg);
+  }
+
+  .bc-card--padding-xl {
+    padding: var(--spacing-xl);
+  }
+
+  /* Card roundedness */
+  .bc-card--rounded-none {
+    border-radius: 0;
+  }
+
+  .bc-card--rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+
+  .bc-card--rounded-md {
+    border-radius: var(--radius-md);
+  }
+
+  .bc-card--rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+
+  .bc-card--rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+
+  .bc-card--rounded-full {
+    border-radius: var(--radius-full);
+  }
+}

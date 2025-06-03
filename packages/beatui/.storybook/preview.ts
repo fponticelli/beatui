@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/html-vite'
-// Import the generated CSS with all layered CSS and pure CSS icons
-import '../dist/tempo-ui-lib.css'
+// Import the source CSS with all layered CSS and pure CSS icons
+import '../src/styles/index.css'
 
 const preview: Preview = {
   parameters: {

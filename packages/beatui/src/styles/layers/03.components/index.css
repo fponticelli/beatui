@@ -1,4 +1,6 @@
 @import './button.css';
+@import './card.css';
+@import './center.css';
 @import './checkbox-input.css';
 @import './control.css';
 @import './control-input-wrapper.css';
@@ -10,5 +12,7 @@
 @import './number-input.css';
 @import './overlay.css';
 @import './panel.css';
+@import './segmented-control.css';
+@import './sink.css';
 @import './stack.css';
 @import './tag.css';

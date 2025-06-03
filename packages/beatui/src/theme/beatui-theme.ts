@@ -1,5 +1,7 @@
 import {
   ButtonStyleOptions,
+  CardStyleOptions,
+  CenterStyleOptions,
   CheckboxInputStyleOptions,
   ControlInputWrapperStyleOptions,
   EditableTextStyleOptions,
@@ -9,6 +11,8 @@ import {
   NumberInputStyleOptions,
   OverlayStyleOptions,
   PanelStyleOptions,
+  SegmentedControlStyleOptions,
+  SinkStyleOptions,
   TagStyleOptions,
   ThemeDefinition,
 } from '@/components/theme'
@@ -136,5 +140,69 @@ export class BeatUITheme implements ThemeDefinition {
 
   numberInput(_options: NumberInputStyleOptions): string {
     return 'bc-number-input'
+  }
+
+  card({
+    variant = 'default',
+    size = 'md',
+    roundedness = 'lg',
+  }: CardStyleOptions): string {
+    const classes = ['bc-card']
+
+    if (variant !== 'default') {
+      classes.push(`bc-card--${variant}`)
+    }
+
+    if (size !== 'md') {
+      classes.push(`bc-card--padding-${size}`)
+    }
+
+    if (roundedness !== 'lg') {
+      classes.push(`bc-card--rounded-${roundedness}`)
+    }
+
+    return classes.join(' ')
+  }
+
+  center({ gap = 'lg' }: CenterStyleOptions): string {
+    const classes = ['bc-center']
+
+    if (gap !== 'lg') {
+      classes.push(`bc-center--gap-${gap}`)
+    }
+
+    return classes.join(' ')
+  }
+
+  sink({
+    variant = 'default',
+    size = 'md',
+    roundedness = 'lg',
+  }: SinkStyleOptions): string {
+    const classes = ['bc-sink']
+
+    if (variant !== 'default') {
+      classes.push(`bc-sink--${variant}`)
+    }
+
+    if (size !== 'md') {
+      classes.push(`bc-sink--padding-${size}`)
+    }
+
+    if (roundedness !== 'lg') {
+      classes.push(`bc-sink--rounded-${roundedness}`)
+    }
+
+    return classes.join(' ')
+  }
+
+  segmentedControl({ size = 'sm' }: SegmentedControlStyleOptions): string {
+    const classes = ['bc-segmented-control']
+
+    if (size !== 'sm') {
+      classes.push(`bc-segmented-control--size-${size}`)
+    }
+
+    return classes.join(' ')
   }
 }
