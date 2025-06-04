@@ -129,6 +129,12 @@ pnpm run release:major
 # Prerelease (0.0.1 → 0.0.2-0) - for beta/alpha versions
 pnpm run release:prerelease
 
+# Release without automatic git commit (manual git handling)
+pnpm run release:patch:no-commit
+pnpm run release:minor:no-commit
+pnpm run release:major:no-commit
+pnpm run release:prerelease:no-commit
+
 # Test publishing without actually publishing
 pnpm run release:dry
 
@@ -143,6 +149,9 @@ pnpm run version:next:prerelease # Shows next prerelease version
 
 # Prepare package for release (clean, build, test) without publishing
 pnpm run release:prepare
+
+# Test what commit message would be created
+pnpm run release:commit:dry
 ```
 
 ### Release Process
@@ -151,12 +160,14 @@ Each release script follows this workflow:
 1. **Prepare**: Clean previous builds, build package, run all tests
 2. **Version**: Update the version number in package.json and create git tag
 3. **Publish**: Publish to npm (bypassing git checks since version step creates changes)
+4. **Commit**: Add package.json changes and commit with release message
 
 The workflow ensures that:
 - All tests pass before any version changes
 - Package builds successfully before publishing
 - Git tags are created for version tracking
 - Git check conflicts are avoided by using `--no-git-checks` after versioning
+- Release commits are automatically created with descriptive messages
 
 ### Release Guidelines
 
@@ -166,6 +177,30 @@ The workflow ensures that:
 - **Prerelease** (0.0.1 → 0.0.2-0): Beta/alpha versions for testing
 
 **Note**: Prerelease versions are published with the `next` tag, so they won't be installed by default with `npm install @tempots/beatui`.
+
+### Git Integration
+
+**Automatic Git Commits (Default)**
+
+The main release scripts automatically commit version changes after successful publish:
+- Add the updated `package.json` to git staging
+- Create a commit with the message: `chore: release @tempots/beatui@{version}`
+- This keeps your git history in sync with published versions
+
+Example commit messages:
+- `chore: release @tempots/beatui@1.0.0`
+- `chore: release @tempots/beatui@1.1.0`
+- `chore: release @tempots/beatui@1.0.1`
+
+**Manual Git Handling**
+
+If you prefer to handle git commits manually, use the `:no-commit` variants:
+- `pnpm run release:patch:no-commit`
+- `pnpm run release:minor:no-commit`
+- `pnpm run release:major:no-commit`
+- `pnpm run release:prerelease:no-commit`
+
+These scripts will publish successfully but leave git operations to you.
 
 ## License
 
