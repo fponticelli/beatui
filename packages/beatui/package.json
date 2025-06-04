@@ -1,6 +1,6 @@
 {
-  "name": "beatui",
-  "version": "0.0.2",
+  "name": "@tempots/beatui",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -12,7 +12,7 @@
       "require": "./dist/index.umd.js",
       "default": "./dist/index.es.js"
     },
-    "./css": "./dist/core.css",
+    "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },

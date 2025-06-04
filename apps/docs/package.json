@@ -1,5 +1,5 @@
 {
-  "name": "beatui_docs",
+  "name": "@beatui/docs",
   "version": "1.0.0",
   "type": "module",
   "description": "BeatUI Documentation Site",
@@ -13,7 +13,7 @@
   "author": "Franco Ponticelli",
   "license": "MIT",
   "dependencies": {
-    "beatui": "workspace:*"
+    "@tempots/beatui": "workspace:*"
   },
   "devDependencies": {
     "vitepress": "^1.0.0",

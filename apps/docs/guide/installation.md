@@ -7,15 +7,15 @@ Install BeatUI using your preferred package manager:
 ::: code-group
 
 ```bash [pnpm]
-pnpm add beatui
+pnpm add @tempots/beatui
 ```
 
 ```bash [npm]
-npm install beatui
+npm install @tempots/beatui
 ```
 
 ```bash [yarn]
-yarn add beatui
+yarn add @tempots/beatui
 ```
 
 :::
@@ -35,13 +35,13 @@ These will be automatically installed when you install BeatUI.
 Import the BeatUI CSS in your main CSS file or entry point:
 
 ```css
-@import 'beatui/dist/tempo-ui-lib.css';
+@import '@tempots/beatui/css';
 ```
 
 Or import it in your JavaScript/TypeScript entry point:
 
 ```typescript
-import 'beatui/dist/tempo-ui-lib.css';
+import '@tempots/beatui/css';
 ```
 
 ## TypeScript Configuration
