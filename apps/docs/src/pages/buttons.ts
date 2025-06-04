@@ -80,7 +80,6 @@ export const ButtonsPage = () => {
       Label("Size"),
       html.div(
         SegmentedControl({
-          // size: "sm",
           segments: [
             { label: "XS", onSelect: () => size.set("xs") },
             { label: "SM", onSelect: () => size.set("sm") },
@@ -91,14 +90,11 @@ export const ButtonsPage = () => {
           activeSegment: prop(2)
         })
       ),
-      Label("Disabled"),
       html.div(
         Toggle({
+          label: "Disabled",
           value: disabled,
           onChange: (value: boolean) => disabled.set(value)
-          // offLabel: "NO",
-          // onLabel: "YES",
-          // size: "xl"
         })
       ),
       Label("Text"),

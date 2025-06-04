@@ -26,9 +26,10 @@ export const TogglesPage = () => {
   return Group(
     attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
     Stack(
-      Label("On/Off"),
       html.div(
         Toggle({
+          size: "sm",
+          label: "On/Off",
           value,
           onChange: value.set
         })
@@ -54,9 +55,10 @@ export const TogglesPage = () => {
           onInput: (value: string) => offLabel.set(value)
         })
       ),
-      Label("Disabled"),
       html.div(
         Toggle({
+          size: "sm",
+          label: "Disabled",
           value: disabled,
           onChange: (value: boolean) => disabled.set(value)
         })

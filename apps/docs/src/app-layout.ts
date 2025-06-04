@@ -9,7 +9,6 @@ export function AppLayout({ children }: { children: TNode }) {
         attr.class("bu-flex-col"),
         Anchor({ href: "/buttons", withViewTransition: true }, "Button"),
         Anchor({ href: "/toggles", withViewTransition: true }, "Toggle"),
-        Anchor({ href: "/about", withViewTransition: true }, "About")
       )
     },
     header: {

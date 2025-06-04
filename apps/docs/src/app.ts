@@ -16,7 +16,6 @@ export const App = () => {
             "/": HomePage,
             "/buttons": ButtonsPage,
             "/toggles": TogglesPage,
-            "/about": () => html.div("About"),
           })
         })
       )

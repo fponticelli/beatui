@@ -12,6 +12,7 @@ import {
 import { Theme } from '../../theme'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
+import { Label } from '@/components/typography'
 
 export type ToggleOptions = {
   value: Value<boolean>
@@ -52,7 +53,7 @@ export const Toggle = ({
         if (Value.get(disabled)) return
         onChange(!Value.get(value))
       }),
-      label != null ? html.div(attr.class('bc-toggle__label'), label) : null,
+      label != null ? Label(attr.class(`bu-text-${size}`), label) : null,
       html.div(
         attr.class('bc-toggle__track'),
         attr.class(
