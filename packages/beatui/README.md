@@ -134,15 +134,29 @@ pnpm run release:dry
 
 # Show current version
 pnpm run version:show
+
+# Preview what the next version would be for each release type
+pnpm run version:next:patch      # Shows next patch version
+pnpm run version:next:minor      # Shows next minor version
+pnpm run version:next:major      # Shows next major version
+pnpm run version:next:prerelease # Shows next prerelease version
+
+# Prepare package for release (clean, build, test) without publishing
+pnpm run release:prepare
 ```
 
 ### Release Process
 
-Each release script will:
-1. Update the version number in package.json
-2. Create a git tag for the new version
-3. Run the `prepublishOnly` script (clean, build, test)
-4. Publish to npm
+Each release script follows this workflow:
+1. **Prepare**: Clean previous builds, build package, run all tests
+2. **Version**: Update the version number in package.json and create git tag
+3. **Publish**: Publish to npm (bypassing git checks since version step creates changes)
+
+The workflow ensures that:
+- All tests pass before any version changes
+- Package builds successfully before publishing
+- Git tags are created for version tracking
+- Git check conflicts are avoided by using `--no-git-checks` after versioning
 
 ### Release Guidelines
 
