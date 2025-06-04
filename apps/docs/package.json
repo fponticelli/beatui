@@ -5,8 +5,9 @@
   "description": "BeatUI Documentation Site",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-static.js",
-    "preview": "vite preview",
+    "build": "vite build && npx tsx scripts/generate-static.ts",
+    "serve": "serve .",
+    "preview:vite": "vite preview",
     "clean": "rm -rf dist"
   },
   "keywords": ["documentation", "beatui", "vite"],
@@ -20,7 +21,12 @@
   },
   "devDependencies": {
     "vite": "^6.3.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "cheerio": "^1.0.0",
+    "fs-extra": "^11.2.0",
+    "@types/fs-extra": "^11.0.4",
+    "tsx": "^4.19.4",
+    "serve": "^14.2.4"
   },
   "packageManager": "pnpm@10.11.0"
 }
