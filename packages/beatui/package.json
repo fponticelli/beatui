@@ -1,6 +1,6 @@
 {
-  "name": "@beatui/core",
-  "version": "0.0.1",
+  "name": "beatui",
+  "version": "0.0.2",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",

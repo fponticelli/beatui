@@ -18,11 +18,11 @@ A modern TypeScript UI component library built with [@tempots/dom](https://tempo
 ## Installation
 
 ```bash
-npm install @beatui/core
+npm install beatui
 # or
-pnpm add @beatui/core
+pnpm add beatui
 # or
-yarn add @beatui/core
+yarn add beatui
 ```
 
 You'll also need to install the peer dependencies:
@@ -40,19 +40,19 @@ yarn add @tempots/dom @tempots/std @tempots/ui
 Import the CSS in your main CSS file or entry point:
 
 ```css
-@import '@beatui/core/css';
+@import 'beatui/css';
 ```
 
 Or import it in your JavaScript/TypeScript entry point:
 
 ```typescript
-import '@beatui/core/css';
+import 'beatui/css';
 ```
 
 ## Usage
 
 ```typescript
-import { createButton, createCard } from '@beatui/core';
+import { createButton, createCard } from 'beatui';
 
 // Create a button
 const button = createButton({
@@ -165,7 +165,7 @@ The workflow ensures that:
 - **Major releases** (0.0.1 → 1.0.0): Breaking changes, API changes, major architectural updates
 - **Prerelease** (0.0.1 → 0.0.2-0): Beta/alpha versions for testing
 
-**Note**: Prerelease versions are published with the `next` tag, so they won't be installed by default with `npm install @beatui/core`.
+**Note**: Prerelease versions are published with the `next` tag, so they won't be installed by default with `npm install beatui`.
 
 ## License
 

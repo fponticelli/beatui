@@ -7,7 +7,7 @@ A modern TypeScript UI component library with design tokens and layered CSS arch
 This monorepo contains the following packages:
 
 - **[`beatui`](./packages/beatui/)** - The main UI component library
-- **[`@beatui/docs`](./apps/docs/)** - Documentation site built with VitePress
+- **[`beatui_docs`](./apps/docs/)** - Documentation site built with VitePress
 
 ## 🚀 Getting Started
 
@@ -36,7 +36,7 @@ pnpm build
 # Run development servers
 pnpm dev                    # Run all dev servers
 pnpm dev --filter=beatui    # Run only BeatUI dev server
-pnpm dev --filter=@beatui/docs  # Run only docs dev server
+pnpm dev --filter=beatui_docs  # Run only docs dev server
 
 # Run Storybook
 pnpm storybook --filter=beatui
