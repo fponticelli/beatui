@@ -18,17 +18,41 @@ A modern TypeScript UI component library built with [@tempots/dom](https://tempo
 ## Installation
 
 ```bash
-npm install beatui
+npm install @beatui/core
 # or
-pnpm add beatui
+pnpm add @beatui/core
 # or
-yarn add beatui
+yarn add @beatui/core
+```
+
+You'll also need to install the peer dependencies:
+
+```bash
+npm install @tempots/dom @tempots/std @tempots/ui
+# or
+pnpm add @tempots/dom @tempots/std @tempots/ui
+# or
+yarn add @tempots/dom @tempots/std @tempots/ui
+```
+
+## CSS Import
+
+Import the CSS in your main CSS file or entry point:
+
+```css
+@import '@beatui/core/css';
+```
+
+Or import it in your JavaScript/TypeScript entry point:
+
+```typescript
+import '@beatui/core/css';
 ```
 
 ## Usage
 
 ```typescript
-import { createButton, createCard } from 'beatui';
+import { createButton, createCard } from '@beatui/core';
 
 // Create a button
 const button = createButton({
@@ -87,6 +111,47 @@ The library includes comprehensive design tokens for:
 ## Development
 
 See the [monorepo README](../../README.md) for development instructions.
+
+## Publishing
+
+The package includes convenient scripts for publishing different types of releases:
+
+```bash
+# Patch release (0.0.1 → 0.0.2) - for bug fixes
+pnpm run release:patch
+
+# Minor release (0.0.1 → 0.1.0) - for new features
+pnpm run release:minor
+
+# Major release (0.0.1 → 1.0.0) - for breaking changes
+pnpm run release:major
+
+# Prerelease (0.0.1 → 0.0.2-0) - for beta/alpha versions
+pnpm run release:prerelease
+
+# Test publishing without actually publishing
+pnpm run release:dry
+
+# Show current version
+pnpm run version:show
+```
+
+### Release Process
+
+Each release script will:
+1. Update the version number in package.json
+2. Create a git tag for the new version
+3. Run the `prepublishOnly` script (clean, build, test)
+4. Publish to npm
+
+### Release Guidelines
+
+- **Patch releases** (0.0.1 → 0.0.2): Bug fixes, documentation updates, internal refactoring
+- **Minor releases** (0.0.1 → 0.1.0): New features, new components, non-breaking API additions
+- **Major releases** (0.0.1 → 1.0.0): Breaking changes, API changes, major architectural updates
+- **Prerelease** (0.0.1 → 0.0.2-0): Beta/alpha versions for testing
+
+**Note**: Prerelease versions are published with the `next` tag, so they won't be installed by default with `npm install @beatui/core`.
 
 ## License
 
