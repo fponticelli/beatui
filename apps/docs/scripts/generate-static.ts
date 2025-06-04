@@ -89,7 +89,7 @@ const main = async () => {
   })()
 
   // Create a poller to handle async operations during rendering
-  const makePoller = (delay: number = 0, initialWait: number = 100) => {
+  const makePoller = (delay: number = 0, initialWait: number = 10) => {
     let fetchCount = 0
     let outerResolve: () => void
     let done = new Promise<void>(resolve => {
@@ -159,7 +159,7 @@ const main = async () => {
 
       // Process portals and inject into HTML
       const portals = root.getPortals()
-      // console.log(portals.map(p => p.selector + `(${p.hasRenderableProperties()}): ` + p.contentToHTML()))
+      console.log(portals.map(p => p.selector + `(${p.hasRenderableProperties()}, ${p.hasChildren()}, ${p.hasInnerHTML()}, ${p.hasInnerText()}): ` + p.contentToHTML()))
       portals.forEach(p => {
         if (p.selector === ':root') {
           $('body').prepend(p.contentToHTML())
@@ -262,6 +262,7 @@ const main = async () => {
       .filter(url => url.startsWith('/'))
       .filter(url => !url.startsWith('/assets/'))
       .filter(url => !url.includes('#')) // Remove anchor links
+      .filter(url => !url.endsWith('.png'))
       .filter(url => !url.endsWith('.svg'))
       .filter(url => !url.endsWith('.css'))
       .filter(url => !url.endsWith('.js'))
@@ -317,8 +318,14 @@ const main = async () => {
         continue
       }
 
+      console.log(html)
+
       // Extract and queue new URLs
-      const urls = filterURLs(extractURLs(html))
+      console.log(`🔍 Extracting links from: ${url}`)
+      const extractedUrls = extractURLs(html)
+      console.log(`🔍 Found ${extractedUrls.length} links: ${extractedUrls.join(', ')}`)
+      const urls = filterURLs(extractedUrls)
+      console.log(`🔍 Found ${urls.length} links`)
       const newUrls = urls.filter(url => !generated.has(url))
       toGenerate.push(...newUrls)
 

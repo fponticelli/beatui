@@ -1,2 +1,7 @@
 /* Import BeatUI CSS */
 @import '@tempots/beatui/css';
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}

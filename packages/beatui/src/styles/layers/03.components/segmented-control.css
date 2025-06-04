@@ -3,7 +3,6 @@
   .bc-segmented-control {
     background-color: var(--color-base-200);
     border-radius: var(--radius-full);
-    padding: calc(var(--spacing-base) / 2);
     width: 100%;
     box-shadow: 0 0 0.25rem 0.0rem rgba(0, 0, 0, 0.1);
     position: relative;
@@ -38,7 +37,6 @@
     justify-content: center;
     cursor: pointer;
     white-space: nowrap;
-    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
     text-transform: capitalize;
     color: var(--color-base-700);
@@ -57,31 +55,5 @@
 
   .bc-segmented-control__segment--inactive {
     color: var(--color-base-600);
-  }
-
-  /* Size variants */
-  .bc-segmented-control--size-xs .bc-segmented-control__segment {
-    padding: calc(var(--spacing-base) / 2) var(--spacing-sm);
-    font-size: var(--font-size-xs);
-  }
-
-  .bc-segmented-control--size-sm .bc-segmented-control__segment {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--font-size-sm);
-  }
-
-  .bc-segmented-control--size-md .bc-segmented-control__segment {
-    padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--font-size-base);
-  }
-
-  .bc-segmented-control--size-lg .bc-segmented-control__segment {
-    padding: var(--spacing-lg) var(--spacing-xl);
-    font-size: var(--font-size-lg);
-  }
-
-  .bc-segmented-control--size-xl .bc-segmented-control__segment {
-    padding: var(--spacing-xl) calc(var(--spacing-xl) * 1.5);
-    font-size: var(--font-size-xl);
   }
 }

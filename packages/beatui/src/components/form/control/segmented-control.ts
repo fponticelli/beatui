@@ -15,7 +15,7 @@ import { ControlSize, Theme } from '../../theme'
 
 export interface SegmentedControlProps {
   segments: { label: TNode; onSelect?: () => void }[]
-  activeSegment: Value<number | null>
+  activeSegment: Value<number> | Value<number | null>
   onSegmentChange?: (index?: number) => void
   size?: Value<ControlSize>
 }
@@ -28,9 +28,11 @@ export function SegmentedControl({
   segments,
   activeSegment = null,
   onSegmentChange,
-  size = 'sm',
+  size = 'md',
 }: SegmentedControlProps) {
-  const currentSegment = Value.toSignal(activeSegment ?? null).deriveProp()
+  const currentSegment = Value.toSignal(
+    (activeSegment ?? null) as Value<number | null>
+  ).deriveProp()
   const sizes = prop(
     segments.map(() => 0),
     arrEquality

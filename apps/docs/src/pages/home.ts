@@ -1,12 +1,15 @@
 import { html, attr } from "@tempots/dom";
-import { Button } from "@tempots/beatui";
+import { Anchor } from "@tempots/ui";
 
 export const HomePage = () => {
   return html.div(
-    Button(
+    attr.class("bu-flex-col"),
+    html.h1("Welcome to BeatUI"),
+    html.p("A modern TypeScript UI component library"),
+    Anchor(
       {
-        variant: "filled",
-        onClick: () => alert("Hello from BeatUI!")
+        href: "/about",
+        withViewTransition: true
       },
       "Click me!"
     )

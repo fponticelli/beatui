@@ -15,6 +15,7 @@ import {
   SinkStyleOptions,
   TagStyleOptions,
   ThemeDefinition,
+  ToggleStyleOptions,
 } from '@/components/theme'
 
 // Theme system for the new layered CSS architecture
@@ -197,10 +198,20 @@ export class BeatUITheme implements ThemeDefinition {
   }
 
   segmentedControl({ size = 'sm' }: SegmentedControlStyleOptions): string {
-    const classes = ['bc-segmented-control']
+    const classes = [
+      'bc-segmented-control',
+      `bu-text-${size}`,
+      `bc-control--padding-${size}`,
+    ]
 
-    if (size !== 'sm') {
-      classes.push(`bc-segmented-control--size-${size}`)
+    return classes.join(' ')
+  }
+
+  toggle({ disabled = false, size = 'md' }: ToggleStyleOptions): string {
+    const classes = ['bc-toggle', `bu-text-${size}`, `bc-toggle--${size}`]
+
+    if (disabled) {
+      classes.push('bc-toggle--disabled')
     }
 
     return classes.join(' ')

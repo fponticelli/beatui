@@ -149,6 +149,11 @@ export type NumberInputStyleOptions = {
   disabled?: boolean
 }
 
+export type ToggleStyleOptions = {
+  disabled?: boolean
+  size?: ControlSize
+}
+
 export type FadeInOutStyleOptions = {
   state: FadeTranstionState
 }
@@ -198,6 +203,7 @@ export interface ThemeDefinition {
   center: (options: CenterStyleOptions) => string
   sink: (options: SinkStyleOptions) => string
   segmentedControl: (options: SegmentedControlStyleOptions) => string
+  toggle: (options: ToggleStyleOptions) => string
 }
 
 export type AppearancePreference = 'light' | 'dark' | 'system'
