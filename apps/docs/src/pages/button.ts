@@ -12,6 +12,8 @@ import {
   Group
 } from "@tempots/beatui";
 import { html, attr, prop } from "@tempots/dom";
+import { ControlSizeSelector } from "../elements/control-size-selector";
+import { DisabledSelector } from "../elements/disabled-selector";
 
 const allVariants: ButtonVariant[] = [
   "filled",
@@ -53,7 +55,7 @@ const allColors: ThemeColorName[] = [
   "emerald"
 ];
 
-export const ButtonsPage = () => {
+export const ButtonPage = () => {
   const roundedness = prop<RadiusName>("md");
   const size = prop<ControlSize>("md");
   const text = prop("Click Me!");
@@ -78,25 +80,8 @@ export const ButtonsPage = () => {
         })
       ),
       Label("Size"),
-      html.div(
-        SegmentedControl({
-          segments: [
-            { label: "XS", onSelect: () => size.set("xs") },
-            { label: "SM", onSelect: () => size.set("sm") },
-            { label: "MD", onSelect: () => size.set("md") },
-            { label: "LG", onSelect: () => size.set("lg") },
-            { label: "XL", onSelect: () => size.set("xl") }
-          ],
-          activeSegment: prop(2)
-        })
-      ),
-      html.div(
-        Toggle({
-          label: "Disabled",
-          value: disabled,
-          onChange: (value: boolean) => disabled.set(value)
-        })
-      ),
+      html.div(ControlSizeSelector({ size })),
+      html.div(DisabledSelector({ disabled })),
       Label("Text"),
       html.div(
         TextInput({

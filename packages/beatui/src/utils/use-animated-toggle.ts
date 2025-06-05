@@ -5,8 +5,9 @@ export type ToggleStatus =
   | 'closed'
   | 'start-opening'
   | 'opening'
-  | 'open'
+  | 'opened'
   | 'closing'
+  | 'start-closing'
 
 export type AnimatedToggleOptions = {
   initialStatus?: Exclude<ToggleStatus, 'start-opening'>
@@ -24,10 +25,10 @@ export function useAnimatedToggle({
     status.set('start-opening')
   }
   const close = () => {
-    status.set('closing')
+    status.set('start-closing')
   }
   const toggle = () => {
-    if (status.value === 'open' || status.value === 'opening') {
+    if (status.value === 'opened' || status.value === 'opening') {
       close()
     } else {
       open()
@@ -54,7 +55,10 @@ export function useAnimatedToggle({
       clean = delayed(() => status.set('opening'), 0)
     }
     if (value === 'opening') {
-      clean = openedAfter(() => status.set('open'))
+      clean = openedAfter(() => status.set('opened'))
+    }
+    if (value === 'start-closing') {
+      clean = delayed(() => status.set('closing'), 0)
     }
     if (value === 'closing') {
       clean = closedAfter(() => status.set('closed'))
@@ -62,7 +66,7 @@ export function useAnimatedToggle({
   })
   status.onDispose(() => clean())
   const isOpen = status.map(v => v !== 'closed')
-  const displayOpen = status.map(v => v === 'open' || v === 'opening')
+  const displayOpen = status.map(v => v === 'opened' || v === 'opening')
   return {
     status: status as Signal<ToggleStatus>,
     open,

@@ -1,6 +1,7 @@
 export * from './app-shell'
 export * from './card'
 export * from './center'
+export * from './collapse'
 export * from './group'
 export * from './sink'
 export * from './stack'

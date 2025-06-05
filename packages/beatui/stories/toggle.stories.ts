@@ -51,7 +51,8 @@ function renderToggle({
             label: prop('Feature disabled'),
             offLabel: prop('OFF'),
             onLabel: prop('ON'),
-            onChange: (value: boolean) => console.log('Off toggle changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Off toggle changed:', value),
           })
         ),
         html.div(
@@ -62,7 +63,8 @@ function renderToggle({
             label: prop('Feature enabled'),
             offLabel: prop('OFF'),
             onLabel: prop('ON'),
-            onChange: (value: boolean) => console.log('On toggle changed:', value),
+            onChange: (value: boolean) =>
+              console.log('On toggle changed:', value),
           })
         ),
         html.div(
@@ -74,7 +76,8 @@ function renderToggle({
             label: prop('Cannot be changed'),
             offLabel: prop('OFF'),
             onLabel: prop('ON'),
-            onChange: (value: boolean) => console.log('Disabled off changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Disabled off changed:', value),
           })
         ),
         html.div(
@@ -86,7 +89,8 @@ function renderToggle({
             label: prop('Cannot be changed'),
             offLabel: prop('OFF'),
             onLabel: prop('ON'),
-            onChange: (value: boolean) => console.log('Disabled on changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Disabled on changed:', value),
           })
         )
       ),
@@ -98,7 +102,8 @@ function renderToggle({
           html.span('Simple Toggle:'),
           Toggle({
             value: prop(false),
-            onChange: (value: boolean) => console.log('Simple toggle changed:', value),
+            onChange: (value: boolean) =>
+              console.log('Simple toggle changed:', value),
           })
         )
       )

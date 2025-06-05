@@ -1,0 +1,16 @@
+@layer components {
+  .bc-collapse {
+    overflow: hidden;
+    transition: height 0.4s ease-in-out;
+    height: auto;
+  }
+
+  .bc-collapse--start-opening,
+  .bc-collapse--closing {
+    height: 0px;
+  }
+
+  .bc-collapse--closed {
+    display: none;
+  }
+}

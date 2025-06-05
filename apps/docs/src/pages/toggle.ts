@@ -1,10 +1,5 @@
 import {
-  Button,
   ControlSize,
-  ButtonVariant,
-  RadiusName,
-  ThemeColorName,
-  SegmentedControl,
   Toggle,
   TextInput,
   Stack,
@@ -12,11 +7,11 @@ import {
   Group
 } from "@tempots/beatui";
 import { html, attr, prop } from "@tempots/dom";
+import { DisabledSelector } from "../elements/disabled-selector";
 
 const allSizes: ControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 
-export const TogglesPage = () => {
-  const size = prop<ControlSize>("md");
+export const TogglePage = () => {
   const label = prop("Toggle me");
   const onLabel = prop("ON");
   const offLabel = prop("OFF");
@@ -55,14 +50,7 @@ export const TogglesPage = () => {
           onInput: (value: string) => offLabel.set(value)
         })
       ),
-      html.div(
-        Toggle({
-          size: "sm",
-          label: "Disabled",
-          value: disabled,
-          onChange: (value: boolean) => disabled.set(value)
-        })
-      ),
+      html.div(DisabledSelector({ disabled })),
     ),
     html.div(
       attr.class("bu-h-full bu-overflow-auto"),
