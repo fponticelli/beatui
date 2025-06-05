@@ -53,7 +53,9 @@ export const Toggle = ({
         if (Value.get(disabled)) return
         onChange(!Value.get(value))
       }),
-      label != null ? Label(attr.class(`bu-text-${size}`), label) : null,
+      label != null
+        ? Label(attr.class(`bu-text-${size} bu-nowrap`), label)
+        : null,
       html.div(
         attr.class('bc-toggle__track'),
         attr.class(

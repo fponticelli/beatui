@@ -558,7 +558,7 @@ export function AppShell({
               shadow: options.header?.shadow ?? 'none',
             })
           ),
-          attr.class('bu-z-10'),
+          attr.class('bu-z-20'),
           style.display(
             displayHeader.map((v): string => (v ? 'block' : 'none'))
           ),
@@ -633,6 +633,7 @@ export function AppShell({
               WithElement(el => {
                 menuStatus.setElement(el)
               }),
+              attr.class('bu-z-10'),
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
@@ -720,6 +721,7 @@ export function AppShell({
               WithElement(el => {
                 asideStatus.setElement(el)
               }),
+              attr.class('bu-z-10'),
               attr.class(
                 displayAsideAs.map((v): string =>
                   v === 'float'

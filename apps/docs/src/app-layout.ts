@@ -1,5 +1,5 @@
 import { html, attr, TNode } from "@tempots/dom";
-import { AppShell, Group } from "@tempots/beatui";
+import { StandaloneAppearanceSelector, AppShell, Group } from "@tempots/beatui";
 import { Anchor } from "@tempots/ui";
 import { Menu } from "./views/menu";
 
@@ -16,7 +16,7 @@ export function AppLayout({ children }: { children: TNode }) {
           attr.class("bu-h-full bu-p-2"),
           html.img(attr.class("bu-h-full"), attr.src("/beatui-logo.png"))
         ),
-        html.p("THEME TOGGLE")
+        html.div(attr.class("bu-pr-2"), StandaloneAppearanceSelector())
       )
     },
     main: {
