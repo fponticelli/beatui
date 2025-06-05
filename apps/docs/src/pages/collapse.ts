@@ -1,4 +1,4 @@
-import { Button, Collapse, Group, Stack } from "@tempots/beatui";
+import { Button, Collapse, Stack } from "@tempots/beatui";
 import { html, attr, prop, style } from "@tempots/dom";
 
 export const CollapsePage = () => {
