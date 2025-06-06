@@ -34,13 +34,20 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
       html.div(
         attr.class('bu-max-w-md'),
         SegmentedControl({
-          segments: generateSegments(segmentCount),
-          activeSegment,
-          size: prop(size),
-          onSegmentChange: index => {
-            activeSegment.set(index ?? null)
-            console.log('Segment changed to:', index)
+          options: {
+            option1: 'Option 1',
+            option2: 'Option 2',
+            option3: 'Option 3',
           },
+          value: prop('option1'),
+          onChange: value => console.log('Changed to:', value),
+          // segments: generateSegments(segmentCount),
+          // activeSegment,
+          // size: prop(size),
+          // onSegmentChange: index => {
+          //   activeSegment.set(index ?? null)
+          //   console.log('Segment changed to:', index)
+          // },
         })
       ),
       html.div(
@@ -63,12 +70,19 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-sm'),
             SegmentedControl({
-              segments: [
-                { label: 'XS 1' },
-                { label: 'XS 2' },
-                { label: 'XS 3' },
-              ],
-              activeSegment: prop(0),
+              options: {
+                xs1: 'XS 1',
+                xs2: 'XS 2',
+                xs3: 'XS 3',
+              },
+              value: prop('xs1'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'XS 1' },
+              //   { label: 'XS 2' },
+              //   { label: 'XS 3' },
+              // ],
+              // activeSegment: prop(0),
               size: prop('xs'),
             })
           )
@@ -79,12 +93,19 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-sm'),
             SegmentedControl({
-              segments: [
-                { label: 'Small 1' },
-                { label: 'Small 2' },
-                { label: 'Small 3' },
-              ],
-              activeSegment: prop(0),
+              options: {
+                sm1: 'SM 1',
+                sm2: 'SM 2',
+                sm3: 'SM 3',
+              },
+              value: prop('sm1'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'Small 1' },
+              //   { label: 'Small 2' },
+              //   { label: 'Small 3' },
+              // ],
+              // activeSegment: prop(0),
               size: prop('sm'),
             })
           )
@@ -95,12 +116,19 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-md'),
             SegmentedControl({
-              segments: [
-                { label: 'Medium 1' },
-                { label: 'Medium 2' },
-                { label: 'Medium 3' },
-              ],
-              activeSegment: prop(0),
+              options: {
+                md1: 'MD 1',
+                md2: 'MD 2',
+                md3: 'MD 3',
+              },
+              value: prop('md1'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'Medium 1' },
+              //   { label: 'Medium 2' },
+              //   { label: 'Medium 3' },
+              // ],
+              // activeSegment: prop(0),
               size: prop('md'),
             })
           )
@@ -111,12 +139,19 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-lg'),
             SegmentedControl({
-              segments: [
-                { label: 'Large 1' },
-                { label: 'Large 2' },
-                { label: 'Large 3' },
-              ],
-              activeSegment: prop(0),
+              options: {
+                lg1: 'LG 1',
+                lg2: 'LG 2',
+                lg3: 'LG 3',
+              },
+              value: prop('lg1'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'Large 1' },
+              //   { label: 'Large 2' },
+              //   { label: 'Large 3' },
+              // ],
+              // activeSegment: prop(0),
               size: prop('lg'),
             })
           )
@@ -127,12 +162,19 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-xl'),
             SegmentedControl({
-              segments: [
-                { label: 'XL 1' },
-                { label: 'XL 2' },
-                { label: 'XL 3' },
-              ],
-              activeSegment: prop(0),
+              options: {
+                xl1: 'XL 1',
+                xl2: 'XL 2',
+                xl3: 'XL 3',
+              },
+              value: prop('xl1'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'XL 1' },
+              //   { label: 'XL 2' },
+              //   { label: 'XL 3' },
+              // ],
+              // activeSegment: prop(0),
               size: prop('xl'),
             })
           )
@@ -150,7 +192,13 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-sm'),
             SegmentedControl({
-              segments: [{ label: 'Yes' }, { label: 'No' }],
+              options: {
+                yes: 'Yes',
+                no: 'No',
+              },
+              value: prop('yes'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [{ label: 'Yes' }, { label: 'No' }],
               activeSegment: prop(0),
             })
           )
@@ -161,12 +209,20 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-lg'),
             SegmentedControl({
-              segments: [
-                { label: 'Daily' },
-                { label: 'Weekly' },
-                { label: 'Monthly' },
-                { label: 'Yearly' },
-              ],
+              options: {
+                daily: 'Daily',
+                weekly: 'Weekly',
+                monthly: 'Monthly',
+                yearly: 'Yearly',
+              },
+              value: prop('weekly'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'Daily' },
+              //   { label: 'Weekly' },
+              //   { label: 'Monthly' },
+              //   { label: 'Yearly' },
+              // ],
               activeSegment: prop(1),
             })
           )
@@ -177,13 +233,22 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-xl'),
             SegmentedControl({
-              segments: [
-                { label: 'XS' },
-                { label: 'SM' },
-                { label: 'MD' },
-                { label: 'LG' },
-                { label: 'XL' },
-              ],
+              options: {
+                xs: 'XS',
+                sm: 'SM',
+                md: 'MD',
+                lg: 'LG',
+                xl: 'XL',
+              },
+              value: prop('md'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'XS' },
+              //   { label: 'SM' },
+              //   { label: 'MD' },
+              //   { label: 'LG' },
+              //   { label: 'XL' },
+              // ],
               activeSegment: prop(2),
             })
           )
@@ -201,11 +266,18 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-sm'),
             SegmentedControl({
-              segments: [
-                { label: '📋 List' },
-                { label: '🔲 Grid' },
-                { label: '📊 Chart' },
-              ],
+              options: {
+                list: '📋 List',
+                grid: '🔲 Grid',
+                chart: '📊 Chart',
+              },
+              value: prop('list'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: '📋 List' },
+              //   { label: '🔲 Grid' },
+              //   { label: '📊 Chart' },
+              // ],
               activeSegment: prop(0),
             })
           )
@@ -216,13 +288,22 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-md'),
             SegmentedControl({
-              segments: [
-                { label: '1D' },
-                { label: '1W' },
-                { label: '1M' },
-                { label: '3M' },
-                { label: '1Y' },
-              ],
+              options: {
+                '1D': '1D',
+                '1W': '1W',
+                '1M': '1M',
+                '3M': '3M',
+                '1Y': '1Y',
+              },
+              value: prop('1M'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: '1D' },
+              //   { label: '1W' },
+              //   { label: '1M' },
+              //   { label: '3M' },
+              //   { label: '1Y' },
+              // ],
               activeSegment: prop(2),
             })
           )
@@ -233,12 +314,20 @@ const renderSegmentedControl = (args: SegmentedControlStoryOptions) => {
           html.div(
             attr.class('bu-max-w-lg'),
             SegmentedControl({
-              segments: [
-                { label: 'All' },
-                { label: 'Active' },
-                { label: 'Pending' },
-                { label: 'Completed' },
-              ],
+              options: {
+                all: 'All',
+                active: 'Active',
+                pending: 'Pending',
+                completed: 'Completed',
+              },
+              value: prop('all'),
+              onChange: value => console.log('Changed to:', value),
+              // segments: [
+              //   { label: 'All' },
+              //   { label: 'Active' },
+              //   { label: 'Pending' },
+              //   { label: 'Completed' },
+              // ],
               activeSegment: prop(0),
             })
           )

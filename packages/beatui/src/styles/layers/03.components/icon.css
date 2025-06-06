@@ -1,7 +1,39 @@
 @layer components {
-  .bc-group {
-    display: flex;
+  .bc-icon {
+    display: inline-flex;
     align-items: center;
-    gap: calc(var(--spacing-base) / 2);
+    justify-content: center;
+    line-height: 0;
+    vertical-align: middle;
+  }
+  .bc-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bc-icon--xs {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .bc-icon--sm {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .bc-icon--md {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .bc-icon--lg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .bc-icon--xl {
+    width: 3rem;
+    height: 3rem;
   }
 }

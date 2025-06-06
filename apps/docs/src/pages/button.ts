@@ -5,7 +5,6 @@ import {
   RadiusName,
   ThemeColorName,
   SegmentedControl,
-  Toggle,
   TextInput,
   Stack,
   Label,
@@ -67,20 +66,21 @@ export const ButtonPage = () => {
       Label("Roundedness"),
       html.div(
         SegmentedControl({
-          // size: "sm",
-          segments: [
-            { label: "NONE", onSelect: () => roundedness.set("none") },
-            { label: "SM", onSelect: () => roundedness.set("sm") },
-            { label: "MD", onSelect: () => roundedness.set("md") },
-            { label: "LG", onSelect: () => roundedness.set("lg") },
-            { label: "XL", onSelect: () => roundedness.set("xl") },
-            { label: "FULL", onSelect: () => roundedness.set("full") }
-          ],
-          activeSegment: prop(2)
+          options: {
+            none: "NONE",
+            xs: "XS",
+            sm: "SM",
+            md: "MD",
+            lg: "LG",
+            xl: "XL",
+            full: "FULL"
+          },
+          value: roundedness,
+          onChange: roundedness.set
         })
       ),
       Label("Size"),
-      html.div(ControlSizeSelector({ size })),
+      html.div(ControlSizeSelector({ size, onChange: size.set })),
       html.div(DisabledSelector({ disabled })),
       Label("Text"),
       html.div(

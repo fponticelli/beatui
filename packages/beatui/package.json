@@ -25,8 +25,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "dev": "vite",
     "build": "vite build && tsc -p tsconfig.build.json",
+    "build:watch": "vite build --watch",
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",
     "test:watch": "vitest",

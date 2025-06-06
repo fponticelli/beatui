@@ -29,8 +29,8 @@ export const FormPage = () => {
   const newsletter = prop(true);
   const notifications = prop(false);
   const skills = prop(["JavaScript", "TypeScript", "React"]);
-  const experience = prop(1); // 0: Beginner, 1: Intermediate, 2: Advanced
-  const theme = prop(0); // 0: Light, 1: Dark, 2: Auto
+  const experience = prop('intermediate' as 'beginner' | 'intermediate' | 'advanced'); // 0: Beginner, 1: Intermediate, 2: Advanced
+  const theme = prop('light' as 'light' | 'dark' | 'auto'); // 0: Light, 1: Dark, 2: Auto
 
   return Group(
     attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
@@ -147,12 +147,19 @@ export const FormPage = () => {
             attr.class("bu-space-y-2"),
             Label("Experience Level"),
             SegmentedControl({
-              segments: [
-                { label: "Beginner", onSelect: () => experience.set(0) },
-                { label: "Intermediate", onSelect: () => experience.set(1) },
-                { label: "Advanced", onSelect: () => experience.set(2) }
-              ],
-              activeSegment: experience
+              options: {
+                beginner: "Beginner",
+                intermediate: "Intermediate",
+                advanced: "Advanced"
+              },
+              value: experience,
+              onChange: experience.set
+              // segments: [
+              //   { label: "Beginner", onSelect: () => experience.set(0) },
+              //   { label: "Intermediate", onSelect: () => experience.set(1) },
+              //   { label: "Advanced", onSelect: () => experience.set(2) }
+              // ],
+              // activeSegment: experience
             })
           ),
 
@@ -160,12 +167,19 @@ export const FormPage = () => {
             attr.class("bu-space-y-2"),
             Label("Theme Preference"),
             SegmentedControl({
-              segments: [
-                { label: "Light", onSelect: () => theme.set(0) },
-                { label: "Dark", onSelect: () => theme.set(1) },
-                { label: "Auto", onSelect: () => theme.set(2) }
-              ],
-              activeSegment: theme
+              options: {
+                light: "Light",
+                dark: "Dark",
+                auto: "Auto"
+              },
+              value: theme,
+              onChange: theme.set
+              // segments: [
+              //   { label: "Light", onSelect: () => theme.set(0) },
+              //   { label: "Dark", onSelect: () => theme.set(1) },
+              //   { label: "Auto", onSelect: () => theme.set(2) }
+              // ],
+              // activeSegment: theme
             })
           ),
 

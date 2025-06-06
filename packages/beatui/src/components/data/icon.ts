@@ -10,6 +10,7 @@ import {
 } from '@tempots/dom'
 import { IconSize, Theme } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
+import { ThemeColorName } from '@/tokens'
 
 const dbName = 'bui-icons'
 function openIconDB() {
@@ -82,7 +83,7 @@ async function loadIconSvg(iconName: string): Promise<string> {
 export interface IconOptions {
   icon: Value<string>
   size?: Value<IconSize>
-  color?: Value<string>
+  color?: Value<ThemeColorName>
   title?: Value<string>
 }
 
