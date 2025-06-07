@@ -182,6 +182,7 @@ export type SinkStyleOptions = {
 
 export type SegmentedControlStyleOptions = {
   size?: ControlSize
+  disabled?: boolean
 }
 
 export interface ThemeDefinition {

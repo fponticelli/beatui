@@ -197,12 +197,19 @@ export class BeatUITheme implements ThemeDefinition {
     return classes.join(' ')
   }
 
-  segmentedControl({ size = 'sm' }: SegmentedControlStyleOptions): string {
+  segmentedControl({
+    size = 'sm',
+    disabled = false,
+  }: SegmentedControlStyleOptions): string {
     const classes = [
       'bc-segmented-control',
       `bu-text-${size}`,
       `bc-control--padding-${size}`,
     ]
+
+    if (disabled) {
+      classes.push('bc-segmented-control--disabled')
+    }
 
     return classes.join(' ')
   }
