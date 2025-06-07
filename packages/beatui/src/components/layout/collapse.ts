@@ -26,13 +26,23 @@ export function Collapse({ open }: CollapseOption, ...children: TNode[]) {
 
     return ElementRect(rect => {
       const height = prop<null | number>(null)
-      status.on(v => {
-        if (v === 'opened') {
-          height.set(rect.$.height.value)
+      const settableHeight = computedOf(
+        status,
+        rect.$.height
+      )((status, height) => {
+        if (status === 'opened' && height > 0) {
+          return height
+        }
+        return null
+      })
+      settableHeight.on(v => {
+        if (v != null) {
+          height.set(v)
         }
       })
       return Fragment(
         OnDispose(dispose),
+        OnDispose(height.dispose),
         style.height(
           computedOf(
             status,

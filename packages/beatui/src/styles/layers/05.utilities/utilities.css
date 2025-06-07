@@ -16,6 +16,9 @@
   .bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
   .bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
 
+  .bu-flex-grow { flex-grow: 1; }
+  .bu-flex-shrink { flex-shrink: 1; }
+
   /* Flex Wrap */
   .bu-flex-wrap { flex-wrap: wrap; }
   .bu-flex-nowrap { flex-wrap: nowrap; }

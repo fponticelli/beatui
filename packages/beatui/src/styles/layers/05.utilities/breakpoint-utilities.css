@@ -14,6 +14,8 @@
     .sm\:bu-flex-inline-col { display: inline-flex; flex-direction: column; }
     .sm\:bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
     .sm\:bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
+    .sm\:bu-flex-grow { flex-grow: 1; }
+    .sm\:bu-flex-shrink { flex-shrink: 1; }
     .sm\:bu-flex-wrap { flex-wrap: wrap; }
     .sm\:bu-flex-nowrap { flex-wrap: nowrap; }
     .sm\:bu-flex-wrap-reverse { flex-wrap: wrap-reverse; }
@@ -191,6 +193,8 @@
     .md\:bu-flex-inline-col { display: inline-flex; flex-direction: column; }
     .md\:bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
     .md\:bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
+    .md\:bu-flex-grow { flex-grow: 1; }
+    .md\:bu-flex-shrink { flex-shrink: 1; }
     .md\:bu-flex-wrap { flex-wrap: wrap; }
     .md\:bu-flex-nowrap { flex-wrap: nowrap; }
     .md\:bu-flex-wrap-reverse { flex-wrap: wrap-reverse; }
@@ -368,6 +372,8 @@
     .lg\:bu-flex-inline-col { display: inline-flex; flex-direction: column; }
     .lg\:bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
     .lg\:bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
+    .lg\:bu-flex-grow { flex-grow: 1; }
+    .lg\:bu-flex-shrink { flex-shrink: 1; }
     .lg\:bu-flex-wrap { flex-wrap: wrap; }
     .lg\:bu-flex-nowrap { flex-wrap: nowrap; }
     .lg\:bu-flex-wrap-reverse { flex-wrap: wrap-reverse; }
@@ -545,6 +551,8 @@
     .xl\:bu-flex-inline-col { display: inline-flex; flex-direction: column; }
     .xl\:bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
     .xl\:bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
+    .xl\:bu-flex-grow { flex-grow: 1; }
+    .xl\:bu-flex-shrink { flex-shrink: 1; }
     .xl\:bu-flex-wrap { flex-wrap: wrap; }
     .xl\:bu-flex-nowrap { flex-wrap: nowrap; }
     .xl\:bu-flex-wrap-reverse { flex-wrap: wrap-reverse; }
@@ -722,6 +730,8 @@
     .\2xl\:bu-flex-inline-col { display: inline-flex; flex-direction: column; }
     .\2xl\:bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
     .\2xl\:bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
+    .\2xl\:bu-flex-grow { flex-grow: 1; }
+    .\2xl\:bu-flex-shrink { flex-shrink: 1; }
     .\2xl\:bu-flex-wrap { flex-wrap: wrap; }
     .\2xl\:bu-flex-nowrap { flex-wrap: nowrap; }
     .\2xl\:bu-flex-wrap-reverse { flex-wrap: wrap-reverse; }

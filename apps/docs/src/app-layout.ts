@@ -13,7 +13,7 @@ export function AppLayout({ children }: { children: TNode }) {
         attr.class("bu-h-full bu-justify-between"),
         Anchor(
           { href: "/", withViewTransition: true },
-          attr.class("bu-h-full bu-p-2"),
+          attr.class("bu-h-full bu-p-2 bu-flex-grow"),
           html.img(attr.class("bu-h-full"), attr.src("/beatui-logo.png"))
         ),
         html.div(attr.class("bu-pr-2"), StandaloneAppearanceSelector())
