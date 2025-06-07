@@ -204,7 +204,7 @@ export class BeatUITheme implements ThemeDefinition {
     const classes = [
       'bc-segmented-control',
       `bu-text-${size}`,
-      `bc-control--padding-${size}`,
+      `bc-segmented-control--${size}`,
     ]
 
     if (disabled) {

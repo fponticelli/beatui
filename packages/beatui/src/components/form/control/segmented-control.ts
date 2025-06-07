@@ -8,10 +8,12 @@ import {
   prop,
   Use,
   computedOf,
+  WithElement,
+  OnDispose,
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize, Theme } from '../../theme'
-import { objectEntries } from '@tempots/std'
+import { delayed, objectEntries } from '@tempots/std'
 function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
@@ -41,8 +43,8 @@ export function SegmentedControl<T extends Record<string, TNode>>({
   const indexes = Object.fromEntries(
     optionsList.map((o, i) => [o.key, i])
   ) as Record<keyof T, number>
-  const sizes = prop(
-    optionsList.map(() => 0),
+  const rects = prop(
+    optionsList.map(() => ({ left: 0, width: 0 })),
     arrEquality
   )
   return Use(Theme, theme => {
@@ -66,21 +68,19 @@ export function SegmentedControl<T extends Record<string, TNode>>({
           style.width(
             computedOf(
               value,
-              sizes
+              rects
             )((v, s) => {
-              const size = s[indexes[v as keyof T]! ?? 0]
-              return `${size}px`
+              const { width } = s[indexes[v as keyof T]! ?? 0]
+              return `${width}px`
             })
           ),
           style.left(
             computedOf(
               value,
-              sizes
+              rects
             )((v, s) => {
-              const pos = s
-                .slice(0, indexes[v as keyof T]! ?? 0)
-                .reduce((a, b) => a + b, 0)
-              return `${pos}px`
+              const { left } = s[indexes[v as keyof T]! ?? 0]
+              return `${left}px`
             })
           )
         ),
@@ -103,16 +103,20 @@ export function SegmentedControl<T extends Record<string, TNode>>({
                   : 'bc-segmented-control__segment--inactive'
               })
             ),
-            ElementRect(s => {
-              s.on(({ width }) => {
-                sizes.update(sizes => {
+            WithElement(el => {
+              const cancel = delayed(() => {
+                rects.update(sizes => {
                   const newSizes = [...sizes]
-                  newSizes[index] = width
+                  newSizes[index] = {
+                    width: el.offsetWidth,
+                    left: el.offsetLeft,
+                  }
                   return newSizes
                 })
-              })
-              return label
-            })
+              }, 10)
+              return OnDispose(cancel)
+            }),
+            label
           )
         })
       )
