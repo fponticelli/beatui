@@ -9,10 +9,10 @@ import {
   WithTWElementBreakpoint,
 } from '../src/'
 
-const SatisfiesBreakpoint = (
+function SatisfiesBreakpoint(
   info: BreakpointInfo<Breakpoints>,
   name: keyof Breakpoints
-) => {
+) {
   const isSuccess = info.value.map(({ width }) => info.is(name, width))
   return Icon({
     color: isSuccess.map((is): string => (is ? 'green' : 'red')),
