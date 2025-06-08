@@ -112,20 +112,22 @@
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment {
-    color: var(--color-gray-500);
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-400);
     cursor: not-allowed;
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
-    color: var(--color-gray-500);
+    color: var(--color-gray-400);
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment--active {
-    color: var(--color-gray-600);
+    background-color: var(--color-gray-300);
+    color: var(--color-gray-400);
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
-    color: var(--color-gray-500);
+    color: var(--color-gray-400);
   }
 
   /* Dark mode styles */

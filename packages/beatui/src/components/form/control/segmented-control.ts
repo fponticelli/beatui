@@ -11,7 +11,6 @@ import {
   WithElement,
   OnDispose,
 } from '@tempots/dom'
-import { ElementRect } from '@tempots/ui'
 import { ControlSize, Theme } from '../../theme'
 import { delayed, objectEntries } from '@tempots/std'
 function arrEquality<T>(a: T[], b: T[]): boolean {
