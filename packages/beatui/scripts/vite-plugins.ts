@@ -2,6 +2,7 @@ import { spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { breakpoints } from '../src/tokens/breakpoints.js'
+import { generateBackgroundUtilities } from '../src/tokens/colors.js'
 
 /**
  * Vite plugin to generate CSS variables before build
@@ -86,6 +87,41 @@ function generateBreakpointUtilities(): string {
   breakpointCSS += '}\n'
 
   return breakpointCSS
+}
+
+/**
+ * Vite plugin to generate background utility classes
+ * Creates background utility classes from design tokens
+ */
+export function generateBackgroundUtilitiesPlugin() {
+  return {
+    name: 'generate-background-utilities',
+    buildStart: async () => {
+      console.log('🎨 Generating background utility classes...')
+
+      try {
+        const bgCSS = generateBackgroundUtilities()
+        const outputPath = path.resolve(
+          process.cwd(),
+          'src/styles/layers/05.utilities/bg.css'
+        )
+
+        // Ensure directory exists
+        const dirname = path.dirname(outputPath)
+        if (!fs.existsSync(dirname)) {
+          fs.mkdirSync(dirname, { recursive: true })
+        }
+
+        // Write the generated CSS
+        fs.writeFileSync(outputPath, bgCSS, 'utf8')
+
+        console.log(`✅ Background utilities generated at ${outputPath}`)
+      } catch (error) {
+        console.error('❌ Failed to generate background utilities:', error)
+        throw error
+      }
+    },
+  }
 }
 
 /**

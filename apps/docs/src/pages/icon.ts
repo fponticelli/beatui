@@ -10,6 +10,7 @@ import {
 import { html, attr, prop, Value } from "@tempots/dom";
 import { ColorSelector } from "../elements/color-selector";
 import { ControlSizeSelector } from "../elements/control-size-selector";
+import { ControlsHeader } from "../elements/controls-header";
 
 function DisplayIcon({
   value,
@@ -78,20 +79,19 @@ export const IconPage = () => {
   const size = prop<IconSize>("md");
   const color = prop<ThemeColorName>("base");
 
-  return Group(
-    attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
-    Stack(
-      Label("Size"),
-      html.div(ControlSizeSelector({ size, onChange: size.set })),
-      Label("Color"),
-      html.div(
+  return Stack(
+    attr.class("bu-h-full bu-overflow-hidden"),
+    ControlsHeader(
+      Stack(Label("Size"), ControlSizeSelector({ size, onChange: size.set })),
+      Stack(
+        Label("Color"),
         ColorSelector({
           color,
           onChange: color.set
         })
       )
     ),
-    html.div(
+    Stack(
       attr.class("bu-h-full bu-overflow-auto bu-space-y-lg"),
       Group(
         attr.class("bu-gap-4 bu-flex-wrap bu-flex bu-justify-center"),
