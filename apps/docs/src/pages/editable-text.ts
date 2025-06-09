@@ -16,7 +16,7 @@ export const EditableTextPage = () => {
   const value3 = prop("");
   const value4 = prop("Long text that can be edited inline");
 
-  return Group(
+  return Stack(
     attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
     Stack(
       Label("Start Editing"),

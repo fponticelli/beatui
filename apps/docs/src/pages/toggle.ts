@@ -2,12 +2,12 @@ import {
   ControlSize,
   Toggle,
   TextInput,
-  Stack,
   Label,
-  Group
+  Stack
 } from "@tempots/beatui";
 import { html, attr, prop } from "@tempots/dom";
 import { DisabledSelector } from "../elements/disabled-selector";
+import { ControlsHeader } from "../elements/controls-header";
 
 const allSizes: ControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 
@@ -18,10 +18,10 @@ export const TogglePage = () => {
   const disabled = prop(false);
   const value = prop(false);
 
-  return Group(
-    attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
-    Stack(
-      html.div(
+  return Stack(
+    attr.class("bu-h-full bu-overflow-hidden"),
+    ControlsHeader(
+      Stack(
         Toggle({
           size: "sm",
           label: "On/Off",
@@ -29,36 +29,36 @@ export const TogglePage = () => {
           onChange: value.set
         })
       ),
-      Label("Label"),
       html.div(
+        Label("Label"),
         TextInput({
           value: label,
           onInput: (value: string) => label.set(value)
         })
       ),
-      Label("On Label"),
-      html.div(
+      Stack(
+        Label("On Label"),
         TextInput({
           value: onLabel,
           onInput: (value: string) => onLabel.set(value)
         })
       ),
-      Label("Off Label"),
-      html.div(
+      Stack(
+        Label("Off Label"),
         TextInput({
           value: offLabel,
           onInput: (value: string) => offLabel.set(value)
         })
       ),
-      html.div(DisabledSelector({ disabled })),
+      Stack(DisabledSelector({ disabled }))
     ),
-    html.div(
-      attr.class("bu-h-full bu-overflow-auto"),
+    Stack(
+      attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-auto"),
       html.table(
         html.thead(
           html.tr(
             html.th("size / status"),
-            ...['on', 'off'].map(status => html.th(status))
+            ...["on", "off"].map(status => html.th(status))
           )
         ),
         html.tbody(
@@ -80,7 +80,7 @@ export const TogglePage = () => {
                   })
                 );
               })
-            )
+            );
           })
         )
       )

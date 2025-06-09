@@ -12,6 +12,7 @@ import { FormPage } from "./pages/form";
 import { EditableTextPage } from "./pages/editable-text";
 import { BreakpointPage } from "./pages/breakpoint";
 import { CollapsePage } from "./pages/collapse";
+import { SidebarPage } from "./pages/sidebar";
 
 export const App = () => {
   return Provide(Theme, {}, () =>
@@ -26,6 +27,7 @@ export const App = () => {
             "/collapse": CollapsePage,
             "/icon": IconPage,
             "/segmented-control": SegmentedControlPage,
+            "/sidebar": SidebarPage,
             "/tags": TagsPage,
             "/form": FormPage,
             "/editable-text": EditableTextPage,

@@ -13,6 +13,7 @@ import {
 import { html, attr, prop } from "@tempots/dom";
 import { ControlSizeSelector } from "../elements/control-size-selector";
 import { DisabledSelector } from "../elements/disabled-selector";
+import { ControlsHeader } from "../elements/controls-header";
 
 const allVariants: ButtonVariant[] = [
   "filled",
@@ -60,12 +61,13 @@ export const ButtonPage = () => {
   const text = prop("Click Me!");
   const disabled = prop(false);
 
-  return Group(
-    attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
-    Stack(
-      Label("Roundedness"),
-      html.div(
+  return Stack(
+    attr.class("bu-h-full bu-overflow-hidden"),
+    ControlsHeader(
+      Stack(
+        Label("Roundedness"),
         SegmentedControl({
+          size: "sm",
           options: {
             none: "NONE",
             xs: "XS",
@@ -79,19 +81,20 @@ export const ButtonPage = () => {
           onChange: roundedness.set
         })
       ),
-      Label("Size"),
-      html.div(ControlSizeSelector({ size, onChange: size.set })),
-      html.div(DisabledSelector({ disabled })),
-      Label("Text"),
-      html.div(
-        TextInput({
-          value: text,
-          onInput: (value: string) => text.set(value)
-        })
+      Stack(Label("Size"), ControlSizeSelector({ size, onChange: size.set })),
+      Stack(DisabledSelector({ disabled })),
+      Stack(
+        Label("Text"),
+        html.div(
+          TextInput({
+            value: text,
+            onInput: (value: string) => text.set(value)
+          })
+        )
       )
     ),
-    html.div(
-      attr.class("bu-h-full bu-overflow-auto"),
+    Stack(
+      attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-auto"),
       html.table(
         html.thead(
           html.tr(

@@ -12,5 +12,6 @@
 
   .bc-collapse--closed {
     display: none;
+    height: 0px;
   }
 }

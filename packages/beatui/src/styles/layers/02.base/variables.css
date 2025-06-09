@@ -357,7 +357,7 @@
     --spacing-2xl: calc(var(--spacing-base) * 4);
     --spacing-3xl: calc(var(--spacing-base) * 6);
     --spacing-4xl: calc(var(--spacing-base) * 8);
-    --spacing-full: 9999px;
+    --spacing-full: 2000px;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
