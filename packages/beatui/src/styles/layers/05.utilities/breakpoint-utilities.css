@@ -176,6 +176,16 @@
     .sm\:bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
     .sm\:bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
     .sm\:bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+    .sm\:bu-cursor-pointer { cursor: pointer; }
+    .sm\:bu-cursor-not-allowed { cursor: not-allowed; }
+    .sm\:bu-cursor-default { cursor: default; }
+    .sm\:bu-cursor-move { cursor: move; }
+    .sm\:bu-cursor-grab { cursor: grab; }
+    .sm\:bu-cursor-grabbing { cursor: grabbing; }
+    .sm\:bu-cursor-text { cursor: text; }
+    .sm\:bu-cursor-wait { cursor: wait; }
+    .sm\:bu-cursor-help { cursor: help; }
+    .sm\:bu-cursor-none { cursor: none; }
   }
 
   /* MD Breakpoint (48rem) */
@@ -355,6 +365,16 @@
     .md\:bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
     .md\:bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
     .md\:bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+    .md\:bu-cursor-pointer { cursor: pointer; }
+    .md\:bu-cursor-not-allowed { cursor: not-allowed; }
+    .md\:bu-cursor-default { cursor: default; }
+    .md\:bu-cursor-move { cursor: move; }
+    .md\:bu-cursor-grab { cursor: grab; }
+    .md\:bu-cursor-grabbing { cursor: grabbing; }
+    .md\:bu-cursor-text { cursor: text; }
+    .md\:bu-cursor-wait { cursor: wait; }
+    .md\:bu-cursor-help { cursor: help; }
+    .md\:bu-cursor-none { cursor: none; }
   }
 
   /* LG Breakpoint (64rem) */
@@ -534,6 +554,16 @@
     .lg\:bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
     .lg\:bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
     .lg\:bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+    .lg\:bu-cursor-pointer { cursor: pointer; }
+    .lg\:bu-cursor-not-allowed { cursor: not-allowed; }
+    .lg\:bu-cursor-default { cursor: default; }
+    .lg\:bu-cursor-move { cursor: move; }
+    .lg\:bu-cursor-grab { cursor: grab; }
+    .lg\:bu-cursor-grabbing { cursor: grabbing; }
+    .lg\:bu-cursor-text { cursor: text; }
+    .lg\:bu-cursor-wait { cursor: wait; }
+    .lg\:bu-cursor-help { cursor: help; }
+    .lg\:bu-cursor-none { cursor: none; }
   }
 
   /* XL Breakpoint (80rem) */
@@ -713,6 +743,16 @@
     .xl\:bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
     .xl\:bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
     .xl\:bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+    .xl\:bu-cursor-pointer { cursor: pointer; }
+    .xl\:bu-cursor-not-allowed { cursor: not-allowed; }
+    .xl\:bu-cursor-default { cursor: default; }
+    .xl\:bu-cursor-move { cursor: move; }
+    .xl\:bu-cursor-grab { cursor: grab; }
+    .xl\:bu-cursor-grabbing { cursor: grabbing; }
+    .xl\:bu-cursor-text { cursor: text; }
+    .xl\:bu-cursor-wait { cursor: wait; }
+    .xl\:bu-cursor-help { cursor: help; }
+    .xl\:bu-cursor-none { cursor: none; }
   }
 
   /* 2XL Breakpoint (96rem) */
@@ -892,6 +932,16 @@
     .\2xl\:bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
     .\2xl\:bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
     .\2xl\:bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+    .\2xl\:bu-cursor-pointer { cursor: pointer; }
+    .\2xl\:bu-cursor-not-allowed { cursor: not-allowed; }
+    .\2xl\:bu-cursor-default { cursor: default; }
+    .\2xl\:bu-cursor-move { cursor: move; }
+    .\2xl\:bu-cursor-grab { cursor: grab; }
+    .\2xl\:bu-cursor-grabbing { cursor: grabbing; }
+    .\2xl\:bu-cursor-text { cursor: text; }
+    .\2xl\:bu-cursor-wait { cursor: wait; }
+    .\2xl\:bu-cursor-help { cursor: help; }
+    .\2xl\:bu-cursor-none { cursor: none; }
   }
 
 }

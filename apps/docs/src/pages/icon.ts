@@ -23,7 +23,7 @@ function DisplayIcon({
 }) {
   return html.div(
     attr.class(
-      "bu-flex-col bu-items-center bu-p-2 bu-border bu-rounded bu-hover:bg-gray-50"
+      "bu-flex-col bu-items-center bu-p-2 bu-rounded hover:bu-bg--light-gray bu-cursor-pointer"
     ),
     html.div(
       attr.class("bu-mb-2"),
