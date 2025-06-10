@@ -35,13 +35,15 @@ export function Button(
           variant ?? 'primary',
           size ?? 'md',
           color,
-          roundedness
-        )(({ theme }, variant, size, color, roundedness) =>
+          roundedness,
+          disabled
+        )(({ theme }, variant, size, color, roundedness, disabled) =>
           theme.button({
             variant,
             size,
             color,
             roundedness,
+            disabled,
           })
         )
       ),

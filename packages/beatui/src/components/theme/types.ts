@@ -100,6 +100,7 @@ export type ButtonStyleOptions = {
   size: ControlSize
   color: string
   roundedness: RadiusName
+  disabled?: boolean
 }
 
 export type OverlayStyleOptions = {
