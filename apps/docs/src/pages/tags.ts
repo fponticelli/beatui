@@ -3,7 +3,7 @@ import {
   Tag,
   TagsInput,
   ThemeColorName,
-  Toggle,
+  Switch,
   TextInput,
   Stack,
   Label,

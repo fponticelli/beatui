@@ -19,7 +19,10 @@ function generateControlInputWrapperClasses(): string {
   return 'bc-control-input-wrapper'
 }
 
-function generateControlInputWrapperLabelTextClasses(hasError: boolean, disabled: boolean): string {
+function generateControlInputWrapperLabelTextClasses(
+  hasError: boolean,
+  disabled: boolean
+): string {
   const classes = ['bc-control-input-wrapper__label-text']
 
   if (hasError) {
@@ -43,38 +46,38 @@ export const ControlInputWrapper = <S>({
 }: ControlInputWrapperOptions<S>) => {
   return html.div(
     attr.class(generateControlInputWrapperClasses()),
-      label != null || context != null
-        ? html.div(
-            attr.class('bc-control-input-wrapper__header'),
-            html.label(
-              attr.class('bc-control-input-wrapper__label'),
-              attr.for(controller.name),
-              html.span(
-                attr.class(
-                  computedOf(
-                    controller.hasError,
-                    controller.disabled
-                  )((hasError, disabled) =>
-                    generateControlInputWrapperLabelTextClasses(
-                      hasError ?? false,
-                      disabled ?? false
-                    )
+    label != null || context != null
+      ? html.div(
+          attr.class('bc-control-input-wrapper__header'),
+          html.label(
+            attr.class('bc-control-input-wrapper__label'),
+            attr.for(controller.name),
+            html.span(
+              attr.class(
+                computedOf(
+                  controller.hasError,
+                  controller.disabled
+                )((hasError, disabled) =>
+                  generateControlInputWrapperLabelTextClasses(
+                    hasError ?? false,
+                    disabled ?? false
                   )
-                ),
-                label
+                )
               ),
-              label != null && required ? RequiredSymbol : Empty
+              label
             ),
-            context != null ? Label(context) : Empty
-          )
-        : Empty,
-      html.div(attr.class('bc-control-input-wrapper__content'), content),
-      description != null
-        ? html.div(
-            attr.class('bc-control-input-wrapper__description'),
-            description
-          )
-        : Empty,
+            label != null && required ? RequiredSymbol : Empty
+          ),
+          context != null ? Label(context) : Empty
+        )
+      : Empty,
+    html.div(attr.class('bc-control-input-wrapper__content'), content),
+    description != null
+      ? html.div(
+          attr.class('bc-control-input-wrapper__description'),
+          description
+        )
+      : Empty,
     Ensure(controller.error, error =>
       html.div(attr.class('bc-control-input-wrapper__error'), error)
     )

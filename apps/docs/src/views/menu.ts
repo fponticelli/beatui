@@ -7,7 +7,7 @@ export function Menu() {
     SidebarGroup(
       {},
       SidebarLink({ href: "/button", content: "Button" }),
-      SidebarLink({ href: "/toggle", content: "Toggle" }),
+      SidebarLink({ href: "/switch", content: "Switch" }),
       SidebarLink({ href: "/collapse", content: "Collapse" }),
       SidebarLink({ href: "/icon", content: "Icon" }),
       SidebarLink({ href: "/segmented-control", content: "Segmented Control" }),

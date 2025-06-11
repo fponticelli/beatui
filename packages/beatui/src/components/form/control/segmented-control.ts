@@ -45,7 +45,10 @@ export function SegmentedControl<T extends Record<string, TNode>>({
     optionsList.map(() => ({ left: 0, width: 0 })),
     arrEquality
   )
-  function generateSegmentedControlClasses(size: ControlSize, disabled: boolean): string {
+  function generateSegmentedControlClasses(
+    size: ControlSize,
+    disabled: boolean
+  ): string {
     const classes = [
       'bc-segmented-control',
       `bu-text-${size}`,
@@ -65,70 +68,67 @@ export function SegmentedControl<T extends Record<string, TNode>>({
         size,
         disabled
       )((size, disabled) =>
-        generateSegmentedControlClasses(
-          size ?? 'md',
-          disabled ?? false
-        )
+        generateSegmentedControlClasses(size ?? 'md', disabled ?? false)
       )
     ),
+    html.div(
+      attr.class('bc-segmented-control__container'),
       html.div(
-        attr.class('bc-segmented-control__container'),
-        html.div(
-          attr.class('bc-segmented-control__indicator'),
-          style.width(
-            computedOf(
-              value,
-              rects
-            )((v, s) => {
-              const { width } = s[indexes[v as keyof T]! ?? 0]
-              return `${width}px`
+        attr.class('bc-segmented-control__indicator'),
+        style.width(
+          computedOf(
+            value,
+            rects
+          )((v, s) => {
+            const { width } = s[indexes[v as keyof T]! ?? 0]
+            return `${width}px`
+          })
+        ),
+        style.left(
+          computedOf(
+            value,
+            rects
+          )((v, s) => {
+            const { left } = s[indexes[v as keyof T]! ?? 0]
+            return `${left}px`
+          })
+        )
+      ),
+      // clickable buttons
+      optionsList.map(({ label, key }, index) => {
+        return html.button(
+          on.click(e => {
+            e.preventDefault()
+            const isDisabled = Value.get(disabled)
+            if (!isDisabled) {
+              onChange?.(key as keyof T)
+            }
+          }),
+          attr.disabled(disabled),
+          attr.class('bc-segmented-control__segment'),
+          attr.class(
+            Value.map(value, (v): string => {
+              return v === key
+                ? 'bc-segmented-control__segment--active'
+                : 'bc-segmented-control__segment--inactive'
             })
           ),
-          style.left(
-            computedOf(
-              value,
-              rects
-            )((v, s) => {
-              const { left } = s[indexes[v as keyof T]! ?? 0]
-              return `${left}px`
-            })
-          )
-        ),
-        // clickable buttons
-        optionsList.map(({ label, key }, index) => {
-          return html.button(
-            on.click(e => {
-              e.preventDefault()
-              const isDisabled = Value.get(disabled)
-              if (!isDisabled) {
-                onChange?.(key as keyof T)
-              }
-            }),
-            attr.disabled(disabled),
-            attr.class('bc-segmented-control__segment'),
-            attr.class(
-              Value.map(value, (v): string => {
-                return v === key
-                  ? 'bc-segmented-control__segment--active'
-                  : 'bc-segmented-control__segment--inactive'
+          WithElement(el => {
+            const cancel = delayed(() => {
+              rects.update(sizes => {
+                const newSizes = [...sizes]
+                newSizes[index] = {
+                  width: el.offsetWidth,
+                  left: el.offsetLeft,
+                }
+                return newSizes
               })
-            ),
-            WithElement(el => {
-              const cancel = delayed(() => {
-                rects.update(sizes => {
-                  const newSizes = [...sizes]
-                  newSizes[index] = {
-                    width: el.offsetWidth,
-                    left: el.offsetLeft,
-                  }
-                  return newSizes
-                })
-              }, 10)
-              return OnDispose(cancel)
-            }),
-            label
-          )
-        })
-      )
+            }, 10)
+            return OnDispose(cancel)
+          }),
+          label
+        )
+      })
     )
+  )
 }

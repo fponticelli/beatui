@@ -6,7 +6,7 @@ import {
   DateInput,
   CheckboxInput,
   TagsInput,
-  Toggle,
+  Switch,
   SegmentedControl,
   Stack,
   Label,
@@ -37,7 +37,7 @@ export const FormPage = () => {
     Stack(
       html.div(DisabledSelector({ disabled })),
       html.div(
-        Toggle({
+        Switch({
           label: "Has Error",
           value: hasError,
           onChange: (value: boolean) => hasError.set(value)
@@ -506,7 +506,7 @@ export const FormPage = () => {
             html.div("• DateInput - Date picker input"),
             html.div("• CheckboxInput - Checkbox with label"),
             html.div("• TagsInput - Multi-tag input field"),
-            html.div("• Toggle - Switch/toggle component"),
+            html.div("• Switch - Switch component"),
             html.div("• SegmentedControl - Multi-option selector"),
             html.br(),
             html.div(attr.class("bu-font-medium"), "Usage Tips:"),

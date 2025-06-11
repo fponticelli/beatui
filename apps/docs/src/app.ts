@@ -4,7 +4,7 @@ import { Theme, ThemeAppeareance } from "@tempots/beatui";
 import { HomePage } from "./pages/home";
 import { AppLayout } from "./app-layout";
 import { ButtonPage } from "./pages/button";
-import { TogglePage } from "./pages/toggle";
+import { SwitchPage } from "./pages/switch";
 import { IconPage } from "./pages/icon";
 import { SegmentedControlPage } from "./pages/segmented-control";
 import { TagsPage } from "./pages/tags";
@@ -23,7 +23,7 @@ export const App = () => {
           children: Router({
             "/": HomePage,
             "/button": ButtonPage,
-            "/toggle": TogglePage,
+            "/switch": SwitchPage,
             "/collapse": CollapsePage,
             "/icon": IconPage,
             "/segmented-control": SegmentedControlPage,

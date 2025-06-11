@@ -242,13 +242,15 @@ export function generateBackgroundUtilities(): string {
   })
 
   // Generate standard color variants
-  const allColors = [...semanticColorNames, ...objectEntries(colors).map(([name]) => name)]
+  const allColors = [
+    ...semanticColorNames,
+    ...objectEntries(colors).map(([name]) => name),
+  ]
 
   // Solid variant (default)
   css += '  /* solid */\n'
   allColors.forEach(colorName => {
     const lightConfig = backgroundConfig.variants.solid.light
-    const darkConfig = backgroundConfig.variants.solid.dark
 
     css += `  .bu-bg--${colorName} {\n`
     css += `    background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
@@ -285,7 +287,10 @@ export function generateBackgroundUtilities(): string {
     const lightConfig = backgroundConfig.variants.light.light
 
     // Check for overrides
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .bu-bg--light-${colorName} {\n`
       css += `    background-color: ${override.light.backgroundColor};\n`
@@ -306,7 +311,10 @@ export function generateBackgroundUtilities(): string {
 
   // Add special colors for light variant dark mode
   objectEntries(backgroundConfig.special).forEach(([colorName, styles]) => {
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .b-dark .bu-bg--light-${colorName} {\n`
       css += `    background-color: ${override.dark.backgroundColor};\n`
@@ -324,7 +332,10 @@ export function generateBackgroundUtilities(): string {
     const darkConfig = backgroundConfig.variants.light.dark
 
     // Check for overrides
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .b-dark .bu-bg--light-${colorName} {\n`
       css += `    background-color: ${override.dark.backgroundColor};\n`
@@ -355,7 +366,10 @@ export function generateBackgroundUtilities(): string {
     const lightConfig = backgroundConfig.variants.lighter.light
 
     // Check for overrides
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .bu-bg--lighter-${colorName} {\n`
       css += `    background-color: ${override.light.backgroundColor};\n`
@@ -376,7 +390,10 @@ export function generateBackgroundUtilities(): string {
 
   // Add special colors for lighter variant dark mode
   objectEntries(backgroundConfig.special).forEach(([colorName, styles]) => {
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .b-dark .bu-bg--lighter-${colorName} {\n`
       css += `    background-color: ${override.dark.backgroundColor};\n`
@@ -394,7 +411,10 @@ export function generateBackgroundUtilities(): string {
     const darkConfig = backgroundConfig.variants.lighter.dark
 
     // Check for overrides
-    const override = backgroundConfig.overrides[colorName as keyof typeof backgroundConfig.overrides]
+    const override =
+      backgroundConfig.overrides[
+        colorName as keyof typeof backgroundConfig.overrides
+      ]
     if (override) {
       css += `  .b-dark .bu-bg--lighter-${colorName} {\n`
       css += `    background-color: ${override.dark.backgroundColor};\n`

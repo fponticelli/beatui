@@ -29,7 +29,10 @@ export const InputContainer = ({
 }) => {
   const isDisabled = Value.map(disabled ?? false, d => d)
 
-  function generateInputContainerClasses(disabled: boolean, hasError: boolean): string {
+  function generateInputContainerClasses(
+    disabled: boolean,
+    hasError: boolean
+  ): string {
     const classes = ['bc-input-container']
 
     if (disabled) {
@@ -62,24 +65,21 @@ export const InputContainer = ({
         isDisabled,
         hasError ?? false
       )((disabled, hasError) =>
-        generateInputContainerClasses(
-          disabled ?? false,
-          hasError ?? false
-        )
+        generateInputContainerClasses(disabled ?? false, hasError ?? false)
       )
     ),
-      before != null
-        ? html.span(attr.class('bc-input-container__before'), before)
-        : null,
-      html.div(
-        attr.class('bc-input-container__input'),
-        attr.class(
-          Value.map(growInput, (v): string =>
-            v ? 'bc-input-container__input--grow' : ''
-          )
-        ),
-        input
+    before != null
+      ? html.span(attr.class('bc-input-container__before'), before)
+      : null,
+    html.div(
+      attr.class('bc-input-container__input'),
+      attr.class(
+        Value.map(growInput, (v): string =>
+          v ? 'bc-input-container__input--grow' : ''
+        )
       ),
+      input
+    ),
     after != null
       ? html.span(attr.class('bc-input-container__after'), after)
       : null

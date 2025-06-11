@@ -1,6 +1,6 @@
 import {
   EditableText,
-  Toggle,
+  Switch,
   TextInput,
   Stack,
   Label,
@@ -21,7 +21,7 @@ export const EditableTextPage = () => {
     Stack(
       Label("Start Editing"),
       html.div(
-        Toggle({
+        Switch({
           label: "Start in edit mode",
           value: startEditing,
           onChange: (value: boolean) => startEditing.set(value)

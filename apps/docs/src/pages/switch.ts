@@ -1,6 +1,6 @@
 import {
   ControlSize,
-  Toggle,
+  Switch,
   TextInput,
   Label,
   Stack
@@ -11,8 +11,8 @@ import { ControlsHeader } from "../elements/controls-header";
 
 const allSizes: ControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 
-export const TogglePage = () => {
-  const label = prop("Toggle me");
+export const SwitchPage = () => {
+  const label = prop("Switch me");
   const onLabel = prop("ON");
   const offLabel = prop("OFF");
   const disabled = prop(false);
@@ -22,7 +22,7 @@ export const TogglePage = () => {
     attr.class("bu-h-full bu-overflow-hidden"),
     ControlsHeader(
       Stack(
-        Toggle({
+        Switch({
           size: "sm",
           label: "On/Off",
           value,
@@ -69,7 +69,7 @@ export const TogglePage = () => {
                 const localValue = value.map(v => v === status).deriveProp();
                 const onChange = () => localValue.update(v => !v);
                 return html.td(
-                  Toggle({
+                  Switch({
                     value: localValue,
                     onChange,
                     size,

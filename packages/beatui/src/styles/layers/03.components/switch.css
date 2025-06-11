@@ -1,6 +1,6 @@
 @layer components {
-  /* Toggle Component */
-  .bc-toggle {
+  /* Switch Component */
+  .bc-switch {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -8,14 +8,14 @@
     cursor: pointer;
   }
 
-  /* Toggle label */
-  .bc-toggle__label {
+  /* Switch label */
+  .bc-switch__label {
     color: var(--color-gray-500);
     user-select: none;
   }
 
-  /* Toggle track container */
-  .bc-toggle__track {
+  /* Switch track container */
+  .bc-switch__track {
     position: relative;
     display: grid;
     grid-template-areas: "stack";
@@ -26,18 +26,18 @@
     padding: calc(var(--spacing-base)) var(--spacing-base);
   }
 
-  /* Toggle track - off state */
-  .bc-toggle__track--off {
+  /* Switch track - off state */
+  .bc-switch__track--off {
     background-color: var(--color-gray-300);
   }
 
-  /* Toggle track - on state */
-  .bc-toggle__track--on {
+  /* Switch track - on state */
+  .bc-switch__track--on {
     background-color: var(--color-primary-500);
   }
 
-  /* Toggle labels inside track */
-  .bc-toggle__track-label {
+  /* Switch labels inside track */
+  .bc-switch__track-label {
     grid-area: stack;
     display: flex;
     align-items: center;
@@ -47,7 +47,7 @@
   }
 
   /* Off label positioning and styling */
-  .bc-toggle__track-label--off {
+  .bc-switch__track-label--off {
     justify-content: flex-end;
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 5);
@@ -56,7 +56,7 @@
   }
 
   /* On label positioning and styling */
-  .bc-toggle__track-label--on {
+  .bc-switch__track-label--on {
     justify-content: flex-start;
     padding-right: calc(var(--spacing-base) * 5);
     padding-left: var(--spacing-base);
@@ -65,16 +65,16 @@
   }
 
   /* Label visibility states */
-  .bc-toggle__track-label--visible {
+  .bc-switch__track-label--visible {
     opacity: 1;
   }
 
-  .bc-toggle__track-label--hidden {
+  .bc-switch__track-label--hidden {
     opacity: 0;
   }
 
-  /* Toggle thumb/handle */
-  .bc-toggle__thumb {
+  /* Switch thumb/handle */
+  .bc-switch__thumb {
     grid-area: stack;
     width: calc(var(--spacing-base) * 4); /* 16px equivalent */
     height: calc(var(--spacing-base) * 4);
@@ -88,130 +88,130 @@
   }
 
   /* Size variants for track and thumb */
-  .bc-toggle--xs .bc-toggle__thumb {
+  .bc-switch--xs .bc-switch__thumb {
     width: calc(var(--spacing-base) * 3); /* 12px equivalent */
     height: calc(var(--spacing-base) * 3);
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
-  .bc-toggle--xs .bc-toggle__track-label--off {
+  .bc-switch--xs .bc-switch__track-label--off {
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 4);
   }
-  .bc-toggle--xs .bc-toggle__track-label--on {
+  .bc-switch--xs .bc-switch__track-label--on {
     padding-right: calc(var(--spacing-base) * 4);
     padding-left: var(--spacing-base);
   }
-  .bc-toggle--xs .bc-toggle__track {
+  .bc-switch--xs .bc-switch__track {
     min-width: calc(var(--spacing-base) * 7.5);
   }
 
-  .bc-toggle--sm .bc-toggle__thumb {
+  .bc-switch--sm .bc-switch__thumb {
     width: calc(var(--spacing-base) * 3.5); /* 14px equivalent */
     height: calc(var(--spacing-base) * 3.5);
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
-  .bc-toggle--sm .bc-toggle__track-label--off {
+  .bc-switch--sm .bc-switch__track-label--off {
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 5);
   }
-  .bc-toggle--sm .bc-toggle__track-label--on {
+  .bc-switch--sm .bc-switch__track-label--on {
     padding-right: calc(var(--spacing-base) * 5);
     padding-left: var(--spacing-base);
   }
-  .bc-toggle--sm .bc-toggle__track {
+  .bc-switch--sm .bc-switch__track {
     min-width: calc(var(--spacing-base) * 9);
   }
 
-  .bc-toggle--md .bc-toggle__thumb {
+  .bc-switch--md .bc-switch__thumb {
     width: calc(var(--spacing-base) * 4); /* 20px equivalent */
     height: calc(var(--spacing-base) * 4);
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
-  .bc-toggle--md .bc-toggle__track-label--off {
+  .bc-switch--md .bc-switch__track-label--off {
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 6);
   }
-  .bc-toggle--md .bc-toggle__track-label--on {
+  .bc-switch--md .bc-switch__track-label--on {
     padding-right: calc(var(--spacing-base) * 6);
     padding-left: var(--spacing-base);
   }
-  .bc-toggle--md .bc-toggle__track {
+  .bc-switch--md .bc-switch__track {
     min-width: calc(var(--spacing-base) * 10.5);
   }
 
-  .bc-toggle--lg .bc-toggle__thumb {
+  .bc-switch--lg .bc-switch__thumb {
     width: calc(var(--spacing-base) * 5); /* 20px equivalent */
     height: calc(var(--spacing-base) * 5);
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
-  .bc-toggle--lg .bc-toggle__track-label--off {
+  .bc-switch--lg .bc-switch__track-label--off {
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 7);
   }
-  .bc-toggle--lg .bc-toggle__track-label--on {
+  .bc-switch--lg .bc-switch__track-label--on {
     padding-right: calc(var(--spacing-base) * 7);
     padding-left: var(--spacing-base);
   }
-  .bc-toggle--lg .bc-toggle__track {
+  .bc-switch--lg .bc-switch__track {
     min-width: calc(var(--spacing-base) * 12);
   }
 
-  .bc-toggle--xl .bc-toggle__thumb {
+  .bc-switch--xl .bc-switch__thumb {
     width: calc(var(--spacing-base) * 6); /* 24px equivalent */
     height: calc(var(--spacing-base) * 6);
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
-  .bc-toggle--xl .bc-toggle__track-label--off {
+  .bc-switch--xl .bc-switch__track-label--off {
     padding-right: var(--spacing-base);
     padding-left: calc(var(--spacing-base) * 7);
   }
-  .bc-toggle--xl .bc-toggle__track-label--on {
+  .bc-switch--xl .bc-switch__track-label--on {
     padding-right: calc(var(--spacing-base) * 7);
     padding-left: var(--spacing-base);
   }
-  .bc-toggle--xl .bc-toggle__track {
+  .bc-switch--xl .bc-switch__track {
     min-width: calc(var(--spacing-base) * 13.5);
   }
 
   /* Focus styles */
-  .bc-toggle:focus-within .bc-toggle__track {
+  .bc-switch:focus-within .bc-switch__track {
     outline: 2px solid var(--color-primary-600);
     outline-offset: 2px;
   }
 
   /* Disabled state */
-  .bc-toggle--disabled {
+  .bc-switch--disabled {
     cursor: not-allowed;
     opacity: 0.6;
   }
 
-  .bc-toggle--disabled .bc-toggle__track {
+  .bc-switch--disabled .bc-switch__track {
     cursor: not-allowed;
   }
 
   /* Dark mode styles */
   @media (prefers-color-scheme: dark) {
-    .bc-toggle__label {
+    .bc-switch__label {
       color: var(--color-gray-400);
     }
 
-    .bc-toggle__track--off {
+    .bc-switch__track--off {
       background-color: var(--color-gray-700);
     }
 
-    .bc-toggle__track--on {
+    .bc-switch__track--on {
       background-color: var(--color-primary-600);
     }
 
-    .bc-toggle__track-label--off {
+    .bc-switch__track-label--off {
       color: var(--color-gray-400);
     }
 
-    .bc-toggle__track-label--on {
+    .bc-switch__track-label--on {
       color: var(--color-gray-200);
     }
 
-    .bc-toggle__thumb {
+    .bc-switch__thumb {
       background-color: var(--color-gray-100);
     }
   }
