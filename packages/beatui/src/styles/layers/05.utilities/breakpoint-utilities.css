@@ -186,6 +186,31 @@
     .sm\:bu-cursor-wait { cursor: wait; }
     .sm\:bu-cursor-help { cursor: help; }
     .sm\:bu-cursor-none { cursor: none; }
+    .sm\:bu-cursor-auto { cursor: auto; }
+    .sm\:bu-cursor-context-menu { cursor: context-menu; }
+    .sm\:bu-cursor-cell { cursor: cell; }
+    .sm\:bu-cursor-crosshair { cursor: crosshair; }
+    .sm\:bu-cursor-all-scroll { cursor: all-scroll; }
+    .sm\:bu-cursor-col-resize { cursor: col-resize; }
+    .sm\:bu-cursor-row-resize { cursor: row-resize; }
+    .sm\:bu-cursor-n-resize { cursor: n-resize; }
+    .sm\:bu-cursor-e-resize { cursor: e-resize; }
+    .sm\:bu-cursor-s-resize { cursor: s-resize; }
+    .sm\:bu-cursor-w-resize { cursor: w-resize; }
+    .sm\:bu-cursor-ne-resize { cursor: ne-resize; }
+    .sm\:bu-cursor-nw-resize { cursor: nw-resize; }
+    .sm\:bu-cursor-se-resize { cursor: se-resize; }
+    .sm\:bu-cursor-sw-resize { cursor: sw-resize; }
+    .sm\:bu-cursor-ew-resize { cursor: ew-resize; }
+    .sm\:bu-cursor-ns-resize { cursor: ns-resize; }
+    .sm\:bu-cursor-nesw-resize { cursor: nesw-resize; }
+    .sm\:bu-cursor-nwse-resize { cursor: nwse-resize; }
+    .sm\:bu-cursor-zoom-in { cursor: zoom-in; }
+    .sm\:bu-cursor-zoom-out { cursor: zoom-out; }
+    .sm\:bu-cursor-copy { cursor: copy; }
+    .sm\:bu-cursor-alias { cursor: alias; }
+    .sm\:bu-cursor-progress { cursor: progress; }
+    .sm\:bu-cursor-no-drop { cursor: no-drop; }
   }
 
   /* MD Breakpoint (48rem) */
@@ -375,6 +400,31 @@
     .md\:bu-cursor-wait { cursor: wait; }
     .md\:bu-cursor-help { cursor: help; }
     .md\:bu-cursor-none { cursor: none; }
+    .md\:bu-cursor-auto { cursor: auto; }
+    .md\:bu-cursor-context-menu { cursor: context-menu; }
+    .md\:bu-cursor-cell { cursor: cell; }
+    .md\:bu-cursor-crosshair { cursor: crosshair; }
+    .md\:bu-cursor-all-scroll { cursor: all-scroll; }
+    .md\:bu-cursor-col-resize { cursor: col-resize; }
+    .md\:bu-cursor-row-resize { cursor: row-resize; }
+    .md\:bu-cursor-n-resize { cursor: n-resize; }
+    .md\:bu-cursor-e-resize { cursor: e-resize; }
+    .md\:bu-cursor-s-resize { cursor: s-resize; }
+    .md\:bu-cursor-w-resize { cursor: w-resize; }
+    .md\:bu-cursor-ne-resize { cursor: ne-resize; }
+    .md\:bu-cursor-nw-resize { cursor: nw-resize; }
+    .md\:bu-cursor-se-resize { cursor: se-resize; }
+    .md\:bu-cursor-sw-resize { cursor: sw-resize; }
+    .md\:bu-cursor-ew-resize { cursor: ew-resize; }
+    .md\:bu-cursor-ns-resize { cursor: ns-resize; }
+    .md\:bu-cursor-nesw-resize { cursor: nesw-resize; }
+    .md\:bu-cursor-nwse-resize { cursor: nwse-resize; }
+    .md\:bu-cursor-zoom-in { cursor: zoom-in; }
+    .md\:bu-cursor-zoom-out { cursor: zoom-out; }
+    .md\:bu-cursor-copy { cursor: copy; }
+    .md\:bu-cursor-alias { cursor: alias; }
+    .md\:bu-cursor-progress { cursor: progress; }
+    .md\:bu-cursor-no-drop { cursor: no-drop; }
   }
 
   /* LG Breakpoint (64rem) */
@@ -564,6 +614,31 @@
     .lg\:bu-cursor-wait { cursor: wait; }
     .lg\:bu-cursor-help { cursor: help; }
     .lg\:bu-cursor-none { cursor: none; }
+    .lg\:bu-cursor-auto { cursor: auto; }
+    .lg\:bu-cursor-context-menu { cursor: context-menu; }
+    .lg\:bu-cursor-cell { cursor: cell; }
+    .lg\:bu-cursor-crosshair { cursor: crosshair; }
+    .lg\:bu-cursor-all-scroll { cursor: all-scroll; }
+    .lg\:bu-cursor-col-resize { cursor: col-resize; }
+    .lg\:bu-cursor-row-resize { cursor: row-resize; }
+    .lg\:bu-cursor-n-resize { cursor: n-resize; }
+    .lg\:bu-cursor-e-resize { cursor: e-resize; }
+    .lg\:bu-cursor-s-resize { cursor: s-resize; }
+    .lg\:bu-cursor-w-resize { cursor: w-resize; }
+    .lg\:bu-cursor-ne-resize { cursor: ne-resize; }
+    .lg\:bu-cursor-nw-resize { cursor: nw-resize; }
+    .lg\:bu-cursor-se-resize { cursor: se-resize; }
+    .lg\:bu-cursor-sw-resize { cursor: sw-resize; }
+    .lg\:bu-cursor-ew-resize { cursor: ew-resize; }
+    .lg\:bu-cursor-ns-resize { cursor: ns-resize; }
+    .lg\:bu-cursor-nesw-resize { cursor: nesw-resize; }
+    .lg\:bu-cursor-nwse-resize { cursor: nwse-resize; }
+    .lg\:bu-cursor-zoom-in { cursor: zoom-in; }
+    .lg\:bu-cursor-zoom-out { cursor: zoom-out; }
+    .lg\:bu-cursor-copy { cursor: copy; }
+    .lg\:bu-cursor-alias { cursor: alias; }
+    .lg\:bu-cursor-progress { cursor: progress; }
+    .lg\:bu-cursor-no-drop { cursor: no-drop; }
   }
 
   /* XL Breakpoint (80rem) */
@@ -753,6 +828,31 @@
     .xl\:bu-cursor-wait { cursor: wait; }
     .xl\:bu-cursor-help { cursor: help; }
     .xl\:bu-cursor-none { cursor: none; }
+    .xl\:bu-cursor-auto { cursor: auto; }
+    .xl\:bu-cursor-context-menu { cursor: context-menu; }
+    .xl\:bu-cursor-cell { cursor: cell; }
+    .xl\:bu-cursor-crosshair { cursor: crosshair; }
+    .xl\:bu-cursor-all-scroll { cursor: all-scroll; }
+    .xl\:bu-cursor-col-resize { cursor: col-resize; }
+    .xl\:bu-cursor-row-resize { cursor: row-resize; }
+    .xl\:bu-cursor-n-resize { cursor: n-resize; }
+    .xl\:bu-cursor-e-resize { cursor: e-resize; }
+    .xl\:bu-cursor-s-resize { cursor: s-resize; }
+    .xl\:bu-cursor-w-resize { cursor: w-resize; }
+    .xl\:bu-cursor-ne-resize { cursor: ne-resize; }
+    .xl\:bu-cursor-nw-resize { cursor: nw-resize; }
+    .xl\:bu-cursor-se-resize { cursor: se-resize; }
+    .xl\:bu-cursor-sw-resize { cursor: sw-resize; }
+    .xl\:bu-cursor-ew-resize { cursor: ew-resize; }
+    .xl\:bu-cursor-ns-resize { cursor: ns-resize; }
+    .xl\:bu-cursor-nesw-resize { cursor: nesw-resize; }
+    .xl\:bu-cursor-nwse-resize { cursor: nwse-resize; }
+    .xl\:bu-cursor-zoom-in { cursor: zoom-in; }
+    .xl\:bu-cursor-zoom-out { cursor: zoom-out; }
+    .xl\:bu-cursor-copy { cursor: copy; }
+    .xl\:bu-cursor-alias { cursor: alias; }
+    .xl\:bu-cursor-progress { cursor: progress; }
+    .xl\:bu-cursor-no-drop { cursor: no-drop; }
   }
 
   /* 2XL Breakpoint (96rem) */
@@ -942,6 +1042,31 @@
     .\2xl\:bu-cursor-wait { cursor: wait; }
     .\2xl\:bu-cursor-help { cursor: help; }
     .\2xl\:bu-cursor-none { cursor: none; }
+    .\2xl\:bu-cursor-auto { cursor: auto; }
+    .\2xl\:bu-cursor-context-menu { cursor: context-menu; }
+    .\2xl\:bu-cursor-cell { cursor: cell; }
+    .\2xl\:bu-cursor-crosshair { cursor: crosshair; }
+    .\2xl\:bu-cursor-all-scroll { cursor: all-scroll; }
+    .\2xl\:bu-cursor-col-resize { cursor: col-resize; }
+    .\2xl\:bu-cursor-row-resize { cursor: row-resize; }
+    .\2xl\:bu-cursor-n-resize { cursor: n-resize; }
+    .\2xl\:bu-cursor-e-resize { cursor: e-resize; }
+    .\2xl\:bu-cursor-s-resize { cursor: s-resize; }
+    .\2xl\:bu-cursor-w-resize { cursor: w-resize; }
+    .\2xl\:bu-cursor-ne-resize { cursor: ne-resize; }
+    .\2xl\:bu-cursor-nw-resize { cursor: nw-resize; }
+    .\2xl\:bu-cursor-se-resize { cursor: se-resize; }
+    .\2xl\:bu-cursor-sw-resize { cursor: sw-resize; }
+    .\2xl\:bu-cursor-ew-resize { cursor: ew-resize; }
+    .\2xl\:bu-cursor-ns-resize { cursor: ns-resize; }
+    .\2xl\:bu-cursor-nesw-resize { cursor: nesw-resize; }
+    .\2xl\:bu-cursor-nwse-resize { cursor: nwse-resize; }
+    .\2xl\:bu-cursor-zoom-in { cursor: zoom-in; }
+    .\2xl\:bu-cursor-zoom-out { cursor: zoom-out; }
+    .\2xl\:bu-cursor-copy { cursor: copy; }
+    .\2xl\:bu-cursor-alias { cursor: alias; }
+    .\2xl\:bu-cursor-progress { cursor: progress; }
+    .\2xl\:bu-cursor-no-drop { cursor: no-drop; }
   }
 
 }

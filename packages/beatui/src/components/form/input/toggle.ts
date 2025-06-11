@@ -5,11 +5,9 @@ import {
   computedOf,
   on,
   Value,
-  Use,
   style,
   TNode,
 } from '@tempots/dom'
-import { Theme } from '../../theme'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
 import { Label } from '@/components/typography'
@@ -32,21 +30,29 @@ export const Toggle = ({
   label,
   disabled = false,
   size = 'md',
-}: ToggleOptions) =>
-  Use(Theme, theme => {
-    return html.div(
-      attr.class(
-        computedOf(
-          theme,
+}: ToggleOptions) => {
+  function generateToggleClasses(disabled: boolean, size: ControlSize): string {
+    const classes = ['bc-toggle', `bu-text-${size}`, `bc-toggle--${size}`]
+
+    if (disabled) {
+      classes.push('bc-toggle--disabled')
+    }
+
+    return classes.join(' ')
+  }
+
+  return html.div(
+    attr.class(
+      computedOf(
+        disabled ?? false,
+        size
+      )((disabled, size) =>
+        generateToggleClasses(
           disabled ?? false,
-          size
-        )(({ theme }, disabled, size) =>
-          theme.toggle({
-            disabled,
-            size,
-          })
+          size ?? 'md'
         )
-      ),
+      )
+    ),
       attr.role('switch'),
       aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
       on.click(() => {
@@ -125,7 +131,7 @@ export const Toggle = ({
               })
             )
           )
-        )
       )
     )
-  })
+  )
+}

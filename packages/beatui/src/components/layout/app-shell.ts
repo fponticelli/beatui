@@ -8,7 +8,6 @@ import {
   prop,
   style,
   TNode,
-  Use,
   WithElement,
 } from '@tempots/dom'
 import {
@@ -20,7 +19,7 @@ import {
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
-import { PanelColor, PanelShadow, Theme } from '../theme'
+import { PanelColor, PanelShadow, Side } from '../theme'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 
 export interface AppShellBreakpointOptions {
@@ -66,6 +65,13 @@ export interface AppShellOptions {
   mainFooter?: AppShellHorizontalOptions
   mediumBreakpoint?: TWBreakpoint
   smallBreakpoint?: TWBreakpoint
+}
+
+function generatePanelClasses(side: Side, color: PanelColor, shadow: PanelShadow): string {
+  const sideStr = (Array.isArray(side) ? side : [side])
+    .map(s => `bc-panel--side-${s}`)
+    .join(' ')
+  return `bc-panel ${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
 }
 
 const defaults = {
@@ -450,34 +456,33 @@ export function AppShell({
   mediumBreakpoint = 'md',
   ...options
 }: AppShellOptions) {
-  return Use(Theme, ({ theme }) => {
-    const vertical = Object.fromEntries(
-      verticalSections
-        .filter(section => options[section])
-        .map(
-          section =>
-            [
-              section,
-              fillBreakpoints(options[section]!.width ?? {}, defaults[section]),
-            ] as const
-        )
-    ) as Record<VerticalSection, AppShellBreakpointOptions>
-    const horizontal = Object.fromEntries(
-      horizontalSections
-        .filter(section => options[section])
-        .map(
-          section =>
-            [
-              section,
-              fillBreakpoints(
-                options[section]!.height ?? {},
-                defaults[section]
-              ),
-            ] as const
-        )
-    ) as Record<HorizontalSection, AppShellBreakpointOptions>
+  const vertical = Object.fromEntries(
+    verticalSections
+      .filter(section => options[section])
+      .map(
+        section =>
+          [
+            section,
+            fillBreakpoints(options[section]!.width ?? {}, defaults[section]),
+          ] as const
+      )
+  ) as Record<VerticalSection, AppShellBreakpointOptions>
+  const horizontal = Object.fromEntries(
+    horizontalSections
+      .filter(section => options[section])
+      .map(
+        section =>
+          [
+            section,
+            fillBreakpoints(
+              options[section]!.height ?? {},
+              defaults[section]
+            ),
+          ] as const
+      )
+  ) as Record<HorizontalSection, AppShellBreakpointOptions>
 
-    return WithTWBreakpoint(({ value, is }) => {
+  return WithTWBreakpoint(({ value, is }) => {
       const mapBreakpoint = makeMapBreakpoint({
         smallBreakpoint,
         mediumBreakpoint,
@@ -539,11 +544,11 @@ export function AppShell({
         options.banner
           ? html.header(
               attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.banner.color ?? 'white',
-                  shadow: options.banner.shadow ?? 'none',
-                })
+                generatePanelClasses(
+                  'none',
+                  options.banner.color ?? 'white',
+                  options.banner.shadow ?? 'none'
+                )
               ),
               style.height('100%'),
               style.gridArea('banner'),
@@ -552,11 +557,11 @@ export function AppShell({
           : null,
         html.header(
           attr.class(
-            theme.panel({
-              side: 'bottom',
-              color: options.header?.color ?? 'white',
-              shadow: options.header?.shadow ?? 'none',
-            })
+            generatePanelClasses(
+              'bottom',
+              options.header?.color ?? 'white',
+              options.header?.shadow ?? 'none'
+            )
           ),
           attr.class('bu-z-20'),
           style.display(
@@ -637,16 +642,16 @@ export function AppShell({
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
-                    ? theme.panel({
-                        side: 'right',
-                        color: options.menu?.color ?? 'white',
-                        shadow: options.menu?.shadow ?? 'md',
-                      })
-                    : theme.panel({
-                        side: 'right',
-                        color: options.menu?.color ?? 'white',
-                        shadow: options.menu?.shadow ?? 'none',
-                      })
+                    ? generatePanelClasses(
+                        'right',
+                        options.menu?.color ?? 'white',
+                        options.menu?.shadow ?? 'md'
+                      )
+                    : generatePanelClasses(
+                        'right',
+                        options.menu?.color ?? 'white',
+                        options.menu?.shadow ?? 'none'
+                      )
                 )
               ),
               style.height('100%'),
@@ -680,11 +685,11 @@ export function AppShell({
               style.height('100%'),
               style.gridArea('mainHeader'),
               attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.mainHeader?.color ?? 'white',
-                  shadow: options.mainHeader?.shadow ?? 'none',
-                })
+                generatePanelClasses(
+                  'none',
+                  options.mainHeader?.color ?? 'white',
+                  options.mainHeader?.shadow ?? 'none'
+                )
               ),
               options.mainHeader.content
             )
@@ -694,11 +699,11 @@ export function AppShell({
           style.overflow('hidden'),
           style.gridArea('main'),
           attr.class(
-            theme.panel({
-              side: 'none',
-              color: options.main?.color ?? 'white',
-              shadow: options.main?.shadow ?? 'none',
-            })
+            generatePanelClasses(
+              'none',
+              options.main?.color ?? 'white',
+              options.main?.shadow ?? 'none'
+            )
           ),
           options.main.content
         ),
@@ -707,11 +712,11 @@ export function AppShell({
               style.height('100%'),
               style.gridArea('mainFooter'),
               attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.mainFooter?.color ?? 'white',
-                  shadow: options.mainFooter?.shadow ?? 'none',
-                })
+                generatePanelClasses(
+                  'none',
+                  options.mainFooter?.color ?? 'white',
+                  options.mainFooter?.shadow ?? 'none'
+                )
               ),
               options.mainFooter.content
             )
@@ -725,16 +730,8 @@ export function AppShell({
               attr.class(
                 displayAsideAs.map((v): string =>
                   v === 'float'
-                    ? theme.panel({
-                        side: 'left',
-                        color: 'white',
-                        shadow: 'md',
-                      })
-                    : theme.panel({
-                        side: 'left',
-                        color: 'white',
-                        shadow: 'none',
-                      })
+                    ? generatePanelClasses('left', 'white', 'md')
+                    : generatePanelClasses('left', 'white', 'none')
                 )
               ),
               style.height('100%'),
@@ -765,18 +762,13 @@ export function AppShell({
         options.footer
           ? html.footer(
               attr.class(
-                theme.panel({
-                  side: 'top',
-                  color: 'white',
-                  shadow: 'none',
-                })
+                generatePanelClasses('top', 'white', 'none')
               ),
               style.height('100%'),
               style.gridArea('footer'),
               options.footer.content
             )
-          : null
-      )
-    })
+        : null
+    )
   })
 }

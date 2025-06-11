@@ -6,12 +6,11 @@ import {
   on,
   style,
   prop,
-  Use,
   computedOf,
   WithElement,
   OnDispose,
 } from '@tempots/dom'
-import { ControlSize, Theme } from '../../theme'
+import { ControlSize } from '../../theme'
 import { delayed, objectEntries } from '@tempots/std'
 function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
@@ -46,20 +45,32 @@ export function SegmentedControl<T extends Record<string, TNode>>({
     optionsList.map(() => ({ left: 0, width: 0 })),
     arrEquality
   )
-  return Use(Theme, theme => {
-    return html.div(
-      attr.class(
-        computedOf(
-          theme,
-          size,
-          disabled
-        )(({ theme }, size, disabled) =>
-          theme.segmentedControl({
-            size,
-            disabled,
-          })
+  function generateSegmentedControlClasses(size: ControlSize, disabled: boolean): string {
+    const classes = [
+      'bc-segmented-control',
+      `bu-text-${size}`,
+      `bc-segmented-control--${size}`,
+    ]
+
+    if (disabled) {
+      classes.push('bc-segmented-control--disabled')
+    }
+
+    return classes.join(' ')
+  }
+
+  return html.div(
+    attr.class(
+      computedOf(
+        size,
+        disabled
+      )((size, disabled) =>
+        generateSegmentedControlClasses(
+          size ?? 'md',
+          disabled ?? false
         )
-      ),
+      )
+    ),
       html.div(
         attr.class('bc-segmented-control__container'),
         html.div(
@@ -120,5 +131,4 @@ export function SegmentedControl<T extends Record<string, TNode>>({
         })
       )
     )
-  })
 }
