@@ -10,7 +10,7 @@ import {
   Value,
   When,
 } from '@tempots/dom'
-import { Location } from '@tempots/ui'
+import { Anchor, Location } from '@tempots/ui'
 
 export type UrlAction = {
   href: Value<string>
@@ -34,7 +34,7 @@ export type SidebarLinkOptions = {
 } & LinkAction
 
 function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
-  return html.a(attr.href(options.href), ...children)
+  return Anchor({ href: options.href, withViewTransition: true }, ...children)
 }
 
 function SidebarActiveLink(...children: TNode[]) {
