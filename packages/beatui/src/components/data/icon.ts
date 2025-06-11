@@ -1,14 +1,5 @@
-import {
-  aria,
-  attr,
-  computedOf,
-  html,
-  style,
-  TNode,
-  Use,
-  Value,
-} from '@tempots/dom'
-import { IconSize, Theme } from '../theme'
+import { aria, attr, computedOf, html, style, TNode, Value } from '@tempots/dom'
+import { IconSize } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 
@@ -87,38 +78,43 @@ export interface IconOptions {
   title?: Value<string>
 }
 
+function generateIconClasses(size: IconSize, color?: string): string {
+  const classes = ['bc-icon', `bc-icon--${size}`]
+  if (color) {
+    classes.push(`bu-fg--${color}`)
+  }
+  return classes.join(' ')
+}
+
 export function Icon(
   { icon, size = 'md', color, title }: IconOptions,
   ...children: TNode[]
 ) {
-  return Use(Theme, ({ theme }) => {
-    return html.span(
-      attr.class(
-        computedOf(
-          theme,
-          size,
-          color
-        )((theme, size, color) => theme.icon({ size, color }))
-      ),
-      aria.label(title),
-      WhenInViewport({ once: true }, () =>
-        Resource<string, string, string>({
-          request: icon,
-          load: ({ request }) => loadIconSvg(request),
-          mapError: String,
-        })({
-          success: svg =>
-            html.span(
-              style.width('100%'),
-              style.height('100%'),
-              attr.innerHTML(svg)
-            ),
-          loading: () => html.span(attr.class('animate-spin'), '↻'),
-          failure: err =>
-            html.span(attr.title(err), attr.class('text-red-500'), '🚫'),
-        })
-      ),
-      ...children
-    )
-  })
+  return html.span(
+    attr.class(
+      computedOf(
+        size,
+        color
+      )((size, color) => generateIconClasses(size ?? 'md', color))
+    ),
+    aria.label(title),
+    WhenInViewport({ once: true }, () =>
+      Resource<string, string, string>({
+        request: icon,
+        load: ({ request }) => loadIconSvg(request),
+        mapError: String,
+      })({
+        success: svg =>
+          html.span(
+            style.width('100%'),
+            style.height('100%'),
+            attr.innerHTML(svg)
+          ),
+        loading: () => html.span(attr.class('animate-spin'), '↻'),
+        failure: err =>
+          html.span(attr.title(err), attr.class('text-red-500'), '🚫'),
+      })
+    ),
+    ...children
+  )
 }

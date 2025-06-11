@@ -95,14 +95,6 @@ export type AlignSelf =
   | 'baseline'
   | 'last baseline'
 
-export type ButtonStyleOptions = {
-  variant: ButtonVariant
-  size: ControlSize
-  color: string
-  roundedness: RadiusName
-  disabled?: boolean
-}
-
 export type OverlayStyleOptions = {
   effect: OverlayEffect
   mode: OverlayMode
@@ -114,15 +106,6 @@ export type PanelStyleOptions = {
   shadow: PanelShadow
 }
 
-export type LabelStyleOptions = {
-  type: LabelType
-}
-
-export type IconStyleOptions = {
-  size: IconSize
-  color?: string
-}
-
 export type InputContainerStyleOptions = {
   disabled?: boolean
   hasError?: boolean
@@ -131,11 +114,6 @@ export type InputContainerStyleOptions = {
 export type ControlInputWrapperStyleOptions = {
   hasError?: boolean
   disabled?: boolean
-}
-
-export type TagStyleOptions = {
-  disabled?: boolean
-  color?: string
 }
 
 export type CheckboxInputStyleOptions = {
@@ -161,17 +139,7 @@ export type FadeInOutStyleOptions = {
 
 export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
 
-export type CardStyleOptions = {
-  variant?: CardVariant
-  size?: ControlSize
-  roundedness?: RadiusName
-}
-
 export type CenterGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-export type CenterStyleOptions = {
-  gap?: CenterGap
-}
 
 export type SinkVariant = 'default' | 'deep' | 'shallow' | 'flat'
 
@@ -187,23 +155,15 @@ export type SegmentedControlStyleOptions = {
 }
 
 export interface ThemeDefinition {
-  button: (options: ButtonStyleOptions) => string
   overlay: (options: OverlayStyleOptions) => string
-  icon: (options: IconStyleOptions) => string
   panel: (options: PanelStyleOptions) => string
-  label: (options: LabelStyleOptions) => string
   inputContainer: (options: InputContainerStyleOptions) => string
   controlInputWrapper: (options: ControlInputWrapperStyleOptions) => string
   controlInputWrapperLabelText: (
     options: ControlInputWrapperStyleOptions
   ) => string
-  tag: (options: TagStyleOptions) => string
   checkboxInput: (options: CheckboxInputStyleOptions) => string
-  editableText: (options: EditableTextStyleOptions) => string
   numberInput: (options: NumberInputStyleOptions) => string
-  card: (options: CardStyleOptions) => string
-  center: (options: CenterStyleOptions) => string
-  sink: (options: SinkStyleOptions) => string
   segmentedControl: (options: SegmentedControlStyleOptions) => string
   toggle: (options: ToggleStyleOptions) => string
 }

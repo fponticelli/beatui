@@ -1,5 +1,5 @@
-import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
-import { SinkVariant, ControlSize, Theme } from '../theme'
+import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { SinkVariant, ControlSize } from '../theme'
 import { RadiusName } from '@/tokens/radius'
 
 export interface SinkOptions {
@@ -8,27 +8,46 @@ export interface SinkOptions {
   roundedness?: Value<RadiusName>
 }
 
+function generateSinkClasses(
+  variant: SinkVariant,
+  size: ControlSize,
+  roundedness: RadiusName
+): string {
+  const classes = ['bc-sink']
+
+  if (variant !== 'default') {
+    classes.push(`bc-sink--${variant}`)
+  }
+
+  if (size !== 'md') {
+    classes.push(`bc-sink--padding-${size}`)
+  }
+
+  if (roundedness !== 'lg') {
+    classes.push(`bc-sink--rounded-${roundedness}`)
+  }
+
+  return classes.join(' ')
+}
+
 export function Sink(
   { variant = 'default', size = 'md', roundedness = 'lg' }: SinkOptions = {},
   ...children: TNode[]
 ) {
-  return Use(Theme, theme => {
-    return html.div(
-      attr.class(
-        computedOf(
-          theme,
-          variant,
-          size,
-          roundedness
-        )(({ theme }, variant, size, roundedness) =>
-          theme.sink({
-            variant,
-            size,
-            roundedness,
-          })
+  return html.div(
+    attr.class(
+      computedOf(
+        variant,
+        size,
+        roundedness
+      )((variant, size, roundedness) =>
+        generateSinkClasses(
+          variant ?? 'default',
+          size ?? 'md',
+          roundedness ?? 'lg'
         )
-      ),
-      ...children
-    )
-  })
+      )
+    ),
+    ...children
+  )
 }

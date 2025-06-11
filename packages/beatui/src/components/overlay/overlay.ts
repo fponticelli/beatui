@@ -7,12 +7,10 @@ import {
   OnDispose,
   render,
   TNode,
-  Use,
   WithBrowserCtx,
   WithElement,
 } from '@tempots/dom'
 import { OverlayEffect } from '../theme/types'
-import { Theme } from '../theme'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 import { delayed } from '@tempots/std'
 
@@ -86,13 +84,8 @@ export function makeOverlay(ctx: BrowserContext) {
         //   status.displayOpen.map((v): string => (v ? '' : 'rgba(0, 0, 0, 0)'))
         // ),
         dataAttr.overlay('true'),
-        Use(Theme, ({ theme }) =>
-          attr.class(
-            theme.overlay({
-              effect: effect ?? 'visible',
-              mode: rest.mode ?? 'capturing',
-            })
-          )
+        attr.class(
+          `bc-overlay bc-overlay--effect-${effect ?? 'visible'} bc-overlay--mode-${rest.mode ?? 'capturing'}`
         ),
         fnNode(status.close)
       )
