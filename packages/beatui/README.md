@@ -57,7 +57,7 @@ import { createButton, createCard } from '@tempots/beatui';
 // Create a button
 const button = createButton({
   text: 'Click me',
-  variant: 'primary',
+  variant: 'filled',
   onClick: () => console.log('Button clicked'),
 });
 
