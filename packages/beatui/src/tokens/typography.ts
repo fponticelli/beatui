@@ -107,7 +107,7 @@ export function getFontWeightVarName(weight: FontWeight): string {
 }
 
 export function getFontWeightVar(weight: FontWeight): string {
-  return `var(${getFontWeightVar(weight)})`
+  return `var(${getFontWeightVarName(weight)})`
 }
 
 export function getLineHeightVarName(height: LineHeight): string {
