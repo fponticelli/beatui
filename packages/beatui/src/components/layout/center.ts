@@ -1,5 +1,5 @@
-import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
-import { CenterGap, Theme } from '../theme'
+import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { CenterGap } from '../theme'
 
 export interface CenterOptions {
   gap?: Value<CenterGap>
@@ -12,23 +12,22 @@ export function CenterH(...children: TNode[]) {
   )
 }
 
+function generateCenterClasses(gap: CenterGap): string {
+  const classes = ['bc-center']
+
+  if (gap !== 'lg') {
+    classes.push(`bc-center--gap-${gap}`)
+  }
+
+  return classes.join(' ')
+}
+
 export function Center(
   { gap = 'lg' }: CenterOptions = {},
   ...children: TNode[]
 ) {
-  return Use(Theme, theme => {
-    return html.div(
-      attr.class(
-        computedOf(
-          theme,
-          gap
-        )(({ theme }, gap) =>
-          theme.center({
-            gap,
-          })
-        )
-      ),
-      ...children
-    )
-  })
+  return html.div(
+    attr.class(computedOf(gap)(gap => generateCenterClasses(gap ?? 'lg'))),
+    ...children
+  )
 }

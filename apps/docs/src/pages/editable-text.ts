@@ -1,8 +1,5 @@
-import {
-  Stack,
-  Group
-} from "@tempots/beatui";
-import { attr, prop } from "@tempots/dom";
+import { attr } from "@tempots/dom";
+import { Group, Stack } from "@tempots/beatui";
 
 export const EditableTextPage = () => {
   return Group(

@@ -5,10 +5,8 @@ import {
   WithElement,
   TNode,
   Value,
-  Use,
   computedOf,
 } from '@tempots/dom'
-import { Theme } from '../../theme'
 
 export const InputContainer = ({
   child,
@@ -31,46 +29,59 @@ export const InputContainer = ({
 }) => {
   const isDisabled = Value.map(disabled ?? false, d => d)
 
-  return Use(Theme, theme => {
-    return html.div(
-      child,
-      WithElement(el => {
-        const handler = () => {
-          const focusable = el.querySelector(focusableSelector) as
-            | HTMLElement
-            | undefined
-          focusable?.focus()
-        }
-        el.addEventListener('click', handler)
-        return OnDispose(() => el.removeEventListener('click', handler))
-      }),
+  function generateInputContainerClasses(
+    disabled: boolean,
+    hasError: boolean
+  ): string {
+    const classes = ['bc-input-container']
+
+    if (disabled) {
+      classes.push('bc-input-container--disabled')
+    } else {
+      classes.push('bc-input-container--default')
+    }
+
+    if (hasError) {
+      classes.push('bc-input-container--error')
+    }
+
+    return classes.join(' ')
+  }
+
+  return html.div(
+    child,
+    WithElement(el => {
+      const handler = () => {
+        const focusable = el.querySelector(focusableSelector) as
+          | HTMLElement
+          | undefined
+        focusable?.focus()
+      }
+      el.addEventListener('click', handler)
+      return OnDispose(() => el.removeEventListener('click', handler))
+    }),
+    attr.class(
+      computedOf(
+        isDisabled,
+        hasError ?? false
+      )((disabled, hasError) =>
+        generateInputContainerClasses(disabled ?? false, hasError ?? false)
+      )
+    ),
+    before != null
+      ? html.span(attr.class('bc-input-container__before'), before)
+      : null,
+    html.div(
+      attr.class('bc-input-container__input'),
       attr.class(
-        computedOf(
-          theme,
-          isDisabled,
-          hasError ?? false
-        )(({ theme }, disabled, hasError) =>
-          theme.inputContainer({
-            disabled,
-            hasError,
-          })
+        Value.map(growInput, (v): string =>
+          v ? 'bc-input-container__input--grow' : ''
         )
       ),
-      before != null
-        ? html.span(attr.class('bc-input-container__before'), before)
-        : null,
-      html.div(
-        attr.class('bc-input-container__input'),
-        attr.class(
-          Value.map(growInput, (v): string =>
-            v ? 'bc-input-container__input--grow' : ''
-          )
-        ),
-        input
-      ),
-      after != null
-        ? html.span(attr.class('bc-input-container__after'), after)
-        : null
-    )
-  })
+      input
+    ),
+    after != null
+      ? html.span(attr.class('bc-input-container__after'), after)
+      : null
+  )
 }

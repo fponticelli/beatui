@@ -8,12 +8,8 @@
     "dev": "turbo dev",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
-    "test:e2e": "turbo test:e2e",
-    "test:all": "turbo test:all",
     "lint": "turbo lint",
     "format": "turbo format",
-    "storybook": "turbo storybook",
-    "storybook:build": "turbo storybook:build",
     "clean": "turbo clean"
   },
   "keywords": [],

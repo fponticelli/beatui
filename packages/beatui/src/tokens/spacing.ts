@@ -16,7 +16,8 @@ export const spacing = {
   xl: 'calc(var(--spacing-base) * 3)',
   '2xl': 'calc(var(--spacing-base) * 4)',
   '3xl': 'calc(var(--spacing-base) * 6)',
-  full: '9999px',
+  '4xl': 'calc(var(--spacing-base) * 8)',
+  full: '2000px',
 } as const
 
 export type SpacingName = keyof typeof spacing

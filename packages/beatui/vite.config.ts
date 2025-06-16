@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { dirname, resolve } from 'path'
 import {
   generateCSSVariablesPlugin,
+  generateBackgroundUtilitiesPlugin,
   generateBreakpointUtilitiesPlugin,
 } from './scripts/vite-plugins'
 
@@ -10,7 +11,11 @@ const __dirname = dirname(new URL(import.meta.url).pathname)
 
 // Create a merged configuration for Vite and Vitest
 export default defineConfig({
-  plugins: [generateCSSVariablesPlugin(), generateBreakpointUtilitiesPlugin()],
+  plugins: [
+    generateCSSVariablesPlugin(),
+    generateBackgroundUtilitiesPlugin(),
+    generateBreakpointUtilitiesPlugin(),
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

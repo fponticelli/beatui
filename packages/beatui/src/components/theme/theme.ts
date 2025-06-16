@@ -10,7 +10,6 @@ import {
 // Import CSS with new layered architecture
 import '../../styles/index.css'
 import { AppearancePreference, ThemeValue } from './types'
-import { BeatUITheme } from '../../theme/beatui-theme'
 import { useAppearence } from '@tempots/ui'
 
 export const Theme: Provider<ThemeValue, object> = {
@@ -18,7 +17,6 @@ export const Theme: Provider<ThemeValue, object> = {
 
   // Create function returns the value and cleanup
   create: (_options?: object) => {
-    const theme = new BeatUITheme()
     const systemAppearance = useAppearence()
     const appearancePreference = localStorageProp<AppearancePreference>({
       key: 'beatui-appearance-preference',
@@ -42,7 +40,6 @@ export const Theme: Provider<ThemeValue, object> = {
     }
     return {
       value: {
-        theme,
         appearance,
         appearancePreference,
         setAppearancePreference,

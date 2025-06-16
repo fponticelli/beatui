@@ -7,7 +7,7 @@ A modern TypeScript UI component library with design tokens and layered CSS arch
 This monorepo contains the following packages:
 
 - **[`@tempots/beatui`](./packages/beatui/)** - The main UI component library
-- **[`@beatui/docs`](./apps/docs/)** - Documentation site built with VitePress
+- **[`@beatui/docs`](./apps/docs/)** - Documentation site built with custom Vite setup
 
 ## 🚀 Getting Started
 
@@ -38,13 +38,8 @@ pnpm dev                    # Run all dev servers
 pnpm --filter @tempots/beatui dev    # Run only BeatUI dev server
 pnpm --filter @beatui/docs dev  # Run only docs dev server
 
-# Run Storybook
-pnpm --filter @tempots/beatui storybook
-
 # Run tests
 pnpm test
-pnpm test:e2e
-pnpm test:all
 
 # Lint and format
 pnpm lint
@@ -58,14 +53,12 @@ beatui/
 ├── packages/
 │   └── beatui/              # Main UI component library
 │       ├── src/             # Source code
-│       ├── stories/         # Storybook stories
-│       ├── tests/           # Unit and E2E tests
+│       ├── tests/           # Unit tests
 │       └── package.json
 ├── apps/
 │   └── docs/                # Documentation site
-│       ├── .vitepress/      # VitePress configuration
-│       ├── guide/           # Documentation guides
-│       ├── components/      # Component documentation
+│       ├── src/             # Documentation source
+│       ├── scripts/         # Build scripts
 │       └── package.json
 ├── turbo.json               # Turborepo configuration
 ├── pnpm-workspace.yaml      # pnpm workspace configuration

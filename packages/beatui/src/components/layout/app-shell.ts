@@ -8,7 +8,6 @@ import {
   prop,
   style,
   TNode,
-  Use,
   WithElement,
 } from '@tempots/dom'
 import {
@@ -20,7 +19,7 @@ import {
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
-import { PanelColor, PanelShadow, Theme } from '../theme'
+import { PanelColor, PanelShadow, Side } from '../theme'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 
 export interface AppShellBreakpointOptions {
@@ -66,6 +65,17 @@ export interface AppShellOptions {
   mainFooter?: AppShellHorizontalOptions
   mediumBreakpoint?: TWBreakpoint
   smallBreakpoint?: TWBreakpoint
+}
+
+function generatePanelClasses(
+  side: Side,
+  color: PanelColor,
+  shadow: PanelShadow
+): string {
+  const sideStr = (Array.isArray(side) ? side : [side])
+    .map(s => `bc-panel--side-${s}`)
+    .join(' ')
+  return `bc-panel ${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
 }
 
 const defaults = {
@@ -450,333 +460,312 @@ export function AppShell({
   mediumBreakpoint = 'md',
   ...options
 }: AppShellOptions) {
-  return Use(Theme, ({ theme }) => {
-    const vertical = Object.fromEntries(
-      verticalSections
-        .filter(section => options[section])
-        .map(
-          section =>
-            [
-              section,
-              fillBreakpoints(options[section]!.width ?? {}, defaults[section]),
-            ] as const
-        )
-    ) as Record<VerticalSection, AppShellBreakpointOptions>
-    const horizontal = Object.fromEntries(
-      horizontalSections
-        .filter(section => options[section])
-        .map(
-          section =>
-            [
-              section,
-              fillBreakpoints(
-                options[section]!.height ?? {},
-                defaults[section]
-              ),
-            ] as const
-        )
-    ) as Record<HorizontalSection, AppShellBreakpointOptions>
+  const vertical = Object.fromEntries(
+    verticalSections
+      .filter(section => options[section])
+      .map(
+        section =>
+          [
+            section,
+            fillBreakpoints(options[section]!.width ?? {}, defaults[section]),
+          ] as const
+      )
+  ) as Record<VerticalSection, AppShellBreakpointOptions>
+  const horizontal = Object.fromEntries(
+    horizontalSections
+      .filter(section => options[section])
+      .map(
+        section =>
+          [
+            section,
+            fillBreakpoints(options[section]!.height ?? {}, defaults[section]),
+          ] as const
+      )
+  ) as Record<HorizontalSection, AppShellBreakpointOptions>
 
-    return WithTWBreakpoint(({ value, is }) => {
-      const mapBreakpoint = makeMapBreakpoint({
-        smallBreakpoint,
-        mediumBreakpoint,
-        vertical,
-        horizontal,
-        is,
-      })
-      const template = value.map(mapBreakpoint)
-      const displayHeader = computedOf(
-        horizontal.header != null,
-        vertical.menu != null,
-        vertical.aside != null
-      )((hasHeader: boolean, hasMenu: boolean, hasAside: boolean) => {
-        return hasHeader || hasMenu || hasAside
-      })
-      const displayAsideButton = computedOf(
-        vertical.aside != null,
-        template
-      )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
-        return hasAside && !displayAside
-      })
-      const displayMenuButton = computedOf(
-        vertical.menu != null,
-        template
-      )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
-        return hasMenu && !displayMenu
-      })
+  return WithTWBreakpoint(({ value, is }) => {
+    const mapBreakpoint = makeMapBreakpoint({
+      smallBreakpoint,
+      mediumBreakpoint,
+      vertical,
+      horizontal,
+      is,
+    })
+    const template = value.map(mapBreakpoint)
+    const displayHeader = computedOf(
+      horizontal.header != null,
+      vertical.menu != null,
+      vertical.aside != null
+    )((hasHeader: boolean, hasMenu: boolean, hasAside: boolean) => {
+      return hasHeader || hasMenu || hasAside
+    })
+    const displayAsideButton = computedOf(
+      vertical.aside != null,
+      template
+    )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
+      return hasAside && !displayAside
+    })
+    const displayMenuButton = computedOf(
+      vertical.menu != null,
+      template
+    )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
+      return hasMenu && !displayMenu
+    })
 
-      const menuStatus = useAnimatedElementToggle()
-      const asideStatus = useAnimatedElementToggle()
-      const headerBottom = prop(0)
-      const displayMenuAs = computedOf(
-        vertical.menu != null,
-        template,
-        menuStatus.isOpen
-      )(displayMenuPanel)
-      const displayAsideAs = computedOf(
-        vertical.aside != null,
-        template,
-        asideStatus.isOpen
-      )(displayAsidePanel)
+    const menuStatus = useAnimatedElementToggle()
+    const asideStatus = useAnimatedElementToggle()
+    const headerBottom = prop(0)
+    const displayMenuAs = computedOf(
+      vertical.menu != null,
+      template,
+      menuStatus.isOpen
+    )(displayMenuPanel)
+    const displayAsideAs = computedOf(
+      vertical.aside != null,
+      template,
+      asideStatus.isOpen
+    )(displayAsidePanel)
 
-      return html.div(
-        OnDispose(() => {
-          headerBottom.dispose()
-          menuStatus.dispose()
-          asideStatus.dispose()
-        }),
-        // attr.class(
-        //   theme.panel({ side: 'none', color: 'base', shadow: 'none' })
-        // ),
-        style.height('100%'),
-        style.display('grid'),
-        style.gridTemplateColumns(template.$.columns),
-        style.gridTemplateRows(template.$.rows),
-        style.gridTemplateAreas(template.$.areas),
-        style.gridColumnGap('0'),
-        style.gridRowGap('0'),
-        options.banner
-          ? html.header(
-              attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.banner.color ?? 'white',
-                  shadow: options.banner.shadow ?? 'none',
-                })
-              ),
-              style.height('100%'),
-              style.gridArea('banner'),
-              options.banner.content
-            )
-          : null,
-        html.header(
-          attr.class(
-            theme.panel({
-              side: 'bottom',
-              color: options.header?.color ?? 'white',
-              shadow: options.header?.shadow ?? 'none',
-            })
-          ),
-          attr.class('bu-z-20'),
-          style.display(
-            displayHeader.map((v): string => (v ? 'block' : 'none'))
-          ),
-          style.gridArea('header'),
-          ElementRect(rect => {
-            rect.$.bottom.feedProp(headerBottom)
-            return null
-          }),
-          html.div(
-            style.display('flex'),
-            style.height('100%'),
-            html.div(
-              style.display(
-                displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
-              ),
-              style.alignItems('center'),
-              style.justifyContent('center'),
-              style.height('100%'),
-              style.width('60px'),
-              Button(
-                {
-                  onClick: () => menuStatus.toggle(),
-                  variant: 'light',
-                  color: 'base',
-                },
-                aria.label('Open menu'),
-                Icon({
-                  icon: menuStatus.isOpen.map((v): string =>
-                    v
-                      ? 'line-md/menu-to-close-alt-transition'
-                      : 'line-md/close-to-menu-alt-transition'
-                  ),
-                })
+    return html.div(
+      OnDispose(() => {
+        headerBottom.dispose()
+        menuStatus.dispose()
+        asideStatus.dispose()
+      }),
+      // attr.class(
+      //   theme.panel({ side: 'none', color: 'base', shadow: 'none' })
+      // ),
+      style.height('100%'),
+      style.display('grid'),
+      style.gridTemplateColumns(template.$.columns),
+      style.gridTemplateRows(template.$.rows),
+      style.gridTemplateAreas(template.$.areas),
+      style.gridColumnGap('0'),
+      style.gridRowGap('0'),
+      options.banner
+        ? html.header(
+            attr.class(
+              generatePanelClasses(
+                'none',
+                options.banner.color ?? 'white',
+                options.banner.shadow ?? 'none'
               )
             ),
-            html.div(
-              style.height('100%'),
-              style.flexGrow('1'),
-              options.header?.content
+            style.height('100%'),
+            style.gridArea('banner'),
+            options.banner.content
+          )
+        : null,
+      html.header(
+        attr.class(
+          generatePanelClasses(
+            'bottom',
+            options.header?.color ?? 'white',
+            options.header?.shadow ?? 'none'
+          )
+        ),
+        attr.class('bu-z-20'),
+        style.display(displayHeader.map((v): string => (v ? 'block' : 'none'))),
+        style.gridArea('header'),
+        ElementRect(rect => {
+          rect.$.bottom.feedProp(headerBottom)
+          return null
+        }),
+        html.div(
+          style.display('flex'),
+          style.height('100%'),
+          html.div(
+            style.display(
+              displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
             ),
-            html.div(
-              style.alignItems('center'),
-              style.justifyContent('center'),
-              style.height('100%'),
-              style.width('60px'),
-              style.display(
-                displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
-              ),
-              Button(
-                {
-                  onClick: () => asideStatus.toggle(),
-                  roundedness: 'full',
-                  variant: 'light',
-                  color: 'base',
-                },
-                aria.label('Open aside'),
-                Icon(
-                  { icon: 'line-md/chevron-left' },
-                  attr.class('bu-transition-transform'),
-                  attr.class(
-                    asideStatus.isOpen.map((v): string =>
-                      v ? 'bu-rotate-180' : ''
-                    )
+            style.alignItems('center'),
+            style.justifyContent('center'),
+            style.height('100%'),
+            style.width('60px'),
+            Button(
+              {
+                onClick: () => menuStatus.toggle(),
+                variant: 'light',
+                color: 'base',
+              },
+              aria.label('Open menu'),
+              Icon({
+                icon: menuStatus.isOpen.map((v): string =>
+                  v
+                    ? 'line-md/menu-to-close-alt-transition'
+                    : 'line-md/close-to-menu-alt-transition'
+                ),
+              })
+            )
+          ),
+          html.div(
+            style.height('100%'),
+            style.flexGrow('1'),
+            options.header?.content
+          ),
+          html.div(
+            style.alignItems('center'),
+            style.justifyContent('center'),
+            style.height('100%'),
+            style.width('60px'),
+            style.display(
+              displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
+            ),
+            Button(
+              {
+                onClick: () => asideStatus.toggle(),
+                roundedness: 'full',
+                variant: 'light',
+                color: 'base',
+              },
+              aria.label('Open aside'),
+              Icon(
+                { icon: 'line-md/chevron-left' },
+                attr.class('bu-transition-transform'),
+                attr.class(
+                  asideStatus.isOpen.map((v): string =>
+                    v ? 'bu-rotate-180' : ''
                   )
                 )
               )
             )
           )
+        )
+      ),
+      options.menu
+        ? html.nav(
+            WithElement(el => {
+              menuStatus.setElement(el)
+            }),
+            attr.class('bu-z-10'),
+            attr.class(
+              displayMenuAs.map((v): string =>
+                v === 'float'
+                  ? generatePanelClasses(
+                      'right',
+                      options.menu?.color ?? 'white',
+                      options.menu?.shadow ?? 'md'
+                    )
+                  : generatePanelClasses(
+                      'right',
+                      options.menu?.color ?? 'white',
+                      options.menu?.shadow ?? 'none'
+                    )
+              )
+            ),
+            style.height('100%'),
+            style.gridArea('menu'),
+            style.display(
+              displayMenuAs.map((v): string =>
+                v === 'none' ? 'none' : 'block'
+              )
+            ),
+            style.position(
+              displayMenuAs.map((v): string =>
+                v === 'float' ? 'fixed' : 'initial'
+              )
+            ),
+            style.top(headerBottom.map(v => `${v}px`)),
+            style.transition('left 0.3s ease-in-out'),
+            style.left(
+              computedOf(
+                menuStatus.displayOpen,
+                template.$.menuWidth
+              )((v, w) => (v ? '0' : `-${w}`))
+            ),
+            style.width(template.$.menuWidth),
+            style.bottom(headerBottom.map(v => `${v}px`)),
+            dataAttr.status(menuStatus.status.map(String)),
+            options.menu?.content
+          )
+        : null,
+      options.mainHeader
+        ? html.header(
+            style.height('100%'),
+            style.gridArea('mainHeader'),
+            attr.class(
+              generatePanelClasses(
+                'none',
+                options.mainHeader?.color ?? 'white',
+                options.mainHeader?.shadow ?? 'none'
+              )
+            ),
+            options.mainHeader.content
+          )
+        : null,
+      html.main(
+        style.height('100%'),
+        style.overflow('hidden'),
+        style.gridArea('main'),
+        attr.class(
+          generatePanelClasses(
+            'none',
+            options.main?.color ?? 'white',
+            options.main?.shadow ?? 'none'
+          )
         ),
-        options.menu
-          ? html.nav(
-              WithElement(el => {
-                menuStatus.setElement(el)
-              }),
-              attr.class('bu-z-10'),
-              attr.class(
-                displayMenuAs.map((v): string =>
-                  v === 'float'
-                    ? theme.panel({
-                        side: 'right',
-                        color: options.menu?.color ?? 'white',
-                        shadow: options.menu?.shadow ?? 'md',
-                      })
-                    : theme.panel({
-                        side: 'right',
-                        color: options.menu?.color ?? 'white',
-                        shadow: options.menu?.shadow ?? 'none',
-                      })
-                )
-              ),
-              style.height('100%'),
-              style.gridArea('menu'),
-              style.display(
-                displayMenuAs.map((v): string =>
-                  v === 'none' ? 'none' : 'block'
-                )
-              ),
-              style.position(
-                displayMenuAs.map((v): string =>
-                  v === 'float' ? 'fixed' : 'initial'
-                )
-              ),
-              style.top(headerBottom.map(v => `${v}px`)),
-              style.transition('left 0.3s ease-in-out'),
-              style.left(
-                computedOf(
-                  menuStatus.displayOpen,
-                  template.$.menuWidth
-                )((v, w) => (v ? '0' : `-${w}`))
-              ),
-              style.width(template.$.menuWidth),
-              style.bottom(headerBottom.map(v => `${v}px`)),
-              dataAttr.status(menuStatus.status.map(String)),
-              options.menu?.content
-            )
-          : null,
-        options.mainHeader
-          ? html.header(
-              style.height('100%'),
-              style.gridArea('mainHeader'),
-              attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.mainHeader?.color ?? 'white',
-                  shadow: options.mainHeader?.shadow ?? 'none',
-                })
-              ),
-              options.mainHeader.content
-            )
-          : null,
-        html.main(
-          style.height('100%'),
-          style.overflow('hidden'),
-          style.gridArea('main'),
-          attr.class(
-            theme.panel({
-              side: 'none',
-              color: options.main?.color ?? 'white',
-              shadow: options.main?.shadow ?? 'none',
-            })
-          ),
-          options.main.content
-        ),
-        options.mainFooter
-          ? html.footer(
-              style.height('100%'),
-              style.gridArea('mainFooter'),
-              attr.class(
-                theme.panel({
-                  side: 'none',
-                  color: options.mainFooter?.color ?? 'white',
-                  shadow: options.mainFooter?.shadow ?? 'none',
-                })
-              ),
-              options.mainFooter.content
-            )
-          : null,
-        options.aside
-          ? html.aside(
-              WithElement(el => {
-                asideStatus.setElement(el)
-              }),
-              attr.class('bu-z-10'),
-              attr.class(
-                displayAsideAs.map((v): string =>
-                  v === 'float'
-                    ? theme.panel({
-                        side: 'left',
-                        color: 'white',
-                        shadow: 'md',
-                      })
-                    : theme.panel({
-                        side: 'left',
-                        color: 'white',
-                        shadow: 'none',
-                      })
-                )
-              ),
-              style.height('100%'),
-              style.gridArea('aside'),
-              style.display(
-                displayAsideAs.map((v): string =>
-                  v === 'none' ? 'none' : 'block'
-                )
-              ),
-              style.position(
-                displayAsideAs.map((v): string =>
-                  v === 'float' ? 'fixed' : 'initial'
-                )
-              ),
-              style.top(headerBottom.map(v => `${v}px`)),
-              style.transition('right 0.3s ease-in-out'),
-              style.right(
-                computedOf(
-                  asideStatus.displayOpen,
-                  template.$.asideWidth
-                )((v, w) => (v ? '0' : `-${w}`))
-              ),
-              style.width(template.$.menuWidth),
-              style.bottom(headerBottom.map(v => `${v}px`)),
-              options.aside.content
-            )
-          : null,
-        options.footer
-          ? html.footer(
-              attr.class(
-                theme.panel({
-                  side: 'top',
-                  color: 'white',
-                  shadow: 'none',
-                })
-              ),
-              style.height('100%'),
-              style.gridArea('footer'),
-              options.footer.content
-            )
-          : null
-      )
-    })
+        options.main.content
+      ),
+      options.mainFooter
+        ? html.footer(
+            style.height('100%'),
+            style.gridArea('mainFooter'),
+            attr.class(
+              generatePanelClasses(
+                'none',
+                options.mainFooter?.color ?? 'white',
+                options.mainFooter?.shadow ?? 'none'
+              )
+            ),
+            options.mainFooter.content
+          )
+        : null,
+      options.aside
+        ? html.aside(
+            WithElement(el => {
+              asideStatus.setElement(el)
+            }),
+            attr.class('bu-z-10'),
+            attr.class(
+              displayAsideAs.map((v): string =>
+                v === 'float'
+                  ? generatePanelClasses('left', 'white', 'md')
+                  : generatePanelClasses('left', 'white', 'none')
+              )
+            ),
+            style.height('100%'),
+            style.gridArea('aside'),
+            style.display(
+              displayAsideAs.map((v): string =>
+                v === 'none' ? 'none' : 'block'
+              )
+            ),
+            style.position(
+              displayAsideAs.map((v): string =>
+                v === 'float' ? 'fixed' : 'initial'
+              )
+            ),
+            style.top(headerBottom.map(v => `${v}px`)),
+            style.transition('right 0.3s ease-in-out'),
+            style.right(
+              computedOf(
+                asideStatus.displayOpen,
+                template.$.asideWidth
+              )((v, w) => (v ? '0' : `-${w}`))
+            ),
+            style.width(template.$.menuWidth),
+            style.bottom(headerBottom.map(v => `${v}px`)),
+            options.aside.content
+          )
+        : null,
+      options.footer
+        ? html.footer(
+            attr.class(generatePanelClasses('top', 'white', 'none')),
+            style.height('100%'),
+            style.gridArea('footer'),
+            options.footer.content
+          )
+        : null
+    )
   })
 }

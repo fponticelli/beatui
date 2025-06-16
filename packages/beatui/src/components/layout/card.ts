@@ -1,5 +1,5 @@
-import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
-import { CardVariant, ControlSize, Theme } from '../theme'
+import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { CardVariant, ControlSize } from '../theme'
 import { RadiusName } from '@/tokens/radius'
 
 export interface CardOptions {
@@ -8,27 +8,46 @@ export interface CardOptions {
   roundedness?: Value<RadiusName>
 }
 
+function generateCardClasses(
+  variant: CardVariant,
+  size: ControlSize,
+  roundedness: RadiusName
+): string {
+  const classes = ['bc-card']
+
+  if (variant !== 'default') {
+    classes.push(`bc-card--${variant}`)
+  }
+
+  if (size !== 'md') {
+    classes.push(`bc-card--padding-${size}`)
+  }
+
+  if (roundedness !== 'lg') {
+    classes.push(`bc-card--rounded-${roundedness}`)
+  }
+
+  return classes.join(' ')
+}
+
 export function Card(
   { variant = 'default', size = 'md', roundedness = 'lg' }: CardOptions = {},
   ...children: TNode[]
 ) {
-  return Use(Theme, theme => {
-    return html.div(
-      attr.class(
-        computedOf(
-          theme,
-          variant,
-          size,
-          roundedness
-        )(({ theme }, variant, size, roundedness) =>
-          theme.card({
-            variant,
-            size,
-            roundedness,
-          })
+  return html.div(
+    attr.class(
+      computedOf(
+        variant,
+        size,
+        roundedness
+      )((variant, size, roundedness) =>
+        generateCardClasses(
+          variant ?? 'default',
+          size ?? 'md',
+          roundedness ?? 'lg'
         )
-      ),
-      ...children
-    )
-  })
+      )
+    ),
+    ...children
+  )
 }

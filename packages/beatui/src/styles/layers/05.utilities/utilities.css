@@ -16,6 +16,9 @@
   .bu-flex-inline-row-reverse { display: inline-flex; flex-direction: row-reverse; }
   .bu-flex-inline-col-reverse { display: inline-flex; flex-direction: column-reverse; }
 
+  .bu-flex-grow { flex-grow: 1; }
+  .bu-flex-shrink { flex-shrink: 1; }
+
   /* Flex Wrap */
   .bu-flex-wrap { flex-wrap: wrap; }
   .bu-flex-nowrap { flex-wrap: nowrap; }
@@ -209,4 +212,41 @@
   .bu-pv-8 { padding-top: calc(var(--spacing-base) * 8); padding-bottom: calc(var(--spacing-base) * 8); }
   .bu-pv-10 { padding-top: calc(var(--spacing-base) * 10); padding-bottom: calc(var(--spacing-base) * 10); }
   .bu-pv-12 { padding-top: calc(var(--spacing-base) * 12); padding-bottom: calc(var(--spacing-base) * 12); }
+
+  /* Cursor */
+  .bu-cursor-pointer { cursor: pointer; }
+  .bu-cursor-not-allowed { cursor: not-allowed; }
+  .bu-cursor-default { cursor: default; }
+  .bu-cursor-move { cursor: move; }
+  .bu-cursor-grab { cursor: grab; }
+  .bu-cursor-grabbing { cursor: grabbing; }
+  .bu-cursor-text { cursor: text; }
+  .bu-cursor-wait { cursor: wait; }
+  .bu-cursor-help { cursor: help; }
+  .bu-cursor-none { cursor: none; }
+  .bu-cursor-auto { cursor: auto; }
+  .bu-cursor-context-menu { cursor: context-menu; }
+  .bu-cursor-cell { cursor: cell; }
+  .bu-cursor-crosshair { cursor: crosshair; }
+  .bu-cursor-all-scroll { cursor: all-scroll; }
+  .bu-cursor-col-resize { cursor: col-resize; }
+  .bu-cursor-row-resize { cursor: row-resize; }
+  .bu-cursor-n-resize { cursor: n-resize; }
+  .bu-cursor-e-resize { cursor: e-resize; }
+  .bu-cursor-s-resize { cursor: s-resize; }
+  .bu-cursor-w-resize { cursor: w-resize; }
+  .bu-cursor-ne-resize { cursor: ne-resize; }
+  .bu-cursor-nw-resize { cursor: nw-resize; }
+  .bu-cursor-se-resize { cursor: se-resize; }
+  .bu-cursor-sw-resize { cursor: sw-resize; }
+  .bu-cursor-ew-resize { cursor: ew-resize; }
+  .bu-cursor-ns-resize { cursor: ns-resize; }
+  .bu-cursor-nesw-resize { cursor: nesw-resize; }
+  .bu-cursor-nwse-resize { cursor: nwse-resize; }
+  .bu-cursor-zoom-in { cursor: zoom-in; }
+  .bu-cursor-zoom-out { cursor: zoom-out; }
+  .bu-cursor-copy { cursor: copy; }
+  .bu-cursor-alias { cursor: alias; }
+  .bu-cursor-progress { cursor: progress; }
+  .bu-cursor-no-drop { cursor: no-drop; }
 }
