@@ -56,7 +56,7 @@
       children: [
         Button({
           text: 'Primary Button',
-          variant: 'primary',
+          variant: 'filled',
           onClick: () => alert('Primary button clicked!'),
         }),
       ],
@@ -68,14 +68,14 @@
     // Add different button variants
     const primaryButton = Button({
       text: 'Primary',
-      variant: 'primary',
+      variant: 'filled',
       size: 'small',
       onClick: () => alert('Primary button clicked!'),
     });
 
     const secondaryButton = Button({
       text: 'Secondary',
-      variant: 'secondary',
+      variant: 'outline',
       size: 'small',
       onClick: () => alert('Secondary button clicked!'),
     });
@@ -114,7 +114,7 @@
       children: [
         Button({
           text: 'Disabled Button',
-          variant: 'primary',
+          variant: 'filled',
           disabled: true,
           onClick: () => alert('This should not be called!'),
         }),

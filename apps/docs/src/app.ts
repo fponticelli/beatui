@@ -1,6 +1,6 @@
 import { Fragment, html, Provide } from "@tempots/dom";
 import { Location, Router } from "@tempots/ui";
-import { Theme, ThemeAppeareance } from "@tempots/beatui";
+import { Theme, ThemeAppearance } from "@tempots/beatui";
 import { HomePage } from "./pages/home";
 import { AppLayout } from "./app-layout";
 import { ButtonPage } from "./pages/button";
@@ -18,7 +18,7 @@ export const App = () => {
   return Provide(Theme, {}, () =>
     Provide(Location, {}, () =>
       Fragment(
-        ThemeAppeareance(),
+        ThemeAppearance(),
         AppLayout({
           children: Router({
             "/": HomePage,

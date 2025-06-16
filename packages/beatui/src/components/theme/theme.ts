@@ -49,7 +49,7 @@ export const Theme: Provider<ThemeValue, object> = {
   },
 }
 
-export const ThemeAppeareance = () => {
+export const ThemeAppearance = () => {
   return Use(Theme, ({ appearance }) =>
     attr.class(appearance.map(a => `b-${a}`))
   )
