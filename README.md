@@ -105,4 +105,4 @@ BeatUI follows a layered CSS architecture:
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+MIT License - see [packages/beatui/LICENSE](./packages/beatui/LICENSE) for details.
