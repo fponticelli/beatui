@@ -107,11 +107,13 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
       return
     }
     element.addEventListener('transitionend', run, { once: true })
+    element.addEventListener('animationend', run, { once: true })
   }
   const clean = delayed(run, 10)
   return () => {
     clean()
     element.removeEventListener('transitionend', run)
+    element.removeEventListener('animationend', run)
   }
 }
 
