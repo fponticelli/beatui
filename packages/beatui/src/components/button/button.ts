@@ -32,7 +32,7 @@ export function Button(
       attr.class(
         computedOf(
           theme,
-          variant ?? 'primary',
+          variant ?? 'filled',
           size ?? 'md',
           color,
           roundedness

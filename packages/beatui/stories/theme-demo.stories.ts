@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite'
-import { Button, Use, Theme, ThemeAppeareance } from '../src/'
+import { Button, Use, Theme, ThemeAppearance } from '../src/'
 import { renderTempoComponent } from './common'
 import { html, attr, on } from '@tempots/dom'
 
@@ -9,7 +9,7 @@ const renderThemeDemo = () => {
     Theme,
     ({ appearance, appearancePreference, setAppearancePreference }) =>
       html.div(
-        ThemeAppeareance(),
+        ThemeAppearance(),
         html.h1('Theme System Demo'),
 
         // Theme controls

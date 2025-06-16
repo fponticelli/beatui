@@ -6,7 +6,7 @@ import {
   Renderable,
   Use,
 } from '@tempots/dom'
-import { Theme, ThemeAppeareance } from '../src'
+import { Theme, ThemeAppearance } from '../src'
 
 export function renderTempoComponent<T>(fn: (args: T) => Renderable) {
   return (args: T) => {
@@ -15,7 +15,7 @@ export function renderTempoComponent<T>(fn: (args: T) => Renderable) {
       Provide(Theme, {}, () =>
         Use(Theme, theme =>
           Fragment(
-            ThemeAppeareance(),
+            ThemeAppearance(),
             OnDispose(
               theme.appearance.on(value => {
                 document.documentElement.classList.toggle(
