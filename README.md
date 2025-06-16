@@ -35,11 +35,11 @@ pnpm build
 
 # Run development servers
 pnpm dev                    # Run all dev servers
-pnpm dev --filter=@tempots/beatui    # Run only BeatUI dev server
-pnpm dev --filter=@beatui/docs  # Run only docs dev server
+pnpm --filter @tempots/beatui dev    # Run only BeatUI dev server
+pnpm --filter @beatui/docs dev  # Run only docs dev server
 
 # Run Storybook
-pnpm storybook --filter=@tempots/beatui
+pnpm --filter @tempots/beatui storybook
 
 # Run tests
 pnpm test

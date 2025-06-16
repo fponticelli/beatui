@@ -7,7 +7,7 @@ export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type OverlayEffect = 'transparent' | 'visible'
 export type OverlayMode = 'capturing' | 'non-capturing'
-export type FadeTranstionState =
+export type FadeTransitionState =
   | 'initial'
   | 'entering'
   | 'entered'
@@ -155,7 +155,7 @@ export type ToggleStyleOptions = {
 }
 
 export type FadeInOutStyleOptions = {
-  state: FadeTranstionState
+  state: FadeTransitionState
 }
 
 export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
