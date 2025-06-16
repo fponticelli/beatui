@@ -1,64 +1,64 @@
 import {
   ControlSize,
-  Toggle,
+  Switch,
   TextInput,
-  Stack,
   Label,
-  Group
+  Stack
 } from "@tempots/beatui";
 import { html, attr, prop } from "@tempots/dom";
 import { DisabledSelector } from "../elements/disabled-selector";
+import { ControlsHeader } from "../elements/controls-header";
 
 const allSizes: ControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 
-export const TogglePage = () => {
-  const label = prop("Toggle me");
+export const SwitchPage = () => {
+  const label = prop("Switch me");
   const onLabel = prop("ON");
   const offLabel = prop("OFF");
   const disabled = prop(false);
   const value = prop(false);
 
-  return Group(
-    attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
-    Stack(
-      html.div(
-        Toggle({
+  return Stack(
+    attr.class("bu-h-full bu-overflow-hidden"),
+    ControlsHeader(
+      Stack(
+        Switch({
           size: "sm",
           label: "On/Off",
           value,
           onChange: value.set
         })
       ),
-      Label("Label"),
       html.div(
+        Label("Label"),
         TextInput({
           value: label,
           onInput: (value: string) => label.set(value)
         })
       ),
-      Label("On Label"),
-      html.div(
+      Stack(
+        Label("On Label"),
         TextInput({
           value: onLabel,
           onInput: (value: string) => onLabel.set(value)
         })
       ),
-      Label("Off Label"),
-      html.div(
+      Stack(
+        Label("Off Label"),
         TextInput({
           value: offLabel,
           onInput: (value: string) => offLabel.set(value)
         })
       ),
-      html.div(DisabledSelector({ disabled })),
+      Stack(DisabledSelector({ disabled }))
     ),
-    html.div(
-      attr.class("bu-h-full bu-overflow-auto"),
+    Stack(
+      attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-auto"),
       html.table(
         html.thead(
           html.tr(
             html.th("size / status"),
-            ...['on', 'off'].map(status => html.th(status))
+            ...["on", "off"].map(status => html.th(status))
           )
         ),
         html.tbody(
@@ -69,7 +69,7 @@ export const TogglePage = () => {
                 const localValue = value.map(v => v === status).deriveProp();
                 const onChange = () => localValue.update(v => !v);
                 return html.td(
-                  Toggle({
+                  Switch({
                     value: localValue,
                     onChange,
                     size,
@@ -80,7 +80,7 @@ export const TogglePage = () => {
                   })
                 );
               })
-            )
+            );
           })
         )
       )

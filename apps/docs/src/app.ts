@@ -4,7 +4,7 @@ import { Theme, ThemeAppeareance } from "@tempots/beatui";
 import { HomePage } from "./pages/home";
 import { AppLayout } from "./app-layout";
 import { ButtonPage } from "./pages/button";
-import { TogglePage } from "./pages/toggle";
+import { SwitchPage } from "./pages/switch";
 import { IconPage } from "./pages/icon";
 import { SegmentedControlPage } from "./pages/segmented-control";
 import { TagsPage } from "./pages/tags";
@@ -12,6 +12,7 @@ import { FormPage } from "./pages/form";
 import { EditableTextPage } from "./pages/editable-text";
 import { BreakpointPage } from "./pages/breakpoint";
 import { CollapsePage } from "./pages/collapse";
+import { SidebarPage } from "./pages/sidebar";
 
 export const App = () => {
   return Provide(Theme, {}, () =>
@@ -22,10 +23,11 @@ export const App = () => {
           children: Router({
             "/": HomePage,
             "/button": ButtonPage,
-            "/toggle": TogglePage,
+            "/switch": SwitchPage,
             "/collapse": CollapsePage,
             "/icon": IconPage,
             "/segmented-control": SegmentedControlPage,
+            "/sidebar": SidebarPage,
             "/tags": TagsPage,
             "/form": FormPage,
             "/editable-text": EditableTextPage,

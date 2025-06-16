@@ -3,16 +3,37 @@
   .bc-segmented-control {
     background-color: var(--color-base-200);
     border-radius: var(--radius-full);
-    width: 100%;
     box-shadow: 0 0 0.25rem 0.0rem rgba(0, 0, 0, 0.1);
     position: relative;
     border: 1px solid var(--color-base-300);
+    padding: var(--spacing-sm);
+    display: inline-block;
   }
 
   .bc-segmented-control__container {
     position: relative;
     display: flex;
     align-items: center;
+  }
+
+  .bc-segmented-control--xs .bc-segmented-control__container {
+    gap: var(--spacing-xs);
+  }
+
+  .bc-segmented-control--sm .bc-segmented-control__container {
+    gap: var(--spacing-sm);
+  }
+
+  .bc-segmented-control--md .bc-segmented-control__container {
+    gap: var(--spacing-md);
+  }
+
+  .bc-segmented-control--lg .bc-segmented-control__container {
+    gap: var(--spacing-lg);
+  }
+
+  .bc-segmented-control--xl .bc-segmented-control__container {
+    gap: var(--spacing-xl);
   }
 
   /* Sliding indicator */
@@ -30,7 +51,7 @@
   /* Segment buttons */
   .bc-segmented-control__segment {
     position: relative;
-    padding: var(--spacing-sm) var(--spacing-md);
+    /* padding: var(--spacing-sm) var(--spacing-md); */
     flex: 1;
     display: flex;
     align-items: center;
@@ -45,7 +66,28 @@
     border-radius: var(--radius-full);
   }
 
+  .bc-segmented-control--xs .bc-segmented-control__segment {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .bc-segmented-control--sm .bc-segmented-control__segment {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .bc-segmented-control--md .bc-segmented-control__segment {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .bc-segmented-control--lg .bc-segmented-control__segment {
+    padding: var(--spacing-lg) var(--spacing-2xl);
+  }
+
+  .bc-segmented-control--xl .bc-segmented-control__segment {
+    padding: var(--spacing-xl) var(--spacing-3xl);
+  }
+
   .bc-segmented-control__segment:hover {
+    background-color: var(--color-white);
     color: var(--color-base-900);
   }
 
@@ -55,5 +97,64 @@
 
   .bc-segmented-control__segment--inactive {
     color: var(--color-base-600);
+  }
+
+  /* Disabled state */
+  .bc-segmented-control--disabled {
+    background-color: var(--color-gray-200);
+    border: 1px solid var(--color-gray-300);
+    cursor: not-allowed;
+  }
+
+  .bc-segmented-control--disabled .bc-segmented-control__indicator {
+    background-color: var(--color-gray-300);
+    box-shadow: none;
+  }
+
+  .bc-segmented-control--disabled .bc-segmented-control__segment {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-400);
+    cursor: not-allowed;
+  }
+
+  .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+    color: var(--color-gray-400);
+  }
+
+  .bc-segmented-control--disabled .bc-segmented-control__segment--active {
+    background-color: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
+  .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
+    color: var(--color-gray-400);
+  }
+
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .bc-segmented-control--disabled {
+      background-color: var(--color-gray-800);
+      border: 1px solid var(--color-gray-700);
+    }
+
+    .bc-segmented-control--disabled .bc-segmented-control__indicator {
+      background-color: var(--color-gray-700);
+    }
+
+    .bc-segmented-control--disabled .bc-segmented-control__segment {
+      color: var(--color-gray-600);
+    }
+
+    .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+      color: var(--color-gray-600);
+    }
+
+    .bc-segmented-control--disabled .bc-segmented-control__segment--active {
+      color: var(--color-gray-500);
+    }
+
+    .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
+      color: var(--color-gray-600);
+    }
   }
 }

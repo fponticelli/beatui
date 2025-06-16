@@ -1,22 +1,19 @@
-import { attr, html, TNode, Use } from '@tempots/dom'
-import { Theme } from '../theme'
+import { attr, html, TNode } from '@tempots/dom'
+
+type LabelType = 'default' | 'emphasis' | 'muted' | 'error'
+
+function generateLabelClasses(type: LabelType): string {
+  return `bc-label bc-label--${type}`
+}
 
 export const EmphasisLabel = (...children: TNode[]) =>
-  Use(Theme, ({ theme }) =>
-    html.span(attr.class(theme.label({ type: 'emphasis' })), ...children)
-  )
+  html.span(attr.class(generateLabelClasses('emphasis')), ...children)
 
 export const Label = (...children: TNode[]) =>
-  Use(Theme, ({ theme }) =>
-    html.span(attr.class(theme.label({ type: 'default' })), ...children)
-  )
+  html.span(attr.class(generateLabelClasses('default')), ...children)
 
 export const MutedLabel = (...children: TNode[]) =>
-  Use(Theme, ({ theme }) =>
-    html.span(attr.class(theme.label({ type: 'muted' })), ...children)
-  )
+  html.span(attr.class(generateLabelClasses('muted')), ...children)
 
 export const ErrorLabel = (...children: TNode[]) =>
-  Use(Theme, ({ theme }) =>
-    html.span(attr.class(theme.label({ type: 'error' })), ...children)
-  )
+  html.span(attr.class(generateLabelClasses('error')), ...children)

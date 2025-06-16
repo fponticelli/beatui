@@ -1,5 +1,5 @@
 @layer components {
-  .hover\:bu-underline:hover,
+  .hover\:bu-underline:hover:not(:disabled),
   .bu-underline {
     text-decoration: underline;
   }

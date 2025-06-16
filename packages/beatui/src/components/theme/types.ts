@@ -1,5 +1,4 @@
 import { BackgroundColorName, ThemeColorName } from '@/tokens'
-import { RadiusName } from '@/tokens/radius'
 import { Signal } from '@tempots/dom'
 
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
@@ -95,116 +94,10 @@ export type AlignSelf =
   | 'baseline'
   | 'last baseline'
 
-export type ButtonStyleOptions = {
-  variant: ButtonVariant
-  size: ControlSize
-  color: string
-  roundedness: RadiusName
-}
-
-export type OverlayStyleOptions = {
-  effect: OverlayEffect
-  mode: OverlayMode
-}
-
-export type PanelStyleOptions = {
-  side: Side
-  color: PanelColor
-  shadow: PanelShadow
-}
-
-export type LabelStyleOptions = {
-  type: LabelType
-}
-
-export type IconStyleOptions = {
-  size: IconSize
-  color?: string
-}
-
-export type InputContainerStyleOptions = {
-  disabled?: boolean
-  hasError?: boolean
-}
-
-export type ControlInputWrapperStyleOptions = {
-  hasError?: boolean
-  disabled?: boolean
-}
-
-export type TagStyleOptions = {
-  disabled?: boolean
-  color?: string
-}
-
-export type CheckboxInputStyleOptions = {
-  disabled?: boolean
-}
-
-export type EditableTextStyleOptions = {
-  isEditing?: boolean
-}
-
-export type NumberInputStyleOptions = {
-  disabled?: boolean
-}
-
-export type ToggleStyleOptions = {
-  disabled?: boolean
-  size?: ControlSize
-}
-
-export type FadeInOutStyleOptions = {
-  state: FadeTranstionState
-}
-
+// Component variant types are still needed for component props
 export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
-
-export type CardStyleOptions = {
-  variant?: CardVariant
-  size?: ControlSize
-  roundedness?: RadiusName
-}
-
 export type CenterGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-export type CenterStyleOptions = {
-  gap?: CenterGap
-}
-
 export type SinkVariant = 'default' | 'deep' | 'shallow' | 'flat'
-
-export type SinkStyleOptions = {
-  variant?: SinkVariant
-  size?: ControlSize
-  roundedness?: RadiusName
-}
-
-export type SegmentedControlStyleOptions = {
-  size?: ControlSize
-}
-
-export interface ThemeDefinition {
-  button: (options: ButtonStyleOptions) => string
-  overlay: (options: OverlayStyleOptions) => string
-  icon: (options: IconStyleOptions) => string
-  panel: (options: PanelStyleOptions) => string
-  label: (options: LabelStyleOptions) => string
-  inputContainer: (options: InputContainerStyleOptions) => string
-  controlInputWrapper: (options: ControlInputWrapperStyleOptions) => string
-  controlInputWrapperLabelText: (
-    options: ControlInputWrapperStyleOptions
-  ) => string
-  tag: (options: TagStyleOptions) => string
-  checkboxInput: (options: CheckboxInputStyleOptions) => string
-  editableText: (options: EditableTextStyleOptions) => string
-  numberInput: (options: NumberInputStyleOptions) => string
-  card: (options: CardStyleOptions) => string
-  center: (options: CenterStyleOptions) => string
-  sink: (options: SinkStyleOptions) => string
-  segmentedControl: (options: SegmentedControlStyleOptions) => string
-  toggle: (options: ToggleStyleOptions) => string
-}
 
 export type AppearancePreference = 'light' | 'dark' | 'system'
 export type Appearance = 'light' | 'dark'
@@ -213,5 +106,4 @@ export interface ThemeValue {
   setAppearancePreference: (appearance: AppearancePreference) => void
   appearancePreference: Signal<AppearancePreference>
   appearance: Signal<Appearance>
-  theme: ThemeDefinition
 }

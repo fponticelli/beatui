@@ -9,7 +9,7 @@ A modern TypeScript UI component library built with [@tempots/dom](https://tempo
 - Vite for fast development and optimized builds
 - Vitest for unit testing
 - Playwright for browser testing
-- Storybook for component documentation and showcasing
+
 - ESLint and Prettier for code quality and consistent formatting
 - Layered CSS architecture with design tokens
 - Iconify integration for icons

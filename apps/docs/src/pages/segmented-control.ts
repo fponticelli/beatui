@@ -1,37 +1,52 @@
-import {
-  ControlSize,
-  Toggle,
-  Stack,
-  Label,
-  Group
-} from "@tempots/beatui";
+import { ControlSize, SegmentedControl, Stack, Group } from "@tempots/beatui";
 import { html, attr, prop } from "@tempots/dom";
-import { ControlSizeSelector } from "../elements/control-size-selector";
+import { DisabledSelector } from "../elements/disabled-selector";
+import { ControlsHeader } from "../elements/controls-header";
+
+const allSizes: ControlSize[] = ["xs", "sm", "md", "lg", "xl"];
 
 export const SegmentedControlPage = () => {
-  const size = prop<ControlSize>("md");
   const disabled = prop(false);
+  const options = {
+    first: "First",
+    second: "Second",
+    third: "Third"
+  };
+  const value = prop<keyof typeof options>("second");
 
-  return Group(
-    attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"),
+  return Stack(
+    attr.class("bu-h-full bu-overflow-hidden"),
+    ControlsHeader(DisabledSelector({ disabled })),
     Stack(
-      Label("Size"),
-      html.div(
-        ControlSizeSelector({ size })
+      attr.class(
+        "bu-items-center bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"
       ),
-      html.div(
-        Toggle({
-          label: "Disabled",
-          value: disabled,
-          onChange: (value: boolean) => disabled.set(value)
-        })
-      )
-    ),
-    html.div(
-      attr.class("bu-h-full bu-overflow-auto"),
+      html.h3(attr.class("bu-text-lg bu-font-semibold"), "Size Variations"),
       html.table(
-        html.thead(html.tr(html.th("color / variant"), html.th("TODO"))),
-        html.tbody(html.tr(html.th("TODO"), html.td("TODO")))
+        attr.class("bu-w-full bu-border-collapse"),
+        html.thead(
+          html.tr(
+            html.th(attr.class("bu-border bu-p-2 bu-text-left"), "Size"),
+            html.th(attr.class("bu-border bu-p-2 bu-text-left"), "Example")
+          )
+        ),
+        html.tbody(
+          ...allSizes.map(currentSize =>
+            html.tr(
+              html.th(attr.class("bu-border bu-p-2"), currentSize),
+              html.td(
+                attr.class("bu-border bu-p-2"),
+                SegmentedControl({
+                  options,
+                  size: currentSize,
+                  disabled,
+                  value,
+                  onChange: value.set
+                })
+              )
+            )
+          )
+        )
       )
     )
   );
