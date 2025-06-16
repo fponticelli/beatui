@@ -6,7 +6,7 @@ export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type OverlayEffect = 'transparent' | 'visible'
 export type OverlayMode = 'capturing' | 'non-capturing'
-export type FadeTranstionState =
+export type FadeTransitionState =
   | 'initial'
   | 'entering'
   | 'entered'
@@ -94,7 +94,6 @@ export type AlignSelf =
   | 'baseline'
   | 'last baseline'
 
-// Component variant types are still needed for component props
 export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
 export type CenterGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type SinkVariant = 'default' | 'deep' | 'shallow' | 'flat'
