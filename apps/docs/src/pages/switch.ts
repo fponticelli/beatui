@@ -53,7 +53,7 @@ export const SwitchPage = () => {
       Stack(DisabledSelector({ disabled }))
     ),
     Stack(
-      attr.class("bu-items-start bu-gap-md bu-p-2 bu-h-full bu-overflow-auto"),
+      attr.class("bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-auto"),
       html.table(
         html.thead(
           html.tr(

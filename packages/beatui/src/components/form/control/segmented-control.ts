@@ -27,13 +27,16 @@ export interface SegmentedControlOptions<
   disabled?: Value<boolean>
 }
 
-export function SegmentedControl<T extends Record<string, TNode>>({
-  options,
-  value,
-  onChange,
-  size = 'md',
-  disabled = false,
-}: SegmentedControlOptions<T, keyof T>) {
+export function SegmentedControl<T extends Record<string, TNode>>(
+  {
+    options,
+    value,
+    onChange,
+    size = 'md',
+    disabled = false,
+  }: SegmentedControlOptions<T, keyof T>,
+  ...children: TNode[]
+) {
   const optionsList = objectEntries(options).map(([key, label]) => ({
     key,
     label,
@@ -129,6 +132,7 @@ export function SegmentedControl<T extends Record<string, TNode>>({
           label
         )
       })
-    )
+    ),
+    ...children
   )
 }

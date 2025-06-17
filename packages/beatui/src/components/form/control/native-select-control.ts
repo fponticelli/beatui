@@ -2,7 +2,7 @@ import { ControlInputWrapper } from './control-input-wrapper'
 import { ControlOptions } from './control-options'
 import { inputOptionsFromController } from '../input/input-options'
 import { NativeSelect, SelectOption } from '../input/native-select'
-import { Value } from '@tempots/dom'
+import { TNode, Value } from '@tempots/dom'
 import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 // import { Validation } from '@tempots/std'
 
@@ -13,7 +13,8 @@ export type NativeSelectControlOptions<T> = ControlOptions<T> & {
 }
 
 export const NativeSelectControl = <T>(
-  options: NativeSelectControlOptions<T>
+  options: NativeSelectControlOptions<T>,
+  ...children: TNode[]
 ) => {
   const { onBlur, onChange, ...rest } = options
   // rest.controller.addValidator(Symbol('AnyOf'), value => {
@@ -32,13 +33,16 @@ export const NativeSelectControl = <T>(
   //     ValidationError.message(`Value is not one of the options`)
   //   )
   // })
-  return ControlInputWrapper({
-    ...rest,
-    content: NativeSelect({
+  return ControlInputWrapper(
+    {
       ...rest,
-      ...inputOptionsFromController(rest.controller),
-      onChange: makeOnChangeHandler(rest.controller, onChange),
-      onBlur: makeOnBlurHandler(rest.controller, onBlur),
-    }),
-  })
+      content: NativeSelect({
+        ...rest,
+        ...inputOptionsFromController(rest.controller),
+        onChange: makeOnChangeHandler(rest.controller, onChange),
+        onBlur: makeOnBlurHandler(rest.controller, onBlur),
+      }),
+    },
+    ...children
+  )
 }

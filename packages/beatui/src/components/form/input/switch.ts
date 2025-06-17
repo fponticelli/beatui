@@ -108,7 +108,7 @@ export const Switch = ({
               rect,
               size
             )((value, { width }, size) => {
-              const multipier = (() => {
+              const multiplier = (() => {
                 switch (size) {
                   case 'xs':
                     return 5
@@ -123,7 +123,7 @@ export const Switch = ({
                 }
               })()
               return value
-                ? `translateX(calc(${width}px - (var(--spacing-base) * ${multipier})))`
+                ? `translateX(calc(${width}px - (var(--spacing-base) * ${multiplier})))`
                 : `translateX(0)`
             })
           )

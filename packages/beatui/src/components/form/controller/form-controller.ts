@@ -1,4 +1,4 @@
-import { GroupController } from './group-controller'
+import { GroupController } from './value-controller'
 
 export class FormController<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

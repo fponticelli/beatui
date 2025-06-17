@@ -36,14 +36,17 @@ function generateControlInputWrapperLabelTextClasses(
   return classes.join(' ')
 }
 
-export const ControlInputWrapper = <S>({
-  required,
-  label,
-  context,
-  description,
-  content,
-  controller,
-}: ControlInputWrapperOptions<S>) => {
+export const ControlInputWrapper = <S>(
+  {
+    required,
+    label,
+    context,
+    description,
+    content,
+    controller,
+  }: ControlInputWrapperOptions<S>,
+  ...children: TNode[]
+) => {
   return html.div(
     attr.class(generateControlInputWrapperClasses()),
     label != null || context != null
@@ -80,6 +83,7 @@ export const ControlInputWrapper = <S>({
       : Empty,
     Ensure(controller.error, error =>
       html.div(attr.class('bc-control-input-wrapper__error'), error)
-    )
+    ),
+    ...children
   )
 }

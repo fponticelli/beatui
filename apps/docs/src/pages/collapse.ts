@@ -18,7 +18,7 @@ export const CollapsePage = () => {
     ),
     Stack(
       attr.class(
-        "bu-items-center bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"
+        "bu-items-center bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden"
       ),
       Group(
         Stack(

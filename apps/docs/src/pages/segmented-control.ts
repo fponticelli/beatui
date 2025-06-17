@@ -19,7 +19,7 @@ export const SegmentedControlPage = () => {
     ControlsHeader(DisabledSelector({ disabled })),
     Stack(
       attr.class(
-        "bu-items-center bu-gap-md bu-p-2 bu-h-full bu-overflow-hidden"
+        "bu-items-center bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden"
       ),
       html.h3(attr.class("bu-text-lg bu-font-semibold"), "Size Variations"),
       html.table(

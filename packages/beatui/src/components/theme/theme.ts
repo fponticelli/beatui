@@ -10,14 +10,14 @@ import {
 // Import CSS with new layered architecture
 import '../../styles/index.css'
 import { AppearancePreference, ThemeValue } from './types'
-import { useAppearence } from '@tempots/ui'
+import { useAppearance } from '@tempots/ui'
 
 export const Theme: Provider<ThemeValue, object> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
   create: (_options?: object) => {
-    const systemAppearance = useAppearence()
+    const systemAppearance = useAppearance()
     const appearancePreference = localStorageProp<AppearancePreference>({
       key: 'beatui-appearance-preference',
       defaultValue: 'system',
