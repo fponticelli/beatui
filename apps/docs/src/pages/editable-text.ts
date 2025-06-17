@@ -1,9 +1,9 @@
-import { attr } from "@tempots/dom";
-import { Group, Stack } from "@tempots/beatui";
+import { attr } from '@tempots/dom'
+import { Group, Stack } from '@tempots/beatui'
 
 export const EditableTextPage = () => {
   return Group(
-    attr.class("bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden"),
+    attr.class('bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden'),
     Stack()
-  );
-};
+  )
+}
