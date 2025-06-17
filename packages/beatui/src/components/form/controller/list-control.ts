@@ -3,6 +3,7 @@ import {
   Fragment,
   OnDispose,
   Repeat,
+  signal,
   Signal,
   TNode,
 } from '@tempots/dom'
@@ -14,14 +15,12 @@ export type ListControllerPayload<T extends any[]> = {
   item: ValueController<T[number]>
   position: ElementPosition
   remove: () => void
-  moveUp: () => void
-  moveDown: () => void
-  moveTo: (index: number) => void
-  moveFirst: () => void
-  moveLast: () => void
-  canMoveUp: boolean
-  canMoveDown: Signal<boolean>
+  move: (direction: MoveDirection) => void
+  canMove: (direction: MoveDirection) => Signal<boolean>
+  cannotMove: (direction: MoveDirection) => Signal<boolean>
 }
+
+export type MoveDirection = 'up' | 'down' | 'first' | 'last'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ListControl<T extends any[]>(
@@ -33,44 +32,93 @@ export function ListControl<T extends any[]>(
     controller.length,
     position => {
       const item = controller.item(position.index)
-      let _canMoveDown: Signal<boolean> | undefined
-      let _canMoveLast: Signal<boolean> | undefined
+      const disposables = [] as (() => void)[]
+      const signalCache = new Map<string, Signal<boolean>>()
       return Fragment(
         OnDispose(() => {
-          _canMoveDown?.dispose()
-          _canMoveLast?.dispose()
+          item.dispose()
+          disposables.forEach(dispose => dispose())
+          // Clean up signal cache
+          signalCache.forEach(signal => signal.dispose())
+          signalCache.clear()
         }),
         element({
           list: controller,
           item,
           position,
           remove: () => controller.removeAt(position.index),
-          moveUp: () => {
-            if (position.index === 0) return
-            controller.move(position.index, position.index - 1)
+          move: (direction: MoveDirection) => {
+            switch (direction) {
+              case 'up':
+                if (position.index === 0) return
+                controller.move(position.index, position.index - 1)
+                break
+              case 'down':
+                if (position.index === controller.length.value - 1) return
+                controller.move(position.index, position.index + 1)
+                break
+              case 'first':
+                controller.move(position.index, 0)
+                break
+              case 'last':
+                controller.move(position.index, controller.length.value - 1)
+            }
           },
-          moveDown: () => {
-            if (position.index === controller.length.value - 1) return
-            controller.move(position.index, position.index + 1)
+          canMove: (direction: MoveDirection): Signal<boolean> => {
+            // Cache the signals to prevent recreation on each call
+            const cacheKey = `canMove_${direction}`
+            if (signalCache.has(cacheKey)) {
+              return signalCache.get(cacheKey)!
+            }
+
+            const result = (() => {
+              switch (direction) {
+                case 'up': {
+                  return signal(position.index > 0)
+                }
+                case 'down': {
+                  return controller.length.map(v => position.index < v - 1)
+                }
+                case 'first': {
+                  return signal(position.index !== 0)
+                }
+                case 'last': {
+                  return controller.length.map(v => position.index !== v - 1)
+                }
+              }
+            })()
+
+            signalCache.set(cacheKey, result)
+            disposables.push(() => result.dispose())
+            return result
           },
-          moveTo: (index: number) => {
-            if (index < 0 || index >= controller.length.value) return
-            controller.move(position.index, index)
-          },
-          moveFirst: () => {
-            controller.move(position.index, 0)
-          },
-          moveLast: () => {
-            controller.move(position.index, controller.length.value - 1)
-          },
-          get canMoveUp() {
-            return position.index > 0
-          },
-          get canMoveDown() {
-            if (_canMoveDown) return _canMoveDown
-            return (_canMoveDown = controller.length.map(
-              v => position.index < v - 1
-            ))
+          cannotMove: (direction: MoveDirection): Signal<boolean> => {
+            // Cache the signals to prevent recreation on each call
+            const cacheKey = `cannotMove_${direction}`
+            if (signalCache.has(cacheKey)) {
+              return signalCache.get(cacheKey)!
+            }
+
+            const result = (() => {
+              switch (direction) {
+                case 'up': {
+                  return signal(position.index === 0)
+                }
+                case 'down': {
+                  return controller.length.map(v => position.index === v - 1)
+                }
+                case 'first': {
+                  return signal(position.index === 0)
+                }
+                case 'last': {
+                  return controller.length.map(v => position.index === v - 1)
+                }
+              }
+            })()
+
+            signalCache.set(cacheKey, result)
+            disposables.push(() => result.dispose())
+            return result
           },
         })
       )
