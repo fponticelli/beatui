@@ -133,8 +133,8 @@ export const FormPage = () => {
               Button({ onClick: remove }, Icon({ icon: 'line-md:minus' }))
             )
           )
-        },
-        () => html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
+        }
+        // () => html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
       ),
       html.div(attr.class('bu-p-2')),
       Group(
