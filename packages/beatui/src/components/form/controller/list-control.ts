@@ -14,12 +14,10 @@ export function ListControl<T extends any[]>(
   element: (payload: ListControllerPayload<T>) => TNode,
   separator?: (pos: ElementPosition) => TNode
 ) {
-  controller.length.on(v => console.log(v))
   return Repeat(
     controller.length,
     position => {
       const item = controller.item(position.index)
-      item.value.on(v => console.log(v))
       return element({
         list: controller,
         item,
