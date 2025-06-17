@@ -1,4 +1,12 @@
-import { attr, Ensure, html, OneOf, OneOfValue, style, Unless } from "@tempots/dom";
+import {
+  attr,
+  Ensure,
+  html,
+  OneOf,
+  OneOfValue,
+  style,
+  Unless
+} from "@tempots/dom";
 import {
   Button,
   DateControl,
@@ -30,7 +38,7 @@ export const FormPage = () => {
       ]),
       experience: z.array(
         z.object({
-          title: z.string().min(1),
+          title: z.string(),
           company: z.string().min(1),
           startDate: z.date(),
           endDate: z.date().optional()
@@ -52,10 +60,11 @@ export const FormPage = () => {
     v => (typeof v === "string" ? null : v.delay),
     v => (v == null ? "off" : { delay: v })
   );
+  const list = controller.field("experience").list();
   return Group(
     attr.class("bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-auto"),
     Stack(
-      attr.class('bu-gap-2'),
+      attr.class("bu-gap-2"),
       style.width("24rem"),
       TextControl({
         controller: controller.field("name"),
@@ -77,8 +86,8 @@ export const FormPage = () => {
         })
       ),
       ListControl(
-        controller.field("experience").list(),
-        ({ item, position }) => {
+        list,
+        ({ item, remove, moveUp, moveDown, canMoveUp, canMoveDown }) => {
           const group = item.group();
           return Stack(
             attr.class("bu-gap-2"),
@@ -109,27 +118,39 @@ export const FormPage = () => {
                   ),
                 label: "End Date"
               })
+            ),
+            Group(
+              attr.class("bu-gap-2 bu-justify-between"),
+              Group(
+                attr.class("bu-gap-2"),
+                Button({ onClick: moveUp, disabled: !canMoveUp }, Icon({ icon: "line-md:arrow-up" })),
+                Button(
+                  { onClick: moveDown, disabled: canMoveDown.map(v => !v) },
+                  Icon({ icon: "line-md:arrow-down" })
+                )
+              ),
+              Button({ onClick: remove }, Icon({ icon: "line-md:minus" }))
             )
           );
         },
-        () => html.hr(
-          style.border("1px solid #ccc"),
-          style.margin("0.5rem 0")
-        )
+        () => html.hr(style.border("1px solid #ccc"), style.margin("0.5rem 0"))
       ),
       html.div(attr.class("bu-p-2")),
-      Button(
-        {
-          onClick: () => {
-            controller.field("experience").list().push({
-              title: "",
-              company: "",
-              startDate: new Date(),
-              endDate: undefined
-            });
-          }
-        },
-        Icon({ icon: "line-md:plus" })
+      Group(
+        attr.class("bu-gap-2"),
+        Button(
+          {
+            onClick: () => {
+              list.push({
+                title: "x",
+                company: "abc",
+                startDate: new Date(),
+                endDate: undefined
+              });
+            }
+          },
+          Icon({ icon: "line-md:plus" })
+        )
       )
     ),
     Stack(

@@ -296,4 +296,13 @@ export class ListController<In extends any[]> extends ValueController<In> {
     copy.splice(start, deleteCount)
     this.change(copy)
   }
+
+  readonly move = (from: number, to: number, length: number = 1) => {
+    if (length < 1) return
+    if (from === to) return
+    const copy = this.value.value.slice() as In
+    const items = copy.splice(from, length)
+    copy.splice(to, 0, ...items)
+    this.change(copy)
+  }
 }
