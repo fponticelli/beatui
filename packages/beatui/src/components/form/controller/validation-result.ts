@@ -1,10 +1,12 @@
+import { PathSegment } from './path'
+
 export type Valid = {
   type: 'Valid'
 }
 
 export type InvalidDependencies = {
   error?: string
-  dependencies?: Record<string | number, InvalidDependencies>
+  dependencies?: Record<PathSegment, InvalidDependencies>
 }
 
 export type Invalid = {
@@ -13,14 +15,18 @@ export type Invalid = {
 
 export type ValidationResult = Valid | Invalid
 
-export function makeMapValidationResult(field: string | number) {
+export function makeMapValidationResult(fields: PathSegment[]) {
   return function mapValidationResult(
     status: ValidationResult
   ): ValidationResult {
     if (status.type === 'Valid') return status
-    const dependencies = status.dependencies?.[field]
-    if (dependencies != null) {
-      return { type: 'Invalid', ...dependencies }
+    let current = status.dependencies
+    for (const field of fields.slice(0)) {
+      current = current?.[field]?.dependencies
+      if (current == null) return { type: 'Valid' }
+    }
+    if (current != null) {
+      return { type: 'Invalid', ...current }
     } else {
       return { type: 'Valid' }
     }

@@ -1,12 +1,4 @@
-import {
-  attr,
-  Ensure,
-  html,
-  OneOf,
-  OneOfValue,
-  style,
-  Unless,
-} from '@tempots/dom'
+import { attr, html, style } from '@tempots/dom'
 import {
   Button,
   DateControl,
@@ -85,12 +77,33 @@ export const FormPage = () => {
           label: 'Delay Value',
         })
       ),
+      Group(
+        attr.class('bu-gap-2'),
+        Button(
+          {
+            onClick: () => {
+              list.push({
+                title: 'x',
+                company: 'abc',
+                startDate: new Date(),
+                endDate: undefined,
+              })
+            },
+          },
+          Icon({ icon: 'line-md:plus' })
+        )
+      ),
+      html.div(attr.class('bu-p-2')),
       ListControl(
         list,
-        ({ item, remove, moveUp, moveDown, canMoveUp, canMoveDown }) => {
-          const group = item.group()
+        opts => {
+          const group = opts.item.group()
           return Stack(
             attr.class('bu-gap-2'),
+            html.div(
+              attr.class('bu-text-sm bu-text-gray-600'),
+              `Item: ${opts.position.counter}`
+            ),
             Group(
               TextControl(
                 {
@@ -120,38 +133,48 @@ export const FormPage = () => {
             Group(
               attr.class('bu-gap-2 bu-justify-between'),
               Group(
-                attr.class('bu-gap-2'),
+                attr.class('bu-gap-2 bu-items-center'),
                 Button(
-                  { onClick: moveUp, disabled: !canMoveUp },
-                  Icon({ icon: 'line-md:arrow-up' })
+                  {
+                    size: 'xs',
+                    roundedness: 'full',
+                    variant: 'outline',
+                    onClick: () => opts.move('up'),
+                    disabled: opts.cannotMove('up'),
+                  },
+                  Icon({
+                    size: 'xs',
+                    icon: 'line-md:arrow-up',
+                  })
                 ),
                 Button(
-                  { onClick: moveDown, disabled: canMoveDown.map(v => !v) },
-                  Icon({ icon: 'line-md:arrow-down' })
+                  {
+                    size: 'xs',
+                    roundedness: 'full',
+                    variant: 'outline',
+                    onClick: () => opts.move('down'),
+                    disabled: opts.cannotMove('down'),
+                  },
+                  Icon({
+                    size: 'xs',
+                    icon: 'line-md:arrow-down',
+                  })
                 )
               ),
-              Button({ onClick: remove }, Icon({ icon: 'line-md:minus' }))
+              Button(
+                {
+                  size: 'xs',
+                  roundedness: 'full',
+                  variant: 'filled',
+                  color: 'warning',
+                  onClick: opts.remove,
+                },
+                Icon({ size: 'xs', icon: 'line-md:minus' })
+              )
             )
           )
         }
         // () => html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
-      ),
-      html.div(attr.class('bu-p-2')),
-      Group(
-        attr.class('bu-gap-2'),
-        Button(
-          {
-            onClick: () => {
-              list.push({
-                title: 'x',
-                company: 'abc',
-                startDate: new Date(),
-                endDate: undefined,
-              })
-            },
-          },
-          Icon({ icon: 'line-md:plus' })
-        )
       )
     ),
     Stack(

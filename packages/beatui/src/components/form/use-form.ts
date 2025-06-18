@@ -9,6 +9,7 @@ import {
 import { StandardSchemaV1 } from './schema/standard-schema-v1'
 import { FormController, ValidationResult, ValueController } from './controller'
 import { convertStandardSchemaIssues } from './schema'
+import { strictEqual } from '@tempots/std'
 
 export interface UseFormOptions<In, Out = In> {
   schema: StandardSchemaV1<In, Out>
@@ -64,11 +65,11 @@ export function useForm<In extends Record<string, any>, Out = In>({
   //   - [ ] validate touched and on submit
   // - [ ] dirty
   // - [ ] touched
-  // - [ ] array
-  // - [ ] unions
   // - [ ] file support
   // - [ ] date support
   // - [ ] boolean support
+  // - [x] array
+  // - [x] unions
   // - [x] disabled
 
   const value = prop(defaultValue)
@@ -86,8 +87,15 @@ export function useForm<In extends Record<string, any>, Out = In>({
       status.set({ type: 'Valid' })
     }
   }
-  const controller = new FormController<In>([], change, value, status, {
-    disabled,
-  })
+  const controller = new FormController<In>(
+    [],
+    change,
+    value,
+    status,
+    {
+      disabled,
+    },
+    strictEqual
+  )
   return controller
 }

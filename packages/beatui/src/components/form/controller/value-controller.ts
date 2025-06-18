@@ -1,10 +1,11 @@
 import { computedOf, prop, Signal } from '@tempots/dom'
-import { Path, pathToString } from './path'
+import { Path, PathSegment, pathToString } from './path'
 import {
   InvalidDependencies,
   makeMapValidationResult,
   ValidationResult,
 } from './validation-result'
+import { strictEqual } from '@tempots/std'
 
 export class ValueController<In> {
   readonly path: Path
@@ -38,7 +39,7 @@ export class ValueController<In> {
     this.value = value
     this.status = status
     this.error = status.map(s => (s.type === 'Invalid' ? s.error : undefined))
-    this.hasError = status.map(s => s.type === 'Invalid')
+    this.hasError = this.error.map(e => e != null)
     this.dependencyErrors = status.map(s =>
       s.type === 'Invalid' ? s.dependencies : undefined
     )
@@ -55,6 +56,11 @@ export class ValueController<In> {
 
   dispose() {
     this.#local.disabled.dispose()
+    this.disabled.dispose()
+    this.status.dispose()
+    this.error.dispose()
+    this.hasError.dispose()
+    this.dependencyErrors.dispose()
   }
 
   readonly disable = () => {
@@ -65,7 +71,7 @@ export class ValueController<In> {
     this.#local.disabled.set(false)
   }
 
-  readonly list = () => {
+  readonly list = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new ListController<In extends any[] ? In : never>(
       this.path,
@@ -73,85 +79,46 @@ export class ValueController<In> {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.value as unknown as Signal<In extends any[] ? In : never>,
       this.status,
-      this.parent
+      this.parent,
+      equals
     )
   }
 
-  readonly group = () => {
+  readonly group = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new GroupController<In extends Record<string, any> ? In : never>(
       this.path,
       this.change,
-
       this.value as unknown as Signal<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         In extends Record<string, any> ? In : never
       >,
       this.status,
-      this.parent
+      this.parent,
+      equals
     )
   }
 
   readonly transform = <Out>(
     transform: (value: In) => Out,
-    untransform: (value: Out) => In
+    untransform: (value: Out) => In,
+    subpath: PathSegment[] = [],
+    equals: (a: Out, b: Out) => boolean = strictEqual
   ) => {
     return new ValueController(
-      this.path,
+      [...this.path, ...subpath],
       (value: Out) => this.change(untransform(value)),
-      this.value.map(transform),
-      this.status,
+      this.value.map(transform, equals),
+      this.status.map(makeMapValidationResult(subpath)),
       this.parent
     )
   }
 }
 
-export type CreateController<In, VC extends ValueController<In>> = (
-  path: Path,
-  onChange: (value: In) => void,
-  value: Signal<In>,
-  status: Signal<ValidationResult>,
-  parent: {
-    disabled: Signal<boolean>
-  }
-) => VC
-
 export class GroupController<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  In extends Record<string, any>,
+  In extends Record<string, In[keyof In]>,
 > extends ValueController<In> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly #controllers = new Map<keyof In, ValueController<any>>()
-
-  readonly #makeField = <
-    K extends keyof In & string,
-    VC extends ValueController<In[K]>,
-  >(
-    field: K,
-    createController: CreateController<In[K], VC>
-  ): VC => {
-    if (this.#controllers.has(field)) {
-      return this.#controllers.get(field)! as VC
-    }
-    const onChange = async (value: In[K]) => {
-      this.change({
-        ...this.value.value,
-        [field]: value,
-      })
-    }
-    const controller = createController(
-      [...this.path, field],
-      onChange,
-      this.value.map((v: In) => v[field] as In[K]),
-      this.status.map(makeMapValidationResult(field)),
-      { disabled: this.disabled }
-    )
-    this.#controllers.set(
-      field,
-      controller as unknown as ValueController<In[keyof In]>
-    )
-    return controller
-  }
+  readonly #controllers = new Map<keyof In, ValueController<unknown>>()
 
   constructor(
     path: Path,
@@ -160,30 +127,37 @@ export class GroupController<
     status: Signal<ValidationResult>,
     parent: {
       disabled: Signal<boolean>
-    }
+    },
+    equals: (a: In, b: In) => boolean
   ) {
     super(
       path,
       change,
-      value.map(v => (v == null ? {} : v) as In),
+      value.map(v => (v == null ? {} : v) as In, equals),
       status,
       parent
     )
   }
 
   readonly field = <K extends keyof In & string>(field: K) => {
-    return this.#makeField(
-      field,
-      (
-        path: Path,
-        onChange: (value: In[K]) => void,
-        value: Signal<In[K]>,
-        status: Signal<ValidationResult>,
-        parent: {
-          disabled: Signal<boolean>
-        }
-      ) => new ValueController(path, onChange, value, status, parent)
+    if (this.#controllers.has(field)) {
+      return this.#controllers.get(field)! as ValueController<In[K]>
+    }
+    const onChange = async (value: In[K]) => {
+      this.change({
+        ...this.value.value,
+        [field]: value,
+      })
+    }
+    const controller = new ValueController(
+      [...this.path, field],
+      onChange,
+      this.value.map((v: In) => v[field] as In[K]),
+      this.status.map(makeMapValidationResult([field])),
+      { disabled: this.disabled }
     )
+    this.#controllers.set(field, controller as ValueController<unknown>)
+    return controller
   }
 
   override dispose() {
@@ -195,35 +169,10 @@ export class GroupController<
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class ListController<In extends any[]> extends ValueController<In> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly #controllers = new Array<ValueController<any>>()
-
-  readonly #makeItem = <VC extends ValueController<In[number]>>(
-    index: number,
-    createController: CreateController<In[number], VC>
-  ) => {
-    if (this.#controllers[index]) {
-      return this.#controllers[index] as VC
-    }
-    const onChange = async (value: In[number]) => {
-      const copy = this.value.value.slice() as In
-      copy[index] = value
-      this.change(copy)
-    }
-    const controller = createController(
-      [...this.path, index],
-      onChange,
-      this.value.map((v: In) => v[index] as In[number]),
-      this.status.map(makeMapValidationResult(index)),
-      { disabled: this.disabled }
-    )
-    this.#controllers[index] = controller
-    return controller
-  }
-
+export class ListController<In extends unknown[]> extends ValueController<In> {
+  readonly #controllers = new Array<ValueController<In[number]>>()
   readonly #unsubscribe: () => void
+  readonly length: Signal<number>
 
   constructor(
     path: Path,
@@ -232,9 +181,10 @@ export class ListController<In extends any[]> extends ValueController<In> {
     status: Signal<ValidationResult>,
     parent: {
       disabled: Signal<boolean>
-    }
+    },
+    equals: (a: In, b: In) => boolean
   ) {
-    const arr = value.map(v => (v == null ? [] : v) as In)
+    const arr = value.map(v => (v == null ? [] : v) as In, equals)
     super(path, change, arr, status, parent)
     this.#unsubscribe = arr.on(v => {
       const diff = this.#controllers.length - v.length
@@ -242,23 +192,27 @@ export class ListController<In extends any[]> extends ValueController<In> {
         this.#controllers.splice(v.length, diff).forEach(c => c.dispose())
       }
     })
+    this.length = arr.map(v => v.length)
   }
 
-  readonly length = this.value.map(v => v.length)
-
   readonly item = (index: number) => {
-    return this.#makeItem(
-      index,
-      (
-        path: Path,
-        onChange: (value: In[number]) => void,
-        value: Signal<In[number]>,
-        status: Signal<ValidationResult>,
-        parent: {
-          disabled: Signal<boolean>
-        }
-      ) => new ValueController(path, onChange, value, status, parent)
+    if (this.#controllers[index]) {
+      return this.#controllers[index] as ValueController<In[number]>
+    }
+    const onChange = async (value: In[number]) => {
+      const copy = this.value.value.slice() as In
+      copy[index] = value
+      this.change(copy)
+    }
+    const controller = new ValueController(
+      [...this.path, index],
+      onChange,
+      this.value.map((v: In) => v[index] as In[number]),
+      this.status.map(makeMapValidationResult([index])),
+      { disabled: this.disabled }
     )
+    this.#controllers[index] = controller
+    return controller
   }
 
   override dispose() {
@@ -269,6 +223,7 @@ export class ListController<In extends any[]> extends ValueController<In> {
     this.length.dispose()
     this.#controllers.length = 0
     this.#unsubscribe()
+    this.value.dispose()
   }
 
   readonly push = (...value: In[number][]) => {
@@ -283,7 +238,7 @@ export class ListController<In extends any[]> extends ValueController<In> {
     this.splice(0, 1)
   }
 
-  readonly unshift = (...value: In[number]) => {
+  readonly unshift = (...value: In) => {
     this.change([...value, ...this.value.value] as In)
   }
 
