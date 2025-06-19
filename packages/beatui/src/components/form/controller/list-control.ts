@@ -29,9 +29,7 @@ export function ListControl<T>(
 ) {
   const length = controller.length.map(v => v)
   return Fragment(
-    OnDispose(() => {
-      length.dispose()
-    }),
+    OnDispose(() => length.dispose()),
     Repeat(
       length,
       position => {

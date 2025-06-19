@@ -40,7 +40,14 @@ export const FormPage = () => {
     defaultValue: {
       name: 'John Doe',
       delaySetting: 'off',
-      experience: [],
+      experience: [
+        {
+          title: 'Software Engineer',
+          company: 'Google',
+          startDate: new Date(),
+          endDate: undefined,
+        },
+      ],
     },
   })
   const delaySetting = controller.field('delaySetting')
@@ -173,8 +180,8 @@ export const FormPage = () => {
               )
             )
           )
-        }
-        // () => html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
+        },
+        () => html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
       )
     ),
     Stack(
