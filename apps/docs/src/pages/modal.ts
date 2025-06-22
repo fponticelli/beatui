@@ -21,6 +21,17 @@ export const ModalPage = () => {
   const showCloseButton = prop(true)
   const title = prop('Modal Title')
   const overlayEffect = prop<'transparent' | 'opaque'>('opaque')
+  const position = prop<
+    | 'center'
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+  >('center')
 
   return Stack(
     attr.class('bu-h-full bu-overflow-hidden'),
@@ -49,6 +60,25 @@ export const ModalPage = () => {
           },
           value: overlayEffect,
           onChange: overlayEffect.set,
+        })
+      ),
+      Stack(
+        Label('Position'),
+        SegmentedControl({
+          size: 'sm',
+          options: {
+            center: 'Center',
+            top: 'Top',
+            bottom: 'Bottom',
+            left: 'Left',
+            right: 'Right',
+            'top-left': 'Top-Left',
+            'top-right': 'Top-Right',
+            'bottom-left': 'Bottom-Left',
+            'bottom-right': 'Bottom-Right',
+          },
+          value: position,
+          onChange: position.set,
         })
       ),
       Stack(
@@ -85,6 +115,7 @@ export const ModalPage = () => {
             dismissable,
             showCloseButton,
             overlayEffect,
+            position,
             onClose: () => console.log('Modal closed'),
           },
           (open, _close) =>
@@ -123,6 +154,7 @@ export const ModalPage = () => {
             dismissable,
             showCloseButton,
             overlayEffect,
+            position,
             onClose: () => console.log('Custom header modal closed'),
           },
           (open, _close) =>
@@ -158,6 +190,7 @@ export const ModalPage = () => {
             dismissable,
             showCloseButton,
             overlayEffect,
+            position,
             onClose: () => console.log('Footer actions modal closed'),
           },
           (open, close) =>
@@ -217,6 +250,7 @@ export const ModalPage = () => {
             size,
             dismissable,
             overlayEffect,
+            position,
             onConfirm: () => console.log('Item deleted'),
             onCancel: () => console.log('Delete cancelled'),
             onClose: () => console.log('Confirmation modal closed'),
@@ -236,10 +270,10 @@ export const ModalPage = () => {
         )
       ),
 
-      // Non-closable Modal Example
+      // Non-dismissable Modal Example
       html.div(
         attr.class('bu-p-4 bu-border bu-rounded-lg bu-bg-white'),
-        html.h3('Non-closable Modal'),
+        html.h3('Non-dismissable Modal'),
         html.p(
           'Modal that cannot be closed by clicking outside or pressing escape.'
         ),
@@ -248,6 +282,7 @@ export const ModalPage = () => {
             size: 'sm',
             dismissable: false,
             showCloseButton: false,
+            position,
             overlayEffect,
           },
           (open, close) =>
@@ -280,6 +315,13 @@ export const ModalPage = () => {
               'Start Processing'
             )
         )
+      ),
+
+      // Position Examples
+      html.div(
+        attr.class('bu-p-4 bu-border bu-rounded-lg bu-bg-white'),
+        html.h3('Position Examples'),
+        html.p('Modals can be positioned at different locations on the screen.')
       )
     )
   )

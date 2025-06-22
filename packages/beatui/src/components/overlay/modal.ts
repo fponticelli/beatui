@@ -27,6 +27,18 @@ export interface ModalOptions {
   overlayEffect?: Value<'transparent' | 'opaque'>
   /** Container for the overlay: 'body' (default) or 'element' (current element) */
   container?: 'body' | 'element'
+  /** Position of the modal: 'center' (default), 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right' */
+  position?: Value<
+    | 'center'
+    | 'top'
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+  >
 }
 
 export interface ModalContentOptions {
@@ -53,6 +65,7 @@ export function Modal(
     onClose,
     overlayEffect = 'opaque',
     container = 'body',
+    position = 'center',
   } = options
 
   // Create a reactive mode signal based on dismissable
@@ -91,10 +104,12 @@ export function Modal(
 
         return html.div(
           attr.class(
-            Value.map(
+            computedOf(
               size,
-              s =>
-                `bc-modal bc-modal--size-${s} bc-modal--container-${container}`
+              position
+            )(
+              (s, p) =>
+                `bc-modal bc-modal--size-${s} bc-modal--container-${container} bc-modal--position-${p}`
             )
           ),
           on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content

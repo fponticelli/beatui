@@ -1,10 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, Provide, html, attr, prop } from '@tempots/dom'
-import {
-  Modal,
-  SimpleModal,
-  ConfirmModal,
-} from '../../src/components/overlay/modal'
+import { Modal, ConfirmModal } from '../../src/components/overlay/modal'
 import { Button } from '../../src/components/button/button'
 import { Theme } from '../../src/components/theme/theme'
 
@@ -460,28 +456,111 @@ describe('Modal Component', () => {
       }, 50)
     }, 100)
   })
-})
 
-describe('SimpleModal Component', () => {
-  it('should render simple modal with body content', () => {
+  it('should apply default center position class', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
 
     render(
       Provide(Theme, {}, () =>
-        SimpleModal(
-          {
-            body: html.p('Simple modal content'),
-          },
-          (open, _close) => Button({ onClick: open }, 'Open Simple Modal')
+        Modal({}, (open, _close) =>
+          Button(
+            { onClick: () => open({ body: html.p('Modal content') }) },
+            'Open Modal'
+          )
         )
       ),
       container
     )
 
     const button = container.querySelector('button')
-    expect(button).not.toBeNull()
-    expect(button!.textContent).toBe('Open Simple Modal')
+    button!.click()
+
+    setTimeout(() => {
+      const modal = document.querySelector('.bc-modal')
+      expect(modal).not.toBeNull()
+      expect(modal!.className).toContain('bc-modal--position-center')
+    }, 100)
+  })
+
+  it('should apply custom position class', () => {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+
+    render(
+      Provide(Theme, {}, () =>
+        Modal({ position: 'top-right' }, (open, _close) =>
+          Button(
+            { onClick: () => open({ body: html.p('Modal content') }) },
+            'Open Modal'
+          )
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')
+    button!.click()
+
+    setTimeout(() => {
+      const modal = document.querySelector('.bc-modal')
+      expect(modal).not.toBeNull()
+      expect(modal!.className).toContain('bc-modal--position-top-right')
+    }, 100)
+  })
+
+  it('should reactively update position class', () => {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+
+    const position = prop<
+      | 'center'
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+      | 'top-left'
+      | 'top-right'
+      | 'bottom-left'
+      | 'bottom-right'
+    >('center')
+
+    render(
+      Provide(Theme, {}, () =>
+        Modal({ position }, (open, _close) =>
+          Button(
+            { onClick: () => open({ body: html.p('Modal content') }) },
+            'Open Modal'
+          )
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')
+    button!.click()
+
+    setTimeout(() => {
+      const modal = document.querySelector('.bc-modal')
+      expect(modal).not.toBeNull()
+      expect(modal!.className).toContain('bc-modal--position-center')
+
+      // Change position
+      position.set('top')
+
+      setTimeout(() => {
+        expect(modal!.className).toContain('bc-modal--position-top')
+        expect(modal!.className).not.toContain('bc-modal--position-center')
+
+        // Change position again
+        position.set('bottom')
+
+        setTimeout(() => {
+          expect(modal!.className).toContain('bc-modal--position-bottom')
+          expect(modal!.className).not.toContain('bc-modal--position-top')
+        }, 50)
+      }, 50)
+    }, 100)
   })
 })
 
@@ -496,11 +575,14 @@ describe('ConfirmModal Component', () => {
       Provide(Theme, {}, () =>
         ConfirmModal(
           {
-            message: 'Are you sure?',
             onConfirm: onConfirmMock,
             onCancel: onCancelMock,
           },
-          (open, _close) => Button({ onClick: open }, 'Delete Item')
+          (open, _close) =>
+            Button(
+              { onClick: () => open(html.p('Are you sure?')) },
+              'Delete Item'
+            )
         )
       ),
       container
@@ -520,10 +602,13 @@ describe('ConfirmModal Component', () => {
       Provide(Theme, {}, () =>
         ConfirmModal(
           {
-            message: 'Are you sure?',
             onConfirm: onConfirmMock,
           },
-          (open, _close) => Button({ onClick: open }, 'Delete Item')
+          (open, _close) =>
+            Button(
+              { onClick: () => open(html.p('Are you sure?')) },
+              'Delete Item'
+            )
         )
       ),
       container
@@ -534,7 +619,7 @@ describe('ConfirmModal Component', () => {
 
     setTimeout(() => {
       const confirmButton = document.querySelector(
-        '.bc-modal__actions button:last-child'
+        '.bc-modal__footer button:last-child'
       )
       if (confirmButton) {
         ;(confirmButton as HTMLButtonElement).click()

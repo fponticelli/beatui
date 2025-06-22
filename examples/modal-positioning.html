@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Positioning Example</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+        button.center {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        button.center:hover {
+            background: #0056b3;
+        }
+        .example-modal {
+            position: fixed;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            min-width: 200px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .close-btn {
+            float: right;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modal Positioning Example</h1>
+        <p>Click the buttons below to see modals positioned at different locations:</p>
+        
+        <div class="grid">
+            <button onclick="showModal('top-left')">Top-Left</button>
+            <button onclick="showModal('top')">Top</button>
+            <button onclick="showModal('top-right')">Top-Right</button>
+            
+            <button onclick="showModal('left')">Left</button>
+            <button class="center" onclick="showModal('center')">Center (Default)</button>
+            <button onclick="showModal('right')">Right</button>
+            
+            <button onclick="showModal('bottom-left')">Bottom-Left</button>
+            <button onclick="showModal('bottom')">Bottom</button>
+            <button onclick="showModal('bottom-right')">Bottom-Right</button>
+        </div>
+        
+        <h2>Usage</h2>
+        <pre><code>// Center position (default)
+Modal({ position: 'center' }, (open, close) => ...)
+
+// Corner positions
+Modal({ position: 'top-left' }, (open, close) => ...)
+Modal({ position: 'top-right' }, (open, close) => ...)
+Modal({ position: 'bottom-left' }, (open, close) => ...)
+Modal({ position: 'bottom-right' }, (open, close) => ...)
+
+// Edge positions
+Modal({ position: 'top' }, (open, close) => ...)
+Modal({ position: 'bottom' }, (open, close) => ...)
+Modal({ position: 'left' }, (open, close) => ...)
+Modal({ position: 'right' }, (open, close) => ...)</code></pre>
+    </div>
+
+    <script>
+        function showModal(position) {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay';
+            overlay.onclick = () => closeModal();
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'example-modal';
+            modal.innerHTML = `
+                <h3>${position.charAt(0).toUpperCase() + position.slice(1)} Modal</h3>
+                <p>This modal is positioned at: <strong>${position}</strong></p>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            `;
+            
+            // Position the modal
+            positionModal(modal, position);
+            
+            // Add to DOM
+            document.body.appendChild(overlay);
+            document.body.appendChild(modal);
+            
+            // Store references for cleanup
+            window.currentModal = modal;
+            window.currentOverlay = overlay;
+        }
+        
+        function positionModal(modal, position) {
+            const margin = 40; // 5vh/vw equivalent
+            
+            switch(position) {
+                case 'center':
+                    modal.style.top = '50%';
+                    modal.style.left = '50%';
+                    modal.style.transform = 'translate(-50%, -50%)';
+                    break;
+                case 'top':
+                    modal.style.top = margin + 'px';
+                    modal.style.left = '50%';
+                    modal.style.transform = 'translateX(-50%)';
+                    break;
+                case 'bottom':
+                    modal.style.bottom = margin + 'px';
+                    modal.style.left = '50%';
+                    modal.style.transform = 'translateX(-50%)';
+                    break;
+                case 'left':
+                    modal.style.top = '50%';
+                    modal.style.left = margin + 'px';
+                    modal.style.transform = 'translateY(-50%)';
+                    break;
+                case 'right':
+                    modal.style.top = '50%';
+                    modal.style.right = margin + 'px';
+                    modal.style.transform = 'translateY(-50%)';
+                    break;
+                case 'top-left':
+                    modal.style.top = margin + 'px';
+                    modal.style.left = margin + 'px';
+                    break;
+                case 'top-right':
+                    modal.style.top = margin + 'px';
+                    modal.style.right = margin + 'px';
+                    break;
+                case 'bottom-left':
+                    modal.style.bottom = margin + 'px';
+                    modal.style.left = margin + 'px';
+                    break;
+                case 'bottom-right':
+                    modal.style.bottom = margin + 'px';
+                    modal.style.right = margin + 'px';
+                    break;
+            }
+        }
+        
+        function closeModal() {
+            if (window.currentModal) {
+                window.currentModal.remove();
+                window.currentModal = null;
+            }
+            if (window.currentOverlay) {
+                window.currentOverlay.remove();
+                window.currentOverlay = null;
+            }
+        }
+        
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

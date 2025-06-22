@@ -16,9 +16,6 @@
   /* Modal anchored to body (default) */
   .bc-modal--container-body {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     max-height: 90vh;
     max-width: 90vw;
   }
@@ -26,11 +23,117 @@
   /* Modal anchored to element container */
   .bc-modal--container-element {
     position: absolute;
+    max-height: 90%;
+    max-width: 90%;
+  }
+
+  /* Modal positioning - Center (default) */
+  .bc-modal--position-center.bc-modal--container-body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-height: 90%;
-    max-width: 90%;
+  }
+
+  .bc-modal--position-center.bc-modal--container-element {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Modal positioning - Top */
+  .bc-modal--position-top.bc-modal--container-body {
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .bc-modal--position-top.bc-modal--container-element {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Modal positioning - Bottom */
+  .bc-modal--position-bottom.bc-modal--container-body {
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .bc-modal--position-bottom.bc-modal--container-element {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Modal positioning - Left */
+  .bc-modal--position-left.bc-modal--container-body {
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+  }
+
+  .bc-modal--position-left.bc-modal--container-element {
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+  }
+
+  /* Modal positioning - Right */
+  .bc-modal--position-right.bc-modal--container-body {
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+  }
+
+  .bc-modal--position-right.bc-modal--container-element {
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
+
+  /* Modal positioning - Top Left */
+  .bc-modal--position-top-left.bc-modal--container-body {
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .bc-modal--position-top-left.bc-modal--container-element {
+    top: 5%;
+    left: 5%;
+  }
+
+  /* Modal positioning - Top Right */
+  .bc-modal--position-top-right.bc-modal--container-body {
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .bc-modal--position-top-right.bc-modal--container-element {
+    top: 5%;
+    right: 5%;
+  }
+
+  /* Modal positioning - Bottom Left */
+  .bc-modal--position-bottom-left.bc-modal--container-body {
+    bottom: 2rem;
+    left: 2rem;
+  }
+
+  .bc-modal--position-bottom-left.bc-modal--container-element {
+    bottom: 5%;
+    left: 5%;
+  }
+
+  /* Modal positioning - Bottom Right */
+  .bc-modal--position-bottom-right.bc-modal--container-body {
+    bottom: 2rem;
+    right: 2rem;
+  }
+
+  .bc-modal--position-bottom-right.bc-modal--container-element {
+    bottom: 5%;
+    right: 5%;
   }
 
   /* Modal sizes */
@@ -90,17 +193,94 @@
     align-items: center;
   }
 
-  /* Animation states */
-  .bc-overlay[data-status='start-opening'] .bc-modal,
-  .bc-overlay[data-status='closing'] .bc-modal {
+  /* Animation states - Center position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-center,
+  .bc-overlay[data-status='closing'] .bc-modal--position-center {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
   }
 
-  .bc-overlay[data-status='opened'] .bc-modal,
-  .bc-overlay[data-status='opening'] .bc-modal {
+  .bc-overlay[data-status='opened'] .bc-modal--position-center,
+  .bc-overlay[data-status='opening'] .bc-modal--position-center {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* Animation states - Top position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-top,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* Animation states - Bottom position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* Animation states - Left position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-left,
+  .bc-overlay[data-status='closing'] .bc-modal--position-left {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-left,
+  .bc-overlay[data-status='opening'] .bc-modal--position-left {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* Animation states - Right position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-right,
+  .bc-overlay[data-status='closing'] .bc-modal--position-right {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-right,
+  .bc-overlay[data-status='opening'] .bc-modal--position-right {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* Animation states - Corner positions */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-left,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-left,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-left,
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+    opacity: 1;
+    transform: scale(1);
   }
 
   /* Responsive adjustments */
@@ -168,11 +348,56 @@
       transition: none;
     }
 
-    .bc-overlay[data-status='start-opening'] .bc-modal,
-    .bc-overlay[data-status='closing'] .bc-modal,
-    .bc-overlay[data-status='opened'] .bc-modal,
-    .bc-overlay[data-status='opening'] .bc-modal {
+    /* Center position */
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-center,
+    .bc-overlay[data-status='closing'] .bc-modal--position-center,
+    .bc-overlay[data-status='opened'] .bc-modal--position-center,
+    .bc-overlay[data-status='opening'] .bc-modal--position-center {
       transform: translate(-50%, -50%);
+    }
+
+    /* Top and bottom positions */
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-top,
+    .bc-overlay[data-status='closing'] .bc-modal--position-top,
+    .bc-overlay[data-status='opened'] .bc-modal--position-top,
+    .bc-overlay[data-status='opening'] .bc-modal--position-top,
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom,
+    .bc-overlay[data-status='closing'] .bc-modal--position-bottom,
+    .bc-overlay[data-status='opened'] .bc-modal--position-bottom,
+    .bc-overlay[data-status='opening'] .bc-modal--position-bottom {
+      transform: translateX(-50%);
+    }
+
+    /* Left and right positions */
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-left,
+    .bc-overlay[data-status='closing'] .bc-modal--position-left,
+    .bc-overlay[data-status='opened'] .bc-modal--position-left,
+    .bc-overlay[data-status='opening'] .bc-modal--position-left,
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-right,
+    .bc-overlay[data-status='closing'] .bc-modal--position-right,
+    .bc-overlay[data-status='opened'] .bc-modal--position-right,
+    .bc-overlay[data-status='opening'] .bc-modal--position-right {
+      transform: translateY(-50%);
+    }
+
+    /* Corner positions */
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
+    .bc-overlay[data-status='closing'] .bc-modal--position-top-left,
+    .bc-overlay[data-status='opened'] .bc-modal--position-top-left,
+    .bc-overlay[data-status='opening'] .bc-modal--position-top-left,
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
+    .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
+    .bc-overlay[data-status='opened'] .bc-modal--position-top-right,
+    .bc-overlay[data-status='opening'] .bc-modal--position-top-right,
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
+    .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
+    .bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
+    .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
+    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
+    .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right,
+    .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
+    .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+      transform: none;
     }
   }
 }
