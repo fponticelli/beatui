@@ -1,4 +1,4 @@
-/* export type OverlayEffect = 'transparent' | 'visible'
+/* export type OverlayEffect = 'transparent' | 'opaque'
 export type OverlayMode = 'capturing' | 'non-capturing' */
 
 @layer components {
@@ -26,8 +26,8 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
     background-color: rgba(0, 0, 0, 0.05);
   }
 
-  .bc-overlay--effect-visible[data-status='opened'],
-  .bc-overlay--effect-visible[data-status='opening'] {
+  .bc-overlay--effect-opaque[data-status='opened'],
+  .bc-overlay--effect-opaque[data-status='opening'] {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px);
   }

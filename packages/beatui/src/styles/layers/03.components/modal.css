@@ -8,7 +8,7 @@
     border-radius: var(--radius-lg);
     box-shadow: 0 0 2rem 0.5rem rgba(0, 0, 0, 0.15);
     background-color: var(--color-base-100);
-    border: 1px solid var(--color-base-300);
+    border: 3px solid var(--color-base-300);
     overflow: hidden;
     transition: all 0.3s ease-in-out;
   }
@@ -64,58 +64,30 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
-    border-bottom: 1px solid var(--color-base-200);
+    border-bottom: 1px solid var(--color-base-300);
     flex-shrink: 0;
-  }
-
-  /* Modal header wrapper (when close button is automatically added) */
-  .bc-modal__header-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
-    border-bottom: 1px solid var(--color-base-200);
-    flex-shrink: 0;
-  }
-
-  .bc-modal__title {
-    margin: 0;
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-gray-900);
-    line-height: var(--line-height-tight);
+    background-color: var(--color-base-100);
   }
 
   /* Modal body */
   .bc-modal__body {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-2xl);
     flex: 1;
     overflow-y: auto;
     color: var(--color-gray-700);
     line-height: var(--line-height-normal);
+    background-color: var(--color-white);
   }
 
   /* Modal footer */
   .bc-modal__footer {
-    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
-    border-top: 1px solid var(--color-base-200);
-    flex-shrink: 0;
-  }
-
-  /* Modal actions (for buttons in footer) */
-  .bc-modal__actions {
     display: flex;
-    gap: var(--spacing-sm);
-    justify-content: flex-end;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    border-top: 1px solid var(--color-base-300);
+    flex-shrink: 0;
+    background-color: var(--color-base-100);
     align-items: center;
-  }
-
-  /* Modal message (for confirmation dialogs) */
-  .bc-modal__message {
-    margin: 0;
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-normal);
-    color: var(--color-gray-700);
   }
 
   /* Animation states */
@@ -145,26 +117,12 @@
       max-height: calc(100% - calc(var(--spacing-md) * 2));
     }
 
-    .bc-modal__header {
-      padding: var(--spacing-md);
-      padding-bottom: var(--spacing-sm);
-    }
-
     .bc-modal__body {
       padding: var(--spacing-md);
     }
 
     .bc-modal__footer {
       padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
-    }
-
-    .bc-modal__actions {
-      flex-direction: column-reverse;
-      gap: var(--spacing-xs);
-    }
-
-    .bc-modal__actions > * {
-      width: 100%;
     }
   }
 
@@ -180,20 +138,12 @@
       border-bottom: 1px solid var(--color-gray-700);
     }
 
-    .bc-modal__title {
-      color: var(--color-gray-100);
-    }
-
     .bc-modal__body {
       color: var(--color-gray-300);
     }
 
     .bc-modal__footer {
       border-top: 1px solid var(--color-gray-700);
-    }
-
-    .bc-modal__message {
-      color: var(--color-gray-300);
     }
   }
 

@@ -1,7 +1,6 @@
 import {
   Button,
   Modal,
-  SimpleModal,
   ConfirmModal,
   Stack,
   Label,
@@ -11,17 +10,17 @@ import {
   Switch,
   Group,
 } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl'
 
 export const ModalPage = () => {
   const size = prop<ModalSize>('md')
-  const closable = prop(true)
+  const dismissable = prop(true)
   const showCloseButton = prop(true)
   const title = prop('Modal Title')
-  const effect = prop<'transparent' | 'visible'>('visible')
+  const overlayEffect = prop<'transparent' | 'opaque'>('opaque')
 
   return Stack(
     attr.class('bu-h-full bu-overflow-hidden'),
@@ -41,20 +40,20 @@ export const ModalPage = () => {
         })
       ),
       Stack(
-        Label('Effect'),
+        Label('Overlay Effect'),
         SegmentedControl({
           size: 'sm',
           options: {
-            visible: 'Visible',
+            opaque: 'Opaque',
             transparent: 'Transparent',
           },
-          value: effect,
-          onChange: effect.set,
+          value: overlayEffect,
+          onChange: overlayEffect.set,
         })
       ),
       Stack(
-        Label('Closable'),
-        Switch({ value: closable, onChange: closable.set })
+        Label('Dismissable'),
+        Switch({ value: dismissable, onChange: dismissable.set })
       ),
       Stack(
         Label('Show Close Button'),
@@ -83,9 +82,9 @@ export const ModalPage = () => {
         Modal(
           {
             size,
-            closable,
+            dismissable,
             showCloseButton,
-            effect,
+            overlayEffect,
             onClose: () => console.log('Modal closed'),
           },
           (open, _close) =>
@@ -94,10 +93,7 @@ export const ModalPage = () => {
                 variant: 'filled',
                 onClick: () =>
                   open({
-                    header: html.div(
-                      attr.class('bc-modal__header'),
-                      html.h2(attr.class('bc-modal__title'), title)
-                    ),
+                    header: html.h2(title),
                     body: html.div(
                       html.p('This is the modal body content.'),
                       html.p(
@@ -124,9 +120,9 @@ export const ModalPage = () => {
         Modal(
           {
             size,
-            closable,
+            dismissable,
             showCloseButton,
-            effect,
+            overlayEffect,
             onClose: () => console.log('Custom header modal closed'),
           },
           (open, _close) =>
@@ -135,16 +131,10 @@ export const ModalPage = () => {
                 variant: 'outline',
                 onClick: () =>
                   open({
-                    header: html.div(
-                      attr.class('bc-modal__header'),
-                      Group(
-                        attr.class('bu-flex bu-items-center bu-gap-2'),
-                        Icon({ icon: 'mdi:information', size: 'md' }),
-                        html.h2(
-                          attr.class('bc-modal__title'),
-                          'Custom Header with Icon'
-                        )
-                      )
+                    header: Group(
+                      attr.class('bu-flex bu-items-center bu-gap-2'),
+                      Icon({ icon: 'mdi:information', size: 'md' }),
+                      html.h2('Custom Header with Icon')
                     ),
                     body: html.div(
                       html.p('This modal has a custom header with an icon.'),
@@ -165,9 +155,9 @@ export const ModalPage = () => {
         Modal(
           {
             size,
-            closable,
+            dismissable,
             showCloseButton,
-            effect,
+            overlayEffect,
             onClose: () => console.log('Footer actions modal closed'),
           },
           (open, close) =>
@@ -177,18 +167,15 @@ export const ModalPage = () => {
                 color: 'primary',
                 onClick: () =>
                   open({
-                    header: html.div(
-                      attr.class('bc-modal__header'),
-                      html.h2(attr.class('bc-modal__title'), 'Save Changes')
-                    ),
+                    header: html.h2('Save Changes'),
                     body: html.div(
                       html.p('You have unsaved changes.'),
                       html.p(
                         'Would you like to save your changes before closing?'
                       )
                     ),
-                    footer: html.div(
-                      attr.class('bc-modal__actions'),
+                    footer: Fragment(
+                      attr.class('bu-justify-between'),
                       Button(
                         {
                           variant: 'text',
@@ -198,13 +185,6 @@ export const ModalPage = () => {
                           },
                         },
                         'Discard'
-                      ),
-                      Button(
-                        {
-                          variant: 'outline',
-                          onClick: close,
-                        },
-                        'Cancel'
                       ),
                       Button(
                         {
@@ -225,37 +205,6 @@ export const ModalPage = () => {
         )
       ),
 
-      // Simple Modal Example
-      html.div(
-        attr.class('bu-p-4 bu-border bu-rounded-lg bu-bg-white'),
-        html.h3('Simple Modal'),
-        html.p(
-          'Convenience component for basic modals with just body content.'
-        ),
-        SimpleModal(
-          {
-            size,
-            closable,
-            effect,
-            body: html.div(
-              html.p(
-                'This is a simple modal created with the SimpleModal convenience function.'
-              ),
-              html.p('It automatically handles the body content for you.')
-            ),
-            onClose: () => console.log('Simple modal closed'),
-          },
-          (open, _close) =>
-            Button(
-              {
-                variant: 'light',
-                onClick: open,
-              },
-              'Open Simple Modal'
-            )
-        )
-      ),
-
       // Confirmation Modal Example
       html.div(
         attr.class('bu-p-4 bu-border bu-rounded-lg bu-bg-white'),
@@ -263,13 +212,11 @@ export const ModalPage = () => {
         html.p('Pre-built confirmation dialog with confirm/cancel actions.'),
         ConfirmModal(
           {
-            message:
-              'Are you sure you want to delete this item? This action cannot be undone.',
             confirmText: 'Delete',
             cancelText: 'Cancel',
             size,
-            closable,
-            effect,
+            dismissable,
+            overlayEffect,
             onConfirm: () => console.log('Item deleted'),
             onCancel: () => console.log('Delete cancelled'),
             onClose: () => console.log('Confirmation modal closed'),
@@ -279,7 +226,10 @@ export const ModalPage = () => {
               {
                 variant: 'filled',
                 color: 'error',
-                onClick: open,
+                onClick: () =>
+                  open(
+                    'Are you sure you want to delete this item? This action cannot be undone.'
+                  ),
               },
               'Delete Item'
             )
@@ -296,9 +246,9 @@ export const ModalPage = () => {
         Modal(
           {
             size: 'sm',
-            closable: false,
+            dismissable: false,
             showCloseButton: false,
-            effect,
+            overlayEffect,
           },
           (open, close) =>
             Button(
@@ -307,10 +257,7 @@ export const ModalPage = () => {
                 color: 'warning',
                 onClick: () => {
                   open({
-                    header: html.div(
-                      attr.class('bc-modal__header'),
-                      html.h2(attr.class('bc-modal__title'), 'Processing...')
-                    ),
+                    header: html.h2('Processing...'),
                     body: html.div(
                       attr.class('bu-text-center bu-py-4'),
                       html.p('Please wait while we process your request...'),

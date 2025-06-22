@@ -4,7 +4,7 @@ import { Signal } from '@tempots/dom'
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
 export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-export type OverlayEffect = 'transparent' | 'visible'
+export type OverlayEffect = 'transparent' | 'opaque'
 export type OverlayMode = 'capturing' | 'non-capturing'
 export type FadeTransitionState =
   | 'initial'

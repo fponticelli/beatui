@@ -15,7 +15,7 @@ describe('Modal Component', () => {
 
     render(
       Provide(Theme, {}, () =>
-        Modal({}, (open, close) =>
+        Modal({}, open =>
           Button(
             { onClick: () => open({ body: html.p('Modal content') }) },
             'Open Modal'
@@ -40,7 +40,7 @@ describe('Modal Component', () => {
 
     render(
       Provide(Theme, {}, () =>
-        Modal({}, (open, close) =>
+        Modal({}, open =>
           Button(
             { onClick: () => open({ body: html.p('Modal content') }) },
             'Open Modal'
@@ -67,7 +67,7 @@ describe('Modal Component', () => {
 
     render(
       Provide(Theme, {}, () =>
-        Modal({ size: 'lg' }, (open, close) =>
+        Modal({ size: 'lg' }, open =>
           Button(
             { onClick: () => open({ body: html.p('Modal content') }) },
             'Open Large Modal'
@@ -94,7 +94,7 @@ describe('Modal Component', () => {
 
     render(
       Provide(Theme, {}, () =>
-        Modal({ onClose: onCloseMock }, (open, close) =>
+        Modal({ onClose: onCloseMock }, open =>
           Button(
             { onClick: () => open({ body: html.p('Modal content') }) },
             'Open Modal'
@@ -118,7 +118,7 @@ describe('Modal Component', () => {
     }, 100)
   })
 
-  it('should not close when closable is false', () => {
+  it('should not close when dismissable is false', () => {
     const onCloseMock = vi.fn()
     const container = document.createElement('div')
     document.body.appendChild(container)
@@ -127,10 +127,10 @@ describe('Modal Component', () => {
       Provide(Theme, {}, () =>
         Modal(
           {
-            closable: false,
+            dismissable: false,
             onClose: onCloseMock,
           },
-          (open, close) =>
+          open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
               'Open Modal'
@@ -337,7 +337,7 @@ describe('Modal Component', () => {
                 open({
                   header: html.div(
                     attr.class('bc-modal__header'),
-                    html.h2(attr.class('bc-modal__title'), 'Test Modal')
+                    html.h2('Test Modal')
                   ),
                   body: html.p('Modal content'),
                 }),
@@ -380,7 +380,7 @@ describe('Modal Component', () => {
                 open({
                   header: html.div(
                     attr.class('bc-modal__header'),
-                    html.h2(attr.class('bc-modal__title'), 'Test Modal')
+                    html.h2('Test Modal')
                   ),
                   body: html.p('Modal content'),
                 }),
@@ -406,22 +406,22 @@ describe('Modal Component', () => {
     }, 100)
   })
 
-  it('should reactively update mode when closable changes', () => {
+  it('should reactively update mode when dismissable changes', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
 
-    const closable = prop(true)
+    const dismissable = prop(true)
 
     render(
       Provide(Theme, {}, () =>
-        Modal({ closable }, (open, _close) =>
+        Modal({ dismissable }, (open, _close) =>
           Button(
             {
               onClick: () =>
                 open({
                   header: html.div(
                     attr.class('bc-modal__header'),
-                    html.h2(attr.class('bc-modal__title'), 'Test Modal')
+                    html.h2('Test Modal')
                   ),
                   body: html.p('Modal content'),
                 }),
@@ -443,15 +443,15 @@ describe('Modal Component', () => {
       // Initially should be capturing mode
       expect(overlay!.className).toContain('bc-overlay--mode-capturing')
 
-      // Change to non-closable
-      closable.set(false)
+      // Change to non-dismissable
+      dismissable.set(false)
 
       setTimeout(() => {
         // Should now be non-capturing mode
         expect(overlay!.className).toContain('bc-overlay--mode-non-capturing')
 
-        // Change back to closable
-        closable.set(true)
+        // Change back to dismissable
+        dismissable.set(true)
 
         setTimeout(() => {
           // Should be capturing mode again

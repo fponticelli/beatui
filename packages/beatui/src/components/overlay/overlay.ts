@@ -110,7 +110,7 @@ export function makeOverlay(ctx: BrowserContext) {
         dataAttr.overlay('true'),
         attr.class(
           computedOf(
-            effect ?? 'visible',
+            effect ?? 'opaque',
             mode
           )(
             (effect, mode) =>
