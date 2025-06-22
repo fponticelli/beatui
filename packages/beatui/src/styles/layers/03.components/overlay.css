@@ -22,6 +22,10 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
     z-index: var(--z-index-overlay);
   }
 
+  .bc-overlay--effect-none {
+    background-color: transparent;
+  }
+
   .bc-overlay--effect-transparent {
     background-color: rgba(0, 0, 0, 0.05);
   }

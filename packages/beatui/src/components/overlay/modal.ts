@@ -24,7 +24,7 @@ export interface ModalOptions {
   /** Callback when modal is closed */
   onClose?: () => void
   /** Overlay effect */
-  overlayEffect?: Value<'transparent' | 'opaque'>
+  overlayEffect?: Value<OverlayEffect>
   /** Container for the overlay: 'body' (default) or 'element' (current element) */
   container?: 'body' | 'element'
   /** Position of the modal: 'center' (default), 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right' */
@@ -130,7 +130,7 @@ export function Modal(
                       size: 'sm',
                       onClick: currentClose,
                     },
-                    Icon({ icon: 'mdi:close', size: 'sm' })
+                    Icon({ icon: 'line-md:close', size: 'sm' })
                   )
                 )
               )
