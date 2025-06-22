@@ -1,12 +1,14 @@
 import {
   attr,
   BrowserContext,
+  computedOf,
   dataAttr,
   Fragment,
   html,
   OnDispose,
   render,
   TNode,
+  Value,
   WithBrowserCtx,
   WithElement,
 } from '@tempots/dom'
@@ -14,27 +16,71 @@ import { OverlayEffect } from '../theme/types'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 import { delayed } from '@tempots/std'
 
-export type OverlayOptions =
-  | {
-      effect?: OverlayEffect
-      mode: 'capturing'
-      onClickOutside?: () => void
-      onEscape?: () => void
-    }
-  | {
-      effect?: OverlayEffect
-      mode: 'non-capturing'
-    }
+export type OverlayOptions = {
+  effect?: Value<OverlayEffect>
+  mode: Value<'capturing' | 'non-capturing'>
+  onClickOutside?: () => void
+  onEscape?: () => void
+}
 
 export function makeOverlay(ctx: BrowserContext) {
   return (
-    { effect, ...rest }: OverlayOptions,
+    { effect, mode, onClickOutside, onEscape }: OverlayOptions,
     fnNode: (close: () => void) => TNode
   ) => {
     const disposables: (() => void)[] = []
     const close = () => disposables.forEach(dispose => dispose())
     const status = useAnimatedElementToggle()
     status.onClosed(close)
+
+    // Event listener cleanup functions
+    let escapeCleanup: () => void = () => {}
+    let clickOutsideCleanup: () => void = () => {}
+
+    // Setup escape key listener
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onEscape?.()
+        status.close()
+      }
+    }
+
+    // Setup click outside listener
+    const handleClickOutside = () => {
+      onClickOutside?.()
+      status.close()
+    }
+
+    const setupEventListeners = (
+      currentMode: 'capturing' | 'non-capturing'
+    ) => {
+      // Clean up existing listeners
+      escapeCleanup()
+      clickOutsideCleanup()
+
+      if (currentMode === 'capturing') {
+        document.addEventListener('keydown', handleEscape)
+        escapeCleanup = () =>
+          document.removeEventListener('keydown', handleEscape)
+        ctx.element.addEventListener('mousedown', handleClickOutside)
+        clickOutsideCleanup = () =>
+          ctx.element.removeEventListener('mousedown', handleClickOutside)
+      } else {
+        escapeCleanup = () => {}
+        clickOutsideCleanup = () => {}
+      }
+    }
+
+    // Listen for mode changes and update event listeners
+    const modeCleanup = Value.on(mode, setupEventListeners)
+    disposables.push(modeCleanup)
+
+    // Cleanup event listeners when overlay is disposed
+    disposables.push(() => {
+      escapeCleanup()
+      clickOutsideCleanup()
+    })
+
     const makeContainer = () => {
       const inertChildren = new Set<Element>()
       for (const el of ctx.element.querySelectorAll(
@@ -57,35 +103,19 @@ export function makeOverlay(ctx: BrowserContext) {
         inertChildren.clear()
       })
       ;(document.activeElement as HTMLElement)?.blur?.()
-      if (rest.mode === 'capturing') {
-        const handleEscape = (event: KeyboardEvent) => {
-          if (event.key === 'Escape') {
-            rest.onEscape?.()
-            status.close()
-          }
-        }
-        document.addEventListener('keydown', handleEscape)
-        disposables.push(() =>
-          document.removeEventListener('keydown', handleEscape)
-        )
-        const handler = () => {
-          rest.onClickOutside?.()
-          status.close()
-        }
-        ctx.element.addEventListener('mousedown', handler)
-        disposables.push(() =>
-          ctx.element.removeEventListener('mousedown', handler)
-        )
-      }
+
       return html.div(
         WithElement(el => status.setElement(el)),
         dataAttr.status(status.status.map(String)),
-        // style.backgroundColor(
-        //   status.displayOpen.map((v): string => (v ? '' : 'rgba(0, 0, 0, 0)'))
-        // ),
         dataAttr.overlay('true'),
         attr.class(
-          `bc-overlay bc-overlay--effect-${effect ?? 'visible'} bc-overlay--mode-${rest.mode ?? 'capturing'}`
+          computedOf(
+            effect ?? 'visible',
+            mode
+          )(
+            (effect, mode) =>
+              `bc-overlay bc-overlay--effect-${effect} bc-overlay--mode-${mode}`
+          )
         ),
         fnNode(status.close)
       )

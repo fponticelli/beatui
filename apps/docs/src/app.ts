@@ -13,6 +13,7 @@ import { EditableTextPage } from './pages/editable-text'
 import { BreakpointPage } from './pages/breakpoint'
 import { CollapsePage } from './pages/collapse'
 import { SidebarPage } from './pages/sidebar'
+import { ModalPage } from './pages/modal'
 
 export const App = () => {
   return Provide(Theme, {}, () =>
@@ -26,6 +27,7 @@ export const App = () => {
             '/switch': SwitchPage,
             '/collapse': CollapsePage,
             '/icon': IconPage,
+            '/modal': ModalPage,
             '/segmented-control': SegmentedControlPage,
             '/sidebar': SidebarPage,
             '/tags': TagsPage,

@@ -7,12 +7,14 @@ export * from './colors'
 export * from './radius'
 export * from './spacing'
 export * from './typography'
+export * from './z-index'
 
 import { generateColorVariables } from './colors'
 import { generateSpacingVariables } from './spacing'
 import { generateTypographyVariables } from './typography'
 import { generateBreakpointVariables } from './breakpoints'
 import { generateRadiusVariables } from './radius'
+import { generateZIndexVariables } from './z-index'
 
 // Generate all CSS variables
 export function generateAllTokenVariables(): Record<string, string> {
@@ -22,6 +24,7 @@ export function generateAllTokenVariables(): Record<string, string> {
     ...generateTypographyVariables(),
     ...generateBreakpointVariables(),
     ...generateRadiusVariables(),
+    ...generateZIndexVariables(),
   }
 }
 
