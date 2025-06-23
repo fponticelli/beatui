@@ -14,6 +14,9 @@ describe('Tooltip Component', () => {
 
   afterEach(() => {
     document.body.removeChild(container)
+    // Clean up any tooltips that might be left in the DOM
+    const tooltips = document.querySelectorAll('.bc-tooltip')
+    tooltips.forEach(tooltip => tooltip.remove())
   })
 
   it('should render without errors', () => {
@@ -33,7 +36,7 @@ describe('Tooltip Component', () => {
     expect(button!.textContent).toBe('Hover me')
   })
 
-  it('should create tooltip trigger element', () => {
+  it('should attach event listeners to parent element', () => {
     render(
       Provide(Theme, {}, () =>
         Button(
@@ -45,45 +48,77 @@ describe('Tooltip Component', () => {
       container
     )
 
-    const tooltipTrigger = container.querySelector('.bc-tooltip-trigger')
-    expect(tooltipTrigger).not.toBeNull()
+    const button = container.querySelector('button')
+    expect(button).not.toBeNull()
+
+    // The tooltip should be attached as event listeners to the button
+    // We can't directly test event listeners, but we can verify the button exists
+    // and that no tooltip content is visible initially
+    const tooltip = container.querySelector('.bc-tooltip')
+    expect(tooltip).toBeNull() // Tooltip should not be visible initially
   })
 
-  it('should have correct tooltip content', () => {
+  it('should have correct tooltip content when triggered', async () => {
     const tooltipContent = 'This is a tooltip'
     render(
       Provide(Theme, {}, () =>
         Button(
           { onClick: () => {} },
           'Hover me',
-          Tooltip({ content: tooltipContent })
+          Tooltip({ content: tooltipContent, showDelay: 0 })
         )
       ),
       container
     )
 
-    // The tooltip content should be available in the DOM structure
-    const tooltipTrigger = container.querySelector('.bc-tooltip-trigger')
-    expect(tooltipTrigger).not.toBeNull()
+    const button = container.querySelector('button')
+    expect(button).not.toBeNull()
+
+    // Initially, tooltip should not be visible anywhere
+    let tooltip = document.querySelector('.bc-tooltip')
+    expect(tooltip).toBeNull()
+
+    // Simulate mouseenter to trigger tooltip
+    button!.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+
+    // Wait a bit for the tooltip to appear (even with 0 delay, there might be async behavior)
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Now tooltip should be visible somewhere in the document
+    tooltip = document.querySelector('.bc-tooltip')
+    expect(tooltip).not.toBeNull()
+    expect(tooltip!.textContent).toBe(tooltipContent)
   })
 
-  it('should support different placements', () => {
+  it('should support different placements', async () => {
     render(
       Provide(Theme, {}, () =>
         Button(
           { onClick: () => {} },
           'Hover me',
-          Tooltip({ content: 'This is a tooltip', placement: 'bottom' })
+          Tooltip({
+            content: 'This is a tooltip',
+            placement: 'bottom',
+            showDelay: 0,
+          })
         )
       ),
       container
     )
 
-    const tooltipTrigger = container.querySelector('.bc-tooltip-trigger')
-    expect(tooltipTrigger).not.toBeNull()
+    const button = container.querySelector('button')
+    expect(button).not.toBeNull()
+
+    // Trigger tooltip
+    button!.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Tooltip should be visible somewhere in the document
+    const tooltip = document.querySelector('.bc-tooltip')
+    expect(tooltip).not.toBeNull()
   })
 
-  it('should support custom offset', () => {
+  it('should support custom offset', async () => {
     render(
       Provide(Theme, {}, () =>
         Button(
@@ -92,29 +127,46 @@ describe('Tooltip Component', () => {
           Tooltip({
             content: 'This is a tooltip',
             offset: { mainAxis: 16, crossAxis: 8 },
+            showDelay: 0,
           })
         )
       ),
       container
     )
 
-    const tooltipTrigger = container.querySelector('.bc-tooltip-trigger')
-    expect(tooltipTrigger).not.toBeNull()
+    const button = container.querySelector('button')
+    expect(button).not.toBeNull()
+
+    // Trigger tooltip
+    button!.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Tooltip should be visible somewhere in the document
+    const tooltip = document.querySelector('.bc-tooltip')
+    expect(tooltip).not.toBeNull()
   })
 
-  it('should render with disabled state', () => {
+  it('should not show tooltip when showOn is "never"', async () => {
     render(
       Provide(Theme, {}, () =>
         Button(
           { onClick: () => {} },
           'Hover me',
-          Tooltip({ content: 'This is a tooltip', disabled: true })
+          Tooltip({ content: 'This is a tooltip', showOn: 'never' })
         )
       ),
       container
     )
 
-    const tooltipTrigger = container.querySelector('.bc-tooltip-trigger')
-    expect(tooltipTrigger).not.toBeNull()
+    const button = container.querySelector('button')
+    expect(button).not.toBeNull()
+
+    // Try to trigger tooltip
+    button!.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Tooltip should not be visible anywhere
+    const tooltip = document.querySelector('.bc-tooltip')
+    expect(tooltip).toBeNull()
   })
 })

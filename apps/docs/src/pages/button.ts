@@ -8,7 +8,6 @@ import {
   TextInput,
   Stack,
   Label,
-  Group,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlSizeSelector } from '../elements/control-size-selector'

@@ -1,4 +1,4 @@
-import { ControlSize, SegmentedControl, Stack, Group } from '@tempots/beatui'
+import { ControlSize, SegmentedControl, Stack } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'

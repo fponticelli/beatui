@@ -7,8 +7,8 @@ import { TNode } from '@tempots/dom'
 
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (controller: Controller<any>, onBlur?: () => void) => () => {
-    // controller.touch()
+  (_controller: Controller<any>, onBlur?: () => void) => () => {
+    // _controller.touch() // TODO: Implement touch functionality
     onBlur?.()
   }
 

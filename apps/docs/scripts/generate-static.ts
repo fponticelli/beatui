@@ -13,40 +13,41 @@ const BASE_URL = 'https://beatui.dev'
 
 // Mock browser APIs for server-side rendering
 const setupBrowserMocks = () => {
-    // Mock indexedDB
-    global.indexedDB = {
-      open: () => ({
-        onsuccess: null,
-        onerror: null,
-        onupgradeneeded: null,
-        result: {
-          objectStoreNames: { contains: () => false },
-          createObjectStore: () => ({}),
-          transaction: () => ({
-            objectStore: () => ({
-              get: () => ({ onsuccess: null, onerror: null }),
-              put: () => ({ onsuccess: null, onerror: null }),
-            }),
+  // Mock indexedDB
+  global.indexedDB = {
+    open: () => ({
+      onsuccess: null,
+      onerror: null,
+      onupgradeneeded: null,
+      result: {
+        objectStoreNames: { contains: () => false },
+        createObjectStore: () => ({}),
+        transaction: () => ({
+          objectStore: () => ({
+            get: () => ({ onsuccess: null, onerror: null }),
+            put: () => ({ onsuccess: null, onerror: null }),
           }),
-        },
-      }),
-    } as any
+        }),
+      },
+    }),
+  } as unknown as IDBFactory
 
-    // Mock localStorage
-    global.localStorage = {
-      getItem: () => null,
-      setItem: () => {},
-      removeItem: () => {},
-      clear: () => {},
-      length: 0,
-      key: () => null,
-    } as any
+  // Mock localStorage
+  global.localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+    length: 0,
+    key: () => null,
+  } as Storage
 
-    // Mock sessionStorage
-    global.sessionStorage = global.localStorage
+  // Mock sessionStorage
+  global.sessionStorage = global.localStorage
 
-    // Mock window.matchMedia
-    global.matchMedia = (query: string) => ({
+  // Mock window.matchMedia
+  global.matchMedia = (query: string) =>
+    ({
       matches: false,
       media: query,
       onchange: null,
@@ -55,22 +56,22 @@ const setupBrowserMocks = () => {
       addEventListener: () => {},
       removeEventListener: () => {},
       dispatchEvent: () => false,
-    }) as any
+    }) as MediaQueryList
 
-    // Mock IntersectionObserver
-    global.IntersectionObserver = class {
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    } as any
+  // Mock IntersectionObserver
+  global.IntersectionObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof IntersectionObserver
 
-    // Mock ResizeObserver
-    global.ResizeObserver = class {
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    } as any
-  }
+  // Mock ResizeObserver
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver
+}
 
 const main = async () => {
   console.log('🚀 Starting comprehensive static site generation...')
@@ -92,10 +93,10 @@ const main = async () => {
   const makePoller = (delay: number = 0, initialWait: number = 10) => {
     let fetchCount = 0
     let outerResolve: () => void
-    let done = new Promise<void>(resolve => {
+    const done = new Promise<void>(resolve => {
       outerResolve = resolve
     })
-    let initialTimer = setTimeout(() => {
+    const initialTimer = setTimeout(() => {
       // Resolve if there are no outstanding fetches
       if (fetchCount === 0) {
         outerResolve()
@@ -129,13 +130,16 @@ const main = async () => {
 
       // Mock fetch for local assets
       const makeFetch = (originalFetch: typeof fetch) => {
-        return (async (input: RequestInfo | URL, init?: RequestInit) => {
+        return async (input: RequestInfo | URL, init?: RequestInit) => {
           start()
           if (typeof input === 'string' && input.startsWith('/')) {
             try {
-              const file = await fsp.readFile(path.resolve(process.cwd(), `./dist${input}`), 'utf-8')
+              const file = await fsp.readFile(
+                path.resolve(process.cwd(), `./dist${input}`),
+                'utf-8'
+              )
               return new Response(file, { status: 200 })
-            } catch (error) {
+            } catch (_error) {
               console.warn(`⚠️  Asset not found: ${input}`)
               return new Response('Not found', { status: 404 })
             } finally {
@@ -143,7 +147,7 @@ const main = async () => {
             }
           }
           return originalFetch(`${BASE_URL}${input}`, init).finally(end)
-        })
+        }
       }
 
       const originalFetch = global.fetch
@@ -153,17 +157,29 @@ const main = async () => {
       const makeApp = () => App()
       const { root } = runHeadless(makeApp, {
         selector: '#app',
-        startUrl: url
+        startUrl: url,
       })
       await done
 
       // Process portals and inject into HTML
       const portals = root.getPortals()
-      console.log(portals.map(p => p.selector + `(${p.hasRenderableProperties()}, ${p.hasChildren()}, ${p.hasInnerHTML()}, ${p.hasInnerText()}): ` + p.contentToHTML()))
+      console.log(
+        portals.map(
+          p =>
+            p.selector +
+            `(${p.hasRenderableProperties()}, ${p.hasChildren()}, ${p.hasInnerHTML()}, ${p.hasInnerText()}): ` +
+            p.contentToHTML()
+        )
+      )
       portals.forEach(p => {
         if (p.selector === ':root') {
           $('body').prepend(p.contentToHTML())
-        } else if (p.hasRenderableProperties() || p.hasChildren() || p.hasInnerHTML() || p.hasInnerText()) {
+        } else if (
+          p.hasRenderableProperties() ||
+          p.hasChildren() ||
+          p.hasInnerHTML() ||
+          p.hasInnerText()
+        ) {
           const elements = $(p.selector as string)
           if (elements.length > 0) {
             if (p.hasInnerHTML()) {
@@ -305,7 +321,7 @@ const main = async () => {
       processedCount++
 
       // Skip if file already exists (except for root)
-      if (url !== '/' && await fse.pathExists(filePath)) {
+      if (url !== '/' && (await fse.pathExists(filePath))) {
         console.log(`⏭️  Skipping existing file: ${url}`)
         continue
       }
@@ -323,21 +339,26 @@ const main = async () => {
       // Extract and queue new URLs
       console.log(`🔍 Extracting links from: ${url}`)
       const extractedUrls = extractURLs(html)
-      console.log(`🔍 Found ${extractedUrls.length} links: ${extractedUrls.join(', ')}`)
+      console.log(
+        `🔍 Found ${extractedUrls.length} links: ${extractedUrls.join(', ')}`
+      )
       const urls = filterURLs(extractedUrls)
       console.log(`🔍 Found ${urls.length} links`)
       const newUrls = urls.filter(url => !generated.has(url))
       toGenerate.push(...newUrls)
 
       if (newUrls.length > 0) {
-        console.log(`🔗 Found ${newUrls.length} new links: ${newUrls.join(', ')}`)
+        console.log(
+          `🔗 Found ${newUrls.length} new links: ${newUrls.join(', ')}`
+        )
       }
 
       // Save the rendered HTML
       await fse.ensureDir(dirPath)
       await fsp.writeFile(filePath, html, 'utf-8')
-      console.log(`✅ Generated: ${url} → ${path.relative(process.cwd(), filePath)}`)
-
+      console.log(
+        `✅ Generated: ${url} → ${path.relative(process.cwd(), filePath)}`
+      )
     } catch (error) {
       console.error(`❌ Error processing ${url}:`, error)
       continue
@@ -349,8 +370,7 @@ const main = async () => {
   console.log(`📁 Generated files in: ${path.resolve(process.cwd(), 'dist')}`)
 }
 
-main()
-  .catch(error => {
-    console.error('💥 Static generation failed:', error)
-    process.exit(1)
-  })
+main().catch(error => {
+  console.error('💥 Static generation failed:', error)
+  process.exit(1)
+})

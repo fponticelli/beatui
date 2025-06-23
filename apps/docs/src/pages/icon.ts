@@ -1,7 +1,6 @@
 import {
   Icon,
   IconSize,
-  SegmentedControl,
   Stack,
   Label,
   Group,
