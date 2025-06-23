@@ -87,7 +87,7 @@ export class Controller<In> {
     this.#local.disabled.set(false)
   }
 
-  readonly list = (equals: (a: In, b: In) => boolean = strictEqual) => {
+  readonly array = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new ArrayController<In extends any[] ? In : never>(
       this.path,
@@ -100,7 +100,7 @@ export class Controller<In> {
     )
   }
 
-  readonly group = (equals: (a: In, b: In) => boolean = strictEqual) => {
+  readonly object = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new ObjectController<In extends Record<string, any> ? In : never>(
       this.path,

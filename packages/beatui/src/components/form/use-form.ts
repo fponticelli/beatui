@@ -117,5 +117,5 @@ export function useForm<In extends Record<string, any>, Out = In>({
       standardSchemaResultToValidationResult(
         await schema['~standard'].validate(v)
       ),
-  })
+  }).object()
 }
