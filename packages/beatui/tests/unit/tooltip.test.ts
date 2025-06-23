@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, Provide } from '@tempots/dom'
 import { Tooltip } from '../../src/components/overlay/tooltip'
 import { Button } from '../../src/components/button/button'
@@ -91,7 +91,7 @@ describe('Tooltip Component', () => {
           'Hover me',
           Tooltip({
             content: 'This is a tooltip',
-            offset: { mainAxis: 16, crossAxis: 8 }
+            offset: { mainAxis: 16, crossAxis: 8 },
           })
         )
       ),

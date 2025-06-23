@@ -4,7 +4,24 @@ import { Resource, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 
 const dbName = 'bui-icons'
+
+// In-memory fallback cache
+const memoryCache = new Map<string, string>()
+
+// Check if indexedDB is available
+export const isIndexedDBAvailable = (() => {
+  try {
+    return typeof indexedDB !== 'undefined' && indexedDB !== null
+  } catch {
+    return false
+  }
+})()
+
 function openIconDB() {
+  if (!isIndexedDBAvailable) {
+    return Promise.reject(new Error('IndexedDB not available'))
+  }
+
   return new Promise<IDBDatabase>((resolve, reject) => {
     const request = indexedDB.open(dbName, 1)
 
@@ -24,29 +41,52 @@ function openIconDB() {
     }
   })
 }
-const dbPromise = openIconDB()
 
-function storeIconLocally(id: string, svgString: string) {
+const dbPromise = isIndexedDBAvailable ? openIconDB() : null
+
+export function storeIconLocally(id: string, svgString: string) {
   return new Promise(async (resolve, reject) => {
-    const db = await dbPromise
-    const tx = db.transaction('icons', 'readwrite')
-    const store = tx.objectStore('icons')
-    store.put(svgString, id)
-    tx.oncomplete = resolve
-    tx.onerror = reject
+    try {
+      if (dbPromise) {
+        const db = await dbPromise
+        const tx = db.transaction('icons', 'readwrite')
+        const store = tx.objectStore('icons')
+        store.put(svgString, id)
+        tx.oncomplete = resolve
+        tx.onerror = reject
+      } else {
+        // Fallback to in-memory cache
+        memoryCache.set(id, svgString)
+        resolve(undefined)
+      }
+    } catch (_error) {
+      // If IndexedDB fails, fallback to memory cache
+      memoryCache.set(id, svgString)
+      resolve(undefined)
+    }
   })
 }
 
-function getIconLocally(id: string) {
+export function getIconLocally(id: string) {
   return new Promise<string | null>(async (resolve, reject) => {
-    const db = await dbPromise
-    const tx = db.transaction('icons', 'readonly')
-    const store = tx.objectStore('icons')
-    const request = store.get(id)
-    request.onsuccess = function () {
-      resolve(request.result as string | null)
+    try {
+      if (dbPromise) {
+        const db = await dbPromise
+        const tx = db.transaction('icons', 'readonly')
+        const store = tx.objectStore('icons')
+        const request = store.get(id)
+        request.onsuccess = function () {
+          resolve(request.result as string | null)
+        }
+        request.onerror = reject
+      } else {
+        // Fallback to in-memory cache
+        resolve(memoryCache.get(id) || null)
+      }
+    } catch (_error) {
+      // If IndexedDB fails, fallback to memory cache
+      resolve(memoryCache.get(id) || null)
     }
-    request.onerror = reject
   })
 }
 

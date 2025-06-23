@@ -49,17 +49,25 @@ export class Controller<In> {
       this.#local.disabled,
       parent.disabled
     )((local, parent) => local || parent)
+
+    // Register disposal of internal resources
+    this.onDispose(() => {
+      this.#local.disabled.dispose()
+      this.disabled.dispose()
+      this.error.dispose()
+      this.dependencyErrors.dispose()
+    })
   }
 
   get name() {
     return pathToString(this.path)
   }
 
-  onDispose(callback: () => void) {
+  readonly onDispose = (callback: () => void) => {
     this.#disposeCallbacks.push(callback)
   }
 
-  dispose() {
+  readonly dispose = () => {
     // Call user-registered dispose callbacks first
     for (const callback of this.#disposeCallbacks) {
       try {
@@ -69,14 +77,6 @@ export class Controller<In> {
       }
     }
     this.#disposeCallbacks.length = 0
-
-    // Dispose internal resources
-    this.#local.disabled.dispose()
-    this.disabled.dispose()
-    this.status.dispose()
-    this.error.dispose()
-    this.hasError.dispose()
-    this.dependencyErrors.dispose()
   }
 
   readonly disable = () => {
@@ -153,6 +153,14 @@ export class ObjectController<
       status,
       parent
     )
+
+    // Register disposal of child controllers
+    this.onDispose(() => {
+      for (const controller of this.#controllers.values()) {
+        controller.dispose()
+      }
+      this.#controllers.clear()
+    })
   }
 
   readonly field = <K extends keyof In & string>(field: K) => {
@@ -175,19 +183,10 @@ export class ObjectController<
     this.#controllers.set(field, controller as Controller<unknown>)
     return controller
   }
-
-  override dispose() {
-    super.dispose()
-    for (const controller of this.#controllers.values()) {
-      controller.dispose()
-    }
-    this.#controllers.clear()
-  }
 }
 
 export class ArrayController<In extends unknown[]> extends Controller<In> {
   readonly #controllers = new Array<Controller<In[number]>>()
-  readonly #unsubscribe: () => void
   readonly length: Signal<number>
 
   constructor(
@@ -202,13 +201,24 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
   ) {
     const arr = value.map(v => (v == null ? [] : v) as In, equals)
     super(path, change, arr, status, parent)
-    this.#unsubscribe = arr.on(v => {
+    const cancel = arr.on(v => {
       const diff = this.#controllers.length - v.length
       if (diff > 0) {
         this.#controllers.splice(v.length, diff).forEach(c => c.dispose())
       }
     })
     this.length = arr.map(v => v.length)
+
+    // Register disposal of child controllers and resources
+    this.onDispose(() => {
+      for (const controller of this.#controllers) {
+        controller.dispose()
+      }
+      this.length.dispose()
+      this.#controllers.length = 0
+      cancel()
+      arr.dispose()
+    })
   }
 
   readonly item = (index: number) => {
@@ -229,17 +239,6 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
     )
     this.#controllers[index] = controller
     return controller
-  }
-
-  override dispose() {
-    super.dispose()
-    for (const controller of this.#controllers) {
-      controller.dispose()
-    }
-    this.length.dispose()
-    this.#controllers.length = 0
-    this.#unsubscribe()
-    this.value.dispose()
   }
 
   readonly push = (...value: In[number][]) => {
