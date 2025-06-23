@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-lg);
-    box-shadow: 0 0 0.4rem 0.125rem rgba(0, 0, 0, 0.2), 0 0 1rem 0.25rem rgba(0, 0, 0, 0.25), 0 0 3rem 0.75rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-xl);
     background-color: var(--color-base-100);
     border: 3px solid var(--color-base-300);
     overflow: hidden;

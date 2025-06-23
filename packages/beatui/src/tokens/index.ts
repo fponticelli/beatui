@@ -14,6 +14,8 @@ import { generateSpacingVariables } from './spacing'
 import { generateTypographyVariables } from './typography'
 import { generateBreakpointVariables } from './breakpoints'
 import { generateRadiusVariables } from './radius'
+import { generateShadowVariables } from './shadows'
+import { generateTextShadowVariables } from './text-shadows'
 import { generateZIndexVariables } from './z-index'
 
 // Generate all CSS variables
@@ -24,6 +26,8 @@ export function generateAllTokenVariables(): Record<string, string> {
     ...generateTypographyVariables(),
     ...generateBreakpointVariables(),
     ...generateRadiusVariables(),
+    ...generateShadowVariables(),
+    ...generateTextShadowVariables(),
     ...generateZIndexVariables(),
   }
 }

@@ -4,6 +4,12 @@
     text-decoration: underline;
   }
 
+  .bu-text-2xs {
+    font-size: var(--font-size-2xs);
+  }
+  .bu-text-3xs {
+    font-size: var(--font-size-3xs);
+  }
   .bu-text-xs {
     font-size: var(--font-size-xs);
   }

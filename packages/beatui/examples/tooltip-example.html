@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeatUI Tooltip Example</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .example-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        .example-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .grid-demo .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BeatUI Tooltip Component</h1>
+        <p>The Tooltip component provides contextual information when hovering or focusing on elements. Unlike other tooltip libraries, this component is designed to be a child of the element it provides a tooltip for, rather than wrapping it.</p>
+        
+        <div class="example-section">
+            <h3>Basic Usage</h3>
+            <div id="basic-example"></div>
+        </div>
+
+        <div class="example-section">
+            <h3>Different Placements</h3>
+            <div id="placement-example"></div>
+        </div>
+
+        <div class="example-section">
+            <h3>Multiple Tooltips</h3>
+            <div id="multiple-example"></div>
+        </div>
+
+        <div class="example-section">
+            <h3>Custom Content</h3>
+            <div id="custom-example"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { render, Provide, html, attr } from '../dist/index.es.js';
+        import { Button, Tooltip, Theme, Icon, Group } from '../dist/index.es.js';
+
+        // Basic example
+        render(
+            Provide(Theme, {}, () =>
+                Button(
+                    { variant: 'filled', color: 'primary' },
+                    'Hover or focus me',
+                    Tooltip({
+                        content: 'This is a basic tooltip with helpful information!',
+                        placement: 'top'
+                    })
+                )
+            ),
+            document.getElementById('basic-example')
+        );
+
+        // Placement example
+        render(
+            Provide(Theme, {}, () =>
+                html.div(
+                    { className: 'grid-demo' },
+                    html.div(), // empty
+                    Button(
+                        { variant: 'light', size: 'sm' },
+                        'Top',
+                        Tooltip({ content: 'Tooltip on top', placement: 'top' })
+                    ),
+                    html.div(), // empty
+                    Button(
+                        { variant: 'light', size: 'sm' },
+                        'Left',
+                        Tooltip({ content: 'Tooltip on left', placement: 'left' })
+                    ),
+                    html.div({ className: 'center' }, 'Center'),
+                    Button(
+                        { variant: 'light', size: 'sm' },
+                        'Right',
+                        Tooltip({ content: 'Tooltip on right', placement: 'right' })
+                    ),
+                    html.div(), // empty
+                    Button(
+                        { variant: 'light', size: 'sm' },
+                        'Bottom',
+                        Tooltip({ content: 'Tooltip on bottom', placement: 'bottom' })
+                    ),
+                    html.div() // empty
+                )
+            ),
+            document.getElementById('placement-example')
+        );
+
+        // Multiple tooltips example
+        render(
+            Provide(Theme, {}, () =>
+                Group(
+                    { className: 'button-group' },
+                    Button(
+                        { variant: 'outline' },
+                        'Save',
+                        Icon({ icon: 'mdi:content-save', size: 'sm' }),
+                        Tooltip({ content: 'Save your current work', placement: 'top' })
+                    ),
+                    Button(
+                        { variant: 'outline' },
+                        'Edit',
+                        Icon({ icon: 'mdi:pencil', size: 'sm' }),
+                        Tooltip({ content: 'Edit the selected item', placement: 'top' })
+                    ),
+                    Button(
+                        { variant: 'outline', color: 'danger' },
+                        'Delete',
+                        Icon({ icon: 'mdi:delete', size: 'sm' }),
+                        Tooltip({ content: 'Permanently delete the selected item', placement: 'top' })
+                    )
+                )
+            ),
+            document.getElementById('multiple-example')
+        );
+
+        // Custom content example
+        render(
+            Provide(Theme, {}, () =>
+                Button(
+                    { variant: 'filled', color: 'secondary' },
+                    'Rich Tooltip',
+                    Tooltip({
+                        content: html.div(
+                            { style: 'display: flex; flex-direction: column; gap: 0.5rem;' },
+                            html.div({ style: 'font-weight: 600;' }, 'Rich Tooltip'),
+                            html.div({}, 'This tooltip contains custom HTML content with multiple elements.'),
+                            html.div({ style: 'font-size: 0.75rem; opacity: 0.75;' }, 'Press Escape to close')
+                        ),
+                        placement: 'top'
+                    })
+                )
+            ),
+            document.getElementById('custom-example')
+        );
+    </script>
+</body>
+</html>

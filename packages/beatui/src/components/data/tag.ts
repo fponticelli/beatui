@@ -1,14 +1,39 @@
 import { attr, Empty, html, on, Value, computedOf } from '@tempots/dom'
-import { ThemeColorName } from '@/tokens'
+import { changeFontSize, ThemeColorName } from '../../tokens'
+import { ControlSize } from '../theme'
 
-function generateTagClasses(disabled: boolean, color: string): string {
+const mapPX = {
+  xs: '1.5',
+  sm: '2',
+  md: '2.5',
+  lg: '3',
+  xl: '4',
+}
+
+const mapPY = {
+  xs: '0',
+  sm: '0',
+  md: '0',
+  lg: '0.25',
+  xl: '0.5',
+}
+
+function generateTagClasses(
+  disabled: boolean,
+  color: string,
+  size: ControlSize
+): string {
   const classes = ['bc-tag']
 
   if (disabled) {
     classes.push('bc-tag--disabled')
   } else {
-    classes.push(`bc-tag--${color}`)
+    classes.push(`bu-bg--${color}`)
   }
+
+  classes.push(
+    `bu-text-${changeFontSize(size, -1)} bu-px-${mapPX[size]} bu-py-${mapPY[size]}`
+  )
 
   return classes.join(' ')
 }
@@ -18,25 +43,23 @@ export const Tag = ({
   value,
   color = 'base',
   onClose,
+  size = 'md',
 }: {
   value: Value<string>
   disabled?: Value<boolean>
   color?: Value<ThemeColorName>
   onClose?: (value: string) => void
+  size?: Value<ControlSize>
 }) => {
-  const isDisabled = Value.map(disabled ?? false, d => d)
-  const tagColor = Value.map(color ?? 'base', c => c)
-
   return html.span(
     attr.class(
       computedOf(
-        isDisabled,
-        tagColor
-      )((disabled, color) =>
-        generateTagClasses(disabled ?? false, color ?? 'base')
-      )
+        disabled ?? false,
+        color ?? 'base',
+        size ?? 'md'
+      )((disabled, color, size) => generateTagClasses(disabled, color, size))
     ),
-    html.span(attr.class('bc-tag__text'), value),
+    html.span(value),
     onClose != null
       ? html.button(
           attr.disabled(disabled),
