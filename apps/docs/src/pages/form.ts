@@ -59,7 +59,7 @@ export const FormPage = () => {
     v => (typeof v === 'string' ? null : v.delay),
     v => (v == null ? 'off' : { delay: v })
   )
-  const list = controller.field('experience').list()
+  const list = controller.field('experience').array()
   return Group(
     attr.class('bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-auto'),
     Stack(
@@ -104,7 +104,7 @@ export const FormPage = () => {
       ListControl(
         list,
         opts => {
-          const group = opts.item.group()
+          const group = opts.item.object()
           return Stack(
             attr.class('bu-gap-2'),
             html.div(
