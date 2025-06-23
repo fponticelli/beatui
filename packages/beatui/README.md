@@ -1,3 +1,13 @@
+# TODO
+
+- [ ] submitting
+- [ ] validation strategy
+  - [ ] validate on submit
+  - [ ] continuous validation
+  - [ ] validate touched and on submit
+- [ ] dirty
+- [ ] touched
+
 # BeatUI
 
 A modern TypeScript UI component library built with [@tempots/dom](https://tempo-ts.com).

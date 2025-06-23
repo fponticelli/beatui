@@ -7,21 +7,62 @@ import {
   prop,
 } from '@tempots/dom'
 import { StandardSchemaV1 } from './schema/standard-schema-v1'
-import { FormController, ValidationResult, ValueController } from './controller'
+import { ValidationResult, Controller } from './controller'
 import { convertStandardSchemaIssues } from './schema'
-import { strictEqual } from '@tempots/std'
 
 export interface UseFormOptions<In, Out = In> {
   schema: StandardSchemaV1<In, Out>
   defaultValue?: In
 }
 
-export function connectCommonAttributes<T>(value: ValueController<T>) {
+export interface UseControllerOptions<In> {
+  defaultValue: In
+  onChange?: (value: In) => void
+  validate?: (value: In) => Promise<ValidationResult> | ValidationResult
+}
+
+/**
+ * Creates a Controller instance with automatic resource cleanup.
+ * The controller will be automatically disposed when the component unmounts.
+ */
+export function useController<In>({
+  defaultValue,
+  onChange,
+  validate,
+}: UseControllerOptions<In>) {
+  const value = prop(defaultValue)
+  const status = prop<ValidationResult>({ type: 'Valid' })
+  const disabledSignal = prop(false)
+
+  const change = async (v: In) => {
+    value.set(v)
+    onChange?.(v)
+    if (validate != null) {
+      const result = await validate(v)
+      status.set(result)
+    }
+  }
+
+  const controller = new Controller<In>([], change, value, status, {
+    disabled: disabledSignal,
+  })
+
+  // Add disposal logic for the signals we created
+  controller.onDispose(() => {
+    disabledSignal.dispose()
+    value.dispose()
+    status.dispose()
+  })
+
+  return controller
+}
+
+export function connectCommonAttributes<T>(value: Controller<T>) {
   return Fragment(attr.disabled(value.disabled), attr.name(value.name))
 }
 
 export function connectStringInput(
-  value: ValueController<string>,
+  value: Controller<string>,
   {
     triggerOn = 'change',
   }: {
@@ -36,7 +77,7 @@ export function connectStringInput(
 }
 
 export function connectNumberInput(
-  value: ValueController<number>,
+  value: Controller<number>,
   {
     triggerOn = 'change',
   }: {
@@ -52,50 +93,29 @@ export function connectNumberInput(
   )
 }
 
+export function standardSchemaResultToValidationResult<Out>(
+  result: StandardSchemaV1.Result<Out>
+): ValidationResult {
+  if (result.issues != null) {
+    return {
+      type: 'Invalid',
+      ...convertStandardSchemaIssues(result.issues),
+    }
+  } else {
+    return { type: 'Valid' }
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useForm<In extends Record<string, any>, Out = In>({
   defaultValue = {} as In,
   schema,
 }: UseFormOptions<In, Out>) {
-  // TODO
-  // - [ ] submitting
-  // - [ ] validation strategy
-  //   - [ ] validate on submit
-  //   - [ ] continuous validation
-  //   - [ ] validate touched and on submit
-  // - [ ] dirty
-  // - [ ] touched
-  // - [ ] file support
-  // - [ ] date support
-  // - [ ] boolean support
-  // - [x] array
-  // - [x] unions
-  // - [x] disabled
-
-  const value = prop(defaultValue)
-  const status = prop<ValidationResult>({ type: 'Valid' })
-  const disabled = prop(false)
-  const change = async (v: In) => {
-    value.set(v)
-    const result = await schema['~standard'].validate(v)
-    if (result.issues != null) {
-      status.set({
-        type: 'Invalid',
-        ...convertStandardSchemaIssues(result.issues),
-      })
-    } else {
-      status.set({ type: 'Valid' })
-    }
-  }
-  const controller = new FormController<In>(
-    [],
-    change,
-    value,
-    status,
-    {
-      disabled,
-    },
-    strictEqual
-  )
-  return controller
+  return useController({
+    defaultValue,
+    validate: async v =>
+      standardSchemaResultToValidationResult(
+        await schema['~standard'].validate(v)
+      ),
+  })
 }

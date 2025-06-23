@@ -1,12 +1,12 @@
 import { Ensure, Fragment, OnDispose, Signal, TNode } from '@tempots/dom'
-import { ValueController } from './value-controller'
+import { Controller } from './value-controller'
 
 export function EnsureControl<T>(
   controller:
-    | ValueController<T | null | undefined>
-    | ValueController<T | null>
-    | ValueController<T | undefined>,
-  then: (controller: ValueController<NonNullable<T>>) => TNode,
+    | Controller<T | null | undefined>
+    | Controller<T | null>
+    | Controller<T | undefined>,
+  then: (controller: Controller<NonNullable<T>>) => TNode,
   otherwise?: () => TNode
 ) {
   return Ensure(

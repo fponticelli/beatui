@@ -7,11 +7,11 @@ import {
   Signal,
   TNode,
 } from '@tempots/dom'
-import { ListController, ValueController } from './value-controller'
+import { ArrayController, Controller } from './value-controller'
 
 export type ListControllerPayload<T> = {
-  list: ListController<T[]>
-  item: ValueController<T>
+  list: ArrayController<T[]>
+  item: Controller<T>
   position: ElementPosition
   remove: () => void
   move: (direction: MoveDirection) => void
@@ -23,7 +23,7 @@ export type MoveDirection = 'up' | 'down' | 'first' | 'last'
 export type MovableDirection = 'up' | 'down'
 
 export function ListControl<T>(
-  controller: ListController<T[]>,
+  controller: ArrayController<T[]>,
   element: (payload: ListControllerPayload<T>) => TNode,
   separator?: (pos: ElementPosition) => TNode
 ) {

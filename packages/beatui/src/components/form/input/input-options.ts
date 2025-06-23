@@ -1,6 +1,6 @@
 import { attr, Fragment, TNode, Value } from '@tempots/dom'
 import { Merge } from '@tempots/std'
-import { ValueController } from '../controller/value-controller'
+import { Controller } from '../controller/value-controller'
 
 export type CommonInputOptions = {
   autocomplete?: Value<string>
@@ -45,9 +45,7 @@ export const CommonInputAttributes = ({
   )
 }
 
-export const inputOptionsFromController = <T>(
-  controller: ValueController<T>
-) => {
+export const inputOptionsFromController = <T>(controller: Controller<T>) => {
   return {
     id: controller.name,
     disabled: controller.disabled,
@@ -57,7 +55,7 @@ export const inputOptionsFromController = <T>(
 }
 
 export const inputOptionsFromMappedController = <T, U>(
-  controller: ValueController<U>,
+  controller: Controller<U>,
   map: (value: U) => T
 ) => {
   return {

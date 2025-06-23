@@ -1,9 +1,9 @@
 import { TNode, Value } from '@tempots/dom'
 import { Merge } from '@tempots/std'
-import { ValueController } from '../controller/value-controller'
+import { Controller } from '../controller/value-controller'
 
 export type ControlWrapperOptions<S> = {
-  controller: ValueController<S>
+  controller: Controller<S>
   required?: Value<boolean>
   label?: TNode
   context?: TNode

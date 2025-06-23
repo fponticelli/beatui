@@ -7,7 +7,7 @@ import {
 } from './validation-result'
 import { strictEqual } from '@tempots/std'
 
-export class ValueController<In> {
+export class Controller<In> {
   readonly path: Path
   readonly change: (value: In) => void
   readonly value: Signal<In>
@@ -24,6 +24,7 @@ export class ValueController<In> {
     disabled: Signal<boolean>
   }
   readonly disabled: Signal<boolean>
+  readonly #disposeCallbacks: (() => void)[] = []
 
   constructor(
     path: Path,
@@ -54,7 +55,22 @@ export class ValueController<In> {
     return pathToString(this.path)
   }
 
+  onDispose(callback: () => void) {
+    this.#disposeCallbacks.push(callback)
+  }
+
   dispose() {
+    // Call user-registered dispose callbacks first
+    for (const callback of this.#disposeCallbacks) {
+      try {
+        callback()
+      } catch (error) {
+        console.error('Error in dispose callback:', error)
+      }
+    }
+    this.#disposeCallbacks.length = 0
+
+    // Dispose internal resources
     this.#local.disabled.dispose()
     this.disabled.dispose()
     this.status.dispose()
@@ -73,7 +89,7 @@ export class ValueController<In> {
 
   readonly list = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new ListController<In extends any[] ? In : never>(
+    return new ArrayController<In extends any[] ? In : never>(
       this.path,
       this.change,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,7 +102,7 @@ export class ValueController<In> {
 
   readonly group = (equals: (a: In, b: In) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new GroupController<In extends Record<string, any> ? In : never>(
+    return new ObjectController<In extends Record<string, any> ? In : never>(
       this.path,
       this.change,
       this.value as unknown as Signal<
@@ -105,7 +121,7 @@ export class ValueController<In> {
     subpath: PathSegment[] = [],
     equals: (a: Out, b: Out) => boolean = strictEqual
   ) => {
-    return new ValueController(
+    return new Controller(
       [...this.path, ...subpath],
       (value: Out) => this.change(untransform(value)),
       this.value.map(transform, equals),
@@ -115,10 +131,10 @@ export class ValueController<In> {
   }
 }
 
-export class GroupController<
+export class ObjectController<
   In extends Record<string, In[keyof In]>,
-> extends ValueController<In> {
-  readonly #controllers = new Map<keyof In, ValueController<unknown>>()
+> extends Controller<In> {
+  readonly #controllers = new Map<keyof In, Controller<unknown>>()
 
   constructor(
     path: Path,
@@ -141,7 +157,7 @@ export class GroupController<
 
   readonly field = <K extends keyof In & string>(field: K) => {
     if (this.#controllers.has(field)) {
-      return this.#controllers.get(field)! as ValueController<In[K]>
+      return this.#controllers.get(field)! as Controller<In[K]>
     }
     const onChange = async (value: In[K]) => {
       this.change({
@@ -149,14 +165,14 @@ export class GroupController<
         [field]: value,
       })
     }
-    const controller = new ValueController(
+    const controller = new Controller(
       [...this.path, field],
       onChange,
       this.value.map((v: In) => v[field] as In[K]),
       this.status.map(makeMapValidationResult([field])),
       { disabled: this.disabled }
     )
-    this.#controllers.set(field, controller as ValueController<unknown>)
+    this.#controllers.set(field, controller as Controller<unknown>)
     return controller
   }
 
@@ -169,8 +185,8 @@ export class GroupController<
   }
 }
 
-export class ListController<In extends unknown[]> extends ValueController<In> {
-  readonly #controllers = new Array<ValueController<In[number]>>()
+export class ArrayController<In extends unknown[]> extends Controller<In> {
+  readonly #controllers = new Array<Controller<In[number]>>()
   readonly #unsubscribe: () => void
   readonly length: Signal<number>
 
@@ -197,14 +213,14 @@ export class ListController<In extends unknown[]> extends ValueController<In> {
 
   readonly item = (index: number) => {
     if (this.#controllers[index]) {
-      return this.#controllers[index] as ValueController<In[number]>
+      return this.#controllers[index] as Controller<In[number]>
     }
     const onChange = async (value: In[number]) => {
       const copy = this.value.value.slice() as In
       copy[index] = value
       this.change(copy)
     }
-    const controller = new ValueController(
+    const controller = new Controller(
       [...this.path, index],
       onChange,
       this.value.map((v: In) => v[index] as In[number]),

@@ -1,19 +1,19 @@
 import { ControlInputWrapper } from './control-input-wrapper'
 import { TextInput } from '../input/text-input'
 import { ControlOptions } from './control-options'
-import { ValueController } from '../controller/value-controller'
+import { Controller } from '../controller/value-controller'
 import { inputOptionsFromController } from '../input/input-options'
 import { TNode } from '@tempots/dom'
 
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (controller: ValueController<any>, onBlur?: () => void) => () => {
+  (controller: Controller<any>, onBlur?: () => void) => () => {
     // controller.touch()
     onBlur?.()
   }
 
 export const makeOnChangeHandler =
-  <T>(controller: ValueController<T>, onChange?: (value: T) => void) =>
+  <T>(controller: Controller<T>, onChange?: (value: T) => void) =>
   (value: T) => {
     controller.change(value)
     onChange?.(value)
@@ -21,7 +21,7 @@ export const makeOnChangeHandler =
 
 export const makeMappedOnChangeHandler =
   <T, U>(
-    controller: ValueController<T>,
+    controller: Controller<T>,
     map: (value: U) => T,
     onChange?: (value: T) => void
   ) =>
@@ -33,7 +33,7 @@ export const makeMappedOnChangeHandler =
 
 export const makeNullableOnChangeHandler =
   <T>(
-    controller: ValueController<T | null>,
+    controller: Controller<T | null>,
     isEmpty: (value: T) => boolean,
     onChange?: (value: T | null) => void
   ) =>
