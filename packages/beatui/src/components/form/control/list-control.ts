@@ -7,7 +7,7 @@ import {
   Signal,
   TNode,
 } from '@tempots/dom'
-import { ArrayController, Controller } from './value-controller'
+import { ArrayController, Controller } from '../controller/controller'
 
 export type ListControllerPayload<T> = {
   list: ArrayController<T[]>

@@ -1,5 +1,5 @@
 import { Ensure, Fragment, OnDispose, Signal, TNode } from '@tempots/dom'
-import { Controller } from './value-controller'
+import { Controller } from '../controller/controller'
 
 export function EnsureControl<T>(
   controller:

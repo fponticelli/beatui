@@ -1,6 +1,6 @@
 import { attr, Fragment, TNode, Value } from '@tempots/dom'
 import { Merge } from '@tempots/std'
-import { Controller } from '../controller/value-controller'
+import { Controller } from '../controller/controller'
 
 export type CommonInputOptions = {
   autocomplete?: Value<string>

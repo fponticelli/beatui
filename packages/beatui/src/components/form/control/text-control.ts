@@ -1,7 +1,7 @@
 import { ControlInputWrapper } from './control-input-wrapper'
 import { TextInput } from '../input/text-input'
 import { ControlOptions } from './control-options'
-import { Controller } from '../controller/value-controller'
+import { Controller } from '../controller/controller'
 import { inputOptionsFromController } from '../input/input-options'
 import { TNode } from '@tempots/dom'
 
