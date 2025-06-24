@@ -7,6 +7,7 @@ import {
   Fragment,
   on,
   OneOfValue,
+  style,
 } from '@tempots/dom'
 import { PopOver, Placement } from '@tempots/ui'
 import { delayed } from '@tempots/std'
@@ -136,6 +137,38 @@ export function Tooltip(options: TooltipOptions): TNode {
       open: isOpen,
       placement: placement ?? 'top',
       offset,
+      arrow: {
+        content: signal =>
+          Fragment(
+            attr.class('bc-tooltip__arrow'),
+            attr.class(
+              signal.map(({ placement }): string => {
+                if (placement.includes('top')) {
+                  return 'bc-tooltip__arrow-down'
+                } else if (placement.includes('bottom')) {
+                  return 'bc-tooltip__arrow-up'
+                } else if (placement.includes('left')) {
+                  return 'bc-tooltip__arrow-right'
+                } else if (placement.includes('right')) {
+                  return 'bc-tooltip__arrow-left'
+                }
+                return ''
+              })
+            ),
+            style.transform(
+              signal.map(({ x, y }) => {
+                if (x == null && y == null) {
+                  return ''
+                }
+                if (x != null) {
+                  return `translate(${x}px, 0)`
+                } else {
+                  return `translate(0, ${y}px)`
+                }
+              })
+            )
+          ),
+      },
       content: () => {
         const handleKeyDown = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
