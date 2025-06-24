@@ -8,6 +8,9 @@ import {
   on,
   OneOfValue,
   style,
+  svg,
+  svgAttr,
+  Signal,
 } from '@tempots/dom'
 import { PopOver, Placement } from '@tempots/ui'
 import { delayed } from '@tempots/std'
@@ -18,6 +21,23 @@ export type TooltipTrigger =
   | 'hover-focus'
   | 'click'
   | 'never'
+
+/**
+ * Creates an SVG arrow element for the tooltip
+ */
+function SVGArrow(direction: Signal<'up' | 'down' | 'left' | 'right'>): TNode {
+  const paths = {
+    up: 'M0 16 L8 10 L16 16 Z',
+    down: 'M0 0 L8 6 L16 0 Z',
+    left: 'M16 0 L10 8 L16 16 Z',
+    right: 'M0 0 L6 8 L0 16 Z',
+  }
+
+  return svg.svg(
+    svgAttr.viewBox('0 0 16 16'),
+    svg.path(svgAttr.d(direction.map(d => paths[d])))
+  )
+}
 
 export interface TooltipOptions {
   /** The tooltip content to display */
@@ -138,23 +158,24 @@ export function Tooltip(options: TooltipOptions): TNode {
       placement: placement ?? 'top',
       offset,
       arrow: {
-        content: signal =>
-          Fragment(
+        content: signal => {
+          const direction = signal.map(
+            ({ placement }): 'up' | 'down' | 'left' | 'right' => {
+              if (placement.includes('top')) {
+                return 'down'
+              } else if (placement.includes('bottom')) {
+                return 'up'
+              } else if (placement.includes('left')) {
+                return 'right'
+              } else if (placement.includes('right')) {
+                return 'left'
+              }
+              return 'up'
+            }
+          )
+          return Fragment(
             attr.class('bc-tooltip__arrow'),
-            attr.class(
-              signal.map(({ placement }): string => {
-                if (placement.includes('top')) {
-                  return 'bc-tooltip__arrow-down'
-                } else if (placement.includes('bottom')) {
-                  return 'bc-tooltip__arrow-up'
-                } else if (placement.includes('left')) {
-                  return 'bc-tooltip__arrow-right'
-                } else if (placement.includes('right')) {
-                  return 'bc-tooltip__arrow-left'
-                }
-                return ''
-              })
-            ),
+            attr.class(direction.map(d => `bc-tooltip__arrow-${d}`)),
             style.transform(
               signal.map(({ x, y }) => {
                 if (x == null && y == null) {
@@ -166,8 +187,10 @@ export function Tooltip(options: TooltipOptions): TNode {
                   return `translate(0, ${y}px)`
                 }
               })
-            )
-          ),
+            ),
+            SVGArrow(direction)
+          )
+        },
       },
       content: () => {
         const handleKeyDown = (event: KeyboardEvent) => {

@@ -19,32 +19,37 @@
   .bc-tooltip__arrow {
     width: 16px;
     height: 16px;
-    background-color: var(--color-neutral-900);
-    box-shadow: var(--shadow-md);
     position: absolute;
     transform-origin: center;
+    /* Remove background and shadow since SVG will handle the styling */
+  }
+
+  .bc-tooltip__arrow svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(var(--shadow-md));
+  }
+
+  .bc-tooltip__arrow svg path {
+    fill: var(--color-neutral-900);
   }
 
   .bc-tooltip__arrow-down {
-    clip-path: polygon(0 0, 100% 0, 50% 50%);
     left: 0;
     top: 100%;
   }
 
   .bc-tooltip__arrow-up {
-    clip-path: polygon(0 100%, 100% 100%, 50% 50%);
     left: 0;
     bottom: 100%;
   }
 
   .bc-tooltip__arrow-left {
-    clip-path: polygon(100% 0, 100% 100%, 50% 50%);
     right: calc(100% - 0.5px);
     top: 0;
   }
 
   .bc-tooltip__arrow-right {
-    clip-path: polygon(0 0, 0 100%, 50% 50%);
     left: calc(100% - 0.5px);
     top: 0;
   }
@@ -67,6 +72,10 @@
   [data-theme="dark"] .bc-tooltip {
     background-color: var(--color-neutral-100);
     color: var(--color-neutral-900);
+  }
+
+  [data-theme="dark"] .bc-tooltip__arrow svg path {
+    fill: var(--color-neutral-100);
   }
 
   /* High contrast mode */
