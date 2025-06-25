@@ -190,29 +190,30 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-switch__label {
-      color: var(--color-gray-400);
-    }
+  .b-dark .bc-switch__label {
+    color: var(--text-normal-dark);
+  }
 
-    .bc-switch__track--off {
-      background-color: var(--color-gray-700);
-    }
+  .b-dark .bc-switch__track--off {
+    background-color: var(--bg-subtle-dark);
+    border: 1px solid var(--border-border-dark);
+  }
 
-    .bc-switch__track--on {
-      background-color: var(--color-primary-600);
-    }
+  .b-dark .bc-switch__track--on {
+    background-color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-500);
+  }
 
-    .bc-switch__track-label--off {
-      color: var(--color-gray-400);
-    }
+  .b-dark .bc-switch__track-label--off {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-switch__track-label--on {
-      color: var(--color-gray-200);
-    }
+  .b-dark .bc-switch__track-label--on {
+    color: var(--text-normal-dark);
+  }
 
-    .bc-switch__thumb {
-      background-color: var(--color-gray-100);
-    }
+  .b-dark .bc-switch__thumb {
+    background-color: var(--text-normal-dark);
+    box-shadow: 0 2px 4px var(--shadow-color-dark);
   }
 }

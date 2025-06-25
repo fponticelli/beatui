@@ -107,54 +107,82 @@
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__indicator {
-    background-color: var(--color-gray-300);
+    background-color: var(--bg-elevated-light);
     box-shadow: none;
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment {
-    background-color: var(--color-gray-200);
-    color: var(--color-gray-400);
+    background-color: var(--bg-subtle-light);
+    color: var(--text-muted-light);
     cursor: not-allowed;
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
-    color: var(--color-gray-400);
+    color: var(--text-muted-light);
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment--active {
-    background-color: var(--color-gray-300);
-    color: var(--color-gray-400);
+    background-color: var(--bg-elevated-light);
+    color: var(--text-muted-light);
   }
 
   .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
-    color: var(--color-gray-400);
+    color: var(--text-muted-light);
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-segmented-control--disabled {
-      background-color: var(--color-gray-800);
-      border: 1px solid var(--color-gray-700);
-    }
+  .b-dark .bc-segmented-control {
+    background-color: var(--bg-subtle-dark);
+    border: 1px solid var(--border-border-dark);
+  }
 
-    .bc-segmented-control--disabled .bc-segmented-control__indicator {
-      background-color: var(--color-gray-700);
-    }
+  .b-dark .bc-segmented-control__indicator {
+    background-color: var(--bg-elevated-dark);
+    box-shadow: 0 1px 3px var(--shadow-color-dark),
+                0 0 0 1px var(--shadow-highlight-dark);
+  }
 
-    .bc-segmented-control--disabled .bc-segmented-control__segment {
-      color: var(--color-gray-600);
-    }
+  .b-dark .bc-segmented-control__segment {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
-      color: var(--color-gray-600);
-    }
+  .b-dark .bc-segmented-control__segment:hover {
+    color: var(--text-normal-dark);
+    background-color: var(--interactive-hover-dark);
+  }
 
-    .bc-segmented-control--disabled .bc-segmented-control__segment--active {
-      color: var(--color-gray-500);
-    }
+  .b-dark .bc-segmented-control__segment--active {
+    color: var(--text-normal-dark);
+  }
 
-    .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
-      color: var(--color-gray-600);
-    }
+  .b-dark .bc-segmented-control__segment--inactive {
+    color: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-segmented-control--disabled {
+    background-color: var(--bg-background-dark);
+    border: 1px solid var(--border-divider-dark);
+    opacity: 0.5;
+  }
+
+  .b-dark .bc-segmented-control--disabled .bc-segmented-control__indicator {
+    background-color: var(--bg-subtle-dark);
+  }
+
+  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment {
+    color: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+    color: var(--text-muted-dark);
+    background-color: transparent;
+  }
+
+  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment--active {
+    color: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
+    color: var(--text-muted-dark);
   }
 }

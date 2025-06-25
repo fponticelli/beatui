@@ -40,14 +40,18 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-tag__close {
-      color: var(--color-gray-500);
-    }
+  .b-dark .bc-tag {
+    color: var(--text-normal-dark);
+    background-color: var(--bg-elevated-dark);
+    border: 1px solid var(--border-border-dark);
+  }
 
-    .bc-tag__close:hover:not(:disabled) {
-      color: var(--color-gray-300);
-      background-color: var(--color-gray-600);
-    }
+  .b-dark .bc-tag__close {
+    color: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-tag__close:hover:not(:disabled) {
+    color: var(--text-normal-dark);
+    background-color: var(--interactive-hover-dark);
   }
 }

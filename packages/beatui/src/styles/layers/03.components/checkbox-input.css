@@ -11,16 +11,16 @@
   .bc-checkbox-input__checkbox {
     width: calc(var(--spacing-base) * 5);
     height: calc(var(--spacing-base) * 5);
-    border: 1px solid var(--color-gray-300);
+    border: 1px solid var(--border-border-light);
     color: var(--color-indigo-600);
     border-radius: var(--radius-sm);
-    background-color: var(--color-white);
+    background-color: var(--bg-surface-light);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
   }
 
   .bc-checkbox-input__checkbox:focus {
-    outline: 2px solid var(--color-indigo-600);
+    outline: 2px solid var(--interactive-focus-light);
     outline-offset: 2px;
   }
 
@@ -30,8 +30,8 @@
   }
 
   .bc-checkbox-input__checkbox:disabled {
-    background-color: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background-color: var(--bg-subtle-light);
+    border-color: var(--border-divider-light);
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -43,20 +43,27 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-checkbox-input__checkbox {
-      background-color: var(--color-gray-800);
-      border-color: var(--color-gray-600);
-    }
+  .b-dark .bc-checkbox-input__checkbox {
+    background-color: var(--bg-surface-dark);
+    border-color: var(--border-border-dark);
+  }
 
-    .bc-checkbox-input__checkbox:checked {
-      background-color: var(--color-indigo-500);
-      border-color: var(--color-indigo-500);
-    }
+  .b-dark .bc-checkbox-input__checkbox:focus {
+    outline-color: var(--interactive-focus-dark);
+  }
 
-    .bc-checkbox-input__checkbox:disabled {
-      background-color: var(--color-gray-700);
-      border-color: var(--color-gray-600);
-    }
+  .b-dark .bc-checkbox-input__checkbox:checked {
+    background-color: var(--color-indigo-500);
+    border-color: var(--color-indigo-500);
+  }
+
+  .b-dark .bc-checkbox-input__checkbox:disabled {
+    background-color: var(--bg-subtle-dark);
+    border-color: var(--border-divider-dark);
+    opacity: 0.5;
+  }
+
+  .b-dark .bc-checkbox-input__label {
+    color: var(--text-normal-dark);
   }
 }

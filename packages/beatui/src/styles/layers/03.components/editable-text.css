@@ -66,25 +66,25 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-editable-text {
-      border-bottom-color: var(--color-gray-600);
-    }
+  .b-dark .bc-editable-text {
+    border-bottom-color: var(--border-border-dark);
+    color: var(--text-normal-dark);
+  }
 
-    .bc-editable-text__placeholder {
-      color: var(--color-gray-400);
-    }
+  .b-dark .bc-editable-text__placeholder {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-editable-text__edit-button {
-      color: var(--color-yellow-400);
-    }
+  .b-dark .bc-editable-text__edit-button {
+    color: var(--color-yellow-400);
+  }
 
-    .bc-editable-text__edit-button:hover {
-      background-color: var(--color-gray-800);
-    }
+  .b-dark .bc-editable-text__edit-button:hover {
+    background-color: var(--interactive-hover-dark);
+    color: var(--color-yellow-300);
+  }
 
-    .bc-editable-text__edit-button:active {
-      background-color: var(--color-gray-700);
-    }
+  .b-dark .bc-editable-text__edit-button:active {
+    background-color: var(--interactive-active-dark);
   }
 }

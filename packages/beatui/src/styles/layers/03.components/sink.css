@@ -70,4 +70,26 @@
   .bc-sink--rounded-full {
     border-radius: var(--radius-full);
   }
+
+  /* Dark mode styles */
+  .b-dark .bc-sink {
+    background-color: var(--bg-background-dark);
+    border: 1px solid var(--border-border-dark);
+    box-shadow: inset 0 2px 4px var(--shadow-color-dark);
+    color: var(--text-normal-dark);
+  }
+
+  .b-dark .bc-sink--deep {
+    box-shadow: inset 0 4px 8px var(--shadow-color-dark);
+  }
+
+  .b-dark .bc-sink--shallow {
+    box-shadow: inset 0 1px 2px var(--shadow-color-dark);
+  }
+
+  .b-dark .bc-sink--flat {
+    box-shadow: none;
+    border: 1px solid var(--border-divider-dark);
+    background-color: var(--bg-subtle-dark);
+  }
 }

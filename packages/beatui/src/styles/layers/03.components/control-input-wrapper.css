@@ -70,29 +70,27 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-control-input-wrapper__label-text--default {
-      color: var(--color-gray-300);
-    }
+  .b-dark .bc-control-input-wrapper__label-text--default {
+    color: var(--text-normal-dark);
+  }
 
-    .bc-control-input-wrapper__label-text--disabled {
-      color: var(--color-gray-600);
-    }
+  .b-dark .bc-control-input-wrapper__label-text--disabled {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-control-input-wrapper__label-text--error {
-      color: var(--color-red-300);
-    }
+  .b-dark .bc-control-input-wrapper__label-text--error {
+    color: var(--color-red-300);
+  }
 
-    .bc-control-input-wrapper__required {
-      color: var(--color-red-400);
-    }
+  .b-dark .bc-control-input-wrapper__required {
+    color: var(--color-red-400);
+  }
 
-    .bc-control-input-wrapper__description {
-      color: var(--color-gray-400);
-    }
+  .b-dark .bc-control-input-wrapper__description {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-control-input-wrapper__error {
-      color: var(--color-red-400);
-    }
+  .b-dark .bc-control-input-wrapper__error {
+    color: var(--color-red-400);
   }
 }

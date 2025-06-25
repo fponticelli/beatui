@@ -207,6 +207,24 @@
     flex-shrink: 0;
   }
 
+  /* Dark mode styles */
+  .b-dark .bc-drawer {
+    background-color: var(--bg-surface-dark);
+    color: var(--text-normal-dark);
+    box-shadow: 0 20px 25px -5px var(--shadow-color-dark),
+                0 10px 10px -5px var(--shadow-color-dark);
+  }
+
+  .b-dark .bc-drawer__header {
+    border-bottom: 1px solid var(--border-divider-dark);
+    background-color: var(--bg-elevated-dark);
+  }
+
+  .b-dark .bc-drawer__footer {
+    border-top: 1px solid var(--border-divider-dark);
+    background-color: var(--bg-elevated-dark);
+  }
+
   /* Responsive adjustments */
   @media (width <= 640px) {
     .bc-drawer--side-left.bc-drawer--container-body,

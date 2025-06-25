@@ -130,42 +130,49 @@
   }
 
   /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .bc-input-container--default {
-      background-color: var(--color-gray-900);
-      color: var(--color-gray-100);
-      outline: 1px solid var(--color-gray-700);
-    }
+  .b-dark .bc-input-container--default {
+    background-color: var(--bg-surface-dark);
+    color: var(--text-normal-dark);
+    outline: 1px solid var(--border-border-dark);
+  }
 
-    .bc-input-container--default::placeholder {
-      color: var(--color-gray-500);
-    }
+  .b-dark .bc-input-container--default:focus-within {
+    outline: 2px solid var(--interactive-focus-dark);
+    background-color: var(--bg-elevated-dark);
+  }
 
-    .bc-input-container--disabled {
-      background-color: var(--color-gray-800);
-      color: var(--color-gray-100);
-      outline: 1px solid var(--color-gray-700);
-    }
+  .b-dark .bc-input-container--default::placeholder {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-input-container--disabled::placeholder {
-      color: var(--color-gray-500);
-    }
+  .b-dark .bc-input-container--disabled {
+    background-color: var(--bg-subtle-dark);
+    color: var(--text-muted-dark);
+    outline: 1px solid var(--border-divider-dark);
+    opacity: 0.6;
+  }
 
-    .bc-input-container--error {
-      outline: 1px solid var(--color-red-500);
-    }
+  .b-dark .bc-input-container--disabled::placeholder {
+    color: var(--text-muted-dark);
+  }
 
-    .bc-input-container--error:focus-within {
-      outline: 2px solid var(--color-red-600);
-    }
+  .b-dark .bc-input-container--error {
+    outline: 1px solid var(--color-red-400);
+    background-color: var(--color-red-950);
+  }
 
-    .bc-input-container__password-toggle {
-      fill: var(--color-gray-500);
-    }
+  .b-dark .bc-input-container--error:focus-within {
+    outline: 2px solid var(--color-red-400);
+    background-color: var(--color-red-900);
+  }
 
-    .bc-input-container__password-toggle:hover {
-      background-color: var(--color-gray-800);
-    }
+  .b-dark .bc-input-container__password-toggle {
+    fill: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-input-container__password-toggle:hover {
+    background-color: var(--interactive-hover-dark);
+    fill: var(--text-normal-dark);
   }
 
   /* Responsive styles */
