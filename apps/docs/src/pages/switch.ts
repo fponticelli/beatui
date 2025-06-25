@@ -1,4 +1,11 @@
-import { ControlSize, Switch, TextInput, Label, Stack } from '@tempots/beatui'
+import {
+  ControlSize,
+  Switch,
+  TextInput,
+  Label,
+  Stack,
+  ScrollablePanel,
+} from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
@@ -12,9 +19,8 @@ export const SwitchPage = () => {
   const disabled = prop(false)
   const value = prop(false)
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Stack(
         Switch({
           size: 'sm',
@@ -46,8 +52,8 @@ export const SwitchPage = () => {
       ),
       Stack(DisabledSelector({ disabled }))
     ),
-    Stack(
-      attr.class('bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-auto'),
+    body: Stack(
+      attr.class('bu-items-start bu-gap-2 bu-p-2'),
       html.table(
         html.thead(
           html.tr(
@@ -78,6 +84,6 @@ export const SwitchPage = () => {
           })
         )
       )
-    )
-  )
+    ),
+  })
 }

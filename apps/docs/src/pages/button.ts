@@ -8,6 +8,7 @@ import {
   TextInput,
   Stack,
   Label,
+  ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -60,9 +61,8 @@ export const ButtonPage = () => {
   const text = prop('Click Me!')
   const disabled = prop(false)
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Stack(
         Label('Roundedness'),
         SegmentedControl({
@@ -92,8 +92,8 @@ export const ButtonPage = () => {
         )
       )
     ),
-    Stack(
-      attr.class('bu-items-start bu-gap-2 bu-p-2 bu-h-full bu-overflow-auto'),
+    body: Stack(
+      attr.class('bu-items-start bu-gap-2 bu-p-2'),
       html.table(
         html.thead(
           html.tr(
@@ -123,6 +123,6 @@ export const ButtonPage = () => {
           )
         )
       )
-    )
-  )
+    ),
+  })
 }

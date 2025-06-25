@@ -1,4 +1,9 @@
-import { ControlSize, SegmentedControl, Stack } from '@tempots/beatui'
+import {
+  ControlSize,
+  ScrollablePanel,
+  SegmentedControl,
+  Stack,
+} from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
@@ -14,10 +19,9 @@ export const SegmentedControlPage = () => {
   }
   const value = prop<keyof typeof options>('second')
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(DisabledSelector({ disabled })),
-    Stack(
+  return ScrollablePanel({
+    header: ControlsHeader(DisabledSelector({ disabled })),
+    body: Stack(
       attr.class(
         'bu-items-center bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden'
       ),
@@ -48,6 +52,6 @@ export const SegmentedControlPage = () => {
           )
         )
       )
-    )
-  )
+    ),
+  })
 }

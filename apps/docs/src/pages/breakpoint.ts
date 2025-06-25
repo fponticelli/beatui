@@ -5,6 +5,7 @@ import {
   Icon,
   WithTWBreakpoint,
   WithTWElementBreakpoint,
+  ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, style } from '@tempots/dom'
 
@@ -86,50 +87,52 @@ function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
 }
 
 export const BreakpointPage = () => {
-  return Stack(
-    attr.class('bu-p-4 bu-h-full bu-overflow-auto'),
-    html.h1(attr.class('bu-text-2xl'), 'Viewport Breakpoints'),
-    WithTWBreakpoint(info =>
-      html.div(
+  return ScrollablePanel({
+    body: Stack(
+      attr.class('bu-p-4'),
+      html.h1(attr.class('bu-text-2xl'), 'Viewport Breakpoints'),
+      WithTWBreakpoint(info =>
         html.div(
-          'Viewport width: ',
-          html.span(
-            attr.class('bu-font-bold'),
-            info.value.map(({ width }) => `${width}px`)
-          )
-        ),
+          html.div(
+            'Viewport width: ',
+            html.span(
+              attr.class('bu-font-bold'),
+              info.value.map(({ width }) => `${width}px`)
+            )
+          ),
+          html.div(
+            'Current breakpoint: ',
+            html.span(
+              attr.class('bu-font-bold'),
+              info.value.$.breakpoint.map(String)
+            )
+          ),
+          html.br(),
+          BreakpointsTable(info)
+        )
+      ),
+      html.br(),
+      html.h1(attr.class('bu-text-2xl'), 'Element Breakpoints'),
+      WithTWElementBreakpoint(info =>
         html.div(
-          'Current breakpoint: ',
-          html.span(
-            attr.class('bu-font-bold'),
-            info.value.$.breakpoint.map(String)
-          )
-        ),
-        html.br(),
-        BreakpointsTable(info)
+          html.div(
+            'Element width: ',
+            html.span(
+              attr.class('bu-font-bold'),
+              info.value.map(({ width }) => `${width}px`)
+            )
+          ),
+          html.div(
+            'Current breakpoint: ',
+            html.span(
+              attr.class('bu-font-bold'),
+              info.value.$.breakpoint.map(String)
+            )
+          ),
+          html.br(),
+          BreakpointsTable(info)
+        )
       )
     ),
-    html.br(),
-    html.h1(attr.class('bu-text-2xl'), 'Element Breakpoints'),
-    WithTWElementBreakpoint(info =>
-      html.div(
-        html.div(
-          'Element width: ',
-          html.span(
-            attr.class('bu-font-bold'),
-            info.value.map(({ width }) => `${width}px`)
-          )
-        ),
-        html.div(
-          'Current breakpoint: ',
-          html.span(
-            attr.class('bu-font-bold'),
-            info.value.$.breakpoint.map(String)
-          )
-        ),
-        html.br(),
-        BreakpointsTable(info)
-      )
-    )
-  )
+  })
 }

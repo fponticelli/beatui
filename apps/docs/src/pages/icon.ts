@@ -5,6 +5,7 @@ import {
   Label,
   Group,
   ThemeColorName,
+  ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, prop, Value } from '@tempots/dom'
 import { ColorSelector } from '../elements/color-selector'
@@ -78,9 +79,8 @@ export const IconPage = () => {
   const size = prop<IconSize>('md')
   const color = prop<ThemeColorName>('base')
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
       Stack(
         Label('Color'),
@@ -90,12 +90,12 @@ export const IconPage = () => {
         })
       )
     ),
-    Stack(
-      attr.class('bu-h-full bu-overflow-auto bu-space-y-lg'),
+    body: Stack(
+      attr.class('bu-space-y-lg'),
       Group(
         attr.class('bu-gap-4 bu-flex-wrap bu-flex bu-justify-center'),
         ...icons.map(icon => DisplayIcon({ value: icon, size, color }))
       )
-    )
-  )
+    ),
+  })
 }

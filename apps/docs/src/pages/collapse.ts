@@ -1,13 +1,19 @@
-import { Button, Center, Collapse, Group, Stack } from '@tempots/beatui'
+import {
+  Button,
+  Center,
+  Collapse,
+  Group,
+  ScrollablePanel,
+  Stack,
+} from '@tempots/beatui'
 import { html, attr, prop, style } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
 export const CollapsePage = () => {
   const open = prop(true)
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Center(
         {},
         Button(
@@ -18,10 +24,8 @@ export const CollapsePage = () => {
         )
       )
     ),
-    Stack(
-      attr.class(
-        'bu-items-center bu-gap-2 bu-p-2 bu-h-full bu-overflow-hidden'
-      ),
+    body: Stack(
+      attr.class('bu-items-center bu-gap-2 bu-p-2'),
       Group(
         Stack(
           style.width('400px'),
@@ -46,6 +50,6 @@ export const CollapsePage = () => {
           )
         )
       )
-    )
-  )
+    ),
+  })
 }

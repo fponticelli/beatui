@@ -10,6 +10,7 @@ import {
   Switch,
   Group,
   OverlayEffect,
+  ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, prop, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -34,9 +35,8 @@ export const ModalPage = () => {
     | 'bottom-right'
   >('center')
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Stack(
         Label('Size'),
         SegmentedControl({
@@ -101,8 +101,8 @@ export const ModalPage = () => {
         )
       )
     ),
-    Stack(
-      attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full bu-overflow-auto'),
+    body: Stack(
+      attr.class('bu-items-start bu-gap-1 bu-p-4'),
 
       // Basic Modal Example
       html.h3(attr.class('bu-text-xl bu-font-semibold bu-pt-4'), 'Basic Modal'),
@@ -315,6 +315,6 @@ export const ModalPage = () => {
             'Start Processing'
           )
       )
-    )
-  )
+    ),
+  })
 }

@@ -99,7 +99,7 @@ export const DrawerPage = () => {
       )
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full bu-overflow-auto'),
+      attr.class('bu-items-start bu-gap-1 bu-p-4'),
 
       // Basic Drawer Example
       html.h3(
