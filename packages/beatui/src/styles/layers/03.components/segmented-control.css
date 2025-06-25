@@ -144,19 +144,34 @@
 
   .b-dark .bc-segmented-control__segment {
     color: var(--text-muted-dark);
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    border-radius: var(--radius-full);
   }
 
-  .b-dark .bc-segmented-control__segment:hover {
+  .b-dark .bc-segmented-control__segment:hover:not(.bc-segmented-control__segment--active) {
     color: var(--text-normal-dark);
     background-color: var(--interactive-hover-dark);
   }
 
   .b-dark .bc-segmented-control__segment--active {
     color: var(--text-normal-dark);
+    font-weight: var(--text-weight-medium);
+  }
+
+  .b-dark .bc-segmented-control__segment--active:hover {
+    color: var(--text-normal-dark);
+    background: transparent;
+    transform: none;
+    box-shadow: none;
   }
 
   .b-dark .bc-segmented-control__segment--inactive {
     color: var(--text-muted-dark);
+  }
+
+  .b-dark .bc-segmented-control__segment--inactive:hover {
+    color: var(--text-normal-dark);
   }
 
   .b-dark .bc-segmented-control--disabled {

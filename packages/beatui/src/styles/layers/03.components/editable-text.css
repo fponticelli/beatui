@@ -67,7 +67,7 @@
 
   /* Dark mode styles */
   .b-dark .bc-editable-text {
-    border-bottom-color: var(--border-border-dark);
+    border-bottom-color: var(--border-dark);
     color: var(--text-normal-dark);
   }
 

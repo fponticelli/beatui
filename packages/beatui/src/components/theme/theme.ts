@@ -1,4 +1,5 @@
 import {
+  Portal,
   Provider,
   Use,
   attr,
@@ -51,6 +52,6 @@ export const Theme: Provider<ThemeValue, object> = {
 
 export const ThemeAppearance = () => {
   return Use(Theme, ({ appearance }) =>
-    attr.class(appearance.map(a => `b-${a}`))
+    Portal('body', attr.class(appearance.map(a => `b-${a}`)))
   )
 }

@@ -43,7 +43,7 @@
   .b-dark .bc-tag {
     color: var(--text-normal-dark);
     background-color: var(--bg-elevated-dark);
-    border: 1px solid var(--border-border-dark);
+    border: 1px solid var(--border-dark);
   }
 
   .b-dark .bc-tag__close {

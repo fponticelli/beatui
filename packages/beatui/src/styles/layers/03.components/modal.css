@@ -322,6 +322,7 @@
 
   .b-dark .bc-modal__body {
     color: var(--text-normal-dark);
+    background-color: var(--bg-surface-dark);
   }
 
   .b-dark .bc-modal__footer {

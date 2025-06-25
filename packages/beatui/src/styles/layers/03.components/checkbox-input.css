@@ -11,7 +11,7 @@
   .bc-checkbox-input__checkbox {
     width: calc(var(--spacing-base) * 5);
     height: calc(var(--spacing-base) * 5);
-    border: 1px solid var(--border-border-light);
+    border: 1px solid var(--border-light);
     color: var(--color-indigo-600);
     border-radius: var(--radius-sm);
     background-color: var(--bg-surface-light);
@@ -45,7 +45,7 @@
   /* Dark mode styles */
   .b-dark .bc-checkbox-input__checkbox {
     background-color: var(--bg-surface-dark);
-    border-color: var(--border-border-dark);
+    border-color: var(--border-dark);
   }
 
   .b-dark .bc-checkbox-input__checkbox:focus {

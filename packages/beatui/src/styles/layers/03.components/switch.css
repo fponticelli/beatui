@@ -196,7 +196,7 @@
 
   .b-dark .bc-switch__track--off {
     background-color: var(--bg-subtle-dark);
-    border: 1px solid var(--border-border-dark);
+    border: 1px solid var(--border-dark);
   }
 
   .b-dark .bc-switch__track--on {

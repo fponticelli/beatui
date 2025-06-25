@@ -133,7 +133,7 @@
   .b-dark .bc-input-container--default {
     background-color: var(--bg-surface-dark);
     color: var(--text-normal-dark);
-    outline: 1px solid var(--border-border-dark);
+    outline: 1px solid var(--border-dark);
   }
 
   .b-dark .bc-input-container--default:focus-within {

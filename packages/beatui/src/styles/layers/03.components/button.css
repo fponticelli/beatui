@@ -35,7 +35,6 @@
   .b-dark .bc-button {
     color: var(--text-normal-dark);
     background-color: var(--bg-elevated-dark);
-    border-color: var(--border-border-dark);
   }
 
   .b-dark .bc-button:hover:not(:disabled) {

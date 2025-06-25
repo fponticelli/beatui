@@ -211,8 +211,7 @@
   .b-dark .bc-drawer {
     background-color: var(--bg-surface-dark);
     color: var(--text-normal-dark);
-    box-shadow: 0 20px 25px -5px var(--shadow-color-dark),
-                0 10px 10px -5px var(--shadow-color-dark);
+    border: 1px solid var(--border-dark);
   }
 
   .b-dark .bc-drawer__header {

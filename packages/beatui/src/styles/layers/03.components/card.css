@@ -75,7 +75,7 @@
   /* Dark mode styles */
   .b-dark .bc-card {
     background-color: var(--bg-surface-dark);
-    border: 1px solid var(--border-border-dark);
+    border: 1px solid var(--border-dark);
     color: var(--text-normal-dark);
     box-shadow: 0 0 0.5rem 0.125rem var(--shadow-color-dark),
                 0 0 0 1px var(--shadow-highlight-dark);
@@ -93,7 +93,7 @@
   }
 
   .b-dark .bc-card--outlined {
-    border: 2px solid var(--border-border-dark);
+    border: 2px solid var(--border-dark);
     box-shadow: none;
   }
 }
