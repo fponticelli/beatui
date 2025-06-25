@@ -9,7 +9,7 @@ import {
   When,
   computedOf,
 } from '@tempots/dom'
-import { OverlayBody, OverlayElement, OverlayOptions } from './overlay'
+import { Overlay } from './overlay'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { OverlayEffect } from '../theme'
@@ -68,87 +68,91 @@ export function Modal(
     position = 'center',
   } = options
 
-  // Create a reactive mode signal based on dismissable
-  const mode = prop<'capturing' | 'non-capturing'>('capturing')
-
-  // Update mode when dismissable changes
-  Value.on(dismissable, isDismissable => {
-    mode.set(isDismissable ? 'capturing' : 'non-capturing')
-  })
-
-  const overlayOptions: OverlayOptions = {
-    mode,
-    effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
-    onClickOutside: () => {
-      onClose?.()
-    },
-    onEscape: () => {
-      onClose?.()
-    },
-  }
-
-  const OverlayComponent = container === 'body' ? OverlayBody : OverlayElement
-
-  return OverlayComponent(overlayOptions, openOverlay => {
+  return Overlay((openOverlay, closeOverlay) => {
     let currentClose: () => void = () => {}
 
     const open = (content: ModalContentOptions) => {
+      currentClose = closeOverlay
+      // Create a reactive mode signal based on dismissable
+      const mode = prop<'capturing' | 'non-capturing'>('capturing')
+
+      // Update mode when dismissable changes
+      Value.on(dismissable, isDismissable => {
+        mode.set(isDismissable ? 'capturing' : 'non-capturing')
+      })
+
       const displayHeader = computedOf(
         content.header != null,
         showCloseButton
       )((header, showCloseButton) => {
         return header || showCloseButton
       })
-      openOverlay(close => {
-        currentClose = close
 
-        return html.div(
-          attr.class(
-            computedOf(
-              size,
-              position
-            )(
-              (s, p) =>
-                `bc-modal bc-modal--size-${s} bc-modal--container-${container} bc-modal--position-${p}`
-            )
-          ),
-          on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
+      const modalContent = html.div(
+        attr.class(
+          computedOf(
+            size,
+            position
+          )(
+            (s, p) =>
+              `bc-modal bc-modal--size-${s} bc-modal--container-${container} bc-modal--position-${p}`
+          )
+        ),
+        on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
 
-          // Modal content container
-          html.div(
-            attr.class('bc-modal__content'),
+        // Modal content container
+        html.div(
+          attr.class('bc-modal__content'),
 
-            // Header section
-            When(displayHeader, () =>
-              html.div(
-                attr.class('bc-modal__header'),
-                html.div(content.header),
-                When(showCloseButton, () =>
-                  Button(
-                    {
-                      variant: 'text',
-                      size: 'sm',
-                      onClick: currentClose,
+          // Header section
+          When(displayHeader, () =>
+            html.div(
+              attr.class('bc-modal__header'),
+              html.div(content.header),
+              When(showCloseButton, () =>
+                Button(
+                  {
+                    variant: 'text',
+                    size: 'sm',
+                    onClick: () => {
+                      currentClose()
+                      closeOverlay()
                     },
-                    Icon({ icon: 'line-md:close', size: 'sm' })
-                  )
+                  },
+                  Icon({ icon: 'line-md:close', size: 'sm' })
                 )
               )
-            ),
+            )
+          ),
 
-            // Body section
-            html.div(attr.class('bc-modal__body'), content.body),
+          // Body section
+          html.div(attr.class('bc-modal__body'), content.body),
 
-            // Footer section
-            content.footer &&
-              html.div(attr.class('bc-modal__footer'), content.footer)
-          )
+          // Footer section
+          content.footer &&
+            html.div(attr.class('bc-modal__footer'), content.footer)
         )
+      )
+
+      openOverlay({
+        mode,
+        effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
+        container,
+        content: modalContent,
+        onClickOutside: () => {
+          onClose?.()
+          closeOverlay()
+        },
+        onEscape: () => {
+          onClose?.()
+          closeOverlay()
+        },
       })
     }
 
     const close = () => {
       currentClose()
+      closeOverlay()
     }
 
     return fn(open, close)
