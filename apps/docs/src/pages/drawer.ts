@@ -9,6 +9,7 @@ import {
   Switch,
   Group,
   OverlayEffect,
+  ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -24,9 +25,8 @@ export const DrawerPage = () => {
   const overlayEffect = prop<OverlayEffect>('opaque')
   const side = prop<DrawerSide>('right')
 
-  return Stack(
-    attr.class('bu-h-full bu-overflow-hidden'),
-    ControlsHeader(
+  return ScrollablePanel({
+    header: ControlsHeader(
       Group(
         attr.class('bu-gap-4 bu-flex-wrap'),
 
@@ -98,8 +98,7 @@ export const DrawerPage = () => {
         )
       )
     ),
-
-    Stack(
+    body: Stack(
       attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full bu-overflow-auto'),
 
       // Basic Drawer Example
@@ -160,7 +159,7 @@ export const DrawerPage = () => {
                 dismissable: true,
                 showCloseButton: false,
                 overlayEffect: 'opaque',
-                header: html.div(
+                header: Group(
                   attr.class('bu-flex bu-items-center bu-gap-2'),
                   Icon({ icon: 'lucide:menu', size: 'sm' }),
                   html.span('Navigation')
@@ -214,7 +213,7 @@ export const DrawerPage = () => {
                 dismissable: true,
                 showCloseButton: true,
                 overlayEffect: 'opaque',
-                header: html.div(
+                header: Group(
                   attr.class('bu-flex bu-items-center bu-gap-2'),
                   Icon({ icon: 'lucide:settings', size: 'sm' }),
                   html.span('Settings')
@@ -285,7 +284,7 @@ export const DrawerPage = () => {
                   dismissable: true,
                   showCloseButton: true,
                   overlayEffect: 'transparent',
-                  header: html.div(
+                  header: Group(
                     attr.class('bu-flex bu-items-center bu-gap-2'),
                     Icon({ icon: 'lucide:bell', size: 'sm' }),
                     html.span('Notifications')
@@ -324,7 +323,7 @@ export const DrawerPage = () => {
                   dismissable: true,
                   showCloseButton: true,
                   overlayEffect: 'opaque',
-                  header: html.div(
+                  header: Group(
                     attr.class('bu-flex bu-items-center bu-gap-2'),
                     Icon({ icon: 'lucide:share', size: 'sm' }),
                     html.span('Share Options')
@@ -358,6 +357,6 @@ export const DrawerPage = () => {
           )
         )
       )
-    )
-  )
+    ),
+  })
 }

@@ -8,12 +8,15 @@ import {
   TNode,
   Value,
   When,
+  WithElement,
 } from '@tempots/dom'
+import { delayed } from '@tempots/std'
 import { Button } from '../button'
 import { Icon } from '../data'
 import { Overlay } from './overlay'
 import { OverlayEffect } from '../theme/types'
 import { ScrollablePanel } from '../layout'
+import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 
 export interface DrawerOptions {
   /** Size of the drawer */
@@ -46,7 +49,10 @@ export function Drawer(
   fn: (open: (options: DrawerOptions) => void, close: () => void) => TNode
 ): TNode {
   return Overlay((openOverlay, closeOverlay) => {
-    let currentClose: () => void = () => {}
+    let currentClose: () => void = closeOverlay
+
+    // Create a wrapper function that always calls the current close function
+    const handleClose = () => currentClose()
 
     const open = (options: DrawerOptions) => {
       const {
@@ -78,52 +84,75 @@ export function Drawer(
         return header || showCloseButton
       })
 
-      const drawerContent = html.div(
-        attr.class(
-          computedOf(
-            size,
-            side
-          )(
-            (s, sd) =>
-              `bc-drawer bc-drawer--size-${s} bc-drawer--container-${container} bc-drawer--side-${sd}`
-          )
-        ),
-        on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking drawer content
-
-        // Drawer content container
-        MapSignal(displayHeader, display => {
-          if (display) {
-            return ScrollablePanel({
-              header: html.div(
-                attr.class('bc-drawer__header'),
-                html.div(header),
-                When(showCloseButton, () =>
-                  Button(
-                    {
-                      variant: 'text',
-                      size: 'sm',
-                      onClick: () => {
-                        currentClose()
-                        closeOverlay()
-                      },
-                    },
-                    Icon({ icon: 'line-md:close', size: 'sm' })
-                  )
-                )
-              ),
-              body: html.div(attr.class('bc-drawer__body'), body),
-              footer:
-                footer && html.div(attr.class('bc-drawer__footer'), footer),
-            })
-          } else {
-            return ScrollablePanel({
-              body: html.div(attr.class('bc-drawer__body'), body),
-              footer:
-                footer && html.div(attr.class('bc-drawer__footer'), footer),
-            })
-          }
+      const drawerContent = WithElement(element => {
+        const animatedToggle = useAnimatedElementToggle({
+          initialStatus: 'closed',
+          element,
         })
-      )
+
+        // Create a close function that handles animation
+        const closeWithAnimation = () => {
+          animatedToggle.close()
+          // Wait for animation to complete before actually closing overlay
+          animatedToggle.onClosed(() => {
+            closeOverlay()
+          })
+        }
+
+        // Update the current close function
+        currentClose = closeWithAnimation
+
+        // Start the opening animation after the element is in the DOM
+        // Use a small delay to ensure the closed state is rendered first
+        delayed(() => {
+          animatedToggle.open()
+        }, 10)
+
+        return html.div(
+          attr.class(
+            computedOf(
+              size,
+              side,
+              animatedToggle.status
+            )(
+              (s, sd, status) =>
+                `bc-drawer bc-drawer--size-${s} bc-drawer--container-${container} bc-drawer--side-${sd} bc-drawer--status-${status}`
+            )
+          ),
+          on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking drawer content
+
+          // Drawer content container
+          MapSignal(displayHeader, display => {
+            if (display) {
+              return ScrollablePanel({
+                header: html.div(
+                  attr.class('bc-drawer__header'),
+                  html.div(header),
+                  When(showCloseButton, () =>
+                    Button(
+                      {
+                        variant: 'text',
+                        size: 'sm',
+                        onClick: handleClose,
+                      },
+                      Icon({ icon: 'line-md:close', size: 'sm' })
+                    )
+                  )
+                ),
+                body: html.div(attr.class('bc-drawer__body'), body),
+                footer:
+                  footer && html.div(attr.class('bc-drawer__footer'), footer),
+              })
+            } else {
+              return ScrollablePanel({
+                body: html.div(attr.class('bc-drawer__body'), body),
+                footer:
+                  footer && html.div(attr.class('bc-drawer__footer'), footer),
+              })
+            }
+          })
+        )
+      })
 
       openOverlay({
         mode,
@@ -132,18 +161,17 @@ export function Drawer(
         content: drawerContent,
         onClickOutside: () => {
           onClose?.()
-          closeOverlay()
+          handleClose()
         },
         onEscape: () => {
           onClose?.()
-          closeOverlay()
+          handleClose()
         },
       })
     }
 
     const close = () => {
-      currentClose()
-      closeOverlay()
+      handleClose()
     }
 
     return fn(open, close)

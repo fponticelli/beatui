@@ -4,12 +4,64 @@
     z-index: var(--z-index-modal);
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-xl);
     background-color: var(--color-base-100);
-    border: 3px solid var(--color-base-300);
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Animation states for drawer sliding - specific transforms are defined per side below */
+
+  /* Right side animations */
+  .bc-drawer--side-right.bc-drawer--status-closed,
+  .bc-drawer--side-right.bc-drawer--status-start-closing,
+  .bc-drawer--side-right.bc-drawer--status-closing {
+    transform: translateX(100%);
+  }
+
+  .bc-drawer--side-right.bc-drawer--status-start-opening,
+  .bc-drawer--side-right.bc-drawer--status-opening,
+  .bc-drawer--side-right.bc-drawer--status-opened {
+    transform: translateX(0);
+  }
+
+  /* Left side animations */
+  .bc-drawer--side-left.bc-drawer--status-closed,
+  .bc-drawer--side-left.bc-drawer--status-start-closing,
+  .bc-drawer--side-left.bc-drawer--status-closing {
+    transform: translateX(-100%);
+  }
+
+  .bc-drawer--side-left.bc-drawer--status-start-opening,
+  .bc-drawer--side-left.bc-drawer--status-opening,
+  .bc-drawer--side-left.bc-drawer--status-opened {
+    transform: translateX(0);
+  }
+
+  /* Top side animations */
+  .bc-drawer--side-top.bc-drawer--status-closed,
+  .bc-drawer--side-top.bc-drawer--status-start-closing,
+  .bc-drawer--side-top.bc-drawer--status-closing {
+    transform: translateY(-100%);
+  }
+
+  .bc-drawer--side-top.bc-drawer--status-start-opening,
+  .bc-drawer--side-top.bc-drawer--status-opening,
+  .bc-drawer--side-top.bc-drawer--status-opened {
+    transform: translateY(0);
+  }
+
+  /* Bottom side animations */
+  .bc-drawer--side-bottom.bc-drawer--status-closed,
+  .bc-drawer--side-bottom.bc-drawer--status-start-closing,
+  .bc-drawer--side-bottom.bc-drawer--status-closing {
+    transform: translateY(100%);
+  }
+
+  .bc-drawer--side-bottom.bc-drawer--status-start-opening,
+  .bc-drawer--side-bottom.bc-drawer--status-opening,
+  .bc-drawer--side-bottom.bc-drawer--status-opened {
+    transform: translateY(0);
   }
 
   /* Drawer anchored to body (default) */
@@ -136,7 +188,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-4);
+    padding: var(--spacing-md);
     border-bottom: 1px solid var(--color-base-300);
     background-color: var(--color-base-50);
     flex-shrink: 0;
@@ -144,36 +196,15 @@
 
   .bc-drawer__body {
     flex: 1;
-    padding: var(--spacing-4);
+    padding: var(--spacing-md);
     overflow-y: auto;
   }
 
   .bc-drawer__footer {
-    padding: var(--spacing-4);
+    padding: var(--spacing-md);
     border-top: 1px solid var(--color-base-300);
     background-color: var(--color-base-50);
     flex-shrink: 0;
-  }
-
-  /* Remove border radius for drawers that touch screen edges */
-  .bc-drawer--side-right.bc-drawer--container-body {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .bc-drawer--side-left.bc-drawer--container-body {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .bc-drawer--side-top.bc-drawer--container-body {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-
-  .bc-drawer--side-bottom.bc-drawer--container-body {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
   }
 
   /* Responsive adjustments */
@@ -188,10 +219,6 @@
     .bc-drawer--side-bottom.bc-drawer--container-body {
       height: 100vh;
       max-height: none;
-    }
-
-    .bc-drawer--container-body {
-      border-radius: 0;
     }
   }
 }
