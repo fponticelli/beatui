@@ -97,6 +97,7 @@ const main = async () => {
   const { CollapsePage } = await import('../src/pages/collapse')
   const { SidebarPage } = await import('../src/pages/sidebar')
   const { ModalPage } = await import('../src/pages/modal')
+  const { DrawerPage } = await import('../src/pages/drawer')
   const { TooltipPage } = await import('../src/pages/tooltip')
   const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
 
@@ -181,6 +182,7 @@ const main = async () => {
           '/collapse': CollapsePage,
           '/icon': IconPage,
           '/modal': ModalPage,
+          '/drawer': DrawerPage,
           '/tooltip': TooltipPage,
           '/scrollable-panel': ScrollablePanelPage,
           '/segmented-control': SegmentedControlPage,
@@ -209,6 +211,7 @@ const main = async () => {
                     html.a(attr.href('/collapse'), 'Collapse'),
                     html.a(attr.href('/icon'), 'Icon'),
                     html.a(attr.href('/modal'), 'Modal'),
+                    html.a(attr.href('/drawer'), 'Drawer'),
                     html.a(attr.href('/tooltip'), 'Tooltip'),
                     html.a(
                       attr.href('/segmented-control'),

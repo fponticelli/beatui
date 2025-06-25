@@ -14,6 +14,7 @@ import { BreakpointPage } from './pages/breakpoint'
 import { CollapsePage } from './pages/collapse'
 import { SidebarPage } from './pages/sidebar'
 import { ModalPage } from './pages/modal'
+import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
 
@@ -30,6 +31,7 @@ export const App = () => {
             '/collapse': CollapsePage,
             '/icon': IconPage,
             '/modal': ModalPage,
+            '/drawer': DrawerPage,
             '/tooltip': TooltipPage,
             '/scrollable-panel': ScrollablePanelPage,
             '/segmented-control': SegmentedControlPage,

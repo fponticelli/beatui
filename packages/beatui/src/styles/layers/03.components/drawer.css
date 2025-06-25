@@ -1,0 +1,197 @@
+@layer components {
+  /* Drawer Component */
+  .bc-drawer {
+    z-index: var(--z-index-modal);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    background-color: var(--color-base-100);
+    border: 3px solid var(--color-base-300);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Drawer anchored to body (default) */
+  .bc-drawer--container-body {
+    position: fixed;
+  }
+
+  /* Drawer anchored to element container */
+  .bc-drawer--container-element {
+    position: absolute;
+  }
+
+  /* Drawer positioning - Right side (default) */
+  .bc-drawer--side-right.bc-drawer--container-body {
+    top: 0;
+    right: 0;
+    height: 100vh;
+    max-width: 90vw;
+  }
+
+  .bc-drawer--side-right.bc-drawer--container-element {
+    top: 0;
+    right: 0;
+    height: 100%;
+    max-width: 90%;
+  }
+
+  /* Drawer positioning - Left side */
+  .bc-drawer--side-left.bc-drawer--container-body {
+    top: 0;
+    left: 0;
+    height: 100vh;
+    max-width: 90vw;
+  }
+
+  .bc-drawer--side-left.bc-drawer--container-element {
+    top: 0;
+    left: 0;
+    height: 100%;
+    max-width: 90%;
+  }
+
+  /* Drawer positioning - Top side */
+  .bc-drawer--side-top.bc-drawer--container-body {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-height: 90vh;
+  }
+
+  .bc-drawer--side-top.bc-drawer--container-element {
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 90%;
+  }
+
+  /* Drawer positioning - Bottom side */
+  .bc-drawer--side-bottom.bc-drawer--container-body {
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    max-height: 90vh;
+  }
+
+  .bc-drawer--side-bottom.bc-drawer--container-element {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 90%;
+  }
+
+  /* Drawer sizes for vertical drawers (left/right) */
+  .bc-drawer--side-left.bc-drawer--size-sm,
+  .bc-drawer--side-right.bc-drawer--size-sm {
+    width: min(320px, 90vw);
+  }
+
+  .bc-drawer--side-left.bc-drawer--size-md,
+  .bc-drawer--side-right.bc-drawer--size-md {
+    width: min(480px, 90vw);
+  }
+
+  .bc-drawer--side-left.bc-drawer--size-lg,
+  .bc-drawer--side-right.bc-drawer--size-lg {
+    width: min(640px, 90vw);
+  }
+
+  .bc-drawer--side-left.bc-drawer--size-xl,
+  .bc-drawer--side-right.bc-drawer--size-xl {
+    width: min(800px, 90vw);
+  }
+
+  /* Drawer sizes for horizontal drawers (top/bottom) */
+  .bc-drawer--side-top.bc-drawer--size-sm,
+  .bc-drawer--side-bottom.bc-drawer--size-sm {
+    height: min(240px, 90vh);
+  }
+
+  .bc-drawer--side-top.bc-drawer--size-md,
+  .bc-drawer--side-bottom.bc-drawer--size-md {
+    height: min(360px, 90vh);
+  }
+
+  .bc-drawer--side-top.bc-drawer--size-lg,
+  .bc-drawer--side-bottom.bc-drawer--size-lg {
+    height: min(480px, 90vh);
+  }
+
+  .bc-drawer--side-top.bc-drawer--size-xl,
+  .bc-drawer--side-bottom.bc-drawer--size-xl {
+    height: min(600px, 90vh);
+  }
+
+  /* Drawer content structure */
+  .bc-drawer__content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  .bc-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--color-base-300);
+    background-color: var(--color-base-50);
+    flex-shrink: 0;
+  }
+
+  .bc-drawer__body {
+    flex: 1;
+    padding: var(--spacing-4);
+    overflow-y: auto;
+  }
+
+  .bc-drawer__footer {
+    padding: var(--spacing-4);
+    border-top: 1px solid var(--color-base-300);
+    background-color: var(--color-base-50);
+    flex-shrink: 0;
+  }
+
+  /* Remove border radius for drawers that touch screen edges */
+  .bc-drawer--side-right.bc-drawer--container-body {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .bc-drawer--side-left.bc-drawer--container-body {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .bc-drawer--side-top.bc-drawer--container-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .bc-drawer--side-bottom.bc-drawer--container-body {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  /* Responsive adjustments */
+  @media (width <= 640px) {
+    .bc-drawer--side-left.bc-drawer--container-body,
+    .bc-drawer--side-right.bc-drawer--container-body {
+      width: 100vw;
+      max-width: none;
+    }
+
+    .bc-drawer--side-top.bc-drawer--container-body,
+    .bc-drawer--side-bottom.bc-drawer--container-body {
+      height: 100vh;
+      max-height: none;
+    }
+
+    .bc-drawer--container-body {
+      border-radius: 0;
+    }
+  }
+}

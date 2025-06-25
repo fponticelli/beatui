@@ -1,3 +1,4 @@
 export * from './overlay'
 export * from './modal'
+export * from './drawer'
 export * from './tooltip'
