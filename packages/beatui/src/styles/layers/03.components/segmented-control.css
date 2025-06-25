@@ -156,7 +156,6 @@
 
   .b-dark .bc-segmented-control__segment--active {
     color: var(--text-normal-dark);
-    font-weight: var(--text-weight-medium);
   }
 
   .b-dark .bc-segmented-control__segment--active:hover {
