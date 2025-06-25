@@ -98,6 +98,7 @@ const main = async () => {
   const { SidebarPage } = await import('../src/pages/sidebar')
   const { ModalPage } = await import('../src/pages/modal')
   const { TooltipPage } = await import('../src/pages/tooltip')
+  const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -181,6 +182,7 @@ const main = async () => {
           '/icon': IconPage,
           '/modal': ModalPage,
           '/tooltip': TooltipPage,
+          '/scrollable-panel': ScrollablePanelPage,
           '/segmented-control': SegmentedControlPage,
           '/sidebar': SidebarPage,
           '/tags': TagsPage,

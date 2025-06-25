@@ -15,6 +15,7 @@ import { CollapsePage } from './pages/collapse'
 import { SidebarPage } from './pages/sidebar'
 import { ModalPage } from './pages/modal'
 import { TooltipPage } from './pages/tooltip'
+import { ScrollablePanelPage } from './pages/scrollable-panel'
 
 export const App = () => {
   return Provide(Theme, {}, () =>
@@ -30,6 +31,7 @@ export const App = () => {
             '/icon': IconPage,
             '/modal': ModalPage,
             '/tooltip': TooltipPage,
+            '/scrollable-panel': ScrollablePanelPage,
             '/segmented-control': SegmentedControlPage,
             '/sidebar': SidebarPage,
             '/tags': TagsPage,

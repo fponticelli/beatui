@@ -195,7 +195,6 @@ export function Tooltip(options: TooltipOptions): TNode {
       content: () => {
         const handleKeyDown = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
-            isOpen.set(false)
             clearTimeouts()
             document.removeEventListener('keydown', handleKeyDown)
           }

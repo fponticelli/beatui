@@ -18,14 +18,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 28.0.2
-        version: 28.0.2
+        specifier: 28.1.5
+        version: 28.1.5
       '@tempots/std':
         specifier: 0.19.0
         version: 0.19.0
       '@tempots/ui':
-        specifier: 4.2.4
-        version: 4.2.4(@tempots/std@0.19.0)
+        specifier: 4.3.8
+        version: 4.3.8(@tempots/std@0.19.0)
       zod:
         specifier: ^3.25.46
         version: 3.25.67
@@ -79,14 +79,14 @@ importers:
   packages/beatui:
     dependencies:
       '@tempots/dom':
-        specifier: 28.0.2
-        version: 28.0.2
+        specifier: 28.1.5
+        version: 28.1.5
       '@tempots/std':
         specifier: 0.19.0
         version: 0.19.0
       '@tempots/ui':
-        specifier: 4.2.4
-        version: 4.2.4(@tempots/std@0.19.0)
+        specifier: 4.3.8
+        version: 4.3.8(@tempots/std@0.19.0)
     devDependencies:
       '@testing-library/dom':
         specifier: 10.4.0
@@ -515,14 +515,14 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tempots/dom@28.0.2':
-    resolution: {integrity: sha512-4TX5yMr3qJNmK82YQW0b4VLuBrs9MdhMINoh0JPCalFQOUIqZwP2sVSm7RxO+PoPkS3/B4G7TsDPcITkqoWabg==}
+  '@tempots/dom@28.1.5':
+    resolution: {integrity: sha512-Mhiz0H2iyNhcjiJDQirhIxrWXbkpeWgJ12HwWejK0qARbovEyvJ4SFvvScTGEfG/QgOb7IFhIUxwLRgD/NYgGw==}
 
   '@tempots/std@0.19.0':
     resolution: {integrity: sha512-sHqOjW/TRfBt9ktR88LB2NnQJMpsUutZMXtGlD4Fop9dBTm/yZFpmoD6rGQfxstjXTIedZdnpEqv6AVSK80Y7g==}
 
-  '@tempots/ui@4.2.4':
-    resolution: {integrity: sha512-z8BBA8OvYf9zAAE+TT/mrDA4fD6S9FKVaftgkr9zBrb63ckRfmiz1U1RYFIr/FU2CrSX6c1tPwYmmJziGzGVjQ==}
+  '@tempots/ui@4.3.8':
+    resolution: {integrity: sha512-T+DlZNdGujpssK449GGyRUc/9zjUaMjOF6r66U6yUXhQQ/HdK47z+QuhN5ngRAm4UfjNScSJoBCA78I498xbPQ==}
     peerDependencies:
       '@tempots/std': 0.19.0
 
@@ -2010,11 +2010,11 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
-  '@tempots/dom@28.0.2': {}
+  '@tempots/dom@28.1.5': {}
 
   '@tempots/std@0.19.0': {}
 
-  '@tempots/ui@4.2.4(@tempots/std@0.19.0)':
+  '@tempots/ui@4.3.8(@tempots/std@0.19.0)':
     dependencies:
       '@floating-ui/dom': 1.7.0
       '@tempots/std': 0.19.0

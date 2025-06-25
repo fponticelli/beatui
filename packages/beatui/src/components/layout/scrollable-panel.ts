@@ -7,6 +7,7 @@ import {
   WithElement,
   prop,
   on,
+  computedOf,
 } from '@tempots/dom'
 import { delayed } from '@tempots/std'
 
@@ -43,13 +44,12 @@ export function ScrollablePanel({
   const panelElement = html.div(
     attr.class('bc-scrollable-panel'),
     attr.class(
-      Value.map(shadowOnScroll, (v): string =>
-        v ? 'bc-scrollable-panel--shadow' : ''
-      )
-    ),
-    attr.class(
-      scrollShadow.map((v): string => {
-        switch (v) {
+      computedOf(
+        scrollShadow,
+        shadowOnScroll
+      )((scrollShadow, shadowOnScroll): string => {
+        if (!shadowOnScroll) return ''
+        switch (scrollShadow) {
           case 'both':
             return 'bc-scrollable-panel--scrolled-up bc-scrollable-panel--scrolled-down'
           case 'bottom':

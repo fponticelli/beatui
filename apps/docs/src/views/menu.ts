@@ -17,6 +17,7 @@ export function Menu() {
       SidebarLink({ href: '/icon', content: 'Icon' }),
       SidebarLink({ href: '/modal', content: 'Modal' }),
       SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
+      SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
       SidebarLink({ href: '/segmented-control', content: 'Segmented Control' }),
       SidebarLink({ href: '/sidebar', content: 'Sidebar' }),
       SidebarLink({
