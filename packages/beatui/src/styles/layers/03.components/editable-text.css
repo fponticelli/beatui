@@ -17,7 +17,11 @@
   }
 
   .bc-editable-text__input:focus {
-    outline: 2px solid var(--color-sky-600);
+    outline: 2px solid var(--interactive-focus-light);
+  }
+
+  .b-dark .bc-editable-text__input:focus {
+    outline-color: var(--interactive-focus-dark);
   }
 
   /* Display state */

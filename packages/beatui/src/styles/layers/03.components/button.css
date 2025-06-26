@@ -46,10 +46,6 @@
     background-color: var(--interactive-active-dark);
   }
 
-  .b-dark .bc-button:focus-visible {
-    outline-color: var(--interactive-focus-dark);
-  }
-
   .b-dark .bc-button:disabled {
     color: var(--text-muted-dark);
     background-color: var(--bg-subtle-dark);

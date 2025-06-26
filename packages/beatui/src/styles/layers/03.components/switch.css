@@ -173,11 +173,7 @@
     min-width: calc(var(--spacing-base) * 13.5);
   }
 
-  /* Focus styles */
-  .bc-switch:focus-within .bc-switch__track {
-    outline: 2px solid var(--color-primary-600);
-    outline-offset: 2px;
-  }
+  /* Focus styles are handled by the base focus system */
 
   /* Disabled state */
   .bc-switch--disabled {

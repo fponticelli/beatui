@@ -44,7 +44,7 @@
   /* Focus visible improvements for accessibility */
   @media (prefers-reduced-motion: no-preference) {
     *:focus-visible {
-      transition: outline-offset 0.15s ease-in-out;
+      transition: outline-color 0.15s ease-in-out, outline-offset 0.15s ease-in-out;
     }
   }
 }

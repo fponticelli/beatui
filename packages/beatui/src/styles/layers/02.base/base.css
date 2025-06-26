@@ -28,11 +28,6 @@
     color: var(--text-normal-light);
     background-color: var(--bg-background-light);
   }
-  /* Focus styles */
-  *:focus-visible {
-    outline: 3.5px solid var(--interactive-focus-light);
-    outline-offset: 0.5px;
-  }
 
   .b-dark *:focus-visible {
     outline-color: var(--interactive-focus-dark);

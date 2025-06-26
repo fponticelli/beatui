@@ -123,6 +123,25 @@ export const borderColors = {
   dark: Record<BorderColorName, [ThemeColorName, ColorShade]>
 }
 
+// Interactive colors for focus, hover, and active states
+export type InteractiveColorName = 'focus' | 'hover' | 'active'
+
+export const interactiveColors = {
+  light: {
+    focus: ['info', 700],
+    hover: ['base', 100],
+    active: ['base', 200],
+  },
+  dark: {
+    focus: ['info', 300],
+    hover: ['base', 800],
+    active: ['base', 700],
+  },
+} as {
+  light: Record<InteractiveColorName, [ThemeColorName, ColorShade]>
+  dark: Record<InteractiveColorName, [ThemeColorName, ColorShade]>
+}
+
 // Helper function to get color CSS variable
 export function normalizeColorName(color: ThemeColorName) {
   if (semanticColorNames.includes(color as SemanticColorName)) {
@@ -477,6 +496,16 @@ export function generateColorVariables(): Record<string, string> {
   objectEntries(borderColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([borderName, [baseColor, shade]]) => {
       variables[`--border-${borderName}-${mode}`] = getColorVar(
+        baseColor,
+        shade
+      )
+    })
+  })
+
+  // interactive colors
+  objectEntries(interactiveColors).forEach(([mode, colors]) => {
+    objectEntries(colors).forEach(([interactiveName, [baseColor, shade]]) => {
+      variables[`--interactive-${interactiveName}-${mode}`] = getColorVar(
         baseColor,
         shade
       )

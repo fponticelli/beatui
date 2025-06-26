@@ -19,10 +19,7 @@
     transition: all 0.2s ease-in-out;
   }
 
-  .bc-checkbox-input__checkbox:focus {
-    outline: 2px solid var(--interactive-focus-light);
-    outline-offset: 2px;
-  }
+  /* Focus styles are handled by the base focus system */
 
   .bc-checkbox-input__checkbox:checked {
     background-color: var(--color-indigo-600);
@@ -46,10 +43,6 @@
   .b-dark .bc-checkbox-input__checkbox {
     background-color: var(--bg-surface-dark);
     border-color: var(--border-dark);
-  }
-
-  .b-dark .bc-checkbox-input__checkbox:focus {
-    outline-color: var(--interactive-focus-dark);
   }
 
   .b-dark .bc-checkbox-input__checkbox:checked {

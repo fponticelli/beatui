@@ -20,6 +20,7 @@ export type SwitchOptions = {
   label?: TNode
   disabled?: Value<boolean>
   size?: ControlSize
+  id?: string
 }
 
 export const Switch = ({
@@ -30,7 +31,12 @@ export const Switch = ({
   label,
   disabled = false,
   size = 'md',
+  id,
 }: SwitchOptions) => {
+  // Generate unique IDs for accessibility
+  const switchId = id ?? `switch-${Math.random().toString(36).substring(2, 11)}`
+  const labelId = `${switchId}-label`
+
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
     const classes = ['bc-switch', `bu-text-${size}`, `bc-switch--${size}`]
 
@@ -39,6 +45,23 @@ export const Switch = ({
     }
 
     return classes.join(' ')
+  }
+
+  // Handle toggle action
+  const handleToggle = () => {
+    if (Value.get(disabled)) return
+    onChange(!Value.get(value))
+  }
+
+  // Handle keyboard events
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (Value.get(disabled)) return
+
+    // Toggle on Space or Enter key
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault() // Prevent page scroll on Space
+      handleToggle()
+    }
   }
 
   return html.div(
@@ -50,14 +73,24 @@ export const Switch = ({
         generateSwitchClasses(disabled ?? false, size ?? 'md')
       )
     ),
+    attr.id(switchId),
     attr.role('switch'),
+    attr.tabindex(
+      Value.map(disabled, (disabled): number =>
+        disabled ? -1 : 0
+      )
+    ),
     aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
-    on.click(() => {
-      if (Value.get(disabled)) return
-      onChange(!Value.get(value))
-    }),
+    aria.disabled(disabled),
+    aria.labelledby(label != null ? labelId : undefined),
+    on.click(handleToggle),
+    on.keydown(handleKeyDown),
     label != null
-      ? Label(attr.class(`bu-text-${size} bu-nowrap`), label)
+      ? Label(
+          attr.id(labelId),
+          attr.class(`bu-text-${size} bu-nowrap`),
+          label
+        )
       : null,
     html.div(
       attr.class('bc-switch__track'),
