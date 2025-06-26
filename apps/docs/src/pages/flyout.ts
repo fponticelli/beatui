@@ -11,7 +11,7 @@ import {
   NumberInput,
   Switch,
 } from '@tempots/beatui'
-import { html, attr, prop, computedOf, on } from '@tempots/dom'
+import { html, attr, prop, computedOf, on, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { Placement } from '@tempots/ui'
 
@@ -22,6 +22,9 @@ export const FlyoutPage = () => {
   const hideDelay = prop(500)
   const closable = prop(true)
   const showAnimations = prop(true)
+  const animationClass = showAnimations.map((show): string =>
+    show ? 'bc-flyout' : ''
+  )
 
   return Stack(
     attr.class('bu-h-full bu-overflow-auto'),
@@ -85,7 +88,7 @@ export const FlyoutPage = () => {
           attr.class('bu-gap-0'),
           Label('Closable'),
           Switch({
-            checked: closable,
+            value: closable,
             onChange: closable.set,
           })
         ),
@@ -93,7 +96,7 @@ export const FlyoutPage = () => {
           attr.class('bu-gap-0'),
           Label('Animations'),
           Switch({
-            checked: showAnimations,
+            value: showAnimations,
             onChange: showAnimations.set,
           })
         )
@@ -112,11 +115,17 @@ export const FlyoutPage = () => {
           { variant: 'filled', color: 'primary' },
           'Hover or focus me',
           Flyout({
-            content: html.div(
-              attr.class('bu-p-4 bu-max-w-xs'),
-              html.h4(attr.class('bu-font-semibold bu-mb-2'), 'Flyout Content'),
-              html.p(
-                'This is a basic flyout with rich content and smooth animations!'
+            content: Fragment(
+              attr.class(animationClass),
+              html.div(
+                attr.class('bu-p-4 bu-max-w-xs'),
+                html.h4(
+                  attr.class('bu-font-semibold bu-mb-2'),
+                  'Flyout Content'
+                ),
+                html.p(
+                  'This is a basic flyout with rich content and smooth animations!'
+                )
               )
             ),
             placement,
@@ -124,7 +133,6 @@ export const FlyoutPage = () => {
             showDelay,
             hideDelay,
             closable,
-            className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
           })
         )
       ),
@@ -137,18 +145,20 @@ export const FlyoutPage = () => {
           { variant: 'outline', color: 'secondary' },
           'Double-click me!',
           Flyout({
-            content: html.div(
-              attr.class('bu-p-4'),
+            content: Fragment(
+              attr.class(animationClass),
               html.div(
-                attr.class('bu-font-semibold bu-text-center'),
-                '🎉 Custom Trigger!'
-              ),
-              html.p(
-                attr.class('bu-mt-2'),
-                'This flyout uses a custom trigger that responds to double-click.'
+                attr.class('bu-p-4'),
+                html.div(
+                  attr.class('bu-font-semibold bu-text-center'),
+                  '🎉 Custom Trigger!'
+                ),
+                html.p(
+                  attr.class('bu-mt-2'),
+                  'This flyout uses a custom trigger that responds to double-click.'
+                )
               )
             ),
-            className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             showOn: {
               render: (show, hide) => [
                 on.dblclick(() => show()),
@@ -170,17 +180,19 @@ export const FlyoutPage = () => {
             Icon({ icon: 'mdi:content-save', size: 'sm' }),
             'Save',
             Flyout({
-              content: html.div(
-                attr.class('bu-p-3'),
-                html.div(attr.class('bu-font-semibold'), 'Save Document'),
-                html.p(
-                  attr.class('bu-text-sm bu-mt-1'),
-                  'Save your current work to prevent data loss.'
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(
+                  attr.class('bu-p-3'),
+                  html.div(attr.class('bu-font-semibold'), 'Save Document'),
+                  html.p(
+                    attr.class('bu-text-sm bu-mt-1'),
+                    'Save your current work to prevent data loss.'
+                  )
                 )
               ),
               placement: 'top',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           Button(
@@ -188,17 +200,19 @@ export const FlyoutPage = () => {
             Icon({ icon: 'mdi:pencil', size: 'sm' }),
             'Edit',
             Flyout({
-              content: html.div(
-                attr.class('bu-p-3'),
-                html.div(attr.class('bu-font-semibold'), 'Edit Item'),
-                html.p(
-                  attr.class('bu-text-sm bu-mt-1'),
-                  'Modify the selected item properties.'
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(
+                  attr.class('bu-p-3'),
+                  html.div(attr.class('bu-font-semibold'), 'Edit Item'),
+                  html.p(
+                    attr.class('bu-text-sm bu-mt-1'),
+                    'Modify the selected item properties.'
+                  )
                 )
               ),
               placement: 'top',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           Button(
@@ -206,20 +220,22 @@ export const FlyoutPage = () => {
             Icon({ icon: 'mdi:delete', size: 'sm' }),
             'Delete',
             Flyout({
-              content: html.div(
-                attr.class('bu-p-3'),
+              content: Fragment(
+                attr.class(animationClass),
                 html.div(
-                  attr.class('bu-font-semibold bu-text-red-600'),
-                  '⚠️ Delete Item'
-                ),
-                html.p(
-                  attr.class('bu-text-sm bu-mt-1'),
-                  'Permanently remove the selected item. This action cannot be undone.'
+                  attr.class('bu-p-3'),
+                  html.div(
+                    attr.class('bu-font-semibold bu-text-red-600'),
+                    '⚠️ Delete Item'
+                  ),
+                  html.p(
+                    attr.class('bu-text-sm bu-mt-1'),
+                    'Permanently remove the selected item. This action cannot be undone.'
+                  )
                 )
               ),
               placement: 'top',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           )
         )
@@ -239,10 +255,12 @@ export const FlyoutPage = () => {
             { variant: 'light', size: 'sm' },
             'Top',
             Flyout({
-              content: html.div(attr.class('bu-p-2'), 'Flyout on top'),
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(attr.class('bu-p-2'), 'Flyout on top')
+              ),
               placement: 'top',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           html.div(), // empty
@@ -250,10 +268,12 @@ export const FlyoutPage = () => {
             { variant: 'light', size: 'sm' },
             'Left',
             Flyout({
-              content: html.div(attr.class('bu-p-2'), 'Flyout on left'),
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(attr.class('bu-p-2'), 'Flyout on left')
+              ),
               placement: 'left',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           html.div(
@@ -266,10 +286,12 @@ export const FlyoutPage = () => {
             { variant: 'light', size: 'sm' },
             'Right',
             Flyout({
-              content: html.div(attr.class('bu-p-2'), 'Flyout on right'),
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(attr.class('bu-p-2'), 'Flyout on right')
+              ),
               placement: 'right',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           html.div(), // empty
@@ -277,10 +299,12 @@ export const FlyoutPage = () => {
             { variant: 'light', size: 'sm' },
             'Bottom',
             Flyout({
-              content: html.div(attr.class('bu-p-2'), 'Flyout on bottom'),
+              content: Fragment(
+                attr.class(animationClass),
+                html.div(attr.class('bu-p-2'), 'Flyout on bottom')
+              ),
               placement: 'bottom',
               showOn: 'hover',
-              className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
             })
           ),
           html.div() // empty
@@ -295,40 +319,46 @@ export const FlyoutPage = () => {
           { variant: 'filled', color: 'accent' },
           'Rich Flyout',
           Flyout({
-            content: html.div(
-              attr.class('bu-p-4 bu-max-w-sm'),
+            content: Fragment(
+              attr.class(animationClass),
               html.div(
-                attr.class('bu-flex bu-items-center bu-gap-2 bu-mb-3'),
-                Icon({ icon: 'mdi:information', size: 'sm', color: 'primary' }),
-                html.h4(attr.class('bu-font-semibold'), 'Rich Flyout Content')
-              ),
-              html.p(
-                attr.class('bu-mb-3'),
-                'This flyout contains rich HTML content with multiple elements, icons, and interactive components.'
-              ),
-              html.div(
-                attr.class('bu-flex bu-gap-2'),
-                Button({ variant: 'filled', size: 'xs' }, 'Action'),
-                Button({ variant: 'outline', size: 'xs' }, 'Cancel')
-              ),
-              html.div(
-                attr.class(
-                  'bu-text-xs bu-text-gray-500 bu-mt-3 bu-pt-3 bu-border-t'
+                attr.class('bu-p-4 bu-max-w-sm'),
+                html.div(
+                  attr.class('bu-flex bu-items-center bu-gap-2 bu-mb-3'),
+                  Icon({
+                    icon: 'mdi:information',
+                    size: 'sm',
+                    color: 'primary',
+                  }),
+                  html.h4(attr.class('bu-font-semibold'), 'Rich Flyout Content')
                 ),
-                computedOf(
-                  showDelay,
-                  hideDelay,
-                  closable
-                )(
-                  (showDelay, hideDelay, closable) =>
-                    `Show: ${showDelay}ms, Hide: ${hideDelay}ms, Closable: ${closable ? 'Yes' : 'No'}`
+                html.p(
+                  attr.class('bu-mb-3'),
+                  'This flyout contains rich HTML content with multiple elements, icons, and interactive components.'
+                ),
+                html.div(
+                  attr.class('bu-flex bu-gap-2'),
+                  Button({ variant: 'filled', size: 'xs' }, 'Action'),
+                  Button({ variant: 'outline', size: 'xs' }, 'Cancel')
+                ),
+                html.div(
+                  attr.class(
+                    'bu-text-xs bu-text-gray-500 bu-mt-3 bu-pt-3 bu-border-t'
+                  ),
+                  computedOf(
+                    showDelay,
+                    hideDelay,
+                    closable
+                  )(
+                    (showDelay, hideDelay, closable) =>
+                      `Show: ${showDelay}ms, Hide: ${hideDelay}ms, Closable: ${closable ? 'Yes' : 'No'}`
+                  )
                 )
               )
             ),
             placement: 'top',
             showOn: 'click',
             closable,
-            className: showAnimations.map(show => (show ? 'bc-flyout' : '')),
           })
         )
       )
