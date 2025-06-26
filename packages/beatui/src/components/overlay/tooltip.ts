@@ -2,7 +2,6 @@ import {
   attr,
   TNode,
   Value,
-  prop,
   OnDispose,
   Fragment,
   on,
@@ -48,11 +47,10 @@ export interface TooltipOptions {
   showDelay?: Value<number>
   /** Delay in milliseconds before hiding the tooltip after mouse leave */
   hideDelay?: Value<number>
-  /** Offset configuration for fine-tuning tooltip position */
-  offset?: Value<{
-    mainAxis?: number
-    crossAxis?: number
-  }>
+  /** Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right) */
+  mainAxisOffset?: Value<number>
+  /** Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right) */
+  crossAxisOffset?: Value<number>
   /** How to show the tooltip */
   showOn?: Value<TooltipTrigger>
 }
@@ -79,86 +77,24 @@ export function Tooltip(options: TooltipOptions): TNode {
     placement = 'top',
     showDelay = 250,
     hideDelay = 500,
-    offset = { mainAxis: 8, crossAxis: 0 },
+    mainAxisOffset = 8,
+    crossAxisOffset = 0,
     showOn = 'hover-focus',
   } = options
-
-  const isOpen = prop(false)
-  let showTimeout: (() => void) | null = null
-  let hideTimeout: (() => void) | null = null
-
-  const clearTimeouts = () => {
-    if (showTimeout !== null) {
-      showTimeout()
-      showTimeout = null
-    }
-    if (hideTimeout !== null) {
-      hideTimeout()
-      hideTimeout = null
-    }
-  }
-
-  const show = () => {
-    clearTimeouts()
-    showTimeout = delayed(() => {
-      isOpen.set(true)
-      showTimeout = null
-    }, Value.get(showDelay))
-  }
-
-  const hide = () => {
-    clearTimeouts()
-    hideTimeout = delayed(() => {
-      isOpen.set(false)
-      hideTimeout = null
-    }, Value.get(hideDelay))
-  }
-
-  return Fragment(
-    OneOfValue(showOn, {
-      'hover-focus': () =>
-        Fragment(
-          on.mouseenter(() => show()),
-          on.mouseleave(() => hide()),
-          on.focus(() => show()),
-          on.blur(() => hide())
-        ),
-      hover: () =>
-        Fragment(
-          on.mouseenter(() => show()),
-          on.mouseleave(() => hide())
-        ),
-      focus: () =>
-        Fragment(
-          on.focus(() => show()),
-          on.blur(() => hide())
-        ),
-      click: () => {
-        function clear() {
-          document.removeEventListener('click', documentClick)
-        }
-        function documentClick() {
-          clear()
+  return PopOver((open, close) => {
+    function openTooltip() {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
           hide()
+          document.removeEventListener('keydown', handleKeyDown)
         }
-        return Fragment(
-          OnDispose(clear),
-          on.click(() => {
-            show()
-            delayed(() => {
-              document.addEventListener('click', documentClick, { once: true })
-            }, 0)
-          })
-        )
-      },
-      never: () => Fragment(),
-    }),
-    PopOver({
-      open: isOpen,
-      placement: placement ?? 'top',
-      offset,
-      arrow: {
-        content: signal => {
+      }
+      document.addEventListener('keydown', handleKeyDown, { once: true })
+      open({
+        placement: placement ?? 'top',
+        mainAxisOffset,
+        crossAxisOffset,
+        arrow: signal => {
           const direction = signal.map(
             ({ placement }): 'up' | 'down' | 'left' | 'right' => {
               if (placement.includes('top')) {
@@ -191,24 +127,74 @@ export function Tooltip(options: TooltipOptions): TNode {
             SVGArrow(direction)
           )
         },
-      },
-      content: () => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-          if (event.key === 'Escape') {
-            clearTimeouts()
-            document.removeEventListener('keydown', handleKeyDown)
-          }
-        }
-        document.addEventListener('keydown', handleKeyDown, { once: true })
-        return Fragment(
+        content: Fragment(
           OnDispose(() => {
             document.removeEventListener('keydown', handleKeyDown)
           }),
           attr.class('bc-tooltip'),
           attr.role('tooltip'),
           content
-        )
-      },
-    })
-  )
+        ),
+      })
+    }
+
+    let timeout: ReturnType<typeof setTimeout> | null = null
+    function show() {
+      if (timeout != null) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+      timeout = setTimeout(openTooltip, Value.get(showDelay))
+    }
+    function hide() {
+      if (timeout != null) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+      timeout = setTimeout(close, Value.get(hideDelay))
+    }
+
+    return Fragment(
+      OneOfValue(showOn, {
+        'hover-focus': () =>
+          Fragment(
+            on.mouseenter(() => show()),
+            on.mouseleave(() => hide()),
+            on.focus(() => show()),
+            on.blur(() => hide())
+          ),
+        hover: () =>
+          Fragment(
+            on.mouseenter(() => show()),
+            on.mouseleave(() => hide())
+          ),
+        focus: () =>
+          Fragment(
+            on.focus(() => show()),
+            on.blur(() => hide())
+          ),
+        click: () => {
+          function clear() {
+            document.removeEventListener('click', documentClick)
+          }
+          function documentClick() {
+            clear()
+            hide()
+          }
+          return Fragment(
+            OnDispose(clear),
+            on.click(() => {
+              show()
+              delayed(() => {
+                document.addEventListener('click', documentClick, {
+                  once: true,
+                })
+              }, 0)
+            })
+          )
+        },
+        never: () => null,
+      })
+    )
+  })
 }

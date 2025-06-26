@@ -23,7 +23,7 @@
     "@tempots/beatui": "workspace:*",
     "@tempots/dom": "28.1.5",
     "@tempots/std": "0.19.0",
-    "@tempots/ui": "4.3.8",
+    "@tempots/ui": "5.0.0",
     "zod": "^3.25.46"
   },
   "devDependencies": {
