@@ -16,6 +16,7 @@ import { SidebarPage } from './pages/sidebar'
 import { ModalPage } from './pages/modal'
 import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
+import { FlyoutPage } from './pages/flyout'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
 
 export const App = () => {
@@ -33,6 +34,7 @@ export const App = () => {
             '/modal': ModalPage,
             '/drawer': DrawerPage,
             '/tooltip': TooltipPage,
+            '/flyout': FlyoutPage,
             '/scrollable-panel': ScrollablePanelPage,
             '/segmented-control': SegmentedControlPage,
             '/sidebar': SidebarPage,

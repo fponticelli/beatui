@@ -2,24 +2,16 @@ import {
   attr,
   TNode,
   Value,
-  OnDispose,
   Fragment,
-  on,
-  OneOfValue,
   style,
   svg,
   svgAttr,
   Signal,
 } from '@tempots/dom'
-import { PopOver, Placement } from '@tempots/ui'
-import { delayed } from '@tempots/std'
+import { Placement } from '@tempots/ui'
+import { Flyout, FlyoutTrigger } from '../navigation/flyout'
 
-export type TooltipTrigger =
-  | 'hover'
-  | 'focus'
-  | 'hover-focus'
-  | 'click'
-  | 'never'
+export type TooltipTrigger = FlyoutTrigger
 
 /**
  * Creates an SVG arrow element for the tooltip
@@ -60,7 +52,7 @@ export interface TooltipOptions {
  * Unlike other tooltip libraries, this component is designed to be a child of the element
  * it provides a tooltip for, rather than wrapping it.
  *
- * Uses @tempo-ts/ui PopOver for positioning.
+ * Built on top of the Flyout component for positioning and interaction logic.
  *
  * @example
  * ```typescript
@@ -81,120 +73,53 @@ export function Tooltip(options: TooltipOptions): TNode {
     crossAxisOffset = 0,
     showOn = 'hover-focus',
   } = options
-  return PopOver((open, close) => {
-    function openTooltip() {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          hide()
-          document.removeEventListener('keydown', handleKeyDown)
+
+  return Flyout({
+    content: Fragment(attr.class('bc-tooltip'), attr.role('tooltip'), content),
+    placement,
+    showDelay,
+    hideDelay,
+    mainAxisOffset,
+    crossAxisOffset,
+    showOn,
+    closable: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    arrow: (signal: any) => {
+      const direction = signal.map(
+        ({
+          placement,
+        }: {
+          placement: string
+        }): 'up' | 'down' | 'left' | 'right' => {
+          if (placement.includes('top')) {
+            return 'down'
+          } else if (placement.includes('bottom')) {
+            return 'up'
+          } else if (placement.includes('left')) {
+            return 'right'
+          } else if (placement.includes('right')) {
+            return 'left'
+          }
+          return 'up'
         }
-      }
-      document.addEventListener('keydown', handleKeyDown, { once: true })
-      open({
-        placement: placement ?? 'top',
-        mainAxisOffset,
-        crossAxisOffset,
-        arrow: signal => {
-          const direction = signal.map(
-            ({ placement }): 'up' | 'down' | 'left' | 'right' => {
-              if (placement.includes('top')) {
-                return 'down'
-              } else if (placement.includes('bottom')) {
-                return 'up'
-              } else if (placement.includes('left')) {
-                return 'right'
-              } else if (placement.includes('right')) {
-                return 'left'
-              }
-              return 'up'
+      )
+      return Fragment(
+        attr.class('bc-tooltip__arrow'),
+        attr.class(direction.map((d: string) => `bc-tooltip__arrow-${d}`)),
+        style.transform(
+          signal.map(({ x, y }: { x?: number; y?: number }) => {
+            if (x == null && y == null) {
+              return ''
             }
-          )
-          return Fragment(
-            attr.class('bc-tooltip__arrow'),
-            attr.class(direction.map(d => `bc-tooltip__arrow-${d}`)),
-            style.transform(
-              signal.map(({ x, y }) => {
-                if (x == null && y == null) {
-                  return ''
-                }
-                if (x != null) {
-                  return `translate(${x}px, 0)`
-                } else {
-                  return `translate(0, ${y}px)`
-                }
-              })
-            ),
-            SVGArrow(direction)
-          )
-        },
-        content: Fragment(
-          OnDispose(() => {
-            document.removeEventListener('keydown', handleKeyDown)
-          }),
-          attr.class('bc-tooltip'),
-          attr.role('tooltip'),
-          content
+            if (x != null) {
+              return `translate(${x}px, 0)`
+            } else {
+              return `translate(0, ${y}px)`
+            }
+          })
         ),
-      })
-    }
-
-    let timeout: ReturnType<typeof setTimeout> | null = null
-    function show() {
-      if (timeout != null) {
-        clearTimeout(timeout)
-        timeout = null
-      }
-      timeout = setTimeout(openTooltip, Value.get(showDelay))
-    }
-    function hide() {
-      if (timeout != null) {
-        clearTimeout(timeout)
-        timeout = null
-      }
-      timeout = setTimeout(close, Value.get(hideDelay))
-    }
-
-    return Fragment(
-      OneOfValue(showOn, {
-        'hover-focus': () =>
-          Fragment(
-            on.mouseenter(() => show()),
-            on.mouseleave(() => hide()),
-            on.focus(() => show()),
-            on.blur(() => hide())
-          ),
-        hover: () =>
-          Fragment(
-            on.mouseenter(() => show()),
-            on.mouseleave(() => hide())
-          ),
-        focus: () =>
-          Fragment(
-            on.focus(() => show()),
-            on.blur(() => hide())
-          ),
-        click: () => {
-          function clear() {
-            document.removeEventListener('click', documentClick)
-          }
-          function documentClick() {
-            clear()
-            hide()
-          }
-          return Fragment(
-            OnDispose(clear),
-            on.click(() => {
-              show()
-              delayed(() => {
-                document.addEventListener('click', documentClick, {
-                  once: true,
-                })
-              }, 0)
-            })
-          )
-        },
-        never: () => null,
-      })
-    )
+        SVGArrow(direction)
+      )
+    },
   })
 }
