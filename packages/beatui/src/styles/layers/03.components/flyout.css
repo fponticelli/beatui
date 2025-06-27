@@ -9,7 +9,7 @@
     z-index: var(--z-index-popover);
 
     /* Animation properties */
-    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+    transition: opacity 1000ms ease-in-out, transform 1000ms ease-in-out;
     transform-origin: center;
   }
 

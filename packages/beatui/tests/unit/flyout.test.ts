@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, on, html, attr } from '@tempots/dom'
+import { render, Provide, on, html, attr, Fragment } from '@tempots/dom'
 import { Flyout } from '../../src/components/navigation/flyout'
 import { Button } from '../../src/components/button/button'
 import { Theme } from '../../src/components/theme/theme'
@@ -26,9 +26,8 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Hover me',
           Flyout({
-            content: 'This is a flyout',
+            content: Fragment(attr.class('bc-flyout'), 'This is a flyout'),
             showOn: 'hover',
-            className: 'bc-flyout',
           })
         )
       ),
@@ -94,11 +93,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Bottom flyout',
           Flyout({
-            content: 'This flyout appears at the bottom',
+            content: Fragment(
+              attr.class('bc-flyout'),
+              'This flyout appears at the bottom'
+            ),
             placement: 'bottom',
             showOn: 'hover',
             showDelay: 0,
-            className: 'bc-flyout',
           })
         )
       ),
@@ -126,11 +127,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Non-closable flyout',
           Flyout({
-            content: 'This flyout cannot be closed with Escape',
+            content: Fragment(
+              attr.class('bc-flyout'),
+              'This flyout cannot be closed with Escape'
+            ),
             showOn: 'click',
             closable: false,
             showDelay: 0,
-            className: 'bc-flyout',
           })
         )
       ),
@@ -161,11 +164,10 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Rapid trigger test',
           Flyout({
-            content: 'Rapid trigger flyout',
+            content: Fragment(attr.class('bc-flyout'), 'Rapid trigger flyout'),
             showOn: 'hover',
             showDelay: 0,
             hideDelay: 0,
-            className: 'bc-flyout',
           })
         )
       ),
@@ -197,11 +199,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'First flyout',
             Flyout({
-              content: 'First flyout content',
+              content: Fragment(
+                attr.class('bc-flyout first-flyout'),
+                'First flyout content'
+              ),
               showOn: 'hover',
               showDelay: 0,
               hideDelay: 100,
-              className: 'bc-flyout first-flyout',
             })
           ),
           html.div(
@@ -210,11 +214,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Second flyout',
               Flyout({
-                content: 'Second flyout content',
+                content: Fragment(
+                  attr.class('bc-flyout second-flyout'),
+                  'Second flyout content'
+                ),
                 showOn: 'hover',
                 showDelay: 0,
                 hideDelay: 100,
-                className: 'bc-flyout second-flyout',
               })
             )
           )
@@ -264,11 +270,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Fast flyout',
             Flyout({
-              content: 'Fast flyout content',
+              content: Fragment(
+                attr.class('bc-flyout fast-flyout'),
+                'Fast flyout content'
+              ),
               showOn: 'hover',
               showDelay: 10,
               hideDelay: 50,
-              className: 'bc-flyout fast-flyout',
             })
           ),
           html.div(
@@ -277,11 +285,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Slow flyout',
               Flyout({
-                content: 'Slow flyout content',
+                content: Fragment(
+                  attr.class('bc-flyout slow-flyout'),
+                  'Slow flyout content'
+                ),
                 showOn: 'hover',
                 showDelay: 100,
                 hideDelay: 200,
-                className: 'bc-flyout slow-flyout',
               })
             )
           )
@@ -323,11 +333,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Quick hide',
             Flyout({
-              content: 'Quick hide content',
+              content: Fragment(
+                attr.class('bc-flyout quick-hide-flyout'),
+                'Quick hide content'
+              ),
               showOn: 'hover',
               showDelay: 0,
               hideDelay: 50,
-              className: 'bc-flyout quick-hide-flyout',
             })
           ),
           html.div(
@@ -336,11 +348,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Slow hide',
               Flyout({
-                content: 'Slow hide content',
+                content: Fragment(
+                  attr.class('bc-flyout slow-hide-flyout'),
+                  'Slow hide content'
+                ),
                 showOn: 'hover',
                 showDelay: 0,
                 hideDelay: 200,
-                className: 'bc-flyout slow-hide-flyout',
               })
             )
           )
@@ -391,11 +405,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Flyout A',
             Flyout({
-              content: 'Flyout A content',
+              content: Fragment(
+                attr.class('bc-flyout flyout-a'),
+                'Flyout A content'
+              ),
               showOn: 'hover',
               showDelay: 20,
               hideDelay: 30,
-              className: 'bc-flyout flyout-a',
             })
           ),
           html.div(
@@ -404,11 +420,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Flyout B',
               Flyout({
-                content: 'Flyout B content',
+                content: Fragment(
+                  attr.class('bc-flyout flyout-b'),
+                  'Flyout B content'
+                ),
                 showOn: 'hover',
                 showDelay: 25,
                 hideDelay: 35,
-                className: 'bc-flyout flyout-b',
               })
             )
           ),
@@ -418,11 +436,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Flyout C',
               Flyout({
-                content: 'Flyout C content',
+                content: Fragment(
+                  attr.class('bc-flyout flyout-c'),
+                  'Flyout C content'
+                ),
                 showOn: 'hover',
                 showDelay: 15,
                 hideDelay: 25,
-                className: 'bc-flyout flyout-c',
               })
             )
           )
@@ -475,11 +495,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Overlap 1',
             Flyout({
-              content: 'Overlap 1 content',
+              content: Fragment(
+                attr.class('bc-flyout overlap-1'),
+                'Overlap 1 content'
+              ),
               showOn: 'hover',
               showDelay: 30,
               hideDelay: 80,
-              className: 'bc-flyout overlap-1',
             })
           ),
           html.div(
@@ -488,11 +510,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Overlap 2',
               Flyout({
-                content: 'Overlap 2 content',
+                content: Fragment(
+                  attr.class('bc-flyout overlap-2'),
+                  'Overlap 2 content'
+                ),
                 showOn: 'hover',
                 showDelay: 50,
                 hideDelay: 40,
-                className: 'bc-flyout overlap-2',
               })
             )
           )
@@ -571,11 +595,13 @@ describe('Flyout Component', () => {
                 { onClick: () => {} },
                 `Stress ${index + 1}`,
                 Flyout({
-                  content: `Stress flyout ${index + 1} content`,
+                  content: Fragment(
+                    attr.class(`bc-flyout ${config.class}`),
+                    `Stress flyout ${index + 1} content`
+                  ),
                   showOn: 'hover',
                   showDelay: config.delay,
                   hideDelay: config.hide,
-                  className: `bc-flyout ${config.class}`,
                 })
               )
             )
@@ -639,11 +665,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Edge case test',
           Flyout({
-            content: 'Edge case flyout',
+            content: Fragment(
+              attr.class('bc-flyout edge-case-flyout'),
+              'Edge case flyout'
+            ),
             showOn: 'hover',
             showDelay: 30,
             hideDelay: 50,
-            className: 'bc-flyout edge-case-flyout',
           })
         )
       ),
@@ -693,11 +721,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Flicker test',
             Flyout({
-              content: 'Flickering flyout content',
+              content: Fragment(
+                attr.class('bc-flyout flicker-test'),
+                'Flickering flyout content'
+              ),
               showOn: 'hover',
               showDelay: 100,
               hideDelay: 100,
-              className: 'bc-flyout flicker-test',
             })
           )
         )
@@ -746,11 +776,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'Button 1',
             Flyout({
-              content: 'Flyout 1 content',
+              content: Fragment(
+                attr.class('bc-flyout overlap-flyout-1'),
+                'Flyout 1 content'
+              ),
               showOn: 'hover',
               showDelay: 50,
               hideDelay: 50,
-              className: 'bc-flyout overlap-flyout-1',
             })
           ),
           html.div(
@@ -759,11 +791,13 @@ describe('Flyout Component', () => {
               { onClick: () => {} },
               'Button 2',
               Flyout({
-                content: 'Flyout 2 content',
+                content: Fragment(
+                  attr.class('bc-flyout overlap-flyout-2'),
+                  'Flyout 2 content'
+                ),
                 showOn: 'hover',
                 showDelay: 50,
                 hideDelay: 50,
-                className: 'bc-flyout overlap-flyout-2',
               })
             )
           )
@@ -823,11 +857,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Animation interrupt test',
           Flyout({
-            content: 'Animation interrupt flyout',
+            content: Fragment(
+              attr.class('bc-flyout animation-interrupt-test'),
+              'Animation interrupt flyout'
+            ),
             showOn: 'hover',
             showDelay: 80,
             hideDelay: 80,
-            className: 'bc-flyout animation-interrupt-test',
           })
         )
       ),
@@ -881,11 +917,13 @@ describe('Flyout Component', () => {
             { onClick: () => {} },
             'DOM mutation test',
             Flyout({
-              content: 'DOM mutation flyout',
+              content: Fragment(
+                attr.class('bc-flyout dom-mutation-test'),
+                'DOM mutation flyout'
+              ),
               showOn: 'hover',
               showDelay: 60,
               hideDelay: 60,
-              className: 'bc-flyout dom-mutation-test',
             })
           )
         )
@@ -946,11 +984,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Micro-timing test',
           Flyout({
-            content: 'Micro-timing flyout',
+            content: Fragment(
+              attr.class('bc-flyout micro-timing-test'),
+              'Micro-timing flyout'
+            ),
             showOn: 'hover',
             showDelay: 50,
             hideDelay: 50,
-            className: 'bc-flyout micro-timing-test',
           })
         )
       ),
@@ -991,11 +1031,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Zero delay test',
           Flyout({
-            content: 'Zero delay flyout',
+            content: Fragment(
+              attr.class('bc-flyout zero-delay-test'),
+              'Zero delay flyout'
+            ),
             showOn: 'hover',
             showDelay: 0,
             hideDelay: 0,
-            className: 'bc-flyout zero-delay-test',
           })
         )
       ),
@@ -1030,11 +1072,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Async timing test',
           Flyout({
-            content: 'Async timing flyout',
+            content: Fragment(
+              attr.class('bc-flyout async-timing-test'),
+              'Async timing flyout'
+            ),
             showOn: 'hover',
             showDelay: 30,
             hideDelay: 30,
-            className: 'bc-flyout async-timing-test',
           })
         )
       ),
@@ -1078,11 +1122,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'DOM tracking test',
           Flyout({
-            content: 'DOM tracking flyout',
+            content: Fragment(
+              attr.class('bc-flyout dom-tracking-test'),
+              'DOM tracking flyout'
+            ),
             showOn: 'hover',
             showDelay: 25,
             hideDelay: 25,
-            className: 'bc-flyout dom-tracking-test',
           })
         )
       ),
@@ -1156,11 +1202,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Visual state test',
           Flyout({
-            content: 'Visual state flyout',
+            content: Fragment(
+              attr.class('bc-flyout visual-state-test'),
+              'Visual state flyout'
+            ),
             showOn: 'hover',
             showDelay: 40,
             hideDelay: 40,
-            className: 'bc-flyout visual-state-test',
           })
         )
       ),
@@ -1222,11 +1270,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Debug test',
           Flyout({
-            content: 'Debug flyout',
+            content: Fragment(
+              attr.class('bc-flyout debug-test'),
+              'Debug flyout'
+            ),
             showOn: 'hover',
             showDelay: 50,
             hideDelay: 50,
-            className: 'bc-flyout debug-test',
           })
         )
       ),
@@ -1292,11 +1342,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Basic reopen test',
           Flyout({
-            content: 'Basic reopen flyout',
+            content: Fragment(
+              attr.class('bc-flyout basic-reopen-test'),
+              'Basic reopen flyout'
+            ),
             showOn: 'hover',
             showDelay: 50,
             hideDelay: 50,
-            className: 'bc-flyout basic-reopen-test',
           })
         )
       ),
@@ -1363,11 +1415,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'PopOver lifecycle test',
           Flyout({
-            content: 'PopOver lifecycle flyout',
+            content: Fragment(
+              attr.class('bc-flyout popover-lifecycle-test'),
+              'PopOver lifecycle flyout'
+            ),
             showOn: 'hover',
             showDelay: 30,
             hideDelay: 30,
-            className: 'bc-flyout popover-lifecycle-test',
           })
         )
       ),
@@ -1434,11 +1488,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Rapid hover test',
           Flyout({
-            content: 'Rapid hover flyout',
+            content: Fragment(
+              attr.class('bc-flyout rapid-hover-test'),
+              'Rapid hover flyout'
+            ),
             showOn: 'hover',
             showDelay: 50,
             hideDelay: 50,
-            className: 'bc-flyout rapid-hover-test',
           })
         )
       ),
@@ -1502,11 +1558,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Multiple cycles test',
           Flyout({
-            content: 'Multiple cycles flyout',
+            content: Fragment(
+              attr.class('bc-flyout multiple-cycles-test'),
+              'Multiple cycles flyout'
+            ),
             showOn: 'hover',
             showDelay: 40,
             hideDelay: 40,
-            className: 'bc-flyout multiple-cycles-test',
           })
         )
       ),
@@ -1568,11 +1626,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Disposal timing test',
           Flyout({
-            content: 'Disposal timing flyout',
+            content: Fragment(
+              attr.class('bc-flyout disposal-timing-test'),
+              'Disposal timing flyout'
+            ),
             showOn: 'hover',
             showDelay: 30,
             hideDelay: 30,
-            className: 'bc-flyout disposal-timing-test',
           })
         )
       ),
@@ -1654,11 +1714,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Closing animation test',
           Flyout({
-            content: 'Closing animation flyout',
+            content: Fragment(
+              attr.class('bc-flyout closing-animation-test'),
+              'Closing animation flyout'
+            ),
             showOn: 'hover',
             showDelay: 20,
             hideDelay: 60, // Longer hide delay to create window for bug
-            className: 'bc-flyout closing-animation-test',
           })
         )
       ),
@@ -1734,11 +1796,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Zero delay test',
           Flyout({
-            content: 'Zero delay flyout',
+            content: Fragment(
+              attr.class('bc-flyout zero-delay-persistence-test'),
+              'Zero delay flyout'
+            ),
             showOn: 'hover',
             showDelay: 0,
             hideDelay: 0,
-            className: 'bc-flyout zero-delay-persistence-test',
           })
         )
       ),
@@ -1795,11 +1859,13 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'State corruption test',
           Flyout({
-            content: 'State corruption flyout',
+            content: Fragment(
+              attr.class('bc-flyout state-corruption-test'),
+              'State corruption flyout'
+            ),
             showOn: 'hover',
             showDelay: 25,
             hideDelay: 25,
-            className: 'bc-flyout state-corruption-test',
           })
         )
       ),
@@ -1878,6 +1944,175 @@ describe('Flyout Component', () => {
     expect(true).toBe(true)
   })
 
+  it('should debug animation state transitions', async () => {
+    render(
+      Provide(Theme, {}, () =>
+        Button(
+          { onClick: () => {} },
+          'Animation debug test',
+          Flyout({
+            content: Fragment(
+              attr.class('bc-flyout animation-debug-test'),
+              'Animation debug flyout'
+            ),
+            showOn: 'hover',
+            showDelay: 50,
+            hideDelay: 50,
+          })
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')!
+
+    console.log('=== ANIMATION STATE TRANSITIONS DEBUG ===')
+
+    // Track all state changes
+    const stateChanges: string[] = []
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'data-status'
+        ) {
+          const target = mutation.target as Element
+          if (target.classList.contains('animation-debug-test')) {
+            const newStatus = target.getAttribute('data-status')
+            const timestamp = Date.now()
+            stateChanges.push(`${timestamp}: ${newStatus}`)
+            console.log(`State change: ${newStatus}`)
+          }
+        }
+      })
+    })
+
+    observer.observe(document.body, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['data-status'],
+    })
+
+    // Hover to trigger animation
+    console.log('Triggering hover...')
+    button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+
+    // Check states at different intervals
+    await new Promise(resolve => setTimeout(resolve, 10))
+    let flyouts = document.querySelectorAll('.animation-debug-test')
+    if (flyouts.length > 0) {
+      console.log(`10ms: ${flyouts[0].getAttribute('data-status')}`)
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 30))
+    flyouts = document.querySelectorAll('.animation-debug-test')
+    if (flyouts.length > 0) {
+      console.log(`40ms: ${flyouts[0].getAttribute('data-status')}`)
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 30))
+    flyouts = document.querySelectorAll('.animation-debug-test')
+    if (flyouts.length > 0) {
+      console.log(`70ms: ${flyouts[0].getAttribute('data-status')}`)
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 50))
+    flyouts = document.querySelectorAll('.animation-debug-test')
+    if (flyouts.length > 0) {
+      console.log(`120ms: ${flyouts[0].getAttribute('data-status')}`)
+    }
+
+    observer.disconnect()
+
+    console.log('All state changes:', stateChanges)
+    console.log('=== END ANIMATION STATE TRANSITIONS DEBUG ===')
+
+    expect(true).toBe(true)
+  })
+
+  it('should debug CSS animation detection', async () => {
+    render(
+      Provide(Theme, {}, () =>
+        Button(
+          { onClick: () => {} },
+          'CSS animation test',
+          Flyout({
+            content: Fragment(
+              attr.class('bc-flyout css-animation-test'),
+              'CSS animation debug flyout'
+            ),
+            showOn: 'hover',
+            showDelay: 50,
+            hideDelay: 50,
+          })
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')!
+
+    console.log('=== CSS ANIMATION DETECTION DEBUG ===')
+
+    // Track getAnimations() calls
+    const animationChecks: string[] = []
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(node => {
+            if (
+              node instanceof Element &&
+              node.classList.contains('css-animation-test')
+            ) {
+              console.log('Element added to DOM')
+
+              // Check animations immediately
+              const animations1 = node.getAnimations()
+              animationChecks.push(
+                `Immediate: ${animations1.length} animations`
+              )
+              console.log(`Immediate check: ${animations1.length} animations`)
+
+              // Check after small delay
+              setTimeout(() => {
+                const animations2 = node.getAnimations()
+                animationChecks.push(
+                  `After 10ms: ${animations2.length} animations`
+                )
+                console.log(`After 10ms: ${animations2.length} animations`)
+              }, 10)
+
+              // Check after longer delay
+              setTimeout(() => {
+                const animations3 = node.getAnimations()
+                animationChecks.push(
+                  `After 50ms: ${animations3.length} animations`
+                )
+                console.log(`After 50ms: ${animations3.length} animations`)
+              }, 50)
+            }
+          })
+        }
+      })
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+
+    // Trigger hover
+    console.log('Triggering hover...')
+    button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    observer.disconnect()
+
+    console.log('Animation checks:', animationChecks)
+    console.log('=== END CSS ANIMATION DETECTION DEBUG ===')
+
+    expect(true).toBe(true)
+  })
+
   it('should add animation data attributes', async () => {
     render(
       Provide(Theme, {}, () =>
@@ -1885,10 +2120,12 @@ describe('Flyout Component', () => {
           { onClick: () => {} },
           'Animated flyout',
           Flyout({
-            content: 'This flyout has animations',
+            content: Fragment(
+              attr.class('bc-flyout'),
+              'This flyout has animations'
+            ),
             showOn: 'hover',
             showDelay: 0,
-            className: 'bc-flyout',
             placement: 'bottom',
           })
         )
