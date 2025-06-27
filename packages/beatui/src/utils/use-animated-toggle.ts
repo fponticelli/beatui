@@ -67,6 +67,13 @@ export function useAnimatedToggle({
   status.onDispose(() => clean())
   const isOpen = status.map(v => v !== 'closed')
   const displayOpen = status.map(v => v === 'opened' || v === 'opening')
+
+  const isClosed = status.map(v => v === 'closed')
+  const isStartOpening = status.map(v => v === 'start-opening')
+  const isOpening = status.map(v => v === 'opening')
+  const isOpened = status.map(v => v === 'opened')
+  const isClosing = status.map(v => v === 'closing')
+  const isStartClosing = status.map(v => v === 'start-closing')
   return {
     status: status as Signal<ToggleStatus>,
     open,
@@ -74,6 +81,12 @@ export function useAnimatedToggle({
     toggle,
     setOpen,
     isOpen,
+    isClosed,
+    isStartOpening,
+    isOpening,
+    isOpened,
+    isClosing,
+    isStartClosing,
     displayOpen,
     dispose: () => status.dispose(),
     onClosed,

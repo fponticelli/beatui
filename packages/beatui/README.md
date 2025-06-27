@@ -8,6 +8,10 @@
 - [ ] dirty
 - [ ] touched
 
+- [ ] on.clickOutside
+- [ ] on.keyPressed(keys: KeyCombo[]) // TODO where should it attach? document or element? Depends on element type?
+- [ ] on.escape
+
 # BeatUI
 
 A modern TypeScript UI component library built with [@tempots/dom](https://tempo-ts.com).
