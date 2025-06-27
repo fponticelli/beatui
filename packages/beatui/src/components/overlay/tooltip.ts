@@ -75,7 +75,8 @@ export function Tooltip(options: TooltipOptions): TNode {
   } = options
 
   return Flyout({
-    content: Fragment(attr.class('bc-tooltip'), attr.role('tooltip'), content),
+    content: () =>
+      Fragment(attr.class('bc-tooltip'), attr.role('tooltip'), content),
     placement,
     showDelay,
     hideDelay,

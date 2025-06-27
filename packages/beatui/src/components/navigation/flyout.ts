@@ -36,7 +36,7 @@ export interface PopOverArrowOptions {
 
 export interface FlyoutOptions {
   /** The flyout content to display */
-  content: TNode
+  content: () => TNode
   /** Placement of the flyout relative to the trigger element */
   placement?: Value<Placement>
   /** Delay in milliseconds before showing the flyout on hover */
@@ -209,7 +209,7 @@ export function Flyout(options: FlyoutOptions): TNode {
             dataAttr.status(animatedToggle.status.map(String)),
             dataAttr.placement(Value.map(placement ?? 'top', String)),
             role ? attr.role(role) : null,
-            content
+            content()
           )
         }),
       })
