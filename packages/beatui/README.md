@@ -9,6 +9,13 @@
   - [ ] dirty
   - [ ] touched
 
+- [ ] Checkbox
+- [ ] Dark Logo
+- [ ] List Controls (move up/down/first/last, remove, vertical/horizontal)
+- [ ] Draggable List Items
+- [ ] Divider (horizontal/vertical)
+- [ ] Spacer
+
 - [ ] Tempo
   - [ ] on.clickOutside
   - [ ] on.keyPressed(keys: KeyCombo[]) // TODO where should it attach? document or element? Depends on element type?
@@ -25,7 +32,7 @@
 - [ ] Implement Dialog. The main difference from Modal is that Dialog doesn't use Overlay and can only be closed via Escape (optionally if `closable`) or using the close button. Clicking outside will not trigger a close action.
 - [ ] Modal should use ScrollablePanel to show the header/body/footer.
 - [ ] On iPhone/iPad the height of the Main panel of the AppShell should be limited to 100dhv minus header height or whatever
-- [ ]
+- [ ] Styling of NativeSelect in Safari displays the default shaded style instead of the BeatUI skin.
 
 # BeatUI
 
