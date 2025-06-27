@@ -20,10 +20,10 @@ export type FlyoutTrigger =
   | 'click'
   | 'never'
 
-export interface FlyoutTriggerConfig {
-  /** Custom trigger implementation */
-  render: (show: () => void, hide: () => void) => TNode
-}
+export type FlyoutTriggerFunction = (
+  show: () => void,
+  hide: () => void
+) => TNode
 
 export interface PopOverArrowOptions {
   placement: string
@@ -48,7 +48,7 @@ export interface FlyoutOptions {
   /** Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right) */
   crossAxisOffset?: Value<number>
   /** How to show the flyout */
-  showOn?: Value<FlyoutTrigger> | FlyoutTriggerConfig
+  showOn?: Value<FlyoutTrigger> | FlyoutTriggerFunction
   /** Whether the flyout can be closed with Escape key */
   closable?: Value<boolean>
   /** Optional arrow configuration - receives a signal with PopOver positioning data */
@@ -309,8 +309,8 @@ export function Flyout(options: FlyoutOptions): TNode {
     }
 
     // Handle custom trigger config
-    if (typeof showOn === 'object' && showOn && 'render' in showOn) {
-      return Fragment((showOn as FlyoutTriggerConfig).render(show, hide))
+    if (typeof showOn === 'function') {
+      return (showOn as FlyoutTriggerFunction)(show, hide)
     }
 
     // Handle built-in trigger types

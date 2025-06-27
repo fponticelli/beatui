@@ -159,12 +159,10 @@ export const FlyoutPage = () => {
                 )
               )
             ),
-            showOn: {
-              render: (show, hide) => [
-                on.dblclick(() => show()),
-                on.mouseleave(() => hide()),
-              ],
-            },
+            showOn: (show, hide) => [
+              on.dblclick(() => show()),
+              on.mouseleave(() => hide()),
+            ],
           })
         )
       ),

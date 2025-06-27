@@ -50,19 +50,17 @@ describe('Flyout Component', () => {
           'Custom trigger',
           Flyout({
             content: 'Custom flyout content',
-            showOn: {
-              render: (show, hide) => {
-                return [
-                  on.dblclick(() => {
-                    showCalled = true
-                    show()
-                  }),
-                  on.contextmenu(() => {
-                    hideCalled = true
-                    hide()
-                  }),
-                ]
-              },
+            showOn: (show, hide) => {
+              return [
+                on.dblclick(() => {
+                  showCalled = true
+                  show()
+                }),
+                on.contextmenu(() => {
+                  hideCalled = true
+                  hide()
+                }),
+              ]
             },
           })
         )
