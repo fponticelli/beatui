@@ -1,16 +1,24 @@
 # TODO
 
-- [ ] submitting
-- [ ] validation strategy
-  - [ ] validate on submit
-  - [ ] continuous validation
-  - [ ] validate touched and on submit
-- [ ] dirty
-- [ ] touched
+- [ ] Form
+  - [ ] submitting
+  - [ ] validation strategy
+    - [ ] validate on submit
+    - [ ] continuous validation
+    - [ ] validate touched and on submit
+  - [ ] dirty
+  - [ ] touched
 
-- [ ] on.clickOutside
-- [ ] on.keyPressed(keys: KeyCombo[]) // TODO where should it attach? document or element? Depends on element type?
-- [ ] on.escape
+- [ ] Tempo
+  - [ ] on.clickOutside
+  - [ ] on.keyPressed(keys: KeyCombo[]) // TODO where should it attach? document or element? Depends on element type?
+  - [ ] on.escape
+
+- [ ] Add tests for useAnimatedToggle, particularly test the followings:
+  - [ ] reopening an already opened or opening animated toggle doesn't impact the current operation
+  - [ ] closing an opening animated toggle starts the closing (not closed) immediately
+  - [ ] reopening when in closing state, set the state to opening correctly
+- [ ] Simplify Flyout by removing the status tracking that seems unnecessary and should be solved by useAnimatedToggle
 
 # BeatUI
 
