@@ -1,5 +1,5 @@
 import { html, attr, prop, merge, MapSignal } from '@tempots/dom'
-import { ScrollablePanel, Stack, Label, Switch, Group } from '@tempots/beatui'
+import { ScrollablePanel, Switch } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
 export const ScrollablePanelPage = () => {
@@ -37,20 +37,21 @@ export const ScrollablePanelPage = () => {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Group(
-        Stack(
-          Label('Display Shadows'),
-          Switch({ value: displayShadows, onChange: displayShadows.set })
-        ),
-        Stack(
-          Label('Display Header'),
-          Switch({ value: displayHeader, onChange: displayHeader.set })
-        ),
-        Stack(
-          Label('Display Footer'),
-          Switch({ value: displayFooter, onChange: displayFooter.set })
-        )
-      )
+      Switch({
+        label: 'Display Shadows',
+        value: displayShadows,
+        onChange: displayShadows.set,
+      }),
+      Switch({
+        label: 'Display Header',
+        value: displayHeader,
+        onChange: displayHeader.set,
+      }),
+      Switch({
+        label: 'Display Footer',
+        value: displayFooter,
+        onChange: displayFooter.set,
+      })
     ),
     body: MapSignal(
       merge({ displayHeader, displayFooter }),

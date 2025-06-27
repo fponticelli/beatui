@@ -83,14 +83,16 @@ export const ModalPage = () => {
           onChange: position.set,
         })
       ),
-      Stack(
-        Label('Dismissable'),
-        Switch({ value: dismissable, onChange: dismissable.set })
-      ),
-      Stack(
-        Label('Show Close Button'),
-        Switch({ value: showCloseButton, onChange: showCloseButton.set })
-      ),
+      Switch({
+        label: 'Dismissable',
+        value: dismissable,
+        onChange: dismissable.set,
+      }),
+      Switch({
+        label: 'Show Close Button',
+        value: showCloseButton,
+        onChange: showCloseButton.set,
+      }),
       Stack(
         Label('Title'),
         html.div(

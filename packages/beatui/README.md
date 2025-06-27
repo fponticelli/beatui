@@ -19,6 +19,13 @@
   - [ ] closing an opening animated toggle starts the closing (not closed) immediately
   - [ ] reopening when in closing state, set the state to opening correctly
 - [ ] Simplify Flyout by removing the status tracking that seems unnecessary and should be solved by useAnimatedToggle
+- [ ] Separate InputWrapper out of ControlInputWrapper so that it can be used without a controller
+- [ ] When Modal is on the smaller Media breakpoint, it should take the entire screen
+- [ ] When the drawer width (left or right open) or height (top or bottom open) is bigger than the available space it should take at most the available space
+- [ ] Implement Dialog. The main difference from Modal is that Dialog doesn't use Overlay and can only be closed via Escape (optionally if `closable`) or using the close button. Clicking outside will not trigger a close action.
+- [ ] Modal should use ScrollablePanel to show the header/body/footer.
+- [ ] On iPhone/iPad the height of the Main panel of the AppShell should be limited to 100dhv minus header height or whatever
+- [ ]
 
 # BeatUI
 

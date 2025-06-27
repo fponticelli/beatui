@@ -21,14 +21,12 @@ export const SwitchPage = () => {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(
-        Switch({
-          size: 'sm',
-          label: 'On/Off',
-          value,
-          onChange: value.set,
-        })
-      ),
+      Switch({
+        size: 'sm',
+        label: 'On/Off',
+        value,
+        onChange: value.set,
+      }),
       html.div(
         Label('Label'),
         TextInput({

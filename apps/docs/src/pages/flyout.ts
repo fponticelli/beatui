@@ -29,78 +29,65 @@ export const FlyoutPage = () => {
   return Stack(
     attr.class('bu-h-full bu-overflow-auto'),
     ControlsHeader(
-      Group(
-        attr.class('bu-gap-4 bu-flex-wrap'),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Placement'),
-          NativeSelect({
-            options: [
-              SelectOption.value('top', 'Top'),
-              SelectOption.value('top-start', 'Top Start'),
-              SelectOption.value('top-end', 'Top End'),
-              SelectOption.value('right', 'Right'),
-              SelectOption.value('right-start', 'Right Start'),
-              SelectOption.value('right-end', 'Right End'),
-              SelectOption.value('bottom', 'Bottom'),
-              SelectOption.value('bottom-start', 'Bottom Start'),
-              SelectOption.value('bottom-end', 'Bottom End'),
-              SelectOption.value('left', 'Left'),
-              SelectOption.value('left-start', 'Left Start'),
-              SelectOption.value('left-end', 'Left End'),
-            ] as SelectOption<Placement>[],
-            value: placement,
-            onChange: placement.set,
-          })
-        ),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Show On'),
-          NativeSelect({
-            options: [
-              SelectOption.value('hover', 'Hover'),
-              SelectOption.value('focus', 'Focus'),
-              SelectOption.value('hover-focus', 'Hover & Focus'),
-              SelectOption.value('click', 'Click'),
-              SelectOption.value('never', 'Never'),
-            ] as SelectOption<FlyoutTrigger>[],
-            value: showOn,
-            onChange: showOn.set,
-          })
-        ),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Show Delay'),
-          NumberInput({
-            value: showDelay,
-            onChange: showDelay.set,
-          })
-        ),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Hide Delay'),
-          NumberInput({
-            value: hideDelay,
-            onChange: hideDelay.set,
-          })
-        ),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Closable'),
-          Switch({
-            value: closable,
-            onChange: closable.set,
-          })
-        ),
-        Stack(
-          attr.class('bu-gap-0'),
-          Label('Animations'),
-          Switch({
-            value: showAnimations,
-            onChange: showAnimations.set,
-          })
-        )
-      )
+      Stack(
+        Label('Placement'),
+        NativeSelect({
+          options: [
+            SelectOption.value('top', 'Top'),
+            SelectOption.value('top-start', 'Top Start'),
+            SelectOption.value('top-end', 'Top End'),
+            SelectOption.value('right', 'Right'),
+            SelectOption.value('right-start', 'Right Start'),
+            SelectOption.value('right-end', 'Right End'),
+            SelectOption.value('bottom', 'Bottom'),
+            SelectOption.value('bottom-start', 'Bottom Start'),
+            SelectOption.value('bottom-end', 'Bottom End'),
+            SelectOption.value('left', 'Left'),
+            SelectOption.value('left-start', 'Left Start'),
+            SelectOption.value('left-end', 'Left End'),
+          ] as SelectOption<Placement>[],
+          value: placement,
+          onChange: placement.set,
+        })
+      ),
+      Stack(
+        Label('Show On'),
+        NativeSelect({
+          options: [
+            SelectOption.value('hover', 'Hover'),
+            SelectOption.value('focus', 'Focus'),
+            SelectOption.value('hover-focus', 'Hover & Focus'),
+            SelectOption.value('click', 'Click'),
+            SelectOption.value('never', 'Never'),
+          ] as SelectOption<FlyoutTrigger>[],
+          value: showOn,
+          onChange: showOn.set,
+        })
+      ),
+      Stack(
+        Label('Show Delay'),
+        NumberInput({
+          value: showDelay,
+          onChange: showDelay.set,
+        })
+      ),
+      Stack(
+        Label('Hide Delay'),
+        NumberInput({
+          value: hideDelay,
+          onChange: hideDelay.set,
+        })
+      ),
+      Switch({
+        label: 'Closable',
+        value: closable,
+        onChange: closable.set,
+      }),
+      Switch({
+        label: 'Animations',
+        value: showAnimations,
+        onChange: showAnimations.set,
+      })
     ),
 
     // Main content area

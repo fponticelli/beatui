@@ -27,76 +27,62 @@ export const DrawerPage = () => {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Group(
-        attr.class('bu-gap-4 bu-flex-wrap'),
-
-        // Size Control
-        Group(
-          attr.class('bu-flex-col bu-gap-1'),
-          Label('Size'),
-          SegmentedControl({
-            value: size,
-            options: {
-              sm: 'Small',
-              md: 'Medium',
-              lg: 'Large',
-              xl: 'Extra Large',
-            },
-            onChange: size.set,
-          })
-        ),
-
-        // Side Control
-        Group(
-          attr.class('bu-flex-col bu-gap-1'),
-          Label('Side'),
-          SegmentedControl({
-            value: side,
-            options: {
-              top: 'Top',
-              right: 'Right',
-              bottom: 'Bottom',
-              left: 'Left',
-            },
-            onChange: side.set,
-          })
-        ),
-
-        // Overlay Effect Control
-        Group(
-          attr.class('bu-flex-col bu-gap-1'),
-          Label('Overlay Effect'),
-          SegmentedControl({
-            value: overlayEffect,
-            options: {
-              transparent: 'Transparent',
-              opaque: 'Opaque',
-              none: 'None',
-            },
-            onChange: overlayEffect.set,
-          })
-        ),
-
-        // Title Input
-        Group(
-          attr.class('bu-flex-col bu-gap-1'),
-          Label('Title'),
-          TextInput({ value: title, placeholder: 'Enter drawer title' })
-        ),
-
-        // Switches
-        Group(
-          attr.class('bu-flex-col bu-gap-2'),
-          Stack(
-            Label('Dismissable'),
-            Switch({ value: dismissable, onChange: dismissable.set })
-          ),
-          Stack(
-            Label('Show Close Button'),
-            Switch({ value: showCloseButton, onChange: showCloseButton.set })
-          )
-        )
-      )
+      // Size Control
+      Stack(
+        Label('Size'),
+        SegmentedControl({
+          value: size,
+          options: {
+            sm: 'Small',
+            md: 'Medium',
+            lg: 'Large',
+            xl: 'Extra Large',
+          },
+          onChange: size.set,
+        })
+      ),
+      // Side Control
+      Stack(
+        Label('Side'),
+        SegmentedControl({
+          value: side,
+          options: {
+            top: 'Top',
+            right: 'Right',
+            bottom: 'Bottom',
+            left: 'Left',
+          },
+          onChange: side.set,
+        })
+      ),
+      // Overlay Effect Control
+      Stack(
+        Label('Overlay Effect'),
+        SegmentedControl({
+          value: overlayEffect,
+          options: {
+            transparent: 'Transparent',
+            opaque: 'Opaque',
+            none: 'None',
+          },
+          onChange: overlayEffect.set,
+        })
+      ),
+      // Title Input
+      Stack(
+        Label('Title'),
+        TextInput({ value: title, placeholder: 'Enter drawer title' })
+      ),
+      Switch({
+        label: 'Dismissable',
+        value: dismissable,
+        onChange: dismissable.set,
+      }),
+      Switch({
+        label: 'Show Close Button',
+        value: showCloseButton,
+        onChange: showCloseButton.set,
+      })
     ),
     body: Stack(
       attr.class('bu-items-start bu-gap-1 bu-p-4'),
@@ -234,18 +220,21 @@ export const DrawerPage = () => {
                   ),
                   Group(
                     attr.class('bu-flex-col bu-gap-2'),
-                    Stack(
-                      Label('Enable notifications'),
-                      Switch({ value: prop(true), onChange: () => {} })
-                    ),
-                    Stack(
-                      Label('Auto-save changes'),
-                      Switch({ value: prop(false), onChange: () => {} })
-                    ),
-                    Stack(
-                      Label('Show tooltips'),
-                      Switch({ value: prop(true), onChange: () => {} })
-                    )
+                    Switch({
+                      label: 'Enable notifications',
+                      value: prop(true),
+                      onChange: () => {},
+                    }),
+                    Switch({
+                      label: 'Auto-save changes',
+                      value: prop(false),
+                      onChange: () => {},
+                    }),
+                    Switch({
+                      label: 'Show tooltips',
+                      value: prop(true),
+                      onChange: () => {},
+                    })
                   )
                 ),
                 footer: Group(
