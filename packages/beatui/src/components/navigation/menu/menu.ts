@@ -8,7 +8,7 @@ export type MenuOptions = {
 
 export function Menu(
   fn: (open: (options: MenuOptions) => void) => TNode,
-  close: () => void
+  _close: () => void
 ) {
   return fn(() => {})
 }

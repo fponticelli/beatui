@@ -76,9 +76,7 @@ export const Switch = ({
     attr.id(switchId),
     attr.role('switch'),
     attr.tabindex(
-      Value.map(disabled, (disabled): number =>
-        disabled ? -1 : 0
-      )
+      Value.map(disabled, (disabled): number => (disabled ? -1 : 0))
     ),
     aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
     aria.disabled(disabled),
@@ -86,11 +84,7 @@ export const Switch = ({
     on.click(handleToggle),
     on.keydown(handleKeyDown),
     label != null
-      ? Label(
-          attr.id(labelId),
-          attr.class(`bu-text-${size} bu-nowrap`),
-          label
-        )
+      ? Label(attr.id(labelId), attr.class(`bu-text-${size} bu-nowrap`), label)
       : null,
     html.div(
       attr.class('bc-switch__track'),

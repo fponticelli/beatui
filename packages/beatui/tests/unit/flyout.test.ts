@@ -543,6 +543,98 @@ describe('Flyout Component', () => {
     })
   })
 
+  describe('timeout race condition bug', () => {
+    it('should handle overlapping show/hide timeouts correctly', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Button(
+            { onClick: () => {} },
+            'Race condition test',
+            Flyout({
+              content: () =>
+                Fragment(
+                  attr.class('bc-flyout race-condition-test'),
+                  'Race condition flyout'
+                ),
+              showOn: 'hover',
+              showDelay: 100,
+              hideDelay: 100,
+            })
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+
+      // Create overlapping timeouts scenario
+      // 1. Start show timeout
+      button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50)) // Partial show delay
+
+      // 2. Start hide timeout while show is pending
+      button.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50)) // Partial hide delay
+
+      // 3. Start show timeout again while hide is pending
+      button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 150)) // Wait for show to complete
+
+      // Should have exactly one flyout visible
+      const flyouts = document.querySelectorAll('.race-condition-test')
+      expect(flyouts.length).toBe(1)
+      expect(flyouts[0]).not.toBeNull()
+    })
+
+    it('should properly cancel previous timeouts when new ones start', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Button(
+            { onClick: () => {} },
+            'Timeout cancel test',
+            Flyout({
+              content: () =>
+                Fragment(
+                  attr.class('bc-flyout timeout-cancel-test'),
+                  'Timeout cancel flyout'
+                ),
+              showOn: 'hover',
+              showDelay: 200,
+              hideDelay: 200,
+            })
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+
+      // Multiple rapid interactions to create multiple timeout scenarios
+      button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50))
+
+      button.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50))
+
+      button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50))
+
+      button.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 50))
+
+      // Final show should work correctly
+      button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 250)) // Wait for full show
+
+      const flyout = document.querySelector('.timeout-cancel-test')
+      expect(flyout).not.toBeNull()
+
+      // Should only have one flyout (no duplicates from cancelled timeouts)
+      const flyouts = document.querySelectorAll('.timeout-cancel-test')
+      expect(flyouts.length).toBe(1)
+    })
+  })
+
   describe('timing race conditions with controlled delays', () => {
     it('should handle rapid state transitions with minimal delays', async () => {
       render(

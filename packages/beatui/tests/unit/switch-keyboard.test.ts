@@ -11,7 +11,8 @@ describe('Switch Keyboard Accessibility', () => {
   let container: HTMLElement
 
   beforeEach(() => {
-    dom = new JSDOM(`
+    dom = new JSDOM(
+      `
       <!DOCTYPE html>
       <html>
         <head>
@@ -67,10 +68,12 @@ describe('Switch Keyboard Accessibility', () => {
           <div id="container"></div>
         </body>
       </html>
-    `, {
-      pretendToBeVisual: true,
-      resources: 'usable'
-    })
+    `,
+      {
+        pretendToBeVisual: true,
+        resources: 'usable',
+      }
+    )
 
     document = dom.window.document
     window = dom.window as unknown as Window
@@ -90,12 +93,14 @@ describe('Switch Keyboard Accessibility', () => {
     const switchComponent = Switch({
       value,
       onChange,
-      label: 'Test Switch'
+      label: 'Test Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
     expect(switchElement).toBeTruthy()
     expect(switchElement.getAttribute('tabindex')).toBe('0')
     expect(switchElement.getAttribute('role')).toBe('switch')
@@ -111,12 +116,14 @@ describe('Switch Keyboard Accessibility', () => {
       value,
       onChange,
       disabled,
-      label: 'Disabled Switch'
+      label: 'Disabled Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
     expect(switchElement.getAttribute('tabindex')).toBe('-1')
     expect(switchElement.getAttribute('aria-disabled')).toBe('true')
   })
@@ -128,18 +135,20 @@ describe('Switch Keyboard Accessibility', () => {
     const switchComponent = Switch({
       value,
       onChange,
-      label: 'Test Switch'
+      label: 'Test Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
 
     // Simulate Space key press
     const spaceEvent = new dom.window.KeyboardEvent('keydown', {
       key: ' ',
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     })
 
     switchElement.dispatchEvent(spaceEvent)
@@ -155,18 +164,20 @@ describe('Switch Keyboard Accessibility', () => {
     const switchComponent = Switch({
       value,
       onChange,
-      label: 'Test Switch'
+      label: 'Test Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
 
     // Simulate Enter key press
     const enterEvent = new dom.window.KeyboardEvent('keydown', {
       key: 'Enter',
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     })
 
     switchElement.dispatchEvent(enterEvent)
@@ -182,18 +193,20 @@ describe('Switch Keyboard Accessibility', () => {
     const switchComponent = Switch({
       value,
       onChange,
-      label: 'Test Switch'
+      label: 'Test Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
 
     // Simulate other key presses
     const arrowEvent = new dom.window.KeyboardEvent('keydown', {
       key: 'ArrowRight',
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     })
 
     switchElement.dispatchEvent(arrowEvent)
@@ -211,18 +224,20 @@ describe('Switch Keyboard Accessibility', () => {
       value,
       onChange,
       disabled,
-      label: 'Disabled Switch'
+      label: 'Disabled Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
 
     // Try to toggle with Space key
     const spaceEvent = new dom.window.KeyboardEvent('keydown', {
       key: ' ',
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     })
 
     switchElement.dispatchEvent(spaceEvent)
@@ -238,35 +253,43 @@ describe('Switch Keyboard Accessibility', () => {
       value,
       onChange,
       label: 'Accessibility Switch',
-      id: 'test-switch'
+      id: 'test-switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
-    const labelElement = container.querySelector('#test-switch-label') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
+    const labelElement = container.querySelector(
+      '#test-switch-label'
+    ) as HTMLElement
 
     expect(switchElement).toBeTruthy()
     expect(labelElement).toBeTruthy()
     expect(switchElement.getAttribute('id')).toBe('test-switch')
     expect(labelElement.getAttribute('id')).toBe('test-switch-label')
-    expect(switchElement.getAttribute('aria-labelledby')).toBe('test-switch-label')
+    expect(switchElement.getAttribute('aria-labelledby')).toBe(
+      'test-switch-label'
+    )
     expect(switchElement.getAttribute('aria-checked')).toBe('true')
   })
 
   it('should update aria-checked when value changes', () => {
     const value = prop(false)
-    const onChange = vi.fn((newValue) => value.set(newValue))
+    const onChange = vi.fn(newValue => value.set(newValue))
 
     const switchComponent = Switch({
       value,
       onChange,
-      label: 'Dynamic Switch'
+      label: 'Dynamic Switch',
     })
 
     render(switchComponent, container)
 
-    const switchElement = container.querySelector('[role="switch"]') as HTMLElement
+    const switchElement = container.querySelector(
+      '[role="switch"]'
+    ) as HTMLElement
 
     expect(switchElement.getAttribute('aria-checked')).toBe('false')
 

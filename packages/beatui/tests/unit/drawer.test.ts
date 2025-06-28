@@ -48,7 +48,10 @@ describe('Drawer', () => {
         Provide(Theme, {}, () =>
           Drawer((open, _close) =>
             Button(
-              { onClick: () => open({ size: 'lg', side: 'left', body: html.p('Test') }) },
+              {
+                onClick: () =>
+                  open({ size: 'lg', side: 'left', body: html.p('Test') }),
+              },
               'Open Drawer'
             )
           )
@@ -160,7 +163,10 @@ describe('Drawer', () => {
         Provide(Theme, {}, () =>
           Drawer((open, _close) =>
             Button(
-              { onClick: () => open({ size, side, body: html.p('Reactive drawer') }) },
+              {
+                onClick: () =>
+                  open({ size, side, body: html.p('Reactive drawer') }),
+              },
               'Open Drawer'
             )
           )

@@ -205,7 +205,12 @@ export function Flyout(options: FlyoutOptions): TNode {
       }
 
       // Schedule the show for normal closed state
-      showTimeout = setTimeout(openFlyout, Value.get(showDelay))
+      const delay = Value.get(showDelay)
+      showTimeout = setTimeout(() => {
+        // Clear the timeout reference since it's now executing
+        showTimeout = null
+        openFlyout()
+      }, delay)
     }
 
     let hideTimeout: ReturnType<typeof setTimeout> | null = null
@@ -236,7 +241,11 @@ export function Flyout(options: FlyoutOptions): TNode {
       }
 
       // Schedule the hide - animatedToggle handles state transitions safely
+      const delay = Value.get(hideDelay)
       hideTimeout = setTimeout(() => {
+        // Clear the timeout reference since it's now executing
+        hideTimeout = null
+
         // Clear any existing onClosed callback before setting a new one
         if (onClosedCleanup) {
           onClosedCleanup()
@@ -251,7 +260,7 @@ export function Flyout(options: FlyoutOptions): TNode {
           close()
           cleanup()
         })
-      }, Value.get(hideDelay))
+      }, delay)
     }
 
     // Handle custom trigger config
