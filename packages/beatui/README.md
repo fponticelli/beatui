@@ -16,11 +16,6 @@
 - [ ] Divider (horizontal/vertical)
 - [ ] Spacer
 
-- [ ] Tempo
-  - [ ] on.clickOutside
-  - [ ] on.keyPressed(keys: KeyCombo[]) // TODO where should it attach? document or element? Depends on element type?
-  - [ ] on.escape
-
 - [ ] Add tests for useAnimatedToggle, particularly test the followings:
   - [ ] reopening an already opened or opening animated toggle doesn't impact the current operation
   - [ ] closing an opening animated toggle starts the closing (not closed) immediately

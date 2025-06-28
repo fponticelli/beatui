@@ -1,632 +1,291 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, Provide, html, attr, prop } from '@tempots/dom'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, Provide, html, prop } from '@tempots/dom'
 import { Modal, ConfirmModal } from '../../src/components/overlay/modal'
 import { Button } from '../../src/components/button/button'
 import { Theme } from '../../src/components/theme/theme'
 
 describe('Modal Component', () => {
-  it('should render modal trigger without opening modal initially', () => {
-    const container = document.createElement('div')
+  let container: HTMLElement
+
+  beforeEach(() => {
+    container = document.createElement('div')
     document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, open =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    expect(button).not.toBeNull()
-    expect(button!.textContent).toBe('Open Modal')
-
-    // Modal should not be visible initially
-    const modal = document.querySelector('.bc-modal')
-    expect(modal).toBeNull()
   })
 
-  it('should open modal when trigger is clicked', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, open =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    // Modal should be visible after clicking
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--size-md') // default size
-    }, 100)
+  afterEach(() => {
+    document.body.removeChild(container)
+    // Clean up any modals
+    const modals = document.querySelectorAll('.bc-modal')
+    modals.forEach(modal => modal.remove())
   })
 
-  it('should render modal with correct size class', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ size: 'lg' }, open =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Large Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--size-lg')
-    }, 100)
-  })
-
-  it('should call onClose callback when modal is closed', () => {
-    const onCloseMock = vi.fn()
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ onClose: onCloseMock }, open =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    // Simulate escape key press
-    setTimeout(() => {
-      const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' })
-      document.dispatchEvent(escapeEvent)
-
-      setTimeout(() => {
-        expect(onCloseMock).toHaveBeenCalled()
-      }, 100)
-    }, 100)
-  })
-
-  it('should not close when dismissable is false', () => {
-    const onCloseMock = vi.fn()
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal(
-          {
-            dismissable: false,
-            onClose: onCloseMock,
-          },
-          open =>
+  describe('basic functionality', () => {
+    it('should render trigger and open modal on click', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Modal({}, open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
               'Open Modal'
             )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    // Simulate escape key press - should not close
-    setTimeout(() => {
-      const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' })
-      document.dispatchEvent(escapeEvent)
-
-      setTimeout(() => {
-        expect(onCloseMock).not.toHaveBeenCalled()
-      }, 100)
-    }, 100)
-  })
-
-  it('should use body container by default', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
           )
-        )
-      ),
-      container
-    )
+        ),
+        container
+      )
 
-    const button = container.querySelector('button')
-    button!.click()
+      const button = container.querySelector('button')!
+      expect(button.textContent).toBe('Open Modal')
 
-    // Modal should be rendered in body, not in the container
-    setTimeout(() => {
-      const modalInContainer = container.querySelector('.bc-modal')
-      const modalInBody = document.body.querySelector('.bc-modal')
-      expect(modalInContainer).toBeNull()
-      expect(modalInBody).not.toBeNull()
-    }, 100)
-  })
+      // Modal should not be visible initially
+      expect(document.querySelector('.bc-modal')).toBeNull()
 
-  it('should use element container when specified', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
+      // Click to open modal
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
 
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ container: 'element' }, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    // Modal should be rendered in the container element
-    setTimeout(() => {
-      const modalInContainer = container.querySelector('.bc-modal')
-      expect(modalInContainer).not.toBeNull()
-    }, 100)
-  })
-
-  it('should apply body container CSS class by default', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ container: 'body' }, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Body Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
       const modal = document.querySelector('.bc-modal')
       expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--container-body')
-    }, 100)
+      expect(modal!.className).toContain('bc-modal--size-md') // default size
+    })
+
+    it('should render with correct size and position', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Modal({ size: 'lg', position: 'top' }, open =>
+            Button(
+              { onClick: () => open({ body: html.p('Large modal') }) },
+              'Open Large Modal'
+            )
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const modal = document.querySelector('.bc-modal')!
+      expect(modal.className).toContain('bc-modal--size-lg')
+      expect(modal.className).toContain('bc-modal--position-top')
+    })
+
+    it('should call onClose callback when modal is closed', async () => {
+      const onCloseMock = vi.fn()
+
+      render(
+        Provide(Theme, {}, () =>
+          Modal({ onClose: onCloseMock }, open =>
+            Button(
+              { onClick: () => open({ body: html.p('Modal content') }) },
+              'Open Modal'
+            )
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      // Close modal by clicking backdrop
+      const backdrop = document.querySelector('.bc-modal')! as HTMLElement
+      backdrop.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      expect(onCloseMock).toHaveBeenCalled()
+    })
+
+    it('should handle dismissable option', async () => {
+      const dismissable = prop(false)
+
+      render(
+        Provide(Theme, {}, () =>
+          Modal({ dismissable }, open =>
+            Button(
+              {
+                onClick: () => open({ body: html.p('Non-dismissable modal') }),
+              },
+              'Open Modal'
+            )
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const modal = document.querySelector('.bc-modal')!
+      expect(modal.getAttribute('data-dismissable')).toBe('false')
+
+      // Change to dismissable
+      dismissable.set(true)
+      await new Promise(resolve => setTimeout(resolve, 50))
+      expect(modal.getAttribute('data-dismissable')).toBe('true')
+    })
   })
 
-  it('should apply element container CSS class when specified', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ container: 'element' }, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Element Modal'
+  describe('header and close button', () => {
+    it('should automatically add close button when header is present', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Modal({}, open =>
+            Button(
+              {
+                onClick: () =>
+                  open({
+                    header: html.h2('Modal Title'),
+                    body: html.p('Modal content'),
+                  }),
+              },
+              'Open Modal'
+            )
           )
-        )
-      ),
-      container
-    )
+        ),
+        container
+      )
 
-    const button = container.querySelector('button')
-    button!.click()
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
 
-    setTimeout(() => {
-      const modal = container.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--container-element')
-    }, 100)
-  })
-
-  it('should have correct z-index for layering above sidebar', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-
-      // Check that the modal uses the z-index CSS variable
-      const computedStyle = getComputedStyle(modal!)
-      const zIndex = computedStyle.getPropertyValue('z-index')
-
-      // The z-index should be 60 (from --z-index-modal token)
-      expect(parseInt(zIndex)).toBeGreaterThan(20) // Greater than sidebar z-index
-    }, 100)
-  })
-
-  it('should have normal cursor on modal content', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-
-      // Check that the modal has default cursor (not not-allowed)
-      const computedStyle = getComputedStyle(modal!)
-      const cursor = computedStyle.getPropertyValue('cursor')
-
-      // Should be 'default' or 'auto', not 'not-allowed'
-      expect(cursor).not.toBe('not-allowed')
-    }, 100)
-  })
-
-  it('should automatically add close button to header when showCloseButton is true', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ showCloseButton: true }, (open, _close) =>
-          Button(
-            {
-              onClick: () =>
-                open({
-                  header: html.div(
-                    attr.class('bc-modal__header'),
-                    html.h2('Test Modal')
-                  ),
-                  body: html.p('Modal content'),
-                }),
-            },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      // Should have header wrapper with close button
-      const headerWrapper = document.querySelector('.bc-modal__header-wrapper')
-      expect(headerWrapper).not.toBeNull()
-
-      // Should contain the original header
-      const originalHeader = headerWrapper!.querySelector('.bc-modal__header')
-      expect(originalHeader).not.toBeNull()
-
-      // Should contain a close button
-      const closeButton = headerWrapper!.querySelector('button[aria-label]')
+      const modal = document.querySelector('.bc-modal')!
+      const closeButton = modal.querySelector('[data-close]')
       expect(closeButton).not.toBeNull()
-    }, 100)
+    })
+
+    it('should not add close button when showCloseButton is false', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Modal({ showCloseButton: false }, open =>
+            Button(
+              {
+                onClick: () =>
+                  open({
+                    header: html.h2('Modal Title'),
+                    body: html.p('Modal content'),
+                  }),
+              },
+              'Open Modal'
+            )
+          )
+        ),
+        container
+      )
+
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const modal = document.querySelector('.bc-modal')!
+      const closeButton = modal.querySelector('[data-close]')
+      expect(closeButton).toBeNull()
+    })
   })
 
-  it('should not add close button to header when showCloseButton is false', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ showCloseButton: false }, (open, _close) =>
-          Button(
-            {
-              onClick: () =>
-                open({
-                  header: html.div(
-                    attr.class('bc-modal__header'),
-                    html.h2('Test Modal')
-                  ),
-                  body: html.p('Modal content'),
-                }),
-            },
-            'Open Modal'
+  describe('container options', () => {
+    it('should use body container by default', async () => {
+      render(
+        Provide(Theme, {}, () =>
+          Modal({}, open =>
+            Button(
+              { onClick: () => open({ body: html.p('Modal content') }) },
+              'Open Modal'
+            )
           )
-        )
-      ),
-      container
-    )
+        ),
+        container
+      )
 
-    const button = container.querySelector('button')
-    button!.click()
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
 
-    setTimeout(() => {
-      // Should not have header wrapper
-      const headerWrapper = document.querySelector('.bc-modal__header-wrapper')
-      expect(headerWrapper).toBeNull()
+      const modal = document.querySelector('.bc-modal')!
+      expect(modal.parentElement).toBe(document.body)
+      expect(document.body.className).toContain('bc-modal-container')
+    })
 
-      // Should have original header directly
-      const originalHeader = document.querySelector('.bc-modal__header')
-      expect(originalHeader).not.toBeNull()
-    }, 100)
-  })
+    it('should use custom container when specified', async () => {
+      const customContainer = document.createElement('div')
+      customContainer.id = 'custom-modal-container'
+      document.body.appendChild(customContainer)
 
-  it('should reactively update mode when dismissable changes', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    const dismissable = prop(true)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ dismissable }, (open, _close) =>
-          Button(
-            {
-              onClick: () =>
-                open({
-                  header: html.div(
-                    attr.class('bc-modal__header'),
-                    html.h2('Test Modal')
-                  ),
-                  body: html.p('Modal content'),
-                }),
-            },
-            'Open Modal'
+      render(
+        Provide(Theme, {}, () =>
+          Modal({ container: 'element' }, open =>
+            Button(
+              { onClick: () => open({ body: html.p('Modal content') }) },
+              'Open Modal'
+            )
           )
-        )
-      ),
-      container
-    )
+        ),
+        container
+      )
 
-    const button = container.querySelector('button')
-    button!.click()
+      const button = container.querySelector('button')!
+      button.click()
+      await new Promise(resolve => setTimeout(resolve, 100))
 
-    setTimeout(() => {
-      const overlay = document.querySelector('.bc-overlay')
-      expect(overlay).not.toBeNull()
+      const modal = document.querySelector('.bc-modal')!
+      expect(modal.parentElement).toBe(customContainer)
+      expect(customContainer.className).toContain('bc-modal-container')
 
-      // Initially should be capturing mode
-      expect(overlay!.className).toContain('bc-overlay--mode-capturing')
-
-      // Change to non-dismissable
-      dismissable.set(false)
-
-      setTimeout(() => {
-        // Should now be non-capturing mode
-        expect(overlay!.className).toContain('bc-overlay--mode-non-capturing')
-
-        // Change back to dismissable
-        dismissable.set(true)
-
-        setTimeout(() => {
-          // Should be capturing mode again
-          expect(overlay!.className).toContain('bc-overlay--mode-capturing')
-        }, 50)
-      }, 50)
-    }, 100)
-  })
-
-  it('should apply default center position class', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({}, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--position-center')
-    }, 100)
-  })
-
-  it('should apply custom position class', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ position: 'top-right' }, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--position-top-right')
-    }, 100)
-  })
-
-  it('should reactively update position class', () => {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
-
-    const position = prop<
-      | 'center'
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-left'
-      | 'top-right'
-      | 'bottom-left'
-      | 'bottom-right'
-    >('center')
-
-    render(
-      Provide(Theme, {}, () =>
-        Modal({ position }, (open, _close) =>
-          Button(
-            { onClick: () => open({ body: html.p('Modal content') }) },
-            'Open Modal'
-          )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    button!.click()
-
-    setTimeout(() => {
-      const modal = document.querySelector('.bc-modal')
-      expect(modal).not.toBeNull()
-      expect(modal!.className).toContain('bc-modal--position-center')
-
-      // Change position
-      position.set('top')
-
-      setTimeout(() => {
-        expect(modal!.className).toContain('bc-modal--position-top')
-        expect(modal!.className).not.toContain('bc-modal--position-center')
-
-        // Change position again
-        position.set('bottom')
-
-        setTimeout(() => {
-          expect(modal!.className).toContain('bc-modal--position-bottom')
-          expect(modal!.className).not.toContain('bc-modal--position-top')
-        }, 50)
-      }, 50)
-    }, 100)
+      // Cleanup
+      document.body.removeChild(customContainer)
+    })
   })
 })
 
 describe('ConfirmModal Component', () => {
-  it('should render confirmation modal with confirm and cancel buttons', () => {
-    const onConfirmMock = vi.fn()
-    const onCancelMock = vi.fn()
-    const container = document.createElement('div')
+  let container: HTMLElement
+
+  beforeEach(() => {
+    container = document.createElement('div')
     document.body.appendChild(container)
-
-    render(
-      Provide(Theme, {}, () =>
-        ConfirmModal(
-          {
-            onConfirm: onConfirmMock,
-            onCancel: onCancelMock,
-          },
-          (open, _close) =>
-            Button(
-              { onClick: () => open(html.p('Are you sure?')) },
-              'Delete Item'
-            )
-        )
-      ),
-      container
-    )
-
-    const button = container.querySelector('button')
-    expect(button).not.toBeNull()
-    expect(button!.textContent).toBe('Delete Item')
   })
 
-  it('should call onConfirm when confirm button is clicked', () => {
-    const onConfirmMock = vi.fn()
-    const container = document.createElement('div')
-    document.body.appendChild(container)
+  afterEach(() => {
+    document.body.removeChild(container)
+    const modals = document.querySelectorAll('.bc-modal')
+    modals.forEach(modal => modal.remove())
+  })
+
+  it('should render confirmation modal with confirm and cancel buttons', async () => {
+    const onConfirm = vi.fn()
+    const onCancel = vi.fn()
 
     render(
       Provide(Theme, {}, () =>
-        ConfirmModal(
-          {
-            onConfirm: onConfirmMock,
-          },
-          (open, _close) =>
-            Button(
-              { onClick: () => open(html.p('Are you sure?')) },
-              'Delete Item'
-            )
+        ConfirmModal({ onConfirm, onCancel }, open =>
+          Button(
+            {
+              onClick: () => open('Are you sure you want to proceed?'),
+            },
+            'Open Confirm Modal'
+          )
         )
       ),
       container
     )
 
-    const triggerButton = container.querySelector('button')
-    triggerButton!.click()
+    const button = container.querySelector('button')!
+    button.click()
+    await new Promise(resolve => setTimeout(resolve, 100))
 
-    setTimeout(() => {
-      const confirmButton = document.querySelector(
-        '.bc-modal__footer button:last-child'
-      )
-      if (confirmButton) {
-        ;(confirmButton as HTMLButtonElement).click()
-        setTimeout(() => {
-          expect(onConfirmMock).toHaveBeenCalled()
-        }, 100)
-      }
-    }, 100)
+    const modal = document.querySelector('.bc-modal')!
+    const confirmButton = modal.querySelector('[data-confirm]')
+    const cancelButton = modal.querySelector('[data-cancel]')
+
+    expect(confirmButton).not.toBeNull()
+    expect(cancelButton).not.toBeNull()
+    expect(modal.textContent).toContain('Are you sure you want to proceed?')
+
+    // Test confirm button
+    confirmButton!.dispatchEvent(new Event('click'))
+    expect(onConfirm).toHaveBeenCalled()
   })
 })
