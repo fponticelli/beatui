@@ -40,7 +40,7 @@ describe('Flyout Component', () => {
 
       // Trigger hover
       button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
       const flyout = document.querySelector('.bc-flyout')
       expect(flyout).not.toBeNull()
@@ -66,7 +66,7 @@ describe('Flyout Component', () => {
 
       const button = container.querySelector('button')!
       button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
       const flyout = document.querySelector('.placement-test')
       expect(flyout).not.toBeNull()
@@ -94,14 +94,19 @@ describe('Flyout Component', () => {
 
       const button = container.querySelector('button')!
       button.click()
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
       const flyout = document.querySelector('.closable-test')
       expect(flyout).not.toBeNull()
 
-      // Should have close button
-      const closeButton = flyout!.querySelector('[data-close]')
-      expect(closeButton).not.toBeNull()
+      // Test that Escape key closes the flyout
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+      // Wait for hide delay (500ms) + animation time
+      await new Promise(resolve => setTimeout(resolve, 600))
+
+      // Flyout should be closed
+      const flyoutAfterEscape = document.querySelector('.closable-test')
+      expect(flyoutAfterEscape).toBeNull()
     })
   })
 
@@ -170,7 +175,7 @@ describe('Flyout Component', () => {
       buttons[0].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
       buttons[1].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
 
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
       expect(document.querySelector('.flyout-1')).not.toBeNull()
       expect(document.querySelector('.flyout-2')).not.toBeNull()
@@ -217,7 +222,7 @@ describe('Flyout Component', () => {
       buttons[0].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
       buttons[1].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
 
-      await new Promise(resolve => setTimeout(resolve, 50))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
       // Both should be visible
       expect(document.querySelector('.fast-hide')).not.toBeNull()

@@ -89,9 +89,9 @@ describe('Modal Component', () => {
       button.click()
       await new Promise(resolve => setTimeout(resolve, 100))
 
-      // Close modal by clicking backdrop
-      const backdrop = document.querySelector('.bc-modal')! as HTMLElement
-      backdrop.click()
+      // Close modal by clicking backdrop (overlay)
+      const overlay = document.querySelector('.bc-overlay')! as HTMLElement
+      overlay.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
       await new Promise(resolve => setTimeout(resolve, 100))
 
       expect(onCloseMock).toHaveBeenCalled()
@@ -205,8 +205,9 @@ describe('Modal Component', () => {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       const modal = document.querySelector('.bc-modal')!
-      expect(modal.parentElement).toBe(document.body)
-      expect(document.body.className).toContain('bc-modal-container')
+      const overlay = document.querySelector('.bc-overlay')!
+      expect(overlay.parentElement).toBe(document.body)
+      expect(modal.className).toContain('bc-modal--container-body')
     })
 
     it('should use custom container when specified', async () => {
@@ -223,16 +224,17 @@ describe('Modal Component', () => {
             )
           )
         ),
-        container
+        customContainer
       )
 
-      const button = container.querySelector('button')!
+      const button = customContainer.querySelector('button')!
       button.click()
       await new Promise(resolve => setTimeout(resolve, 100))
 
       const modal = document.querySelector('.bc-modal')!
-      expect(modal.parentElement).toBe(customContainer)
-      expect(customContainer.className).toContain('bc-modal-container')
+      const overlay = modal.closest('.bc-overlay')!
+      expect(overlay.parentElement).toBe(customContainer)
+      expect(modal.className).toContain('bc-modal--container-element')
 
       // Cleanup
       document.body.removeChild(customContainer)

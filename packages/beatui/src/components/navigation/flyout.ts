@@ -82,30 +82,19 @@ export function Flyout(options: FlyoutOptions): TNode {
   } = options
 
   return PopOver((open, close) => {
-    // Create a fresh animated toggle for each PopOver instance
-    let animatedToggle = useAnimatedElementToggle({
+    // Create animated toggle for this PopOver instance
+    const animatedToggle = useAnimatedElementToggle({
       initialStatus: 'closed',
     })
 
-    // Track state to prevent race conditions
-    let isOpen = false
-    let isOpening = false
-    let isClosing = false
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
-    let openDelayedCleanup: (() => void) | null = null
 
     function cleanup() {
       // Clear any pending timeouts
       if (timeout != null) {
         clearTimeout(timeout)
         timeout = null
-      }
-
-      // Clear delayed opening animation
-      if (openDelayedCleanup) {
-        openDelayedCleanup()
-        openDelayedCleanup = null
       }
 
       // Clear onClosed listener
@@ -119,56 +108,13 @@ export function Flyout(options: FlyoutOptions): TNode {
         document.removeEventListener('keydown', handleKeyDown)
         handleKeyDown = null
       }
-
-      // Reset state flags
-      isOpen = false
-      isOpening = false
-      isClosing = false
-    }
-
-    // Keep track of the current element
-    let currentElement: HTMLElement | null = null
-
-    function setupAnimatedToggle() {
-      // Create a fresh animatedToggle
-      animatedToggle = useAnimatedElementToggle({
-        initialStatus: 'closed',
-      })
-
-      // If we have a current element, set it for the new toggle
-      if (currentElement) {
-        animatedToggle.setElement(currentElement)
-      }
     }
 
     function openFlyout() {
-      // Prevent multiple opens
-      if (isOpen || isOpening) {
+      // Prevent multiple opens - use animated toggle status
+      if (animatedToggle.isOpen.value) {
         return
       }
-
-      // Create a fresh animatedToggle for each open operation
-      animatedToggle.dispose()
-      setupAnimatedToggle()
-
-      isOpening = true
-      isClosing = false
-
-      // Set up the delayed callback to complete the opening process
-      if (openDelayedCleanup) {
-        openDelayedCleanup()
-        openDelayedCleanup = null
-      }
-
-      openDelayedCleanup = delayed(() => {
-        if (isOpening) {
-          // Only open if we're still in opening state
-          animatedToggle.open()
-          isOpen = true
-          isOpening = false
-        }
-        openDelayedCleanup = null
-      }, 10)
 
       if (Value.get(closable)) {
         handleKeyDown = (event: KeyboardEvent) => {
@@ -176,7 +122,7 @@ export function Flyout(options: FlyoutOptions): TNode {
             hide()
           }
         }
-        document.addEventListener('keydown', handleKeyDown, { once: true })
+        document.addEventListener('keydown', handleKeyDown)
       }
 
       open({
@@ -185,25 +131,17 @@ export function Flyout(options: FlyoutOptions): TNode {
         crossAxisOffset,
         arrow,
         content: WithElement(element => {
-          // Store the current element and set it for the animation toggle
-          currentElement = element
+          // Set element for the animation toggle
           animatedToggle.setElement(element)
 
           // Start opening animation after element is in DOM
-          openDelayedCleanup = delayed(() => {
-            if (isOpening) {
-              // Only open if we're still in opening state
-              animatedToggle.open()
-              isOpen = true
-              isOpening = false
-            }
-            openDelayedCleanup = null
+          delayed(() => {
+            animatedToggle.open()
           }, 10)
 
           return Fragment(
             OnDispose(() => {
               cleanup()
-              // Only dispose the animation toggle when the component is destroyed
               animatedToggle.dispose()
             }),
             dataAttr.status(animatedToggle.status.map(String)),
@@ -223,9 +161,9 @@ export function Flyout(options: FlyoutOptions): TNode {
         timeout = null
       }
 
-      // If we're in any state other than ready to open, clean up and reset
-      if (isClosing || isOpening || isOpen) {
-        cleanup()
+      // If already open or opening, don't do anything
+      if (animatedToggle.isOpen.value) {
+        return
       }
 
       timeout = setTimeout(openFlyout, Value.get(showDelay))
@@ -238,55 +176,16 @@ export function Flyout(options: FlyoutOptions): TNode {
         timeout = null
       }
 
-      // If we're currently opening, we need to wait for it to complete then close
-      // Don't return early - let the hide process continue
-
-      // If already closing, don't do anything
-      if (isClosing) {
+      // If already closed or closing, don't do anything
+      if (animatedToggle.isClosed.value || animatedToggle.isClosing.value) {
         return
       }
+
       timeout = setTimeout(() => {
-        // If already closing, don't do anything
-        if (isClosing) {
+        // Check again in case state changed during delay
+        if (animatedToggle.isClosed.value || animatedToggle.isClosing.value) {
           return
         }
-
-        // If we're still opening, wait for it to complete
-        if (isOpening) {
-          // Wait for opening to complete, then close
-          const waitForOpen = () => {
-            if (isOpening) {
-              setTimeout(waitForOpen, 10)
-            } else if (isOpen) {
-              isClosing = true
-              isOpen = false
-              animatedToggle.close()
-
-              // Clear any existing onClosed callback
-              if (onClosedCleanup) {
-                onClosedCleanup()
-                onClosedCleanup = null
-              }
-
-              onClosedCleanup = animatedToggle.onClosed(() => {
-                if (isClosing) {
-                  close()
-                  cleanup()
-                }
-              })
-            }
-          }
-          waitForOpen()
-          return
-        }
-
-        // If not open, nothing to close
-        if (!isOpen) {
-          return
-        }
-
-        isClosing = true
-        isOpen = false
 
         // Start closing animation
         animatedToggle.close()
@@ -299,11 +198,8 @@ export function Flyout(options: FlyoutOptions): TNode {
 
         // Wait for animation to complete before closing PopOver
         onClosedCleanup = animatedToggle.onClosed(() => {
-          if (isClosing) {
-            // Only close if we're still in closing state
-            close()
-            cleanup()
-          }
+          close()
+          cleanup()
         })
       }, Value.get(hideDelay))
     }

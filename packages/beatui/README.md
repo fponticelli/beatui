@@ -16,10 +16,6 @@
 - [ ] Divider (horizontal/vertical)
 - [ ] Spacer
 
-- [ ] Add tests for useAnimatedToggle, particularly test the followings:
-  - [ ] reopening an already opened or opening animated toggle doesn't impact the current operation
-  - [ ] closing an opening animated toggle starts the closing (not closed) immediately
-  - [ ] reopening when in closing state, set the state to opening correctly
 - [ ] Simplify Flyout by removing the status tracking that seems unnecessary and should be solved by useAnimatedToggle
 - [ ] Separate InputWrapper out of ControlInputWrapper so that it can be used without a controller
 - [ ] When Modal is on the smaller Media breakpoint, it should take the entire screen

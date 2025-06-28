@@ -9,6 +9,7 @@ import {
   Value,
   When,
   WithElement,
+  dataAttr,
 } from '@tempots/dom'
 import { delayed } from '@tempots/std'
 import { Button } from '../button'
@@ -135,6 +136,7 @@ export function Drawer(
                         size: 'sm',
                         onClick: handleClose,
                       },
+                      dataAttr.close('true'),
                       Icon({ icon: 'line-md:close', size: 'sm' })
                     )
                   )
