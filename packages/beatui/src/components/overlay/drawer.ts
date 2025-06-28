@@ -9,7 +9,7 @@ import {
   Value,
   When,
   WithElement,
-  dataAttr,
+  aria,
 } from '@tempots/dom'
 import { delayed } from '@tempots/std'
 import { Button } from '../button'
@@ -136,7 +136,7 @@ export function Drawer(
                         size: 'sm',
                         onClick: handleClose,
                       },
-                      dataAttr.close('true'),
+                      aria.label('Close drawer'),
                       Icon({ icon: 'line-md:close', size: 'sm' })
                     )
                   )

@@ -8,7 +8,7 @@ import {
   Fragment,
   When,
   computedOf,
-  dataAttr,
+  aria,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button } from '../button'
@@ -99,7 +99,7 @@ export function Modal(
               `bc-modal bc-modal--size-${s} bc-modal--container-${container} bc-modal--position-${p}`
           )
         ),
-        dataAttr.dismissable(Value.map(dismissable, String)),
+
         on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
 
         // Modal content container
@@ -121,7 +121,7 @@ export function Modal(
                       closeOverlay()
                     },
                   },
-                  dataAttr.close('true'),
+                  aria.label('Close modal'),
                   Icon({ icon: 'line-md:close', size: 'sm' })
                 )
               )
@@ -205,7 +205,7 @@ export function ConfirmModal(
                 variant: 'outline',
                 onClick: handleCancel,
               },
-              dataAttr.cancel('true'),
+
               cancelText
             ),
             Button(
@@ -214,7 +214,7 @@ export function ConfirmModal(
                 variant: 'filled',
                 onClick: handleConfirm,
               },
-              dataAttr.confirm('true'),
+
               confirmText
             )
           ),
