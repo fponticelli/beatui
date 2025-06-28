@@ -188,7 +188,7 @@ export function Flyout(options: FlyoutOptions): TNode {
         return
       }
 
-      // If flyout is closing, cancel the closing process and schedule proper reopen
+      // If flyout is closing, cancel the closing process and reopen properly
       if (
         animatedToggle.isClosing.value ||
         animatedToggle.isStartClosing.value
@@ -198,9 +198,8 @@ export function Flyout(options: FlyoutOptions): TNode {
           onClosedCleanup()
           onClosedCleanup = null
         }
-        // Schedule openFlyout to ensure proper fade-in animation
-        // Use minimal delay to be responsive but still trigger animation
-        timeout = setTimeout(openFlyout, 10)
+        // Reset the animation state to allow proper reopening
+        animatedToggle.open()
         return
       }
 
