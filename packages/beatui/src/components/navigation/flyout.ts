@@ -89,12 +89,20 @@ export function Flyout(options: FlyoutOptions): TNode {
 
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
+    let delayedOpenCleanup: (() => void) | null = null
+    let isPopOverOpen = false // Track if PopOver is currently open
 
     function cleanup() {
       // Clear any pending timeouts
       if (timeout != null) {
         clearTimeout(timeout)
         timeout = null
+      }
+
+      // Clear delayed open callback
+      if (delayedOpenCleanup) {
+        delayedOpenCleanup()
+        delayedOpenCleanup = null
       }
 
       // Clear onClosed listener
@@ -108,11 +116,18 @@ export function Flyout(options: FlyoutOptions): TNode {
         document.removeEventListener('keydown', handleKeyDown)
         handleKeyDown = null
       }
+
+      // Reset PopOver state
+      isPopOverOpen = false
     }
 
     function openFlyout() {
-      // Prevent multiple opens - use animated toggle status
-      if (animatedToggle.isOpen.value) {
+      // Prevent multiple opens - check if PopOver is already open or if we're already opening
+      if (
+        animatedToggle.isOpened.value ||
+        animatedToggle.isOpening.value ||
+        animatedToggle.isStartOpening.value
+      ) {
         return
       }
 
@@ -125,6 +140,8 @@ export function Flyout(options: FlyoutOptions): TNode {
         document.addEventListener('keydown', handleKeyDown)
       }
 
+      isPopOverOpen = true // Mark PopOver as open
+
       open({
         placement: placement ?? 'top',
         mainAxisOffset,
@@ -135,14 +152,15 @@ export function Flyout(options: FlyoutOptions): TNode {
           animatedToggle.setElement(element)
 
           // Start opening animation after element is in DOM
-          delayed(() => {
+          delayedOpenCleanup = delayed(() => {
             animatedToggle.open()
+            delayedOpenCleanup = null // Clear the cleanup function after execution
           }, 10)
 
           return Fragment(
             OnDispose(() => {
               cleanup()
-              animatedToggle.dispose()
+              // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
             dataAttr.status(animatedToggle.status.map(String)),
             dataAttr.placement(Value.map(placement ?? 'top', String)),
@@ -161,9 +179,35 @@ export function Flyout(options: FlyoutOptions): TNode {
         timeout = null
       }
 
-      // If already open or opening, don't do anything
-      if (animatedToggle.isOpen.value) {
+      // Only skip if already opened or in the process of opening (but not closing)
+      if (
+        animatedToggle.isOpened.value ||
+        animatedToggle.isOpening.value ||
+        animatedToggle.isStartOpening.value
+      ) {
         return
+      }
+
+      // If flyout is closing, cancel the closing process and schedule proper reopen
+      if (
+        animatedToggle.isClosing.value ||
+        animatedToggle.isStartClosing.value
+      ) {
+        // Clear any existing onClosed callback to cancel closing
+        if (onClosedCleanup) {
+          onClosedCleanup()
+          onClosedCleanup = null
+        }
+        // Schedule openFlyout to ensure proper fade-in animation
+        // Use minimal delay to be responsive but still trigger animation
+        timeout = setTimeout(openFlyout, 10)
+        return
+      }
+
+      // Clear any existing onClosed callback that might interfere
+      if (onClosedCleanup) {
+        onClosedCleanup()
+        onClosedCleanup = null
       }
 
       timeout = setTimeout(openFlyout, Value.get(showDelay))
@@ -176,25 +220,46 @@ export function Flyout(options: FlyoutOptions): TNode {
         timeout = null
       }
 
+      // Clear any pending delayed open callback
+      if (delayedOpenCleanup) {
+        delayedOpenCleanup()
+        delayedOpenCleanup = null
+
+        // If PopOver was opened but animation was canceled, close it immediately
+        if (isPopOverOpen) {
+          close()
+          cleanup()
+          return
+        }
+      }
+
       // If already closed or closing, don't do anything
-      if (animatedToggle.isClosed.value || animatedToggle.isClosing.value) {
+      if (
+        animatedToggle.isClosed.value ||
+        animatedToggle.isClosing.value ||
+        animatedToggle.isStartClosing.value
+      ) {
         return
       }
 
       timeout = setTimeout(() => {
         // Check again in case state changed during delay
-        if (animatedToggle.isClosed.value || animatedToggle.isClosing.value) {
+        if (
+          animatedToggle.isClosed.value ||
+          animatedToggle.isClosing.value ||
+          animatedToggle.isStartClosing.value
+        ) {
           return
         }
 
-        // Start closing animation
-        animatedToggle.close()
-
-        // Clear any existing onClosed callback
+        // Clear any existing onClosed callback before setting a new one
         if (onClosedCleanup) {
           onClosedCleanup()
           onClosedCleanup = null
         }
+
+        // Start closing animation
+        animatedToggle.close()
 
         // Wait for animation to complete before closing PopOver
         onClosedCleanup = animatedToggle.onClosed(() => {
@@ -212,6 +277,10 @@ export function Flyout(options: FlyoutOptions): TNode {
     // Handle built-in trigger types
     const triggerValue = showOn as Value<FlyoutTrigger>
     return Fragment(
+      OnDispose(() => {
+        // Dispose the animatedToggle when the entire Flyout is disposed
+        animatedToggle.dispose()
+      }),
       OneOfValue(triggerValue, {
         'hover-focus': () =>
           Fragment(

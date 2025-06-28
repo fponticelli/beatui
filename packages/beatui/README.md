@@ -16,6 +16,7 @@
 - [ ] Divider (horizontal/vertical)
 - [ ] Spacer
 
+- [ ] Do not use data-status for modal, flyout, overlay and tooltip. Use classes instead. The can be bu-status-x classes.
 - [ ] Simplify Flyout by removing the status tracking that seems unnecessary and should be solved by useAnimatedToggle
 - [ ] Separate InputWrapper out of ControlInputWrapper so that it can be used without a controller
 - [ ] When Modal is on the smaller Media breakpoint, it should take the entire screen
