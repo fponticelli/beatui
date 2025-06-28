@@ -94,9 +94,13 @@ export function Flyout(options: FlyoutOptions): TNode {
 
     function cleanup() {
       // Clear any pending timeouts
-      if (timeout != null) {
-        clearTimeout(timeout)
-        timeout = null
+      if (showTimeout != null) {
+        clearTimeout(showTimeout)
+        showTimeout = null
+      }
+      if (hideTimeout != null) {
+        clearTimeout(hideTimeout)
+        hideTimeout = null
       }
 
       // Clear delayed open callback
@@ -122,15 +126,6 @@ export function Flyout(options: FlyoutOptions): TNode {
     }
 
     function openFlyout() {
-      // Prevent multiple opens - check if PopOver is already open or if we're already opening
-      if (
-        animatedToggle.isOpened.value ||
-        animatedToggle.isOpening.value ||
-        animatedToggle.isStartOpening.value
-      ) {
-        return
-      }
-
       if (Value.get(closable)) {
         handleKeyDown = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
@@ -171,15 +166,27 @@ export function Flyout(options: FlyoutOptions): TNode {
       })
     }
 
-    let timeout: ReturnType<typeof setTimeout> | null = null
+    let showTimeout: ReturnType<typeof setTimeout> | null = null
     function show() {
-      // Clear any existing timeout
-      if (timeout != null) {
-        clearTimeout(timeout)
-        timeout = null
+      // Clear any existing show timeout
+      if (showTimeout != null) {
+        clearTimeout(showTimeout)
+        showTimeout = null
       }
 
-      // Only skip if already opened or in the process of opening (but not closing)
+      // Clear any pending hide timeout since we're showing
+      if (hideTimeout != null) {
+        clearTimeout(hideTimeout)
+        hideTimeout = null
+      }
+
+      // Clear any existing onClosed callback since we're not closing anymore
+      if (onClosedCleanup) {
+        onClosedCleanup()
+        onClosedCleanup = null
+      }
+
+      // If flyout is already opened or opening, do nothing
       if (
         animatedToggle.isOpened.value ||
         animatedToggle.isOpening.value ||
@@ -188,35 +195,31 @@ export function Flyout(options: FlyoutOptions): TNode {
         return
       }
 
-      // If flyout is closing, cancel the closing process and reopen properly
+      // If flyout is closing, immediately reopen it
       if (
         animatedToggle.isClosing.value ||
         animatedToggle.isStartClosing.value
       ) {
-        // Clear any existing onClosed callback to cancel closing
-        if (onClosedCleanup) {
-          onClosedCleanup()
-          onClosedCleanup = null
-        }
-        // Reset the animation state to allow proper reopening
         animatedToggle.open()
         return
       }
 
-      // Clear any existing onClosed callback that might interfere
-      if (onClosedCleanup) {
-        onClosedCleanup()
-        onClosedCleanup = null
-      }
-
-      timeout = setTimeout(openFlyout, Value.get(showDelay))
+      // Schedule the show for normal closed state
+      showTimeout = setTimeout(openFlyout, Value.get(showDelay))
     }
 
+    let hideTimeout: ReturnType<typeof setTimeout> | null = null
     function hide() {
-      // Clear any existing timeout
-      if (timeout != null) {
-        clearTimeout(timeout)
-        timeout = null
+      // Clear any existing show timeout since we're hiding
+      if (showTimeout != null) {
+        clearTimeout(showTimeout)
+        showTimeout = null
+      }
+
+      // Clear any existing hide timeout
+      if (hideTimeout != null) {
+        clearTimeout(hideTimeout)
+        hideTimeout = null
       }
 
       // Clear any pending delayed open callback
@@ -232,25 +235,8 @@ export function Flyout(options: FlyoutOptions): TNode {
         }
       }
 
-      // If already closed or closing, don't do anything
-      if (
-        animatedToggle.isClosed.value ||
-        animatedToggle.isClosing.value ||
-        animatedToggle.isStartClosing.value
-      ) {
-        return
-      }
-
-      timeout = setTimeout(() => {
-        // Check again in case state changed during delay
-        if (
-          animatedToggle.isClosed.value ||
-          animatedToggle.isClosing.value ||
-          animatedToggle.isStartClosing.value
-        ) {
-          return
-        }
-
+      // Schedule the hide - animatedToggle handles state transitions safely
+      hideTimeout = setTimeout(() => {
         // Clear any existing onClosed callback before setting a new one
         if (onClosedCleanup) {
           onClosedCleanup()
