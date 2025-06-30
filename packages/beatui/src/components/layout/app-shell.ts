@@ -653,14 +653,23 @@ export function AppShell({
             style.height('100%'),
             style.gridArea('menu'),
             style.display(
-              displayMenuAs.map((v): string =>
-                v === 'none' ? 'none' : 'block'
-              )
+              computedOf(
+                displayMenuAs,
+                menuStatus.status
+              )((v, s): string => {
+                if (v === 'none' && s === 'closed') return 'none'
+                return 'block'
+              })
             ),
             style.position(
-              displayMenuAs.map((v): string =>
-                v === 'float' ? 'fixed' : 'initial'
-              )
+              computedOf(
+                displayMenuAs,
+                menuStatus.status
+              )((v, s): string => {
+                if (v === 'float') return 'fixed'
+                if (v === 'none' && s !== 'closed') return 'fixed'
+                return 'initial'
+              })
             ),
             style.top(headerBottom.map(v => `${v}px`)),
             AnimatedToggleClass(
@@ -669,7 +678,6 @@ export function AppShell({
                 displayMenuAs,
                 menuStatus.status
               )((v, s): ToggleStatus => {
-                console.log(v, s)
                 if (v === 'block') return 'opened'
                 return s
               })
@@ -736,24 +744,36 @@ export function AppShell({
             style.height('100%'),
             style.gridArea('aside'),
             style.display(
-              displayAsideAs.map((v): string =>
-                v === 'none' ? 'none' : 'block'
-              )
+              computedOf(
+                displayAsideAs,
+                asideStatus.status
+              )((v, s): string => {
+                if (v === 'none' && s === 'closed') return 'none'
+                return 'block'
+              })
             ),
             style.position(
-              displayAsideAs.map((v): string =>
-                v === 'float' ? 'fixed' : 'initial'
-              )
+              computedOf(
+                displayAsideAs,
+                asideStatus.status
+              )((v, s): string => {
+                if (v === 'float') return 'fixed'
+                if (v === 'none' && s !== 'closed') return 'fixed'
+                return 'initial'
+              })
             ),
             style.top(headerBottom.map(v => `${v}px`)),
-            style.transition('right 0.3s ease-in-out'),
-            style.right(
+            AnimatedToggleClass(
+              'slide-left',
               computedOf(
-                asideStatus.isOpened,
-                template.$.asideWidth
-              )((v, w) => (v ? '0' : `-${w}`))
+                displayAsideAs,
+                asideStatus.status
+              )((v, s): ToggleStatus => {
+                if (v === 'block') return 'opened'
+                return s
+              })
             ),
-            style.width(template.$.menuWidth),
+            style.width(template.$.asideWidth),
             style.bottom(headerBottom.map(v => `${v}px`)),
             options.aside.content
           )
