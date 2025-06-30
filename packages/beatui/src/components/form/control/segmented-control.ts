@@ -11,7 +11,7 @@ import {
   OnDispose,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
-import { delayed, objectEntries } from '@tempots/std'
+import { delayedAnimationFrame, objectEntries } from '@tempots/std'
 function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
@@ -117,7 +117,7 @@ export function SegmentedControl<T extends Record<string, TNode>>(
             })
           ),
           WithElement(el => {
-            const cancel = delayed(() => {
+            const cancel = delayedAnimationFrame(() => {
               rects.update(sizes => {
                 const newSizes = [...sizes]
                 newSizes[index] = {
@@ -126,7 +126,7 @@ export function SegmentedControl<T extends Record<string, TNode>>(
                 }
                 return newSizes
               })
-            }, 10)
+            })
             return OnDispose(cancel)
           }),
           label

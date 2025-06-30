@@ -4,6 +4,17 @@ import { Flyout } from '../../src/components/navigation/flyout'
 import { Button } from '../../src/components/button/button'
 import { Theme } from '../../src/components/theme/theme'
 
+function getToggleStatusFromClasses(element: HTMLElement): string {
+  const classList = element.className
+  if (classList.includes('bu-toggle--closed')) return 'closed'
+  if (classList.includes('bu-toggle--start-opening')) return 'start-opening'
+  if (classList.includes('bu-toggle--opening')) return 'opening'
+  if (classList.includes('bu-toggle--opened')) return 'opened'
+  if (classList.includes('bu-toggle--start-closing')) return 'start-closing'
+  if (classList.includes('bu-toggle--closing')) return 'closing'
+  return 'unknown'
+}
+
 describe('Flyout First Trigger Animation Bug', () => {
   let container: HTMLElement
 
@@ -50,8 +61,8 @@ describe('Flyout First Trigger Animation Bug', () => {
     const flyout = document.querySelector('.first-trigger-test') as HTMLElement
     expect(flyout).not.toBeNull()
 
-    // Check the animation status at the moment it appears
-    const statusAtAppearance = flyout.getAttribute('data-status')
+    // Check the animation status at the moment it appears (now using CSS classes)
+    const statusAtAppearance = getToggleStatusFromClasses(flyout)
     console.log('Status when flyout first appears:', statusAtAppearance)
 
     // It should be in 'closed', 'start-opening' or 'opening' state, NOT 'opened'
@@ -63,7 +74,7 @@ describe('Flyout First Trigger Animation Bug', () => {
     await new Promise(resolve => setTimeout(resolve, 60))
 
     // Now it should be opened
-    const statusAfterAnimation = flyout.getAttribute('data-status')
+    const statusAfterAnimation = getToggleStatusFromClasses(flyout)
     expect(statusAfterAnimation).toBe('opened')
 
     // The key test is complete - we verified first trigger doesn't skip to 'opened'
@@ -103,7 +114,7 @@ describe('Flyout First Trigger Animation Bug', () => {
         '.animation-states-test'
       ) as HTMLElement
       if (flyout) {
-        const status = flyout.getAttribute('data-status')
+        const status = getToggleStatusFromClasses(flyout)
         if (status && statusHistory[statusHistory.length - 1] !== status) {
           statusHistory.push(status)
         }
@@ -158,7 +169,7 @@ describe('Flyout First Trigger Animation Bug', () => {
 
     let flyout = document.querySelector('.element-setup-test') as HTMLElement
     if (flyout) {
-      const immediateStatus = flyout.getAttribute('data-status')
+      const immediateStatus = getToggleStatusFromClasses(flyout)
       console.log('Status after hover trigger:', immediateStatus)
 
       // Should be closed, start-opening or opening, but definitely not opened immediately
@@ -171,7 +182,7 @@ describe('Flyout First Trigger Animation Bug', () => {
     flyout = document.querySelector('.element-setup-test') as HTMLElement
     expect(flyout).not.toBeNull()
 
-    const statusAfterDelay = flyout.getAttribute('data-status')
+    const statusAfterDelay = getToggleStatusFromClasses(flyout)
     console.log('Status after animation delay:', statusAfterDelay)
 
     // Should be in start-opening, opening or opened state by now

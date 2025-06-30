@@ -12,7 +12,7 @@ import {
 } from '@tempots/dom'
 import { OverlayEffect } from '../theme/types'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
-import { delayed } from '@tempots/std'
+import { delayedAnimationFrame } from '@tempots/std'
 
 export type OverlayOptions = {
   effect?: Value<OverlayEffect>
@@ -138,7 +138,7 @@ export function Overlay(
         providers: ctx.providers,
       })
       disposables.push(clear)
-      delayed(() => status.open(), 0)
+      delayedAnimationFrame(() => status.open())
     }
 
     return fn(open, close)

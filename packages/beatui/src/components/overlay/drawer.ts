@@ -11,7 +11,7 @@ import {
   WithElement,
   aria,
 } from '@tempots/dom'
-import { delayed } from '@tempots/std'
+import { delayedAnimationFrame } from '@tempots/std'
 import { Button } from '../button'
 import { Icon } from '../data'
 import { Overlay } from './overlay'
@@ -105,9 +105,7 @@ export function Drawer(
 
         // Start the opening animation after the element is in the DOM
         // Use a small delay to ensure the closed state is rendered first
-        delayed(() => {
-          animatedToggle.open()
-        }, 10)
+        delayedAnimationFrame(() => animatedToggle.open())
 
         return html.div(
           attr.class(

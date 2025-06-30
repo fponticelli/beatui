@@ -9,7 +9,7 @@ import {
   on,
   computedOf,
 } from '@tempots/dom'
-import { delayed } from '@tempots/std'
+import { delayedAnimationFrame } from '@tempots/std'
 
 export type ScrollablePanelOptions = {
   header?: TNode
@@ -65,7 +65,9 @@ export function ScrollablePanel({
     html.div(attr.class('bc-scrollable-panel--header-shadow'), html.div()),
     html.div(
       attr.class('bc-scrollable-panel__body'),
-      WithElement(el => OnDispose(delayed(() => updateShadow(el), 10))),
+      WithElement(el =>
+        OnDispose(delayedAnimationFrame(() => updateShadow(el)))
+      ),
       on.scroll(event => {
         const target = event.target as HTMLElement
         updateShadow(target)

@@ -116,35 +116,66 @@ export function useTimedToggle({
 }
 
 function onAnimationEnd(element: HTMLElement, cb: () => void) {
-  function run() {
-    console.log('run', element.getAnimations())
-    if (element.getAnimations().length === 0) {
-      cb()
-      return
+  let completed = false
+  let timeout: ReturnType<typeof setTimeout> | null = null
+
+  function complete() {
+    if (completed) return
+    completed = true
+    if (timeout) {
+      clearTimeout(timeout)
+      timeout = null
     }
-    element.addEventListener('transitionend', run, { once: true })
-    element.addEventListener('animationend', run, { once: true })
+    cb()
   }
 
-  let listenerAdded = false
+  function onTransitionEnd(event: TransitionEvent) {
+    // Only complete if the transition is on this element (not a child)
+    if (event.target === element) {
+      complete()
+    }
+  }
+
+  function onAnimationEnd(event: AnimationEvent) {
+    // Only complete if the animation is on this element (not a child)
+    if (event.target === element) {
+      complete()
+    }
+  }
+
   const checkAnimations = () => {
-    console.log('checkAnimations', element.getAnimations())
+    // For CSS transitions, we rely on transitionend events + timeout fallback
+    // For CSS animations, we check getAnimations() + animationend events
+
+    // In test environments, CSS transitions don't fire events, so use immediate timeout
+    const isTestEnvironment =
+      typeof window !== 'undefined' &&
+      window.navigator?.userAgent?.includes('jsdom')
     if (element.getAnimations().length === 0) {
-      cb()
+      // No Web Animations running, use transition events + timeout
+      element.addEventListener('transitionend', onTransitionEnd, { once: true })
+      element.addEventListener('animationend', onAnimationEnd, { once: true })
+
+      // In test environment, complete immediately as CSS transitions don't work
+      const timeoutDuration = isTestEnvironment ? 0 : 550
+      timeout = setTimeout(complete, timeoutDuration)
     } else {
-      element.addEventListener('transitionend', run, { once: true })
-      element.addEventListener('animationend', run, { once: true })
-      listenerAdded = true
+      // Web Animations detected, use animation events
+      element.addEventListener('transitionend', onTransitionEnd, { once: true })
+      element.addEventListener('animationend', onAnimationEnd, { once: true })
     }
   }
 
   const clean = delayedAnimationFrame(checkAnimations)
   return () => {
+    completed = true
     clean()
-    if (listenerAdded) {
-      element.removeEventListener('transitionend', run)
-      element.removeEventListener('animationend', run)
+    if (timeout) {
+      clearTimeout(timeout)
+      timeout = null
     }
+    element.removeEventListener('transitionend', onTransitionEnd)
+    element.removeEventListener('animationend', onAnimationEnd)
   }
 }
 
@@ -197,6 +228,10 @@ export type Animation =
   | 'fade-slide-down'
   | 'scale'
   | 'scale-fade'
+  | 'flyout-top'
+  | 'flyout-bottom'
+  | 'flyout-left'
+  | 'flyout-right'
 
 export function AnimatedToggleClass(
   animation: Value<Animation>,

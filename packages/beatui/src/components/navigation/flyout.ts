@@ -7,11 +7,14 @@ import {
   attr,
   OneOfValue,
   WithElement,
-  dataAttr,
 } from '@tempots/dom'
 import { PopOver, Placement } from '@tempots/ui'
-import { delayed } from '@tempots/std'
-import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
+import { delayedAnimationFrame } from '@tempots/std'
+import {
+  useAnimatedElementToggle,
+  AnimatedToggleClass,
+  Animation,
+} from '@/utils/use-animated-toggle'
 
 export type FlyoutTrigger =
   | 'hover'
@@ -56,6 +59,14 @@ export interface FlyoutOptions {
   arrow?: (signal: any) => TNode
   /** Additional role attribute for accessibility */
   role?: Value<string>
+}
+
+function placementToAnimation(placement: Placement): Animation {
+  if (placement.startsWith('top')) return 'flyout-top'
+  if (placement.startsWith('bottom')) return 'flyout-bottom'
+  if (placement.startsWith('left')) return 'flyout-left'
+  if (placement.startsWith('right')) return 'flyout-right'
+  return 'scale-fade' // fallback
 }
 
 /**
@@ -146,19 +157,22 @@ export function Flyout(options: FlyoutOptions): TNode {
           // Set element for the animation toggle
           animatedToggle.setElement(element)
 
-          // Start opening animation after element is in DOM
-          delayedOpenCleanup = delayed(() => {
+          // Start opening animation after element is set up and initial styles are applied
+          delayedOpenCleanup = delayedAnimationFrame(() => {
             animatedToggle.open()
-            delayedOpenCleanup = null // Clear the cleanup function after execution
-          }, 10)
+            delayedOpenCleanup = null
+          })
 
           return Fragment(
             OnDispose(() => {
               cleanup()
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
-            dataAttr.status(animatedToggle.status.map(String)),
-            dataAttr.placement(Value.map(placement ?? 'top', String)),
+            attr.class('bc-flyout'),
+            AnimatedToggleClass(
+              Value.map(placement, placementToAnimation),
+              animatedToggle.status
+            ),
             role ? attr.role(role) : null,
             content()
           )
@@ -305,11 +319,11 @@ export function Flyout(options: FlyoutOptions): TNode {
             OnDispose(clear),
             on.click(() => {
               show()
-              delayed(() => {
+              delayedAnimationFrame(() => {
                 document.addEventListener('click', documentClick, {
                   once: true,
                 })
-              }, 0)
+              })
             })
           )
         },

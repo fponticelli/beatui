@@ -3,6 +3,14 @@
     transition: all 0.4s ease-in-out;
   }
 
+  /* Flyout animations use a different timing */
+  .bu-toggle--animated.bu-toggle--flyout-top,
+  .bu-toggle--animated.bu-toggle--flyout-bottom,
+  .bu-toggle--animated.bu-toggle--flyout-left,
+  .bu-toggle--animated.bu-toggle--flyout-right {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+
   .bu-toggle--slide-right.bu-toggle--closed,
   .bu-toggle--slide-right.bu-toggle--closing,
   .bu-toggle--slide-right.bu-toggle--start-opening {
@@ -143,5 +151,62 @@
   .bu-toggle--scale-fade.bu-toggle--opening {
     transform: scale(1);
     opacity: 1;
+  }
+
+  /* Flyout-style animations with placement awareness */
+  .bu-toggle--flyout-top.bu-toggle--closed,
+  .bu-toggle--flyout-top.bu-toggle--closing,
+  .bu-toggle--flyout-top.bu-toggle--start-opening {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+
+  .bu-toggle--flyout-top.bu-toggle--start-closing,
+  .bu-toggle--flyout-top.bu-toggle--opened,
+  .bu-toggle--flyout-top.bu-toggle--opening {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .bu-toggle--flyout-bottom.bu-toggle--closed,
+  .bu-toggle--flyout-bottom.bu-toggle--closing,
+  .bu-toggle--flyout-bottom.bu-toggle--start-opening {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+
+  .bu-toggle--flyout-bottom.bu-toggle--start-closing,
+  .bu-toggle--flyout-bottom.bu-toggle--opened,
+  .bu-toggle--flyout-bottom.bu-toggle--opening {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .bu-toggle--flyout-left.bu-toggle--closed,
+  .bu-toggle--flyout-left.bu-toggle--closing,
+  .bu-toggle--flyout-left.bu-toggle--start-opening {
+    opacity: 0;
+    transform: translateX(8px) scale(0.95);
+  }
+
+  .bu-toggle--flyout-left.bu-toggle--start-closing,
+  .bu-toggle--flyout-left.bu-toggle--opened,
+  .bu-toggle--flyout-left.bu-toggle--opening {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  .bu-toggle--flyout-right.bu-toggle--closed,
+  .bu-toggle--flyout-right.bu-toggle--closing,
+  .bu-toggle--flyout-right.bu-toggle--start-opening {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.95);
+  }
+
+  .bu-toggle--flyout-right.bu-toggle--start-closing,
+  .bu-toggle--flyout-right.bu-toggle--opened,
+  .bu-toggle--flyout-right.bu-toggle--opening {
+    opacity: 1;
+    transform: translateX(0) scale(1);
   }
 }
