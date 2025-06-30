@@ -1,0 +1,147 @@
+@layer components {
+  .bu-toggle--animated {
+    transition: all 0.4s ease-in-out;
+  }
+
+  .bu-toggle--slide-right.bu-toggle--closed,
+  .bu-toggle--slide-right.bu-toggle--closing,
+  .bu-toggle--slide-right.bu-toggle--start-opening {
+    transform: translateX(-100%);
+  }
+
+  .bu-toggle--slide-right.bu-toggle--start-closing,
+  .bu-toggle--slide-right.bu-toggle--opened,
+  .bu-toggle--slide-right.bu-toggle--opening {
+    transform: translateX(0);
+  }
+
+  .bu-toggle--slide-left.bu-toggle--closed,
+  .bu-toggle--slide-left.bu-toggle--closing,
+  .bu-toggle--slide-left.bu-toggle--start-opening {
+    transform: translateX(100%);
+  }
+
+  .bu-toggle--slide-left.bu-toggle--start-closing,
+  .bu-toggle--slide-left.bu-toggle--opened,
+  .bu-toggle--slide-left.bu-toggle--opening {
+    transform: translateX(0);
+  }
+
+  .bu-toggle--slide-up.bu-toggle--closed,
+  .bu-toggle--slide-up.bu-toggle--closing,
+  .bu-toggle--slide-up.bu-toggle--start-opening {
+    transform: translateY(100%);
+  }
+
+  .bu-toggle--slide-up.bu-toggle--start-closing,
+  .bu-toggle--slide-up.bu-toggle--opened,
+  .bu-toggle--slide-up.bu-toggle--opening {
+    transform: translateY(0);
+  }
+
+  .bu-toggle--slide-down.bu-toggle--closed,
+  .bu-toggle--slide-down.bu-toggle--closing,
+  .bu-toggle--slide-down.bu-toggle--start-opening {
+    transform: translateY(-100%);
+  }
+
+  .bu-toggle--slide-down.bu-toggle--start-closing,
+  .bu-toggle--slide-down.bu-toggle--opened,
+  .bu-toggle--slide-down.bu-toggle--opening {
+    transform: translateY(0);
+  }
+
+  .bu-toggle--fade.bu-toggle--closed,
+  .bu-toggle--fade.bu-toggle--closing,
+  .bu-toggle--fade.bu-toggle--start-opening {
+    opacity: 0;
+  }
+
+  .bu-toggle--fade.bu-toggle--start-closing,
+  .bu-toggle--fade.bu-toggle--opened,
+  .bu-toggle--fade.bu-toggle--opening {
+    opacity: 1;
+  }
+
+  .bu-toggle--fade-slide-right.bu-toggle--closed,
+  .bu-toggle--fade-slide-right.bu-toggle--closing,
+  .bu-toggle--fade-slide-right.bu-toggle--start-opening {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .bu-toggle--fade-slide-right.bu-toggle--start-closing,
+  .bu-toggle--fade-slide-right.bu-toggle--opened,
+  .bu-toggle--fade-slide-right.bu-toggle--opening {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .bu-toggle--fade-slide-left.bu-toggle--closed,
+  .bu-toggle--fade-slide-left.bu-toggle--closing,
+  .bu-toggle--fade-slide-left.bu-toggle--start-opening {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  .bu-toggle--fade-slide-left.bu-toggle--start-closing,
+  .bu-toggle--fade-slide-left.bu-toggle--opened,
+  .bu-toggle--fade-slide-left.bu-toggle--opening {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .bu-toggle--fade-slide-up.bu-toggle--closed,
+  .bu-toggle--fade-slide-up.bu-toggle--closing,
+  .bu-toggle--fade-slide-up.bu-toggle--start-opening {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .bu-toggle--fade-slide-up.bu-toggle--start-closing,
+  .bu-toggle--fade-slide-up.bu-toggle--opened,
+  .bu-toggle--fade-slide-up.bu-toggle--opening {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .bu-toggle--fade-slide-down.bu-toggle--closed,
+  .bu-toggle--fade-slide-down.bu-toggle--closing,
+  .bu-toggle--fade-slide-down.bu-toggle--start-opening {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  .bu-toggle--fade-slide-down.bu-toggle--start-closing,
+  .bu-toggle--fade-slide-down.bu-toggle--opened,
+  .bu-toggle--fade-slide-down.bu-toggle--opening {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .bu-toggle--scale.bu-toggle--closed,
+  .bu-toggle--scale.bu-toggle--closing,
+  .bu-toggle--scale.bu-toggle--start-opening {
+    transform: scale(0.75);
+  }
+
+  .bu-toggle--scale.bu-toggle--start-closing,
+  .bu-toggle--scale.bu-toggle--opened,
+  .bu-toggle--scale.bu-toggle--opening {
+    transform: scale(1);
+  }
+
+  .bu-toggle--scale-fade.bu-toggle--closed,
+  .bu-toggle--scale-fade.bu-toggle--closing,
+  .bu-toggle--scale-fade.bu-toggle--start-opening {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  .bu-toggle--scale-fade.bu-toggle--start-closing,
+  .bu-toggle--scale-fade.bu-toggle--opened,
+  .bu-toggle--scale-fade.bu-toggle--opening {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

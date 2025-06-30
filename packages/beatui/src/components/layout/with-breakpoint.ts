@@ -175,7 +175,7 @@ function getCSSVariableInPX(
   return remToPx(style.getPropertyValue(name), alt)
 }
 
-export type TWBreakpoints = {
+export type BeatUIBreakpoints = {
   zero: number
   xs: number
   sm: number
@@ -184,14 +184,14 @@ export type TWBreakpoints = {
   xl: number
 }
 
-export type TWBreakpoint = keyof TWBreakpoints
+export type BeatUIBreakpoint = keyof BeatUIBreakpoints
 
-export function WithTWBreakpoint(
-  fn: (info: BreakpointInfo<TWBreakpoints>) => TNode
+export function WithBeatUIBreakpoint(
+  fn: (info: BreakpointInfo<BeatUIBreakpoints>) => TNode
 ) {
   return WithElement(el => {
     const style = getComputedStyle(el)
-    const viewportBreakpoints: TWBreakpoints = {
+    const viewportBreakpoints: BeatUIBreakpoints = {
       zero: 0,
       xs: getCSSVariableInPX(style, '--breakpoint-xs', 640),
       sm: getCSSVariableInPX(style, '--breakpoint-sm', 768),
@@ -219,7 +219,7 @@ export type TWElementBreakpoints = {
   '6xl': number
 }
 
-export function WithTWElementBreakpoint(
+export function WithBeatUIElementBreakpoint(
   fn: (info: BreakpointInfo<TWElementBreakpoints>) => TNode
 ) {
   return WithElement(el => {

@@ -3,8 +3,8 @@ import {
   BreakpointInfo,
   Breakpoints,
   Icon,
-  WithTWBreakpoint,
-  WithTWElementBreakpoint,
+  WithBeatUIBreakpoint,
+  WithBeatUIElementBreakpoint,
   ScrollablePanel,
 } from '@tempots/beatui'
 import { html, attr, style } from '@tempots/dom'
@@ -91,7 +91,7 @@ export const BreakpointPage = () => {
     body: Stack(
       attr.class('bu-p-4'),
       html.h1(attr.class('bu-text-2xl'), 'Viewport Breakpoints'),
-      WithTWBreakpoint(info =>
+      WithBeatUIBreakpoint(info =>
         html.div(
           html.div(
             'Viewport width: ',
@@ -113,7 +113,7 @@ export const BreakpointPage = () => {
       ),
       html.br(),
       html.h1(attr.class('bu-text-2xl'), 'Element Breakpoints'),
-      WithTWElementBreakpoint(info =>
+      WithBeatUIElementBreakpoint(info =>
         html.div(
           html.div(
             'Element width: ',

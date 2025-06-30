@@ -22,7 +22,7 @@
   "dependencies": {
     "@tempots/beatui": "workspace:*",
     "@tempots/dom": "28.1.5",
-    "@tempots/std": "0.19.0",
+    "@tempots/std": "0.20.0",
     "@tempots/ui": "5.0.0",
     "zod": "^3.25.46"
   },

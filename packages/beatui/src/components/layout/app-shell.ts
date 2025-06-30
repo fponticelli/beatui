@@ -2,7 +2,6 @@ import {
   aria,
   attr,
   computedOf,
-  dataAttr,
   html,
   OnDispose,
   prop,
@@ -12,15 +11,19 @@ import {
 } from '@tempots/dom'
 import {
   BreakpointInfo,
-  TWBreakpoint,
-  TWBreakpoints,
-  WithTWBreakpoint,
+  BeatUIBreakpoint,
+  BeatUIBreakpoints,
+  WithBeatUIBreakpoint,
 } from './with-breakpoint'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
 import { PanelColor, PanelShadow, Side } from '../theme'
-import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
+import {
+  AnimatedToggleClass,
+  ToggleStatus,
+  useAnimatedElementToggle,
+} from '@/utils/use-animated-toggle'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -63,8 +66,8 @@ export interface AppShellOptions {
   main: AppShellMainOptions
   mainHeader?: AppShellHorizontalOptions
   mainFooter?: AppShellHorizontalOptions
-  mediumBreakpoint?: TWBreakpoint
-  smallBreakpoint?: TWBreakpoint
+  mediumBreakpoint?: BeatUIBreakpoint
+  smallBreakpoint?: BeatUIBreakpoint
 }
 
 function generatePanelClasses(
@@ -200,13 +203,13 @@ function makeMapBreakpoint({
   horizontal,
   is,
 }: {
-  smallBreakpoint: TWBreakpoint
-  mediumBreakpoint: TWBreakpoint
+  smallBreakpoint: BeatUIBreakpoint
+  mediumBreakpoint: BeatUIBreakpoint
   vertical: Record<VerticalSection, AppShellBreakpointOptions>
   horizontal: Record<HorizontalSection, AppShellBreakpointOptions>
-  is: BreakpointInfo<TWBreakpoints>['is']
+  is: BreakpointInfo<BeatUIBreakpoints>['is']
 }) {
-  function makeSmall(breakpoint: TWBreakpoint) {
+  function makeSmall(breakpoint: BeatUIBreakpoint) {
     let areas: (string | null)[][] = [
       [null],
       [null],
@@ -264,7 +267,7 @@ function makeMapBreakpoint({
     return result
   }
 
-  function makeMedium(breakpoint: TWBreakpoint) {
+  function makeMedium(breakpoint: BeatUIBreakpoint) {
     let areas: (string | null)[][] = [
       [null, null],
       [null, null],
@@ -331,7 +334,7 @@ function makeMapBreakpoint({
     return result
   }
 
-  function makeLarge(breakpoint: TWBreakpoint) {
+  function makeLarge(breakpoint: BeatUIBreakpoint) {
     let areas: (string | null)[][] = [
       [null, null, null],
       [null, null, null],
@@ -410,7 +413,7 @@ function makeMapBreakpoint({
     breakpoint,
   }: {
     width: number
-    breakpoint: TWBreakpoint
+    breakpoint: BeatUIBreakpoint
   }) => {
     if (is(`<=${smallBreakpoint}`, width)) {
       return makeSmall(breakpoint)
@@ -483,7 +486,7 @@ export function AppShell({
       )
   ) as Record<HorizontalSection, AppShellBreakpointOptions>
 
-  return WithTWBreakpoint(({ value, is }) => {
+  return WithBeatUIBreakpoint(({ value, is }) => {
     const mapBreakpoint = makeMapBreakpoint({
       smallBreakpoint,
       mediumBreakpoint,
@@ -492,19 +495,18 @@ export function AppShell({
       is,
     })
     const template = value.map(mapBreakpoint)
-    const displayHeader = computedOf(
-      horizontal.header != null,
-      vertical.menu != null,
+    const displayHeader =
+      horizontal.header != null ||
+      vertical.menu != null ||
       vertical.aside != null
-    )((hasHeader: boolean, hasMenu: boolean, hasAside: boolean) => {
-      return hasHeader || hasMenu || hasAside
-    })
+
     const displayAsideButton = computedOf(
       vertical.aside != null,
       template
     )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
       return hasAside && !displayAside
     })
+
     const displayMenuButton = computedOf(
       vertical.menu != null,
       template
@@ -518,12 +520,12 @@ export function AppShell({
     const displayMenuAs = computedOf(
       vertical.menu != null,
       template,
-      menuStatus.isOpen
+      menuStatus.display
     )(displayMenuPanel)
     const displayAsideAs = computedOf(
       vertical.aside != null,
       template,
-      asideStatus.isOpen
+      asideStatus.display
     )(displayAsidePanel)
 
     return html.div(
@@ -532,9 +534,6 @@ export function AppShell({
         menuStatus.dispose()
         asideStatus.dispose()
       }),
-      // attr.class(
-      //   theme.panel({ side: 'none', color: 'base', shadow: 'none' })
-      // ),
       style.height('100%'),
       style.display('grid'),
       style.gridTemplateColumns(template.$.columns),
@@ -565,7 +564,7 @@ export function AppShell({
           )
         ),
         attr.class('bu-z-20'),
-        style.display(displayHeader.map((v): string => (v ? 'block' : 'none'))),
+        style.display(displayHeader ? 'block' : 'none'),
         style.gridArea('header'),
         ElementRect(rect => {
           rect.$.bottom.feedProp(headerBottom)
@@ -590,7 +589,7 @@ export function AppShell({
               },
               aria.label('Open menu'),
               Icon({
-                icon: menuStatus.isOpen.map((v): string =>
+                icon: menuStatus.display.map((v): string =>
                   v
                     ? 'line-md/menu-to-close-alt-transition'
                     : 'line-md/close-to-menu-alt-transition'
@@ -623,7 +622,7 @@ export function AppShell({
                 { icon: 'line-md/chevron-left' },
                 attr.class('bu-transition-transform'),
                 attr.class(
-                  asideStatus.isOpen.map((v): string =>
+                  asideStatus.display.map((v): string =>
                     v ? 'bu-rotate-180' : ''
                   )
                 )
@@ -634,9 +633,7 @@ export function AppShell({
       ),
       options.menu
         ? html.nav(
-            WithElement(el => {
-              menuStatus.setElement(el)
-            }),
+            WithElement(el => menuStatus.setElement(el)),
             attr.class('bu-z-10'),
             attr.class(
               displayMenuAs.map((v): string =>
@@ -666,16 +663,19 @@ export function AppShell({
               )
             ),
             style.top(headerBottom.map(v => `${v}px`)),
-            style.transition('left 0.3s ease-in-out'),
-            style.left(
+            AnimatedToggleClass(
+              'slide-right',
               computedOf(
-                menuStatus.displayOpen,
-                template.$.menuWidth
-              )((v, w) => (v ? '0' : `-${w}`))
+                displayMenuAs,
+                menuStatus.status
+              )((v, s): ToggleStatus => {
+                console.log(v, s)
+                if (v === 'block') return 'opened'
+                return s
+              })
             ),
             style.width(template.$.menuWidth),
             style.bottom(headerBottom.map(v => `${v}px`)),
-            dataAttr.status(menuStatus.status.map(String)),
             options.menu?.content
           )
         : null,
@@ -749,7 +749,7 @@ export function AppShell({
             style.transition('right 0.3s ease-in-out'),
             style.right(
               computedOf(
-                asideStatus.displayOpen,
+                asideStatus.isOpened,
                 template.$.asideWidth
               )((v, w) => (v ? '0' : `-${w}`))
             ),

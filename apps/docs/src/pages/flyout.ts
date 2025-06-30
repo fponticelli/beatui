@@ -23,7 +23,7 @@ export const FlyoutPage = () => {
   const closable = prop(true)
   const showAnimations = prop(true)
   const animationClass = showAnimations.map((show): string =>
-    show ? 'bc-flyout' : ''
+    show ? 'bc-flyout' : 'bc-flyout bc-flyout-no-animation'
   )
 
   return Stack(
