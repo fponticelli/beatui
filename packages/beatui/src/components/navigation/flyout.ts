@@ -157,7 +157,7 @@ export function Flyout(options: FlyoutOptions): TNode {
           // Set element for the animation toggle
           animatedToggle.setElement(element)
 
-          // Start opening animation after element is set up and initial styles are applied
+          // Start opening animation after ensuring initial state is rendered
           delayedOpenCleanup = delayedAnimationFrame(() => {
             animatedToggle.open()
             delayedOpenCleanup = null

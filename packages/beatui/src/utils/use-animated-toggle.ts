@@ -50,7 +50,6 @@ export function useAnimatedToggle({
   let clean = () => {}
   status.on(value => {
     clean()
-    console.log(status.value, Date.now())
     switch (value) {
       case 'start-opening':
         // One frame for browser to apply initial styles
@@ -144,21 +143,26 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
   }
 
   const checkAnimations = () => {
-    // For CSS transitions, we rely on transitionend events + timeout fallback
-    // For CSS animations, we check getAnimations() + animationend events
-
-    // In test environments, CSS transitions don't fire events, so use immediate timeout
+    // In test environments, CSS transitions don't fire events, so complete immediately
     const isTestEnvironment =
       typeof window !== 'undefined' &&
       window.navigator?.userAgent?.includes('jsdom')
+
+    if (isTestEnvironment) {
+      // In jsdom, complete immediately since CSS doesn't work
+      timeout = setTimeout(complete, 16) // Single frame delay for consistency
+      return
+    }
+
+    // For CSS transitions, we rely on transitionend events + timeout fallback
+    // For CSS animations, we check getAnimations() + animationend events
     if (element.getAnimations().length === 0) {
       // No Web Animations running, use transition events + timeout
       element.addEventListener('transitionend', onTransitionEnd, { once: true })
       element.addEventListener('animationend', onAnimationEnd, { once: true })
 
-      // In test environment, complete immediately as CSS transitions don't work
-      const timeoutDuration = isTestEnvironment ? 0 : 550
-      timeout = setTimeout(complete, timeoutDuration)
+      // Fallback timeout for CSS transitions (longer than typical transition duration)
+      timeout = setTimeout(complete, 550)
     } else {
       // Web Animations detected, use animation events
       element.addEventListener('transitionend', onTransitionEnd, { once: true })
