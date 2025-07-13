@@ -1,5 +1,6 @@
 import { BackgroundColorName, ThemeColorName } from '@/tokens'
 import { Signal } from '@tempots/dom'
+import { AppearanceType } from '@tempots/ui'
 
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
 export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -104,5 +105,5 @@ export type Appearance = 'light' | 'dark'
 export interface ThemeValue {
   setAppearancePreference: (appearance: AppearancePreference) => void
   appearancePreference: Signal<AppearancePreference>
-  appearance: Signal<Appearance>
+  appearance: Signal<AppearanceType>
 }

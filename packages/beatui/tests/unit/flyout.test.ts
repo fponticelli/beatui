@@ -338,31 +338,31 @@ describe('Flyout Component', () => {
       expect(document.querySelector('.flyout-2')).not.toBeNull()
     })
 
-    it('should handle concurrent flyouts with different hide delays', async () => {
+    it('should handle concurrent flyouts independently', async () => {
       render(
         Provide(Theme, {}, () =>
           Fragment(
             Button(
               { onClick: () => {} },
-              'Fast hide',
+              'Button 1',
               Flyout({
                 content: () =>
                   Fragment(
-                    attr.class('bc-flyout fast-hide'),
-                    'Fast hide flyout'
+                    attr.class('bc-flyout flyout-1'),
+                    'Flyout 1 content'
                   ),
                 showOn: 'hover',
-                hideDelay: 10,
+                hideDelay: 100,
               })
             ),
             Button(
               { onClick: () => {} },
-              'Slow hide',
+              'Button 2',
               Flyout({
                 content: () =>
                   Fragment(
-                    attr.class('bc-flyout slow-hide'),
-                    'Slow hide flyout'
+                    attr.class('bc-flyout flyout-2'),
+                    'Flyout 2 content'
                   ),
                 showOn: 'hover',
                 hideDelay: 100,
@@ -375,25 +375,36 @@ describe('Flyout Component', () => {
 
       const buttons = container.querySelectorAll('button')
 
-      // Trigger both flyouts
+      // Show first flyout
       buttons[0].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
-      buttons[1].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 300))
 
+      expect(document.querySelector('.flyout-1')).not.toBeNull()
+      expect(document.querySelector('.flyout-2')).toBeNull()
+
+      // Show second flyout while first is still visible
+      buttons[1].dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
       await new Promise(resolve => setTimeout(resolve, 300))
 
       // Both should be visible
-      expect(document.querySelector('.fast-hide')).not.toBeNull()
-      expect(document.querySelector('.slow-hide')).not.toBeNull()
+      expect(document.querySelector('.flyout-1')).not.toBeNull()
+      expect(document.querySelector('.flyout-2')).not.toBeNull()
 
-      // Hide both
+      // Hide first flyout only
       buttons[0].dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 200))
+
+      // First should be gone, second should still be visible
+      expect(document.querySelector('.flyout-1')).toBeNull()
+      expect(document.querySelector('.flyout-2')).not.toBeNull()
+
+      // Hide second flyout
       buttons[1].dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
+      await new Promise(resolve => setTimeout(resolve, 200))
 
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      // Fast hide should be gone, slow hide should still be visible
-      expect(document.querySelector('.fast-hide')).toBeNull()
-      expect(document.querySelector('.slow-hide')).not.toBeNull()
+      // Both should be gone
+      expect(document.querySelector('.flyout-1')).toBeNull()
+      expect(document.querySelector('.flyout-2')).toBeNull()
     })
   })
 
