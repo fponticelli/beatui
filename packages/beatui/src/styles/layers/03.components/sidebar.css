@@ -1,14 +1,19 @@
 @layer components {
-  .bc-sidebar-link {
+  .bc-sidebar-group__header, .bc-sidebar-link {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: calc(var(--spacing-base) * 2);
-    padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 2);
-    /* border-radius: var(--radius-sm); */
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
     transition: all 0.2s ease-in-out;
+    padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 2);
+  }
+
+  .bc-sidebar-group__header {
+    font-weight: 500;
+    color: var(--color-base-500);
+    padding-left: 0;
   }
 
   .bc-sidebar-link__content {
@@ -63,7 +68,7 @@
   .bc-sidebar-group--rail {
     padding-left: calc(var(--spacing-base) * 2);
     margin-left: 1px;
-    border-left: 1px solid var(--border-light);
+    border-left: 1px solid var(--border-border-light);
   }
 
   .bc-sidebar-group-collapsible-indicator {

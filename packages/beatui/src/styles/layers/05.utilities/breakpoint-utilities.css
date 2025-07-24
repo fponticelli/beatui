@@ -219,6 +219,8 @@
     .sm\:bu-shadow-lg { box-shadow: var(--shadow-lg); }
     .sm\:bu-shadow-xl { box-shadow: var(--shadow-xl); }
     .sm\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
+    .sm\:bu-border-box { box-sizing: border-box; }
+    .sm\:bu-content-box { box-sizing: content-box; }
   }
 
   /* MD Breakpoint (48rem) */
@@ -441,6 +443,8 @@
     .md\:bu-shadow-lg { box-shadow: var(--shadow-lg); }
     .md\:bu-shadow-xl { box-shadow: var(--shadow-xl); }
     .md\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
+    .md\:bu-border-box { box-sizing: border-box; }
+    .md\:bu-content-box { box-sizing: content-box; }
   }
 
   /* LG Breakpoint (64rem) */
@@ -663,6 +667,8 @@
     .lg\:bu-shadow-lg { box-shadow: var(--shadow-lg); }
     .lg\:bu-shadow-xl { box-shadow: var(--shadow-xl); }
     .lg\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
+    .lg\:bu-border-box { box-sizing: border-box; }
+    .lg\:bu-content-box { box-sizing: content-box; }
   }
 
   /* XL Breakpoint (80rem) */
@@ -885,6 +891,8 @@
     .xl\:bu-shadow-lg { box-shadow: var(--shadow-lg); }
     .xl\:bu-shadow-xl { box-shadow: var(--shadow-xl); }
     .xl\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
+    .xl\:bu-border-box { box-sizing: border-box; }
+    .xl\:bu-content-box { box-sizing: content-box; }
   }
 
   /* 2XL Breakpoint (96rem) */
@@ -1107,6 +1115,8 @@
     .\2xl\:bu-shadow-lg { box-shadow: var(--shadow-lg); }
     .\2xl\:bu-shadow-xl { box-shadow: var(--shadow-xl); }
     .\2xl\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
+    .\2xl\:bu-border-box { box-sizing: border-box; }
+    .\2xl\:bu-content-box { box-sizing: content-box; }
   }
 
 }

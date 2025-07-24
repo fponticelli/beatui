@@ -1,0 +1,196 @@
+@layer components {
+  /* Auth Form Component */
+  .bc-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    width: 100%;
+  }
+
+  /* Form title */
+  .bc-auth-form__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    color: var(--text-normal-light);
+    margin: 0 0 var(--spacing-md) 0;
+  }
+
+  .b-dark .bc-auth-form__title {
+    color: var(--text-normal-dark);
+  }
+
+  /* Form description */
+  .bc-auth-form__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted-light);
+    text-align: center;
+    margin: 0 0 var(--spacing-lg) 0;
+    line-height: var(--line-height-relaxed);
+  }
+
+  .b-dark .bc-auth-form__description {
+    color: var(--text-muted-dark);
+  }
+
+  /* Error message */
+  .bc-auth-form__error {
+    padding: var(--spacing-md);
+    background-color: var(--color-error-50);
+    border: 1px solid var(--color-error-200);
+    border-radius: var(--radius-md);
+    color: var(--color-error-700);
+    font-size: var(--font-size-sm);
+    text-align: center;
+  }
+
+  .b-dark .bc-auth-form__error {
+    background-color: var(--color-error-950);
+    border-color: var(--color-error-800);
+    color: var(--color-error-300);
+  }
+
+  /* Social login section */
+  .bc-auth-form__social {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  /* Form fields */
+  .bc-auth-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .bc-auth-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  /* Remember me checkbox */
+  .bc-auth-form__remember-me {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .bc-auth-form__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-normal-light);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .b-dark .bc-auth-form__checkbox-label {
+    color: var(--text-normal-dark);
+  }
+
+  /* Terms acceptance */
+  .bc-auth-form__terms {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  /* Field error */
+  .bc-auth-form__field-error {
+    font-size: var(--font-size-xs);
+    color: var(--color-error-600);
+    margin-top: var(--spacing-xs);
+  }
+
+  .b-dark .bc-auth-form__field-error {
+    color: var(--color-error-400);
+  }
+
+  /* Submit button */
+  .bc-auth-form__submit {
+    width: 100%;
+    justify-content: center;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* Footer links */
+  .bc-auth-form__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: center;
+    text-align: center;
+  }
+
+  .bc-auth-form__link {
+    background: none;
+    border: none;
+    color: var(--color-primary-600);
+    font-size: var(--font-size-sm);
+    text-decoration: underline;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bc-auth-form__link:hover {
+    color: var(--color-primary-700);
+    background-color: var(--color-primary-50);
+  }
+
+  .bc-auth-form__link:focus-visible {
+    outline: 2px solid var(--interactive-focus-light);
+    outline-offset: 2px;
+  }
+
+  .b-dark .bc-auth-form__link {
+    color: var(--color-primary-400);
+  }
+
+  .b-dark .bc-auth-form__link:hover {
+    color: var(--color-primary-300);
+    background-color: var(--color-primary-950);
+  }
+
+  .b-dark .bc-auth-form__link:focus-visible {
+    outline-color: var(--interactive-focus-dark);
+  }
+
+  /* Responsive adjustments */
+  @media (width < 40rem) {
+    .bc-auth-form {
+      gap: var(--spacing-lg);
+    }
+
+    .bc-auth-form__title {
+      font-size: var(--font-size-xl);
+    }
+
+    .bc-auth-form__fields {
+      gap: var(--spacing-md);
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bc-auth-form__error {
+      border-width: 2px;
+    }
+
+    .bc-auth-form__link {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-auth-form__link {
+      transition: none;
+    }
+  }
+}

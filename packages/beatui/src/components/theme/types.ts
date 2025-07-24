@@ -5,6 +5,18 @@ import { AppearanceType } from '@tempots/ui'
 export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
 export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+
+export function increaseSize(size: IconSize | ControlSize, steps = 1) {
+  const index = sizes.indexOf(size)
+  if (index === -1) {
+    throw new Error(`Invalid size: ${size}`)
+  }
+  const newIndex = Math.min(Math.max(index + steps, 0), sizes.length - 1)
+  return sizes[newIndex]
+}
+
 export type OverlayEffect = 'transparent' | 'opaque' | 'none'
 export type OverlayMode = 'capturing' | 'non-capturing'
 export type FadeTransitionState =

@@ -18,17 +18,17 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 28.1.5
-        version: 28.1.5
+        specifier: 28.2.0
+        version: 28.2.0
       '@tempots/std':
-        specifier: 0.20.0
-        version: 0.20.0
+        specifier: 0.22.0
+        version: 0.22.0
       '@tempots/ui':
-        specifier: 5.0.0
-        version: 5.0.0(@tempots/std@0.20.0)
+        specifier: 5.2.0
+        version: 5.2.0(@tempots/std@0.22.0)
       zod:
-        specifier: ^3.25.46
-        version: 3.25.67
+        specifier: 4.0.8
+        version: 4.0.8
     devDependencies:
       '@types/fs-extra':
         specifier: ^11.0.4
@@ -130,9 +130,6 @@ importers:
       vitest:
         specifier: 3.1.3
         version: 3.1.3(@types/node@22.15.18)(jsdom@26.1.0)(tsx@4.20.3)
-      zod:
-        specifier: ^3.25.32
-        version: 3.25.67
 
 packages:
 
@@ -515,22 +512,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tempots/dom@28.1.5':
-    resolution: {integrity: sha512-Mhiz0H2iyNhcjiJDQirhIxrWXbkpeWgJ12HwWejK0qARbovEyvJ4SFvvScTGEfG/QgOb7IFhIUxwLRgD/NYgGw==}
-
   '@tempots/dom@28.2.0':
     resolution: {integrity: sha512-FRXk6NkMK7XToke81DUX5K48084ftdlhn8Wy5gxPxOaknRKQBJJOaxHHLBhPvlHzzqwcKM6DMV3nkPvYr+o6tg==}
 
-  '@tempots/std@0.20.0':
-    resolution: {integrity: sha512-OvelAoCJRxNIx9mPAaS2GbJsW55T7+JBA8TijzxdCJy1bT0zurD0ieLPhAdit0opup/d9jXdLoz8QQc2YEp1bg==}
-
   '@tempots/std@0.22.0':
     resolution: {integrity: sha512-xJX+DgbYyvLtAdYf5UPr7zJaTRLWYTuq3rnjSqgSnQtuvQYkpRbQoe2Hi8nxLd3WwwTAlw+NzpZcT7iUhbvieQ==}
-
-  '@tempots/ui@5.0.0':
-    resolution: {integrity: sha512-a9uv6K70YwEdkSsaxflxT7cQvAB/cQdUxq784jiVwLfCR4BUwUqWcm9de4KL8Iek7Hf4gkxKbCANzL+X5I8Aiw==}
-    peerDependencies:
-      '@tempots/std': 0.19.0
 
   '@tempots/ui@5.2.0':
     resolution: {integrity: sha512-xolrAcrvNN/+Pu8ZWYhT7NshWPsHtvWLbRuuL4w0na6B3HWVmr/VQ7zmqWj/W70dnFntxXKIBID3TBZ9MEfN0A==}
@@ -1759,8 +1745,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@3.25.67:
-    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+  zod@4.0.8:
+    resolution: {integrity: sha512-+MSh9cZU9r3QKlHqrgHMTSr3QwMGv4PLfR0M4N/sYWV5/x67HgXEhIGObdBkpnX8G78pTgWnIrBL2lZcNJOtfg==}
 
 snapshots:
 
@@ -2021,18 +2007,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
-  '@tempots/dom@28.1.5': {}
-
   '@tempots/dom@28.2.0': {}
 
-  '@tempots/std@0.20.0': {}
-
   '@tempots/std@0.22.0': {}
-
-  '@tempots/ui@5.0.0(@tempots/std@0.20.0)':
-    dependencies:
-      '@floating-ui/dom': 1.7.0
-      '@tempots/std': 0.20.0
 
   '@tempots/ui@5.2.0(@tempots/std@0.22.0)':
     dependencies:
@@ -3298,4 +3275,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.25.67: {}
+  zod@4.0.8: {}

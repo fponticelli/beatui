@@ -8,7 +8,38 @@ import {
   computedOf,
 } from '@tempots/dom'
 
+function generateInputContainerClasses(
+  baseContainer: boolean,
+  disabled: boolean,
+  hasError: boolean
+): string {
+  const classes = [
+    baseContainer ? 'bc-base-input-container' : 'bc-input-container',
+  ]
+
+  if (disabled) {
+    classes.push(
+      baseContainer
+        ? 'bc-base-input-container--disabled'
+        : 'bc-input-container--disabled'
+    )
+  } else {
+    classes.push(
+      baseContainer
+        ? 'bc-base-input-container--default'
+        : 'bc-input-container--default'
+    )
+  }
+
+  if (hasError) {
+    classes.push('bc-input-container--error')
+  }
+
+  return classes.join(' ')
+}
+
 export const InputContainer = ({
+  baseContainer,
   child,
   disabled,
   input,
@@ -26,27 +57,9 @@ export const InputContainer = ({
   hasError?: Value<boolean>
   focusableSelector?: string
   growInput?: Value<boolean>
+  baseContainer?: Value<boolean>
 }) => {
   const isDisabled = Value.map(disabled ?? false, d => d)
-
-  function generateInputContainerClasses(
-    disabled: boolean,
-    hasError: boolean
-  ): string {
-    const classes = ['bc-input-container']
-
-    if (disabled) {
-      classes.push('bc-input-container--disabled')
-    } else {
-      classes.push('bc-input-container--default')
-    }
-
-    if (hasError) {
-      classes.push('bc-input-container--error')
-    }
-
-    return classes.join(' ')
-  }
 
   return html.div(
     child,
@@ -62,10 +75,15 @@ export const InputContainer = ({
     }),
     attr.class(
       computedOf(
+        baseContainer,
         isDisabled,
         hasError ?? false
-      )((disabled, hasError) =>
-        generateInputContainerClasses(disabled ?? false, hasError ?? false)
+      )((baseContainer, disabled, hasError) =>
+        generateInputContainerClasses(
+          baseContainer ?? false,
+          disabled ?? false,
+          hasError ?? false
+        )
       )
     ),
     before != null

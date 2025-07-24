@@ -71,8 +71,8 @@ export const PasswordInput = (options: InputOptions<string>) => {
         on.click(() => hidePassword.update(v => !v)),
         When(
           hidePassword,
-          () => Icon({ icon: 'line-md--eye' }),
-          () => Icon({ icon: 'line-md--eye-off' })
+          () => Icon({ icon: 'line-md:watch', color: 'base' }),
+          () => Icon({ icon: 'line-md:watch-off', color: 'base' })
         )
       ),
   })

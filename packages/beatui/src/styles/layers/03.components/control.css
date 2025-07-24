@@ -4,23 +4,23 @@
   }
 
   .bc-control--padding-xs {
-    padding: var(--spacing-xs) calc(2 * var(--spacing-xs));
+    padding: var(--spacing-xs);
   }
 
   .bc-control--padding-sm {
-    padding: var(--spacing-sm) calc(2 * var(--spacing-sm));
+    padding: var(--spacing-sm);
   }
 
   .bc-control--padding-md {
-    padding: var(--spacing-md) calc(2 * var(--spacing-md));
+    padding: var(--spacing-md);
   }
 
   .bc-control--padding-lg {
-    padding: var(--spacing-lg) calc(2 * var(--spacing-lg));
+    padding: var(--spacing-lg);
   }
 
   .bc-control--padding-xl {
-    padding: var(--spacing-xl) calc(2 * var(--spacing-xl));
+    padding: var(--spacing-xl);
   }
 
   .bc-control--padding-xs:has(> .bc-icon:only-child) {

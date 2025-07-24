@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: center;
     gap: calc(var(--spacing-base) / 2);
-    padding: var(--spacing-base) calc(var(--spacing-base) * 2);
     border: 1.5px solid transparent;
     cursor: pointer;
     font-weight: var(--font-weight-semibold);
@@ -18,7 +17,7 @@
   }
 
   .bc-button:hover:not(:disabled) {
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
 
   .bc-button:active:not(:disabled) {

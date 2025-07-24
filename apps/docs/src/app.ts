@@ -18,6 +18,8 @@ import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
 import { FlyoutPage } from './pages/flyout'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
+import { AuthenticationPage } from './pages/authentication'
+import { AuthenticationComponentsPage } from './pages/authentication-components'
 
 export const App = () => {
   return Provide(Theme, {}, () =>
@@ -27,6 +29,8 @@ export const App = () => {
         AppLayout({
           children: Router({
             '/': HomePage,
+            '/authentication': AuthenticationPage,
+            '/authentication/components': AuthenticationComponentsPage,
             '/button': ButtonPage,
             '/switch': SwitchPage,
             '/collapse': CollapsePage,

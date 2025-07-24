@@ -534,7 +534,7 @@ export function AppShell({
         menuStatus.dispose()
         asideStatus.dispose()
       }),
-      style.height('100%'),
+      attr.class('bu-h-full bu-w-full'),
       style.display('grid'),
       style.gridTemplateColumns(template.$.columns),
       style.gridTemplateRows(template.$.rows),
@@ -550,7 +550,7 @@ export function AppShell({
                 options.banner.shadow ?? 'none'
               )
             ),
-            style.height('100%'),
+            attr.class('bu-overflow-hidden bu-h-full'),
             style.gridArea('banner'),
             options.banner.content
           )
@@ -571,8 +571,7 @@ export function AppShell({
           return null
         }),
         html.div(
-          style.display('flex'),
-          style.height('100%'),
+          attr.class('bu-flex bu-h-full'),
           html.div(
             style.display(
               displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
@@ -634,7 +633,7 @@ export function AppShell({
       options.menu
         ? html.nav(
             WithElement(el => menuStatus.setElement(el)),
-            attr.class('bu-z-10'),
+            attr.class('bu-z-10 bu-overflow-hidden bu-h-full'),
             attr.class(
               displayMenuAs.map((v): string =>
                 v === 'float'
@@ -650,7 +649,6 @@ export function AppShell({
                     )
               )
             ),
-            style.height('100%'),
             style.gridArea('menu'),
             style.display(
               computedOf(
@@ -689,7 +687,7 @@ export function AppShell({
         : null,
       options.mainHeader
         ? html.header(
-            style.height('100%'),
+            attr.class('bu-overflow-hidden bu-h-full'),
             style.gridArea('mainHeader'),
             attr.class(
               generatePanelClasses(
@@ -702,8 +700,7 @@ export function AppShell({
           )
         : null,
       html.main(
-        style.height('100%'),
-        style.overflow('hidden'),
+        attr.class('bu-overflow-hidden bu-h-full'),
         style.gridArea('main'),
         attr.class(
           generatePanelClasses(
@@ -716,7 +713,7 @@ export function AppShell({
       ),
       options.mainFooter
         ? html.footer(
-            style.height('100%'),
+            attr.class('bu-overflow-hidden bu-h-full'),
             style.gridArea('mainFooter'),
             attr.class(
               generatePanelClasses(
@@ -733,7 +730,7 @@ export function AppShell({
             WithElement(el => {
               asideStatus.setElement(el)
             }),
-            attr.class('bu-z-10'),
+            attr.class('bu-z-10 bu-overflow-hidden bu-h-full'),
             attr.class(
               displayAsideAs.map((v): string =>
                 v === 'float'
@@ -741,7 +738,6 @@ export function AppShell({
                   : generatePanelClasses('left', 'white', 'none')
               )
             ),
-            style.height('100%'),
             style.gridArea('aside'),
             style.display(
               computedOf(
@@ -781,7 +777,7 @@ export function AppShell({
       options.footer
         ? html.footer(
             attr.class(generatePanelClasses('top', 'white', 'none')),
-            style.height('100%'),
+            attr.class('bu-overflow-hidden bu-h-full'),
             style.gridArea('footer'),
             options.footer.content
           )

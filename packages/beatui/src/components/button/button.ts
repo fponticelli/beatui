@@ -8,7 +8,7 @@ export interface ButtonOptions {
   disabled?: Value<boolean>
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
-  color?: Value<ThemeColorName>
+  color?: Value<ThemeColorName | 'black'>
   roundedness?: Value<RadiusName>
   onClick?: () => void
 }

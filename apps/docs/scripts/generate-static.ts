@@ -391,7 +391,12 @@ const main = async () => {
 
   console.log('🔍 Starting link crawling and static generation...')
   const generated = new Set<string>()
-  const toGenerate = ['/']
+  const toGenerate = [
+    '/',
+    '/authentication/components',
+    '/authentication/examples',
+    '/authentication/api'
+  ]
   let processedCount = 0
 
   while (toGenerate.length > 0) {

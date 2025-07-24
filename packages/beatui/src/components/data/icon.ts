@@ -131,6 +131,7 @@ export function Icon(
   ...children: TNode[]
 ) {
   return html.span(
+    attr.class('bu-content-box'),
     attr.class(
       computedOf(
         size,

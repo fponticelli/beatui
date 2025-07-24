@@ -33,15 +33,15 @@ export type SidebarLinkOptions = {
   }
 } & LinkAction
 
-function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
+export function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
   return Anchor({ href: options.href, withViewTransition: true }, ...children)
 }
 
-function SidebarActiveLink(...children: TNode[]) {
+export function SidebarActiveLink(...children: TNode[]) {
   return html.span(...children)
 }
 
-function SidebarClickLink(options: ClickAction, ...children: TNode[]) {
+export function SidebarClickLink(options: ClickAction, ...children: TNode[]) {
   return html.button(on.click(options.onClick), ...children)
 }
 

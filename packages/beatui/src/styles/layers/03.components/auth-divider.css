@@ -1,0 +1,41 @@
+@layer components {
+  /* Auth Divider Component */
+  .bc-auth-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+  }
+
+  .bc-auth-divider__line {
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-divider-light);
+  }
+
+  .b-dark .bc-auth-divider__line {
+    background-color: var(--border-divider-dark);
+  }
+
+  .bc-auth-divider__text {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted-light);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 var(--spacing-xs);
+    background-color: var(--bg-surface-light);
+  }
+
+  .b-dark .bc-auth-divider__text {
+    color: var(--text-muted-dark);
+    background-color: var(--bg-surface-dark);
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bc-auth-divider__line {
+      height: 2px;
+    }
+  }
+}
