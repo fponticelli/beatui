@@ -7,6 +7,7 @@ import {
   svg,
   svgAttr,
   Signal,
+  WithElement,
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
 import { Flyout, FlyoutTrigger } from '../navigation/flyout'
@@ -74,53 +75,67 @@ export function Tooltip(options: TooltipOptions): TNode {
     showOn = 'hover-focus',
   } = options
 
-  return Flyout({
-    content: () =>
-      Fragment(attr.class('bc-tooltip'), attr.role('tooltip'), content),
-    placement,
-    showDelay,
-    hideDelay,
-    mainAxisOffset,
-    crossAxisOffset,
-    showOn,
-    closable: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    arrow: (signal: any) => {
-      const direction = signal.map(
-        ({
-          placement,
-        }: {
-          placement: string
-        }): 'up' | 'down' | 'left' | 'right' => {
-          if (placement.includes('top')) {
-            return 'down'
-          } else if (placement.includes('bottom')) {
-            return 'up'
-          } else if (placement.includes('left')) {
-            return 'right'
-          } else if (placement.includes('right')) {
-            return 'left'
-          }
-          return 'up'
-        }
-      )
-      return Fragment(
-        attr.class('bc-tooltip__arrow'),
-        attr.class(direction.map((d: string) => `bc-tooltip__arrow-${d}`)),
-        style.transform(
-          signal.map(({ x, y }: { x?: number; y?: number }) => {
-            if (x == null && y == null) {
-              return ''
-            }
-            if (x != null) {
-              return `translate(${x}px, 0)`
-            } else {
-              return `translate(0, ${y}px)`
-            }
-          })
+  // Generate unique ID for the tooltip
+  const tooltipId = `tooltip-${Math.random().toString(36).substring(2, 11)}`
+
+  return WithElement(triggerElement => {
+    // Set aria-describedby on the trigger element to associate it with the tooltip
+    triggerElement.setAttribute('aria-describedby', tooltipId)
+
+    return Flyout({
+      content: () =>
+        Fragment(
+          attr.class('bc-tooltip'),
+          attr.role('tooltip'),
+          attr.id(tooltipId),
+          content
         ),
-        SVGArrow(direction)
-      )
-    },
+      placement,
+      showDelay,
+      hideDelay,
+      mainAxisOffset,
+      crossAxisOffset,
+      showOn,
+      closable: true,
+      role: 'tooltip', // Override the default dialog role for tooltips
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      arrow: (signal: any) => {
+        const direction = signal.map(
+          ({
+            placement,
+          }: {
+            placement: string
+          }): 'up' | 'down' | 'left' | 'right' => {
+            if (placement.includes('top')) {
+              return 'down'
+            } else if (placement.includes('bottom')) {
+              return 'up'
+            } else if (placement.includes('left')) {
+              return 'right'
+            } else if (placement.includes('right')) {
+              return 'left'
+            }
+            return 'up'
+          }
+        )
+        return Fragment(
+          attr.class('bc-tooltip__arrow'),
+          attr.class(direction.map((d: string) => `bc-tooltip__arrow-${d}`)),
+          style.transform(
+            signal.map(({ x, y }: { x?: number; y?: number }) => {
+              if (x == null && y == null) {
+                return ''
+              }
+              if (x != null) {
+                return `translate(${x}px, 0)`
+              } else {
+                return `translate(0, ${y}px)`
+              }
+            })
+          ),
+          SVGArrow(direction)
+        )
+      },
+    })
   })
 }

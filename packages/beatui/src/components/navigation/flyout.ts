@@ -98,6 +98,9 @@ export function Flyout(options: FlyoutOptions): TNode {
       initialStatus: 'closed',
     })
 
+    // Generate unique IDs for accessibility
+    const flyoutId = `flyout-${Math.random().toString(36).substring(2, 11)}`
+
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
     let delayedOpenCleanup: (() => void) | null = null
@@ -163,17 +166,39 @@ export function Flyout(options: FlyoutOptions): TNode {
             delayedOpenCleanup = null
           })
 
+          // Add keyboard navigation for closable flyouts
+          const handleKeyDown = (event: KeyboardEvent) => {
+            if (Value.get(closable) && event.key === 'Escape') {
+              event.preventDefault()
+              event.stopPropagation()
+              hide()
+              // Update ARIA attributes on trigger element
+              const triggerElement = document.querySelector(
+                `[aria-controls="${flyoutId}"]`
+              )
+              if (triggerElement) {
+                triggerElement.setAttribute('aria-expanded', 'false')
+              }
+            }
+          }
+
+          // Add keyboard event listener
+          document.addEventListener('keydown', handleKeyDown, true)
+
           return Fragment(
             OnDispose(() => {
               cleanup()
+              document.removeEventListener('keydown', handleKeyDown, true)
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
             attr.class('bc-flyout'),
+            attr.id(flyoutId),
+            attr.tabindex(-1), // Make focusable for screen readers
             AnimatedToggleClass(
               Value.map(placement, placementToAnimation),
               animatedToggle.status
             ),
-            role ? attr.role(role) : null,
+            role ? attr.role(role) : attr.role('dialog'), // Default to dialog role
             content()
           )
         }),
@@ -277,58 +302,85 @@ export function Flyout(options: FlyoutOptions): TNode {
       }, delay)
     }
 
-    // Handle custom trigger config
-    if (typeof showOn === 'function') {
-      return (showOn as FlyoutTriggerFunction)(show, hide)
-    }
+    // Add ARIA attributes to trigger element
+    return WithElement(triggerElement => {
+      // Set ARIA attributes on the trigger element
+      const updateTriggerAria = (isOpen: boolean) => {
+        triggerElement.setAttribute('aria-expanded', isOpen.toString())
+        triggerElement.setAttribute('aria-controls', flyoutId)
+        if (!triggerElement.hasAttribute('aria-haspopup')) {
+          triggerElement.setAttribute('aria-haspopup', 'dialog')
+        }
+      }
 
-    // Handle built-in trigger types
-    const triggerValue = showOn as Value<FlyoutTrigger>
-    return Fragment(
-      OnDispose(() => {
-        // Dispose the animatedToggle when the entire Flyout is disposed
-        animatedToggle.dispose()
-      }),
-      OneOfValue(triggerValue, {
-        'hover-focus': () =>
-          Fragment(
-            on.mouseenter(() => show()),
-            on.mouseleave(() => hide()),
-            on.focus(() => show()),
-            on.blur(() => hide())
-          ),
-        hover: () =>
-          Fragment(
-            on.mouseenter(() => show()),
-            on.mouseleave(() => hide())
-          ),
-        focus: () =>
-          Fragment(
-            on.focus(() => show()),
-            on.blur(() => hide())
-          ),
-        click: () => {
-          function clear() {
-            document.removeEventListener('click', documentClick)
-          }
-          function documentClick() {
-            clear()
-            hide()
-          }
-          return Fragment(
-            OnDispose(clear),
-            on.click(() => {
-              show()
-              delayedAnimationFrame(() => {
-                document.addEventListener('click', documentClick, {
-                  once: true,
+      // Initialize ARIA attributes
+      updateTriggerAria(false)
+
+      // Enhanced show function with ARIA updates
+      const enhancedShow = () => {
+        show()
+        updateTriggerAria(true)
+      }
+
+      // Enhanced hide function with ARIA updates
+      const enhancedHide = () => {
+        hide()
+        updateTriggerAria(false)
+      }
+
+      // Handle custom trigger config
+      if (typeof showOn === 'function') {
+        return (showOn as FlyoutTriggerFunction)(enhancedShow, enhancedHide)
+      }
+
+      // Handle built-in trigger types
+      const triggerValue = showOn as Value<FlyoutTrigger>
+      return Fragment(
+        OnDispose(() => {
+          // Dispose the animatedToggle when the entire Flyout is disposed
+          animatedToggle.dispose()
+        }),
+        OneOfValue(triggerValue, {
+          'hover-focus': () =>
+            Fragment(
+              on.mouseenter(() => enhancedShow()),
+              on.mouseleave(() => enhancedHide()),
+              on.focus(() => enhancedShow()),
+              on.blur(() => enhancedHide())
+            ),
+          hover: () =>
+            Fragment(
+              on.mouseenter(() => enhancedShow()),
+              on.mouseleave(() => enhancedHide())
+            ),
+          focus: () =>
+            Fragment(
+              on.focus(() => enhancedShow()),
+              on.blur(() => enhancedHide())
+            ),
+          click: () => {
+            function clear() {
+              document.removeEventListener('click', documentClick)
+            }
+            function documentClick() {
+              clear()
+              enhancedHide()
+            }
+            return Fragment(
+              OnDispose(clear),
+              on.click(() => {
+                enhancedShow()
+                delayedAnimationFrame(() => {
+                  document.addEventListener('click', documentClick, {
+                    once: true,
+                  })
                 })
               })
-            })
-          )
-        },
-        never: () => null,
-      })
-    )
+            )
+          },
+          never: () => null,
+        })
+      )
+    })
   })
 }

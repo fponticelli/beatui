@@ -9,11 +9,13 @@ import {
   When,
   computedOf,
   aria,
+  dataAttr,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { OverlayEffect } from '../theme'
+import { FocusTrap } from '@/utils/focus-trap'
 
 export interface ModalOptions {
   /** Size of the modal */
@@ -89,6 +91,11 @@ export function Modal(
         return header || showCloseButton
       })
 
+      // Generate unique IDs for accessibility
+      const modalId = `modal-${Math.random().toString(36).substring(2, 11)}`
+      const headerId = `${modalId}-header`
+      const bodyId = `${modalId}-body`
+
       const modalContent = html.div(
         attr.class(
           computedOf(
@@ -100,7 +107,47 @@ export function Modal(
           )
         ),
 
+        // Essential ARIA attributes for modal dialog
+        attr.role('dialog'),
+        aria.modal(true),
+        ...(content.header ? [aria.labelledby(headerId)] : []),
+        aria.describedby(bodyId),
+        attr.tabindex(-1), // Make modal focusable for initial focus
+        attr.id(modalId),
+        dataAttr.focusTrap('true'), // Mark as focus trap container
+
         on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
+
+        // Focus trap implementation
+        FocusTrap({
+          escapeDeactivates: Value.get(dismissable),
+          onEscape: () => {
+            if (Value.get(dismissable)) {
+              onClose?.()
+              closeOverlay()
+            }
+          },
+          initialFocus: () => {
+            // Try to focus elements in order of preference
+            const modal = document.getElementById(modalId)
+            if (!modal) return null
+
+            // Try to focus the close button first
+            const closeButton = modal.querySelector(
+              '[aria-label="Close modal"]'
+            ) as HTMLElement
+            if (closeButton) return closeButton
+
+            // Then try any focusable element
+            const firstFocusable = modal.querySelector(
+              'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            ) as HTMLElement
+            if (firstFocusable) return firstFocusable
+
+            // Finally, focus the modal itself
+            return modal
+          },
+        }),
 
         // Modal content container
         html.div(
@@ -110,7 +157,10 @@ export function Modal(
           When(displayHeader, () =>
             html.div(
               attr.class('bc-modal__header'),
-              html.div(content.header),
+              html.div(
+                ...(content.header ? [attr.id(headerId)] : []),
+                content.header
+              ),
               When(showCloseButton, () =>
                 Button(
                   {
@@ -130,7 +180,7 @@ export function Modal(
           ),
 
           // Body section
-          html.div(attr.class('bc-modal__body'), content.body),
+          html.div(attr.class('bc-modal__body'), attr.id(bodyId), content.body),
 
           // Footer section
           content.footer &&
