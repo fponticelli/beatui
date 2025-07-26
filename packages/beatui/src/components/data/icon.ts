@@ -1,4 +1,14 @@
-import { aria, attr, computedOf, html, style, TNode, Value } from '@tempots/dom'
+import {
+  aria,
+  attr,
+  computedOf,
+  html,
+  style,
+  TNode,
+  Value,
+  Fragment,
+  When,
+} from '@tempots/dom'
 import { IconSize } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
@@ -115,7 +125,15 @@ export interface IconOptions {
   icon: Value<string>
   size?: Value<IconSize>
   color?: Value<ThemeColorName>
-  title?: Value<string>
+  title?: Value<string | undefined>
+  /**
+   * Whether this icon is decorative (hidden from screen readers) or informative.
+   * - 'decorative': Icon is purely visual, hidden from screen readers with aria-hidden="true"
+   * - 'informative': Icon conveys meaning, gets aria-label and role="img"
+   * - 'auto': Automatically determined based on presence of title prop
+   * @default 'auto'
+   */
+  accessibility?: Value<'decorative' | 'informative' | 'auto'>
 }
 
 function generateIconClasses(size: IconSize, color?: string): string {
@@ -127,9 +145,20 @@ function generateIconClasses(size: IconSize, color?: string): string {
 }
 
 export function Icon(
-  { icon, size = 'md', color, title }: IconOptions,
+  { icon, size = 'md', color, title, accessibility = 'auto' }: IconOptions,
   ...children: TNode[]
 ) {
+  // Determine if icon is decorative or informative
+  const isInformative = computedOf(
+    accessibility,
+    title
+  )((acc, title) => {
+    if (acc === 'decorative') return false
+    if (acc === 'informative') return true
+    // Auto mode: informative if title is provided
+    return title != null && title !== ''
+  })
+
   return html.span(
     attr.class(
       computedOf(
@@ -137,7 +166,17 @@ export function Icon(
         color
       )((size, color) => generateIconClasses(size ?? 'md', color))
     ),
-    aria.label(title),
+    // Add accessibility attributes based on icon type
+    When(
+      isInformative,
+      () =>
+        Fragment(
+          attr.role('img'),
+          // TODO translation
+          aria.label(title || 'Icon')
+        ),
+      () => aria.hidden(true)
+    ),
     WhenInViewport({ once: true }, () =>
       Resource<string, string, string>({
         request: icon,
@@ -150,9 +189,39 @@ export function Icon(
             style.height('100%'),
             attr.innerHTML(svg)
           ),
-        loading: () => html.span(attr.class('animate-spin'), '↻'),
+        loading: () =>
+          html.span(
+            attr.class('animate-spin'),
+            // Loading state accessibility
+            When(
+              isInformative,
+              () =>
+                Fragment(
+                  attr.role('img'),
+                  // TODO translation
+                  aria.label('Loading icon')
+                ),
+              () => aria.hidden(true)
+            ),
+            '↻'
+          ),
         failure: err =>
-          html.span(attr.title(err), attr.class('text-red-500'), '🚫'),
+          html.span(
+            attr.title(err),
+            attr.class('text-red-500'),
+            // Error state accessibility
+            When(
+              isInformative,
+              () =>
+                Fragment(
+                  attr.role('img'),
+                  // TODO translation
+                  aria.label('Failed to load icon')
+                ),
+              () => aria.hidden(true)
+            ),
+            '🚫'
+          ),
       })
     ),
     ...children

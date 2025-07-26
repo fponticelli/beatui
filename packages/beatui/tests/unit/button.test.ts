@@ -78,7 +78,9 @@ describe('Button Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
-      Provide(Theme, {}, () => Button({ disabled: true, loading: true }, 'Click me')),
+      Provide(Theme, {}, () =>
+        Button({ disabled: true, loading: true }, 'Click me')
+      ),
       container
     )
 

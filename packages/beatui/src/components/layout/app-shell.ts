@@ -637,6 +637,10 @@ export function AppShell({
         ? html.nav(
             WithElement(el => menuStatus.setElement(el)),
             attr.class('bu-z-10'),
+            // Add ARIA attributes for navigation landmark
+            // TODO translation
+            aria.label('Main navigation'),
+            attr.role('navigation'),
             attr.class(
               displayMenuAs.map((v): string =>
                 v === 'float'
@@ -736,6 +740,10 @@ export function AppShell({
               asideStatus.setElement(el)
             }),
             attr.class('bu-z-10'),
+            // Add ARIA attributes for aside landmark
+            // TODO translation
+            aria.label('Sidebar'),
+            attr.role('complementary'),
             attr.class(
               displayAsideAs.map((v): string =>
                 v === 'float'

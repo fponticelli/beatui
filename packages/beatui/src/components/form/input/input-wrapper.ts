@@ -6,6 +6,9 @@ import {
   Value,
   computedOf,
   Ensure,
+  aria,
+  dataAttr,
+  When,
 } from '@tempots/dom'
 import { Label } from '../../typography/label'
 
@@ -64,6 +67,11 @@ export const InputWrapper = (
   const computedHasError = hasError ?? Value.map(error ?? null, e => e != null)
   const computedDisabled = disabled ?? false
 
+  // Generate unique IDs for accessibility
+  const wrapperId = `input-wrapper-${Math.random().toString(36).substring(2, 11)}`
+  const descriptionId = description ? `${wrapperId}-description` : undefined
+  const errorId = error ? `${wrapperId}-error` : undefined
+
   return html.div(
     attr.class(generateInputWrapperClasses()),
     label != null || context != null
@@ -91,13 +99,34 @@ export const InputWrapper = (
           context != null ? Label(context) : Empty
         )
       : Empty,
-    html.div(attr.class('bc-input-wrapper__content'), content),
+    html.div(
+      attr.class('bc-input-wrapper__content'),
+      // Add data attributes to help inputs inherit accessibility information
+      [descriptionId, errorId].filter(Boolean).length > 0
+        ? dataAttr.describedby(
+            [descriptionId, errorId].filter(Boolean).join(' ')
+          )
+        : Empty,
+      required ? dataAttr.required('true') : Empty,
+      When(computedHasError, () => dataAttr.invalid('true')),
+      content
+    ),
     description != null
-      ? html.div(attr.class('bc-input-wrapper__description'), description)
+      ? html.div(
+          attr.class('bc-input-wrapper__description'),
+          attr.id(descriptionId!),
+          description
+        )
       : Empty,
     error != null
       ? Ensure(error as Value<TNode | null | undefined>, errorValue =>
-          html.div(attr.class('bc-input-wrapper__error'), errorValue as TNode)
+          html.div(
+            attr.class('bc-input-wrapper__error'),
+            attr.id(errorId!),
+            aria.live('polite'), // Announce errors to screen readers
+            attr.role('alert'), // Mark as alert for immediate attention
+            errorValue as TNode
+          )
         )
       : Empty,
     ...children

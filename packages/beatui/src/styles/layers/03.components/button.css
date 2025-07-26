@@ -18,7 +18,7 @@
   }
 
   .bc-button:hover:not(:disabled) {
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
 
   .bc-button:active:not(:disabled) {

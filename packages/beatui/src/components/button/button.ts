@@ -10,6 +10,7 @@ import {
   TNode,
   Value,
   When,
+  aria,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '@/tokens'
@@ -104,6 +105,10 @@ export function Button(
     attr.disabled(
       computedOf(disabled, loading)((disabled, loading) => disabled || loading)
     ),
+    // Add ARIA attributes for accessibility
+    aria.busy(loading ?? false),
+    // TODO translation
+    When(loading ?? false, () => aria.label('Loading, please wait')),
     attr.class(
       computedOf(
         variant,
@@ -139,7 +144,14 @@ export function Button(
               return `${rect.height}px`
             })
           ),
-          Icon({ icon: 'line-md:loading-twotone-loop', size: size ?? 'md' })
+          Icon({ icon: 'line-md:loading-twotone-loop', size: size ?? 'md' }),
+          // Hidden live region for screen reader announcements
+          html.span(
+            attr.class('sr-only'),
+            aria.live('polite'),
+            // TODO translation
+            'Loading, please wait'
+          )
         ),
       () => Fragment(on.click(onClick), ...children)
     ),
