@@ -72,6 +72,7 @@ export const EditableText = ({
           ),
           html.button(
             attr.class('bc-editable-text__edit-button'),
+            // TODO translation
             aria.label('Edit'),
             on.click(() => isEditing.set(true)),
             Icon({ icon: 'line-md/pencil' })

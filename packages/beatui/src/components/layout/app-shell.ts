@@ -587,6 +587,7 @@ export function AppShell({
                 variant: 'light',
                 color: 'base',
               },
+              // TODO translation
               aria.label('Open menu'),
               Icon({
                 icon: menuStatus.display.map((v): string =>
@@ -617,6 +618,7 @@ export function AppShell({
                 variant: 'light',
                 color: 'base',
               },
+              // TODO translation
               aria.label('Open aside'),
               Icon(
                 { icon: 'line-md/chevron-left' },

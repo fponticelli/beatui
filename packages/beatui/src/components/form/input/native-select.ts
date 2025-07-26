@@ -122,6 +122,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     onBlur,
     onChange,
     options: selectOptions,
+    // TODO translation
     unselectedLabel = 'Select one ...',
     equality = (a, b) => a === b,
   } = options

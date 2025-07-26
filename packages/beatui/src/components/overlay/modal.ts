@@ -121,6 +121,7 @@ export function Modal(
                       closeOverlay()
                     },
                   },
+                  // TODO translation
                   aria.label('Close modal'),
                   Icon({ icon: 'line-md:close', size: 'sm' })
                 )
@@ -175,7 +176,9 @@ export function ConfirmModal(
   fn: (open: (message: TNode) => void, close: () => void) => TNode
 ): TNode {
   const {
+    // TODO translation
     confirmText = 'Confirm',
+    // TODO translation
     cancelText = 'Cancel',
     onConfirm,
     onCancel,

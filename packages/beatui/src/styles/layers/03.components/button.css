@@ -28,6 +28,9 @@
 
   .bc-button:disabled {
     cursor: not-allowed;
+  }
+
+  .bc-button:disabled:not(.bc-button--loading) {
     opacity: 0.5;
   }
 

@@ -11,7 +11,6 @@ export const PasswordControl = (
   ...children: TNode[]
 ) => {
   const { onBlur, onChange, ...rest } = options
-  // options.controller.addValidator(ValidatePasswordId, validatePassword)
   return ControlInputWrapper(
     {
       label: 'Password',

@@ -38,6 +38,11 @@ export const LazyNativeSelect = <T, R>(
       })
     },
     loading: () =>
-      html.span(attr.class('animate-spin'), aria.label('Loading...'), '↻'),
+      html.span(
+        attr.class('animate-spin'),
+        // TODO translation
+        aria.label('Loading...'),
+        '↻'
+      ),
   })
 }

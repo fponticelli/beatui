@@ -41,6 +41,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
   const placeholderValue = computedOf(
     hidePassword,
     placeholder
+    // TODO translation
   )((hp, ph) => (hp ? '•••••••••••••••' : (ph ?? 'secret password')))
   return InputContainer({
     before: before,
@@ -67,6 +68,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
       after ??
       html.button(
         attr.class('bc-input-container__password-toggle'),
+        // TODO translation
         aria.label('Toggle password visibility'),
         on.click(() => hidePassword.update(v => !v)),
         When(

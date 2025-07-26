@@ -1,11 +1,26 @@
-import { attr, computedOf, html, on, TNode, Value } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  Fragment,
+  html,
+  on,
+  OnDispose,
+  prop,
+  style,
+  TNode,
+  Value,
+  When,
+} from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
+import { Icon } from '../data/icon'
+import { ElementRect, Rect } from '@tempots/ui'
 
 export interface ButtonOptions {
   type?: Value<'submit' | 'reset' | 'button'>
   disabled?: Value<boolean>
+  loading?: Value<boolean>
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
   color?: Value<ThemeColorName>
@@ -18,7 +33,8 @@ function generateButtonClasses(
   size: ControlSize,
   color: string,
   roundedness: RadiusName,
-  disabled?: boolean
+  disabled?: boolean,
+  loading?: boolean
 ): string {
   const classes = [
     'bc-button',
@@ -26,6 +42,10 @@ function generateButtonClasses(
     `bc-control--padding-${size}`,
     `bc-control--rounded-${roundedness}`,
   ]
+
+  if (loading) {
+    classes.push('bc-button--loading')
+  }
 
   switch (variant) {
     case 'filled':
@@ -69,6 +89,7 @@ export function Button(
   {
     type = 'button',
     disabled,
+    loading,
     variant = 'filled',
     size = 'md',
     color = 'base',
@@ -77,27 +98,61 @@ export function Button(
   }: ButtonOptions,
   ...children: TNode[]
 ) {
+  const buttonSize = prop<null | Rect>(null)
   return html.button(
     attr.type(type as Value<string>),
-    attr.disabled(disabled),
+    attr.disabled(
+      computedOf(disabled, loading)((disabled, loading) => disabled || loading)
+    ),
     attr.class(
       computedOf(
         variant,
         size,
         color,
         roundedness,
-        disabled
-      )((variant, size, color, roundedness, disabled) =>
+        disabled,
+        loading
+      )((variant, size, color, roundedness, disabled, loading) =>
         generateButtonClasses(
           variant ?? 'filled',
           size ?? 'md',
           color ?? 'base',
           roundedness ?? 'sm',
-          disabled
+          disabled,
+          loading
         )
       )
     ),
-    on.click(onClick),
-    ...children
+    When(
+      loading ?? false,
+      () =>
+        Fragment(
+          style.width(
+            buttonSize.map(rect => {
+              if (rect == null) return ''
+              return `${rect.width}px`
+            })
+          ),
+          style.height(
+            buttonSize.map(rect => {
+              if (rect == null) return ''
+              return `${rect.height}px`
+            })
+          ),
+          Icon({ icon: 'line-md:loading-twotone-loop', size: size ?? 'md' })
+        ),
+      () => Fragment(on.click(onClick), ...children)
+    ),
+    When(loading != null, () =>
+      ElementRect(rect =>
+        OnDispose(
+          rect.on(r => {
+            if (Value.get(loading ?? false)) return
+            console.log(r)
+            buttonSize.set(r)
+          })
+        )
+      )
+    )
   )
 }

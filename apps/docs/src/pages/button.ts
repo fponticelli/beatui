@@ -9,6 +9,7 @@ import {
   Stack,
   Label,
   ScrollablePanel,
+  Switch,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -60,6 +61,7 @@ export const ButtonPage = () => {
   const size = prop<ControlSize>('md')
   const text = prop('Click Me!')
   const disabled = prop(false)
+  const loading = prop(false)
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -82,6 +84,7 @@ export const ButtonPage = () => {
       ),
       Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
       Stack(DisabledSelector({ disabled })),
+      Switch({ value: loading, onChange: loading.set, label: 'Loading' }),
       Stack(
         Label('Text'),
         html.div(
@@ -110,6 +113,7 @@ export const ButtonPage = () => {
                   Button(
                     {
                       disabled,
+                      loading,
                       size,
                       roundedness,
                       variant,

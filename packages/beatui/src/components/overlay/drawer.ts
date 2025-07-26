@@ -134,6 +134,7 @@ export function Drawer(
                         size: 'sm',
                         onClick: handleClose,
                       },
+                      // TODO translation
                       aria.label('Close drawer'),
                       Icon({ icon: 'line-md:close', size: 'sm' })
                     )
