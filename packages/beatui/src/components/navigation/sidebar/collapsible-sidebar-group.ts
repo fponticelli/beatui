@@ -3,6 +3,7 @@ import { SidebarGroup } from './sidebar-group'
 import { Collapse } from '@/components/layout'
 import { SidebarLink } from './sidebar-link'
 import { Icon } from '@/components/data'
+import { sessionId } from '../../../utils/session-id'
 
 export type CollapsibleSidebarGroupOptions = {
   icon?: Value<string>
@@ -22,7 +23,7 @@ export function CollapsibleSidebarGroup(
 ) {
   const open = Value.deriveProp(startOpen)
   // Generate unique IDs for accessibility
-  const groupId = `sidebar-group-${Math.random().toString(36).substring(2, 11)}`
+  const groupId = sessionId('sidebar-group')
   const contentId = `${groupId}-content`
 
   return SidebarGroup(

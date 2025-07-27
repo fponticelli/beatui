@@ -11,6 +11,7 @@ import {
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
 import { Label } from '@/components/typography'
+import { sessionId } from '../../../utils/session-id'
 
 export type SwitchOptions = {
   value: Value<boolean>
@@ -34,7 +35,7 @@ export const Switch = ({
   id,
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
-  const switchId = id ?? `switch-${Math.random().toString(36).substring(2, 11)}`
+  const switchId = id ?? sessionId('switch')
   const labelId = `${switchId}-label`
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {

@@ -12,13 +12,13 @@ import {
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { MutedLabel } from '../../typography/label'
+import { sessionId } from '../../../utils/session-id'
 
 export const CheckboxInput = (options: InputOptions<boolean>) => {
   const { value, onBlur, onChange, placeholder, id } = options
 
   // Generate unique IDs for accessibility
-  const checkboxId =
-    id ?? `checkbox-${Math.random().toString(36).substring(2, 11)}`
+  const checkboxId = id ?? sessionId('checkbox')
   const labelId = `${checkboxId}-label`
 
   return InputContainer({

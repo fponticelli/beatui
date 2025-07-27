@@ -16,6 +16,7 @@ import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { OverlayEffect } from '../theme'
 import { FocusTrap } from '@/utils/focus-trap'
+import { sessionId } from '../../utils/session-id'
 
 export interface ModalOptions {
   /** Size of the modal */
@@ -92,7 +93,7 @@ export function Modal(
       })
 
       // Generate unique IDs for accessibility
-      const modalId = `modal-${Math.random().toString(36).substring(2, 11)}`
+      const modalId = sessionId('modal')
       const headerId = `${modalId}-header`
       const bodyId = `${modalId}-body`
 

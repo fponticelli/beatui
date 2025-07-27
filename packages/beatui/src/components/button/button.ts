@@ -160,7 +160,6 @@ export function Button(
         OnDispose(
           rect.on(r => {
             if (Value.get(loading ?? false)) return
-            console.log(r)
             buttonSize.set(r)
           })
         )

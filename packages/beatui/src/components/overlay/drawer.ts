@@ -20,6 +20,7 @@ import { OverlayEffect } from '../theme/types'
 import { ScrollablePanel } from '../layout'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 import { FocusTrap } from '@/utils/focus-trap'
+import { sessionId } from '../../utils/session-id'
 
 export interface DrawerOptions {
   /** Size of the drawer */
@@ -110,7 +111,7 @@ export function Drawer(
         delayedAnimationFrame(() => animatedToggle.open())
 
         // Generate unique IDs for accessibility
-        const drawerId = `drawer-${Math.random().toString(36).substring(2, 11)}`
+        const drawerId = sessionId('drawer')
         const headerContentId =
           header != null ? `${drawerId}-header` : undefined
         const bodyId = `${drawerId}-body`

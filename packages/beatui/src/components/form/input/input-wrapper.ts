@@ -11,6 +11,7 @@ import {
   When,
 } from '@tempots/dom'
 import { Label } from '../../typography/label'
+import { sessionId } from '../../../utils/session-id'
 
 export const RequiredSymbol = html.span(
   attr.class('bc-input-wrapper__required'),
@@ -68,7 +69,7 @@ export const InputWrapper = (
   const computedDisabled = disabled ?? false
 
   // Generate unique IDs for accessibility
-  const wrapperId = `input-wrapper-${Math.random().toString(36).substring(2, 11)}`
+  const wrapperId = sessionId('input-wrapper')
   const descriptionId = description ? `${wrapperId}-description` : undefined
   const errorId = error ? `${wrapperId}-error` : undefined
 

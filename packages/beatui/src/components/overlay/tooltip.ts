@@ -11,6 +11,7 @@ import {
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
 import { Flyout, FlyoutTrigger } from '../navigation/flyout'
+import { sessionId } from '../../utils/session-id'
 
 export type TooltipTrigger = FlyoutTrigger
 
@@ -76,7 +77,7 @@ export function Tooltip(options: TooltipOptions): TNode {
   } = options
 
   // Generate unique ID for the tooltip
-  const tooltipId = `tooltip-${Math.random().toString(36).substring(2, 11)}`
+  const tooltipId = sessionId('tooltip')
 
   return WithElement(triggerElement => {
     // Set aria-describedby on the trigger element to associate it with the tooltip

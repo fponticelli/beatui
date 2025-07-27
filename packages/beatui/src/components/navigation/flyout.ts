@@ -15,6 +15,7 @@ import {
   AnimatedToggleClass,
   Animation,
 } from '@/utils/use-animated-toggle'
+import { sessionId } from '../../utils/session-id'
 
 export type FlyoutTrigger =
   | 'hover'
@@ -99,7 +100,7 @@ export function Flyout(options: FlyoutOptions): TNode {
     })
 
     // Generate unique IDs for accessibility
-    const flyoutId = `flyout-${Math.random().toString(36).substring(2, 11)}`
+    const flyoutId = sessionId('flyout')
 
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
