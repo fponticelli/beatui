@@ -1,5 +1,5 @@
 import { Fragment, html, Provide } from '@tempots/dom'
-import { Location, Router } from '@tempots/ui'
+import { Location, RootRouter } from '@tempots/ui'
 import { Theme, ThemeAppearance } from '@tempots/beatui'
 import { HomePage } from './pages/home'
 import { AppLayout } from './app-layout'
@@ -25,7 +25,7 @@ export const App = () => {
       Fragment(
         ThemeAppearance(),
         AppLayout({
-          children: Router({
+          children: RootRouter({
             '/': HomePage,
             '/button': ButtonPage,
             '/switch': SwitchPage,
