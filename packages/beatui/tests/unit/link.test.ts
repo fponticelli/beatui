@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { generateLinkClasses } from '../../src/components/navigation/link/link'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
 
