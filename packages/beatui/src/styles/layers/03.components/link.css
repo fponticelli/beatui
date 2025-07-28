@@ -1,21 +1,12 @@
 @layer components {
   /* Link Component */
   .bc-link {
-    color: var(--color-primary-700);
     transition: color 0.2s ease-in-out;
     cursor: pointer;
   }
 
-  .bc-link:hover {
-    color: var(--color-primary-800);
-  }
-
-  .bc-link:active {
-    color: var(--color-primary-900);
-  }
-
   .bc-link:focus-visible {
-    outline: 2px solid var(--color-primary-500);
+    outline: 2px solid currentColor;
     outline-offset: 2px;
     border-radius: var(--radius-xs);
   }
@@ -39,21 +30,19 @@
     text-decoration: underline;
   }
 
-  /* Dark mode styles */
-  .b-dark .bc-link {
-    color: var(--color-primary-500);
+  /* Disabled state */
+  .bc-link--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    text-decoration: none !important;
   }
 
-  .b-dark .bc-link:hover {
-    color: var(--color-primary-600);
+  .bc-link--disabled:hover {
+    text-decoration: none !important;
   }
 
-  .b-dark .bc-link:active {
-    color: var(--color-primary-700);
-  }
-
-  .b-dark .bc-link:focus-visible {
-    outline-color: var(--color-primary-400);
+  .bc-link--disabled:focus-visible {
+    outline: none;
   }
 
   /* High contrast mode support */

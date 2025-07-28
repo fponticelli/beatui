@@ -4,6 +4,7 @@ import {
   Stack,
   SegmentedControl,
   ScrollablePanel,
+  Label,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -13,22 +14,25 @@ export const LinkPage = () => {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      SegmentedControl({
-        value: variant,
-        options: {
-          default: 'Default',
-          plain: 'Plain',
-          hover: 'Hover',
-        },
-        onChange: variant.set,
-      })
+      Label(
+        'Variant',
+        SegmentedControl({
+          value: variant,
+          options: {
+            default: 'Default',
+            plain: 'Plain',
+            hover: 'Hover',
+          },
+          onChange: variant.set,
+        })
+      )
     ),
     body: Stack(
       attr.class('bu-gap-6 bu-p-6'),
 
       // Basic example
       html.div(
-        html.h3('Basic Link'),
+        html.h3('Interactive Link'),
         html.p(
           'This is a paragraph with a ',
           Link(
@@ -38,7 +42,7 @@ export const LinkPage = () => {
             },
             'sample link'
           ),
-          ' in the middle of the text.'
+          ' that responds to the variant control above.'
         )
       ),
 
@@ -65,6 +69,14 @@ export const LinkPage = () => {
               'Link with underline on hover'
             )
           )
+        )
+      ),
+
+      // Note about additional features
+      html.div(
+        html.h3('Additional Features'),
+        html.p(
+          'The Link component also supports color and disabled properties, as well as a NavigationLink component for automatic active state management. These features are available but not shown in this demo due to TypeScript configuration issues.'
         )
       ),
 
