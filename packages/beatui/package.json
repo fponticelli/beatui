@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -86,7 +86,7 @@
   "peerDependencies": {
     "@tempots/dom": "28.2.2",
     "@tempots/std": "0.22.1",
-    "@tempots/ui": "5.2.2"
+    "@tempots/ui": "6.0.0"
   },
   "peerDependenciesMeta": {
     "@tempots/dom": {
