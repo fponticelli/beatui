@@ -87,6 +87,7 @@ const main = async () => {
   const { ButtonPage } = await import('../src/pages/button')
   const { SwitchPage } = await import('../src/pages/switch')
   const { IconPage } = await import('../src/pages/icon')
+  const { LinkPage } = await import('../src/pages/link')
   const { SegmentedControlPage } = await import(
     '../src/pages/segmented-control'
   )
@@ -181,6 +182,7 @@ const main = async () => {
           '/switch': SwitchPage,
           '/collapse': CollapsePage,
           '/icon': IconPage,
+          '/link': LinkPage,
           '/modal': ModalPage,
           '/drawer': DrawerPage,
           '/tooltip': TooltipPage,
@@ -210,6 +212,7 @@ const main = async () => {
                     html.a(attr.href('/switch'), 'Switch'),
                     html.a(attr.href('/collapse'), 'Collapse'),
                     html.a(attr.href('/icon'), 'Icon'),
+                    html.a(attr.href('/link'), 'Link'),
                     html.a(attr.href('/modal'), 'Modal'),
                     html.a(attr.href('/drawer'), 'Drawer'),
                     html.a(attr.href('/tooltip'), 'Tooltip'),

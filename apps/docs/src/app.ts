@@ -6,6 +6,7 @@ import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
 import { SwitchPage } from './pages/switch'
 import { IconPage } from './pages/icon'
+import { LinkPage } from './pages/link'
 import { SegmentedControlPage } from './pages/segmented-control'
 import { TagsPage } from './pages/tags'
 import { FormPage } from './pages/form'
@@ -31,6 +32,7 @@ export const App = () => {
             '/switch': SwitchPage,
             '/collapse': CollapsePage,
             '/icon': IconPage,
+            '/link': LinkPage,
             '/modal': ModalPage,
             '/drawer': DrawerPage,
             '/tooltip': TooltipPage,

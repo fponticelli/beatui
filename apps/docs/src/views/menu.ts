@@ -15,6 +15,7 @@ export function Menu() {
       SidebarLink({ href: '/switch', content: 'Switch' }),
       SidebarLink({ href: '/collapse', content: 'Collapse' }),
       SidebarLink({ href: '/icon', content: 'Icon' }),
+      SidebarLink({ href: '/link', content: 'Link' }),
       SidebarLink({ href: '/modal', content: 'Modal' }),
       SidebarLink({ href: '/drawer', content: 'Drawer' }),
       SidebarLink({ href: '/tooltip', content: 'Tooltip' }),

@@ -1,0 +1,87 @@
+@layer components {
+  /* Link Component */
+  .bc-link {
+    color: var(--color-primary-700);
+    transition: color 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+  .bc-link:hover {
+    color: var(--color-primary-800);
+  }
+
+  .bc-link:active {
+    color: var(--color-primary-900);
+  }
+
+  .bc-link:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Default variant - standard underline behavior */
+  .bc-link--default {
+    text-decoration: underline;
+  }
+
+  /* Plain variant - no underline */
+  .bc-link--plain {
+    text-decoration: none;
+  }
+
+  /* Hover variant - underline only on hover */
+  .bc-link--hover {
+    text-decoration: none;
+  }
+
+  .bc-link--hover:hover {
+    text-decoration: underline;
+  }
+
+  /* Dark mode styles */
+  .b-dark .bc-link {
+    color: var(--color-primary-500);
+  }
+
+  .b-dark .bc-link:hover {
+    color: var(--color-primary-600);
+  }
+
+  .b-dark .bc-link:active {
+    color: var(--color-primary-700);
+  }
+
+  .b-dark .bc-link:focus-visible {
+    outline-color: var(--color-primary-400);
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bc-link {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+
+    .bc-link--plain {
+      text-decoration: none;
+      border-bottom: 2px solid currentColor;
+    }
+
+    .bc-link--hover {
+      text-decoration: none;
+    }
+
+    .bc-link--hover:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-link {
+      transition: none;
+    }
+  }
+}
