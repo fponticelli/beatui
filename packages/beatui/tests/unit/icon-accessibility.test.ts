@@ -134,7 +134,7 @@ describe('Icon Accessibility', () => {
 
   describe('Dynamic accessibility changes', () => {
     it('should update accessibility attributes when title changes', async () => {
-      const title = prop('')
+      const title = prop('' as string | undefined)
 
       render(
         Provide(Theme, {}, () =>

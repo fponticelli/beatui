@@ -29,7 +29,7 @@ export interface ButtonOptions {
   onClick?: () => void
 }
 
-function generateButtonClasses(
+export function generateButtonClasses(
   variant: ButtonVariant,
   size: ControlSize,
   color: string,
