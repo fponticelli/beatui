@@ -1,6 +1,6 @@
-import { Fragment, html, Provide } from '@tempots/dom'
-import { Location, RootRouter } from '@tempots/ui'
-import { Theme, ThemeAppearance } from '@tempots/beatui'
+import { html } from '@tempots/dom'
+import { RootRouter } from '@tempots/ui'
+import { BeatUI } from '@tempots/beatui'
 import { HomePage } from './pages/home'
 import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
@@ -21,33 +21,28 @@ import { FlyoutPage } from './pages/flyout'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
 
 export const App = () => {
-  return Provide(Theme, {}, () =>
-    Provide(Location, {}, () =>
-      Fragment(
-        ThemeAppearance(),
-        AppLayout({
-          children: RootRouter({
-            '/': HomePage,
-            '/button': ButtonPage,
-            '/switch': SwitchPage,
-            '/collapse': CollapsePage,
-            '/icon': IconPage,
-            '/link': LinkPage,
-            '/modal': ModalPage,
-            '/drawer': DrawerPage,
-            '/tooltip': TooltipPage,
-            '/flyout': FlyoutPage,
-            '/scrollable-panel': ScrollablePanelPage,
-            '/segmented-control': SegmentedControlPage,
-            '/sidebar': SidebarPage,
-            '/tags': TagsPage,
-            '/form': FormPage,
-            '/editable-text': EditableTextPage,
-            '/breakpoint': BreakpointPage,
-            '/*': () => html.div('Not Found'),
-          }),
-        })
-      )
-    )
+  return BeatUI(
+    AppLayout({
+      children: RootRouter({
+        '/': HomePage,
+        '/button': ButtonPage,
+        '/switch': SwitchPage,
+        '/collapse': CollapsePage,
+        '/icon': IconPage,
+        '/link': LinkPage,
+        '/modal': ModalPage,
+        '/drawer': DrawerPage,
+        '/tooltip': TooltipPage,
+        '/flyout': FlyoutPage,
+        '/scrollable-panel': ScrollablePanelPage,
+        '/segmented-control': SegmentedControlPage,
+        '/sidebar': SidebarPage,
+        '/tags': TagsPage,
+        '/form': FormPage,
+        '/editable-text': EditableTextPage,
+        '/breakpoint': BreakpointPage,
+        '/*': () => html.div('Not Found'),
+      }),
+    })
   )
 }
