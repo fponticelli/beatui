@@ -14,8 +14,8 @@ export const LinkPage = () => {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Label(
-        'Variant',
+      Stack(
+        Label('Variant'),
         SegmentedControl({
           value: variant,
           options: {

@@ -11,7 +11,7 @@ export const ScrollablePanelPage = () => {
     attr.class('bu-p-2 bu-bg--light-gray bu-border-b'),
     html.h3(attr.class('bu-font-semibold'), 'Header Content'),
     html.p(
-      attr.class('bu-text-sm bu-text-gray-600'),
+      attr.class('bu-text-sm bu-text--gray'),
       'This header stays at the top'
     )
   )
@@ -30,7 +30,7 @@ export const ScrollablePanelPage = () => {
   const footer = html.div(
     attr.class('bu-p-2 bu-bg--lighter-gray bu-border-t'),
     html.p(
-      attr.class('bu-text-sm bu-text-gray-600'),
+      attr.class('bu-text-sm bu-text--gray'),
       'This footer stays at the bottom'
     )
   )
