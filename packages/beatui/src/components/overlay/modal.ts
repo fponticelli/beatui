@@ -10,6 +10,7 @@ import {
   computedOf,
   aria,
   dataAttr,
+  Use,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button } from '../button'
@@ -17,6 +18,7 @@ import { Icon } from '../data/icon'
 import { OverlayEffect } from '../theme'
 import { FocusTrap } from '@/utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export interface ModalOptions {
   /** Size of the modal */
@@ -172,8 +174,7 @@ export function Modal(
                       closeOverlay()
                     },
                   },
-                  // TODO translation
-                  aria.label('Close modal'),
+                  Use(BeatUII18n, t => aria.label(t.closeModal())),
                   Icon({ icon: 'line-md:close', size: 'sm' })
                 )
               )
@@ -226,19 +227,11 @@ export function ConfirmModal(
   },
   fn: (open: (message: TNode) => void, close: () => void) => TNode
 ): TNode {
-  const {
-    // TODO translation
-    confirmText = 'Confirm',
-    // TODO translation
-    cancelText = 'Cancel',
-    onConfirm,
-    onCancel,
-    ...modalOptions
-  } = options
+  const { confirmText, cancelText, onConfirm, onCancel, ...modalOptions } =
+    options
 
-  return Modal(
-    { showCloseButton: false, ...modalOptions },
-    (openModal, close) => {
+  return Use(BeatUII18n, t =>
+    Modal({ showCloseButton: false, ...modalOptions }, (openModal, close) => {
       const handleConfirm = () => {
         onConfirm?.()
         close()
@@ -259,8 +252,7 @@ export function ConfirmModal(
                 variant: 'outline',
                 onClick: handleCancel,
               },
-
-              cancelText
+              cancelText ?? t.cancel()
             ),
             Button(
               {
@@ -268,14 +260,13 @@ export function ConfirmModal(
                 variant: 'filled',
                 onClick: handleConfirm,
               },
-
-              confirmText
+              confirmText ?? t.confirm()
             )
           ),
         })
       }
 
       return fn(open, close)
-    }
+    })
   )
 }

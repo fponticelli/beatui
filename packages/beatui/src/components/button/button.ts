@@ -11,12 +11,14 @@ import {
   Value,
   When,
   aria,
+  Use,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
 import { Icon } from '../data/icon'
 import { ElementRect, Rect } from '@tempots/ui'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export interface ButtonOptions {
   type?: Value<'submit' | 'reset' | 'button'>
@@ -100,68 +102,71 @@ export function Button(
   ...children: TNode[]
 ) {
   const buttonSize = prop<null | Rect>(null)
-  return html.button(
-    attr.type(type as Value<string>),
-    attr.disabled(
-      computedOf(disabled, loading)((disabled, loading) => disabled || loading)
-    ),
-    // Add ARIA attributes for accessibility
-    aria.busy(loading ?? false),
-    // TODO translation
-    When(loading ?? false, () => aria.label('Loading, please wait')),
-    attr.class(
-      computedOf(
-        variant,
-        size,
-        color,
-        roundedness,
-        disabled,
-        loading
-      )((variant, size, color, roundedness, disabled, loading) =>
-        generateButtonClasses(
-          variant ?? 'filled',
-          size ?? 'md',
-          color ?? 'base',
-          roundedness ?? 'sm',
+  return Use(BeatUII18n, t =>
+    html.button(
+      attr.type(type as Value<string>),
+      attr.disabled(
+        computedOf(
           disabled,
           loading
-        )
-      )
-    ),
-    When(
-      loading ?? false,
-      () =>
-        Fragment(
-          style.width(
-            buttonSize.map(rect => {
-              if (rect == null) return ''
-              return `${rect.width}px`
-            })
-          ),
-          style.height(
-            buttonSize.map(rect => {
-              if (rect == null) return ''
-              return `${rect.height}px`
-            })
-          ),
-          Icon({ icon: 'line-md:loading-twotone-loop', size: size ?? 'md' }),
-          // Hidden live region for screen reader announcements
-          html.span(
-            attr.class('sr-only'),
-            aria.live('polite'),
-            // TODO translation
-            'Loading, please wait'
+        )((disabled, loading) => disabled || loading)
+      ),
+      // Add ARIA attributes for accessibility
+      aria.busy(loading ?? false),
+      When(loading ?? false, () => aria.label(t.loadingExtended())),
+      attr.class(
+        computedOf(
+          variant,
+          size,
+          color,
+          roundedness,
+          disabled,
+          loading
+        )((variant, size, color, roundedness, disabled, loading) =>
+          generateButtonClasses(
+            variant ?? 'filled',
+            size ?? 'md',
+            color ?? 'base',
+            roundedness ?? 'sm',
+            disabled,
+            loading
           )
-        ),
-      () => Fragment(on.click(onClick), ...children)
-    ),
-    When(loading != null, () =>
-      ElementRect(rect =>
-        OnDispose(
-          rect.on(r => {
-            if (Value.get(loading ?? false)) return
-            buttonSize.set(r)
-          })
+        )
+      ),
+      When(
+        loading ?? false,
+        () =>
+          Fragment(
+            style.width(
+              buttonSize.map(rect => {
+                if (rect == null) return ''
+                return `${rect.width}px`
+              })
+            ),
+            style.height(
+              buttonSize.map(rect => {
+                if (rect == null) return ''
+                return `${rect.height}px`
+              })
+            ),
+            Icon({ icon: 'line-md:loading-twotone-loop', size: size ?? 'md' }),
+            // Hidden live region for screen reader announcements
+            html.span(
+              attr.class('sr-only'),
+              aria.live('polite'),
+              t.loadingExtended()
+            )
+          ),
+        () => Fragment(on.click(onClick), ...children)
+      ),
+      When(loading != null, () =>
+        ElementRect(rect =>
+          OnDispose(
+            rect.on(r => {
+              if (Value.get(loading ?? false)) return
+              buttonSize.set(r)
+            })
+          )
         )
       )
     )

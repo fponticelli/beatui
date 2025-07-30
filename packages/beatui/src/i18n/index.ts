@@ -32,4 +32,3 @@
 
 export * from './translate'
 export * from './locale'
-export * from './locale-loader'

@@ -8,10 +8,12 @@ import {
   Value,
   Fragment,
   When,
+  Use,
 } from '@tempots/dom'
 import { IconSize } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
+import { BeatUII18n } from '@/beatui-i18n'
 
 const dbName = 'bui-icons'
 
@@ -159,71 +161,60 @@ export function Icon(
     return title != null && title !== ''
   })
 
-  return html.span(
-    attr.class(
-      computedOf(
-        size,
-        color
-      )((size, color) => generateIconClasses(size ?? 'md', color))
-    ),
-    // Add accessibility attributes based on icon type
-    When(
-      isInformative,
-      () =>
-        Fragment(
-          attr.role('img'),
-          // TODO translation
-          aria.label(title || 'Icon')
-        ),
-      () => aria.hidden(true)
-    ),
-    WhenInViewport({ once: true }, () =>
-      Resource<string, string, string>({
-        request: icon,
-        load: ({ request }) => loadIconSvg(request),
-        mapError: String,
-      })({
-        success: svg =>
-          html.span(
-            style.width('100%'),
-            style.height('100%'),
-            attr.innerHTML(svg)
-          ),
-        loading: () =>
-          html.span(
-            attr.class('animate-spin'),
-            // Loading state accessibility
-            When(
-              isInformative,
-              () =>
-                Fragment(
-                  attr.role('img'),
-                  // TODO translation
-                  aria.label('Loading icon')
-                ),
-              () => aria.hidden(true)
+  return Use(BeatUII18n, t =>
+    html.span(
+      attr.class(
+        computedOf(
+          size,
+          color
+        )((size, color) => generateIconClasses(size ?? 'md', color))
+      ),
+      // Add accessibility attributes based on icon type
+      When(
+        isInformative,
+        () =>
+          Fragment(attr.role('img'), aria.label(title ?? t.iconDescription())),
+        () => aria.hidden(true)
+      ),
+      WhenInViewport({ once: true }, () =>
+        Resource<string, string, string>({
+          request: icon,
+          load: ({ request }) => loadIconSvg(request),
+          mapError: String,
+        })({
+          success: svg =>
+            html.span(
+              style.width('100%'),
+              style.height('100%'),
+              attr.innerHTML(svg)
             ),
-            '↻'
-          ),
-        failure: err =>
-          html.span(
-            attr.title(err),
-            attr.class('text-red-500'),
-            // Error state accessibility
-            When(
-              isInformative,
-              () =>
-                Fragment(
-                  attr.role('img'),
-                  // TODO translation
-                  aria.label('Failed to load icon')
-                ),
-              () => aria.hidden(true)
+          loading: () =>
+            html.span(
+              attr.class('animate-spin'),
+              // Loading state accessibility
+              When(
+                isInformative,
+                () => Fragment(attr.role('img'), aria.label(t.loadingIcon())),
+                () => aria.hidden(true)
+              ),
+              '↻'
             ),
-            '🚫'
-          ),
-      })
-    ),
-    ...children
+          failure: err =>
+            html.span(
+              attr.title(err),
+              attr.class('text-red-500'),
+              // Error state accessibility
+              When(
+                isInformative,
+                () =>
+                  Fragment(attr.role('img'), aria.label(t.failedToLoadIcon())),
+                () => aria.hidden(true)
+              ),
+              '🚫'
+            ),
+        })
+      ),
+      ...children
+    )
   )
 }

@@ -12,10 +12,26 @@ type WrapInValue<T extends unknown[]> = {
  * Transforms a messages object into a computed version where each message function
  * returns a reactive Signal instead of a direct value.
  */
-type MessagesToComputed<M extends object> = {
+export type ReactiveMessages<M extends object> = {
   [K in keyof M]: M[K] extends (...args: infer Args) => infer R
     ? (...args: WrapInValue<Args>) => Signal<R>
     : never
+}
+
+/**
+ * Gets fallback locales for a given locale string.
+ * e.g., 'en-US' -> ['en-US', 'en']
+ */
+function getLocaleFallbacks(locale: string): string[] {
+  const parts = locale.split('-')
+  const fallbacks: string[] = [locale]
+
+  // Add base language (e.g., 'en' from 'en-US')
+  if (parts.length > 1) {
+    fallbacks.push(parts[0])
+  }
+
+  return fallbacks
 }
 
 /**
@@ -91,7 +107,7 @@ export function makeMessages<M extends object>({
   })
 
   // Listen for locale changes and load new messages
-  const cancel = locale.on(newLocale => {
+  const cancel = locale.on(async newLocale => {
     // Skip if locale hasn't actually changed
     if (newLocale === localizedMessages.value.locale) return
 
@@ -101,27 +117,29 @@ export function makeMessages<M extends object>({
       messages: localizedMessages.value.messages,
     })
 
-    // Load new messages asynchronously
-    localeLoader(newLocale)
-      .then(newMessages => {
-        // Prevent race condition: only update if locale is still current
-        if (newLocale !== localizedMessages.value.locale) return
-        localizedMessages.set({ locale: newLocale, messages: newMessages })
-      })
-      .catch(error => {
-        // Fall back to default locale and messages on error
-        localizedMessages.set({
-          locale: defaultLocale,
-          messages: defaultMessages,
-        })
-        console.error('Failed to load locale', error)
-      })
+    const locales = getLocaleFallbacks(newLocale)
+    for (const locale of locales) {
+      try {
+        const messages = await localeLoader(locale)
+        if (newLocale === localizedMessages.value.locale) {
+          localizedMessages.set({ locale: newLocale, messages })
+        }
+        return
+      } catch {
+        continue
+      }
+    }
+    console.warn(`No locale found for "'${locale}", using fallback`)
+    if (newLocale === localizedMessages.value.locale) {
+      localizedMessages.set({ locale: newLocale, messages: defaultMessages })
+    }
   })
+
   // Extract messages signal for easier access
   const messages = localizedMessages.$.messages
 
   // Create proxy-based translation functions that return reactive signals
-  const t = new Proxy({} as unknown as MessagesToComputed<M>, {
+  const t = new Proxy({} as unknown as ReactiveMessages<M>, {
     get: (_target, prop) => {
       type K = keyof M & string
       const fnSignal = messages.at(prop as K)

@@ -11,6 +11,7 @@ import {
   WithElement,
   aria,
   dataAttr,
+  Use,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
 import { Button } from '../button'
@@ -21,6 +22,7 @@ import { ScrollablePanel } from '../layout'
 import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
 import { FocusTrap } from '@/utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export interface DrawerOptions {
   /** Size of the drawer */
@@ -166,8 +168,7 @@ export function Drawer(
                         size: 'sm',
                         onClick: handleClose,
                       },
-                      // TODO translation
-                      aria.label('Close drawer'),
+                      Use(BeatUII18n, t => aria.label(t.closeDrawer())),
                       Icon({ icon: 'line-md:close', size: 'sm' })
                     )
                   )
