@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const ko: Messages = {
   loadingExtended: () => '로딩 중입니다. 잠시만 기다려 주세요',
   loadingShort: () => '로딩 중...',
+  locale: () => '지역',
   iconDescription: () => '아이콘',
   loadingIcon: () => '로딩 아이콘',
   failedToLoadIcon: () => '아이콘 로드 실패',

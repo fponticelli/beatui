@@ -5,6 +5,7 @@ const de: Messages = {
   loadingShort: () => 'Lädt...',
   iconDescription: () => 'Symbol',
   loadingIcon: () => 'Ladesymbol',
+  locale: () => 'Landesvariante',
   failedToLoadIcon: () => 'Symbol konnte nicht geladen werden',
   editLabel: () => 'Bearbeiten',
   selectOne: () => 'Eines auswählen',

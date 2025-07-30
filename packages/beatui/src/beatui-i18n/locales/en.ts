@@ -1,6 +1,7 @@
 const en = {
   loadingExtended: () => 'Loading, please wait',
   loadingShort: () => 'Loading...',
+  locale: () => 'Locale',
   iconDescription: () => 'Icon',
   loadingIcon: () => 'Loading icon',
   failedToLoadIcon: () => 'Failed to load icon',

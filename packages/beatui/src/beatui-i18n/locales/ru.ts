@@ -3,6 +3,7 @@ import { Messages } from '../default'
 export const ru: Messages = {
   loadingExtended: () => 'Загрузка, пожалуйста подождите',
   loadingShort: () => 'Загрузка...',
+  locale: () => 'Локаль',
   iconDescription: () => 'Иконка',
   loadingIcon: () => 'Иконка загрузки',
   failedToLoadIcon: () => 'Не удалось загрузить иконку',

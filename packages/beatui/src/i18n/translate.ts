@@ -149,11 +149,23 @@ export function makeMessages<M extends object>({
         return computedOf(
           fnSignal,
           ...args
-        )((fn, ...args) =>
+        )((fn, ...args) => {
           // Call the message function with provided arguments
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-          (fn as Function)(...args)
-        )
+          // Handle cases where fn.fn might be undefined, null, or not a function
+          if (fn && typeof fn === 'function') {
+            return fn(...args)
+          }
+
+          // Fallback to default message if available
+          const defaultFn = defaultMessages[prop as K]
+          if (typeof defaultFn === 'function') {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+            return (defaultFn as Function)(...args)
+          }
+
+          // Last resort: return a placeholder message
+          return `[Missing translation: ${String(prop)}]`
+        })
       }
     },
   })

@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const tr: Messages = {
   loadingExtended: () => 'Yükleniyor, lütfen bekleyin',
   loadingShort: () => 'Yükleniyor...',
+  locale: () => 'Yerel',
   iconDescription: () => 'Simge',
   loadingIcon: () => 'Yükleme simgesi',
   failedToLoadIcon: () => 'Simge yüklenemedi',

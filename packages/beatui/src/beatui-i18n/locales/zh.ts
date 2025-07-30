@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const zh: Messages = {
   loadingExtended: () => '正在加载，请稍候',
   loadingShort: () => '加载中...',
+  locale: () => '语言',
   iconDescription: () => '图标',
   loadingIcon: () => '加载图标',
   failedToLoadIcon: () => '图标加载失败',

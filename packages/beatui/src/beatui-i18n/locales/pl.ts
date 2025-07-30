@@ -3,6 +3,7 @@ import { Messages } from '../default'
 export const pl: Messages = {
   loadingExtended: () => 'Ładowanie, proszę czekać',
   loadingShort: () => 'Ładowanie...',
+  locale: () => 'Język',
   iconDescription: () => 'Ikona',
   loadingIcon: () => 'Ikona ładowania',
   failedToLoadIcon: () => 'Nie udało się załadować ikony',

@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const ar: Messages = {
   loadingExtended: () => 'جاري التحميل، يرجى الانتظار',
   loadingShort: () => 'جاري التحميل...',
+  locale: () => 'اللغة',
   iconDescription: () => 'أيقونة',
   loadingIcon: () => 'أيقونة التحميل',
   failedToLoadIcon: () => 'فشل في تحميل الأيقونة',

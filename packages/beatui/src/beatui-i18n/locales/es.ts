@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const es: Messages = {
   loadingExtended: () => 'Cargando, por favor espere',
   loadingShort: () => 'Cargando...',
+  locale: () => 'Idioma',
   iconDescription: () => 'Icono',
   loadingIcon: () => 'Icono de carga',
   failedToLoadIcon: () => 'Error al cargar el icono',

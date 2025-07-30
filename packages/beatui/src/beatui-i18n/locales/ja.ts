@@ -3,6 +3,7 @@ import { Messages } from '../default'
 export const ja: Messages = {
   loadingExtended: () => '読み込み中です、お待ちください',
   loadingShort: () => '読み込み中...',
+  locale: () => 'ロケール',
   iconDescription: () => 'アイコン',
   loadingIcon: () => '読み込みアイコン',
   failedToLoadIcon: () => 'アイコンの読み込みに失敗しました',

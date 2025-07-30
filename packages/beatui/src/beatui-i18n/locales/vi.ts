@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const vi: Messages = {
   loadingExtended: () => 'Đang tải, vui lòng đợi',
   loadingShort: () => 'Đang tải...',
+  locale: () => 'Ngôn ngữ',
   iconDescription: () => 'Biểu tượng',
   loadingIcon: () => 'Biểu tượng tải',
   failedToLoadIcon: () => 'Không thể tải biểu tượng',

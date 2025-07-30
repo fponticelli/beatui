@@ -3,6 +3,7 @@ import { Messages } from '../default'
 export const nl: Messages = {
   loadingExtended: () => 'Laden, even geduld',
   loadingShort: () => 'Laden...',
+  locale: () => 'Landinstelling',
   iconDescription: () => 'Pictogram',
   loadingIcon: () => 'Laadpictogram',
   failedToLoadIcon: () => 'Pictogram laden mislukt',

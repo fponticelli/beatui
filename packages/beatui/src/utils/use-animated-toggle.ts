@@ -144,12 +144,9 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
 
   const checkAnimations = () => {
     // In test environments, CSS transitions don't fire events, so complete immediately
-    const isTestEnvironment =
-      typeof window !== 'undefined' &&
-      window.navigator?.userAgent?.includes('jsdom')
+    const isNotBrowser = typeof element.getAnimations === 'undefined'
 
-    if (isTestEnvironment) {
-      // In jsdom, complete immediately since CSS doesn't work
+    if (isNotBrowser) {
       timeout = setTimeout(complete, 16) // Single frame delay for consistency
       return
     }
@@ -162,7 +159,7 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
       element.addEventListener('animationend', onAnimationEnd, { once: true })
 
       // Fallback timeout for CSS transitions (longer than typical transition duration)
-      timeout = setTimeout(complete, 550)
+      timeout = setTimeout(complete, 1000)
     } else {
       // Web Animations detected, use animation events
       element.addEventListener('transitionend', onTransitionEnd, { once: true })

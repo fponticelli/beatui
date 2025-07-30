@@ -100,6 +100,9 @@ const main = async () => {
   const { DrawerPage } = await import('../src/pages/drawer')
   // const { TooltipPage } = await import('../src/pages/tooltip')
   const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
+  const { FlyoutPage } = await import('../src/pages/flyout')
+  const { TooltipPage } = await import('../src/pages/tooltip')
+  const { FormPage } = await import('../src/pages/form')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -184,13 +187,14 @@ const main = async () => {
           '/link': LinkPage,
           '/modal': ModalPage,
           '/drawer': DrawerPage,
-          // '/tooltip': TooltipPage,
+          '/tooltip': TooltipPage,
+          '/flyout': FlyoutPage,
           '/scrollable-panel': ScrollablePanelPage,
           '/segmented-control': SegmentedControlPage,
           '/sidebar': SidebarPage,
           '/tags': TagsPage,
           // Temporarily disable form page due to SSR issues
-          // '/form': FormPage,
+          '/form': FormPage,
           '/editable-text': EditableTextPage,
           '/breakpoint': BreakpointPage,
         }

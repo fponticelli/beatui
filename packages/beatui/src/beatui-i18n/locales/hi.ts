@@ -3,6 +3,7 @@ import { Messages } from '../default'
 const hi: Messages = {
   loadingExtended: () => 'लोड हो रहा है, कृपया प्रतीक्षा करें',
   loadingShort: () => 'लोड हो रहा है...',
+  locale: () => 'स्थानीय',
   iconDescription: () => 'आइकन',
   loadingIcon: () => 'लोडिंग आइकन',
   failedToLoadIcon: () => 'आइकन लोड करने में विफल',
