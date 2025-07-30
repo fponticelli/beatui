@@ -6,8 +6,8 @@ import { BeatUII18n } from '@/beatui-i18n'
 
 export function BeatUI(...children: TNode[]) {
   return WithProvider(({ set }) => {
-    set(Locale, {})
     set(Location, {})
+    set(Locale, {})
     set(BeatUII18n, {})
     set(Theme, {})
     return Fragment(ThemeAppearance(), ...children)

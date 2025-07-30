@@ -80,9 +80,8 @@ const main = async () => {
   setupBrowserMocks()
 
   // Import components for SSG
-  const { html, Provide, Fragment, attr } = await import('@tempots/dom')
-  const { Theme, ThemeAppearance } = await import('@tempots/beatui')
-  const { Location } = await import('@tempots/ui')
+  const { html, attr } = await import('@tempots/dom')
+  const { BeatUI } = await import('@tempots/beatui')
   const { HomePage } = await import('../src/pages/home')
   const { ButtonPage } = await import('../src/pages/button')
   const { SwitchPage } = await import('../src/pages/switch')
@@ -92,14 +91,14 @@ const main = async () => {
     '../src/pages/segmented-control'
   )
   const { TagsPage } = await import('../src/pages/tags')
-  const { FormPage } = await import('../src/pages/form')
+  // const { FormPage } = await import('../src/pages/form')
   const { EditableTextPage } = await import('../src/pages/editable-text')
   const { BreakpointPage } = await import('../src/pages/breakpoint')
   const { CollapsePage } = await import('../src/pages/collapse')
   const { SidebarPage } = await import('../src/pages/sidebar')
   const { ModalPage } = await import('../src/pages/modal')
   const { DrawerPage } = await import('../src/pages/drawer')
-  const { TooltipPage } = await import('../src/pages/tooltip')
+  // const { TooltipPage } = await import('../src/pages/tooltip')
   const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
 
   // Load HTML template
@@ -185,51 +184,44 @@ const main = async () => {
           '/link': LinkPage,
           '/modal': ModalPage,
           '/drawer': DrawerPage,
-          '/tooltip': TooltipPage,
+          // '/tooltip': TooltipPage,
           '/scrollable-panel': ScrollablePanelPage,
           '/segmented-control': SegmentedControlPage,
           '/sidebar': SidebarPage,
           '/tags': TagsPage,
-          '/form': FormPage,
+          // Temporarily disable form page due to SSR issues
+          // '/form': FormPage,
           '/editable-text': EditableTextPage,
           '/breakpoint': BreakpointPage,
         }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))
 
-        // Create a simple layout that works in headless environment
-        return Provide(Theme, {}, () =>
-          Provide(Location, {}, () =>
-            Fragment(
-              ThemeAppearance(),
-              html.div(
-                // Simple layout structure without AppShell
-                html.header(
-                  html.h1('BeatUI Documentation'),
-                  html.nav(
-                    html.a(attr.href('/'), 'Home'),
-                    html.a(attr.href('/button'), 'Button'),
-                    html.a(attr.href('/switch'), 'Switch'),
-                    html.a(attr.href('/collapse'), 'Collapse'),
-                    html.a(attr.href('/icon'), 'Icon'),
-                    html.a(attr.href('/link'), 'Link'),
-                    html.a(attr.href('/modal'), 'Modal'),
-                    html.a(attr.href('/drawer'), 'Drawer'),
-                    html.a(attr.href('/tooltip'), 'Tooltip'),
-                    html.a(
-                      attr.href('/segmented-control'),
-                      'Segmented Control'
-                    ),
-                    html.a(attr.href('/sidebar'), 'Sidebar'),
-                    html.a(attr.href('/tags'), 'Tags'),
-                    html.a(attr.href('/form'), 'Form'),
-                    html.a(attr.href('/editable-text'), 'Editable Text'),
-                    html.a(attr.href('/breakpoint'), 'Breakpoint')
-                  )
-                ),
-                html.main(PageComponent())
+        // Create a simple layout that works in headless environment using BeatUI
+        return BeatUI(
+          html.div(
+            // Simple layout structure without AppShell
+            html.header(
+              html.h1('BeatUI Documentation'),
+              html.nav(
+                html.a(attr.href('/'), 'Home'),
+                html.a(attr.href('/button'), 'Button'),
+                html.a(attr.href('/switch'), 'Switch'),
+                html.a(attr.href('/collapse'), 'Collapse'),
+                html.a(attr.href('/icon'), 'Icon'),
+                html.a(attr.href('/link'), 'Link'),
+                html.a(attr.href('/modal'), 'Modal'),
+                html.a(attr.href('/drawer'), 'Drawer'),
+                html.a(attr.href('/tooltip'), 'Tooltip'),
+                html.a(attr.href('/segmented-control'), 'Segmented Control'),
+                html.a(attr.href('/sidebar'), 'Sidebar'),
+                html.a(attr.href('/tags'), 'Tags'),
+                html.a(attr.href('/form'), 'Form'),
+                html.a(attr.href('/editable-text'), 'Editable Text'),
+                html.a(attr.href('/breakpoint'), 'Breakpoint')
               )
-            )
+            ),
+            html.main(PageComponent())
           )
         )
       }

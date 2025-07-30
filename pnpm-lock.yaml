@@ -24,8 +24,8 @@ importers:
         specifier: 0.22.1
         version: 0.22.1
       '@tempots/ui':
-        specifier: 6.0.0
-        version: 6.0.0(@tempots/std@0.22.1)
+        specifier: 6.1.0
+        version: 6.1.0(@tempots/std@0.22.1)
       zod:
         specifier: ^3.25.46
         version: 3.25.67
@@ -85,8 +85,8 @@ importers:
         specifier: 0.22.1
         version: 0.22.1
       '@tempots/ui':
-        specifier: 6.0.1
-        version: 6.0.1(@tempots/std@0.22.1)
+        specifier: 6.1.0
+        version: 6.1.0(@tempots/std@0.22.1)
     devDependencies:
       '@testing-library/dom':
         specifier: 10.4.0
@@ -521,13 +521,8 @@ packages:
   '@tempots/std@0.22.1':
     resolution: {integrity: sha512-5cRPTMf4pRRCkuSa5VRKswv44WriBePNOMFtibXjzdoNL6iZvDAIGqFsuzRI20VsbHNjOjRMsk0zj33I/ARAFQ==}
 
-  '@tempots/ui@6.0.0':
-    resolution: {integrity: sha512-KdML5lVbo7Tpx/d/YixAYDT9da6WuCt501cJCHI3uS3pwVNECeD75Y/2NFlhH8n/1baHqDMWzL7Z04mQFkgvGA==}
-    peerDependencies:
-      '@tempots/std': 0.22.1
-
-  '@tempots/ui@6.0.1':
-    resolution: {integrity: sha512-ujNEdG6l2KtD99RseoONGNDK+NEyMpKd7+m/6tcYZjl0ctrxACfU0QEKU1q6i5tOKAoRXlbt4z4xwc/kJX9oPQ==}
+  '@tempots/ui@6.1.0':
+    resolution: {integrity: sha512-EqZfH2VVWdmj6lsZ819ybkspfRd4bn32Pzzfqi2JSgDWKCfS1+TGuTlfvBbqOu620Dm+3pLeMvre946NNaSatw==}
     peerDependencies:
       '@tempots/std': 0.22.1
 
@@ -2019,12 +2014,7 @@ snapshots:
 
   '@tempots/std@0.22.1': {}
 
-  '@tempots/ui@6.0.0(@tempots/std@0.22.1)':
-    dependencies:
-      '@floating-ui/dom': 1.7.0
-      '@tempots/std': 0.22.1
-
-  '@tempots/ui@6.0.1(@tempots/std@0.22.1)':
+  '@tempots/ui@6.1.0(@tempots/std@0.22.1)':
     dependencies:
       '@floating-ui/dom': 1.7.0
       '@tempots/std': 0.22.1
