@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-export const ja: Messages = {
+export const ja: BeatUIMessages = {
   loadingExtended: () => '読み込み中です、お待ちください',
   loadingShort: () => '読み込み中...',
   locale: () => 'ロケール',
@@ -19,6 +19,24 @@ export const ja: Messages = {
   closeModal: () => 'モーダルを閉じる',
   confirm: () => '確認',
   cancel: () => 'キャンセル',
+  // languages
+  currentLocale: () => '日本語',
+  ar: () => 'アラビア語',
+  de: () => 'ドイツ語',
+  en: () => '英語',
+  es: () => 'スペイン語',
+  fr: () => 'フランス語',
+  hi: () => 'ヒンディー語',
+  it: () => 'イタリア語',
+  ja: () => '日本語',
+  ko: () => '韓国語',
+  nl: () => 'オランダ語',
+  pl: () => 'ポーランド語',
+  pt: () => 'ポルトガル語',
+  ru: () => 'ロシア語',
+  tr: () => 'トルコ語',
+  vi: () => 'ベトナム語',
+  zh: () => '中国語',
 }
 
 export default ja

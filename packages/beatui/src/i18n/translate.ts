@@ -101,58 +101,60 @@ export function makeMessages<M extends object>({
   localeLoader: (locale: string) => Promise<M>
 }) {
   // Store current locale and messages in reactive property
-  const localizedMessages = prop({
-    locale: defaultLocale,
-    messages: defaultMessages,
-  })
+  const currentLocale = prop(defaultLocale)
+  const currentMessages = prop(defaultMessages)
 
   // Listen for locale changes and load new messages
   const cancel = locale.on(async newLocale => {
     // Skip if locale hasn't actually changed
-    if (newLocale === localizedMessages.value.locale) return
+    if (newLocale === currentLocale.value) return
 
     // Immediately update locale (keep old messages temporarily)
-    localizedMessages.set({
-      locale: newLocale,
-      messages: localizedMessages.value.messages,
-    })
+    currentLocale.set(newLocale)
 
     const locales = getLocaleFallbacks(newLocale)
     for (const locale of locales) {
       try {
         const messages = await localeLoader(locale)
-        if (newLocale === localizedMessages.value.locale) {
-          localizedMessages.set({ locale: newLocale, messages })
+        if (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          typeof (messages as any).default === 'object' &&
+          Object.keys(messages).length === 1
+        ) {
+          console.error(
+            'It appears that you are trying to load a translation module without referencing the default export. Please use `(await import(...)).default` in your loader function.'
+          )
+          return
         }
-        return
+
+        if (newLocale === currentLocale.value) {
+          currentMessages.set(messages)
+          return
+        }
       } catch {
         continue
       }
     }
     console.warn(`No locale found for "'${locale}", using fallback`)
-    if (newLocale === localizedMessages.value.locale) {
-      localizedMessages.set({ locale: newLocale, messages: defaultMessages })
+    if (newLocale === currentLocale.value) {
+      currentMessages.set(defaultMessages)
     }
   })
-
-  // Extract messages signal for easier access
-  const messages = localizedMessages.$.messages
 
   // Create proxy-based translation functions that return reactive signals
   const t = new Proxy({} as unknown as ReactiveMessages<M>, {
     get: (_target, prop) => {
-      type K = keyof M & string
-      const fnSignal = messages.at(prop as K)
-
       // Return a function that creates reactive computed translations
       return function (...args: WrapInValue<unknown[]>) {
-        return computedOf(
+        type K = keyof M & string
+        const fnSignal = currentMessages.at(prop as K)
+        const signal = computedOf(
           fnSignal,
           ...args
         )((fn, ...args) => {
           // Call the message function with provided arguments
           // Handle cases where fn.fn might be undefined, null, or not a function
-          if (fn && typeof fn === 'function') {
+          if (typeof fn === 'function') {
             return fn(...args)
           }
 
@@ -166,6 +168,8 @@ export function makeMessages<M extends object>({
           // Last resort: return a placeholder message
           return `[Missing translation: ${String(prop)}]`
         })
+        signal.onDispose(fnSignal.dispose)
+        return signal
       }
     },
   })
@@ -173,8 +177,10 @@ export function makeMessages<M extends object>({
   return {
     /** Clean up all resources and event listeners */
     dispose: () => {
+      console.log('Dispose!!!')
       cancel()
-      localizedMessages.dispose()
+      currentLocale.dispose()
+      currentMessages.dispose()
     },
     /** Translation functions that return reactive signals */
     t,

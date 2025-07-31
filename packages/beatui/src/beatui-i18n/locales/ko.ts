@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const ko: Messages = {
+const ko: BeatUIMessages = {
   loadingExtended: () => '로딩 중입니다. 잠시만 기다려 주세요',
   loadingShort: () => '로딩 중...',
   locale: () => '지역',
@@ -19,6 +19,24 @@ const ko: Messages = {
   closeModal: () => '모달 닫기',
   confirm: () => '확인',
   cancel: () => '취소',
+  // languages
+  currentLocale: () => '한국어',
+  ar: () => '아랍어',
+  de: () => '독일어',
+  en: () => '영어',
+  es: () => '스페인어',
+  fr: () => '프랑스어',
+  hi: () => '힌디어',
+  it: () => '이탈리아어',
+  ja: () => '일본어',
+  ko: () => '한국어',
+  nl: () => '네덜란드어',
+  pl: () => '폴란드어',
+  pt: () => '포르투갈어',
+  ru: () => '러시아어',
+  tr: () => '터키어',
+  vi: () => '베트남어',
+  zh: () => '중국어',
 }
 
 export default ko

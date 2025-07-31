@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const zh: Messages = {
+const zh: BeatUIMessages = {
   loadingExtended: () => '正在加载，请稍候',
   loadingShort: () => '加载中...',
   locale: () => '语言',
@@ -19,6 +19,24 @@ const zh: Messages = {
   closeModal: () => '关闭模态框',
   confirm: () => '确认',
   cancel: () => '取消',
+  // languages
+  currentLocale: () => '简体中文',
+  ar: () => '阿拉伯语',
+  de: () => '德语',
+  en: () => '英语',
+  es: () => '西班牙语',
+  fr: () => '法语',
+  hi: () => ' Hindi',
+  it: () => '意大利语',
+  ja: () => '日语',
+  ko: () => '韩语',
+  nl: () => '荷兰语',
+  pl: () => '波兰语',
+  pt: () => '葡萄牙语',
+  ru: () => '俄语',
+  tr: () => '土耳其语',
+  vi: () => '越南语',
+  zh: () => '简体中文',
 }
 
 export default zh

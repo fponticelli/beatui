@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const ar: Messages = {
+const ar: BeatUIMessages = {
   loadingExtended: () => 'جاري التحميل، يرجى الانتظار',
   loadingShort: () => 'جاري التحميل...',
   locale: () => 'اللغة',
@@ -19,6 +19,24 @@ const ar: Messages = {
   closeModal: () => 'إغلاق النافذة المنبثقة',
   confirm: () => 'تأكيد',
   cancel: () => 'إلغاء',
+  // languages
+  currentLocale: () => 'العربية',
+  ar: () => 'العربية',
+  de: () => 'الألمانية',
+  en: () => 'الإنجليزية',
+  es: () => 'الأسبانية',
+  fr: () => 'الفرنسية',
+  hi: () => 'الهندية',
+  it: () => 'الإيطالية',
+  ja: () => 'اليابانية',
+  ko: () => 'الكورية',
+  nl: () => 'الهولندية',
+  pl: () => 'البولندية',
+  pt: () => 'البرتغالية',
+  ru: () => 'الروسية',
+  tr: () => 'التركية',
+  vi: () => 'الفيتنامية',
+  zh: () => 'الصينية',
 }
 
 export default ar

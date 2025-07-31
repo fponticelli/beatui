@@ -17,6 +17,24 @@ const en = {
   closeModal: () => 'Close modal',
   confirm: () => 'Confirm',
   cancel: () => 'Cancel',
+  // languages
+  currentLocale: () => 'English',
+  ar: () => 'Arabic',
+  de: () => 'German',
+  en: () => 'English',
+  es: () => 'Spanish',
+  fr: () => 'French',
+  hi: () => 'Hindi',
+  it: () => 'Italian',
+  ja: () => 'Japanese',
+  ko: () => 'Korean',
+  nl: () => 'Dutch',
+  pl: () => 'Polish',
+  pt: () => 'Portuguese',
+  ru: () => 'Russian',
+  tr: () => 'Turkish',
+  vi: () => 'Vietnamese',
+  zh: () => 'Chinese',
 }
 
 export default en

@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const es: Messages = {
+const es: BeatUIMessages = {
   loadingExtended: () => 'Cargando, por favor espere',
   loadingShort: () => 'Cargando...',
   locale: () => 'Idioma',
@@ -19,6 +19,24 @@ const es: Messages = {
   closeModal: () => 'Cerrar modal',
   confirm: () => 'Confirmar',
   cancel: () => 'Cancelar',
+  // languages
+  currentLocale: () => 'Español',
+  ar: () => 'Arabe',
+  de: () => 'Alemán',
+  en: () => 'Inglés',
+  es: () => 'Español',
+  fr: () => 'Francés',
+  hi: () => 'Hindú',
+  it: () => 'Italiano',
+  ja: () => 'Japonés',
+  ko: () => 'Coreano',
+  nl: () => 'Holandés',
+  pl: () => 'Polaco',
+  pt: () => 'Portugués',
+  ru: () => 'Ruso',
+  tr: () => 'Turco',
+  vi: () => 'Vietnamita',
+  zh: () => 'Chino',
 }
 
 export default es

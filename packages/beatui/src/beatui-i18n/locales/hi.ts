@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const hi: Messages = {
+const hi: BeatUIMessages = {
   loadingExtended: () => 'लोड हो रहा है, कृपया प्रतीक्षा करें',
   loadingShort: () => 'लोड हो रहा है...',
   locale: () => 'स्थानीय',
@@ -19,6 +19,24 @@ const hi: Messages = {
   closeModal: () => 'मॉडल बंद करें',
   confirm: () => 'पुष्टि करें',
   cancel: () => 'रद्द करें',
+  // languages
+  currentLocale: () => 'हिंदी',
+  ar: () => 'अरबी',
+  de: () => 'जर्मन',
+  en: () => 'अंग्रेज़ी',
+  es: () => 'होशाइनी',
+  fr: () => 'फ्रेंच',
+  hi: () => 'हिन्दी',
+  it: () => 'इतालवी',
+  ja: () => 'जापानी',
+  ko: () => 'कोरियाई',
+  nl: () => 'डच',
+  pl: () => 'पोलिश',
+  pt: () => 'पोर्तुगीज',
+  ru: () => 'रूसी',
+  tr: () => 'तुर्की',
+  vi: () => 'वियतनामी',
+  zh: () => 'चीनी',
 }
 
 export default hi

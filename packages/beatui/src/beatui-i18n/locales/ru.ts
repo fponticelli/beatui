@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-export const ru: Messages = {
+export const ru: BeatUIMessages = {
   loadingExtended: () => 'Загрузка, пожалуйста подождите',
   loadingShort: () => 'Загрузка...',
   locale: () => 'Локаль',
@@ -19,6 +19,24 @@ export const ru: Messages = {
   closeModal: () => 'Закрыть модальное окно',
   confirm: () => 'Подтвердить',
   cancel: () => 'Отменить',
+  // languages
+  currentLocale: () => 'Русский',
+  ar: () => 'Арабский',
+  de: () => 'Немецкий',
+  en: () => 'Английский',
+  es: () => 'Испанский',
+  fr: () => 'Французский',
+  hi: () => 'Хинди',
+  it: () => 'Итальянский',
+  ja: () => 'Японский',
+  ko: () => 'Корейский',
+  nl: () => 'Нидерландский',
+  pl: () => 'Польский',
+  pt: () => 'Португальский',
+  ru: () => 'Русский',
+  tr: () => 'Турецкий',
+  vi: () => 'Вьетнамский',
+  zh: () => 'Китайский',
 }
 
 export default ru

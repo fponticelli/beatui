@@ -1,6 +1,6 @@
-import { Messages } from '../default'
+import { BeatUIMessages } from '../default'
 
-const vi: Messages = {
+const vi: BeatUIMessages = {
   loadingExtended: () => 'Đang tải, vui lòng đợi',
   loadingShort: () => 'Đang tải...',
   locale: () => 'Ngôn ngữ',
@@ -19,6 +19,24 @@ const vi: Messages = {
   closeModal: () => 'Đóng modal',
   confirm: () => 'Xác nhận',
   cancel: () => 'Hủy',
+  // languages
+  currentLocale: () => 'Tiếng Việt',
+  ar: () => 'Tiếng Ả Rập',
+  de: () => 'Tiếng Đức',
+  en: () => 'Tiếng Anh',
+  es: () => 'Tiếng Tây Ban Nha',
+  fr: () => 'Tiếng Pháp',
+  hi: () => 'Tiếng Hindi',
+  it: () => 'Tiếng Ý',
+  ja: () => 'Tiếng Nhật',
+  ko: () => 'Tiếng Hàn',
+  nl: () => 'Tiếng Hà Lan',
+  pl: () => 'Tiếng Ba Lan',
+  pt: () => 'Tiếng Bồ Đào Nha',
+  ru: () => 'Tiếng Nga',
+  tr: () => 'Tiếng Thổ Nhĩ Kỳ',
+  vi: () => 'Tiếng Việt',
+  zh: () => 'Tiếng Trung',
 }
 
 export default vi

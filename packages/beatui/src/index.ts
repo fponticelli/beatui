@@ -1,6 +1,7 @@
 // Re-export commonly used functions from @tempots/dom
 export { Use } from '@tempots/dom'
 
+export * from './beatui-i18n'
 export * from './components/beatui'
 export * from './components/button'
 export * from './components/data'
