@@ -16,16 +16,7 @@ describe('Sidebar Background Mode', () => {
 
   describe('Default Light Background Mode', () => {
     it('should apply default light background mode classes', () => {
-      render(
-        Sidebar(
-          {},
-          SidebarGroup(
-            {},
-            html.div('Test Content')
-          )
-        ),
-        container
-      )
+      render(Sidebar({}, SidebarGroup({}, html.div('Test Content'))), container)
 
       const sidebar = container.querySelector('.bc-sidebar')
       expect(sidebar).toBeTruthy()
@@ -36,10 +27,7 @@ describe('Sidebar Background Mode', () => {
       render(
         Sidebar(
           { backgroundMode: 'light' },
-          SidebarGroup(
-            {},
-            html.div('Test Content')
-          )
+          SidebarGroup({}, html.div('Test Content'))
         ),
         container
       )
@@ -55,10 +43,7 @@ describe('Sidebar Background Mode', () => {
       render(
         Sidebar(
           { backgroundMode: 'dark' },
-          SidebarGroup(
-            {},
-            html.div('Test Content')
-          )
+          SidebarGroup({}, html.div('Test Content'))
         ),
         container
       )
@@ -95,13 +80,7 @@ describe('Sidebar Background Mode', () => {
       render(
         Sidebar(
           { backgroundMode: 'dark' },
-          SidebarGroup(
-            {},
-            html.div(
-              attr.class('test-content'),
-              'Test Content'
-            )
-          )
+          SidebarGroup({}, html.div(attr.class('test-content'), 'Test Content'))
         ),
         container
       )
@@ -145,10 +124,7 @@ describe('Sidebar Background Mode', () => {
           SidebarGroup(
             { rail: true },
             html.div('Parent Content'),
-            SidebarGroup(
-              {},
-              html.div('Nested Content')
-            )
+            SidebarGroup({}, html.div('Nested Content'))
           )
         ),
         container

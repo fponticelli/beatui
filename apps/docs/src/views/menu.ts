@@ -20,6 +20,7 @@ export function Menu() {
       SidebarLink({ href: '/drawer', content: 'Drawer' }),
       SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
       SidebarLink({ href: '/flyout', content: 'Flyout' }),
+      SidebarLink({ href: '/menu', content: 'Menu' }),
       SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
       SidebarLink({ href: '/rtl-ltr', content: 'RTL/LTR Support' }),
       SidebarLink({ href: '/segmented-control', content: 'Segmented Control' }),

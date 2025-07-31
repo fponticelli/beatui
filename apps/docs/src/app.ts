@@ -18,6 +18,7 @@ import { ModalPage } from './pages/modal'
 import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
 import { FlyoutPage } from './pages/flyout'
+import { MenuPage } from './pages/menu'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
 import { RTLLTRPage } from './pages/rtl-ltr'
 
@@ -35,6 +36,7 @@ export const App = () => {
         '/drawer': DrawerPage,
         '/tooltip': TooltipPage,
         '/flyout': FlyoutPage,
+        '/menu': MenuPage,
         '/scrollable-panel': ScrollablePanelPage,
         '/rtl-ltr': RTLLTRPage,
         '/segmented-control': SegmentedControlPage,
