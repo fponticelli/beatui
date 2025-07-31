@@ -35,6 +35,9 @@ const en = {
   tr: () => 'Turkish',
   vi: () => 'Vietnamese',
   zh: () => 'Chinese',
+  he: () => 'Hebrew',
+  fa: () => 'Persian',
+  ur: () => 'Urdu',
 }
 
 export default en

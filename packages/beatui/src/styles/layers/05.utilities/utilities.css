@@ -92,6 +92,19 @@
   .bu-text-right { text-align: right; }
   .bu-text-justify { text-align: justify; }
 
+  /* Direction-aware Text Alignment */
+  .bu-text-start { text-align: start; }
+  .bu-text-end { text-align: end; }
+
+  /* Float Utilities */
+  .bu-float-left { float: left; }
+  .bu-float-right { float: right; }
+  .bu-float-none { float: none; }
+
+  /* Direction-aware Float Utilities */
+  .bu-float-start { float: inline-start; }
+  .bu-float-end { float: inline-end; }
+
   /* Font Weight */
   .bu-font-thin { font-weight: var(--font-weight-thin); }
   .bu-font-light { font-weight: var(--font-weight-light); }

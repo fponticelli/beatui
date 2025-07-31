@@ -42,7 +42,10 @@ export function AppLayout({ children }: { children: TNode }) {
                 t.nl(),
                 t.vi(),
                 t.hi(),
-                t.zh()
+                t.zh(),
+                t.fa(),
+                t.ur(),
+                t.he()
               )(
                 (
                   en,
@@ -60,7 +63,10 @@ export function AppLayout({ children }: { children: TNode }) {
                   nl,
                   vi,
                   hi,
-                  zh
+                  zh,
+                  fa,
+                  ur,
+                  he
                 ) =>
                   [
                     { code: 'en', name: en, nativeName: 'English' },
@@ -79,12 +85,15 @@ export function AppLayout({ children }: { children: TNode }) {
                     { code: 'vi', name: vi, nativeName: 'Tiếng Việt' },
                     { code: 'hi', name: hi, nativeName: 'हिंदी' },
                     { code: 'zh', name: zh, nativeName: '中文' },
+                    { code: 'fa', name: fa, nativeName: 'فارسی' },
+                    { code: 'ur', name: ur, nativeName: 'اردو' },
+                    { code: 'he', name: he, nativeName: 'עברית' },
                   ] as LocaleItem[]
               ),
             })
           )
         ),
-        html.div(attr.class('bu-pr-4'), StandaloneAppearanceSelector())
+        html.div(attr.class('bu-px-2'), StandaloneAppearanceSelector())
       ),
     },
     main: {

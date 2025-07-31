@@ -7,11 +7,13 @@ import {
   Value,
   style,
   TNode,
+  Use,
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
 import { Label } from '@/components/typography'
 import { sessionId } from '../../../utils/session-id'
+import { Locale } from '../../i18n/locale'
 
 export type SwitchOptions = {
   value: Value<boolean>
@@ -123,37 +125,47 @@ export const Switch = ({
           )
         : null,
       ElementRect(rect =>
-        html.div(
-          attr.class('bc-switch__thumb'),
-          attr.class(
-            Value.map(value, (v): string =>
-              v ? 'bc-switch__thumb--on' : 'bc-switch__thumb--off'
+        Use(Locale, ({ direction }) =>
+          html.div(
+            attr.class('bc-switch__thumb'),
+            attr.class(
+              Value.map(value, (v): string =>
+                v ? 'bc-switch__thumb--on' : 'bc-switch__thumb--off'
+              )
+            ),
+            style.transform(
+              computedOf(
+                value,
+                rect,
+                size,
+                direction
+              )((value, { width }, size, direction) => {
+                const multiplier = (() => {
+                  switch (size) {
+                    case 'xs':
+                      return 5
+                    case 'sm':
+                      return 5.5
+                    case 'md':
+                      return 6
+                    case 'lg':
+                      return 7
+                    case 'xl':
+                      return 8
+                  }
+                })()
+
+                // Calculate the translation distance
+                const translateDistance =
+                  direction === 'rtl'
+                    ? `calc((var(--spacing-base) * ${multiplier}) - ${width}px)`
+                    : `calc(${width}px - (var(--spacing-base) * ${multiplier}))`
+
+                return value
+                  ? `translateX(${translateDistance})`
+                  : `translateX(0)`
+              })
             )
-          ),
-          style.transform(
-            computedOf(
-              value,
-              rect,
-              size
-            )((value, { width }, size) => {
-              const multiplier = (() => {
-                switch (size) {
-                  case 'xs':
-                    return 5
-                  case 'sm':
-                    return 5.5
-                  case 'md':
-                    return 6
-                  case 'lg':
-                    return 7
-                  case 'xl':
-                    return 8
-                }
-              })()
-              return value
-                ? `translateX(calc(${width}px - (var(--spacing-base) * ${multiplier})))`
-                : `translateX(0)`
-            })
           )
         )
       )

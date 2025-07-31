@@ -1,6 +1,6 @@
 import { Provide, TNode } from '@tempots/dom'
 import { BeatUII18n } from '../../src/beatui-i18n/translations'
-import { Locale } from '../../src/i18n/locale'
+import { Locale } from '../../src/components/i18n/locale'
 import { Theme } from '../../src/components/theme/theme'
 
 // Re-export Provide for tests that need it

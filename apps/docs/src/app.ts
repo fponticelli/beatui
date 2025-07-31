@@ -19,6 +19,7 @@ import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
 import { FlyoutPage } from './pages/flyout'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
+import { RTLLTRPage } from './pages/rtl-ltr'
 
 export const App = () => {
   return BeatUI(
@@ -35,6 +36,7 @@ export const App = () => {
         '/tooltip': TooltipPage,
         '/flyout': FlyoutPage,
         '/scrollable-panel': ScrollablePanelPage,
+        '/rtl-ltr': RTLLTRPage,
         '/segmented-control': SegmentedControlPage,
         '/sidebar': SidebarPage,
         '/tags': TagsPage,

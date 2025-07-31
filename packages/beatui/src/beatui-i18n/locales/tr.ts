@@ -37,6 +37,9 @@ const tr: BeatUIMessages = {
   tr: () => 'Türkçe',
   vi: () => 'Vietnamca',
   zh: () => 'Çince',
+  he: () => 'İbranice',
+  fa: () => 'Farsça',
+  ur: () => 'Urduca',
 }
 
 export default tr

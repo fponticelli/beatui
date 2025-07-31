@@ -37,6 +37,9 @@ const ko: BeatUIMessages = {
   tr: () => '터키어',
   vi: () => '베트남어',
   zh: () => '중국어',
+  he: () => '히브리어',
+  fa: () => '페르시아어',
+  ur: () => '우르두어',
 }
 
 export default ko

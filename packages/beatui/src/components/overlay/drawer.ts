@@ -28,7 +28,9 @@ export interface DrawerOptions {
   /** Size of the drawer */
   size?: Value<'sm' | 'md' | 'lg' | 'xl'>
   /** Side of the viewport/element to anchor the drawer to */
-  side?: Value<'top' | 'right' | 'bottom' | 'left'>
+  side?: Value<
+    'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'
+  >
   /** Whether the drawer can be closed by clicking outside or pressing escape */
   dismissable?: Value<boolean>
   /** Whether to show the close button in header (only applies if header is provided) */

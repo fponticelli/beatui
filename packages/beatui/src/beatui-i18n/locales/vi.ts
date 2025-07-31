@@ -37,6 +37,9 @@ const vi: BeatUIMessages = {
   tr: () => 'Tiếng Thổ Nhĩ Kỳ',
   vi: () => 'Tiếng Việt',
   zh: () => 'Tiếng Trung',
+  he: () => 'Tiếng Do Thái',
+  fa: () => 'Tiếng Ba Tư',
+  ur: () => 'Tiếng Urdu',
 }
 
 export default vi

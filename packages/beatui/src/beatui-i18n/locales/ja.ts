@@ -37,6 +37,9 @@ export const ja: BeatUIMessages = {
   tr: () => 'トルコ語',
   vi: () => 'ベトナム語',
   zh: () => '中国語',
+  he: () => 'ヘブライ語',
+  fa: () => 'ペルシア語',
+  ur: () => 'ウルドゥー語',
 }
 
 export default ja

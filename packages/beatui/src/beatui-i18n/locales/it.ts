@@ -37,6 +37,9 @@ const it: BeatUIMessages = {
   tr: () => 'Turco',
   vi: () => 'Vietnamita',
   zh: () => 'Cinese',
+  he: () => 'Ebraico',
+  fa: () => 'Persiano',
+  ur: () => 'Urdu',
 }
 
 export default it

@@ -37,6 +37,9 @@ const zh: BeatUIMessages = {
   tr: () => '土耳其语',
   vi: () => '越南语',
   zh: () => '简体中文',
+  he: () => '希伯来语',
+  fa: () => '波斯语',
+  ur: () => '乌尔都语',
 }
 
 export default zh

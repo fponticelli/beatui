@@ -21,6 +21,7 @@ export function Menu() {
       SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
       SidebarLink({ href: '/flyout', content: 'Flyout' }),
       SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
+      SidebarLink({ href: '/rtl-ltr', content: 'RTL/LTR Support' }),
       SidebarLink({ href: '/segmented-control', content: 'Segmented Control' }),
       SidebarLink({ href: '/sidebar', content: 'Sidebar' }),
       SidebarLink({

@@ -37,6 +37,9 @@ const hi: BeatUIMessages = {
   tr: () => 'तुर्की',
   vi: () => 'वियतनामी',
   zh: () => 'चीनी',
+  he: () => 'हिब्रू',
+  fa: () => 'फारसी',
+  ur: () => 'उर्दू',
 }
 
 export default hi

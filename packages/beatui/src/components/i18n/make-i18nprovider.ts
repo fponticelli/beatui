@@ -1,5 +1,6 @@
-import { Locale, makeMessages, ReactiveMessages } from '@/i18n'
+import { makeMessages, ReactiveMessages } from '@/i18n'
 import { makeProviderMark, Provider } from '@tempots/dom'
+import { Locale } from './locale'
 
 export function makeI18nProvider<M extends object>({
   defaultLocale,

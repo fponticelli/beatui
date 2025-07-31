@@ -3,6 +3,7 @@
  *
  * Provides reactive internationalization support with:
  * - Locale management with persistent storage
+ * - Text direction (RTL/LTR) support with automatic detection
  * - Dynamic translation loading with type safety
  * - Reactive updates throughout the application
  *
@@ -11,8 +12,10 @@
  * import { html, prop, Provide, Use } from '@tempots/dom'
  * import { Locale, makeMessages } from '@tempots/beatui'
  *
- * // Set up locale provider
- * const app = Provide(Locale, {}, () => Use(Locale, ({ locale, setLocale }) => {
+ * // Set up locale provider with direction support
+ * const app = Provide(Locale, {}, () => Use(Locale, ({
+ *   locale, setLocale, direction, setDirectionPreference
+ * }) => {
  *   // Create translation system
  *   const { t } = makeMessages({
  *     locale,
@@ -31,4 +34,4 @@
  */
 
 export * from './translate'
-export * from './locale'
+export * from './direction'

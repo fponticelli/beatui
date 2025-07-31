@@ -37,6 +37,9 @@ const fr: BeatUIMessages = {
   tr: () => 'Turc',
   vi: () => 'Vietnamien',
   zh: () => 'Chinois',
+  he: () => 'Hébreu',
+  fa: () => 'Persan',
+  ur: () => 'Ourdou',
 }
 
 export default fr

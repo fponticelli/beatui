@@ -102,6 +102,7 @@ const main = async () => {
   const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
   const { FlyoutPage } = await import('../src/pages/flyout')
   const { TooltipPage } = await import('../src/pages/tooltip')
+  const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
   const { FormPage } = await import('../src/pages/form')
 
   // Load HTML template
@@ -190,6 +191,7 @@ const main = async () => {
           '/tooltip': TooltipPage,
           '/flyout': FlyoutPage,
           '/scrollable-panel': ScrollablePanelPage,
+          '/rtl-ltr': RTLLTRPage,
           '/segmented-control': SegmentedControlPage,
           '/sidebar': SidebarPage,
           '/tags': TagsPage,

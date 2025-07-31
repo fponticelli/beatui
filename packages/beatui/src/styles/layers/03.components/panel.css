@@ -23,6 +23,15 @@
     border-right: 1px solid var(--border-light);
   }
 
+  /* Direction-aware panel borders */
+  .bc-panel--side-inline-start {
+    border-inline-start: 1px solid var(--border-light);
+  }
+
+  .bc-panel--side-inline-end {
+    border-inline-end: 1px solid var(--border-light);
+  }
+
   .bc-panel--shadow-sm {
     box-shadow: 0 0 0.25rem 0.125rem var(--shadow-color-light);
   }

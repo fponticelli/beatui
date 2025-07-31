@@ -1,4 +1,4 @@
-import { Locale } from '@/i18n'
+import { Locale } from '@/components/i18n'
 import { InputWrapper, NativeSelect, SelectOption } from '../form'
 import { Use, Value } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'

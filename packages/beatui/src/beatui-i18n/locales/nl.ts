@@ -37,6 +37,9 @@ export const nl: BeatUIMessages = {
   tr: () => 'Turks',
   vi: () => 'Vietnamees',
   zh: () => 'Chinees',
+  he: () => 'Hebreeuws',
+  fa: () => 'Perzisch',
+  ur: () => 'Urdu',
 }
 
 export default nl
