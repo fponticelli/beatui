@@ -8,6 +8,7 @@ export type ControlWrapperOptions<S> = {
   label?: TNode
   context?: TNode
   description?: TNode
+  horizontal?: Value<boolean>
 }
 
 export type ControlOptions<S> = Merge<

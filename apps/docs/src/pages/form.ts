@@ -115,16 +115,19 @@ export const FormPage = () => {
                   attr.class('bu-text-sm bu-text--gray'),
                   `Item: ${opts.position.counter}`
                 ),
-                Group(
+                Stack(
                   TextControl(
                     {
+                      horizontal: true,
+                      description: 'This is the title',
                       controller: group.field('title'),
                       label: 'Title',
                     },
-                    style.width('18rem')
+                    style.width('w-full')
                   ),
                   TextControl({
                     controller: group.field('company'),
+                    description: 'This is the company',
                     label: 'Company',
                   })
                 ),

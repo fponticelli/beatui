@@ -28,10 +28,17 @@ export type InputWrapperOptions = {
   labelFor?: Value<string>
   hasError?: Value<boolean>
   disabled?: Value<boolean>
+  horizontal?: Value<boolean>
 }
 
-function generateInputWrapperClasses(): string {
-  return 'bc-input-wrapper'
+function generateInputWrapperClasses(horizontal: boolean): string {
+  const classes = ['bc-input-wrapper']
+
+  if (horizontal) {
+    classes.push('bc-input-wrapper--horizontal')
+  }
+
+  return classes.join(' ')
 }
 
 function generateInputWrapperLabelTextClasses(
@@ -62,11 +69,13 @@ export const InputWrapper = (
     labelFor,
     hasError,
     disabled,
+    horizontal,
   }: InputWrapperOptions,
   ...children: TNode[]
 ) => {
   const computedHasError = hasError ?? Value.map(error ?? null, e => e != null)
   const computedDisabled = disabled ?? false
+  const computedHorizontal = horizontal ?? false
 
   // Generate unique IDs for accessibility
   const wrapperId = sessionId('input-wrapper')
@@ -74,28 +83,48 @@ export const InputWrapper = (
   const errorId = error ? `${wrapperId}-error` : undefined
 
   return html.div(
-    attr.class(generateInputWrapperClasses()),
+    attr.class(
+      Value.map(computedHorizontal, h => generateInputWrapperClasses(h))
+    ),
     label != null || context != null
       ? html.div(
           attr.class('bc-input-wrapper__header'),
-          html.label(
-            attr.class('bc-input-wrapper__label'),
-            labelFor != null ? attr.for(labelFor) : Empty,
-            html.span(
-              attr.class(
-                computedOf(
-                  computedHasError,
-                  computedDisabled
-                )((hasError, disabled) =>
-                  generateInputWrapperLabelTextClasses(
-                    hasError ?? false,
-                    disabled ?? false
+          html.div(
+            attr.class('bc-input-wrapper__label-section'),
+            html.label(
+              attr.class('bc-input-wrapper__label'),
+              labelFor != null ? attr.for(labelFor) : Empty,
+              html.span(
+                attr.class(
+                  computedOf(
+                    computedHasError,
+                    computedDisabled
+                  )((hasError, disabled) =>
+                    generateInputWrapperLabelTextClasses(
+                      hasError ?? false,
+                      disabled ?? false
+                    )
                   )
-                )
+                ),
+                label
               ),
-              label
+              label != null && required ? RequiredSymbol : Empty
             ),
-            label != null && required ? RequiredSymbol : Empty
+            // Show description under label when horizontal
+            When(
+              computedOf(
+                computedHorizontal,
+                description
+              )((h, desc) => h && desc != null),
+              () =>
+                html.div(
+                  attr.class(
+                    'bc-input-wrapper__description bc-input-wrapper__description--under-label'
+                  ),
+                  attr.id(descriptionId!),
+                  description!
+                )
+            )
           ),
           context != null ? Label(context) : Empty
         )
@@ -112,13 +141,19 @@ export const InputWrapper = (
       When(computedHasError, () => dataAttr.invalid('true')),
       content
     ),
-    description != null
-      ? html.div(
+    // Show description at bottom only when not horizontal
+    When(
+      computedOf(
+        computedHorizontal,
+        description
+      )((h, desc) => !h && desc != null),
+      () =>
+        html.div(
           attr.class('bc-input-wrapper__description'),
           attr.id(descriptionId!),
-          description
+          description!
         )
-      : Empty,
+    ),
     error != null
       ? Ensure(error as Value<TNode | null | undefined>, errorValue =>
           html.div(

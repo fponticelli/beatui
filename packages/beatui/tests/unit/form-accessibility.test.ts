@@ -296,4 +296,143 @@ describe('Form Input Accessibility', () => {
       expect(requiredSymbol).toBeNull()
     })
   })
+
+  describe('Horizontal layout', () => {
+    it('should apply horizontal class when horizontal prop is true', async () => {
+      const value = prop('')
+
+      render(
+        WithProviders(() =>
+          InputWrapper({
+            label: 'Horizontal Input',
+            horizontal: true,
+            content: TextInput({
+              value,
+              id: 'horizontal-input',
+            }),
+            labelFor: 'horizontal-input',
+          })
+        ),
+        container
+      )
+
+      const wrapper = container.querySelector('.bc-input-wrapper')
+      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+        true
+      )
+    })
+
+    it('should not apply horizontal class when horizontal prop is false', async () => {
+      const value = prop('')
+
+      render(
+        WithProviders(() =>
+          InputWrapper({
+            label: 'Vertical Input',
+            horizontal: false,
+            content: TextInput({
+              value,
+              id: 'vertical-input',
+            }),
+            labelFor: 'vertical-input',
+          })
+        ),
+        container
+      )
+
+      const wrapper = container.querySelector('.bc-input-wrapper')
+      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+        false
+      )
+    })
+
+    it('should not apply horizontal class when horizontal prop is not provided', async () => {
+      const value = prop('')
+
+      render(
+        WithProviders(() =>
+          InputWrapper({
+            label: 'Default Input',
+            content: TextInput({
+              value,
+              id: 'default-input',
+            }),
+            labelFor: 'default-input',
+          })
+        ),
+        container
+      )
+
+      const wrapper = container.querySelector('.bc-input-wrapper')
+      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+        false
+      )
+    })
+
+    it('should place description under label when horizontal', async () => {
+      const value = prop('')
+
+      render(
+        WithProviders(() =>
+          InputWrapper({
+            label: 'Horizontal Input',
+            description: 'This is a description',
+            horizontal: true,
+            content: TextInput({
+              value,
+              id: 'horizontal-input',
+            }),
+            labelFor: 'horizontal-input',
+          })
+        ),
+        container
+      )
+
+      // Should have description under label
+      const descriptionUnderLabel = container.querySelector(
+        '.bc-input-wrapper__description--under-label'
+      )
+      expect(descriptionUnderLabel).not.toBeNull()
+      expect(descriptionUnderLabel?.textContent).toBe('This is a description')
+
+      // Should not have description at bottom
+      const bottomDescription = container.querySelector(
+        '.bc-input-wrapper__description:not(.bc-input-wrapper__description--under-label)'
+      )
+      expect(bottomDescription).toBeNull()
+    })
+
+    it('should place description at bottom when not horizontal', async () => {
+      const value = prop('')
+
+      render(
+        WithProviders(() =>
+          InputWrapper({
+            label: 'Vertical Input',
+            description: 'This is a description',
+            horizontal: false,
+            content: TextInput({
+              value,
+              id: 'vertical-input',
+            }),
+            labelFor: 'vertical-input',
+          })
+        ),
+        container
+      )
+
+      // Should not have description under label
+      const descriptionUnderLabel = container.querySelector(
+        '.bc-input-wrapper__description--under-label'
+      )
+      expect(descriptionUnderLabel).toBeNull()
+
+      // Should have description at bottom
+      const bottomDescription = container.querySelector(
+        '.bc-input-wrapper__description:not(.bc-input-wrapper__description--under-label)'
+      )
+      expect(bottomDescription).not.toBeNull()
+      expect(bottomDescription?.textContent).toBe('This is a description')
+    })
+  })
 })
