@@ -186,13 +186,10 @@ export function Menu(options: MenuOptions): TNode {
               break
 
             case 'Escape':
-              event.preventDefault()
-              event.stopPropagation()
-              // Restore focus to previously focused element
-              if (previouslyFocusedElement) {
-                previouslyFocusedElement.focus()
-              }
+              // Call the Menu's onClose callback first
               onClose?.()
+              // Let the event propagate to the Flyout so it can also handle Escape
+              // Don't prevent default or stop propagation
               break
 
             case 'Home':
@@ -240,7 +237,6 @@ export function Menu(options: MenuOptions): TNode {
         const focusMenuItem = (index: number, items: HTMLElement[]) => {
           // Remove focus from current item
           if (focusedItemIndex.value >= 0 && items[focusedItemIndex.value]) {
-            items[focusedItemIndex.value].setAttribute('tabindex', '-1')
             items[focusedItemIndex.value].classList.remove(
               'bc-menu-item--focused'
             )
@@ -249,29 +245,32 @@ export function Menu(options: MenuOptions): TNode {
 
           // Focus new item
           if (index >= 0 && items[index]) {
-            items[index].setAttribute('tabindex', '0')
             items[index].classList.add('bc-menu-item--focused')
             items[index].setAttribute('aria-selected', 'true')
-            items[index].focus()
             focusedItemIndex.set(index)
 
-            // Scroll item into view if needed
-            items[index].scrollIntoView({ block: 'nearest' })
+            // Scroll item into view if needed (check for method availability in test environments)
+            if (typeof items[index].scrollIntoView === 'function') {
+              items[index].scrollIntoView({ block: 'nearest' })
+            }
           }
         }
 
         // Update menu items when content changes
         const updateMenuItems = () => {
           const itemElements = Array.from(
-            menuElement.querySelectorAll(
-              '[role="menuitem"]:not([aria-disabled="true"])'
-            )
+            menuElement.querySelectorAll('[role="menuitem"]')
           ) as HTMLElement[]
           menuItems.set(itemElements)
 
           // Set initial focus on first non-disabled item
           if (itemElements.length > 0) {
-            focusMenuItem(0, itemElements)
+            const firstEnabledIndex = itemElements.findIndex(
+              item => item.getAttribute('aria-disabled') !== 'true'
+            )
+            if (firstEnabledIndex >= 0) {
+              focusMenuItem(firstEnabledIndex, itemElements)
+            }
           }
         }
 
@@ -280,7 +279,14 @@ export function Menu(options: MenuOptions): TNode {
         observer.observe(menuElement, { childList: true, subtree: true })
 
         // Initial setup
-        setTimeout(updateMenuItems, 0)
+        setTimeout(() => {
+          updateMenuItems()
+          // Focus the menu container for keyboard navigation
+          menuElement.focus()
+        }, 0)
+
+        // Add document-level keyboard listener
+        document.addEventListener('keydown', handleKeyDown, true)
 
         return Fragment(
           OnDispose(() => {
@@ -306,7 +312,16 @@ export function Menu(options: MenuOptions): TNode {
                 : ''
             })
           ),
-          on.keydown(handleKeyDown),
+          on.click((event: MouseEvent) => {
+            const target = event.target as HTMLElement
+            const menuItem = target.closest('[role="menuitem"]') as HTMLElement
+            if (menuItem && menuItem.getAttribute('aria-disabled') !== 'true') {
+              const key = menuItem.getAttribute('data-key')
+              if (key && onAction) {
+                onAction(key)
+              }
+            }
+          }),
 
           // Live region for screen reader announcements
           html.div(

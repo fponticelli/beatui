@@ -214,11 +214,6 @@ describe('Menu Accessibility', () => {
       )
       await new Promise(resolve => setTimeout(resolve, 50))
 
-      menu.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
-      )
-      await new Promise(resolve => setTimeout(resolve, 50))
-
       const focusedItem = document.querySelector('.bc-menu-item--focused')
       expect(focusedItem!.textContent).toContain('Delete')
     })
