@@ -209,7 +209,7 @@
     border-inline-start: 1px solid var(--border-light);
   }
 
-  .bc-sidebar-divider {
+  .bc-sidebar-separator {
     border: none;
     border-top: 1px solid var(--border-light);
     margin: calc(var(--spacing-base) * 2) 0;
