@@ -75,13 +75,13 @@ describe('Navigation Accessibility', () => {
 
       // Check menu toggle button
       const menuButton = container.querySelector(
-        'button[aria-label="Open menu"]'
+        'button[aria-label="Toggle menu"]'
       )
       expect(menuButton).not.toBeNull()
 
       // Check aside toggle button
       const asideButton = container.querySelector(
-        'button[aria-label="Open aside"]'
+        'button[aria-label="Toggle aside"]'
       )
       expect(asideButton).not.toBeNull()
     })

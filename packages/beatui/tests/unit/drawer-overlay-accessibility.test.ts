@@ -415,7 +415,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
       const overlay = document.querySelector('.bc-overlay')!
       expect(overlay.className).toContain('bc-overlay--effect-opaque')
-      expect(overlay.className).toContain('bc-overlay--mode-non-capturing')
+      expect(overlay.className).toContain('bc-overlay--mode-capturing')
       expect(overlay.getAttribute('data-overlay')).toBe('true')
     })
   })
