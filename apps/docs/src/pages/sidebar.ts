@@ -1,5 +1,5 @@
 import { Sidebar, SidebarLink, CollapsibleSidebarGroup } from '@tempots/beatui'
-import { html, attr, style } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 
 export const SidebarPage = () => {
   return html.div(
