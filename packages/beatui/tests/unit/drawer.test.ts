@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, html, prop, Provide } from '@tempots/dom'
-import { Drawer, Button, Theme } from '../../src'
+import { render, html, prop } from '@tempots/dom'
+import { Drawer, Button } from '../../src'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Drawer', () => {
   let container: HTMLElement
@@ -21,7 +22,7 @@ describe('Drawer', () => {
   describe('basic functionality', () => {
     it('should render trigger and open drawer on click', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               { onClick: () => open({ body: html.p('Drawer content') }) },
@@ -45,7 +46,7 @@ describe('Drawer', () => {
 
     it('should apply correct size and side classes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -70,7 +71,7 @@ describe('Drawer', () => {
 
     it('should render header and footer when provided', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -100,7 +101,7 @@ describe('Drawer', () => {
 
     it('should show close button by default when header is present', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -127,7 +128,7 @@ describe('Drawer', () => {
 
     it('should hide close button when showCloseButton is false', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -160,7 +161,7 @@ describe('Drawer', () => {
       const side = prop<'top' | 'right' | 'bottom' | 'left'>('right')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -194,7 +195,7 @@ describe('Drawer', () => {
 
     it('should apply animation status classes during lifecycle', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               { onClick: () => open({ body: html.p('Animated drawer') }) },
@@ -226,7 +227,7 @@ describe('Drawer', () => {
   describe('interaction behavior', () => {
     it('should close drawer when close button is clicked', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {

@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, html } from '@tempots/dom'
+import { render, html } from '@tempots/dom'
 import { Drawer } from '../../src/components/overlay/drawer'
 import { Overlay } from '../../src/components/overlay/overlay'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Drawer and Overlay Accessibility', () => {
   let container: HTMLElement
@@ -20,7 +20,7 @@ describe('Drawer and Overlay Accessibility', () => {
   describe('Drawer Component', () => {
     it('should have proper dialog role and ARIA attributes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -50,7 +50,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should have proper ARIA labeling with header', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -84,7 +84,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should have proper ARIA attributes without header', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -118,7 +118,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should have focus trap attributes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -148,7 +148,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should focus close button when drawer opens with header', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -178,7 +178,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should have proper close button accessibility', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -206,7 +206,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should support different sizes while maintaining accessibility', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -239,7 +239,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should handle dismissable state correctly', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -272,7 +272,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should support footer content with proper structure', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Drawer((open, _close) =>
             Button(
               {
@@ -313,7 +313,7 @@ describe('Drawer and Overlay Accessibility', () => {
       let escapePressed = false
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Overlay((open, close) =>
             Button(
               {
@@ -356,7 +356,7 @@ describe('Drawer and Overlay Accessibility', () => {
       let overlayOpen = false
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Overlay((open, close) =>
             Button(
               {
@@ -391,7 +391,7 @@ describe('Drawer and Overlay Accessibility', () => {
 
     it('should apply proper overlay classes and attributes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Overlay((open, _close) =>
             Button(
               {

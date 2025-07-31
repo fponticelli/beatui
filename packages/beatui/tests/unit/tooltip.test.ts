@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide } from '@tempots/dom'
+import { render } from '@tempots/dom'
 import { Tooltip } from '../../src/components/overlay/tooltip'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Tooltip Component', () => {
   let container: HTMLElement
@@ -21,7 +21,7 @@ describe('Tooltip Component', () => {
 
   it('should render without errors', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',
@@ -38,7 +38,7 @@ describe('Tooltip Component', () => {
 
   it('should attach event listeners to parent element', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',
@@ -61,7 +61,7 @@ describe('Tooltip Component', () => {
   it('should have correct tooltip content when triggered', async () => {
     const tooltipContent = 'This is a tooltip'
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',
@@ -92,7 +92,7 @@ describe('Tooltip Component', () => {
 
   it('should support different placements', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',
@@ -120,7 +120,7 @@ describe('Tooltip Component', () => {
 
   it('should support custom offset', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',
@@ -148,7 +148,7 @@ describe('Tooltip Component', () => {
 
   it('should not show tooltip when showOn is "never"', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Hover me',

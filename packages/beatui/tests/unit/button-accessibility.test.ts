@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Button Accessibility', () => {
   let container: HTMLElement
@@ -18,7 +18,7 @@ describe('Button Accessibility', () => {
   describe('Basic accessibility', () => {
     it('should have proper button type by default', () => {
       render(
-        Provide(Theme, {}, () => Button({}, 'Click me')),
+        WithProviders(() => Button({}, 'Click me')),
         container
       )
 
@@ -28,7 +28,7 @@ describe('Button Accessibility', () => {
 
     it('should support custom button types', () => {
       render(
-        Provide(Theme, {}, () => Button({ type: 'submit' }, 'Submit')),
+        WithProviders(() => Button({ type: 'submit' }, 'Submit')),
         container
       )
 
@@ -38,7 +38,7 @@ describe('Button Accessibility', () => {
 
     it('should be disabled when disabled prop is true', () => {
       render(
-        Provide(Theme, {}, () => Button({ disabled: true }, 'Disabled')),
+        WithProviders(() => Button({ disabled: true }, 'Disabled')),
         container
       )
 
@@ -50,7 +50,7 @@ describe('Button Accessibility', () => {
   describe('Loading state accessibility', () => {
     it('should have aria-busy when loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: true }, 'Loading')),
+        WithProviders(() => Button({ loading: true }, 'Loading')),
         container
       )
 
@@ -60,7 +60,7 @@ describe('Button Accessibility', () => {
 
     it('should not have aria-busy when not loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: false }, 'Not loading')),
+        WithProviders(() => Button({ loading: false }, 'Not loading')),
         container
       )
 
@@ -70,7 +70,7 @@ describe('Button Accessibility', () => {
 
     it('should be disabled when loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: true }, 'Loading')),
+        WithProviders(() => Button({ loading: true }, 'Loading')),
         container
       )
 
@@ -80,7 +80,7 @@ describe('Button Accessibility', () => {
 
     it('should have aria-label when loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: true }, 'Loading')),
+        WithProviders(() => Button({ loading: true }, 'Loading')),
         container
       )
 
@@ -90,7 +90,7 @@ describe('Button Accessibility', () => {
 
     it('should not have aria-label when not loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: false }, 'Not loading')),
+        WithProviders(() => Button({ loading: false }, 'Not loading')),
         container
       )
 
@@ -100,7 +100,7 @@ describe('Button Accessibility', () => {
 
     it('should have live region for screen reader announcements when loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: true }, 'Loading')),
+        WithProviders(() => Button({ loading: true }, 'Loading')),
         container
       )
 
@@ -112,7 +112,7 @@ describe('Button Accessibility', () => {
 
     it('should not have live region when not loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: false }, 'Not loading')),
+        WithProviders(() => Button({ loading: false }, 'Not loading')),
         container
       )
 
@@ -124,7 +124,7 @@ describe('Button Accessibility', () => {
       const loading = prop(false)
 
       render(
-        Provide(Theme, {}, () => Button({ loading }, 'Dynamic loading')),
+        WithProviders(() => Button({ loading }, 'Dynamic loading')),
         container
       )
 
@@ -162,9 +162,7 @@ describe('Button Accessibility', () => {
   describe('Combined states', () => {
     it('should be disabled when both disabled and loading are true', () => {
       render(
-        Provide(Theme, {}, () =>
-          Button({ disabled: true, loading: true }, 'Both')
-        ),
+        WithProviders(() => Button({ disabled: true, loading: true }, 'Both')),
         container
       )
 
@@ -175,9 +173,7 @@ describe('Button Accessibility', () => {
 
     it('should prioritize loading state for aria-label when both disabled and loading', () => {
       render(
-        Provide(Theme, {}, () =>
-          Button({ disabled: true, loading: true }, 'Both')
-        ),
+        WithProviders(() => Button({ disabled: true, loading: true }, 'Both')),
         container
       )
 
@@ -189,7 +185,7 @@ describe('Button Accessibility', () => {
   describe('Focus management', () => {
     it('should be focusable when not disabled', () => {
       render(
-        Provide(Theme, {}, () => Button({}, 'Focusable')),
+        WithProviders(() => Button({}, 'Focusable')),
         container
       )
 
@@ -200,7 +196,7 @@ describe('Button Accessibility', () => {
 
     it('should not be focusable when disabled', () => {
       render(
-        Provide(Theme, {}, () => Button({ disabled: true }, 'Not focusable')),
+        WithProviders(() => Button({ disabled: true }, 'Not focusable')),
         container
       )
 
@@ -211,7 +207,7 @@ describe('Button Accessibility', () => {
 
     it('should not be focusable when loading', () => {
       render(
-        Provide(Theme, {}, () => Button({ loading: true }, 'Loading')),
+        WithProviders(() => Button({ loading: true }, 'Loading')),
         container
       )
 
@@ -229,7 +225,7 @@ describe('Button Accessibility', () => {
       }
 
       render(
-        Provide(Theme, {}, () => Button({ onClick }, 'Click me')),
+        WithProviders(() => Button({ onClick }, 'Click me')),
         container
       )
 
@@ -245,9 +241,7 @@ describe('Button Accessibility', () => {
       }
 
       render(
-        Provide(Theme, {}, () =>
-          Button({ disabled: true, onClick }, 'Disabled')
-        ),
+        WithProviders(() => Button({ disabled: true, onClick }, 'Disabled')),
         container
       )
 
@@ -263,7 +257,7 @@ describe('Button Accessibility', () => {
       }
 
       render(
-        Provide(Theme, {}, () => Button({ loading: true, onClick }, 'Loading')),
+        WithProviders(() => Button({ loading: true, onClick }, 'Loading')),
         container
       )
 

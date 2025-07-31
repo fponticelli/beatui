@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide } from '@tempots/dom'
+import { render } from '@tempots/dom'
 import { InputWrapper } from '../../src/components/form/input/input-wrapper'
 import { TextInput } from '../../src/components/form/input/text-input'
 import { TextArea } from '../../src/components/form/input/text-area'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 import { prop } from '@tempots/dom'
 
 describe('Form Input Accessibility', () => {
@@ -24,7 +24,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test Input',
             description: 'This is a description',
@@ -56,7 +56,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test Input',
             error: 'This is an error',
@@ -80,7 +80,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test Input',
             description: 'This is a description',
@@ -113,7 +113,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test Input',
             description: 'This is a description',
@@ -149,7 +149,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test TextArea',
             description: 'This is a description',
@@ -184,7 +184,7 @@ describe('Form Input Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CheckboxInput({
             value,
             placeholder: 'Accept terms',
@@ -216,7 +216,7 @@ describe('Form Input Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Test Checkbox',
             description: 'This is a description',
@@ -252,7 +252,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Required Input',
             required: true,
@@ -276,7 +276,7 @@ describe('Form Input Accessibility', () => {
       const value = prop('')
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Optional Input',
             required: false,

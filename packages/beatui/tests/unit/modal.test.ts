@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, Provide, html, prop } from '@tempots/dom'
+import { render, html, prop } from '@tempots/dom'
 import { Modal, ConfirmModal } from '../../src/components/overlay/modal'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Modal Component', () => {
   let container: HTMLElement
@@ -22,7 +22,7 @@ describe('Modal Component', () => {
   describe('basic functionality', () => {
     it('should render trigger and open modal on click', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
@@ -50,7 +50,7 @@ describe('Modal Component', () => {
 
     it('should render with correct size and position', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ size: 'lg', position: 'top' }, open =>
             Button(
               { onClick: () => open({ body: html.p('Large modal') }) },
@@ -74,7 +74,7 @@ describe('Modal Component', () => {
       const onCloseMock = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ onClose: onCloseMock }, open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
@@ -101,7 +101,7 @@ describe('Modal Component', () => {
       const dismissable = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ dismissable }, open =>
             Button(
               {
@@ -133,7 +133,7 @@ describe('Modal Component', () => {
   describe('header and close button', () => {
     it('should automatically add close button when header is present', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               {
@@ -161,7 +161,7 @@ describe('Modal Component', () => {
 
     it('should not add close button when showCloseButton is false', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ showCloseButton: false }, open =>
             Button(
               {
@@ -191,7 +191,7 @@ describe('Modal Component', () => {
   describe('container options', () => {
     it('should use body container by default', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
@@ -218,7 +218,7 @@ describe('Modal Component', () => {
       document.body.appendChild(customContainer)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ container: 'element' }, open =>
             Button(
               { onClick: () => open({ body: html.p('Modal content') }) },
@@ -263,7 +263,7 @@ describe('ConfirmModal Component', () => {
     const onCancel = vi.fn()
 
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         ConfirmModal({ onConfirm, onCancel }, open =>
           Button(
             {

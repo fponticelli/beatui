@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, Fragment, attr } from '@tempots/dom'
+import { render, Fragment, attr } from '@tempots/dom'
 import { Flyout } from '../../src/components/navigation/flyout'
 import { Tooltip } from '../../src/components/overlay/tooltip'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Flyout and Tooltip Accessibility', () => {
   let container: HTMLElement
@@ -20,7 +20,7 @@ describe('Flyout and Tooltip Accessibility', () => {
   describe('Flyout', () => {
     it('should have proper ARIA attributes on trigger element', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -43,7 +43,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should update aria-expanded when flyout opens and closes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -75,7 +75,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should have proper role and ID on flyout content', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -102,7 +102,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should close on Escape key when closable', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -141,7 +141,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should not close on Escape key when not closable', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -180,7 +180,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should support custom role attribute', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Trigger Button',
@@ -208,7 +208,7 @@ describe('Flyout and Tooltip Accessibility', () => {
   describe('Tooltip', () => {
     it('should associate tooltip with trigger using aria-describedby', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Hover me',
@@ -230,7 +230,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should have proper tooltip role and ID', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Hover me',
@@ -258,7 +258,7 @@ describe('Flyout and Tooltip Accessibility', () => {
 
     it('should show and hide on hover events', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Button(
             { onClick: () => {} },
             'Hover me',

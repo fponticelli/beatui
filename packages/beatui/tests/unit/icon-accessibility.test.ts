@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { Icon } from '../../src/components/data/icon'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 // Mock the icon loading to avoid network requests in tests
 vi.mock('../../src/components/data/icon.ts', async importOriginal => {
@@ -31,7 +31,7 @@ describe('Icon Accessibility', () => {
   describe('Decorative icons', () => {
     it('should be hidden from screen readers when decorative', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             accessibility: 'decorative',
@@ -48,7 +48,7 @@ describe('Icon Accessibility', () => {
 
     it('should be decorative by default when no title is provided', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
           })
@@ -64,7 +64,7 @@ describe('Icon Accessibility', () => {
 
     it('should be decorative when accessibility is auto and title is empty', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title: '',
@@ -82,7 +82,7 @@ describe('Icon Accessibility', () => {
   describe('Informative icons', () => {
     it('should have proper ARIA attributes when informative', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title: 'Important icon',
@@ -100,7 +100,7 @@ describe('Icon Accessibility', () => {
 
     it('should be informative when title is provided and accessibility is auto', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title: 'Meaningful icon',
@@ -117,7 +117,7 @@ describe('Icon Accessibility', () => {
 
     it('should use default label when informative but no title provided', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             accessibility: 'informative',
@@ -137,7 +137,7 @@ describe('Icon Accessibility', () => {
       const title = prop('' as string | undefined)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title,
@@ -175,7 +175,7 @@ describe('Icon Accessibility', () => {
       )
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title: 'Test icon',
@@ -203,7 +203,7 @@ describe('Icon Accessibility', () => {
   describe('Icon sizes and colors', () => {
     it('should maintain accessibility attributes across different sizes', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             size: 'lg',
@@ -221,7 +221,7 @@ describe('Icon Accessibility', () => {
 
     it('should maintain accessibility attributes across different colors', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             color: 'primary',
@@ -255,7 +255,7 @@ describe('Icon Accessibility', () => {
       }))
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             title: 'Loading icon',
@@ -275,7 +275,7 @@ describe('Icon Accessibility', () => {
 
     it('should have proper accessibility for loading state when decorative', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'test-icon',
             accessibility: 'decorative',
@@ -302,7 +302,7 @@ describe('Icon Accessibility', () => {
       }))
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon({
             icon: 'nonexistent-icon',
             title: 'Error icon',
@@ -326,7 +326,7 @@ describe('Icon Accessibility', () => {
   describe('Icon with children', () => {
     it('should support children while maintaining accessibility', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Icon(
             {
               icon: 'test-icon',

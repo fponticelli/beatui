@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { Switch } from '../../src/components/form/input/switch'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
 import { InputWrapper } from '../../src/components/form/input/input-wrapper'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Switch and Checkbox Accessibility', () => {
   let container: HTMLElement
@@ -23,7 +23,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -46,7 +46,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -74,7 +74,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn(newValue => value.set(newValue))
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -100,7 +100,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -121,7 +121,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -160,7 +160,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -186,7 +186,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -211,7 +211,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const onChange = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Switch({
             value,
             onChange,
@@ -234,7 +234,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CheckboxInput({
             value,
             placeholder: 'Accept terms',
@@ -257,7 +257,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CheckboxInput({
             value,
             placeholder: 'I agree to the terms',
@@ -282,7 +282,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           InputWrapper({
             label: 'Terms and Conditions',
             description: 'Please read and accept our terms',
@@ -312,7 +312,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const value = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CheckboxInput({
             value,
             placeholder: 'Dynamic checkbox',
@@ -341,7 +341,7 @@ describe('Switch and Checkbox Accessibility', () => {
       }
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CheckboxInput({
             value,
             placeholder: 'Keyboard checkbox',
@@ -371,7 +371,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const checkboxValue = prop(false)
 
       render(
-        Provide(Theme, {}, () => [
+        WithProviders(() => [
           Switch({
             value: switchValue,
             onChange: () => {},
@@ -401,7 +401,7 @@ describe('Switch and Checkbox Accessibility', () => {
       const checkboxValue = prop(false)
 
       render(
-        Provide(Theme, {}, () => [
+        WithProviders(() => [
           Switch({
             value: switchValue,
             onChange: () => {},

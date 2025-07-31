@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Button Component', () => {
   it('should render with default props', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
-      Provide(Theme, {}, () => Button({}, 'Click me')),
+      WithProviders(() => Button({}, 'Click me')),
       container
     )
 
@@ -22,7 +22,7 @@ describe('Button Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
-      Provide(Theme, {}, () => Button({ loading: true }, 'Click me')),
+      WithProviders(() => Button({ loading: true }, 'Click me')),
       container
     )
 
@@ -44,7 +44,7 @@ describe('Button Component', () => {
     const loading = prop(false)
 
     render(
-      Provide(Theme, {}, () => Button({ loading }, 'Click me')),
+      WithProviders(() => Button({ loading }, 'Click me')),
       container
     )
 
@@ -66,7 +66,7 @@ describe('Button Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
-      Provide(Theme, {}, () => Button({ loading: true }, 'Click me')),
+      WithProviders(() => Button({ loading: true }, 'Click me')),
       container
     )
 
@@ -78,7 +78,7 @@ describe('Button Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button({ disabled: true, loading: true }, 'Click me')
       ),
       container

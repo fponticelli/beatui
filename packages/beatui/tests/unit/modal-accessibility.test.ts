@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, Provide, html } from '@tempots/dom'
+import { render, html } from '@tempots/dom'
 import { Modal } from '../../src/components/overlay/modal'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Modal Accessibility', () => {
   let container: HTMLElement
@@ -19,7 +19,7 @@ describe('Modal Accessibility', () => {
   describe('ARIA attributes', () => {
     it('should have proper dialog role and ARIA attributes', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               {
@@ -52,7 +52,7 @@ describe('Modal Accessibility', () => {
 
     it('should have proper ARIA labeling when header is provided', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               {
@@ -92,7 +92,7 @@ describe('Modal Accessibility', () => {
   describe('Focus management', () => {
     it('should focus the close button when modal opens', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               {
@@ -122,7 +122,7 @@ describe('Modal Accessibility', () => {
 
     it('should focus first focusable element when no close button', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ showCloseButton: false }, open =>
             Button(
               {
@@ -158,7 +158,7 @@ describe('Modal Accessibility', () => {
       const onCloseMock = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ onClose: onCloseMock }, open =>
             Button(
               {
@@ -197,7 +197,7 @@ describe('Modal Accessibility', () => {
       const onCloseMock = vi.fn()
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({ dismissable: false, onClose: onCloseMock }, open =>
             Button(
               {
@@ -237,7 +237,7 @@ describe('Modal Accessibility', () => {
   describe('Close button accessibility', () => {
     it('should have proper aria-label on close button', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Modal({}, open =>
             Button(
               {

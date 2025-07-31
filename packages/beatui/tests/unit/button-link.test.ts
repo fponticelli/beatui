@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { ButtonLink } from '../../src/components/navigation/link/button-link'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders, Provide } from '../helpers/test-providers'
 import { Location } from '@tempots/ui'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
 import { ButtonVariant } from '@/index'
@@ -20,7 +20,7 @@ describe('ButtonLink Component', () => {
 
   it('should render as anchor with default props', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
           ButtonLink({ href: '/test' }, 'Click me')
         )
@@ -37,7 +37,7 @@ describe('ButtonLink Component', () => {
 
   it('should render as span when disabled', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         ButtonLink({ href: '/test', disabled: true }, 'Disabled Link')
       ),
       container
@@ -53,7 +53,7 @@ describe('ButtonLink Component', () => {
 
   it('should apply button styling variants', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
           ButtonLink(
             {
@@ -80,7 +80,7 @@ describe('ButtonLink Component', () => {
 
   it('should support target and rel attributes', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
           ButtonLink(
             {
@@ -105,7 +105,7 @@ describe('ButtonLink Component', () => {
     const variant = prop<ButtonVariant>('filled')
 
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
           ButtonLink(
             {
@@ -151,7 +151,7 @@ describe('ButtonLink Component', () => {
 
     // Test that ButtonLink accepts navigation props without errors
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
           ButtonLink(
             {
@@ -174,7 +174,7 @@ describe('ButtonLink Component', () => {
 
   it('should render as anchor when not matching current location', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/other', search: {}, hash: '' }, () =>
           ButtonLink(
             {
@@ -200,7 +200,7 @@ describe('ButtonLink Component', () => {
 
   it('should not disable when disableWhenActive is false', () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Provide(Location, { pathname: '/test', search: {}, hash: '' }, () =>
           ButtonLink(
             {

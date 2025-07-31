@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, html, prop } from '@tempots/dom'
+import { render, html, prop } from '@tempots/dom'
 import { AppShell } from '../../src/components/layout/app-shell'
 import { SidebarLink } from '../../src/components/navigation/sidebar/sidebar-link'
 import { CollapsibleSidebarGroup } from '../../src/components/navigation/sidebar/collapsible-sidebar-group'
 import { SidebarGroup } from '../../src/components/navigation/sidebar/sidebar-group'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders, Provide } from '../helpers/test-providers'
 import { Location } from '@tempots/ui'
 
 describe('Navigation Accessibility', () => {
@@ -22,7 +22,7 @@ describe('Navigation Accessibility', () => {
   describe('AppShell', () => {
     it('should have proper landmark roles and ARIA labels', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           AppShell({
             menu: {
               content: html.div('Menu content'),
@@ -57,7 +57,7 @@ describe('Navigation Accessibility', () => {
 
     it('should have proper ARIA labels on toggle buttons', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           AppShell({
             menu: {
               content: html.div('Menu content'),
@@ -94,7 +94,7 @@ describe('Navigation Accessibility', () => {
       const ariaLabel = 'Test button'
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           SidebarLink({
             content: 'Test Link',
             onClick: () => {},
@@ -117,7 +117,7 @@ describe('Navigation Accessibility', () => {
       const expanded = prop(false)
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           SidebarLink({
             content: 'Test Link',
             onClick: () => {},
@@ -139,7 +139,7 @@ describe('Navigation Accessibility', () => {
 
     it('should render as anchor for URL links', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           Provide(Location, { pathname: '/', search: '', hash: '' }, () =>
             SidebarLink({
               content: 'Test Link',
@@ -157,7 +157,7 @@ describe('Navigation Accessibility', () => {
 
     it('should render as span for active links', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           // We'll test this with a click link since mocking Location is complex
           SidebarLink({
             content: 'Test Link',
@@ -175,7 +175,7 @@ describe('Navigation Accessibility', () => {
   describe('CollapsibleSidebarGroup', () => {
     it('should have proper ARIA attributes for collapsible behavior', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CollapsibleSidebarGroup(
             {
               header: 'Test Group',
@@ -208,7 +208,7 @@ describe('Navigation Accessibility', () => {
 
     it('should update aria-expanded when toggled', async () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CollapsibleSidebarGroup(
             {
               header: 'Test Group',
@@ -238,7 +238,7 @@ describe('Navigation Accessibility', () => {
 
     it('should start open when startOpen is true', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CollapsibleSidebarGroup(
             {
               header: 'Test Group',
@@ -258,7 +258,7 @@ describe('Navigation Accessibility', () => {
   describe('SidebarGroup', () => {
     it('should render with proper structure', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           SidebarGroup({ rail: true }, html.div('Group content'))
         ),
         container
@@ -271,7 +271,7 @@ describe('Navigation Accessibility', () => {
 
     it('should not have rail class when rail is false', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           SidebarGroup({ rail: false }, html.div('Group content'))
         ),
         container
@@ -288,7 +288,7 @@ describe('Navigation Accessibility', () => {
       let clicked = false
 
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           SidebarLink({
             content: 'Test Link',
             onClick: () => {
@@ -312,7 +312,7 @@ describe('Navigation Accessibility', () => {
 
     it('should support keyboard interaction on collapsible groups', () => {
       render(
-        Provide(Theme, {}, () =>
+        WithProviders(() =>
           CollapsibleSidebarGroup(
             {
               header: 'Test Group',

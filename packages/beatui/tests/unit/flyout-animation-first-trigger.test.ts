@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Provide, Fragment, attr } from '@tempots/dom'
+import { render, Fragment, attr } from '@tempots/dom'
 import { Flyout } from '../../src/components/navigation/flyout'
 import { Button } from '../../src/components/button/button'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 function getToggleStatusFromClasses(element: HTMLElement): string {
   const classList = element.className
@@ -31,7 +31,7 @@ describe('Flyout First Trigger Animation Bug', () => {
 
   it('should reproduce animation skip on first trigger', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Test Button',
@@ -82,7 +82,7 @@ describe('Flyout First Trigger Animation Bug', () => {
 
   it('should ensure animation states transition correctly on first trigger', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Animation States Test',
@@ -141,7 +141,7 @@ describe('Flyout First Trigger Animation Bug', () => {
 
   it('should handle immediate element setup and animation start', async () => {
     render(
-      Provide(Theme, {}, () =>
+      WithProviders(() =>
         Button(
           { onClick: () => {} },
           'Element Setup Test',
