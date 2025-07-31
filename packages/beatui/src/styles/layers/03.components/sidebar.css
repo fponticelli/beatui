@@ -1,4 +1,28 @@
 @layer components {
+  /* Sidebar container - default light background mode */
+  .bc-sidebar {
+    background-color: var(--bg-background-light);
+    color: var(--text-normal-light);
+  }
+
+  /* Dark background mode - inverted colors */
+  .bc-sidebar--dark-bg {
+    background-color: var(--bg-background-dark);
+    color: var(--text-normal-dark);
+  }
+
+  /* Dark theme overrides for light background mode */
+  .b-dark .bc-sidebar {
+    background-color: var(--bg-background-dark);
+    color: var(--text-normal-dark);
+  }
+
+  /* Dark theme overrides for dark background mode - inverted */
+  .b-dark .bc-sidebar--dark-bg {
+    background-color: var(--bg-background-light);
+    color: var(--text-normal-light);
+  }
+
   .bc-sidebar-link {
     display: flex;
     flex-direction: row;
@@ -115,5 +139,73 @@
 
   .b-dark .bc-sidebar-group--rail {
     border-inline-start: 1px solid var(--border-dark);
+  }
+
+  /* Dark background mode styles - inverted colors in light theme */
+  .bc-sidebar--dark-bg button.bc-sidebar-link:hover,
+  .bc-sidebar--dark-bg a.bc-sidebar-link:hover {
+    background-color: var(--interactive-hover-dark);
+  }
+
+  .bc-sidebar--dark-bg span.bc-sidebar-link {
+    background-color: var(--color-primary-900);
+    color: var(--color-primary-200);
+  }
+
+  .bc-sidebar--dark-bg .bc-sidebar-link {
+    color: var(--text-normal-dark);
+  }
+
+  .bc-sidebar--dark-bg .bc-sidebar-link--icon {
+    color: var(--text-muted-dark);
+  }
+
+  .bc-sidebar--dark-bg .bc-sidebar-link--action {
+    background: var(--bg-elevated-dark);
+    color: var(--text-normal-dark);
+    border: 1px solid var(--border-dark);
+  }
+
+  .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
+    background-color: var(--interactive-hover-dark);
+    border-color: var(--border-divider-dark);
+  }
+
+  .bc-sidebar--dark-bg .bc-sidebar-group--rail {
+    border-inline-start: 1px solid var(--border-dark);
+  }
+
+  /* Dark background mode in dark theme - inverted back to light colors */
+  .b-dark .bc-sidebar--dark-bg button.bc-sidebar-link:hover,
+  .b-dark .bc-sidebar--dark-bg a.bc-sidebar-link:hover {
+    background-color: var(--interactive-hover-light);
+  }
+
+  .b-dark .bc-sidebar--dark-bg span.bc-sidebar-link {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-700);
+  }
+
+  .b-dark .bc-sidebar--dark-bg .bc-sidebar-link {
+    color: var(--text-normal-light);
+  }
+
+  .b-dark .bc-sidebar--dark-bg .bc-sidebar-link--icon {
+    color: var(--text-muted-light);
+  }
+
+  .b-dark .bc-sidebar--dark-bg .bc-sidebar-link--action {
+    background: var(--bg-elevated-light);
+    color: var(--text-normal-light);
+    border: 1px solid var(--border-light);
+  }
+
+  .b-dark .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
+    background-color: var(--interactive-hover-light);
+    border-color: var(--border-divider-light);
+  }
+
+  .b-dark .bc-sidebar--dark-bg .bc-sidebar-group--rail {
+    border-inline-start: 1px solid var(--border-light);
   }
 }
