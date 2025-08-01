@@ -1,3 +1,4 @@
+export * from './combobox-control'
 export * from './control-input-wrapper'
 export * from './control-options'
 export * from './date-control'

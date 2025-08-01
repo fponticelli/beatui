@@ -30,6 +30,7 @@ export function Menu() {
         content: Todo('Tags'),
       }),
       SidebarLink({ href: '/form', content: 'Form' }),
+      SidebarLink({ href: '/combobox', content: 'Combobox' }),
       SidebarLink({ href: '/editable-text', content: Todo('Editable Text') }),
       SidebarLink({ href: '/breakpoint', content: 'Breakpoint' })
     )

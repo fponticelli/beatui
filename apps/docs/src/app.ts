@@ -4,6 +4,7 @@ import { BeatUI } from '@tempots/beatui'
 import { HomePage } from './pages/home'
 import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
+import { ComboboxPage } from './pages/combobox'
 import { SwitchPage } from './pages/switch'
 import { IconPage } from './pages/icon'
 import { LinkPage } from './pages/link'
@@ -28,6 +29,7 @@ export const App = () => {
       children: RootRouter({
         '/': HomePage,
         '/button': ButtonPage,
+        '/combobox': ComboboxPage,
         '/switch': SwitchPage,
         '/collapse': CollapsePage,
         '/icon': IconPage,
