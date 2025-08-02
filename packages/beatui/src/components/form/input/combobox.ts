@@ -27,6 +27,7 @@ import { BeatUII18n } from '@/beatui-i18n'
 import { Flyout } from '../../navigation/flyout'
 import { sessionId } from '../../../utils/session-id'
 import { Icon } from '@/components/data'
+import { Group } from '@/components/layout'
 
 // Extend existing SelectOption types to support rich content
 export type ComboboxValueOption<T> = {
@@ -348,194 +349,151 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
 
   return InputContainer({
     ...options,
-    focusableSelector: '.bc-combobox__trigger',
-    input: html.div(
+    child: Fragment(
+      WithElement(el => {
+        triggerElement = el
+        el.addEventListener('keydown', handleKeyDown)
+        el.setAttribute('aria-haspopup', 'listbox')
+        el.setAttribute('aria-controls', listboxId)
+        // Set up reactive aria attributes
+        return OnDispose(() => el.removeEventListener('keydown', handleKeyDown))
+      }),
+      CommonInputAttributes(options),
+      attr.id(comboboxId),
+      attr.tabindex(0),
+      aria.expanded(isOpen as Value<boolean | 'false' | 'true'>),
       attr.class('bc-combobox'),
-
-      // Trigger element
-      html.div(
-        WithElement(el => {
-          triggerElement = el
-          el.addEventListener('keydown', handleKeyDown)
-          return OnDispose(() =>
-            el.removeEventListener('keydown', handleKeyDown)
-          )
-        }),
-        CommonInputAttributes(options),
-        attr.class('bc-combobox__trigger'),
-        attr.role('combobox'),
-        WithElement(el => {
-          el.setAttribute('aria-haspopup', 'listbox')
-          el.setAttribute('aria-controls', listboxId)
-
-          // Set up reactive aria attributes
-          const updateExpanded = (expanded: boolean) => {
-            el.setAttribute('aria-expanded', expanded ? 'true' : 'false')
+      attr.role('combobox'),
+      aria.activedescendant(
+        computedOf(
+          isOpen,
+          focusedValue
+        )((open, focused): string => {
+          if (open && focused != null) {
+            return `combobox-option-${String(focused)}`
           }
-
-          const updateActivedescendant = (
-            open: boolean,
-            focusedVal: T | null
-          ) => {
-            if (open && focusedVal != null) {
-              el.setAttribute(
-                'aria-activedescendant',
-                `combobox-option-${String(focusedVal)}`
-              )
-            } else {
-              el.removeAttribute('aria-activedescendant')
-            }
-          }
-
-          // Initial setup
-          updateExpanded(isOpen.value)
-          updateActivedescendant(isOpen.value, focusedValue.value)
-
-          // Set up watchers (simplified approach)
-          let lastOpen = isOpen.value
-          let lastFocused = focusedValue.value
-
-          const checkUpdates = () => {
-            if (isOpen.value !== lastOpen) {
-              lastOpen = isOpen.value
-              updateExpanded(lastOpen)
-              updateActivedescendant(lastOpen, lastFocused)
-            }
-            if (focusedValue.value !== lastFocused) {
-              lastFocused = focusedValue.value
-              updateActivedescendant(lastOpen, lastFocused)
-            }
-          }
-
-          const interval = setInterval(checkUpdates, 16) // ~60fps
-          return OnDispose(() => clearInterval(interval))
-        }),
-        attr.id(comboboxId),
-        attr.tabindex(0),
-        onBlur != null
-          ? on.blur(() => {
-              // Delay to allow option click to register
-              setTimeout(() => {
-                if (!listboxElement?.contains(document.activeElement)) {
-                  isOpen.set(false)
-                  focusedIndex.set(-1)
-                  onBlur()
-                }
-              }, 100)
-            })
-          : Empty,
-
-        html.span(
-          attr.class('bc-combobox__display'),
-          When(
-            displayLabel.map(label => label.length > 0),
-            () => displayLabel,
-            () =>
-              Use(
-                BeatUII18n,
-                t => placeholder ?? unselectedLabel ?? t.selectOne()
-              )
-          )
-        ),
-
-        Icon(
-          { icon: 'ph:caret-up-down-bold', color: 'primary' },
-          attr.class('bc-combobox__arrow')
-        ),
-
-        // Dropdown using Flyout with custom trigger
-        Flyout({
-          content: () =>
-            html.div(
-              WithElement(el => {
-                listboxElement = el
-              }),
-              attr.class('bc-combobox__listbox'),
-              attr.role('listbox'),
-              attr.id(listboxId),
-              aria.labelledby(comboboxId),
-              ForEach(comboboxOptions, option =>
-                ComboboxOptionItem(
-                  option,
-                  equality,
-                  value,
-                  wrappedOnChange,
-                  focusedValue
-                )
-              )
-            ),
-          placement: 'bottom-start',
-          showOn: (show, hide) => {
-            // Store the show/hide functions for use in our custom handlers
-            const flyoutShow = show
-            const flyoutHide = hide
-
-            // Track click-outside listener for cleanup
-            let clickOutsideCleanup: (() => void) | null = null
-
-            // Custom click handler that manages both our state and the flyout
-            const handleClick = () => {
-              if (isOpen.value) {
+          return ''
+        })
+      ),
+      onBlur != null
+        ? on.blur(() => {
+            // Delay to allow option click to register
+            setTimeout(() => {
+              if (!listboxElement?.contains(document.activeElement)) {
                 isOpen.set(false)
                 focusedIndex.set(-1)
-                focusedValue.set(null)
-                // Clean up click-outside listener
-                if (clickOutsideCleanup) {
-                  clickOutsideCleanup()
-                  clickOutsideCleanup = null
-                }
-                flyoutHide()
-              } else {
-                const opts = Value.get(comboboxOptions)
-                const selectableOptions = getSelectableOptions(opts)
-                isOpen.set(true)
-                if (selectableOptions.length > 0) {
-                  focusedIndex.set(0)
-                  focusedValue.set(selectableOptions[0].value)
-                }
-                flyoutShow()
-
-                // Add click-outside handling when opening
-                // Use delayedAnimationFrame to avoid immediate closure
-                delayedAnimationFrame(() => {
-                  const handleClickOutside = (event: MouseEvent) => {
-                    // Check if the click is outside the combobox trigger
-                    const target = event.target as Element
-                    if (triggerElement && !triggerElement.contains(target)) {
-                      // Click is outside, close the dropdown
-                      isOpen.set(false)
-                      focusedIndex.set(-1)
-                      focusedValue.set(null)
-                      flyoutHide()
-                      document.removeEventListener('click', handleClickOutside)
-                      clickOutsideCleanup = null
-                    }
-                  }
-
-                  document.addEventListener('click', handleClickOutside)
-                  clickOutsideCleanup = () => {
-                    document.removeEventListener('click', handleClickOutside)
-                  }
-                })
+                onBlur()
               }
-            }
-
-            // Return the click handler with cleanup
-            return Fragment(
-              OnDispose(() => {
-                // Clean up click-outside listener on component disposal
-                if (clickOutsideCleanup) {
-                  clickOutsideCleanup()
-                  clickOutsideCleanup = null
-                }
-              }),
-              on.click(handleClick)
+            }, 100)
+          })
+        : Empty,
+      // Dropdown using Flyout with custom trigger
+      Flyout({
+        content: () =>
+          Fragment(
+            WithElement(el => {
+              listboxElement = el
+            }),
+            attr.class('bc-combobox__listbox'),
+            attr.role('listbox'),
+            attr.id(listboxId),
+            aria.labelledby(comboboxId),
+            ForEach(comboboxOptions, option =>
+              ComboboxOptionItem(
+                option,
+                equality,
+                value,
+                wrappedOnChange,
+                focusedValue
+              )
             )
-          },
-          showDelay: 0,
-          hideDelay: 0,
-          closable: true, // Allow closing when clicking outside
-        })
+          ),
+        placement: 'bottom-start',
+        showOn: (flyoutShow, flyoutHide) => {
+          // Track click-outside listener for cleanup
+          let clickOutsideCleanup: (() => void) | null = null
+
+          // Custom click handler that manages both our state and the flyout
+          const handleClick = () => {
+            if (isOpen.value) {
+              isOpen.set(false)
+              focusedIndex.set(-1)
+              focusedValue.set(null)
+              // Clean up click-outside listener
+              if (clickOutsideCleanup) {
+                clickOutsideCleanup()
+                clickOutsideCleanup = null
+              }
+              flyoutHide()
+            } else {
+              const opts = Value.get(comboboxOptions)
+              const selectableOptions = getSelectableOptions(opts)
+              isOpen.set(true)
+              if (selectableOptions.length > 0) {
+                focusedIndex.set(0)
+                focusedValue.set(selectableOptions[0].value)
+              }
+              flyoutShow()
+
+              // Add click-outside handling when opening
+              // Use delayedAnimationFrame to avoid immediate closure
+              delayedAnimationFrame(() => {
+                const handleClickOutside = (event: MouseEvent) => {
+                  // Check if the click is outside the combobox trigger
+                  const target = event.target as Element
+                  if (triggerElement && !triggerElement.contains(target)) {
+                    // Click is outside, close the dropdown
+                    isOpen.set(false)
+                    focusedIndex.set(-1)
+                    focusedValue.set(null)
+                    flyoutHide()
+                    document.removeEventListener('click', handleClickOutside)
+                    clickOutsideCleanup = null
+                  }
+                }
+
+                document.addEventListener('click', handleClickOutside)
+                clickOutsideCleanup = () => {
+                  document.removeEventListener('click', handleClickOutside)
+                }
+              })
+            }
+          }
+
+          // Return the click handler with cleanup
+          return Fragment(
+            OnDispose(() => {
+              // Clean up click-outside listener on component disposal
+              if (clickOutsideCleanup) {
+                clickOutsideCleanup()
+                clickOutsideCleanup = null
+              }
+            }),
+            on.click(handleClick)
+          )
+        },
+        showDelay: 0,
+        hideDelay: 0,
+        closable: true, // Allow closing when clicking outside
+      })
+    ),
+    input: Group(
+      attr.class('bc-combobox__trigger'),
+      html.span(
+        attr.class('bc-combobox__display'),
+        When(
+          displayLabel.map(label => label.length > 0),
+          () => displayLabel,
+          () =>
+            Use(
+              BeatUII18n,
+              t => placeholder ?? unselectedLabel ?? t.selectOne()
+            )
+        )
+      ),
+      Icon(
+        { icon: 'ph:caret-up-down-bold', color: 'primary' },
+        attr.class('bc-combobox__arrow')
       )
     ),
   })

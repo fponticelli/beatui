@@ -3,25 +3,20 @@
   .bc-combobox {
     position: relative;
     width: 100%;
-  }
-
-  /* Combobox Trigger */
-  .bc-combobox__trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
     background: transparent;
     border: none;
     outline: none;
     font: inherit;
     color: inherit;
-    cursor: pointer;
     padding: 0;
   }
 
-  .bc-combobox__trigger:focus {
-    outline: none;
+  .bc-combobox__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--spacing-base) * 2);
   }
 
   /* Display area for selected value */
@@ -182,16 +177,6 @@
       font-size: var(--font-size-sm);
       line-height: var(--line-height-normal);
     }
-  }
-
-  /* Focus states for accessibility */
-  .bc-combobox__trigger:focus-visible {
-    outline: 2px solid var(--color-sky-600);
-    outline-offset: 2px;
-  }
-
-  .b-dark .bc-combobox__trigger:focus-visible {
-    outline-color: var(--interactive-focus-dark);
   }
 
   /* Animation for dropdown appearance */

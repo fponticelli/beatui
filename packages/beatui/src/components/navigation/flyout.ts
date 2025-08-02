@@ -53,7 +53,7 @@ export interface FlyoutOptions {
   crossAxisOffset?: Value<number>
   /** How to show the flyout */
   showOn?: Value<FlyoutTrigger> | FlyoutTriggerFunction
-  /** Whether the flyout can be closed with Escape key */
+  /** Whether the flyout can be closed with Escape key or clicking outside */
   closable?: Value<boolean>
   /** Optional arrow configuration - receives a signal with PopOver positioning data */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,6 +156,11 @@ export function Flyout(options: FlyoutOptions): TNode {
         placement: placement ?? 'top',
         mainAxisOffset,
         crossAxisOffset,
+        onClickOutside: () => {
+          if (Value.get(closable)) {
+            hide()
+          }
+        },
         arrow,
         content: WithElement(element => {
           // Set element for the animation toggle
