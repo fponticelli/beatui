@@ -40,7 +40,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox__trigger')
+      const trigger = container.querySelector('.bc-combobox')
       expect(trigger).not.toBeNull()
       expect(trigger?.getAttribute('role')).toBe('combobox')
       expect(trigger?.getAttribute('aria-haspopup')).toBe('listbox')
@@ -111,9 +111,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.click()
 
       // Wait for flyout to appear
@@ -145,9 +143,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.click()
 
       await new Promise(resolve => setTimeout(resolve, 100))
@@ -181,9 +177,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.focus()
 
       trigger.dispatchEvent(
@@ -214,9 +208,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.focus()
 
       // Open dropdown
@@ -257,9 +249,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.focus()
 
       // Open dropdown and navigate to first option
@@ -298,9 +288,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       trigger.focus()
 
       // Open dropdown
@@ -341,7 +329,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox__trigger')
+      const trigger = container.querySelector('.bc-combobox')
       expect(trigger?.getAttribute('role')).toBe('combobox')
       expect(trigger?.getAttribute('aria-haspopup')).toBe('listbox')
       expect(trigger?.getAttribute('aria-expanded')).toBe('false')
@@ -365,9 +353,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector(
-        '.bc-combobox__trigger'
-      ) as HTMLElement
+      const trigger = container.querySelector('.bc-combobox') as HTMLElement
       expect(trigger.getAttribute('aria-expanded')).toBe('false')
 
       trigger.click()
