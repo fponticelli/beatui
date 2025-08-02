@@ -123,13 +123,7 @@ export function Modal(
 
         // Focus trap implementation
         FocusTrap({
-          escapeDeactivates: Value.get(dismissable),
-          onEscape: () => {
-            if (Value.get(dismissable)) {
-              onClose?.()
-              closeOverlay()
-            }
-          },
+          escapeDeactivates: false, // Let Overlay handle escape key
           initialFocus: () => {
             // Try to focus elements in order of preference
             const modal = document.getElementById(modalId)

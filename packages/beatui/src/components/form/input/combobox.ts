@@ -19,7 +19,7 @@ import {
   When,
   aria,
 } from '@tempots/dom'
-import { delayedAnimationFrame } from '@tempots/std'
+
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Expando } from '../../misc/expando'
@@ -410,20 +410,20 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
           ),
         placement: 'bottom-start',
         showOn: (flyoutShow, flyoutHide) => {
-          // Track click-outside listener for cleanup
-          let clickOutsideCleanup: (() => void) | null = null
+          // Override flyoutHide to also update combobox state
+          // This ensures that when Flyout's closable behavior triggers,
+          // the combobox state is properly updated
+          const originalHide = flyoutHide
+          flyoutHide = () => {
+            isOpen.set(false)
+            focusedIndex.set(-1)
+            focusedValue.set(null)
+            originalHide()
+          }
 
           // Custom click handler that manages both our state and the flyout
           const handleClick = () => {
             if (isOpen.value) {
-              isOpen.set(false)
-              focusedIndex.set(-1)
-              focusedValue.set(null)
-              // Clean up click-outside listener
-              if (clickOutsideCleanup) {
-                clickOutsideCleanup()
-                clickOutsideCleanup = null
-              }
               flyoutHide()
             } else {
               const opts = Value.get(comboboxOptions)
@@ -434,43 +434,10 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
                 focusedValue.set(selectableOptions[0].value)
               }
               flyoutShow()
-
-              // Add click-outside handling when opening
-              // Use delayedAnimationFrame to avoid immediate closure
-              delayedAnimationFrame(() => {
-                const handleClickOutside = (event: MouseEvent) => {
-                  // Check if the click is outside the combobox trigger
-                  const target = event.target as Element
-                  if (triggerElement && !triggerElement.contains(target)) {
-                    // Click is outside, close the dropdown
-                    isOpen.set(false)
-                    focusedIndex.set(-1)
-                    focusedValue.set(null)
-                    flyoutHide()
-                    document.removeEventListener('click', handleClickOutside)
-                    clickOutsideCleanup = null
-                  }
-                }
-
-                document.addEventListener('click', handleClickOutside)
-                clickOutsideCleanup = () => {
-                  document.removeEventListener('click', handleClickOutside)
-                }
-              })
             }
           }
 
-          // Return the click handler with cleanup
-          return Fragment(
-            OnDispose(() => {
-              // Clean up click-outside listener on component disposal
-              if (clickOutsideCleanup) {
-                clickOutsideCleanup()
-                clickOutsideCleanup = null
-              }
-            }),
-            on.click(handleClick)
-          )
+          return on.click(handleClick)
         },
         showDelay: 0,
         hideDelay: 0,

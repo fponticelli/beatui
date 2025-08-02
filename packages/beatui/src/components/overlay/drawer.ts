@@ -143,8 +143,7 @@ export function Drawer(
           // Focus trap for keyboard navigation
           FocusTrap({
             active: true,
-            escapeDeactivates: Value.get(dismissable),
-            onEscape: Value.get(dismissable) ? handleClose : undefined,
+            escapeDeactivates: false, // Let Overlay handle escape key
             initialFocus: () => {
               // Focus close button if available, otherwise first focusable element
               const closeButton = document.querySelector(
