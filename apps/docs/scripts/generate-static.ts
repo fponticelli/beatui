@@ -205,6 +205,9 @@ const main = async () => {
 
         // Create a simple layout that works in headless environment using BeatUI
         return BeatUI(
+          {
+            includeAuthI18n: true,
+          },
           html.div(
             // Simple layout structure without AppShell
             html.header(

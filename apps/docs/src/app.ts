@@ -27,6 +27,9 @@ import { AuthenticationComponentsPage } from './pages/authentication-components'
 
 export const App = () => {
   return BeatUI(
+    {
+      includeAuthI18n: true,
+    },
     AppLayout({
       children: RootRouter({
         '/': HomePage,
