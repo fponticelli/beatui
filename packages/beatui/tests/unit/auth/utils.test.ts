@@ -13,7 +13,6 @@ vi.mock('../../../src/components/auth/utils', async () => {
 })
 
 import {
-  mergeAuthLabels,
   isValidEmail,
   generateRandomString,
   createSocialLoginUrl,
@@ -23,7 +22,6 @@ import {
   getRememberedEmail,
   clearRememberedEmail,
 } from '../../../src/components/auth/utils'
-import { defaultAuthLabels } from '../../../src/components/auth/utils'
 
 // Mock localStorage for testing
 const localStorageMock = {
@@ -41,31 +39,6 @@ Object.defineProperty(window, 'localStorage', {
 describe('Authentication Utils', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-  })
-
-  describe('mergeAuthLabels', () => {
-    it('should return default labels when no user labels provided', () => {
-      const result = mergeAuthLabels()
-      expect(result).toEqual(defaultAuthLabels)
-    })
-
-    it('should merge user labels with defaults', () => {
-      const userLabels = {
-        signInTitle: 'Custom Sign In',
-        signUpTitle: 'Custom Sign Up',
-      }
-
-      const result = mergeAuthLabels(userLabels)
-
-      expect(result.signInTitle).toBe('Custom Sign In')
-      expect(result.signUpTitle).toBe('Custom Sign Up')
-      expect(result.emailLabel).toBe(defaultAuthLabels.emailLabel) // Should keep default
-    })
-
-    it('should handle empty user labels', () => {
-      const result = mergeAuthLabels({})
-      expect(result).toEqual(defaultAuthLabels)
-    })
   })
 
   describe('isValidEmail', () => {

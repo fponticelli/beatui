@@ -185,6 +185,9 @@ export interface SocialLoginButtonOptions {
   name: Value<string>
   icon: Value<string>
   color: Value<ThemeColorName | 'black'>
+  labels?: {
+    continueWithProvider?: (provider: string) => string
+  }
 }
 
 export interface PasswordStrengthIndicatorOptions {

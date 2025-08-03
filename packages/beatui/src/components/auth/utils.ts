@@ -1,6 +1,7 @@
 // Authentication Utility Functions
 // Helper functions for authentication components
 
+import { computedOf, GetValueTypes, Signal, Value } from '@tempots/dom'
 import { AuthProviderName, AuthLabels, PasswordRules } from './types'
 
 // Provider information and utilities
@@ -312,14 +313,13 @@ export const defaultAuthLabels: AuthLabels = {
   passwordStrengthStrong: 'Strong',
 }
 
-// Merge user-provided labels with default labels
-export function mergeAuthLabels(userLabels?: Partial<AuthLabels>): AuthLabels {
-  if (!userLabels) {
-    return defaultAuthLabels
+export function functionOrReactiveMessage<T extends Value<unknown>[]>(
+  fn: undefined | ((...args: GetValueTypes<T>) => string),
+  reactiveFn: (...args: T) => Signal<string>,
+  ...args: T
+): Signal<string> {
+  if (fn == null) {
+    return reactiveFn(...args)
   }
-
-  return {
-    ...defaultAuthLabels,
-    ...userLabels,
-  }
+  return computedOf(...args)(fn as (...args: GetValueTypes<T>) => string)
 }

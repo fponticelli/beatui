@@ -1,23 +1,18 @@
 // Social Login Button Component
 // Reusable button component for social authentication providers
 
-import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import {
   SocialLoginButtonOptions,
   AuthProviderName,
-  defaultAuthLabels,
+  functionOrReactiveMessage,
 } from './index'
 import { ControlSize } from '../theme'
 import { Group, Stack } from '../layout'
 import { ThemeColorName } from '@/tokens'
-
-/*
-name: 'Google',
-icon: 'logos:google-icon',
-color: 'red',
-*/
+import { AuthI18n } from '@/auth-i18n/translations'
 
 export function SocialLoginButton({
   provider,
@@ -29,9 +24,8 @@ export function SocialLoginButton({
   icon,
   color,
   flow,
+  labels,
 }: SocialLoginButtonOptions): TNode {
-  const labels = defaultAuthLabels
-
   const handleClick = async () => {
     if (onClick) {
       try {
@@ -81,12 +75,16 @@ export function SocialLoginButton({
       Icon({ icon, size }, attr.class('bu-bg--white bu-rounded-full bu-p-2')),
 
       // Button text or custom children
-      html.span(
-        attr.class(
-          'bu-flex-grow bu-flex bu-items-center bu-align-center bu-text-center bu-px-4'
-        ),
-        Value.map(name, n =>
-          labels.continueWithProvider.replace('{provider}', n)
+      Use(AuthI18n, t =>
+        html.span(
+          attr.class(
+            'bu-flex-grow bu-flex bu-items-center bu-align-center bu-text-center bu-px-4'
+          ),
+          functionOrReactiveMessage(
+            labels?.continueWithProvider,
+            t.continueWithProvider,
+            name
+          )
         )
       )
     )

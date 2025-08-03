@@ -32,7 +32,6 @@ describe('Authentication Module Exports', () => {
   })
 
   it('should export all utility functions', () => {
-    expect(AuthModule.mergeAuthLabels).toBeDefined()
     expect(AuthModule.formatProviderName).toBeDefined()
     expect(AuthModule.getProviderIcon).toBeDefined()
     expect(AuthModule.getProviderColor).toBeDefined()
