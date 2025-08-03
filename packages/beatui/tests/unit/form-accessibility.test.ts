@@ -195,8 +195,8 @@ describe('Form Input Accessibility', () => {
       )
 
       const checkbox = container.querySelector(
-        'input[type="checkbox"]'
-      ) as HTMLInputElement
+        '[role="checkbox"]'
+      ) as HTMLElement
       const label = container.querySelector('label') as HTMLLabelElement
 
       expect(checkbox).not.toBeNull()
@@ -235,8 +235,8 @@ describe('Form Input Accessibility', () => {
       await new Promise(resolve => setTimeout(resolve, 100)) // Wait for WithElement to execute
 
       const checkbox = container.querySelector(
-        'input[type="checkbox"]'
-      ) as HTMLInputElement
+        '[role="checkbox"]'
+      ) as HTMLElement
 
       expect(checkbox).not.toBeNull()
       expect(checkbox.getAttribute('aria-describedby')).toMatch(

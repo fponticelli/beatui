@@ -1,14 +1,10 @@
 // Authentication Container Tests
 // Unit tests for the AuthContainer component
 
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render } from '@tempots/dom'
 import { AuthContainer } from '../../../src/components/auth/auth-container'
-import {
-  SignInData,
-  SignUpData,
-  ResetPasswordData,
-} from '../../../src/components/auth/types'
+import { WithProviders } from '../../helpers/test-providers'
 
 describe('AuthContainer', () => {
   let container: HTMLElement
@@ -23,11 +19,14 @@ describe('AuthContainer', () => {
   })
 
   it('should render with default signin mode', () => {
-    const authContainer = AuthContainer({
-      onSignIn: vi.fn(),
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          onSignIn: vi.fn(),
+        })
+      ),
+      container
+    )
 
     expect(container.querySelector('.bc-auth-container')).toBeTruthy()
     expect(container.querySelector('.bc-auth-container--signin')).toBeTruthy()
@@ -35,24 +34,30 @@ describe('AuthContainer', () => {
   })
 
   it('should render with initial signup mode', () => {
-    const authContainer = AuthContainer({
-      initialMode: 'signup',
-      onSignUp: vi.fn(),
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          initialMode: 'signup',
+          onSignUp: vi.fn(),
+        })
+      ),
+      container
+    )
 
     expect(container.querySelector('.bc-auth-container--signup')).toBeTruthy()
     expect(container.querySelector('.bc-signup-form')).toBeTruthy()
   })
 
   it('should render with initial reset-password mode', () => {
-    const authContainer = AuthContainer({
-      initialMode: 'reset-password',
-      onResetPassword: vi.fn(),
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          initialMode: 'reset-password',
+          onResetPassword: vi.fn(),
+        })
+      ),
+      container
+    )
 
     expect(
       container.querySelector('.bc-auth-container--reset-password')
@@ -62,11 +67,15 @@ describe('AuthContainer', () => {
 
   it('should call onSignIn when sign in form is submitted', async () => {
     const onSignIn = vi.fn().mockResolvedValue(undefined)
-    const authContainer = AuthContainer({
-      onSignIn,
-    })
 
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          onSignIn,
+        })
+      ),
+      container
+    )
 
     // Fill in the form
     const emailInput = container.querySelector(
@@ -84,10 +93,10 @@ describe('AuthContainer', () => {
     expect(submitButton).toBeTruthy()
 
     emailInput.value = 'test@example.com'
-    emailInput.dispatchEvent(new Event('input', { bubbles: true }))
+    emailInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     passwordInput.value = 'password123'
-    passwordInput.dispatchEvent(new Event('input', { bubbles: true }))
+    passwordInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     // Submit the form
     submitButton.click()
@@ -102,15 +111,19 @@ describe('AuthContainer', () => {
     })
   })
 
-  it('should switch modes when mode change is triggered', () => {
+  it('should switch modes when mode change is triggered', async () => {
     const onModeChange = vi.fn()
-    const authContainer = AuthContainer({
-      onSignIn: vi.fn(),
-      onSignUp: vi.fn(),
-      onModeChange,
-    })
 
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          onSignIn: vi.fn(),
+          onSignUp: vi.fn(),
+          onModeChange,
+        })
+      ),
+      container
+    )
 
     // Initially should show signin form
     expect(container.querySelector('.bc-signin-form')).toBeTruthy()
@@ -123,22 +136,28 @@ describe('AuthContainer', () => {
 
     signUpLink.click()
 
+    // Wait for signal updates to be processed
+    await new Promise(resolve => setTimeout(resolve, 10))
+
     // Should now show signup form
     expect(container.querySelector('.bc-signup-form')).toBeTruthy()
     expect(onModeChange).toHaveBeenCalledWith('signup')
   })
 
   it('should render social login buttons when providers are configured', () => {
-    const authContainer = AuthContainer({
-      socialProviders: [
-        { provider: 'google', clientId: 'test-google-id' },
-        { provider: 'github', clientId: 'test-github-id' },
-      ],
-      onSignIn: vi.fn(),
-      onSocialLogin: vi.fn(),
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          socialProviders: [
+            { provider: 'google', clientId: 'test-google-id' },
+            { provider: 'github', clientId: 'test-github-id' },
+          ],
+          onSignIn: vi.fn(),
+          onSocialLogin: vi.fn(),
+        })
+      ),
+      container
+    )
 
     const socialButtons = container.querySelectorAll('.bc-social-login-button')
     expect(socialButtons).toHaveLength(2)
@@ -153,13 +172,17 @@ describe('AuthContainer', () => {
 
   it('should call onSocialLogin when social button is clicked', async () => {
     const onSocialLogin = vi.fn().mockResolvedValue(undefined)
-    const authContainer = AuthContainer({
-      socialProviders: [{ provider: 'google', clientId: 'test-google-id' }],
-      onSignIn: vi.fn(),
-      onSocialLogin,
-    })
 
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          socialProviders: [{ provider: 'google', clientId: 'test-google-id' }],
+          onSignIn: vi.fn(),
+          onSocialLogin,
+        })
+      ),
+      container
+    )
 
     const googleButton = container.querySelector(
       '.bc-social-login-button--google'
@@ -176,11 +199,15 @@ describe('AuthContainer', () => {
 
   it('should handle errors gracefully', async () => {
     const onSignIn = vi.fn().mockRejectedValue(new Error('Sign in failed'))
-    const authContainer = AuthContainer({
-      onSignIn,
-    })
 
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          onSignIn,
+        })
+      ),
+      container
+    )
 
     // Fill and submit form
     const emailInput = container.querySelector(
@@ -194,10 +221,10 @@ describe('AuthContainer', () => {
     ) as HTMLButtonElement
 
     emailInput.value = 'test@example.com'
-    emailInput.dispatchEvent(new Event('input', { bubbles: true }))
+    emailInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     passwordInput.value = 'password123'
-    passwordInput.dispatchEvent(new Event('input', { bubbles: true }))
+    passwordInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     submitButton.click()
 
@@ -211,12 +238,15 @@ describe('AuthContainer', () => {
   })
 
   it('should apply custom className', () => {
-    const authContainer = AuthContainer({
-      className: 'custom-auth-class',
-      onSignIn: vi.fn(),
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          className: 'custom-auth-class',
+          onSignIn: vi.fn(),
+        })
+      ),
+      container
+    )
 
     const authElement = container.querySelector('.bc-auth-container')
     expect(authElement?.classList.contains('custom-auth-class')).toBe(true)
@@ -229,11 +259,14 @@ describe('AuthContainer', () => {
         () => new Promise(resolve => setTimeout(resolve, 100))
       )
 
-    const authContainer = AuthContainer({
-      onSignIn,
-    })
-
-    render(authContainer, container)
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          onSignIn,
+        })
+      ),
+      container
+    )
 
     const submitButton = container.querySelector(
       'button[type="submit"]'
@@ -247,13 +280,16 @@ describe('AuthContainer', () => {
 
     // Fill form
     emailInput.value = 'test@example.com'
-    emailInput.dispatchEvent(new Event('input', { bubbles: true }))
+    emailInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     passwordInput.value = 'password123'
-    passwordInput.dispatchEvent(new Event('input', { bubbles: true }))
+    passwordInput.dispatchEvent(new Event('change', { bubbles: true }))
 
     // Submit form
     submitButton.click()
+
+    // Wait for loading state to be processed
+    await new Promise(resolve => setTimeout(resolve, 10))
 
     // Should be disabled during loading
     expect(submitButton.disabled).toBe(true)

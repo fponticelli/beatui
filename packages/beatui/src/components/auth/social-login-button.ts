@@ -58,6 +58,8 @@ export function SocialLoginButton({
       onClick: handleClick,
       roundedness: 'full',
     },
+    attr.class('bc-social-login-button'),
+    attr.class(`bc-social-login-button--${provider}`),
     attr.class(
       computedOf(isLoading)((loading): string =>
         loading ? 'bc-social-login-button--loading' : ''

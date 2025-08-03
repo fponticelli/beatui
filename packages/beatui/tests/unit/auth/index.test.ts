@@ -7,7 +7,7 @@ import { describe, it, expect } from 'vitest'
 import './auth-container.test'
 import './schemas.test'
 import './password-strength-indicator.test'
-import '../../../tests/social-login-button.test'
+import './social-login-button.test'
 import './utils.test'
 import './signin-form.test'
 

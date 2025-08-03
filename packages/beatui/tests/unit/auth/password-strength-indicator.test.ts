@@ -3,8 +3,12 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
-import { PasswordStrengthIndicator, PasswordStrengthBar, PasswordStrengthText } from '../../../src/components/auth/password-strength-indicator'
-import { defaultPasswordRules } from '../../../src/components/auth/types'
+import {
+  PasswordStrengthIndicator,
+  PasswordStrengthBar,
+  PasswordStrengthText,
+} from '../../../src/components/auth/password-strength-indicator'
+import { defaultPasswordRules } from '../../../src/components/auth/utils'
 
 describe('PasswordStrengthIndicator', () => {
   let container: HTMLElement
@@ -23,7 +27,7 @@ describe('PasswordStrengthIndicator', () => {
     const indicator = PasswordStrengthIndicator({
       password,
       rules: defaultPasswordRules,
-      showLabel: true
+      showLabel: true,
     })
 
     render(indicator, container)
@@ -32,7 +36,9 @@ describe('PasswordStrengthIndicator', () => {
     expect(container.querySelector('.bc-password-strength__bar')).toBeTruthy()
     expect(container.querySelector('.bc-password-strength__fill')).toBeTruthy()
     expect(container.querySelector('.bc-password-strength__label')).toBeTruthy()
-    expect(container.querySelector('.bc-password-strength__requirements')).toBeTruthy()
+    expect(
+      container.querySelector('.bc-password-strength__requirements')
+    ).toBeTruthy()
   })
 
   it('should show weak strength for empty password', () => {
@@ -40,22 +46,24 @@ describe('PasswordStrengthIndicator', () => {
     const indicator = PasswordStrengthIndicator({
       password,
       rules: defaultPasswordRules,
-      showLabel: true
+      showLabel: true,
     })
 
     render(indicator, container)
 
     expect(container.querySelector('.bc-password-strength--weak')).toBeTruthy()
-    const fill = container.querySelector('.bc-password-strength__fill') as HTMLElement
+    const fill = container.querySelector(
+      '.bc-password-strength__fill'
+    ) as HTMLElement
     expect(fill.style.width).toBe('0%')
   })
 
-  it('should update strength when password changes', () => {
+  it('should update strength when password changes', async () => {
     const password = prop('weak')
     const indicator = PasswordStrengthIndicator({
       password,
       rules: defaultPasswordRules,
-      showLabel: true
+      showLabel: true,
     })
 
     render(indicator, container)
@@ -66,9 +74,16 @@ describe('PasswordStrengthIndicator', () => {
     // Update to strong password
     password.set('StrongPassword123!')
 
+    // Wait for signal updates to be processed
+    await new Promise(resolve => setTimeout(resolve, 10))
+
     // Should update to strong
-    expect(container.querySelector('.bc-password-strength--strong')).toBeTruthy()
-    const fill = container.querySelector('.bc-password-strength__fill') as HTMLElement
+    expect(
+      container.querySelector('.bc-password-strength--strong')
+    ).toBeTruthy()
+    const fill = container.querySelector(
+      '.bc-password-strength__fill'
+    ) as HTMLElement
     expect(parseInt(fill.style.width)).toBeGreaterThan(80)
   })
 
@@ -81,18 +96,22 @@ describe('PasswordStrengthIndicator', () => {
         requireUppercase: true,
         requireLowercase: true,
         requireNumbers: true,
-        requireSymbols: true
+        requireSymbols: true,
       },
-      showLabel: true
+      showLabel: true,
     })
 
     render(indicator, container)
 
-    const requirements = container.querySelectorAll('.bc-password-strength__requirement')
+    const requirements = container.querySelectorAll(
+      '.bc-password-strength__requirement'
+    )
     expect(requirements.length).toBe(5) // 5 requirements
 
     // Check that some requirements are met
-    const metRequirements = container.querySelectorAll('.bc-password-strength__requirement--met')
+    const metRequirements = container.querySelectorAll(
+      '.bc-password-strength__requirement--met'
+    )
     expect(metRequirements.length).toBeGreaterThan(0)
   })
 
@@ -101,7 +120,7 @@ describe('PasswordStrengthIndicator', () => {
     const indicator = PasswordStrengthIndicator({
       password,
       rules: defaultPasswordRules,
-      showLabel: false
+      showLabel: false,
     })
 
     render(indicator, container)
@@ -114,7 +133,7 @@ describe('PasswordStrengthIndicator', () => {
     const indicator = PasswordStrengthIndicator({
       password,
       rules: defaultPasswordRules,
-      className: 'custom-strength-class'
+      className: 'custom-strength-class',
     })
 
     render(indicator, container)
@@ -131,14 +150,16 @@ describe('PasswordStrengthIndicator', () => {
         minLength: 16,
         requireUppercase: true,
         requireNumbers: true,
-        requireSymbols: false // Don't require symbols
+        requireSymbols: false, // Don't require symbols
       },
-      showLabel: true
+      showLabel: true,
     })
 
     render(indicator, container)
 
-    const requirements = container.querySelectorAll('.bc-password-strength__requirement')
+    const requirements = container.querySelectorAll(
+      '.bc-password-strength__requirement'
+    )
     expect(requirements.length).toBe(3) // Only 3 requirements (no symbols requirement)
   })
 })
@@ -159,30 +180,40 @@ describe('PasswordStrengthBar', () => {
     const password = prop('test')
     const bar = PasswordStrengthBar({
       password,
-      rules: defaultPasswordRules
+      rules: defaultPasswordRules,
     })
 
     render(bar, container)
 
     expect(container.querySelector('.bc-password-strength-bar')).toBeTruthy()
-    expect(container.querySelector('.bc-password-strength-bar__fill')).toBeTruthy()
+    expect(
+      container.querySelector('.bc-password-strength-bar__fill')
+    ).toBeTruthy()
     expect(container.querySelector('.bc-password-strength__label')).toBeFalsy()
-    expect(container.querySelector('.bc-password-strength__requirements')).toBeFalsy()
+    expect(
+      container.querySelector('.bc-password-strength__requirements')
+    ).toBeFalsy()
   })
 
-  it('should update bar width based on password strength', () => {
+  it('should update bar width based on password strength', async () => {
     const password = prop('')
     const bar = PasswordStrengthBar({
       password,
-      rules: defaultPasswordRules
+      rules: defaultPasswordRules,
     })
 
     render(bar, container)
 
-    const fill = container.querySelector('.bc-password-strength-bar__fill') as HTMLElement
+    const fill = container.querySelector(
+      '.bc-password-strength-bar__fill'
+    ) as HTMLElement
     expect(fill.style.width).toBe('0%')
 
     password.set('StrongPassword123!')
+
+    // Wait for signal updates to be processed
+    await new Promise(resolve => setTimeout(resolve, 10))
+
     expect(parseInt(fill.style.width)).toBeGreaterThan(80)
   })
 })
@@ -203,7 +234,7 @@ describe('PasswordStrengthText', () => {
     const password = prop('test')
     const text = PasswordStrengthText({
       password,
-      rules: defaultPasswordRules
+      rules: defaultPasswordRules,
     })
 
     render(text, container)
@@ -212,23 +243,31 @@ describe('PasswordStrengthText', () => {
     expect(container.textContent).toBeTruthy()
   })
 
-  it('should show correct strength labels', () => {
+  it('should show correct strength labels', async () => {
     const password = prop('')
     const text = PasswordStrengthText({
       password,
-      rules: defaultPasswordRules
+      rules: defaultPasswordRules,
     })
 
     render(text, container)
 
     // Empty password should be weak
     expect(container.textContent).toContain('Weak')
-    expect(container.querySelector('.bc-password-strength-text--weak')).toBeTruthy()
+    expect(
+      container.querySelector('.bc-password-strength-text--weak')
+    ).toBeTruthy()
 
     // Strong password
     password.set('VeryStrongPassword123!')
+
+    // Wait for signal updates to be processed
+    await new Promise(resolve => setTimeout(resolve, 10))
+
     expect(container.textContent).toContain('Strong')
-    expect(container.querySelector('.bc-password-strength-text--strong')).toBeTruthy()
+    expect(
+      container.querySelector('.bc-password-strength-text--strong')
+    ).toBeTruthy()
   })
 
   it('should apply custom className', () => {
@@ -236,7 +275,7 @@ describe('PasswordStrengthText', () => {
     const text = PasswordStrengthText({
       password,
       rules: defaultPasswordRules,
-      className: 'custom-text-class'
+      className: 'custom-text-class',
     })
 
     render(text, container)

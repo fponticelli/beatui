@@ -13,6 +13,7 @@ import {
 import { SignInForm } from './signin-form'
 import { SignUpForm } from './signup-form'
 import { ResetPasswordForm } from './reset-password-form'
+import { Modal } from '../overlay'
 
 export function AuthContainer({
   initialMode = 'signin',
@@ -189,8 +190,6 @@ export function AuthModal({
   isOpen: any
   onClose?: () => void
 }): TNode {
-  const { Modal } = require('../overlay/modal')
-
   return Modal(
     {
       size: 'sm',

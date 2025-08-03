@@ -48,15 +48,53 @@ export function SignInForm({
   const passwordController = controller.field('password')
   const rememberMeController = controller.field('rememberMe')
 
+  // Handle loading state - disable/enable form based on loading
+  // Set initial state
+  if (isLoading.get()) {
+    controller.disable()
+    emailController.disable()
+    passwordController.disable()
+  }
+
+  // Listen for loading state changes and update controller accordingly
+  const unsubscribe = isLoading.on(loading => {
+    if (loading) {
+      controller.disable()
+      emailController.disable()
+      passwordController.disable()
+    } else {
+      controller.enable()
+      emailController.enable()
+      passwordController.enable()
+    }
+  })
+
+  // Clean up the subscription when the component is disposed
+  controller.onDispose(() => {
+    unsubscribe()
+  })
+
   // Handle form submission
   const handleSubmit = async (e: Event) => {
     e.preventDefault()
 
+    // Trigger validation if it hasn't been triggered yet
+    controller.change(controller.value.value)
+
+    // Wait for validation to complete
+    await new Promise(resolve => setTimeout(resolve, 0))
+
+    // Check if form has validation errors or is loading
     if (controller.hasError.value || isLoading.value) {
       return
     }
 
     const formData = controller.value.value
+
+    // Additional validation check - ensure required fields are not empty
+    if (!formData.email || !formData.password) {
+      return
+    }
 
     // Handle remember me functionality
     if (formData.rememberMe) {

@@ -8,7 +8,7 @@ import {
   resetPasswordSchema,
   calculatePasswordStrength,
   validateEmail,
-  validatePassword
+  validatePassword,
 } from '../../../src/components/auth/schemas'
 import { defaultPasswordRules } from '../../../src/components/auth/types'
 
@@ -19,7 +19,7 @@ describe('Authentication Schemas', () => {
       const result = schema.safeParse({
         email: 'test@example.com',
         password: 'password123',
-        rememberMe: true
+        rememberMe: true,
       })
 
       expect(result.success).toBe(true)
@@ -34,7 +34,7 @@ describe('Authentication Schemas', () => {
       const schema = createSignInSchema()
       const result = schema.safeParse({
         email: 'invalid-email',
-        password: 'password123'
+        password: 'password123',
       })
 
       expect(result.success).toBe(false)
@@ -47,7 +47,7 @@ describe('Authentication Schemas', () => {
       const schema = createSignInSchema()
       const result = schema.safeParse({
         email: 'test@example.com',
-        password: ''
+        password: '',
       })
 
       expect(result.success).toBe(false)
@@ -60,7 +60,7 @@ describe('Authentication Schemas', () => {
       const schema = createSignInSchema()
       const result = schema.safeParse({
         email: 'test@example.com',
-        password: 'password123'
+        password: 'password123',
       })
 
       expect(result.success).toBe(true)
@@ -78,7 +78,7 @@ describe('Authentication Schemas', () => {
         email: 'john@example.com',
         password: 'Password123!',
         confirmPassword: 'Password123!',
-        acceptTerms: true
+        acceptTerms: true,
       })
 
       expect(result.success).toBe(true)
@@ -90,12 +90,14 @@ describe('Authentication Schemas', () => {
         email: 'john@example.com',
         password: 'Password123!',
         confirmPassword: 'DifferentPassword123!',
-        acceptTerms: true
+        acceptTerms: true,
       })
 
       expect(result.success).toBe(false)
       if (!result.success) {
-        const error = result.error.errors.find(e => e.path.includes('confirmPassword'))
+        const error = result.error.errors.find(e =>
+          e.path.includes('confirmPassword')
+        )
         expect(error?.message).toContain("Passwords don't match")
       }
     })
@@ -104,14 +106,14 @@ describe('Authentication Schemas', () => {
       const schema = createSignUpSchema({
         minLength: 8,
         requireUppercase: true,
-        requireNumbers: true
+        requireNumbers: true,
       })
 
       const result = schema.safeParse({
         email: 'john@example.com',
         password: 'weak',
         confirmPassword: 'weak',
-        acceptTerms: true
+        acceptTerms: true,
       })
 
       expect(result.success).toBe(false)
@@ -129,31 +131,33 @@ describe('Authentication Schemas', () => {
         email: 'john@example.com',
         password: 'Password123!',
         confirmPassword: 'Password123!',
-        acceptTerms: false
+        acceptTerms: false,
       })
 
       expect(result.success).toBe(false)
       if (!result.success) {
-        const error = result.error.errors.find(e => e.path.includes('acceptTerms'))
+        const error = result.error.errors.find(e =>
+          e.path.includes('acceptTerms')
+        )
         expect(error?.message).toContain('accept the terms')
       }
     })
 
     it('should work with custom password validation', () => {
       const schema = createSignUpSchema({
-        customValidation: (password) => {
+        customValidation: password => {
           if (password.includes('password')) {
             return 'Password cannot contain the word "password"'
           }
           return null
-        }
+        },
       })
 
       const result = schema.safeParse({
         email: 'john@example.com',
         password: 'mypassword123',
         confirmPassword: 'mypassword123',
-        acceptTerms: true
+        acceptTerms: true,
       })
 
       expect(result.success).toBe(false)
@@ -167,7 +171,7 @@ describe('Authentication Schemas', () => {
   describe('resetPasswordSchema', () => {
     it('should validate valid email', () => {
       const result = resetPasswordSchema.safeParse({
-        email: 'test@example.com'
+        email: 'test@example.com',
       })
 
       expect(result.success).toBe(true)
@@ -178,7 +182,7 @@ describe('Authentication Schemas', () => {
 
     it('should reject invalid email', () => {
       const result = resetPasswordSchema.safeParse({
-        email: 'invalid-email'
+        email: 'invalid-email',
       })
 
       expect(result.success).toBe(false)
@@ -200,7 +204,10 @@ describe('Authentication Schemas', () => {
     })
 
     it('should calculate strong strength for complex password', () => {
-      const result = calculatePasswordStrength('StrongPassword123!', defaultPasswordRules)
+      const result = calculatePasswordStrength(
+        'StrongPassword123!',
+        defaultPasswordRules
+      )
 
       expect(result.strength).toBe('strong')
       expect(result.score).toBeGreaterThanOrEqual(80)
@@ -223,12 +230,12 @@ describe('Authentication Schemas', () => {
         minLength: 12,
         requireUppercase: true,
         requireNumbers: true,
-        requireSymbols: true
+        requireSymbols: true,
       }
 
       const result = calculatePasswordStrength('Password123!', customRules)
 
-      expect(result.checks.length).toBe(false) // Only 12 chars required
+      expect(result.checks.length).toBe(true) // Password123! is exactly 12 chars
       expect(result.checks.symbols).toBe(true)
     })
   })
@@ -248,7 +255,9 @@ describe('Authentication Schemas', () => {
 
   describe('validatePassword', () => {
     it('should return null for valid password', () => {
-      expect(validatePassword('StrongPassword123!', defaultPasswordRules)).toBe(null)
+      expect(validatePassword('StrongPassword123!', defaultPasswordRules)).toBe(
+        null
+      )
     })
 
     it('should return error message for invalid password', () => {
@@ -259,11 +268,13 @@ describe('Authentication Schemas', () => {
     it('should respect custom rules', () => {
       const customRules = {
         minLength: 20,
-        requireSymbols: true
+        requireSymbols: true,
       }
 
       expect(validatePassword('ShortPassword123', customRules)).toBeTruthy()
-      expect(validatePassword('VeryLongPasswordWithSymbols123!@#', customRules)).toBe(null)
+      expect(
+        validatePassword('VeryLongPasswordWithSymbols123!@#', customRules)
+      ).toBe(null)
     })
   })
 })

@@ -23,10 +23,6 @@ const localStorageMock = {
   clear: vi.fn(),
 }
 
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-})
-
 describe('Authentication Utils', () => {
   beforeEach(() => {
     vi.clearAllMocks()
