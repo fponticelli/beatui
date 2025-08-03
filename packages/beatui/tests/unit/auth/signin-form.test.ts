@@ -378,9 +378,9 @@ describe('SignInForm', () => {
         SignInForm({
           config: {
             labels: {
-              signInTitle: 'Custom Sign In',
-              emailLabel: 'Custom Email',
-              passwordLabel: 'Custom Password',
+              signInTitle: () => 'Custom Sign In',
+              emailLabel: () => 'Custom Email',
+              passwordLabel: () => 'Custom Password',
             },
           },
           onSubmit: vi.fn(),

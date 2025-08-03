@@ -2,7 +2,7 @@
 // Helper functions for authentication components
 
 import { computedOf, GetValueTypes, Signal, Value } from '@tempots/dom'
-import { AuthProviderName, AuthLabels, PasswordRules } from './types'
+import { AuthProviderName, PasswordRules } from './types'
 
 // Provider information and utilities
 export const providerInfo: Record<
@@ -278,39 +278,6 @@ export function clearRememberedEmail(): void {
   if (isBrowser() && typeof window.localStorage !== 'undefined') {
     window.localStorage.removeItem(REMEMBER_EMAIL_KEY)
   }
-}
-
-export const defaultAuthLabels: AuthLabels = {
-  signInTitle: 'Sign In',
-  signInButton: 'Sign In',
-  emailLabel: 'Email',
-  passwordLabel: 'Password',
-  rememberMeLabel: 'Remember me',
-  forgotPasswordLink: 'Forgot password?',
-  noAccountLink: "Don't have an account? Sign up",
-
-  signUpTitle: 'Sign Up',
-  signUpButton: 'Sign Up',
-  nameLabel: 'Name',
-  confirmPasswordLabel: 'Confirm Password',
-  acceptTermsLabel: 'I accept the terms and conditions',
-  hasAccountLink: 'Already have an account? Sign in',
-
-  resetPasswordTitle: 'Reset Password',
-  resetPasswordButton: 'Reset Password',
-  resetPasswordDescription: 'Enter your email to reset your password.',
-  backToSignInLink: 'Back to sign in',
-
-  continueWithProvider: 'Continue with {provider}',
-  orDivider: 'or',
-  loading: 'Loading...',
-  error: 'An error occurred',
-  required: 'Required',
-
-  passwordStrengthWeak: 'Weak',
-  passwordStrengthFair: 'Fair',
-  passwordStrengthGood: 'Good',
-  passwordStrengthStrong: 'Strong',
 }
 
 export function functionOrReactiveMessage<T extends Value<unknown>[]>(

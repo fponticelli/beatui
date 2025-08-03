@@ -1,7 +1,7 @@
 // Sign In Form Component
 // Main sign-in form with email/password fields and social login options
 
-import { attr, computedOf, html, on, TNode, When } from '@tempots/dom'
+import { attr, computedOf, html, on, TNode, Use, When } from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -13,27 +13,35 @@ import {
   getRememberedEmail,
   saveRememberMe,
   clearRememberedEmail,
-  defaultAuthLabels,
+  functionOrReactiveMessage,
   AuthProviderName,
 } from './index'
 import { createSignInSchema } from './schemas'
 import { SocialLoginButtons } from './social-login-button'
 import { AuthDivider } from './auth-divider'
+import { AuthI18n } from '@/auth-i18n/translations'
 
 export function SignInForm({
-  config = {},
   onSubmit,
   onModeChange,
+  onSignIn,
+  onSocialLogin,
   loading,
   error,
+  passwordRules,
+  labels,
+  socialProviders,
+  showSocialDivider,
+  showRememberMe,
+  allowPasswordReset,
+  allowSignUp,
 }: SignInFormOptions): TNode {
-  const labels = { ...defaultAuthLabels, ...config.labels }
   const isLoading = computedOf(loading)(l => l ?? false)
   const errorMessage = computedOf(error)(e => (e ? formatAuthError(e) : null))
 
   // Initialize form with remembered email if available
   const rememberedEmail = getRememberedEmail()
-  const schema = createSignInSchema(config.passwordRules)
+  const schema = createSignInSchema(passwordRules)
 
   const controller = useForm({
     schema,
@@ -106,8 +114,8 @@ export function SignInForm({
     try {
       if (onSubmit) {
         await onSubmit(formData)
-      } else if (config.onSignIn) {
-        await config.onSignIn(formData)
+      } else if (onSignIn) {
+        await onSignIn(formData)
       }
     } catch (err) {
       console.error('Sign in error:', err)
@@ -116,9 +124,9 @@ export function SignInForm({
 
   // Handle social login
   const handleSocialLogin = async (provider: AuthProviderName) => {
-    if (config.onSocialLogin) {
+    if (onSocialLogin) {
       try {
-        await config.onSocialLogin(provider)
+        await onSocialLogin(provider)
       } catch (err) {
         console.error(`Social login error for ${provider}:`, err)
       }
@@ -127,18 +135,19 @@ export function SignInForm({
 
   // Handle mode changes
   const handleModeChange = (mode: 'signup' | 'reset-password') => {
-    if (onModeChange) {
-      onModeChange(mode)
-    } else if (config.onModeChange) {
-      config.onModeChange(mode)
-    }
+    onModeChange?.(mode)
   }
 
   return html.div(
     attr.class('bc-auth-form bc-signin-form'),
 
     // Form title
-    html.h2(attr.class('bc-auth-form__title'), labels.signInTitle),
+    Use(AuthI18n, t =>
+      html.h2(
+        attr.class('bc-auth-form__title'),
+        functionOrReactiveMessage(labels?.signInTitle, t.signInTitle)
+      )
+    ),
 
     // Error message
     When(
@@ -151,12 +160,12 @@ export function SignInForm({
     ),
 
     // Social login buttons
-    When(!!(config.socialProviders && config.socialProviders.length > 0), () =>
+    When(!!(socialProviders != null && socialProviders.length > 0), () =>
       Stack(
         attr.class('bc-auth-form__social'),
         SocialLoginButtons({
           providers:
-            config.socialProviders?.map(p => ({
+            socialProviders?.map(p => ({
               provider: p.provider,
               flow: p.flow,
             })) || [],
@@ -166,7 +175,7 @@ export function SignInForm({
         }),
 
         // Divider
-        When(config.showSocialDivider !== false, () => AuthDivider())
+        When(showSocialDivider !== false, () => AuthDivider())
       )
     ),
 
@@ -179,74 +188,96 @@ export function SignInForm({
         attr.class('bc-auth-form__fields'),
 
         // Email field
-        EmailControl({
-          controller: emailController,
-          label: labels.emailLabel,
-        }),
+        Use(AuthI18n, t =>
+          EmailControl({
+            controller: emailController,
+            label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          })
+        ),
 
         // Password field
-        PasswordControl({
-          controller: passwordController,
-          label: labels.passwordLabel,
-        }),
+        Use(AuthI18n, t =>
+          PasswordControl({
+            controller: passwordController,
+            label: functionOrReactiveMessage(
+              labels?.passwordLabel,
+              t.passwordLabel
+            ),
+          })
+        ),
 
         // Remember me checkbox
-        When(config.showRememberMe !== false, () =>
-          html.div(
-            attr.class('bc-auth-form__remember-me'),
-            html.label(
-              attr.class('bc-auth-form__checkbox-label'),
-              CheckboxInput({
-                value: rememberMeController.value.map(v => v ?? false),
-                after: html.span(labels.rememberMeLabel),
-                onChange: checked => rememberMeController.change(checked),
-              })
+        When(showRememberMe !== false, () =>
+          Use(AuthI18n, t =>
+            html.div(
+              attr.class('bc-auth-form__remember-me'),
+              html.label(
+                attr.class('bc-auth-form__checkbox-label'),
+                CheckboxInput({
+                  value: rememberMeController.value.map(v => v ?? false),
+                  after: html.span(
+                    functionOrReactiveMessage(
+                      labels?.rememberMeLabel,
+                      t.rememberMeLabel
+                    )
+                  ),
+                  onChange: checked => rememberMeController.change(checked),
+                })
+              )
             )
           )
         )
       ),
 
       // Submit button
-      Button(
-        {
-          type: 'submit',
-          variant: 'filled',
-          color: 'primary',
-          disabled: computedOf(
-            controller.hasError,
-            isLoading
-          )((hasError, loading) => hasError || loading),
-        },
-        attr.class('bc-auth-form__submit'),
-        When(
-          isLoading,
-          () => labels.loading,
-          () => labels.signInButton
+      Use(AuthI18n, t =>
+        Button(
+          {
+            type: 'submit',
+            variant: 'filled',
+            color: 'primary',
+            disabled: computedOf(
+              controller.hasError,
+              isLoading
+            )((hasError, loading) => hasError || loading),
+          },
+          attr.class('bc-auth-form__submit'),
+          When(
+            isLoading,
+            () => functionOrReactiveMessage(labels?.loading, t.loading),
+            () =>
+              functionOrReactiveMessage(labels?.signInButton, t.signInButton)
+          )
         )
       )
     ),
 
     // Footer links
-    html.div(
-      attr.class('bc-auth-form__footer'),
+    Use(AuthI18n, t =>
+      html.div(
+        attr.class('bc-auth-form__footer'),
 
-      // Forgot password link
-      When(config.allowPasswordReset !== false, () =>
-        html.button(
-          attr.type('button'),
-          attr.class('bc-auth-form__link'),
-          on.click(() => handleModeChange('reset-password')),
-          labels.forgotPasswordLink
-        )
-      ),
+        // Forgot password link
+        When(allowPasswordReset !== false, () =>
+          html.button(
+            attr.type('button'),
+            attr.class('bc-auth-form__link'),
+            on.click(() => handleModeChange('reset-password')),
+            functionOrReactiveMessage(
+              labels?.forgotPasswordLink,
+              t.forgotPasswordLink
+            )
+          )
+        ),
 
-      // Sign up link
-      When(config.allowSignUp !== false, () =>
-        html.button(
-          attr.type('button'),
-          attr.class('bc-auth-form__link'),
-          on.click(() => handleModeChange('signup')),
-          labels.noAccountLink
+        // Sign up link
+        When(allowSignUp !== false, () =>
+          html.button(
+            attr.type('button'),
+            attr.class('bc-auth-form__link'),
+            on.click(() => handleModeChange('signup')),
+            functionOrReactiveMessage(labels?.noAccountLink, t.noAccountLink)
+          )
         )
       )
     )

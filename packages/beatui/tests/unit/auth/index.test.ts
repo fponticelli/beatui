@@ -17,7 +17,6 @@ import * as AuthModule from '../../../src/components/auth/index'
 describe('Authentication Module Exports', () => {
   it('should export all required types', () => {
     // Core types
-    expect(AuthModule.defaultAuthLabels).toBeDefined()
     expect(AuthModule.defaultPasswordRules).toBeDefined()
     expect(AuthModule.providerInfo).toBeDefined()
   })

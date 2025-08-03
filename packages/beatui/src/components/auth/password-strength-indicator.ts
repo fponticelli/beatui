@@ -1,13 +1,10 @@
 // Password Strength Indicator Component
 // Visual feedback component for password complexity and security requirements
 
-import { attr, computedOf, html, TNode, When } from '@tempots/dom'
-import {
-  PasswordStrengthIndicatorOptions,
-  defaultAuthLabels,
-  defaultPasswordRules,
-} from './index'
+import { attr, computedOf, html, TNode, Use, When } from '@tempots/dom'
+import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
+import { AuthI18n } from '@/auth-i18n/translations'
 
 export function PasswordStrengthIndicator({
   password,
@@ -15,8 +12,6 @@ export function PasswordStrengthIndicator({
   showLabel = true,
   className,
 }: PasswordStrengthIndicatorOptions): TNode {
-  const labels = defaultAuthLabels
-
   // Calculate password strength reactively
   const strengthData = computedOf(password)(pwd => {
     if (!pwd || pwd.length === 0) {
@@ -39,22 +34,6 @@ export function PasswordStrengthIndicator({
   const strength = strengthData.map(data => data.strength)
   const score = strengthData.map(data => data.score)
   const checks = strengthData.map(data => data.checks)
-
-  // Get strength label
-  const strengthLabel = computedOf(strength)(str => {
-    switch (str) {
-      case 'weak':
-        return labels.passwordStrengthWeak
-      case 'fair':
-        return labels.passwordStrengthFair
-      case 'good':
-        return labels.passwordStrengthGood
-      case 'strong':
-        return labels.passwordStrengthStrong
-      default:
-        return labels.passwordStrengthWeak
-    }
-  })
 
   // Generate CSS classes
   const containerClasses = computedOf(
@@ -83,7 +62,31 @@ export function PasswordStrengthIndicator({
 
     // Strength label (optional)
     When(showLabel, () =>
-      html.div(attr.class('bc-password-strength__label'), strengthLabel)
+      Use(AuthI18n, t =>
+        html.div(
+          attr.class('bc-password-strength__label'),
+          computedOf(
+            strength,
+            t.passwordStrengthWeak(),
+            t.passwordStrengthFair(),
+            t.passwordStrengthGood(),
+            t.passwordStrengthStrong()
+          )((str, weak, fair, good, strong) => {
+            switch (str) {
+              case 'weak':
+                return weak
+              case 'fair':
+                return fair
+              case 'good':
+                return good
+              case 'strong':
+                return strong
+              default:
+                return weak
+            }
+          })
+        )
+      )
     ),
 
     // Requirements checklist
@@ -236,28 +239,11 @@ export function PasswordStrengthText({
   rules = defaultPasswordRules,
   className,
 }: Omit<PasswordStrengthIndicatorOptions, 'showLabel'>): TNode {
-  const labels = defaultAuthLabels
-
   const strength = computedOf(password)(pwd => {
     if (!pwd || pwd.length === 0) {
       return 'weak' as const
     }
     return calculatePasswordStrength(pwd, rules).strength
-  })
-
-  const strengthLabel = computedOf(strength)(str => {
-    switch (str) {
-      case 'weak':
-        return labels.passwordStrengthWeak
-      case 'fair':
-        return labels.passwordStrengthFair
-      case 'good':
-        return labels.passwordStrengthGood
-      case 'strong':
-        return labels.passwordStrengthStrong
-      default:
-        return labels.passwordStrengthWeak
-    }
   })
 
   const containerClasses = computedOf(
@@ -272,5 +258,29 @@ export function PasswordStrengthText({
     return classes.join(' ')
   })
 
-  return html.span(attr.class(containerClasses), strengthLabel)
+  return Use(AuthI18n, t =>
+    html.span(
+      attr.class(containerClasses),
+      computedOf(
+        strength,
+        t.passwordStrengthWeak(),
+        t.passwordStrengthFair(),
+        t.passwordStrengthGood(),
+        t.passwordStrengthStrong()
+      )((str, weak, fair, good, strong) => {
+        switch (str) {
+          case 'weak':
+            return weak
+          case 'fair':
+            return fair
+          case 'good':
+            return good
+          case 'strong':
+            return strong
+          default:
+            return weak
+        }
+      })
+    )
+  )
 }

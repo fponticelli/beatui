@@ -1,26 +1,27 @@
 // Reset Password Form Component
 // Simple form for password reset flow with email input
 
-import { attr, computedOf, html, on, TNode, When } from '@tempots/dom'
+import { attr, computedOf, html, on, TNode, Use, When } from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl } from '../form/control'
 import { Stack } from '../layout/stack'
 import { useForm } from '../form/use-form'
 import {
   ResetPasswordFormOptions,
-  defaultAuthLabels,
   formatAuthError,
+  functionOrReactiveMessage,
 } from './index'
 import { resetPasswordSchema } from './schemas'
+import { AuthI18n } from '@/auth-i18n/translations'
 
 export function ResetPasswordForm({
-  config = {},
   onSubmit,
   onModeChange,
+  onResetPassword,
   loading,
   error,
+  labels = {},
 }: ResetPasswordFormOptions): TNode {
-  const labels = { ...defaultAuthLabels, ...config.labels }
   const isLoading = computedOf(loading)(l => l ?? false)
   const errorMessage = computedOf(error)(e => (e ? formatAuthError(e) : null))
 
@@ -82,8 +83,8 @@ export function ResetPasswordForm({
     try {
       if (onSubmit) {
         await onSubmit(formData)
-      } else if (config.onResetPassword) {
-        await config.onResetPassword(formData)
+      } else if (onResetPassword) {
+        await onResetPassword(formData)
       }
     } catch (err) {
       console.error('Reset password error:', err)
@@ -92,23 +93,32 @@ export function ResetPasswordForm({
 
   // Handle mode changes
   const handleModeChange = (mode: 'signin' | 'signup') => {
-    if (onModeChange) {
-      onModeChange(mode)
-    } else if (config.onModeChange) {
-      config.onModeChange(mode)
-    }
+    onModeChange?.(mode)
   }
 
   return html.div(
     attr.class('bc-auth-form bc-reset-password-form'),
 
     // Form title
-    html.h2(attr.class('bc-auth-form__title'), labels.resetPasswordTitle),
+    Use(AuthI18n, t =>
+      html.h2(
+        attr.class('bc-auth-form__title'),
+        functionOrReactiveMessage(
+          labels?.resetPasswordTitle,
+          t.resetPasswordTitle
+        )
+      )
+    ),
 
     // Description
-    html.p(
-      attr.class('bc-auth-form__description'),
-      labels.resetPasswordDescription
+    Use(AuthI18n, t =>
+      html.p(
+        attr.class('bc-auth-form__description'),
+        functionOrReactiveMessage(
+          labels?.resetPasswordDescription,
+          t.resetPasswordDescription
+        )
+      )
     ),
 
     // Error message
@@ -130,42 +140,55 @@ export function ResetPasswordForm({
         attr.class('bc-auth-form__fields'),
 
         // Email field
-        EmailControl({
-          controller: emailController,
-          label: labels.emailLabel,
-        })
+        Use(AuthI18n, t =>
+          EmailControl({
+            controller: emailController,
+            label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          })
+        )
       ),
 
       // Submit button
-      Button(
-        {
-          type: 'submit',
-          variant: 'filled',
-          color: 'primary',
-          disabled: computedOf(
-            controller.hasError,
-            isLoading
-          )((hasError, loading) => hasError || loading),
-        },
-        attr.class('bc-auth-form__submit'),
-        When(
-          isLoading,
-          () => labels.loading,
-          () => labels.resetPasswordButton
+      Use(AuthI18n, t =>
+        Button(
+          {
+            type: 'submit',
+            variant: 'filled',
+            color: 'primary',
+            disabled: computedOf(
+              controller.hasError,
+              isLoading
+            )((hasError, loading) => hasError || loading),
+          },
+          attr.class('bc-auth-form__submit'),
+          When(
+            isLoading,
+            () => functionOrReactiveMessage(labels?.loading, t.loading),
+            () =>
+              functionOrReactiveMessage(
+                labels?.resetPasswordButton,
+                t.resetPasswordButton
+              )
+          )
         )
       )
     ),
 
     // Footer links
-    html.div(
-      attr.class('bc-auth-form__footer'),
+    Use(AuthI18n, t =>
+      html.div(
+        attr.class('bc-auth-form__footer'),
 
-      // Back to sign in link
-      html.button(
-        attr.type('button'),
-        attr.class('bc-auth-form__link'),
-        on.click(() => handleModeChange('signin')),
-        labels.backToSignInLink
+        // Back to sign in link
+        html.button(
+          attr.type('button'),
+          attr.class('bc-auth-form__link'),
+          on.click(() => handleModeChange('signin')),
+          functionOrReactiveMessage(
+            labels?.backToSignInLink,
+            t.backToSignInLink
+          )
+        )
       )
     )
   )

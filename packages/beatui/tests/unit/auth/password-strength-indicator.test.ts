@@ -9,6 +9,7 @@ import {
   PasswordStrengthText,
 } from '../../../src/components/auth/password-strength-indicator'
 import { defaultPasswordRules } from '../../../src/components/auth/utils'
+import { WithProviders } from '../../helpers/test-providers'
 
 describe('PasswordStrengthIndicator', () => {
   let container: HTMLElement
@@ -30,7 +31,10 @@ describe('PasswordStrengthIndicator', () => {
       showLabel: true,
     })
 
-    render(indicator, container)
+    render(
+      WithProviders(() => indicator),
+      container
+    )
 
     expect(container.querySelector('.bc-password-strength')).toBeTruthy()
     expect(container.querySelector('.bc-password-strength__bar')).toBeTruthy()
@@ -49,7 +53,10 @@ describe('PasswordStrengthIndicator', () => {
       showLabel: true,
     })
 
-    render(indicator, container)
+    render(
+      WithProviders(() => indicator),
+      container
+    )
 
     expect(container.querySelector('.bc-password-strength--weak')).toBeTruthy()
     const fill = container.querySelector(
@@ -66,7 +73,10 @@ describe('PasswordStrengthIndicator', () => {
       showLabel: true,
     })
 
-    render(indicator, container)
+    render(
+      WithProviders(() => indicator),
+      container
+    )
 
     // Initially weak
     expect(container.querySelector('.bc-password-strength--weak')).toBeTruthy()
@@ -101,7 +111,10 @@ describe('PasswordStrengthIndicator', () => {
       showLabel: true,
     })
 
-    render(indicator, container)
+    render(
+      WithProviders(() => indicator),
+      container
+    )
 
     const requirements = container.querySelectorAll(
       '.bc-password-strength__requirement'
@@ -134,6 +147,7 @@ describe('PasswordStrengthIndicator', () => {
       password,
       rules: defaultPasswordRules,
       className: 'custom-strength-class',
+      showLabel: false,
     })
 
     render(indicator, container)
@@ -155,7 +169,10 @@ describe('PasswordStrengthIndicator', () => {
       showLabel: true,
     })
 
-    render(indicator, container)
+    render(
+      WithProviders(() => indicator),
+      container
+    )
 
     const requirements = container.querySelectorAll(
       '.bc-password-strength__requirement'
@@ -237,7 +254,10 @@ describe('PasswordStrengthText', () => {
       rules: defaultPasswordRules,
     })
 
-    render(text, container)
+    render(
+      WithProviders(() => text),
+      container
+    )
 
     expect(container.querySelector('.bc-password-strength-text')).toBeTruthy()
     expect(container.textContent).toBeTruthy()
@@ -250,7 +270,10 @@ describe('PasswordStrengthText', () => {
       rules: defaultPasswordRules,
     })
 
-    render(text, container)
+    render(
+      WithProviders(() => text),
+      container
+    )
 
     // Empty password should be weak
     expect(container.textContent).toContain('Weak')
@@ -278,7 +301,10 @@ describe('PasswordStrengthText', () => {
       className: 'custom-text-class',
     })
 
-    render(text, container)
+    render(
+      WithProviders(() => text),
+      container
+    )
 
     const element = container.querySelector('.bc-password-strength-text')
     expect(element?.classList.contains('custom-text-class')).toBe(true)

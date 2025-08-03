@@ -31,6 +31,9 @@ export function AuthContainer({
   onResetPassword,
   onModeChange,
   onSocialLogin,
+  onSubmitSignIn,
+  onSubmitSignUp,
+  onSubmitResetPassword,
 }: AuthContainerOptions): TNode {
   // Current mode state
   const currentMode = prop<AuthMode>(initialMode)
@@ -43,19 +46,6 @@ export function AuthContainer({
   const signInError = prop<string | null>(null)
   const signUpError = prop<string | null>(null)
   const resetPasswordError = prop<string | null>(null)
-
-  // Shared configuration for all forms
-  const config = {
-    socialProviders,
-    passwordRules,
-    showRememberMe,
-    showSocialDivider,
-    allowSignUp,
-    allowPasswordReset,
-    showPasswordStrength,
-    labels,
-    onSocialLogin,
-  }
 
   // Handle mode changes
   const handleModeChange = (mode: AuthMode) => {
@@ -139,9 +129,24 @@ export function AuthContainer({
       currentMode.map(mode => mode === 'signin'),
       () =>
         SignInForm({
-          config: {
-            ...config,
-            onSignIn: handleSignIn,
+          allowPasswordReset,
+          allowSignUp,
+          onSignIn: handleSignIn,
+          onSubmit: onSubmitSignIn,
+          onSocialLogin,
+          socialProviders,
+          showRememberMe,
+          passwordRules,
+          showSocialDivider,
+          labels: {
+            signInTitle: labels?.signInTitle,
+            emailLabel: labels?.emailLabel,
+            passwordLabel: labels?.passwordLabel,
+            rememberMeLabel: labels?.rememberMeLabel,
+            loading: labels?.loading,
+            signInButton: labels?.signInButton,
+            forgotPasswordLink: labels?.forgotPasswordLink,
+            noAccountLink: labels?.noAccountLink,
           },
           onModeChange: handleModeChange,
           loading: signInLoading,
@@ -154,11 +159,25 @@ export function AuthContainer({
       currentMode.map(mode => mode === 'signup'),
       () =>
         SignUpForm({
-          config: {
-            ...config,
-            onSignUp: handleSignUp,
+          labels: {
+            signUpTitle: labels?.signUpTitle,
+            nameLabel: labels?.nameLabel,
+            emailLabel: labels?.emailLabel,
+            passwordLabel: labels?.passwordLabel,
+            confirmPasswordLabel: labels?.confirmPasswordLabel,
+            acceptTermsLabel: labels?.acceptTermsLabel,
+            loading: labels?.loading,
+            signUpButton: labels?.signUpButton,
+            hasAccountLink: labels?.hasAccountLink,
           },
+          onSignUp: handleSignUp,
           onModeChange: handleModeChange,
+          onSocialLogin,
+          onSubmit: onSubmitSignUp,
+          passwordRules,
+          socialProviders,
+          showPasswordStrength,
+          showSocialDivider,
           loading: signUpLoading,
           error: signUpError,
         })
@@ -169,10 +188,16 @@ export function AuthContainer({
       currentMode.map(mode => mode === 'reset-password'),
       () =>
         ResetPasswordForm({
-          config: {
-            ...config,
-            onResetPassword: handleResetPassword,
+          labels: {
+            backToSignInLink: labels?.backToSignInLink,
+            emailLabel: labels?.emailLabel,
+            resetPasswordTitle: labels?.resetPasswordTitle,
+            loading: labels?.loading,
+            resetPasswordButton: labels?.resetPasswordButton,
+            resetPasswordDescription: labels?.resetPasswordDescription,
           },
+          onSubmit: onSubmitResetPassword,
+          onResetPassword: handleResetPassword,
           onModeChange: handleModeChange,
           loading: resetPasswordLoading,
           error: resetPasswordError,

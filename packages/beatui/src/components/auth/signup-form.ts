@@ -1,7 +1,7 @@
 // Sign Up Form Component
 // Registration form with validation and password strength indicator
 
-import { attr, computedOf, html, on, TNode, When } from '@tempots/dom'
+import { attr, computedOf, html, on, TNode, Use, When } from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl, TextControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -12,27 +12,33 @@ import {
   formatAuthError,
   defaultPasswordRules,
   AuthProviderName,
-  defaultAuthLabels,
+  functionOrReactiveMessage,
 } from './index'
 import { createSignUpSchema } from './schemas'
 import { SocialLoginButtons } from './social-login-button'
 import { AuthDivider } from './auth-divider'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
+import { AuthI18n } from '@/auth-i18n/translations'
 
 export function SignUpForm({
-  config = {},
   onSubmit,
   onModeChange,
   loading,
   error,
+  passwordRules,
+  labels,
+  socialProviders,
+  showSocialDivider,
+  showPasswordStrength,
+  onSignUp,
+  onSocialLogin,
 }: SignUpFormOptions): TNode {
-  const labels = { ...defaultAuthLabels, ...config.labels }
   const isLoading = computedOf(loading)(l => l ?? false)
   const errorMessage = computedOf(error)(e => (e ? formatAuthError(e) : null))
-  const passwordRules = config.passwordRules || defaultPasswordRules
+  const passwordRules_ = passwordRules || defaultPasswordRules
 
   // Initialize form
-  const schema = createSignUpSchema(passwordRules)
+  const schema = createSignUpSchema(passwordRules_)
 
   const controller = useForm({
     schema,
@@ -113,8 +119,8 @@ export function SignUpForm({
     try {
       if (onSubmit) {
         await onSubmit(formData)
-      } else if (config.onSignUp) {
-        await config.onSignUp(formData)
+      } else if (onSignUp) {
+        await onSignUp(formData)
       }
     } catch (err) {
       console.error('Sign up error:', err)
@@ -123,9 +129,9 @@ export function SignUpForm({
 
   // Handle social login
   const handleSocialLogin = async (provider: AuthProviderName) => {
-    if (config.onSocialLogin) {
+    if (onSocialLogin) {
       try {
-        await config.onSocialLogin(provider)
+        await onSocialLogin(provider)
       } catch (err) {
         console.error(`Social login error for ${provider}:`, err)
       }
@@ -134,18 +140,19 @@ export function SignUpForm({
 
   // Handle mode changes
   const handleModeChange = (mode: 'signin' | 'reset-password') => {
-    if (onModeChange) {
-      onModeChange(mode)
-    } else if (config.onModeChange) {
-      config.onModeChange(mode)
-    }
+    onModeChange?.(mode)
   }
 
   return html.div(
     attr.class('bc-auth-form bc-signup-form'),
 
     // Form title
-    html.h2(attr.class('bc-auth-form__title'), labels.signUpTitle),
+    Use(AuthI18n, t =>
+      html.h2(
+        attr.class('bc-auth-form__title'),
+        functionOrReactiveMessage(labels?.signUpTitle, t.signUpTitle)
+      )
+    ),
 
     // Error message
     When(
@@ -158,12 +165,12 @@ export function SignUpForm({
     ),
 
     // Social login buttons
-    When(!!(config.socialProviders && config.socialProviders.length > 0), () =>
+    When(!!(socialProviders && socialProviders.length > 0), () =>
       Stack(
         attr.class('bc-auth-form__social'),
         SocialLoginButtons({
           providers:
-            config.socialProviders?.map(p => ({
+            socialProviders?.map(p => ({
               provider: p.provider,
               flow: p.flow,
             })) || [],
@@ -173,7 +180,7 @@ export function SignUpForm({
         }),
 
         // Divider
-        When(config.showSocialDivider !== false, () => AuthDivider())
+        When(showSocialDivider !== false, () => AuthDivider())
       )
     ),
 
@@ -186,91 +193,117 @@ export function SignUpForm({
         attr.class('bc-auth-form__fields'),
 
         // Name field (optional)
-        TextControl({
-          controller: nameController.transform(
-            v => v ?? '',
-            v => (v === '' ? undefined : v)
-          ),
-          label: labels.nameLabel,
-        }),
+        Use(AuthI18n, t =>
+          TextControl({
+            controller: nameController.transform(
+              v => v ?? '',
+              v => (v === '' ? undefined : v)
+            ),
+            label: functionOrReactiveMessage(labels?.nameLabel, t.nameLabel),
+          })
+        ),
 
         // Email field
-        EmailControl({
-          controller: emailController,
-          label: labels.emailLabel,
-        }),
+        Use(AuthI18n, t =>
+          EmailControl({
+            controller: emailController,
+            label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          })
+        ),
 
         // Password field
-        PasswordControl({
-          controller: passwordController,
-          label: labels.passwordLabel,
-        }),
+        Use(AuthI18n, t =>
+          PasswordControl({
+            controller: passwordController,
+            label: functionOrReactiveMessage(
+              labels?.passwordLabel,
+              t.passwordLabel
+            ),
+          })
+        ),
 
         // Password strength indicator
-        When(config.showPasswordStrength !== false, () =>
+        When(showPasswordStrength !== false, () =>
           PasswordStrengthIndicator({
             password: passwordController.value,
-            rules: passwordRules,
+            rules: passwordRules_,
             showLabel: true,
           })
         ),
 
         // Confirm password field
-        PasswordControl({
-          controller: confirmPasswordController,
-          label: labels.confirmPasswordLabel,
-        }),
+        Use(AuthI18n, t =>
+          PasswordControl({
+            controller: confirmPasswordController,
+            label: functionOrReactiveMessage(
+              labels?.confirmPasswordLabel,
+              t.confirmPasswordLabel
+            ),
+          })
+        ),
 
         // Terms acceptance checkbox
-        html.div(
-          attr.class('bc-auth-form__terms'),
-          html.label(
-            attr.class('bc-auth-form__checkbox-label'),
-            CheckboxInput({
-              value: acceptTermsController.value.map(v => v ?? false),
-              onChange: checked => acceptTermsController.change(checked),
-            }),
-            html.span(labels.acceptTermsLabel)
-          ),
-          When(acceptTermsController.hasError, () =>
-            html.div(
-              attr.class('bc-auth-form__field-error'),
-              acceptTermsController.error.map(err => err || '')
+        Use(AuthI18n, t =>
+          html.div(
+            attr.class('bc-auth-form__terms'),
+            html.label(
+              attr.class('bc-auth-form__checkbox-label'),
+              CheckboxInput({
+                value: acceptTermsController.value.map(v => v ?? false),
+                onChange: checked => acceptTermsController.change(checked),
+              }),
+              html.span(
+                functionOrReactiveMessage(
+                  labels?.acceptTermsLabel,
+                  t.acceptTermsLabel
+                )
+              )
+            ),
+            When(acceptTermsController.hasError, () =>
+              html.div(
+                attr.class('bc-auth-form__field-error'),
+                acceptTermsController.error.map(err => err || '')
+              )
             )
           )
         )
       ),
 
       // Submit button
-      Button(
-        {
-          type: 'submit',
-          variant: 'filled',
-          color: 'primary',
-          disabled: computedOf(
-            controller.hasError,
-            isLoading
-          )((hasError, loading) => hasError || loading),
-        },
-        attr.class('bc-auth-form__submit'),
-        When(
-          isLoading,
-          () => labels.loading,
-          () => labels.signUpButton
+      Use(AuthI18n, t =>
+        Button(
+          {
+            type: 'submit',
+            variant: 'filled',
+            color: 'primary',
+            disabled: computedOf(
+              controller.hasError,
+              isLoading
+            )((hasError, loading) => hasError || loading),
+          },
+          attr.class('bc-auth-form__submit'),
+          When(
+            isLoading,
+            () => functionOrReactiveMessage(labels?.loading, t.loading),
+            () =>
+              functionOrReactiveMessage(labels?.signUpButton, t.signUpButton)
+          )
         )
       )
     ),
 
     // Footer links
-    html.div(
-      attr.class('bc-auth-form__footer'),
+    Use(AuthI18n, t =>
+      html.div(
+        attr.class('bc-auth-form__footer'),
 
-      // Sign in link
-      html.button(
-        attr.type('button'),
-        attr.class('bc-auth-form__link'),
-        on.click(() => handleModeChange('signin')),
-        labels.hasAccountLink
+        // Sign in link
+        html.button(
+          attr.type('button'),
+          attr.class('bc-auth-form__link'),
+          on.click(() => handleModeChange('signin')),
+          functionOrReactiveMessage(labels?.hasAccountLink, t.hasAccountLink)
+        )
       )
     )
   )
