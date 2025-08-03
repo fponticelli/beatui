@@ -1,7 +1,90 @@
 // Authentication Utility Functions
 // Helper functions for authentication components
 
-import { AuthProviderName } from './types'
+import { AuthProviderName, AuthLabels, PasswordRules } from './types'
+
+// Provider information and utilities
+export const providerInfo: Record<
+  AuthProviderName,
+  { name: string; icon: string; color: string }
+> = {
+  google: { name: 'Google', icon: 'logos:google-icon', color: '#4285f4' },
+  github: { name: 'GitHub', icon: 'logos:github-icon', color: '#333' },
+  apple: { name: 'Apple', icon: 'logos:apple', color: '#000' },
+  facebook: { name: 'Facebook', icon: 'logos:facebook', color: '#1877f2' },
+  twitter: { name: 'Twitter', icon: 'logos:twitter', color: '#1da1f2' },
+  microsoft: {
+    name: 'Microsoft',
+    icon: 'logos:microsoft-icon',
+    color: '#00a4ef',
+  },
+  discord: { name: 'Discord', icon: 'logos:discord-icon', color: '#5865f2' },
+  linkedin: { name: 'LinkedIn', icon: 'logos:linkedin-icon', color: '#0077b5' },
+  instagram: {
+    name: 'Instagram',
+    icon: 'logos:instagram-icon',
+    color: '#e4405f',
+  },
+  tiktok: { name: 'TikTok', icon: 'logos:tiktok-icon', color: '#000' },
+  snapchat: { name: 'Snapchat', icon: 'logos:snapchat-icon', color: '#fffc00' },
+  reddit: { name: 'Reddit', icon: 'logos:reddit-icon', color: '#ff4500' },
+  pinterest: {
+    name: 'Pinterest',
+    icon: 'logos:pinterest-icon',
+    color: '#bd081c',
+  },
+  twitch: { name: 'Twitch', icon: 'logos:twitch', color: '#9146ff' },
+  steam: { name: 'Steam', icon: 'logos:steam-icon', color: '#000' },
+  epic: {
+    name: 'Epic Games',
+    icon: 'simple-icons:epicgames',
+    color: '#313131',
+  },
+  playstation: {
+    name: 'PlayStation',
+    icon: 'logos:playstation-icon',
+    color: '#003791',
+  },
+  xbox: { name: 'Xbox', icon: 'logos:xbox-icon', color: '#107c10' },
+  whatsapp: { name: 'WhatsApp', icon: 'logos:whatsapp-icon', color: '#25d366' },
+  wechat: { name: 'WeChat', icon: 'logos:wechat-icon', color: '#1aad19' },
+  amazon: { name: 'Amazon', icon: 'logos:amazon-icon', color: '#ff9900' },
+  yahoo: { name: 'Yahoo', icon: 'logos:yahoo-icon', color: '#720e9e' },
+  paypal: { name: 'PayPal', icon: 'logos:paypal', color: '#0070ba' },
+  x: { name: 'X', icon: 'simple-icons:x', color: '#000' },
+}
+
+// Format provider name for display
+export function formatProviderName(provider: AuthProviderName): string {
+  return providerInfo[provider]?.name || provider
+}
+
+// Get provider icon
+export function getProviderIcon(provider: AuthProviderName): string {
+  return providerInfo[provider]?.icon || 'mdi:account'
+}
+
+// Get provider color
+export function getProviderColor(provider: AuthProviderName): string {
+  return providerInfo[provider]?.color || '#666'
+}
+
+// Format social login text with provider name
+export function formatSocialLoginText(
+  provider: AuthProviderName,
+  template: string = 'Continue with {provider}'
+): string {
+  return template.replace('{provider}', formatProviderName(provider))
+}
+
+// Default password rules for validation
+export const defaultPasswordRules: PasswordRules = {
+  minLength: 8,
+  requireUppercase: true,
+  requireLowercase: true,
+  requireNumbers: true,
+  requireSymbols: false,
+}
 
 // Validate email format (simple client-side check)
 export function isValidEmail(email: string): boolean {
@@ -178,25 +261,25 @@ export const REMEMBER_EMAIL_KEY = 'bui_auth_remember_email'
 
 // Local storage helpers for remember me functionality
 export function saveRememberMe(email: string): void {
-  if (isBrowser()) {
-    localStorage.setItem(REMEMBER_EMAIL_KEY, email)
+  if (isBrowser() && typeof window.localStorage !== 'undefined') {
+    window.localStorage.setItem(REMEMBER_EMAIL_KEY, email)
   }
 }
 
 export function getRememberedEmail(): string | null {
-  if (isBrowser()) {
-    return localStorage.getItem(REMEMBER_EMAIL_KEY)
+  if (isBrowser() && typeof window.localStorage !== 'undefined') {
+    return window.localStorage.getItem(REMEMBER_EMAIL_KEY)
   }
   return null
 }
 
 export function clearRememberedEmail(): void {
-  if (isBrowser()) {
-    localStorage.removeItem(REMEMBER_EMAIL_KEY)
+  if (isBrowser() && typeof window.localStorage !== 'undefined') {
+    window.localStorage.removeItem(REMEMBER_EMAIL_KEY)
   }
 }
 
-export const defaultAuthLabels = {
+export const defaultAuthLabels: AuthLabels = {
   signInTitle: 'Sign In',
   signInButton: 'Sign In',
   emailLabel: 'Email',
@@ -227,4 +310,16 @@ export const defaultAuthLabels = {
   passwordStrengthFair: 'Fair',
   passwordStrengthGood: 'Good',
   passwordStrengthStrong: 'Strong',
+}
+
+// Merge user-provided labels with default labels
+export function mergeAuthLabels(userLabels?: Partial<AuthLabels>): AuthLabels {
+  if (!userLabels) {
+    return defaultAuthLabels
+  }
+
+  return {
+    ...defaultAuthLabels,
+    ...userLabels,
+  }
 }

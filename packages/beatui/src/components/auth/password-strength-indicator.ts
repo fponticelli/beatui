@@ -95,13 +95,13 @@ export function PasswordStrengthIndicator({
         html.div(
           attr.class('bc-password-strength__requirement'),
           attr.class(
-            computedOf(checks)(c =>
+            computedOf(checks)((c): string =>
               c.length ? 'bc-password-strength__requirement--met' : ''
-            ) as any
+            )
           ),
           html.span(
             attr.class('bc-password-strength__requirement-icon'),
-            computedOf(checks)(c => (c.length ? '✓' : '○')) as any
+            computedOf(checks)((c): string => (c.length ? '✓' : '○'))
           ),
           html.span(
             attr.class('bc-password-strength__requirement-text'),
@@ -115,13 +115,13 @@ export function PasswordStrengthIndicator({
         html.div(
           attr.class('bc-password-strength__requirement'),
           attr.class(
-            computedOf(checks)(c =>
+            computedOf(checks)((c): string =>
               c.uppercase ? 'bc-password-strength__requirement--met' : ''
-            ) as any
+            )
           ),
           html.span(
             attr.class('bc-password-strength__requirement-icon'),
-            computedOf(checks)(c => (c.uppercase ? '✓' : '○')) as any
+            computedOf(checks)((c): string => (c.uppercase ? '✓' : '○'))
           ),
           html.span(
             attr.class('bc-password-strength__requirement-text'),
@@ -135,13 +135,13 @@ export function PasswordStrengthIndicator({
         html.div(
           attr.class('bc-password-strength__requirement'),
           attr.class(
-            computedOf(checks)(c =>
+            computedOf(checks)((c): string =>
               c.lowercase ? 'bc-password-strength__requirement--met' : ''
-            ) as any
+            )
           ),
           html.span(
             attr.class('bc-password-strength__requirement-icon'),
-            computedOf(checks)(c => (c.lowercase ? '✓' : '○')) as any
+            computedOf(checks)((c): string => (c.lowercase ? '✓' : '○'))
           ),
           html.span(
             attr.class('bc-password-strength__requirement-text'),
@@ -155,13 +155,13 @@ export function PasswordStrengthIndicator({
         html.div(
           attr.class('bc-password-strength__requirement'),
           attr.class(
-            computedOf(checks)(c =>
+            computedOf(checks)((c): string =>
               c.numbers ? 'bc-password-strength__requirement--met' : ''
-            ) as any
+            )
           ),
           html.span(
             attr.class('bc-password-strength__requirement-icon'),
-            computedOf(checks)(c => (c.numbers ? '✓' : '○')) as any
+            computedOf(checks)((c): string => (c.numbers ? '✓' : '○'))
           ),
           html.span(
             attr.class('bc-password-strength__requirement-text'),
@@ -175,13 +175,13 @@ export function PasswordStrengthIndicator({
         html.div(
           attr.class('bc-password-strength__requirement'),
           attr.class(
-            computedOf(checks)(c =>
+            computedOf(checks)((c): string =>
               c.symbols ? 'bc-password-strength__requirement--met' : ''
-            ) as any
+            )
           ),
           html.span(
             attr.class('bc-password-strength__requirement-icon'),
-            computedOf(checks)(c => (c.symbols ? '✓' : '○')) as any
+            computedOf(checks)((c): string => (c.symbols ? '✓' : '○'))
           ),
           html.span(
             attr.class('bc-password-strength__requirement-text'),

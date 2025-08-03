@@ -17,7 +17,6 @@ import {
 } from '@tempots/beatui'
 import { AuthModeSelector } from '../elements/auth-mode-selector'
 import { AuthProviderSelector } from '../elements/auth-provider-selector'
-import { CodeBlock } from '../elements/code-block'
 
 export const AuthenticationComponentsPage = () => {
   // AuthContainer demo state

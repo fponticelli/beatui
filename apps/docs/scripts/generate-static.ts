@@ -396,7 +396,7 @@ const main = async () => {
     '/',
     '/authentication/components',
     '/authentication/examples',
-    '/authentication/api'
+    '/authentication/api',
   ]
   let processedCount = 0
 

@@ -194,15 +194,6 @@ export interface PasswordStrengthIndicatorOptions {
   className?: Value<string>
 }
 
-// Default password rules
-export const defaultPasswordRules: PasswordRules = {
-  minLength: 8,
-  requireUppercase: true,
-  requireLowercase: true,
-  requireNumbers: true,
-  requireSymbols: false,
-}
-
 // Provider display information
 export interface ProviderInfo {
   name: string

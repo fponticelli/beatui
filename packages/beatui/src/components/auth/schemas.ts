@@ -1,18 +1,30 @@
 // Authentication Validation Schemas
-// Zod schemas for validating authentication form data
+// Custom validation schemas for validating authentication form data
 
-import { z } from 'zod'
-import { PasswordRules, defaultPasswordRules } from './types'
+import {
+  string,
+  boolean,
+  object,
+  StringValidator,
+} from '../form/schema/custom-validation'
+import { StandardSchemaV1 } from '../form/schema/standard-schema-v1'
+import {
+  PasswordRules,
+  SignInData,
+  SignUpData,
+  ResetPasswordData,
+} from './types'
+import { defaultPasswordRules } from './utils'
 
 // Helper function to create password validation based on rules
 export function createPasswordSchema(
   rules: PasswordRules = defaultPasswordRules
-) {
-  let schema = z.string()
+): StringValidator {
+  let validator = string()
 
   // Minimum length validation
   if (rules.minLength) {
-    schema = schema.min(
+    validator = validator.min(
       rules.minLength,
       `Password must be at least ${rules.minLength} characters`
     )
@@ -20,7 +32,7 @@ export function createPasswordSchema(
 
   // Uppercase letter validation
   if (rules.requireUppercase) {
-    schema = schema.regex(
+    validator = validator.regex(
       /[A-Z]/,
       'Password must contain at least one uppercase letter'
     )
@@ -28,7 +40,7 @@ export function createPasswordSchema(
 
   // Lowercase letter validation
   if (rules.requireLowercase) {
-    schema = schema.regex(
+    validator = validator.regex(
       /[a-z]/,
       'Password must contain at least one lowercase letter'
     )
@@ -36,12 +48,15 @@ export function createPasswordSchema(
 
   // Number validation
   if (rules.requireNumbers) {
-    schema = schema.regex(/[0-9]/, 'Password must contain at least one number')
+    validator = validator.regex(
+      /[0-9]/,
+      'Password must contain at least one number'
+    )
   }
 
   // Symbol validation
   if (rules.requireSymbols) {
-    schema = schema.regex(
+    validator = validator.regex(
       /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
       'Password must contain at least one special character'
     )
@@ -49,68 +64,67 @@ export function createPasswordSchema(
 
   // Custom validation
   if (rules.customValidation) {
-    schema = schema.refine(password => {
-      const error = rules.customValidation!(password)
-      return error === null
-    })
+    validator = validator.refine(password => rules.customValidation!(password))
   }
 
-  return schema
+  return validator
 }
 
 // Base email schema
-export const emailSchema = z
-  .string()
+export const emailSchema = string()
   .min(1, 'Email is required')
   .email('Please enter a valid email address')
 
 // Sign in form schema
-export function createSignInSchema(passwordRules?: PasswordRules) {
-  return z.object({
+export function createSignInSchema(
+  passwordRules?: PasswordRules
+): StandardSchemaV1<SignInData> {
+  return object({
     email: emailSchema,
-    password: z.string().min(1, 'Password is required'),
-    rememberMe: z.boolean().optional().default(false),
-  })
+    password: string().refine(value =>
+      value.length > 0 ? null : 'Password is required'
+    ),
+    rememberMe: boolean().optional().default(false),
+  }).schema()
 }
 
 // Sign up form schema
 export function createSignUpSchema(
   passwordRules: PasswordRules = defaultPasswordRules
-) {
+): StandardSchemaV1<SignUpData> {
   const passwordSchema = createPasswordSchema(passwordRules)
 
-  return z
-    .object({
-      name: z.string().min(1, 'Name is required').optional(),
-      email: emailSchema,
-      password: passwordSchema,
-      confirmPassword: z.string().min(1, 'Please confirm your password'),
-      acceptTerms: z
-        .boolean()
-        .refine(
-          val => val === true,
-          'You must accept the terms and conditions'
-        ),
-    })
-    .refine(data => data.password === data.confirmPassword, {
-      message: "Passwords don't match",
-      path: ['confirmPassword'],
-    })
+  return object({
+    name: string().min(1, 'Name is required').optional(),
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: string().min(1, 'Please confirm your password'),
+    acceptTerms: boolean().refine(
+      (val: boolean) => val === true,
+      'You must accept the terms and conditions'
+    ),
+  })
+    .refine(
+      (data: SignUpData) =>
+        data.password === data.confirmPassword ? null : "Passwords don't match",
+      { path: ['confirmPassword'] }
+    )
+    .schema()
 }
 
 // Reset password form schema
-export const resetPasswordSchema = z.object({
+export const resetPasswordSchema: StandardSchemaV1<ResetPasswordData> = object({
   email: emailSchema,
-})
+}).schema()
 
 // Default schemas with standard password rules
 export const defaultSignInSchema = createSignInSchema()
 export const defaultSignUpSchema = createSignUpSchema()
 
 // Type inference helpers
-export type SignInFormData = z.infer<typeof defaultSignInSchema>
-export type SignUpFormData = z.infer<typeof defaultSignUpSchema>
-export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
+export type SignInFormData = SignInData
+export type SignUpFormData = SignUpData
+export type ResetPasswordFormData = ResetPasswordData
 
 // Schema factory functions for dynamic configuration
 export const authSchemas = {
@@ -121,14 +135,11 @@ export const authSchemas = {
 
 // Validation utilities
 export function validateEmail(email: string): string | null {
-  try {
-    emailSchema.parse(email)
+  const result = emailSchema.validate(email)
+  if (result.success) {
     return null
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return error.errors[0]?.message || 'Invalid email'
-    }
-    return 'Invalid email'
+  } else {
+    return result.errors[0]?.message || 'Invalid email'
   }
 }
 
@@ -136,15 +147,12 @@ export function validatePassword(
   password: string,
   rules: PasswordRules = defaultPasswordRules
 ): string | null {
-  try {
-    const schema = createPasswordSchema(rules)
-    schema.parse(password)
+  const schema = createPasswordSchema(rules)
+  const result = schema.validate(password)
+  if (result.success) {
     return null
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return error.errors[0]?.message || 'Invalid password'
-    }
-    return 'Invalid password'
+  } else {
+    return result.errors[0]?.message || 'Invalid password'
   }
 }
 
@@ -166,20 +174,36 @@ export function calculatePasswordStrength(
 } {
   const checks = {
     length: password.length >= (rules.minLength || 8),
-    uppercase: rules.requireUppercase ? /[A-Z]/.test(password) : true,
-    lowercase: rules.requireLowercase ? /[a-z]/.test(password) : true,
-    numbers: rules.requireNumbers ? /[0-9]/.test(password) : true,
-    symbols: rules.requireSymbols
-      ? /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
-      : true,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    numbers: /[0-9]/.test(password),
+    symbols: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
     custom: rules.customValidation
       ? rules.customValidation(password) === null
-      : true,
+      : password.length > 0, // For consistency, fail if password is empty
   }
 
-  const passedChecks = Object.values(checks).filter(Boolean).length
-  const totalChecks = Object.values(checks).length
-  const score = Math.round((passedChecks / totalChecks) * 100)
+  // Only count enabled checks for scoring
+  const enabledChecks = [
+    true, // length is always enabled
+    rules.requireUppercase,
+    rules.requireLowercase,
+    rules.requireNumbers,
+    rules.requireSymbols,
+    !!rules.customValidation,
+  ].filter(Boolean).length
+
+  const passedChecks = [
+    checks.length,
+    rules.requireUppercase ? checks.uppercase : null,
+    rules.requireLowercase ? checks.lowercase : null,
+    rules.requireNumbers ? checks.numbers : null,
+    rules.requireSymbols ? checks.symbols : null,
+    rules.customValidation ? checks.custom : null,
+  ].filter(check => check === true).length
+
+  const score =
+    enabledChecks > 0 ? Math.round((passedChecks / enabledChecks) * 100) : 0
 
   let strength: 'weak' | 'fair' | 'good' | 'strong'
   if (score < 40) {

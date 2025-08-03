@@ -8,7 +8,7 @@ import {
   AuthMode,
   SignInData,
   SignUpData,
-  ResetPasswordData
+  ResetPasswordData,
 } from './index'
 import { SignInForm } from './signin-form'
 import { SignUpForm } from './signup-form'
@@ -29,9 +29,8 @@ export function AuthContainer({
   onSignUp,
   onResetPassword,
   onModeChange,
-  onSocialLogin
+  onSocialLogin,
 }: AuthContainerOptions): TNode {
-
   // Current mode state
   const currentMode = prop<AuthMode>(initialMode)
 
@@ -54,7 +53,7 @@ export function AuthContainer({
     allowPasswordReset,
     showPasswordStrength,
     labels,
-    onSocialLogin
+    onSocialLogin,
   }
 
   // Handle mode changes
@@ -110,18 +109,23 @@ export function AuthContainer({
         await onResetPassword(data)
       }
     } catch (error) {
-      resetPasswordError.set(error instanceof Error ? error.message : 'Reset password failed')
+      resetPasswordError.set(
+        error instanceof Error ? error.message : 'Reset password failed'
+      )
     } finally {
       resetPasswordLoading.set(false)
     }
   }
 
   // Container classes
-  const containerClasses = computedOf(currentMode, className)((mode, cls) => {
+  const containerClasses = computedOf(
+    currentMode,
+    className
+  )((mode, cls) => {
     const classes = [
       'bc-auth-container',
       `bc-auth-container--${mode}`,
-      cls
+      cls,
     ].filter(Boolean)
     return classes.join(' ')
   })
@@ -132,43 +136,46 @@ export function AuthContainer({
     // Sign In Form
     When(
       currentMode.map(mode => mode === 'signin'),
-      () => SignInForm({
-        config: {
-          ...config,
-          onSignIn: handleSignIn
-        },
-        onModeChange: handleModeChange,
-        loading: signInLoading,
-        error: signInError
-      })
+      () =>
+        SignInForm({
+          config: {
+            ...config,
+            onSignIn: handleSignIn,
+          },
+          onModeChange: handleModeChange,
+          loading: signInLoading,
+          error: signInError,
+        })
     ),
 
     // Sign Up Form
     When(
       currentMode.map(mode => mode === 'signup'),
-      () => SignUpForm({
-        config: {
-          ...config,
-          onSignUp: handleSignUp
-        },
-        onModeChange: handleModeChange,
-        loading: signUpLoading,
-        error: signUpError
-      })
+      () =>
+        SignUpForm({
+          config: {
+            ...config,
+            onSignUp: handleSignUp,
+          },
+          onModeChange: handleModeChange,
+          loading: signUpLoading,
+          error: signUpError,
+        })
     ),
 
     // Reset Password Form
     When(
       currentMode.map(mode => mode === 'reset-password'),
-      () => ResetPasswordForm({
-        config: {
-          ...config,
-          onResetPassword: handleResetPassword
-        },
-        onModeChange: handleModeChange,
-        loading: resetPasswordLoading,
-        error: resetPasswordError
-      })
+      () =>
+        ResetPasswordForm({
+          config: {
+            ...config,
+            onResetPassword: handleResetPassword,
+          },
+          onModeChange: handleModeChange,
+          loading: resetPasswordLoading,
+          error: resetPasswordError,
+        })
     )
   )
 }
@@ -189,13 +196,13 @@ export function AuthModal({
       size: 'sm',
       dismissable: true,
       showCloseButton: true,
-      onClose
+      onClose,
     },
     (open: any, close: any) => {
       // Open modal when isOpen becomes true
       if (isOpen?.value) {
         open({
-          body: AuthContainer(authOptions)
+          body: AuthContainer(authOptions),
         })
       }
 
@@ -205,14 +212,20 @@ export function AuthModal({
 }
 
 // Convenience function to create auth container with specific mode
-export function SignInContainer(options: Omit<AuthContainerOptions, 'initialMode'>) {
+export function SignInContainer(
+  options: Omit<AuthContainerOptions, 'initialMode'>
+) {
   return AuthContainer({ ...options, initialMode: 'signin' })
 }
 
-export function SignUpContainer(options: Omit<AuthContainerOptions, 'initialMode'>) {
+export function SignUpContainer(
+  options: Omit<AuthContainerOptions, 'initialMode'>
+) {
   return AuthContainer({ ...options, initialMode: 'signup' })
 }
 
-export function ResetPasswordContainer(options: Omit<AuthContainerOptions, 'initialMode'>) {
+export function ResetPasswordContainer(
+  options: Omit<AuthContainerOptions, 'initialMode'>
+) {
   return AuthContainer({ ...options, initialMode: 'reset-password' })
 }
