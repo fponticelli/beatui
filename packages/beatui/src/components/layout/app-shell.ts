@@ -640,6 +640,7 @@ export function AppShell({
               // Add ARIA attributes for navigation landmark
               aria.label(t.mainNavigation()),
               attr.role('navigation'),
+              attr.class('bu-overflow-hidden'),
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
