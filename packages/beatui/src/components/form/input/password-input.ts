@@ -9,11 +9,13 @@ import {
   prop,
   on,
   When,
+  Use,
 } from '@tempots/dom'
 
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Icon } from '../../data/icon'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export const PasswordInput = (options: InputOptions<string>) => {
   const {
@@ -38,42 +40,45 @@ export const PasswordInput = (options: InputOptions<string>) => {
     hidePassword,
     autocomplete
   )((hp, ac) => (hp ? (ac ?? 'current-password') : 'off'))
-  const placeholderValue = computedOf(
-    hidePassword,
-    placeholder
-  )((hp, ph) => (hp ? '•••••••••••••••' : (ph ?? 'secret password')))
-  return InputContainer({
-    before: before,
-    disabled: disabled,
-    hasError: hasError,
-    input: html.input(
-      CommonInputAttributes({
-        ...updatedOptions,
-        autocomplete: autocompleteValue,
-        placeholder: placeholderValue,
-      }),
-      When(
-        hidePassword,
-        () => Fragment(attr.type('password')),
-        () => Fragment(attr.type('text'))
-      ),
-      attr.class('bc-input'),
-      attr.value(value),
-      onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
-      onChange != null ? on.change(emitValue(onChange)) : Empty,
-      onInput != null ? on.input(emitValue(onInput)) : Empty
-    ),
-    after:
-      after ??
-      html.button(
-        attr.class('bc-input-container__password-toggle'),
-        aria.label('Toggle password visibility'),
-        on.click(() => hidePassword.update(v => !v)),
+  return Use(BeatUII18n, t => {
+    const placeholderText = computedOf(
+      t.passwordPlaceholderText(),
+      hidePassword,
+      placeholder
+    )((t, hp, ph) => (hp ? '•••••••••••••••' : (ph ?? t)))
+    return InputContainer({
+      before: before,
+      disabled: disabled,
+      hasError: hasError,
+      input: html.input(
+        CommonInputAttributes({
+          ...updatedOptions,
+          autocomplete: autocompleteValue,
+          placeholder: placeholderText,
+        }),
         When(
           hidePassword,
-          () => Icon({ icon: 'line-md:watch', color: 'base' }),
-          () => Icon({ icon: 'line-md:watch-off', color: 'base' })
-        )
+          () => Fragment(attr.type('password')),
+          () => Fragment(attr.type('text'))
+        ),
+        attr.class('bc-input'),
+        attr.value(value),
+        onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
+        onChange != null ? on.change(emitValue(onChange)) : Empty,
+        onInput != null ? on.input(emitValue(onInput)) : Empty
       ),
+      after:
+        after ??
+        html.button(
+          attr.class('bc-input-container__password-toggle'),
+          aria.label(t.togglePasswordVisibility()),
+          on.click(() => hidePassword.update(v => !v)),
+          When(
+            hidePassword,
+            () => Icon({ icon: 'line-md--eye' }),
+            () => Icon({ icon: 'line-md--eye-off' })
+          )
+        ),
+    })
   })
 }

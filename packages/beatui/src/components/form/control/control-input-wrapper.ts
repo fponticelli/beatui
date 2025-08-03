@@ -22,6 +22,7 @@ export const ControlInputWrapper = <S>(
     description,
     content,
     controller,
+    horizontal,
   }: ControlInputWrapperOptions<S>,
   ...children: TNode[]
 ) => {
@@ -38,6 +39,7 @@ export const ControlInputWrapper = <S>(
         labelFor: controller.name,
         hasError: controller.hasError,
         disabled: controller.disabled,
+        horizontal,
       },
       ...children
     )

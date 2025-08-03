@@ -7,6 +7,7 @@ import {
   prop,
   style,
   TNode,
+  Use,
   WithElement,
 } from '@tempots/dom'
 import {
@@ -24,6 +25,7 @@ import {
   ToggleStatus,
   useAnimatedElementToggle,
 } from '@/utils/use-animated-toggle'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export interface AppShellBreakpointOptions {
   zero: number
@@ -486,302 +488,313 @@ export function AppShell({
       )
   ) as Record<HorizontalSection, AppShellBreakpointOptions>
 
-  return WithBeatUIBreakpoint(({ value, is }) => {
-    const mapBreakpoint = makeMapBreakpoint({
-      smallBreakpoint,
-      mediumBreakpoint,
-      vertical,
-      horizontal,
-      is,
-    })
-    const template = value.map(mapBreakpoint)
-    const displayHeader =
-      horizontal.header != null ||
-      vertical.menu != null ||
-      vertical.aside != null
+  return Use(BeatUII18n, t =>
+    WithBeatUIBreakpoint(({ value, is }) => {
+      const mapBreakpoint = makeMapBreakpoint({
+        smallBreakpoint,
+        mediumBreakpoint,
+        vertical,
+        horizontal,
+        is,
+      })
+      const template = value.map(mapBreakpoint)
+      const displayHeader =
+        horizontal.header != null ||
+        vertical.menu != null ||
+        vertical.aside != null
 
-    const displayAsideButton = computedOf(
-      vertical.aside != null,
-      template
-    )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
-      return hasAside && !displayAside
-    })
+      const displayAsideButton = computedOf(
+        vertical.aside != null,
+        template
+      )((hasAside: boolean, { displayAside }: { displayAside: boolean }) => {
+        return hasAside && !displayAside
+      })
 
-    const displayMenuButton = computedOf(
-      vertical.menu != null,
-      template
-    )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
-      return hasMenu && !displayMenu
-    })
+      const displayMenuButton = computedOf(
+        vertical.menu != null,
+        template
+      )((hasMenu: boolean, { displayMenu }: { displayMenu: boolean }) => {
+        return hasMenu && !displayMenu
+      })
 
-    const menuStatus = useAnimatedElementToggle()
-    const asideStatus = useAnimatedElementToggle()
-    const headerBottom = prop(0)
-    const displayMenuAs = computedOf(
-      vertical.menu != null,
-      template,
-      menuStatus.display
-    )(displayMenuPanel)
-    const displayAsideAs = computedOf(
-      vertical.aside != null,
-      template,
-      asideStatus.display
-    )(displayAsidePanel)
+      const menuStatus = useAnimatedElementToggle()
+      const asideStatus = useAnimatedElementToggle()
+      const headerBottom = prop(0)
+      const displayMenuAs = computedOf(
+        vertical.menu != null,
+        template,
+        menuStatus.display
+      )(displayMenuPanel)
+      const displayAsideAs = computedOf(
+        vertical.aside != null,
+        template,
+        asideStatus.display
+      )(displayAsidePanel)
 
-    return html.div(
-      OnDispose(() => {
-        headerBottom.dispose()
-        menuStatus.dispose()
-        asideStatus.dispose()
-      }),
-      attr.class('bu-h-full bu-w-full'),
-      style.display('grid'),
-      style.gridTemplateColumns(template.$.columns),
-      style.gridTemplateRows(template.$.rows),
-      style.gridTemplateAreas(template.$.areas),
-      style.gridColumnGap('0'),
-      style.gridRowGap('0'),
-      options.banner
-        ? html.header(
-            attr.class(
-              generatePanelClasses(
-                'none',
-                options.banner.color ?? 'white',
-                options.banner.shadow ?? 'none'
-              )
-            ),
-            attr.class('bu-overflow-hidden bu-h-full'),
-            style.gridArea('banner'),
-            options.banner.content
-          )
-        : null,
-      html.header(
-        attr.class(
-          generatePanelClasses(
-            'bottom',
-            options.header?.color ?? 'white',
-            options.header?.shadow ?? 'none'
-          )
-        ),
-        attr.class('bu-z-20'),
-        style.display(displayHeader ? 'block' : 'none'),
-        style.gridArea('header'),
-        ElementRect(rect => {
-          rect.$.bottom.feedProp(headerBottom)
-          return null
+      return html.div(
+        OnDispose(() => {
+          headerBottom.dispose()
+          menuStatus.dispose()
+          asideStatus.dispose()
         }),
-        html.div(
-          attr.class('bu-flex bu-h-full'),
-          html.div(
-            style.display(
-              displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
-            ),
-            style.alignItems('center'),
-            style.justifyContent('center'),
-            style.height('100%'),
-            style.width('60px'),
-            Button(
-              {
-                onClick: () => menuStatus.toggle(),
-                variant: 'light',
-                color: 'base',
-              },
-              aria.label('Open menu'),
-              Icon({
-                icon: menuStatus.display.map((v): string =>
-                  v
-                    ? 'line-md/menu-to-close-alt-transition'
-                    : 'line-md/close-to-menu-alt-transition'
-                ),
-              })
+        attr.class('bu-h-full bu-w-full'),
+        style.gridTemplateColumns(template.$.columns),
+        style.gridTemplateRows(template.$.rows),
+        style.gridTemplateAreas(template.$.areas),
+        style.gridColumnGap('0'),
+        style.gridRowGap('0'),
+        options.banner
+          ? html.header(
+              attr.class(
+                generatePanelClasses(
+                  'none',
+                  options.banner.color ?? 'white',
+                  options.banner.shadow ?? 'none'
+                )
+              ),
+              style.height('100%'),
+              style.gridArea('banner'),
+              options.banner.content
+            )
+          : null,
+        html.header(
+          attr.class(
+            generatePanelClasses(
+              'bottom',
+              options.header?.color ?? 'white',
+              options.header?.shadow ?? 'none'
             )
           ),
+          attr.class('bu-z-20'),
+          style.display(displayHeader ? 'block' : 'none'),
+          style.gridArea('header'),
+          ElementRect(rect => {
+            rect.$.bottom.feedProp(headerBottom)
+            return null
+          }),
           html.div(
+            style.display('flex'),
             style.height('100%'),
-            style.flexGrow('1'),
-            options.header?.content
-          ),
-          html.div(
-            style.alignItems('center'),
-            style.justifyContent('center'),
-            style.height('100%'),
-            style.width('60px'),
-            style.display(
-              displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
+            html.div(
+              style.display(
+                displayMenuButton.map((v): string => (v ? 'flex' : 'none'))
+              ),
+              style.alignItems('center'),
+              style.justifyContent('center'),
+              style.height('100%'),
+              style.width('60px'),
+              Button(
+                {
+                  onClick: () => menuStatus.toggle(),
+                  variant: 'light',
+                  color: 'base',
+                },
+                aria.label(t.toggleMenu()),
+                Icon({
+                  icon: menuStatus.display.map((v): string =>
+                    v
+                      ? 'line-md/menu-to-close-alt-transition'
+                      : 'line-md/close-to-menu-alt-transition'
+                  ),
+                })
+              )
             ),
-            Button(
-              {
-                onClick: () => asideStatus.toggle(),
-                roundedness: 'full',
-                variant: 'light',
-                color: 'base',
-              },
-              aria.label('Open aside'),
-              Icon(
-                { icon: 'line-md/chevron-left' },
-                attr.class('bu-transition-transform'),
-                attr.class(
-                  asideStatus.display.map((v): string =>
-                    v ? 'bu-rotate-180' : ''
+            html.div(
+              style.height('100%'),
+              style.flexGrow('1'),
+              options.header?.content
+            ),
+            html.div(
+              style.alignItems('center'),
+              style.justifyContent('center'),
+              style.height('100%'),
+              style.width('60px'),
+              style.display(
+                displayAsideButton.map((v): string => (v ? 'flex' : 'none'))
+              ),
+              Button(
+                {
+                  onClick: () => asideStatus.toggle(),
+                  roundedness: 'full',
+                  variant: 'light',
+                  color: 'base',
+                },
+                aria.label(t.toggleAside()),
+                Icon(
+                  { icon: 'line-md/chevron-left' },
+                  attr.class('bu-transition-transform'),
+                  attr.class(
+                    asideStatus.display.map((v): string =>
+                      v ? 'bu-rotate-180' : ''
+                    )
                   )
                 )
               )
             )
           )
-        )
-      ),
-      options.menu
-        ? html.nav(
-            WithElement(el => menuStatus.setElement(el)),
-            attr.class('bu-z-10 bu-overflow-hidden bu-h-full'),
-            attr.class(
-              displayMenuAs.map((v): string =>
-                v === 'float'
-                  ? generatePanelClasses(
-                      'right',
-                      options.menu?.color ?? 'white',
-                      options.menu?.shadow ?? 'md'
-                    )
-                  : generatePanelClasses(
-                      'right',
-                      options.menu?.color ?? 'white',
-                      options.menu?.shadow ?? 'none'
-                    )
-              )
-            ),
-            style.gridArea('menu'),
-            style.display(
-              computedOf(
-                displayMenuAs,
-                menuStatus.status
-              )((v, s): string => {
-                if (v === 'none' && s === 'closed') return 'none'
-                return 'block'
-              })
-            ),
-            style.position(
-              computedOf(
-                displayMenuAs,
-                menuStatus.status
-              )((v, s): string => {
-                if (v === 'float') return 'fixed'
-                if (v === 'none' && s !== 'closed') return 'fixed'
-                return 'initial'
-              })
-            ),
-            style.top(headerBottom.map(v => `${v}px`)),
-            AnimatedToggleClass(
-              'slide-right',
-              computedOf(
-                displayMenuAs,
-                menuStatus.status
-              )((v, s): ToggleStatus => {
-                if (v === 'block') return 'opened'
-                return s
-              })
-            ),
-            style.width(template.$.menuWidth),
-            style.bottom(headerBottom.map(v => `${v}px`)),
-            options.menu?.content
-          )
-        : null,
-      options.mainHeader
-        ? html.header(
-            attr.class('bu-overflow-hidden bu-h-full'),
-            style.gridArea('mainHeader'),
-            attr.class(
-              generatePanelClasses(
-                'none',
-                options.mainHeader?.color ?? 'white',
-                options.mainHeader?.shadow ?? 'none'
-              )
-            ),
-            options.mainHeader.content
-          )
-        : null,
-      html.main(
-        attr.class('bu-overflow-hidden bu-h-full'),
-        style.gridArea('main'),
-        attr.class(
-          generatePanelClasses(
-            'none',
-            options.main?.color ?? 'white',
-            options.main?.shadow ?? 'none'
-          )
         ),
-        options.main.content
-      ),
-      options.mainFooter
-        ? html.footer(
-            attr.class('bu-overflow-hidden bu-h-full'),
-            style.gridArea('mainFooter'),
-            attr.class(
-              generatePanelClasses(
-                'none',
-                options.mainFooter?.color ?? 'white',
-                options.mainFooter?.shadow ?? 'none'
-              )
-            ),
-            options.mainFooter.content
-          )
-        : null,
-      options.aside
-        ? html.aside(
-            WithElement(el => {
-              asideStatus.setElement(el)
-            }),
-            attr.class('bu-z-10 bu-overflow-hidden bu-h-full'),
-            attr.class(
-              displayAsideAs.map((v): string =>
-                v === 'float'
-                  ? generatePanelClasses('left', 'white', 'md')
-                  : generatePanelClasses('left', 'white', 'none')
-              )
-            ),
-            style.gridArea('aside'),
-            style.display(
-              computedOf(
-                displayAsideAs,
-                asideStatus.status
-              )((v, s): string => {
-                if (v === 'none' && s === 'closed') return 'none'
-                return 'block'
-              })
-            ),
-            style.position(
-              computedOf(
-                displayAsideAs,
-                asideStatus.status
-              )((v, s): string => {
-                if (v === 'float') return 'fixed'
-                if (v === 'none' && s !== 'closed') return 'fixed'
-                return 'initial'
-              })
-            ),
-            style.top(headerBottom.map(v => `${v}px`)),
-            AnimatedToggleClass(
-              'slide-left',
-              computedOf(
-                displayAsideAs,
-                asideStatus.status
-              )((v, s): ToggleStatus => {
-                if (v === 'block') return 'opened'
-                return s
-              })
-            ),
-            style.width(template.$.asideWidth),
-            style.bottom(headerBottom.map(v => `${v}px`)),
-            options.aside.content
-          )
-        : null,
-      options.footer
-        ? html.footer(
-            attr.class(generatePanelClasses('top', 'white', 'none')),
-            attr.class('bu-overflow-hidden bu-h-full'),
-            style.gridArea('footer'),
-            options.footer.content
-          )
-        : null
-    )
-  })
+        options.menu
+          ? html.nav(
+              WithElement(el => menuStatus.setElement(el)),
+              attr.class('bu-z-10'),
+              // Add ARIA attributes for navigation landmark
+              aria.label(t.mainNavigation()),
+              attr.role('navigation'),
+              attr.class(
+                displayMenuAs.map((v): string =>
+                  v === 'float'
+                    ? generatePanelClasses(
+                        'right',
+                        options.menu?.color ?? 'white',
+                        options.menu?.shadow ?? 'md'
+                      )
+                    : generatePanelClasses(
+                        'right',
+                        options.menu?.color ?? 'white',
+                        options.menu?.shadow ?? 'none'
+                      )
+                )
+              ),
+              style.height('100%'),
+              style.gridArea('menu'),
+              style.display(
+                computedOf(
+                  displayMenuAs,
+                  menuStatus.status
+                )((v, s): string => {
+                  if (v === 'none' && s === 'closed') return 'none'
+                  return 'block'
+                })
+              ),
+              style.position(
+                computedOf(
+                  displayMenuAs,
+                  menuStatus.status
+                )((v, s): string => {
+                  if (v === 'float') return 'fixed'
+                  if (v === 'none' && s !== 'closed') return 'fixed'
+                  return 'initial'
+                })
+              ),
+              style.top(headerBottom.map(v => `${v}px`)),
+              AnimatedToggleClass(
+                'slide-right',
+                computedOf(
+                  displayMenuAs,
+                  menuStatus.status
+                )((v, s): ToggleStatus => {
+                  if (v === 'block') return 'opened'
+                  return s
+                })
+              ),
+              style.width(template.$.menuWidth),
+              style.bottom(headerBottom.map(v => `${v}px`)),
+              options.menu?.content
+            )
+          : null,
+        options.mainHeader
+          ? html.header(
+              style.height('100%'),
+              style.gridArea('mainHeader'),
+              attr.class(
+                generatePanelClasses(
+                  'none',
+                  options.mainHeader?.color ?? 'white',
+                  options.mainHeader?.shadow ?? 'none'
+                )
+              ),
+              options.mainHeader.content
+            )
+          : null,
+        html.main(
+          style.height('100%'),
+          style.overflow('hidden'),
+          style.gridArea('main'),
+          attr.class(
+            generatePanelClasses(
+              'none',
+              options.main?.color ?? 'white',
+              options.main?.shadow ?? 'none'
+            )
+          ),
+          options.main.content
+        ),
+        options.mainFooter
+          ? html.footer(
+              style.height('100%'),
+              style.gridArea('mainFooter'),
+              attr.class(
+                generatePanelClasses(
+                  'none',
+                  options.mainFooter?.color ?? 'white',
+                  options.mainFooter?.shadow ?? 'none'
+                )
+              ),
+              options.mainFooter.content
+            )
+          : null,
+        options.aside
+          ? html.aside(
+              WithElement(el => {
+                asideStatus.setElement(el)
+              }),
+              attr.class('bu-z-10'),
+              // Add ARIA attributes for aside landmark
+              aria.label(t.sidebar()),
+              attr.role('complementary'),
+              attr.class(
+                displayAsideAs.map((v): string =>
+                  v === 'float'
+                    ? generatePanelClasses('left', 'white', 'md')
+                    : generatePanelClasses('left', 'white', 'none')
+                )
+              ),
+              style.height('100%'),
+              style.gridArea('aside'),
+              style.display(
+                computedOf(
+                  displayAsideAs,
+                  asideStatus.status
+                )((v, s): string => {
+                  if (v === 'none' && s === 'closed') return 'none'
+                  return 'block'
+                })
+              ),
+              style.position(
+                computedOf(
+                  displayAsideAs,
+                  asideStatus.status
+                )((v, s): string => {
+                  if (v === 'float') return 'fixed'
+                  if (v === 'none' && s !== 'closed') return 'fixed'
+                  return 'initial'
+                })
+              ),
+              style.top(headerBottom.map(v => `${v}px`)),
+              AnimatedToggleClass(
+                'slide-left',
+                computedOf(
+                  displayAsideAs,
+                  asideStatus.status
+                )((v, s): ToggleStatus => {
+                  if (v === 'block') return 'opened'
+                  return s
+                })
+              ),
+              style.width(template.$.asideWidth),
+              style.bottom(headerBottom.map(v => `${v}px`)),
+              options.aside.content
+            )
+          : null,
+        options.footer
+          ? html.footer(
+              attr.class(generatePanelClasses('top', 'white', 'none')),
+              style.height('100%'),
+              style.gridArea('footer'),
+              options.footer.content
+            )
+          : null
+      )
+    })
+  )
 }

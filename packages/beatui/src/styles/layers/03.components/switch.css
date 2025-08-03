@@ -49,8 +49,8 @@
   /* Off label positioning and styling */
   .bc-switch__track-label--off {
     justify-content: flex-end;
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 5);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 5);
     color: var(--color-gray-600);
     line-height: 1;
   }
@@ -58,8 +58,8 @@
   /* On label positioning and styling */
   .bc-switch__track-label--on {
     justify-content: flex-start;
-    padding-right: calc(var(--spacing-base) * 5);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 5);
+    padding-inline-start: var(--spacing-base);
     color: var(--color-gray-100);
     line-height: 1;
   }
@@ -94,12 +94,12 @@
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
   .bc-switch--xs .bc-switch__track-label--off {
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 4);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 4);
   }
   .bc-switch--xs .bc-switch__track-label--on {
-    padding-right: calc(var(--spacing-base) * 4);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 4);
+    padding-inline-start: var(--spacing-base);
   }
   .bc-switch--xs .bc-switch__track {
     min-width: calc(var(--spacing-base) * 7.5);
@@ -111,12 +111,12 @@
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
   .bc-switch--sm .bc-switch__track-label--off {
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 5);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 5);
   }
   .bc-switch--sm .bc-switch__track-label--on {
-    padding-right: calc(var(--spacing-base) * 5);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 5);
+    padding-inline-start: var(--spacing-base);
   }
   .bc-switch--sm .bc-switch__track {
     min-width: calc(var(--spacing-base) * 9);
@@ -128,12 +128,12 @@
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
   .bc-switch--md .bc-switch__track-label--off {
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 6);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 6);
   }
   .bc-switch--md .bc-switch__track-label--on {
-    padding-right: calc(var(--spacing-base) * 6);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 6);
+    padding-inline-start: var(--spacing-base);
   }
   .bc-switch--md .bc-switch__track {
     min-width: calc(var(--spacing-base) * 10.5);
@@ -145,12 +145,12 @@
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
   .bc-switch--lg .bc-switch__track-label--off {
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 7);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 7);
   }
   .bc-switch--lg .bc-switch__track-label--on {
-    padding-right: calc(var(--spacing-base) * 7);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 7);
+    padding-inline-start: var(--spacing-base);
   }
   .bc-switch--lg .bc-switch__track {
     min-width: calc(var(--spacing-base) * 12);
@@ -162,12 +162,12 @@
     /* margin-top: calc(var(--spacing-base) / 1); */
   }
   .bc-switch--xl .bc-switch__track-label--off {
-    padding-right: var(--spacing-base);
-    padding-left: calc(var(--spacing-base) * 7);
+    padding-inline-end: var(--spacing-base);
+    padding-inline-start: calc(var(--spacing-base) * 7);
   }
   .bc-switch--xl .bc-switch__track-label--on {
-    padding-right: calc(var(--spacing-base) * 7);
-    padding-left: var(--spacing-base);
+    padding-inline-end: calc(var(--spacing-base) * 7);
+    padding-inline-start: var(--spacing-base);
   }
   .bc-switch--xl .bc-switch__track {
     min-width: calc(var(--spacing-base) * 13.5);

@@ -62,6 +62,13 @@
     .sm\:bu-text-center { text-align: center; }
     .sm\:bu-text-right { text-align: right; }
     .sm\:bu-text-justify { text-align: justify; }
+    .sm\:bu-text-start { text-align: start; }
+    .sm\:bu-text-end { text-align: end; }
+    .sm\:bu-float-left { float: left; }
+    .sm\:bu-float-right { float: right; }
+    .sm\:bu-float-none { float: none; }
+    .sm\:bu-float-start { float: inline-start; }
+    .sm\:bu-float-end { float: inline-end; }
     .sm\:bu-font-thin { font-weight: var(--font-weight-thin); }
     .sm\:bu-font-light { font-weight: var(--font-weight-light); }
     .sm\:bu-font-normal { font-weight: var(--font-weight-normal); }
@@ -286,6 +293,13 @@
     .md\:bu-text-center { text-align: center; }
     .md\:bu-text-right { text-align: right; }
     .md\:bu-text-justify { text-align: justify; }
+    .md\:bu-text-start { text-align: start; }
+    .md\:bu-text-end { text-align: end; }
+    .md\:bu-float-left { float: left; }
+    .md\:bu-float-right { float: right; }
+    .md\:bu-float-none { float: none; }
+    .md\:bu-float-start { float: inline-start; }
+    .md\:bu-float-end { float: inline-end; }
     .md\:bu-font-thin { font-weight: var(--font-weight-thin); }
     .md\:bu-font-light { font-weight: var(--font-weight-light); }
     .md\:bu-font-normal { font-weight: var(--font-weight-normal); }
@@ -510,6 +524,13 @@
     .lg\:bu-text-center { text-align: center; }
     .lg\:bu-text-right { text-align: right; }
     .lg\:bu-text-justify { text-align: justify; }
+    .lg\:bu-text-start { text-align: start; }
+    .lg\:bu-text-end { text-align: end; }
+    .lg\:bu-float-left { float: left; }
+    .lg\:bu-float-right { float: right; }
+    .lg\:bu-float-none { float: none; }
+    .lg\:bu-float-start { float: inline-start; }
+    .lg\:bu-float-end { float: inline-end; }
     .lg\:bu-font-thin { font-weight: var(--font-weight-thin); }
     .lg\:bu-font-light { font-weight: var(--font-weight-light); }
     .lg\:bu-font-normal { font-weight: var(--font-weight-normal); }
@@ -734,6 +755,13 @@
     .xl\:bu-text-center { text-align: center; }
     .xl\:bu-text-right { text-align: right; }
     .xl\:bu-text-justify { text-align: justify; }
+    .xl\:bu-text-start { text-align: start; }
+    .xl\:bu-text-end { text-align: end; }
+    .xl\:bu-float-left { float: left; }
+    .xl\:bu-float-right { float: right; }
+    .xl\:bu-float-none { float: none; }
+    .xl\:bu-float-start { float: inline-start; }
+    .xl\:bu-float-end { float: inline-end; }
     .xl\:bu-font-thin { font-weight: var(--font-weight-thin); }
     .xl\:bu-font-light { font-weight: var(--font-weight-light); }
     .xl\:bu-font-normal { font-weight: var(--font-weight-normal); }
@@ -958,6 +986,13 @@
     .\2xl\:bu-text-center { text-align: center; }
     .\2xl\:bu-text-right { text-align: right; }
     .\2xl\:bu-text-justify { text-align: justify; }
+    .\2xl\:bu-text-start { text-align: start; }
+    .\2xl\:bu-text-end { text-align: end; }
+    .\2xl\:bu-float-left { float: left; }
+    .\2xl\:bu-float-right { float: right; }
+    .\2xl\:bu-float-none { float: none; }
+    .\2xl\:bu-float-start { float: inline-start; }
+    .\2xl\:bu-float-end { float: inline-end; }
     .\2xl\:bu-font-thin { font-weight: var(--font-weight-thin); }
     .\2xl\:bu-font-light { font-weight: var(--font-weight-light); }
     .\2xl\:bu-font-normal { font-weight: var(--font-weight-normal); }

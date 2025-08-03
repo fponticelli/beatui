@@ -41,4 +41,35 @@
   .bu-rotate-360 {
     transform: rotate(360deg);
   }
+
+  /* Direction-aware transforms */
+  .bu-scale-x-flip {
+    transform: scaleX(-1);
+  }
+
+  /* RTL-aware rotation utilities */
+  .b-rtl .bu-rotate-90 {
+    transform: rotate(-90deg);
+  }
+
+  .b-rtl .bu-rotate-270 {
+    transform: rotate(-270deg);
+  }
+
+  /* Direction-aware translate utilities */
+  .bu-translate-x-start {
+    transform: translateX(var(--spacing-base));
+  }
+
+  .bu-translate-x-end {
+    transform: translateX(calc(-1 * var(--spacing-base)));
+  }
+
+  .b-rtl .bu-translate-x-start {
+    transform: translateX(calc(-1 * var(--spacing-base)));
+  }
+
+  .b-rtl .bu-translate-x-end {
+    transform: translateX(var(--spacing-base));
+  }
 }

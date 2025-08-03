@@ -21,10 +21,10 @@
   "license": "MIT",
   "dependencies": {
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "28.2.0",
-    "@tempots/std": "0.22.0",
-    "@tempots/ui": "5.2.0",
-    "zod": "4.0.8"
+    "@tempots/dom": "28.3.0",
+    "@tempots/std": "0.22.1",
+    "@tempots/ui": "6.2.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

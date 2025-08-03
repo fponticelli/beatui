@@ -1,14 +1,14 @@
-import { aria, attr, Empty, html, on, Value } from '@tempots/dom'
+import { aria, attr, Empty, html, on, Value, WithElement } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { MutedLabel } from '../../typography/label'
+import { sessionId } from '../../../utils/session-id'
 
 export const CheckboxInput = (options: InputOptions<boolean>) => {
   const { value, onBlur, onChange, placeholder, disabled, id } = options
 
-  // Generate unique ID for accessibility
-  const checkboxId =
-    id ?? `checkbox-${Math.random().toString(36).substring(2, 11)}`
+  // Generate unique IDs for accessibility
+  const checkboxId = id ?? sessionId('checkbox')
   const labelId = `${checkboxId}-label`
 
   // Handle toggle action
@@ -57,14 +57,34 @@ export const CheckboxInput = (options: InputOptions<boolean>) => {
         ),
         aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
         aria.disabled(disabled),
-        aria.labelledby(placeholder != null ? labelId : undefined),
+        placeholder != null ? aria.labelledby(labelId) : Empty,
+        // Add accessibility attributes from parent wrapper
+        WithElement(el => {
+          const wrapper = el.closest('[data-describedby]')
+          if (wrapper) {
+            const describedBy = wrapper.getAttribute('data-describedby')
+            const required = wrapper.getAttribute('data-required')
+            const invalid = wrapper.getAttribute('data-invalid')
+
+            if (describedBy) {
+              el.setAttribute('aria-describedby', describedBy)
+            }
+            if (required === 'true') {
+              el.setAttribute('aria-required', 'true')
+            }
+            if (invalid === 'true') {
+              el.setAttribute('aria-invalid', 'true')
+            }
+          }
+        }),
         on.keydown(handleKeyDown),
-        onBlur != null ? on.blur(onBlur) : null
+        onBlur != null ? on.blur(onBlur) : Empty
       ),
       placeholder != null
-        ? html.span(
+        ? html.label(
             attr.class('bc-checkbox-input__label'),
             attr.id(labelId),
+            attr.for(checkboxId),
             MutedLabel(placeholder)
           )
         : Empty

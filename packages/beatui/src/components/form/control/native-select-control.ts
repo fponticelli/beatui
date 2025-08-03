@@ -4,7 +4,6 @@ import { inputOptionsFromController } from '../input/input-options'
 import { NativeSelect, SelectOption } from '../input/native-select'
 import { TNode, Value } from '@tempots/dom'
 import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
-// import { Validation } from '@tempots/std'
 
 export type NativeSelectControlOptions<T> = ControlOptions<T> & {
   options: Value<SelectOption<T>[]>
@@ -17,22 +16,6 @@ export const NativeSelectControl = <T>(
   ...children: TNode[]
 ) => {
   const { onBlur, onChange, ...rest } = options
-  // rest.controller.addValidator(Symbol('AnyOf'), value => {
-  //   if (value === null || value === undefined) {
-  //     return Validation.invalid(ValidationError.message('No value selected'))
-  //   }
-  //   const contains = SelectOption.contains(
-  //     Value.get(options.options),
-  //     value,
-  //     options.equality
-  //   )
-  //   if (contains) {
-  //     return Validation.valid
-  //   }
-  //   return Validation.invalid(
-  //     ValidationError.message(`Value is not one of the options`)
-  //   )
-  // })
   return ControlInputWrapper(
     {
       ...rest,

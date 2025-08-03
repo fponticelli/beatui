@@ -136,6 +136,76 @@
     right: 5%;
   }
 
+  /* Direction-aware modal positioning - Inline Start */
+  .bc-modal--position-inline-start.bc-modal--container-body {
+    top: 50%;
+    inset-inline-start: 2rem;
+    transform: translateY(-50%);
+  }
+
+  .bc-modal--position-inline-start.bc-modal--container-element {
+    top: 50%;
+    inset-inline-start: 5%;
+    transform: translateY(-50%);
+  }
+
+  /* Direction-aware modal positioning - Inline End */
+  .bc-modal--position-inline-end.bc-modal--container-body {
+    top: 50%;
+    inset-inline-end: 2rem;
+    transform: translateY(-50%);
+  }
+
+  .bc-modal--position-inline-end.bc-modal--container-element {
+    top: 50%;
+    inset-inline-end: 5%;
+    transform: translateY(-50%);
+  }
+
+  /* Direction-aware modal positioning - Top Inline Start */
+  .bc-modal--position-top-inline-start.bc-modal--container-body {
+    top: 2rem;
+    inset-inline-start: 2rem;
+  }
+
+  .bc-modal--position-top-inline-start.bc-modal--container-element {
+    top: 5%;
+    inset-inline-start: 5%;
+  }
+
+  /* Direction-aware modal positioning - Top Inline End */
+  .bc-modal--position-top-inline-end.bc-modal--container-body {
+    top: 2rem;
+    inset-inline-end: 2rem;
+  }
+
+  .bc-modal--position-top-inline-end.bc-modal--container-element {
+    top: 5%;
+    inset-inline-end: 5%;
+  }
+
+  /* Direction-aware modal positioning - Bottom Inline Start */
+  .bc-modal--position-bottom-inline-start.bc-modal--container-body {
+    bottom: 2rem;
+    inset-inline-start: 2rem;
+  }
+
+  .bc-modal--position-bottom-inline-start.bc-modal--container-element {
+    bottom: 5%;
+    inset-inline-start: 5%;
+  }
+
+  /* Direction-aware modal positioning - Bottom Inline End */
+  .bc-modal--position-bottom-inline-end.bc-modal--container-body {
+    bottom: 2rem;
+    inset-inline-end: 2rem;
+  }
+
+  .bc-modal--position-bottom-inline-end.bc-modal--container-element {
+    bottom: 5%;
+    inset-inline-end: 5%;
+  }
+
   /* Modal sizes */
   .bc-modal--size-sm {
     width: min(400px, 90vw);
@@ -279,6 +349,57 @@
   .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
   .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
   .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Animation states - Direction-aware Inline Start position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-inline-start,
+  .bc-overlay[data-status='closing'] .bc-modal--position-inline-start {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-inline-start,
+  .bc-overlay[data-status='opening'] .bc-modal--position-inline-start {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* Animation states - Direction-aware Inline End position */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-inline-end,
+  .bc-overlay[data-status='closing'] .bc-modal--position-inline-end {
+    opacity: 0;
+    transform: translateY(-50%) translateX(20px) scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-inline-end,
+  .bc-overlay[data-status='opening'] .bc-modal--position-inline-end {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* Animation states - Direction-aware corner positions */
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-start,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-inline-start,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-end,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-inline-end,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-inline-start,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-start,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-inline-end,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-end {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-inline-start,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-inline-start,
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-inline-end,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-inline-end,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-start,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-start,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-end,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-end {
     opacity: 1;
     transform: scale(1);
   }

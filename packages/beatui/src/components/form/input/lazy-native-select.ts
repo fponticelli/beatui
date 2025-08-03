@@ -1,7 +1,9 @@
-import { aria, attr, html, Signal, Value } from '@tempots/dom'
+import { html, Signal, Use, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { NativeSelect, SelectOption } from './native-select'
 import { Resource } from '@tempots/ui'
+import { BeatUII18n } from '@/beatui-i18n'
+import { Icon } from '@/components/data'
 
 export type LazyNativeSelectOptions<T, R> = InputOptions<T> & {
   request: Signal<R>
@@ -38,6 +40,13 @@ export const LazyNativeSelect = <T, R>(
       })
     },
     loading: () =>
-      html.span(attr.class('animate-spin'), aria.label('Loading...'), '↻'),
+      Use(BeatUII18n, t =>
+        html.span(
+          Icon({
+            icon: 'line-md:loading-twotone-loop',
+            title: t.loadingShort() as Signal<string | undefined>,
+          })
+        )
+      ),
   })
 }

@@ -3,6 +3,6 @@
     display: flex;
     flex-direction: column;
     justify-items: flex-start;
-    /* gap: var(--spacing-md); */
+    scroll-behavior: smooth;
   }
 }

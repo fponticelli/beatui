@@ -15,7 +15,15 @@ import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
 type DrawerSize = 'sm' | 'md' | 'lg' | 'xl'
-type DrawerSide = 'top' | 'right' | 'bottom' | 'left'
+type DrawerSide =
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'left'
+  | 'inline-start'
+  | 'inline-end'
+  | 'inline-start'
+  | 'inline-end'
 
 export const DrawerPage = () => {
   const size = prop<DrawerSize>('md')
@@ -51,6 +59,8 @@ export const DrawerPage = () => {
             right: 'Right',
             bottom: 'Bottom',
             left: 'Left',
+            'inline-start': 'Inline Start',
+            'inline-end': 'Inline End',
           },
           onChange: side.set,
         })
@@ -123,6 +133,67 @@ export const DrawerPage = () => {
               }),
           },
           'Open Basic Drawer'
+        )
+      ),
+
+      // Semantic Anchoring Example
+      html.h3(
+        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
+        'Semantic Anchoring (RTL/LTR Support)'
+      ),
+      html.p('Drawers with semantic anchoring that adapt to text direction:'),
+
+      Group(
+        attr.class('bu-gap-2'),
+        Drawer((open, _close) =>
+          Button(
+            {
+              variant: 'outline',
+              onClick: () =>
+                open({
+                  size: 'md',
+                  side: 'inline-start',
+                  dismissable: true,
+                  showCloseButton: true,
+                  overlayEffect: 'opaque',
+                  header: 'Inline Start Drawer',
+                  body: html.div(
+                    html.p('This drawer opens from the inline-start side.'),
+                    html.p('In LTR languages: opens from the left'),
+                    html.p('In RTL languages: opens from the right'),
+                    html.p(
+                      'Perfect for navigation menus that should always appear on the "start" side of the interface.'
+                    )
+                  ),
+                }),
+            },
+            'Open Inline Start'
+          )
+        ),
+        Drawer((open, _close) =>
+          Button(
+            {
+              variant: 'outline',
+              onClick: () =>
+                open({
+                  size: 'md',
+                  side: 'inline-end',
+                  dismissable: true,
+                  showCloseButton: true,
+                  overlayEffect: 'opaque',
+                  header: 'Inline End Drawer',
+                  body: html.div(
+                    html.p('This drawer opens from the inline-end side.'),
+                    html.p('In LTR languages: opens from the right'),
+                    html.p('In RTL languages: opens from the left'),
+                    html.p(
+                      'Perfect for secondary content, settings, or actions that should appear on the "end" side.'
+                    )
+                  ),
+                }),
+            },
+            'Open Inline End'
+          )
         )
       ),
 

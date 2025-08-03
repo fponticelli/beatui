@@ -1,100 +1,32 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { JSDOM } from 'jsdom'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render } from '@tempots/dom'
 import { Switch } from '../../src/components/form/input/switch'
 import { prop } from '@tempots/dom'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('Switch Keyboard Accessibility', () => {
-  let dom: JSDOM
-  let document: Document
-  let window: Window
   let container: HTMLElement
 
   beforeEach(() => {
-    dom = new JSDOM(
-      `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            /* Mock CSS variables for testing */
-            :root {
-              --interactive-focus-light: #3b82f6;
-              --interactive-focus-dark: #60a5fa;
-              --radius-sm: 0.25rem;
-              --spacing-base: 0.25rem;
-              --color-primary-500: #3b82f6;
-              --color-gray-300: #d1d5db;
-            }
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
 
-            .bc-switch {
-              display: inline-flex;
-              align-items: center;
-              gap: 0.5rem;
-              cursor: pointer;
-            }
-
-            .bc-switch:focus-visible {
-              outline: 2px solid var(--interactive-focus-light);
-              outline-offset: 2px;
-              border-radius: var(--radius-sm);
-            }
-
-            .bc-switch__track {
-              position: relative;
-              border-radius: 9999px;
-              padding: 0.25rem;
-              transition: all 0.2s ease-in-out;
-            }
-
-            .bc-switch__track--off {
-              background-color: var(--color-gray-300);
-            }
-
-            .bc-switch__track--on {
-              background-color: var(--color-primary-500);
-            }
-
-            .bc-switch__thumb {
-              width: 1rem;
-              height: 1rem;
-              background: white;
-              border-radius: 50%;
-              transition: transform 0.2s ease-in-out;
-            }
-          </style>
-        </head>
-        <body>
-          <div id="container"></div>
-        </body>
-      </html>
-    `,
-      {
-        pretendToBeVisual: true,
-        resources: 'usable',
-      }
-    )
-
-    document = dom.window.document
-    window = dom.window as unknown as Window
-    container = document.getElementById('container')!
-
-    // Make globals available
-    global.document = document
-    global.window = window
-    global.HTMLElement = dom.window.HTMLElement
-    global.KeyboardEvent = dom.window.KeyboardEvent
+  afterEach(() => {
+    document.body.removeChild(container)
   })
 
   it('should be focusable with tabindex=0 when enabled', () => {
     const value = prop(false)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Test Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Test Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -112,12 +44,14 @@ describe('Switch Keyboard Accessibility', () => {
     const disabled = prop(true)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      disabled,
-      label: 'Disabled Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        disabled,
+        label: 'Disabled Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -132,11 +66,13 @@ describe('Switch Keyboard Accessibility', () => {
     const value = prop(false)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Test Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Test Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -145,7 +81,7 @@ describe('Switch Keyboard Accessibility', () => {
     ) as HTMLElement
 
     // Simulate Space key press
-    const spaceEvent = new dom.window.KeyboardEvent('keydown', {
+    const spaceEvent = new KeyboardEvent('keydown', {
       key: ' ',
       bubbles: true,
       cancelable: true,
@@ -161,11 +97,13 @@ describe('Switch Keyboard Accessibility', () => {
     const value = prop(false)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Test Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Test Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -174,7 +112,7 @@ describe('Switch Keyboard Accessibility', () => {
     ) as HTMLElement
 
     // Simulate Enter key press
-    const enterEvent = new dom.window.KeyboardEvent('keydown', {
+    const enterEvent = new KeyboardEvent('keydown', {
       key: 'Enter',
       bubbles: true,
       cancelable: true,
@@ -190,11 +128,13 @@ describe('Switch Keyboard Accessibility', () => {
     const value = prop(false)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Test Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Test Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -203,7 +143,7 @@ describe('Switch Keyboard Accessibility', () => {
     ) as HTMLElement
 
     // Simulate other key presses
-    const arrowEvent = new dom.window.KeyboardEvent('keydown', {
+    const arrowEvent = new KeyboardEvent('keydown', {
       key: 'ArrowRight',
       bubbles: true,
       cancelable: true,
@@ -220,12 +160,14 @@ describe('Switch Keyboard Accessibility', () => {
     const disabled = prop(true)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      disabled,
-      label: 'Disabled Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        disabled,
+        label: 'Disabled Switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -234,7 +176,7 @@ describe('Switch Keyboard Accessibility', () => {
     ) as HTMLElement
 
     // Try to toggle with Space key
-    const spaceEvent = new dom.window.KeyboardEvent('keydown', {
+    const spaceEvent = new KeyboardEvent('keydown', {
       key: ' ',
       bubbles: true,
       cancelable: true,
@@ -249,12 +191,14 @@ describe('Switch Keyboard Accessibility', () => {
     const value = prop(true)
     const onChange = vi.fn()
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Accessibility Switch',
-      id: 'test-switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Accessibility Switch',
+        id: 'test-switch',
+      })
+    )
 
     render(switchComponent, container)
 
@@ -279,11 +223,13 @@ describe('Switch Keyboard Accessibility', () => {
     const value = prop(false)
     const onChange = vi.fn(newValue => value.set(newValue))
 
-    const switchComponent = Switch({
-      value,
-      onChange,
-      label: 'Dynamic Switch',
-    })
+    const switchComponent = WithProviders(() =>
+      Switch({
+        value,
+        onChange,
+        label: 'Dynamic Switch',
+      })
+    )
 
     render(switchComponent, container)
 

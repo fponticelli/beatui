@@ -9,7 +9,7 @@ export const EmailInput = (options: InputOptions<string>) => {
   const updatedOptions = {
     name: 'email',
     autocomplete: 'email',
-    placeholder: 'you@company.com',
+    placeholder: 'you@gmail.com',
     ...options,
     type: 'email',
   }

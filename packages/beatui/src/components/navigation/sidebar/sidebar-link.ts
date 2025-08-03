@@ -9,6 +9,7 @@ import {
   Use,
   Value,
   When,
+  WithElement,
 } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
 
@@ -31,6 +32,10 @@ export type SidebarLinkOptions = {
     label?: Value<string>
     onClick?: (ctx: DOMContext) => void
   }
+  // ARIA attributes for accessibility
+  ariaExpanded?: Value<boolean>
+  ariaControls?: Value<string>
+  ariaLabel?: Value<string>
 } & LinkAction
 
 export function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
@@ -41,8 +46,58 @@ export function SidebarActiveLink(...children: TNode[]) {
   return html.span(...children)
 }
 
-export function SidebarClickLink(options: ClickAction, ...children: TNode[]) {
-  return html.button(on.click(options.onClick), ...children)
+export function SidebarClickLink(
+  options: ClickAction &
+    Partial<
+      Pick<SidebarLinkOptions, 'ariaExpanded' | 'ariaControls' | 'ariaLabel'>
+    >,
+  ...children: TNode[]
+) {
+  return html.button(
+    on.click(options.onClick),
+    // Add ARIA attributes if provided using WithElement for dynamic updates
+    WithElement(el => {
+      if (options.ariaExpanded != null) {
+        const updateExpanded = (expanded: boolean) => {
+          el.setAttribute('aria-expanded', String(expanded))
+        }
+        // Set initial value
+        updateExpanded(Value.get(options.ariaExpanded))
+        // Subscribe to changes if it's a signal
+        if (
+          typeof options.ariaExpanded === 'object' &&
+          'on' in options.ariaExpanded
+        ) {
+          options.ariaExpanded.on(updateExpanded)
+        }
+      }
+      if (options.ariaControls != null) {
+        const updateControls = (controls: string) => {
+          el.setAttribute('aria-controls', controls)
+        }
+        updateControls(Value.get(options.ariaControls))
+        if (
+          typeof options.ariaControls === 'object' &&
+          'on' in options.ariaControls
+        ) {
+          options.ariaControls.on(updateControls)
+        }
+      }
+      if (options.ariaLabel != null) {
+        const updateLabel = (label: string) => {
+          el.setAttribute('aria-label', label)
+        }
+        updateLabel(Value.get(options.ariaLabel))
+        if (
+          typeof options.ariaLabel === 'object' &&
+          'on' in options.ariaLabel
+        ) {
+          options.ariaLabel.on(updateLabel)
+        }
+      }
+    }),
+    ...children
+  )
 }
 
 export function SidebarLink(options: SidebarLinkOptions) {

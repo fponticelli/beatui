@@ -31,11 +31,11 @@ function DisplayIcon({
         icon: value,
         size,
         color,
-        title: value,
+        title: value as Value<string | undefined>,
       })
     ),
     html.div(
-      attr.class('bu-text-xs bu-text-gray-600 bu-text-center bu-break-all'),
+      attr.class('bu-text-xs bu-text--gray bu-text-center bu-break-all'),
       value
     )
   )

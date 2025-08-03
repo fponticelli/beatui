@@ -9,11 +9,16 @@ import {
   When,
   computedOf,
   aria,
+  dataAttr,
+  Use,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { OverlayEffect } from '../theme'
+import { FocusTrap } from '@/utils/focus-trap'
+import { sessionId } from '../../utils/session-id'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export interface ModalOptions {
   /** Size of the modal */
@@ -89,6 +94,11 @@ export function Modal(
         return header || showCloseButton
       })
 
+      // Generate unique IDs for accessibility
+      const modalId = sessionId('modal')
+      const headerId = `${modalId}-header`
+      const bodyId = `${modalId}-body`
+
       const modalContent = html.div(
         attr.class(
           computedOf(
@@ -100,7 +110,41 @@ export function Modal(
           )
         ),
 
+        // Essential ARIA attributes for modal dialog
+        attr.role('dialog'),
+        aria.modal(true),
+        ...(content.header ? [aria.labelledby(headerId)] : []),
+        aria.describedby(bodyId),
+        attr.tabindex(-1), // Make modal focusable for initial focus
+        attr.id(modalId),
+        dataAttr.focusTrap('true'), // Mark as focus trap container
+
         on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
+
+        // Focus trap implementation
+        FocusTrap({
+          escapeDeactivates: false, // Let Overlay handle escape key
+          initialFocus: () => {
+            // Try to focus elements in order of preference
+            const modal = document.getElementById(modalId)
+            if (!modal) return null
+
+            // Try to focus the close button first
+            const closeButton = modal.querySelector(
+              '[aria-label="Close modal"]'
+            ) as HTMLElement
+            if (closeButton) return closeButton
+
+            // Then try any focusable element
+            const firstFocusable = modal.querySelector(
+              'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            ) as HTMLElement
+            if (firstFocusable) return firstFocusable
+
+            // Finally, focus the modal itself
+            return modal
+          },
+        }),
 
         // Modal content container
         html.div(
@@ -110,7 +154,10 @@ export function Modal(
           When(displayHeader, () =>
             html.div(
               attr.class('bc-modal__header'),
-              html.div(content.header),
+              html.div(
+                ...(content.header ? [attr.id(headerId)] : []),
+                content.header
+              ),
               When(showCloseButton, () =>
                 Button(
                   {
@@ -121,7 +168,7 @@ export function Modal(
                       closeOverlay()
                     },
                   },
-                  aria.label('Close modal'),
+                  Use(BeatUII18n, t => aria.label(t.closeModal())),
                   Icon({ icon: 'line-md:close', size: 'sm' })
                 )
               )
@@ -129,7 +176,7 @@ export function Modal(
           ),
 
           // Body section
-          html.div(attr.class('bc-modal__body'), content.body),
+          html.div(attr.class('bc-modal__body'), attr.id(bodyId), content.body),
 
           // Footer section
           content.footer &&
@@ -174,17 +221,11 @@ export function ConfirmModal(
   },
   fn: (open: (message: TNode) => void, close: () => void) => TNode
 ): TNode {
-  const {
-    confirmText = 'Confirm',
-    cancelText = 'Cancel',
-    onConfirm,
-    onCancel,
-    ...modalOptions
-  } = options
+  const { confirmText, cancelText, onConfirm, onCancel, ...modalOptions } =
+    options
 
-  return Modal(
-    { showCloseButton: false, ...modalOptions },
-    (openModal, close) => {
+  return Use(BeatUII18n, t =>
+    Modal({ showCloseButton: false, ...modalOptions }, (openModal, close) => {
       const handleConfirm = () => {
         onConfirm?.()
         close()
@@ -205,8 +246,7 @@ export function ConfirmModal(
                 variant: 'outline',
                 onClick: handleCancel,
               },
-
-              cancelText
+              cancelText ?? t.cancel()
             ),
             Button(
               {
@@ -214,14 +254,13 @@ export function ConfirmModal(
                 variant: 'filled',
                 onClick: handleConfirm,
               },
-
-              confirmText
+              confirmText ?? t.confirm()
             )
           ),
         })
       }
 
       return fn(open, close)
-    }
+    })
   )
 }

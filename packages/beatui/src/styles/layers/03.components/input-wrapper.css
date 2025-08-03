@@ -6,12 +6,25 @@
     width: 100%;
   }
 
+  /* Horizontal layout variant */
+  .bc-input-wrapper--horizontal {
+    flex-direction: row;
+    align-items: center;
+    gap: calc(var(--spacing-base) * 4);
+  }
+
   /* Label header container */
   .bc-input-wrapper__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: calc(var(--spacing-base) * 2);
+  }
+
+  /* Label section container */
+  .bc-input-wrapper__label-section {
+    display: flex;
+    flex-direction: column;
   }
 
   /* Label container */
@@ -50,9 +63,21 @@
     vertical-align: top;
   }
 
-  /* Content container */
-  .bc-input-wrapper__content {
-    /* Content styling is handled by the child components */
+  /* Horizontal layout adjustments */
+  .bc-input-wrapper--horizontal .bc-input-wrapper__header {
+    flex-shrink: 0;
+    min-width: 0; /* Allow text to wrap if needed */
+    align-self: flex-start; /* Align to top when content is taller */
+  }
+
+  .bc-input-wrapper--horizontal .bc-input-wrapper__content {
+    flex: 1;
+    min-width: 0; /* Prevent overflow issues */
+  }
+
+  /* Error messages in horizontal mode should align with content */
+  .bc-input-wrapper--horizontal .bc-input-wrapper__error {
+    margin-left: calc(var(--spacing-base) * 4); /* Align with content */
   }
 
   /* Description text */
@@ -60,6 +85,11 @@
     font-size: var(--font-size-sm);
     color: var(--color-gray-600);
     line-height: var(--line-height-normal);
+  }
+
+  /* Description under label in horizontal mode */
+  .bc-input-wrapper__description--under-label {
+    font-size: var(--font-size-xs);
   }
 
   /* Error message */

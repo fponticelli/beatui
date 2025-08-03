@@ -38,6 +38,44 @@
     transform: translateX(0);
   }
 
+  /* Direction-aware inline-end animations (right in LTR, left in RTL) */
+  .bc-drawer--side-inline-end.bc-drawer--status-closed,
+  .bc-drawer--side-inline-end.bc-drawer--status-start-closing,
+  .bc-drawer--side-inline-end.bc-drawer--status-closing {
+    transform: translateX(100%);
+  }
+
+  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closed,
+  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-start-closing,
+  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closing {
+    transform: translateX(-100%);
+  }
+
+  .bc-drawer--side-inline-end.bc-drawer--status-start-opening,
+  .bc-drawer--side-inline-end.bc-drawer--status-opening,
+  .bc-drawer--side-inline-end.bc-drawer--status-opened {
+    transform: translateX(0);
+  }
+
+  /* Direction-aware inline-start animations (left in LTR, right in RTL) */
+  .bc-drawer--side-inline-start.bc-drawer--status-closed,
+  .bc-drawer--side-inline-start.bc-drawer--status-start-closing,
+  .bc-drawer--side-inline-start.bc-drawer--status-closing {
+    transform: translateX(-100%);
+  }
+
+  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closed,
+  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-start-closing,
+  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closing {
+    transform: translateX(100%);
+  }
+
+  .bc-drawer--side-inline-start.bc-drawer--status-start-opening,
+  .bc-drawer--side-inline-start.bc-drawer--status-opening,
+  .bc-drawer--side-inline-start.bc-drawer--status-opened {
+    transform: translateX(0);
+  }
+
   /* Top side animations */
   .bc-drawer--side-top.bc-drawer--status-closed,
   .bc-drawer--side-top.bc-drawer--status-start-closing,
@@ -104,6 +142,36 @@
     max-width: 90%;
   }
 
+  /* Direction-aware drawer positioning - Inline End */
+  .bc-drawer--side-inline-end.bc-drawer--container-body {
+    top: 0;
+    inset-inline-end: 0;
+    height: 100vh;
+    max-width: 90vw;
+  }
+
+  .bc-drawer--side-inline-end.bc-drawer--container-element {
+    top: 0;
+    inset-inline-end: 0;
+    height: 100%;
+    max-width: 90%;
+  }
+
+  /* Direction-aware drawer positioning - Inline Start */
+  .bc-drawer--side-inline-start.bc-drawer--container-body {
+    top: 0;
+    inset-inline-start: 0;
+    height: 100vh;
+    max-width: 90vw;
+  }
+
+  .bc-drawer--side-inline-start.bc-drawer--container-element {
+    top: 0;
+    inset-inline-start: 0;
+    height: 100%;
+    max-width: 90%;
+  }
+
   /* Drawer positioning - Top side */
   .bc-drawer--side-top.bc-drawer--container-body {
     top: 0;
@@ -134,24 +202,32 @@
     max-height: 90%;
   }
 
-  /* Drawer sizes for vertical drawers (left/right) */
+  /* Drawer sizes for vertical drawers (left/right/inline) */
   .bc-drawer--side-left.bc-drawer--size-sm,
-  .bc-drawer--side-right.bc-drawer--size-sm {
+  .bc-drawer--side-right.bc-drawer--size-sm,
+  .bc-drawer--side-inline-start.bc-drawer--size-sm,
+  .bc-drawer--side-inline-end.bc-drawer--size-sm {
     width: min(320px, 90vw);
   }
 
   .bc-drawer--side-left.bc-drawer--size-md,
-  .bc-drawer--side-right.bc-drawer--size-md {
+  .bc-drawer--side-right.bc-drawer--size-md,
+  .bc-drawer--side-inline-start.bc-drawer--size-md,
+  .bc-drawer--side-inline-end.bc-drawer--size-md {
     width: min(480px, 90vw);
   }
 
   .bc-drawer--side-left.bc-drawer--size-lg,
-  .bc-drawer--side-right.bc-drawer--size-lg {
+  .bc-drawer--side-right.bc-drawer--size-lg,
+  .bc-drawer--side-inline-start.bc-drawer--size-lg,
+  .bc-drawer--side-inline-end.bc-drawer--size-lg {
     width: min(640px, 90vw);
   }
 
   .bc-drawer--side-left.bc-drawer--size-xl,
-  .bc-drawer--side-right.bc-drawer--size-xl {
+  .bc-drawer--side-right.bc-drawer--size-xl,
+  .bc-drawer--side-inline-start.bc-drawer--size-xl,
+  .bc-drawer--side-inline-end.bc-drawer--size-xl {
     width: min(800px, 90vw);
   }
 
@@ -227,7 +303,9 @@
   /* Responsive adjustments */
   @media (width <= 640px) {
     .bc-drawer--side-left.bc-drawer--container-body,
-    .bc-drawer--side-right.bc-drawer--container-body {
+    .bc-drawer--side-right.bc-drawer--container-body,
+    .bc-drawer--side-inline-start.bc-drawer--container-body,
+    .bc-drawer--side-inline-end.bc-drawer--container-body {
       width: 100vw;
       max-width: none;
     }

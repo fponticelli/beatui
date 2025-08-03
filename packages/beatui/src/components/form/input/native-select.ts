@@ -12,10 +12,12 @@ import {
   Renderable,
   Signal,
   Value,
+  Use,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { emitOptionExpando, Expando } from '../../misc/expando'
+import { BeatUII18n } from '@/beatui-i18n'
 
 export type ValueOption<T> = {
   type: 'value'
@@ -122,7 +124,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     onBlur,
     onChange,
     options: selectOptions,
-    unselectedLabel = 'Select one ...',
+    unselectedLabel,
     equality = (a, b) => a === b,
   } = options
 
@@ -151,7 +153,9 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
       CommonInputAttributes(options),
       attr.class('focus:outline-none bg-transparent'),
       attr.class('w-full'),
-      html.option(attr.hidden('hidden'), unselectedLabel),
+      Use(BeatUII18n, t =>
+        html.option(attr.hidden('hidden'), unselectedLabel ?? t.selectOne())
+      ),
       ForEach(selectOptions, v => NativeSelectOption(v, equality, value)),
       onBlur != null ? on.blur(onBlur) : Empty,
       onChange != null

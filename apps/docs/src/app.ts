@@ -1,11 +1,13 @@
-import { Fragment, html, Provide } from '@tempots/dom'
-import { Location, Router } from '@tempots/ui'
-import { Theme, ThemeAppearance } from '@tempots/beatui'
+import { html } from '@tempots/dom'
+import { RootRouter } from '@tempots/ui'
+import { BeatUI } from '@tempots/beatui'
 import { HomePage } from './pages/home'
 import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
+import { ComboboxPage } from './pages/combobox'
 import { SwitchPage } from './pages/switch'
 import { IconPage } from './pages/icon'
+import { LinkPage } from './pages/link'
 import { SegmentedControlPage } from './pages/segmented-control'
 import { TagsPage } from './pages/tags'
 import { FormPage } from './pages/form'
@@ -17,39 +19,40 @@ import { ModalPage } from './pages/modal'
 import { DrawerPage } from './pages/drawer'
 import { TooltipPage } from './pages/tooltip'
 import { FlyoutPage } from './pages/flyout'
+import { MenuPage } from './pages/menu'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
+import { RTLLTRPage } from './pages/rtl-ltr'
 import { AuthenticationPage } from './pages/authentication'
 import { AuthenticationComponentsPage } from './pages/authentication-components'
 
 export const App = () => {
-  return Provide(Theme, {}, () =>
-    Provide(Location, {}, () =>
-      Fragment(
-        ThemeAppearance(),
-        AppLayout({
-          children: Router({
-            '/': HomePage,
-            '/authentication': AuthenticationPage,
-            '/authentication/components': AuthenticationComponentsPage,
-            '/button': ButtonPage,
-            '/switch': SwitchPage,
-            '/collapse': CollapsePage,
-            '/icon': IconPage,
-            '/modal': ModalPage,
-            '/drawer': DrawerPage,
-            '/tooltip': TooltipPage,
-            '/flyout': FlyoutPage,
-            '/scrollable-panel': ScrollablePanelPage,
-            '/segmented-control': SegmentedControlPage,
-            '/sidebar': SidebarPage,
-            '/tags': TagsPage,
-            '/form': FormPage,
-            '/editable-text': EditableTextPage,
-            '/breakpoint': BreakpointPage,
-            '/*': () => html.div('Not Found'),
-          }),
-        })
-      )
-    )
+  return BeatUI(
+    AppLayout({
+      children: RootRouter({
+        '/': HomePage,
+        '/authentication': AuthenticationPage,
+        '/authentication/components': AuthenticationComponentsPage,
+        '/button': ButtonPage,
+        '/combobox': ComboboxPage,
+        '/switch': SwitchPage,
+        '/collapse': CollapsePage,
+        '/icon': IconPage,
+        '/link': LinkPage,
+        '/modal': ModalPage,
+        '/drawer': DrawerPage,
+        '/tooltip': TooltipPage,
+        '/flyout': FlyoutPage,
+        '/menu': MenuPage,
+        '/scrollable-panel': ScrollablePanelPage,
+        '/rtl-ltr': RTLLTRPage,
+        '/segmented-control': SegmentedControlPage,
+        '/sidebar': SidebarPage,
+        '/tags': TagsPage,
+        '/form': FormPage,
+        '/editable-text': EditableTextPage,
+        '/breakpoint': BreakpointPage,
+        '/*': () => html.div('Not Found'),
+      }),
+    })
   )
 }

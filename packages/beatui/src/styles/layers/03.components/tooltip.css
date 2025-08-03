@@ -54,6 +54,17 @@
     top: 0;
   }
 
+  /* Direction-aware arrow positioning */
+  .bc-tooltip__arrow-inline-start {
+    inset-inline-end: calc(100% - 0.5px);
+    top: 0;
+  }
+
+  .bc-tooltip__arrow-inline-end {
+    inset-inline-start: calc(100% - 0.5px);
+    top: 0;
+  }
+
   /* Show state */
   [data-status="opened"] .bc-tooltip,
   [data-status="entering"] .bc-tooltip {

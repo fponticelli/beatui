@@ -1,3 +1,4 @@
+import { BeatUII18n } from '@/beatui-i18n'
 import { Icon } from '../../data/icon'
 import {
   aria,
@@ -9,6 +10,7 @@ import {
   on,
   Renderable,
   Value,
+  Use,
 } from '@tempots/dom'
 import { AutoSelect } from '@tempots/ui'
 
@@ -72,7 +74,7 @@ export const EditableText = ({
           ),
           html.button(
             attr.class('bc-editable-text__edit-button'),
-            aria.label('Edit'),
+            Use(BeatUII18n, t => aria.label(t.editLabel())),
             on.click(() => isEditing.set(true)),
             Icon({ icon: 'line-md/pencil' })
           )
