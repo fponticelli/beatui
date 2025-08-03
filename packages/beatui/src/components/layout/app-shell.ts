@@ -537,7 +537,7 @@ export function AppShell({
           menuStatus.dispose()
           asideStatus.dispose()
         }),
-        attr.class('bu-h-full bu-w-full'),
+        attr.class('bu-grid bu-h-full bu-w-full'),
         style.gridTemplateColumns(template.$.columns),
         style.gridTemplateRows(template.$.rows),
         style.gridTemplateAreas(template.$.areas),

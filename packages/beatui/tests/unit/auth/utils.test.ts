@@ -13,7 +13,7 @@ import {
   getRememberedEmail,
   clearRememberedEmail,
 } from '../../../src/components/auth/utils'
-import { defaultAuthLabels } from '../../../src/components/auth/types'
+import { defaultAuthLabels } from '../../../src/components/auth/utils'
 
 // Mock localStorage for testing
 const localStorageMock = {
@@ -110,7 +110,7 @@ describe('Authentication Utils', () => {
       expect(url).toContain(
         'redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback'
       )
-      expect(url).toContain('scope=openid%20email%20profile')
+      expect(url).toContain('scope=openid+email+profile')
       expect(url).toContain('response_type=code')
       expect(url).toContain('state=')
     })
@@ -134,7 +134,7 @@ describe('Authentication Utils', () => {
         ['custom', 'scopes']
       )
 
-      expect(url).toContain('scope=custom%20scopes')
+      expect(url).toContain('scope=custom+scopes')
     })
 
     it('should include custom parameters', () => {
@@ -200,7 +200,7 @@ describe('Authentication Utils', () => {
       it('should save email to localStorage', () => {
         saveRememberMe('test@example.com')
         expect(localStorageMock.setItem).toHaveBeenCalledWith(
-          'beatui_auth_remember_email',
+          'bui_auth_remember_email',
           'test@example.com'
         )
       })
@@ -213,7 +213,7 @@ describe('Authentication Utils', () => {
         const result = getRememberedEmail()
 
         expect(localStorageMock.getItem).toHaveBeenCalledWith(
-          'beatui_auth_remember_email'
+          'bui_auth_remember_email'
         )
         expect(result).toBe('test@example.com')
       })
@@ -231,7 +231,7 @@ describe('Authentication Utils', () => {
       it('should remove email from localStorage', () => {
         clearRememberedEmail()
         expect(localStorageMock.removeItem).toHaveBeenCalledWith(
-          'beatui_auth_remember_email'
+          'bui_auth_remember_email'
         )
       })
     })

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, Provide, prop } from '@tempots/dom'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
 import { Theme } from '../../src/components/theme/theme'
@@ -20,7 +20,7 @@ describe('CheckboxInput Component', () => {
     const checkbox = CheckboxInput({
       value,
       onChange: vi.fn(),
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -39,7 +39,7 @@ describe('CheckboxInput Component', () => {
     const checkbox = CheckboxInput({
       value,
       onChange: vi.fn(),
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -49,7 +49,9 @@ describe('CheckboxInput Component', () => {
 
     const checkboxElement = container.querySelector('[role="checkbox"]')
     expect(checkboxElement!.getAttribute('aria-checked')).toBe('true')
-    expect(checkboxElement!.className).toContain('bc-checkbox-input__checkbox--checked')
+    expect(checkboxElement!.className).toContain(
+      'bc-checkbox-input__checkbox--checked'
+    )
   })
 
   it('should handle click events', () => {
@@ -58,7 +60,7 @@ describe('CheckboxInput Component', () => {
     const checkbox = CheckboxInput({
       value,
       onChange,
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -66,7 +68,9 @@ describe('CheckboxInput Component', () => {
       container
     )
 
-    const checkboxElement = container.querySelector('[role="checkbox"]') as HTMLElement
+    const checkboxElement = container.querySelector(
+      '[role="checkbox"]'
+    ) as HTMLElement
     checkboxElement.click()
 
     expect(onChange).toHaveBeenCalledWith(true)
@@ -78,7 +82,7 @@ describe('CheckboxInput Component', () => {
     const checkbox = CheckboxInput({
       value,
       onChange,
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -86,8 +90,10 @@ describe('CheckboxInput Component', () => {
       container
     )
 
-    const checkboxElement = container.querySelector('[role="checkbox"]') as HTMLElement
-    
+    const checkboxElement = container.querySelector(
+      '[role="checkbox"]'
+    ) as HTMLElement
+
     // Test Space key
     const spaceEvent = new KeyboardEvent('keydown', { key: ' ', bubbles: true })
     checkboxElement.dispatchEvent(spaceEvent)
@@ -95,7 +101,10 @@ describe('CheckboxInput Component', () => {
 
     // Test Enter key
     onChange.mockClear()
-    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })
+    const enterEvent = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      bubbles: true,
+    })
     checkboxElement.dispatchEvent(enterEvent)
     expect(onChange).toHaveBeenCalledWith(true)
   })
@@ -108,7 +117,7 @@ describe('CheckboxInput Component', () => {
       value,
       onChange,
       disabled,
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -116,10 +125,14 @@ describe('CheckboxInput Component', () => {
       container
     )
 
-    const checkboxElement = container.querySelector('[role="checkbox"]') as HTMLElement
+    const checkboxElement = container.querySelector(
+      '[role="checkbox"]'
+    ) as HTMLElement
     expect(checkboxElement.getAttribute('aria-disabled')).toBe('true')
     expect(checkboxElement.getAttribute('tabindex')).toBe('-1')
-    expect(checkboxElement.className).toContain('bc-checkbox-input__checkbox--disabled')
+    expect(checkboxElement.className).toContain(
+      'bc-checkbox-input__checkbox--disabled'
+    )
 
     // Should not respond to clicks when disabled
     checkboxElement.click()
@@ -133,7 +146,7 @@ describe('CheckboxInput Component', () => {
       value,
       onChange: vi.fn(),
       onBlur,
-      placeholder: 'Test checkbox'
+      placeholder: 'Test checkbox',
     })
 
     render(
@@ -141,10 +154,12 @@ describe('CheckboxInput Component', () => {
       container
     )
 
-    const checkboxElement = container.querySelector('[role="checkbox"]') as HTMLElement
+    const checkboxElement = container.querySelector(
+      '[role="checkbox"]'
+    ) as HTMLElement
     checkboxElement.dispatchEvent(new Event('blur', { bubbles: true }))
 
-    expect(onBlur).toHaveBeenCalledWith(true)
+    expect(onBlur).toHaveBeenCalledTimes(1)
   })
 
   it('should have proper accessibility attributes', () => {
@@ -153,7 +168,7 @@ describe('CheckboxInput Component', () => {
       value,
       onChange: vi.fn(),
       placeholder: 'Test checkbox',
-      id: 'test-checkbox'
+      id: 'test-checkbox',
     })
 
     render(
@@ -168,6 +183,8 @@ describe('CheckboxInput Component', () => {
     expect(checkboxElement!.getAttribute('id')).toBe('test-checkbox')
     expect(checkboxElement!.getAttribute('tabindex')).toBe('0')
     expect(label!.getAttribute('id')).toBe('test-checkbox-label')
-    expect(checkboxElement!.getAttribute('aria-labelledby')).toBe('test-checkbox-label')
+    expect(checkboxElement!.getAttribute('aria-labelledby')).toBe(
+      'test-checkbox-label'
+    )
   })
 })

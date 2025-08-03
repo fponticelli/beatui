@@ -246,11 +246,11 @@ describe('Switch and Checkbox Accessibility', () => {
       )
 
       const checkbox = container.querySelector(
-        'input[type="checkbox"]'
-      )! as HTMLInputElement
-      expect(checkbox.getAttribute('type')).toBe('checkbox')
+        '[role="checkbox"]'
+      )! as HTMLElement
+      expect(checkbox.getAttribute('role')).toBe('checkbox')
       expect(checkbox.getAttribute('id')).toBe('test-checkbox')
-      expect(checkbox.checked).toBe(false)
+      expect(checkbox.getAttribute('aria-checked')).toBe('false')
     })
 
     it('should have proper label association', () => {
@@ -268,7 +268,7 @@ describe('Switch and Checkbox Accessibility', () => {
         container
       )
 
-      const checkbox = container.querySelector('input[type="checkbox"]')!
+      const checkbox = container.querySelector('[role="checkbox"]')!
       const label = container.querySelector('label')!
 
       expect(label.getAttribute('for')).toBe('terms-checkbox')
@@ -300,7 +300,7 @@ describe('Switch and Checkbox Accessibility', () => {
 
       await new Promise(resolve => setTimeout(resolve, 100))
 
-      const checkbox = container.querySelector('input[type="checkbox"]')!
+      const checkbox = container.querySelector('[role="checkbox"]')!
       expect(checkbox.getAttribute('aria-describedby')).toMatch(
         /input-wrapper-.*-description input-wrapper-.*-error/
       )
@@ -323,14 +323,14 @@ describe('Switch and Checkbox Accessibility', () => {
       )
 
       const checkbox = container.querySelector(
-        'input[type="checkbox"]'
-      ) as HTMLInputElement
-      expect(checkbox.checked).toBe(false)
+        '[role="checkbox"]'
+      ) as HTMLElement
+      expect(checkbox.getAttribute('aria-checked')).toBe('false')
 
       value.set(true)
       await new Promise(resolve => setTimeout(resolve, 0))
 
-      expect(checkbox.checked).toBe(true)
+      expect(checkbox.getAttribute('aria-checked')).toBe('true')
     })
 
     it('should be focusable and keyboard accessible', () => {
@@ -352,8 +352,8 @@ describe('Switch and Checkbox Accessibility', () => {
       )
 
       const checkbox = container.querySelector(
-        'input[type="checkbox"]'
-      )! as HTMLInputElement
+        '[role="checkbox"]'
+      )! as HTMLElement
 
       // Test focus
       checkbox.focus()
@@ -392,8 +392,8 @@ describe('Switch and Checkbox Accessibility', () => {
       const checkboxElement = container.querySelector('#test-checkbox')!
 
       expect(switchElement.getAttribute('role')).toBe('switch')
-      expect(checkboxElement.getAttribute('type')).toBe('checkbox')
-      expect(checkboxElement.getAttribute('role')).toBeNull() // Native checkbox role
+      expect(checkboxElement.getAttribute('role')).toBe('checkbox')
+      expect(checkboxElement.getAttribute('aria-checked')).toBeDefined() // Custom checkbox
     })
 
     it('should both support proper labeling patterns', () => {

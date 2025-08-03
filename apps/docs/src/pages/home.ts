@@ -1,6 +1,6 @@
 import { html, attr } from '@tempots/dom'
 import { Anchor } from '@tempots/ui'
-import { Stack, Card, Group } from '@tempots/beatui'
+import { Stack, Card } from '@tempots/beatui'
 
 export const HomePage = () => {
   return html.div(
@@ -29,11 +29,20 @@ export const HomePage = () => {
         Anchor(
           { href: '/authentication', withViewTransition: true },
           Card(
-            attr.class('bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'),
+            {},
+            attr.class(
+              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+            ),
             Stack(
               attr.class('bu-gap-3'),
-              html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Authentication'),
-              html.p(attr.class('bu-text--muted'), 'Complete authentication component suite with social login support')
+              html.h3(
+                attr.class('bu-text-lg bu-font-semibold'),
+                'Authentication'
+              ),
+              html.p(
+                attr.class('bu-text--muted'),
+                'Complete authentication component suite with social login support'
+              )
             )
           )
         ),
@@ -42,11 +51,17 @@ export const HomePage = () => {
         Anchor(
           { href: '/button', withViewTransition: true },
           Card(
-            attr.class('bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'),
+            {},
+            attr.class(
+              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+            ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Components'),
-              html.p(attr.class('bu-text--muted'), 'Explore all available UI components and their documentation')
+              html.p(
+                attr.class('bu-text--muted'),
+                'Explore all available UI components and their documentation'
+              )
             )
           )
         ),
@@ -55,11 +70,17 @@ export const HomePage = () => {
         Anchor(
           { href: '/form', withViewTransition: true },
           Card(
-            attr.class('bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'),
+            {},
+            attr.class(
+              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+            ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Forms'),
-              html.p(attr.class('bu-text--muted'), 'Powerful form handling with validation and type safety')
+              html.p(
+                attr.class('bu-text--muted'),
+                'Powerful form handling with validation and type safety'
+              )
             )
           )
         ),
@@ -68,11 +89,17 @@ export const HomePage = () => {
         Anchor(
           { href: '/about', withViewTransition: true },
           Card(
-            attr.class('bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'),
+            {},
+            attr.class(
+              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+            ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'About'),
-              html.p(attr.class('bu-text--muted'), 'Learn more about BeatUI and its design principles')
+              html.p(
+                attr.class('bu-text--muted'),
+                'Learn more about BeatUI and its design principles'
+              )
             )
           )
         )
