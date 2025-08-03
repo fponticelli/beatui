@@ -91,6 +91,11 @@ export function SocialLoginButton({
   )
 }
 
+export type AuthProviderInfo = {
+  provider: AuthProviderName
+  flow?: 'redirect' | 'popup'
+}
+
 // Convenience function to create multiple social login buttons
 export function SocialLoginButtons({
   providers,
@@ -100,10 +105,7 @@ export function SocialLoginButtons({
   size = 'md',
   className,
 }: {
-  providers: Array<{
-    provider: AuthProviderName
-    flow?: 'redirect' | 'popup'
-  }>
+  providers: Array<AuthProviderInfo>
   onProviderClick?: (provider: AuthProviderName) => Promise<void>
   loading?: Value<boolean>
   disabled?: Value<boolean>

@@ -128,7 +128,7 @@ export const AuthenticationComponentsPage = () => {
         html.div(
           attr.class('bu-max-w-sm'),
           SignInForm({
-            config: { showRememberMe: true },
+            showRememberMe: true,
             onSubmit: data => handleAuthAction(data, 'Individual sign in'),
           })
         )
@@ -140,7 +140,7 @@ export const AuthenticationComponentsPage = () => {
         html.div(
           attr.class('bu-max-w-sm'),
           SignUpForm({
-            config: { showPasswordStrength: true },
+            showPasswordStrength: true,
             onSubmit: data => handleAuthAction(data, 'Individual sign up'),
           })
         )

@@ -17,7 +17,7 @@ import {
   AuthProviderName,
 } from './index'
 import { createSignInSchema } from './schemas'
-import { SocialLoginButtons } from './social-login-button'
+import { AuthProviderInfo, SocialLoginButtons } from './social-login-button'
 import { AuthDivider } from './auth-divider'
 import { AuthI18n } from '@/auth-i18n/translations'
 
@@ -165,7 +165,7 @@ export function SignInForm({
         attr.class('bc-auth-form__social'),
         SocialLoginButtons({
           providers:
-            socialProviders?.map(p => ({
+            socialProviders?.map((p: AuthProviderInfo) => ({
               provider: p.provider,
               flow: p.flow,
             })) || [],

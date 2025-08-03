@@ -78,9 +78,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            showRememberMe: false,
-          },
+          showRememberMe: false,
           onSubmit: vi.fn(),
         })
       ),
@@ -94,12 +92,10 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            socialProviders: [
-              { provider: 'google', clientId: 'test-id' },
-              { provider: 'github', clientId: 'test-id' },
-            ],
-          },
+          socialProviders: [
+            { provider: 'google', clientId: 'test-id' },
+            { provider: 'github', clientId: 'test-id' },
+          ],
           onSubmit: vi.fn(),
         })
       ),
@@ -114,10 +110,8 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            socialProviders: [{ provider: 'google', clientId: 'test-id' }],
-            showSocialDivider: false,
-          },
+          socialProviders: [{ provider: 'google', clientId: 'test-id' }],
+          showSocialDivider: false,
           onSubmit: vi.fn(),
         })
       ),
@@ -145,9 +139,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            allowSignUp: false,
-          },
+          allowSignUp: false,
           onSubmit: vi.fn(),
         })
       ),
@@ -164,9 +156,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            allowPasswordReset: false,
-          },
+          allowPasswordReset: false,
           onSubmit: vi.fn(),
         })
       ),
@@ -376,12 +366,10 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          config: {
-            labels: {
-              signInTitle: () => 'Custom Sign In',
-              emailLabel: () => 'Custom Email',
-              passwordLabel: () => 'Custom Password',
-            },
+          labels: {
+            signInTitle: () => 'Custom Sign In',
+            emailLabel: () => 'Custom Email',
+            passwordLabel: () => 'Custom Password',
           },
           onSubmit: vi.fn(),
         })
