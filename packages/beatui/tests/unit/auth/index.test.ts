@@ -8,7 +8,7 @@ import './auth-container.test'
 import './schemas.test'
 import './password-strength-indicator.test'
 import './social-login-button.test'
-import './utils.test'
+// Note: utils.test is run separately to avoid mock conflicts
 import './signin-form.test'
 
 // Import the main auth module to test exports

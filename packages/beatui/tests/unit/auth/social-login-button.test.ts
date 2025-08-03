@@ -169,7 +169,7 @@ describe('SocialLoginButton', () => {
 
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(consoleError).toHaveBeenCalledWith(
-      'Social login error for google:',
+      'Social login error for google (redirect flow):',
       expect.any(Error)
     )
 

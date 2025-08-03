@@ -49,13 +49,6 @@ export function SignInForm({
   const rememberMeController = controller.field('rememberMe')
 
   // Handle loading state - disable/enable form based on loading
-  // Set initial state
-  if (isLoading.get()) {
-    controller.disable()
-    emailController.disable()
-    passwordController.disable()
-  }
-
   // Listen for loading state changes and update controller accordingly
   const unsubscribe = isLoading.on(loading => {
     if (loading) {
@@ -68,6 +61,13 @@ export function SignInForm({
       passwordController.enable()
     }
   })
+
+  // Set initial state after setting up the listener
+  if (isLoading.get()) {
+    controller.disable()
+    emailController.disable()
+    passwordController.disable()
+  }
 
   // Clean up the subscription when the component is disposed
   controller.onDispose(() => {

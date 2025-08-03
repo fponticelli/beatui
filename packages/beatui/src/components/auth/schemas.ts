@@ -79,11 +79,15 @@ export const emailSchema = string()
 export function createSignInSchema(
   passwordRules?: PasswordRules
 ): StandardSchemaV1<SignInData> {
+  const passwordSchema = passwordRules
+    ? createPasswordSchema(passwordRules)
+    : string().refine(value =>
+        value.length > 0 ? null : 'Password is required'
+      )
+
   return object({
     email: emailSchema,
-    password: string().refine(value =>
-      value.length > 0 ? null : 'Password is required'
-    ),
+    password: passwordSchema,
     rememberMe: boolean().optional().default(false),
   }).schema()
 }

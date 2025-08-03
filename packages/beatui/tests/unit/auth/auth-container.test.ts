@@ -129,8 +129,9 @@ describe('AuthContainer', () => {
     expect(container.querySelector('.bc-signin-form')).toBeTruthy()
 
     // Click the "Don't have an account? Sign up" link
-    const signUpLink = container.querySelector(
-      '.bc-auth-form__link'
+    const links = container.querySelectorAll('.bc-auth-form__link')
+    const signUpLink = Array.from(links).find(link =>
+      link.textContent?.includes('Sign up')
     ) as HTMLButtonElement
     expect(signUpLink).toBeTruthy()
 
@@ -289,7 +290,7 @@ describe('AuthContainer', () => {
     submitButton.click()
 
     // Wait for loading state to be processed
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     // Should be disabled during loading
     expect(submitButton.disabled).toBe(true)

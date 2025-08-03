@@ -317,8 +317,10 @@ class DefaultValidator<Input, Output> extends BaseValidator<
 
 // Object validator
 export class ObjectValidator<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<string, any>,
 > extends BaseValidator<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(private shape: { [K in keyof T]: Validator<any, T[K]> }) {
     super()
   }
@@ -357,6 +359,7 @@ export class ObjectValidator<
     validation: (value: T) => string | null,
     options?: { path?: (keyof T)[] }
   ): ObjectValidator<R> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const validator = new ObjectValidator<R>(this.shape as any)
 
     const originalValidate = validator.validate.bind(validator)
@@ -390,7 +393,9 @@ export class ObjectValidator<
 // Factory functions
 export const string = () => new StringValidator()
 export const boolean = () => new BooleanValidator()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const object = <T extends Record<string, any>>(shape: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [K in keyof T]: Validator<any, T[K]>
 }) => new ObjectValidator<T>(shape)
 

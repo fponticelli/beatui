@@ -2,6 +2,16 @@
 // Unit tests for authentication utility functions
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+
+// Mock isBrowser to return true in tests
+vi.mock('../../../src/components/auth/utils', async () => {
+  const actual = await vi.importActual('../../../src/components/auth/utils')
+  return {
+    ...actual,
+    isBrowser: vi.fn(() => true),
+  }
+})
+
 import {
   mergeAuthLabels,
   isValidEmail,
@@ -22,6 +32,11 @@ const localStorageMock = {
   removeItem: vi.fn(),
   clear: vi.fn(),
 }
+
+// Set up localStorage mock
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+})
 
 describe('Authentication Utils', () => {
   beforeEach(() => {

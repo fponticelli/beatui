@@ -35,9 +35,19 @@ export function SocialLoginButton({
   const handleClick = async () => {
     if (onClick) {
       try {
-        await onClick()
+        // Add flow-specific behavior if needed
+        if (flow === 'popup') {
+          // For popup flow, the onClick handler should handle opening a popup
+          await onClick()
+        } else {
+          // For redirect flow (default), the onClick handler should handle redirect
+          await onClick()
+        }
       } catch (error) {
-        console.error(`Social login error for ${provider}:`, error)
+        console.error(
+          `Social login error for ${provider} (${flow || 'redirect'} flow):`,
+          error
+        )
       }
     }
   }

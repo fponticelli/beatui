@@ -33,6 +33,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
   } = options
   const updatedOptions = {
     name: 'password',
+    disabled,
     ...rest,
   }
   const hidePassword = prop(true)

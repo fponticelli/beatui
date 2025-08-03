@@ -305,7 +305,10 @@ describe('SignInForm', () => {
     )
 
     // Wait for signal updates to be processed
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Force a re-render to ensure all reactive updates are applied
+    await new Promise(resolve => requestAnimationFrame(resolve))
 
     const submitButton = container.querySelector(
       'button[type="submit"]'

@@ -55,6 +55,7 @@ export function SignUpForm({
   // Set initial state
   if (isLoading.get()) {
     controller.disable()
+    nameController.disable()
     emailController.disable()
     passwordController.disable()
     confirmPasswordController.disable()
@@ -64,11 +65,13 @@ export function SignUpForm({
   const unsubscribe = isLoading.on(loading => {
     if (loading) {
       controller.disable()
+      nameController.disable()
       emailController.disable()
       passwordController.disable()
       confirmPasswordController.disable()
     } else {
       controller.enable()
+      nameController.enable()
       emailController.enable()
       passwordController.enable()
       confirmPasswordController.enable()

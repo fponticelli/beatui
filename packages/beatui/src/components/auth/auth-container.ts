@@ -1,7 +1,7 @@
 // Auth Container Component
 // Main container that switches between signin/signup/reset modes
 
-import { attr, computedOf, prop, TNode, When } from '@tempots/dom'
+import { attr, computedOf, prop, TNode, When, Value } from '@tempots/dom'
 import { html } from '@tempots/dom'
 import {
   AuthContainerOptions,
@@ -13,7 +13,7 @@ import {
 import { SignInForm } from './signin-form'
 import { SignUpForm } from './signup-form'
 import { ResetPasswordForm } from './reset-password-form'
-import { Modal } from '../overlay'
+import { Modal, ModalContentOptions } from '../overlay'
 
 export function AuthContainer({
   initialMode = 'signin',
@@ -187,7 +187,7 @@ export function AuthModal({
   onClose,
   ...authOptions
 }: AuthContainerOptions & {
-  isOpen: any
+  isOpen: Value<boolean>
   onClose?: () => void
 }): TNode {
   return Modal(
@@ -197,9 +197,9 @@ export function AuthModal({
       showCloseButton: true,
       onClose,
     },
-    (open: any, close: any) => {
+    (open: (content: ModalContentOptions) => void, _close: () => void) => {
       // Open modal when isOpen becomes true
-      if (isOpen?.value) {
+      if (Value.get(isOpen)) {
         open({
           body: AuthContainer(authOptions),
         })
