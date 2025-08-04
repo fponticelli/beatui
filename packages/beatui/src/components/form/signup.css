@@ -1,0 +1,243 @@
+@layer components {
+  .bc-signup {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .bc-signup__fields {
+    gap: 1rem;
+  }
+
+  .bc-signup__account-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--bc-color-text-muted);
+  }
+
+  .bc-signup__link-button {
+    background: none;
+    border: none;
+    color: var(--bc-color-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: inherit;
+    margin-left: 0.25rem;
+    padding: 0;
+  }
+
+  .bc-signup__link-button:hover {
+    color: var(--bc-color-primary-hover);
+  }
+
+  .bc-signup__link-button:disabled {
+    color: var(--bc-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .bc-signup__terms-links {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--bc-color-text-muted);
+  }
+
+  .bc-signup__terms-link {
+    color: var(--bc-color-primary);
+    text-decoration: none;
+  }
+
+  .bc-signup__terms-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Social Sign-Up */
+  .bc-signup__social-section {
+    width: 100%;
+  }
+
+  .bc-signup__social-providers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .bc-signup__social-button {
+    width: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+  }
+
+  .bc-signup__divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+
+  .bc-signup__divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--bc-color-border);
+  }
+
+  .bc-signup__divider-text {
+    background-color: var(--bc-color-background);
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    color: var(--bc-color-text-muted);
+    text-transform: lowercase;
+  }
+
+  /* Password Strength Indicator */
+  .bc-password-strength-container {
+    margin-top: 0.5rem;
+  }
+
+  .bc-password-strength {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bc-password-strength__bar {
+    flex: 1;
+    height: 4px;
+    background-color: var(--bc-color-border);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bc-password-strength__bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
+
+  .bc-password-strength--weak .bc-password-strength__bar::after {
+    width: 33%;
+    background-color: var(--bc-color-danger);
+  }
+
+  .bc-password-strength--medium .bc-password-strength__bar::after {
+    width: 66%;
+    background-color: var(--bc-color-warning);
+  }
+
+  .bc-password-strength--strong .bc-password-strength__bar::after {
+    width: 100%;
+    background-color: var(--bc-color-success);
+  }
+
+  .bc-password-strength__text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .bc-password-strength--weak .bc-password-strength__text {
+    color: var(--bc-color-danger);
+  }
+
+  .bc-password-strength--medium .bc-password-strength__text {
+    color: var(--bc-color-warning);
+  }
+
+  .bc-password-strength--strong .bc-password-strength__text {
+    color: var(--bc-color-success);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .bc-signup {
+      max-width: 100%;
+      padding: 0 1rem;
+    }
+
+    .bc-signup__fields {
+      gap: 0.875rem;
+    }
+
+    .bc-password-strength__text {
+      min-width: 50px;
+      font-size: 0.6875rem;
+    }
+
+    .bc-signup__social-providers {
+      gap: 0.5rem;
+    }
+
+    .bc-signup__social-button {
+      font-size: 0.875rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .bc-signup__divider {
+      margin: 1rem 0;
+    }
+  }
+
+  /* Multiple social providers - show in grid on larger screens */
+  @media (min-width: 481px) {
+    .bc-signup__social-providers:has(> :nth-child(3)) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .bc-signup__social-providers:has(> :nth-child(2)):not(:has(> :nth-child(3))) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+  }
+
+  /* Dark mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .bc-signup__account-link {
+      color: var(--bc-color-text-muted-dark, var(--bc-color-text-muted));
+    }
+
+    .bc-signup__terms-links {
+      color: var(--bc-color-text-muted-dark, var(--bc-color-text-muted));
+    }
+
+    .bc-password-strength__bar {
+      background-color: var(--bc-color-border-dark, var(--bc-color-border));
+    }
+  }
+
+  /* Focus states */
+  .bc-signup__link-button:focus {
+    outline: 2px solid var(--bc-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .bc-signup__terms-link:focus {
+    outline: 2px solid var(--bc-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Animation for password strength changes */
+  .bc-password-strength__bar::after {
+    transition: 
+      width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bc-password-strength__text {
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

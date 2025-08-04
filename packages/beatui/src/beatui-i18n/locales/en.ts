@@ -17,6 +17,18 @@ const en = {
   closeModal: () => 'Close modal',
   confirm: () => 'Confirm',
   cancel: () => 'Cancel',
+  // signup form
+  name: () => 'Name',
+  email: () => 'Email',
+  password: () => 'Password',
+  confirmPassword: () => 'Confirm Password',
+  signUp: () => 'Sign Up',
+  signIn: () => 'Sign In',
+  enterYourName: () => 'Enter your name',
+  confirmYourPassword: () => 'Confirm your password',
+  acceptTermsAndConditions: () => 'I accept the terms and conditions',
+  alreadyHaveAccount: () => 'Already have an account?',
+  orContinueWith: () => 'or continue with',
   // languages
   currentLocale: () => 'English',
   ar: () => 'Arabic',
