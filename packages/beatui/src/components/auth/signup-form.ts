@@ -1,7 +1,16 @@
 // Sign Up Form Component
 // Registration form with validation and password strength indicator
 
-import { attr, computedOf, html, on, TNode, Use, When } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  html,
+  NotEmpty,
+  on,
+  TNode,
+  Use,
+  When,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl, TextControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -15,7 +24,7 @@ import {
   functionOrReactiveMessage,
 } from './index'
 import { createSignUpSchema } from './schemas'
-import { AuthProviderInfo, SocialLoginButtons } from './social-login-button'
+import { SocialLoginButtons } from './social-login-button'
 import { AuthDivider } from './auth-divider'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
 import { AuthI18n } from '@/auth-i18n/translations'
@@ -165,15 +174,11 @@ export function SignUpForm({
     ),
 
     // Social login buttons
-    When(!!(socialProviders && socialProviders.length > 0), () =>
+    NotEmpty(socialProviders ?? [], providers =>
       Stack(
         attr.class('bc-auth-form__social'),
         SocialLoginButtons({
-          providers:
-            socialProviders?.map((p: AuthProviderInfo) => ({
-              provider: p.provider,
-              flow: p.flow,
-            })) || [],
+          providers,
           onProviderClick: handleSocialLogin,
           loading: isLoading,
           disabled: isLoading,

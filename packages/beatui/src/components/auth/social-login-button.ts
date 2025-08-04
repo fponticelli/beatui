@@ -1,7 +1,15 @@
 // Social Login Button Component
 // Reusable button component for social authentication providers
 
-import { attr, computedOf, html, TNode, Use, Value } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  ForEach,
+  html,
+  TNode,
+  Use,
+  Value,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
 import {
@@ -105,7 +113,7 @@ export function SocialLoginButtons({
   size = 'md',
   className,
 }: {
-  providers: Array<AuthProviderInfo>
+  providers: Value<Array<AuthProviderInfo>>
   onProviderClick?: (provider: AuthProviderName) => Promise<void>
   loading?: Value<boolean>
   disabled?: Value<boolean>
@@ -115,14 +123,16 @@ export function SocialLoginButtons({
   return Stack(
     attr.class('bc-social-login-buttons bu-gap-2 bu-px-8'),
     attr.class(className),
-    ...providers.map(({ provider, flow }) =>
+    ForEach(providers, item =>
       SocialLoginButton({
-        provider,
-        flow,
-        ...socialProviderInfo[provider],
+        provider: item.$.provider,
+        flow: item.$.flow,
+        color: item.map(({ provider }) => socialProviderInfo[provider].color),
+        name: item.map(({ provider }) => socialProviderInfo[provider].name),
+        icon: item.map(({ provider }) => socialProviderInfo[provider].icon),
         onClick: async () => {
           if (onProviderClick) {
-            await onProviderClick(provider)
+            await onProviderClick(item.$.provider.value)
           }
         },
         loading,

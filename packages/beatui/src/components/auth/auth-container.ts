@@ -1,7 +1,15 @@
 // Auth Container Component
 // Main container that switches between signin/signup/reset modes
 
-import { attr, computedOf, prop, TNode, When, Value } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  prop,
+  TNode,
+  When,
+  Value,
+  OnDispose,
+} from '@tempots/dom'
 import { html } from '@tempots/dom'
 import {
   AuthContainerOptions,
@@ -16,7 +24,7 @@ import { ResetPasswordForm } from './reset-password-form'
 import { Modal, ModalContentOptions } from '../overlay'
 
 export function AuthContainer({
-  initialMode = 'signin',
+  mode: initialMode,
   className,
   socialProviders,
   passwordRules,
@@ -36,7 +44,10 @@ export function AuthContainer({
   onSubmitResetPassword,
 }: AuthContainerOptions): TNode {
   // Current mode state
-  const currentMode = prop<AuthMode>(initialMode)
+  const currentMode =
+    initialMode != null
+      ? Value.deriveProp(initialMode)
+      : prop<AuthMode>('signin')
 
   // Loading and error states for each form
   const signInLoading = prop(false)
@@ -49,14 +60,15 @@ export function AuthContainer({
 
   // Handle mode changes
   const handleModeChange = (mode: AuthMode) => {
-    // Clear errors when switching modes
-    signInError.set(null)
-    signUpError.set(null)
-    resetPasswordError.set(null)
-
     currentMode.set(mode)
-    onModeChange?.(mode)
   }
+
+  const disposeModeChange = currentMode.on(mode => {
+    signInLoading.set(false)
+    signUpLoading.set(false)
+    resetPasswordLoading.set(false)
+    onModeChange?.(mode)
+  })
 
   // Handle sign in
   const handleSignIn = async (data: SignInData) => {
@@ -122,6 +134,7 @@ export function AuthContainer({
   })
 
   return html.div(
+    OnDispose(disposeModeChange),
     attr.class(containerClasses),
 
     // Sign In Form
@@ -239,17 +252,17 @@ export function AuthModal({
 export function SignInContainer(
   options: Omit<AuthContainerOptions, 'initialMode'>
 ) {
-  return AuthContainer({ ...options, initialMode: 'signin' })
+  return AuthContainer({ ...options, mode: 'signin' })
 }
 
 export function SignUpContainer(
   options: Omit<AuthContainerOptions, 'initialMode'>
 ) {
-  return AuthContainer({ ...options, initialMode: 'signup' })
+  return AuthContainer({ ...options, mode: 'signup' })
 }
 
 export function ResetPasswordContainer(
   options: Omit<AuthContainerOptions, 'initialMode'>
 ) {
-  return AuthContainer({ ...options, initialMode: 'reset-password' })
+  return AuthContainer({ ...options, mode: 'reset-password' })
 }

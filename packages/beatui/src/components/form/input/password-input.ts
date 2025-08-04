@@ -71,13 +71,13 @@ export const PasswordInput = (options: InputOptions<string>) => {
       after:
         after ??
         html.button(
-          attr.class('bc-input-container__password-toggle'),
+          attr.class('bc-input-container__password-toggle bu-text--light-gray'),
           aria.label(t.togglePasswordVisibility()),
           on.click(() => hidePassword.update(v => !v)),
           When(
             hidePassword,
-            () => Icon({ icon: 'line-md:watch-twotone' }),
-            () => Icon({ icon: 'line-md:watch-off-twotone' })
+            () => Icon({ icon: 'line-md:watch' }),
+            () => Icon({ icon: 'line-md:watch-off' })
           )
         ),
     })

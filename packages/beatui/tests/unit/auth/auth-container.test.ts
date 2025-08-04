@@ -37,7 +37,7 @@ describe('AuthContainer', () => {
     render(
       WithProviders(() =>
         AuthContainer({
-          initialMode: 'signup',
+          mode: 'signup',
           onSignUp: vi.fn(),
         })
       ),
@@ -52,7 +52,7 @@ describe('AuthContainer', () => {
     render(
       WithProviders(() =>
         AuthContainer({
-          initialMode: 'reset-password',
+          mode: 'reset-password',
           onResetPassword: vi.fn(),
         })
       ),
@@ -149,10 +149,7 @@ describe('AuthContainer', () => {
     render(
       WithProviders(() =>
         AuthContainer({
-          socialProviders: [
-            { provider: 'google', clientId: 'test-google-id' },
-            { provider: 'github', clientId: 'test-github-id' },
-          ],
+          socialProviders: [{ provider: 'google' }, { provider: 'github' }],
           onSignIn: vi.fn(),
           onSocialLogin: vi.fn(),
         })
@@ -177,7 +174,7 @@ describe('AuthContainer', () => {
     render(
       WithProviders(() =>
         AuthContainer({
-          socialProviders: [{ provider: 'google', clientId: 'test-google-id' }],
+          socialProviders: [{ provider: 'google' }],
           onSignIn: vi.fn(),
           onSocialLogin,
         })

@@ -4,6 +4,7 @@
 import { Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { ThemeColorName } from '@/tokens'
+import { AuthProviderInfo } from './social-login-button'
 
 // Core authentication types
 export type AuthProviderName =
@@ -103,9 +104,9 @@ export interface PasswordRules {
 
 // Component-specific options
 export interface AuthContainerOptions {
-  initialMode?: AuthMode
+  mode?: Value<AuthMode>
   className?: Value<string>
-  socialProviders?: SocialProviderConfig<unknown>[]
+  socialProviders?: Value<AuthProviderInfo[]>
   passwordRules?: PasswordRules
   showRememberMe?: Value<boolean>
   showSocialDivider?: Value<boolean>
@@ -160,7 +161,7 @@ export interface SignInFormOptions {
     forgotPasswordLink?: () => string
     noAccountLink?: () => string
   }
-  socialProviders?: SocialProviderConfig<unknown>[]
+  socialProviders?: Value<SocialProviderConfig<unknown>[]>
   showSocialDivider?: Value<boolean>
   showRememberMe?: Value<boolean>
   allowPasswordReset?: Value<boolean>
@@ -184,7 +185,7 @@ export interface SignUpFormOptions {
     signUpButton?: () => string
     hasAccountLink?: () => string
   }
-  socialProviders?: SocialProviderConfig<unknown>[]
+  socialProviders?: Value<AuthProviderInfo[]>
   showSocialDivider?: Value<boolean>
   showPasswordStrength?: Value<boolean>
   onSignUp?: (data: SignUpData) => Promise<void>
@@ -208,12 +209,12 @@ export interface ResetPasswordFormOptions {
 }
 
 export interface SocialLoginButtonOptions {
-  provider: AuthProviderName
+  provider: Value<AuthProviderName>
   onClick?: () => Promise<void>
   loading?: Value<boolean>
   disabled?: Value<boolean>
   size?: Value<ControlSize>
-  flow?: 'redirect' | 'popup'
+  flow?: Value<'redirect' | 'popup' | undefined>
   name: Value<string>
   icon: Value<string>
   color: Value<ThemeColorName | 'black'>

@@ -1,7 +1,16 @@
 // Sign In Form Component
 // Main sign-in form with email/password fields and social login options
 
-import { attr, computedOf, html, on, TNode, Use, When } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  html,
+  NotEmpty,
+  on,
+  TNode,
+  Use,
+  When,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -17,7 +26,7 @@ import {
   AuthProviderName,
 } from './index'
 import { createSignInSchema } from './schemas'
-import { AuthProviderInfo, SocialLoginButtons } from './social-login-button'
+import { SocialLoginButtons } from './social-login-button'
 import { AuthDivider } from './auth-divider'
 import { AuthI18n } from '@/auth-i18n/translations'
 
@@ -160,15 +169,11 @@ export function SignInForm({
     ),
 
     // Social login buttons
-    When(!!(socialProviders != null && socialProviders.length > 0), () =>
+    NotEmpty(socialProviders ?? [], providers =>
       Stack(
         attr.class('bc-auth-form__social'),
         SocialLoginButtons({
-          providers:
-            socialProviders?.map((p: AuthProviderInfo) => ({
-              provider: p.provider,
-              flow: p.flow,
-            })) || [],
+          providers,
           onProviderClick: handleSocialLogin,
           loading: isLoading,
           disabled: isLoading,

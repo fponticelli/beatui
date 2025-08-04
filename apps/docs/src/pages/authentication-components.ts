@@ -100,14 +100,11 @@ export const AuthenticationComponentsPage = () => {
       html.div(
         attr.class('bu-w-full bu-max-w-md'),
         AuthContainer({
-          initialMode: authMode.value,
-          showRememberMe: showRememberMe.value,
-          showPasswordStrength: showPasswordStrength.value,
-          socialProviders: showSocial.value
-            ? [
-                { provider: 'google', clientId: 'demo-google-id' },
-                { provider: 'github', clientId: 'demo-github-id' },
-              ]
+          mode: authMode,
+          showRememberMe: showRememberMe,
+          showPasswordStrength: showPasswordStrength,
+          socialProviders: showSocial
+            ? [{ provider: 'google' }, { provider: 'github' }]
             : undefined,
           onSignIn: data => handleAuthAction(data, 'Sign in'),
           onSignUp: data => handleAuthAction(data, 'Sign up'),
