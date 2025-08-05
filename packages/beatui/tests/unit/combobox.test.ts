@@ -364,7 +364,7 @@ describe('Combobox', () => {
 
   describe('Form Integration', () => {
     it('should work with ComboboxControl', () => {
-      const controller = useController({
+      const { controller } = useController({
         defaultValue: '',
       })
 

@@ -42,11 +42,11 @@ export class Controller<T> {
     this.value = value
     this.status = status
     this.error = status.map(s =>
-      s.type === 'invalid' ? s.error.message : undefined
+      s?.type === 'invalid' ? s.error?.message : undefined
     )
     this.hasError = this.error.map(e => e != null)
     this.dependencyErrors = status.map(s =>
-      s.type === 'invalid' ? s.error.dependencies : undefined
+      s?.type === 'invalid' ? s.error?.dependencies : undefined
     )
     this.parent = parent
     this.disabled = computedOf(

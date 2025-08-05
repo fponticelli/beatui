@@ -74,7 +74,7 @@ describe('Schema Utils', () => {
     it('should handle empty issues array', () => {
       const result = convertStandardSchemaIssues([])
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
       })
     })
 
@@ -85,7 +85,7 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: 'Required field missing\nInvalid format',
+        message: 'Required field missing\nInvalid format',
       })
     })
 
@@ -96,10 +96,10 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
-          name: { error: 'Name is required' },
-          email: { error: 'Email is invalid' },
+          name: { message: 'Name is required' },
+          email: { message: 'Email is invalid' },
         },
       })
     })
@@ -111,12 +111,12 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
           address: {
             dependencies: {
-              street: { error: 'Street is required' },
-              city: { error: 'City is required' },
+              street: { message: 'Street is required' },
+              city: { message: 'City is required' },
             },
           },
         },
@@ -130,12 +130,12 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
           emails: {
             dependencies: {
-              0: { error: 'First email is invalid' },
-              1: { error: 'Second email is required' },
+              0: { message: 'First email is invalid' },
+              1: { message: 'Second email is required' },
             },
           },
         },
@@ -150,12 +150,12 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: 'Form is invalid',
+        message: 'Form is invalid',
         dependencies: {
-          name: { error: 'Name is required' },
+          name: { message: 'Name is required' },
           address: {
             dependencies: {
-              street: { error: 'Street is required' },
+              street: { message: 'Street is required' },
             },
           },
         },
@@ -179,7 +179,7 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
           users: {
             dependencies: {
@@ -187,12 +187,12 @@ describe('Schema Utils', () => {
                 dependencies: {
                   profile: {
                     dependencies: {
-                      name: { error: 'User name required' },
+                      name: { message: 'User name required' },
                     },
                   },
                   contact: {
                     dependencies: {
-                      email: { error: 'User email invalid' },
+                      email: { message: 'User email invalid' },
                     },
                   },
                 },
@@ -201,7 +201,7 @@ describe('Schema Utils', () => {
                 dependencies: {
                   profile: {
                     dependencies: {
-                      age: { error: 'Second user age invalid' },
+                      age: { message: 'Second user age invalid' },
                     },
                   },
                 },
@@ -221,13 +221,13 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
           user: {
             dependencies: {
               profile: {
                 dependencies: {
-                  name: { error: 'Name is required' },
+                  name: { message: 'Name is required' },
                 },
               },
             },
@@ -242,7 +242,7 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: 'Single error message',
+        message: 'Single error message',
       })
     })
 
@@ -252,9 +252,9 @@ describe('Schema Utils', () => {
       ]
       const result = convertStandardSchemaIssues(issues)
       expect(result).toEqual({
-        error: undefined,
+        message: undefined,
         dependencies: {
-          field: { error: '' },
+          field: { message: '' },
         },
       })
     })

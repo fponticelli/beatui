@@ -31,7 +31,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should dispose child controllers in ObjectController via onDispose', () => {
     const value = prop({ name: 'test', age: 25 })
-    const status = prop<Validation>({ type: 'Valid' })
+    const status = prop<Validation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new ObjectController(
@@ -57,7 +57,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should dispose child controllers in ArrayController via onDispose', () => {
     const value = prop(['item1', 'item2'])
-    const status = prop<Validation>({ type: 'Valid' })
+    const status = prop<Validation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new ArrayController(

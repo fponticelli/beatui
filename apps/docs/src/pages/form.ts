@@ -21,7 +21,7 @@ import {
 import { z } from 'zod/v4'
 
 export const FormPage = () => {
-  const controller = useForm({
+  const { controller } = useForm({
     schema: z.object({
       name: z.string().min(1),
       favoriteColor: z.string().optional(),
