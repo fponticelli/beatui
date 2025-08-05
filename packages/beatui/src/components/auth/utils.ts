@@ -1,7 +1,7 @@
 // Authentication Utility Functions
 // Helper functions for authentication components
 
-import { computedOf, GetValueTypes, Signal, Value } from '@tempots/dom'
+import { computedOf, GetValueTypes, prop, Signal, Value } from '@tempots/dom'
 import { AuthProviderName, PasswordRules } from './types'
 
 // Provider information and utilities
@@ -287,6 +287,10 @@ export function functionOrReactiveMessage<T extends Value<unknown>[]>(
 ): Signal<string> {
   if (fn == null) {
     return reactiveFn(...args)
+  }
+  // Handle case where no reactive arguments are provided
+  if (args.length === 0) {
+    return prop((fn as () => string)())
   }
   return computedOf(...args)(fn as (...args: GetValueTypes<T>) => string)
 }

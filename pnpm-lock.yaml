@@ -18,8 +18,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 28.3.0
-        version: 28.3.0
+        specifier: 28.3.1
+        version: 28.3.1
       '@tempots/std':
         specifier: 0.22.1
         version: 0.22.1
@@ -79,8 +79,8 @@ importers:
   packages/beatui:
     dependencies:
       '@tempots/dom':
-        specifier: 28.3.0
-        version: 28.3.0
+        specifier: 28.3.1
+        version: 28.3.1
       '@tempots/std':
         specifier: 0.22.1
         version: 0.22.1
@@ -512,8 +512,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tempots/dom@28.3.0':
-    resolution: {integrity: sha512-4aZtb/Pa0XrFSdRdA2QL6yWH+2311OZ0mmHes/H1VOTecIinCLofgrrMSMtWgMjasmyay7nlNV9F9HqBrTIKrA==}
+  '@tempots/dom@28.3.1':
+    resolution: {integrity: sha512-N0lsD6vUusRN9mi3UHwICKxZk5PSyyt5Ou2Jn3wWrypnkEubcGOjmpy8riFzKlO3JAepG0U024pwFh+xL398sA==}
 
   '@tempots/std@0.22.1':
     resolution: {integrity: sha512-5cRPTMf4pRRCkuSa5VRKswv44WriBePNOMFtibXjzdoNL6iZvDAIGqFsuzRI20VsbHNjOjRMsk0zj33I/ARAFQ==}
@@ -2007,7 +2007,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
-  '@tempots/dom@28.3.0': {}
+  '@tempots/dom@28.3.1': {}
 
   '@tempots/std@0.22.1': {}
 

@@ -107,21 +107,28 @@ export function createSignUpSchema(
   const showAcceptTermsAndConditions =
     options?.showAcceptTermsAndConditions !== false
 
+  // Create base schema with proper types
   const baseSchema = {
     name: showNameField
       ? string().min(1, 'Name is required').optional()
       : string().optional(),
     email: emailSchema,
     password: passwordSchema,
+    // Always require confirmPassword as string to match SignUpData interface
+    // When not shown, it will be validated as empty string or provided value
     confirmPassword: showConfirmPassword
       ? string().min(1, 'Please confirm your password')
-      : string().optional(),
+      : string().refine(value =>
+          value === '' || value.length > 0
+            ? null
+            : 'Confirm password is required'
+        ),
     acceptTerms: showAcceptTermsAndConditions
       ? boolean().refine(
           (val: boolean) => val === true,
           'You must accept the terms and conditions'
         )
-      : boolean().optional(),
+      : boolean().default(true), // Default to true when not shown
   }
 
   const schema = object(baseSchema)
@@ -130,7 +137,7 @@ export function createSignUpSchema(
   if (showConfirmPassword) {
     return schema
       .refine(
-        (data: SignUpData) =>
+        data =>
           data.password === data.confirmPassword
             ? null
             : "Passwords don't match",
