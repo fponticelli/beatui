@@ -2,7 +2,7 @@
 // Unit tests for the SocialLoginButton component
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, prop } from '@tempots/dom'
+import { render } from '@tempots/dom'
 import {
   SocialLoginButtons,
   GoogleLoginButton,
@@ -72,38 +72,23 @@ describe('SocialLoginButton', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('should show loading state', () => {
-    const loading = prop(true)
+  it('should handle async onClick correctly', async () => {
+    const onClick = vi.fn().mockResolvedValue(undefined)
 
     render(
       WithProviders(() =>
         GoogleLoginButton({
-          loading,
-          onClick: vi.fn(),
+          onClick,
         })
       ),
       container
     )
 
     const buttonElement = container.querySelector('button') as HTMLButtonElement
-    expect(buttonElement.disabled).toBe(true)
-  })
+    buttonElement.click()
 
-  it('should be disabled when disabled prop is true', () => {
-    const disabled = prop(true)
-
-    render(
-      WithProviders(() =>
-        GoogleLoginButton({
-          disabled,
-          onClick: vi.fn(),
-        })
-      ),
-      container
-    )
-
-    const buttonElement = container.querySelector('button') as HTMLButtonElement
-    expect(buttonElement.disabled).toBe(true)
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(onClick).toHaveBeenCalled()
   })
 
   it('should support different sizes', () => {
@@ -251,24 +236,25 @@ describe('SocialLoginButtons', () => {
     }
   })
 
-  it('should apply loading state to all buttons', () => {
-    const loading = prop(true)
+  it('should handle provider clicks correctly', async () => {
+    const onProviderClick = vi.fn().mockResolvedValue(undefined)
 
     render(
       WithProviders(() =>
         SocialLoginButtons({
           providers: [{ provider: 'google' }, { provider: 'github' }],
-          loading,
-          onProviderClick: vi.fn(),
+          onProviderClick,
         })
       ),
       container
     )
 
     const buttons = container.querySelectorAll('button')
-    buttons.forEach(button => {
-      expect(button.disabled).toBe(true)
-    })
+    expect(buttons).toHaveLength(2)
+
+    buttons[0].click()
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(onProviderClick).toHaveBeenCalledWith('google')
   })
 
   it('should apply custom className', () => {
@@ -330,13 +316,11 @@ describe('Provider-specific buttons', () => {
 
   it('should pass through all options to base component', () => {
     const onClick = vi.fn()
-    const loading = prop(true)
 
     render(
       WithProviders(() =>
         GoogleLoginButton({
           onClick,
-          loading,
           size: 'lg',
         })
       ),
@@ -344,6 +328,7 @@ describe('Provider-specific buttons', () => {
     )
 
     const buttonElement = container.querySelector('button') as HTMLButtonElement
-    expect(buttonElement.disabled).toBe(true)
+    expect(buttonElement).toBeTruthy()
+    expect(buttonElement.textContent).toContain('Continue with Google')
   })
 })

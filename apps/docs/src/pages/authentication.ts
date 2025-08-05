@@ -55,10 +55,6 @@ export const AuthenticationPage = () => {
         onSignUp: handleSignUp,
         onResetPassword: handleResetPassword,
         socialProviders: [{ provider: 'google' }, { provider: 'github' }],
-        // onSocialLogin: async provider => {
-        //   demoMessage.set(`Social login with ${provider} (demo mode)`)
-        //   setTimeout(() => demoMessage.set(''), 3000)
-        // },
       })
     )
   )
