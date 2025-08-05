@@ -94,26 +94,52 @@ export function createSignInSchema(
 
 // Sign up form schema
 export function createSignUpSchema(
-  passwordRules: PasswordRules = defaultPasswordRules
+  passwordRules: PasswordRules = defaultPasswordRules,
+  options?: {
+    showNameField?: boolean
+    showConfirmPassword?: boolean
+    showAcceptTermsAndConditions?: boolean
+  }
 ): StandardSchemaV1<SignUpData> {
   const passwordSchema = createPasswordSchema(passwordRules)
+  const showNameField = options?.showNameField !== false
+  const showConfirmPassword = options?.showConfirmPassword !== false
+  const showAcceptTermsAndConditions =
+    options?.showAcceptTermsAndConditions !== false
 
-  return object({
-    name: string().min(1, 'Name is required').optional(),
+  const baseSchema = {
+    name: showNameField
+      ? string().min(1, 'Name is required').optional()
+      : string().optional(),
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: string().min(1, 'Please confirm your password'),
-    acceptTerms: boolean().refine(
-      (val: boolean) => val === true,
-      'You must accept the terms and conditions'
-    ),
-  })
-    .refine(
-      (data: SignUpData) =>
-        data.password === data.confirmPassword ? null : "Passwords don't match",
-      { path: ['confirmPassword'] }
-    )
-    .schema()
+    confirmPassword: showConfirmPassword
+      ? string().min(1, 'Please confirm your password')
+      : string().optional(),
+    acceptTerms: showAcceptTermsAndConditions
+      ? boolean().refine(
+          (val: boolean) => val === true,
+          'You must accept the terms and conditions'
+        )
+      : boolean().optional(),
+  }
+
+  const schema = object(baseSchema)
+
+  // Only add password confirmation validation if confirm password is shown
+  if (showConfirmPassword) {
+    return schema
+      .refine(
+        (data: SignUpData) =>
+          data.password === data.confirmPassword
+            ? null
+            : "Passwords don't match",
+        { path: ['confirmPassword'] }
+      )
+      .schema()
+  }
+
+  return schema.schema()
 }
 
 // Reset password form schema

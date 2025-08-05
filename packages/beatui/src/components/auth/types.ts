@@ -1,7 +1,7 @@
 // Authentication Component Types
 // TypeScript interfaces and types for the BeatUI authentication suite
 
-import { Value } from '@tempots/dom'
+import { TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { ThemeColorName } from '@/tokens'
 import { AuthProviderInfo } from './social-login-button'
@@ -190,6 +190,12 @@ export interface SignUpFormOptions {
   showPasswordStrength?: Value<boolean>
   onSignUp?: (data: SignUpData) => Promise<void>
   onSocialLogin?: (provider: AuthProviderName) => Promise<void>
+  // TODO implement
+  showAlreadyHaveAccountLink?: Value<boolean>
+  showNameField?: Value<boolean>
+  showConfirmPassword?: Value<boolean>
+  showAcceptTermsAndConditions?: Value<boolean>
+  termsAndConditions?: TNode
 }
 
 export interface ResetPasswordFormOptions {

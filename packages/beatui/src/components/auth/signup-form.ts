@@ -41,13 +41,26 @@ export function SignUpForm({
   showPasswordStrength,
   onSignUp,
   onSocialLogin,
+  showAlreadyHaveAccountLink,
+  showNameField,
+  showConfirmPassword,
+  showAcceptTermsAndConditions,
+  termsAndConditions,
 }: SignUpFormOptions): TNode {
   const isLoading = computedOf(loading)(l => l ?? false)
   const errorMessage = computedOf(error)(e => (e ? formatAuthError(e) : null))
   const passwordRules_ = passwordRules || defaultPasswordRules
 
   // Initialize form
-  const schema = createSignUpSchema(passwordRules_)
+  const schema = createSignUpSchema(passwordRules_, {
+    showNameField: computedOf(showNameField)(v => v !== false).get(),
+    showConfirmPassword: computedOf(showConfirmPassword)(
+      v => v !== false
+    ).get(),
+    showAcceptTermsAndConditions: computedOf(showAcceptTermsAndConditions)(
+      v => v !== false
+    ).get(),
+  })
 
   const controller = useForm({
     schema,
@@ -116,11 +129,14 @@ export function SignUpForm({
     const formData = controller.value.value
 
     // Additional validation check - ensure required fields are not empty
+    const isConfirmPasswordRequired = showConfirmPassword !== false
+    const isAcceptTermsRequired = showAcceptTermsAndConditions !== false
+
     if (
       !formData.email ||
       !formData.password ||
-      !formData.confirmPassword ||
-      !formData.acceptTerms
+      (isConfirmPasswordRequired && !formData.confirmPassword) ||
+      (isAcceptTermsRequired && !formData.acceptTerms)
     ) {
       return
     }
@@ -198,14 +214,16 @@ export function SignUpForm({
         attr.class('bc-auth-form__fields'),
 
         // Name field (optional)
-        Use(AuthI18n, t =>
-          TextControl({
-            controller: nameController.transform(
-              v => v ?? '',
-              v => (v === '' ? undefined : v)
-            ),
-            label: functionOrReactiveMessage(labels?.nameLabel, t.nameLabel),
-          })
+        When(showNameField !== false, () =>
+          Use(AuthI18n, t =>
+            TextControl({
+              controller: nameController.transform(
+                v => v ?? '',
+                v => (v === '' ? undefined : v)
+              ),
+              label: functionOrReactiveMessage(labels?.nameLabel, t.nameLabel),
+            })
+          )
         ),
 
         // Email field
@@ -237,37 +255,42 @@ export function SignUpForm({
         ),
 
         // Confirm password field
-        Use(AuthI18n, t =>
-          PasswordControl({
-            controller: confirmPasswordController,
-            label: functionOrReactiveMessage(
-              labels?.confirmPasswordLabel,
-              t.confirmPasswordLabel
-            ),
-          })
+        When(showConfirmPassword !== false, () =>
+          Use(AuthI18n, t =>
+            PasswordControl({
+              controller: confirmPasswordController,
+              label: functionOrReactiveMessage(
+                labels?.confirmPasswordLabel,
+                t.confirmPasswordLabel
+              ),
+            })
+          )
         ),
 
         // Terms acceptance checkbox
-        Use(AuthI18n, t =>
-          html.div(
-            attr.class('bc-auth-form__terms'),
-            html.label(
-              attr.class('bc-auth-form__checkbox-label'),
-              CheckboxInput({
-                value: acceptTermsController.value.map(v => v ?? false),
-                onChange: checked => acceptTermsController.change(checked),
-              }),
-              html.span(
-                functionOrReactiveMessage(
-                  labels?.acceptTermsLabel,
-                  t.acceptTermsLabel
+        When(showAcceptTermsAndConditions !== false, () =>
+          Use(AuthI18n, t =>
+            html.div(
+              attr.class('bc-auth-form__terms'),
+              html.label(
+                attr.class('bc-auth-form__checkbox-label'),
+                CheckboxInput({
+                  value: acceptTermsController.value.map(v => v ?? false),
+                  onChange: checked => acceptTermsController.change(checked),
+                }),
+                html.span(
+                  termsAndConditions ||
+                    functionOrReactiveMessage(
+                      labels?.acceptTermsLabel,
+                      t.acceptTermsLabel
+                    )
                 )
-              )
-            ),
-            When(acceptTermsController.hasError, () =>
-              html.div(
-                attr.class('bc-auth-form__field-error'),
-                acceptTermsController.error.map(err => err || '')
+              ),
+              When(acceptTermsController.hasError, () =>
+                html.div(
+                  attr.class('bc-auth-form__field-error'),
+                  acceptTermsController.error.map(err => err || '')
+                )
               )
             )
           )
@@ -298,16 +321,18 @@ export function SignUpForm({
     ),
 
     // Footer links
-    Use(AuthI18n, t =>
-      html.div(
-        attr.class('bc-auth-form__footer'),
+    When(showAlreadyHaveAccountLink !== false, () =>
+      Use(AuthI18n, t =>
+        html.div(
+          attr.class('bc-auth-form__footer'),
 
-        // Sign in link
-        html.button(
-          attr.type('button'),
-          attr.class('bc-auth-form__link'),
-          on.click(() => handleModeChange('signin')),
-          functionOrReactiveMessage(labels?.hasAccountLink, t.hasAccountLink)
+          // Sign in link
+          html.button(
+            attr.type('button'),
+            attr.class('bc-auth-form__link'),
+            on.click(() => handleModeChange('signin')),
+            functionOrReactiveMessage(labels?.hasAccountLink, t.hasAccountLink)
+          )
         )
       )
     )
