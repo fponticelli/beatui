@@ -7,9 +7,9 @@ describe('wrapAsyncOperation', () => {
       return 'success'
     }
 
-    const result = await taskToValidation(operation)
+    const result = await taskToValidation({ task: operation })
 
-    expect(result).toEqual({ type: 'Valid' })
+    expect(result).toEqual({ type: 'valid' })
   })
 
   it('should return Invalid result with error message when operation throws', async () => {
@@ -17,11 +17,13 @@ describe('wrapAsyncOperation', () => {
       throw new Error('Something went wrong')
     }
 
-    const result = await taskToValidation(operation)
+    const result = await taskToValidation({ task: operation })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      error: 'Something went wrong',
+      type: 'invalid',
+      error: {
+        message: 'Something went wrong',
+      },
     })
   })
 
@@ -30,11 +32,16 @@ describe('wrapAsyncOperation', () => {
       throw new Error('Original error')
     }
 
-    const result = await taskToValidation(operation, 'Custom error message')
+    const result = await taskToValidation({
+      task: operation,
+      errorMessage: 'Custom error message',
+    })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      error: 'Custom error message',
+      type: 'invalid',
+      error: {
+        message: 'Custom error message',
+      },
     })
   })
 
@@ -43,11 +50,13 @@ describe('wrapAsyncOperation', () => {
       throw 'String error'
     }
 
-    const result = await taskToValidation(operation)
+    const result = await taskToValidation({ task: operation })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      error: 'Operation failed',
+      type: 'invalid',
+      error: {
+        message: 'Operation failed',
+      },
     })
   })
 
@@ -56,18 +65,21 @@ describe('wrapAsyncOperation', () => {
       throw new Error('Field error')
     }
 
-    const result = await taskToValidation(operation, 'Custom error', [
-      'user',
-      'email',
-    ])
+    const result = await taskToValidation({
+      task: operation,
+      errorMessage: 'Custom error',
+      errorPath: ['user', 'email'],
+    })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      dependencies: {
-        user: {
-          dependencies: {
-            email: {
-              error: 'Custom error',
+      type: 'invalid',
+      error: {
+        dependencies: {
+          user: {
+            dependencies: {
+              email: {
+                message: 'Custom error',
+              },
             },
           },
         },
@@ -80,13 +92,19 @@ describe('wrapAsyncOperation', () => {
       throw new Error('Field error')
     }
 
-    const result = await taskToValidation(operation, 'Custom error', ['email'])
+    const result = await taskToValidation({
+      task: operation,
+      errorMessage: 'Custom error',
+      errorPath: ['email'],
+    })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      dependencies: {
-        email: {
-          error: 'Custom error',
+      type: 'invalid',
+      error: {
+        dependencies: {
+          email: {
+            message: 'Custom error',
+          },
         },
       },
     })
@@ -97,11 +115,17 @@ describe('wrapAsyncOperation', () => {
       throw new Error('Root error')
     }
 
-    const result = await taskToValidation(operation, 'Custom error', ['root'])
+    const result = await taskToValidation({
+      task: operation,
+      errorMessage: 'Custom error',
+      errorPath: ['root'],
+    })
 
     expect(result).toEqual({
-      type: 'Invalid',
-      error: 'Custom error',
+      type: 'invalid',
+      error: {
+        message: 'Custom error',
+      },
     })
   })
 })
