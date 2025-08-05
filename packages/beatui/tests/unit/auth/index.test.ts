@@ -40,9 +40,6 @@ describe('Authentication Module Exports', () => {
     expect(AuthModule.createSocialLoginUrl).toBeDefined()
     expect(AuthModule.formatAuthError).toBeDefined()
     expect(AuthModule.isBrowser).toBeDefined()
-    expect(AuthModule.saveRememberMe).toBeDefined()
-    expect(AuthModule.getRememberedEmail).toBeDefined()
-    expect(AuthModule.clearRememberedEmail).toBeDefined()
   })
 
   it('should export all components', () => {
@@ -68,12 +65,6 @@ describe('Authentication Module Exports', () => {
     expect(AuthModule.DiscordLoginButton).toBeDefined()
     expect(AuthModule.LinkedInLoginButton).toBeDefined()
   })
-
-  it('should export container variants', () => {
-    expect(AuthModule.SignInContainer).toBeDefined()
-    expect(AuthModule.SignUpContainer).toBeDefined()
-    expect(AuthModule.ResetPasswordContainer).toBeDefined()
-  })
 })
 
 describe('Authentication Integration', () => {
@@ -82,10 +73,15 @@ describe('Authentication Integration', () => {
     const signInData: AuthModule.SignInData = {
       email: 'test@example.com',
       password: 'password123',
-      rememberMe: true,
     }
 
     const signUpData: AuthModule.SignUpData = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: 'password123',
+    }
+
+    const signUpFormData: AuthModule.SignUpFormData = {
       name: 'John Doe',
       email: 'john@example.com',
       password: 'password123',
@@ -99,6 +95,7 @@ describe('Authentication Integration', () => {
 
     expect(signInData.email).toBe('test@example.com')
     expect(signUpData.name).toBe('John Doe')
+    expect(signUpFormData.confirmPassword).toBe('password123')
     expect(resetData.email).toBe('test@example.com')
   })
 

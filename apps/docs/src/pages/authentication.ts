@@ -14,6 +14,7 @@ export const AuthenticationPage = () => {
   const handleSignIn = async (data: SignInData) => {
     demoMessage.set(`Sign in successful! Email: ${data.email}`)
     setTimeout(() => demoMessage.set(''), 3000)
+    return null
   }
 
   const handleSignUp = async (data: SignUpData) => {
@@ -21,11 +22,13 @@ export const AuthenticationPage = () => {
       `Sign up successful! Email: ${data.email}, Name: ${data.name || 'Not provided'}`
     )
     setTimeout(() => demoMessage.set(''), 3000)
+    return null
   }
 
   const handleResetPassword = async (data: ResetPasswordData) => {
     demoMessage.set(`Password reset email sent to: ${data.email}`)
     setTimeout(() => demoMessage.set(''), 3000)
+    return null
   }
 
   return Stack(
@@ -45,20 +48,17 @@ export const AuthenticationPage = () => {
 
     // Auth container demo
     html.div(
-      attr.class('bu-w-full bu-max-w-md'),
+      attr.class('bu-w-full bu-max-w-md p-4'),
       AuthContainer({
-        initialMode: 'signin',
+        mode: 'signin',
         onSignIn: handleSignIn,
         onSignUp: handleSignUp,
         onResetPassword: handleResetPassword,
-        socialProviders: [
-          { provider: 'google', clientId: 'demo-google-id' },
-          { provider: 'github', clientId: 'demo-github-id' },
-        ],
-        onSocialLogin: async provider => {
-          demoMessage.set(`Social login with ${provider} (demo mode)`)
-          setTimeout(() => demoMessage.set(''), 3000)
-        },
+        socialProviders: [{ provider: 'google' }, { provider: 'github' }],
+        // onSocialLogin: async provider => {
+        //   demoMessage.set(`Social login with ${provider} (demo mode)`)
+        //   setTimeout(() => demoMessage.set(''), 3000)
+        // },
       })
     )
   )

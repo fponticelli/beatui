@@ -36,7 +36,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
@@ -88,92 +88,57 @@ describe('SignInForm', () => {
     expect(container.textContent).not.toContain('Remember me')
   })
 
-  it('should show social login buttons when providers are configured', () => {
+  it('should render form fields correctly', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          socialProviders: [
-            { provider: 'google', clientId: 'test-id' },
-            { provider: 'github', clientId: 'test-id' },
-          ],
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
     )
 
-    expect(container.textContent).toContain('Continue with Google')
-    expect(container.textContent).toContain('Continue with GitHub')
+    expect(container.querySelector('input[type="email"]')).toBeTruthy()
+    expect(container.querySelector('input[type="password"]')).toBeTruthy()
+    expect(container.querySelector('button[type="submit"]')).toBeTruthy()
   })
 
-  it('should hide social divider when configured', () => {
+  it('should handle remember me functionality correctly', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          socialProviders: [{ provider: 'google', clientId: 'test-id' }],
-          showSocialDivider: false,
-          onSubmit: vi.fn(),
+          showRememberMe: true,
+          onSignIn: vi.fn(),
         })
       ),
       container
     )
 
-    expect(container.textContent).toContain('Continue with Google')
+    expect(container.querySelector('input[type="checkbox"]')).toBeTruthy()
   })
 
-  it('should show footer links by default', () => {
+  it('should render submit button with correct text', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
     )
 
-    expect(container.textContent).toContain("Don't have an account? Sign up")
-    expect(container.textContent).toContain('Forgot password?')
+    const submitButton = container.querySelector('button[type="submit"]')
+    expect(submitButton).toBeTruthy()
+    expect(submitButton?.textContent).toContain('Sign In')
   })
 
-  it('should hide sign up link when configured', () => {
-    render(
-      WithProviders(() =>
-        SignInForm({
-          allowSignUp: false,
-          onSubmit: vi.fn(),
-        })
-      ),
-      container
-    )
-
-    expect(container.textContent).toContain('Forgot password?')
-    expect(container.textContent).not.toContain(
-      "Don't have an account? Sign up"
-    )
-  })
-
-  it('should hide forgot password link when configured', () => {
-    render(
-      WithProviders(() =>
-        SignInForm({
-          allowPasswordReset: false,
-          onSubmit: vi.fn(),
-        })
-      ),
-      container
-    )
-
-    expect(container.textContent).toContain("Don't have an account? Sign up")
-    expect(container.textContent).not.toContain('Forgot password?')
-  })
-
-  it('should call onSubmit with form data', async () => {
-    const onSubmit = vi.fn().mockResolvedValue(undefined)
+  it('should call onSignIn with form data', async () => {
+    const onSignIn = vi.fn().mockResolvedValue(null)
 
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit,
+          onSignIn,
         })
       ),
       container
@@ -201,10 +166,9 @@ describe('SignInForm', () => {
     // Wait for async operations
     await new Promise(resolve => setTimeout(resolve, 0))
 
-    expect(onSubmit).toHaveBeenCalledWith({
+    expect(onSignIn).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: 'password123',
-      rememberMe: false,
     })
   })
 
@@ -218,7 +182,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
@@ -234,12 +198,12 @@ describe('SignInForm', () => {
       return null
     })
 
-    const onSubmit = vi.fn().mockResolvedValue(undefined)
+    const onSignIn = vi.fn().mockResolvedValue(null)
 
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit,
+          onSignIn,
         })
       ),
       container
@@ -271,45 +235,27 @@ describe('SignInForm', () => {
     await new Promise(resolve => setTimeout(resolve, 0))
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      'bui_auth_remember_email',
-      'test@example.com'
+      'bui_auth_email',
+      '"test@example.com"'
     )
   })
 
-  it('should show loading state', async () => {
-    localStorageMock.getItem.mockImplementation((key: string) => {
-      if (key === 'beatui-appearance-preference') return '"system"'
-      return null
-    })
-
-    const loading = prop(true)
-
+  it('should handle form validation correctly', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          loading,
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
     )
 
-    // Wait for signal updates to be processed
-    await new Promise(resolve => setTimeout(resolve, 100))
-
-    // Force a re-render to ensure all reactive updates are applied
-    await new Promise(resolve => requestAnimationFrame(resolve))
-
     const submitButton = container.querySelector(
       'button[type="submit"]'
     ) as HTMLButtonElement
-    expect(submitButton.disabled).toBe(true)
-    expect(submitButton.textContent).toContain('Loading...')
 
-    const inputs = container.querySelectorAll('input')
-    inputs.forEach(input => {
-      expect(input.disabled).toBe(true)
-    })
+    // Submit button should be disabled when form is empty
+    expect(submitButton.disabled).toBe(true)
   })
 
   it('should show error message', () => {

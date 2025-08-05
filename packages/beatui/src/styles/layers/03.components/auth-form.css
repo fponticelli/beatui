@@ -33,23 +33,6 @@
     color: var(--text-muted-dark);
   }
 
-  /* Error message */
-  .bc-auth-form__error {
-    padding: var(--spacing-md);
-    background-color: var(--color-error-50);
-    border: 1px solid var(--color-error-200);
-    border-radius: var(--radius-md);
-    color: var(--color-error-700);
-    font-size: var(--font-size-sm);
-    text-align: center;
-  }
-
-  .b-dark .bc-auth-form__error {
-    background-color: var(--color-error-950);
-    border-color: var(--color-error-800);
-    color: var(--color-error-300);
-  }
-
   /* Social login section */
   .bc-auth-form__social {
     display: flex;
@@ -175,12 +158,8 @@
     }
   }
 
-  /* High contrast mode support */
   @media (prefers-contrast: high) {
-    .bc-auth-form__error {
-      border-width: 2px;
-    }
-
+    /* High contrast mode support */
     .bc-auth-form__link {
       text-decoration: underline;
       text-decoration-thickness: 2px;

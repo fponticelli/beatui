@@ -18,9 +18,6 @@ import {
   createSocialLoginUrl,
   formatAuthError,
   isBrowser,
-  saveRememberMe,
-  getRememberedEmail,
-  clearRememberedEmail,
 } from '../../../src/components/auth/utils'
 
 // Mock localStorage for testing
@@ -170,54 +167,6 @@ describe('Authentication Utils', () => {
   describe('isBrowser', () => {
     it('should return true in browser environment', () => {
       expect(isBrowser()).toBe(true)
-    })
-  })
-
-  describe('localStorage helpers', () => {
-    beforeEach(() => {
-      localStorageMock.getItem.mockClear()
-      localStorageMock.setItem.mockClear()
-      localStorageMock.removeItem.mockClear()
-    })
-
-    describe('saveRememberMe', () => {
-      it('should save email to localStorage', () => {
-        saveRememberMe('test@example.com')
-        expect(localStorageMock.setItem).toHaveBeenCalledWith(
-          'bui_auth_remember_email',
-          'test@example.com'
-        )
-      })
-    })
-
-    describe('getRememberedEmail', () => {
-      it('should retrieve email from localStorage', () => {
-        localStorageMock.getItem.mockReturnValue('test@example.com')
-
-        const result = getRememberedEmail()
-
-        expect(localStorageMock.getItem).toHaveBeenCalledWith(
-          'bui_auth_remember_email'
-        )
-        expect(result).toBe('test@example.com')
-      })
-
-      it('should return null when no email is stored', () => {
-        localStorageMock.getItem.mockReturnValue(null)
-
-        const result = getRememberedEmail()
-
-        expect(result).toBe(null)
-      })
-    })
-
-    describe('clearRememberedEmail', () => {
-      it('should remove email from localStorage', () => {
-        clearRememberedEmail()
-        expect(localStorageMock.removeItem).toHaveBeenCalledWith(
-          'bui_auth_remember_email'
-        )
-      })
     })
   })
 })

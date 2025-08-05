@@ -103,7 +103,10 @@ export function AuthContainer({
       OneOfValue(currentMode, {
         signin: () =>
           Fragment(
-            html.h2('Sign In'), // TODO translation
+            html.h2(
+              attr.class('bc-auth-form__title'),
+              functionOrReactiveMessage(labels?.signInTitle, t.signInTitle)
+            ),
             socialProviders != null
               ? Fragment(
                   SocialProviders({ providers: socialProviders }),
@@ -131,7 +134,10 @@ export function AuthContainer({
           ),
         signup: () =>
           Fragment(
-            html.h2('Sign Up'), // TODO translation
+            html.h2(
+              attr.class('bc-auth-form__title'),
+              functionOrReactiveMessage(labels?.signUpTitle, t.signUpTitle)
+            ),
             socialProviders != null
               ? Fragment(
                   SocialProviders({ providers: socialProviders }),
@@ -156,7 +162,13 @@ export function AuthContainer({
           ),
         'reset-password': () =>
           Fragment(
-            html.h2('Reset Password'), // TODO translation
+            html.h2(
+              attr.class('bc-auth-form__title'),
+              functionOrReactiveMessage(
+                labels?.resetPasswordTitle,
+                t.resetPasswordTitle
+              )
+            ),
             ResetPasswordForm({
               labels: {
                 backToSignInLink: labels?.backToSignInLink,
