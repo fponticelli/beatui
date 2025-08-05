@@ -9,6 +9,7 @@ import {
   on,
   TNode,
   Use,
+  Value,
   When,
 } from '@tempots/dom'
 import { Button } from '../button'
@@ -79,37 +80,17 @@ export function SignUpForm({
   const confirmPasswordController = controller.field('confirmPassword')
   const acceptTermsController = controller.field('acceptTerms')
 
-  // Handle loading state - disable/enable form based on loading
-  // Set initial state
-  if (isLoading.get()) {
-    controller.disable()
-    nameController.disable()
-    emailController.disable()
-    passwordController.disable()
-    confirmPasswordController.disable()
-  }
-
   // Listen for loading state changes and update controller accordingly
   const unsubscribe = isLoading.on(loading => {
     if (loading) {
       controller.disable()
-      nameController.disable()
-      emailController.disable()
-      passwordController.disable()
-      confirmPasswordController.disable()
     } else {
       controller.enable()
-      nameController.enable()
-      emailController.enable()
-      passwordController.enable()
-      confirmPasswordController.enable()
     }
   })
 
   // Clean up the subscription when the component is disposed
-  controller.onDispose(() => {
-    unsubscribe()
-  })
+  controller.onDispose(unsubscribe)
 
   // Handle form submission
   const handleSubmit = async (e: Event) => {
@@ -129,8 +110,10 @@ export function SignUpForm({
     const formData = controller.value.value
 
     // Additional validation check - ensure required fields are not empty
-    const isConfirmPasswordRequired = showConfirmPassword !== false
-    const isAcceptTermsRequired = showAcceptTermsAndConditions !== false
+    const isConfirmPasswordRequired =
+      Value.get(showConfirmPassword ?? true) !== false
+    const isAcceptTermsRequired =
+      Value.get(showAcceptTermsAndConditions ?? true) !== false
 
     if (
       !formData.email ||
@@ -168,54 +151,52 @@ export function SignUpForm({
     onModeChange?.(mode)
   }
 
-  return html.div(
-    attr.class('bc-auth-form bc-signup-form'),
+  return Use(AuthI18n, t =>
+    html.div(
+      attr.class('bc-auth-form bc-signup-form'),
 
-    // Form title
-    Use(AuthI18n, t =>
+      // Form title
       html.h2(
         attr.class('bc-auth-form__title'),
         functionOrReactiveMessage(labels?.signUpTitle, t.signUpTitle)
-      )
-    ),
+      ),
 
-    // Error message
-    When(
-      errorMessage.map(msg => !!msg),
-      () =>
-        html.div(
-          attr.class('bc-auth-form__error'),
-          errorMessage.map(msg => msg || '')
+      // Error message
+      When(
+        errorMessage.map(msg => !!msg),
+        () =>
+          html.div(
+            attr.class('bc-auth-form__error'),
+            errorMessage.map(msg => msg || '')
+          )
+      ),
+
+      // Social login buttons
+      NotEmpty(socialProviders ?? [], providers =>
+        Stack(
+          attr.class('bc-auth-form__social'),
+          SocialLoginButtons({
+            providers,
+            onProviderClick: handleSocialLogin,
+            loading: isLoading,
+            disabled: isLoading,
+          }),
+
+          // Divider
+          When(showSocialDivider !== false, () => AuthDivider())
         )
-    ),
+      ),
 
-    // Social login buttons
-    NotEmpty(socialProviders ?? [], providers =>
-      Stack(
-        attr.class('bc-auth-form__social'),
-        SocialLoginButtons({
-          providers,
-          onProviderClick: handleSocialLogin,
-          loading: isLoading,
-          disabled: isLoading,
-        }),
+      // Registration form
+      html.form(
+        attr.class('bc-auth-form__form'),
+        on.submit(handleSubmit),
 
-        // Divider
-        When(showSocialDivider !== false, () => AuthDivider())
-      )
-    ),
+        Stack(
+          attr.class('bc-auth-form__fields'),
 
-    // Registration form
-    html.form(
-      attr.class('bc-auth-form__form'),
-      on.submit(handleSubmit),
-
-      Stack(
-        attr.class('bc-auth-form__fields'),
-
-        // Name field (optional)
-        When(showNameField !== false, () =>
-          Use(AuthI18n, t =>
+          // Name field (optional)
+          When(showNameField !== false, () =>
             TextControl({
               controller: nameController.transform(
                 v => v ?? '',
@@ -223,40 +204,33 @@ export function SignUpForm({
               ),
               label: functionOrReactiveMessage(labels?.nameLabel, t.nameLabel),
             })
-          )
-        ),
+          ),
 
-        // Email field
-        Use(AuthI18n, t =>
+          // Email field
           EmailControl({
             controller: emailController,
             label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
-          })
-        ),
-
-        // Password field
-        Use(AuthI18n, t =>
+          }),
+          // Password field
           PasswordControl({
             controller: passwordController,
             label: functionOrReactiveMessage(
               labels?.passwordLabel,
               t.passwordLabel
             ),
-          })
-        ),
+          }),
 
-        // Password strength indicator
-        When(showPasswordStrength !== false, () =>
-          PasswordStrengthIndicator({
-            password: passwordController.value,
-            rules: passwordRules_,
-            showLabel: true,
-          })
-        ),
+          // Password strength indicator
+          When(showPasswordStrength !== false, () =>
+            PasswordStrengthIndicator({
+              password: passwordController.value,
+              rules: passwordRules_,
+              showLabel: true,
+            })
+          ),
 
-        // Confirm password field
-        When(showConfirmPassword !== false, () =>
-          Use(AuthI18n, t =>
+          // Confirm password field
+          When(showConfirmPassword !== false, () =>
             PasswordControl({
               controller: confirmPasswordController,
               label: functionOrReactiveMessage(
@@ -264,12 +238,10 @@ export function SignUpForm({
                 t.confirmPasswordLabel
               ),
             })
-          )
-        ),
+          ),
 
-        // Terms acceptance checkbox
-        When(showAcceptTermsAndConditions !== false, () =>
-          Use(AuthI18n, t =>
+          // Terms acceptance checkbox
+          When(showAcceptTermsAndConditions !== false, () =>
             html.div(
               attr.class('bc-auth-form__terms'),
               html.label(
@@ -294,11 +266,9 @@ export function SignUpForm({
               )
             )
           )
-        )
-      ),
+        ),
 
-      // Submit button
-      Use(AuthI18n, t =>
+        // Submit button
         Button(
           {
             type: 'submit',
@@ -317,12 +287,10 @@ export function SignUpForm({
               functionOrReactiveMessage(labels?.signUpButton, t.signUpButton)
           )
         )
-      )
-    ),
+      ),
 
-    // Footer links
-    When(showAlreadyHaveAccountLink !== false, () =>
-      Use(AuthI18n, t =>
+      // Footer links
+      When(showAlreadyHaveAccountLink !== false, () =>
         html.div(
           attr.class('bc-auth-form__footer'),
 
