@@ -34,7 +34,6 @@ const ja = {
 
   // Common
   orDivider: () => 'または',
-  loading: () => '読み込み中...',
   error: () => 'エラーが発生しました',
   required: () => '必須',
 }

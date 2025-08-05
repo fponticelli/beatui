@@ -3,7 +3,7 @@ import { render, prop } from '@tempots/dom'
 import { TextControl } from '../../src/components/form/control/text-control'
 import { WithProviders } from '../helpers/test-providers'
 import { Controller } from '../../src/components/form/controller/controller'
-import { ValidationResult } from '../../src/components/form/controller/validation-result'
+import { Validation } from '../../src/components/form/controller/controller-validation'
 
 describe('Control Components Horizontal Layout', () => {
   let container: HTMLElement
@@ -20,7 +20,7 @@ describe('Control Components Horizontal Layout', () => {
   describe('TextControl', () => {
     it('should support horizontal layout', async () => {
       const value = prop('initial value')
-      const status = prop<ValidationResult>({ type: 'Valid' })
+      const status = prop<Validation>({ type: 'Valid' })
       const disabled = prop(false)
       const controller = new Controller([], () => {}, value, status, {
         disabled,
@@ -53,7 +53,7 @@ describe('Control Components Horizontal Layout', () => {
 
     it('should default to vertical layout when horizontal is not specified', async () => {
       const value = prop('initial value')
-      const status = prop<ValidationResult>({ type: 'Valid' })
+      const status = prop<Validation>({ type: 'Valid' })
       const disabled = prop(false)
       const controller = new Controller([], () => {}, value, status, {
         disabled,
@@ -85,7 +85,7 @@ describe('Control Components Horizontal Layout', () => {
 
     it('should support horizontal layout with reactive value', async () => {
       const value = prop('initial value')
-      const status = prop<ValidationResult>({ type: 'Valid' })
+      const status = prop<Validation>({ type: 'Valid' })
       const disabled = prop(false)
       const controller = new Controller([], () => {}, value, status, {
         disabled,

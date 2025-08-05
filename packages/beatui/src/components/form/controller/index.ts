@@ -1,5 +1,5 @@
 export * from '../control/ensure-control'
 export * from '../control/list-control'
 export * from './path'
-export * from './validation-result'
+export * from './controller-validation'
 export * from './controller'

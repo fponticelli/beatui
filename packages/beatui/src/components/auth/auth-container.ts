@@ -6,22 +6,27 @@ import {
   computedOf,
   prop,
   TNode,
-  When,
   Value,
   OnDispose,
+  OneOfValue,
+  Fragment,
+  on,
+  Use,
 } from '@tempots/dom'
 import { html } from '@tempots/dom'
 import {
   AuthContainerOptions,
+  AuthDivider,
   AuthMode,
-  SignInData,
-  SignUpData,
-  ResetPasswordData,
+  functionOrReactiveMessage,
 } from './index'
 import { SignInForm } from './signin-form'
 import { SignUpForm } from './signup-form'
 import { ResetPasswordForm } from './reset-password-form'
 import { Modal, ModalContentOptions } from '../overlay'
+import { SocialProviders } from './social-providers'
+import { AuthI18n } from '@/auth-i18n'
+import { Stack } from '../layout'
 
 export function AuthContainer({
   mode: initialMode,
@@ -30,18 +35,13 @@ export function AuthContainer({
   passwordRules,
   showRememberMe,
   showSocialDivider,
-  allowSignUp,
-  allowPasswordReset,
   showPasswordStrength,
   labels,
   onSignIn,
   onSignUp,
   onResetPassword,
   onModeChange,
-  onSocialLogin,
-  onSubmitSignIn,
-  onSubmitSignUp,
-  onSubmitResetPassword,
+  // onSocialLogin,
 }: AuthContainerOptions): TNode {
   // Current mode state
   const currentMode =
@@ -49,76 +49,7 @@ export function AuthContainer({
       ? Value.deriveProp(initialMode)
       : prop<AuthMode>('signin')
 
-  // Loading and error states for each form
-  const signInLoading = prop(false)
-  const signUpLoading = prop(false)
-  const resetPasswordLoading = prop(false)
-
-  const signInError = prop<string | null>(null)
-  const signUpError = prop<string | null>(null)
-  const resetPasswordError = prop<string | null>(null)
-
-  // Handle mode changes
-  const handleModeChange = (mode: AuthMode) => {
-    currentMode.set(mode)
-  }
-
-  const disposeModeChange = currentMode.on(mode => {
-    signInLoading.set(false)
-    signUpLoading.set(false)
-    resetPasswordLoading.set(false)
-    onModeChange?.(mode)
-  })
-
-  // Handle sign in
-  const handleSignIn = async (data: SignInData) => {
-    signInLoading.set(true)
-    signInError.set(null)
-
-    try {
-      if (onSignIn) {
-        await onSignIn(data)
-      }
-    } catch (error) {
-      signInError.set(error instanceof Error ? error.message : 'Sign in failed')
-    } finally {
-      signInLoading.set(false)
-    }
-  }
-
-  // Handle sign up
-  const handleSignUp = async (data: SignUpData) => {
-    signUpLoading.set(true)
-    signUpError.set(null)
-
-    try {
-      if (onSignUp) {
-        await onSignUp(data)
-      }
-    } catch (error) {
-      signUpError.set(error instanceof Error ? error.message : 'Sign up failed')
-    } finally {
-      signUpLoading.set(false)
-    }
-  }
-
-  // Handle reset password
-  const handleResetPassword = async (data: ResetPasswordData) => {
-    resetPasswordLoading.set(true)
-    resetPasswordError.set(null)
-
-    try {
-      if (onResetPassword) {
-        await onResetPassword(data)
-      }
-    } catch (error) {
-      resetPasswordError.set(
-        error instanceof Error ? error.message : 'Reset password failed'
-      )
-    } finally {
-      resetPasswordLoading.set(false)
-    }
-  }
+  currentMode.on(mode => onModeChange?.(mode))
 
   // Container classes
   const containerClasses = computedOf(
@@ -133,90 +64,113 @@ export function AuthContainer({
     return classes.join(' ')
   })
 
-  return html.div(
-    OnDispose(disposeModeChange),
-    attr.class(containerClasses),
+  return Use(AuthI18n, t => {
+    function HasAccountLink() {
+      return html.button(
+        attr.type('button'),
+        attr.class('bc-auth-form__link'),
+        on.click(() => currentMode.set('signin')),
+        functionOrReactiveMessage(labels?.hasAccountLink, t.hasAccountLink)
+      )
+    }
 
-    // Sign In Form
-    When(
-      currentMode.map(mode => mode === 'signin'),
-      () =>
-        SignInForm({
-          allowPasswordReset,
-          allowSignUp,
-          onSignIn: handleSignIn,
-          onSubmit: onSubmitSignIn,
-          onSocialLogin,
-          socialProviders,
-          showRememberMe,
-          passwordRules,
-          showSocialDivider,
-          labels: {
-            signInTitle: labels?.signInTitle,
-            emailLabel: labels?.emailLabel,
-            passwordLabel: labels?.passwordLabel,
-            rememberMeLabel: labels?.rememberMeLabel,
-            loading: labels?.loading,
-            signInButton: labels?.signInButton,
-            forgotPasswordLink: labels?.forgotPasswordLink,
-            noAccountLink: labels?.noAccountLink,
-          },
-          onModeChange: handleModeChange,
-          loading: signInLoading,
-          error: signInError,
-        })
-    ),
+    function NoAccountLink() {
+      return html.button(
+        attr.type('button'),
+        attr.class('bc-auth-form__link'),
+        on.click(() => currentMode.set('signup')),
+        functionOrReactiveMessage(labels?.noAccountLink, t.noAccountLink)
+      )
+    }
 
-    // Sign Up Form
-    When(
-      currentMode.map(mode => mode === 'signup'),
-      () =>
-        SignUpForm({
-          labels: {
-            signUpTitle: labels?.signUpTitle,
-            nameLabel: labels?.nameLabel,
-            emailLabel: labels?.emailLabel,
-            passwordLabel: labels?.passwordLabel,
-            confirmPasswordLabel: labels?.confirmPasswordLabel,
-            acceptTermsLabel: labels?.acceptTermsLabel,
-            loading: labels?.loading,
-            signUpButton: labels?.signUpButton,
-            hasAccountLink: labels?.hasAccountLink,
-          },
-          onSignUp: handleSignUp,
-          onModeChange: handleModeChange,
-          onSocialLogin,
-          onSubmit: onSubmitSignUp,
-          passwordRules,
-          socialProviders,
-          showPasswordStrength,
-          showSocialDivider,
-          loading: signUpLoading,
-          error: signUpError,
-        })
-    ),
+    function ForgotPasswordLink() {
+      return html.button(
+        attr.type('button'),
+        attr.class('bc-auth-form__link'),
+        on.click(() => currentMode.set('reset-password')),
+        functionOrReactiveMessage(
+          labels?.forgotPasswordLink,
+          t.forgotPasswordLink
+        )
+      )
+    }
 
-    // Reset Password Form
-    When(
-      currentMode.map(mode => mode === 'reset-password'),
-      () =>
-        ResetPasswordForm({
-          labels: {
-            backToSignInLink: labels?.backToSignInLink,
-            emailLabel: labels?.emailLabel,
-            resetPasswordTitle: labels?.resetPasswordTitle,
-            loading: labels?.loading,
-            resetPasswordButton: labels?.resetPasswordButton,
-            resetPasswordDescription: labels?.resetPasswordDescription,
-          },
-          onSubmit: onSubmitResetPassword,
-          onResetPassword: handleResetPassword,
-          onModeChange: handleModeChange,
-          loading: resetPasswordLoading,
-          error: resetPasswordError,
-        })
+    return html.div(
+      attr.class(containerClasses),
+      attr.class('bc-auth-form'),
+      OnDispose(currentMode.dispose),
+
+      OneOfValue(currentMode, {
+        signin: () =>
+          Fragment(
+            html.h2('Sign In'), // TODO translation
+            socialProviders != null
+              ? Fragment(
+                  SocialProviders({ providers: socialProviders }),
+                  showSocialDivider !== false ? AuthDivider() : null
+                )
+              : null,
+            SignInForm({
+              onSignIn,
+              showRememberMe,
+              passwordRules,
+              labels: {
+                emailLabel: labels?.emailLabel,
+                passwordLabel: labels?.passwordLabel,
+                rememberMeLabel: labels?.rememberMeLabel,
+                signInButton: labels?.signInButton,
+                forgotPasswordLink: labels?.forgotPasswordLink,
+                noAccountLink: labels?.noAccountLink,
+              },
+            }),
+            Stack(
+              attr.class('bc-auth-form__footer'),
+              NoAccountLink(),
+              ForgotPasswordLink()
+            )
+          ),
+        signup: () =>
+          Fragment(
+            html.h2('Sign Up'), // TODO translation
+            socialProviders != null
+              ? Fragment(
+                  SocialProviders({ providers: socialProviders }),
+                  showSocialDivider !== false ? AuthDivider() : null
+                )
+              : null,
+            SignUpForm({
+              labels: {
+                nameLabel: labels?.nameLabel,
+                emailLabel: labels?.emailLabel,
+                passwordLabel: labels?.passwordLabel,
+                confirmPasswordLabel: labels?.confirmPasswordLabel,
+                acceptTermsLabel: labels?.acceptTermsLabel,
+                signUpButton: labels?.signUpButton,
+                hasAccountLink: labels?.hasAccountLink,
+              },
+              onSignUp,
+              passwordRules,
+              showPasswordStrength,
+            }),
+            Stack(attr.class('bc-auth-form__footer'), HasAccountLink())
+          ),
+        'reset-password': () =>
+          Fragment(
+            html.h2('Reset Password'), // TODO translation
+            ResetPasswordForm({
+              labels: {
+                backToSignInLink: labels?.backToSignInLink,
+                emailLabel: labels?.emailLabel,
+                resetPasswordButton: labels?.resetPasswordButton,
+                resetPasswordDescription: labels?.resetPasswordDescription,
+              },
+              onResetPassword,
+            }),
+            Stack(attr.class('bc-auth-form__footer'), HasAccountLink())
+          ),
+      })
     )
-  )
+  })
 }
 
 // Convenience function to create auth container with modal
@@ -246,23 +200,4 @@ export function AuthModal({
       return html.div() // Empty placeholder
     }
   )
-}
-
-// Convenience function to create auth container with specific mode
-export function SignInContainer(
-  options: Omit<AuthContainerOptions, 'initialMode'>
-) {
-  return AuthContainer({ ...options, mode: 'signin' })
-}
-
-export function SignUpContainer(
-  options: Omit<AuthContainerOptions, 'initialMode'>
-) {
-  return AuthContainer({ ...options, mode: 'signup' })
-}
-
-export function ResetPasswordContainer(
-  options: Omit<AuthContainerOptions, 'initialMode'>
-) {
-  return AuthContainer({ ...options, mode: 'reset-password' })
 }

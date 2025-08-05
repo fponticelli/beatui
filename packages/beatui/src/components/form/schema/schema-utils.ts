@@ -1,4 +1,4 @@
-import { InvalidDependencies } from '../controller/validation-result'
+import { ControllerError } from '../controller/controller-validation'
 import { StandardSchemaV1 } from './standard-schema-v1'
 
 export function convertStandardSchemaPathToPath(
@@ -16,7 +16,7 @@ export function convertStandardSchemaPathToPath(
 
 export function convertStandardSchemaIssues(
   issues: readonly StandardSchemaV1.Issue[]
-): InvalidDependencies {
+): ControllerError {
   const topIssues = issues
     .filter(i => i.path == null || i.path.length === 0)
     .map(i => i.message)
@@ -38,13 +38,13 @@ export function convertStandardSchemaIssues(
       if (current.dependencies == null) {
         current.dependencies = {}
       }
-      current.dependencies[last] = { error: i.message }
+      current.dependencies[last] = { message: i.message }
       return acc
-    }, {} as InvalidDependencies)
+    }, {} as ControllerError)
 
   const error = topIssues.join('\n')
   return {
     ...dependencies,
-    error: error != '' ? error : undefined,
+    message: error != '' ? error : undefined,
   }
 }

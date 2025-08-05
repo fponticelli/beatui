@@ -33,7 +33,6 @@ const ru = {
 
   // Common
   orDivider: () => 'или',
-  loading: () => 'Загрузка...',
   error: () => 'Произошла ошибка',
   required: () => 'Обязательно',
 }

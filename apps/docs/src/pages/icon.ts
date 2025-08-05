@@ -91,7 +91,7 @@ export const IconPage = () => {
       )
     ),
     body: Stack(
-      attr.class('bu-space-y-lg'),
+      attr.class('bu-space-y-lg bu-p-4'),
       Group(
         attr.class('bu-gap-4 bu-flex-wrap bu-flex bu-justify-center'),
         ...icons.map(icon => DisplayIcon({ value: icon, size, color }))

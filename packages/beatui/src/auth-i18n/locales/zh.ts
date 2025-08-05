@@ -33,7 +33,6 @@ const zh = {
 
   // Common
   orDivider: () => '或',
-  loading: () => '加载中...',
   error: () => '发生错误',
   required: () => '必填',
 }

@@ -96,7 +96,7 @@ export const ButtonPage = () => {
       )
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-2 bu-p-2'),
+      attr.class('bu-items-start bu-gap-4 bu-p-4'),
       html.table(
         html.thead(
           html.tr(

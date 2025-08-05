@@ -43,13 +43,17 @@ export type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong'
 export interface SignInData {
   email: string
   password: string
-  rememberMe?: boolean
 }
+
+export type SignInFormData = SignInData
 
 export interface SignUpData {
   name?: string
   email: string
   password: string
+}
+
+export interface SignUpFormData extends SignUpData {
   confirmPassword: string
   acceptTerms: boolean
 }
@@ -79,145 +83,107 @@ export interface PasswordRules {
   customValidation?: (password: string) => string | null
 }
 
-// Main authentication configuration
-// export interface AuthConfig {
-//   // Social providers
-//   socialProviders?: SocialProviderConfig<unknown>[]
-
-//   // Password validation rules
-//   passwordRules?: PasswordRules
-
-//   // UI customization
-//   showRememberMe?: boolean
-//   showSocialDivider?: boolean
-//   allowSignUp?: boolean
-//   allowPasswordReset?: boolean
-//   showPasswordStrength?: boolean
-
-//   // Event handlers
-//   onSignIn?: (data: SignInData) => Promise<void>
-//   onSignUp?: (data: SignUpData) => Promise<void>
-//   onResetPassword?: (data: ResetPasswordData) => Promise<void>
-//   onModeChange?: (mode: AuthMode) => void
-//   onSocialLogin?: (provider: AuthProviderName) => Promise<void>
-// }
+export interface AuthContainerLabels {
+  signInTitle?: () => string
+  emailLabel?: () => string
+  passwordLabel?: () => string
+  rememberMeLabel?: () => string
+  signInButton?: () => string
+  forgotPasswordLink?: () => string
+  noAccountLink?: () => string
+  acceptTermsLabel?: () => string
+  confirmPasswordLabel?: () => string
+  signUpTitle?: () => string
+  signUpButton?: () => string
+  nameLabel?: () => string
+  hasAccountLink?: () => string
+  resetPasswordTitle?: () => string
+  resetPasswordButton?: () => string
+  resetPasswordDescription?: () => string
+  backToSignInLink?: () => string
+}
 
 // Component-specific options
 export interface AuthContainerOptions {
   mode?: Value<AuthMode>
   className?: Value<string>
-  socialProviders?: Value<AuthProviderInfo[]>
+  socialProviders?: AuthProviderInfo[]
   passwordRules?: PasswordRules
-  showRememberMe?: Value<boolean>
-  showSocialDivider?: Value<boolean>
-  allowSignUp?: Value<boolean>
-  allowPasswordReset?: Value<boolean>
-  showPasswordStrength?: Value<boolean>
-  labels?: {
-    signInTitle?: () => string
-    emailLabel?: () => string
-    passwordLabel?: () => string
-    rememberMeLabel?: () => string
-    loading?: () => string
-    signInButton?: () => string
-    forgotPasswordLink?: () => string
-    noAccountLink?: () => string
-    acceptTermsLabel?: () => string
-    confirmPasswordLabel?: () => string
-    signUpTitle?: () => string
-    signUpButton?: () => string
-    nameLabel?: () => string
-    hasAccountLink?: () => string
-    resetPasswordTitle?: () => string
-    resetPasswordButton?: () => string
-    resetPasswordDescription?: () => string
-    backToSignInLink?: () => string
-  }
-  onSignIn?: (data: SignInData) => Promise<void>
-  onSignUp?: (data: SignUpData) => Promise<void>
-  onResetPassword?: (data: ResetPasswordData) => Promise<void>
+  showRememberMe?: boolean
+  showSocialDivider?: boolean
+  allowSignUp?: boolean
+  allowPasswordReset?: boolean
+  labels?: AuthContainerLabels
+  onSignIn?: (data: SignInData) => Promise<string | null>
+  onSignUp?: (data: SignUpData) => Promise<string | null>
+  onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
   onModeChange?: (mode: AuthMode) => void
-  onSocialLogin?: (provider: AuthProviderName) => Promise<void>
-  onSubmitSignIn?: (data: SignInData) => Promise<void>
-  onSubmitSignUp?: (data: SignUpData) => Promise<void>
-  onSubmitResetPassword?: (data: ResetPasswordData) => Promise<void>
-}
-
-export interface SignInFormOptions {
-  onSubmit?: (data: SignInData) => Promise<void>
-  onModeChange?: (mode: AuthMode) => void
-  onSignIn?: (data: SignInData) => Promise<void>
-  onSocialLogin?: (provider: AuthProviderName) => Promise<void>
-  loading?: Value<boolean>
-  error?: Value<string | null>
-  passwordRules?: PasswordRules
-  labels?: {
-    signInTitle?: () => string
-    emailLabel?: () => string
-    passwordLabel?: () => string
-    rememberMeLabel?: () => string
-    loading?: () => string
-    signInButton?: () => string
-    forgotPasswordLink?: () => string
-    noAccountLink?: () => string
-  }
-  socialProviders?: Value<SocialProviderConfig<unknown>[]>
-  showSocialDivider?: Value<boolean>
-  showRememberMe?: Value<boolean>
-  allowPasswordReset?: Value<boolean>
-  allowSignUp?: Value<boolean>
-}
-
-export interface SignUpFormOptions {
-  onSubmit?: (data: SignUpData) => Promise<void>
-  onModeChange?: (mode: AuthMode) => void
-  loading?: Value<boolean>
-  error?: Value<string | null>
-  passwordRules?: PasswordRules
-  labels?: {
-    signUpTitle?: () => string
-    nameLabel?: () => string
-    emailLabel?: () => string
-    passwordLabel?: () => string
-    confirmPasswordLabel?: () => string
-    acceptTermsLabel?: () => string
-    loading?: () => string
-    signUpButton?: () => string
-    hasAccountLink?: () => string
-  }
-  socialProviders?: Value<AuthProviderInfo[]>
-  showSocialDivider?: Value<boolean>
-  showPasswordStrength?: Value<boolean>
-  onSignUp?: (data: SignUpData) => Promise<void>
-  onSocialLogin?: (provider: AuthProviderName) => Promise<void>
-  // TODO implement
-  showAlreadyHaveAccountLink?: Value<boolean>
-  showNameField?: Value<boolean>
-  showConfirmPassword?: Value<boolean>
-  showAcceptTermsAndConditions?: Value<boolean>
+  // onSocialLogin?: (provider: AuthProviderName) => Promise<void>
+  showPasswordStrength?: boolean
+  showAlreadyHaveAccountLink?: boolean
+  showNameField?: boolean
+  showConfirmPassword?: boolean
+  showAcceptTermsAndConditions?: boolean
   termsAndConditions?: TNode
 }
 
+export interface SocialProvidersOptions {
+  providers: AuthProviderInfo[]
+}
+
+export interface SignInFormLabels {
+  emailLabel?: () => string
+  passwordLabel?: () => string
+  rememberMeLabel?: () => string
+  signInButton?: () => string
+  forgotPasswordLink?: () => string
+  noAccountLink?: () => string
+}
+
+export interface SignInFormOptions {
+  onSignIn?: (data: SignInData) => Promise<string | null>
+  passwordRules?: PasswordRules
+  labels?: SignInFormLabels
+  showRememberMe?: boolean
+}
+
+export interface SignUpFormLabels {
+  nameLabel?: () => string
+  emailLabel?: () => string
+  passwordLabel?: () => string
+  confirmPasswordLabel?: () => string
+  acceptTermsLabel?: () => string
+  signUpButton?: () => string
+  hasAccountLink?: () => string
+}
+
+export interface SignUpFormOptions {
+  passwordRules?: PasswordRules
+  labels?: SignUpFormLabels
+  onSignUp?: (data: SignUpData) => Promise<string | null>
+  showPasswordStrength?: boolean
+  showAlreadyHaveAccountLink?: boolean
+  showNameField?: boolean
+  showConfirmPassword?: boolean
+  showAcceptTermsAndConditions?: boolean
+  termsAndConditions?: TNode
+}
+
+export interface ResetPasswordFormLabels {
+  resetPasswordButton?: () => string
+  resetPasswordDescription?: () => string
+  emailLabel?: () => string
+  backToSignInLink?: () => string
+}
+
 export interface ResetPasswordFormOptions {
-  onSubmit?: (data: ResetPasswordData) => Promise<void>
-  onModeChange?: (mode: AuthMode) => void
-  onResetPassword?: (data: ResetPasswordData) => Promise<void>
-  loading?: Value<boolean>
-  error?: Value<string | null>
-  labels?: {
-    resetPasswordTitle?: () => string
-    resetPasswordButton?: () => string
-    resetPasswordDescription?: () => string
-    emailLabel?: () => string
-    loading?: () => string
-    backToSignInLink?: () => string
-  }
+  onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
+  labels?: ResetPasswordFormLabels
 }
 
 export interface SocialLoginButtonOptions {
   provider: Value<AuthProviderName>
   onClick?: () => Promise<void>
-  loading?: Value<boolean>
   disabled?: Value<boolean>
   size?: Value<ControlSize>
   flow?: Value<'redirect' | 'popup' | undefined>

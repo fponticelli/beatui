@@ -25,7 +25,7 @@ export const CollapsePage = () => {
       )
     ),
     body: Stack(
-      attr.class('bu-items-center bu-gap-2 bu-p-2'),
+      attr.class('bu-items-center bu-gap-4 bu-p-4'),
       Group(
         Stack(
           style.width('400px'),

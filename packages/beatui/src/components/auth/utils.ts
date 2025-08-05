@@ -3,6 +3,8 @@
 
 import { computedOf, GetValueTypes, prop, Signal, Value } from '@tempots/dom'
 import { AuthProviderName, PasswordRules } from './types'
+import { taskToValidation } from '../form'
+import { Validation } from '@tempots/std'
 
 // Provider information and utilities
 export const providerInfo: Record<
@@ -258,28 +260,6 @@ export function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined'
 }
 
-export const REMEMBER_EMAIL_KEY = 'bui_auth_remember_email'
-
-// Local storage helpers for remember me functionality
-export function saveRememberMe(email: string): void {
-  if (isBrowser() && typeof window.localStorage !== 'undefined') {
-    window.localStorage.setItem(REMEMBER_EMAIL_KEY, email)
-  }
-}
-
-export function getRememberedEmail(): string | null {
-  if (isBrowser() && typeof window.localStorage !== 'undefined') {
-    return window.localStorage.getItem(REMEMBER_EMAIL_KEY)
-  }
-  return null
-}
-
-export function clearRememberedEmail(): void {
-  if (isBrowser() && typeof window.localStorage !== 'undefined') {
-    window.localStorage.removeItem(REMEMBER_EMAIL_KEY)
-  }
-}
-
 export function functionOrReactiveMessage<T extends Value<unknown>[]>(
   fn: undefined | ((...args: GetValueTypes<T>) => string),
   reactiveFn: (...args: T) => Signal<string>,
@@ -293,4 +273,33 @@ export function functionOrReactiveMessage<T extends Value<unknown>[]>(
     return prop((fn as () => string)())
   }
   return computedOf(...args)(fn as (...args: GetValueTypes<T>) => string)
+}
+
+export function requestToControllerValidation<T>({
+  task,
+  message,
+  onStart,
+  onEnd,
+}: {
+  task: undefined | ((value: T) => Promise<string | null>)
+  message: string
+  onStart?: () => void
+  onEnd?: () => void
+}) {
+  return async (value: T) => {
+    onStart?.()
+    const result = await taskToValidation({
+      task: task != null ? () => task(value) : async () => null,
+      errorMessage: message,
+      errorPath: ['root'],
+      validation: result => {
+        if (result != null) {
+          return Validation.invalid({ message: result })
+        }
+        return Validation.valid
+      },
+    })
+    onEnd?.()
+    return result
+  }
 }

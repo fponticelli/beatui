@@ -33,7 +33,6 @@ const pt = {
 
   // Common
   orDivider: () => 'ou',
-  loading: () => 'Carregando...',
   error: () => 'Ocorreu um erro',
   required: () => 'Obrigatório',
 }

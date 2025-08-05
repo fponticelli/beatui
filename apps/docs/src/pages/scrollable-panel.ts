@@ -17,7 +17,7 @@ export const ScrollablePanelPage = () => {
   )
 
   const body = html.div(
-    attr.class('bu-p-2'),
+    attr.class('bu-p-4'),
     html.h4(attr.class('bu-font-medium bu-mb-2'), 'Scrollable Content'),
     ...Array.from({ length: 20 }, (_, i) =>
       html.p(

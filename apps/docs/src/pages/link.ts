@@ -28,7 +28,7 @@ export const LinkPage = () => {
       )
     ),
     body: Stack(
-      attr.class('bu-gap-6 bu-p-6'),
+      attr.class('bu-gap-4 bu-p-4'),
 
       // Basic example
       html.div(

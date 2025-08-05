@@ -1,21 +1,21 @@
 import { computedOf, prop, Signal } from '@tempots/dom'
 import { Path, PathSegment, pathToString } from './path'
 import {
-  InvalidDependencies,
-  makeMapValidationResult,
-  ValidationResult,
-} from './validation-result'
+  ControllerError,
+  makeMapValidation,
+  ControllerValidation,
+} from './controller-validation'
 import { strictEqual } from '@tempots/std'
 
-export class Controller<In> {
+export class Controller<T> {
   readonly path: Path
-  readonly change: (value: In) => void
-  readonly value: Signal<In>
-  readonly status: Signal<ValidationResult>
+  readonly change: (value: T) => void
+  readonly value: Signal<T>
+  readonly status: Signal<ControllerValidation>
   readonly error: Signal<undefined | string>
   readonly hasError: Signal<boolean>
   readonly dependencyErrors: Signal<
-    undefined | Record<string | number, InvalidDependencies>
+    undefined | Record<string | number, ControllerError>
   >
   readonly #local = {
     disabled: prop(false),
@@ -26,11 +26,13 @@ export class Controller<In> {
   readonly disabled: Signal<boolean>
   readonly #disposeCallbacks: (() => void)[] = []
 
+  readonly disabledOrHasErrors: Signal<boolean>
+
   constructor(
     path: Path,
-    change: (value: In) => void,
-    value: Signal<In>,
-    status: Signal<ValidationResult>,
+    change: (value: T) => void,
+    value: Signal<T>,
+    status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
     }
@@ -39,10 +41,12 @@ export class Controller<In> {
     this.change = change
     this.value = value
     this.status = status
-    this.error = status.map(s => (s.type === 'Invalid' ? s.error : undefined))
+    this.error = status.map(s =>
+      s.type === 'invalid' ? s.error.message : undefined
+    )
     this.hasError = this.error.map(e => e != null)
     this.dependencyErrors = status.map(s =>
-      s.type === 'Invalid' ? s.dependencies : undefined
+      s.type === 'invalid' ? s.error.dependencies : undefined
     )
     this.parent = parent
     this.disabled = computedOf(
@@ -50,12 +54,18 @@ export class Controller<In> {
       parent.disabled
     )((local, parent) => local || parent)
 
+    this.disabledOrHasErrors = computedOf(
+      this.disabled,
+      this.hasError
+    )((d, e) => d || e)
+
     // Register disposal of internal resources
     this.onDispose(() => {
       this.#local.disabled.dispose()
       this.disabled.dispose()
       this.error.dispose()
       this.dependencyErrors.dispose()
+      this.disabledOrHasErrors.dispose()
     })
   }
 
@@ -79,35 +89,35 @@ export class Controller<In> {
     this.#disposeCallbacks.length = 0
   }
 
-  readonly disable = () => {
-    this.#local.disabled.set(true)
+  readonly setDisabled = (disabled: boolean) => {
+    this.#local.disabled.set(disabled)
   }
 
-  readonly enable = () => {
-    this.#local.disabled.set(false)
-  }
+  readonly disable = () => this.setDisabled(true)
 
-  readonly array = (equals: (a: In, b: In) => boolean = strictEqual) => {
+  readonly enable = () => this.setDisabled(false)
+
+  readonly array = (equals: (a: T, b: T) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new ArrayController<In extends any[] ? In : never>(
+    return new ArrayController<T extends any[] ? T : never>(
       this.path,
       this.change,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.value as unknown as Signal<In extends any[] ? In : never>,
+      this.value as unknown as Signal<T extends any[] ? T : never>,
       this.status,
       this.parent,
       equals
     )
   }
 
-  readonly object = (equals: (a: In, b: In) => boolean = strictEqual) => {
+  readonly object = (equals: (a: T, b: T) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new ObjectController<In extends Record<string, any> ? In : never>(
+    return new ObjectController<T extends Record<string, any> ? T : never>(
       this.path,
       this.change,
       this.value as unknown as Signal<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        In extends Record<string, any> ? In : never
+        T extends Record<string, any> ? T : never
       >,
       this.status,
       this.parent,
@@ -116,8 +126,8 @@ export class Controller<In> {
   }
 
   readonly transform = <Out>(
-    transform: (value: In) => Out,
-    untransform: (value: Out) => In,
+    transform: (value: T) => Out,
+    untransform: (value: Out) => T,
     subpath: PathSegment[] = [],
     equals: (a: Out, b: Out) => boolean = strictEqual
   ) => {
@@ -125,31 +135,31 @@ export class Controller<In> {
       [...this.path, ...subpath],
       (value: Out) => this.change(untransform(value)),
       this.value.map(transform, equals),
-      this.status.map(makeMapValidationResult(subpath)),
+      this.status.map(makeMapValidation(subpath)),
       this.parent
     )
   }
 }
 
 export class ObjectController<
-  In extends Record<string, In[keyof In]>,
-> extends Controller<In> {
-  readonly #controllers = new Map<keyof In, Controller<unknown>>()
+  T extends Record<keyof T, T[keyof T]>,
+> extends Controller<T> {
+  readonly #controllers = new Map<keyof T, Controller<unknown>>()
 
   constructor(
     path: Path,
-    change: (value: In) => void,
-    value: Signal<In>,
-    status: Signal<ValidationResult>,
+    change: (value: T) => void,
+    value: Signal<T>,
+    status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
     },
-    equals: (a: In, b: In) => boolean
+    equals: (a: T, b: T) => boolean
   ) {
     super(
       path,
       change,
-      value.map(v => (v == null ? {} : v) as In, equals),
+      value.map(v => (v == null ? {} : v) as T, equals),
       status,
       parent
     )
@@ -163,11 +173,11 @@ export class ObjectController<
     })
   }
 
-  readonly field = <K extends keyof In & string>(field: K) => {
+  readonly field = <K extends keyof T & string>(field: K) => {
     if (this.#controllers.has(field)) {
-      return this.#controllers.get(field)! as Controller<In[K]>
+      return this.#controllers.get(field)! as Controller<T[K]>
     }
-    const onChange = async (value: In[K]) => {
+    const onChange = async (value: T[K]) => {
       this.change({
         ...this.value.value,
         [field]: value,
@@ -176,8 +186,8 @@ export class ObjectController<
     const controller = new Controller(
       [...this.path, field],
       onChange,
-      this.value.map((v: In) => v[field] as In[K]),
-      this.status.map(makeMapValidationResult([field])),
+      this.value.map((v: T) => v[field] as T[K]),
+      this.status.map(makeMapValidation([field])),
       { disabled: this.disabled }
     )
     this.#controllers.set(field, controller as Controller<unknown>)
@@ -185,21 +195,21 @@ export class ObjectController<
   }
 }
 
-export class ArrayController<In extends unknown[]> extends Controller<In> {
-  readonly #controllers = new Array<Controller<In[number]>>()
+export class ArrayController<T extends unknown[]> extends Controller<T> {
+  readonly #controllers = new Array<Controller<T[number]>>()
   readonly length: Signal<number>
 
   constructor(
     path: Path,
-    change: (value: In) => void,
-    value: Signal<In>,
-    status: Signal<ValidationResult>,
+    change: (value: T) => void,
+    value: Signal<T>,
+    status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
     },
-    equals: (a: In, b: In) => boolean
+    equals: (a: T, b: T) => boolean
   ) {
-    const arr = value.map(v => (v == null ? [] : v) as In, equals)
+    const arr = value.map(v => (v == null ? [] : v) as T, equals)
     super(path, change, arr, status, parent)
     const cancel = arr.on(v => {
       const diff = this.#controllers.length - v.length
@@ -223,26 +233,26 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
 
   readonly item = (index: number) => {
     if (this.#controllers[index]) {
-      return this.#controllers[index] as Controller<In[number]>
+      return this.#controllers[index] as Controller<T[number]>
     }
-    const onChange = async (value: In[number]) => {
-      const copy = this.value.value.slice() as In
+    const onChange = async (value: T[number]) => {
+      const copy = this.value.value.slice() as T
       copy[index] = value
       this.change(copy)
     }
     const controller = new Controller(
       [...this.path, index],
       onChange,
-      this.value.map((v: In) => v[index] as In[number]),
-      this.status.map(makeMapValidationResult([index])),
+      this.value.map((v: T) => v[index] as T[number]),
+      this.status.map(makeMapValidation([index])),
       { disabled: this.disabled }
     )
     this.#controllers[index] = controller
     return controller
   }
 
-  readonly push = (...value: In[number][]) => {
-    this.change([...this.value.value, ...value] as In)
+  readonly push = (...value: T[number][]) => {
+    this.change([...this.value.value, ...value] as T)
   }
 
   readonly pop = () => {
@@ -253,8 +263,8 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
     this.splice(0, 1)
   }
 
-  readonly unshift = (...value: In) => {
-    this.change([...value, ...this.value.value] as In)
+  readonly unshift = (...value: T) => {
+    this.change([...value, ...this.value.value] as T)
   }
 
   readonly removeAt = (index: number) => {
@@ -262,7 +272,7 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
   }
 
   readonly splice = (start: number, deleteCount?: number) => {
-    const copy = this.value.value.slice() as In
+    const copy = this.value.value.slice() as T
     copy.splice(start, deleteCount)
     this.change(copy)
   }
@@ -270,7 +280,7 @@ export class ArrayController<In extends unknown[]> extends Controller<In> {
   readonly move = (from: number, to: number, length: number = 1) => {
     if (length < 1) return
     if (from === to) return
-    const copy = this.value.value.slice() as In
+    const copy = this.value.value.slice() as T
     const items = copy.splice(from, length)
     copy.splice(to, 0, ...items)
     this.change(copy)

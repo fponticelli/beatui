@@ -10,7 +10,7 @@ import {
   validateEmail,
   validatePassword,
 } from '../../../src/components/auth/schemas'
-import { defaultPasswordRules } from '../../../src/components/auth/types'
+import { defaultPasswordRules } from '../../../src/components/auth/utils'
 
 describe('Authentication Schemas', () => {
   describe('createSignInSchema', () => {
@@ -165,6 +165,51 @@ describe('Authentication Schemas', () => {
         const error = result.error.errors.find(e => e.path.includes('password'))
         expect(error?.message).toContain('cannot contain the word "password"')
       }
+    })
+
+    it('should handle conditional validation for confirmPassword when showConfirmPassword is false', () => {
+      const schema = createSignUpSchema(defaultPasswordRules, {
+        showConfirmPassword: false,
+      })
+
+      // Should accept empty confirmPassword when not shown
+      const result1 = schema.safeParse({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'ValidPass123!',
+        confirmPassword: '',
+        acceptTerms: true,
+      })
+
+      expect(result1.success).toBe(true)
+
+      // Should also accept any value for confirmPassword when not shown
+      const result2 = schema.safeParse({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'ValidPass123!',
+        confirmPassword: 'anything',
+        acceptTerms: true,
+      })
+
+      expect(result2.success).toBe(true)
+    })
+
+    it('should handle conditional validation for acceptTerms when showAcceptTermsAndConditions is false', () => {
+      const schema = createSignUpSchema(defaultPasswordRules, {
+        showAcceptTermsAndConditions: false,
+      })
+
+      // Should accept false acceptTerms when not shown (defaults to true)
+      const result = schema.safeParse({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'ValidPass123!',
+        confirmPassword: 'ValidPass123!',
+        acceptTerms: false,
+      })
+
+      expect(result.success).toBe(true)
     })
   })
 

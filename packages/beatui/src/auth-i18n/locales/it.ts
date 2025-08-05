@@ -34,7 +34,6 @@ const it = {
 
   // Common
   orDivider: () => 'o',
-  loading: () => 'Caricamento...',
   error: () => 'Si è verificato un errore',
   required: () => 'Obbligatorio',
 }

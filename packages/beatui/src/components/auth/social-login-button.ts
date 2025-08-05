@@ -25,8 +25,6 @@ import { AuthI18n } from '@/auth-i18n/translations'
 export function SocialLoginButton({
   provider,
   onClick,
-  loading,
-  disabled,
   size = 'md',
   name,
   icon,
@@ -54,19 +52,12 @@ export function SocialLoginButton({
     }
   }
 
-  const isLoading = computedOf(loading)(loading => loading ?? false)
-  const isDisabled = computedOf(
-    disabled,
-    isLoading
-  )((disabled, loading) => disabled || loading)
-
   return Button(
     {
       type: 'button',
       variant: 'filled',
       size,
       color,
-      disabled: isDisabled,
       onClick: handleClick,
       roundedness: 'full',
     },
@@ -74,12 +65,6 @@ export function SocialLoginButton({
     attr.class(
       computedOf(provider)((p): string => `bc-social-login-button--${p}`)
     ),
-    attr.class(
-      computedOf(isLoading)((loading): string =>
-        loading ? 'bc-social-login-button--loading' : ''
-      )
-    ),
-
     Group(
       attr.class('bu-items-center bu-w-full'),
       Icon({ icon, size }, attr.class('bu-bg--white bu-rounded-full bu-p-2')),
@@ -110,15 +95,11 @@ export type AuthProviderInfo = {
 export function SocialLoginButtons({
   providers,
   onProviderClick,
-  loading,
-  disabled,
   size = 'md',
   className,
 }: {
   providers: Value<Array<AuthProviderInfo>>
   onProviderClick?: (provider: AuthProviderName) => Promise<void>
-  loading?: Value<boolean>
-  disabled?: Value<boolean>
   size?: Value<ControlSize>
   className?: Value<string>
 }): TNode {
@@ -137,8 +118,6 @@ export function SocialLoginButtons({
             await onProviderClick(item.$.provider.value)
           }
         },
-        loading,
-        disabled,
         size,
       })
     )

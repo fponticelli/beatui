@@ -6,13 +6,14 @@ import {
   boolean,
   object,
   StringValidator,
+  SafeParseResult,
 } from '../form/schema/custom-validation'
 import { StandardSchemaV1 } from '../form/schema/standard-schema-v1'
 import {
   PasswordRules,
-  SignInData,
-  SignUpData,
   ResetPasswordData,
+  SignInFormData,
+  SignUpFormData,
 } from './types'
 import { defaultPasswordRules } from './utils'
 
@@ -78,7 +79,9 @@ export const emailSchema = string()
 // Sign in form schema
 export function createSignInSchema(
   passwordRules?: PasswordRules
-): StandardSchemaV1<SignInData> {
+): StandardSchemaV1<SignInFormData> & {
+  safeParse: (value: unknown) => SafeParseResult<SignInFormData>
+} {
   const passwordSchema = passwordRules
     ? createPasswordSchema(passwordRules)
     : string().refine(value =>
@@ -88,7 +91,7 @@ export function createSignInSchema(
   return object({
     email: emailSchema,
     password: passwordSchema,
-    rememberMe: boolean().optional().default(false),
+    rememberMe: boolean().default(false),
   }).schema()
 }
 
@@ -100,7 +103,9 @@ export function createSignUpSchema(
     showConfirmPassword?: boolean
     showAcceptTermsAndConditions?: boolean
   }
-): StandardSchemaV1<SignUpData> {
+): StandardSchemaV1<SignUpFormData> & {
+  safeParse: (value: unknown) => SafeParseResult<SignUpFormData>
+} {
   const passwordSchema = createPasswordSchema(passwordRules)
   const showNameField = options?.showNameField !== false
   const showConfirmPassword = options?.showConfirmPassword !== false
@@ -115,14 +120,10 @@ export function createSignUpSchema(
     email: emailSchema,
     password: passwordSchema,
     // Always require confirmPassword as string to match SignUpData interface
-    // When not shown, it will be validated as empty string or provided value
+    // When not shown, it should accept any value (including empty string)
     confirmPassword: showConfirmPassword
       ? string().min(1, 'Please confirm your password')
-      : string().refine(value =>
-          value === '' || value.length > 0
-            ? null
-            : 'Confirm password is required'
-        ),
+      : string(), // Accept any string value when not shown
     acceptTerms: showAcceptTermsAndConditions
       ? boolean().refine(
           (val: boolean) => val === true,
@@ -150,7 +151,9 @@ export function createSignUpSchema(
 }
 
 // Reset password form schema
-export const resetPasswordSchema: StandardSchemaV1<ResetPasswordData> = object({
+export const resetPasswordSchema: StandardSchemaV1<ResetPasswordData> & {
+  safeParse: (value: unknown) => SafeParseResult<ResetPasswordData>
+} = object({
   email: emailSchema,
 }).schema()
 
@@ -159,8 +162,6 @@ export const defaultSignInSchema = createSignInSchema()
 export const defaultSignUpSchema = createSignUpSchema()
 
 // Type inference helpers
-export type SignInFormData = SignInData
-export type SignUpFormData = SignUpData
 export type ResetPasswordFormData = ResetPasswordData
 
 // Schema factory functions for dynamic configuration

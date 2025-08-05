@@ -34,7 +34,6 @@ const fr = {
 
   // Common
   orDivider: () => 'ou',
-  loading: () => 'Chargement...',
   error: () => 'Une erreur est survenue',
   required: () => 'Requis',
 }

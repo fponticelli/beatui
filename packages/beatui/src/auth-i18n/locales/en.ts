@@ -33,7 +33,6 @@ const en = {
 
   // Common
   orDivider: () => 'or',
-  loading: () => 'Loading...',
   error: () => 'An error occurred',
   required: () => 'Required',
 }
