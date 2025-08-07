@@ -28,7 +28,7 @@ const fr = {
 
   // Password Strength
   passwordStrengthWeak: () => 'Faible',
-  passwordStrengthFair: () => 'Correct',
+  passwordStrengthFair: () => 'Moyen',
   passwordStrengthGood: () => 'Bon',
   passwordStrengthStrong: () => 'Fort',
 

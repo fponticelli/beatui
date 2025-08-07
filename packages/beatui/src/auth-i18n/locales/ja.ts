@@ -6,7 +6,7 @@ const ja = {
   passwordLabel: () => 'パスワード',
   rememberMeLabel: () => 'ログイン状態を保持',
   forgotPasswordLink: () => 'パスワードをお忘れですか？',
-  noAccountLink: () => 'アカウントをお持ちでない方はこちら',
+  noAccountLink: () => 'アカウント登録はこちら',
 
   // Sign Up
   signUpTitle: () => '新規登録',
@@ -14,13 +14,12 @@ const ja = {
   nameLabel: () => '名前',
   confirmPasswordLabel: () => 'パスワード確認',
   acceptTermsLabel: () => '利用規約に同意します',
-  hasAccountLink: () => 'すでにアカウントをお持ちの方はこちら',
+  hasAccountLink: () => 'ログインはこちら',
 
   // Reset Password
   resetPasswordTitle: () => 'パスワードリセット',
   resetPasswordButton: () => 'パスワードリセット',
-  resetPasswordDescription: () =>
-    'パスワードをリセットするためにメールアドレスを入力してください。',
+  resetPasswordDescription: () => 'メールアドレスを入力してパスワードをリセット',
   backToSignInLink: () => 'ログインに戻る',
 
   // Social Login

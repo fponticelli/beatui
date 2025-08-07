@@ -23,7 +23,7 @@ const ko = {
   backToSignInLink: () => '로그인으로 돌아가기',
 
   // Social Login
-  continueWithProvider: (provider: string) => `${provider}로 계속하기`,
+  continueWithProvider: (provider: string) => `${provider}로 계속`,
 
   // Password Strength
   passwordStrengthWeak: () => '약함',
