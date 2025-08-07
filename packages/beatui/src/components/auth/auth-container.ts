@@ -186,30 +186,17 @@ export function AuthContainer({
 }
 
 // Convenience function to create auth container with modal
-export function AuthModal({
-  isOpen,
-  onClose,
-  ...authOptions
-}: AuthContainerOptions & {
-  isOpen: Value<boolean>
-  onClose?: () => void
-}): TNode {
+export function AuthModal(
+  fn: (open: (options: AuthContainerOptions) => void) => TNode
+): TNode {
   return Modal(
     {
       size: 'sm',
       dismissable: true,
       showCloseButton: true,
-      onClose,
     },
     (open: (content: ModalContentOptions) => void, _close: () => void) => {
-      // Open modal when isOpen becomes true
-      if (Value.get(isOpen)) {
-        open({
-          body: AuthContainer(authOptions),
-        })
-      }
-
-      return html.div() // Empty placeholder
+      return fn(options => open({ body: AuthContainer(options) }))
     }
   )
 }
