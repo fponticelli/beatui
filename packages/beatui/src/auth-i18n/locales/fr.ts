@@ -36,6 +36,9 @@ const fr = {
   orDivider: () => 'ou',
   error: () => 'Une erreur est survenue',
   required: () => 'Requis',
+
+  // Modal
+  authenticationTitle: () => 'Authentification',
 }
 
 export default fr

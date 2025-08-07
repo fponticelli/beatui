@@ -2,6 +2,8 @@ import { html, attr, prop, When } from '@tempots/dom'
 import {
   Stack,
   AuthContainer,
+  AuthModal,
+  Button,
   SignInData,
   SignUpData,
   ResetPasswordData,
@@ -32,7 +34,7 @@ export const AuthenticationPage = () => {
   }
 
   return Stack(
-    attr.class('bu-items-center bu-gap-4'),
+    attr.class('bu-items-center bu-gap-8'),
 
     // Demo message
     When(
@@ -48,14 +50,52 @@ export const AuthenticationPage = () => {
 
     // Auth container demo
     html.div(
-      attr.class('bu-w-full bu-max-w-md p-4'),
-      AuthContainer({
-        mode: 'signin',
-        onSignIn: handleSignIn,
-        onSignUp: handleSignUp,
-        onResetPassword: handleResetPassword,
-        socialProviders: [{ provider: 'google' }, { provider: 'github' }],
-      })
+      html.h2(
+        attr.class('bu-text-xl bu-font-semibold bu-mb-4'),
+        'Auth Container (Direct)'
+      ),
+      html.div(
+        attr.class('bu-w-full bu-max-w-md bu-p-4 bu-border bu-rounded-lg'),
+        AuthContainer({
+          mode: 'signin',
+          onSignIn: handleSignIn,
+          onSignUp: handleSignUp,
+          onResetPassword: handleResetPassword,
+          socialProviders: [{ provider: 'google' }, { provider: 'github' }],
+        })
+      )
+    ),
+
+    // Auth modal demo
+    html.div(
+      html.h2(
+        attr.class('bu-text-xl bu-font-semibold bu-mb-4'),
+        'Auth Modal (Modal Wrapper)'
+      ),
+      html.p(
+        attr.class('bu-text-gray-600 bu-mb-4 bu-text-center'),
+        'Click the button below to open the authentication form in a modal.'
+      ),
+      // @ts-ignore - TypeScript incorrectly infers AuthModal signature, but it works correctly at runtime
+      AuthModal(open =>
+        Button(
+          {
+            variant: 'filled',
+            onClick: () =>
+              open({
+                mode: 'signin',
+                onSignIn: handleSignIn,
+                onSignUp: handleSignUp,
+                onResetPassword: handleResetPassword,
+                socialProviders: [
+                  { provider: 'google' },
+                  { provider: 'github' },
+                ],
+              }),
+          },
+          'Open Authentication Modal'
+        )
+      )
     )
   )
 }

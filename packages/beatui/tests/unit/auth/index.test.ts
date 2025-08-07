@@ -44,6 +44,7 @@ describe('Authentication Module Exports', () => {
 
   it('should export all components', () => {
     expect(AuthModule.AuthContainer).toBeDefined()
+    expect(AuthModule.AuthModal).toBeDefined()
     expect(AuthModule.SignInForm).toBeDefined()
     expect(AuthModule.SignUpForm).toBeDefined()
     expect(AuthModule.ResetPasswordForm).toBeDefined()

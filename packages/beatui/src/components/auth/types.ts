@@ -125,6 +125,7 @@ export interface AuthContainerOptions {
   showConfirmPassword?: boolean
   showAcceptTermsAndConditions?: boolean
   termsAndConditions?: TNode
+  showContainer?: Value<boolean>
 }
 
 export interface SocialProvidersOptions {

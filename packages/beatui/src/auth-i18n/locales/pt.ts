@@ -35,6 +35,9 @@ const pt = {
   orDivider: () => 'ou',
   error: () => 'Ocorreu um erro',
   required: () => 'Obrigatório',
+
+  // Modal
+  authenticationTitle: () => 'Autenticação',
 }
 
 export default pt

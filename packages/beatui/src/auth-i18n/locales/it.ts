@@ -36,6 +36,9 @@ const it = {
   orDivider: () => 'o',
   error: () => 'Si è verificato un errore',
   required: () => 'Obbligatorio',
+
+  // Modal
+  authenticationTitle: () => 'Autenticazione',
 }
 
 export default it

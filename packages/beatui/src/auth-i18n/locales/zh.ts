@@ -35,6 +35,9 @@ const zh = {
   orDivider: () => '或',
   error: () => '发生错误',
   required: () => '必填',
+
+  // Modal
+  authenticationTitle: () => '认证',
 }
 
 export default zh

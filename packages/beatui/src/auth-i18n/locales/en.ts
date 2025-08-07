@@ -35,6 +35,9 @@ const en = {
   orDivider: () => 'or',
   error: () => 'An error occurred',
   required: () => 'Required',
+
+  // Modal
+  authenticationTitle: () => 'Authentication',
 }
 
 export default en

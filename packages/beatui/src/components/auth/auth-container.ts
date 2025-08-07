@@ -3,7 +3,6 @@
 
 import {
   attr,
-  computedOf,
   prop,
   TNode,
   Value,
@@ -27,22 +26,26 @@ import { Modal, ModalContentOptions } from '../overlay'
 import { SocialProviders } from './social-providers'
 import { AuthI18n } from '@/auth-i18n'
 import { Stack } from '../layout'
+import { classes } from '@tempots/ui'
 
-export function AuthContainer({
-  mode: initialMode,
-  className,
-  socialProviders,
-  passwordRules,
-  showRememberMe,
-  showSocialDivider,
-  showPasswordStrength,
-  labels,
-  onSignIn,
-  onSignUp,
-  onResetPassword,
-  onModeChange,
-  // onSocialLogin,
-}: AuthContainerOptions): TNode {
+export function AuthContainer(
+  {
+    mode: initialMode,
+    socialProviders,
+    passwordRules,
+    showRememberMe,
+    showSocialDivider,
+    showPasswordStrength,
+    labels,
+    onSignIn,
+    onSignUp,
+    onResetPassword,
+    onModeChange,
+    // onSocialLogin,
+    showContainer,
+  }: AuthContainerOptions,
+  ...children: TNode[]
+): TNode {
   // Current mode state
   const currentMode =
     initialMode != null
@@ -50,19 +53,6 @@ export function AuthContainer({
       : prop<AuthMode>('signin')
 
   currentMode.on(mode => onModeChange?.(mode))
-
-  // Container classes
-  const containerClasses = computedOf(
-    currentMode,
-    className
-  )((mode, cls) => {
-    const classes = [
-      'bc-auth-container',
-      `bc-auth-container--${mode}`,
-      cls,
-    ].filter(Boolean)
-    return classes.join(' ')
-  })
 
   return Use(AuthI18n, t => {
     function HasAccountLink() {
@@ -96,7 +86,7 @@ export function AuthContainer({
     }
 
     return html.div(
-      attr.class(containerClasses),
+      classes({ 'bc-auth-container': showContainer ?? true }),
       attr.class('bc-auth-form'),
       OnDispose(currentMode.dispose),
 
@@ -180,14 +170,21 @@ export function AuthContainer({
             }),
             Stack(attr.class('bc-auth-form__footer'), HasAccountLink())
           ),
-      })
+      }),
+      ...children
     )
   })
 }
 
 // Convenience function to create auth container with modal
 export function AuthModal(
-  fn: (open: (options: AuthContainerOptions) => void) => TNode
+  fn: (
+    open: (
+      options: AuthContainerOptions & {
+        modalTitle?: () => string
+      }
+    ) => void
+  ) => TNode
 ): TNode {
   return Modal(
     {
@@ -196,7 +193,14 @@ export function AuthModal(
       showCloseButton: true,
     },
     (open: (content: ModalContentOptions) => void, _close: () => void) => {
-      return fn(options => open({ body: AuthContainer(options) }))
+      return fn(options =>
+        open({
+          body: AuthContainer({ showContainer: false, ...options }),
+          header: Use(AuthI18n, t =>
+            functionOrReactiveMessage(options.modalTitle, t.authenticationTitle)
+          ),
+        })
+      )
     }
   )
 }

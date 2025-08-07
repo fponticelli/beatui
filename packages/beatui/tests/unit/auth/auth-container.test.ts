@@ -2,8 +2,12 @@
 // Unit tests for the AuthContainer component
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render } from '@tempots/dom'
-import { AuthContainer } from '../../../src/components/auth/auth-container'
+import { render, html } from '@tempots/dom'
+import {
+  AuthContainer,
+  AuthModal,
+} from '../../../src/components/auth/auth-container'
+import { Button } from '../../../src/components/button/button'
 import { WithProviders } from '../../helpers/test-providers'
 
 describe('AuthContainer', () => {
@@ -286,5 +290,131 @@ describe('AuthContainer', () => {
       email: 'test@example.com',
       password: 'password123',
     })
+  })
+})
+
+describe('AuthModal', () => {
+  let container: HTMLElement
+
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+    // Clean up any modals
+    const modals = document.querySelectorAll('.bc-modal')
+    modals.forEach(modal => modal.remove())
+  })
+
+  it('should render trigger and open modal with auth container', async () => {
+    const onSignIn = vi.fn()
+
+    render(
+      WithProviders(() =>
+        AuthModal(open =>
+          Button(
+            {
+              onClick: () =>
+                open({
+                  onSignIn,
+                }),
+            },
+            'Open Auth Modal'
+          )
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')!
+    expect(button.textContent).toBe('Open Auth Modal')
+
+    // Modal should not be visible initially
+    expect(document.querySelector('.bc-modal')).toBeNull()
+
+    // Click to open modal
+    button.click()
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Modal should be visible
+    const modal = document.querySelector('.bc-modal')
+    expect(modal).not.toBeNull()
+    expect(modal!.className).toContain('bc-modal--size-sm') // AuthModal uses 'sm' size
+
+    // Auth container should be inside the modal
+    const authContainer = document.querySelector('.bc-auth-container')
+    expect(authContainer).not.toBeNull()
+    expect(authContainer!.className).toContain('bc-auth-container--signin') // default mode
+  })
+
+  it('should have dismissable modal with close button', async () => {
+    render(
+      WithProviders(() =>
+        AuthModal(open =>
+          Button(
+            {
+              onClick: () =>
+                open({
+                  onSignIn: vi.fn(),
+                }),
+            },
+            'Open Auth Modal'
+          )
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')!
+    button.click()
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Modal should have close button
+    const closeButton = document.querySelector('[aria-label="Close modal"]')
+    expect(closeButton).not.toBeNull()
+
+    // Modal should be dismissable (can click outside to close)
+    const overlay = document.querySelector('.bc-overlay')
+    expect(overlay).not.toBeNull()
+  })
+
+  it('should pass auth container options correctly', async () => {
+    const onSignUp = vi.fn()
+    const onModeChange = vi.fn()
+
+    render(
+      WithProviders(() =>
+        AuthModal(open =>
+          Button(
+            {
+              onClick: () =>
+                open({
+                  mode: 'signup',
+                  onSignUp,
+                  onModeChange,
+                  socialProviders: [{ provider: 'google' }],
+                }),
+            },
+            'Open Auth Modal'
+          )
+        )
+      ),
+      container
+    )
+
+    const button = container.querySelector('button')!
+    button.click()
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Should show signup mode
+    const authContainer = document.querySelector('.bc-auth-container')
+    expect(authContainer).not.toBeNull()
+    expect(authContainer!.className).toContain('bc-auth-container--signup')
+
+    // Should have social providers
+    const socialButton = document.querySelector('.bc-social-login-button')
+    expect(socialButton).not.toBeNull()
   })
 })

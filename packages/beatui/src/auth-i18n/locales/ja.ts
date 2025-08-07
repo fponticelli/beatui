@@ -36,6 +36,9 @@ const ja = {
   orDivider: () => 'または',
   error: () => 'エラーが発生しました',
   required: () => '必須',
+
+  // Modal
+  authenticationTitle: () => '認証',
 }
 
 export default ja

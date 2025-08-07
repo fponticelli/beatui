@@ -35,6 +35,9 @@ const ru = {
   orDivider: () => 'или',
   error: () => 'Произошла ошибка',
   required: () => 'Обязательно',
+
+  // Modal
+  authenticationTitle: () => 'Аутентификация',
 }
 
 export default ru
