@@ -52,7 +52,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
@@ -65,7 +65,7 @@ describe('SignInForm', () => {
     render(
       WithProviders(() =>
         SignInForm({
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
@@ -79,7 +79,7 @@ describe('SignInForm', () => {
       WithProviders(() =>
         SignInForm({
           showRememberMe: false,
-          onSubmit: vi.fn(),
+          onSignIn: vi.fn(),
         })
       ),
       container
