@@ -1,0 +1,340 @@
+import {
+  TNode,
+  Value,
+  attr,
+  html,
+  on,
+  prop,
+  computedOf,
+  Fragment,
+  aria,
+  WithElement,
+  OnDispose,
+  Use,
+  When,
+} from '@tempots/dom'
+import { ControlSize } from '../../theme'
+import { sessionId } from '../../../utils/session-id'
+import { BeatUII18n } from '@/beatui-i18n'
+
+export interface TabItem {
+  /** Unique identifier for the tab */
+  key: string
+  /** Tab label content */
+  label: TNode
+  /** Tab content to display when active */
+  content: TNode
+  /** Whether the tab is disabled */
+  disabled?: Value<boolean>
+  /** ARIA label for accessibility */
+  ariaLabel?: Value<string>
+}
+
+export interface TabsOptions {
+  /** Array of tab items */
+  items: TabItem[]
+  /** Currently active tab key */
+  value: Value<string>
+  /** Callback when tab changes */
+  onChange?: (key: string) => void
+  /** Size of the tabs */
+  size?: Value<ControlSize>
+  /** Whether tabs are disabled */
+  disabled?: Value<boolean>
+  /** Orientation of the tabs */
+  orientation?: Value<'horizontal' | 'vertical'>
+  /** Whether to show tab content */
+  showContent?: Value<boolean>
+  /** ARIA label for the tab list */
+  ariaLabel?: Value<string>
+}
+
+function generateTabsClasses(
+  size: ControlSize,
+  orientation: 'horizontal' | 'vertical',
+  disabled: boolean
+): string {
+  const classes = ['bc-tabs', `bc-tabs--${size}`, `bc-tabs--${orientation}`]
+
+  if (disabled) {
+    classes.push('bc-tabs--disabled')
+  }
+
+  return classes.join(' ')
+}
+
+function generateTabClasses(
+  size: ControlSize,
+  isActive: boolean,
+  disabled: boolean
+): string {
+  const classes = ['bc-tab', `bc-tab--${size}`]
+
+  if (isActive) {
+    classes.push('bc-tab--active')
+  }
+
+  if (disabled) {
+    classes.push('bc-tab--disabled')
+  }
+
+  return classes.join(' ')
+}
+
+/**
+ * Find the next enabled tab in the given direction
+ */
+function findNextEnabledTab(
+  currentIndex: number,
+  items: TabItem[],
+  direction: 1 | -1
+): number {
+  const length = items.length
+  let nextIndex = currentIndex + direction
+
+  // Wrap around
+  if (nextIndex >= length) {
+    nextIndex = 0
+  } else if (nextIndex < 0) {
+    nextIndex = length - 1
+  }
+
+  // Find next enabled tab
+  let attempts = 0
+  while (attempts < length) {
+    const item = items[nextIndex]
+    const isDisabled = Value.get(item.disabled ?? false)
+
+    if (!isDisabled) {
+      return nextIndex
+    }
+
+    nextIndex += direction
+    if (nextIndex >= length) {
+      nextIndex = 0
+    } else if (nextIndex < 0) {
+      nextIndex = length - 1
+    }
+
+    attempts++
+  }
+
+  return currentIndex // Return current if no enabled tabs found
+}
+
+/**
+ * Tabs component that provides tabbed navigation with content panels.
+ * Follows WAI-ARIA tabs pattern with proper keyboard navigation and accessibility.
+ *
+ * @example
+ * ```typescript
+ * const activeTab = prop('tab1')
+ *
+ * Tabs({
+ *   items: [
+ *     { key: 'tab1', label: 'First Tab', content: html.div('Content 1') },
+ *     { key: 'tab2', label: 'Second Tab', content: html.div('Content 2') },
+ *   ],
+ *   value: activeTab,
+ *   onChange: activeTab.set
+ * })
+ * ```
+ */
+export function Tabs(options: TabsOptions): TNode {
+  const {
+    items,
+    value,
+    onChange,
+    size = 'md',
+    disabled = false,
+    orientation = 'horizontal',
+    showContent = true,
+    ariaLabel,
+  } = options
+
+  const tabListId = sessionId('tablist')
+  const focusedTabIndex = prop(-1)
+
+  // Find the index of the currently active tab
+  const activeTabIndex = computedOf(value)(activeKey => {
+    return items.findIndex(item => item.key === activeKey)
+  })
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    const isDisabled = Value.get(disabled)
+    if (isDisabled) return
+
+    const currentIndex = focusedTabIndex.value
+    const isHorizontal = Value.get(orientation) === 'horizontal'
+
+    let nextIndex = currentIndex
+
+    switch (event.key) {
+      case isHorizontal ? 'ArrowRight' : 'ArrowDown':
+        event.preventDefault()
+        nextIndex = findNextEnabledTab(currentIndex, items, 1)
+        break
+      case isHorizontal ? 'ArrowLeft' : 'ArrowUp':
+        event.preventDefault()
+        nextIndex = findNextEnabledTab(currentIndex, items, -1)
+        break
+      case 'Home':
+        event.preventDefault()
+        nextIndex = findNextEnabledTab(-1, items, 1)
+        break
+      case 'End':
+        event.preventDefault()
+        nextIndex = findNextEnabledTab(items.length, items, -1)
+        break
+      case 'Enter':
+      case ' ':
+        event.preventDefault()
+        if (currentIndex >= 0 && currentIndex < items.length) {
+          const tab = items[currentIndex]
+          const isTabDisabled = Value.get(tab.disabled ?? false)
+          if (!isTabDisabled) {
+            onChange?.(tab.key)
+          }
+        }
+        break
+    }
+
+    if (
+      nextIndex !== currentIndex &&
+      nextIndex >= 0 &&
+      nextIndex < items.length
+    ) {
+      focusedTabIndex.set(nextIndex)
+      // Focus the tab element using a small delay to ensure DOM is updated
+      setTimeout(() => {
+        const tabElement = document.querySelector(
+          `[data-tab-index="${nextIndex}"]`
+        ) as HTMLElement
+        if (tabElement) {
+          tabElement.focus()
+        }
+      }, 0)
+    }
+  }
+
+  return Use(BeatUII18n, t =>
+    html.div(
+      attr.class(
+        computedOf(
+          size,
+          orientation,
+          disabled
+        )((size, orientation, disabled) =>
+          generateTabsClasses(
+            size ?? 'md',
+            orientation ?? 'horizontal',
+            disabled ?? false
+          )
+        )
+      ),
+
+      // Tab list
+      html.div(
+        attr.class('bc-tabs__list'),
+        attr.role('tablist'),
+        attr.id(tabListId),
+        aria.orientation(orientation ?? 'horizontal'),
+        ariaLabel ? aria.label(ariaLabel) : Fragment(),
+        on.keydown(handleKeyDown),
+
+        ...items.map((item, index) => {
+          const isActive = computedOf(value)(
+            activeKey => activeKey === item.key
+          )
+          const isTabDisabled = computedOf(
+            disabled,
+            item.disabled
+          )((globalDisabled, itemDisabled) => globalDisabled || itemDisabled)
+
+          const tabId = `${tabListId}-tab-${item.key}`
+          const panelId = `${tabListId}-panel-${item.key}`
+
+          return html.button(
+            attr.class(
+              computedOf(
+                size,
+                isActive,
+                isTabDisabled
+              )((size, active, disabled) =>
+                generateTabClasses(
+                  size ?? 'md',
+                  active ?? false,
+                  disabled ?? false
+                )
+              )
+            ),
+            attr.id(tabId),
+            attr.role('tab'),
+            attr.tabindex(
+              computedOf(
+                isActive,
+                focusedTabIndex
+              )((active, focusedIndex) => {
+                // Active tab or focused tab should be focusable
+                return active || focusedIndex === index ? 0 : -1
+              })
+            ),
+            aria.selected(isActive),
+            aria.controls(panelId),
+            aria.disabled(isTabDisabled),
+            attr.disabled(isTabDisabled),
+            attr.data('tab-index', index.toString()),
+            item.ariaLabel ? aria.label(item.ariaLabel) : Fragment(),
+
+            on.click(event => {
+              event.preventDefault()
+              const isTabDisabled =
+                Value.get(item.disabled ?? false) || Value.get(disabled)
+              if (!isTabDisabled) {
+                onChange?.(item.key)
+                focusedTabIndex.set(index)
+              }
+            }),
+
+            on.focus(() => {
+              focusedTabIndex.set(index)
+            }),
+
+            item.label
+          )
+        })
+      ),
+
+      // Tab panels
+      When(showContent ?? true, () =>
+        html.div(
+          attr.class('bc-tabs__panels'),
+
+          ...items.map(item => {
+            const isActive = computedOf(value)(
+              activeKey => activeKey === item.key
+            )
+            const tabId = `${tabListId}-tab-${item.key}`
+            const panelId = `${tabListId}-panel-${item.key}`
+
+            return html.div(
+              attr.class('bc-tabs__panel'),
+              attr.class(
+                isActive.map(active =>
+                  active ? 'bc-tabs__panel--active' : 'bc-tabs__panel--inactive'
+                )
+              ),
+              attr.id(panelId),
+              attr.role('tabpanel'),
+              attr.tabindex(0),
+              aria.labelledby(tabId),
+              attr.hidden(isActive.map(active => !active)),
+
+              item.content
+            )
+          })
+        )
+      )
+    )
+  )
+}

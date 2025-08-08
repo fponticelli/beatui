@@ -22,6 +22,7 @@ import { FlyoutPage } from './pages/flyout'
 import { MenuPage } from './pages/menu'
 import { ScrollablePanelPage } from './pages/scrollable-panel'
 import { RTLLTRPage } from './pages/rtl-ltr'
+import { TabsPage } from './pages/tabs'
 import { AuthenticationPage } from './pages/authentication'
 import { AuthenticationComponentsPage } from './pages/authentication-components'
 
@@ -50,6 +51,7 @@ export const App = () => {
         '/rtl-ltr': RTLLTRPage,
         '/segmented-control': SegmentedControlPage,
         '/sidebar': SidebarPage,
+        '/tabs': TabsPage,
         '/tags': TagsPage,
         '/form': FormPage,
         '/editable-text': EditableTextPage,

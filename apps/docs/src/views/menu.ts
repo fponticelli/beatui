@@ -45,7 +45,8 @@ export function Menu() {
         { header: 'Navigation', rail: true },
         SidebarLink({ href: '/link', content: 'Link' }),
         SidebarLink({ href: '/menu', content: 'Menu' }),
-        SidebarLink({ href: '/sidebar', content: 'Sidebar' })
+        SidebarLink({ href: '/sidebar', content: 'Sidebar' }),
+        SidebarLink({ href: '/tabs', content: 'Tabs' })
       ),
       // Layout
       SidebarGroup(
