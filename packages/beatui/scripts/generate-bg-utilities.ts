@@ -4,9 +4,9 @@
  * This script generates the bg.css file from design tokens defined in src/tokens/colors.ts.
  * It creates utility classes for background colors with different variants:
  *
- * - Solid: .bu-bg--{color} (uses 500 shade in light mode, 600 in dark)
- * - Light: .bu-bg--light-{color} (uses 200 shade in light mode, 800 in dark)
- * - Lighter: .bu-bg--lighter-{color} (uses 100 shade in light mode, 900 in dark)
+ * - Solid: .bu-bg-{color} (uses 500 shade in light mode, 600 in dark)
+ * - Light: .bu-bg-light-{color} (uses 200 shade in light mode, 800 in dark)
+ * - Lighter: .bu-bg-lighter-{color} (uses 100 shade in light mode, 900 in dark)
  *
  * Special colors (inherit, white, black, transparent) have custom handling.
  *

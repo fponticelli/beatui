@@ -40,6 +40,8 @@ const ko: BeatUIMessages = {
   he: () => '히브리어',
   fa: () => '페르시아어',
   ur: () => '우르두어',
+  // input
+  emailPlaceholderText: () => '이메일을 입력하세요',
 }
 
 export default ko

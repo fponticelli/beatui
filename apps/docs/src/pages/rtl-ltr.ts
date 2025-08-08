@@ -56,7 +56,7 @@ export const RTLLTRPage = () => {
             Stack(
               Label('Current Direction'),
               html.span(
-                attr.class('bu-font-bold bu-text--primary'),
+                attr.class('bu-font-bold bu-text-primary'),
                 direction.map(d => d.toUpperCase())
               )
             )
@@ -75,7 +75,7 @@ export const RTLLTRPage = () => {
                 'RTL/LTR Internationalization'
               ),
               html.p(
-                attr.class('bu-text--gray'),
+                attr.class('bu-text-gray'),
                 'BeatUI provides comprehensive support for right-to-left (RTL) and left-to-right (LTR) text directions. The system automatically detects direction from locale and provides utilities for mixed-direction content.'
               )
             )
@@ -94,7 +94,7 @@ export const RTLLTRPage = () => {
                 'BeatUI automatically detects text direction based on the locale. RTL languages include Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), and others.'
               ),
               html.div(
-                attr.class('bu-p-4 bu-bg--light-gray bu-rounded'),
+                attr.class('bu-p-4 bu-bg-light-gray bu-rounded'),
                 html.code('Current locale: '),
                 locale,
                 html.br(),
@@ -245,19 +245,19 @@ export const RTLLTRPage = () => {
                   html.div(
                     attr.class('bu-space-y-2'),
                     html.div(
-                      attr.class('bu-ps-4 bu-bg--light-gray'),
+                      attr.class('bu-ps-4 bu-bg-light-gray'),
                       '.bu-ps-4 - Padding inline start'
                     ),
                     html.div(
-                      attr.class('bu-pe-4 bu-bg--light-gray'),
+                      attr.class('bu-pe-4 bu-bg-light-gray'),
                       '.bu-pe-4 - Padding inline end'
                     ),
                     html.div(
-                      attr.class('bu-ms-4 bu-bg--light-gray'),
+                      attr.class('bu-ms-4 bu-bg-light-gray'),
                       '.bu-ms-4 - Margin inline start'
                     ),
                     html.div(
-                      attr.class('bu-me-4 bu-bg--light-gray'),
+                      attr.class('bu-me-4 bu-bg-light-gray'),
                       '.bu-me-4 - Margin inline end'
                     )
                   )

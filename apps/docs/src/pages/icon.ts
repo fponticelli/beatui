@@ -23,7 +23,7 @@ function DisplayIcon({
 }) {
   return html.div(
     attr.class(
-      'bu-flex-col bu-items-center bu-p-2 bu-rounded hover:bu-bg--light-gray bu-cursor-pointer'
+      'bu-flex-col bu-items-center bu-p-2 bu-rounded hover:bu-bg-light-gray bu-cursor-pointer'
     ),
     html.div(
       attr.class('bu-mb-2'),
@@ -35,7 +35,7 @@ function DisplayIcon({
       })
     ),
     html.div(
-      attr.class('bu-text-xs bu-text--gray bu-text-center bu-break-all'),
+      attr.class('bu-text-xs bu-text-gray bu-text-center bu-break-all'),
       value
     )
   )

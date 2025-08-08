@@ -40,6 +40,8 @@ export const ru: BeatUIMessages = {
   he: () => 'Иврит',
   fa: () => 'Персидский',
   ur: () => 'Урду',
+  // input
+  emailPlaceholderText: () => 'Введите электронную почту',
 }
 
 export default ru

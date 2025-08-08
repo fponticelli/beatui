@@ -67,7 +67,7 @@ export function SocialLoginButton({
     ),
     Group(
       attr.class('bu-items-center bu-w-full'),
-      Icon({ icon, size }, attr.class('bu-bg--white bu-rounded-full bu-p-2')),
+      Icon({ icon, size }, attr.class('bu-bg-white bu-rounded-full bu-p-2')),
 
       // Button text or custom children
       Use(AuthI18n, t =>

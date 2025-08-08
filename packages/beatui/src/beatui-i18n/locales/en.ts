@@ -38,6 +38,8 @@ const en = {
   he: () => 'Hebrew',
   fa: () => 'Persian',
   ur: () => 'Urdu',
+  // input
+  emailPlaceholderText: () => 'Enter your email',
 }
 
 export default en

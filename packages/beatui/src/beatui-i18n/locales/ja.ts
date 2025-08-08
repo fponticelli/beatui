@@ -40,6 +40,8 @@ export const ja: BeatUIMessages = {
   he: () => 'ヘブライ語',
   fa: () => 'ペルシア語',
   ur: () => 'ウルドゥー語',
+  // input
+  emailPlaceholderText: () => 'メールアドレスを入力',
 }
 
 export default ja

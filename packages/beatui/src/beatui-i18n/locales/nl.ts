@@ -40,6 +40,8 @@ export const nl: BeatUIMessages = {
   he: () => 'Hebreeuws',
   fa: () => 'Perzisch',
   ur: () => 'Urdu',
+  // input
+  emailPlaceholderText: () => 'Voer je e-mail in',
 }
 
 export default nl

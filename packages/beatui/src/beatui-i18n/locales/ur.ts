@@ -40,6 +40,8 @@ const ur: BeatUIMessages = {
   zh: () => 'چینی',
   fa: () => 'فارسی',
   ur: () => 'اردو',
+  // input
+  emailPlaceholderText: () => 'اپنا ای میل داخل کریں',
 }
 
 export default ur

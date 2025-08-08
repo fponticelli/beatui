@@ -8,22 +8,22 @@ describe('Link', () => {
   describe('generateLinkClasses', () => {
     it('should generate default variant classes', () => {
       const classes = generateLinkClasses('default', 'primary', false)
-      expect(classes).toBe('bc-link bu-text--primary bc-link--default')
+      expect(classes).toBe('bc-link bu-text-primary bc-link--default')
     })
 
     it('should generate plain variant classes', () => {
       const classes = generateLinkClasses('plain', 'secondary', false)
-      expect(classes).toBe('bc-link bu-text--secondary bc-link--plain')
+      expect(classes).toBe('bc-link bu-text-secondary bc-link--plain')
     })
 
     it('should generate hover variant classes', () => {
       const classes = generateLinkClasses('hover', 'error', false)
-      expect(classes).toBe('bc-link bu-text--error bc-link--hover')
+      expect(classes).toBe('bc-link bu-text-error bc-link--hover')
     })
 
     it('should generate disabled classes', () => {
       const classes = generateLinkClasses('default', 'primary', true)
-      expect(classes).toBe('bc-link bu-text--primary bc-link--disabled')
+      expect(classes).toBe('bc-link bu-text-primary bc-link--disabled')
     })
   })
 

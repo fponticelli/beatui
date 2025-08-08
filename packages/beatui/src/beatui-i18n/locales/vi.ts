@@ -40,6 +40,8 @@ const vi: BeatUIMessages = {
   he: () => 'Tiếng Do Thái',
   fa: () => 'Tiếng Ba Tư',
   ur: () => 'Tiếng Urdu',
+  // input
+  emailPlaceholderText: () => 'Nhập email của bạn',
 }
 
 export default vi

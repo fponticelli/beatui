@@ -42,7 +42,7 @@ export const AuthenticationPage = () => {
       () =>
         html.div(
           attr.class(
-            'bu-bg--lighter-green bu-text--darker-green bu-p-3 bu-rounded-lg bu-text-sm'
+            'bu-bg-lighter-green bu-text-darker-green bu-p-3 bu-rounded-lg bu-text-sm'
           ),
           demoMessage
         )
@@ -73,7 +73,7 @@ export const AuthenticationPage = () => {
         'Auth Modal (Modal Wrapper)'
       ),
       html.p(
-        attr.class('bu-text-gray-600 bu-mb-4 bu-text-center'),
+        attr.class('bu-text-gray bu-mb-4 bu-text-center'),
         'Click the button below to open the authentication form in a modal.'
       ),
       // @ts-ignore - TypeScript incorrectly infers AuthModal signature, but it works correctly at runtime

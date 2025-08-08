@@ -40,6 +40,8 @@ const he: BeatUIMessages = {
   zh: () => 'סינית',
   fa: () => 'פרסית',
   ur: () => 'אורדו',
+  // input
+  emailPlaceholderText: () => 'הכנס את כתובת הדוא"ל',
 }
 
 export default he

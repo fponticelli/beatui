@@ -80,7 +80,7 @@ function generatePanelClasses(
   const sideStr = (Array.isArray(side) ? side : [side])
     .map(s => `bc-panel--side-${s}`)
     .join(' ')
-  return `bc-panel ${sideStr} bu-bg--lighter-${color} bc-panel--shadow-${shadow}`
+  return `bc-panel ${sideStr} bu-bg-lighter-${color} bc-panel--shadow-${shadow}`
 }
 
 const defaults = {

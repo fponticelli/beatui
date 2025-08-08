@@ -40,6 +40,8 @@ const pt: BeatUIMessages = {
   he: () => 'Hebraico',
   fa: () => 'Persa',
   ur: () => 'Urdu',
+  // input
+  emailPlaceholderText: () => 'Digite seu e-mail',
 }
 
 export default pt

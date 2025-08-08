@@ -52,33 +52,33 @@ export function generateButtonClasses(
 
   switch (variant) {
     case 'filled':
-      classes.push(`bu-bg--${color}`)
+      classes.push(`bu-bg-${color}`)
       if (!disabled) {
-        classes.push(`hover:bu-bg--${color}`)
+        classes.push(`hover:bu-bg-${color}`)
       }
       break
     case 'light':
-      classes.push(`bu-bg--light-${color}`)
+      classes.push(`bu-bg-light-${color}`)
       if (!disabled) {
-        classes.push(`hover:bu-bg--light-${color}`)
+        classes.push(`hover:bu-bg-light-${color}`)
       }
       break
     case 'outline':
       classes.push(`bu-border--${color}`)
       if (!disabled) {
-        classes.push(`hover:bu-bg--light-${color}`)
+        classes.push(`hover:bu-bg-light-${color}`)
       }
       break
     case 'default':
-      classes.push(`bu-bg--light-neutral`)
-      classes.push(`bu-text--${color}`)
+      classes.push(`bu-bg-light-neutral`)
+      classes.push(`bu-text-${color}`)
       if (!disabled) {
-        classes.push(`hover:bu-bg--light-base`)
+        classes.push(`hover:bu-bg-light-base`)
       }
       break
     case 'text':
-      classes.push(`bu-bg--inherit`)
-      classes.push(`bu-text--${color}`)
+      classes.push(`bu-bg-inherit`)
+      classes.push(`bu-text-${color}`)
       if (!disabled) {
         classes.push(`hover:bu-underline`)
       }

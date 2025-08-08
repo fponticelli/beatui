@@ -23,7 +23,7 @@ export function generateLinkClasses(
   const classes = ['bc-link']
 
   // Add color class
-  classes.push(`bu-text--${color}`)
+  classes.push(`bu-text-${color}`)
 
   // Add disabled class
   if (disabled) {

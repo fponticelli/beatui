@@ -148,7 +148,7 @@ export const FormPage = () => {
               return Stack(
                 attr.class('bu-gap-2'),
                 html.div(
-                  attr.class('bu-text-sm bu-text--gray'),
+                  attr.class('bu-text-sm bu-text-gray'),
                   `Item: ${opts.position.counter}`
                 ),
                 Stack(

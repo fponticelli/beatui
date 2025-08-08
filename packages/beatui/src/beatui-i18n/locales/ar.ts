@@ -40,6 +40,8 @@ const ar: BeatUIMessages = {
   he: () => 'العبرية',
   fa: () => 'الفارسية',
   ur: () => 'الأردية',
+  // input
+  emailPlaceholderText: () => 'بريدك الإلكتروني',
 }
 
 export default ar

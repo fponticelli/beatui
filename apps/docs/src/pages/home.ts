@@ -12,7 +12,7 @@ export const HomePage = () => {
         'Welcome to BeatUI'
       ),
       html.p(
-        attr.class('bu-text-xl bu-text--muted bu-mb-8'),
+        attr.class('bu-text-xl bu-text-muted bu-mb-8'),
         'A modern TypeScript UI component library built with Tempo-ts'
       ),
 
@@ -31,7 +31,7 @@ export const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
             ),
             Stack(
               attr.class('bu-gap-3'),
@@ -40,7 +40,7 @@ export const HomePage = () => {
                 'Authentication'
               ),
               html.p(
-                attr.class('bu-text--muted'),
+                attr.class('bu-text-muted'),
                 'Complete authentication component suite with social login support'
               )
             )
@@ -53,13 +53,13 @@ export const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
             ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Components'),
               html.p(
-                attr.class('bu-text--muted'),
+                attr.class('bu-text-muted'),
                 'Explore all available UI components and their documentation'
               )
             )
@@ -72,13 +72,13 @@ export const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
             ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Forms'),
               html.p(
-                attr.class('bu-text--muted'),
+                attr.class('bu-text-muted'),
                 'Powerful form handling with validation and type safety'
               )
             )
@@ -91,13 +91,13 @@ export const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg--lighter-neutral bu-transition-colors'
+              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
             ),
             Stack(
               attr.class('bu-gap-3'),
               html.h3(attr.class('bu-text-lg bu-font-semibold'), 'About'),
               html.p(
-                attr.class('bu-text--muted'),
+                attr.class('bu-text-muted'),
                 'Learn more about BeatUI and its design principles'
               )
             )

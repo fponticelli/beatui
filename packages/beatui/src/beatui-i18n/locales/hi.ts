@@ -24,7 +24,7 @@ const hi: BeatUIMessages = {
   ar: () => 'अरबी',
   de: () => 'जर्मन',
   en: () => 'अंग्रेज़ी',
-  es: () => 'होशाइनी',
+  es: () => 'स्पेनिश',
   fr: () => 'फ्रेंच',
   hi: () => 'हिन्दी',
   it: () => 'इतालवी',
@@ -40,6 +40,8 @@ const hi: BeatUIMessages = {
   he: () => 'हिब्रू',
   fa: () => 'फारसी',
   ur: () => 'उर्दू',
+  // input
+  emailPlaceholderText: () => 'अपना ईमेल दर्ज करें',
 }
 
 export default hi

@@ -40,6 +40,8 @@ const zh: BeatUIMessages = {
   he: () => '希伯来语',
   fa: () => '波斯语',
   ur: () => '乌尔都语',
+  // input
+  emailPlaceholderText: () => '请输入邮箱',
 }
 
 export default zh

@@ -12,27 +12,27 @@ function testBackgroundGeneration() {
       name: 'Contains @layer components',
       test: css.includes('@layer components'),
     },
-    { name: 'Contains inherit variant', test: css.includes('.bu-bg--inherit') },
-    { name: 'Contains primary solid', test: css.includes('.bu-bg--primary') },
+    { name: 'Contains inherit variant', test: css.includes('.bu-bg-inherit') },
+    { name: 'Contains primary solid', test: css.includes('.bu-bg-primary') },
     {
       name: 'Contains light variants',
-      test: css.includes('.bu-bg--light-primary'),
+      test: css.includes('.bu-bg-light-primary'),
     },
     {
       name: 'Contains lighter variants',
-      test: css.includes('.bu-bg--lighter-primary'),
+      test: css.includes('.bu-bg-lighter-primary'),
     },
     {
       name: 'Contains dark mode overrides',
-      test: css.includes('.b-dark .bu-bg--primary'),
+      test: css.includes('.b-dark .bu-bg-primary'),
     },
     {
       name: 'Contains special colors in light',
-      test: css.includes('.bu-bg--light-white'),
+      test: css.includes('.bu-bg-light-white'),
     },
     {
       name: 'Contains special colors in lighter',
-      test: css.includes('.bu-bg--lighter-transparent'),
+      test: css.includes('.bu-bg-lighter-transparent'),
     },
     { name: 'Uses CSS variables', test: css.includes('var(--color-') },
     {
@@ -67,8 +67,8 @@ function testBackgroundGeneration() {
 
   // Output some stats
   const lines = css.split('\n').length
-  const classes = (css.match(/\.bu-bg--/g) || []).length
-  const darkModeClasses = (css.match(/\.b-dark \.bu-bg--/g) || []).length
+  const classes = (css.match(/\.bu-bg-/g) || []).length
+  const darkModeClasses = (css.match(/\.b-dark \.bu-bg-/g) || []).length
 
   console.log(`\n📈 Generated CSS Stats:`)
   console.log(`   Lines: ${lines}`)

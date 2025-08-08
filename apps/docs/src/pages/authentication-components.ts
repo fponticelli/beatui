@@ -83,7 +83,7 @@ export const AuthenticationComponentsPage = () => {
         () =>
           html.div(
             attr.class(
-              'bu-bg--info-lighter bu-text--info-darker bu-p-4 bu-rounded-lg bu-mb-6 bu-text-sm bu-font-mono bu-whitespace-pre-wrap'
+              'bu-bg-info-lighter bu-text-info-darker bu-p-4 bu-rounded-lg bu-mb-6 bu-text-sm bu-font-mono bu-whitespace-pre-wrap'
             ),
             demoMessage
           )

@@ -270,7 +270,7 @@ export const FlyoutPage = () => {
           ),
           html.div(
             attr.class(
-              'bu-flex bu-items-center bu-justify-center bu-text-sm bu-text-gray-500'
+              'bu-flex bu-items-center bu-justify-center bu-text-sm bu-text-light-gray'
             ),
             'Center'
           ),
@@ -341,7 +341,7 @@ export const FlyoutPage = () => {
                   ),
                   html.div(
                     attr.class(
-                      'bu-text-xs bu-text--gray bu-mt-3 bu-pt-3 bu-border-t'
+                      'bu-text-xs bu-text-gray bu-mt-3 bu-pt-3 bu-border-t'
                     ),
                     computedOf(
                       showDelay,

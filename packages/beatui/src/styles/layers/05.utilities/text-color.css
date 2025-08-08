@@ -1,383 +1,383 @@
 @layer components {
   /* solid */
-  .bu-text--primary {
+  .bu-text-primary {
     color: var(--color-primary-800);
   }
-  .bu-text--secondary {
+    .bu-text-secondary {
     color: var(--color-secondary-800);
   }
-  .bu-text--base {
+    .bu-text-base {
     color: var(--color-base-800);
   }
-  .bu-text--success {
+    .bu-text-success {
     color: var(--color-success-800);
   }
-  .bu-text--warning {
+    .bu-text-warning {
     color: var(--color-warning-800);
   }
-  .bu-text--error {
+    .bu-text-error {
     color: var(--color-error-800);
   }
-  .bu-text--info {
+    .bu-text-info {
     color: var(--color-info-800);
   }
-  .bu-text--white {
+    .bu-text-white {
     color: var(--color-white);
   }
-  .bu-text--black {
+    .bu-text-black {
     color: var(--color-black);
   }
-  .bu-text--transparent {
+    .bu-text-transparent {
     color: inherit;
   }
-  .bu-text--red {
+    .bu-text-red {
     color: var(--color-red-800);
   }
-  .bu-text--orange {
+    .bu-text-orange {
     color: var(--color-orange-800);
   }
-  .bu-text--amber {
+    .bu-text-amber {
     color: var(--color-amber-800);
   }
-  .bu-text--yellow {
+    .bu-text-yellow {
     color: var(--color-yellow-800);
   }
-  .bu-text--lime {
+    .bu-text-lime {
     color: var(--color-lime-800);
   }
-  .bu-text--green {
+    .bu-text-green {
     color: var(--color-green-800);
   }
-  .bu-text--emerald {
+    .bu-text-emerald {
     color: var(--color-emerald-800);
   }
-  .bu-text--teal {
+    .bu-text-teal {
     color: var(--color-teal-800);
   }
-  .bu-text--cyan {
+    .bu-text-cyan {
     color: var(--color-cyan-800);
   }
-  .bu-text--sky {
+    .bu-text-sky {
     color: var(--color-sky-800);
   }
-  .bu-text--blue {
+    .bu-text-blue {
     color: var(--color-blue-800);
   }
-  .bu-text--indigo {
+    .bu-text-indigo {
     color: var(--color-indigo-800);
   }
-  .bu-text--violet {
+    .bu-text-violet {
     color: var(--color-violet-800);
   }
-  .bu-text--purple {
+    .bu-text-purple {
     color: var(--color-purple-800);
   }
-  .bu-text--fuchsia {
+    .bu-text-fuchsia {
     color: var(--color-fuchsia-800);
   }
-  .bu-text--pink {
+    .bu-text-pink {
     color: var(--color-pink-800);
   }
-  .bu-text--rose {
+    .bu-text-rose {
     color: var(--color-rose-800);
   }
-  .bu-text--slate {
+    .bu-text-slate {
     color: var(--color-slate-800);
   }
-  .bu-text--gray {
+    .bu-text-gray {
     color: var(--color-gray-800);
   }
-  .bu-text--zinc {
+    .bu-text-zinc {
     color: var(--color-zinc-800);
   }
-  .bu-text--neutral {
+    .bu-text-neutral {
     color: var(--color-neutral-800);
   }
-  .bu-text--stone {
+    .bu-text-stone {
     color: var(--color-stone-800);
   }
 
-  .b-dark .bu-text--primary {
+    .b-dark .bu-text-primary {
     color: var(--color-primary-200);
   }
-  .b-dark .bu-text--secondary {
+    .b-dark .bu-text-secondary {
     color: var(--color-secondary-200);
   }
-  .b-dark .bu-text--base {
+    .b-dark .bu-text-base {
     color: var(--color-base-200);
   }
-  .b-dark .bu-text--success {
+    .b-dark .bu-text-success {
     color: var(--color-success-200);
   }
-  .b-dark .bu-text--warning {
+    .b-dark .bu-text-warning {
     color: var(--color-warning-200);
   }
-  .b-dark .bu-text--error {
+    .b-dark .bu-text-error {
     color: var(--color-error-200);
   }
-  .b-dark .bu-text--info {
+    .b-dark .bu-text-info {
     color: var(--color-info-200);
   }
-  .b-dark .bu-text--red {
+    .b-dark .bu-text-red {
     color: var(--color-red-200);
   }
-  .b-dark .bu-text--orange {
+    .b-dark .bu-text-orange {
     color: var(--color-orange-200);
   }
-  .b-dark .bu-text--amber {
+    .b-dark .bu-text-amber {
     color: var(--color-amber-200);
   }
-  .b-dark .bu-text--yellow {
+    .b-dark .bu-text-yellow {
     color: var(--color-yellow-200);
   }
-  .b-dark .bu-text--lime {
+    .b-dark .bu-text-lime {
     color: var(--color-lime-200);
   }
-  .b-dark .bu-text--green {
+    .b-dark .bu-text-green {
     color: var(--color-green-200);
   }
-  .b-dark .bu-text--emerald {
+    .b-dark .bu-text-emerald {
     color: var(--color-emerald-200);
   }
-  .b-dark .bu-text--teal {
+    .b-dark .bu-text-teal {
     color: var(--color-teal-200);
   }
-  .b-dark .bu-text--cyan {
+    .b-dark .bu-text-cyan {
     color: var(--color-cyan-200);
   }
-  .b-dark .bu-text--sky {
+    .b-dark .bu-text-sky {
     color: var(--color-sky-200);
   }
-  .b-dark .bu-text--blue {
+    .b-dark .bu-text-blue {
     color: var(--color-blue-200);
   }
-  .b-dark .bu-text--indigo {
+    .b-dark .bu-text-indigo {
     color: var(--color-indigo-200);
   }
-  .b-dark .bu-text--violet {
+    .b-dark .bu-text-violet {
     color: var(--color-violet-200);
   }
-  .b-dark .bu-text--purple {
+    .b-dark .bu-text-purple {
     color: var(--color-purple-200);
   }
-  .b-dark .bu-text--fuchsia {
+    .b-dark .bu-text-fuchsia {
     color: var(--color-fuchsia-200);
   }
-  .b-dark .bu-text--pink {
+    .b-dark .bu-text-pink {
     color: var(--color-pink-200);
   }
-  .b-dark .bu-text--rose {
+    .b-dark .bu-text-rose {
     color: var(--color-rose-200);
   }
-  .b-dark .bu-text--slate {
+    .b-dark .bu-text-slate {
     color: var(--color-slate-200);
   }
-  .b-dark .bu-text--gray {
+    .b-dark .bu-text-gray {
     color: var(--color-gray-200);
   }
-  .b-dark .bu-text--zinc {
+    .b-dark .bu-text-zinc {
     color: var(--color-zinc-200);
   }
-  .b-dark .bu-text--neutral {
+    .b-dark .bu-text-neutral {
     color: var(--color-neutral-200);
   }
-  .b-dark .bu-text--stone {
+    .b-dark .bu-text-stone {
     color: var(--color-stone-200);
   }
 
   /* light */
-  .bu-text--light-primary {
+    .bu-text-light-primary {
     color: var(--color-primary-600);
   }
-  .bu-text--light-secondary {
+    .bu-text-light-secondary {
     color: var(--color-secondary-600);
   }
-  .bu-text--light-base {
+    .bu-text-light-base {
     color: var(--color-base-600);
   }
-  .bu-text--light-success {
+    .bu-text-light-success {
     color: var(--color-success-600);
   }
-  .bu-text--light-warning {
+    .bu-text-light-warning {
     color: var(--color-warning-600);
   }
-  .bu-text--light-error {
+    .bu-text-light-error {
     color: var(--color-error-600);
   }
-  .bu-text--light-info {
+    .bu-text-light-info {
     color: var(--color-info-600);
   }
-  .bu-text--light-white {
+    .bu-text-light-white {
     color: var(--color-white);
   }
-  .bu-text--light-black {
+    .bu-text-light-black {
     color: var(--color-black);
   }
-  .bu-text--light-transparent {
+    .bu-text-light-transparent {
     color: inherit;
   }
-  .bu-text--light-red {
+    .bu-text-light-red {
     color: var(--color-red-600);
   }
-  .bu-text--light-orange {
+    .bu-text-light-orange {
     color: var(--color-orange-600);
   }
-  .bu-text--light-amber {
+    .bu-text-light-amber {
     color: var(--color-amber-600);
   }
-  .bu-text--light-yellow {
+    .bu-text-light-yellow {
     color: var(--color-yellow-600);
   }
-  .bu-text--light-lime {
+    .bu-text-light-lime {
     color: var(--color-lime-600);
   }
-  .bu-text--light-green {
+    .bu-text-light-green {
     color: var(--color-green-600);
   }
-  .bu-text--light-emerald {
+    .bu-text-light-emerald {
     color: var(--color-emerald-600);
   }
-  .bu-text--light-teal {
+    .bu-text-light-teal {
     color: var(--color-teal-600);
   }
-  .bu-text--light-cyan {
+    .bu-text-light-cyan {
     color: var(--color-cyan-600);
   }
-  .bu-text--light-sky {
+    .bu-text-light-sky {
     color: var(--color-sky-600);
   }
-  .bu-text--light-blue {
+    .bu-text-light-blue {
     color: var(--color-blue-600);
   }
-  .bu-text--light-indigo {
+    .bu-text-light-indigo {
     color: var(--color-indigo-600);
   }
-  .bu-text--light-violet {
+    .bu-text-light-violet {
     color: var(--color-violet-600);
   }
-  .bu-text--light-purple {
+    .bu-text-light-purple {
     color: var(--color-purple-600);
   }
-  .bu-text--light-fuchsia {
+    .bu-text-light-fuchsia {
     color: var(--color-fuchsia-600);
   }
-  .bu-text--light-pink {
+    .bu-text-light-pink {
     color: var(--color-pink-600);
   }
-  .bu-text--light-rose {
+    .bu-text-light-rose {
     color: var(--color-rose-600);
   }
-  .bu-text--light-slate {
+    .bu-text-light-slate {
     color: var(--color-slate-600);
   }
-  .bu-text--light-gray {
+    .bu-text-light-gray {
     color: var(--color-gray-600);
   }
-  .bu-text--light-zinc {
+    .bu-text-light-zinc {
     color: var(--color-zinc-600);
   }
-  .bu-text--light-neutral {
+    .bu-text-light-neutral {
     color: var(--color-neutral-600);
   }
-  .bu-text--light-stone {
+    .bu-text-light-stone {
     color: var(--color-stone-600);
   }
 
   /* light dark */
-  .b-dark .bu-text--light-primary {
+    .b-dark .bu-text-light-primary {
     color: var(--color-primary-400);
   }
-  .b-dark .bu-text--light-secondary {
+    .b-dark .bu-text-light-secondary {
     color: var(--color-secondary-400);
   }
-  .b-dark .bu-text--light-base {
+    .b-dark .bu-text-light-base {
     color: var(--color-base-400);
   }
-  .b-dark .bu-text--light-success {
+    .b-dark .bu-text-light-success {
     color: var(--color-success-400);
   }
-  .b-dark .bu-text--light-warning {
+    .b-dark .bu-text-light-warning {
     color: var(--color-warning-400);
   }
-  .b-dark .bu-text--light-error {
+    .b-dark .bu-text-light-error {
     color: var(--color-error-400);
   }
-  .b-dark .bu-text--light-info {
+    .b-dark .bu-text-light-info {
     color: var(--color-info-400);
   }
-  .b-dark .bu-text--light-white {
+    .b-dark .bu-text-light-white {
     color: var(--color-base-900);
   }
-  .b-dark .bu-text--light-black {
+    .b-dark .bu-text-light-black {
     color: var(--color-black);
   }
-  .b-dark .bu-text--light-transparent {
+    .b-dark .bu-text-light-transparent {
     color: inherit;
   }
-  .b-dark .bu-text--light-red {
+    .b-dark .bu-text-light-red {
     color: var(--color-red-400);
   }
-  .b-dark .bu-text--light-orange {
+    .b-dark .bu-text-light-orange {
     color: var(--color-orange-400);
   }
-  .b-dark .bu-text--light-amber {
+    .b-dark .bu-text-light-amber {
     color: var(--color-amber-400);
   }
-  .b-dark .bu-text--light-yellow {
+    .b-dark .bu-text-light-yellow {
     color: var(--color-yellow-400);
   }
-  .b-dark .bu-text--light-lime {
+    .b-dark .bu-text-light-lime {
     color: var(--color-lime-400);
   }
-  .b-dark .bu-text--light-green {
+    .b-dark .bu-text-light-green {
     color: var(--color-green-400);
   }
-  .b-dark .bu-text--light-emerald {
+    .b-dark .bu-text-light-emerald {
     color: var(--color-emerald-400);
   }
-  .b-dark .bu-text--light-teal {
+    .b-dark .bu-text-light-teal {
     color: var(--color-teal-400);
   }
-  .b-dark .bu-text--light-cyan {
+    .b-dark .bu-text-light-cyan {
     color: var(--color-cyan-400);
   }
-  .b-dark .bu-text--light-sky {
+    .b-dark .bu-text-light-sky {
     color: var(--color-sky-400);
   }
-  .b-dark .bu-text--light-blue {
+    .b-dark .bu-text-light-blue {
     color: var(--color-blue-400);
   }
-  .b-dark .bu-text--light-indigo {
+    .b-dark .bu-text-light-indigo {
     color: var(--color-indigo-400);
   }
-  .b-dark .bu-text--light-violet {
+    .b-dark .bu-text-light-violet {
     color: var(--color-violet-400);
   }
-  .b-dark .bu-text--light-purple {
+    .b-dark .bu-text-light-purple {
     color: var(--color-purple-400);
   }
-  .b-dark .bu-text--light-fuchsia {
+    .b-dark .bu-text-light-fuchsia {
     color: var(--color-fuchsia-400);
   }
-  .b-dark .bu-text--light-pink {
+    .b-dark .bu-text-light-pink {
     color: var(--color-pink-400);
   }
-  .b-dark .bu-text--light-rose {
+    .b-dark .bu-text-light-rose {
     color: var(--color-rose-400);
   }
-  .b-dark .bu-text--light-slate {
+    .b-dark .bu-text-light-slate {
     color: var(--color-slate-400);
   }
-  .b-dark .bu-text--light-gray {
+    .b-dark .bu-text-light-gray {
     color: var(--color-gray-400);
   }
-  .b-dark .bu-text--light-zinc {
+    .b-dark .bu-text-light-zinc {
     color: var(--color-zinc-400);
   }
-  .b-dark .bu-text--light-neutral {
+    .b-dark .bu-text-light-neutral {
     color: var(--color-neutral-400);
   }
-  .b-dark .bu-text--light-stone {
+    .b-dark .bu-text-light-stone {
     color: var(--color-stone-400);
   }
 }

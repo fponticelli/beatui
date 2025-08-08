@@ -28,7 +28,7 @@ function generateTagClasses(
   if (disabled) {
     classes.push('bc-tag--disabled')
   } else {
-    classes.push(`bu-bg--${color}`)
+    classes.push(`bu-bg-${color}`)
   }
 
   classes.push(

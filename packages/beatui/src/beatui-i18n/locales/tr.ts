@@ -40,6 +40,8 @@ const tr: BeatUIMessages = {
   he: () => 'İbranice',
   fa: () => 'Farsça',
   ur: () => 'Urduca',
+  // input
+  emailPlaceholderText: () => 'E-postanızı girin',
 }
 
 export default tr

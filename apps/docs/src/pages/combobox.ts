@@ -108,12 +108,12 @@ export const ComboboxPage = () => {
 
       // Page title
       html.h1(
-        attr.class('bu-text-3xl bu-font-bold bu-text--gray'),
+        attr.class('bu-text-3xl bu-font-bold bu-text-gray'),
         'Combobox Component'
       ),
 
       html.p(
-        attr.class('bu-text-lg bu-text--light-gray'),
+        attr.class('bu-text-lg bu-text-light-gray'),
         'A flexible dropdown component that supports rich content, keyboard navigation, and accessibility features.'
       ),
 
@@ -121,11 +121,11 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Basic Usage'
         ),
         html.p(
-          attr.class('bu-text--light-gray'),
+          attr.class('bu-text-light-gray'),
           'A simple combobox with text options.'
         ),
         Group(
@@ -134,7 +134,7 @@ export const ComboboxPage = () => {
             attr.class('bu-gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text--gray'),
+              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Select a fruit:'
             ),
             Combobox({
@@ -145,7 +145,7 @@ export const ComboboxPage = () => {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text--light-gray'),
+            attr.class('bu-text-sm bu-text-light-gray'),
             'Selected: ',
             basicValue.map(v => v || 'None')
           )
@@ -156,11 +156,11 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Rich Content'
         ),
         html.p(
-          attr.class('bu-text--light-gray'),
+          attr.class('bu-text-light-gray'),
           'Options can include icons, colors, and other rich content.'
         ),
         Group(
@@ -169,7 +169,7 @@ export const ComboboxPage = () => {
             attr.class('bu-gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text--gray'),
+              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Pick a color:'
             ),
             Combobox({
@@ -180,7 +180,7 @@ export const ComboboxPage = () => {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text--light-gray'),
+            attr.class('bu-text-sm bu-text-light-gray'),
             'Selected: ',
             colorValue.map(v => v || 'None')
           )
@@ -191,11 +191,11 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Grouped Options'
         ),
         html.p(
-          attr.class('bu-text--light-gray'),
+          attr.class('bu-text-light-gray'),
           'Options can be organized into groups with separators.'
         ),
         Group(
@@ -204,7 +204,7 @@ export const ComboboxPage = () => {
             attr.class('bu-gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text--gray'),
+              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Choose category:'
             ),
             Combobox({
@@ -215,7 +215,7 @@ export const ComboboxPage = () => {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text--light-gray'),
+            attr.class('bu-text-sm bu-text-light-gray'),
             'Selected: ',
             categoryValue.map(v => v || 'None')
           )
@@ -226,11 +226,11 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Form Integration'
         ),
         html.p(
-          attr.class('bu-text--light-gray'),
+          attr.class('bu-text-light-gray'),
           'Combobox works seamlessly with BeatUI form controllers.'
         ),
         Group(
@@ -246,7 +246,7 @@ export const ComboboxPage = () => {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text--light-gray'),
+            attr.class('bu-text-sm bu-text-light-gray'),
             'Controller value: ',
             formController.value.map(v => v || 'None')
           )
@@ -257,12 +257,12 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Accessibility Features'
         ),
         html.ul(
           attr.class(
-            'bu-list-disc bu-list-inside bu-text--light-gray bu-space-y-2'
+            'bu-list-disc bu-list-inside bu-text-light-gray bu-space-y-2'
           ),
           html.li('Full keyboard navigation (Arrow keys, Enter, Escape)'),
           html.li('ARIA attributes for screen readers'),
@@ -276,7 +276,7 @@ export const ComboboxPage = () => {
       Stack(
         attr.class('bu-gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text--gray'),
+          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
           'Keyboard Navigation'
         ),
         html.div(
@@ -285,7 +285,7 @@ export const ComboboxPage = () => {
             attr.class('bu-space-y-2'),
             html.div(attr.class('bu-font-medium'), 'Navigation:'),
             html.ul(
-              attr.class('bu-space-y-1 bu-text--light-gray'),
+              attr.class('bu-space-y-1 bu-text-light-gray'),
               html.li('↓ Arrow Down - Open dropdown / Move down'),
               html.li('↑ Arrow Up - Move up'),
               html.li('Enter - Select focused option'),
@@ -296,7 +296,7 @@ export const ComboboxPage = () => {
             attr.class('bu-space-y-2'),
             html.div(attr.class('bu-font-medium'), 'Interaction:'),
             html.ul(
-              attr.class('bu-space-y-1 bu-text--light-gray'),
+              attr.class('bu-space-y-1 bu-text-light-gray'),
               html.li('Click - Open/close dropdown'),
               html.li('Tab - Move to next element'),
               html.li('Space - Open dropdown (when not searchable)')

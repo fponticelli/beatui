@@ -155,6 +155,7 @@ export function Modal(
             html.div(
               attr.class('bc-modal__header'),
               html.div(
+                attr.class('bu-font-semibold bu-text-gray'),
                 ...(content.header ? [attr.id(headerId)] : []),
                 content.header
               ),

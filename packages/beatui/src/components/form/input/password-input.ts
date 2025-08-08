@@ -71,7 +71,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
       after:
         after ??
         html.button(
-          attr.class('bc-input-container__password-toggle bu-text--light-gray'),
+          attr.class('bc-input-container__password-toggle bu-text-light-gray'),
           aria.label(t.togglePasswordVisibility()),
           on.click(() => hidePassword.update(v => !v)),
           When(

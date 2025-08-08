@@ -40,6 +40,8 @@ const fr: BeatUIMessages = {
   he: () => 'Hébreu',
   fa: () => 'Persan',
   ur: () => 'Ourdou',
+  // input
+  emailPlaceholderText: () => 'Entrez votre e-mail',
 }
 
 export default fr
