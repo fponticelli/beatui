@@ -19,7 +19,8 @@ const tr = {
   // Reset Password
   resetPasswordTitle: () => 'Şifreyi Sıfırla',
   resetPasswordButton: () => 'Şifreyi Sıfırla',
-  resetPasswordDescription: () => 'Şifreni sıfırlamak için e-posta adresini gir.',
+  resetPasswordDescription: () =>
+    'Şifreni sıfırlamak için e-posta adresini gir.',
   backToSignInLink: () => 'Giriş sayfasına dön',
 
   // Social Login

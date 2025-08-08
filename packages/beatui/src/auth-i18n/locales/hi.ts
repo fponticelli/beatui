@@ -19,7 +19,8 @@ const hi = {
   // Reset Password
   resetPasswordTitle: () => 'पासवर्ड रीसेट करें',
   resetPasswordButton: () => 'पासवर्ड रीसेट करें',
-  resetPasswordDescription: () => 'अपना पासवर्ड रीसेट करने के लिए अपना ईमेल दर्ज करें।',
+  resetPasswordDescription: () =>
+    'अपना पासवर्ड रीसेट करने के लिए अपना ईमेल दर्ज करें।',
   backToSignInLink: () => 'साइन इन पर वापस जाएं',
 
   // Social Login

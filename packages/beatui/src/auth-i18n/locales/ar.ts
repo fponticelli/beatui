@@ -19,7 +19,8 @@ const ar = {
   // Reset Password
   resetPasswordTitle: () => 'إعادة تعيين كلمة المرور',
   resetPasswordButton: () => 'إعادة تعيين كلمة المرور',
-  resetPasswordDescription: () => 'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.',
+  resetPasswordDescription: () =>
+    'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.',
   backToSignInLink: () => 'العودة إلى تسجيل الدخول',
 
   // Social Login

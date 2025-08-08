@@ -19,7 +19,8 @@ const fa = {
   // Reset Password
   resetPasswordTitle: () => 'بازنشانی رمز عبور',
   resetPasswordButton: () => 'بازنشانی رمز عبور',
-  resetPasswordDescription: () => 'ایمیل خود را برای بازنشانی رمز عبور وارد کنید.',
+  resetPasswordDescription: () =>
+    'ایمیل خود را برای بازنشانی رمز عبور وارد کنید.',
   backToSignInLink: () => 'بازگشت به ورود',
 
   // Social Login

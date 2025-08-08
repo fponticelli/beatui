@@ -19,7 +19,8 @@ const ja = {
   // Reset Password
   resetPasswordTitle: () => 'パスワードリセット',
   resetPasswordButton: () => 'パスワードリセット',
-  resetPasswordDescription: () => 'メールアドレスを入力してパスワードをリセット',
+  resetPasswordDescription: () =>
+    'メールアドレスを入力してパスワードをリセット',
   backToSignInLink: () => 'ログインに戻る',
 
   // Social Login

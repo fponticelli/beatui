@@ -19,7 +19,8 @@ const ko = {
   // Reset Password
   resetPasswordTitle: () => '비밀번호 재설정',
   resetPasswordButton: () => '비밀번호 재설정',
-  resetPasswordDescription: () => '비밀번호를 재설정하려면 이메일을 입력하세요.',
+  resetPasswordDescription: () =>
+    '비밀번호를 재설정하려면 이메일을 입력하세요.',
   backToSignInLink: () => '로그인으로 돌아가기',
 
   // Social Login

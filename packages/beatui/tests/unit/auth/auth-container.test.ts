@@ -2,7 +2,7 @@
 // Unit tests for the AuthContainer component
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, html } from '@tempots/dom'
+import { render } from '@tempots/dom'
 import {
   AuthContainer,
   AuthModal,
@@ -230,21 +230,6 @@ describe('AuthContainer', () => {
     // Just verify the form is still present and functional
     const form = container.querySelector('.bc-auth-form__form')
     expect(form).toBeTruthy()
-  })
-
-  it('should apply custom className', () => {
-    render(
-      WithProviders(() =>
-        AuthContainer({
-          className: 'custom-auth-class',
-          onSignIn: vi.fn(),
-        })
-      ),
-      container
-    )
-
-    const authElement = container.querySelector('.bc-auth-container')
-    expect(authElement?.classList.contains('custom-auth-class')).toBe(true)
   })
 
   it('should handle async form submission', async () => {

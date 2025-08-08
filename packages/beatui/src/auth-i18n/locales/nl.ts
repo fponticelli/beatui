@@ -19,7 +19,8 @@ const nl = {
   // Reset Password
   resetPasswordTitle: () => 'Wachtwoord resetten',
   resetPasswordButton: () => 'Wachtwoord resetten',
-  resetPasswordDescription: () => 'Voer je e-mailadres in om je wachtwoord te resetten.',
+  resetPasswordDescription: () =>
+    'Voer je e-mailadres in om je wachtwoord te resetten.',
   backToSignInLink: () => 'Terug naar inloggen',
 
   // Social Login

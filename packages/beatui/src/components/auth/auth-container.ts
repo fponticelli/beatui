@@ -86,7 +86,11 @@ export function AuthContainer(
     }
 
     return html.div(
-      classes({ 'bc-auth-container': showContainer ?? true }),
+      classes({
+        'bc-auth-container': true,
+        'bc-auth-container--styled': Value.map(showContainer ?? true, sc => sc),
+      }),
+      attr.class(currentMode.map(mode => `bc-auth-container--${mode}`)),
       attr.class('bc-auth-form'),
       OnDispose(currentMode.dispose),
 

@@ -19,7 +19,8 @@ const ur = {
   // Reset Password
   resetPasswordTitle: () => 'پاس ورڈ ری سیٹ کریں',
   resetPasswordButton: () => 'پاس ورڈ ری سیٹ کریں',
-  resetPasswordDescription: () => 'اپنا پاس ورڈ ری سیٹ کرنے کے لیے اپنا ای میل درج کریں۔',
+  resetPasswordDescription: () =>
+    'اپنا پاس ورڈ ری سیٹ کرنے کے لیے اپنا ای میل درج کریں۔',
   backToSignInLink: () => 'سائن ان پر واپس جائیں',
 
   // Social Login

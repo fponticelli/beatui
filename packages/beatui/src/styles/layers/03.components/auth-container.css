@@ -1,6 +1,6 @@
 @layer components {
   /* Auth Container Component */
-  .bc-auth-container {
+  .bc-auth-container--styled {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -14,7 +14,7 @@
   }
 
   /* Dark mode */
-  .b-dark .bc-auth-container {
+    .b-dark .bc-auth-container--styled {
     background-color: var(--bg-surface-dark);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   }
@@ -34,7 +34,7 @@
 
   /* Responsive design */
   @media (width < 40rem) {
-    .bc-auth-container {
+    .bc-auth-container--styled {
       max-width: none;
       margin: 0;
       padding: var(--spacing-lg);
@@ -47,11 +47,11 @@
 
   /* High contrast mode support */
   @media (prefers-contrast: high) {
-    .bc-auth-container {
+    .bc-auth-container--styled {
       border: 2px solid var(--border-border-light);
     }
 
-    .b-dark .bc-auth-container {
+        .b-dark .bc-auth-container--styled {
       border-color: var(--border-border-dark);
     }
   }
