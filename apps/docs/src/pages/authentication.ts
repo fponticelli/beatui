@@ -76,7 +76,6 @@ export const AuthenticationPage = () => {
         attr.class('bu-text-gray bu-mb-4 bu-text-center'),
         'Click the button below to open the authentication form in a modal.'
       ),
-      // @ts-ignore - TypeScript incorrectly infers AuthModal signature, but it works correctly at runtime
       AuthModal(open =>
         Button(
           {
