@@ -75,37 +75,6 @@ describe('Form Input Accessibility', () => {
       expect(error?.getAttribute('aria-live')).toBe('polite')
       expect(error?.getAttribute('role')).toBe('alert')
     })
-
-    it('should set data attributes on content wrapper', async () => {
-      const value = prop('')
-
-      render(
-        WithProviders(() =>
-          InputWrapper({
-            label: 'Test Input',
-            description: 'This is a description',
-            error: 'This is an error',
-            required: true,
-            content: TextInput({
-              value,
-              id: 'test-input',
-            }),
-            labelFor: 'test-input',
-          })
-        ),
-        container
-      )
-
-      const contentWrapper = container.querySelector(
-        '.bc-input-wrapper__content'
-      )
-
-      expect(contentWrapper?.getAttribute('data-describedby')).toMatch(
-        /input-wrapper-.*-description input-wrapper-.*-error/
-      )
-      expect(contentWrapper?.getAttribute('data-required')).toBe('true')
-      expect(contentWrapper?.getAttribute('data-invalid')).toBe('true')
-    })
   })
 
   describe('TextInput', () => {

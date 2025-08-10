@@ -37,6 +37,7 @@ export function Menu() {
           content: 'Segmented Control',
         }),
         SidebarLink({ href: '/combobox', content: 'Combobox' }),
+        SidebarLink({ href: '/color-picker', content: 'Color Picker' }),
         SidebarLink({ href: '/editable-text', content: Todo('Editable Text') }),
         SidebarLink({ href: '/form', content: 'Form' })
       ),

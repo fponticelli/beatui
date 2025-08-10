@@ -1,4 +1,4 @@
-import { aria, attr, Empty, html, on, Value, WithElement } from '@tempots/dom'
+import { aria, attr, Empty, html, on, Value } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { MutedLabel } from '../../typography/label'
@@ -55,28 +55,9 @@ export const CheckboxInput = (options: InputOptions<boolean>) => {
             disabled ? -1 : 0
           )
         ),
-        aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
+        aria.checked(value as Value<boolean | 'mixed'>),
         aria.disabled(disabled),
         placeholder != null ? aria.labelledby(labelId) : Empty,
-        // Add accessibility attributes from parent wrapper
-        WithElement(el => {
-          const wrapper = el.closest('[data-describedby]')
-          if (wrapper) {
-            const describedBy = wrapper.getAttribute('data-describedby')
-            const required = wrapper.getAttribute('data-required')
-            const invalid = wrapper.getAttribute('data-invalid')
-
-            if (describedBy) {
-              el.setAttribute('aria-describedby', describedBy)
-            }
-            if (required === 'true') {
-              el.setAttribute('aria-required', 'true')
-            }
-            if (invalid === 'true') {
-              el.setAttribute('aria-invalid', 'true')
-            }
-          }
-        }),
         on.keydown(handleKeyDown),
         onBlur != null ? on.blur(onBlur) : Empty
       ),

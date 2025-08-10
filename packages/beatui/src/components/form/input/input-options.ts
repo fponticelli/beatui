@@ -1,4 +1,4 @@
-import { attr, Fragment, TNode, Value } from '@tempots/dom'
+import { aria, attr, Fragment, TNode, Value } from '@tempots/dom'
 import { Merge } from '@tempots/std'
 import { Controller } from '../controller/controller'
 
@@ -11,6 +11,7 @@ export type CommonInputOptions = {
   name?: Value<string>
   placeholder?: Value<string>
   id?: Value<string>
+  required?: Value<boolean>
 }
 
 export type InputOptions<V> = Merge<
@@ -33,6 +34,8 @@ export const CommonInputAttributes = ({
   name,
   placeholder,
   id,
+  required,
+  hasError,
 }: CommonInputOptions) => {
   return Fragment(
     attr.autocomplete(autocomplete),
@@ -41,7 +44,13 @@ export const CommonInputAttributes = ({
     attr.disabled(disabled),
     attr.name(name ?? id),
     attr.placeholder(placeholder),
-    attr.id(id)
+    attr.id(id),
+    aria.required(required),
+    hasError != null
+      ? aria.invalid(
+          (hasError ?? false) as Value<boolean | 'grammar' | 'spelling'>
+        )
+      : null
   )
 }
 

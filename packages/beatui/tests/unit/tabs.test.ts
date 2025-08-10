@@ -202,7 +202,7 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const tabs = container.querySelectorAll(
+      const _tabs = container.querySelectorAll(
         '[role="tab"]'
       ) as NodeListOf<HTMLElement>
 
@@ -238,7 +238,7 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const tabs = container.querySelectorAll(
+      const _tabs = container.querySelectorAll(
         '[role="tab"]'
       ) as NodeListOf<HTMLElement>
 
@@ -272,7 +272,7 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const tabs = container.querySelectorAll(
+      const _tabs = container.querySelectorAll(
         '[role="tab"]'
       ) as NodeListOf<HTMLElement>
 
@@ -351,7 +351,7 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const tabs = container.querySelectorAll(
+      const _tabs = container.querySelectorAll(
         '[role="tab"]'
       ) as NodeListOf<HTMLElement>
 

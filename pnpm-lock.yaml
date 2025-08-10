@@ -18,14 +18,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 28.3.1
-        version: 28.3.1
+        specifier: 28.4.5
+        version: 28.4.5
       '@tempots/std':
         specifier: 0.22.1
         version: 0.22.1
       '@tempots/ui':
-        specifier: 6.3.0
-        version: 6.3.0(@tempots/std@0.22.1)
+        specifier: 6.4.1
+        version: 6.4.1(@tempots/dom@28.4.5)(@tempots/std@0.22.1)
       zod:
         specifier: ^3.25.67
         version: 3.25.76
@@ -79,14 +79,14 @@ importers:
   packages/beatui:
     dependencies:
       '@tempots/dom':
-        specifier: 28.3.1
-        version: 28.3.1
+        specifier: 28.4.5
+        version: 28.4.5
       '@tempots/std':
         specifier: 0.22.1
         version: 0.22.1
       '@tempots/ui':
-        specifier: 6.3.0
-        version: 6.3.0(@tempots/std@0.22.1)
+        specifier: 6.4.1
+        version: 6.4.1(@tempots/dom@28.4.5)(@tempots/std@0.22.1)
     devDependencies:
       '@testing-library/dom':
         specifier: 10.4.0
@@ -512,15 +512,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tempots/dom@28.3.1':
-    resolution: {integrity: sha512-N0lsD6vUusRN9mi3UHwICKxZk5PSyyt5Ou2Jn3wWrypnkEubcGOjmpy8riFzKlO3JAepG0U024pwFh+xL398sA==}
+  '@tempots/dom@28.4.5':
+    resolution: {integrity: sha512-EmH87gzQXTggwpERkSZfNP/j8AAL12XWR9nrzF/LO/NtwH+SBeGuT95IdJaf2lAWK4jcsVppDoAUnZjfjzbaEQ==}
 
   '@tempots/std@0.22.1':
     resolution: {integrity: sha512-5cRPTMf4pRRCkuSa5VRKswv44WriBePNOMFtibXjzdoNL6iZvDAIGqFsuzRI20VsbHNjOjRMsk0zj33I/ARAFQ==}
 
-  '@tempots/ui@6.3.0':
-    resolution: {integrity: sha512-SC0J+gHmTJM7ho1WfLvwwALJB7av/7oF3D8cWUEhp+KrhIRIbnGInGJfkhlOcqSc5a7GhEaiIvhOnfxc5pb6vA==}
+  '@tempots/ui@6.4.1':
+    resolution: {integrity: sha512-5nuRocYTpcn4/1gW14gpU8pAcvcQc0MsN/OzbFORz6S3ZIwW+DKo0HpkIJdKXHoE92KROqIU1mMTD+iz+DNFwA==}
     peerDependencies:
+      '@tempots/dom': 28.4.5
       '@tempots/std': 0.22.1
 
   '@testing-library/dom@10.4.0':
@@ -2007,13 +2008,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.41.1':
     optional: true
 
-  '@tempots/dom@28.3.1': {}
+  '@tempots/dom@28.4.5': {}
 
   '@tempots/std@0.22.1': {}
 
-  '@tempots/ui@6.3.0(@tempots/std@0.22.1)':
+  '@tempots/ui@6.4.1(@tempots/dom@28.4.5)(@tempots/std@0.22.1)':
     dependencies:
       '@floating-ui/dom': 1.7.0
+      '@tempots/dom': 28.4.5
       '@tempots/std': 0.22.1
 
   '@testing-library/dom@10.4.0':

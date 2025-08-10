@@ -172,14 +172,6 @@
     overflow-y: auto;
   }
 
-  .bc-tabs__panel--active {
-    display: block;
-  }
-
-  .bc-tabs__panel--inactive {
-    display: none;
-  }
-
   .bc-tabs__panel:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: -2px;

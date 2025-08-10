@@ -81,7 +81,7 @@ export const Switch = ({
     attr.tabindex(
       Value.map(disabled, (disabled): number => (disabled ? -1 : 0))
     ),
-    aria.checked(value as Value<boolean | 'true' | 'false' | 'mixed'>),
+    aria.checked(value as Value<boolean | 'mixed'>),
     aria.disabled(disabled),
     aria.labelledby(label != null ? labelId : undefined),
     on.click(handleToggle),

@@ -361,7 +361,7 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
       CommonInputAttributes(options),
       attr.id(comboboxId),
       attr.tabindex(0),
-      aria.expanded(isOpen as Value<boolean | 'false' | 'true'>),
+      aria.expanded(isOpen),
       attr.class('bc-combobox'),
       attr.role('combobox'),
       aria.activedescendant(

@@ -25,6 +25,7 @@ import { RTLLTRPage } from './pages/rtl-ltr'
 import { TabsPage } from './pages/tabs'
 import { AuthenticationPage } from './pages/authentication'
 import { AuthenticationComponentsPage } from './pages/authentication-components'
+import { ColorPickerPage } from './pages/color-picker'
 
 export const App = () => {
   return BeatUI(
@@ -54,6 +55,7 @@ export const App = () => {
         '/tabs': TabsPage,
         '/tags': TagsPage,
         '/form': FormPage,
+        '/color-picker': ColorPickerPage,
         '/editable-text': EditableTextPage,
         '/breakpoint': BreakpointPage,
         '/*': () => html.div('Not Found'),

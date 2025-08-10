@@ -1,5 +1,6 @@
 export * from './appearance-selector'
 export * from './checkbox-input'
+export * from './color-input'
 export * from './combobox'
 export * from './date-input'
 export * from './date-time-input'
