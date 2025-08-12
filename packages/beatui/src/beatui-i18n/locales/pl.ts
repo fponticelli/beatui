@@ -46,6 +46,8 @@ export const pl: BeatUIMessages = {
   dropZoneInstructions: () => 'Przeciągnij i upuść pliki tutaj',
   dropZoneInstructionsWithClick: () =>
     'Przeciągnij i upuść pliki tutaj, lub naciśnij Enter lub Spację, aby otworzyć selektor plików',
+  // size
+  fileSizeUnits: () => ['Bajty', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default pl

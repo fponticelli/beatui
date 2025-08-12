@@ -46,6 +46,8 @@ export const ja: BeatUIMessages = {
   dropZoneInstructions: () => 'ファイルをここにドラッグ＆ドロップ',
   dropZoneInstructionsWithClick: () =>
     'ファイルをここにドラッグ＆ドロップ、またはEnterキーまたはSpaceキーを押してファイル選択を開く',
+  // size
+  fileSizeUnits: () => ['バイト', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default ja

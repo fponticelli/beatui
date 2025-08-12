@@ -46,6 +46,8 @@ const fr: BeatUIMessages = {
   dropZoneInstructions: () => 'Glissez et déposez les fichiers ici',
   dropZoneInstructionsWithClick: () =>
     'Glissez et déposez les fichiers ici, ou appuyez sur Entrée ou Espace pour ouvrir le sélecteur de fichiers',
+  // size
+  fileSizeUnits: () => ['Octets', 'Ko', 'Mo', 'Go', 'To'],
 }
 
 export default fr

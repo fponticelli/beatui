@@ -46,6 +46,8 @@ const zh: BeatUIMessages = {
   dropZoneInstructions: () => '将文件拖拽到此处',
   dropZoneInstructionsWithClick: () =>
     '将文件拖拽到此处，或按 Enter 或空格键打开文件选择器',
+  // size
+  fileSizeUnits: () => ['字节', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default zh

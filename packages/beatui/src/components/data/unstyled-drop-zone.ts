@@ -8,26 +8,36 @@ import {
   Signal,
   WithElement,
   Use,
+  aria,
+  OnDispose,
 } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 
 export type DropZoneOptions = {
-  onDrop: (files: File[]) => void
+  onChange: (files: File[]) => void
+  value?: Value<File[]>
   accept?: Value<string>
   enableClick?: Value<boolean>
-  content: (options: { files: Signal<File[]>; clear: () => void }) => TNode
+  content: (options: {
+    files: Signal<File[]>
+    clear: () => void
+    change: (files: File[]) => void
+  }) => TNode
+  disabled?: Value<boolean>
   allowMultiple?: Value<boolean>
 }
 
 export function UnstyledDropZone({
-  onDrop,
+  onChange,
+  value,
   accept = '*/*',
   enableClick = true,
   content,
-  allowMultiple = true,
+  disabled = false,
+  allowMultiple,
 }: DropZoneOptions) {
   return Use(BeatUII18n, t => {
-    const files = prop<File[]>([])
+    const files = Value.deriveProp(value ?? [])
     const isDragOver = prop(false)
 
     const handleDragOver = (e: DragEvent) => {
@@ -56,7 +66,7 @@ export function UnstyledDropZone({
       const droppedFiles = Array.from(e.dataTransfer?.files || [])
       if (droppedFiles.length > 0) {
         files.value = droppedFiles
-        onDrop(droppedFiles)
+        onChange(droppedFiles)
       }
     }
 
@@ -78,7 +88,7 @@ export function UnstyledDropZone({
       const selectedFiles = Array.from(input.files ?? [])
       if (selectedFiles.length > 0) {
         files.value = selectedFiles
-        onDrop(selectedFiles)
+        onChange(selectedFiles)
       }
       // Reset input value to allow selecting the same file again
       input.value = ''
@@ -106,30 +116,34 @@ export function UnstyledDropZone({
       // Hidden file input
       html.input(
         attr.type('file'),
+        attr.disabled(disabled),
         attr.accept(accept),
         attr.multiple(allowMultiple),
         attr.style(
           'position: absolute; left: -9999px; opacity: 0; pointer-events: none;'
         ),
         on.change(handleFileInputChange),
-        WithElement(el => {
-          input = el as HTMLInputElement
+        WithElement((el: HTMLInputElement) => {
+          input = el
+          return OnDispose(
+            files.on(files => {
+              const dataTransfer = new DataTransfer()
+              files.forEach(file => dataTransfer.items.add(file))
+              el.files = dataTransfer.files
+            })
+          )
         })
       ),
 
       // Screen reader instructions
-      html.div(
-        attr.id('drop-zone-instructions'),
-        attr.style(
-          'position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;'
-        ),
+      aria.label(
         enableClick
           ? t.dropZoneInstructionsWithClick()
           : t.dropZoneInstructions()
       ),
 
       // Content
-      content({ files, clear: () => (files.value = []) })
+      content({ files, clear: () => (files.value = []), change: files.set })
     )
   })
 }

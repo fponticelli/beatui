@@ -46,6 +46,8 @@ const ko: BeatUIMessages = {
   dropZoneInstructions: () => '파일을 여기에 드래그 앤 드롭하세요',
   dropZoneInstructionsWithClick: () =>
     '파일을 여기에 드래그 앤 드롭하거나, Enter 또는 Space 키를 눌러 파일 선택기를 여세요',
+  // size
+  fileSizeUnits: () => ['바이트', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default ko

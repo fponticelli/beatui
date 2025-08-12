@@ -44,6 +44,8 @@ const en = {
   dropZoneInstructions: () => 'Drag and drop files here',
   dropZoneInstructionsWithClick: () =>
     'Drag and drop files here, or press Enter or Space to open file selector',
+  // size
+  fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default en

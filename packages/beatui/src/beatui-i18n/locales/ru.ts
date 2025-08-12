@@ -46,6 +46,8 @@ export const ru: BeatUIMessages = {
   dropZoneInstructions: () => 'Перетащите файлы сюда',
   dropZoneInstructionsWithClick: () =>
     'Перетащите файлы сюда, или нажмите Enter или Пробел, чтобы открыть выбор файлов',
+  // size
+  fileSizeUnits: () => ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ'],
 }
 
 export default ru

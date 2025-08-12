@@ -46,6 +46,8 @@ const tr: BeatUIMessages = {
   dropZoneInstructions: () => 'Dosyaları buraya sürükleyip bırakın',
   dropZoneInstructionsWithClick: () =>
     'Dosyaları buraya sürükleyip bırakın, veya dosya seçiciyi açmak için Enter veya Boşluk tuşuna basın',
+  // size
+  fileSizeUnits: () => ['Bayt', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default tr

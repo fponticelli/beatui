@@ -46,6 +46,8 @@ const de: BeatUIMessages = {
   dropZoneInstructions: () => 'Dateien hier hineinziehen und ablegen',
   dropZoneInstructionsWithClick: () =>
     'Dateien hier hineinziehen und ablegen, oder Enter oder Leertaste drücken, um Dateiauswahl zu öffnen',
+  // size
+  fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default de

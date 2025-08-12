@@ -46,6 +46,8 @@ const he: BeatUIMessages = {
   dropZoneInstructions: () => 'גרור ושחרר קבצים כאן',
   dropZoneInstructionsWithClick: () =>
     'גרור ושחרר קבצים כאן, או לחץ Enter או רווח לפתיחת בורר הקבצים',
+  // size
+  fileSizeUnits: () => ['בתים', 'ק״ב', 'מ״ב', 'ג״ב', 'ט״ב'],
 }
 
 export default he

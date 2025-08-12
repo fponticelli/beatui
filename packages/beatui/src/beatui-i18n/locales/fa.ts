@@ -46,6 +46,8 @@ const fa: BeatUIMessages = {
   dropZoneInstructions: () => 'فایل‌ها را اینجا بکشید و رها کنید',
   dropZoneInstructionsWithClick: () =>
     'فایل‌ها را اینجا بکشید و رها کنید، یا Enter یا Space را فشار دهید تا انتخابگر فایل باز شود',
+  // size
+  fileSizeUnits: () => ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت'],
 }
 
 export default fa

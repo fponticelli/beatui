@@ -46,6 +46,8 @@ const ur: BeatUIMessages = {
   dropZoneInstructions: () => 'فائلوں کو یہاں گھسیٹ کر چھوڑیں',
   dropZoneInstructionsWithClick: () =>
     'فائلوں کو یہاں گھسیٹ کر چھوڑیں، یا فائل منتخب کرنے کے لیے Enter یا Space دبائیں',
+  // size
+  fileSizeUnits: () => ['بائٹس', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default ur

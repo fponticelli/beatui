@@ -46,6 +46,8 @@ export const nl: BeatUIMessages = {
   dropZoneInstructions: () => 'Sleep bestanden hierheen',
   dropZoneInstructionsWithClick: () =>
     'Sleep bestanden hierheen, of druk op Enter of Spatie om bestandskiezer te openen',
+  // size
+  fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default nl

@@ -46,6 +46,8 @@ const pt: BeatUIMessages = {
   dropZoneInstructions: () => 'Arraste e solte arquivos aqui',
   dropZoneInstructionsWithClick: () =>
     'Arraste e solte arquivos aqui, ou pressione Enter ou Espaço para abrir o seletor de arquivos',
+  // size
+  fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default pt

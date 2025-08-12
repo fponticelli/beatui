@@ -46,6 +46,8 @@ const hi: BeatUIMessages = {
   dropZoneInstructions: () => 'फाइलों को यहाँ खींचें और छोड़ें',
   dropZoneInstructionsWithClick: () =>
     'फाइलों को यहाँ खींचें और छोड़ें, या फाइल चयनकर्ता खोलने के लिए Enter या Space दबाएं',
+  // size
+  fileSizeUnits: () => ['बाइट्स', 'KB', 'MB', 'GB', 'TB'],
 }
 
 export default hi

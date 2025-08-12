@@ -46,6 +46,8 @@ const ar: BeatUIMessages = {
   dropZoneInstructions: () => 'اسحب وأفلت الملفات هنا',
   dropZoneInstructionsWithClick: () =>
     'اسحب وأفلت الملفات هنا، أو اضغط Enter أو Space لفتح محدد الملفات',
+  // size
+  fileSizeUnits: () => ['بايت', 'ك.ب', 'م.ب', 'ج.ب', 'ت.ب'],
 }
 
 export default ar
