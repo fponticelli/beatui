@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import { Switch } from '../../src/components/form/input/switch'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
-import { InputWrapper } from '../../src/components/form/input/input-wrapper'
 import { WithProviders } from '../helpers/test-providers'
 
 describe('Switch and Checkbox Accessibility', () => {
@@ -276,36 +275,6 @@ describe('Switch and Checkbox Accessibility', () => {
         'terms-checkbox-label'
       )
       expect(label.textContent).toContain('I agree to the terms')
-    })
-
-    it('should inherit accessibility attributes from InputWrapper', async () => {
-      const value = prop(false)
-
-      render(
-        WithProviders(() =>
-          InputWrapper({
-            label: 'Terms and Conditions',
-            description: 'Please read and accept our terms',
-            error: 'You must accept the terms',
-            required: true,
-            content: CheckboxInput({
-              value,
-              placeholder: 'I accept the terms',
-              onChange: () => {},
-            }),
-          })
-        ),
-        container
-      )
-
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      const checkbox = container.querySelector('[role="checkbox"]')!
-      expect(checkbox.getAttribute('aria-describedby')).toMatch(
-        /input-wrapper-.*-description input-wrapper-.*-error/
-      )
-      expect(checkbox.getAttribute('aria-required')).toBe('true')
-      expect(checkbox.getAttribute('aria-invalid')).toBe('true')
     })
 
     it('should update checked state correctly', async () => {

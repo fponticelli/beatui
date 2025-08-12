@@ -20,9 +20,13 @@ describe('Tabs Component', () => {
     const onChange = vi.fn((key: string) => value.set(key))
 
     const items: TabItem[] = [
-      { key: 'tab1', label: 'First Tab', content: html.div('Content 1') },
-      { key: 'tab2', label: 'Second Tab', content: html.div('Content 2') },
-      { key: 'tab3', label: 'Third Tab', content: html.div('Content 3') },
+      { key: 'tab1', label: 'First Tab', content: () => html.div('Content 1') },
+      {
+        key: 'tab2',
+        label: 'Second Tab',
+        content: () => html.div('Content 2'),
+      },
+      { key: 'tab3', label: 'Third Tab', content: () => html.div('Content 3') },
     ]
 
     return { value, onChange, items }
@@ -80,13 +84,11 @@ describe('Tabs Component', () => {
       )
 
       const panels = container.querySelectorAll('[role="tabpanel"]')
-      expect(panels).toHaveLength(3)
+      expect(panels).toHaveLength(1)
 
-      expect(panels[0].hasAttribute('hidden')).toBe(true)
-      expect(panels[1].hasAttribute('hidden')).toBe(false)
-      expect(panels[2].hasAttribute('hidden')).toBe(true)
-
-      expect(panels[1].textContent).toBe('Content 2')
+      // Only the active tab's panel should be rendered
+      expect(panels[0].textContent).toBe('Content 2')
+      expect(panels[0].getAttribute('id')).toContain('panel-tab2')
     })
 
     it('should call onChange when tab is clicked', () => {
@@ -123,17 +125,26 @@ describe('Tabs Component', () => {
       const tabs = container.querySelectorAll('[role="tab"]')
       const panels = container.querySelectorAll('[role="tabpanel"]')
 
+      // Only one panel should be rendered (for the active tab)
+      expect(panels).toHaveLength(1)
+
+      // Check that all tabs have proper IDs and aria-controls
       tabs.forEach((tab, index) => {
         const tabId = tab.getAttribute('id')
-        const panelId = panels[index].getAttribute('id')
         const ariaControls = tab.getAttribute('aria-controls')
-        const ariaLabelledBy = panels[index].getAttribute('aria-labelledby')
 
         expect(tabId).toBeTruthy()
-        expect(panelId).toBeTruthy()
-        expect(ariaControls).toBe(panelId)
-        expect(ariaLabelledBy).toBe(tabId)
+        expect(ariaControls).toBeTruthy()
+
+        // The aria-controls should point to the panel for this tab
+        expect(ariaControls).toContain(`panel-${items[index].key}`)
       })
+
+      // Check the active panel's aria-labelledby
+      const activePanel = panels[0]
+      const ariaLabelledBy = activePanel.getAttribute('aria-labelledby')
+      expect(ariaLabelledBy).toBeTruthy()
+      expect(ariaLabelledBy).toContain('tab-tab1') // tab1 is the default active tab
     })
 
     it('should manage focus correctly', () => {
@@ -163,14 +174,22 @@ describe('Tabs Component', () => {
     it('should handle disabled tabs correctly', () => {
       const { value, onChange } = createBasicTabs()
       const items: TabItem[] = [
-        { key: 'tab1', label: 'First Tab', content: html.div('Content 1') },
+        {
+          key: 'tab1',
+          label: 'First Tab',
+          content: () => html.div('Content 1'),
+        },
         {
           key: 'tab2',
           label: 'Second Tab',
-          content: html.div('Content 2'),
+          content: () => html.div('Content 2'),
           disabled: prop(true),
         },
-        { key: 'tab3', label: 'Third Tab', content: html.div('Content 3') },
+        {
+          key: 'tab3',
+          label: 'Third Tab',
+          content: () => html.div('Content 3'),
+        },
       ]
 
       render(
@@ -335,14 +354,22 @@ describe('Tabs Component', () => {
     it('should skip disabled tabs during keyboard navigation', () => {
       const { value, onChange } = createBasicTabs()
       const items: TabItem[] = [
-        { key: 'tab1', label: 'First Tab', content: html.div('Content 1') },
+        {
+          key: 'tab1',
+          label: 'First Tab',
+          content: () => html.div('Content 1'),
+        },
         {
           key: 'tab2',
           label: 'Second Tab',
-          content: html.div('Content 2'),
+          content: () => html.div('Content 2'),
           disabled: prop(true),
         },
-        { key: 'tab3', label: 'Third Tab', content: html.div('Content 3') },
+        {
+          key: 'tab3',
+          label: 'Third Tab',
+          content: () => html.div('Content 3'),
+        },
       ]
 
       render(
@@ -468,10 +495,9 @@ describe('Tabs Component', () => {
         expect(tab.getAttribute('aria-selected')).toBe('false')
       })
 
+      // No panel should be rendered when there's no valid active tab
       const panels = container.querySelectorAll('[role="tabpanel"]')
-      panels.forEach(panel => {
-        expect(panel.hasAttribute('hidden')).toBe(true)
-      })
+      expect(panels).toHaveLength(0)
     })
   })
 })

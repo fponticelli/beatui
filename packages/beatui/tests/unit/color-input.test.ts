@@ -210,7 +210,7 @@ describe('ColorInput Component', () => {
       container
     )
 
-    const inputContainer = container.querySelector('.bc-input-container')
+    const inputContainer = container.querySelector('.bc-base-input-container')
     expect(inputContainer).not.toBeNull()
 
     const input = inputContainer?.querySelector('input[type="color"]')
@@ -230,7 +230,9 @@ describe('ColorInput Component', () => {
       container
     )
 
-    const container_element = container.querySelector('.bc-input-container')
+    const container_element = container.querySelector(
+      '.bc-base-input-container'
+    )
     expect(container_element?.textContent).toContain('Before')
     expect(container_element?.textContent).toContain('After')
   })

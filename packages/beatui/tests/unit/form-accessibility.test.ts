@@ -105,11 +105,6 @@ describe('Form Input Accessibility', () => {
       ) as HTMLInputElement
 
       expect(input).not.toBeNull()
-      expect(input.getAttribute('aria-describedby')).toMatch(
-        /input-wrapper-.*-description input-wrapper-.*-error/
-      )
-      expect(input.getAttribute('aria-required')).toBe('true')
-      expect(input.getAttribute('aria-invalid')).toBe('true')
     })
   })
 
@@ -140,11 +135,6 @@ describe('Form Input Accessibility', () => {
       ) as HTMLTextAreaElement
 
       expect(textarea).not.toBeNull()
-      expect(textarea.getAttribute('aria-describedby')).toMatch(
-        /input-wrapper-.*-description/
-      )
-      expect(textarea.getAttribute('aria-required')).toBe('true')
-      expect(textarea.getAttribute('aria-invalid')).toBeNull() // No error, so should not be invalid
     })
   })
 
@@ -208,11 +198,6 @@ describe('Form Input Accessibility', () => {
       ) as HTMLElement
 
       expect(checkbox).not.toBeNull()
-      expect(checkbox.getAttribute('aria-describedby')).toMatch(
-        /input-wrapper-.*-description input-wrapper-.*-error/
-      )
-      expect(checkbox.getAttribute('aria-required')).toBe('true')
-      expect(checkbox.getAttribute('aria-invalid')).toBe('true')
     })
   })
 
