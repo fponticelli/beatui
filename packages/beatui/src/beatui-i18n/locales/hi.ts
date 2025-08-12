@@ -42,6 +42,10 @@ const hi: BeatUIMessages = {
   ur: () => 'उर्दू',
   // input
   emailPlaceholderText: () => 'अपना ईमेल दर्ज करें',
+  // drop zone
+  dropZoneInstructions: () => 'फाइलों को यहाँ खींचें और छोड़ें',
+  dropZoneInstructionsWithClick: () =>
+    'फाइलों को यहाँ खींचें और छोड़ें, या फाइल चयनकर्ता खोलने के लिए Enter या Space दबाएं',
 }
 
 export default hi

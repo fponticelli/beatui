@@ -42,6 +42,10 @@ const fr: BeatUIMessages = {
   ur: () => 'Ourdou',
   // input
   emailPlaceholderText: () => 'Entrez votre e-mail',
+  // drop zone
+  dropZoneInstructions: () => 'Glissez et déposez les fichiers ici',
+  dropZoneInstructionsWithClick: () =>
+    'Glissez et déposez les fichiers ici, ou appuyez sur Entrée ou Espace pour ouvrir le sélecteur de fichiers',
 }
 
 export default fr

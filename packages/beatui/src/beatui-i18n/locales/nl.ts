@@ -42,6 +42,10 @@ export const nl: BeatUIMessages = {
   ur: () => 'Urdu',
   // input
   emailPlaceholderText: () => 'Voer je e-mail in',
+  // drop zone
+  dropZoneInstructions: () => 'Sleep bestanden hierheen',
+  dropZoneInstructionsWithClick: () =>
+    'Sleep bestanden hierheen, of druk op Enter of Spatie om bestandskiezer te openen',
 }
 
 export default nl

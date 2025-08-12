@@ -42,6 +42,10 @@ const tr: BeatUIMessages = {
   ur: () => 'Urduca',
   // input
   emailPlaceholderText: () => 'E-postanızı girin',
+  // drop zone
+  dropZoneInstructions: () => 'Dosyaları buraya sürükleyip bırakın',
+  dropZoneInstructionsWithClick: () =>
+    'Dosyaları buraya sürükleyip bırakın, veya dosya seçiciyi açmak için Enter veya Boşluk tuşuna basın',
 }
 
 export default tr

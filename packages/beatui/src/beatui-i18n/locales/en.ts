@@ -40,6 +40,10 @@ const en = {
   ur: () => 'Urdu',
   // input
   emailPlaceholderText: () => 'Enter your email',
+  // drop zone
+  dropZoneInstructions: () => 'Drag and drop files here',
+  dropZoneInstructionsWithClick: () =>
+    'Drag and drop files here, or press Enter or Space to open file selector',
 }
 
 export default en

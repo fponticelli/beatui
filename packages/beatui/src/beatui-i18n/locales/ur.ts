@@ -42,6 +42,10 @@ const ur: BeatUIMessages = {
   ur: () => 'اردو',
   // input
   emailPlaceholderText: () => 'اپنا ای میل داخل کریں',
+  // drop zone
+  dropZoneInstructions: () => 'فائلوں کو یہاں گھسیٹ کر چھوڑیں',
+  dropZoneInstructionsWithClick: () =>
+    'فائلوں کو یہاں گھسیٹ کر چھوڑیں، یا فائل منتخب کرنے کے لیے Enter یا Space دبائیں',
 }
 
 export default ur

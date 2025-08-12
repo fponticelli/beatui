@@ -42,6 +42,10 @@ const zh: BeatUIMessages = {
   ur: () => '乌尔都语',
   // input
   emailPlaceholderText: () => '请输入邮箱',
+  // drop zone
+  dropZoneInstructions: () => '将文件拖拽到此处',
+  dropZoneInstructionsWithClick: () =>
+    '将文件拖拽到此处，或按 Enter 或空格键打开文件选择器',
 }
 
 export default zh

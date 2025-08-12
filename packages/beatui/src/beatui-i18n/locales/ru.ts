@@ -42,6 +42,10 @@ export const ru: BeatUIMessages = {
   ur: () => 'Урду',
   // input
   emailPlaceholderText: () => 'Введите электронную почту',
+  // drop zone
+  dropZoneInstructions: () => 'Перетащите файлы сюда',
+  dropZoneInstructionsWithClick: () =>
+    'Перетащите файлы сюда, или нажмите Enter или Пробел, чтобы открыть выбор файлов',
 }
 
 export default ru

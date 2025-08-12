@@ -42,6 +42,10 @@ const vi: BeatUIMessages = {
   ur: () => 'Tiếng Urdu',
   // input
   emailPlaceholderText: () => 'Nhập email của bạn',
+  // drop zone
+  dropZoneInstructions: () => 'Kéo và thả tệp vào đây',
+  dropZoneInstructionsWithClick: () =>
+    'Kéo và thả tệp vào đây, hoặc nhấn Enter hoặc Space để mở trình chọn tệp',
 }
 
 export default vi

@@ -42,6 +42,10 @@ const he: BeatUIMessages = {
   ur: () => 'אורדו',
   // input
   emailPlaceholderText: () => 'הכנס את כתובת הדוא"ל',
+  // drop zone
+  dropZoneInstructions: () => 'גרור ושחרר קבצים כאן',
+  dropZoneInstructionsWithClick: () =>
+    'גרור ושחרר קבצים כאן, או לחץ Enter או רווח לפתיחת בורר הקבצים',
 }
 
 export default he

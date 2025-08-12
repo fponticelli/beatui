@@ -42,6 +42,10 @@ const fa: BeatUIMessages = {
   ur: () => 'اردو',
   // input
   emailPlaceholderText: () => 'ایمیل خود را وارد کنید',
+  // drop zone
+  dropZoneInstructions: () => 'فایل‌ها را اینجا بکشید و رها کنید',
+  dropZoneInstructionsWithClick: () =>
+    'فایل‌ها را اینجا بکشید و رها کنید، یا Enter یا Space را فشار دهید تا انتخابگر فایل باز شود',
 }
 
 export default fa

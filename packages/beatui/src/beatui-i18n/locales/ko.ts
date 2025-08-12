@@ -42,6 +42,10 @@ const ko: BeatUIMessages = {
   ur: () => '우르두어',
   // input
   emailPlaceholderText: () => '이메일을 입력하세요',
+  // drop zone
+  dropZoneInstructions: () => '파일을 여기에 드래그 앤 드롭하세요',
+  dropZoneInstructionsWithClick: () =>
+    '파일을 여기에 드래그 앤 드롭하거나, Enter 또는 Space 키를 눌러 파일 선택기를 여세요',
 }
 
 export default ko

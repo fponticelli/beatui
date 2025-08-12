@@ -42,6 +42,10 @@ export const ja: BeatUIMessages = {
   ur: () => 'ウルドゥー語',
   // input
   emailPlaceholderText: () => 'メールアドレスを入力',
+  // drop zone
+  dropZoneInstructions: () => 'ファイルをここにドラッグ＆ドロップ',
+  dropZoneInstructionsWithClick: () =>
+    'ファイルをここにドラッグ＆ドロップ、またはEnterキーまたはSpaceキーを押してファイル選択を開く',
 }
 
 export default ja

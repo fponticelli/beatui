@@ -42,6 +42,10 @@ const pt: BeatUIMessages = {
   ur: () => 'Urdu',
   // input
   emailPlaceholderText: () => 'Digite seu e-mail',
+  // drop zone
+  dropZoneInstructions: () => 'Arraste e solte arquivos aqui',
+  dropZoneInstructionsWithClick: () =>
+    'Arraste e solte arquivos aqui, ou pressione Enter ou Espaço para abrir o seletor de arquivos',
 }
 
 export default pt

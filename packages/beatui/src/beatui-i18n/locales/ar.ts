@@ -42,6 +42,10 @@ const ar: BeatUIMessages = {
   ur: () => 'الأردية',
   // input
   emailPlaceholderText: () => 'بريدك الإلكتروني',
+  // drop zone
+  dropZoneInstructions: () => 'اسحب وأفلت الملفات هنا',
+  dropZoneInstructionsWithClick: () =>
+    'اسحب وأفلت الملفات هنا، أو اضغط Enter أو Space لفتح محدد الملفات',
 }
 
 export default ar
