@@ -38,6 +38,7 @@ export function Menu() {
         }),
         SidebarLink({ href: '/combobox', content: 'Combobox' }),
         SidebarLink({ href: '/color-picker', content: 'Color Picker' }),
+        SidebarLink({ href: '/file-input', content: 'File Input' }),
         SidebarLink({ href: '/editable-text', content: Todo('Editable Text') }),
         SidebarLink({ href: '/form', content: 'Form' })
       ),
