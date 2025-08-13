@@ -43,9 +43,10 @@ const fa: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'ایمیل خود را وارد کنید',
   // drop zone
-  dropZoneInstructions: () => 'فایل‌ها را اینجا بکشید و رها کنید',
-  dropZoneInstructionsWithClick: () =>
-    'فایل‌ها را اینجا بکشید و رها کنید، یا Enter یا Space را فشار دهید تا انتخابگر فایل باز شود',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید، یا Enter یا Space را فشار دهید تا انتخابگر فایل باز شود'
+      : 'فایل‌ها را بکشید',
   // size
   fileSizeUnits: () => ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت'],
   // file input

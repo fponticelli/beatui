@@ -43,9 +43,10 @@ const de: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'E-Mail eingeben',
   // drop zone
-  dropZoneInstructions: () => 'Dateien hier hineinziehen und ablegen',
-  dropZoneInstructionsWithClick: () =>
-    'Dateien hier hineinziehen und ablegen, oder Enter oder Leertaste drücken, um Dateiauswahl zu öffnen',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Klicken zum Auswählen oder Dateien hierher ziehen, oder Enter oder Leertaste drücken, um Dateiauswahl zu öffnen'
+      : 'Dateien hierher ziehen',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
   // file input

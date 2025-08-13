@@ -43,9 +43,10 @@ export const nl: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Voer je e-mail in',
   // drop zone
-  dropZoneInstructions: () => 'Sleep bestanden hierheen',
-  dropZoneInstructionsWithClick: () =>
-    'Sleep bestanden hierheen, of druk op Enter of Spatie om bestandskiezer te openen',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Klik om te kiezen of sleep bestanden hierheen, of druk op Enter of Spatie om bestandskiezer te openen'
+      : 'Sleep bestanden hierheen',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
   // file input

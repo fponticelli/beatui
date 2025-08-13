@@ -43,9 +43,10 @@ const he: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'הכנס את כתובת הדוא"ל',
   // drop zone
-  dropZoneInstructions: () => 'גרור ושחרר קבצים כאן',
-  dropZoneInstructionsWithClick: () =>
-    'גרור ושחרר קבצים כאן, או לחץ Enter או רווח לפתיחת בורר הקבצים',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'לחץ לבחירה או גרור קבצים כאן, או לחץ Enter או רווח לפתיחת בורר הקבצים'
+      : 'גרור קבצים כאן',
   // size
   fileSizeUnits: () => ['בתים', 'ק״ב', 'מ״ב', 'ג״ב', 'ט״ב'],
   // file input

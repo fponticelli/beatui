@@ -43,9 +43,10 @@ const tr: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'E-postanızı girin',
   // drop zone
-  dropZoneInstructions: () => 'Dosyaları buraya sürükleyip bırakın',
-  dropZoneInstructionsWithClick: () =>
-    'Dosyaları buraya sürükleyip bırakın, veya dosya seçiciyi açmak için Enter veya Boşluk tuşuna basın',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Seçmek için tıklayın veya dosyaları buraya sürükleyin, veya dosya seçiciyi açmak için Enter veya Boşluk tuşuna basın'
+      : 'Dosyaları buraya sürükleyin',
   // size
   fileSizeUnits: () => ['Bayt', 'KB', 'MB', 'GB', 'TB'],
   // file input

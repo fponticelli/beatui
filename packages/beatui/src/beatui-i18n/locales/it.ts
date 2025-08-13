@@ -43,9 +43,10 @@ const it: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Inserisci la tua email',
   // drop zone
-  dropZoneInstructions: () => 'Trascina e rilascia i file qui',
-  dropZoneInstructionsWithClick: () =>
-    'Trascina e rilascia i file qui, o premi Invio o Spazio per aprire il selettore file',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Clicca per scegliere o trascina i file qui, o premi Invio o Spazio per aprire il selettore file'
+      : 'Trascina i file qui',
   // size
   fileSizeUnits: () => ['Byte', 'KB', 'MB', 'GB', 'TB'],
   // file input

@@ -43,9 +43,10 @@ const es: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Correo electrónico',
   // drop zone
-  dropZoneInstructions: () => 'Arrastra y suelta archivos aquí',
-  dropZoneInstructionsWithClick: () =>
-    'Arrastra y suelta archivos aquí, o presiona Enter o Espacio para abrir el selector de archivos',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Haz clic para elegir o arrastra archivos aquí, o presiona Enter o Espacio para abrir el selector de archivos'
+      : 'Arrastra archivos aquí',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
   // file input

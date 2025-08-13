@@ -43,9 +43,10 @@ export const pl: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Wprowadź adres e-mail',
   // drop zone
-  dropZoneInstructions: () => 'Przeciągnij i upuść pliki tutaj',
-  dropZoneInstructionsWithClick: () =>
-    'Przeciągnij i upuść pliki tutaj, lub naciśnij Enter lub Spację, aby otworzyć selektor plików',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Kliknij aby wybrać lub przeciągnij pliki tutaj, lub naciśnij Enter lub Spację, aby otworzyć selektor plików'
+      : 'Przeciągnij pliki tutaj',
   // size
   fileSizeUnits: () => ['Bajty', 'KB', 'MB', 'GB', 'TB'],
   // file input

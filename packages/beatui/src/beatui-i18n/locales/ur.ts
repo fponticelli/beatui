@@ -43,9 +43,10 @@ const ur: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'اپنا ای میل داخل کریں',
   // drop zone
-  dropZoneInstructions: () => 'فائلوں کو یہاں گھسیٹ کر چھوڑیں',
-  dropZoneInstructionsWithClick: () =>
-    'فائلوں کو یہاں گھسیٹ کر چھوڑیں، یا فائل منتخب کرنے کے لیے Enter یا Space دبائیں',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'منتخب کرنے کے لیے کلک کریں یا فائلیں یہاں گھسیٹیں، یا فائل منتخب کرنے کے لیے Enter یا Space دبائیں'
+      : 'فائلیں یہاں گھسیٹیں',
   // size
   fileSizeUnits: () => ['بائٹس', 'KB', 'MB', 'GB', 'TB'],
   // file input

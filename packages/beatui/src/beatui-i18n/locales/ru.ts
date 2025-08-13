@@ -43,9 +43,10 @@ export const ru: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Введите электронную почту',
   // drop zone
-  dropZoneInstructions: () => 'Перетащите файлы сюда',
-  dropZoneInstructionsWithClick: () =>
-    'Перетащите файлы сюда, или нажмите Enter или Пробел, чтобы открыть выбор файлов',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Нажмите для выбора или перетащите файлы сюда, или нажмите Enter или Пробел, чтобы открыть выбор файлов'
+      : 'Перетащите файлы сюда',
   // size
   fileSizeUnits: () => ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ'],
   // file input

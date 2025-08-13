@@ -30,10 +30,7 @@ export type FileInputOptions = Merge<
     accept?: Value<string>
     allowMultiple?: Value<boolean>
     maxFiles?: Value<number>
-    minFiles?: Value<number> // in bytes
-    minFileSize?: Value<number> // in bytes
     maxFileSize?: Value<number> // in bytes
-    maxTotalFileSize?: Value<number> // in bytes
     mode?: Value<FileInputMode>
   }
 >
@@ -117,9 +114,6 @@ export const FileInput = (options: FileInputOptions) => {
     onBlur: _onBlur,
     disabled,
     hasError,
-    minFiles: _minFiles,
-    minFileSize: _minFileSize,
-    maxTotalFileSize: _maxTotalFileSize,
     mode = 'default',
     ...rest
   } = options

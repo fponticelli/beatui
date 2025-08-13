@@ -43,9 +43,10 @@ export const ja: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'メールアドレスを入力',
   // drop zone
-  dropZoneInstructions: () => 'ファイルをここにドラッグ＆ドロップ',
-  dropZoneInstructionsWithClick: () =>
-    'ファイルをここにドラッグ＆ドロップ、またはEnterキーまたはSpaceキーを押してファイル選択を開く',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'クリックして選択するか、ファイルをここにドラッグ、またはEnterキーまたはSpaceキーを押してファイル選択を開く'
+      : 'ファイルをここにドラッグ',
   // size
   fileSizeUnits: () => ['バイト', 'KB', 'MB', 'GB', 'TB'],
   // file input

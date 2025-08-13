@@ -41,9 +41,10 @@ const en = {
   // input
   emailPlaceholderText: () => 'Enter your email',
   // drop zone
-  dropZoneInstructions: () => 'Drag and drop files here',
-  dropZoneInstructionsWithClick: () =>
-    'Drag and drop files here, or press Enter or Space to open file selector',
+  dropZoneInstructions: (clickEnabled: boolean): string =>
+    clickEnabled
+      ? 'Click to choose or drag files here, or press Enter or Space to open file selector'
+      : 'Drag files here',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
   // file input

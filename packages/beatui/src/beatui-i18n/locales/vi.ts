@@ -43,9 +43,10 @@ const vi: BeatUIMessages = {
   // input
   emailPlaceholderText: () => 'Nhập email của bạn',
   // drop zone
-  dropZoneInstructions: () => 'Kéo và thả tệp vào đây',
-  dropZoneInstructionsWithClick: () =>
-    'Kéo và thả tệp vào đây, hoặc nhấn Enter hoặc Space để mở trình chọn tệp',
+  dropZoneInstructions: (clickEnabled: boolean) =>
+    clickEnabled
+      ? 'Nhấp để chọn hoặc kéo tệp vào đây, hoặc nhấn Enter hoặc Space để mở trình chọn tệp'
+      : 'Kéo tệp vào đây',
   // size
   fileSizeUnits: () => ['Byte', 'KB', 'MB', 'GB', 'TB'],
   // file input
