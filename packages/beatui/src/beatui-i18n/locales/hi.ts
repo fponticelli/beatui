@@ -48,6 +48,11 @@ const hi: BeatUIMessages = {
     'फाइलों को यहाँ खींचें और छोड़ें, या फाइल चयनकर्ता खोलने के लिए Enter या Space दबाएं',
   // size
   fileSizeUnits: () => ['बाइट्स', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'फ़ाइल हटाएं',
+  clearAllFiles: () => 'सभी फ़ाइलें हटाएं',
+  unknownType: () => 'अज्ञात प्रकार',
+  fileInputInstructions: () => 'यहाँ क्लिक करें या फ़ाइलें खींचकर छोड़ें',
 }
 
 export default hi

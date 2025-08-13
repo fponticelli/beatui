@@ -48,6 +48,11 @@ const ko: BeatUIMessages = {
     '파일을 여기에 드래그 앤 드롭하거나, Enter 또는 Space 키를 눌러 파일 선택기를 여세요',
   // size
   fileSizeUnits: () => ['바이트', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => '파일 제거',
+  clearAllFiles: () => '모든 파일 지우기',
+  unknownType: () => '알 수 없는 형식',
+  fileInputInstructions: () => '클릭하거나 파일을 여기로 드래그 앤 드롭하세요',
 }
 
 export default ko

@@ -48,6 +48,11 @@ const es: BeatUIMessages = {
     'Arrastra y suelta archivos aquí, o presiona Enter o Espacio para abrir el selector de archivos',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Eliminar archivo',
+  clearAllFiles: () => 'Borrar todos los archivos',
+  unknownType: () => 'Tipo desconocido',
+  fileInputInstructions: () => 'Haz clic o arrastra y suelta archivos aquí',
 }
 
 export default es

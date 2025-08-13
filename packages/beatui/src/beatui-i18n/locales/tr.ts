@@ -48,6 +48,12 @@ const tr: BeatUIMessages = {
     'Dosyaları buraya sürükleyip bırakın, veya dosya seçiciyi açmak için Enter veya Boşluk tuşuna basın',
   // size
   fileSizeUnits: () => ['Bayt', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Dosyayı kaldır',
+  clearAllFiles: () => 'Tüm dosyaları temizle',
+  unknownType: () => 'Bilinmeyen tür',
+  fileInputInstructions: () =>
+    'Buraya tıklayın veya dosyaları sürükleyip bırakın',
 }
 
 export default tr

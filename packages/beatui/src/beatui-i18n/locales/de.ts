@@ -48,6 +48,12 @@ const de: BeatUIMessages = {
     'Dateien hier hineinziehen und ablegen, oder Enter oder Leertaste drücken, um Dateiauswahl zu öffnen',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Datei entfernen',
+  clearAllFiles: () => 'Alle Dateien löschen',
+  unknownType: () => 'Unbekannter Typ',
+  fileInputInstructions: () =>
+    'Klicken oder Dateien hierher ziehen und ablegen',
 }
 
 export default de

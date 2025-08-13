@@ -48,6 +48,11 @@ const he: BeatUIMessages = {
     'גרור ושחרר קבצים כאן, או לחץ Enter או רווח לפתיחת בורר הקבצים',
   // size
   fileSizeUnits: () => ['בתים', 'ק״ב', 'מ״ב', 'ג״ב', 'ט״ב'],
+  // file input
+  removeFile: () => 'הסר קובץ',
+  clearAllFiles: () => 'נקה את כל הקבצים',
+  unknownType: () => 'סוג לא ידוע',
+  fileInputInstructions: () => 'לחץ או גרור ושחרר קבצים כאן',
 }
 
 export default he

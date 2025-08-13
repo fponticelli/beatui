@@ -48,6 +48,11 @@ export const ru: BeatUIMessages = {
     'Перетащите файлы сюда, или нажмите Enter или Пробел, чтобы открыть выбор файлов',
   // size
   fileSizeUnits: () => ['Байт', 'КБ', 'МБ', 'ГБ', 'ТБ'],
+  // file input
+  removeFile: () => 'Удалить файл',
+  clearAllFiles: () => 'Очистить все файлы',
+  unknownType: () => 'Неизвестный тип',
+  fileInputInstructions: () => 'Нажмите или перетащите файлы сюда',
 }
 
 export default ru

@@ -48,6 +48,11 @@ export const pl: BeatUIMessages = {
     'Przeciągnij i upuść pliki tutaj, lub naciśnij Enter lub Spację, aby otworzyć selektor plików',
   // size
   fileSizeUnits: () => ['Bajty', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Usuń plik',
+  clearAllFiles: () => 'Usuń wszystkie pliki',
+  unknownType: () => 'Nieznany typ',
+  fileInputInstructions: () => 'Kliknij lub przeciągnij i upuść pliki tutaj',
 }
 
 export default pl

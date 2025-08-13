@@ -48,6 +48,12 @@ const fr: BeatUIMessages = {
     'Glissez et déposez les fichiers ici, ou appuyez sur Entrée ou Espace pour ouvrir le sélecteur de fichiers',
   // size
   fileSizeUnits: () => ['Octets', 'Ko', 'Mo', 'Go', 'To'],
+  // file input
+  removeFile: () => 'Supprimer le fichier',
+  clearAllFiles: () => 'Effacer tous les fichiers',
+  unknownType: () => 'Type inconnu',
+  fileInputInstructions: () =>
+    'Cliquez ou faites glisser et déposez des fichiers ici',
 }
 
 export default fr

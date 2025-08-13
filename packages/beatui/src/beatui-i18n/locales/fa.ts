@@ -48,6 +48,12 @@ const fa: BeatUIMessages = {
     'فایل‌ها را اینجا بکشید و رها کنید، یا Enter یا Space را فشار دهید تا انتخابگر فایل باز شود',
   // size
   fileSizeUnits: () => ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت'],
+  // file input
+  removeFile: () => 'حذف فایل',
+  clearAllFiles: () => 'حذف همه فایل‌ها',
+  unknownType: () => 'نوع ناشناخته',
+  fileInputInstructions: () =>
+    'برای انتخاب کلیک کنید یا فایل‌ها را بکشید و رها کنید',
 }
 
 export default fa

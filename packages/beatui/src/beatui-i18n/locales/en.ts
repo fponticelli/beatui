@@ -46,6 +46,11 @@ const en = {
     'Drag and drop files here, or press Enter or Space to open file selector',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Remove file',
+  clearAllFiles: () => 'Clear all files',
+  unknownType: () => 'Unknown type',
+  fileInputInstructions: () => 'Click or Drag and drop files here',
 }
 
 export default en

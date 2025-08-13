@@ -48,6 +48,11 @@ const it: BeatUIMessages = {
     'Trascina e rilascia i file qui, o premi Invio o Spazio per aprire il selettore file',
   // size
   fileSizeUnits: () => ['Byte', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Rimuovi file',
+  clearAllFiles: () => 'Cancella tutti i file',
+  unknownType: () => 'Tipo sconosciuto',
+  fileInputInstructions: () => 'Clicca o trascina e rilascia i file qui',
 }
 
 export default it

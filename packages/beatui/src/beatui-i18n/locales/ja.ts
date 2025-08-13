@@ -48,6 +48,12 @@ export const ja: BeatUIMessages = {
     'ファイルをここにドラッグ＆ドロップ、またはEnterキーまたはSpaceキーを押してファイル選択を開く',
   // size
   fileSizeUnits: () => ['バイト', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'ファイルを削除',
+  clearAllFiles: () => 'すべてのファイルを削除',
+  unknownType: () => '不明なタイプ',
+  fileInputInstructions: () =>
+    'クリックするか、ファイルをここにドラッグ＆ドロップ',
 }
 
 export default ja

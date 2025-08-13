@@ -48,6 +48,11 @@ export const nl: BeatUIMessages = {
     'Sleep bestanden hierheen, of druk op Enter of Spatie om bestandskiezer te openen',
   // size
   fileSizeUnits: () => ['Bytes', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Bestand verwijderen',
+  clearAllFiles: () => 'Alle bestanden wissen',
+  unknownType: () => 'Onbekend type',
+  fileInputInstructions: () => 'Klik of sleep bestanden hierheen',
 }
 
 export default nl

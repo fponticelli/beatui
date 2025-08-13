@@ -48,6 +48,11 @@ const zh: BeatUIMessages = {
     '将文件拖拽到此处，或按 Enter 或空格键打开文件选择器',
   // size
   fileSizeUnits: () => ['字节', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => '删除文件',
+  clearAllFiles: () => '清除所有文件',
+  unknownType: () => '未知类型',
+  fileInputInstructions: () => '点击或将文件拖放到此处',
 }
 
 export default zh

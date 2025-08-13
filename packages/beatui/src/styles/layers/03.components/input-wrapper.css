@@ -36,6 +36,7 @@
 
   /* Label text styles */
   .bc-input-wrapper__label-text {
+    text-wrap: nowrap;
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
   }

@@ -48,6 +48,11 @@ const vi: BeatUIMessages = {
     'Kéo và thả tệp vào đây, hoặc nhấn Enter hoặc Space để mở trình chọn tệp',
   // size
   fileSizeUnits: () => ['Byte', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'Xóa tệp',
+  clearAllFiles: () => 'Xóa tất cả tệp',
+  unknownType: () => 'Loại không xác định',
+  fileInputInstructions: () => 'Nhấp hoặc kéo và thả tệp vào đây',
 }
 
 export default vi

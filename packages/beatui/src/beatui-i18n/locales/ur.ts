@@ -48,6 +48,11 @@ const ur: BeatUIMessages = {
     'فائلوں کو یہاں گھسیٹ کر چھوڑیں، یا فائل منتخب کرنے کے لیے Enter یا Space دبائیں',
   // size
   fileSizeUnits: () => ['بائٹس', 'KB', 'MB', 'GB', 'TB'],
+  // file input
+  removeFile: () => 'فائل حذف کریں',
+  clearAllFiles: () => 'تمام فائلیں صاف کریں',
+  unknownType: () => 'نامعلوم قسم',
+  fileInputInstructions: () => 'کلک کریں یا فائلیں یہاں گھسیٹ کر چھوڑیں',
 }
 
 export default ur

@@ -48,6 +48,11 @@ const ar: BeatUIMessages = {
     'اسحب وأفلت الملفات هنا، أو اضغط Enter أو Space لفتح محدد الملفات',
   // size
   fileSizeUnits: () => ['بايت', 'ك.ب', 'م.ب', 'ج.ب', 'ت.ب'],
+  // file input
+  removeFile: () => 'إزالة الملف',
+  clearAllFiles: () => 'مسح كل الملفات',
+  unknownType: () => 'نوع غير معروف',
+  fileInputInstructions: () => 'انقر أو اسحب وأفلت الملفات هنا',
 }
 
 export default ar
