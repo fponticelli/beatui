@@ -22,6 +22,8 @@ import { Merge } from '@tempots/std'
 import { formatFileSize } from '../../../utils'
 import { BeatUII18n } from '@/beatui-i18n'
 
+export type FileInputMode = 'default' | 'compact'
+
 export type FileInputOptions = Merge<
   InputOptions<File[]>,
   {
@@ -32,6 +34,7 @@ export type FileInputOptions = Merge<
     minFileSize?: Value<number> // in bytes
     maxFileSize?: Value<number> // in bytes
     maxTotalFileSize?: Value<number> // in bytes
+    mode?: Value<FileInputMode>
   }
 >
 
@@ -117,10 +120,12 @@ export const FileInput = (options: FileInputOptions) => {
     minFiles: _minFiles,
     minFileSize: _minFileSize,
     maxTotalFileSize: _maxTotalFileSize,
+    mode = 'default',
     ...rest
   } = options
 
   const files = value as Signal<File[]>
+  const isCompact = Value.map(mode, m => m === 'compact')
 
   const handleFilesChange = (newFiles: File[]) => {
     let filteredFiles = newFiles
@@ -181,90 +186,157 @@ export const FileInput = (options: FileInputOptions) => {
     )
   }
 
+  const compactDropZoneContent = ({
+    files,
+  }: {
+    files: Signal<File[]>
+    clear: () => void
+    change: (files: File[]) => void
+  }) => {
+    return Use(BeatUII18n, t =>
+      html.div(
+        attr.class('bc-file-input__compact-input'),
+        When(
+          files.map(f => f.length > 0),
+          () =>
+            html.span(
+              attr.class('bc-file-input__compact-value'),
+              ForEach(files, file =>
+                html.span(
+                  attr.class('bc-file-input__compact-value-item'),
+                  file.$.name
+                )
+              )
+            ),
+          () =>
+            html.span(
+              attr.class('bc-file-input__compact-placeholder'),
+              t.fileInputInstructions()
+            )
+        )
+      )
+    )
+  }
+
   return Use(BeatUII18n, t =>
     InputContainer({
-      baseContainer: true,
+      baseContainer: Value.map(isCompact, c => !c),
       disabled,
       hasError,
-      ...rest,
-      input: html.div(
-        attr.class('bc-file-input'),
-        UnstyledDropZone({
-          value: files,
-          accept,
-          allowMultiple,
-          enableClick: true,
-          disabled,
-          onChange: handleFilesChange,
-          content: dropZoneContent,
-        }),
-        NotEmpty(files, () =>
-          Fragment(
-            html.div(
-              attr.class('bc-file-input__file-list'),
-              ForEach(files, (file, position) => {
-                const index = position.index
-                return html.div(
-                  attr.class('bc-file-input__file-item'),
-                  html.div(
-                    attr.class('bc-file-input__file-icon'),
-                    createFilePreview(file)
-                  ),
-                  html.div(
-                    attr.class('bc-file-input__file-info'),
-                    html.div(
-                      attr.class('bc-file-input__file-name'),
-                      attr.title(file.$.name),
-                      file.$.name
-                    ),
-                    html.div(
-                      attr.class('bc-file-input__file-meta'),
-                      computedOf(
-                        file.$.size,
-                        t.fileSizeUnits()
-                      )((size, units) => formatFileSize(size, { units })),
-                      ' • ',
-                      computedOf(
-                        file.$.type,
-                        t.unknownType()
-                      )((type, unknownType) => type || unknownType)
-                    )
-                  ),
-                  html.button(
-                    attr.type('button'),
-                    attr.class('bc-file-input__remove-button'),
-                    attr.title(t.removeFile()),
-                    attr.disabled(disabled),
-                    Icon({ icon: 'mdi:close', size: 'sm' }),
-                    on.click((e: Event) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      removeFile(index)
-                    })
-                  )
-                )
+      after: When(isCompact, () =>
+        When(
+          files.map(({ length }) => length > 0),
+          () =>
+            html.button(
+              attr.type('button'),
+              attr.class('bc-file-input__compact-clear'),
+              attr.title(t.clearAllFiles()),
+              attr.disabled(disabled),
+              Icon({ icon: 'mdi:close', size: 'sm' }),
+              on.click((e: Event) => {
+                e.preventDefault()
+                e.stopPropagation()
+                clearAllFiles()
               })
-            ),
-            When(
-              files.map(({ length }) => length > 1),
-              () =>
+            )
+        )
+      ),
+      ...rest,
+      input: When(
+        isCompact,
+        () =>
+          html.div(
+            attr.class('bc-file-input bc-file-input--compact'),
+            UnstyledDropZone({
+              value: files,
+              accept,
+              allowMultiple,
+              enableClick: true,
+              disabled,
+              onChange: handleFilesChange,
+              content: compactDropZoneContent,
+            })
+          ),
+        () =>
+          html.div(
+            attr.class('bc-file-input'),
+            UnstyledDropZone({
+              value: files,
+              accept,
+              allowMultiple,
+              enableClick: true,
+              disabled,
+              onChange: handleFilesChange,
+              content: dropZoneContent,
+            }),
+            NotEmpty(files, () =>
+              Fragment(
                 html.div(
-                  attr.class('bc-file-input__clear-all-button-container'),
-                  html.button(
-                    attr.type('button'),
-                    attr.class('bc-file-input__clear-all-button'),
-                    attr.disabled(disabled),
-                    t.clearAllFiles(),
-                    on.click((e: Event) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      clearAllFiles()
-                    })
-                  )
+                  attr.class('bc-file-input__file-list'),
+                  ForEach(files, (file, position) => {
+                    const index = position.index
+                    return html.div(
+                      attr.class('bc-file-input__file-item'),
+                      html.div(
+                        attr.class('bc-file-input__file-icon'),
+                        createFilePreview(file)
+                      ),
+                      html.div(
+                        attr.class('bc-file-input__file-info'),
+                        html.div(
+                          attr.class('bc-file-input__file-name'),
+                          attr.title(file.$.name),
+                          file.$.name
+                        ),
+                        html.div(
+                          attr.class('bc-file-input__file-meta'),
+                          computedOf(
+                            file.$.size,
+                            t.fileSizeUnits()
+                          )((size, units) => formatFileSize(size, { units })),
+                          ' • ',
+                          computedOf(
+                            file.$.type,
+                            t.unknownType()
+                          )((type, unknownType) => type || unknownType)
+                        )
+                      ),
+                      html.button(
+                        attr.type('button'),
+                        attr.class('bc-file-input__remove-button'),
+                        attr.title(t.removeFile()),
+                        attr.disabled(disabled),
+                        Icon({ icon: 'mdi:close', size: 'sm' }),
+                        on.click((e: Event) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          removeFile(index)
+                        })
+                      )
+                    )
+                  })
+                ),
+                When(
+                  files.map(({ length }) => length > 1),
+                  () =>
+                    html.div(
+                      attr.class('bc-file-input__clear-all-button-container'),
+                      html.button(
+                        attr.type('button'),
+                        attr.class('bc-file-input__clear-all-button'),
+                        attr.disabled(disabled),
+                        t.clearAllFiles(),
+                        on.click((e: Event) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          clearAllFiles()
+                        })
+                      )
+                    )
                 )
+              )
             )
           )
-        )
       ),
     })
   )

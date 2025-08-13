@@ -52,7 +52,7 @@ const vi: BeatUIMessages = {
   removeFile: () => 'Xóa tệp',
   clearAllFiles: () => 'Xóa tất cả tệp',
   unknownType: () => 'Loại không xác định',
-  fileInputInstructions: () => 'Nhấp hoặc kéo và thả tệp vào đây',
+  fileInputInstructions: () => 'Nhấp để chọn hoặc kéo tệp vào đây',
 }
 
 export default vi

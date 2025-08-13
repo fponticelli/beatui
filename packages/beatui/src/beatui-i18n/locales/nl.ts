@@ -52,7 +52,7 @@ export const nl: BeatUIMessages = {
   removeFile: () => 'Bestand verwijderen',
   clearAllFiles: () => 'Alle bestanden wissen',
   unknownType: () => 'Onbekend type',
-  fileInputInstructions: () => 'Klik of sleep bestanden hierheen',
+  fileInputInstructions: () => 'Klik om te kiezen of sleep bestanden hierheen',
 }
 
 export default nl

@@ -53,7 +53,7 @@ export const ja: BeatUIMessages = {
   clearAllFiles: () => 'すべてのファイルを削除',
   unknownType: () => '不明なタイプ',
   fileInputInstructions: () =>
-    'クリックするか、ファイルをここにドラッグ＆ドロップ',
+    'クリックして選択するか、ファイルをここにドラッグ',
 }
 
 export default ja

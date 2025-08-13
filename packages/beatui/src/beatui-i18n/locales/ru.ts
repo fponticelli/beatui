@@ -52,7 +52,7 @@ export const ru: BeatUIMessages = {
   removeFile: () => 'Удалить файл',
   clearAllFiles: () => 'Очистить все файлы',
   unknownType: () => 'Неизвестный тип',
-  fileInputInstructions: () => 'Нажмите или перетащите файлы сюда',
+  fileInputInstructions: () => 'Нажмите для выбора или перетащите файлы сюда',
 }
 
 export default ru

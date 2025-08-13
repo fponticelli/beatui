@@ -52,7 +52,7 @@ export const pl: BeatUIMessages = {
   removeFile: () => 'Usuń plik',
   clearAllFiles: () => 'Usuń wszystkie pliki',
   unknownType: () => 'Nieznany typ',
-  fileInputInstructions: () => 'Kliknij lub przeciągnij i upuść pliki tutaj',
+  fileInputInstructions: () => 'Kliknij aby wybrać lub przeciągnij pliki tutaj',
 }
 
 export default pl

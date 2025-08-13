@@ -310,4 +310,10 @@
 
   .bu-border-box { box-sizing: border-box; }
   .bu-content-box { box-sizing: content-box; }
+  .bu-text-muted {
+    color: var(--text-muted-light);
+  }
+  .b-dark .bu-text-muted {
+    color: var(--text-muted-dark);
+  }
 }

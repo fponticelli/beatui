@@ -53,7 +53,7 @@ const tr: BeatUIMessages = {
   clearAllFiles: () => 'Tüm dosyaları temizle',
   unknownType: () => 'Bilinmeyen tür',
   fileInputInstructions: () =>
-    'Buraya tıklayın veya dosyaları sürükleyip bırakın',
+    'Seçmek için tıklayın veya dosyaları buraya sürükleyin',
 }
 
 export default tr

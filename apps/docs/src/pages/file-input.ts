@@ -137,11 +137,11 @@ export function FileInputPage() {
             }),
 
             FileControl({
+              mode: 'compact',
               controller: controller.field('avatar'),
               accept: 'image/*',
-              allowMultiple: false,
               maxFileSize: 1024 * 1024, // 1MB
-              label: 'Avatar (Single Image)',
+              label: 'Avatars',
             }),
             html.br(),
             Button(

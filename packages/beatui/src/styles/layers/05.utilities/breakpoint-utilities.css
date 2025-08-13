@@ -228,6 +228,12 @@
     .sm\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
     .sm\:bu-border-box { box-sizing: border-box; }
     .sm\:bu-content-box { box-sizing: content-box; }
+    .sm\:bu-text-muted {
+    color: var(--text-muted-light);
+  }
+    .sm\:bu-text-muted {
+    color: var(--text-muted-dark);
+  }
   }
 
   /* MD Breakpoint (48rem) */
@@ -459,6 +465,12 @@
     .md\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
     .md\:bu-border-box { box-sizing: border-box; }
     .md\:bu-content-box { box-sizing: content-box; }
+    .md\:bu-text-muted {
+    color: var(--text-muted-light);
+  }
+    .md\:bu-text-muted {
+    color: var(--text-muted-dark);
+  }
   }
 
   /* LG Breakpoint (64rem) */
@@ -690,6 +702,12 @@
     .lg\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
     .lg\:bu-border-box { box-sizing: border-box; }
     .lg\:bu-content-box { box-sizing: content-box; }
+    .lg\:bu-text-muted {
+    color: var(--text-muted-light);
+  }
+    .lg\:bu-text-muted {
+    color: var(--text-muted-dark);
+  }
   }
 
   /* XL Breakpoint (80rem) */
@@ -921,6 +939,12 @@
     .xl\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
     .xl\:bu-border-box { box-sizing: border-box; }
     .xl\:bu-content-box { box-sizing: content-box; }
+    .xl\:bu-text-muted {
+    color: var(--text-muted-light);
+  }
+    .xl\:bu-text-muted {
+    color: var(--text-muted-dark);
+  }
   }
 
   /* 2XL Breakpoint (96rem) */
@@ -1152,6 +1176,12 @@
     .\2xl\:bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
     .\2xl\:bu-border-box { box-sizing: border-box; }
     .\2xl\:bu-content-box { box-sizing: content-box; }
+    .\2xl\:bu-text-muted {
+    color: var(--text-muted-light);
+  }
+    .\2xl\:bu-text-muted {
+    color: var(--text-muted-dark);
+  }
   }
 
 }

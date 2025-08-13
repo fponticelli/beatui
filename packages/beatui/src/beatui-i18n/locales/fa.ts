@@ -52,8 +52,7 @@ const fa: BeatUIMessages = {
   removeFile: () => 'حذف فایل',
   clearAllFiles: () => 'حذف همه فایل‌ها',
   unknownType: () => 'نوع ناشناخته',
-  fileInputInstructions: () =>
-    'برای انتخاب کلیک کنید یا فایل‌ها را بکشید و رها کنید',
+  fileInputInstructions: () => 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید',
 }
 
 export default fa

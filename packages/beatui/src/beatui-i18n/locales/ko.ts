@@ -52,7 +52,7 @@ const ko: BeatUIMessages = {
   removeFile: () => '파일 제거',
   clearAllFiles: () => '모든 파일 지우기',
   unknownType: () => '알 수 없는 형식',
-  fileInputInstructions: () => '클릭하거나 파일을 여기로 드래그 앤 드롭하세요',
+  fileInputInstructions: () => '클릭하여 선택하거나 파일을 여기로 드래그하세요',
 }
 
 export default ko

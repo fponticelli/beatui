@@ -52,7 +52,8 @@ const ur: BeatUIMessages = {
   removeFile: () => 'فائل حذف کریں',
   clearAllFiles: () => 'تمام فائلیں صاف کریں',
   unknownType: () => 'نامعلوم قسم',
-  fileInputInstructions: () => 'کلک کریں یا فائلیں یہاں گھسیٹ کر چھوڑیں',
+  fileInputInstructions: () =>
+    'منتخب کرنے کے لیے کلک کریں یا فائلیں یہاں گھسیٹیں',
 }
 
 export default ur

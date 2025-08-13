@@ -1,7 +1,7 @@
 import { TNode, Value } from '@tempots/dom'
 import { ControlInputWrapper } from './control-input-wrapper'
 import { ControlOptions } from './control-options'
-import { FileInput, FileInputOptions } from '../input/file-input'
+import { FileInput, FileInputMode, FileInputOptions } from '../input/file-input'
 import { inputOptionsFromController } from '../input/input-options'
 import { Merge } from '@tempots/std'
 
@@ -13,6 +13,7 @@ export type FileControlOptions = Merge<
     maxFiles?: Value<number>
     maxFileSize?: Value<number>
     showFileList?: Value<boolean>
+    mode?: Value<FileInputMode>
   }
 >
 
@@ -27,7 +28,7 @@ const makeOnChangeHandler = (
 }
 
 const makeOnBlurHandler = (
-  controller: ControlOptions<File[]>['controller'],
+  _controller: ControlOptions<File[]>['controller'],
   onBlur?: () => void
 ) => {
   return () => {
@@ -46,6 +47,7 @@ export const FileControl = (
     allowMultiple,
     maxFiles,
     maxFileSize,
+    mode,
     ...rest
   } = options
 
@@ -59,6 +61,7 @@ export const FileControl = (
         allowMultiple,
         maxFiles,
         maxFileSize,
+        mode,
         onChange: makeOnChangeHandler(rest.controller, onChange),
         onBlur: makeOnBlurHandler(rest.controller, onBlur),
       } as FileInputOptions),

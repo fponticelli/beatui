@@ -50,7 +50,7 @@ const en = {
   removeFile: () => 'Remove file',
   clearAllFiles: () => 'Clear all files',
   unknownType: () => 'Unknown type',
-  fileInputInstructions: () => 'Click or Drag and drop files here',
+  fileInputInstructions: () => 'Click to choose or drag files here',
 }
 
 export default en

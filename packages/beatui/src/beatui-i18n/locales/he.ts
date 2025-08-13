@@ -52,7 +52,7 @@ const he: BeatUIMessages = {
   removeFile: () => 'הסר קובץ',
   clearAllFiles: () => 'נקה את כל הקבצים',
   unknownType: () => 'סוג לא ידוע',
-  fileInputInstructions: () => 'לחץ או גרור ושחרר קבצים כאן',
+  fileInputInstructions: () => 'לחץ לבחירה או גרור קבצים כאן',
 }
 
 export default he

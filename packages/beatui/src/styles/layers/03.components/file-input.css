@@ -253,3 +253,63 @@
     }
   }
 }
+
+@layer components {
+
+  /* Compact mode */
+  .bc-file-input--compact {
+    width: 100%;
+  }
+
+  .bc-file-input__compact-input {
+    width: 100%;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .bc-file-input__compact-placeholder {
+    color: var(--color-gray-500);
+  }
+
+  .bc-file-input__compact-value {
+    color: var(--color-gray-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .bc-file-input__compact-value-item {
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+    padding: 0 var(--spacing-base);
+    margin-right: var(--spacing-base);
+    margin-bottom: var(--spacing-base);
+  }
+
+  .bc-file-input__compact-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--spacing-base) * 6);
+    height: calc(var(--spacing-base) * 6);
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    color: var(--color-gray-400);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bc-file-input__compact-clear:hover {
+    background-color: var(--color-red-50);
+    color: var(--color-red-500);
+  }
+
+  .bc-file-input__compact-clear:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

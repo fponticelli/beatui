@@ -52,7 +52,7 @@ const zh: BeatUIMessages = {
   removeFile: () => '删除文件',
   clearAllFiles: () => '清除所有文件',
   unknownType: () => '未知类型',
-  fileInputInstructions: () => '点击或将文件拖放到此处',
+  fileInputInstructions: () => '点击选择或将文件拖拽到此处',
 }
 
 export default zh

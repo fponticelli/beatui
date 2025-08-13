@@ -53,7 +53,7 @@ const fr: BeatUIMessages = {
   clearAllFiles: () => 'Effacer tous les fichiers',
   unknownType: () => 'Type inconnu',
   fileInputInstructions: () =>
-    'Cliquez ou faites glisser et déposez des fichiers ici',
+    'Cliquez pour choisir ou glissez des fichiers ici',
 }
 
 export default fr

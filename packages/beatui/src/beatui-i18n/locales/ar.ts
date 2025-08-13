@@ -52,7 +52,7 @@ const ar: BeatUIMessages = {
   removeFile: () => 'إزالة الملف',
   clearAllFiles: () => 'مسح كل الملفات',
   unknownType: () => 'نوع غير معروف',
-  fileInputInstructions: () => 'انقر أو اسحب وأفلت الملفات هنا',
+  fileInputInstructions: () => 'انقر للاختيار أو اسحب الملفات هنا',
 }
 
 export default ar

@@ -52,7 +52,7 @@ const hi: BeatUIMessages = {
   removeFile: () => 'फ़ाइल हटाएं',
   clearAllFiles: () => 'सभी फ़ाइलें हटाएं',
   unknownType: () => 'अज्ञात प्रकार',
-  fileInputInstructions: () => 'यहाँ क्लिक करें या फ़ाइलें खींचकर छोड़ें',
+  fileInputInstructions: () => 'चुनने के लिए क्लिक करें या फ़ाइलें यहाँ खींचें',
 }
 
 export default hi
