@@ -1,7 +1,16 @@
 // Reset Password Form Component
 // Simple form for password reset flow with email input
 
-import { attr, html, on, OnDispose, prop, TNode, Use } from '@tempots/dom'
+import {
+  attr,
+  coalesce,
+  html,
+  on,
+  OnDispose,
+  prop,
+  TNode,
+  Use,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl } from '../form/control'
 import { Stack } from '../layout/stack'
@@ -9,7 +18,6 @@ import { useForm, UseFormResult } from '../form/use-form'
 import {
   ResetPasswordData,
   ResetPasswordFormOptions,
-  functionOrReactiveMessage,
   requestToControllerValidation,
 } from './index'
 import { resetPasswordSchema } from './schemas'
@@ -63,10 +71,7 @@ export function ResetPasswordForm({
       // Description
       html.p(
         attr.class('bc-auth-form__description'),
-        functionOrReactiveMessage(
-          labels?.resetPasswordDescription,
-          t.resetPasswordDescription
-        )
+        coalesce(labels?.resetPasswordDescription, t.$.resetPasswordDescription)
       ),
       on.submit(onSubmit),
       Stack(
@@ -74,7 +79,7 @@ export function ResetPasswordForm({
         // Email field
         EmailControl({
           controller: emailController,
-          label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          label: coalesce(labels?.emailLabel, t.$.emailLabel),
         })
       ),
       // Submit button
@@ -87,10 +92,7 @@ export function ResetPasswordForm({
           disabled: controller.disabledOrHasErrors,
         },
         attr.class('bc-auth-form__submit'),
-        functionOrReactiveMessage(
-          labels?.resetPasswordButton,
-          t.resetPasswordButton
-        )
+        coalesce(labels?.resetPasswordButton, t.$.resetPasswordButton)
       )
     )
   )

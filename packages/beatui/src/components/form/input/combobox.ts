@@ -18,6 +18,7 @@ import {
   prop,
   When,
   aria,
+  coalesce,
 } from '@tempots/dom'
 
 import { InputContainer } from './input-container'
@@ -452,9 +453,8 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
           displayLabel.map(label => label.length > 0),
           () => displayLabel,
           () =>
-            Use(
-              BeatUII18n,
-              t => placeholder ?? unselectedLabel ?? t.selectOne()
+            Use(BeatUII18n, t =>
+              coalesce(placeholder, unselectedLabel, t.$.selectOne)
             )
         )
       ),

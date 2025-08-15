@@ -3,6 +3,8 @@
 
 import {
   attr,
+  bind,
+  coalesce,
   computedOf,
   ForEach,
   html,
@@ -12,11 +14,7 @@ import {
 } from '@tempots/dom'
 import { Button } from '../button'
 import { Icon } from '../data/icon'
-import {
-  SocialLoginButtonOptions,
-  AuthProviderName,
-  functionOrReactiveMessage,
-} from './index'
+import { SocialLoginButtonOptions, AuthProviderName } from './index'
 import { ControlSize } from '../theme'
 import { Group, Stack } from '../layout'
 import { ThemeColorName } from '@/tokens'
@@ -75,11 +73,9 @@ export function SocialLoginButton({
           attr.class(
             'bu-flex-grow bu-flex bu-items-center bu-align-center bu-text-center bu-px-4'
           ),
-          functionOrReactiveMessage(
-            labels?.continueWithProvider,
-            t.continueWithProvider,
-            name
-          )
+          bind(
+            coalesce(labels?.continueWithProvider, t.$.continueWithProvider)
+          )(name)
         )
       )
     )

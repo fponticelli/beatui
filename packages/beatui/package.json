@@ -84,9 +84,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/dom": "28.4.5",
+    "@tempots/dom": "28.6.2",
     "@tempots/std": "0.22.1",
-    "@tempots/ui": "6.4.1"
+    "@tempots/ui": "6.6.2"
   },
   "peerDependenciesMeta": {
     "@tempots/dom": {

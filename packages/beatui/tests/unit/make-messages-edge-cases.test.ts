@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { prop } from '@tempots/dom'
+import { bind, prop } from '@tempots/dom'
 import { makeMessages } from '../../src/i18n/translate'
 
 // Mock console.log to avoid noise in tests
@@ -14,7 +14,7 @@ afterEach(() => {
 
 describe('makeMessages Edge Cases', () => {
   const defaultMessages = {
-    simple: () => 'Simple message',
+    simple: 'Simple message',
     withParam: (name: string) => `Hello, ${name}!`,
     withMultipleParams: (a: string, b: number, c: boolean) => `${a}-${b}-${c}`,
   }
@@ -38,7 +38,7 @@ describe('makeMessages Edge Cases', () => {
 
       // This should not throw even if the loaded message is undefined
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         // The signal should exist but may have undefined value
         expect(signal).toBeDefined()
       }).not.toThrow()
@@ -63,7 +63,7 @@ describe('makeMessages Edge Cases', () => {
       })
 
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         expect(signal).toBeDefined()
       }).not.toThrow()
 
@@ -87,7 +87,7 @@ describe('makeMessages Edge Cases', () => {
       })
 
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         expect(signal).toBeDefined()
       }).not.toThrow()
 
@@ -106,7 +106,7 @@ describe('makeMessages Edge Cases', () => {
       })
 
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         expect(signal).toBeDefined()
       }).not.toThrow()
 
@@ -116,7 +116,7 @@ describe('makeMessages Edge Cases', () => {
     it('should handle partially loaded message objects', () => {
       const locale = prop('en-US')
       const localeLoader = vi.fn().mockResolvedValue({
-        simple: () => 'Loaded simple',
+        simple: 'Loaded simple',
         // withParam is missing
         withMultipleParams: (a: string, b: number, c: boolean) =>
           `Loaded: ${a}-${b}-${c}`,
@@ -130,40 +130,17 @@ describe('makeMessages Edge Cases', () => {
       })
 
       expect(() => {
-        const simpleSignal = t.simple()
-        const paramSignal = t.withParam(prop('test'))
-        const multiSignal = t.withMultipleParams(prop('a'), prop(1), prop(true))
+        const simpleSignal = t.$.simple
+        const paramSignal = bind(t.$.withParam)(prop('test'))
+        const multiSignal = bind(t.$.withMultipleParams)(
+          prop('a'),
+          prop(1),
+          prop(true)
+        )
 
         expect(simpleSignal).toBeDefined()
         expect(paramSignal).toBeDefined()
         expect(multiSignal).toBeDefined()
-      }).not.toThrow()
-
-      dispose()
-    })
-
-    it('should handle functions that throw errors', () => {
-      const locale = prop('en-US')
-      const localeLoader = vi.fn().mockResolvedValue({
-        simple: () => {
-          throw new Error('Message function error')
-        },
-        withParam: (name: string) => `Hello, ${name}!`,
-        withMultipleParams: (a: string, b: number, c: boolean) =>
-          `${a}-${b}-${c}`,
-      })
-
-      const { t, dispose } = makeMessages({
-        locale,
-        defaultMessages,
-        defaultLocale: 'en-US',
-        localeLoader,
-      })
-
-      expect(() => {
-        const signal = t.simple()
-        expect(signal).toBeDefined()
-        // Accessing the value might throw, but creating the signal should not
       }).not.toThrow()
 
       dispose()
@@ -190,7 +167,7 @@ describe('makeMessages Edge Cases', () => {
       await new Promise(resolve => setTimeout(resolve, 10))
 
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         expect(signal.value).toBe('Simple message') // Should use default
       }).not.toThrow()
 
@@ -205,14 +182,14 @@ describe('makeMessages Edge Cases', () => {
 
         if (loc === 'es-ES') {
           return {
-            simple: () => 'Spanish simple',
+            simple: 'Spanish simple',
             withParam: (name: string) => `Hola, ${name}!`,
             withMultipleParams: (a: string, b: number, c: boolean) =>
               `ES: ${a}-${b}-${c}`,
           }
         } else if (loc === 'fr-FR') {
           return {
-            simple: () => 'French simple',
+            simple: 'French simple',
             withParam: (name: string) => `Bonjour, ${name}!`,
             withMultipleParams: (a: string, b: number, c: boolean) =>
               `FR: ${a}-${b}-${c}`,
@@ -228,7 +205,7 @@ describe('makeMessages Edge Cases', () => {
         localeLoader,
       })
 
-      const signal = t.simple()
+      const signal = t.$.simple
 
       // Rapid locale changes
       locale.set('es-ES')
@@ -280,7 +257,7 @@ describe('makeMessages Edge Cases', () => {
         await new Promise(resolve => setTimeout(resolve, 10))
 
         expect(() => {
-          const signal = t.simple()
+          const signal = t.$.simple
           expect(signal).toBeDefined()
         }).not.toThrow()
       }
@@ -314,7 +291,7 @@ describe('makeMessages Edge Cases', () => {
       await new Promise(resolve => setTimeout(resolve, 10))
 
       expect(() => {
-        const signal = t.simple()
+        const signal = t.$.simple
         expect(signal).toBeDefined()
       }).not.toThrow()
 
@@ -350,80 +327,13 @@ describe('makeMessages Edge Cases', () => {
 
       // Accessing t after disposal may throw, which is acceptable
       try {
-        const signal = t.simple()
+        const signal = t.$.simple
         // If it doesn't throw, the signal should still be defined
         expect(signal).toBeDefined()
       } catch (error) {
         // If it throws, that's also acceptable after disposal
         expect(error).toBeDefined()
       }
-    })
-  })
-
-  describe('Proxy behavior edge cases', () => {
-    it('should handle accessing non-existent message keys', () => {
-      const locale = prop('en-US')
-      const localeLoader = vi.fn().mockResolvedValue(defaultMessages)
-
-      const { t, dispose } = makeMessages({
-        locale,
-        defaultMessages,
-        defaultLocale: 'en-US',
-        localeLoader,
-      })
-
-      expect(() => {
-        // Access a key that doesn't exist in defaultMessages
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const signal = (t as any).nonExistentKey()
-        expect(signal).toBeDefined()
-      }).not.toThrow()
-
-      dispose()
-    })
-
-    it('should handle symbol property access', () => {
-      const locale = prop('en-US')
-      const localeLoader = vi.fn().mockResolvedValue(defaultMessages)
-
-      const { t, dispose } = makeMessages({
-        locale,
-        defaultMessages,
-        defaultLocale: 'en-US',
-        localeLoader,
-      })
-
-      const symbolKey = Symbol('test')
-
-      expect(() => {
-        // Access with symbol key
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const result = (t as any)[symbolKey]
-        expect(result).toBeInstanceOf(Function)
-      }).not.toThrow()
-
-      dispose()
-    })
-
-    it('should handle numeric property access', () => {
-      const locale = prop('en-US')
-      const localeLoader = vi.fn().mockResolvedValue(defaultMessages)
-
-      const { t, dispose } = makeMessages({
-        locale,
-        defaultMessages,
-        defaultLocale: 'en-US',
-        localeLoader,
-      })
-
-      expect(() => {
-        // Access with numeric key
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const result = (t as any)[0]
-        expect(result).toBeInstanceOf(Function)
-      }).not.toThrow()
-
-      dispose()
     })
   })
 })

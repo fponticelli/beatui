@@ -589,7 +589,7 @@ export function AppShell({
                   variant: 'light',
                   color: 'base',
                 },
-                aria.label(t.toggleMenu()),
+                aria.label(t.$.toggleMenu),
                 Icon({
                   icon: menuStatus.display.map((v): string =>
                     v
@@ -619,7 +619,7 @@ export function AppShell({
                   variant: 'light',
                   color: 'base',
                 },
-                aria.label(t.toggleAside()),
+                aria.label(t.$.toggleAside),
                 Icon(
                   { icon: 'line-md/chevron-left' },
                   attr.class('bu-transition-transform'),
@@ -638,7 +638,7 @@ export function AppShell({
               WithElement(el => menuStatus.setElement(el)),
               attr.class('bu-z-10'),
               // Add ARIA attributes for navigation landmark
-              aria.label(t.mainNavigation()),
+              aria.label(t.$.mainNavigation),
               attr.role('navigation'),
               attr.class('bu-overflow-hidden'),
               attr.class(
@@ -741,7 +741,7 @@ export function AppShell({
               }),
               attr.class('bu-z-10'),
               // Add ARIA attributes for aside landmark
-              aria.label(t.sidebar()),
+              aria.label(t.$.sidebar),
               attr.role('complementary'),
               attr.class(
                 displayAsideAs.map((v): string =>

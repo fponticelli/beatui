@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { prop } from '@tempots/dom'
+import { bind, prop, Signal } from '@tempots/dom'
 import { makeMessages } from '../../src/i18n/translate'
 
 // Mock console.log to avoid noise in tests
@@ -14,7 +14,7 @@ afterEach(() => {
 
 describe('makeMessages', () => {
   const defaultMessages = {
-    welcome: () => 'Welcome!',
+    welcome: 'Welcome!',
     greeting: (name: string) => `Hello, ${name}!`,
     itemCount: (count: number) => `${count} item${count !== 1 ? 's' : ''}`,
     complexMessage: (name: string, count: number, isActive: boolean) =>
@@ -22,7 +22,7 @@ describe('makeMessages', () => {
   }
 
   const spanishMessages = {
-    welcome: () => '¡Bienvenido!',
+    welcome: '¡Bienvenido!',
     greeting: (name: string) => `¡Hola, ${name}!`,
     itemCount: (count: number) => `${count} elemento${count !== 1 ? 's' : ''}`,
     complexMessage: (name: string, count: number, isActive: boolean) =>
@@ -30,7 +30,7 @@ describe('makeMessages', () => {
   }
 
   const frenchMessages = {
-    welcome: () => 'Bienvenue!',
+    welcome: 'Bienvenue!',
     greeting: (name: string) => `Bonjour, ${name}!`,
     itemCount: (count: number) => `${count} élément${count !== 1 ? 's' : ''}`,
     complexMessage: (name: string, count: number, isActive: boolean) =>
@@ -49,10 +49,10 @@ describe('makeMessages', () => {
     })
 
     expect(t).toBeDefined()
-    expect(t.welcome).toBeInstanceOf(Function)
-    expect(t.greeting).toBeInstanceOf(Function)
-    expect(t.itemCount).toBeInstanceOf(Function)
-    expect(t.complexMessage).toBeInstanceOf(Function)
+    expect(t.$.welcome).toBeInstanceOf(Signal)
+    expect(t.$.greeting).toBeInstanceOf(Signal)
+    expect(t.$.itemCount).toBeInstanceOf(Signal)
+    expect(t.$.complexMessage).toBeInstanceOf(Signal)
 
     dispose()
   })
@@ -68,9 +68,9 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const welcomeSignal = t.welcome()
-    const greetingSignal = t.greeting(prop('John'))
-    const countSignal = t.itemCount(prop(5))
+    const welcomeSignal = t.$.welcome
+    const greetingSignal = bind(t.$.greeting)(prop('John'))
+    const countSignal = bind(t.$.itemCount)(prop(5))
 
     expect(welcomeSignal.value).toBe('Welcome!')
     expect(greetingSignal.value).toBe('Hello, John!')
@@ -90,7 +90,7 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
     expect(welcomeSignal.value).toBe('Welcome!')
 
     dispose()
@@ -107,12 +107,12 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const greetingSignal = t.greeting(prop('Alice'))
+    const greetingSignal = bind(t.$.greeting)(prop('Alice'))
     expect(greetingSignal.value).toBe('Hello, Alice!')
 
     // Test reactive updates
     const nameSignal = prop('Bob')
-    const reactiveGreeting = t.greeting(nameSignal)
+    const reactiveGreeting = bind(t.$.greeting)(nameSignal)
     expect(reactiveGreeting.value).toBe('Hello, Bob!')
 
     nameSignal.set('Charlie')
@@ -132,7 +132,11 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const complexSignal = t.complexMessage(prop('John'), prop(3), prop(true))
+    const complexSignal = bind(t.$.complexMessage)(
+      prop('John'),
+      prop(3),
+      prop(true)
+    )
     expect(complexSignal.value).toBe('John has 3 items and is active')
 
     // Test with different values
@@ -140,7 +144,7 @@ describe('makeMessages', () => {
     const countSignal = prop(1)
     const activeSignal = prop(false)
 
-    const reactiveComplex = t.complexMessage(
+    const reactiveComplex = bind(t.$.complexMessage)(
       nameSignal,
       countSignal,
       activeSignal
@@ -169,7 +173,7 @@ describe('makeMessages', () => {
     })
 
     // Initial state
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
     expect(welcomeSignal.value).toBe('Welcome!')
 
     // Change locale
@@ -198,7 +202,7 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
     expect(welcomeSignal.value).toBe('Welcome!')
 
     // Change to unsupported locale
@@ -286,7 +290,7 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
 
     // Rapid locale changes
     locale.set('es-ES')
@@ -312,7 +316,7 @@ describe('makeMessages', () => {
       localeLoader,
     })
 
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
     expect(welcomeSignal.value).toBe('Welcome!')
 
     // Dispose should not throw
@@ -341,7 +345,7 @@ describe('makeMessages', () => {
     await new Promise(resolve => setTimeout(resolve, 10))
 
     // Should keep default messages
-    const welcomeSignal = t.welcome()
+    const welcomeSignal = t.$.welcome
     expect(welcomeSignal.value).toBe('Welcome!')
 
     dispose()

@@ -9,6 +9,7 @@ import {
   Fragment,
   When,
   Use,
+  coalesce,
 } from '@tempots/dom'
 import { IconSize } from '../theme'
 import { Resource, WhenInViewport } from '@tempots/ui'
@@ -174,7 +175,10 @@ export function Icon(
       When(
         isInformative,
         () =>
-          Fragment(attr.role('img'), aria.label(title ?? t.iconDescription())),
+          Fragment(
+            attr.role('img'),
+            aria.label(coalesce(title, t.$.iconDescription))
+          ),
         () => aria.hidden(true)
       ),
       WhenInViewport({ once: true }, () =>
@@ -195,7 +199,7 @@ export function Icon(
               // Loading state accessibility
               When(
                 isInformative,
-                () => Fragment(attr.role('img'), aria.label(t.loadingIcon())),
+                () => Fragment(attr.role('img'), aria.label(t.$.loadingIcon)),
                 () => aria.hidden(true)
               ),
               '↻'
@@ -208,7 +212,7 @@ export function Icon(
               When(
                 isInformative,
                 () =>
-                  Fragment(attr.role('img'), aria.label(t.failedToLoadIcon())),
+                  Fragment(attr.role('img'), aria.label(t.$.failedToLoadIcon)),
                 () => aria.hidden(true)
               ),
               '🚫'

@@ -1,7 +1,17 @@
 // Sign Up Form Component
 // Registration form with validation and password strength indicator
 
-import { attr, html, on, OnDispose, prop, TNode, Use, When } from '@tempots/dom'
+import {
+  attr,
+  coalesce,
+  html,
+  on,
+  OnDispose,
+  prop,
+  TNode,
+  Use,
+  When,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl, TextControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -10,7 +20,6 @@ import { useForm, UseFormResult } from '../form/use-form'
 import {
   SignUpFormOptions,
   defaultPasswordRules,
-  functionOrReactiveMessage,
   requestToControllerValidation,
   SignUpFormData,
 } from './index'
@@ -96,22 +105,19 @@ export function SignUpForm({
               v => v ?? '',
               v => (v === '' ? undefined : v)
             ),
-            label: functionOrReactiveMessage(labels?.nameLabel, t.nameLabel),
+            label: coalesce(labels?.nameLabel, t.$.nameLabel),
           })
         ),
 
         // Email field
         EmailControl({
           controller: emailController,
-          label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),
         // Password field
         PasswordControl({
           controller: passwordController,
-          label: functionOrReactiveMessage(
-            labels?.passwordLabel,
-            t.passwordLabel
-          ),
+          label: coalesce(labels?.passwordLabel, t.$.passwordLabel),
         }),
 
         // Password strength indicator
@@ -127,9 +133,9 @@ export function SignUpForm({
         When(showConfirmPassword !== false, () =>
           PasswordControl({
             controller: confirmPasswordController,
-            label: functionOrReactiveMessage(
+            label: coalesce(
               labels?.confirmPasswordLabel,
-              t.confirmPasswordLabel
+              t.$.confirmPasswordLabel
             ),
           })
         ),
@@ -146,10 +152,7 @@ export function SignUpForm({
               }),
               html.span(
                 termsAndConditions ||
-                  functionOrReactiveMessage(
-                    labels?.acceptTermsLabel,
-                    t.acceptTermsLabel
-                  )
+                  coalesce(labels?.acceptTermsLabel, t.$.acceptTermsLabel)
               )
             ),
             When(acceptTermsController.hasError, () =>
@@ -172,7 +175,7 @@ export function SignUpForm({
           disabled: controller.disabledOrHasErrors,
         },
         attr.class('bc-auth-form__submit'),
-        functionOrReactiveMessage(labels?.signUpButton, t.signUpButton)
+        coalesce(labels?.signUpButton, t.$.signUpButton)
       )
     )
   )

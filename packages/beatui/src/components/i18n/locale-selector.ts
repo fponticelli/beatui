@@ -23,7 +23,7 @@ export function LocaleSelector({
   return Use(BeatUII18n, t =>
     Use(Locale, ({ locale, setLocale }) => {
       return InputWrapper({
-        label: t.locale(),
+        label: t.$.locale,
         content: NativeSelect({
           options: Value.map(locales, locales =>
             locales.map(l => {

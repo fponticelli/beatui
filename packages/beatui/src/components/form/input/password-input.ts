@@ -43,7 +43,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
   )((hp, ac) => (hp ? (ac ?? 'current-password') : 'off'))
   return Use(BeatUII18n, t => {
     const placeholderText = computedOf(
-      t.passwordPlaceholderText(),
+      t.$.passwordPlaceholderText,
       hidePassword,
       placeholder
     )((t, hp, ph) => (hp ? '•••••••••••••••' : (ph ?? t)))
@@ -72,7 +72,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
         after ??
         html.button(
           attr.class('bc-input-container__password-toggle bu-text-light-gray'),
-          aria.label(t.togglePasswordVisibility()),
+          aria.label(t.$.togglePasswordVisibility),
           on.click(() => hidePassword.update(v => !v)),
           When(
             hidePassword,

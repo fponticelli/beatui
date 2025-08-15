@@ -169,7 +169,7 @@ export function Drawer(
                         size: 'sm',
                         onClick: handleClose,
                       },
-                      Use(BeatUII18n, t => aria.label(t.closeDrawer())),
+                      Use(BeatUII18n, t => aria.label(t.$.closeDrawer)),
                       Icon({ icon: 'line-md:close', size: 'sm' })
                     )
                   )

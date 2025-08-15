@@ -44,7 +44,7 @@ export const LazyNativeSelect = <T, R>(
         html.span(
           Icon({
             icon: 'line-md:loading-twotone-loop',
-            title: t.loadingShort() as Signal<string | undefined>,
+            title: t.$.loadingShort as Signal<string | undefined>,
           })
         )
       ),

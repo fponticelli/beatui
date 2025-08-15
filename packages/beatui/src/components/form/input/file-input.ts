@@ -173,7 +173,7 @@ export const FileInput = (options: FileInputOptions) => {
           Icon({ icon: 'mdi:cloud-upload-outline', size: 'xl' }),
           html.div(
             attr.class('bc-file-input__drop-zone-text'),
-            t.fileInputInstructions()
+            t.$.fileInputInstructions
           )
         )
       )
@@ -205,7 +205,7 @@ export const FileInput = (options: FileInputOptions) => {
           () =>
             html.span(
               attr.class('bc-file-input__compact-placeholder'),
-              t.fileInputInstructions()
+              t.$.fileInputInstructions
             )
         )
       )
@@ -224,7 +224,7 @@ export const FileInput = (options: FileInputOptions) => {
             html.button(
               attr.type('button'),
               attr.class('bc-file-input__compact-clear'),
-              attr.title(t.clearAllFiles()),
+              attr.title(t.$.clearAllFiles),
               attr.disabled(disabled),
               Icon({ icon: 'mdi:close', size: 'sm' }),
               on.click((e: Event) => {
@@ -286,19 +286,19 @@ export const FileInput = (options: FileInputOptions) => {
                           attr.class('bc-file-input__file-meta'),
                           computedOf(
                             file.$.size,
-                            t.fileSizeUnits()
+                            t.$.fileSizeUnits
                           )((size, units) => formatFileSize(size, { units })),
                           ' • ',
                           computedOf(
                             file.$.type,
-                            t.unknownType()
+                            t.$.unknownType
                           )((type, unknownType) => type || unknownType)
                         )
                       ),
                       html.button(
                         attr.type('button'),
                         attr.class('bc-file-input__remove-button'),
-                        attr.title(t.removeFile()),
+                        attr.title(t.$.removeFile),
                         attr.disabled(disabled),
                         Icon({ icon: 'mdi:close', size: 'sm' }),
                         on.click((e: Event) => {
@@ -319,7 +319,7 @@ export const FileInput = (options: FileInputOptions) => {
                         attr.type('button'),
                         attr.class('bc-file-input__clear-all-button'),
                         attr.disabled(disabled),
-                        t.clearAllFiles(),
+                        t.$.clearAllFiles,
                         on.click((e: Event) => {
                           e.preventDefault()
                           e.stopPropagation()

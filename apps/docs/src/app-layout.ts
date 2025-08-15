@@ -1,4 +1,4 @@
-import { html, attr, TNode, Use, computedOf } from '@tempots/dom'
+import { html, attr, TNode, Use } from '@tempots/dom'
 import {
   StandaloneAppearanceSelector,
   AppShell,
@@ -26,68 +26,28 @@ export function AppLayout({ children }: { children: TNode }) {
         html.div(
           Use(BeatUII18n, t =>
             LocaleSelector({
-              locales: computedOf(
-                t.en(),
-                t.es(),
-                t.fr(),
-                t.it(),
-                t.pt(),
-                t.de(),
-                t.pl(),
-                t.ar(),
-                t.ja(),
-                t.ko(),
-                t.ru(),
-                t.tr(),
-                t.nl(),
-                t.vi(),
-                t.hi(),
-                t.zh(),
-                t.fa(),
-                t.ur(),
-                t.he()
-              )(
-                (
-                  en,
-                  es,
-                  fr,
-                  it,
-                  pt,
-                  de,
-                  pl,
-                  ar,
-                  ja,
-                  ko,
-                  ru,
-                  tr,
-                  nl,
-                  vi,
-                  hi,
-                  zh,
-                  fa,
-                  ur,
-                  he
-                ) =>
+              locales: t.map(
+                t =>
                   [
-                    { code: 'en', name: en, nativeName: 'English' },
-                    { code: 'es', name: es, nativeName: 'Español' },
-                    { code: 'fr', name: fr, nativeName: 'Français' },
-                    { code: 'it', name: it, nativeName: 'Italiano' },
-                    { code: 'pt', name: pt, nativeName: 'Português' },
-                    { code: 'de', name: de, nativeName: 'Deutsch' },
-                    { code: 'pl', name: pl, nativeName: 'Polski' },
-                    { code: 'ar', name: ar, nativeName: 'العربية ' },
-                    { code: 'ja', name: ja, nativeName: '日本語' },
-                    { code: 'ko', name: ko, nativeName: '한국어' },
-                    { code: 'ru', name: ru, nativeName: 'Русский' },
-                    { code: 'tr', name: tr, nativeName: 'Türkçe' },
-                    { code: 'nl', name: nl, nativeName: 'Nederlands' },
-                    { code: 'vi', name: vi, nativeName: 'Tiếng Việt' },
-                    { code: 'hi', name: hi, nativeName: 'हिंदी' },
-                    { code: 'zh', name: zh, nativeName: '中文' },
-                    { code: 'fa', name: fa, nativeName: 'فارسی' },
-                    { code: 'ur', name: ur, nativeName: 'اردو' },
-                    { code: 'he', name: he, nativeName: 'עברית' },
+                    { code: 'en', name: t.en, nativeName: 'English' },
+                    { code: 'es', name: t.es, nativeName: 'Español' },
+                    { code: 'fr', name: t.fr, nativeName: 'Français' },
+                    { code: 'it', name: t.it, nativeName: 'Italiano' },
+                    { code: 'pt', name: t.pt, nativeName: 'Português' },
+                    { code: 'de', name: t.de, nativeName: 'Deutsch' },
+                    { code: 'pl', name: t.pl, nativeName: 'Polski' },
+                    { code: 'ar', name: t.ar, nativeName: 'العربية ' },
+                    { code: 'ja', name: t.ja, nativeName: '日本語' },
+                    { code: 'ko', name: t.ko, nativeName: '한국어' },
+                    { code: 'ru', name: t.ru, nativeName: 'Русский' },
+                    { code: 'tr', name: t.tr, nativeName: 'Türkçe' },
+                    { code: 'nl', name: t.nl, nativeName: 'Nederlands' },
+                    { code: 'vi', name: t.vi, nativeName: 'Tiếng Việt' },
+                    { code: 'hi', name: t.hi, nativeName: 'हिंदी' },
+                    { code: 'zh', name: t.zh, nativeName: '中文' },
+                    { code: 'fa', name: t.fa, nativeName: 'فارسی' },
+                    { code: 'ur', name: t.ur, nativeName: 'اردو' },
+                    { code: 'he', name: t.he, nativeName: 'עברית' },
                   ] as LocaleItem[]
               ),
             })

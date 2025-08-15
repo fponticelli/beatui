@@ -113,7 +113,7 @@ export function Button(
       ),
       // Add ARIA attributes for accessibility
       aria.busy(loading ?? false),
-      When(loading ?? false, () => aria.label(t.loadingExtended())),
+      When(loading ?? false, () => aria.label(t.$.loadingExtended)),
       attr.class(
         computedOf(
           variant,
@@ -154,7 +154,7 @@ export function Button(
             html.span(
               attr.class('sr-only'),
               aria.live('polite'),
-              t.loadingExtended()
+              t.$.loadingExtended
             )
           ),
         () => Fragment(on.click(onClick), ...children)

@@ -67,22 +67,19 @@ export function PasswordStrengthIndicator({
           attr.class('bc-password-strength__label'),
           computedOf(
             strength,
-            t.passwordStrengthWeak(),
-            t.passwordStrengthFair(),
-            t.passwordStrengthGood(),
-            t.passwordStrengthStrong()
-          )((str, weak, fair, good, strong) => {
+            t
+          )((str, t) => {
             switch (str) {
               case 'weak':
-                return weak
+                return t.passwordStrengthWeak
               case 'fair':
-                return fair
+                return t.passwordStrengthFair
               case 'good':
-                return good
+                return t.passwordStrengthGood
               case 'strong':
-                return strong
+                return t.passwordStrengthStrong
               default:
-                return weak
+                return t.passwordStrengthWeak
             }
           })
         )
@@ -263,22 +260,19 @@ export function PasswordStrengthText({
       attr.class(containerClasses),
       computedOf(
         strength,
-        t.passwordStrengthWeak(),
-        t.passwordStrengthFair(),
-        t.passwordStrengthGood(),
-        t.passwordStrengthStrong()
-      )((str, weak, fair, good, strong) => {
+        t
+      )((str, t) => {
         switch (str) {
           case 'weak':
-            return weak
+            return t.passwordStrengthWeak
           case 'fair':
-            return fair
+            return t.passwordStrengthFair
           case 'good':
-            return good
+            return t.passwordStrengthGood
           case 'strong':
-            return strong
+            return t.passwordStrengthStrong
           default:
-            return weak
+            return t.passwordStrengthWeak
         }
       })
     )

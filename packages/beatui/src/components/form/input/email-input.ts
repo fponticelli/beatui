@@ -1,5 +1,5 @@
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { Empty, Use } from '@tempots/dom'
+import { coalesce, Empty, Use } from '@tempots/dom'
 import { emitValue, on } from '@tempots/dom'
 import { input } from '@tempots/dom'
 import { attr } from '@tempots/dom'
@@ -20,7 +20,7 @@ export const EmailInput = (options: InputOptions<string>) => {
       ...options,
       input: input.email(
         CommonInputAttributes(updatedOptions),
-        attr.placeholder(placeholder ?? t.emailPlaceholderText()),
+        attr.placeholder(coalesce(placeholder, t.$.emailPlaceholderText)),
         attr.value(value),
         attr.class('bc-input'),
         onBlur != null ? on.blur(emitValue(onBlur)) : Empty,

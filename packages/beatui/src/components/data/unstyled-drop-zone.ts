@@ -10,7 +10,7 @@ import {
   Use,
   aria,
   OnDispose,
-  computedOf,
+  bind,
 } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 
@@ -137,7 +137,7 @@ export function UnstyledDropZone({
       ),
 
       // Screen reader instructions
-      aria.label(t.dropZoneInstructions(enableClick)),
+      aria.label(bind(t.$.dropZoneInstructions)(enableClick)),
 
       // Content
       content({ files, clear: () => (files.value = []), change: files.set })

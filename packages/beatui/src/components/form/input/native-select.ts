@@ -13,6 +13,7 @@ import {
   Signal,
   Value,
   Use,
+  coalesce,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -154,7 +155,10 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
       attr.class('focus:outline-none bg-transparent'),
       attr.class('w-full'),
       Use(BeatUII18n, t =>
-        html.option(attr.hidden('hidden'), unselectedLabel ?? t.selectOne())
+        html.option(
+          attr.hidden('hidden'),
+          coalesce(unselectedLabel, t.$.selectOne)
+        )
       ),
       ForEach(selectOptions, v => NativeSelectOption(v, equality, value)),
       onBlur != null ? on.blur(onBlur) : Empty,

@@ -11,14 +11,10 @@ import {
   Fragment,
   on,
   Use,
+  coalesce,
 } from '@tempots/dom'
 import { html } from '@tempots/dom'
-import {
-  AuthContainerOptions,
-  AuthDivider,
-  AuthMode,
-  functionOrReactiveMessage,
-} from './index'
+import { AuthContainerOptions, AuthDivider, AuthMode } from './index'
 import { SignInForm } from './signin-form'
 import { SignUpForm } from './signup-form'
 import { ResetPasswordForm } from './reset-password-form'
@@ -56,11 +52,12 @@ export function AuthContainer(
 
   return Use(AuthI18n, t => {
     function HasAccountLink() {
+      const x = coalesce(labels?.hasAccountLink, t.$.hasAccountLink)
       return html.button(
         attr.type('button'),
         attr.class('bc-auth-form__link'),
         on.click(() => currentMode.set('signin')),
-        functionOrReactiveMessage(labels?.hasAccountLink, t.hasAccountLink)
+        x
       )
     }
 
@@ -69,7 +66,7 @@ export function AuthContainer(
         attr.type('button'),
         attr.class('bc-auth-form__link'),
         on.click(() => currentMode.set('signup')),
-        functionOrReactiveMessage(labels?.noAccountLink, t.noAccountLink)
+        coalesce(labels?.noAccountLink, t.$.noAccountLink)
       )
     }
 
@@ -78,10 +75,7 @@ export function AuthContainer(
         attr.type('button'),
         attr.class('bc-auth-form__link'),
         on.click(() => currentMode.set('reset-password')),
-        functionOrReactiveMessage(
-          labels?.forgotPasswordLink,
-          t.forgotPasswordLink
-        )
+        coalesce(labels?.forgotPasswordLink, t.$.forgotPasswordLink)
       )
     }
 
@@ -99,7 +93,7 @@ export function AuthContainer(
           Fragment(
             html.h2(
               attr.class('bc-auth-form__title'),
-              functionOrReactiveMessage(labels?.signInTitle, t.signInTitle)
+              coalesce(labels?.signInTitle, t.$.signInTitle)
             ),
             socialProviders != null
               ? Fragment(
@@ -130,7 +124,7 @@ export function AuthContainer(
           Fragment(
             html.h2(
               attr.class('bc-auth-form__title'),
-              functionOrReactiveMessage(labels?.signUpTitle, t.signUpTitle)
+              coalesce(labels?.signUpTitle, t.$.signUpTitle)
             ),
             socialProviders != null
               ? Fragment(
@@ -158,10 +152,7 @@ export function AuthContainer(
           Fragment(
             html.h2(
               attr.class('bc-auth-form__title'),
-              functionOrReactiveMessage(
-                labels?.resetPasswordTitle,
-                t.resetPasswordTitle
-              )
+              coalesce(labels?.resetPasswordTitle, t.$.resetPasswordTitle)
             ),
             ResetPasswordForm({
               labels: {
@@ -201,7 +192,7 @@ export function AuthModal(
         open({
           body: AuthContainer({ showContainer: false, ...options }),
           header: Use(AuthI18n, t =>
-            functionOrReactiveMessage(options.modalTitle, t.authenticationTitle)
+            coalesce(options.modalTitle, t.$.authenticationTitle)
           ),
         })
       )

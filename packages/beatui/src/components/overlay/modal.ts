@@ -11,6 +11,7 @@ import {
   aria,
   dataAttr,
   Use,
+  coalesce,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button } from '../button'
@@ -169,7 +170,7 @@ export function Modal(
                       closeOverlay()
                     },
                   },
-                  Use(BeatUII18n, t => aria.label(t.closeModal())),
+                  Use(BeatUII18n, t => aria.label(t.$.closeModal)),
                   Icon({ icon: 'line-md:close', size: 'sm' })
                 )
               )
@@ -247,7 +248,7 @@ export function ConfirmModal(
                 variant: 'outline',
                 onClick: handleCancel,
               },
-              cancelText ?? t.cancel()
+              coalesce(cancelText, t.$.cancel)
             ),
             Button(
               {
@@ -255,7 +256,7 @@ export function ConfirmModal(
                 variant: 'filled',
                 onClick: handleConfirm,
               },
-              confirmText ?? t.confirm()
+              coalesce(confirmText, t.$.confirm)
             )
           ),
         })

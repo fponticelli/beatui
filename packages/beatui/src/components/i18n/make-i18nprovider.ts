@@ -1,5 +1,5 @@
-import { makeMessages, ReactiveMessages } from '@/i18n'
-import { makeProviderMark, Provider } from '@tempots/dom'
+import { makeMessages } from '@/i18n'
+import { makeProviderMark, Provider, Signal } from '@tempots/dom'
 import { Locale } from './locale'
 
 export function makeI18nProvider<M extends object>({
@@ -12,7 +12,7 @@ export function makeI18nProvider<M extends object>({
   defaultMessages: M
   localeLoader: (locale: string) => Promise<M>
   providerName?: string
-}): Provider<ReactiveMessages<M>, object> {
+}): Provider<Signal<M>, object> {
   return {
     mark: makeProviderMark(providerName),
     create: (_options: unknown, ctx) => {

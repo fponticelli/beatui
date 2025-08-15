@@ -84,23 +84,23 @@ export interface PasswordRules {
 }
 
 export interface AuthContainerLabels {
-  signInTitle?: () => string
-  emailLabel?: () => string
-  passwordLabel?: () => string
-  rememberMeLabel?: () => string
-  signInButton?: () => string
-  forgotPasswordLink?: () => string
-  noAccountLink?: () => string
-  acceptTermsLabel?: () => string
-  confirmPasswordLabel?: () => string
-  signUpTitle?: () => string
-  signUpButton?: () => string
-  nameLabel?: () => string
-  hasAccountLink?: () => string
-  resetPasswordTitle?: () => string
-  resetPasswordButton?: () => string
-  resetPasswordDescription?: () => string
-  backToSignInLink?: () => string
+  signInTitle?: Value<string>
+  emailLabel?: Value<string>
+  passwordLabel?: Value<string>
+  rememberMeLabel?: Value<string>
+  signInButton?: Value<string>
+  forgotPasswordLink?: Value<string>
+  noAccountLink?: Value<string>
+  acceptTermsLabel?: Value<string>
+  confirmPasswordLabel?: Value<string>
+  signUpTitle?: Value<string>
+  signUpButton?: Value<string>
+  nameLabel?: Value<string>
+  hasAccountLink?: Value<string>
+  resetPasswordTitle?: Value<string>
+  resetPasswordButton?: Value<string>
+  resetPasswordDescription?: Value<string>
+  backToSignInLink?: Value<string>
 }
 
 // Component-specific options
@@ -133,12 +133,12 @@ export interface SocialProvidersOptions {
 }
 
 export interface SignInFormLabels {
-  emailLabel?: () => string
-  passwordLabel?: () => string
-  rememberMeLabel?: () => string
-  signInButton?: () => string
-  forgotPasswordLink?: () => string
-  noAccountLink?: () => string
+  emailLabel?: Value<string>
+  passwordLabel?: Value<string>
+  rememberMeLabel?: Value<string>
+  signInButton?: Value<string>
+  forgotPasswordLink?: Value<string>
+  noAccountLink?: Value<string>
 }
 
 export interface SignInFormOptions {
@@ -149,13 +149,13 @@ export interface SignInFormOptions {
 }
 
 export interface SignUpFormLabels {
-  nameLabel?: () => string
-  emailLabel?: () => string
-  passwordLabel?: () => string
-  confirmPasswordLabel?: () => string
-  acceptTermsLabel?: () => string
-  signUpButton?: () => string
-  hasAccountLink?: () => string
+  nameLabel?: Value<string>
+  emailLabel?: Value<string>
+  passwordLabel?: Value<string>
+  confirmPasswordLabel?: Value<string>
+  acceptTermsLabel?: Value<string>
+  signUpButton?: Value<string>
+  hasAccountLink?: Value<string>
 }
 
 export interface SignUpFormOptions {
@@ -171,10 +171,10 @@ export interface SignUpFormOptions {
 }
 
 export interface ResetPasswordFormLabels {
-  resetPasswordButton?: () => string
-  resetPasswordDescription?: () => string
-  emailLabel?: () => string
-  backToSignInLink?: () => string
+  resetPasswordButton?: Value<string>
+  resetPasswordDescription?: Value<string>
+  emailLabel?: Value<string>
+  backToSignInLink?: Value<string>
 }
 
 export interface ResetPasswordFormOptions {
@@ -192,7 +192,7 @@ export interface SocialLoginButtonOptions {
   icon: Value<string>
   color: Value<ThemeColorName | 'black'>
   labels?: {
-    continueWithProvider?: (provider: string) => string
+    continueWithProvider?: Value<(provider: string) => string>
   }
 }
 

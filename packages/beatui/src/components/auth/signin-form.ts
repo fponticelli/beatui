@@ -1,7 +1,17 @@
 // Sign In Form Component
 // Main sign-in form with email/password fields and social login options
 
-import { attr, html, on, OnDispose, prop, TNode, Use, When } from '@tempots/dom'
+import {
+  attr,
+  coalesce,
+  html,
+  on,
+  OnDispose,
+  prop,
+  TNode,
+  Use,
+  When,
+} from '@tempots/dom'
 import { Button } from '../button'
 import { EmailControl, PasswordControl } from '../form/control'
 import { CheckboxInput } from '../form/input'
@@ -10,7 +20,6 @@ import { useForm } from '../form/use-form'
 import {
   SignInFormData,
   SignInFormOptions,
-  functionOrReactiveMessage,
   requestToControllerValidation,
 } from './index'
 import { createSignInSchema } from './schemas'
@@ -87,15 +96,12 @@ export function SignInForm({
         // Email field
         EmailControl({
           controller: emailController,
-          label: functionOrReactiveMessage(labels?.emailLabel, t.emailLabel),
+          label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),
         // Password field
         PasswordControl({
           controller: passwordController,
-          label: functionOrReactiveMessage(
-            labels?.passwordLabel,
-            t.passwordLabel
-          ),
+          label: coalesce(labels?.passwordLabel, t.$.passwordLabel),
         }),
 
         // Remember me checkbox
@@ -107,10 +113,7 @@ export function SignInForm({
               CheckboxInput({
                 value: persistedEmail.map(v => v != null),
                 after: html.span(
-                  functionOrReactiveMessage(
-                    labels?.rememberMeLabel,
-                    t.rememberMeLabel
-                  )
+                  coalesce(labels?.rememberMeLabel, t.$.rememberMeLabel)
                 ),
                 onChange: checked => {
                   if (checked) {
@@ -135,7 +138,7 @@ export function SignInForm({
           disabled: controller.disabledOrHasErrors,
         },
         attr.class('bc-auth-form__submit'),
-        functionOrReactiveMessage(labels?.signInButton, t.signInButton)
+        coalesce(labels?.signInButton, t.$.signInButton)
       )
     )
   )

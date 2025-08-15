@@ -1,22 +1,4 @@
-import { computedOf, prop, Signal, Value } from '@tempots/dom'
-
-/**
- * Utility type that wraps each element of a tuple in a Value<T>.
- * Used to convert function parameters to reactive values.
- */
-type WrapInValue<T extends unknown[]> = {
-  [K in keyof T]: Value<T[K]>
-}
-
-/**
- * Transforms a messages object into a computed version where each message function
- * returns a reactive Signal instead of a direct value.
- */
-export type ReactiveMessages<M extends object> = {
-  [K in keyof M]: M[K] extends (...args: infer Args) => infer R
-    ? (...args: WrapInValue<Args>) => Signal<R>
-    : never
-}
+import { prop, Signal } from '@tempots/dom'
 
 /**
  * Gets fallback locales for a given locale string.
@@ -141,48 +123,14 @@ export function makeMessages<M extends object>({
     }
   })
 
-  // Create proxy-based translation functions that return reactive signals
-  const t = new Proxy({} as unknown as ReactiveMessages<M>, {
-    get: (_target, prop) => {
-      // Return a function that creates reactive computed translations
-      return function (...args: WrapInValue<unknown[]>) {
-        type K = keyof M & string
-        const fnSignal = currentMessages.at(prop as K)
-        const signal = computedOf(
-          fnSignal,
-          ...args
-        )((fn, ...args) => {
-          // Call the message function with provided arguments
-          // Handle cases where fn.fn might be undefined, null, or not a function
-          if (typeof fn === 'function') {
-            return fn(...args)
-          }
-
-          // Fallback to default message if available
-          const defaultFn = defaultMessages[prop as K]
-          if (typeof defaultFn === 'function') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-            return (defaultFn as Function)(...args)
-          }
-
-          // Last resort: return a placeholder message
-          return `[Missing translation: ${String(prop)}]`
-        })
-        signal.onDispose(fnSignal.dispose)
-        return signal
-      }
-    },
-  })
-
   return {
     /** Clean up all resources and event listeners */
     dispose: () => {
-      console.log('Dispose!!!')
       cancel()
       currentLocale.dispose()
       currentMessages.dispose()
     },
     /** Translation functions that return reactive signals */
-    t,
+    t: currentMessages,
   }
 }
