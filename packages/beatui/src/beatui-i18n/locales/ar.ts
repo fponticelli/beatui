@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const ar: BeatUIMessages = {
@@ -53,7 +54,44 @@ const ar: BeatUIMessages = {
   removeFile: 'إزالة الملف',
   clearAllFiles: 'مسح كل الملفات',
   unknownType: 'نوع غير معروف',
-  fileInputInstructions: 'انقر للاختيار أو اسحب الملفات هنا',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'انقر للاختيار أو اسحب الملفات هنا'
+      : 'انقر للاختيار أو اسحب ملف هنا'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'حتى ملف واحد' : `حتى ${maxFiles} ملفات`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`حد أقصى ${formattedSize} لكل ملف`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join('، ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (حد أقصى ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default ar

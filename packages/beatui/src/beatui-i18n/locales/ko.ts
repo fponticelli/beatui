@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const ko: BeatUIMessages = {
@@ -53,7 +54,42 @@ const ko: BeatUIMessages = {
   removeFile: '파일 제거',
   clearAllFiles: '모든 파일 지우기',
   unknownType: '알 수 없는 형식',
-  fileInputInstructions: '클릭하여 선택하거나 파일을 여기로 드래그하세요',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? '클릭하여 선택하거나 파일을 여기로 드래그하세요'
+      : '클릭하여 선택하거나 파일을 여기로 드래그하세요'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(`최대 ${maxFiles}개 파일`)
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`각각 최대 ${formattedSize}`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (최대 ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default ko

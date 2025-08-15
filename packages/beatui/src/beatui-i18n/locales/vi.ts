@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const vi: BeatUIMessages = {
@@ -53,7 +54,44 @@ const vi: BeatUIMessages = {
   removeFile: 'Xóa tệp',
   clearAllFiles: 'Xóa tất cả tệp',
   unknownType: 'Loại không xác định',
-  fileInputInstructions: 'Nhấp để chọn hoặc kéo tệp vào đây',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'Nhấp để chọn hoặc kéo tệp vào đây'
+      : 'Nhấp để chọn hoặc kéo một tệp vào đây'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'tối đa 1 tệp' : `tối đa ${maxFiles} tệp`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`mỗi tệp tối đa ${formattedSize}`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (tối đa ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default vi

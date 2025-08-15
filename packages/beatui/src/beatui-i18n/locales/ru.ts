@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 export const ru: BeatUIMessages = {
@@ -53,7 +54,45 @@ export const ru: BeatUIMessages = {
   removeFile: 'Удалить файл',
   clearAllFiles: 'Очистить все файлы',
   unknownType: 'Неизвестный тип',
-  fileInputInstructions: 'Нажмите для выбора или перетащите файлы сюда',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'Нажмите для выбора или перетащите файлы сюда'
+      : 'Нажмите для выбора или перетащите файл сюда'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        let fileText = 'файлов'
+        if (maxFiles === 1) fileText = 'файл'
+        else if (maxFiles >= 2 && maxFiles <= 4) fileText = 'файла'
+        constraints.push(`до ${maxFiles} ${fileText}`)
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`макс ${formattedSize} каждый`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (макс ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default ru

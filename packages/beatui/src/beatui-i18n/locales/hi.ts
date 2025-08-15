@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const hi: BeatUIMessages = {
@@ -53,7 +54,44 @@ const hi: BeatUIMessages = {
   removeFile: 'फ़ाइल हटाएं',
   clearAllFiles: 'सभी फ़ाइलें हटाएं',
   unknownType: 'अज्ञात प्रकार',
-  fileInputInstructions: 'चुनने के लिए क्लिक करें या फ़ाइलें यहाँ खींचें',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'चुनने के लिए क्लिक करें या फ़ाइलें यहाँ खींचें'
+      : 'चुनने के लिए क्लिक करें या फ़ाइल यहाँ खींचें'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'अधिकतम 1 फ़ाइल' : `अधिकतम ${maxFiles} फ़ाइलें`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`प्रत्येक अधिकतम ${formattedSize}`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (अधिकतम ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default hi

@@ -1,3 +1,5 @@
+import { formatFileSize } from '@/utils'
+
 const en = {
   loadingExtended: 'Loading, please wait',
   loadingShort: 'Loading...',
@@ -51,7 +53,44 @@ const en = {
   removeFile: 'Remove file',
   clearAllFiles: 'Clear all files',
   unknownType: 'Unknown type',
-  fileInputInstructions: 'Click to choose or drag files here',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'Click to choose or drag files here'
+      : 'Click to choose or drag a file here'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'up to 1 file' : `up to ${maxFiles} files`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`max ${formattedSize} each`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (max ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default en

@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 export const ja: BeatUIMessages = {
@@ -53,7 +54,42 @@ export const ja: BeatUIMessages = {
   removeFile: 'ファイルを削除',
   clearAllFiles: 'すべてのファイルを削除',
   unknownType: '不明なタイプ',
-  fileInputInstructions: 'クリックして選択するか、ファイルをここにドラッグ',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'クリックして選択するか、ファイルをここにドラッグ'
+      : 'クリックして選択するか、ファイルをここにドラッグ'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(`最大${maxFiles}ファイル`)
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`各${formattedSize}以下`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join('、')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (最大${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default ja

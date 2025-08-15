@@ -13,6 +13,7 @@ import {
   Fragment,
   Use,
   computedOf,
+  bind,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
@@ -173,7 +174,12 @@ export const FileInput = (options: FileInputOptions) => {
           Icon({ icon: 'mdi:cloud-upload-outline', size: 'xl' }),
           html.div(
             attr.class('bc-file-input__drop-zone-text'),
-            t.$.fileInputInstructions
+            bind(t.$.fileInputInstructions)(
+              allowMultiple,
+              maxFiles as Signal<number | undefined>,
+              maxFileSize as Signal<number | undefined>,
+              t.$.fileSizeUnits.value
+            )
           )
         )
       )
@@ -205,7 +211,12 @@ export const FileInput = (options: FileInputOptions) => {
           () =>
             html.span(
               attr.class('bc-file-input__compact-placeholder'),
-              t.$.fileInputInstructions
+              bind(t.$.fileInputInstructions)(
+                allowMultiple,
+                maxFiles as Signal<number | undefined>,
+                maxFileSize as Signal<number | undefined>,
+                t.$.fileSizeUnits.value
+              )
             )
         )
       )

@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const zh: BeatUIMessages = {
@@ -53,7 +54,42 @@ const zh: BeatUIMessages = {
   removeFile: '删除文件',
   clearAllFiles: '清除所有文件',
   unknownType: '未知类型',
-  fileInputInstructions: '点击选择或将文件拖拽到此处',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? '点击选择或将文件拖拽到此处'
+      : '点击选择或将文件拖拽到此处'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(`最多${maxFiles}个文件`)
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`每个最大${formattedSize}`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join('，')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (最大${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default zh

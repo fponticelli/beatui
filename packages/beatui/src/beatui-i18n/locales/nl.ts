@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 export const nl: BeatUIMessages = {
@@ -53,7 +54,44 @@ export const nl: BeatUIMessages = {
   removeFile: 'Bestand verwijderen',
   clearAllFiles: 'Alle bestanden wissen',
   unknownType: 'Onbekend type',
-  fileInputInstructions: 'Klik om te kiezen of sleep bestanden hierheen',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'Klik om te kiezen of sleep bestanden hierheen'
+      : 'Klik om te kiezen of sleep een bestand hierheen'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'tot 1 bestand' : `tot ${maxFiles} bestanden`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`max ${formattedSize} elk`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (max ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default nl

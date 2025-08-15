@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const tr: BeatUIMessages = {
@@ -53,8 +54,44 @@ const tr: BeatUIMessages = {
   removeFile: 'Dosyayı kaldır',
   clearAllFiles: 'Tüm dosyaları temizle',
   unknownType: 'Bilinmeyen tür',
-  fileInputInstructions:
-    'Seçmek için tıklayın veya dosyaları buraya sürükleyin',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'Seçmek için tıklayın veya dosyaları buraya sürükleyin'
+      : 'Seçmek için tıklayın veya dosyayı buraya sürükleyin'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(
+          maxFiles === 1 ? 'en fazla 1 dosya' : `en fazla ${maxFiles} dosya`
+        )
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`her biri en fazla ${formattedSize}`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join(', ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (en fazla ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default tr

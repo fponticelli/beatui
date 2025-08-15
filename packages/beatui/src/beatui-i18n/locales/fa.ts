@@ -1,3 +1,4 @@
+import { formatFileSize } from '@/utils'
 import { BeatUIMessages } from '../default'
 
 const fa: BeatUIMessages = {
@@ -53,7 +54,42 @@ const fa: BeatUIMessages = {
   removeFile: 'حذف فایل',
   clearAllFiles: 'حذف همه فایل‌ها',
   unknownType: 'نوع ناشناخته',
-  fileInputInstructions: 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید',
+  fileInputInstructions: (
+    allowMultiple: boolean,
+    maxFiles: number | undefined,
+    maxFileSize: number | undefined,
+    fileSizeUnits: string[]
+  ): string => {
+    let instruction = allowMultiple
+      ? 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید'
+      : 'برای انتخاب کلیک کنید یا فایل را بکشید'
+
+    if (allowMultiple && (maxFiles || maxFileSize)) {
+      const constraints: string[] = []
+
+      if (maxFiles) {
+        constraints.push(maxFiles === 1 ? 'تا ۱ فایل' : `تا ${maxFiles} فایل`)
+      }
+
+      if (maxFileSize && fileSizeUnits) {
+        const formattedSize = formatFileSize(maxFileSize, {
+          units: fileSizeUnits,
+        })
+        constraints.push(`حداکثر ${formattedSize} هر کدام`)
+      }
+
+      if (constraints.length > 0) {
+        instruction += ` (${constraints.join('، ')})`
+      }
+    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+      const formattedSize = formatFileSize(maxFileSize, {
+        units: fileSizeUnits,
+      })
+      instruction += ` (حداکثر ${formattedSize})`
+    }
+
+    return instruction
+  },
 }
 
 export default fa
