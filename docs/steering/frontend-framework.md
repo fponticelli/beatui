@@ -199,7 +199,7 @@ render(userResource, document.body)
 ### Popovers and Tooltips
 
 ```typescript
-import { html, prop, on, attr } from '@tempots/dom'
+import { html, prop, on, attr, style } from '@tempots/dom'
 import { PopOver } from '@tempots/ui'
 
 function TooltipExample() {
@@ -214,10 +214,10 @@ function TooltipExample() {
         placement: 'top',
         content: () =>
           html.div(
-            {
-              style:
-                'padding: 8px; background: white; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);',
-            },
+            style.padding('8px'),
+            style.background('white'),
+            style.borderRadius('4px'),
+            style.boxShadow('0 2px 8px rgba(0,0,0,0.1)'),
             'This is a tooltip with an arrow!'
           ),
         arrow: {
