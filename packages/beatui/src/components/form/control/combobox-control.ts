@@ -1,8 +1,8 @@
-import { ControlInputWrapper } from './control-input-wrapper'
 import { ControlOptions } from './control-options'
-import { inputOptionsFromController } from '../input/input-options'
+import { ControlInputWrapper } from './control-input-wrapper'
 import { Combobox, ComboboxOption } from '../input/combobox'
 import { TNode, Value } from '@tempots/dom'
+import { inputOptionsFromController } from '../input/input-options'
 import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 
 export type ComboboxControlOptions<T> = ControlOptions<T> & {

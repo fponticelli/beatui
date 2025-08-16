@@ -1,9 +1,6 @@
-import { ControlInputWrapper } from './control-input-wrapper'
 import { TextInput } from '../input/text-input'
-import { ControlOptions } from './control-options'
 import { Controller } from '../controller/controller'
-import { inputOptionsFromController } from '../input/input-options'
-import { TNode } from '@tempots/dom'
+import { createControl } from './control-factory'
 
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,21 +44,4 @@ export const makeNullableOnChangeHandler =
     }
   }
 
-export const TextControl = (
-  options: ControlOptions<string>,
-  ...children: TNode[]
-) => {
-  const { onBlur, onChange, ...rest } = options
-  return ControlInputWrapper(
-    {
-      ...rest,
-      content: TextInput({
-        ...rest,
-        ...inputOptionsFromController(rest.controller),
-        onChange: makeOnChangeHandler(rest.controller, onChange),
-        onBlur: makeOnBlurHandler(rest.controller, onBlur),
-      }),
-    },
-    ...children
-  )
-}
+export const TextControl = createControl(TextInput)

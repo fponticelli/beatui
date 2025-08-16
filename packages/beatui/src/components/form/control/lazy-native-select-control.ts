@@ -1,10 +1,10 @@
-import { ControlInputWrapper } from './control-input-wrapper'
 import { ControlOptions } from './control-options'
-import { inputOptionsFromController } from '../input/input-options'
+import { ControlInputWrapper } from './control-input-wrapper'
 import { SelectOption } from '../input/native-select'
 import { Signal, TNode, Value } from '@tempots/dom'
-import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 import { LazyNativeSelect } from '../input/lazy-native-select'
+import { inputOptionsFromController } from '../input/input-options'
+import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 
 export type LazyNativeSelectControlOptions<T, R> = ControlOptions<T> & {
   request: Signal<R>

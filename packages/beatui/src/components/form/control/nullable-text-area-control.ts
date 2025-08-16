@@ -1,10 +1,8 @@
-import { ControlInputWrapper } from './control-input-wrapper'
 import { ControlOptions } from './control-options'
-import { TNode, Value } from '@tempots/dom'
+import { Value } from '@tempots/dom'
 import { NullableTextArea } from '../input/nullable-text-area'
 import { Merge } from '@tempots/std'
-import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
-import { inputOptionsFromController } from '../input/input-options'
+import { createNullableControl } from './control-factory'
 
 export type NullableTextAreaControlOptions = Merge<
   ControlOptions<string | null>,
@@ -13,22 +11,4 @@ export type NullableTextAreaControlOptions = Merge<
   }
 >
 
-export const NullableTextAreaControl = (
-  options: NullableTextAreaControlOptions,
-  ...children: TNode[]
-) => {
-  const { onBlur, onChange, rows, ...rest } = options
-  return ControlInputWrapper(
-    {
-      ...rest,
-      content: NullableTextArea({
-        ...rest,
-        ...inputOptionsFromController(rest.controller),
-        rows,
-        onChange: makeOnChangeHandler(rest.controller, onChange),
-        onBlur: makeOnBlurHandler(rest.controller, onBlur),
-      }),
-    },
-    ...children
-  )
-}
+export const NullableTextAreaControl = createNullableControl(NullableTextArea)
