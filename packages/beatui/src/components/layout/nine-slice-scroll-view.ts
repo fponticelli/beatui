@@ -232,6 +232,58 @@ export function NineSliceScrollView({
         verticalScrollPosition.map(scrollPos => `translateY(-${scrollPos}px)`)
       )
 
+      // Cache max scroll values as computed values to avoid recalculation in event handlers
+      const maxVerticalScroll = computedOf(
+        contentHeight,
+        visibleAreaHeight
+      )((content, visible) => content - BigInt(Math.max(1, visible)))
+
+      const maxHorizontalScroll = computedOf(
+        contentWidth,
+        visibleAreaWidth
+      )((content, visible) => content - BigInt(Math.max(1, visible)))
+
+      // Throttle mechanism for wheel events
+      let wheelThrottleTimer: ReturnType<typeof setTimeout> | null = null
+      let accumulatedDeltaX = 0
+      let accumulatedDeltaY = 0
+
+      const processWheelEvent = () => {
+        // Use cached values instead of reading directly
+        const maxV = maxVerticalScroll.value
+        const maxH = maxHorizontalScroll.value
+        const needsV = needsVerticalScroll.value
+        const needsH = needsHorizontalScroll.value
+
+        if (needsV && accumulatedDeltaY !== 0) {
+          const newVerticalPosition = biMin(
+            biMax(0n, maxV),
+            biMax(
+              0n,
+              verticalScrollPosition.value +
+                BigInt(Math.round(accumulatedDeltaY))
+            )
+          )
+          verticalScrollPosition.set(newVerticalPosition)
+        }
+
+        if (needsH && accumulatedDeltaX !== 0) {
+          const newHorizontalPosition = biMin(
+            biMax(0n, maxH),
+            biMax(
+              0n,
+              horizontalScrollPosition.value +
+                BigInt(Math.round(accumulatedDeltaX))
+            )
+          )
+          horizontalScrollPosition.set(newHorizontalPosition)
+        }
+
+        accumulatedDeltaX = 0
+        accumulatedDeltaY = 0
+        wheelThrottleTimer = null
+      }
+
       return Fragment(
         OnDispose(
           needsHorizontalScroll.on(need => {
@@ -239,26 +291,27 @@ export function NineSliceScrollView({
           }),
           needsVerticalScroll.on(need => {
             if (!need) verticalScrollPosition.set(0n)
-          })
+          }),
+          maxVerticalScroll.dispose,
+          maxHorizontalScroll.dispose,
+          () => {
+            if (wheelThrottleTimer) {
+              clearTimeout(wheelThrottleTimer)
+            }
+          }
         ),
         on.wheel(event => {
           event.preventDefault()
           const { deltaX, deltaY } = event
-          const maxVerticalScroll =
-            Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
-          const newVerticalPosition = biMin(
-            maxVerticalScroll,
-            biMax(0n, verticalScrollPosition.value + BigInt(deltaY))
-          )
-          verticalScrollPosition.set(newVerticalPosition)
 
-          const maxHorizontalScroll =
-            Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
-          const newHorizontalPosition = biMin(
-            maxHorizontalScroll,
-            biMax(0n, horizontalScrollPosition.value + BigInt(deltaX))
-          )
-          horizontalScrollPosition.set(newHorizontalPosition)
+          // Accumulate deltas
+          accumulatedDeltaX += deltaX
+          accumulatedDeltaY += deltaY
+
+          // Throttle to 60fps (16ms)
+          if (!wheelThrottleTimer) {
+            wheelThrottleTimer = setTimeout(processWheelEvent, 16)
+          }
         }),
         html.div(
           attr.class('bc-nine-slice-pane-container'),
@@ -417,10 +470,10 @@ export function NineSliceScrollView({
             const scrollableWidth = target.scrollWidth - target.clientWidth
             if (scrollableWidth > 0) {
               const scrollFraction = scrollLeft / scrollableWidth
-              const maxHorizontalScroll =
-                Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
+              // Use cached max value instead of recalculating
+              const maxH = maxHorizontalScroll.value
               horizontalScrollPosition.set(
-                BigInt(Math.round(Number(maxHorizontalScroll) * scrollFraction))
+                BigInt(Math.round(Number(maxH) * scrollFraction))
               )
             }
           })
@@ -467,10 +520,10 @@ export function NineSliceScrollView({
             const scrollableHeight = target.scrollHeight - target.clientHeight
             if (scrollableHeight > 0) {
               const scrollFraction = scrollTop / scrollableHeight
-              const maxVerticalScroll =
-                Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
+              // Use cached max value instead of recalculating
+              const maxV = maxVerticalScroll.value
               verticalScrollPosition.set(
-                BigInt(Math.round(Number(maxVerticalScroll) * scrollFraction))
+                BigInt(Math.round(Number(maxV) * scrollFraction))
               )
             }
           })
