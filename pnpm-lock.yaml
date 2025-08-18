@@ -106,9 +106,6 @@ importers:
       eslint-config-prettier:
         specifier: 10.1.5
         version: 10.1.5(eslint@9.27.0)
-      eslint-plugin-prettier:
-        specifier: 5.4.0
-        version: 5.4.0(eslint-config-prettier@10.1.5(eslint@9.27.0))(eslint@9.27.0)(prettier@3.5.3)
       jsdom:
         specifier: 26.1.0
         version: 26.1.0

@@ -1,9 +1,9 @@
 import tseslint from 'typescript-eslint'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default tseslint.config(
   ...tseslint.configs.recommended,
-  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
   {
     ignores: [
       '**/*.{d.ts,d.mts}',
