@@ -13,23 +13,29 @@ import { ElementRect } from '@tempots/ui'
 import { biMax, biMin } from '@tempots/std'
 
 export type NineSliceScrollViewOptions = {
+  // Main content area
   body: TNode
+  // Content dimensions (actual size of scrollable content)
+  contentWidth: Value<bigint>
+  contentHeight: Value<bigint>
+
+  // Top row sections
   header?: TNode
-  footer?: TNode
-  start?: TNode
-  end?: TNode
-  startHeader?: TNode
-  startFooter?: TNode
-  endHeader?: TNode
-  endFooter?: TNode
-
-  bodyWidth: Value<bigint>
-  bodyHeight: Value<bigint>
-
   headerHeight?: Value<number>
+  topStart?: TNode // top-left in LTR, top-right in RTL
+  topEnd?: TNode // top-right in LTR, top-left in RTL
+
+  // Bottom row sections
+  footer?: TNode
   footerHeight?: Value<number>
-  startWidth?: Value<number>
-  endWidth?: Value<number>
+  bottomStart?: TNode // bottom-left in LTR, bottom-right in RTL
+  bottomEnd?: TNode // bottom-right in LTR, bottom-left in RTL
+
+  // Side sections (start/end for RTL support)
+  sidebarStart?: TNode // left in LTR, right in RTL
+  sidebarStartWidth?: Value<number>
+  sidebarEnd?: TNode // right in LTR, left in RTL
+  sidebarEndWidth?: Value<number>
 }
 
 function toPx(v: Value<number>): string {
@@ -42,126 +48,124 @@ function valueToPx(v: Value<number>) {
 
 export function NineSliceScrollView({
   body,
+  contentWidth,
+  contentHeight,
   header,
-  footer,
-  start,
-  end,
-  startHeader,
-  startFooter,
-  endHeader,
-  endFooter,
   headerHeight = 0,
+  topStart,
+  topEnd,
+  footer,
   footerHeight = 0,
-  startWidth = 0,
-  endWidth = 0,
-  bodyWidth,
-  bodyHeight,
+  bottomStart,
+  bottomEnd,
+  sidebarStart,
+  sidebarStartWidth = 0,
+  sidebarEnd,
+  sidebarEndWidth = 0,
 }: NineSliceScrollViewOptions) {
-  const verticalOffset = prop(0n)
-  const horizontalOffset = prop(0n)
+  const verticalScrollPosition = prop(0n)
+  const horizontalScrollPosition = prop(0n)
 
   const headerHeightPx = valueToPx(headerHeight)
   const footerHeightPx = valueToPx(footerHeight)
-  const startWidthPx = valueToPx(startWidth)
-  const endWidthPx = valueToPx(endWidth)
-  const scrollbarSize = prop(16)
+  const sidebarStartWidthPx = valueToPx(sidebarStartWidth)
+  const sidebarEndWidthPx = valueToPx(sidebarEndWidth)
+  const scrollbarThickness = prop(16)
 
   return html.div(
     OnDispose(
-      verticalOffset.dispose,
-      horizontalOffset.dispose,
-      scrollbarSize.dispose
+      verticalScrollPosition.dispose,
+      horizontalScrollPosition.dispose,
+      scrollbarThickness.dispose
     ),
     attr.class('bc-nine-slice-container'),
     ElementRect(rect => {
-      const bodyRealWidth = computedOf(
+      const viewportWidth = computedOf(
         rect.$.width,
-        startWidth,
-        endWidth
+        sidebarStartWidth,
+        sidebarEndWidth
       )((width, startWidth, endWidth) => {
         return width - startWidth - endWidth
       })
-      const bodyRealHeight = computedOf(
+      const viewportHeight = computedOf(
         rect.$.height,
         headerHeight,
         footerHeight
       )((height, headerHeight, footerHeight) => {
         return height - headerHeight - footerHeight
       })
-      const displayHorizontalScrollbar = computedOf(
-        bodyWidth,
-        bodyRealWidth
-      )((bodyWidth, bodyRealWidth) => {
-        return bodyWidth > BigInt(bodyRealWidth)
+      const needsHorizontalScroll = computedOf(
+        contentWidth,
+        viewportWidth
+      )((contentWidth, viewportWidth) => {
+        return contentWidth > BigInt(viewportWidth)
       })
-      const displayVerticalScrollbar = computedOf(
-        bodyHeight,
-        bodyRealHeight
-      )((bodyHeight, bodyRealHeight) => {
-        return bodyHeight > BigInt(bodyRealHeight)
+      const needsVerticalScroll = computedOf(
+        contentHeight,
+        viewportHeight
+      )((contentHeight, viewportHeight) => {
+        return contentHeight > BigInt(viewportHeight)
       })
-      const actualBodyWidth = computedOf(
-        bodyRealWidth,
-        displayVerticalScrollbar,
-        scrollbarSize
-      )((w, display, size) => {
-        return display ? w - size : w
+      const visibleAreaWidth = computedOf(
+        viewportWidth,
+        needsVerticalScroll,
+        scrollbarThickness
+      )((width, hasScrollbar, thickness) => {
+        return hasScrollbar ? width - thickness : width
       })
-      const actualBodyHeight = computedOf(
-        bodyRealHeight,
-        displayHorizontalScrollbar,
-        scrollbarSize
-      )((h, display, size) => {
-        return display ? h - size : h
+      const visibleAreaHeight = computedOf(
+        viewportHeight,
+        needsHorizontalScroll,
+        scrollbarThickness
+      )((height, hasScrollbar, thickness) => {
+        return hasScrollbar ? height - thickness : height
       })
-      const bodyRealWidthPx = valueToPx(actualBodyWidth)
-      const bodyRealHeightPx = valueToPx(actualBodyHeight)
+      const visibleAreaWidthPx = valueToPx(visibleAreaWidth)
+      const visibleAreaHeightPx = valueToPx(visibleAreaHeight)
 
-      const sliderWidth = computedOf(
-        bodyWidth,
-        actualBodyWidth
-      )((bodyWidth, bodyRealWidth) => {
-        return Number(bodyWidth / BigInt(bodyRealWidth))
+      const scrollRatioHorizontal = computedOf(
+        contentWidth,
+        visibleAreaWidth
+      )((contentWidth, visibleWidth) => {
+        return Number(contentWidth / BigInt(visibleWidth))
       })
-      const sliderHeight = computedOf(
-        bodyHeight,
-        actualBodyHeight
-      )((bodyHeight, bodyRealHeight) => {
-        return Number(bodyHeight / BigInt(bodyRealHeight))
-      })
-
-      const endOffset = computedOf(
-        displayVerticalScrollbar,
-        scrollbarSize
-      )((display, size) => {
-        return display ? `${size}px` : '0'
-      })
-      const footerOffset = computedOf(
-        displayHorizontalScrollbar,
-        scrollbarSize
-      )((display, size) => {
-        return display ? `${size}px` : '0'
+      const scrollRatioVertical = computedOf(
+        contentHeight,
+        visibleAreaHeight
+      )((contentHeight, visibleHeight) => {
+        return Number(contentHeight / BigInt(visibleHeight))
       })
 
-      const moveBoth = style.transform(
+      const endSideOffset = computedOf(
+        needsVerticalScroll,
+        scrollbarThickness
+      )((hasScrollbar, thickness) => {
+        return hasScrollbar ? `${thickness}px` : '0'
+      })
+      const bottomOffset = computedOf(
+        needsHorizontalScroll,
+        scrollbarThickness
+      )((hasScrollbar, thickness) => {
+        return hasScrollbar ? `${thickness}px` : '0'
+      })
+
+      const contentTransform = style.transform(
         computedOf(
-          horizontalOffset,
-          verticalOffset,
-          displayHorizontalScrollbar,
-          displayVerticalScrollbar
-        )((h, v, displayH, displayV) => {
-          const hTransform = displayH ? `translateX(-${h}px)` : ''
-          const vTransform = displayV ? `translateY(-${v}px)` : ''
+          horizontalScrollPosition,
+          verticalScrollPosition,
+          needsHorizontalScroll,
+          needsVerticalScroll
+        )((hPos, vPos, needsH, needsV) => {
+          const hTransform = needsH ? `translateX(-${hPos}px)` : ''
+          const vTransform = needsV ? `translateY(-${vPos}px)` : ''
           return `${hTransform} ${vTransform}`.trim() || 'none'
         })
       )
-      const moveHorizontal = style.transform(
-        horizontalOffset.map(
-          horizontalOffset => `translateX(-${horizontalOffset}px)`
-        )
+      const horizontalTransform = style.transform(
+        horizontalScrollPosition.map(scrollPos => `translateX(-${scrollPos}px)`)
       )
-      const moveVertical = style.transform(
-        verticalOffset.map(verticalOffset => `translateY(-${verticalOffset}px)`)
+      const verticalTransform = style.transform(
+        verticalScrollPosition.map(scrollPos => `translateY(-${scrollPos}px)`)
       )
 
       return html.div(
@@ -169,27 +173,31 @@ export function NineSliceScrollView({
         on.wheel(event => {
           event.preventDefault()
           const { deltaX, deltaY } = event
-          const newVO = biMin(
-            Value.get(bodyHeight) - BigInt(actualBodyHeight.value),
-            biMax(0n, verticalOffset.value + BigInt(deltaY))
+          const maxVerticalScroll =
+            Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
+          const newVerticalPosition = biMin(
+            maxVerticalScroll,
+            biMax(0n, verticalScrollPosition.value + BigInt(deltaY))
           )
-          verticalOffset.set(newVO)
+          verticalScrollPosition.set(newVerticalPosition)
 
-          const newHO = biMin(
-            Value.get(bodyWidth) - BigInt(actualBodyWidth.value),
-            biMax(0n, horizontalOffset.value + BigInt(deltaX))
+          const maxHorizontalScroll =
+            Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
+          const newHorizontalPosition = biMin(
+            maxHorizontalScroll,
+            biMax(0n, horizontalScrollPosition.value + BigInt(deltaX))
           )
-          horizontalOffset.set(newHO)
+          horizontalScrollPosition.set(newHorizontalPosition)
         }),
-        // top-left
-        startHeader != null
+        // top-start corner
+        topStart != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-start-header'),
+              attr.class('bc-nine-slice-pane bc-nine-slice-top-start'),
               style.top('0'),
               style.left('0'),
               style.height(headerHeightPx),
-              style.width(startWidthPx),
-              startHeader
+              style.width(sidebarStartWidthPx),
+              topStart
             )
           : null,
         // top-center
@@ -197,101 +205,105 @@ export function NineSliceScrollView({
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-header'),
               style.top('0'),
-              style.left(startWidthPx),
+              style.left(sidebarStartWidthPx),
               style.height(headerHeightPx),
-              style.width(bodyRealWidthPx),
+              style.width(visibleAreaWidthPx),
               html.div(
                 attr.class('bc-nine-slice-pane-content'),
-                moveHorizontal,
+                horizontalTransform,
                 header
               )
             )
           : null,
-        // top-right
-        endHeader != null
+        // top-end corner
+        topEnd != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-end-header'),
+              attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
               style.top('0'),
-              style.right(endOffset),
+              style.right(endSideOffset),
               style.height(headerHeightPx),
-              style.width(endWidthPx),
-              endHeader
+              style.width(sidebarEndWidthPx),
+              topEnd
             )
           : null,
-        // middle-left
-        start != null
+        // middle-start sidebar
+        sidebarStart != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-start'),
+              attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-start'),
               style.left('0'),
               style.top(headerHeightPx),
-              style.height(bodyRealHeightPx),
-              style.width(startWidthPx),
+              style.height(visibleAreaHeightPx),
+              style.width(sidebarStartWidthPx),
               html.div(
                 attr.class('bc-nine-slice-pane-content'),
-                moveVertical,
-                start
+                verticalTransform,
+                sidebarStart
               )
             )
           : null,
-        // middle-center
+        // middle-center (main body)
         html.div(
           attr.class('bc-nine-slice-pane bc-nine-slice-body'),
-          style.left(startWidthPx),
+          style.left(sidebarStartWidthPx),
           style.top(headerHeightPx),
-          style.width(actualBodyWidth.map(toPx)),
-          style.height(actualBodyHeight.map(toPx)),
-          html.div(attr.class('bc-nine-slice-pane-content'), moveBoth, body)
+          style.width(visibleAreaWidth.map(toPx)),
+          style.height(visibleAreaHeight.map(toPx)),
+          html.div(
+            attr.class('bc-nine-slice-pane-content'),
+            contentTransform,
+            body
+          )
         ),
-        // middle-right
-        end != null
+        // middle-end sidebar
+        sidebarEnd != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-end'),
-              style.right(endOffset),
+              attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
+              style.right(endSideOffset),
               style.top(headerHeightPx),
-              style.height(bodyRealHeightPx),
-              style.width(endWidthPx),
+              style.height(visibleAreaHeightPx),
+              style.width(sidebarEndWidthPx),
               html.div(
                 attr.class('bc-nine-slice-pane-content'),
-                moveVertical,
-                end
+                verticalTransform,
+                sidebarEnd
               )
             )
           : null,
-        // bottom-left
-        startFooter != null
+        // bottom-start corner
+        bottomStart != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-start-footer'),
+              attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
               style.left('0'),
-              style.bottom(footerOffset),
+              style.bottom(bottomOffset),
               style.height(footerHeightPx),
-              style.width(startWidthPx),
-              startFooter
+              style.width(sidebarStartWidthPx),
+              bottomStart
             )
           : null,
         // bottom-center
         footer != null
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
-              style.left(startWidthPx),
-              style.bottom(footerOffset),
+              style.left(sidebarStartWidthPx),
+              style.bottom(bottomOffset),
               style.height(footerHeightPx),
-              style.width(bodyRealWidthPx),
+              style.width(visibleAreaWidthPx),
               html.div(
                 attr.class('bc-nine-slice-pane-content'),
-                moveHorizontal,
+                horizontalTransform,
                 footer
               )
             )
           : null,
-        // bottom-right
-        endFooter != null
+        // bottom-end corner
+        bottomEnd != null
           ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-end-footer'),
-              style.right(endOffset),
-              style.bottom(footerOffset),
+              attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
+              style.right(endSideOffset),
+              style.bottom(bottomOffset),
               style.height(footerHeightPx),
-              style.width(endWidthPx),
-              endFooter
+              style.width(sidebarEndWidthPx),
+              bottomEnd
             )
           : null,
         // horizontal scrollbar
@@ -301,21 +313,25 @@ export function NineSliceScrollView({
           style.left('0'),
           style.right(
             computedOf(
-              displayVerticalScrollbar,
-              scrollbarSize
-            )((display, size) => {
-              return display ? `${size}px` : '0'
+              needsVerticalScroll,
+              scrollbarThickness
+            )((hasScrollbar, thickness) => {
+              return hasScrollbar ? `${thickness}px` : '0'
             })
           ),
           style.bottom('0'),
           style.height(
-            displayHorizontalScrollbar.map((v): string => (v ? '16px' : '0'))
+            needsHorizontalScroll.map((hasScrollbar): string =>
+              hasScrollbar ? '16px' : '0'
+            )
           ),
           html.div(
             attr.class(
               'bc-nine-slice-pane bc-nine-slice-horizontal-scrollbar-thumb'
             ),
-            style.width(sliderWidth.map(w => `${10000 / w}%`)),
+            style.width(
+              scrollRatioHorizontal.map(ratio => `${10000 / ratio}%`)
+            ),
             style.height('100%'),
             style.backgroundColor('#ff000066')
           )
@@ -331,15 +347,17 @@ export function NineSliceScrollView({
           style.top('0'),
           style.bottom(
             computedOf(
-              displayHorizontalScrollbar,
-              scrollbarSize
-            )((display, size) => {
-              return display ? `${size}px` : '0'
+              needsHorizontalScroll,
+              scrollbarThickness
+            )((hasScrollbar, thickness) => {
+              return hasScrollbar ? `${thickness}px` : '0'
             })
           ),
           style.right('0'),
           style.width(
-            displayVerticalScrollbar.map((v): string => (v ? '16px' : '0'))
+            needsVerticalScroll.map((hasScrollbar): string =>
+              hasScrollbar ? '16px' : '0'
+            )
           ),
           html.div(
             attr.class(
@@ -350,12 +368,12 @@ export function NineSliceScrollView({
               computedOf(
                 headerHeight,
                 footerHeight,
-                bodyHeight,
-                sliderHeight
-              )((headerHeight, footerHeight, bodyHeight, sliderHeight) => {
-                const fullHeight =
-                  bodyHeight - BigInt(headerHeight) - BigInt(footerHeight)
-                return `${Number((fullHeight * 100n) / BigInt(Math.max(1, sliderHeight))) / 100}%`
+                contentHeight,
+                scrollRatioVertical
+              )((headerHeight, footerHeight, contentHeight, scrollRatio) => {
+                const adjustedContentHeight =
+                  contentHeight - BigInt(headerHeight) - BigInt(footerHeight)
+                return `${Number((adjustedContentHeight * 100n) / BigInt(Math.max(1, scrollRatio))) / 100}%`
               })
             ),
             style.backgroundColor('#ff000066')

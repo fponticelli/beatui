@@ -85,7 +85,7 @@ export const NineSliceScrollViewPage = () => {
   const cellWidth = prop(48)
   const cellHeight = prop(24)
 
-  const bodyWidth = computedOf(
+  const contentWidth = computedOf(
     columns,
     startColumns,
     endColumns,
@@ -93,7 +93,7 @@ export const NineSliceScrollViewPage = () => {
   )((columns, startColumns, endColumns, cellWidth) => {
     return BigInt(columns - startColumns - endColumns) * BigInt(cellWidth)
   })
-  const bodyHeight = computedOf(
+  const contentHeight = computedOf(
     rows,
     headerRows,
     footerRows,
@@ -113,13 +113,13 @@ export const NineSliceScrollViewPage = () => {
   )((footerRows, cellHeight) => {
     return footerRows * cellHeight
   })
-  const startWidth = computedOf(
+  const sidebarStartWidth = computedOf(
     startColumns,
     cellWidth
   )((startColumns, cellWidth) => {
     return startColumns * cellWidth
   })
-  const endWidth = computedOf(
+  const sidebarEndWidth = computedOf(
     endColumns,
     cellWidth
   )((endColumns, cellWidth) => {
@@ -141,7 +141,7 @@ export const NineSliceScrollViewPage = () => {
     return rows - headerRows - footerRows
   })
 
-  const startHeader = createGrid({
+  const topStart = createGrid({
     rows: headerRows,
     columns: startColumns,
     cellWidth,
@@ -157,7 +157,7 @@ export const NineSliceScrollViewPage = () => {
     startRows: signal(0),
     startColumn: startColumns,
   })
-  const endHeader = createGrid({
+  const topEnd = createGrid({
     rows: headerRows,
     columns: endColumns,
     cellWidth,
@@ -170,7 +170,7 @@ export const NineSliceScrollViewPage = () => {
       return columns - endColumns
     }),
   })
-  const start = createGrid({
+  const sidebarStart = createGrid({
     rows: bodyRows,
     columns: startColumns,
     cellWidth,
@@ -186,7 +186,7 @@ export const NineSliceScrollViewPage = () => {
     startRows: headerRows,
     startColumn: startColumns,
   })
-  const end = createGrid({
+  const sidebarEnd = createGrid({
     rows: bodyRows,
     columns: endColumns,
     cellWidth,
@@ -199,7 +199,7 @@ export const NineSliceScrollViewPage = () => {
       return columns - endColumns
     }),
   })
-  const startFooter = createGrid({
+  const bottomStart = createGrid({
     rows: footerRows,
     columns: startColumns,
     cellWidth,
@@ -225,7 +225,7 @@ export const NineSliceScrollViewPage = () => {
     }),
     startColumn: startColumns,
   })
-  const endFooter = createGrid({
+  const bottomEnd = createGrid({
     rows: footerRows,
     columns: endColumns,
     cellWidth,
@@ -267,20 +267,20 @@ export const NineSliceScrollViewPage = () => {
       attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full'),
       NineSliceScrollView({
         body,
-        bodyWidth: bodyWidth,
-        bodyHeight: bodyHeight,
-        headerHeight: headerHeight,
-        footerHeight: footerHeight,
-        startWidth: startWidth,
-        endWidth: endWidth,
+        contentWidth,
+        contentHeight,
+        headerHeight,
+        footerHeight,
+        sidebarStartWidth,
+        sidebarEndWidth,
         header,
         footer,
-        start,
-        end,
-        startHeader,
-        startFooter,
-        endHeader,
-        endFooter,
+        sidebarStart,
+        sidebarEnd,
+        topStart,
+        bottomStart,
+        topEnd,
+        bottomEnd,
       })
     ),
   })
