@@ -48,7 +48,9 @@ export const CommonInputAttributes = ({
     aria.required(required),
     hasError != null
       ? aria.invalid(
-          (hasError ?? false) as Value<boolean | 'grammar' | 'spelling'>
+          (hasError ?? false) as Value<
+            boolean | 'true' | 'false' | 'grammar' | 'spelling'
+          >
         )
       : null
   )

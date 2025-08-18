@@ -23,7 +23,6 @@ export function BeatUI(
       return Task(
         () => import('@/auth-i18n/translations'),
         ({ AuthI18n }) => {
-          console.log('Setting up AuthI18n')
           return Provide(AuthI18n, {}, () => fragment)
         }
       )

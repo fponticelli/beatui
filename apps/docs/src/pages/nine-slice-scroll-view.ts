@@ -9,11 +9,14 @@ import {
   style,
 } from '@tempots/dom'
 import {
+  AnchorMode,
   Group,
   InputWrapper,
+  NativeSelect,
   NineSliceScrollView,
   NumberInput,
   ScrollablePanel,
+  SelectOption,
   Stack,
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
@@ -243,6 +246,7 @@ export const NineSliceScrollViewPage = () => {
       return columns - endColumns
     }),
   })
+  const anchorMode = prop<AnchorMode>('container-edge')
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -260,12 +264,26 @@ export const NineSliceScrollViewPage = () => {
             value: rows,
             onChange: rows.set,
           }),
+        }),
+        InputWrapper({
+          label: 'Anchor Mode',
+          content: NativeSelect({
+            options: [
+              SelectOption.value('container-edge', 'Container Edge'),
+              SelectOption.value('body-end', 'Body End'),
+              SelectOption.value('body-bottom', 'Body Bottom'),
+              SelectOption.value('body-end-bottom', 'Body End & Bottom'),
+            ] as SelectOption<AnchorMode>[],
+            value: anchorMode,
+            onChange: anchorMode.set,
+          }),
         })
       )
     ),
     body: Stack(
       attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full'),
       NineSliceScrollView({
+        anchorMode,
         body,
         contentWidth,
         contentHeight,

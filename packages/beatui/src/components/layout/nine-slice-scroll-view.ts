@@ -8,9 +8,16 @@ import {
   style,
   TNode,
   Value,
+  When,
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { biMax, biMin } from '@tempots/std'
+
+export type AnchorMode =
+  | 'container-edge' // Current behavior: anchor to container edge
+  | 'body-end' // Anchor end sidebar to body end
+  | 'body-bottom' // Anchor footer to body bottom
+  | 'body-end-bottom' // Anchor both end sidebar and footer to body
 
 export type NineSliceScrollViewOptions = {
   // Main content area
@@ -36,6 +43,9 @@ export type NineSliceScrollViewOptions = {
   sidebarStartWidth?: Value<number>
   sidebarEnd?: TNode // right in LTR, left in RTL
   sidebarEndWidth?: Value<number>
+
+  // Anchoring behavior for end sidebar and footer
+  anchorMode?: Value<AnchorMode>
 }
 
 function toPx(v: Value<number>): string {
@@ -62,6 +72,7 @@ export function NineSliceScrollView({
   sidebarStartWidth = 0,
   sidebarEnd,
   sidebarEndWidth = 0,
+  anchorMode = 'container-edge',
 }: NineSliceScrollViewOptions) {
   const verticalScrollPosition = prop(0n)
   const horizontalScrollPosition = prop(0n)
@@ -135,6 +146,43 @@ export function NineSliceScrollView({
       )((contentHeight, visibleHeight) => {
         return Number(contentHeight / BigInt(visibleHeight))
       })
+
+      // Calculate positioning based on anchor mode
+      const shouldAnchorEndToBody = Value.map(
+        anchorMode,
+        mode => mode === 'body-end' || mode === 'body-end-bottom'
+      )
+      const EndAnchor = When(
+        shouldAnchorEndToBody,
+        () =>
+          style.left(
+            computedOf(
+              sidebarStartWidth,
+              contentWidth
+            )((startWidth, visibleWidth) => {
+              console.log(startWidth, visibleWidth)
+              return `${startWidth + Number(visibleWidth)}px`
+            })
+          ),
+        () => style.right(endSideOffset)
+      )
+      const shouldAnchorFooterToBody = Value.map(
+        anchorMode,
+        mode => mode === 'body-bottom' || mode === 'body-end-bottom'
+      )
+      const FooterAnchor = When(
+        shouldAnchorFooterToBody,
+        () =>
+          style.top(
+            computedOf(
+              headerHeight,
+              contentHeight
+            )((headerHeight, visibleHeight) => {
+              return `${headerHeight + Number(visibleHeight)}px`
+            })
+          ),
+        () => style.bottom(bottomOffset)
+      )
 
       const endSideOffset = computedOf(
         needsVerticalScroll,
@@ -220,7 +268,7 @@ export function NineSliceScrollView({
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
               style.top('0'),
-              style.right(endSideOffset),
+              EndAnchor,
               style.height(headerHeightPx),
               style.width(sidebarEndWidthPx),
               topEnd
@@ -258,7 +306,7 @@ export function NineSliceScrollView({
         sidebarEnd != null
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
-              style.right(endSideOffset),
+              EndAnchor,
               style.top(headerHeightPx),
               style.height(visibleAreaHeightPx),
               style.width(sidebarEndWidthPx),
@@ -274,7 +322,7 @@ export function NineSliceScrollView({
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
               style.left('0'),
-              style.bottom(bottomOffset),
+              FooterAnchor,
               style.height(footerHeightPx),
               style.width(sidebarStartWidthPx),
               bottomStart
@@ -285,7 +333,7 @@ export function NineSliceScrollView({
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
               style.left(sidebarStartWidthPx),
-              style.bottom(bottomOffset),
+              FooterAnchor,
               style.height(footerHeightPx),
               style.width(visibleAreaWidthPx),
               html.div(
@@ -299,8 +347,8 @@ export function NineSliceScrollView({
         bottomEnd != null
           ? html.div(
               attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
-              style.right(endSideOffset),
-              style.bottom(bottomOffset),
+              EndAnchor,
+              FooterAnchor,
               style.height(footerHeightPx),
               style.width(sidebarEndWidthPx),
               bottomEnd

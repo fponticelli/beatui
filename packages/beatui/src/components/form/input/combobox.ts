@@ -159,7 +159,7 @@ const ComboboxOptionItem = <T>(
           ),
           attr.role('option'),
           attr.id(v.map(option => `combobox-option-${String(option.value)}`)),
-          aria.selected(isSelected),
+          aria.selected(isSelected as Value<boolean | 'undefined'>),
           Expando('value', v.$.value),
           When(
             v.map(option => !option.disabled),
@@ -362,7 +362,7 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
       CommonInputAttributes(options),
       attr.id(comboboxId),
       attr.tabindex(0),
-      aria.expanded(isOpen),
+      aria.expanded(isOpen as Value<boolean | 'undefined'>),
       attr.class('bc-combobox'),
       attr.role('combobox'),
       aria.activedescendant(

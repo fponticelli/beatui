@@ -236,7 +236,9 @@ export function Tabs(options: TabsOptions): TNode {
       attr.class('bc-tabs__list'),
       attr.role('tablist'),
       attr.id(tabListId),
-      aria.orientation(orientation ?? 'horizontal'),
+      aria.orientation(
+        (orientation ?? 'horizontal') as 'horizontal' | 'vertical'
+      ),
       ariaLabel ? aria.label(ariaLabel) : Fragment(),
       on.keydown(handleKeyDown),
 
@@ -275,7 +277,7 @@ export function Tabs(options: TabsOptions): TNode {
               return active || focusedIndex === index ? 0 : -1
             })
           ),
-          aria.selected(isActive),
+          aria.selected(isActive as Value<boolean | 'undefined'>),
           aria.controls(panelId),
           aria.disabled(isTabDisabled),
           attr.disabled(isTabDisabled),
