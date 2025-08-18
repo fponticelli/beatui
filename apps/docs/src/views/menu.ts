@@ -54,7 +54,11 @@ export function Menu() {
       SidebarGroup(
         { header: 'Layout', rail: true },
         SidebarLink({ href: '/collapse', content: 'Collapse' }),
-        SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' })
+        SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
+        SidebarLink({
+          href: '/nine-slice-scroll-view',
+          content: Todo('Nine Slice Scroll View'),
+        })
       ),
       // Overlays
       SidebarGroup(

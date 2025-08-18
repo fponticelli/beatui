@@ -3,6 +3,7 @@ import * as fse from 'fs-extra'
 import * as path from 'path'
 import { runHeadless } from '@tempots/dom'
 import * as cheerio from 'cheerio'
+import { NineSliceScrollViewPage } from '../src/pages/nine-slice-scroll-view'
 
 /**
  * Comprehensive static site generator for BeatUI documentation
@@ -199,6 +200,7 @@ const main = async () => {
           '/form': FormPage,
           '/editable-text': EditableTextPage,
           '/breakpoint': BreakpointPage,
+          '/nine-slice-scroll-view': NineSliceScrollViewPage,
         }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))

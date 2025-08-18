@@ -1,0 +1,287 @@
+import {
+  html,
+  attr,
+  prop,
+  computedOf,
+  Signal,
+  signal,
+  Repeat,
+  style,
+} from '@tempots/dom'
+import {
+  Group,
+  InputWrapper,
+  NineSliceScrollView,
+  NumberInput,
+  ScrollablePanel,
+  Stack,
+} from '@tempots/beatui'
+import { ControlsHeader } from '../elements/controls-header'
+
+const colorFromPos = (row: number, column: number) => {
+  return `hsla(${(row * 8) % 360}, ${(40 + column * 5) % 100}%, 80%, 60%)`
+}
+
+const createGrid = ({
+  rows,
+  columns,
+  cellWidth,
+  cellHeight,
+  startRows,
+  startColumn,
+}: {
+  rows: Signal<number>
+  columns: Signal<number>
+  cellWidth: Signal<number>
+  cellHeight: Signal<number>
+  startRows: Signal<number>
+  startColumn: Signal<number>
+}) => {
+  return Repeat(rows, ({ index: row }) => {
+    return html.div(
+      attr.class('bu-flex-row bu-flex-nowrap bu-text-xs'),
+      style.width(
+        computedOf(
+          columns,
+          cellWidth
+        )((columns, cellWidth) => {
+          return `${columns * cellWidth}px`
+        })
+      ),
+      Repeat(columns, ({ index: column }) => {
+        return html.div(
+          attr.class('bu-flex-row bu-items-center bu-justify-center'),
+          style.width(cellWidth.map(w => `${w}px`)),
+          style.height(cellHeight.map(h => `${h}px`)),
+          style.backgroundColor(
+            computedOf(
+              row,
+              column
+            )((row, column) => {
+              return colorFromPos(row, column)
+            })
+          ),
+          computedOf(
+            row,
+            column,
+            startRows,
+            startColumn
+          )((row, column, startRows, startColumn) => {
+            return `${row + startRows + 1}:${column + startColumn + 1}`
+          })
+        )
+      })
+    )
+  })
+}
+
+export const NineSliceScrollViewPage = () => {
+  const rows = prop(30)
+  const columns = prop(16)
+  const headerRows = prop(3)
+  const footerRows = prop(2)
+  const startColumns = prop(3)
+  const endColumns = prop(2)
+  const cellWidth = prop(48)
+  const cellHeight = prop(24)
+
+  const bodyWidth = computedOf(
+    columns,
+    startColumns,
+    endColumns,
+    cellWidth
+  )((columns, startColumns, endColumns, cellWidth) => {
+    return BigInt(columns - startColumns - endColumns) * BigInt(cellWidth)
+  })
+  const bodyHeight = computedOf(
+    rows,
+    headerRows,
+    footerRows,
+    cellHeight
+  )((rows, headerRows, footerRows, cellHeight) => {
+    return BigInt(rows - headerRows - footerRows) * BigInt(cellHeight)
+  })
+  const headerHeight = computedOf(
+    headerRows,
+    cellHeight
+  )((headerRows, cellHeight) => {
+    return headerRows * cellHeight
+  })
+  const footerHeight = computedOf(
+    footerRows,
+    cellHeight
+  )((footerRows, cellHeight) => {
+    return footerRows * cellHeight
+  })
+  const startWidth = computedOf(
+    startColumns,
+    cellWidth
+  )((startColumns, cellWidth) => {
+    return startColumns * cellWidth
+  })
+  const endWidth = computedOf(
+    endColumns,
+    cellWidth
+  )((endColumns, cellWidth) => {
+    return endColumns * cellWidth
+  })
+
+  const bodyColumns = computedOf(
+    columns,
+    startColumns,
+    endColumns
+  )((columns, startColumns, endColumns) => {
+    return columns - startColumns - endColumns
+  })
+  const bodyRows = computedOf(
+    rows,
+    headerRows,
+    footerRows
+  )((rows, headerRows, footerRows) => {
+    return rows - headerRows - footerRows
+  })
+
+  const startHeader = createGrid({
+    rows: headerRows,
+    columns: startColumns,
+    cellWidth,
+    cellHeight,
+    startRows: signal(0),
+    startColumn: signal(0),
+  })
+  const header = createGrid({
+    rows: headerRows,
+    columns: bodyColumns,
+    cellWidth,
+    cellHeight,
+    startRows: signal(0),
+    startColumn: startColumns,
+  })
+  const endHeader = createGrid({
+    rows: headerRows,
+    columns: endColumns,
+    cellWidth,
+    cellHeight,
+    startRows: signal(0),
+    startColumn: computedOf(
+      columns,
+      endColumns
+    )((columns, endColumns) => {
+      return columns - endColumns
+    }),
+  })
+  const start = createGrid({
+    rows: bodyRows,
+    columns: startColumns,
+    cellWidth,
+    cellHeight,
+    startRows: headerRows,
+    startColumn: signal(0),
+  })
+  const body = createGrid({
+    rows: bodyRows,
+    columns: bodyColumns,
+    cellWidth,
+    cellHeight,
+    startRows: headerRows,
+    startColumn: startColumns,
+  })
+  const end = createGrid({
+    rows: bodyRows,
+    columns: endColumns,
+    cellWidth,
+    cellHeight,
+    startRows: headerRows,
+    startColumn: computedOf(
+      columns,
+      endColumns
+    )((columns, endColumns) => {
+      return columns - endColumns
+    }),
+  })
+  const startFooter = createGrid({
+    rows: footerRows,
+    columns: startColumns,
+    cellWidth,
+    cellHeight,
+    startRows: computedOf(
+      rows,
+      footerRows
+    )((rows, footerRows) => {
+      return rows - footerRows
+    }),
+    startColumn: signal(0),
+  })
+  const footer = createGrid({
+    rows: footerRows,
+    columns: bodyColumns,
+    cellWidth,
+    cellHeight,
+    startRows: computedOf(
+      rows,
+      footerRows
+    )((rows, footerRows) => {
+      return rows - footerRows
+    }),
+    startColumn: startColumns,
+  })
+  const endFooter = createGrid({
+    rows: footerRows,
+    columns: endColumns,
+    cellWidth,
+    cellHeight,
+    startRows: computedOf(
+      rows,
+      footerRows
+    )((rows, footerRows) => {
+      return rows - footerRows
+    }),
+    startColumn: computedOf(
+      columns,
+      endColumns
+    )((columns, endColumns) => {
+      return columns - endColumns
+    }),
+  })
+
+  return ScrollablePanel({
+    header: ControlsHeader(
+      Group(
+        InputWrapper({
+          label: 'Columns',
+          content: NumberInput({
+            value: columns,
+            onChange: columns.set,
+          }),
+        }),
+        InputWrapper({
+          label: 'Rows',
+          content: NumberInput({
+            value: rows,
+            onChange: rows.set,
+          }),
+        })
+      )
+    ),
+    body: Stack(
+      attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full'),
+      NineSliceScrollView({
+        body,
+        bodyWidth: bodyWidth,
+        bodyHeight: bodyHeight,
+        headerHeight: headerHeight,
+        footerHeight: footerHeight,
+        startWidth: startWidth,
+        endWidth: endWidth,
+        header,
+        footer,
+        start,
+        end,
+        startHeader,
+        startFooter,
+        endHeader,
+        endFooter,
+      })
+    ),
+  })
+}

@@ -27,6 +27,7 @@ import { AuthenticationPage } from './pages/authentication'
 import { AuthenticationComponentsPage } from './pages/authentication-components'
 import { ColorPickerPage } from './pages/color-picker'
 import { FileInputPage } from './pages/file-input'
+import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
 
 export const App = () => {
   return BeatUI(
@@ -60,6 +61,7 @@ export const App = () => {
         '/color-picker': ColorPickerPage,
         '/editable-text': EditableTextPage,
         '/breakpoint': BreakpointPage,
+        '/nine-slice-scroll-view': NineSliceScrollViewPage,
         '/*': () => html.div('Not Found'),
       }),
     })
