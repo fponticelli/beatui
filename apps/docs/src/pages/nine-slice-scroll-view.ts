@@ -22,7 +22,9 @@ import {
 import { ControlsHeader } from '../elements/controls-header'
 
 const colorFromPos = (row: number, column: number) => {
-  return `hsl(${(row * 8) % 360}, ${(40 + column * 5) % 100}%, 80%)`
+  const hue = (Math.sin(row * 0.15) * 0.5 + 0.5) * 360
+  const lightness = (Math.sin(column * 0.25) * 0.2 + 0.7) * 100
+  return `hsl(${hue}, 80%, ${lightness}%)`
 }
 
 const createGrid = ({
@@ -59,9 +61,11 @@ const createGrid = ({
           style.backgroundColor(
             computedOf(
               row,
-              column
-            )((row, column) => {
-              return colorFromPos(row, column)
+              column,
+              startRows,
+              startColumn
+            )((row, column, startRows, startColumn) => {
+              return colorFromPos(row + startRows, column + startColumn)
             })
           ),
           computedOf(

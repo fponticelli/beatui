@@ -139,13 +139,13 @@ export function NineSliceScrollView({
         contentWidth,
         visibleAreaWidth
       )((contentWidth, visibleWidth) => {
-        return Number(contentWidth / BigInt(visibleWidth))
+        return Number(contentWidth / BigInt(Math.max(1, visibleWidth)))
       })
       const scrollRatioVertical = computedOf(
         contentHeight,
         visibleAreaHeight
       )((contentHeight, visibleHeight) => {
-        return Number(contentHeight / BigInt(visibleHeight))
+        return Number(contentHeight / BigInt(Math.max(1, visibleHeight)))
       })
 
       // Calculate positioning based on anchor mode
@@ -391,15 +391,21 @@ export function NineSliceScrollView({
               'bc-nine-slice-pane bc-nine-slice-horizontal-scrollbar-thumb'
             ),
             style.width(
-              scrollRatioHorizontal.map(ratio => `${10000 / ratio}%`)
+              scrollRatioHorizontal.map(ratio => `${100 / Math.max(1, ratio)}%`)
             ),
             style.height('100%'),
             style.backgroundColor('#ff000066')
-          )
-          // on.scroll(event => {
-          //   const target = event.target as HTMLElement
-          //   horizontalOffset.set(BigInt(target.scrollLeft))
-          // })
+          ),
+          on.scroll(event => {
+            const target = event.target as HTMLElement
+            const scrollLeft = target.scrollLeft
+            const scrollableWidth = target.scrollWidth - target.clientWidth
+            if (scrollableWidth > 0) {
+              const scrollFraction = scrollLeft / scrollableWidth
+              const maxHorizontalScroll = Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
+              horizontalScrollPosition.set(BigInt(Math.round(Number(maxHorizontalScroll) * scrollFraction)))
+            }
+          })
         ),
         // vertical scrollbar
         html.div(
@@ -432,17 +438,21 @@ export function NineSliceScrollView({
                 contentHeight,
                 scrollRatioVertical
               )((headerHeight, footerHeight, contentHeight, scrollRatio) => {
-                const adjustedContentHeight =
-                  contentHeight - BigInt(headerHeight) - BigInt(footerHeight)
-                return `${Number((adjustedContentHeight * 100n) / BigInt(Math.max(1, scrollRatio))) / 100}%`
+                return `${100 / Math.max(1, scrollRatio)}%`
               })
             ),
             style.backgroundColor('#ff000066')
-          )
-          // on.scroll(event => {
-          //   const target = event.target as HTMLElement
-          //   verticalOffset.set(BigInt(target.scrollTop))
-          // })
+          ),
+          on.scroll(event => {
+            const target = event.target as HTMLElement
+            const scrollTop = target.scrollTop
+            const scrollableHeight = target.scrollHeight - target.clientHeight
+            if (scrollableHeight > 0) {
+              const scrollFraction = scrollTop / scrollableHeight
+              const maxVerticalScroll = Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
+              verticalScrollPosition.set(BigInt(Math.round(Number(maxVerticalScroll) * scrollFraction)))
+            }
+          })
         )
       )
     })
