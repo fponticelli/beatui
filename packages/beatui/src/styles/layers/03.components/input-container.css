@@ -1,11 +1,14 @@
 @layer components {
+
   /* Input Container Component */
-  .bc-base-input-container, .bc-input-container {
+  .bc-base-input-container,
+  .bc-input-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: calc(var(--spacing-base) * 2);
   }
+
   .bc-input-container {
     width: 100%;
     padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 4);
@@ -20,14 +23,14 @@
   .bc-input-container--default {
     color: var(--color-gray-900);
   }
+
   .bc-input-container--default {
     background-color: var(--color-white);
     outline: 2px solid var(--color-gray-300);
     outline-offset: -2px;
   }
 
-  .bc-base-input-container--default::placeholder
-  .bc-input-container--default::placeholder {
+  .bc-base-input-container--default::placeholder .bc-input-container--default::placeholder {
     color: var(--color-gray-400);
   }
 
@@ -37,6 +40,7 @@
     color: var(--color-gray-500);
     cursor: not-allowed;
   }
+
   .bc-input-container--disabled {
     background-color: var(--color-gray-200);
     outline: 2px solid var(--color-gray-300);
@@ -95,6 +99,12 @@
     outline: none;
     font: inherit;
     color: inherit;
+  }
+
+  /* Ensure consistent height for select elements to match text inputs */
+  .bc-input-container select {
+    min-height: 1.6rem;
+    height: 1.6rem;
   }
 
   .bc-input-container input::placeholder,
@@ -184,7 +194,7 @@
   }
 
   /* Responsive styles */
-  @media (width >= var(--breakpoint-sm)) {
+  @media (width >=var(--breakpoint-sm)) {
     .bc-input-container {
       font-size: var(--font-size-sm);
       line-height: var(--line-height-normal);

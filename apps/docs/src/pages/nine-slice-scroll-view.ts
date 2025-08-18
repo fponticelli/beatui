@@ -22,7 +22,7 @@ import {
 import { ControlsHeader } from '../elements/controls-header'
 
 const colorFromPos = (row: number, column: number) => {
-  return `hsla(${(row * 8) % 360}, ${(40 + column * 5) % 100}%, 80%, 60%)`
+  return `hsl(${(row * 8) % 360}, ${(40 + column * 5) % 100}%, 80%)`
 }
 
 const createGrid = ({

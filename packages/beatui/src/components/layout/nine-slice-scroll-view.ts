@@ -1,6 +1,7 @@
 import {
   attr,
   computedOf,
+  Fragment,
   html,
   on,
   OnDispose,
@@ -78,9 +79,9 @@ export function NineSliceScrollView({
   const horizontalScrollPosition = prop(0n)
 
   const headerHeightPx = valueToPx(headerHeight)
-  const footerHeightPx = valueToPx(footerHeight)
+  // const footerHeightPx = valueToPx(footerHeight)
   const sidebarStartWidthPx = valueToPx(sidebarStartWidth)
-  const sidebarEndWidthPx = valueToPx(sidebarEndWidth)
+  // const sidebarEndWidthPx = valueToPx(sidebarEndWidth)
   const scrollbarThickness = prop(16)
 
   return html.div(
@@ -131,8 +132,8 @@ export function NineSliceScrollView({
       )((height, hasScrollbar, thickness) => {
         return hasScrollbar ? height - thickness : height
       })
-      const visibleAreaWidthPx = valueToPx(visibleAreaWidth)
-      const visibleAreaHeightPx = valueToPx(visibleAreaHeight)
+      // const visibleAreaWidthPx = valueToPx(visibleAreaWidth)
+      // const visibleAreaHeightPx = valueToPx(visibleAreaHeight)
 
       const scrollRatioHorizontal = computedOf(
         contentWidth,
@@ -164,7 +165,7 @@ export function NineSliceScrollView({
               return `${startWidth + Number(visibleWidth)}px`
             })
           ),
-        () => style.right(endSideOffset)
+        () => style.right('0')
       )
       const shouldAnchorFooterToBody = Value.map(
         anchorMode,
@@ -181,7 +182,7 @@ export function NineSliceScrollView({
               return `${headerHeight + Number(visibleHeight)}px`
             })
           ),
-        () => style.bottom(bottomOffset)
+        () => style.bottom('0')
       )
 
       const endSideOffset = computedOf(
@@ -216,8 +217,15 @@ export function NineSliceScrollView({
         verticalScrollPosition.map(scrollPos => `translateY(-${scrollPos}px)`)
       )
 
-      return html.div(
-        attr.class('bc-nine-slice-container'),
+      return Fragment(
+        OnDispose(
+          needsHorizontalScroll.on(need => {
+            if (!need) horizontalScrollPosition.set(0n)
+          }),
+          needsVerticalScroll.on(need => {
+            if (!need) verticalScrollPosition.set(0n)
+          })
+        ),
         on.wheel(event => {
           event.preventDefault()
           const { deltaX, deltaY } = event
@@ -237,123 +245,128 @@ export function NineSliceScrollView({
           )
           horizontalScrollPosition.set(newHorizontalPosition)
         }),
-        // top-start corner
-        topStart != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-top-start'),
-              style.top('0'),
-              style.left('0'),
-              style.height(headerHeightPx),
-              style.width(sidebarStartWidthPx),
-              topStart
-            )
-          : null,
-        // top-center
-        header != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-header'),
-              style.top('0'),
-              style.left(sidebarStartWidthPx),
-              style.height(headerHeightPx),
-              style.width(visibleAreaWidthPx),
-              html.div(
-                attr.class('bc-nine-slice-pane-content'),
-                horizontalTransform,
-                header
-              )
-            )
-          : null,
-        // top-end corner
-        topEnd != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
-              style.top('0'),
-              EndAnchor,
-              style.height(headerHeightPx),
-              style.width(sidebarEndWidthPx),
-              topEnd
-            )
-          : null,
-        // middle-start sidebar
-        sidebarStart != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-start'),
-              style.left('0'),
-              style.top(headerHeightPx),
-              style.height(visibleAreaHeightPx),
-              style.width(sidebarStartWidthPx),
-              html.div(
-                attr.class('bc-nine-slice-pane-content'),
-                verticalTransform,
-                sidebarStart
-              )
-            )
-          : null,
-        // middle-center (main body)
         html.div(
-          attr.class('bc-nine-slice-pane bc-nine-slice-body'),
-          style.left(sidebarStartWidthPx),
-          style.top(headerHeightPx),
-          style.width(visibleAreaWidth.map(toPx)),
-          style.height(visibleAreaHeight.map(toPx)),
+          attr.class('bc-nine-slice-pane-container'),
+          style.right(endSideOffset),
+          style.bottom(bottomOffset),
+          // top-start corner
+          topStart != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-top-start'),
+                style.top('0'),
+                style.left('0'),
+                // style.height(headerHeightPx),
+                // style.width(sidebarStartWidthPx),
+                topStart
+              )
+            : null,
+          // top-center
+          header != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-header'),
+                style.top('0'),
+                style.left(sidebarStartWidthPx),
+                // style.height(headerHeightPx),
+                // style.width(visibleAreaWidthPx),
+                html.div(
+                  attr.class('bc-nine-slice-pane-content'),
+                  horizontalTransform,
+                  header
+                )
+              )
+            : null,
+          // top-end corner
+          topEnd != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
+                style.top('0'),
+                EndAnchor,
+                // style.height(headerHeightPx),
+                // style.width(sidebarEndWidthPx),
+                topEnd
+              )
+            : null,
+          // middle-start sidebar
+          sidebarStart != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-start'),
+                style.left('0'),
+                style.top(headerHeightPx),
+                // style.height(visibleAreaHeightPx),
+                // style.width(sidebarStartWidthPx),
+                html.div(
+                  attr.class('bc-nine-slice-pane-content'),
+                  verticalTransform,
+                  sidebarStart
+                )
+              )
+            : null,
+          // middle-center (main body)
           html.div(
-            attr.class('bc-nine-slice-pane-content'),
-            contentTransform,
-            body
-          )
+            attr.class('bc-nine-slice-pane bc-nine-slice-body'),
+            style.left(sidebarStartWidthPx),
+            style.top(headerHeightPx),
+            // style.width(visibleAreaWidth.map(toPx)),
+            // style.height(visibleAreaHeight.map(toPx)),
+            html.div(
+              attr.class('bc-nine-slice-pane-content'),
+              contentTransform,
+              body
+            )
+          ),
+          // middle-end sidebar
+          sidebarEnd != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
+                EndAnchor,
+                style.top(headerHeightPx),
+                // style.height(visibleAreaHeightPx),
+                // style.width(sidebarEndWidthPx),
+                html.div(
+                  attr.class('bc-nine-slice-pane-content'),
+                  verticalTransform,
+                  sidebarEnd
+                )
+              )
+            : null,
+          // bottom-start corner
+          bottomStart != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
+                style.left('0'),
+                FooterAnchor,
+                // style.height(footerHeightPx),
+                // style.width(sidebarStartWidthPx),
+                bottomStart
+              )
+            : null,
+          // bottom-center
+          footer != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
+                style.left(sidebarStartWidthPx),
+                FooterAnchor,
+                // style.height(footerHeightPx),
+                // style.width(visibleAreaWidthPx),
+                html.div(
+                  attr.class('bc-nine-slice-pane-content'),
+                  horizontalTransform,
+                  footer
+                )
+              )
+            : null,
+          // bottom-end corner
+          bottomEnd != null
+            ? html.div(
+                attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
+                EndAnchor,
+                FooterAnchor,
+                // style.height(footerHeightPx),
+                // style.width(sidebarEndWidthPx),
+                bottomEnd
+              )
+            : null
         ),
-        // middle-end sidebar
-        sidebarEnd != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
-              EndAnchor,
-              style.top(headerHeightPx),
-              style.height(visibleAreaHeightPx),
-              style.width(sidebarEndWidthPx),
-              html.div(
-                attr.class('bc-nine-slice-pane-content'),
-                verticalTransform,
-                sidebarEnd
-              )
-            )
-          : null,
-        // bottom-start corner
-        bottomStart != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
-              style.left('0'),
-              FooterAnchor,
-              style.height(footerHeightPx),
-              style.width(sidebarStartWidthPx),
-              bottomStart
-            )
-          : null,
-        // bottom-center
-        footer != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
-              style.left(sidebarStartWidthPx),
-              FooterAnchor,
-              style.height(footerHeightPx),
-              style.width(visibleAreaWidthPx),
-              html.div(
-                attr.class('bc-nine-slice-pane-content'),
-                horizontalTransform,
-                footer
-              )
-            )
-          : null,
-        // bottom-end corner
-        bottomEnd != null
-          ? html.div(
-              attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
-              EndAnchor,
-              FooterAnchor,
-              style.height(footerHeightPx),
-              style.width(sidebarEndWidthPx),
-              bottomEnd
-            )
-          : null,
         // horizontal scrollbar
         html.div(
           attr.class('bc-nine-slice-pane bc-nine-slice-horizontal-scrollbar'),
