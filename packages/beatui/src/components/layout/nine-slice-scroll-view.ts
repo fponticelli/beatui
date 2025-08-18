@@ -159,10 +159,17 @@ export function NineSliceScrollView({
           style.left(
             computedOf(
               sidebarStartWidth,
-              contentWidth
-            )((startWidth, visibleWidth) => {
-              console.log(startWidth, visibleWidth)
-              return `${startWidth + Number(visibleWidth)}px`
+              contentWidth,
+              visibleAreaWidth,
+              sidebarEndWidth
+            )((startWidth, contentW, visibleW, endWidth) => {
+              // When content is smaller than viewport, anchor to content end
+              // When content is larger, fix to viewport edge to keep visible
+              const contentEnd = startWidth + Number(contentW)
+              const viewportEnd = startWidth + visibleW
+              const position = Math.min(contentEnd, viewportEnd)
+              // Ensure end sidebar stays fully visible
+              return `${Math.max(startWidth + endWidth, position)}px`
             })
           ),
         () => style.right('0')
@@ -177,9 +184,17 @@ export function NineSliceScrollView({
           style.top(
             computedOf(
               headerHeight,
-              contentHeight
-            )((headerHeight, visibleHeight) => {
-              return `${headerHeight + Number(visibleHeight)}px`
+              contentHeight,
+              visibleAreaHeight,
+              footerHeight
+            )((headerH, contentH, visibleH, footerH) => {
+              // When content is smaller than viewport, anchor to content bottom
+              // When content is larger, fix to viewport edge to keep visible
+              const contentBottom = headerH + Number(contentH)
+              const viewportBottom = headerH + visibleH
+              const position = Math.min(contentBottom, viewportBottom)
+              // Ensure footer stays fully visible
+              return `${Math.max(headerH + footerH, position)}px`
             })
           ),
         () => style.bottom('0')
@@ -440,7 +455,7 @@ export function NineSliceScrollView({
                 footerHeight,
                 contentHeight,
                 scrollRatioVertical
-              )((headerHeight, footerHeight, contentHeight, scrollRatio) => {
+              )((_headerHeight, _footerHeight, _contentHeight, scrollRatio) => {
                 return `${100 / Math.max(1, scrollRatio)}%`
               })
             ),
