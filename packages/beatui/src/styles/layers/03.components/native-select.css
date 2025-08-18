@@ -1,0 +1,5 @@
+@layer components {
+  .bc-native-select {
+    height: 26px;
+  }
+}

@@ -152,8 +152,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
         return OnDispose(() => observer.disconnect())
       }),
       CommonInputAttributes(options),
-      attr.class('focus:outline-none bg-transparent'),
-      attr.class('w-full'),
+      attr.class('bc-native-select bc-input bu-w-full'),
       Use(BeatUII18n, t =>
         html.option(
           attr.hidden('hidden'),

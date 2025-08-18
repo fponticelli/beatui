@@ -274,6 +274,46 @@ export const NineSliceScrollViewPage = () => {
           }),
         }),
         InputWrapper({
+          label: 'Start Columns',
+          content: NumberInput({
+            value: startColumns,
+            onChange: startColumns.set,
+            step: 1,
+            min: 0,
+            max: columns,
+          }),
+        }),
+        InputWrapper({
+          label: 'End Columns',
+          content: NumberInput({
+            value: endColumns,
+            onChange: endColumns.set,
+            step: 1,
+            min: 0,
+            max: columns,
+          }),
+        }),
+        InputWrapper({
+          label: 'Header Rows',
+          content: NumberInput({
+            value: headerRows,
+            onChange: headerRows.set,
+            step: 1,
+            min: 0,
+            max: rows,
+          }),
+        }),
+        InputWrapper({
+          label: 'Footer Rows',
+          content: NumberInput({
+            value: footerRows,
+            onChange: footerRows.set,
+            step: 1,
+            min: 0,
+            max: rows,
+          }),
+        }),
+        InputWrapper({
           label: 'Anchor Mode',
           content: NativeSelect({
             options: [

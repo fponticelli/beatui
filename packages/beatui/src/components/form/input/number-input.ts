@@ -11,6 +11,7 @@ import {
   Use,
   html,
   Fragment,
+  OnDispose,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -107,20 +108,6 @@ export const NumberInput = (options: NumberInputOptions) => {
             attr.class('bc-number-input-steppers'),
             html.button(
               attr.class(
-                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
-              ),
-              attr.disabled(
-                computedOf(
-                  canDecrement,
-                  options.disabled ?? false
-                )((canDec, disabled) => !canDec || disabled)
-              ),
-              on.click(event => handleDecrement(event)),
-              aria.label(t.$.decrementValue),
-              Icon({ icon: 'line-md:minus', size: 'xs' })
-            ),
-            html.button(
-              attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
               ),
 
@@ -133,6 +120,20 @@ export const NumberInput = (options: NumberInputOptions) => {
               on.click(event => handleIncrement(event)),
               aria.label(t.$.incrementValue),
               Icon({ icon: 'line-md:plus', size: 'xs' })
+            ),
+            html.button(
+              attr.class(
+                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
+              ),
+              attr.disabled(
+                computedOf(
+                  canDecrement,
+                  options.disabled ?? false
+                )((canDec, disabled) => !canDec || disabled)
+              ),
+              on.click(event => handleDecrement(event)),
+              aria.label(t.$.decrementValue),
+              Icon({ icon: 'line-md:minus', size: 'xs' })
             )
           )
         })
@@ -146,11 +147,33 @@ export const NumberInput = (options: NumberInputOptions) => {
   return InputContainer({
     ...options,
     input: input.number(
+      min != null
+        ? Fragment(
+            attr.min(min),
+            OnDispose(
+              Value.on(min, v => {
+                if (v < Value.get(value)) {
+                  // onChange?.(v)
+                }
+              })
+            )
+          )
+        : Empty,
+      max != null
+        ? Fragment(
+            attr.max(max),
+            OnDispose(
+              Value.on(max, v => {
+                if (v > Value.get(value)) {
+                  // onChange?.(v)
+                }
+              })
+            )
+          )
+        : Empty,
       CommonInputAttributes(options),
       attr.valueAsNumber(value),
       attr.step(step),
-      attr.min(min),
-      attr.max(max),
       attr.class('bc-input bc-number-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null ? on.change(emitValueAsNumber(onChange)) : Empty,

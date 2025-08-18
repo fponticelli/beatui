@@ -101,12 +101,6 @@
     color: inherit;
   }
 
-  /* Ensure consistent height for select elements to match text inputs */
-  .bc-input-container select {
-    min-height: 1.6rem;
-    height: 1.6rem;
-  }
-
   .bc-input-container input::placeholder,
   .bc-input-container textarea::placeholder,
   .bc-input::placeholder {
