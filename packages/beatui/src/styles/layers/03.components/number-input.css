@@ -14,4 +14,35 @@
   .bc-number-input[type='number'] {
     -moz-appearance: textfield;
   }
+  /* Number Input Steppers */
+  .bc-number-input-steppers {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  .bc-number-input-steppers-button {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border-radius: var(--radius-xs);
+    outline: 1px solid var(--color-gray-300);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bc-number-input-steppers-button:hover {
+    background-color: var(--color-neutral-100);
+  }
+
+  .bc-number-input-steppers .bc-button:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .bc-number-input-steppers .bc-button:active:not(:disabled) {
+    transform: none;
+  }
 }

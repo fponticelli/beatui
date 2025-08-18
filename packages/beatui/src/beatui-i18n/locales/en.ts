@@ -42,6 +42,8 @@ const en = {
   ur: 'Urdu',
   // input
   emailPlaceholderText: 'Enter your email',
+  incrementValue: 'Increment value',
+  decrementValue: 'Decrement value',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean): string =>
     clickEnabled

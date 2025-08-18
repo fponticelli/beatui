@@ -43,6 +43,8 @@ export const nl: BeatUIMessages = {
   ur: 'Urdu',
   // input
   emailPlaceholderText: 'Voer je e-mail in',
+  incrementValue: 'Waarde verhogen',
+  decrementValue: 'Waarde verlagen',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

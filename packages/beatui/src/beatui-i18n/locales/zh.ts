@@ -43,6 +43,8 @@ const zh: BeatUIMessages = {
   ur: '乌尔都语',
   // input
   emailPlaceholderText: '请输入邮箱',
+  incrementValue: '增加值',
+  decrementValue: '减少值',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

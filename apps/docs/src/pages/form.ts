@@ -121,7 +121,10 @@ export const FormPage = () => {
           EnsureControl(delayValue, controller =>
             NumberControl({
               controller,
-              label: 'Delay Value',
+              label: 'Delay Value (with steppers)',
+              step: 50,
+              min: 0,
+              max: 1000,
             })
           ),
           Group(

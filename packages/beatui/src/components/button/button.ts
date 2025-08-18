@@ -43,7 +43,7 @@ export function generateButtonClasses(
     'bc-button',
     `bu-text-${size}`,
     `bc-control--padding-${size}`,
-    `bc-control--rounded-${roundedness}`,
+    `bu-rounded-${roundedness}`,
   ]
 
   if (loading) {

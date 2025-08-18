@@ -43,6 +43,8 @@ const ko: BeatUIMessages = {
   ur: '우르두어',
   // input
   emailPlaceholderText: '이메일을 입력하세요',
+  incrementValue: '값 증가',
+  decrementValue: '값 감소',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

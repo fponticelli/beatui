@@ -43,6 +43,8 @@ const he: BeatUIMessages = {
   ur: 'אורדו',
   // input
   emailPlaceholderText: 'הכנס את כתובת הדוא"ל',
+  incrementValue: 'הגדלת ערך',
+  decrementValue: 'הקטנת ערך',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

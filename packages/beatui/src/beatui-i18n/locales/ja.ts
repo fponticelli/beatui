@@ -43,6 +43,8 @@ export const ja: BeatUIMessages = {
   ur: 'ウルドゥー語',
   // input
   emailPlaceholderText: 'メールアドレスを入力',
+  incrementValue: '値を増加',
+  decrementValue: '値を減少',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

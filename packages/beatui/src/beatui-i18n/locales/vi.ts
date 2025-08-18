@@ -43,6 +43,8 @@ const vi: BeatUIMessages = {
   ur: 'Tiếng Urdu',
   // input
   emailPlaceholderText: 'Nhập email của bạn',
+  incrementValue: 'Tăng giá trị',
+  decrementValue: 'Giảm giá trị',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

@@ -43,6 +43,8 @@ const ar: BeatUIMessages = {
   ur: 'الأردية',
   // input
   emailPlaceholderText: 'بريدك الإلكتروني',
+  incrementValue: 'زيادة القيمة',
+  decrementValue: 'تقليل القيمة',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

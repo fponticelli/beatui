@@ -43,6 +43,8 @@ const tr: BeatUIMessages = {
   ur: 'Urduca',
   // input
   emailPlaceholderText: 'E-postanızı girin',
+  incrementValue: 'Değer artır',
+  decrementValue: 'Değer azalt',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

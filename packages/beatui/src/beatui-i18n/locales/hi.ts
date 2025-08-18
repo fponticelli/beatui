@@ -43,6 +43,8 @@ const hi: BeatUIMessages = {
   ur: 'उर्दू',
   // input
   emailPlaceholderText: 'अपना ईमेल दर्ज करें',
+  incrementValue: 'वृद्धि मान',
+  decrementValue: 'घटाना मान',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

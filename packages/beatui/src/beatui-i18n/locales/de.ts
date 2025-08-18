@@ -43,6 +43,8 @@ const de: BeatUIMessages = {
   ur: 'Urdu',
   // input
   emailPlaceholderText: 'E-Mail eingeben',
+  incrementValue: 'Wert erhöhen',
+  decrementValue: 'Wert verringern',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

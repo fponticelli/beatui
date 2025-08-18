@@ -43,6 +43,8 @@ export const ru: BeatUIMessages = {
   ur: 'Урду',
   // input
   emailPlaceholderText: 'Введите электронную почту',
+  incrementValue: 'Увеличить значение',
+  decrementValue: 'Уменьшить значение',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled

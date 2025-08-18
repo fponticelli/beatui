@@ -1,8 +1,10 @@
 import { ControlOptions } from './control-options'
 import { Merge } from '@tempots/std'
-import { Value } from '@tempots/dom'
-import { NumberInput } from '../input/number-input'
-import { createControl } from './control-factory'
+import { Value, TNode } from '@tempots/dom'
+import { NumberInput, NumberInputOptions } from '../input/number-input'
+import { ControlInputWrapper } from './control-input-wrapper'
+import { inputOptionsFromController } from '../input/input-options'
+import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 
 export type NumberControlOptions = Merge<
   ControlOptions<number>,
@@ -13,4 +15,22 @@ export type NumberControlOptions = Merge<
   }
 >
 
-export const NumberControl = createControl(NumberInput)
+export const NumberControl = (
+  options: NumberControlOptions,
+  ...children: TNode[]
+) => {
+  const { onBlur, onChange, ...rest } = options
+
+  return ControlInputWrapper(
+    {
+      ...rest,
+      content: NumberInput({
+        ...rest,
+        ...inputOptionsFromController(rest.controller),
+        onChange: makeOnChangeHandler(rest.controller, onChange),
+        onBlur: makeOnBlurHandler(rest.controller, onBlur),
+      } as NumberInputOptions),
+    },
+    ...children
+  )
+}

@@ -260,6 +260,8 @@ export const NineSliceScrollViewPage = () => {
           content: NumberInput({
             value: columns,
             onChange: columns.set,
+            step: 1,
+            min: 1,
           }),
         }),
         InputWrapper({
@@ -267,6 +269,8 @@ export const NineSliceScrollViewPage = () => {
           content: NumberInput({
             value: rows,
             onChange: rows.set,
+            step: 1,
+            min: 1,
           }),
         }),
         InputWrapper({

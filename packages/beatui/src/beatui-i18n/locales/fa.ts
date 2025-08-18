@@ -43,6 +43,8 @@ const fa: BeatUIMessages = {
   ur: 'اردو',
   // input
   emailPlaceholderText: 'ایمیل خود را وارد کنید',
+  incrementValue: 'افزایش مقدار',
+  decrementValue: 'کاهش مقدار',
   // drop zone
   dropZoneInstructions: (clickEnabled: boolean) =>
     clickEnabled
