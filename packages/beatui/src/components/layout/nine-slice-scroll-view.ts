@@ -402,8 +402,11 @@ export function NineSliceScrollView({
             const scrollableWidth = target.scrollWidth - target.clientWidth
             if (scrollableWidth > 0) {
               const scrollFraction = scrollLeft / scrollableWidth
-              const maxHorizontalScroll = Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
-              horizontalScrollPosition.set(BigInt(Math.round(Number(maxHorizontalScroll) * scrollFraction)))
+              const maxHorizontalScroll =
+                Value.get(contentWidth) - BigInt(visibleAreaWidth.value)
+              horizontalScrollPosition.set(
+                BigInt(Math.round(Number(maxHorizontalScroll) * scrollFraction))
+              )
             }
           })
         ),
@@ -449,8 +452,11 @@ export function NineSliceScrollView({
             const scrollableHeight = target.scrollHeight - target.clientHeight
             if (scrollableHeight > 0) {
               const scrollFraction = scrollTop / scrollableHeight
-              const maxVerticalScroll = Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
-              verticalScrollPosition.set(BigInt(Math.round(Number(maxVerticalScroll) * scrollFraction)))
+              const maxVerticalScroll =
+                Value.get(contentHeight) - BigInt(visibleAreaHeight.value)
+              verticalScrollPosition.set(
+                BigInt(Math.round(Number(maxVerticalScroll) * scrollFraction))
+              )
             }
           })
         )
