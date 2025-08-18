@@ -74,7 +74,7 @@ describe('ButtonLink Component', () => {
     expect(link!.className).toContain('bc-button')
     expect(link!.className).toContain('bu-text-lg')
     expect(link!.className).toContain('bc-control--padding-lg')
-    expect(link!.className).toContain('bc-control--rounded-md')
+    expect(link!.className).toContain('bu-rounded-md')
     expect(link!.className).toContain('bu-border--primary')
   })
 
