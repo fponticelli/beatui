@@ -60,9 +60,11 @@ export const ListControl = <T>(
   const renderControls = (payload: ListInputPayload<T>) => {
     const moveButtons = When(showMove ?? false, () =>
       html.div(
-        attr.class('bu-gap-1 bu-items-center'),
+        attr.class('bu-items-center'),
         attr.class(
-          isAside.map((v): string => (v ? 'bu-flex-col' : 'bu-flex-row'))
+          isAside.map((v): string =>
+            v ? 'bu-flex-col' : 'bu-flex-row bu-gap-1'
+          )
         ),
         Button(
           {
@@ -73,11 +75,11 @@ export const ListControl = <T>(
             disabled: payload.cannotMove('up'),
           },
           Use(BeatUII18n, t =>
-            Group(
-              attr.class('bu-gap-1'),
-              Icon({ size: 'xs', icon: 'line-md:arrow-up' }),
-              html.span(attr.class('sr-only'), t.$.incrementValue)
-            )
+            Icon({
+              size: 'xs',
+              icon: 'line-md:arrow-up',
+              title: t.$.incrementValue as Value<string | undefined>,
+            })
           )
         ),
         Button(
@@ -89,11 +91,11 @@ export const ListControl = <T>(
             disabled: payload.cannotMove('down'),
           },
           Use(BeatUII18n, t =>
-            Group(
-              attr.class('bu-gap-1'),
-              Icon({ size: 'xs', icon: 'line-md:arrow-down' }),
-              html.span(attr.class('sr-only'), t.$.decrementValue)
-            )
+            Icon({
+              size: 'xs',
+              icon: 'line-md:arrow-down',
+              title: t.$.decrementValue as Value<string | undefined>,
+            })
           )
         )
       )
@@ -126,7 +128,7 @@ export const ListControl = <T>(
             attr.class('bu-gap-2 bu-items-start'),
             Stack(attr.class('bu-flex-grow'), content),
             Stack(
-              attr.class('bu-gap-2 bu-items-center'),
+              attr.class('bu-gap-1 bu-items-center'),
               When(
                 options.controller.value.map(v => v.length > 1),
                 () => moveButtons

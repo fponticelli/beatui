@@ -105,6 +105,7 @@ const main = async () => {
   const { TooltipPage } = await import('../src/pages/tooltip')
   const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
   const { FormPage } = await import('../src/pages/form')
+  const { JSONSchemaFormPage } = await import('../src/pages/json-schema-form')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -201,6 +202,7 @@ const main = async () => {
           '/editable-text': EditableTextPage,
           '/breakpoint': BreakpointPage,
           '/nine-slice-scroll-view': NineSliceScrollViewPage,
+          '/json-schema-form': JSONSchemaFormPage,
         }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))
@@ -228,6 +230,7 @@ const main = async () => {
                 html.a(attr.href('/sidebar'), 'Sidebar'),
                 html.a(attr.href('/tags'), 'Tags'),
                 html.a(attr.href('/form'), 'Form'),
+                html.a(attr.href('/json-schema-form'), 'JSON Schema Form'),
                 html.a(attr.href('/editable-text'), 'Editable Text'),
                 html.a(attr.href('/breakpoint'), 'Breakpoint')
               )

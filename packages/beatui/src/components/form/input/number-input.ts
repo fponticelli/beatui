@@ -106,21 +106,6 @@ export const NumberInput = (options: NumberInputOptions) => {
 
           return Stack(
             attr.class('bc-number-input-steppers'),
-            // Decrement first (matches tests expecting first button to be decrement)
-            html.button(
-              attr.class(
-                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
-              ),
-              attr.disabled(
-                computedOf(
-                  canDecrement,
-                  options.disabled ?? false
-                )((canDec, disabled) => !canDec || disabled)
-              ),
-              on.click(event => handleDecrement(event)),
-              aria.label(t.$.decrementValue),
-              Icon({ icon: 'line-md:minus', size: 'xs' })
-            ),
             // Increment second
             html.button(
               attr.class(
@@ -136,6 +121,21 @@ export const NumberInput = (options: NumberInputOptions) => {
               on.click(event => handleIncrement(event)),
               aria.label(t.$.incrementValue),
               Icon({ icon: 'line-md:plus', size: 'xs' })
+            ),
+            // Decrement first (matches tests expecting first button to be decrement)
+            html.button(
+              attr.class(
+                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
+              ),
+              attr.disabled(
+                computedOf(
+                  canDecrement,
+                  options.disabled ?? false
+                )((canDec, disabled) => !canDec || disabled)
+              ),
+              on.click(event => handleDecrement(event)),
+              aria.label(t.$.decrementValue),
+              Icon({ icon: 'line-md:minus', size: 'xs' })
             )
           )
         })

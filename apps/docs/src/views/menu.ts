@@ -40,7 +40,8 @@ export function Menu() {
         SidebarLink({ href: '/color-picker', content: 'Color Picker' }),
         SidebarLink({ href: '/file-input', content: 'File Input' }),
         SidebarLink({ href: '/editable-text', content: Todo('Editable Text') }),
-        SidebarLink({ href: '/form', content: 'Form' })
+        SidebarLink({ href: '/form', content: 'Form' }),
+        SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' })
       ),
       // Navigation
       SidebarGroup(
