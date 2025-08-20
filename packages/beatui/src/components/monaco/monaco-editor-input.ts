@@ -12,81 +12,9 @@ import type { InputOptions } from '../form/input/input-options'
 import { debounce, Merge } from '@tempots/std'
 import './monaco-editor.css'
 import { Theme } from '../theme'
-
-// Minimal runtime types to avoid depending on monaco types
-
-type MinimalEditor = {
-  focus(): unknown
-  getValue: () => string
-  setValue: (v: string) => void
-  updateOptions: (opts: Record<string, unknown>) => void
-  getModel: () => unknown
-  onDidChangeModelContent: (cb: () => void) => { dispose: () => void }
-  onDidBlurEditorText: (cb: () => void) => { dispose: () => void }
-  dispose: () => void
-}
-
-type MinimalMonaco = {
-  editor: {
-    create: (el: HTMLElement, opts: Record<string, unknown>) => MinimalEditor
-    setModelLanguage: (model: unknown, lang: string) => void
-  }
-  languages?: {
-    json?: { jsonDefaults: { setDiagnosticsOptions: (opts: unknown) => void } }
-  }
-}
-
-const isObject = (v: unknown): v is Record<string, unknown> =>
-  typeof v === 'object' && v !== null
-
-const isFunction = (v: unknown): v is (...args: unknown[]) => unknown =>
-  typeof v === 'function'
-
-function isMinimalMonaco(v: unknown): v is MinimalMonaco {
-  if (!isObject(v)) return false
-  const editor = v.editor
-  if (!isObject(editor)) return false
-  return isFunction(editor.create) && isFunction(editor.setModelLanguage)
-}
-
-function isMonacoYaml(v: unknown): v is MonacoYaml {
-  if (!isObject(v)) return false
-  return isFunction(v.setDiagnosticsOptions)
-}
-
-type MonacoYaml = { setDiagnosticsOptions: (opts: unknown) => void }
-
-export type MonacoLanguage =
-  | 'plaintext'
-  | 'json'
-  | 'yaml'
-  | 'typescript'
-  | 'javascript'
-  | 'css'
-  | 'html'
-  | string
-
-export type MonacoJSONSchema = {
-  uri: string
-  fileMatch: string[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: any
-}
-
-export type MonacoYAMLSchema = MonacoJSONSchema
-
-export type MonacoEditorSpecificOptions = {
-  language?: Value<MonacoLanguage>
-  editorOptions?: Record<string, unknown>
-  jsonSchemas?: Value<MonacoJSONSchema[]> | undefined
-  yamlSchemas?: Value<MonacoYAMLSchema[]> | undefined
-  readOnly?: Value<boolean>
-  // Optional fetcher for external schemas (used for YAML via schemaRequestService and JSON via prefetch)
-  schemaRequest?:
-    | Value<((url: string) => Promise<string>) | undefined>
-    | ((url: string) => Promise<string>)
-    | undefined
-}
+import { MinimalEditor, MonacoEditorSpecificOptions } from '@/monaco/types'
+import { requireMonacoApi, loadMonacoYaml, setupMonacoEnvironment } from '@/monaco/loader'
+import { isMinimalMonaco } from '@/monaco/utils'
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
@@ -94,29 +22,11 @@ export type MonacoEditorInputOptions = Merge<
 >
 
 // Ensure language contributions are loaded before using language features
-const ensureLanguage = async (l: string) => {
-  const langName = l.toLowerCase()
-  try {
-    if (langName === 'json' || langName === 'yaml') {
-      await import('monaco-editor/esm/vs/language/json/monaco.contribution')
-    } else if (langName === 'css') {
-      await import('monaco-editor/esm/vs/language/css/monaco.contribution')
-    } else if (langName === 'html') {
-      await import('monaco-editor/esm/vs/language/html/monaco.contribution')
-    } else if (langName === 'typescript' || langName === 'javascript') {
-      await import(
-        'monaco-editor/esm/vs/language/typescript/monaco.contribution'
-      )
-    }
-    // yaml is handled by monaco-yaml below
-  } catch (e) {
-    // Best effort; if contribution missing, editor still works
-    console.warn(
-      '[BeatUI] Failed to load monaco language contribution',
-      langName,
-      e
-    )
-  }
+const ensureLanguage = async (_l: string) => {
+  // Languages are automatically loaded with editor.main in the minified version
+  // We don't need to load them separately from CDN
+  // The language support is already included when we load editor.main
+  return
 }
 
 /**
@@ -167,11 +77,8 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
         const mount = async () => {
           // Note: We avoid importing monaco types to keep them out of our public d.ts and bundle.
           // Dynamic import ensures consumers opt-in by installing monaco-editor themselves.
-          const monacoMod: unknown = await import(
-            'monaco-editor/esm/vs/editor/editor.api'
-          )
-          const monaco =
-            (monacoMod as { default?: unknown }).default ?? monacoMod
+          const monacoMod: unknown = await requireMonacoApi()
+          const monaco = monacoMod
           if (!isMinimalMonaco(monaco)) {
             console.warn(
               '[BeatUI] Invalid monaco module shape. Did you install monaco-editor?'
@@ -201,31 +108,68 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
               yamlSchemas
             )(async (lang, schemasJson, schemasYaml) => {
               await ensureLanguage(lang)
+              console.log(lang)
 
               if (lang === 'json') {
-                monaco.languages?.json?.jsonDefaults.setDiagnosticsOptions({
+                const fetcher =
+                  typeof schemaRequest === 'function'
+                    ? schemaRequest
+                    : schemaRequest
+                      ? Value.get(schemaRequest)
+                      : undefined
+                const hasSchemas = !!(schemasJson && schemasJson.length)
+                const options: Record<string, unknown> = {
                   validate: true,
-                  schemas: schemasJson,
-                })
+                  enableSchemaRequest: true,
+                }
+                if (fetcher) options.schemaRequestService = fetcher
+                if (hasSchemas) options.schemas = schemasJson
+                monaco.languages?.json?.jsonDefaults.setDiagnosticsOptions(
+                  options
+                )
               } else if (lang === 'yaml') {
-                // monaco-yaml registers the YAML language and its worker
-                const yamlMod: unknown = await import('monaco-yaml')
-                const yamlCandidate =
-                  (yamlMod as { default?: unknown }).default ?? yamlMod
-                if (isMonacoYaml(yamlCandidate)) {
-                  const fetcher =
-                    typeof schemaRequest === 'function'
-                      ? schemaRequest
-                      : schemaRequest
-                        ? Value.get(schemaRequest)
-                        : undefined
-                  const hasSchemas = !!(schemasYaml && schemasYaml.length)
-                  const options: Record<string, unknown> = {
-                    enableSchemaRequest: true,
+                // Load monaco-yaml from CDN
+                try {
+                  // Ensure Monaco environment is set up for YAML workers
+                  setupMonacoEnvironment()
+                  
+                  const yamlMod: unknown = await loadMonacoYaml()
+                  console.log('[BeatUI] Loaded monaco-yaml module:', yamlMod)
+                  
+                  // Find the configureMonacoYaml function
+                  const mod = yamlMod as Record<string, unknown>
+                  let configureMonacoYaml: ((monaco: unknown, opts: unknown) => void) | undefined
+                  
+                  if (typeof mod?.configureMonacoYaml === 'function') {
+                    configureMonacoYaml = mod.configureMonacoYaml as (monaco: unknown, opts: unknown) => void
+                  } else if (mod?.default && typeof (mod.default as Record<string, unknown>)?.configureMonacoYaml === 'function') {
+                    configureMonacoYaml = (mod.default as Record<string, unknown>).configureMonacoYaml as (monaco: unknown, opts: unknown) => void
                   }
-                  if (fetcher) options.schemaRequestService = fetcher
-                  if (hasSchemas) options.schemas = schemasYaml
-                  yamlCandidate.setDiagnosticsOptions(options)
+                  
+                  if (configureMonacoYaml) {
+                    const hasSchemas = !!(schemasYaml && schemasYaml.length)
+                    
+                    const options: Record<string, unknown> = {
+                      enableSchemaRequest: true,
+                      validate: true,
+                      completion: true,
+                      hover: true,
+                    }
+                    
+                    if (hasSchemas) {
+                      options.schemas = schemasYaml
+                    }
+                    
+                    // Note: monaco-yaml uses enableSchemaRequest for remote schema loading
+                    // Custom schemaRequest functions are not directly supported
+                    
+                    console.log('[BeatUI] Configuring monaco-yaml with options:', options)
+                    configureMonacoYaml(monaco, options)
+                  } else {
+                    console.warn('[BeatUI] monaco-yaml loaded but configureMonacoYaml not found')
+                  }
+                } catch (error) {
+                  console.warn('[BeatUI] YAML support not available:', error)
                 }
               }
 

@@ -40,7 +40,11 @@
     "LICENSE"
   ],
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "src/monaco/index.ts",
+    "src/components/monaco/worker.ts",
+    "dist/monaco/index.es.js",
+    "dist/monaco/index.cjs.js"
   ],
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",
@@ -134,8 +138,6 @@
   },
   "dependencies": {
     "@types/json-schema": "^7.0.15",
-    "ajv": "^8.17.1",
-    "monaco-editor": "^0.52.2",
-    "monaco-yaml": "^5.4.0"
+    "ajv": "^8.17.1"
   }
 }

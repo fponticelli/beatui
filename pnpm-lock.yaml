@@ -99,12 +99,6 @@ importers:
       ajv:
         specifier: ^8.17.1
         version: 8.17.1
-      monaco-editor:
-        specifier: ^0.52.2
-        version: 0.52.2
-      monaco-yaml:
-        specifier: ^5.4.0
-        version: 5.4.0(monaco-editor@0.52.2)
     devDependencies:
       '@testing-library/dom':
         specifier: 10.4.0

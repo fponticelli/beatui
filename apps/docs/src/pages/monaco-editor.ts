@@ -114,18 +114,18 @@ export function MonacoEditorPage() {
           value: code,
           onChange: v => code.set(v),
           language,
-          jsonSchemas: Value.map(personSchema, s => [
+          jsonSchemas: Value.map(personSchema, schema => [
             {
               uri: 'https://example.com/schemas/person.json',
               fileMatch: ['*'],
-              schema: s,
+              schema,
             },
           ]),
-          yamlSchemas: Value.map(personSchema, s => [
+          yamlSchemas: Value.map(personSchema, schema => [
             {
               uri: 'https://example.com/schemas/person.yaml',
               fileMatch: ['*'],
-              schema: s,
+              schema,
             },
           ]),
         }),
