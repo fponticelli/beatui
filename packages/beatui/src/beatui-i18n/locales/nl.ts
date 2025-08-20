@@ -20,6 +20,8 @@ export const nl: BeatUIMessages = {
   closeModal: 'Modaal sluiten',
   confirm: 'Bevestigen',
   cancel: 'Annuleren',
+  addLabel: 'Toevoegen',
+  removeItem: 'Item verwijderen',
   // languages
   currentLocale: 'Nederlands',
   ar: 'Arabisch',

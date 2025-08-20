@@ -20,6 +20,8 @@ export const pl: BeatUIMessages = {
   closeModal: 'Zamknij modal',
   confirm: 'Potwierdź',
   cancel: 'Anuluj',
+  addLabel: 'Dodaj',
+  removeItem: 'Usuń element',
   // languages
   currentLocale: 'Polski',
   ar: 'Arabski',

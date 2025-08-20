@@ -20,6 +20,8 @@ const ko: BeatUIMessages = {
   closeModal: '모달 닫기',
   confirm: '확인',
   cancel: '취소',
+  addLabel: '추가',
+  removeItem: '항목 제거',
   // languages
   currentLocale: '한국어',
   ar: '아랍어',

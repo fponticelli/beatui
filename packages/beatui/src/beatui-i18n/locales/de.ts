@@ -20,6 +20,8 @@ const de: BeatUIMessages = {
   closeModal: 'Modal schließen',
   confirm: 'Bestätigen',
   cancel: 'Abbrechen',
+  addLabel: 'Hinzufügen',
+  removeItem: 'Element entfernen',
   // languages
   currentLocale: 'Deutsch',
   ar: 'Arabisch',

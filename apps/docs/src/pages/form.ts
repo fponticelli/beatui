@@ -1,6 +1,5 @@
 import { attr, html, style } from '@tempots/dom'
 import {
-  Button,
   ComboboxControl,
   ComboboxOption,
   DateControl,
@@ -127,38 +126,24 @@ export const FormPage = () => {
               max: 1000,
             })
           ),
-          Group(
-            attr.class('bu-gap-2'),
-            Button(
-              {
-                onClick: () => {
-                  list.push({
-                    title: 'x',
-                    company: 'abc',
-                    startDate: new Date(),
-                    endDate: undefined,
-                  })
-                },
-              },
-              Icon({ icon: 'line-md:plus' })
-            )
-          ),
           html.div(attr.class('bu-p-2')),
-          ListControl(
-            list,
-            opts => {
+          ListControl({
+            label: 'Experience',
+            controller: list,
+            createItem: () => ({
+              title: 'x',
+              company: 'abc',
+              startDate: new Date(),
+              endDate: undefined,
+            }),
+            element: opts => {
               const group = opts.item.object()
               return Stack(
                 attr.class('bu-gap-2'),
-                html.div(
-                  attr.class('bu-text-sm bu-text-gray'),
-                  `Item: ${opts.position.counter}`
-                ),
                 Stack(
                   TextControl(
                     {
                       horizontal: true,
-                      description: 'This is the title',
                       controller: group.field('title'),
                       label: 'Title',
                     },
@@ -166,7 +151,6 @@ export const FormPage = () => {
                   ),
                   TextControl({
                     controller: group.field('company'),
-                    description: 'This is the company',
                     label: 'Company',
                   })
                 ),
@@ -182,54 +166,15 @@ export const FormPage = () => {
                     ),
                     label: 'End Date',
                   })
-                ),
-                Group(
-                  attr.class('bu-gap-2 bu-justify-between'),
-                  Group(
-                    attr.class('bu-gap-2 bu-items-center'),
-                    Button(
-                      {
-                        size: 'xs',
-                        roundedness: 'full',
-                        variant: 'outline',
-                        onClick: () => opts.move('up'),
-                        disabled: opts.cannotMove('up'),
-                      },
-                      Icon({
-                        size: 'xs',
-                        icon: 'line-md:arrow-up',
-                      })
-                    ),
-                    Button(
-                      {
-                        size: 'xs',
-                        roundedness: 'full',
-                        variant: 'outline',
-                        onClick: () => opts.move('down'),
-                        disabled: opts.cannotMove('down'),
-                      },
-                      Icon({
-                        size: 'xs',
-                        icon: 'line-md:arrow-down',
-                      })
-                    )
-                  ),
-                  Button(
-                    {
-                      size: 'xs',
-                      roundedness: 'full',
-                      variant: 'filled',
-                      color: 'warning',
-                      onClick: opts.remove,
-                    },
-                    Icon({ size: 'xs', icon: 'line-md:minus' })
-                  )
                 )
               )
             },
-            () =>
-              html.hr(style.border('1px solid #ccc'), style.margin('0.5rem 0'))
-          )
+            separator: () =>
+              html.hr(
+                style.border('1px dashed #ccc'),
+                style.margin('0.5rem 25%')
+              ),
+          })
         ),
         Stack(
           html.pre(

@@ -20,6 +20,8 @@ export const ru: BeatUIMessages = {
   closeModal: 'Закрыть модальное окно',
   confirm: 'Подтвердить',
   cancel: 'Отменить',
+  addLabel: 'Добавить',
+  removeItem: 'Удалить элемент',
   // languages
   currentLocale: 'Русский',
   ar: 'Арабский',

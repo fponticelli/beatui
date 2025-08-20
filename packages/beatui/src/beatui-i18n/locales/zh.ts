@@ -20,6 +20,8 @@ const zh: BeatUIMessages = {
   closeModal: '关闭模态框',
   confirm: '确认',
   cancel: '取消',
+  addLabel: '添加',
+  removeItem: '删除项目',
   // languages
   currentLocale: '简体中文',
   ar: '阿拉伯语',

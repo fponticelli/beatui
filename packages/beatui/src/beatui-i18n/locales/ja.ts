@@ -20,6 +20,8 @@ export const ja: BeatUIMessages = {
   closeModal: 'モーダルを閉じる',
   confirm: '確認',
   cancel: 'キャンセル',
+  addLabel: '追加',
+  removeItem: '項目を削除',
   // languages
   currentLocale: '日本語',
   ar: 'アラビア語',

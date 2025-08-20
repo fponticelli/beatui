@@ -19,6 +19,8 @@ const en = {
   closeModal: 'Close modal',
   confirm: 'Confirm',
   cancel: 'Cancel',
+  addLabel: 'Add',
+  removeItem: 'Remove item',
   // languages
   currentLocale: 'English',
   ar: 'Arabic',

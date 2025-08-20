@@ -20,6 +20,8 @@ const vi: BeatUIMessages = {
   closeModal: 'Đóng modal',
   confirm: 'Xác nhận',
   cancel: 'Hủy',
+  addLabel: 'Thêm',
+  removeItem: 'Xóa mục',
   // languages
   currentLocale: 'Tiếng Việt',
   ar: 'Tiếng Ả Rập',

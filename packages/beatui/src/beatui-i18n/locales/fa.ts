@@ -20,6 +20,8 @@ const fa: BeatUIMessages = {
   closeModal: 'بستن پنجره',
   confirm: 'تأیید',
   cancel: 'لغو',
+  addLabel: 'افزودن',
+  removeItem: 'حذف مورد',
   // languages
   currentLocale: 'فارسی',
   ar: 'عربی',

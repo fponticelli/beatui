@@ -20,6 +20,8 @@ const he: BeatUIMessages = {
   closeModal: 'סגור חלון קופץ',
   confirm: 'אישור',
   cancel: 'ביטול',
+  addLabel: 'הוסף',
+  removeItem: 'הסר פריט',
   // languages
   currentLocale: 'עברית',
   ar: 'ערבית',

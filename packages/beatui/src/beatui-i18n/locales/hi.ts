@@ -20,6 +20,8 @@ const hi: BeatUIMessages = {
   closeModal: 'मॉडल बंद करें',
   confirm: 'पुष्टि करें',
   cancel: 'रद्द करें',
+  addLabel: 'जोड़ें',
+  removeItem: 'आइटम हटाएं',
   // languages
   currentLocale: 'हिंदी',
   ar: 'अरबी',

@@ -20,6 +20,8 @@ const tr: BeatUIMessages = {
   closeModal: 'Modalı kapat',
   confirm: 'Onayla',
   cancel: 'İptal',
+  addLabel: 'Ekle',
+  removeItem: 'Öğeyi kaldır',
   // languages
   currentLocale: 'Türkçe',
   ar: 'Arapça',

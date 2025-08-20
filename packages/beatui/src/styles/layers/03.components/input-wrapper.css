@@ -67,8 +67,8 @@
   /* Horizontal layout adjustments */
   .bc-input-wrapper--horizontal .bc-input-wrapper__header {
     flex-shrink: 0;
-    min-width: 0; /* Allow text to wrap if needed */
-    align-self: flex-start; /* Align to top when content is taller */
+    min-width: 0;
+      /* Allow text to wrap if needed */
   }
 
   .bc-input-wrapper--horizontal .bc-input-wrapper__content {

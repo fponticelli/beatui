@@ -20,6 +20,8 @@ const ar: BeatUIMessages = {
   closeModal: 'إغلاق النافذة المنبثقة',
   confirm: 'تأكيد',
   cancel: 'إلغاء',
+  addLabel: 'إضافة',
+  removeItem: 'إزالة العنصر',
   // languages
   currentLocale: 'العربية',
   ar: 'العربية',
