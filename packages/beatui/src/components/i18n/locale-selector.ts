@@ -1,7 +1,9 @@
 import { Locale } from '@/components/i18n'
 import { InputWrapper, NativeSelect, SelectOption } from '../form'
-import { Use, Value } from '@tempots/dom'
+import { attr, Use, Value } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
+import { Group } from '../layout'
+import { Icon } from '../data'
 
 export type LocaleItem = {
   code: string
@@ -23,25 +25,34 @@ export function LocaleSelector({
   return Use(BeatUII18n, t =>
     Use(Locale, ({ locale, setLocale }) => {
       return InputWrapper({
-        label: t.$.locale,
-        content: NativeSelect({
-          options: Value.map(locales, locales =>
-            locales.map(l => {
-              let name = l.name
-              if (l.nativeName != null && l.nativeName !== l.name) {
-                name += ` (${l.nativeName})`
+        horizontal: true,
+        content: Group(
+          attr.class('bu-flex bu-items-center bu-gap-2'),
+          Icon({
+            icon: 'ic:twotone-language',
+            size: 'lg',
+            color: 'neutral',
+            title: t.$.locale as Value<string | undefined>,
+          }),
+          NativeSelect({
+            options: Value.map(locales, locales =>
+              locales.map(l => {
+                let name = l.name
+                if (l.nativeName != null && l.nativeName !== l.name) {
+                  name += ` (${l.nativeName})`
+                }
+                return SelectOption.value(l.code, name) as SelectOption<string>
+              })
+            ),
+            value: locale,
+            onChange: value => {
+              if (updateLocale) {
+                setLocale(value)
               }
-              return SelectOption.value(l.code, name) as SelectOption<string>
-            })
-          ),
-          value: locale,
-          onChange: value => {
-            if (updateLocale) {
-              setLocale(value)
-            }
-            onChange?.(value)
-          },
-        }),
+              onChange?.(value)
+            },
+          })
+        ),
       })
     })
   )
