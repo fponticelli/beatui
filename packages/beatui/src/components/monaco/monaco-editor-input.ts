@@ -6,9 +6,10 @@ import {
   html,
   attr,
   Use,
+  effectOf,
 } from '@tempots/dom'
 import type { InputOptions } from '../form/input/input-options'
-import { Merge } from '@tempots/std'
+import { debounce, Merge } from '@tempots/std'
 import './monaco-editor.css'
 import { Theme } from '../theme'
 
@@ -80,12 +81,43 @@ export type MonacoEditorSpecificOptions = {
   jsonSchemas?: Value<MonacoJSONSchema[]> | undefined
   yamlSchemas?: Value<MonacoYAMLSchema[]> | undefined
   readOnly?: Value<boolean>
+  // Optional fetcher for external schemas (used for YAML via schemaRequestService and JSON via prefetch)
+  schemaRequest?:
+    | Value<((url: string) => Promise<string>) | undefined>
+    | ((url: string) => Promise<string>)
+    | undefined
 }
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
   MonacoEditorSpecificOptions
 >
+
+// Ensure language contributions are loaded before using language features
+const ensureLanguage = async (l: string) => {
+  const langName = l.toLowerCase()
+  try {
+    if (langName === 'json' || langName === 'yaml') {
+      await import('monaco-editor/esm/vs/language/json/monaco.contribution')
+    } else if (langName === 'css') {
+      await import('monaco-editor/esm/vs/language/css/monaco.contribution')
+    } else if (langName === 'html') {
+      await import('monaco-editor/esm/vs/language/html/monaco.contribution')
+    } else if (langName === 'typescript' || langName === 'javascript') {
+      await import(
+        'monaco-editor/esm/vs/language/typescript/monaco.contribution'
+      )
+    }
+    // yaml is handled by monaco-yaml below
+  } catch (e) {
+    // Best effort; if contribution missing, editor still works
+    console.warn(
+      '[BeatUI] Failed to load monaco language contribution',
+      langName,
+      e
+    )
+  }
+}
 
 /**
  * MonacoEditorInput mounts a Monaco editor in an InputContainer and wires its value to BeatUI inputs.
@@ -108,6 +140,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
     id,
     name,
     placeholder,
+    schemaRequest,
   } = options
 
   /*
@@ -139,47 +172,18 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           const monacoMod: unknown = await import(
             'monaco-editor/esm/vs/editor/editor.api'
           )
-          const monacoCandidate =
+          const monaco =
             (monacoMod as { default?: unknown }).default ?? monacoMod
-          if (!isMinimalMonaco(monacoCandidate)) {
+          if (!isMinimalMonaco(monaco)) {
             console.warn(
               '[BeatUI] Invalid monaco module shape. Did you install monaco-editor?'
             )
             return
           }
-          const monaco = monacoCandidate
-
-          // Configure JSON schemas if provided
-          const lang = Value.get(language)
-          const schemasJson = Value.get(jsonSchemas ?? [])
-          if (lang === 'json' && monaco.languages?.json && schemasJson) {
-            monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-              validate: true,
-              schemas: schemasJson,
-            })
-          }
-
-          // Configure YAML schemas if provided (best-effort; optional dependency)
-          const schemasYaml = Value.get(yamlSchemas ?? [])
-          if (lang === 'yaml' && schemasYaml) {
-            try {
-              const yamlMod: unknown = await import('monaco-yaml')
-              const yamlCandidate =
-                (yamlMod as { default?: unknown }).default ?? yamlMod
-              if (isMonacoYaml(yamlCandidate)) {
-                yamlCandidate.setDiagnosticsOptions({
-                  enableSchemaRequest: true,
-                  schemas: schemasYaml,
-                })
-              }
-            } catch (_) {
-              // Ignore if monaco-yaml is not available
-            }
-          }
 
           editor = monaco.editor.create(container as HTMLElement, {
             value: Value.get(value) ?? '',
-            language: Value.get(language),
+            language: Value.get(language) ?? 'plaintext',
             readOnly: Value.get(resolvedReadonly) ?? false,
             automaticLayout: true,
             minimap: { enabled: false },
@@ -188,15 +192,61 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
 
           if (!editor) return
 
+          disposers.push(
+            effectOf(
+              language,
+              jsonSchemas,
+              yamlSchemas
+            )(async (lang, schemasJson, schemasYaml) => {
+              await ensureLanguage(lang)
+
+              if (lang === 'json') {
+                monaco.languages?.json?.jsonDefaults.setDiagnosticsOptions({
+                  validate: true,
+                  schemas: schemasJson,
+                })
+              } else if (lang === 'yaml') {
+                // monaco-yaml registers the YAML language and its worker
+                const yamlMod: unknown = await import('monaco-yaml')
+                const yamlCandidate =
+                  (yamlMod as { default?: unknown }).default ?? yamlMod
+                if (isMonacoYaml(yamlCandidate)) {
+                  const fetcher =
+                    typeof schemaRequest === 'function'
+                      ? schemaRequest
+                      : schemaRequest
+                        ? Value.get(schemaRequest)
+                        : undefined
+                  const hasSchemas = !!(schemasYaml && schemasYaml.length)
+                  const options: Record<string, unknown> = {
+                    enableSchemaRequest: true,
+                  }
+                  if (fetcher) options.schemaRequestService = fetcher
+                  if (hasSchemas) options.schemas = schemasYaml
+                  yamlCandidate.setDiagnosticsOptions(options)
+                }
+              }
+
+              if (editor) {
+                const model = editor.getModel?.()
+                if (model) monaco.editor.setModelLanguage(model, lang)
+              }
+            })
+          )
+
           // Forward content changes
-          modelListener = editor.onDidChangeModelContent(() => {
-            const v = editor!.getValue()
-            onChange?.(v)
-          })
+          modelListener = editor.onDidChangeModelContent(
+            debounce(500, () => {
+              const v = editor!.getValue()
+              onChange?.(v)
+            })
+          )
 
           // Forward blur
           blurListener =
             editor.onDidBlurEditorText?.(() => {
+              const v = editor!.getValue()
+              onChange?.(v)
               onBlur?.()
             }) ?? null
 
@@ -213,15 +263,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
             Value.on(resolvedReadonly, ro => {
               if (!editor) return
               editor.updateOptions({ readOnly: ro ?? false })
-            })
-          )
-
-          // React to language changes
-          disposers.push(
-            Value.on(language, l => {
-              if (!editor || !monaco) return
-              const model = editor.getModel?.()
-              if (model) monaco.editor.setModelLanguage(model, l ?? 'plaintext')
             })
           )
 

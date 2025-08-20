@@ -1,4 +1,4 @@
-import { attr, html, prop, style } from '@tempots/dom'
+import { attr, html, prop, style, Value } from '@tempots/dom'
 import {
   ScrollablePanel,
   Stack,
@@ -114,11 +114,18 @@ export function MonacoEditorPage() {
           value: code,
           onChange: v => code.set(v),
           language,
-          jsonSchemas: selectedIndex.map(i => [
+          jsonSchemas: Value.map(personSchema, s => [
             {
               uri: 'https://example.com/schemas/person.json',
               fileMatch: ['*'],
-              schema: samples[i].schema,
+              schema: s,
+            },
+          ]),
+          yamlSchemas: Value.map(personSchema, s => [
+            {
+              uri: 'https://example.com/schemas/person.yaml',
+              fileMatch: ['*'],
+              schema: s,
             },
           ]),
         }),
