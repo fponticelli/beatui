@@ -1,7 +1,15 @@
 // Password Strength Indicator Component
 // Visual feedback component for password complexity and security requirements
 
-import { attr, computedOf, html, TNode, Use, When } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  html,
+  Renderable,
+  TNode,
+  Use,
+  When,
+} from '@tempots/dom'
 import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
@@ -11,7 +19,7 @@ export function PasswordStrengthIndicator({
   rules = defaultPasswordRules,
   showLabel = true,
   className,
-}: PasswordStrengthIndicatorOptions): TNode {
+}: PasswordStrengthIndicatorOptions): Renderable {
   // Calculate password strength reactively
   const strengthData = computedOf(password)(pwd => {
     if (!pwd || pwd.length === 0) {
@@ -198,7 +206,7 @@ export function PasswordStrengthBar({
   password,
   rules = defaultPasswordRules,
   className,
-}: Omit<PasswordStrengthIndicatorOptions, 'showLabel'>): TNode {
+}: Omit<PasswordStrengthIndicatorOptions, 'showLabel'>): Renderable {
   const strengthData = computedOf(password)(pwd => {
     if (!pwd || pwd.length === 0) {
       return { strength: 'weak' as const, score: 0 }

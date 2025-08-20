@@ -5,12 +5,12 @@ import {
   ObjectController,
   ArrayController,
 } from '../../src/components/form/controller/controller'
-import { Validation } from '../../src/components/form/controller/controller-validation'
+import { ControllerValidation } from '../../src/components/form/controller/controller-validation'
 
 describe('Controller dispose refactoring', () => {
   it('should dispose internal resources via onDispose in constructor', () => {
     const value = prop('test')
-    const status = prop<Validation>({ type: 'Valid' })
+    const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new Controller([], () => {}, value, status, { disabled })
@@ -31,7 +31,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should dispose child controllers in ObjectController via onDispose', () => {
     const value = prop({ name: 'test', age: 25 })
-    const status = prop<Validation>({ type: 'valid' })
+    const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new ObjectController(
@@ -57,7 +57,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should dispose child controllers in ArrayController via onDispose', () => {
     const value = prop(['item1', 'item2'])
-    const status = prop<Validation>({ type: 'valid' })
+    const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new ArrayController(
@@ -88,7 +88,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should have dispose as readonly property', () => {
     const value = prop('test')
-    const status = prop<Validation>({ type: 'Valid' })
+    const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new Controller([], () => {}, value, status, { disabled })
@@ -104,7 +104,7 @@ describe('Controller dispose refactoring', () => {
 
   it('should call user-registered dispose callbacks', () => {
     const value = prop('test')
-    const status = prop<Validation>({ type: 'Valid' })
+    const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
 
     const controller = new Controller([], () => {}, value, status, { disabled })

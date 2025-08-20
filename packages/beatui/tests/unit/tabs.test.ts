@@ -1,7 +1,12 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, html, prop } from '@tempots/dom'
-import { Tabs, TabItem } from '../../src/components/navigation/tabs/tabs'
+import {
+  Tabs,
+  TabItem,
+  TabsDirection,
+} from '../../src/components/navigation/tabs/tabs'
 import { WithProviders } from '../helpers/test-providers'
+import { ControlSize } from '@/index'
 
 describe('Tabs Component', () => {
   let container: HTMLElement
@@ -221,9 +226,6 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const _tabs = container.querySelectorAll(
-        '[role="tab"]'
-      ) as NodeListOf<HTMLElement>
 
       // Arrow right should prevent default
       const rightArrowEvent = new KeyboardEvent('keydown', {
@@ -251,15 +253,17 @@ describe('Tabs Component', () => {
 
       render(
         WithProviders(() =>
-          Tabs({ items, value, onChange, orientation: prop('vertical') })
+          Tabs({
+            items,
+            value,
+            onChange,
+            orientation: prop<TabsDirection>('vertical'),
+          })
         ),
         container
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const _tabs = container.querySelectorAll(
-        '[role="tab"]'
-      ) as NodeListOf<HTMLElement>
 
       // Arrow down should prevent default in vertical mode
       const downArrowEvent = new KeyboardEvent('keydown', {
@@ -291,9 +295,6 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const _tabs = container.querySelectorAll(
-        '[role="tab"]'
-      ) as NodeListOf<HTMLElement>
 
       // Home should prevent default
       const homeEvent = new KeyboardEvent('keydown', {
@@ -378,9 +379,6 @@ describe('Tabs Component', () => {
       )
 
       const tabList = container.querySelector('[role="tablist"]') as HTMLElement
-      const _tabs = container.querySelectorAll(
-        '[role="tab"]'
-      ) as NodeListOf<HTMLElement>
 
       // Arrow right should prevent default (testing that keyboard navigation is handled)
       const rightArrowEvent = new KeyboardEvent('keydown', {
@@ -399,7 +397,9 @@ describe('Tabs Component', () => {
       const { value, onChange, items } = createBasicTabs()
 
       render(
-        WithProviders(() => Tabs({ items, value, onChange, size: prop('lg') })),
+        WithProviders(() =>
+          Tabs({ items, value, onChange, size: prop<ControlSize>('lg') })
+        ),
         container
       )
 
@@ -417,7 +417,12 @@ describe('Tabs Component', () => {
 
       render(
         WithProviders(() =>
-          Tabs({ items, value, onChange, orientation: prop('vertical') })
+          Tabs({
+            items,
+            value,
+            onChange,
+            orientation: prop<TabsDirection>('vertical'),
+          })
         ),
         container
       )

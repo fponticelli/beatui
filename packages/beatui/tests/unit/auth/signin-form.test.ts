@@ -336,9 +336,9 @@ describe('SignInForm', () => {
       WithProviders(() =>
         SignInForm({
           labels: {
-            signInButton: () => 'Custom Sign In',
-            emailLabel: () => 'Custom Email',
-            passwordLabel: () => 'Custom Password',
+            signInButton: 'Custom Sign In',
+            emailLabel: 'Custom Email',
+            passwordLabel: 'Custom Password',
           },
           onSignIn: vi.fn(),
         })

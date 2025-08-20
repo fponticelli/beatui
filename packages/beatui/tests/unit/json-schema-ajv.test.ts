@@ -5,15 +5,15 @@ import type { JSONSchemaType } from 'ajv'
 describe('AJV StandardSchemaV1 wrapper', () => {
   it('validates a simple object successfully', async () => {
     type User = { name: string; age?: number }
-    const schema: JSONSchemaType<User> = {
+    const schema = {
       type: 'object',
       properties: {
         name: { type: 'string' },
-        age: { type: 'number' }, // optional because not listed in required
+        age: { type: 'number', nullable: true }, // optional because not listed in required
       },
       required: ['name'],
       additionalProperties: false,
-    } as const
+    } as JSONSchemaType<User>
 
     const standard = createAJVStandardSchema<User>(schema)
 
@@ -42,9 +42,9 @@ describe('AJV StandardSchemaV1 wrapper', () => {
 
     expect('issues' in result).toBe(true)
     if ('issues' in result) {
-      expect(result.issues.length).toBeGreaterThan(0)
+      expect(result.issues?.length).toBeGreaterThan(0)
       // expect path to point to the missing property
-      expect(result.issues[0]?.path).toEqual(['name'])
+      expect(result.issues?.[0]?.path).toEqual(['name'])
     }
   })
 
@@ -66,8 +66,8 @@ describe('AJV StandardSchemaV1 wrapper', () => {
     if ('issues' in result) {
       // Find the additionalProperties issue
       const ap =
-        result.issues.find(i => (i.message || '').includes('additional')) ||
-        result.issues[0]
+        result.issues?.find(i => (i.message || '').includes('additional')) ||
+        result.issues?.[0]
       expect(ap?.path).toEqual(['extra'])
     }
   })
@@ -97,7 +97,7 @@ describe('AJV StandardSchemaV1 wrapper', () => {
 
     expect('issues' in result).toBe(true)
     if ('issues' in result) {
-      expect(result.issues[0]?.path).toEqual(['user', 'name'])
+      expect(result.issues?.[0]?.path).toEqual(['user', 'name'])
     }
   })
 
@@ -130,7 +130,7 @@ describe('AJV StandardSchemaV1 wrapper', () => {
 
     expect('issues' in result).toBe(true)
     if ('issues' in result) {
-      expect(result.issues[0]?.path).toEqual(['users', 0, 'name'])
+      expect(result.issues?.[0]?.path).toEqual(['users', 0, 'name'])
     }
   })
 })

@@ -36,9 +36,9 @@ describe('Color Validation Utilities', () => {
     })
 
     it('should handle non-string inputs', () => {
-      expect(isValidHexColor(null as unknown)).toBe(false)
-      expect(isValidHexColor(undefined as unknown)).toBe(false)
-      expect(isValidHexColor(123 as unknown)).toBe(false)
+      expect(isValidHexColor(null as unknown as string)).toBe(false)
+      expect(isValidHexColor(undefined as unknown as string)).toBe(false)
+      expect(isValidHexColor(123 as unknown as string)).toBe(false)
     })
   })
 

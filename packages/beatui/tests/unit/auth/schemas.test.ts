@@ -19,14 +19,12 @@ describe('Authentication Schemas', () => {
       const result = schema.safeParse({
         email: 'test@example.com',
         password: 'password123',
-        rememberMe: true,
       })
 
       expect(result.success).toBe(true)
       if (result.success) {
         expect(result.data.email).toBe('test@example.com')
         expect(result.data.password).toBe('password123')
-        expect(result.data.rememberMe).toBe(true)
       }
     })
 
@@ -64,9 +62,6 @@ describe('Authentication Schemas', () => {
       })
 
       expect(result.success).toBe(true)
-      if (result.success) {
-        expect(result.data.rememberMe).toBe(false)
-      }
     })
   })
 

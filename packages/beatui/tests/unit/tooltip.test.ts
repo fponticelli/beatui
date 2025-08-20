@@ -126,7 +126,8 @@ describe('Tooltip Component', () => {
           'Hover me',
           Tooltip({
             content: 'This is a tooltip',
-            offset: { mainAxis: 16, crossAxis: 8 },
+            crossAxisOffset: 8,
+            mainAxisOffset: 16,
             showDelay: 0,
           })
         )

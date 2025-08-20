@@ -20,32 +20,32 @@ describe('Focus Styles', () => {
               --radius-sm: 0.25rem;
               --radius-xs: 0.125rem;
             }
-            
+
             /* Base focus styles */
             *:focus-visible {
               outline: 2px solid var(--interactive-focus-light);
               outline-offset: 2px;
               border-radius: var(--radius-sm);
             }
-            
+
             .b-dark *:focus-visible {
               outline-color: var(--interactive-focus-dark);
             }
-            
+
             /* Component-specific focus styles */
             button:focus-visible,
             [role="button"]:focus-visible,
             .bc-button:focus-visible {
               outline-offset: 3px;
             }
-            
+
             input:focus-visible,
             textarea:focus-visible,
             select:focus-visible,
             .bc-input-container:focus-within {
               outline-offset: -2px;
             }
-            
+
             a:focus-visible {
               outline-offset: 2px;
               border-radius: var(--radius-xs);
@@ -73,7 +73,8 @@ describe('Focus Styles', () => {
 
     // Make globals available
     global.document = document
-    global.window = window
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(global as any).window = window
   })
 
   it('should apply consistent focus styles to all focusable elements', () => {
