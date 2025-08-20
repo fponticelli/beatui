@@ -20,10 +20,10 @@ type MinimalEditor = {
   getValue: () => string
   setValue: (v: string) => void
   updateOptions: (opts: Record<string, unknown>) => void
-  getModel?: () => unknown
+  getModel: () => unknown
   onDidChangeModelContent: (cb: () => void) => { dispose: () => void }
-  onDidBlurEditorText?: (cb: () => void) => { dispose: () => void }
-  dispose?: () => void
+  onDidBlurEditorText: (cb: () => void) => { dispose: () => void }
+  dispose: () => void
 }
 
 type MinimalMonaco = {
@@ -161,9 +161,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
       attr.id(id),
       attr.name(name),
       WithElement(container => {
-        let editor: MinimalEditor | null = null
-        let modelListener: { dispose: () => void } | null = null
-        let blurListener: { dispose: () => void } | null = null
+        let loadingEditor: MinimalEditor | null = null
         const disposers = [] as (() => void)[]
 
         const mount = async () => {
@@ -181,7 +179,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
             return
           }
 
-          editor = monaco.editor.create(container as HTMLElement, {
+          loadingEditor = monaco.editor.create(container as HTMLElement, {
             value: Value.get(value) ?? '',
             language: Value.get(language) ?? 'plaintext',
             readOnly: Value.get(resolvedReadonly) ?? false,
@@ -190,7 +188,11 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
             ...(editorOptions ?? {}),
           })
 
-          if (!editor) return
+          if (!loadingEditor) {
+            throw new Error('Failed to create Monaco editor')
+          }
+
+          const editor = loadingEditor!
 
           disposers.push(
             effectOf(
@@ -227,33 +229,32 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
                 }
               }
 
-              if (editor) {
-                const model = editor.getModel?.()
-                if (model) monaco.editor.setModelLanguage(model, lang)
-              }
+              const model = editor.getModel()
+              monaco.editor.setModelLanguage(model, lang)
             })
           )
 
+          function updateValue() {
+            const v = editor.getValue()
+            onChange?.(v)
+          }
+
           // Forward content changes
-          modelListener = editor.onDidChangeModelContent(
-            debounce(500, () => {
-              const v = editor!.getValue()
-              onChange?.(v)
-            })
+          disposers.push(
+            editor.onDidChangeModelContent(debounce(500, updateValue)).dispose
           )
 
           // Forward blur
-          blurListener =
-            editor.onDidBlurEditorText?.(() => {
-              const v = editor!.getValue()
-              onChange?.(v)
+          disposers.push(
+            editor.onDidBlurEditorText(() => {
+              updateValue()
               onBlur?.()
-            }) ?? null
+            }).dispose
+          )
 
           // React to external value changes
           disposers.push(
             Value.on(value, v => {
-              if (!editor) return
               if (v !== editor.getValue()) editor.setValue(v ?? '')
             })
           )
@@ -261,7 +262,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           // React to readOnly changes
           disposers.push(
             Value.on(resolvedReadonly, ro => {
-              if (!editor) return
               editor.updateOptions({ readOnly: ro ?? false })
             })
           )
@@ -269,7 +269,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           // React to disabled changes
           disposers.push(
             Value.on(disabled ?? false, d => {
-              if (!editor) return
               editor.updateOptions({ readOnly: d ?? false })
             })
           )
@@ -277,7 +276,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           // Use focus if autofocus is set
           disposers.push(
             Value.on(autofocus ?? false, a => {
-              if (!editor) return
               if (a) editor.focus()
             })
           )
@@ -285,7 +283,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           // Use placeholder if provided
           disposers.push(
             Value.on(placeholder ?? '', p => {
-              if (!editor) return
               editor.updateOptions({ placeholder: p ?? '' })
             })
           )
@@ -293,7 +290,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           // Apply appearance
           disposers.push(
             appearance.on(a => {
-              if (!editor) return
               editor.updateOptions({ theme: a === 'dark' ? 'vs-dark' : 'vs' })
             })
           )
@@ -314,12 +310,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
             disposers.forEach(dispose => dispose())
           } catch {}
           try {
-            // Monaco disposers
-            modelListener?.dispose?.()
-            blurListener?.dispose?.()
-          } catch {}
-          try {
-            editor?.dispose?.()
+            loadingEditor?.dispose()
           } catch {}
         })
       })
