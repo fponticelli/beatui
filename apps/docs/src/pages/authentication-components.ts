@@ -3,7 +3,11 @@ import {
   Stack,
   Group,
   Label,
+  PasswordInput,
   Switch,
+  ScrollablePanel,
+} from '@tempots/beatui'
+import {
   AuthContainer,
   SignInForm,
   SignUpForm,
@@ -12,10 +16,8 @@ import {
   PasswordStrengthIndicator,
   AuthMode,
   AuthProviderName,
-  PasswordInput,
   socialProviderInfo,
-  ScrollablePanel,
-} from '@tempots/beatui'
+} from '@tempots/beatui/auth'
 import { AuthModeSelector } from '../elements/auth-mode-selector'
 import { AuthProviderSelector } from '../elements/auth-provider-selector'
 import { ControlsHeader } from '../elements/controls-header'
@@ -90,8 +92,8 @@ export const AuthenticationComponentsPage = () => {
       ),
       AuthContainer({
         mode: authMode,
-        showRememberMe: showRememberMe,
-        showPasswordStrength: showPasswordStrength,
+        showRememberMe,
+        showPasswordStrength,
         socialProviders: showSocial
           ? [{ provider: 'google' }, { provider: 'github' }]
           : undefined,

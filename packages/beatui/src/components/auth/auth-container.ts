@@ -12,6 +12,7 @@ import {
   on,
   Use,
   coalesce,
+  When,
 } from '@tempots/dom'
 import { html } from '@tempots/dom'
 import { AuthContainerOptions, AuthDivider, AuthMode } from './index'
@@ -98,7 +99,7 @@ export function AuthContainer(
             socialProviders != null
               ? Fragment(
                   SocialProviders({ providers: socialProviders }),
-                  showSocialDivider !== false ? AuthDivider() : null
+                  When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,
             SignInForm({
@@ -129,7 +130,7 @@ export function AuthContainer(
             socialProviders != null
               ? Fragment(
                   SocialProviders({ providers: socialProviders }),
-                  showSocialDivider !== false ? AuthDivider() : null
+                  When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,
             SignUpForm({

@@ -109,21 +109,19 @@ export interface AuthContainerOptions {
   className?: Value<string>
   socialProviders?: AuthProviderInfo[]
   passwordRules?: PasswordRules
-  showRememberMe?: boolean
-  showSocialDivider?: boolean
-  allowSignUp?: boolean
-  allowPasswordReset?: boolean
+  showRememberMe?: Value<boolean>
+  showSocialDivider?: Value<boolean>
   labels?: AuthContainerLabels
   onSignIn?: (data: SignInData) => Promise<string | null>
   onSignUp?: (data: SignUpData) => Promise<string | null>
   onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
   onModeChange?: (mode: AuthMode) => void
   // onSocialLogin?: (provider: AuthProviderName) => Promise<void>
-  showPasswordStrength?: boolean
+  showPasswordStrength?: Value<boolean>
   showAlreadyHaveAccountLink?: boolean
   showNameField?: boolean
-  showConfirmPassword?: boolean
-  showAcceptTermsAndConditions?: boolean
+  showConfirmPassword?: Value<boolean>
+  showAcceptTermsAndConditions?: Value<boolean>
   termsAndConditions?: TNode
   showContainer?: Value<boolean>
 }
@@ -145,7 +143,7 @@ export interface SignInFormOptions {
   onSignIn?: (data: SignInData) => Promise<string | null>
   passwordRules?: PasswordRules
   labels?: SignInFormLabels
-  showRememberMe?: boolean
+  showRememberMe?: Value<boolean>
 }
 
 export interface SignUpFormLabels {
@@ -162,11 +160,11 @@ export interface SignUpFormOptions {
   passwordRules?: PasswordRules
   labels?: SignUpFormLabels
   onSignUp?: (data: SignUpData) => Promise<string | null>
-  showPasswordStrength?: boolean
+  showPasswordStrength?: Value<boolean>
   showAlreadyHaveAccountLink?: boolean
   showNameField?: boolean
-  showConfirmPassword?: boolean
-  showAcceptTermsAndConditions?: boolean
+  showConfirmPassword?: Value<boolean>
+  showAcceptTermsAndConditions?: Value<boolean>
   termsAndConditions?: TNode
 }
 

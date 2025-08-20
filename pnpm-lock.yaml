@@ -87,6 +87,9 @@ importers:
       '@tempots/ui':
         specifier: 6.6.3
         version: 6.6.3(@tempots/dom@28.6.3)(@tempots/std@0.22.1)
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
       ajv:
         specifier: ^8.17.1
         version: 8.17.1

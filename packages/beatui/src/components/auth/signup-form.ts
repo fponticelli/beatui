@@ -121,7 +121,7 @@ export function SignUpForm({
         }),
 
         // Password strength indicator
-        When(showPasswordStrength !== false, () =>
+        When(showPasswordStrength ?? false, () =>
           PasswordStrengthIndicator({
             password: passwordController.value,
             rules: passwordRules_,
@@ -130,7 +130,7 @@ export function SignUpForm({
         ),
 
         // Confirm password field
-        When(showConfirmPassword !== false, () =>
+        When(showConfirmPassword ?? false, () =>
           PasswordControl({
             controller: confirmPasswordController,
             label: coalesce(
@@ -141,7 +141,7 @@ export function SignUpForm({
         ),
 
         // Terms acceptance checkbox
-        When(showAcceptTermsAndConditions !== false, () =>
+        When(showAcceptTermsAndConditions ?? false, () =>
           html.div(
             attr.class('bc-auth-form__terms'),
             html.label(

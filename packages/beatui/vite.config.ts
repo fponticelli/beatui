@@ -18,9 +18,18 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        auth: resolve(__dirname, 'src/auth/index.ts'),
+        'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
+      },
       name: 'BeatUIFramework',
-      fileName: format => `index.${format}.js`,
+      fileName: (format, entryName) => {
+        if (entryName === 'auth' || entryName === 'json-schema') {
+          return `${entryName}/index.${format}.js`
+        }
+        return `${entryName}.${format}.js`
+      },
     },
     rollupOptions: {
       external: ['@tempots/dom', '@tempots/ui'],

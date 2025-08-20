@@ -105,7 +105,7 @@ export function SignInForm({
         }),
 
         // Remember me checkbox
-        When(showRememberMe !== false, () =>
+        When(showRememberMe ?? true, () =>
           html.div(
             attr.class('bc-auth-form__remember-me'),
             html.label(

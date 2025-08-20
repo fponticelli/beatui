@@ -12,6 +12,18 @@
       "require": "./dist/index.umd.js",
       "default": "./dist/index.es.js"
     },
+    "./auth": {
+      "types": "./dist/types/auth/index.d.ts",
+      "import": "./dist/auth/index.es.js",
+      "require": "./dist/auth/index.cjs.js",
+      "default": "./dist/auth/index.es.js"
+    },
+    "./json-schema": {
+      "types": "./dist/types/json-schema/index.d.ts",
+      "import": "./dist/json-schema/index.es.js",
+      "require": "./dist/json-schema/index.cjs.js",
+      "default": "./dist/json-schema/index.es.js"
+    },
     "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -115,6 +127,7 @@
     "vitest": "3.1.3"
   },
   "dependencies": {
+    "@types/json-schema": "^7.0.15",
     "ajv": "^8.17.1"
   }
 }

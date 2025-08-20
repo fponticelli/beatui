@@ -1,13 +1,12 @@
 import { html, attr, prop, When } from '@tempots/dom'
+import { Stack, Button } from '@tempots/beatui'
 import {
-  Stack,
   AuthContainer,
   AuthModal,
-  Button,
   SignInData,
   SignUpData,
   ResetPasswordData,
-} from '@tempots/beatui'
+} from '@tempots/beatui/auth'
 
 export const AuthenticationPage = () => {
   // Demo state
