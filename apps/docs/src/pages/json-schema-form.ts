@@ -30,7 +30,7 @@ export function JSONSchemaFormPage() {
       tags: { type: 'array', title: 'Tags', items: { type: 'string' } },
     },
     required: ['name'],
-  } as const
+  }
 
   const initial: Example = {
     name: 'Ada Lovelace',
@@ -50,7 +50,8 @@ export function JSONSchemaFormPage() {
         style.width('28rem'),
         html.h2(attr.class('bu-text-xl bu-font-semibold'), 'JSON Schema Form'),
         JSONSchemaForm<Example>({
-          schema,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          schema: schema as any,
           initialValue: initial,
           onChange: v => current.set(v),
         })
@@ -66,4 +67,3 @@ export function JSONSchemaFormPage() {
     ),
   })
 }
-

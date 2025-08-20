@@ -1,0 +1,14 @@
+@layer components {
+  .bc-monaco-editor-container {
+    min-height: 200px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .bc-monaco-editor-container .bc-input-container__input {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}

@@ -85,7 +85,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const incrementButton = buttons[1] as HTMLButtonElement // Second button is increment
+    const incrementButton = buttons[0] as HTMLButtonElement // First button is increment
 
     incrementButton.click()
 
@@ -114,7 +114,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const decrementButton = buttons[0] as HTMLButtonElement // First button is decrement
+    const decrementButton = buttons[1] as HTMLButtonElement // Second button is decrement
 
     decrementButton.click()
 
@@ -140,7 +140,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const decrementButton = buttons[0] as HTMLButtonElement
+    const decrementButton = buttons[1] as HTMLButtonElement
 
     expect(decrementButton.disabled).toBe(true)
   })
@@ -164,7 +164,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const incrementButton = buttons[1] as HTMLButtonElement
+    const incrementButton = buttons[0] as HTMLButtonElement
 
     expect(incrementButton.disabled).toBe(true)
   })
@@ -191,7 +191,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const incrementButton = buttons[1] as HTMLButtonElement
+    const incrementButton = buttons[0] as HTMLButtonElement
 
     incrementButton.click()
 
@@ -221,7 +221,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const incrementButton = buttons[1] as HTMLButtonElement
+    const incrementButton = buttons[0] as HTMLButtonElement
 
     incrementButton.click()
 
@@ -251,7 +251,7 @@ describe('NumberInput', () => {
     const buttons = container.querySelectorAll(
       '.bc-number-input-steppers .bc-button'
     )
-    const decrementButton = buttons[0] as HTMLButtonElement
+    const decrementButton = buttons[1] as HTMLButtonElement
 
     decrementButton.click()
 

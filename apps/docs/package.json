@@ -24,6 +24,8 @@
     "@tempots/dom": "28.6.3",
     "@tempots/std": "0.22.1",
     "@tempots/ui": "6.6.3",
+    "monaco-editor": "^0.52.2",
+    "monaco-yaml": "^5.4.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {

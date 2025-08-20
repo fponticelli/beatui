@@ -24,6 +24,12 @@
       "require": "./dist/json-schema/index.cjs.js",
       "default": "./dist/json-schema/index.es.js"
     },
+    "./monaco": {
+      "types": "./dist/types/monaco/index.d.ts",
+      "import": "./dist/monaco/index.es.js",
+      "require": "./dist/monaco/index.cjs.js",
+      "default": "./dist/monaco/index.es.js"
+    },
     "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -128,6 +134,8 @@
   },
   "dependencies": {
     "@types/json-schema": "^7.0.15",
-    "ajv": "^8.17.1"
+    "ajv": "^8.17.1",
+    "monaco-editor": "^0.52.2",
+    "monaco-yaml": "^5.4.0"
   }
 }

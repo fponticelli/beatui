@@ -22,17 +22,22 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         auth: resolve(__dirname, 'src/auth/index.ts'),
         'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
+        monaco: resolve(__dirname, 'src/monaco/index.ts'),
       },
       name: 'BeatUIFramework',
       fileName: (format, entryName) => {
-        if (entryName === 'auth' || entryName === 'json-schema') {
+        if (
+          entryName === 'auth' ||
+          entryName === 'json-schema' ||
+          entryName === 'monaco'
+        ) {
           return `${entryName}/index.${format}.js`
         }
         return `${entryName}.${format}.js`
       },
     },
     rollupOptions: {
-      external: ['@tempots/dom', '@tempots/ui'],
+      external: ['@tempots/dom', '@tempots/ui', 'monaco-editor', 'monaco-yaml'],
       output: {
         globals: {
           '@tempots/dom': 'TempoDom',

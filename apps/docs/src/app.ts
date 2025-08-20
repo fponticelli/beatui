@@ -29,6 +29,7 @@ import { ColorPickerPage } from './pages/color-picker'
 import { FileInputPage } from './pages/file-input'
 import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
 import { JSONSchemaFormPage } from './pages/json-schema-form'
+import { MonacoEditorPage } from './pages/monaco-editor'
 
 export const App = () => {
   return BeatUI(
@@ -64,6 +65,7 @@ export const App = () => {
         '/breakpoint': BreakpointPage,
         '/nine-slice-scroll-view': NineSliceScrollViewPage,
         '/json-schema-form': JSONSchemaFormPage,
+        '/monaco-editor': MonacoEditorPage,
         '/*': () => html.div('Not Found'),
       }),
     })
