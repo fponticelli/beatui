@@ -1,8 +1,10 @@
-import { Value } from '@tempots/dom'
+import { TNode, Value } from '@tempots/dom'
 import { ControlOptions } from './control-options'
 import { FileInput, FileInputMode } from '../input/file-input'
 import { Merge } from '@tempots/std'
-import { createControl } from './control-factory'
+import { ControlInputWrapper } from './control-input-wrapper'
+import { inputOptionsFromController } from '../input/input-options'
+import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 
 export type FileControlOptions = Merge<
   ControlOptions<File[]>,
@@ -16,4 +18,21 @@ export type FileControlOptions = Merge<
   }
 >
 
-export const FileControl = createControl(FileInput)
+export const FileControl = (
+  options: FileControlOptions,
+  ...children: TNode[]
+) => {
+  const { onBlur, onChange, ...rest } = options
+  return ControlInputWrapper(
+    {
+      ...rest,
+      content: FileInput({
+        ...rest,
+        ...inputOptionsFromController(rest.controller),
+        onChange: makeOnChangeHandler(rest.controller, onChange),
+        onBlur: makeOnBlurHandler(rest.controller, onBlur),
+      }),
+    },
+    ...children
+  )
+}

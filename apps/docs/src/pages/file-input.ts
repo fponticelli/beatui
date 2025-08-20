@@ -32,7 +32,7 @@ export function FileInputPage() {
         .array(z.instanceof(File))
         .max(1, 'Only one avatar file allowed'),
     }),
-    defaultValue: {
+    initialValue: {
       name: '',
       avatar: [],
     },
@@ -129,13 +129,11 @@ export function FileInputPage() {
 
           html.form(
             attr.class('bu-space-y-4'),
-
             TextControl({
               controller: controller.field('name'),
               placeholder: 'Enter your name',
               label: 'Name',
             }),
-
             FileControl({
               mode: 'compact',
               controller: controller.field('avatar'),

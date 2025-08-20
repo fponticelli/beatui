@@ -69,7 +69,7 @@ export function SignUpForm({
         form.controller.enable()
       },
     }),
-    defaultValue: {
+    initialValue: {
       name: '',
       email: '',
       password: '',

@@ -37,7 +37,7 @@ export const ColorPickerPage = () => {
         .string()
         .refine(isValidHexColor, 'Must be a valid hex color'),
     }),
-    defaultValue: {
+    initialValue: {
       primaryColor: '#3b82f6',
       secondaryColor: '#10b981',
       backgroundColor: '#ffffff',

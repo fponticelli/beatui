@@ -86,8 +86,8 @@ export const ComboboxPage = () => {
   ])
 
   // Form integration example
-  const formController = useController({
-    defaultValue: 'medium',
+  const { controller: formController } = useController({
+    initialValue: 'medium',
   })
 
   const sizeOptions = prop<ComboboxOption<string>[]>([

@@ -40,7 +40,7 @@ export const FormPage = () => {
         })
       ),
     }),
-    defaultValue: {
+    initialValue: {
       name: 'John Doe',
       favoriteColor: 'blue',
       delaySetting: 'off',

@@ -5,6 +5,7 @@ import {
   Fragment,
   on,
   prop,
+  Value,
 } from '@tempots/dom'
 import { StandardSchemaV1 } from './schema/standard-schema-v1'
 import {
@@ -18,12 +19,12 @@ import { Validation } from '@tempots/std'
 
 export interface UseFormOptions<T> {
   schema: StandardSchemaV1<T, T>
-  defaultValue?: T
+  initialValue?: Value<T>
   submit?: (value: T) => Promise<ControllerValidation>
 }
 
 export interface UseControllerOptions<T> {
-  defaultValue: T
+  initialValue: Value<T>
   onChange?: (value: T) => void
   validate?: (value: T) => Promise<ControllerValidation> | ControllerValidation
 }
@@ -33,11 +34,11 @@ export interface UseControllerOptions<T> {
  * The controller will be automatically disposed when the component unmounts.
  */
 export function useController<T>({
-  defaultValue,
+  initialValue,
   onChange,
   validate,
 }: UseControllerOptions<T>) {
-  const value = prop(defaultValue)
+  const value = Value.deriveProp(initialValue)
   const status = prop<ControllerValidation>(Validation.valid)
   const disabledSignal = prop(false)
 
@@ -195,12 +196,12 @@ export type UseFormResult<T> = {
 }
 
 export function useForm<T>({
-  defaultValue = {} as T,
+  initialValue = {} as Value<T>,
   schema,
   submit = async () => Validation.valid,
 }: UseFormOptions<T>): UseFormResult<T> {
   const { controller: baseController, setStatus } = useController({
-    defaultValue,
+    initialValue,
     validate: async v =>
       standardSchemaResultToValidation(await schema['~standard'].validate(v)),
   })

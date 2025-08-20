@@ -365,7 +365,7 @@ describe('Combobox', () => {
   describe('Form Integration', () => {
     it('should work with ComboboxControl', () => {
       const { controller } = useController({
-        defaultValue: '',
+        initialValue: '',
       })
 
       const options = prop<ComboboxOption<string>[]>([

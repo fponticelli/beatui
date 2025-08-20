@@ -46,7 +46,7 @@ export function ResetPasswordForm({
         form.controller.enable()
       },
     }),
-    defaultValue: {
+    initialValue: {
       email: '',
     },
   })

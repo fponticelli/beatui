@@ -59,7 +59,7 @@ export function SignInForm({
         form.controller.enable()
       },
     }),
-    defaultValue: {
+    initialValue: {
       email: '',
       password: '',
     },
