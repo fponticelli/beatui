@@ -1,4 +1,4 @@
-import { attr, html, prop, style, Value } from '@tempots/dom'
+import { attr, Fragment, html, prop, style, Value } from '@tempots/dom'
 import {
   ScrollablePanel,
   Stack,
@@ -99,43 +99,46 @@ console.log(hello)`,
 ]
 
 export function MonacoEditorPage() {
-  const selectedIndex = prop(0)
+  const selectedIndex = prop(1)
   const code = selectedIndex.map(i => samples[i].value).deriveProp()
   const language = selectedIndex.map(i => samples[i].language)
 
   return ScrollablePanel({
     body: Group(
-      attr.class('bu-items-start bu-gap-4 bu-p-4'),
-      Stack(
-        attr.class('bu-gap-3'),
-        style.width('42rem'),
-        html.h2(attr.class('bu-text-xl bu-font-semibold'), 'Monaco Editor'),
-        MonacoEditorInput({
-          value: code,
-          onChange: v => code.set(v),
-          language,
-          jsonSchemas: Value.map(personSchema, schema => [
-            {
-              uri: 'https://example.com/schemas/person.json',
-              fileMatch: ['*'],
-              schema,
-            },
-          ]),
-          yamlSchemas: Value.map(personSchema, schema => [
-            {
-              uri: 'https://example.com/schemas/person.yaml',
-              fileMatch: ['*'],
-              schema,
-            },
-          ]),
-        }),
-        NativeSelect({
-          options: samples.map((s, i) =>
-            SelectOption.value(i, s.label)
-          ) as SelectOption<number>[],
-          value: selectedIndex,
-          onChange: selectedIndex.set,
-        })
+      attr.class('bu-items-start bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+      ScrollablePanel(
+        {
+          header: Fragment(
+            NativeSelect({
+              options: samples.map((s, i) =>
+                SelectOption.value(i, s.label)
+              ) as SelectOption<number>[],
+              value: selectedIndex,
+              onChange: selectedIndex.set,
+            }),
+            html.br()
+          ),
+          body: MonacoEditorInput({
+            value: code,
+            onChange: v => code.set(v),
+            language,
+            jsonSchemas: Value.map(personSchema, schema => [
+              {
+                uri: 'https://example.com/schemas/person.json',
+                fileMatch: ['*'],
+                schema,
+              },
+            ]),
+            yamlSchemas: Value.map(personSchema, schema => [
+              {
+                uri: 'https://example.com/schemas/person.yaml',
+                fileMatch: ['*'],
+                schema,
+              },
+            ]),
+          }),
+        },
+        style.width('42rem')
       ),
       Stack(
         attr.class('bu-gap-2 bu-flex-1'),

@@ -18,12 +18,10 @@ export type ScrollablePanelOptions = {
   shadowOnScroll?: Value<boolean>
 }
 
-export function ScrollablePanel({
-  header,
-  footer,
-  body,
-  shadowOnScroll = true,
-}: ScrollablePanelOptions) {
+export function ScrollablePanel(
+  { header, footer, body, shadowOnScroll = true }: ScrollablePanelOptions,
+  ...children: TNode[]
+) {
   const scrollShadow = prop<'both' | 'top' | 'bottom' | 'none'>('none')
 
   function updateShadow(target: HTMLElement) {
@@ -75,7 +73,8 @@ export function ScrollablePanel({
       body
     ),
     html.div(attr.class('bc-scrollable-panel--footer-shadow'), html.div()),
-    footer && html.div(attr.class('bc-scrollable-panel__footer'), footer)
+    footer && html.div(attr.class('bc-scrollable-panel__footer'), footer),
+    ...children
   )
 
   return panelElement

@@ -37,7 +37,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ['@tempots/dom', '@tempots/ui', 'monaco-editor', 'monaco-yaml'],
+      external: ['@tempots/dom', '@tempots/ui', 'monaco-editor'],
       output: {
         globals: {
           '@tempots/dom': 'TempoDom',

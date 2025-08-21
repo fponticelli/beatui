@@ -13,7 +13,7 @@ import { debounce, Merge } from '@tempots/std'
 import './monaco-editor.css'
 import { Theme } from '../theme'
 import { MinimalEditor, MonacoEditorSpecificOptions } from '@/monaco/types'
-import { requireMonacoApi, loadMonacoYaml, setupMonacoEnvironment } from '@/monaco/loader'
+import { requireMonacoApi } from '@/monaco/loader'
 import { isMinimalMonaco } from '@/monaco/utils'
 
 export type MonacoEditorInputOptions = Merge<
@@ -42,7 +42,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
     readOnly = false,
     editorOptions,
     jsonSchemas,
-    yamlSchemas,
+
     autofocus,
     class: cls,
     disabled,
@@ -104,9 +104,8 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           disposers.push(
             effectOf(
               language,
-              jsonSchemas,
-              yamlSchemas
-            )(async (lang, schemasJson, schemasYaml) => {
+              jsonSchemas
+            )(async (lang, schemasJson) => {
               await ensureLanguage(lang)
               console.log(lang)
 
@@ -128,49 +127,13 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
                   options
                 )
               } else if (lang === 'yaml') {
-                // Load monaco-yaml from CDN
+                // Basic YAML syntax highlighting without monaco-yaml
+                // Monaco includes a YAML tokenizer in some distributions; if unavailable, fallback to plaintext.
                 try {
-                  // Ensure Monaco environment is set up for YAML workers
-                  setupMonacoEnvironment()
-                  
-                  const yamlMod: unknown = await loadMonacoYaml()
-                  console.log('[BeatUI] Loaded monaco-yaml module:', yamlMod)
-                  
-                  // Find the configureMonacoYaml function
-                  const mod = yamlMod as Record<string, unknown>
-                  let configureMonacoYaml: ((monaco: unknown, opts: unknown) => void) | undefined
-                  
-                  if (typeof mod?.configureMonacoYaml === 'function') {
-                    configureMonacoYaml = mod.configureMonacoYaml as (monaco: unknown, opts: unknown) => void
-                  } else if (mod?.default && typeof (mod.default as Record<string, unknown>)?.configureMonacoYaml === 'function') {
-                    configureMonacoYaml = (mod.default as Record<string, unknown>).configureMonacoYaml as (monaco: unknown, opts: unknown) => void
-                  }
-                  
-                  if (configureMonacoYaml) {
-                    const hasSchemas = !!(schemasYaml && schemasYaml.length)
-                    
-                    const options: Record<string, unknown> = {
-                      enableSchemaRequest: true,
-                      validate: true,
-                      completion: true,
-                      hover: true,
-                    }
-                    
-                    if (hasSchemas) {
-                      options.schemas = schemasYaml
-                    }
-                    
-                    // Note: monaco-yaml uses enableSchemaRequest for remote schema loading
-                    // Custom schemaRequest functions are not directly supported
-                    
-                    console.log('[BeatUI] Configuring monaco-yaml with options:', options)
-                    configureMonacoYaml(monaco, options)
-                  } else {
-                    console.warn('[BeatUI] monaco-yaml loaded but configureMonacoYaml not found')
-                  }
-                } catch (error) {
-                  console.warn('[BeatUI] YAML support not available:', error)
-                }
+                  monaco.languages?.register?.({ id: 'yaml' } as unknown as {
+                    id: string
+                  })
+                } catch {}
               }
 
               const model = editor.getModel()
@@ -245,7 +208,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
             console.warn('[BeatUI] Monaco editor not available:', err)
             const el = container as HTMLElement
             el.textContent =
-              'Monaco Editor not available. Please install monaco-editor (and monaco-yaml for YAML) in your app to enable this component.'
+              'Monaco Editor not available. Please install monaco-editor in your app to enable this component.'
           } catch {}
         })
 

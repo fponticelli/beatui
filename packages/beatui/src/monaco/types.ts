@@ -18,9 +18,9 @@ export type MinimalMonaco = {
   }
   languages?: {
     json?: { jsonDefaults: { setDiagnosticsOptions: (opts: unknown) => void } }
+    register?: (lang: { id: string }) => void
   }
 }
-
 
 export type MonacoLanguage =
   | 'plaintext'
@@ -39,13 +39,10 @@ export type MonacoJSONSchema = {
   schema: any
 }
 
-export type MonacoYAMLSchema = MonacoJSONSchema
-
 export type MonacoEditorSpecificOptions = {
   language?: Value<MonacoLanguage>
   editorOptions?: Record<string, unknown>
   jsonSchemas?: Value<MonacoJSONSchema[]> | undefined
-  yamlSchemas?: Value<MonacoYAMLSchema[]> | undefined
   readOnly?: Value<boolean>
   // Optional fetcher for external schemas (used for YAML via schemaRequestService and JSON via prefetch)
   schemaRequest?:

@@ -33,7 +33,6 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
       },
-      external: ['monaco-editor', 'monaco-yaml'],
     },
   },
   resolve: {
@@ -55,14 +54,5 @@ export default defineConfig({
   },
   preview: {
     port: 3001,
-  },
-  optimizeDeps: {
-    include: ['monaco-editor/esm/vs/editor/editor.api', 'monaco-yaml'],
-    exclude: [
-      '@tempots/beatui',
-      '@tempots/beatui/monaco',
-      '@tempots/beatui/json-schema',
-      '@tempots/beatui/auth',
-    ],
   },
 })

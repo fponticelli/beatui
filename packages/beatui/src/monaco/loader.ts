@@ -1,4 +1,4 @@
-import { MONACO_CDN_BASE, MONACO_YAML_CDN, MONACO_YAML_VERSION } from './config'
+import { MONACO_CDN_BASE } from './config'
 import { isMinimalMonaco } from './utils'
 
 export function setupMonacoEnvironment() {
@@ -15,42 +15,26 @@ export function setupMonacoEnvironment() {
     return
   }
 
-  const getWorkerBlobUrl = (moduleId: string, label: string) => {
-    // Handle different worker types
-    let workerScript = ''
-
-    // Detect YAML workers reliably via label or moduleId
-    const isYaml =
-      label === 'yaml' ||
-      moduleId.includes('yaml') ||
-      moduleId.includes('monaco-yaml')
-
-    if (isYaml) {
-      // For YAML workers, load directly from monaco-yaml package (bypass Monaco's workerMain)
-      workerScript = `importScripts('https://cdn.jsdelivr.net/npm/monaco-yaml@${MONACO_YAML_VERSION}/yaml.worker.js');`
-    } else {
-      // For standard Monaco workers
-      workerScript = [
-        `self.MonacoEnvironment = { baseUrl: '${MONACO_CDN_BASE}' };`,
-        `importScripts('${MONACO_CDN_BASE}vs/base/worker/workerMain.js');`,
-      ].join('\n')
-    }
+  const getMonacoWorker = () => {
+    // For standard Monaco workers
+    const workerScript = [
+      `self.MonacoEnvironment = { baseUrl: '${MONACO_CDN_BASE}' };`,
+      `importScripts('${MONACO_CDN_BASE}vs/base/worker/workerMain.js');`,
+    ].join('\n')
 
     const blob = new Blob([workerScript], { type: 'text/javascript' })
     return URL.createObjectURL(blob)
   }
 
-  ;;(
+  ;(
     self as unknown as {
       MonacoEnvironment: {
         getWorker: (moduleId: string, label: string) => Worker
       }
     }
   ).MonacoEnvironment = {
-    getWorker(moduleId: string, label: string) {
-      const url = getWorkerBlobUrl(moduleId, label)
-      // Use a classic worker so importScripts() is allowed
-      return new Worker(url, { type: 'classic' })
+    getWorker(_moduleId: string, _label: string) {
+      return new Worker(getMonacoWorker(), { type: 'classic' })
     },
   }
 }
@@ -158,6 +142,9 @@ export const requireMonacoApi = async (): Promise<unknown> => {
     return w.monaco
   }
 
+  // Ensure Monaco workers are configured before loading editor.main
+  setupMonacoEnvironment()
+
   // Load Monaco via AMD from CDN
   // Use editor.main which is the actual entry point
   await amdRequire(['vs/editor/editor.main'])
@@ -170,38 +157,4 @@ export const requireMonacoApi = async (): Promise<unknown> => {
   // Store reference and return
   const monaco = w.monaco
   return monaco
-}
-
-// Extended window type for monaco-yaml
-type WindowWithMonacoYaml = WindowWithRequire & {
-  monacoYaml?: unknown
-}
-
-// Load monaco-yaml from CDN
-export const loadMonacoYaml = async (): Promise<unknown> => {
-  const w = window as unknown as WindowWithMonacoYaml
-
-  // Check if monaco-yaml is already loaded
-  if (w.monacoYaml) {
-    return w.monacoYaml
-  }
-
-  // Ensure Monaco is loaded first
-  if (!w.monaco) {
-    await requireMonacoApi()
-  }
-
-  // Load monaco-yaml as an ES module from CDN
-  try {
-    // Dynamic import with vite-ignore comment
-    const yamlModule = await import(/* @vite-ignore */ MONACO_YAML_CDN)
-
-    // Store globally for reuse
-    w.monacoYaml = yamlModule
-
-    return yamlModule
-  } catch (error) {
-    console.error('[BeatUI] Failed to load monaco-yaml from CDN:', error)
-    throw error
-  }
 }
