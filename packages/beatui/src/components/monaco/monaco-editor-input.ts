@@ -107,7 +107,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
               jsonSchemas
             )(async (lang, schemasJson) => {
               await ensureLanguage(lang)
-              console.log(lang)
 
               if (lang === 'json') {
                 const fetcher =
