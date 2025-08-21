@@ -45,13 +45,16 @@ export function MilkdownEditorPage() {
             autofocus: true,
           }),
         },
-        style.width('42rem')
+        style.minWidth('42rem'),
+        style.maxWidth('42rem')
       ),
       Stack(
+        style.minWidth('42rem'),
+        style.maxWidth('42rem'),
         attr.class('bu-flex-1 bu-gap-2'),
         html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Current Value'),
         html.pre(
-          attr.class('bu-whitespace-pre-wrap'),
+          attr.class('bu-overflow-y-auto'),
           markdown.map(v => String(v))
         )
       )

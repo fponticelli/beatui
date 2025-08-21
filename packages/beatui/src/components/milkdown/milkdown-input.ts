@@ -35,8 +35,7 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
     disabled,
     autofocus = false, // not supported by Crepe API directly
     readOnly = false,
-    featureConfigs,
-    features,
+    placeholder,
   } = options
 
   const ro = Value.toSignal(readOnly)
@@ -60,9 +59,25 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
           const cfg: Record<string, unknown> = {
             root: container as unknown as HTMLElement,
             defaultValue: Value.get(value) ?? '',
+            features: {
+              [Crepe.Feature.CodeMirror]: false,
+              [Crepe.Feature.Latex]: false,
+              [Crepe.Feature.BlockEdit]: true,
+              [Crepe.Feature.Cursor]: true,
+              [Crepe.Feature.ImageBlock]: true,
+              [Crepe.Feature.LinkTooltip]: true,
+              [Crepe.Feature.ListItem]: true,
+              [Crepe.Feature.Placeholder]: true,
+              [Crepe.Feature.Table]: true,
+              [Crepe.Feature.Toolbar]: true,
+            },
+            featuresConfig: {
+              [Crepe.Feature.Toolbar]: {},
+              [Crepe.Feature.Placeholder]: {
+                placeholder: Value.get(placeholder ?? '...'),
+              },
+            },
           }
-          if (features) cfg.features = features
-          if (featureConfigs) cfg.featureConfigs = featureConfigs
 
           const crepe = new Crepe(cfg)
           disposers.push(() => crepe.destroy())
