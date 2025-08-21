@@ -6,6 +6,7 @@ import {
   html,
   Use,
   Value,
+  computedOf,
 } from '@tempots/dom'
 import { ArrayController } from '../controller/controller'
 import { ControlInputWrapper } from './control-input-wrapper'
@@ -125,10 +126,10 @@ export const ListControl = <T>(
         isAside,
         () =>
           Group(
-            attr.class('bu-gap-2 bu-items-start'),
+            attr.class('bu-gap-1 bu-items-center'),
             Stack(attr.class('bu-flex-grow'), content),
             Stack(
-              attr.class('bu-gap-1 bu-items-center'),
+              attr.class('bu-items-center'),
               When(
                 options.controller.value.map(v => v.length > 1),
                 () => moveButtons
@@ -153,28 +154,29 @@ export const ListControl = <T>(
       )
   }
 
-  const addToolbar =
-    showAdd && createItem
-      ? Group(
-          attr.class('bu-gap-2 bu-items-center bu-justify-center'),
-          Button(
-            {
-              size: 'sm',
-              variant: 'filled',
-              onClick: () =>
-                (rest.controller as ArrayController<T[]>).push(createItem()),
-              disabled: (rest.controller as ArrayController<T[]>).disabled,
-            },
-            Use(BeatUII18n, t =>
-              Group(
-                attr.class('bu-gap-2'),
-                Icon({ icon: 'line-md:plus' }),
-                addLabel ?? t.$.addLabel
-              )
+  const AddToolbar = When(
+    computedOf(showAdd, createItem)((show, create) => show && create != null),
+    () =>
+      Group(
+        attr.class('bu-gap-2 bu-items-center bu-justify-center'),
+        Button(
+          {
+            size: 'sm',
+            variant: 'filled',
+            onClick: () =>
+              (rest.controller as ArrayController<T[]>).push(createItem!()),
+            disabled: (rest.controller as ArrayController<T[]>).disabled,
+          },
+          Use(BeatUII18n, t =>
+            Group(
+              attr.class('bu-gap-2'),
+              Icon({ icon: 'line-md:plus' }),
+              addLabel ?? t.$.addLabel
             )
           )
         )
-      : null
+      )
+  )
 
   return ControlInputWrapper(
     {
@@ -189,7 +191,7 @@ export const ListControl = <T>(
           },
           separator
         ),
-        addToolbar
+        AddToolbar
       ),
     },
     ...children

@@ -226,6 +226,7 @@ export function JSONSchemaArray({
   // TODO unevaluatedItems
   return ListControl({
     ...definitionToInputWrapperOptions({ ctx }),
+    createItem: () => makePlaceholder(ctx.definition, () => undefined),
     controller,
     element: payload => {
       const item = payload.item as Controller<unknown>
@@ -260,7 +261,7 @@ export function JSONSchemaObject({
   // TODO missing properties
 
   return Stack(
-    attr.class('bu-gap-2'),
+    attr.class('bu-gap-1'),
     ...objectEntries(ctx.definition.properties ?? {}).map(([k, value]) => {
       const key = k as string
       const field = controller.field(key)
