@@ -23,13 +23,15 @@ export default defineConfig({
         auth: resolve(__dirname, 'src/auth/index.ts'),
         'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
+        milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
       },
       name: 'BeatUIFramework',
       fileName: (format, entryName) => {
         if (
           entryName === 'auth' ||
           entryName === 'json-schema' ||
-          entryName === 'monaco'
+          entryName === 'monaco' ||
+          entryName === 'milkdown'
         ) {
           return `${entryName}/index.${format}.js`
         }

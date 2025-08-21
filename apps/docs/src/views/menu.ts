@@ -42,7 +42,8 @@ export function Menu() {
         SidebarLink({ href: '/editable-text', content: Todo('Editable Text') }),
         SidebarLink({ href: '/form', content: 'Form' }),
         SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' }),
-        SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' })
+        SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
+        SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' })
       ),
       // Navigation
       SidebarGroup(

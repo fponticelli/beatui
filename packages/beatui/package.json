@@ -30,6 +30,12 @@
       "require": "./dist/monaco/index.cjs.js",
       "default": "./dist/monaco/index.es.js"
     },
+    "./milkdown": {
+      "types": "./dist/types/milkdown/index.d.ts",
+      "import": "./dist/milkdown/index.es.js",
+      "require": "./dist/milkdown/index.cjs.js",
+      "default": "./dist/milkdown/index.es.js"
+    },
     "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -137,7 +143,10 @@
     "vitest": "3.1.3"
   },
   "dependencies": {
+    "@milkdown/crepe": "^7.15.3",
+    "@milkdown/kit": "^7.15.3",
     "@types/json-schema": "^7.0.15",
-    "ajv": "^8.17.1"
+    "ajv": "^8.17.1",
+    "katex": "^0.16.22"
   }
 }

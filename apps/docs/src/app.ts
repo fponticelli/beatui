@@ -30,6 +30,7 @@ import { FileInputPage } from './pages/file-input'
 import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
 import { JSONSchemaFormPage } from './pages/json-schema-form'
 import { MonacoEditorPage } from './pages/monaco-editor'
+import { MilkdownEditorPage } from './pages/milkdown-editor'
 
 export const App = () => {
   return BeatUI(
@@ -66,6 +67,7 @@ export const App = () => {
         '/nine-slice-scroll-view': NineSliceScrollViewPage,
         '/json-schema-form': JSONSchemaFormPage,
         '/monaco-editor': MonacoEditorPage,
+        '/milkdown-editor': MilkdownEditorPage,
         '/*': () => html.div('Not Found'),
       }),
     })

@@ -22,6 +22,10 @@ const beatuiPaths = {
     beatuiRoot,
     distExists ? 'dist/monaco/index.es.js' : 'src/monaco/index.ts'
   ),
+  milkdown: resolve(
+    beatuiRoot,
+    distExists ? 'dist/milkdown/index.es.js' : 'src/milkdown/index.ts'
+  ),
 }
 
 export default defineConfig({
@@ -40,6 +44,7 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
       '@tempots/beatui/css': beatuiPaths.css,
       '@tempots/beatui/monaco': beatuiPaths.monaco,
+      '@tempots/beatui/milkdown': beatuiPaths.milkdown,
       '@tempots/beatui/json-schema': beatuiPaths.jsonSchema,
       '@tempots/beatui/auth': beatuiPaths.auth,
       '@tempots/beatui': beatuiPaths.main,
