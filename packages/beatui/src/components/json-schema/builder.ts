@@ -13,9 +13,9 @@ import {
   TextControl,
   useController,
 } from '../form'
-import { attr, TNode, Value, WithElement } from '@tempots/dom'
+import { attr, html, TNode, Value, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
-import { objectEntries, Validation } from '@tempots/std'
+import { objectEntries, Result, Validation } from '@tempots/std'
 import Ajv, { type ErrorObject } from 'ajv'
 
 export class SchemaContext {
@@ -104,7 +104,7 @@ export function JSONSchemaNever({
   ctx: SchemaContext
   controller: Controller<never>
 }): TNode {
-  console.log(ctx, controller)
+  console.warn(ctx, controller)
   // TODO
   throw new Error('Not implemented: never')
 }
@@ -248,7 +248,6 @@ export function JSONSchemaObject({
   ctx: SchemaContext
   controller: ObjectController<{ [key: string]: unknown }>
 }): TNode {
-  console.log(ctx, controller)
   // TODO minProperties
   // TODO maxProperties
   // TODO patternProperties
@@ -282,7 +281,7 @@ export function JSONSchemaUnion<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): TNode {
-  console.log(ctx, controller)
+  console.warn(ctx, controller)
   // TODO
   throw new Error('Not implemented: union')
 }
@@ -448,6 +447,14 @@ export function ajvErrorsToControllerValidation(
   })
 }
 
+function compileSchema(schema: JSONSchema7Definition, ajv: Ajv) {
+  try {
+    return Result.success(ajv.compile(schema))
+  } catch (e) {
+    return Result.failure((e as Error).message ?? 'Failed to compile schema')
+  }
+}
+
 export function JSONSchemaForm<T>({
   schema,
   initialValue,
@@ -460,17 +467,23 @@ export function JSONSchemaForm<T>({
   ajv?: Ajv
 }): TNode {
   const ajv = maybeAjv ?? new Ajv({ allErrors: true })
-  const validate = ajv.compile<T>(schema)
-  const { controller } = useController({
-    initialValue,
-    validate: (value: T) => {
-      const result = validate(value)
-      if (result) {
-        return Validation.valid
-      }
-      return ajvErrorsToControllerValidation(validate.errors ?? [])
+  const result = compileSchema(schema, ajv)
+  return Result.match(
+    result,
+    validate => {
+      const { controller } = useController({
+        initialValue,
+        validate: (value: T) => {
+          const result = validate(value)
+          if (result) {
+            return Validation.valid
+          }
+          return ajvErrorsToControllerValidation(validate.errors ?? [])
+        },
+        onChange,
+      })
+      return JSONSchemaControl({ schema, controller })
     },
-    onChange,
-  })
-  return JSONSchemaControl({ schema, controller })
+    error => html.div(attr.class('bu-text-red-600'), error)
+  )
 }
