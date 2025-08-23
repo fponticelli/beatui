@@ -1,4 +1,99 @@
 import type * as MonacoTypes from 'monaco-editor'
+// AMD + CDN loader (no bundler config required)
+const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/'
+
+type WindowWithRequire = Window & {
+  require?: {
+    (
+      deps: string[],
+      onLoad: (...mods: unknown[]) => void,
+      onError?: (err: unknown) => void
+    ): void
+    config?: (cfg: Record<string, unknown>) => void
+  }
+  monaco?: unknown
+}
+
+const isMinimalMonaco = (m: unknown): boolean => {
+  if (!m || typeof m !== 'object') return false
+  const o = m as { editor?: { create?: unknown }; languages?: unknown }
+  return !!(o.editor && typeof o.editor.create === 'function' && o.languages)
+}
+
+function setupMonacoEnvironment() {
+  if (typeof self === 'undefined') return
+  const env = (self as unknown as { MonacoEnvironment?: unknown }).MonacoEnvironment as
+    | { getWorkerUrl?: unknown; getWorker?: unknown }
+    | undefined
+  if (env && (typeof env.getWorkerUrl === 'function' || typeof env.getWorker === 'function')) {
+    return
+  }
+  const getMonacoWorker = () => {
+    const workerScript = [
+      `self.MonacoEnvironment = { baseUrl: '${MONACO_CDN_BASE}' };`,
+      `importScripts('${MONACO_CDN_BASE}vs/base/worker/workerMain.js');`,
+    ].join('\n')
+    const blob = new Blob([workerScript], { type: 'text/javascript' })
+    return URL.createObjectURL(blob)
+  }
+  ;(self as unknown as { MonacoEnvironment: { getWorker: (moduleId: string, label: string) => Worker } }).MonacoEnvironment = {
+    getWorker(_moduleId: string, _label: string) {
+      return new Worker(getMonacoWorker(), { type: 'classic' })
+    },
+  }
+}
+
+const loadScript = (src: string): Promise<void> =>
+  new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`)
+    if (existing) return resolve()
+    const s = document.createElement('script')
+    s.src = src
+    s.async = true
+    const nonce = document.querySelector('script[nonce]')?.getAttribute('nonce')
+    if (nonce) s.setAttribute('nonce', nonce)
+    s.onload = () => resolve()
+    s.onerror = ev => {
+      console.error('[BeatUI] Failed to load script', src, ev)
+      reject(new Error(`Failed to load script ${src}`))
+    }
+    document.head.appendChild(s)
+  })
+
+const ensureAmdLoader = async () => {
+  const w = window as unknown as WindowWithRequire
+  if (!w.require || !w.require.config) {
+    await loadScript(`${MONACO_CDN_BASE}vs/loader.js`)
+    await new Promise(resolve => setTimeout(resolve, 100))
+    if (!w.require) throw new Error('AMD loader failed to initialize')
+  }
+  w.require!.config?.({ baseUrl: MONACO_CDN_BASE, paths: { vs: 'vs' } })
+  return w.require!
+}
+
+const requireMonacoApi = async (): Promise<unknown> => {
+  const w = window as unknown as WindowWithRequire
+  if (w.monaco && isMinimalMonaco(w.monaco)) return w.monaco
+  setupMonacoEnvironment()
+  const req = await ensureAmdLoader()
+  await new Promise<void>((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('Timeout loading editor.main')), 30000)
+    try {
+      req(['vs/editor/editor.main'], () => {
+        clearTimeout(timeout)
+        resolve()
+      }, err => {
+        clearTimeout(timeout)
+        reject(err)
+      })
+    } catch (e) {
+      clearTimeout(timeout)
+      reject(e)
+    }
+  })
+  if (!w.monaco) throw new Error('Monaco failed to initialize after loading editor.main')
+  return w.monaco
+}
 
 // Cache for loaded Monaco instance
 let monacoCache: typeof MonacoTypes | null = null
@@ -17,14 +112,15 @@ export async function loadMonacoCore(): Promise<typeof MonacoTypes> {
 
   // Configure workers before loading Monaco
   if (!workersConfigured && typeof window !== 'undefined') {
-    configureMonacoWorkers()
+    setupMonacoEnvironment()
     workersConfigured = true
   }
 
-  // Lazy import core Monaco editor
-  const monaco = await import('monaco-editor')
-  monacoCache = monaco
-  return monaco
+  // Load Monaco via AMD from CDN so consumers need no bundler config
+  const monacoGlobal =
+    (await requireMonacoApi()) as unknown as typeof MonacoTypes
+  monacoCache = monacoGlobal
+  return monacoGlobal
 }
 
 // Language-specific loaders
@@ -93,7 +189,10 @@ export async function loadLanguageFeatures(language: string): Promise<void> {
         // Register YAML language if not already registered
         const languages = monaco.languages.getLanguages()
         if (!languages.some(lang => lang.id === 'yaml')) {
-          monaco.languages.register({ id: 'yaml', extensions: ['.yml', '.yaml'] })
+          monaco.languages.register({
+            id: 'yaml',
+            extensions: ['.yml', '.yaml'],
+          })
         }
         break
       }
@@ -149,52 +248,6 @@ export async function loadMonacoWithLanguage(
   return monaco
 }
 
-// Configure Monaco workers
-function configureMonacoWorkers(): void {
-  // Only configure if we're in a browser environment
-  if (typeof window === 'undefined') return
-
-  // Check if already configured
-  const win = window as Window & { MonacoEnvironment?: unknown }
-  if (win.MonacoEnvironment) return
-
-  // Configure Monaco workers with a simple blob-based approach
-  // This avoids bundler-specific syntax and works universally
-  win.MonacoEnvironment = {
-    getWorker: function (_workerId: string, _label: string) {
-      // Create a simple worker that does basic message handling
-      // Monaco will handle most of the work internally
-      const workerCode = `
-        // Basic worker for Monaco editor
-        let monacoWorker;
-        
-        self.addEventListener('message', async (event) => {
-          const { data } = event;
-          
-          // Handle initialization
-          if (data && data.type === 'init') {
-            // Worker is ready
-            self.postMessage({ type: 'ready' });
-            return;
-          }
-          
-          // Forward other messages to Monaco's internal handler if available
-          if (monacoWorker && monacoWorker.onmessage) {
-            monacoWorker.onmessage(event);
-          }
-        });
-        
-        // Signal that worker is loaded
-        self.postMessage({ type: 'loaded' });
-      `;
-      
-      const blob = new Blob([workerCode], { type: 'application/javascript' })
-      const workerUrl = URL.createObjectURL(blob)
-      return new Worker(workerUrl)
-    },
-  }
-}
-
 // Helper to configure Monaco environment (for consumers who want custom workers)
 export function configureMonacoEnvironment(
   getWorkerFn?: (workerId: string, label: string) => Worker
@@ -203,7 +256,7 @@ export function configureMonacoEnvironment(
   if (typeof window === 'undefined') return
 
   const win = window as Window & { MonacoEnvironment?: unknown }
-  
+
   // If custom worker function provided, use it
   if (getWorkerFn) {
     win.MonacoEnvironment = {
@@ -211,8 +264,8 @@ export function configureMonacoEnvironment(
     }
     workersConfigured = true
   } else if (!win.MonacoEnvironment) {
-    // Otherwise use default configuration
-    configureMonacoWorkers()
+    // Otherwise set up default AMD worker environment via setupMonacoEnvironment
+    setupMonacoEnvironment()
     workersConfigured = true
   }
 }

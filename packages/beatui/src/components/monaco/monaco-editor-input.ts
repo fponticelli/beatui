@@ -21,7 +21,6 @@ export type MonacoEditorInputOptions = Merge<
   MonacoEditorSpecificOptions
 >
 
-
 /**
  * MonacoEditorInput mounts a Monaco editor in an InputContainer and wires its value to BeatUI inputs.
  * Note: This component dynamically imports 'monaco-editor' at runtime and does not include it in the main bundle.
@@ -71,7 +70,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           try {
             // Get initial language for loading appropriate features
             const initialLanguage = Value.get(language) ?? 'plaintext'
-            
+
             // Load Monaco with language-specific features
             const monaco = await loadMonacoWithLanguage(initialLanguage)
 
