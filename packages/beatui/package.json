@@ -147,6 +147,7 @@
     "@milkdown/kit": "^7.15.3",
     "@types/json-schema": "^7.0.15",
     "ajv": "^8.17.1",
-    "katex": "^0.16.22"
+    "katex": "^0.16.22",
+    "monaco-editor": "^0.52.2"
   }
 }

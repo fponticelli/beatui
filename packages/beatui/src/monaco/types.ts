@@ -1,27 +1,5 @@
 import { Value } from '@tempots/dom'
 
-export type MinimalEditor = {
-  focus(): unknown
-  getValue: () => string
-  setValue: (v: string) => void
-  updateOptions: (opts: Record<string, unknown>) => void
-  getModel: () => unknown
-  onDidChangeModelContent: (cb: () => void) => { dispose: () => void }
-  onDidBlurEditorText: (cb: () => void) => { dispose: () => void }
-  dispose: () => void
-}
-
-export type MinimalMonaco = {
-  editor: {
-    create: (el: HTMLElement, opts: Record<string, unknown>) => MinimalEditor
-    setModelLanguage: (model: unknown, lang: string) => void
-  }
-  languages?: {
-    json?: { jsonDefaults: { setDiagnosticsOptions: (opts: unknown) => void } }
-    register?: (lang: { id: string }) => void
-  }
-}
-
 export type MonacoLanguage =
   | 'plaintext'
   | 'json'

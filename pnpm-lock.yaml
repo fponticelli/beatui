@@ -108,6 +108,9 @@ importers:
       katex:
         specifier: ^0.16.22
         version: 0.16.22
+      monaco-editor:
+        specifier: ^0.52.2
+        version: 0.52.2
     devDependencies:
       '@testing-library/dom':
         specifier: 10.4.0
