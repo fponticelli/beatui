@@ -9,7 +9,7 @@ import {
   ObjectController,
   TextControl,
 } from '../form'
-import { attr, TNode, WithElement } from '@tempots/dom'
+import { attr, html, TNode, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
 import { objectEntries } from '@tempots/std'
 import { SchemaContext } from './context'
@@ -22,9 +22,11 @@ export function JSONSchemaAny({
   controller: Controller<unknown>
 }): TNode {
   return JSONSchemaUnion({
-    ctx: ctx.withDefinition({
-      ...ctx.definition,
-      type: ['string', 'number', 'object', 'array', 'boolean', 'null'],
+    ctx: ctx.with({
+      definition: {
+        ...ctx.definition,
+        type: ['string', 'number', 'object', 'array', 'boolean', 'null'],
+      },
     }),
     controller: controller as unknown as Controller<unknown>,
   })
@@ -114,9 +116,13 @@ export function JSONSchemaInteger({
   controller: Controller<number>
 }): TNode {
   return JSONSchemaNumber({
-    ctx: ctx.withDefinition({
-      ...(ctx.definition as JSONSchema7),
-      multipleOf: integerMultipleOf((ctx.definition as JSONSchema7).multipleOf),
+    ctx: ctx.with({
+      definition: {
+        ...(ctx.definition as JSONSchema7),
+        multipleOf: integerMultipleOf(
+          (ctx.definition as JSONSchema7).multipleOf
+        ),
+      },
     }),
     controller,
   })
@@ -179,7 +185,7 @@ export function JSONSchemaArray({
         ? d.items[payload.position.index]
         : (d.items ?? {})
       return JSONSchemaGenericControl({
-        ctx: ctx.withDefinition(definition as JSONSchema7Definition),
+        ctx: ctx.with({ definition: definition as JSONSchema7 }),
         controller: item,
       })
     },
@@ -200,11 +206,11 @@ export function JSONSchemaObject({
         const key = k as string
         const field = controller.field(key)
         return JSONSchemaGenericControl({
-          ctx: ctx
-            .withDefinition(value as JSONSchema7Definition)
-            .withRequired(
-              (ctx.definition as JSONSchema7).required?.includes(key) ?? false
-            ),
+          ctx: ctx.with({
+            definition: value as JSONSchema7,
+            required:
+              (ctx.definition as JSONSchema7).required?.includes(key) ?? false,
+          }),
           controller: field,
         })
       }
@@ -272,8 +278,8 @@ export function JSONSchemaGenericControl<T>({
             ? (controller as unknown as ArrayController<unknown[]>)
             : (controller.array() as unknown as ArrayController<unknown[]>),
       })
-    case 'object':
-      return JSONSchemaObject({
+    case 'object': {
+      const schema = JSONSchemaObject({
         ctx,
         controller: (controller instanceof ObjectController
           ? controller
@@ -283,6 +289,11 @@ export function JSONSchemaGenericControl<T>({
           [key: string]: unknown
         }>,
       })
+      if (ctx.isRoot) {
+        return schema
+      }
+      return html.div(attr.class('bc-json-schema-object'), schema)
+    }
     case 'null':
       return JSONSchemaNull({
         ctx,
@@ -300,7 +311,13 @@ export function JSONSchemaControl<T>({
   schema: JSONSchema7Definition
   controller: Controller<T>
 }): TNode {
-  const ctx = new SchemaContext(schema, undefined, false, true)
+  const ctx = new SchemaContext({
+    schema,
+    definition: undefined,
+    horizontal: false,
+    required: true,
+    isRoot: true,
+  })
   if (schema === true) {
     return JSONSchemaAny({ ctx, controller: controller as Controller<unknown> })
   }

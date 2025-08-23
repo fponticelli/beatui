@@ -102,7 +102,6 @@ export function JSONSchemaFormPage() {
         attr.class('bu-gap-2 bu-h-full bu-overflow-hidden'),
         style.width('50%'),
         ScrollablePanel({
-          header: html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Form'),
           body: Ensure(
             schemaDef,
             schema =>
@@ -121,17 +120,15 @@ export function JSONSchemaFormPage() {
               )
           ),
         }),
-        html.hr(),
-        ScrollablePanel({
-          header: html.h3(
-            attr.class('bu-text-lg bu-font-semibold'),
-            'Live Value'
-          ),
-          body: html.pre(
-            attr.class('bu-whitespace-pre-wrap bu-text-sm'),
-            current.map(v => JSON.stringify(v, null, 2))
-          ),
-        })
+        ScrollablePanel(
+          {
+            body: html.pre(
+              attr.class('bu-whitespace-pre-wrap bu-text-sm'),
+              current.map(v => JSON.stringify(v, null, 2))
+            ),
+          },
+          style.height('50%')
+        )
       )
     ),
   })

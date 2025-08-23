@@ -1,16 +1,21 @@
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
 
+export type SchemaContextOptions = {
+  schema: JSONSchema7Definition
+  definition?: JSONSchema7
+  horizontal: boolean
+  required: boolean
+  isRoot: boolean
+}
+
 export class SchemaContext {
   readonly schema: JSONSchema7Definition
   readonly definition: JSONSchema7
   readonly horizontal: boolean
   readonly required: boolean
-  constructor(
-    schema: JSONSchema7Definition,
-    definition: JSONSchema7 | undefined,
-    horizontal: boolean,
-    required: boolean
-  ) {
+  readonly isRoot: boolean
+  constructor(options: SchemaContextOptions) {
+    const { schema, definition, horizontal, required, isRoot } = options
     this.schema = schema
     this.definition =
       typeof definition === 'undefined'
@@ -20,24 +25,16 @@ export class SchemaContext {
         : definition
     this.horizontal = horizontal
     this.required = required
+    this.isRoot = isRoot
   }
 
-  readonly withDefinition = (definition: JSONSchema7Definition) => {
-    if (definition === true) {
-      return new SchemaContext(
-        true,
-        {} as JSONSchema7,
-        this.horizontal,
-        this.required
-      )
-    }
-    if (definition === false) {
-      throw new Error('Not implemented: false schema')
-    }
-    return new SchemaContext(this.schema, definition, this.horizontal, false)
+  readonly with = (options: Partial<SchemaContextOptions>) => {
+    return new SchemaContext({
+      schema: options.schema ?? this.schema,
+      definition: options.definition ?? this.definition,
+      horizontal: options.horizontal ?? this.horizontal,
+      required: options.required ?? this.required,
+      isRoot: options.isRoot ?? false,
+    })
   }
-  readonly withHorizontal = (horizontal: boolean) =>
-    new SchemaContext(this.schema, this.definition, horizontal, false)
-  readonly withRequired = (required: boolean) =>
-    new SchemaContext(this.schema, this.definition, this.horizontal, required)
 }

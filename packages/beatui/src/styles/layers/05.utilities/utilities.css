@@ -308,6 +308,11 @@
   .bu-shadow-xl { box-shadow: var(--shadow-xl); }
   .bu-shadow-2xl { box-shadow: var(--shadow-2xl); }
 
+  .bu-border {
+    border-width: 1px;
+    border-style: solid;
+  }
+
   .bu-border-box { box-sizing: border-box; }
   .bu-content-box { box-sizing: content-box; }
   .bu-text-muted {
