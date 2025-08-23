@@ -1,2 +1,2 @@
 export { createAJVStandardSchema } from './validator'
-export * from './builder'
+export * from './json-schema-form'
