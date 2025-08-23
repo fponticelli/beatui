@@ -289,9 +289,7 @@ export function JSONSchemaGenericControl<T>({
         controller: controller as unknown as Controller<null>,
       })
     default:
-      throw new Error(
-        `Not implemented: unknown type ${(definition as any).type}`
-      )
+      throw new Error(`Not implemented: unknown type ${definition.type}`)
   }
 }
 
