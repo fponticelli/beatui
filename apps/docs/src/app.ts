@@ -31,6 +31,7 @@ import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
 import { JSONSchemaFormPage } from './pages/json-schema-form'
 import { MonacoEditorPage } from './pages/monaco-editor'
 import { MilkdownEditorPage } from './pages/milkdown-editor'
+import { TagsInputPage } from './pages/tags-input'
 
 export const App = () => {
   return BeatUI(
@@ -59,6 +60,7 @@ export const App = () => {
         '/sidebar': SidebarPage,
         '/tabs': TabsPage,
         '/tags': TagsPage,
+        '/tags-input': TagsInputPage,
         '/form': FormPage,
         '/file-input': FileInputPage,
         '/color-picker': ColorPickerPage,

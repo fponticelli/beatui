@@ -43,7 +43,11 @@ export function Menu() {
         SidebarLink({ href: '/form', content: 'Form' }),
         SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' }),
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
-        SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' })
+        SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' }),
+        SidebarLink({
+          href: '/tags-input',
+          content: 'Tags Input',
+        })
       ),
       // Navigation
       SidebarGroup(
@@ -77,7 +81,7 @@ export function Menu() {
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({
           href: '/tags',
-          content: Todo('Tags'),
+          content: 'Tags',
         })
       ),
       // Utilities

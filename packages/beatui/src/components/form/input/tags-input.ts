@@ -33,7 +33,13 @@ export const TagsInput = (options: InputOptions<string[]>) => {
     ...options,
     input: Fragment(
       attr.class('bc-input-container__tags'),
-      ForEach(value, v => Tag({ value: v, onClose: () => removeOne(v.value) })),
+      ForEach(value, v =>
+        Tag({
+          value: v,
+          onClose: () => removeOne(v.value),
+          disabled: options.disabled,
+        })
+      ),
       input.text(
         CommonInputAttributes(options),
         attr.value(currentValue),

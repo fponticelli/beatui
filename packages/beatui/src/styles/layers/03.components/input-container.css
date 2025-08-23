@@ -136,9 +136,12 @@
   }
 
   /* Tags input text field */
-  .bc-input-container__tags-input {
+  .bc-input-container .bc-input-container__tags-input {
     min-width: 8rem;
     flex-shrink: 0;
+    display: inline-flex;
+    width: auto;
+    flex-grow: 1;
   }
 
   /* Dark mode styles */
