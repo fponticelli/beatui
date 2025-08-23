@@ -42,7 +42,6 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
     id,
     name,
     placeholder,
-    schemaRequest,
   } = options
 
   /*
@@ -98,25 +97,17 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
                 const monaco = await loadMonacoWithLanguage(lang)
 
                 if (lang === 'json') {
-                  const fetcher =
-                    typeof schemaRequest === 'function'
-                      ? schemaRequest
-                      : schemaRequest
-                        ? Value.get(schemaRequest)
-                        : undefined
                   const hasSchemas = !!(schemasJson && schemasJson.length)
                   const options: Monaco.languages.json.DiagnosticsOptions = {
                     validate: true,
                     enableSchemaRequest: true,
                     schemas: hasSchemas ? schemasJson : [],
                   }
-                  if (fetcher) {
-                    // schemaRequestService is not in the type definition but is supported
-                    ;(options as Monaco.languages.json.DiagnosticsOptions & {
-                      schemaRequestService?: (url: string) => Promise<string>
-                    }).schemaRequestService = fetcher
-                  }
-                  monaco.languages.json.jsonDefaults.setDiagnosticsOptions(options)
+                  // Important: Do not pass functions (e.g. schemaRequestService) here,
+                  // they are not structured-cloneable and will break postMessage to the worker.
+                  monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
+                    options
+                  )
                 }
 
                 const model = editor.getModel()
@@ -188,7 +179,8 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
           } catch (err) {
             console.error('[BeatUI] Failed to initialize Monaco editor:', err)
             const el = container as HTMLElement
-            el.textContent = 'Failed to load Monaco Editor. Please ensure monaco-editor is installed.'
+            el.textContent =
+              'Failed to load Monaco Editor. Please ensure monaco-editor is installed.'
           }
         }
 

@@ -22,13 +22,18 @@ const isMinimalMonaco = (m: unknown): boolean => {
 
 function setupMonacoEnvironment() {
   if (typeof self === 'undefined') return
-  const env = (self as unknown as { MonacoEnvironment?: unknown }).MonacoEnvironment as
+  const env = (self as unknown as { MonacoEnvironment?: unknown })
+    .MonacoEnvironment as
     | { getWorkerUrl?: unknown; getWorker?: unknown }
     | undefined
-  if (env && (typeof env.getWorkerUrl === 'function' || typeof env.getWorker === 'function')) {
+  if (
+    env &&
+    (typeof env.getWorkerUrl === 'function' ||
+      typeof env.getWorker === 'function')
+  ) {
     return
   }
-  const getMonacoWorker = () => {
+  const getMonacoWorkerUrl = () => {
     const workerScript = [
       `self.MonacoEnvironment = { baseUrl: '${MONACO_CDN_BASE}' };`,
       `importScripts('${MONACO_CDN_BASE}vs/base/worker/workerMain.js');`,
@@ -36,9 +41,15 @@ function setupMonacoEnvironment() {
     const blob = new Blob([workerScript], { type: 'text/javascript' })
     return URL.createObjectURL(blob)
   }
-  ;(self as unknown as { MonacoEnvironment: { getWorker: (moduleId: string, label: string) => Worker } }).MonacoEnvironment = {
-    getWorker(_moduleId: string, _label: string) {
-      return new Worker(getMonacoWorker(), { type: 'classic' })
+  ;(
+    self as unknown as {
+      MonacoEnvironment: {
+        getWorkerUrl: (moduleId: string, label: string) => string
+      }
+    }
+  ).MonacoEnvironment = {
+    getWorkerUrl(_moduleId: string, _label: string) {
+      return getMonacoWorkerUrl()
     },
   }
 }
