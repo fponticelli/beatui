@@ -56,7 +56,8 @@ export function Menu() {
         SidebarLink({ href: '/link', content: 'Link' }),
         SidebarLink({ href: '/menu', content: 'Menu' }),
         SidebarLink({ href: '/sidebar', content: 'Sidebar' }),
-        SidebarLink({ href: '/tabs', content: 'Tabs' })
+        SidebarLink({ href: '/tabs', content: 'Tabs' }),
+        SidebarLink({ href: '/toolbar', content: 'Toolbar' })
       ),
       // Layout
       SidebarGroup(

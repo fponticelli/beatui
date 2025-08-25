@@ -10,12 +10,16 @@
     font-weight: var(--font-weight-semibold);
     font-family: inherit;
     font-size: inherit;
-    line-height: var(--line-height-normal);
+    line-height: 1;
     border-radius: var(--radius-md);
     transition: all 0.2s ease-in-out;
     text-transform: capitalize;
   }
 
+  .bc-button>span {
+    min-height: 10px;
+  }
+  
   .bc-button:hover:not(:disabled) {
     transform: scale(1.03);
   }

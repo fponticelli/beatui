@@ -26,7 +26,7 @@
 
   .bc-input-container--default {
     background-color: var(--color-white);
-    outline: 2px solid var(--color-gray-300);
+    outline: 2px solid var(--color-gray-200);
     outline-offset: -2px;
   }
 

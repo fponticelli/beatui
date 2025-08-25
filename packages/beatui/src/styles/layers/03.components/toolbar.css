@@ -1,0 +1,93 @@
+@layer components {
+
+  /* Toolbar Component System */
+  .bc-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-md);
+    background-color: var(--color-neutral-50);
+    width: 100%;
+  }
+
+  .b-dark .bc-toolbar {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+  }
+
+  .bc-toolbar__group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .bc-toolbar__divider {
+    width: 1px;
+    height: 1.5rem;
+    background-color: var(--color-neutral-300);
+    margin: 0 var(--spacing-xs);
+  }
+
+  .b-dark .bc-toolbar__divider {
+    background-color: var(--color-neutral-600);
+  }
+
+  .bc-toolbar__spacer {
+    flex: 1 1 auto;
+  }
+
+  .bc-toolbar__button {
+    display: flex;
+    align-items: center;
+  }
+
+  .bc-toolbar__button .bc-button {
+    gap: var(--spacing-2xs);
+  }
+
+  .bc-toolbar__button--icon-only .bc-button {
+    padding: var(--spacing-2xs);
+  }
+
+  .bc-toolbar .bc-input-container {
+    padding: calc(var(--spacing-base) * 1.0) calc(var(--spacing-base) * 3);
+    outline-width: 1px;
+    outline-offset: -1px;
+    width: auto;
+    box-shadow: none;
+  }
+
+  /* Container queries for responsive behavior */
+  @container (max-width: 480px) {
+    .bc-toolbar {
+      gap: var(--spacing-xs);
+      padding: var(--spacing-xs);
+    }
+
+    .bc-toolbar__divider {
+      height: 1rem;
+      margin: 0 var(--spacing-2xs);
+    }
+
+    /* Hide only text labels at narrow widths; keep icons visible */
+    .bc-toolbar__button .bc-button>span:not(.sr-only):not(.bc-icon):not(.bu-content-box) {
+      display: none;
+    }
+  }
+}
+
+@layer utilities {
+  .bc-toolbar__group> :not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: -1px;
+  }
+
+  .bc-toolbar__group> :not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+  }
+}

@@ -33,6 +33,7 @@ import { MonacoEditorPage } from './pages/monaco-editor'
 import { MilkdownEditorPage } from './pages/milkdown-editor'
 import { TagsInputPage } from './pages/tags-input'
 import { MaskInputPage } from './pages/mask-input'
+import { ToolbarPage } from './pages/toolbar'
 
 export const App = () => {
   return BeatUI(
@@ -72,6 +73,7 @@ export const App = () => {
         '/monaco-editor': MonacoEditorPage,
         '/milkdown-editor': MilkdownEditorPage,
         '/mask-input': MaskInputPage,
+        '/toolbar': ToolbarPage,
         '/*': () => html.div('Not Found'),
       }),
     })
