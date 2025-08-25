@@ -13,15 +13,13 @@ export function makeMapValidation(fields: PathSegment[]) {
     status: ControllerValidation
   ): ControllerValidation {
     if (status.type === 'valid') return status
-    let current = status.error.dependencies
-    for (const field of fields.slice(0)) {
-      current = current?.[field]?.dependencies
-      if (current == null) return Validation.valid
+    // Walk down to the error node for the given subpath
+    let node = status.error as ControllerError | undefined
+    for (const field of fields) {
+      node = node?.dependencies?.[field]
+      if (node == null) return Validation.valid
     }
-    if (current != null) {
-      return Validation.invalid({ error: status.error, dependencies: current })
-    } else {
-      return Validation.valid
-    }
+    // At this point, `node` is the error object for the sub-controller
+    return Validation.invalid(node as ControllerError)
   }
 }
