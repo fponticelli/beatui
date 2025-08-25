@@ -10,10 +10,9 @@ import {
   transformNullToUndefined,
 } from '@/components/form'
 import { SchemaContext } from '../context'
-import { TNode } from '@tempots/dom'
+import { Async, TNode } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import { NullableEmailControl } from '@/components/form/control/nullable-email-control'
-import { NullableMilkdownControl } from '@/components/milkdown/nullable-milkdown-control'
 
 export function StringControl({
   ctx,
@@ -41,11 +40,15 @@ export function StringControl({
         ...options,
         controller: transformNullToUndefined(controller),
       })
-    case 'markdown':
-      return NullableMilkdownControl({
-        ...options,
-        controller: transformNullToUndefined(controller),
+    case 'markdown': {
+      return Async(import('@/components/milkdown/nullable-milkdown-control'), {
+        then: ({ NullableMilkdownControl }) =>
+          NullableMilkdownControl({
+            ...options,
+            controller: transformNullToUndefined(controller),
+          }),
       })
+    }
     case 'time':
       // TODO
       throw new Error('Not implemented: binary')
