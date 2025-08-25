@@ -106,6 +106,7 @@ const main = async () => {
   const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
   const { FormPage } = await import('../src/pages/form')
   const { JSONSchemaFormPage } = await import('../src/pages/json-schema-form')
+  const { MaskInputPage } = await import('../src/pages/mask-input')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -203,6 +204,7 @@ const main = async () => {
           '/breakpoint': BreakpointPage,
           '/nine-slice-scroll-view': NineSliceScrollViewPage,
           '/json-schema-form': JSONSchemaFormPage,
+          '/mask-input': MaskInputPage,
         }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))

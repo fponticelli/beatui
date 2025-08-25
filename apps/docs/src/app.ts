@@ -32,6 +32,7 @@ import { JSONSchemaFormPage } from './pages/json-schema-form'
 import { MonacoEditorPage } from './pages/monaco-editor'
 import { MilkdownEditorPage } from './pages/milkdown-editor'
 import { TagsInputPage } from './pages/tags-input'
+import { MaskInputPage } from './pages/mask-input'
 
 export const App = () => {
   return BeatUI(
@@ -70,6 +71,7 @@ export const App = () => {
         '/json-schema-form': JSONSchemaFormPage,
         '/monaco-editor': MonacoEditorPage,
         '/milkdown-editor': MilkdownEditorPage,
+        '/mask-input': MaskInputPage,
         '/*': () => html.div('Not Found'),
       }),
     })
