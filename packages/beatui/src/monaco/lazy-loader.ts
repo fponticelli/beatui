@@ -88,21 +88,29 @@ const requireMonacoApi = async (): Promise<unknown> => {
   setupMonacoEnvironment()
   const req = await ensureAmdLoader()
   await new Promise<void>((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('Timeout loading editor.main')), 30000)
+    const timeout = setTimeout(
+      () => reject(new Error('Timeout loading editor.main')),
+      30000
+    )
     try {
-      req(['vs/editor/editor.main'], () => {
-        clearTimeout(timeout)
-        resolve()
-      }, err => {
-        clearTimeout(timeout)
-        reject(err)
-      })
+      req(
+        ['vs/editor/editor.main'],
+        () => {
+          clearTimeout(timeout)
+          resolve()
+        },
+        err => {
+          clearTimeout(timeout)
+          reject(err)
+        }
+      )
     } catch (e) {
       clearTimeout(timeout)
       reject(e)
     }
   })
-  if (!w.monaco) throw new Error('Monaco failed to initialize after loading editor.main')
+  if (!w.monaco)
+    throw new Error('Monaco failed to initialize after loading editor.main')
   return w.monaco
 }
 
