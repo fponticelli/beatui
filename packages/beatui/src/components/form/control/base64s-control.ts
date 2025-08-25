@@ -7,7 +7,7 @@ import { inputOptionsFromController } from '../input/input-options'
 import { makeOnBlurHandler, makeOnChangeHandler } from './text-control'
 import { Base64sInput } from '../input/base64s-input'
 
-export type Base64Options = Merge<
+export type Base64sOptions = Merge<
   ControlOptions<string[]>,
   {
     accept?: Value<string>
@@ -18,10 +18,7 @@ export type Base64Options = Merge<
   }
 >
 
-export const Base64sControl = (
-  options: Base64Options,
-  ...children: TNode[]
-) => {
+export const Base64sControl = (options: Base64sOptions, ...children: TNode[]) => {
   const { onBlur, onChange, ...rest } = options
   return ControlInputWrapper(
     {
