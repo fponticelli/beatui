@@ -38,31 +38,31 @@ function generateInputContainerClasses(
   return classes.join(' ')
 }
 
-export const InputContainer = ({
-  baseContainer,
-  child,
-  disabled,
-  input,
-  before,
-  after,
-  hasError,
-  focusableSelector = 'input, select, textarea',
-  growInput = true,
-}: {
-  child?: TNode
-  disabled?: Value<boolean>
-  input: TNode
-  before?: TNode
-  after?: TNode
-  hasError?: Value<boolean>
-  focusableSelector?: string
-  growInput?: Value<boolean>
-  baseContainer?: Value<boolean>
-}) => {
+export const InputContainer = (
+  {
+    baseContainer,
+    disabled,
+    input,
+    before,
+    after,
+    hasError,
+    focusableSelector = 'input, select, textarea',
+    growInput = true,
+  }: {
+    disabled?: Value<boolean>
+    input: TNode
+    before?: TNode
+    after?: TNode
+    hasError?: Value<boolean>
+    focusableSelector?: string
+    growInput?: Value<boolean>
+    baseContainer?: Value<boolean>
+  },
+  ...children: TNode[]
+) => {
   const isDisabled = Value.map(disabled ?? false, d => d)
 
   return html.div(
-    child,
     WithElement(el => {
       const handler = () => {
         const focusable = el.querySelector(focusableSelector) as
@@ -100,6 +100,7 @@ export const InputContainer = ({
     ),
     after != null
       ? html.span(attr.class('bc-input-container__after'), after)
-      : null
+      : null,
+    ...children
   )
 }

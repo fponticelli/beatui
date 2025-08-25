@@ -14,6 +14,11 @@ import { Async, TNode } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import { NullableEmailControl } from '@/components/form/control/nullable-email-control'
 
+/*
+TODO:
+- [ ] color (infer from name, pattern or format)
+*/
+
 export function StringControl({
   ctx,
   options,

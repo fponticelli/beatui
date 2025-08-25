@@ -311,6 +311,11 @@
   .bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+
+  .b-dark .bu-border {
+      border-color: var(--color-base-700);
   }
 
   .bu-border-box { box-sizing: border-box; }

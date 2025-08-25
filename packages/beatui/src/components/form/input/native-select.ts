@@ -131,39 +131,41 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
 
   let element: HTMLSelectElement | undefined
 
-  return InputContainer({
-    ...options,
-    child: on.click(() => {
+  return InputContainer(
+    {
+      ...options,
+      input: html.select(
+        WithElement(el => {
+          element = el as HTMLSelectElement
+          const observer = new MutationObserver(e => {
+            const { removedNodes } = e[0]!
+            if (removedNodes.length > 0) {
+              element!.selectedIndex = 0
+            }
+          })
+          observer.observe(el, { childList: true })
+          return OnDispose(() => observer.disconnect())
+        }),
+        CommonInputAttributes(options),
+        attr.class('bc-native-select bc-input bu-w-full'),
+        Use(BeatUII18n, t =>
+          html.option(
+            attr.hidden('hidden'),
+            coalesce(unselectedLabel, t.$.selectOne)
+          )
+        ),
+        ForEach(selectOptions, v => NativeSelectOption(v, equality, value)),
+        onBlur != null ? on.blur(onBlur) : Empty,
+        onChange != null
+          ? on.change(emitOptionExpando<T>('value', v => onChange(v)))
+          : Empty
+      ),
+    },
+    on.click(() => {
       element?.focus()
       if (typeof element?.showPicker === 'function') {
         element.showPicker()
       }
-    }),
-    input: html.select(
-      WithElement(el => {
-        element = el as HTMLSelectElement
-        const observer = new MutationObserver(e => {
-          const { removedNodes } = e[0]!
-          if (removedNodes.length > 0) {
-            element!.selectedIndex = 0
-          }
-        })
-        observer.observe(el, { childList: true })
-        return OnDispose(() => observer.disconnect())
-      }),
-      CommonInputAttributes(options),
-      attr.class('bc-native-select bc-input bu-w-full'),
-      Use(BeatUII18n, t =>
-        html.option(
-          attr.hidden('hidden'),
-          coalesce(unselectedLabel, t.$.selectOne)
-        )
-      ),
-      ForEach(selectOptions, v => NativeSelectOption(v, equality, value)),
-      onBlur != null ? on.blur(onBlur) : Empty,
-      onChange != null
-        ? on.change(emitOptionExpando<T>('value', v => onChange(v)))
-        : Empty
-    ),
-  })
+    })
+  )
 }

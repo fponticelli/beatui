@@ -119,7 +119,7 @@ export const TabsPage = () => {
       })
     ),
     body: Stack(
-      attr.class('bu-gap-8 bu-p-4'),
+      attr.class('bu-gap-8 bu-overflow-hidden'),
 
       // Basic Example
       html.section(
@@ -129,7 +129,7 @@ export const TabsPage = () => {
           'A simple tabs component with different content panels.'
         ),
         html.div(
-          attr.class('bu-border bu-rounded-lg bu-p-4'),
+          attr.class('bu-border bu-rounded-lg bu-overflow-hidden'),
           Tabs({
             items: basicTabs,
             value: activeTab,
@@ -163,7 +163,7 @@ export const TabsPage = () => {
                 `Size: ${currentSize}`
               ),
               html.div(
-                attr.class('bu-border bu-rounded-lg bu-p-4'),
+                attr.class('bu-border bu-rounded-lg bu-overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3), // Only show first 3 tabs for size demo
                   value: sizeActiveTab,
@@ -188,7 +188,7 @@ export const TabsPage = () => {
           'Tabs can be displayed vertically for sidebar-style navigation.'
         ),
         html.div(
-          attr.class('bu-border bu-rounded-lg bu-p-4 bu-h-96'),
+          attr.class('bu-border bu-rounded-lg bu-overflow-hidden bu-h-96'),
           (() => {
             const verticalActiveTab = prop('overview')
             return Tabs({

@@ -279,14 +279,13 @@
     text-overflow: ellipsis;
     display: flex;
     flex-wrap: wrap;
+    gap: calc(var(--spacing-base));
   }
 
   .bc-file-input__compact-value-item {
     background-color: var(--color-gray-100);
     border-radius: var(--radius-sm);
     padding: 0 var(--spacing-base);
-    margin-right: var(--spacing-base);
-    margin-bottom: var(--spacing-base);
   }
 
   .bc-file-input__compact-clear {

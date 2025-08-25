@@ -229,6 +229,10 @@
     .sm\:bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+    .sm\:bu-border {
+      border-color: var(--color-base-700);
   }
     .sm\:bu-border-box { box-sizing: border-box; }
     .sm\:bu-content-box { box-sizing: content-box; }
@@ -470,6 +474,10 @@
     .md\:bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+    .md\:bu-border {
+      border-color: var(--color-base-700);
   }
     .md\:bu-border-box { box-sizing: border-box; }
     .md\:bu-content-box { box-sizing: content-box; }
@@ -711,6 +719,10 @@
     .lg\:bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+    .lg\:bu-border {
+      border-color: var(--color-base-700);
   }
     .lg\:bu-border-box { box-sizing: border-box; }
     .lg\:bu-content-box { box-sizing: content-box; }
@@ -952,6 +964,10 @@
     .xl\:bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+    .xl\:bu-border {
+      border-color: var(--color-base-700);
   }
     .xl\:bu-border-box { box-sizing: border-box; }
     .xl\:bu-content-box { box-sizing: content-box; }
@@ -1193,6 +1209,10 @@
     .\2xl\:bu-border {
     border-width: 1px;
     border-style: solid;
+    border-color: var(--color-base-300);
+  }
+    .\2xl\:bu-border {
+      border-color: var(--color-base-700);
   }
     .\2xl\:bu-border-box { box-sizing: border-box; }
     .\2xl\:bu-content-box { box-sizing: content-box; }

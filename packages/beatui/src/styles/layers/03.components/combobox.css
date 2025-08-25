@@ -37,7 +37,7 @@
     height: 1.5rem;
     flex-shrink: 0;
     margin-inline-start: var(--spacing-sm);
-    margin-inline-end: calc(var(--spacing-base) * -2);
+    margin-inline-end: calc(var(--spacing-base) * -1.25);
   }
 
   /* Listbox (dropdown) */

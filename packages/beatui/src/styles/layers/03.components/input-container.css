@@ -7,6 +7,7 @@
     flex-direction: row;
     align-items: center;
     gap: calc(var(--spacing-base) * 2);
+    overflow: hidden;
   }
 
   .bc-input-container {
@@ -75,6 +76,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    z-index: 10;
   }
 
   /* Input wrapper */
@@ -82,6 +84,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    overflow: hidden;
   }
 
   .bc-input-container__input--grow {

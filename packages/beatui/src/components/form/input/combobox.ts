@@ -348,120 +348,121 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
     }
   }
 
-  return InputContainer({
-    ...options,
-    child: Fragment(
-      WithElement(el => {
-        triggerElement = el
-        el.addEventListener('keydown', handleKeyDown)
-        el.setAttribute('aria-haspopup', 'listbox')
-        el.setAttribute('aria-controls', listboxId)
-        // Set up reactive aria attributes
-        return OnDispose(() => el.removeEventListener('keydown', handleKeyDown))
-      }),
-      CommonInputAttributes(options),
-      attr.id(comboboxId),
-      attr.tabindex(0),
-      aria.expanded(isOpen as Value<boolean | 'undefined'>),
-      attr.class('bc-combobox'),
-      attr.role('combobox'),
-      aria.activedescendant(
-        computedOf(
-          isOpen,
-          focusedValue
-        )((open, focused): string => {
-          if (open && focused != null) {
-            return `combobox-option-${String(focused)}`
-          }
-          return ''
-        })
-      ),
-      onBlur != null
-        ? on.blur(() => {
-            // Delay to allow option click to register
-            setTimeout(() => {
-              if (!listboxElement?.contains(document.activeElement)) {
-                isOpen.set(false)
-                focusedIndex.set(-1)
-                onBlur()
-              }
-            }, 100)
-          })
-        : Empty,
-      // Dropdown using Flyout with custom trigger
-      Flyout({
-        content: () =>
-          Fragment(
-            WithElement(el => {
-              listboxElement = el
-            }),
-            attr.class('bc-combobox__listbox'),
-            attr.role('listbox'),
-            attr.id(listboxId),
-            aria.labelledby(comboboxId),
-            ForEach(comboboxOptions, option =>
-              ComboboxOptionItem(
-                option,
-                equality,
-                value,
-                wrappedOnChange,
-                focusedValue
+  return InputContainer(
+    {
+      ...options,
+      input: Group(
+        attr.class('bc-combobox__trigger'),
+        html.span(
+          attr.class('bc-combobox__display'),
+          When(
+            displayLabel.map(label => label.length > 0),
+            () => displayLabel,
+            () =>
+              Use(BeatUII18n, t =>
+                coalesce(placeholder, unselectedLabel, t.$.selectOne)
               )
-            )
-          ),
-        placement: 'bottom-start',
-        showOn: (flyoutShow, flyoutHide) => {
-          // Override flyoutHide to also update combobox state
-          // This ensures that when Flyout's closable behavior triggers,
-          // the combobox state is properly updated
-          const originalHide = flyoutHide
-          flyoutHide = () => {
-            isOpen.set(false)
-            focusedIndex.set(-1)
-            focusedValue.set(null)
-            originalHide()
-          }
-
-          // Custom click handler that manages both our state and the flyout
-          const handleClick = () => {
-            if (isOpen.value) {
-              flyoutHide()
-            } else {
-              const opts = Value.get(comboboxOptions)
-              const selectableOptions = getSelectableOptions(opts)
-              isOpen.set(true)
-              if (selectableOptions.length > 0) {
-                focusedIndex.set(0)
-                focusedValue.set(selectableOptions[0].value)
-              }
-              flyoutShow()
-            }
-          }
-
-          return on.click(handleClick)
-        },
-        showDelay: 0,
-        hideDelay: 0,
-        closable: true, // Allow closing when clicking outside
-      })
-    ),
-    input: Group(
-      attr.class('bc-combobox__trigger'),
-      html.span(
-        attr.class('bc-combobox__display'),
-        When(
-          displayLabel.map(label => label.length > 0),
-          () => displayLabel,
-          () =>
-            Use(BeatUII18n, t =>
-              coalesce(placeholder, unselectedLabel, t.$.selectOne)
-            )
+          )
+        ),
+        Icon(
+          { icon: 'ph:caret-up-down-bold', color: 'primary' },
+          attr.class('bc-combobox__arrow')
         )
       ),
-      Icon(
-        { icon: 'ph:caret-up-down-bold', color: 'primary' },
-        attr.class('bc-combobox__arrow')
-      )
+    },
+
+    WithElement(el => {
+      triggerElement = el
+      el.addEventListener('keydown', handleKeyDown)
+      el.setAttribute('aria-haspopup', 'listbox')
+      el.setAttribute('aria-controls', listboxId)
+      // Set up reactive aria attributes
+      return OnDispose(() => el.removeEventListener('keydown', handleKeyDown))
+    }),
+    CommonInputAttributes(options),
+    attr.id(comboboxId),
+    attr.tabindex(0),
+    aria.expanded(isOpen as Value<boolean | 'undefined'>),
+    attr.class('bc-combobox'),
+    attr.role('combobox'),
+    aria.activedescendant(
+      computedOf(
+        isOpen,
+        focusedValue
+      )((open, focused): string => {
+        if (open && focused != null) {
+          return `combobox-option-${String(focused)}`
+        }
+        return ''
+      })
     ),
-  })
+    onBlur != null
+      ? on.blur(() => {
+          // Delay to allow option click to register
+          setTimeout(() => {
+            if (!listboxElement?.contains(document.activeElement)) {
+              isOpen.set(false)
+              focusedIndex.set(-1)
+              onBlur()
+            }
+          }, 100)
+        })
+      : Empty,
+    // Dropdown using Flyout with custom trigger
+    Flyout({
+      content: () =>
+        Fragment(
+          WithElement(el => {
+            listboxElement = el
+          }),
+          attr.class('bc-combobox__listbox'),
+          attr.role('listbox'),
+          attr.id(listboxId),
+          aria.labelledby(comboboxId),
+          ForEach(comboboxOptions, option =>
+            ComboboxOptionItem(
+              option,
+              equality,
+              value,
+              wrappedOnChange,
+              focusedValue
+            )
+          )
+        ),
+      placement: 'bottom-start',
+      showOn: (flyoutShow, flyoutHide) => {
+        // Override flyoutHide to also update combobox state
+        // This ensures that when Flyout's closable behavior triggers,
+        // the combobox state is properly updated
+        const originalHide = flyoutHide
+        flyoutHide = () => {
+          isOpen.set(false)
+          focusedIndex.set(-1)
+          focusedValue.set(null)
+          originalHide()
+        }
+
+        // Custom click handler that manages both our state and the flyout
+        const handleClick = () => {
+          if (isOpen.value) {
+            flyoutHide()
+          } else {
+            const opts = Value.get(comboboxOptions)
+            const selectableOptions = getSelectableOptions(opts)
+            isOpen.set(true)
+            if (selectableOptions.length > 0) {
+              focusedIndex.set(0)
+              focusedValue.set(selectableOptions[0].value)
+            }
+            flyoutShow()
+          }
+        }
+
+        return on.click(handleClick)
+      },
+      showDelay: 0,
+      hideDelay: 0,
+      closable: true, // Allow closing when clicking outside
+    })
+  )
 }

@@ -1,7 +1,5 @@
 import { html, attr, prop } from '@tempots/dom'
 import {
-  FileInput,
-  FileControl,
   useForm,
   Button,
   Card,
@@ -11,6 +9,9 @@ import {
   Group,
   InputWrapper,
   Stack,
+  FilesControl,
+  FilesInput,
+  FileControl,
 } from '@tempots/beatui'
 import { z } from 'zod/v4'
 import { ControlsHeader } from '../elements/controls-header'
@@ -28,13 +29,13 @@ export function FileInputPage() {
   const { controller } = useForm({
     schema: z.object({
       name: z.string().min(1, 'Name is required'),
-      avatar: z
-        .array(z.instanceof(File))
-        .max(1, 'Only one avatar file allowed'),
+      avatar: z.instanceof(File).optional(),
+      files: z.array(z.instanceof(File)),
     }),
     initialValue: {
       name: '',
-      avatar: [],
+      avatar: undefined,
+      files: [],
     },
   })
 
@@ -73,9 +74,8 @@ export function FileInputPage() {
             'Try the file input with different settings using the controls above.'
           ),
 
-          FileInput({
+          FilesInput({
             value: basicFiles,
-            allowMultiple,
             disabled,
             onChange: files => {
               console.log('Files changed:', files)
@@ -99,9 +99,8 @@ export function FileInputPage() {
             'File input that only accepts image files with a 2MB size limit per file and maximum of 3 files.'
           ),
 
-          FileInput({
+          FilesInput({
             value: imageFiles,
-            allowMultiple: true,
             accept: 'image/*',
             maxFileSize: 2 * 1024 * 1024, // 2MB
             maxFiles: 3,
@@ -140,6 +139,13 @@ export function FileInputPage() {
               accept: 'image/*',
               maxFileSize: 1024 * 1024, // 1MB
               label: 'Avatars',
+            }),
+            FilesControl({
+              mode: 'compact',
+              controller: controller.field('files'),
+              accept: 'image/*',
+              maxFileSize: 1024 * 1024, // 1MB
+              label: 'Other Files',
             }),
             html.br(),
             Button(
