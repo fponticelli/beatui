@@ -1,3 +1,4 @@
+import { humanize, upperCaseFirst } from '@tempots/std'
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
 
 export type SchemaContextOptions = {
@@ -52,5 +53,15 @@ export class SchemaContext {
       return last
     }
     return undefined
+  }
+
+  get widgetName(): string {
+    return this.path.map(String).join('.')
+  }
+
+  get widgetLabel(): string | undefined {
+    return (this.definition.title ?? this.name != null)
+      ? upperCaseFirst(humanize(this.name!))
+      : undefined
   }
 }

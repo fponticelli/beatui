@@ -40,10 +40,10 @@ export function JSONSchemaFormPage() {
       description: {
         type: 'string',
         title: 'Description',
-        'ui:widget': 'textarea',
+        'ui:widget': 'markdown',
         description: 'A brief description of yourself',
       },
-      age: { type: 'integer', title: 'Age', minimum: 0 },
+      age: { type: 'integer', title: 'Age', minimum: 18 },
       isActive: { type: 'boolean', title: 'Active' },
       address: {
         type: 'object',

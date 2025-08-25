@@ -11,9 +11,9 @@ import {
 } from '@/components/form'
 import { SchemaContext } from '../context'
 import { TNode } from '@tempots/dom'
-import { JSONSchema7 } from 'json-schema'
 import { stringFormatDetection } from './string-detection'
 import { NullableEmailControl } from '@/components/form/control/nullable-email-control'
+import { NullableMilkdownControl } from '@/components/milkdown/nullable-milkdown-control'
 
 export function StringControl({
   ctx,
@@ -24,7 +24,7 @@ export function StringControl({
   options: Partial<InputWrapperOptions>
   controller: Controller<string | undefined>
 }): TNode {
-  const format = stringFormatDetection(ctx.definition as JSONSchema7)
+  const format = stringFormatDetection(ctx)
   switch (format?.format) {
     case 'email':
       return NullableEmailControl({
@@ -38,6 +38,11 @@ export function StringControl({
       })
     case 'date-time':
       return NullableStringDateTimeControl({
+        ...options,
+        controller: transformNullToUndefined(controller),
+      })
+    case 'markdown':
+      return NullableMilkdownControl({
         ...options,
         controller: transformNullToUndefined(controller),
       })

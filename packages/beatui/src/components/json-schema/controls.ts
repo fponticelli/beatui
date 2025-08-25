@@ -10,7 +10,7 @@ import {
 } from '../form'
 import { attr, html, TNode, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
-import { humanize, objectEntries, upperCaseFirst } from '@tempots/std'
+import { objectEntries } from '@tempots/std'
 import { SchemaContext } from './context'
 import { StringControl } from './widgets/string-controls'
 
@@ -52,10 +52,7 @@ function definitionToInputWrapperOptions({
     }
   }
   return {
-    label:
-      (definition.title ?? ctx.name != null)
-        ? upperCaseFirst(humanize(ctx.name!))
-        : null,
+    label: ctx.widgetLabel,
     description,
     required: ctx.required,
     horizontal: ctx.horizontal,

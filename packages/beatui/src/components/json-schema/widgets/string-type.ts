@@ -4,34 +4,38 @@ export type StringWidgetOptions = {
   maxLength?: number
 }
 
-export type TextAreaWidgetOptions = StringWidgetOptions & {
-  format: 'textarea'
-  rows?: number
-}
-
-export type EmailWidgetOptions = StringWidgetOptions & {
-  format: 'email'
-}
-
-export type DateWidgetOptions = StringWidgetOptions & {
-  format: 'date'
+export type BinaryWidgetOptions = StringWidgetOptions & {
+  format: 'binary'
+  mediaType?: string
 }
 
 export type DateTimeWidgetOptions = StringWidgetOptions & {
   format: 'date-time'
 }
 
-export type TimeWidgetOptions = StringWidgetOptions & {
-  format: 'time'
+export type DateWidgetOptions = StringWidgetOptions & {
+  format: 'date'
+}
+
+export type EmailWidgetOptions = StringWidgetOptions & {
+  format: 'email'
+}
+
+export type MarkdownWidgetOptions = StringWidgetOptions & {
+  format: 'markdown'
 }
 
 export type PasswordWidgetOptions = StringWidgetOptions & {
   format: 'password'
 }
 
-export type BinaryWidgetOptions = StringWidgetOptions & {
-  format: 'binary'
-  mediaType?: string
+export type TextAreaWidgetOptions = StringWidgetOptions & {
+  format: 'textarea'
+  rows?: number
+}
+
+export type TimeWidgetOptions = StringWidgetOptions & {
+  format: 'time'
 }
 
 export type UUIDWidgetOptions = StringWidgetOptions & {
@@ -39,11 +43,12 @@ export type UUIDWidgetOptions = StringWidgetOptions & {
 }
 
 export type AnyStringWidgetOptions =
-  | TextAreaWidgetOptions
-  | EmailWidgetOptions
-  | DateWidgetOptions
-  | DateTimeWidgetOptions
-  | TimeWidgetOptions
-  | PasswordWidgetOptions
   | BinaryWidgetOptions
+  | DateTimeWidgetOptions
+  | DateWidgetOptions
+  | EmailWidgetOptions
+  | MarkdownWidgetOptions
+  | PasswordWidgetOptions
+  | TextAreaWidgetOptions
+  | TimeWidgetOptions
   | UUIDWidgetOptions

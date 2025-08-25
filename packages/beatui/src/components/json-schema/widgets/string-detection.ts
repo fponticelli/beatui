@@ -1,10 +1,13 @@
-import { JSONSchema7 } from 'json-schema'
 import { AnyStringWidgetOptions } from './string-type'
 import { getUIWidget } from './utils'
+import { SchemaContext } from '../context'
+
+const textAreaFields = ['description', 'comment', 'notes', 'text']
 
 export function stringFormatDetection(
-  definition: JSONSchema7
+  ctx: SchemaContext
 ): AnyStringWidgetOptions | undefined {
+  const { definition } = ctx
   const options = {
     pattern: definition.pattern,
     minLength: definition.minLength,
@@ -14,20 +17,22 @@ export function stringFormatDetection(
   const widget = getUIWidget(definition)
   if (widget != null) {
     switch (widget) {
-      case 'email':
-        return { ...options, format: 'email' }
+      case 'binary':
+        return { ...options, format: 'binary' }
       case 'date':
         return { ...options, format: 'date' }
       case 'date-time':
         return { ...options, format: 'date-time' }
-      case 'time':
-        return { ...options, format: 'time' }
+      case 'email':
+        return { ...options, format: 'email' }
+      case 'markdown':
+        return { ...options, format: 'markdown' }
       case 'password':
         return { ...options, format: 'password' }
-      case 'binary':
-        return { ...options, format: 'binary' }
       case 'textarea':
         return { ...options, format: 'textarea' }
+      case 'time':
+        return { ...options, format: 'time' }
       case 'uuid':
         return { format: 'uuid' }
     }
@@ -62,6 +67,9 @@ export function stringFormatDetection(
   if (definition.contentEncoding === 'base64') {
     return { ...options, format: 'binary' }
   }
+  if (definition.contentMediaType === 'text/markdown') {
+    return { ...options, format: 'markdown' }
+  }
   // any contentMediaType
   if (definition.contentMediaType != null) {
     return {
@@ -71,10 +79,12 @@ export function stringFormatDetection(
     }
   }
   // heuristic
-  if (definition.minLength != null && definition.minLength > 20) {
-    return { ...options, format: 'textarea' }
-  }
-  if (definition.maxLength != null && definition.maxLength > 100) {
+  if (
+    (definition.minLength != null && definition.minLength > 20) ||
+    (definition.maxLength != null && definition.maxLength > 100) ||
+    (ctx.name != null &&
+      textAreaFields.some(f => ctx.name!.toLocaleLowerCase().includes(f)))
+  ) {
     return { ...options, format: 'textarea' }
   }
 
