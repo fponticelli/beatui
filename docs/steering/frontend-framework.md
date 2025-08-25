@@ -337,6 +337,14 @@ successResult.match({
 })
 ```
 
+### Correct usage of Value
+
+`Value` is a simple wrapper that allows to use either a literal value or a signal. It is useful so that developers can pass in either a literal value or a signal and the component will handle both cases correctly.
+
+`Value` provides a set of static methods that wrap the behavior of signals like `Value.map` or `Value.on`. These should preferred over unwrapping the value and use it directly.
+
+It is important to remember that both Value static method and Signal method that require a callback (like `on` or `map`), as well as utilities like `computedOf` or `effectOf` are always executed at least once on initialization and as such it is not required to have special handling for the first render.
+
 ## Conclusion
 
 Tempo’s three libraries (`dom`, `ui`, and `std`) work together to provide a robust yet lightweight toolkit for building web applications in a reactive, TypeScript-first way. Install the needed packages, use **`@tempots/dom`** to create reactive UI elements with signals, enhance functionality with **`@tempots/ui`** components (routing, focus, popovers, etc.), and utilize **`@tempots/std`** for all sorts of utilities. These tools let you build dynamic interfaces without a heavy framework, with full control over the DOM and state updates. Happy coding!
