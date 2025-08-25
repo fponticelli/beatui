@@ -18,7 +18,10 @@ export type Base64sOptions = Merge<
   }
 >
 
-export const Base64sControl = (options: Base64sOptions, ...children: TNode[]) => {
+export const Base64sControl = (
+  options: Base64sOptions,
+  ...children: TNode[]
+) => {
   const { onBlur, onChange, ...rest } = options
   return ControlInputWrapper(
     {

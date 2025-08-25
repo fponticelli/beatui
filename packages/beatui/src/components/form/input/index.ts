@@ -30,4 +30,3 @@ export * from './switch'
 export * from './tags-input'
 export * from './text-area'
 export * from './text-input'
-
