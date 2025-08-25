@@ -62,12 +62,8 @@ export function ajvErrorsToDependencies(errors: ErrorObject[]) {
 export function ajvErrorsToControllerValidation(
   errors: ErrorObject[]
 ): ControllerValidation {
-  return Validation.invalid({
-    message: 'Validation failed',
-    error: {
-      dependencies: ajvErrorsToDependencies(errors),
-    },
-  })
+  const error = ajvErrorsToDependencies(errors)
+  return Validation.invalid(error)
 }
 
 export function compileSchema(schema: JSONSchema7Definition, ajv: Ajv) {
