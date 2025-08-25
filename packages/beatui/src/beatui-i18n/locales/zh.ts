@@ -58,17 +58,17 @@ const zh: BeatUIMessages = {
   removeFile: '删除文件',
   clearAllFiles: '清除所有文件',
   unknownType: '未知类型',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? '点击选择或将文件拖拽到此处'
-      : '点击选择或将文件拖拽到此处'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? '点击选择或将文件拖拽到此处'
+        : '点击选择或将文件拖拽到此处'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -85,7 +85,7 @@ const zh: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join('，')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

@@ -58,17 +58,17 @@ const fa: BeatUIMessages = {
   removeFile: 'حذف فایل',
   clearAllFiles: 'حذف همه فایل‌ها',
   unknownType: 'نوع ناشناخته',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید'
-      : 'برای انتخاب کلیک کنید یا فایل را بکشید'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'برای انتخاب کلیک کنید یا فایل‌ها را بکشید'
+        : 'برای انتخاب کلیک کنید یا فایل را بکشید'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -85,7 +85,7 @@ const fa: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join('، ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

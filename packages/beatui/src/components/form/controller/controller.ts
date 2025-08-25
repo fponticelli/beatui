@@ -139,6 +139,24 @@ export class Controller<T> {
       this.parent
     )
   }
+
+  readonly asyncTransform = <Out>(
+    transform: (value: T) => Promise<Out>,
+    untransform: (value: Out) => Promise<T>,
+    alt: Out,
+    subpath: PathSegment[] = [],
+    equals: (a: Out, b: Out) => boolean = strictEqual
+  ) => {
+    return new Controller(
+      [...this.path, ...subpath],
+      (value: Out) => {
+        untransform(value).then(v => this.change(v))
+      },
+      this.value.mapAsync(transform, alt, undefined, equals),
+      this.status.map(makeMapValidation(subpath)),
+      this.parent
+    )
+  }
 }
 
 export class ObjectController<

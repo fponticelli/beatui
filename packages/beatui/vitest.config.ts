@@ -1,13 +1,20 @@
 import { defineConfig } from 'vitest/config'
-import viteConfig from './vite.config'
+import { resolve, dirname } from 'path'
+
+const __dirname = dirname(new URL(import.meta.url).pathname)
 
 export default defineConfig({
-  ...viteConfig,
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
   test: {
+    root: __dirname,
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
-    include: ['**/*.test.ts', '**/unit/**/*.spec.ts'],
+    include: ['tests/**/*.test.ts'],
     exclude: ['**/e2e/**', '**/node_modules/**', '**/dist/**'],
   },
 })

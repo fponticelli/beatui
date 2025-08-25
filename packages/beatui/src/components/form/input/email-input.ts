@@ -5,6 +5,7 @@ import { input } from '@tempots/dom'
 import { attr } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { BeatUII18n } from '@/beatui-i18n'
+import { Icon } from '@/components/data'
 
 export const EmailInput = (options: InputOptions<string>) => {
   const updatedOptions = {
@@ -13,11 +14,26 @@ export const EmailInput = (options: InputOptions<string>) => {
     ...options,
     type: 'email',
   }
-  const { value, onBlur, onChange, onInput, placeholder } = updatedOptions
+  const {
+    value,
+    before: beforeOption,
+    onBlur,
+    onChange,
+    onInput,
+    placeholder,
+  } = updatedOptions
+  const before =
+    beforeOption ??
+    Icon({
+      icon: 'line-md:email',
+      size: 'sm',
+      color: 'neutral',
+    })
 
   return Use(BeatUII18n, t =>
     InputContainer({
       ...options,
+      before,
       input: input.email(
         CommonInputAttributes(updatedOptions),
         attr.placeholder(coalesce(placeholder, t.$.emailPlaceholderText)),

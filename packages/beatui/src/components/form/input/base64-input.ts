@@ -1,12 +1,10 @@
-import { Value } from '@tempots/dom'
+import { Merge, Value } from '@tempots/dom'
+import { FileInputMode } from './file-input'
 import { InputOptions } from './input-options'
-import { Merge } from '@tempots/std'
-import { FilesInput } from './files-input'
+import { Base64sInput } from './base64s-input'
 
-export type FileInputMode = 'default' | 'compact'
-
-export type FileInputOptions = Merge<
-  InputOptions<File | undefined>,
+export type Base64InputOptions = Merge<
+  InputOptions<string | undefined>,
   {
     accept?: Value<string>
     maxFileSize?: Value<number> // in bytes
@@ -15,14 +13,14 @@ export type FileInputOptions = Merge<
   }
 >
 
-export const FileInput = (options: FileInputOptions) => {
+export function Base64Input(options: Base64InputOptions) {
   const {
     value: fileValue,
     onInput: fileOnInput,
     onChange: fileOnChange,
     ...rest
   } = options
-  return FilesInput({
+  return Base64sInput({
     ...rest,
     maxFiles: 1,
     value: Value.map(fileValue, v => (v == null ? [] : [v])),

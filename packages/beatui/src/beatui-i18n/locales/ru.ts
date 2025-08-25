@@ -58,17 +58,17 @@ export const ru: BeatUIMessages = {
   removeFile: 'Удалить файл',
   clearAllFiles: 'Очистить все файлы',
   unknownType: 'Неизвестный тип',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'Нажмите для выбора или перетащите файлы сюда'
-      : 'Нажмите для выбора или перетащите файл сюда'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'Нажмите для выбора или перетащите файлы сюда'
+        : 'Нажмите для выбора или перетащите файл сюда'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -88,7 +88,7 @@ export const ru: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

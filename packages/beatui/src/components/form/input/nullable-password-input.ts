@@ -1,20 +1,12 @@
 import { Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
-import { Merge } from '@tempots/std'
+import { PasswordInput } from './password-input'
 import { emptyToNull, nullToEmpty } from './nullable-text-input'
-import { TextArea } from './text-area'
 
-export type NullableTextAreaOptions = Merge<
-  InputOptions<null | string>,
-  {
-    rows?: Value<number>
-  }
->
-
-export const NullableTextArea = (options: NullableTextAreaOptions) => {
+export const NullablePasswordInput = (options: InputOptions<null | string>) => {
   const { value, onBlur, onChange, onInput, ...rest } = options
 
-  return TextArea({
+  return PasswordInput({
     ...rest,
     value: Value.map(value, nullToEmpty),
     onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,

@@ -18,6 +18,31 @@ export function JSONSchemaFormPage() {
     type: 'object',
     properties: {
       name: { type: 'string', title: 'Name', description: 'Your full name' },
+      email: {
+        type: 'string',
+        title: 'Email',
+        format: 'email',
+        description: 'Your email address',
+      },
+      birthdate: {
+        type: 'string',
+        // title: 'Birthdate',
+        format: 'date',
+        description: 'Your birthdate',
+      },
+      image: {
+        type: 'string',
+        title: 'Image',
+        format: 'binary',
+        description: 'Your profile image',
+        contentMediaType: 'image/*',
+      },
+      description: {
+        type: 'string',
+        title: 'Description',
+        'ui:widget': 'textarea',
+        description: 'A brief description of yourself',
+      },
       age: { type: 'integer', title: 'Age', minimum: 0 },
       isActive: { type: 'boolean', title: 'Active' },
       address: {

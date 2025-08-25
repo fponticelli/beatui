@@ -5,7 +5,7 @@ export type SchemaContextOptions = {
   definition?: JSONSchema7
   horizontal: boolean
   required: boolean
-  isRoot: boolean
+  path: ReadonlyArray<PropertyKey>
 }
 
 export class SchemaContext {
@@ -13,9 +13,9 @@ export class SchemaContext {
   readonly definition: JSONSchema7
   readonly horizontal: boolean
   readonly required: boolean
-  readonly isRoot: boolean
+  readonly path: ReadonlyArray<PropertyKey>
   constructor(options: SchemaContextOptions) {
-    const { schema, definition, horizontal, required, isRoot } = options
+    const { schema, definition, horizontal, required, path } = options
     this.schema = schema
     this.definition =
       typeof definition === 'undefined'
@@ -25,7 +25,7 @@ export class SchemaContext {
         : definition
     this.horizontal = horizontal
     this.required = required
-    this.isRoot = isRoot
+    this.path = path
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -34,7 +34,23 @@ export class SchemaContext {
       definition: options.definition ?? this.definition,
       horizontal: options.horizontal ?? this.horizontal,
       required: options.required ?? this.required,
-      isRoot: options.isRoot ?? false,
+      path: options.path ?? this.path,
     })
+  }
+
+  readonly append = (segment: PropertyKey) => {
+    return this.with({ path: [...this.path, segment] })
+  }
+
+  get isRoot() {
+    return this.path.length === 0
+  }
+
+  get name(): string | undefined {
+    const last = this.path[this.path.length - 1]
+    if (typeof last === 'string') {
+      return last
+    }
+    return undefined
   }
 }

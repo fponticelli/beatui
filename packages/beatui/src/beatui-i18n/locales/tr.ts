@@ -58,17 +58,17 @@ const tr: BeatUIMessages = {
   removeFile: 'Dosyayı kaldır',
   clearAllFiles: 'Tüm dosyaları temizle',
   unknownType: 'Bilinmeyen tür',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'Seçmek için tıklayın veya dosyaları buraya sürükleyin'
-      : 'Seçmek için tıklayın veya dosyayı buraya sürükleyin'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'Seçmek için tıklayın veya dosyaları buraya sürükleyin'
+        : 'Seçmek için tıklayın veya dosyayı buraya sürükleyin'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -87,7 +87,7 @@ const tr: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

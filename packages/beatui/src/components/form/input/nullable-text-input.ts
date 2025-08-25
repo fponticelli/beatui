@@ -1,6 +1,6 @@
-import { attr, emitValue, Empty, input, on, Value } from '@tempots/dom'
-import { InputContainer } from './input-container'
-import { CommonInputAttributes, InputOptions } from './input-options'
+import { Value } from '@tempots/dom'
+import { InputOptions } from './input-options'
+import { TextInput } from './text-input'
 
 export const emptyToNull = (value: string | null) =>
   typeof value === 'string' && value.trim() === '' ? null : value
@@ -10,19 +10,11 @@ export const nullToEmpty = (value: null | string) =>
 export const NullableTextInput = (options: InputOptions<null | string>) => {
   const { value, onBlur, onChange, onInput, ...rest } = options
 
-  return InputContainer({
+  return TextInput({
     ...rest,
-    input: input.text(
-      CommonInputAttributes(rest),
-      attr.value(Value.map(value, nullToEmpty)),
-      attr.class('bc-input'),
-      onBlur != null ? on.blur(onBlur) : Empty,
-      onChange != null
-        ? on.change(emitValue(v => onChange(emptyToNull(v))))
-        : Empty,
-      onInput != null
-        ? on.input(emitValue(v => onInput(emptyToNull(v))))
-        : Empty
-    ),
+    value: Value.map(value, nullToEmpty),
+    onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,
+    onInput: onInput != null ? v => onInput(emptyToNull(v)) : undefined,
+    onBlur,
   })
 }

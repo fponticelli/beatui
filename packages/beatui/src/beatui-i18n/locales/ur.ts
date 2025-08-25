@@ -58,17 +58,17 @@ const ur: BeatUIMessages = {
   removeFile: 'فائل حذف کریں',
   clearAllFiles: 'تمام فائلیں صاف کریں',
   unknownType: 'نامعلوم قسم',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'منتخب کرنے کے لیے کلک کریں یا فائلیں یہاں گھسیٹیں'
-      : 'منتخب کرنے کے لیے کلک کریں یا فائل یہاں گھسیٹیں'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'منتخب کرنے کے لیے کلک کریں یا فائلیں یہاں گھسیٹیں'
+        : 'منتخب کرنے کے لیے کلک کریں یا فائل یہاں گھسیٹیں'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -89,7 +89,7 @@ const ur: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join('، ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

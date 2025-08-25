@@ -58,17 +58,17 @@ export const nl: BeatUIMessages = {
   removeFile: 'Bestand verwijderen',
   clearAllFiles: 'Alle bestanden wissen',
   unknownType: 'Onbekend type',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'Klik om te kiezen of sleep bestanden hierheen'
-      : 'Klik om te kiezen of sleep een bestand hierheen'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'Klik om te kiezen of sleep bestanden hierheen'
+        : 'Klik om te kiezen of sleep een bestand hierheen'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -87,7 +87,7 @@ export const nl: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

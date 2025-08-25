@@ -17,7 +17,7 @@ export const TextArea = (options: TextAreaOptions) => {
     ...options,
     input: html.textarea(
       CommonInputAttributes(options),
-      attr.rows(rows ?? 10),
+      attr.rows(rows ?? 3),
       attr.value(value),
       attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,

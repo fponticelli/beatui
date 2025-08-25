@@ -58,17 +58,17 @@ export const ja: BeatUIMessages = {
   removeFile: 'ファイルを削除',
   clearAllFiles: 'すべてのファイルを削除',
   unknownType: '不明なタイプ',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'クリックして選択するか、ファイルをここにドラッグ'
-      : 'クリックして選択するか、ファイルをここにドラッグ'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'クリックして選択するか、ファイルをここにドラッグ'
+        : 'クリックして選択するか、ファイルをここにドラッグ'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -85,7 +85,7 @@ export const ja: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join('、')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

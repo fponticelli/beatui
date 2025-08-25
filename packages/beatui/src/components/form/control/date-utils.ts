@@ -1,8 +1,8 @@
-export const dateToISOString = (date: Date): string => {
+export const dateTimeToISO = (date: Date): string => {
   return date.toISOString()
 }
 
-export const dateToISODate = (date: Date): string => {
+export const dateToISO = (date: Date): string => {
   return date.toISOString().split('T')[0]!
 }
 
@@ -14,10 +14,10 @@ export const nullableStringToDate = (value: string | null): Date | null => {
   return value != null && value !== '' ? new Date(value) : null
 }
 
-export const nullableDateToISOString = (date: Date | null): string | null => {
+export const nullableDateTimeToISO = (date: Date | null): string | null => {
   return date != null ? date.toISOString() : null
 }
 
-export const nullableDateToISODate = (date: Date | null): string | null => {
+export const nullableDateToISO = (date: Date | null): string | null => {
   return date != null ? date.toISOString().split('T')[0]! : null
 }

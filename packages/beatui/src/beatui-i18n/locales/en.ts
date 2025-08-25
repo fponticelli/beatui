@@ -57,17 +57,17 @@ const en = {
   removeFile: 'Remove file',
   clearAllFiles: 'Clear all files',
   unknownType: 'Unknown type',
-  fileInputInstructions: (
-    allowMultiple: boolean,
+  filesInputInstructions: (
     maxFiles: number | undefined,
     maxFileSize: number | undefined,
     fileSizeUnits: string[]
   ): string => {
-    let instruction = allowMultiple
-      ? 'Click to choose or drag files here'
-      : 'Click to choose or drag a file here'
+    let instruction =
+      maxFiles == null || maxFiles > 1
+        ? 'Click to choose or drag files here'
+        : 'Click to choose or drag a file here'
 
-    if (allowMultiple && (maxFiles || maxFileSize)) {
+    if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
       if (maxFiles) {
@@ -86,7 +86,7 @@ const en = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (!allowMultiple && maxFileSize && fileSizeUnits) {
+    } else if (maxFileSize && fileSizeUnits) {
       const formattedSize = formatFileSize(maxFileSize, {
         units: fileSizeUnits,
       })

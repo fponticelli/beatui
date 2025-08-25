@@ -7,12 +7,12 @@ import {
   ListControl,
   NumberControl,
   ObjectController,
-  TextControl,
 } from '../form'
 import { attr, html, TNode, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
-import { objectEntries } from '@tempots/std'
+import { humanize, objectEntries, upperCaseFirst } from '@tempots/std'
 import { SchemaContext } from './context'
+import { StringControl } from './widgets/string-controls'
 
 export function JSONSchemaAny({
   ctx,
@@ -52,7 +52,10 @@ function definitionToInputWrapperOptions({
     }
   }
   return {
-    label: definition.title,
+    label:
+      (definition.title ?? ctx.name != null)
+        ? upperCaseFirst(humanize(ctx.name!))
+        : null,
     description,
     required: ctx.required,
     horizontal: ctx.horizontal,
@@ -133,13 +136,13 @@ export function JSONSchemaString({
   controller,
 }: {
   ctx: SchemaContext
-  controller: Controller<string>
+  controller: Controller<string | undefined>
 }): TNode {
-  return TextControl({
+  const options = {
     ...definitionToInputWrapperOptions({ ctx }),
-    controller,
     placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
-  })
+  }
+  return StringControl({ ctx, options, controller })
 }
 
 export function JSONSchemaBoolean({
@@ -180,12 +183,13 @@ export function JSONSchemaArray({
     controller,
     element: payload => {
       const item = payload.item as Controller<unknown>
+      const index = payload.position.index
       const d = ctx.definition as JSONSchema7
       const definition = Array.isArray(d.items)
         ? d.items[payload.position.index]
         : (d.items ?? {})
       return JSONSchemaGenericControl({
-        ctx: ctx.with({ definition: definition as JSONSchema7 }),
+        ctx: ctx.with({ definition: definition as JSONSchema7 }).append(index),
         controller: item,
       })
     },
@@ -206,11 +210,14 @@ export function JSONSchemaObject({
         const key = k as string
         const field = controller.field(key)
         return JSONSchemaGenericControl({
-          ctx: ctx.with({
-            definition: value as JSONSchema7,
-            required:
-              (ctx.definition as JSONSchema7).required?.includes(key) ?? false,
-          }),
+          ctx: ctx
+            .with({
+              definition: value as JSONSchema7,
+              required:
+                (ctx.definition as JSONSchema7).required?.includes(key) ??
+                false,
+            })
+            .append(key),
           controller: field,
         })
       }
@@ -263,7 +270,7 @@ export function JSONSchemaGenericControl<T>({
     case 'string':
       return JSONSchemaString({
         ctx,
-        controller: controller as unknown as Controller<string>,
+        controller: controller as unknown as Controller<string | undefined>,
       })
     case 'boolean':
       return JSONSchemaBoolean({
@@ -316,7 +323,7 @@ export function JSONSchemaControl<T>({
     definition: undefined,
     horizontal: false,
     required: true,
-    isRoot: true,
+    path: [],
   })
   if (schema === true) {
     return JSONSchemaAny({ ctx, controller: controller as Controller<unknown> })

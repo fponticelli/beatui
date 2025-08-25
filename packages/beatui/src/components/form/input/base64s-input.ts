@@ -1,0 +1,65 @@
+import { Merge, Value } from '@tempots/dom'
+import { FileInputMode } from './file-input'
+import { FilesInput } from './files-input'
+import { decodeBase64 } from '@tempots/std'
+import { InputOptions } from './input-options'
+
+export type Base64sInputOptions = Merge<
+  InputOptions<string[]>,
+  {
+    accept?: Value<string>
+    maxFiles?: Value<number>
+    maxFileSize?: Value<number> // in bytes
+    mode?: Value<FileInputMode>
+    showFileList?: Value<boolean>
+  }
+>
+
+export async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file) // reads file as a data: URL (base64 encoded)
+    reader.onload = () => {
+      const result = reader.result as string
+      resolve(result.split(',')[1]) // strip the "data:*/*;base64," prefix
+    }
+    reader.onerror = error => reject(error)
+  })
+}
+
+function filesToBase64s(files: File[]): Promise<string[]> {
+  return Promise.all(files.map(fileToBase64))
+}
+
+export function Base64sInput(options: Base64sInputOptions) {
+  const {
+    value: base64Values,
+    onChange: base64OnChange,
+    onInput: base64OnInput,
+    ...rest
+  } = options
+  const value = Value.toSignal(base64Values).map(values => {
+    return values.map((value, index) => {
+      const name = `file-${index}`
+      const bytes = decodeBase64(value ?? '')
+      const blob = new Blob([bytes])
+      return new File([blob], name)
+    })
+  })
+  const onChange = (files: File[]) => {
+    if (base64OnChange != null) {
+      filesToBase64s(files).then(base64OnChange)
+    }
+  }
+  const onInput = (files: File[]) => {
+    if (base64OnInput != null) {
+      filesToBase64s(files).then(base64OnInput)
+    }
+  }
+  return FilesInput({
+    ...rest,
+    value,
+    onChange,
+    onInput,
+  })
+}
