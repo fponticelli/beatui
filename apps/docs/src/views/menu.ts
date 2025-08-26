@@ -90,6 +90,7 @@ export function Menu() {
       SidebarGroup(
         { header: 'Utilities', rail: true },
         SidebarLink({ href: '/breakpoint', content: 'Breakpoint' }),
+        SidebarLink({ href: '/temporal', content: 'Temporal' }),
         SidebarLink({ href: '/rtl-ltr', content: 'RTL/LTR Support' })
       )
     )

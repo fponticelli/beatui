@@ -34,6 +34,7 @@ import { MilkdownEditorPage } from './pages/milkdown-editor'
 import { TagsInputPage } from './pages/tags-input'
 import { MaskInputPage } from './pages/mask-input'
 import { ToolbarPage } from './pages/toolbar'
+import { TemporalPage } from './pages/temporal'
 
 export const App = () => {
   return BeatUI(
@@ -74,6 +75,7 @@ export const App = () => {
         '/milkdown-editor': MilkdownEditorPage,
         '/mask-input': MaskInputPage,
         '/toolbar': ToolbarPage,
+        '/temporal': TemporalPage,
         '/*': () => html.div('Not Found'),
       }),
     })
