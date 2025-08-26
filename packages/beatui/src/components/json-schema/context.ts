@@ -65,8 +65,9 @@ export class SchemaContext {
   }
 
   get widgetLabel(): string | undefined {
-    return (this.definition.title ?? this.name != null)
-      ? upperCaseFirst(humanize(this.name!))
-      : undefined
+    return (
+      this.definition.title ??
+      (this.name != null ? upperCaseFirst(humanize(this.name!)) : undefined)
+    )
   }
 }

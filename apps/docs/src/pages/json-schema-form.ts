@@ -13,9 +13,21 @@ import { MonacoEditorInput } from '@tempots/beatui/monaco'
 
 // Edit the JSON Schema (via Monaco) and see the form update live
 export function JSONSchemaFormPage() {
-  // Initial schema sample
+  // Initial schema sample with $defs and $ref usage
   const schemaObject = {
     type: 'object',
+    $defs: {
+      address_def: {
+        type: 'object',
+        title: 'Address',
+        properties: {
+          street: { type: 'string', title: 'Street' },
+          city: { type: 'string', title: 'City' },
+        },
+        required: ['street', 'city'],
+        additionalProperties: false,
+      },
+    },
     properties: {
       name: { type: 'string', title: 'Name', description: 'Your full name' },
       email: {
@@ -26,7 +38,6 @@ export function JSONSchemaFormPage() {
       },
       birthdate: {
         type: 'string',
-        // title: 'Birthdate',
         format: 'date',
         description: 'Your birthdate',
       },
@@ -45,15 +56,8 @@ export function JSONSchemaFormPage() {
       },
       age: { type: 'integer', title: 'Age', minimum: 18 },
       isActive: { type: 'boolean', title: 'Active' },
-      address: {
-        type: 'object',
-        title: 'Address',
-        properties: {
-          street: { type: 'string', title: 'Street' },
-          city: { type: 'string', title: 'City' },
-        },
-        required: ['street', 'city'],
-      },
+      // Use $ref and override a sibling (title) to demonstrate sibling-override merge
+      address: { $ref: '#/$defs/address_def', title: 'Home Address' },
       tags: { type: 'array', title: 'Tags', items: { type: 'string' } },
     },
     required: ['name'],

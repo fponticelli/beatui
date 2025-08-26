@@ -13,6 +13,8 @@ import { Stack } from '../layout'
 import { objectEntries } from '@tempots/std'
 import { SchemaContext } from './context'
 import { StringControl } from './widgets/string-controls'
+import { resolveRef } from './ref-utils'
+import { Label } from '../typography'
 
 export function JSONSchemaAny({
   ctx,
@@ -202,6 +204,7 @@ export function JSONSchemaObject({
 }): TNode {
   return Stack(
     attr.class('bu-gap-1'),
+    ctx.name != null ? Label(ctx.widgetLabel) : null,
     ...objectEntries((ctx.definition as JSONSchema7).properties ?? {}).map(
       ([k, value]) => {
         const key = k as string
@@ -240,43 +243,47 @@ export function JSONSchemaGenericControl<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): TNode {
-  const definition = ctx.definition as JSONSchema7
-  if (definition?.type == null) {
+  // Resolve $ref (in-document) if present; merge with siblings
+  const baseDef = ctx.definition as JSONSchema7
+  const resolvedDef = baseDef?.$ref ? resolveRef(baseDef, ctx.schema) : baseDef
+  const nextCtx = ctx.with({ definition: resolvedDef })
+
+  if (resolvedDef?.type == null) {
     return JSONSchemaAny({
-      ctx: ctx.with({ definition }),
+      ctx: nextCtx,
       controller: controller as unknown as Controller<unknown>,
     })
   }
-  if (Array.isArray(definition.type)) {
+  if (Array.isArray(resolvedDef.type)) {
     return JSONSchemaUnion({
-      ctx: ctx.with({ definition }),
+      ctx: nextCtx,
       controller: controller as unknown as Controller<unknown>,
     })
   }
-  switch (definition.type) {
+  switch (resolvedDef.type) {
     case 'number':
       return JSONSchemaNumber({
-        ctx,
+        ctx: nextCtx,
         controller: controller as unknown as Controller<number>,
       })
     case 'integer':
       return JSONSchemaInteger({
-        ctx,
+        ctx: nextCtx,
         controller: controller as unknown as Controller<number>,
       })
     case 'string':
       return JSONSchemaString({
-        ctx,
+        ctx: nextCtx,
         controller: controller as unknown as Controller<string | undefined>,
       })
     case 'boolean':
       return JSONSchemaBoolean({
-        ctx,
+        ctx: nextCtx,
         controller: controller as unknown as Controller<boolean>,
       })
     case 'array':
       return JSONSchemaArray({
-        ctx,
+        ctx: nextCtx,
         controller:
           controller instanceof ArrayController
             ? (controller as unknown as ArrayController<unknown[]>)
@@ -284,7 +291,7 @@ export function JSONSchemaGenericControl<T>({
       })
     case 'object': {
       const schema = JSONSchemaObject({
-        ctx,
+        ctx: nextCtx,
         controller: (controller instanceof ObjectController
           ? controller
           : (
@@ -293,18 +300,18 @@ export function JSONSchemaGenericControl<T>({
           [key: string]: unknown
         }>,
       })
-      if (ctx.isRoot) {
+      if (nextCtx.isRoot) {
         return schema
       }
       return html.div(attr.class('bc-json-schema-object'), schema)
     }
     case 'null':
       return JSONSchemaNull({
-        ctx,
+        ctx: nextCtx,
         controller: controller as unknown as Controller<null>,
       })
     default:
-      throw new Error(`Not implemented: unknown type ${definition.type}`)
+      throw new Error(`Not implemented: unknown type ${resolvedDef.type}`)
   }
 }
 
