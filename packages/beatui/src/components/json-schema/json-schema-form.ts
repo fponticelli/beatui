@@ -8,6 +8,8 @@ import { compileSchema, ajvErrorsToControllerValidation } from './ajv-utils'
 import { JSONSchemaControl } from './controls'
 
 /*
+TODO
+
 - [ ] date: full-date according to RFC3339 (opens new window).
 - [ ] time: time (time-zone is mandatory).
 - [ ] date-time: date-time (time-zone is mandatory).
@@ -65,13 +67,13 @@ export function JSONSchemaForm<T>({
       initialValue,
       validate: (value: T) => {
         const ok = validate(value)
-        console.log(ok, value)
         if (ok) return Validation.valid
         return ajvErrorsToControllerValidation(validate.errors ?? [])
       },
       onChange,
     })
-    return JSONSchemaControl({ schema, controller })
+    // Pass AJV for conditional evaluation in combinators
+    return JSONSchemaControl({ schema, controller, ajv })
   }
   return html.div(attr.class('bu-text-red-600'), result.error)
 }

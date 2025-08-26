@@ -1,5 +1,6 @@
 import { humanize, upperCaseFirst } from '@tempots/std'
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
+import type Ajv from 'ajv'
 
 export type SchemaContextOptions = {
   schema: JSONSchema7Definition
@@ -7,6 +8,7 @@ export type SchemaContextOptions = {
   horizontal: boolean
   required: boolean
   path: ReadonlyArray<PropertyKey>
+  ajv?: Ajv
 }
 
 export class SchemaContext {
@@ -15,8 +17,9 @@ export class SchemaContext {
   readonly horizontal: boolean
   readonly required: boolean
   readonly path: ReadonlyArray<PropertyKey>
+  readonly ajv: Ajv | undefined
   constructor(options: SchemaContextOptions) {
-    const { schema, definition, horizontal, required, path } = options
+    const { schema, definition, horizontal, required, path, ajv } = options
     this.schema = schema
     this.definition =
       typeof definition === 'undefined'
@@ -27,6 +30,7 @@ export class SchemaContext {
     this.horizontal = horizontal
     this.required = required
     this.path = path
+    this.ajv = ajv
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -36,6 +40,7 @@ export class SchemaContext {
       horizontal: options.horizontal ?? this.horizontal,
       required: options.required ?? this.required,
       path: options.path ?? this.path,
+      ajv: options.ajv ?? this.ajv,
     })
   }
 

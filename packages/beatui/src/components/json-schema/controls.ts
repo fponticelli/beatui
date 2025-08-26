@@ -243,13 +243,13 @@ export function JSONSchemaGenericControl<T>({
   const definition = ctx.definition as JSONSchema7
   if (definition?.type == null) {
     return JSONSchemaAny({
-      ctx,
+      ctx: ctx.with({ definition }),
       controller: controller as unknown as Controller<unknown>,
     })
   }
   if (Array.isArray(definition.type)) {
     return JSONSchemaUnion({
-      ctx,
+      ctx: ctx.with({ definition }),
       controller: controller as unknown as Controller<unknown>,
     })
   }
@@ -311,9 +311,11 @@ export function JSONSchemaGenericControl<T>({
 export function JSONSchemaControl<T>({
   schema,
   controller,
+  ajv,
 }: {
   schema: JSONSchema7Definition
   controller: Controller<T>
+  ajv?: import('ajv').default
 }): TNode {
   const ctx = new SchemaContext({
     schema,
@@ -321,6 +323,7 @@ export function JSONSchemaControl<T>({
     horizontal: false,
     required: true,
     path: [],
+    ajv,
   })
   if (schema === true) {
     return JSONSchemaAny({ ctx, controller: controller as Controller<unknown> })
