@@ -8,6 +8,7 @@ import {
   NullableTextAreaControl,
   NullablePasswordControl,
   transformNullToUndefined,
+  NullableUUIDControl,
 } from '@/components/form'
 import { SchemaContext } from '../context'
 import { Async, TNode } from '@tempots/dom'
@@ -71,9 +72,7 @@ export function StringControl({
       })
     }
     case 'uuid':
-      // TODO
-      console.warn('UUID format not implemented')
-      return NullableTextControl({
+      return NullableUUIDControl({
         ...options,
         controller: transformNullToUndefined(controller),
       })
