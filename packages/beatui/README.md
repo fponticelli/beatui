@@ -10,9 +10,7 @@
   - [ ] dirty
   - [ ] touched
 
-- [ ] Checkbox
 - [ ] Dark Logo
-- [ ] List Controls (move up/down/first/last, remove, vertical/horizontal)
 - [ ] Draggable List Items
 - [ ] Divider (horizontal/vertical)
 - [ ] Spacer

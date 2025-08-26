@@ -56,7 +56,7 @@ export function StringControl({
     }
     case 'time':
       // TODO
-      throw new Error('Not implemented: binary')
+      throw new Error('Not implemented: time')
     case 'password':
       return NullablePasswordControl({
         ...options,
