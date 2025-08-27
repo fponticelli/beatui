@@ -66,11 +66,13 @@ const ellipsis = (s: string) => (s.length > max ? s.slice(0, max) + '...' : s)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function description(value: Prop<any>) {
   return value.map(v => {
-    if (v == null) return 'null'
-    if (typeof v === 'boolean') return String(v)
     if (v instanceof Date) return v.toISOString()
     if (Array.isArray(v)) return `Array[${v.length}]`
-    return `"${ellipsis(String(v))}"`
+    if (typeof v === 'string') {
+      return `"${ellipsis(String(v))}"`
+    } else {
+      return String(v)
+    }
   })
 }
 
