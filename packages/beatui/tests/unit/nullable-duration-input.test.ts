@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { NullableDurationInput } from '../../src/components/form/input/nullable-duration-input'
-import { Theme } from '../../src/components/theme/theme'
 import type { Duration } from '../../src/temporal/types'
+import { BeatUI } from '@/index'
+import { sleep } from '@tempots/std'
 
 describe('NullableDurationInput', () => {
   let container: HTMLElement
@@ -16,13 +17,11 @@ describe('NullableDurationInput', () => {
     document.body.removeChild(container)
   })
 
-  it('renders empty string when value is null', () => {
+  it('renders empty string when value is null', async () => {
     const value = prop<Duration | null>(null)
     const el = NullableDurationInput({ value, onChange: vi.fn() })
-    render(
-      Provide(Theme, {}, () => el),
-      container
-    )
+    render(BeatUI({}, el), container)
+    await sleep(10)
 
     const input = container.querySelector('input') as HTMLInputElement
     expect(input.value).toBe('')
@@ -32,10 +31,8 @@ describe('NullableDurationInput', () => {
     const value = prop<Duration | null>(null)
     const onChange = vi.fn()
     const el = NullableDurationInput({ value, onChange })
-    render(
-      Provide(Theme, {}, () => el),
-      container
-    )
+    render(BeatUI({}, el), container)
+    await sleep(10)
 
     const input = container.querySelector('input') as HTMLInputElement
     input.value = 'P2DT3H'

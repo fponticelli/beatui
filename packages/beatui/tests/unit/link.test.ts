@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { generateLinkClasses } from '../../src/components/navigation/link/link'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
 
@@ -28,16 +28,6 @@ describe('Link', () => {
   })
 
   describe('isUrlMatch', () => {
-    beforeEach(() => {
-      // Mock window.location.origin for URL parsing tests
-      Object.defineProperty(window, 'location', {
-        value: {
-          origin: 'https://example.com',
-        },
-        writable: true,
-      })
-    })
-
     describe('exact match mode', () => {
       it('should match exact pathname', () => {
         const location = { pathname: '/docs', search: {}, hash: '' }

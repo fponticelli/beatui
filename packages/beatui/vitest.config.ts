@@ -16,5 +16,7 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.ts'],
     exclude: ['**/e2e/**', '**/node_modules/**', '**/dist/**'],
+    // Prefer a single thread to avoid tinypool termination issues in sandbox
+    pool: 'vmThreads',
   },
 })

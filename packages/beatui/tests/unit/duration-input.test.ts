@@ -4,6 +4,7 @@ import { DurationInput } from '../../src/components/form/input/duration-input'
 import { Theme } from '../../src/components/theme/theme'
 import { ensureTemporal } from '../../src/temporal/runtime'
 import type { Duration } from '../../src/temporal/types'
+import { sleep } from '@tempots/std'
 
 describe('DurationInput', () => {
   let container: HTMLElement
@@ -21,10 +22,14 @@ describe('DurationInput', () => {
     const T = await ensureTemporal()
     const value = prop<Duration>(T.Duration.from('P1DT2H'))
     const el = DurationInput({ value, onChange: vi.fn() })
-    render(Provide(Theme, {}, () => el), container)
+    render(
+      Provide(Theme, {}, () => el),
+      container
+    )
 
+    await sleep(10)
     const input = container.querySelector('input') as HTMLInputElement
-    expect(input).toBeTruthy()
+    expect(input).toBeDefined()
     // Since value is reactive, check starts with 'P'
     expect(input.value.startsWith('P')).toBe(true)
   })
@@ -34,7 +39,11 @@ describe('DurationInput', () => {
     const value = prop<Duration>(T.Duration.from('P0D'))
     const onChange = vi.fn()
     const el = DurationInput({ value, onChange })
-    render(Provide(Theme, {}, () => el), container)
+    render(
+      Provide(Theme, {}, () => el),
+      container
+    )
+    await sleep(10)
 
     const input = container.querySelector('input') as HTMLInputElement
     input.value = 'P1DT2H3M4S'

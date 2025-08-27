@@ -43,7 +43,12 @@ export function isUrlMatch(
 
     case 'params':
       try {
-        const targetUrl = new URL(targetHref, window.location.origin)
+        // Use document.baseURI to avoid relying on window.location mutability in tests
+        const base =
+          typeof document !== 'undefined' && document.baseURI
+            ? document.baseURI
+            : 'http://localhost/'
+        const targetUrl = new URL(targetHref, base)
         const targetSearchParams = new URLSearchParams(targetUrl.search)
         const currentSearchParams = new URLSearchParams(location.search)
 
