@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import {
-  Combobox,
+  ComboboxInput,
   ComboboxOption,
-} from '../../src/components/form/input/combobox'
-import { ComboboxControl } from '../../src/components/form/control/combobox-control'
+} from '../../src/components/form/input/combobox-input'
+import { ComboboxControl } from '../../src/components/form/input/combobox-input'
 import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form/use-form'
 
@@ -31,7 +31,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -56,7 +56,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -77,7 +77,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             placeholder: 'Select a fruit',
@@ -102,7 +102,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -132,7 +132,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: val => {
@@ -168,7 +168,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -199,7 +199,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -238,7 +238,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: val => {
@@ -279,7 +279,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -320,7 +320,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},
@@ -344,7 +344,7 @@ describe('Combobox', () => {
 
       render(
         WithProviders(() =>
-          Combobox({
+          ComboboxInput({
             value,
             options,
             onChange: () => {},

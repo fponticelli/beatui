@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
-import { TextControl } from '../../src/components/form/control/text-control'
+import { TextInput } from '../../src/components/form/input/text-input'
 import { WithProviders } from '../helpers/test-providers'
 import { Controller } from '../../src/components/form/controller/controller'
 import { ControllerValidation } from '../../src/components/form/controller/controller-validation'
+import { Control } from '@/index'
 
 describe('Control Components Horizontal Layout', () => {
   let container: HTMLElement
@@ -28,7 +29,7 @@ describe('Control Components Horizontal Layout', () => {
 
       render(
         WithProviders(() =>
-          TextControl({
+          Control(TextInput, {
             controller,
             label: 'Test Input',
             description: 'This is a description',
@@ -61,7 +62,7 @@ describe('Control Components Horizontal Layout', () => {
 
       render(
         WithProviders(() =>
-          TextControl({
+          Control(TextInput, {
             controller,
             label: 'Test Input',
             description: 'This is a description',
@@ -94,7 +95,7 @@ describe('Control Components Horizontal Layout', () => {
 
       render(
         WithProviders(() =>
-          TextControl({
+          Control(TextInput, {
             controller,
             label: 'Test Input',
             description: 'This is a description',
