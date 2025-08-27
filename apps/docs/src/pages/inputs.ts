@@ -5,7 +5,7 @@ import {
   WithTemporal,
   WithBeatUIElementBreakpoint,
 } from '@tempots/beatui'
-import { prop, attr, html, TNode } from '@tempots/dom'
+import { prop, attr, html, TNode, Signal, Prop } from '@tempots/dom'
 import {
   AppearanceSelector,
   Base64Input,
@@ -18,6 +18,7 @@ import {
   FileInput,
   FilesInput,
   NumberInput,
+  NullableNumberInput,
   PasswordInput,
   TagsInput,
   TextArea,
@@ -60,6 +61,13 @@ import {
   useController,
 } from '@tempots/beatui'
 
+const max = 40
+const ellipsis = (s: string) => (s.length > max ? s.slice(0, max) + '...' : s)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function description(value: Prop<any>) {
+  return value.map(v => ellipsis(String(v)))
+}
+
 export const InputsPage = () =>
   WithTemporal(T => {
     // Simple input values
@@ -74,6 +82,7 @@ export const InputsPage = () =>
     const file = prop<File | undefined>(undefined)
     const files = prop<File[]>([])
     const number = prop(0)
+    const nullableNumber = prop<number | null>(null)
     const password = prop('')
     const tags = prop<string[]>([])
     const textAreaVal = prop('')
@@ -160,6 +169,10 @@ export const InputsPage = () =>
           ...children
         )
       )
+    const listCtl = useController<string[]>({
+      initialValue: listInitial,
+    })
+    const list = listCtl.controller.array()
 
     return ScrollablePanel({
       body: Stack(
@@ -179,54 +192,75 @@ export const InputsPage = () =>
               value: appearance,
               onChange: appearance.set,
             }),
+            description: description(appearance),
           }),
           InputWrapper({
             label: 'Base64Input',
             content: Base64Input({ value: base64, onChange: base64.set }),
+            description: description(base64),
           }),
           InputWrapper({
             label: 'Base64sInput',
             content: Base64sInput({ value: base64s, onChange: base64s.set }),
+            description: description(base64s),
           }),
           InputWrapper({
             label: 'CheckboxInput',
             content: CheckboxInput({ value: checkbox, onChange: checkbox.set }),
+            description: description(checkbox),
           }),
           InputWrapper({
             label: 'ColorInput',
             content: ColorInput({ value: color, onChange: color.set }),
+            description: description(color),
           }),
           InputWrapper({
             label: 'DateInput',
             content: DateInput({ value: date, onChange: date.set }),
+            description: description(date),
           }),
           InputWrapper({
             label: 'DateTimeInput',
             content: DateTimeInput({ value: dateTime, onChange: dateTime.set }),
+            description: description(dateTime),
           }),
           InputWrapper({
             label: 'EmailInput',
             content: EmailInput({ value: email, onChange: email.set }),
+            description: description(email),
           }),
           InputWrapper({
             label: 'FileInput',
             content: FileInput({ value: file, onChange: file.set }),
+            description: description(file),
           }),
           InputWrapper({
             label: 'FilesInput',
             content: FilesInput({ value: files, onChange: files.set }),
+            description: description(files),
           }),
           InputWrapper({
             label: 'NumberInput',
             content: NumberInput({ value: number, onChange: number.set }),
+            description: description(number),
+          }),
+          InputWrapper({
+            label: 'NullableNumberInput',
+            content: NullableNumberInput({
+              value: nullableNumber,
+              onChange: nullableNumber.set,
+            }),
+            description: description(nullableNumber),
           }),
           InputWrapper({
             label: 'PasswordInput',
             content: PasswordInput({ value: password, onChange: password.set }),
+            description: description(password),
           }),
           InputWrapper({
             label: 'TagsInput',
             content: TagsInput({ value: tags, onChange: tags.set }),
+            description: description(tags),
           }),
           InputWrapper({
             label: 'TextArea',
@@ -234,14 +268,17 @@ export const InputsPage = () =>
               value: textAreaVal,
               onChange: textAreaVal.set,
             }),
+            description: description(textAreaVal),
           }),
           InputWrapper({
             label: 'TextInput',
             content: TextInput({ value: textVal, onChange: textVal.set }),
+            description: description(textVal),
           }),
           InputWrapper({
             label: 'UUIDInput',
             content: UUIDInput({ value: uuid, onChange: uuid.set }),
+            description: description(uuid),
           })
         ),
         Columns(
@@ -251,6 +288,7 @@ export const InputsPage = () =>
               value: nullableUuid,
               onChange: nullableUuid.set,
             }),
+            description: description(nullableUuid),
           }),
           InputWrapper({
             label: 'NullableDateInput',
@@ -258,6 +296,7 @@ export const InputsPage = () =>
               value: nullableDate,
               onChange: nullableDate.set,
             }),
+            description: description(nullableDate),
           }),
           InputWrapper({
             label: 'NullableDateTimeInput',
@@ -265,6 +304,7 @@ export const InputsPage = () =>
               value: nullableDateTime,
               onChange: nullableDateTime.set,
             }),
+            description: description(nullableDateTime),
           }),
           InputWrapper({
             label: 'NullableEmailInput',
@@ -272,6 +312,7 @@ export const InputsPage = () =>
               value: nullableEmail,
               onChange: nullableEmail.set,
             }),
+            description: description(nullableEmail),
           }),
           InputWrapper({
             label: 'NullablePasswordInput',
@@ -279,6 +320,7 @@ export const InputsPage = () =>
               value: nullablePassword,
               onChange: nullablePassword.set,
             }),
+            description: description(nullablePassword),
           }),
           InputWrapper({
             label: 'NullableTextArea',
@@ -286,6 +328,7 @@ export const InputsPage = () =>
               value: nullableTextAreaVal,
               onChange: nullableTextAreaVal.set,
             }),
+            description: description(nullableTextAreaVal),
           }),
           InputWrapper({
             label: 'NullableTextInput',
@@ -293,6 +336,7 @@ export const InputsPage = () =>
               value: nullableTextVal,
               onChange: nullableTextVal.set,
             }),
+            description: description(nullableTextVal),
           })
         ),
         html.h2(
@@ -310,6 +354,7 @@ export const InputsPage = () =>
               options: comboboxOptions,
               onChange: comboboxValue.set,
             }),
+            description: description(comboboxValue),
           }),
           InputWrapper({
             label: 'NativeSelect',
@@ -318,6 +363,7 @@ export const InputsPage = () =>
               options: nativeSelectOptions,
               onChange: nativeSelectValue.set,
             }),
+            description: description(nativeSelectValue),
           }),
           InputWrapper({
             label: 'LazyNativeSelect',
@@ -330,6 +376,7 @@ export const InputsPage = () =>
               ],
               onChange: lazySelectValue.set,
             }),
+            description: description(lazySelectValue),
           }),
           InputWrapper({
             label: 'MaskInput',
@@ -338,6 +385,7 @@ export const InputsPage = () =>
               mask: '999-999',
               onChange: maskVal.set,
             }),
+            description: description(maskVal),
           }),
           InputWrapper({
             label: 'NullableMaskInput',
@@ -346,6 +394,7 @@ export const InputsPage = () =>
               mask: '999-999',
               onChange: nullableMaskVal.set,
             }),
+            description: description(nullableMaskVal),
           }),
           InputWrapper({
             label: 'EditableText',
@@ -353,22 +402,21 @@ export const InputsPage = () =>
               value: editableTextVal,
               onChange: editableTextVal.set,
             }),
+            description: description(editableTextVal),
           }),
           InputWrapper({
             label: 'Switch',
             content: Switch({ value: switchVal, onChange: switchVal.set }),
+            description: description(switchVal),
           }),
           InputWrapper({
             label: 'ListInput',
-            content: (() => {
-              const { controller } = useController<string[]>({
-                initialValue: listInitial,
-              })
-              const list = controller.array()
-              return ListInput(list, ({ item }) =>
+            content: Stack(
+              ListInput(list, ({ item }) =>
                 TextInput({ value: item.value, onChange: item.change })
-              )
-            })(),
+              ),
+              html.div(listCtl.controller.value.map(v => String(v)))
+            ),
           })
         ),
         Columns(
@@ -379,6 +427,7 @@ export const InputsPage = () =>
               value: plainDate,
               onChange: plainDate.set,
             }),
+            description: description(plainDate),
           }),
           InputWrapper({
             label: 'NullablePlainDateInput',
@@ -386,6 +435,7 @@ export const InputsPage = () =>
               value: nullablePlainDate,
               onChange: v => nullablePlainDate.set(v),
             }),
+            description: description(nullablePlainDate),
           }),
           InputWrapper({
             label: 'PlainTimeInput',
@@ -393,6 +443,7 @@ export const InputsPage = () =>
               value: plainTime,
               onChange: plainTime.set,
             }),
+            description: description(plainTime),
           }),
           InputWrapper({
             label: 'NullablePlainTimeInput',
@@ -400,6 +451,7 @@ export const InputsPage = () =>
               value: nullablePlainTime,
               onChange: v => nullablePlainTime.set(v),
             }),
+            description: description(nullablePlainTime),
           }),
           InputWrapper({
             label: 'PlainDateTimeInput',
@@ -407,6 +459,7 @@ export const InputsPage = () =>
               value: plainDateTime,
               onChange: plainDateTime.set,
             }),
+            description: description(plainDateTime),
           }),
           InputWrapper({
             label: 'NullablePlainDateTimeInput',
@@ -414,10 +467,12 @@ export const InputsPage = () =>
               value: nullablePlainDateTime,
               onChange: v => nullablePlainDateTime.set(v),
             }),
+            description: description(nullablePlainDateTime),
           }),
           InputWrapper({
             label: 'InstantInput',
             content: InstantInput({ value: instant, onChange: instant.set }),
+            description: description(instant),
           }),
           InputWrapper({
             label: 'NullableInstantInput',
@@ -425,6 +480,7 @@ export const InputsPage = () =>
               value: nullableInstant,
               onChange: v => nullableInstant.set(v),
             }),
+            description: description(nullableInstant),
           }),
           InputWrapper({
             label: 'ZonedDateTimeInput',
@@ -432,6 +488,7 @@ export const InputsPage = () =>
               value: zonedDateTime,
               onChange: zonedDateTime.set,
             }),
+            description: description(zonedDateTime),
           }),
           InputWrapper({
             label: 'NullableZonedDateTimeInput',
@@ -439,6 +496,7 @@ export const InputsPage = () =>
               value: nullableZonedDateTime,
               onChange: v => nullableZonedDateTime.set(v),
             }),
+            description: description(nullableZonedDateTime),
           }),
           InputWrapper({
             label: 'PlainYearMonthInput',
@@ -446,6 +504,7 @@ export const InputsPage = () =>
               value: plainYearMonth,
               onChange: plainYearMonth.set,
             }),
+            description: description(plainYearMonth),
           }),
           InputWrapper({
             label: 'NullablePlainYearMonthInput',
@@ -453,6 +512,7 @@ export const InputsPage = () =>
               value: nullablePlainYearMonth,
               onChange: v => nullablePlainYearMonth.set(v),
             }),
+            description: description(nullablePlainYearMonth),
           }),
           InputWrapper({
             label: 'PlainMonthDayInput',
@@ -460,6 +520,7 @@ export const InputsPage = () =>
               value: plainMonthDay,
               onChange: plainMonthDay.set,
             }),
+            description: description(plainMonthDay),
           }),
           InputWrapper({
             label: 'NullablePlainMonthDayInput',
@@ -467,10 +528,12 @@ export const InputsPage = () =>
               value: nullablePlainMonthDay,
               onChange: v => nullablePlainMonthDay.set(v),
             }),
+            description: description(nullablePlainMonthDay),
           }),
           InputWrapper({
             label: 'DurationInput',
             content: DurationInput({ value: duration, onChange: duration.set }),
+            description: description(duration),
           }),
           InputWrapper({
             label: 'NullableDurationInput',
@@ -478,6 +541,7 @@ export const InputsPage = () =>
               value: nullableDuration,
               onChange: v => nullableDuration.set(v),
             }),
+            description: description(nullableDuration),
           })
         )
       ),
