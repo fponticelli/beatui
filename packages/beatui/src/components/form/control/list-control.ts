@@ -7,10 +7,9 @@ import {
   Use,
   Value,
   computedOf,
+  Merge,
 } from '@tempots/dom'
 import { ArrayController } from '../controller/controller'
-import { ControlInputWrapper } from './control-input-wrapper'
-import { ControlWrapperOptions } from './control-options'
 import {
   ListInput,
   ListInputPayload,
@@ -22,23 +21,27 @@ import { Icon } from '@/components/data'
 import { Group } from '@/components/layout/group'
 import { Stack } from '@/components/layout/stack'
 import { BeatUII18n } from '@/beatui-i18n'
+import { InputWrapper, InputWrapperOptions } from '../input'
 
 export type ListControllerPayload<T> = ListInputPayload<T>
 export type { MoveDirection, MovableDirection }
 
 export type ListControlsLayout = 'below' | 'aside'
 
-export type ListControlOptions<T> = ControlWrapperOptions<T[]> & {
-  controller: ArrayController<T[]>
-  element: (payload: ListInputPayload<T>) => TNode
-  separator?: (pos: ElementPosition) => TNode
-  showMove?: Value<boolean>
-  showRemove?: Value<boolean>
-  showAdd?: Value<boolean>
-  createItem?: () => T
-  addLabel?: TNode
-  controlsLayout?: Value<ListControlsLayout>
-}
+export type ListControlOptions<T> = Merge<
+  Omit<InputWrapperOptions, 'content'>,
+  {
+    controller: ArrayController<T[]>
+    element: (payload: ListInputPayload<T>) => TNode
+    separator?: (pos: ElementPosition) => TNode
+    showMove?: Value<boolean>
+    showRemove?: Value<boolean>
+    showAdd?: Value<boolean>
+    createItem?: () => T
+    addLabel?: TNode
+    controlsLayout?: Value<ListControlsLayout>
+  }
+>
 
 export const ListControl = <T>(
   options: ListControlOptions<T>,
@@ -178,7 +181,7 @@ export const ListControl = <T>(
       )
   )
 
-  return ControlInputWrapper(
+  return InputWrapper(
     {
       ...rest,
       content: Stack(

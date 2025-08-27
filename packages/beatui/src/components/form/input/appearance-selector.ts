@@ -1,7 +1,7 @@
 import { AppearancePreference, Theme } from '@/components/theme'
 import { attr, html, TNode, Use, Value } from '@tempots/dom'
-import { SegmentedControl } from '../control'
 import { Icon } from '@/components/data'
+import { SegmentedInput } from './segmented-input'
 
 export type AppearanceSelectorOptions = {
   value: Value<AppearancePreference>
@@ -12,7 +12,7 @@ export function AppearanceSelector({
   value,
   onChange,
 }: AppearanceSelectorOptions) {
-  return SegmentedControl<Record<AppearancePreference, TNode>>({
+  return SegmentedInput<Record<AppearancePreference, TNode>>({
     size: 'sm',
     value,
     options: {

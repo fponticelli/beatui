@@ -19,6 +19,13 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { emitOptionExpando, Expando } from '../../misc/expando'
 import { BeatUII18n } from '@/beatui-i18n'
+import {
+  BaseControllerOptions,
+  ControllerOptions,
+  makeOnBlurHandler,
+  makeOnChangeHandler,
+} from '../control'
+import { InputWrapper } from './input-wrapper'
 
 export type ValueOption<T> = {
   type: 'value'
@@ -168,4 +175,25 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
       }
     })
   )
+}
+
+export function BaseNativeSelectControl<T>(
+  options: BaseControllerOptions<T, NativeSelectOptions<T>>
+) {
+  const { controller, onChange, onBlur, ...rest } = options
+  return NativeSelect({
+    ...rest,
+    value: controller.value,
+    onChange: makeOnChangeHandler(controller, onChange),
+    onBlur: makeOnBlurHandler(controller, onBlur),
+  })
+}
+
+export function NativeSelectControl<T>(
+  options: ControllerOptions<T, NativeSelectOptions<T>>
+) {
+  return InputWrapper({
+    ...options,
+    content: BaseNativeSelectControl(options),
+  })
 }

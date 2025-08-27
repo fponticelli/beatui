@@ -1,11 +1,13 @@
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
 import {
   ArrayController,
-  CheckboxControl,
+  CheckboxInput,
+  Control,
   Controller,
   InputWrapperOptions,
   ListControl,
-  NumberControl,
+  NumberInput,
+  NumberInputOptions,
   ObjectController,
 } from '../form'
 import { attr, html, TNode, WithElement } from '@tempots/dom'
@@ -95,13 +97,14 @@ export function JSONSchemaNumber({
   ctx: SchemaContext
   controller: Controller<number>
 }): TNode {
-  return NumberControl({
+  const def = ctx.definition as JSONSchema7
+  return Control<number, NumberInputOptions>(NumberInput, {
     ...definitionToInputWrapperOptions({ ctx }),
     controller,
     placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
-    min: (ctx.definition as JSONSchema7).minimum,
-    max: (ctx.definition as JSONSchema7).maximum,
-    step: (ctx.definition as JSONSchema7).multipleOf,
+    min: def.minimum,
+    max: def.maximum,
+    step: def.multipleOf,
   })
 }
 
@@ -151,7 +154,7 @@ export function JSONSchemaBoolean({
   ctx: SchemaContext
   controller: Controller<boolean>
 }): TNode {
-  return CheckboxControl({
+  return Control(CheckboxInput, {
     ...definitionToInputWrapperOptions({ ctx }),
     controller,
   })

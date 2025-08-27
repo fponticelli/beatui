@@ -4,12 +4,12 @@ import {
   Group,
   InputWrapper,
   MaskInput,
-  MaskControl,
+  Control,
   ScrollablePanel,
   Switch,
-  TextControl,
   useForm,
   Stack,
+  TextInput,
 } from '@tempots/beatui'
 import { z } from 'zod/v4'
 import { ControlsHeader } from '../elements/controls-header'
@@ -101,12 +101,12 @@ export function MaskInputPage() {
           ),
           html.form(
             attr.class('bu-space-y-4'),
-            TextControl({
+            Control(TextInput, {
               controller: controller.field('phone'),
               label: 'Name',
               placeholder: 'John Doe',
             }),
-            MaskControl({
+            Control(MaskInput, {
               controller: controller.field('phone'),
               label: 'Phone',
               placeholder: '(123) 456-7890',

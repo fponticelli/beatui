@@ -4,7 +4,7 @@ import {
   Stack,
   Group,
   Button,
-  SegmentedControl,
+  SegmentedInput,
   Label,
   Drawer,
   Modal,
@@ -30,7 +30,7 @@ export const RTLLTRPage = () => {
             attr.class('bu-gap-4'),
             Stack(
               Label('Locale'),
-              SegmentedControl({
+              SegmentedInput({
                 value: locale as Signal<'en-US' | 'ar-SA' | 'he-IL' | 'fa-IR'>,
                 options: {
                   'en-US': 'English',
@@ -43,7 +43,7 @@ export const RTLLTRPage = () => {
             ),
             Stack(
               Label('Direction Preference'),
-              SegmentedControl({
+              SegmentedInput({
                 value: directionPreference,
                 options: {
                   auto: 'Auto',

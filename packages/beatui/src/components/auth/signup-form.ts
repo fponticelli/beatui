@@ -13,8 +13,12 @@ import {
   When,
 } from '@tempots/dom'
 import { Button } from '../button'
-import { EmailControl, PasswordControl, TextControl } from '../form/control'
-import { CheckboxInput } from '../form/input'
+import {
+  EmailInput,
+  PasswordInput,
+  TextInput,
+  CheckboxInput,
+} from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm, UseFormResult } from '../form/use-form'
 import {
@@ -26,6 +30,7 @@ import {
 import { createSignUpSchema } from './schemas'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
 import { AuthI18n } from '@/auth-i18n/translations'
+import { Control } from '../form'
 
 export function SignUpForm({
   passwordRules,
@@ -100,7 +105,7 @@ export function SignUpForm({
 
         // Name field (optional)
         When(showNameField !== false, () =>
-          TextControl({
+          Control(TextInput, {
             controller: nameController.transform(
               v => v ?? '',
               v => (v === '' ? undefined : v)
@@ -110,12 +115,12 @@ export function SignUpForm({
         ),
 
         // Email field
-        EmailControl({
+        Control(EmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),
         // Password field
-        PasswordControl({
+        Control(PasswordInput, {
           controller: passwordController,
           label: coalesce(labels?.passwordLabel, t.$.passwordLabel),
         }),
@@ -131,7 +136,7 @@ export function SignUpForm({
 
         // Confirm password field
         When(showConfirmPassword ?? false, () =>
-          PasswordControl({
+          Control(PasswordInput, {
             controller: confirmPasswordController,
             label: coalesce(
               labels?.confirmPasswordLabel,

@@ -2,7 +2,7 @@ import {
   Link,
   LinkVariant,
   Stack,
-  SegmentedControl,
+  SegmentedInput,
   ScrollablePanel,
   Label,
 } from '@tempots/beatui'
@@ -16,7 +16,7 @@ export const LinkPage = () => {
     header: ControlsHeader(
       Stack(
         Label('Variant'),
-        SegmentedControl({
+        SegmentedInput({
           value: variant,
           options: {
             default: 'Default',

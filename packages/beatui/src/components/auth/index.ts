@@ -1,20 +1,12 @@
-// Authentication Components
-// Main exports for the BeatUI authentication suite
-
-// Types and interfaces
-export * from './types'
-
-// Validation schemas
-export * from './schemas'
-
-// Utility functions
-export * from './utils'
-
-// Components
 export * from './auth-container'
+export * from './auth-divider'
+export * from './auth-email-prop'
+export * from './password-strength-indicator'
+export * from './reset-password-form'
+export * from './schemas'
 export * from './signin-form'
 export * from './signup-form'
-export * from './reset-password-form'
 export * from './social-login-button'
-export * from './password-strength-indicator'
-export * from './auth-divider'
+export * from './social-providers'
+export * from './types'
+export * from './utils'

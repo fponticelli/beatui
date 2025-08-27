@@ -1,4 +1,5 @@
-import { SegmentedControl, AuthMode } from '@tempots/beatui'
+import { SegmentedInput } from '@tempots/beatui'
+import { AuthMode } from '@tempots/beatui/auth'
 import { Prop } from '@tempots/dom'
 
 export function AuthModeSelector({
@@ -8,7 +9,7 @@ export function AuthModeSelector({
   mode: Prop<AuthMode>
   onChange?: (value: AuthMode) => void
 }) {
-  return SegmentedControl({
+  return SegmentedInput({
     size: 'sm',
     options: {
       signin: 'Sign In',

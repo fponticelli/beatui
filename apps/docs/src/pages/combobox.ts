@@ -1,6 +1,5 @@
 import { attr, html, prop, style } from '@tempots/dom'
 import {
-  Combobox,
   ComboboxControl,
   ComboboxOption,
   Group,
@@ -8,6 +7,7 @@ import {
   ScrollablePanel,
   Stack,
   useController,
+  ComboboxInput,
 } from '@tempots/beatui'
 
 export const ComboboxPage = () => {
@@ -137,7 +137,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Select a fruit:'
             ),
-            Combobox({
+            ComboboxInput({
               value: basicValue,
               options: basicOptions,
               placeholder: 'Choose a fruit...',
@@ -172,7 +172,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Pick a color:'
             ),
-            Combobox({
+            ComboboxInput({
               value: colorValue,
               options: colorOptions,
               placeholder: 'Select color...',
@@ -207,7 +207,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Choose category:'
             ),
-            Combobox({
+            ComboboxInput({
               value: categoryValue,
               options: categoryOptions,
               placeholder: 'Select item...',

@@ -3,15 +3,15 @@ import {
   useForm,
   Button,
   Card,
-  TextControl,
   ScrollablePanel,
   Switch,
   Group,
   InputWrapper,
   Stack,
-  FilesControl,
   FilesInput,
-  FileControl,
+  Control,
+  TextInput,
+  FileInput,
 } from '@tempots/beatui'
 import { z } from 'zod/v4'
 import { ControlsHeader } from '../elements/controls-header'
@@ -128,19 +128,19 @@ export function FileInputPage() {
 
           html.form(
             attr.class('bu-space-y-4'),
-            TextControl({
+            Control(TextInput, {
               controller: controller.field('name'),
               placeholder: 'Enter your name',
               label: 'Name',
             }),
-            FileControl({
+            Control(FileInput, {
               mode: 'compact',
               controller: controller.field('avatar'),
               accept: 'image/*',
               maxFileSize: 1024 * 1024, // 1MB
               label: 'Avatars',
             }),
-            FilesControl({
+            Control(FilesInput, {
               mode: 'compact',
               controller: controller.field('files'),
               accept: 'image/*',

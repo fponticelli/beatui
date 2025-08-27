@@ -12,7 +12,7 @@ import {
   Use,
 } from '@tempots/dom'
 import { Button } from '../button'
-import { EmailControl } from '../form/control'
+import { EmailInput } from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm, UseFormResult } from '../form/use-form'
 import {
@@ -23,6 +23,7 @@ import {
 import { resetPasswordSchema } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
 import { useAuthEmailProp } from './auth-email-prop'
+import { Control } from '../form'
 
 export function ResetPasswordForm({
   onResetPassword,
@@ -77,7 +78,7 @@ export function ResetPasswordForm({
       Stack(
         attr.class('bc-auth-form__fields'),
         // Email field
-        EmailControl({
+        Control(EmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         })

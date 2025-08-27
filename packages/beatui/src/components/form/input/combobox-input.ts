@@ -19,6 +19,7 @@ import {
   When,
   aria,
   coalesce,
+  Merge,
 } from '@tempots/dom'
 
 import { InputContainer } from './input-container'
@@ -29,6 +30,13 @@ import { Flyout } from '../../navigation/flyout'
 import { sessionId } from '../../../utils/session-id'
 import { Icon } from '@/components/data'
 import { Group } from '@/components/layout'
+import {
+  BaseControllerOptions,
+  ControllerOptions,
+  makeOnBlurHandler,
+  makeOnChangeHandler,
+} from '../control'
+import { InputWrapper } from './input-wrapper'
 
 // Extend existing SelectOption types to support rich content
 export type ComboboxValueOption<T> = {
@@ -107,13 +115,16 @@ export const ComboboxOption = {
   },
 }
 
-export type ComboboxOptions<T> = InputOptions<T> & {
-  options: Value<ComboboxOption<T>[]>
-  unselectedLabel?: Value<string>
-  equality?: (a: T, b: T) => boolean
-  placeholder?: Value<string>
-  searchable?: Value<boolean>
-}
+export type ComboboxOptions<T> = Merge<
+  InputOptions<T>,
+  {
+    options: Value<ComboboxOption<T>[]>
+    unselectedLabel?: Value<string>
+    equality?: (a: T, b: T) => boolean
+    placeholder?: Value<string>
+    searchable?: Value<boolean>
+  }
+>
 
 // Internal component for rendering individual options
 const ComboboxOptionItem = <T>(
@@ -203,7 +214,7 @@ const ComboboxOptionItem = <T>(
   )
 }
 
-export const Combobox = <T>(options: ComboboxOptions<T>) => {
+export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   const {
     value,
     onBlur,
@@ -465,4 +476,25 @@ export const Combobox = <T>(options: ComboboxOptions<T>) => {
       closable: true, // Allow closing when clicking outside
     })
   )
+}
+
+export const BaseComboboxControl = <T>(
+  options: BaseControllerOptions<T, ComboboxOptions<T>>
+) => {
+  const { controller, onChange, onBlur, ...rest } = options
+  return ComboboxInput({
+    ...rest,
+    value: controller.value,
+    onChange: makeOnChangeHandler(controller, onChange),
+    onBlur: makeOnBlurHandler(controller, onBlur),
+  })
+}
+
+export const ComboboxControl = <T>(
+  options: ControllerOptions<T, ComboboxOptions<T>>
+) => {
+  return InputWrapper({
+    ...options,
+    content: BaseComboboxControl(options),
+  })
 }

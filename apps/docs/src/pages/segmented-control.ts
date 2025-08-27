@@ -1,7 +1,7 @@
 import {
   ControlSize,
   ScrollablePanel,
-  SegmentedControl,
+  SegmentedInput,
   Stack,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
@@ -40,7 +40,7 @@ export const SegmentedControlPage = () => {
               html.th(attr.class('bu-border bu-p-2'), currentSize),
               html.td(
                 attr.class('bu-border bu-p-2'),
-                SegmentedControl({
+                SegmentedInput({
                   options,
                   size: currentSize,
                   disabled,

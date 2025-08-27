@@ -3,7 +3,7 @@ import {
   Drawer,
   Stack,
   Label,
-  SegmentedControl,
+  SegmentedInput,
   TextInput,
   Icon,
   Switch,
@@ -38,7 +38,7 @@ export const DrawerPage = () => {
       // Size Control
       Stack(
         Label('Size'),
-        SegmentedControl({
+        SegmentedInput({
           value: size,
           options: {
             sm: 'Small',
@@ -52,7 +52,7 @@ export const DrawerPage = () => {
       // Side Control
       Stack(
         Label('Side'),
-        SegmentedControl({
+        SegmentedInput({
           value: side,
           options: {
             top: 'Top',
@@ -68,7 +68,7 @@ export const DrawerPage = () => {
       // Overlay Effect Control
       Stack(
         Label('Overlay Effect'),
-        SegmentedControl({
+        SegmentedInput({
           value: overlayEffect,
           options: {
             transparent: 'Transparent',
@@ -280,7 +280,7 @@ export const DrawerPage = () => {
                   Group(
                     attr.class('bu-flex-col bu-gap-2'),
                     Label('Theme'),
-                    SegmentedControl({
+                    SegmentedInput({
                       value: prop<'light' | 'dark' | 'auto'>('light'),
                       options: {
                         light: 'Light',

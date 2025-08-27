@@ -1,9 +1,0 @@
-import { DateInput } from '../input/date-input'
-import { createMappedControl } from './control-factory'
-import { stringToDate, dateTimeToISO } from './date-utils'
-
-export const StringDateControl = createMappedControl(
-  DateInput,
-  stringToDate,
-  dateTimeToISO
-)

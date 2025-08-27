@@ -5,7 +5,7 @@ import {
   TabItem,
   Stack,
   Label,
-  SegmentedControl,
+  SegmentedInput,
   Switch,
   TabsDirection,
 } from '@tempots/beatui'
@@ -101,7 +101,7 @@ export const TabsPage = () => {
       Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
       Stack(
         Label('Orientation'),
-        SegmentedControl({
+        SegmentedInput({
           size: 'sm',
           options: {
             horizontal: 'Horizontal',

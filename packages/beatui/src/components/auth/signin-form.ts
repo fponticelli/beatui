@@ -13,8 +13,7 @@ import {
   When,
 } from '@tempots/dom'
 import { Button } from '../button'
-import { EmailControl, PasswordControl } from '../form/control'
-import { CheckboxInput } from '../form/input'
+import { EmailInput, PasswordInput, CheckboxInput } from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm } from '../form/use-form'
 import {
@@ -25,6 +24,7 @@ import {
 import { createSignInSchema } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
 import { useAuthEmailProp } from './auth-email-prop'
+import { Control } from '../form'
 
 export function SignInForm({
   onSignIn,
@@ -94,12 +94,12 @@ export function SignInForm({
         attr.class('bc-auth-form__fields'),
 
         // Email field
-        EmailControl({
+        Control(EmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),
         // Password field
-        PasswordControl({
+        Control(PasswordInput, {
           controller: passwordController,
           label: coalesce(labels?.passwordLabel, t.$.passwordLabel),
         }),

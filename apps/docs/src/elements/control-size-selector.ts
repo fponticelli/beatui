@@ -1,4 +1,4 @@
-import { ControlSize, SegmentedControl } from '@tempots/beatui'
+import { ControlSize, SegmentedInput } from '@tempots/beatui'
 import { Prop } from '@tempots/dom'
 
 export function ControlSizeSelector({
@@ -8,7 +8,7 @@ export function ControlSizeSelector({
   size: Prop<ControlSize>
   onChange?: (value: ControlSize) => void
 }) {
-  return SegmentedControl({
+  return SegmentedInput({
     size: 'sm',
     options: {
       xs: 'XS',

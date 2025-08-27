@@ -4,7 +4,7 @@ import {
   ButtonVariant,
   RadiusName,
   ThemeColorName,
-  SegmentedControl,
+  SegmentedInput,
   TextInput,
   Stack,
   Label,
@@ -67,7 +67,7 @@ export const ButtonPage = () => {
     header: ControlsHeader(
       Stack(
         Label('Roundedness'),
-        SegmentedControl({
+        SegmentedInput({
           size: 'sm',
           options: {
             none: 'NONE',

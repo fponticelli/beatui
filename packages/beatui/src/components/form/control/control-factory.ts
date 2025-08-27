@@ -1,82 +1,103 @@
-import { TNode } from '@tempots/dom'
-import { ControlInputWrapper } from './control-input-wrapper'
-import { ControlOptions } from './control-options'
-import {
-  inputOptionsFromController,
-  inputOptionsFromMappedController,
-} from '../input/input-options'
-import {
-  makeOnBlurHandler,
-  makeOnChangeHandler,
-  makeMappedOnChangeHandler,
-} from './text-control'
+import { Merge, TNode } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
+import { Controller } from '../controller'
+import { InputWrapper, InputWrapperOptions } from '../input'
 
-type InputComponent<T> = (options: InputOptions<T>) => TNode
-
-export function createControl<T>(inputComponent: InputComponent<T>) {
-  return (options: ControlOptions<T>, ...children: TNode[]) => {
-    const { onBlur, onChange, ...rest } = options
-
-    return ControlInputWrapper(
-      {
-        ...rest,
-        content: inputComponent({
-          ...rest,
-          ...inputOptionsFromController(rest.controller),
-          onChange: makeOnChangeHandler(rest.controller, onChange),
-          onBlur: makeOnBlurHandler(rest.controller, onBlur),
-        }),
-      },
-      ...children
-    )
+export const makeOnBlurHandler =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (_controller: Controller<any>, onBlur?: () => void) => () => {
+    // _controller.touch() // TODO: Implement touch functionality
+    onBlur?.()
   }
+
+export const makeOnChangeHandler =
+  <T>(controller: Controller<T>, onChange?: (value: T) => void) =>
+  (value: T) => {
+    controller.change(value)
+    onChange?.(value)
+  }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type BaseControlOptions = InputOptions<any>
+export type ControlOptions = Merge<BaseControlOptions, InputWrapperOptions>
+
+export type BaseControllerOptions<T, O extends BaseControlOptions> = Merge<
+  Omit<O, 'value'>,
+  { controller: Controller<T> }
+>
+
+export type ControllerOptions<T, O extends BaseControlOptions> = Merge<
+  Omit<InputWrapperOptions, 'content'>,
+  Merge<Omit<O, 'value'>, { controller: Controller<T> }>
+>
+
+export function BaseControl<T, O extends BaseControlOptions>(
+  InputComponent: (options: O) => TNode,
+  options: BaseControllerOptions<T, O>
+) {
+  const { controller, onBlur, onChange, ...rest } = options
+  return InputComponent({
+    id: controller.name,
+    disabled: controller.disabled,
+    value: controller.value,
+    hasError: controller.hasError,
+    ...rest,
+    onChange: makeOnChangeHandler(controller, onChange),
+    onBlur: makeOnBlurHandler(controller, onBlur),
+  } as unknown as O)
 }
 
-export function createMappedControl<T, U>(
-  inputComponent: InputComponent<T>,
-  toInput: (value: U) => T,
-  fromInput: (value: T) => U
+export function Control<T, O extends BaseControlOptions>(
+  InputComponent: (options: O) => TNode,
+  options: ControllerOptions<T, O>,
+  ...children: TNode[]
 ) {
-  return (options: ControlOptions<U>, ...children: TNode[]) => {
-    const { onBlur, onChange, ...rest } = options
-
-    return ControlInputWrapper(
-      {
-        ...rest,
-        content: inputComponent({
-          ...rest,
-          ...inputOptionsFromMappedController(rest.controller, toInput),
-          onChange: makeMappedOnChangeHandler(
-            rest.controller,
-            fromInput,
-            onChange
-          ),
-          onBlur: makeOnBlurHandler(rest.controller, onBlur),
-        }),
-      },
-      ...children
-    )
-  }
+  return InputWrapper(
+    {
+      ...options,
+      content: BaseControl(
+        InputComponent,
+        options as BaseControllerOptions<T, O>
+      ),
+    },
+    ...children
+  )
 }
 
-export function createNullableControl<T>(
-  inputComponent: InputComponent<T | null>
+export function BaseMappedControl<T, U, O extends BaseControlOptions>(
+  InputComponent: (options: O) => TNode,
+  options: Merge<
+    BaseControllerOptions<T, O>,
+    {
+      toInput: (value: T) => U
+      fromInput: (value: U) => T
+    }
+  >
 ) {
-  return (options: ControlOptions<T | null>, ...children: TNode[]) => {
-    const { onBlur, onChange, ...rest } = options
+  const { toInput, fromInput, controller, ...rest } = options
+  const mappedController = controller.transform(toInput, fromInput)
+  return BaseControl(InputComponent, {
+    ...(rest as unknown as BaseControllerOptions<U, O>),
+    controller: mappedController,
+  })
+}
 
-    return ControlInputWrapper(
-      {
-        ...rest,
-        content: inputComponent({
-          ...rest,
-          ...inputOptionsFromController(rest.controller),
-          onChange: makeOnChangeHandler(rest.controller, onChange),
-          onBlur: makeOnBlurHandler(rest.controller, onBlur),
-        }),
-      },
-      ...children
-    )
-  }
+export function MappedControl<T, U, O extends BaseControlOptions>(
+  InputComponent: (options: O) => TNode,
+  options: Merge<
+    BaseControllerOptions<T, O>,
+    {
+      toInput: (value: T) => U
+      fromInput: (value: U) => T
+    }
+  >,
+  ...children: TNode[]
+) {
+  return InputWrapper(
+    {
+      ...options,
+      content: BaseMappedControl(InputComponent, options),
+    },
+    ...children
+  )
 }

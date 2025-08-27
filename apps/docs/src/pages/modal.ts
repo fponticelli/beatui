@@ -4,7 +4,7 @@ import {
   ConfirmModal,
   Stack,
   Label,
-  SegmentedControl,
+  SegmentedInput,
   TextInput,
   Icon,
   Switch,
@@ -39,7 +39,7 @@ export const ModalPage = () => {
     header: ControlsHeader(
       Stack(
         Label('Size'),
-        SegmentedControl({
+        SegmentedInput({
           size: 'sm',
           options: {
             sm: 'SM',
@@ -53,7 +53,7 @@ export const ModalPage = () => {
       ),
       Stack(
         Label('Overlay Effect'),
-        SegmentedControl({
+        SegmentedInput({
           size: 'sm',
           options: {
             opaque: 'Opaque',
@@ -66,7 +66,7 @@ export const ModalPage = () => {
       ),
       Stack(
         Label('Position'),
-        SegmentedControl({
+        SegmentedInput({
           size: 'sm',
           options: {
             center: 'Center',

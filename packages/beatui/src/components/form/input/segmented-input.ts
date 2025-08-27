@@ -16,7 +16,7 @@ function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
 
-export interface SegmentedControlOptions<
+export interface SegmentedInputOptions<
   T extends Record<string, TNode>,
   K extends keyof T = keyof T,
 > {
@@ -27,14 +27,14 @@ export interface SegmentedControlOptions<
   disabled?: Value<boolean>
 }
 
-export function SegmentedControl<T extends Record<string, TNode>>(
+export function SegmentedInput<T extends Record<string, TNode>>(
   {
     options,
     value,
     onChange,
     size = 'md',
     disabled = false,
-  }: SegmentedControlOptions<T, keyof T>,
+  }: SegmentedInputOptions<T, keyof T>,
   ...children: TNode[]
 ) {
   const optionsList = objectEntries(options).map(([key, label]) => ({
@@ -48,7 +48,7 @@ export function SegmentedControl<T extends Record<string, TNode>>(
     optionsList.map(() => ({ left: 0, width: 0 })),
     arrEquality
   )
-  function generateSegmentedControlClasses(
+  function generateSegmentedInputClasses(
     size: ControlSize,
     disabled: boolean
   ): string {
@@ -71,7 +71,7 @@ export function SegmentedControl<T extends Record<string, TNode>>(
         size,
         disabled
       )((size, disabled) =>
-        generateSegmentedControlClasses(size ?? 'md', disabled ?? false)
+        generateSegmentedInputClasses(size ?? 'md', disabled ?? false)
       )
     ),
     html.div(

@@ -1,4 +1,4 @@
-import { SegmentedControl, AuthProvider } from '@tempots/beatui'
+import { SegmentedInput, AuthProvider } from '@tempots/beatui'
 import { Prop } from '@tempots/dom'
 
 export function AuthProviderSelector({
@@ -8,7 +8,7 @@ export function AuthProviderSelector({
   provider: Prop<AuthProvider>
   onChange?: (value: AuthProvider) => void
 }) {
-  return SegmentedControl({
+  return SegmentedInput({
     size: 'sm',
     options: {
       google: 'Google',

@@ -1,19 +1,23 @@
 import {
   Controller,
   InputWrapperOptions,
-  Base64Control,
-  NullableStringDateControl,
-  NullableStringDateTimeControl,
-  NullableTextControl,
-  NullableTextAreaControl,
-  NullablePasswordControl,
   transformNullToUndefined,
-  NullableUUIDControl,
+  Control,
+  MappedControl,
 } from '@/components/form'
 import { SchemaContext } from '../context'
 import { Async, TNode } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
-import { NullableEmailControl } from '@/components/form/control/nullable-email-control'
+import {
+  Base64Input,
+  NullableEmailInput,
+  NullableDateInput,
+  NullableDateTimeInput,
+  NullablePasswordInput,
+  NullableTextArea,
+  NullableTextInput,
+  NullableUUIDInput,
+} from '@/components/form/input'
 
 /*
 TODO:
@@ -32,24 +36,28 @@ export function StringControl({
   const format = stringFormatDetection(ctx)
   switch (format?.format) {
     case 'email':
-      return NullableEmailControl({
+      return Control(NullableEmailInput, {
         ...options,
         controller: transformNullToUndefined(controller),
       })
     case 'date':
-      return NullableStringDateControl({
+      return MappedControl(NullableDateInput, {
         ...options,
         controller: transformNullToUndefined(controller),
+        toInput: v => (v == null ? null : new Date(v)),
+        fromInput: (v: Date | null) => v?.toISOString().split('T')[0] ?? null,
       })
     case 'date-time':
-      return NullableStringDateTimeControl({
+      return MappedControl(NullableDateTimeInput, {
         ...options,
         controller: transformNullToUndefined(controller),
+        toInput: v => (v == null ? null : new Date(v)),
+        fromInput: (v: Date | null) => v?.toISOString() ?? null,
       })
     case 'markdown': {
-      return Async(import('@/components/milkdown/nullable-milkdown-control'), {
-        then: ({ NullableMilkdownControl }) =>
-          NullableMilkdownControl({
+      return Async(import('@/components/milkdown/nullable-milkdown-input'), {
+        then: ({ NullableMilkdownInput }) =>
+          Control(NullableMilkdownInput, {
             ...options,
             controller: transformNullToUndefined(controller),
           }),
@@ -59,12 +67,12 @@ export function StringControl({
       // TODO
       throw new Error('Not implemented: time')
     case 'password':
-      return NullablePasswordControl({
+      return Control(NullablePasswordInput, {
         ...options,
         controller: transformNullToUndefined(controller),
       })
     case 'binary': {
-      return Base64Control({
+      return Control(Base64Input, {
         mode: 'compact',
         accept: format.mediaType,
         ...options,
@@ -72,17 +80,17 @@ export function StringControl({
       })
     }
     case 'uuid':
-      return NullableUUIDControl({
+      return Control(NullableUUIDInput, {
         ...options,
         controller: transformNullToUndefined(controller),
       })
     case 'textarea':
-      return NullableTextAreaControl({
+      return Control(NullableTextArea, {
         ...options,
         controller: transformNullToUndefined(controller),
       })
     default:
-      return NullableTextControl({
+      return Control(NullableTextInput, {
         ...options,
         controller: transformNullToUndefined(controller),
       })

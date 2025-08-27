@@ -2,18 +2,19 @@ import { attr, html, style } from '@tempots/dom'
 import {
   ComboboxControl,
   ComboboxOption,
-  DateControl,
+  Control,
+  DateInput,
   EnsureControl,
   Group,
   Icon,
   ListControl,
   NativeSelectControl,
-  NullableDateControl,
-  NumberControl,
+  NullableDateInput,
+  NumberInput,
   ScrollablePanel,
   SelectOption,
   Stack,
-  TextControl,
+  TextInput,
   useForm,
   ValueOption,
 } from '@tempots/beatui'
@@ -72,7 +73,7 @@ export const FormPage = () => {
         Stack(
           attr.class('bu-gap-2'),
           style.width('24rem'),
-          TextControl({
+          Control(TextInput, {
             controller: controller.field('name'),
             label: 'Name',
           }),
@@ -118,7 +119,7 @@ export const FormPage = () => {
             ] as ValueOption<'off' | 'default' | 'custom'>[],
           }),
           EnsureControl(delayValue, controller =>
-            NumberControl({
+            Control(NumberInput, {
               controller,
               label: 'Delay Value (with steppers)',
               step: 50,
@@ -141,7 +142,8 @@ export const FormPage = () => {
               return Stack(
                 attr.class('bu-gap-2'),
                 Stack(
-                  TextControl(
+                  Control(
+                    TextInput,
                     {
                       horizontal: true,
                       controller: group.field('title'),
@@ -149,17 +151,17 @@ export const FormPage = () => {
                     },
                     style.width('w-full')
                   ),
-                  TextControl({
+                  Control(TextInput, {
                     controller: group.field('company'),
                     label: 'Company',
                   })
                 ),
                 Group(
-                  DateControl({
+                  Control(DateInput, {
                     controller: group.field('startDate'),
                     label: 'Start Date',
                   }),
-                  NullableDateControl({
+                  Control(NullableDateInput, {
                     controller: group.field('endDate').transform(
                       v => (v == undefined ? null : v),
                       v => (v == null ? undefined : v)
