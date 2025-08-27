@@ -5,7 +5,7 @@ import {
   WithTemporal,
   WithBeatUIElementBreakpoint,
 } from '@tempots/beatui'
-import { prop, attr, html, TNode, Prop } from '@tempots/dom'
+import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
 import {
   AppearanceSelector,
   Base64Input,
@@ -65,11 +65,19 @@ const max = 40
 const ellipsis = (s: string) => (s.length > max ? s.slice(0, max) + '...' : s)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function description(value: Prop<any>) {
-  return value.map(v => ellipsis(String(v)))
+  return value.map(v => {
+    if (v == null) return 'null'
+    if (typeof v === 'boolean') return String(v)
+    if (v instanceof Date) return v.toISOString()
+    if (Array.isArray(v)) return `Array[${v.length}]`
+    return `"${ellipsis(String(v))}"`
+  })
 }
 
 export const InputsPage = () =>
   WithTemporal(T => {
+    const displayNonNullables = prop(true)
+
     // Simple input values
     const appearance = prop<'system' | 'light' | 'dark'>('system')
     const base64 = prop<string | undefined>(undefined)
@@ -177,6 +185,13 @@ export const InputsPage = () =>
     return ScrollablePanel({
       body: Stack(
         attr.class('bu-p-4 bu-gap-4'),
+        InputWrapper({
+          label: 'Display non-nullables',
+          content: Switch({
+            value: displayNonNullables,
+            onChange: displayNonNullables.set,
+          }),
+        }),
 
         // Simple inputs that only need a value
         html.h2(
@@ -214,21 +229,24 @@ export const InputsPage = () =>
             content: ColorInput({ value: color, onChange: color.set }),
             description: description(color),
           }),
-          InputWrapper({
-            label: 'DateInput',
-            content: DateInput({ value: date, onChange: date.set }),
-            description: description(date),
-          }),
-          InputWrapper({
-            label: 'DateTimeInput',
-            content: DateTimeInput({ value: dateTime, onChange: dateTime.set }),
-            description: description(dateTime),
-          }),
-          InputWrapper({
-            label: 'EmailInput',
-            content: EmailInput({ value: email, onChange: email.set }),
-            description: description(email),
-          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'EmailInput',
+                content: EmailInput({ value: email, onChange: email.set }),
+                description: description(email),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableEmailInput',
+                content: NullableEmailInput({
+                  value: nullableEmail,
+                  onChange: nullableEmail.set,
+                }),
+                description: description(nullableEmail),
+              })
+          ),
           InputWrapper({
             label: 'FileInput',
             content: FileInput({ value: file, onChange: file.set }),
@@ -239,105 +257,148 @@ export const InputsPage = () =>
             content: FilesInput({ value: files, onChange: files.set }),
             description: description(files),
           }),
-          InputWrapper({
-            label: 'NumberInput',
-            content: NumberInput({ value: number, onChange: number.set }),
-            description: description(number),
-          }),
-          InputWrapper({
-            label: 'NullableNumberInput',
-            content: NullableNumberInput({
-              value: nullableNumber,
-              onChange: nullableNumber.set,
-            }),
-            description: description(nullableNumber),
-          }),
-          InputWrapper({
-            label: 'PasswordInput',
-            content: PasswordInput({ value: password, onChange: password.set }),
-            description: description(password),
-          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'NumberInput',
+                content: NumberInput({ value: number, onChange: number.set }),
+                description: description(number),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableNumberInput',
+                content: NullableNumberInput({
+                  value: nullableNumber,
+                  onChange: nullableNumber.set,
+                }),
+                description: description(nullableNumber),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PasswordInput',
+                content: PasswordInput({
+                  value: password,
+                  onChange: password.set,
+                }),
+                description: description(password),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePasswordInput',
+                content: NullablePasswordInput({
+                  value: nullablePassword,
+                  onChange: nullablePassword.set,
+                }),
+                description: description(nullablePassword),
+              })
+          ),
           InputWrapper({
             label: 'TagsInput',
             content: TagsInput({ value: tags, onChange: tags.set }),
             description: description(tags),
           }),
-          InputWrapper({
-            label: 'TextArea',
-            content: TextArea({
-              value: textAreaVal,
-              onChange: textAreaVal.set,
-            }),
-            description: description(textAreaVal),
-          }),
-          InputWrapper({
-            label: 'TextInput',
-            content: TextInput({ value: textVal, onChange: textVal.set }),
-            description: description(textVal),
-          }),
-          InputWrapper({
-            label: 'UUIDInput',
-            content: UUIDInput({ value: uuid, onChange: uuid.set }),
-            description: description(uuid),
-          })
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'TextArea',
+                content: TextArea({
+                  value: textAreaVal,
+                  onChange: textAreaVal.set,
+                }),
+                description: description(textAreaVal),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableTextArea',
+                content: NullableTextArea({
+                  value: nullableTextAreaVal,
+                  onChange: nullableTextAreaVal.set,
+                }),
+                description: description(nullableTextAreaVal),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'TextInput',
+                content: TextInput({ value: textVal, onChange: textVal.set }),
+                description: description(textVal),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableTextInput',
+                content: NullableTextInput({
+                  value: nullableTextVal,
+                  onChange: nullableTextVal.set,
+                }),
+                description: description(nullableTextVal),
+              })
+          )
         ),
         Columns(
-          InputWrapper({
-            label: 'NullableUUIDInput',
-            content: NullableUUIDInput({
-              value: nullableUuid,
-              onChange: nullableUuid.set,
-            }),
-            description: description(nullableUuid),
-          }),
-          InputWrapper({
-            label: 'NullableDateInput',
-            content: NullableDateInput({
-              value: nullableDate,
-              onChange: nullableDate.set,
-            }),
-            description: description(nullableDate),
-          }),
-          InputWrapper({
-            label: 'NullableDateTimeInput',
-            content: NullableDateTimeInput({
-              value: nullableDateTime,
-              onChange: nullableDateTime.set,
-            }),
-            description: description(nullableDateTime),
-          }),
-          InputWrapper({
-            label: 'NullableEmailInput',
-            content: NullableEmailInput({
-              value: nullableEmail,
-              onChange: nullableEmail.set,
-            }),
-            description: description(nullableEmail),
-          }),
-          InputWrapper({
-            label: 'NullablePasswordInput',
-            content: NullablePasswordInput({
-              value: nullablePassword,
-              onChange: nullablePassword.set,
-            }),
-            description: description(nullablePassword),
-          }),
-          InputWrapper({
-            label: 'NullableTextArea',
-            content: NullableTextArea({
-              value: nullableTextAreaVal,
-              onChange: nullableTextAreaVal.set,
-            }),
-            description: description(nullableTextAreaVal),
-          }),
-          InputWrapper({
-            label: 'NullableTextInput',
-            content: NullableTextInput({
-              value: nullableTextVal,
-              onChange: nullableTextVal.set,
-            }),
-            description: description(nullableTextVal),
-          })
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'UUIDInput',
+                content: UUIDInput({ value: uuid, onChange: uuid.set }),
+                description: description(uuid),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableUUIDInput',
+                content: NullableUUIDInput({
+                  value: nullableUuid,
+                  onChange: nullableUuid.set,
+                }),
+                description: description(nullableUuid),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'DateInput',
+                content: DateInput({ value: date, onChange: date.set }),
+                description: description(date),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableDateInput',
+                content: NullableDateInput({
+                  value: nullableDate,
+                  onChange: nullableDate.set,
+                }),
+                description: description(nullableDate),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'DateTimeInput',
+                content: DateTimeInput({
+                  value: dateTime,
+                  onChange: dateTime.set,
+                }),
+                description: description(dateTime),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableDateTimeInput',
+                content: NullableDateTimeInput({
+                  value: nullableDateTime,
+                  onChange: nullableDateTime.set,
+                }),
+                description: description(nullableDateTime),
+              })
+          )
         ),
         html.h2(
           attr.style(
@@ -378,24 +439,29 @@ export const InputsPage = () =>
             }),
             description: description(lazySelectValue),
           }),
-          InputWrapper({
-            label: 'MaskInput',
-            content: MaskInput({
-              value: maskVal,
-              mask: '999-999',
-              onChange: maskVal.set,
-            }),
-            description: description(maskVal),
-          }),
-          InputWrapper({
-            label: 'NullableMaskInput',
-            content: NullableMaskInput({
-              value: nullableMaskVal,
-              mask: '999-999',
-              onChange: nullableMaskVal.set,
-            }),
-            description: description(nullableMaskVal),
-          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'MaskInput',
+                content: MaskInput({
+                  value: maskVal,
+                  mask: '999-999',
+                  onChange: maskVal.set,
+                }),
+                description: description(maskVal),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableMaskInput',
+                content: NullableMaskInput({
+                  value: nullableMaskVal,
+                  mask: '999-999',
+                  onChange: nullableMaskVal.set,
+                }),
+                description: description(nullableMaskVal),
+              })
+          ),
           InputWrapper({
             label: 'EditableText',
             content: EditableText({
@@ -419,130 +485,182 @@ export const InputsPage = () =>
             ),
           })
         ),
+        html.h2(
+          attr.style(
+            'margin: 1rem 0 0.5rem 0; font-size: 1rem; font-weight: 600;'
+          ),
+          'Temporal'
+        ),
         Columns(
           // Temporal-based inputs
-          InputWrapper({
-            label: 'PlainDateInput',
-            content: PlainDateInput({
-              value: plainDate,
-              onChange: plainDate.set,
-            }),
-            description: description(plainDate),
-          }),
-          InputWrapper({
-            label: 'NullablePlainDateInput',
-            content: NullablePlainDateInput({
-              value: nullablePlainDate,
-              onChange: v => nullablePlainDate.set(v),
-            }),
-            description: description(nullablePlainDate),
-          }),
-          InputWrapper({
-            label: 'PlainTimeInput',
-            content: PlainTimeInput({
-              value: plainTime,
-              onChange: plainTime.set,
-            }),
-            description: description(plainTime),
-          }),
-          InputWrapper({
-            label: 'NullablePlainTimeInput',
-            content: NullablePlainTimeInput({
-              value: nullablePlainTime,
-              onChange: v => nullablePlainTime.set(v),
-            }),
-            description: description(nullablePlainTime),
-          }),
-          InputWrapper({
-            label: 'PlainDateTimeInput',
-            content: PlainDateTimeInput({
-              value: plainDateTime,
-              onChange: plainDateTime.set,
-            }),
-            description: description(plainDateTime),
-          }),
-          InputWrapper({
-            label: 'NullablePlainDateTimeInput',
-            content: NullablePlainDateTimeInput({
-              value: nullablePlainDateTime,
-              onChange: v => nullablePlainDateTime.set(v),
-            }),
-            description: description(nullablePlainDateTime),
-          }),
-          InputWrapper({
-            label: 'InstantInput',
-            content: InstantInput({ value: instant, onChange: instant.set }),
-            description: description(instant),
-          }),
-          InputWrapper({
-            label: 'NullableInstantInput',
-            content: NullableInstantInput({
-              value: nullableInstant,
-              onChange: v => nullableInstant.set(v),
-            }),
-            description: description(nullableInstant),
-          }),
-          InputWrapper({
-            label: 'ZonedDateTimeInput',
-            content: ZonedDateTimeInput({
-              value: zonedDateTime,
-              onChange: zonedDateTime.set,
-            }),
-            description: description(zonedDateTime),
-          }),
-          InputWrapper({
-            label: 'NullableZonedDateTimeInput',
-            content: NullableZonedDateTimeInput({
-              value: nullableZonedDateTime,
-              onChange: v => nullableZonedDateTime.set(v),
-            }),
-            description: description(nullableZonedDateTime),
-          }),
-          InputWrapper({
-            label: 'PlainYearMonthInput',
-            content: PlainYearMonthInput({
-              value: plainYearMonth,
-              onChange: plainYearMonth.set,
-            }),
-            description: description(plainYearMonth),
-          }),
-          InputWrapper({
-            label: 'NullablePlainYearMonthInput',
-            content: NullablePlainYearMonthInput({
-              value: nullablePlainYearMonth,
-              onChange: v => nullablePlainYearMonth.set(v),
-            }),
-            description: description(nullablePlainYearMonth),
-          }),
-          InputWrapper({
-            label: 'PlainMonthDayInput',
-            content: PlainMonthDayInput({
-              value: plainMonthDay,
-              onChange: plainMonthDay.set,
-            }),
-            description: description(plainMonthDay),
-          }),
-          InputWrapper({
-            label: 'NullablePlainMonthDayInput',
-            content: NullablePlainMonthDayInput({
-              value: nullablePlainMonthDay,
-              onChange: v => nullablePlainMonthDay.set(v),
-            }),
-            description: description(nullablePlainMonthDay),
-          }),
-          InputWrapper({
-            label: 'DurationInput',
-            content: DurationInput({ value: duration, onChange: duration.set }),
-            description: description(duration),
-          }),
-          InputWrapper({
-            label: 'NullableDurationInput',
-            content: NullableDurationInput({
-              value: nullableDuration,
-              onChange: v => nullableDuration.set(v),
-            }),
-            description: description(nullableDuration),
-          })
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PlainDateInput',
+                content: PlainDateInput({
+                  value: plainDate,
+                  onChange: plainDate.set,
+                }),
+                description: description(plainDate),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePlainDateInput',
+                content: NullablePlainDateInput({
+                  value: nullablePlainDate,
+                  onChange: v => nullablePlainDate.set(v),
+                }),
+                description: description(nullablePlainDate),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PlainTimeInput',
+                content: PlainTimeInput({
+                  value: plainTime,
+                  onChange: plainTime.set,
+                }),
+                description: description(plainTime),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePlainTimeInput',
+                content: NullablePlainTimeInput({
+                  value: nullablePlainTime,
+                  onChange: v => nullablePlainTime.set(v),
+                }),
+                description: description(nullablePlainTime),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PlainDateTimeInput',
+                content: PlainDateTimeInput({
+                  value: plainDateTime,
+                  onChange: plainDateTime.set,
+                }),
+                description: description(plainDateTime),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePlainDateTimeInput',
+                content: NullablePlainDateTimeInput({
+                  value: nullablePlainDateTime,
+                  onChange: v => nullablePlainDateTime.set(v),
+                }),
+                description: description(nullablePlainDateTime),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'InstantInput',
+                content: InstantInput({
+                  value: instant,
+                  onChange: instant.set,
+                }),
+                description: description(instant),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableInstantInput',
+                content: NullableInstantInput({
+                  value: nullableInstant,
+                  onChange: v => nullableInstant.set(v),
+                }),
+                description: description(nullableInstant),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'ZonedDateTimeInput',
+                content: ZonedDateTimeInput({
+                  value: zonedDateTime,
+                  onChange: zonedDateTime.set,
+                }),
+                description: description(zonedDateTime),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableZonedDateTimeInput',
+                content: NullableZonedDateTimeInput({
+                  value: nullableZonedDateTime,
+                  onChange: v => nullableZonedDateTime.set(v),
+                }),
+                description: description(nullableZonedDateTime),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PlainYearMonthInput',
+                content: PlainYearMonthInput({
+                  value: plainYearMonth,
+                  onChange: plainYearMonth.set,
+                }),
+                description: description(plainYearMonth),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePlainYearMonthInput',
+                content: NullablePlainYearMonthInput({
+                  value: nullablePlainYearMonth,
+                  onChange: v => nullablePlainYearMonth.set(v),
+                }),
+                description: description(nullablePlainYearMonth),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'PlainMonthDayInput',
+                content: PlainMonthDayInput({
+                  value: plainMonthDay,
+                  onChange: plainMonthDay.set,
+                }),
+                description: description(plainMonthDay),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullablePlainMonthDayInput',
+                content: NullablePlainMonthDayInput({
+                  value: nullablePlainMonthDay,
+                  onChange: v => nullablePlainMonthDay.set(v),
+                }),
+                description: description(nullablePlainMonthDay),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'DurationInput',
+                content: DurationInput({
+                  value: duration,
+                  onChange: duration.set,
+                }),
+                description: description(duration),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableDurationInput',
+                content: NullableDurationInput({
+                  value: nullableDuration,
+                  onChange: v => nullableDuration.set(v),
+                }),
+                description: description(nullableDuration),
+              })
+          )
         )
       ),
     })
