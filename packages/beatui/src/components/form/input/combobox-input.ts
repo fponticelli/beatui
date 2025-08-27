@@ -376,7 +376,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
           )
         ),
         Icon(
-          { icon: 'ph:caret-up-down-bold', color: 'primary' },
+          { icon: 'ph:caret-up-down-bold', color: 'neutral' },
           attr.class('bc-combobox__arrow')
         )
       ),

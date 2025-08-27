@@ -1,5 +1,4 @@
 import { Value } from '@tempots/dom'
-import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { WithTemporal } from '@/temporal/with-temporal'
 import { MaskInput } from './mask-input'
@@ -9,20 +8,17 @@ export const PlainMonthDayInput = (options: InputOptions<PlainMonthDay>) => {
   const { value, onChange } = options
 
   return WithTemporal(T =>
-    InputContainer({
+    MaskInput({
       ...options,
-      input: MaskInput({
-        ...options,
-        // Map Temporal value to MM-DD string
-        value: Value.map(value, v => v.toString()),
-        onChange:
-          onChange != null
-            ? (v: string) => onChange(T.PlainMonthDay.from(`--${v}`))
-            : undefined,
-        onInput: undefined,
-        mask: '99-99',
-        placeholder: 'MM-DD',
-      }),
+      // Map Temporal value to MM-DD string
+      value: Value.map(value, v => v.toString()),
+      onChange:
+        onChange != null
+          ? (v: string) => onChange(T.PlainMonthDay.from(`--${v}`))
+          : undefined,
+      onInput: undefined,
+      mask: '99-99',
+      placeholder: 'MM-DD',
     })
   )
 }

@@ -35,9 +35,8 @@
   textarea:focus-visible,
   select:focus-visible,
   [contenteditable]:focus-visible,
-  .bc-input:focus-visible,
-  .bc-input-container:focus-within {
-    outline-offset: -2px;
+  .bc-input:focus-visible {
+      outline: none;
   }
 
   /* Link elements */

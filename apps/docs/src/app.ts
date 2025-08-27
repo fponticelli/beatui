@@ -35,6 +35,7 @@ import { TagsInputPage } from './pages/tags-input'
 import { MaskInputPage } from './pages/mask-input'
 import { ToolbarPage } from './pages/toolbar'
 import { TemporalPage } from './pages/temporal'
+import { InputsPage } from './pages/inputs'
 
 export const App = () => {
   return BeatUI(
@@ -76,6 +77,7 @@ export const App = () => {
         '/mask-input': MaskInputPage,
         '/toolbar': ToolbarPage,
         '/temporal': TemporalPage,
+        '/inputs': InputsPage,
         '/*': () => html.div('Not Found'),
       }),
     })

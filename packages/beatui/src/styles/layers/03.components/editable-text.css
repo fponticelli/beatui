@@ -2,6 +2,11 @@
   /* Editable Text Component */
   .bc-editable-text {
     border-bottom: 1px dashed var(--color-gray-300);
+    display: flex;
+      flex-direction: row;
+      gap: calc(var(--spacing-base) * 2);
+      align-items: flex-start;
+      cursor: pointer;
   }
 
   /* Input state */
@@ -10,10 +15,11 @@
     padding: 0 calc(var(--spacing-base) / 2);
     background: transparent;
     border: none;
-    min-width: calc(var(--spacing-base) * 8);
-    width: min-content;
     font: inherit;
     color: inherit;
+    flex-grow: 1;
+    line-height: var(--line-height-normal);
+    height: 2rem;
   }
 
   .bc-editable-text__input:focus {
@@ -34,11 +40,17 @@
     cursor: pointer;
     padding: 0 calc(var(--spacing-base) / 2);
     white-space: nowrap;
+    flex-grow: 1;
+    overflow: hidden;
+    line-height: var(--line-height-normal);
+    height: 2rem;
   }
 
   /* Text content */
   .bc-editable-text__text {
-    /* Inherits from parent */
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Placeholder text */

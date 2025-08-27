@@ -76,7 +76,7 @@ export const EditableText = ({
             attr.class('bc-editable-text__edit-button'),
             Use(BeatUII18n, t => aria.label(t.$.editLabel)),
             on.click(() => isEditing.set(true)),
-            Icon({ icon: 'line-md/pencil' })
+            Icon({ icon: 'line-md/pencil', color: 'neutral' })
           )
         )
     )

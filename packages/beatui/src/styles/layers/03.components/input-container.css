@@ -95,7 +95,7 @@
   .bc-input-container input,
   .bc-input-container textarea,
   .bc-input-container select,
-  .bc-input {
+  .bc-input-container .bc-input {
     width: 100%;
     background: transparent;
     border: none;

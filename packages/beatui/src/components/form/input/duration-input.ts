@@ -1,5 +1,4 @@
 import { Value } from '@tempots/dom'
-import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { WithTemporal } from '@/temporal/with-temporal'
 import { MaskInput } from './mask-input'
@@ -12,18 +11,15 @@ export const DurationInput = (options: InputOptions<Duration>) => {
   const { value, onChange } = options
 
   return WithTemporal(T =>
-    InputContainer({
+    MaskInput({
       ...options,
-      input: MaskInput({
-        ...options,
-        value: Value.map(value, v => v.toString()),
-        onChange: onChange
-          ? (v: string) => onChange(T.Duration.from(v))
-          : undefined,
-        onInput: undefined,
-        mask: null,
-        placeholder: 'P0DT0H0M0S',
-      }),
+      value: Value.map(value, v => v.toString()),
+      onChange: onChange
+        ? (v: string) => onChange(T.Duration.from(v))
+        : undefined,
+      onInput: undefined,
+      mask: null,
+      placeholder: 'P0DT0H0M0S',
     })
   )
 }
