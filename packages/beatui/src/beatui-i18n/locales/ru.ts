@@ -71,10 +71,9 @@ export const ru: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
+      if (maxFiles != null && maxFiles > 1) {
         let fileText = 'файлов'
-        if (maxFiles === 1) fileText = 'файл'
-        else if (maxFiles >= 2 && maxFiles <= 4) fileText = 'файла'
+        if (maxFiles <= 4) fileText = 'файла'
         constraints.push(`до ${maxFiles} ${fileText}`)
       }
 

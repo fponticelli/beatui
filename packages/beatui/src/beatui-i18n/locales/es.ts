@@ -71,10 +71,8 @@ const es: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
-        constraints.push(
-          maxFiles === 1 ? 'hasta 1 archivo' : `hasta ${maxFiles} archivos`
-        )
+      if (maxFiles != null && maxFiles > 1) {
+        constraints.push(`hasta ${maxFiles} archivos`)
       }
 
       if (maxFileSize && fileSizeUnits) {

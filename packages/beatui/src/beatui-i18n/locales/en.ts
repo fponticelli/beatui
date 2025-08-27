@@ -70,10 +70,8 @@ const en = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
-        constraints.push(
-          maxFiles === 1 ? 'up to 1 file' : `up to ${maxFiles} files`
-        )
+      if (maxFiles != null && maxFiles > 1) {
+        constraints.push(`up to ${maxFiles} files`)
       }
 
       if (maxFileSize && fileSizeUnits) {

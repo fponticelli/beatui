@@ -71,10 +71,8 @@ export const nl: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
-        constraints.push(
-          maxFiles === 1 ? 'tot 1 bestand' : `tot ${maxFiles} bestanden`
-        )
+      if (maxFiles != null && maxFiles > 1) {
+        constraints.push(`tot ${maxFiles} bestanden`)
       }
 
       if (maxFileSize && fileSizeUnits) {

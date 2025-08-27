@@ -71,7 +71,7 @@ const zh: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
+      if (maxFiles != null && maxFiles > 1) {
         constraints.push(`最多${maxFiles}个文件`)
       }
 

@@ -71,7 +71,7 @@ export const ja: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
+      if (maxFiles != null && maxFiles > 1) {
         constraints.push(`最大${maxFiles}ファイル`)
       }
 

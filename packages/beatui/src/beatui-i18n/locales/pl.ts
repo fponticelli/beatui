@@ -71,10 +71,8 @@ export const pl: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
-        constraints.push(
-          maxFiles === 1 ? 'do 1 pliku' : `do ${maxFiles} plików`
-        )
+      if (maxFiles != null && maxFiles > 1) {
+        constraints.push(`do ${maxFiles} plików`)
       }
 
       if (maxFileSize && fileSizeUnits) {

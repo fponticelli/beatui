@@ -71,10 +71,8 @@ const vi: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
-        constraints.push(
-          maxFiles === 1 ? 'tối đa 1 tệp' : `tối đa ${maxFiles} tệp`
-        )
+      if (maxFiles != null && maxFiles > 1) {
+        constraints.push(`tối đa ${maxFiles} tệp`)
       }
 
       if (maxFileSize && fileSizeUnits) {

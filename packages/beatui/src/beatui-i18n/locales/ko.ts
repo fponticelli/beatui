@@ -71,7 +71,7 @@ const ko: BeatUIMessages = {
     if (maxFiles || maxFileSize) {
       const constraints: string[] = []
 
-      if (maxFiles) {
+      if (maxFiles != null && maxFiles > 1) {
         constraints.push(`최대 ${maxFiles}개 파일`)
       }
 
