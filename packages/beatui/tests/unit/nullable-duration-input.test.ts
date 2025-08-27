@@ -1,0 +1,52 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, Provide, prop } from '@tempots/dom'
+import { NullableDurationInput } from '../../src/components/form/input/nullable-duration-input'
+import { Theme } from '../../src/components/theme/theme'
+import type { Duration } from '../../src/temporal/types'
+
+describe('NullableDurationInput', () => {
+  let container: HTMLElement
+
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+  })
+
+  it('renders empty string when value is null', () => {
+    const value = prop<Duration | null>(null)
+    const el = NullableDurationInput({ value, onChange: vi.fn() })
+    render(
+      Provide(Theme, {}, () => el),
+      container
+    )
+
+    const input = container.querySelector('input') as HTMLInputElement
+    expect(input.value).toBe('')
+  })
+
+  it('maps change to null for empty and to parsed duration for valid ISO', async () => {
+    const value = prop<Duration | null>(null)
+    const onChange = vi.fn()
+    const el = NullableDurationInput({ value, onChange })
+    render(
+      Provide(Theme, {}, () => el),
+      container
+    )
+
+    const input = container.querySelector('input') as HTMLInputElement
+    input.value = 'P2DT3H'
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    expect(onChange).toHaveBeenCalled()
+    const dur: Duration = onChange.mock.calls[0][0]
+    expect(String(dur)).toBe('P2DT3H')
+
+    onChange.mockClear()
+    input.value = ''
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    expect(onChange).toHaveBeenCalledWith(null)
+  })
+})

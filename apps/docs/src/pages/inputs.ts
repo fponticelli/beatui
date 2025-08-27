@@ -5,7 +5,7 @@ import {
   WithTemporal,
   WithBeatUIElementBreakpoint,
 } from '@tempots/beatui'
-import { prop, attr, html, TNode, Signal, Prop } from '@tempots/dom'
+import { prop, attr, html, TNode, Prop } from '@tempots/dom'
 import {
   AppearanceSelector,
   Base64Input,

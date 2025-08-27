@@ -4,6 +4,7 @@ import {
   transformNullToUndefined,
   Control,
   MappedControl,
+  transformEmptyStringToUndefined,
 } from '@/components/form'
 import { SchemaContext } from '../context'
 import { Async, TNode } from '@tempots/dom'
@@ -50,11 +51,11 @@ export function StringControl({
         fromInput: (v: Date | null) => v?.toISOString() ?? null,
       })
     case 'markdown': {
-      return Async(import('@/components/milkdown/nullable-milkdown-input'), {
-        then: ({ NullableMilkdownInput }) =>
-          Control(NullableMilkdownInput, {
+      return Async(import('@/components/milkdown/milkdown-input'), {
+        then: ({ MilkdownInput }) =>
+          Control(MilkdownInput, {
             ...options,
-            controller: transformNullToUndefined(controller),
+            controller: transformEmptyStringToUndefined(controller),
           }),
       })
     }

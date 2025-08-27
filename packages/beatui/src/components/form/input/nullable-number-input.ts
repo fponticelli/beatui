@@ -50,13 +50,19 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
   const stepperButtons =
     step != null
       ? Use(BeatUII18n, t => {
-          const canDecrement = computedOf(value, min)((val, minVal) => {
+          const canDecrement = computedOf(
+            value,
+            min
+          )((val, minVal) => {
             const current = (val as number | null) ?? 0
             if (minVal == null) return true
             return current > (minVal as number)
           })
 
-          const canIncrement = computedOf(value, max)((val, maxVal) => {
+          const canIncrement = computedOf(
+            value,
+            max
+          )((val, maxVal) => {
             const current = (val as number | null) ?? 0
             if (maxVal == null) return true
             return current < (maxVal as number)
@@ -91,9 +97,10 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
               ),
               attr.disabled(
-                computedOf(canIncrement, options.disabled ?? false)(
-                  (canInc, disabled) => !canInc || disabled
-                )
+                computedOf(
+                  canIncrement,
+                  options.disabled ?? false
+                )((canInc, disabled) => !canInc || disabled)
               ),
               on.click(event => handleIncrement(event)),
               aria.label(t.$.incrementValue),
@@ -104,9 +111,10 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
               ),
               attr.disabled(
-                computedOf(canDecrement, options.disabled ?? false)(
-                  (canDec, disabled) => !canDec || disabled
-                )
+                computedOf(
+                  canDecrement,
+                  options.disabled ?? false
+                )((canDec, disabled) => !canDec || disabled)
               ),
               on.click(event => handleDecrement(event)),
               aria.label(t.$.decrementValue),
@@ -119,7 +127,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
   const afterContent =
     after != null && stepperButtons != null
       ? Fragment(stepperButtons, after)
-      : after ?? stepperButtons
+      : (after ?? stepperButtons)
 
   return InputContainer({
     ...options,
@@ -147,9 +155,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
         : Empty,
       CommonInputAttributes(options),
       // Represent null as empty string so the field can be cleared
-      attr.value(
-        Value.map(value, v => (v == null ? '' : String(v as number)))
-      ),
+      attr.value(Value.map(value, v => (v == null ? '' : String(v as number)))),
       attr.step(step),
       attr.class('bc-input bc-number-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
@@ -176,7 +182,8 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
             const current = ((Value.get(value) as number | null) ?? 0) as number
             const stepVal = Value.get(step)
             const multiplier = event.shiftKey ? 10 : 1
-            const delta = event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
+            const delta =
+              event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
             const newValue = clampValue(current + delta)
             if (newValue !== current && onChange) onChange(newValue)
           })
@@ -185,4 +192,3 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
     after: afterContent,
   })
 }
-

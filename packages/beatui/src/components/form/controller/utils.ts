@@ -9,6 +9,15 @@ export function transformNullToUndefined<T>(
   )
 }
 
+export function transformEmptyStringToUndefined(
+  controller: Controller<NonNullable<string> | undefined>
+): Controller<NonNullable<string>> {
+  return controller.transform(
+    v => (v == null ? '' : v),
+    v => (v === '' ? undefined : v)
+  )
+}
+
 export function transformUndefinedToNull<T>(
   controller: Controller<NonNullable<T> | null>
 ): Controller<NonNullable<T> | undefined> {

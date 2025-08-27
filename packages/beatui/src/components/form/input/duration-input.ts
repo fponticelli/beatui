@@ -3,6 +3,7 @@ import { InputOptions } from './input-options'
 import { WithTemporal } from '@/temporal/with-temporal'
 import { MaskInput } from './mask-input'
 import { Duration } from '@/temporal'
+import { durationMaskConfig } from './duration-mask'
 
 // Simple ISO-8601 duration text input with mask
 // Format: PnYnMnDTnHnMnS (we'll provide a lenient mask and parse via Temporal.Duration.from)
@@ -18,7 +19,7 @@ export const DurationInput = (options: InputOptions<Duration>) => {
         ? (v: string) => onChange(T.Duration.from(v))
         : undefined,
       onInput: undefined,
-      mask: null,
+      ...durationMaskConfig(T.Duration.from),
       placeholder: 'P0DT0H0M0S',
     })
   )

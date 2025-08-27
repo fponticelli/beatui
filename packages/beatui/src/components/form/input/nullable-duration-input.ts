@@ -3,6 +3,7 @@ import { WithTemporal } from '@/temporal/with-temporal'
 import { MaskInput } from './mask-input'
 import type { Duration } from '@/temporal/types'
 import { Value } from '@tempots/dom'
+import { durationMaskConfig } from './duration-mask'
 
 export const NullableDurationInput = (
   options: InputOptions<Duration | null>
@@ -17,7 +18,7 @@ export const NullableDurationInput = (
         ? (v: string) => onChange(v === '' ? null : T.Duration.from(v))
         : undefined,
       onInput: undefined,
-      mask: null,
+      ...durationMaskConfig(T.Duration.from),
       placeholder: 'P0DT0H0M0S',
     })
   )
