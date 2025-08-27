@@ -93,7 +93,6 @@ const NativeSelectOption = <T>(
   equality: (a: T, b: T) => boolean,
   currentValue: Value<T>
 ): Renderable => {
-  // TODO why is option sometimes undefined?
   return Ensure(option as Signal<SelectOption<T> | undefined>, option =>
     OneOfType(option, {
       value: v => {

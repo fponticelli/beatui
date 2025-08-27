@@ -19,11 +19,6 @@ import {
   NullableUUIDInput,
 } from '@/components/form/input'
 
-/*
-TODO:
-- [ ] color (infer from name, pattern or format)
-*/
-
 export function StringControl({
   ctx,
   options,
