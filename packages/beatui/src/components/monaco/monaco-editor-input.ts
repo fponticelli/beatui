@@ -10,11 +10,21 @@ import {
 } from '@tempots/dom'
 import type { InputOptions } from '../form/input/input-options'
 import { debounce, Merge } from '@tempots/std'
-import './monaco-editor.css'
 import { Theme } from '../theme'
 import { MonacoEditorSpecificOptions } from '@/monaco/types'
 import { loadMonacoWithLanguage } from '@/monaco/lazy-loader'
 import type * as Monaco from 'monaco-editor'
+
+// Load component CSS on demand when the editor mounts (kept out of the main CSS bundle)
+const loadCssOnce = (href: string) => {
+  if (typeof document === 'undefined') return
+  if (document.querySelector(`link[data-beatui-css="${href}"]`)) return
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = href
+  link.setAttribute('data-beatui-css', href)
+  document.head.appendChild(link)
+}
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
@@ -66,6 +76,8 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
         const disposers = [] as (() => void)[]
 
         const mount = async () => {
+          // Ensure editor CSS is loaded only when this component mounts
+          loadCssOnce(new URL('./monaco-editor.css', import.meta.url).href)
           try {
             // Get initial language for loading appropriate features
             const initialLanguage = Value.get(language) ?? 'plaintext'

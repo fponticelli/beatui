@@ -1,7 +1,6 @@
 import { TNode, Value, WithElement, OnDispose, html, attr } from '@tempots/dom'
 import type { InputOptions } from '../form/input/input-options'
 import { Merge } from '@tempots/std'
-import './milkdown.css'
 import { Crepe } from '@milkdown/crepe'
 import { replaceAll } from '@milkdown/kit/utils'
 
@@ -55,6 +54,17 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
       const disposers: Array<() => void> = []
 
       const mount = async () => {
+        // Lazily inject Milkdown CSS without requiring app configuration
+        const { default: milkdownCss } = await import('@/milkdown/styles')
+        if (typeof document !== 'undefined' && milkdownCss) {
+          const id = 'beatui-milkdown-css'
+          if (!document.getElementById(id)) {
+            const style = document.createElement('style')
+            style.id = id
+            style.textContent = milkdownCss
+            document.head.appendChild(style)
+          }
+        }
         try {
           const cfg: Record<string, unknown> = {
             root: container as unknown as HTMLElement,
