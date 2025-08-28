@@ -236,6 +236,7 @@ export const InputsPage = () =>
               value: color,
               onChange: color.set,
               showRgb: true,
+              withAlpha: true,
             }),
             description: description(color),
           }),

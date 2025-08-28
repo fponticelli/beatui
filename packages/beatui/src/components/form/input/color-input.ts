@@ -1,6 +1,5 @@
 import {
   attr,
-  emitValue,
   Empty,
   html,
   on,
@@ -10,6 +9,7 @@ import {
   svg,
   svgAttr,
   When,
+  prop,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -19,6 +19,8 @@ export type ColorInputOptions = InputOptions<string> & {
   showRgb?: Value<boolean>
   // Size in pixels of the blob preview (square). Defaults to 32
   size?: Value<number>
+  // Enable alpha channel support with a small opacity slider. Defaults to false
+  withAlpha?: Value<boolean>
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -26,6 +28,42 @@ function hexToRgb(hex: string): [number, number, number] {
   if (!m) return [0, 0, 0]
   return [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)]
 }
+
+function rgbToHex(r: number, g: number, b: number): string {
+  const toHex = (n: number) => n.toString(16).padStart(2, '0')
+  return `#${toHex(Math.max(0, Math.min(255, r)))}${toHex(
+    Math.max(0, Math.min(255, g))
+  )}${toHex(Math.max(0, Math.min(255, b)))}`
+}
+
+function parseAnyColor(v: string): [number, number, number, number] {
+  if (!v) return [0, 0, 0, 1]
+  const rgba = v.match(
+    /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0|1|0?\.\d+)\s*\)$/i
+  )
+  if (rgba) {
+    return [
+      parseInt(rgba[1], 10),
+      parseInt(rgba[2], 10),
+      parseInt(rgba[3], 10),
+      parseFloat(rgba[4]),
+    ]
+  }
+  const rgb = v.match(
+    /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i
+  )
+  if (rgb) {
+    return [parseInt(rgb[1], 10), parseInt(rgb[2], 10), parseInt(rgb[3], 10), 1]
+  }
+  const [r, g, b] = hexToRgb(v)
+  return [r, g, b, 1]
+}
+
+const toRgbaString = (r: number, g: number, b: number, a: number) =>
+  `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${Math.max(
+    0,
+    Math.min(1, Math.round(a * 100) / 100)
+  )})`
 
 // Simple seeded PRNG (Mulberry32)
 function mulberry32(seed: number) {
@@ -75,52 +113,113 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
 }
 
 export const ColorInput = (options: ColorInputOptions) => {
-  const { value, onBlur, onChange, onInput, showRgb, size } = options
+  const { value, onBlur, onChange, onInput, showRgb, size, withAlpha } = options
 
   const blobSize = Value.map(size ?? 32, s => s)
-  const rgb = Value.map(value, v => hexToRgb(v ?? '#000000'))
-  const rgbText = Value.map(rgb, ([r, g, b]) => `rgb(${r}, ${g}, ${b})`)
+  const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
+  const rgb = Value.map(
+    rgba,
+    ([r, g, b]) => [r, g, b] as [number, number, number]
+  )
+  const alpha = Value.map(rgba, ([, , , a]) => a)
+  // Persist current alpha locally so it is preserved across color changes
+  const alphaStore = prop<number>(Value.get(alpha) ?? 1)
+  const alphaEnabled = Value.map(withAlpha ?? false, a => a)
+  const rgbText = computedOf(
+    rgb,
+    alphaStore,
+    alphaEnabled
+  )(([r, g, b], a, ea) =>
+    ea ? `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})` : `rgb(${r}, ${g}, ${b})`
+  )
   const svgViewBox = Value.map(blobSize, s => `-${s / 2} -${s / 2} ${s} ${s}`)
   const pathD = computedOf(
     rgb,
     blobSize
   )((rgb, s) => generateBlobPath(rgb, s / 2 - 1))
 
+  const fillColor = computedOf(
+    rgb,
+    alphaStore,
+    alphaEnabled
+  )(([r, g, b], a, ea) =>
+    ea || a < 1 ? toRgbaString(r, g, b, a) : rgbToHex(r, g, b)
+  )
+
   const Preview = html.div(
-    attr.class('bc-color-input__control bu-relative'),
+    attr.class('bc-color-input__control'),
+    attr.class(
+      Value.map(alphaEnabled, (a): string =>
+        a ? 'bc-color-input__control--alpha' : ''
+      )
+    ),
     attr.style(computedOf(blobSize)(s => `width:${s}px;height:${s}px`)),
     // The SVG blob preview
     svg.svg(
-      attr.class('bc-color-input__svg bu-absolute'),
+      attr.class('bc-color-input__svg'),
       svgAttr.viewBox(svgViewBox),
-      svgAttr.opacity(0.5),
-      svgAttr['transform-origin']('center center'),
-      svgAttr.transform('scale(0.95)'),
-      svg.path(
-        svgAttr.d(pathD),
-        svgAttr.fill(Value.map(value, v => v ?? '#000000'))
-      )
-    ),
-    svg.svg(
-      attr.class('bc-color-input__svg bu-absolute'),
-      svgAttr.viewBox(svgViewBox),
-      svgAttr['transform-origin']('center center'),
-      svgAttr.transform('scale(1.05) rotate(120)'),
-      svgAttr.opacity(0.5),
-      svg.path(
-        svgAttr.d(pathD),
-        svgAttr.fill(Value.map(value, v => v ?? '#000000'))
-      )
+      svg.path(svgAttr.d(pathD), svgAttr.fill(fillColor))
     ),
     // Invisible native input overlays the blob for picker and accessibility
     html.input(
       attr.type('color'),
       CommonInputAttributes(options),
-      attr.value(value),
+      // Native color input needs hex without alpha
+      attr.value(Value.map(rgb, ([r, g, b]) => rgbToHex(r, g, b))),
       attr.class('bc-input bc-color-input bc-color-input__native'),
       onBlur != null ? on.blur(onBlur) : Empty,
-      onChange != null ? on.change(emitValue(onChange)) : Empty,
-      onInput != null ? on.input(emitValue(onInput)) : Empty
+      onChange != null
+        ? on.change(e => {
+            const hex = (e.target as HTMLInputElement).value
+            if (!onChange) return
+            const a = Value.get(alphaStore) ?? 1
+            if (a < 1) {
+              const [r, g, b] = hexToRgb(hex)
+              onChange(toRgbaString(r, g, b, a))
+            } else {
+              onChange(hex)
+            }
+          })
+        : Empty,
+      onInput != null
+        ? on.input(e => {
+            const hex = (e.target as HTMLInputElement).value
+            if (!onInput) return
+            const a = Value.get(alphaStore) ?? 1
+            if (a < 1) {
+              const [r, g, b] = hexToRgb(hex)
+              onInput(toRgbaString(r, g, b, a))
+            } else {
+              onInput(hex)
+            }
+          })
+        : Empty
+    )
+  )
+
+  // Alpha slider (when enabled)
+  const AlphaSlider = When(alphaEnabled, () =>
+    html.input(
+      attr.type('range'),
+      attr.class('bc-color-input__alpha'),
+      attr.min(0),
+      attr.max(1),
+      attr.step(0.01),
+      attr.value(Value.map(alphaStore, a => String(a ?? 1))),
+      on.input(e => {
+        const a = parseFloat((e.target as HTMLInputElement).value)
+        alphaStore.set(a)
+        const [r, g, b] = Value.get(rgb) as [number, number, number]
+        const out = a < 1 ? toRgbaString(r, g, b, a) : rgbToHex(r, g, b)
+        onInput?.(out)
+      }),
+      on.change(e => {
+        const a = parseFloat((e.target as HTMLInputElement).value)
+        alphaStore.set(a)
+        const [r, g, b] = Value.get(rgb) as [number, number, number]
+        const out = a < 1 ? toRgbaString(r, g, b, a) : rgbToHex(r, g, b)
+        onChange?.(out)
+      })
     )
   )
 
@@ -135,6 +234,7 @@ export const ColorInput = (options: ColorInputOptions) => {
       When(showRgb ?? false, () =>
         html.span(attr.class('bc-color-input__rgb'), rgbText)
       ),
+      AlphaSlider,
       options.after
     ),
   })
