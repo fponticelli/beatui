@@ -13,7 +13,7 @@ import {
 import { attr, html, TNode, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
 import { objectEntries } from '@tempots/std'
-import { SchemaContext } from './context'
+import { SchemaContext } from './schema-context'
 import { StringControl } from './widgets/string-controls'
 import { resolveRef } from './ref-utils'
 import { Label } from '../typography'
@@ -25,6 +25,16 @@ export function JSONSchemaAny({
   ctx: SchemaContext
   controller: Controller<unknown>
 }): TNode {
+  if (ctx.definition === true) {
+    return JSONSchemaAny({
+      ctx: ctx.with({
+        definition: {
+          type: ['string', 'number', 'object', 'array', 'boolean', 'null'],
+        },
+      }),
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
   return JSONSchemaUnion({
     ctx: ctx.with({
       definition: {
@@ -41,24 +51,19 @@ function definitionToInputWrapperOptions({
 }: {
   ctx: SchemaContext
 }): Partial<InputWrapperOptions> {
-  const { definition } = ctx
-  let description = definition.description
-  if (
-    description == null &&
-    (definition as JSONSchema7).examples != null &&
-    (definition as JSONSchema7).default != null
-  ) {
-    const d = definition as JSONSchema7
-    if (Array.isArray(d.examples)) {
-      description = `example: ${d.examples[0]}`
+  const { examples, default: defaultValue } = ctx
+  let { description } = ctx
+  if (description == null && examples != null && defaultValue != null) {
+    if (Array.isArray(examples)) {
+      description = `example: ${examples[0]}`
     } else {
-      description = `example: ${d.examples}`
+      description = `example: ${examples}`
     }
   }
   return {
     label: ctx.widgetLabel,
     description,
-    required: ctx.required,
+    required: ctx.isPropertyRequired,
     horizontal: ctx.horizontal,
   }
 }
@@ -209,16 +214,16 @@ export function JSONSchemaObject({
     attr.class('bu-gap-1'),
     ctx.name != null ? Label(ctx.widgetLabel) : null,
     ...objectEntries((ctx.definition as JSONSchema7).properties ?? {}).map(
-      ([k, value]) => {
+      ([k, definition]) => {
+        // deprecated fields are not rendered
+        if (definition === false) return null
         const key = k as string
         const field = controller.field(key)
         return JSONSchemaGenericControl({
           ctx: ctx
             .with({
-              definition: value as JSONSchema7,
-              required:
-                (ctx.definition as JSONSchema7).required?.includes(key) ??
-                false,
+              definition,
+              isPropertyRequired: ctx.hasRequiredProperty(key),
             })
             .append(key),
           controller: field,
@@ -329,9 +334,9 @@ export function JSONSchemaControl<T>({
 }): TNode {
   const ctx = new SchemaContext({
     schema,
-    definition: undefined,
+    definition: schema,
     horizontal: false,
-    required: true,
+    isPropertyRequired: false,
     path: [],
     ajv,
   })

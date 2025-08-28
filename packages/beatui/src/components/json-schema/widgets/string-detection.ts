@@ -1,6 +1,6 @@
 import { AnyStringWidgetOptions } from './string-type'
 import { getUIWidget } from './utils'
-import { SchemaContext } from '../context'
+import { SchemaContext } from '../schema-context'
 
 const textAreaFields = ['description', 'comment', 'notes', 'text']
 
@@ -8,6 +8,7 @@ export function stringFormatDetection(
   ctx: SchemaContext
 ): AnyStringWidgetOptions | undefined {
   const { definition } = ctx
+  if (typeof definition === 'boolean') return undefined
   const options = {
     pattern: definition.pattern,
     minLength: definition.minLength,

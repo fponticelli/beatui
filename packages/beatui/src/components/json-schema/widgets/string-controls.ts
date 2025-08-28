@@ -6,7 +6,7 @@ import {
   MappedControl,
   transformEmptyStringToUndefined,
 } from '@/components/form'
-import { SchemaContext } from '../context'
+import { SchemaContext } from '../schema-context'
 import { Async, TNode } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
