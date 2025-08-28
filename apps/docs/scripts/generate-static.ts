@@ -39,35 +39,32 @@ const setupBrowserMocks = () => {
     { url: `${BASE_URL}/`, pretendToBeVisual: true }
   )
   const { window } = dom
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const gThis = globalThis as any
 
-  ;(globalThis as any).window = window
-  ;(globalThis as any).document = window.document
-  if (
-    !('navigator' in globalThis) ||
-    (globalThis as any).navigator !== window.navigator
-  ) {
+  gThis.window = window
+  gThis.document = window.document
+  if (!('navigator' in globalThis) || gThis.navigator !== window.navigator) {
     Object.defineProperty(globalThis, 'navigator', {
       value: window.navigator,
       configurable: true,
     })
   }
 
-  ;(globalThis as any).HTMLElement = window.HTMLElement
-  ;(globalThis as any).HTMLAnchorElement = window.HTMLAnchorElement
-  ;(globalThis as any).SVGElement = window.SVGElement
-  ;(globalThis as any).getComputedStyle = window.getComputedStyle.bind(window)
-  ;(globalThis as any).requestAnimationFrame =
-    window.requestAnimationFrame.bind(window)
-  ;(globalThis as any).cancelAnimationFrame =
-    window.cancelAnimationFrame.bind(window)
+  gThis.HTMLElement = window.HTMLElement
+  gThis.HTMLAnchorElement = window.HTMLAnchorElement
+  gThis.SVGElement = window.SVGElement
+  gThis.getComputedStyle = window.getComputedStyle.bind(window)
+  gThis.requestAnimationFrame = window.requestAnimationFrame.bind(window)
+  gThis.cancelAnimationFrame = window.cancelAnimationFrame.bind(window)
 
   // Provide storage shims
-  ;(globalThis as any).localStorage = window.localStorage
-  ;(globalThis as any).sessionStorage = window.sessionStorage
+  gThis.localStorage = window.localStorage
+  gThis.sessionStorage = window.sessionStorage
 
   // matchMedia
   if (!window.matchMedia) {
-    ;(globalThis as any).matchMedia = (query: string) => ({
+    gThis.matchMedia = (query: string) => ({
       matches: false,
       media: query,
       onchange: null,
@@ -80,18 +77,20 @@ const setupBrowserMocks = () => {
       },
     })
   } else {
-    ;(globalThis as any).matchMedia = window.matchMedia.bind(window)
+    gThis.matchMedia = window.matchMedia.bind(window)
   }
 
   // Observer stubs
-  ;(globalThis as any).IntersectionObserver =
+  gThis.IntersectionObserver =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).IntersectionObserver ||
     class {
       observe() {}
       unobserve() {}
       disconnect() {}
     }
-  ;(globalThis as any).ResizeObserver =
+  gThis.ResizeObserver =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).ResizeObserver ||
     class {
       observe() {}
@@ -100,8 +99,8 @@ const setupBrowserMocks = () => {
     }
 
   // Keep indexedDB light stub if missing
-  if (!(globalThis as any).indexedDB) {
-    ;(globalThis as any).indexedDB = {
+  if (!gThis.indexedDB) {
+    gThis.indexedDB = {
       open: () => ({
         onsuccess: null,
         onerror: null,
