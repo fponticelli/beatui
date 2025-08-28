@@ -3,7 +3,7 @@ import * as fse from 'fs-extra'
 import * as path from 'path'
 import { runHeadless } from '@tempots/dom'
 import * as cheerio from 'cheerio'
-import { NineSliceScrollViewPage } from '../src/pages/nine-slice-scroll-view'
+import { JSDOM } from 'jsdom'
 
 /**
  * Comprehensive static site generator for BeatUI documentation
@@ -33,45 +33,95 @@ const setupBrowserMocks = () => {
     }),
   } as unknown as IDBFactory
 
-  // Mock localStorage
-  global.localStorage = {
-    getItem: () => null,
-    setItem: () => {},
-    removeItem: () => {},
-    clear: () => {},
-    length: 0,
-    key: () => null,
-  } as Storage
+  // Initialize a real DOM with jsdom
+  const dom = new JSDOM(
+    '<!doctype html><html><head></head><body><div id="app"></div></body></html>',
+    { url: `${BASE_URL}/`, pretendToBeVisual: true }
+  )
+  const { window } = dom
 
-  // Mock sessionStorage
-  global.sessionStorage = global.localStorage
+  ;(globalThis as any).window = window
+  ;(globalThis as any).document = window.document
+  if (
+    !('navigator' in globalThis) ||
+    (globalThis as any).navigator !== window.navigator
+  ) {
+    Object.defineProperty(globalThis, 'navigator', {
+      value: window.navigator,
+      configurable: true,
+    })
+  }
 
-  // Mock window.matchMedia
-  global.matchMedia = (query: string) =>
-    ({
+  ;(globalThis as any).HTMLElement = window.HTMLElement
+  ;(globalThis as any).HTMLAnchorElement = window.HTMLAnchorElement
+  ;(globalThis as any).SVGElement = window.SVGElement
+  ;(globalThis as any).getComputedStyle = window.getComputedStyle.bind(window)
+  ;(globalThis as any).requestAnimationFrame =
+    window.requestAnimationFrame.bind(window)
+  ;(globalThis as any).cancelAnimationFrame =
+    window.cancelAnimationFrame.bind(window)
+
+  // Provide storage shims
+  ;(globalThis as any).localStorage = window.localStorage
+  ;(globalThis as any).sessionStorage = window.sessionStorage
+
+  // matchMedia
+  if (!window.matchMedia) {
+    ;(globalThis as any).matchMedia = (query: string) => ({
       matches: false,
       media: query,
       onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    }) as MediaQueryList
+      addListener() {},
+      removeListener() {},
+      addEventListener() {},
+      removeEventListener() {},
+      dispatchEvent() {
+        return false
+      },
+    })
+  } else {
+    ;(globalThis as any).matchMedia = window.matchMedia.bind(window)
+  }
 
-  // Mock IntersectionObserver
-  global.IntersectionObserver = class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  } as unknown as typeof IntersectionObserver
+  // Observer stubs
+  ;;(globalThis as any).IntersectionObserver =
+    (window as any).IntersectionObserver ||
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    }
+  ;(globalThis as any).ResizeObserver =
+    (window as any).ResizeObserver ||
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    }
 
-  // Mock ResizeObserver
-  global.ResizeObserver = class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  } as unknown as typeof ResizeObserver
+  // Keep indexedDB light stub if missing
+  if (!(globalThis as any).indexedDB) {
+    ;(globalThis as any).indexedDB = {
+      open: () => ({
+        onsuccess: null,
+        onerror: null,
+        onupgradeneeded: null,
+        result: {
+          objectStoreNames: { contains: () => false },
+          createObjectStore: () => ({}),
+          transaction: () => ({
+            objectStore: () => ({
+              get: () => ({ onsuccess: null, onerror: null }),
+              put: () => ({ onsuccess: null, onerror: null }),
+            }),
+          }),
+        },
+      }),
+    } as unknown as IDBFactory
+  }
+
+  // Return a teardown if needed by callers
+  return () => dom.window.close()
 }
 
 const main = async () => {
@@ -84,29 +134,45 @@ const main = async () => {
   const { html, attr } = await import('@tempots/dom')
   const { BeatUI } = await import('@tempots/beatui')
   const { HomePage } = await import('../src/pages/home')
+  const { AuthenticationPage } = await import('../src/pages/authentication')
+  const { AuthenticationComponentsPage } = await import(
+    '../src/pages/authentication-components'
+  )
   const { ButtonPage } = await import('../src/pages/button')
+  const { ComboboxPage } = await import('../src/pages/combobox')
   const { SwitchPage } = await import('../src/pages/switch')
+  const { CollapsePage } = await import('../src/pages/collapse')
   const { IconPage } = await import('../src/pages/icon')
   const { LinkPage } = await import('../src/pages/link')
+  const { ModalPage } = await import('../src/pages/modal')
+  const { DrawerPage } = await import('../src/pages/drawer')
+  const { TooltipPage } = await import('../src/pages/tooltip')
+  const { FlyoutPage } = await import('../src/pages/flyout')
+  const { MenuPage } = await import('../src/pages/menu')
+  const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
+  const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
   const { SegmentedControlPage } = await import(
     '../src/pages/segmented-control'
   )
+  const { SidebarPage } = await import('../src/pages/sidebar')
+  const { TabsPage } = await import('../src/pages/tabs')
   const { TagsPage } = await import('../src/pages/tags')
-  // const { FormPage } = await import('../src/pages/form')
+  const { TagsInputPage } = await import('../src/pages/tags-input')
+  const { FormPage } = await import('../src/pages/form')
+  const { FileInputPage } = await import('../src/pages/file-input')
+  const { ColorPickerPage } = await import('../src/pages/color-picker')
   const { EditableTextPage } = await import('../src/pages/editable-text')
   const { BreakpointPage } = await import('../src/pages/breakpoint')
-  const { CollapsePage } = await import('../src/pages/collapse')
-  const { SidebarPage } = await import('../src/pages/sidebar')
-  const { ModalPage } = await import('../src/pages/modal')
-  const { DrawerPage } = await import('../src/pages/drawer')
-  // const { TooltipPage } = await import('../src/pages/tooltip')
-  const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
-  const { FlyoutPage } = await import('../src/pages/flyout')
-  const { TooltipPage } = await import('../src/pages/tooltip')
-  const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
-  const { FormPage } = await import('../src/pages/form')
+  const { NineSliceScrollViewPage } = await import(
+    '../src/pages/nine-slice-scroll-view'
+  )
   const { JSONSchemaFormPage } = await import('../src/pages/json-schema-form')
+  const { MonacoEditorPage } = await import('../src/pages/monaco-editor')
+  const { MilkdownEditorPage } = await import('../src/pages/milkdown-editor')
   const { MaskInputPage } = await import('../src/pages/mask-input')
+  const { ToolbarPage } = await import('../src/pages/toolbar')
+  const { TemporalPage } = await import('../src/pages/temporal')
+  const { InputsPage } = await import('../src/pages/inputs')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -182,30 +248,43 @@ const main = async () => {
       // Create SSG-compatible app that bypasses AppShell
       const createSSGApp = (pageUrl: string) => {
         // Map URLs to page components (matches original App.ts routes)
-        const pageMap: Record<string, () => ReturnType<typeof html.div>> = {
-          '/': HomePage,
-          '/button': ButtonPage,
-          '/switch': SwitchPage,
-          '/collapse': CollapsePage,
-          '/icon': IconPage,
-          '/link': LinkPage,
-          '/modal': ModalPage,
-          '/drawer': DrawerPage,
-          '/tooltip': TooltipPage,
-          '/flyout': FlyoutPage,
-          '/scrollable-panel': ScrollablePanelPage,
-          '/rtl-ltr': RTLLTRPage,
-          '/segmented-control': SegmentedControlPage,
-          '/sidebar': SidebarPage,
-          '/tags': TagsPage,
-          // Temporarily disable form page due to SSR issues
-          '/form': FormPage,
-          '/editable-text': EditableTextPage,
-          '/breakpoint': BreakpointPage,
-          '/nine-slice-scroll-view': NineSliceScrollViewPage,
-          '/json-schema-form': JSONSchemaFormPage,
-          '/mask-input': MaskInputPage,
-        }
+        const pageMap: Record<string, () => import('@tempots/dom').Renderable> =
+          {
+            '/': HomePage,
+            '/authentication': AuthenticationPage,
+            '/authentication/components': AuthenticationComponentsPage,
+            '/button': ButtonPage,
+            '/combobox': ComboboxPage,
+            '/switch': SwitchPage,
+            '/collapse': CollapsePage,
+            '/icon': IconPage,
+            '/link': LinkPage,
+            '/modal': ModalPage,
+            '/drawer': DrawerPage,
+            '/tooltip': TooltipPage,
+            '/flyout': FlyoutPage,
+            '/menu': MenuPage,
+            '/scrollable-panel': ScrollablePanelPage,
+            '/rtl-ltr': RTLLTRPage,
+            '/segmented-control': SegmentedControlPage,
+            '/sidebar': SidebarPage,
+            '/tabs': TabsPage,
+            '/tags': TagsPage,
+            '/tags-input': TagsInputPage,
+            '/form': FormPage,
+            '/file-input': FileInputPage,
+            '/color-picker': ColorPickerPage,
+            '/editable-text': EditableTextPage,
+            '/breakpoint': BreakpointPage,
+            '/nine-slice-scroll-view': NineSliceScrollViewPage,
+            '/json-schema-form': JSONSchemaFormPage,
+            '/monaco-editor': MonacoEditorPage,
+            '/milkdown-editor': MilkdownEditorPage,
+            '/mask-input': MaskInputPage,
+            '/toolbar': ToolbarPage,
+            '/temporal': TemporalPage,
+            '/inputs': InputsPage,
+          }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))
 
@@ -220,7 +299,13 @@ const main = async () => {
               html.h1('BeatUI Documentation'),
               html.nav(
                 html.a(attr.href('/'), 'Home'),
+                html.a(attr.href('/authentication'), 'Authentication'),
+                html.a(
+                  attr.href('/authentication/components'),
+                  'Auth Components'
+                ),
                 html.a(attr.href('/button'), 'Button'),
+                html.a(attr.href('/combobox'), 'Combobox'),
                 html.a(attr.href('/switch'), 'Switch'),
                 html.a(attr.href('/collapse'), 'Collapse'),
                 html.a(attr.href('/icon'), 'Icon'),
@@ -228,13 +313,31 @@ const main = async () => {
                 html.a(attr.href('/modal'), 'Modal'),
                 html.a(attr.href('/drawer'), 'Drawer'),
                 html.a(attr.href('/tooltip'), 'Tooltip'),
+                html.a(attr.href('/flyout'), 'Flyout'),
+                html.a(attr.href('/menu'), 'Menu'),
                 html.a(attr.href('/segmented-control'), 'Segmented Control'),
+                html.a(attr.href('/scrollable-panel'), 'Scrollable Panel'),
+                html.a(attr.href('/rtl-ltr'), 'RTL/LTR'),
                 html.a(attr.href('/sidebar'), 'Sidebar'),
+                html.a(attr.href('/tabs'), 'Tabs'),
                 html.a(attr.href('/tags'), 'Tags'),
+                html.a(attr.href('/tags-input'), 'Tags Input'),
                 html.a(attr.href('/form'), 'Form'),
-                html.a(attr.href('/json-schema-form'), 'JSON Schema Form'),
+                html.a(attr.href('/file-input'), 'File Input'),
+                html.a(attr.href('/color-picker'), 'Color Picker'),
                 html.a(attr.href('/editable-text'), 'Editable Text'),
-                html.a(attr.href('/breakpoint'), 'Breakpoint')
+                html.a(attr.href('/breakpoint'), 'Breakpoint'),
+                html.a(
+                  attr.href('/nine-slice-scroll-view'),
+                  'Nine-slice Scroll View'
+                ),
+                html.a(attr.href('/json-schema-form'), 'JSON Schema Form'),
+                html.a(attr.href('/monaco-editor'), 'Monaco Editor'),
+                html.a(attr.href('/milkdown-editor'), 'Milkdown Editor'),
+                html.a(attr.href('/mask-input'), 'Mask Input'),
+                html.a(attr.href('/toolbar'), 'Toolbar'),
+                html.a(attr.href('/temporal'), 'Temporal'),
+                html.a(attr.href('/inputs'), 'Inputs')
               )
             ),
             html.main(PageComponent())
@@ -402,12 +505,7 @@ const main = async () => {
 
   console.log('🔍 Starting link crawling and static generation...')
   const generated = new Set<string>()
-  const toGenerate = [
-    '/',
-    '/authentication/components',
-    '/authentication/examples',
-    '/authentication/api',
-  ]
+  const toGenerate = ['/', '/authentication', '/authentication/components']
   let processedCount = 0
 
   while (toGenerate.length > 0) {
