@@ -27,10 +27,7 @@
     --crepe-color-selected: #e1e2e8;
     --crepe-color-inline-area: #d8dae0;
 
-    --crepe-font-title: Inter,
-      Arial,
-      Helvetica,
-      sans-serif;
+    --crepe-font-title: Inter, Arial, Helvetica, sans-serif;
     --crepe-font-default: Inter, Arial, Helvetica, sans-serif;
     --crepe-font-code:
       'JetBrains Mono', Menlo, Monaco, 'Courier New', Courier, monospace;

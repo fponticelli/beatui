@@ -1,6 +1,6 @@
 @layer utilities {
   /* Focus Utility Classes */
-  
+
   /* Apply consistent focus styles manually */
   .bu-focus {
     outline: 2px solid var(--interactive-focus-light);

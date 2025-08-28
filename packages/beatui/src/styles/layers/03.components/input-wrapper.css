@@ -68,7 +68,7 @@
   .bc-input-wrapper--horizontal .bc-input-wrapper__header {
     flex-shrink: 0;
     min-width: 0;
-      /* Allow text to wrap if needed */
+    /* Allow text to wrap if needed */
   }
 
   .bc-input-wrapper--horizontal .bc-input-wrapper__content {

@@ -77,14 +77,16 @@
     background-color: var(--bg-surface-dark);
     border: 1px solid var(--border-dark);
     color: var(--text-normal-dark);
-    box-shadow: 0 0 0.5rem 0.125rem var(--shadow-color-dark),
-                0 0 0 1px var(--shadow-highlight-dark);
+    box-shadow:
+      0 0 0.5rem 0.125rem var(--shadow-color-dark),
+      0 0 0 1px var(--shadow-highlight-dark);
   }
 
   .b-dark .bc-card--elevated {
     background-color: var(--bg-elevated-dark);
-    box-shadow: 0 0 1rem 0.25rem var(--shadow-color-dark),
-                0 0 0 1px var(--shadow-highlight-dark);
+    box-shadow:
+      0 0 1rem 0.25rem var(--shadow-color-dark),
+      0 0 0 1px var(--shadow-highlight-dark);
   }
 
   .b-dark .bc-card--flat {

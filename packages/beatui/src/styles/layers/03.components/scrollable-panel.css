@@ -58,7 +58,7 @@
     height: 20px;
     position: absolute;
     transition: all;
-    box-shadow: 0 0 0 rgba(0,0,0,0);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     transition-duration: 0.5s;
     background-color: transparent;
   }
@@ -67,7 +67,9 @@
     bottom: 0;
   }
 
-  .bc-scrollable-panel--scrolled-down .bc-scrollable-panel--header-shadow > div {
+  .bc-scrollable-panel--scrolled-down
+    .bc-scrollable-panel--header-shadow
+    > div {
     box-shadow: var(--shadow-md);
   }
 

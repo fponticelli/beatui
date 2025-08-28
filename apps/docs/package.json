@@ -10,7 +10,7 @@
     "preview:vite": "vite preview",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\""
   },
   "keywords": [
     "documentation",

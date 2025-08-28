@@ -15,7 +15,7 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
   .bc-overlay[data-status='start-opening'],
   .bc-overlay[data-status='closing'] {
     backdrop-filter: blur(0);
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color: rgba(0, 0, 0, 0);
   }
 
   .bc-overlay > * {

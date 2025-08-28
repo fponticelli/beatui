@@ -23,13 +23,13 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: var(--spacing-sm);
-      background-color: var(--border-divider-light);
-      border-radius: var(--radius-full);
+    background-color: var(--border-divider-light);
+    border-radius: var(--radius-full);
   }
 
   .b-dark .bc-auth-divider__text {
     color: var(--color-white);
-      background-color: var(--border-divider-dark);
+    background-color: var(--border-divider-dark);
   }
 
   /* High contrast mode support */

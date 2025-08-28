@@ -37,8 +37,7 @@
     --svg: url('https://api.iconify.design/akar-icons/check-box-fill.svg');
   }
 
-  Checkmark icon
-  .bc-checkbox-input__checkbox::after {
+  Checkmark icon .bc-checkbox-input__checkbox::after {
     content: '';
     position: absolute;
     width: calc(var(--spacing-base) * 2);

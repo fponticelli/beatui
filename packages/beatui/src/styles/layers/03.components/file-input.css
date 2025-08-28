@@ -102,25 +102,25 @@
     color: var(--color-primary-500);
   }
 
-                                                                /* Thumbnail Styles */
-                                                                .bc-file-input__thumbnail-container {
-                                                                  width: calc(var(--spacing-base) * 12);
-                                                                  height: calc(var(--spacing-base) * 12);
-                                                                  border-radius: var(--radius-sm);
-                                                                  overflow: hidden;
-                                                                  background-color: var(--color-gray-100);
-                                                                  display: flex;
-                                                                  align-items: center;
-                                                                  justify-content: center;
-                                                                }
+  /* Thumbnail Styles */
+  .bc-file-input__thumbnail-container {
+    width: calc(var(--spacing-base) * 12);
+    height: calc(var(--spacing-base) * 12);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--color-gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-                                                                .bc-file-input__thumbnail {
-                                                                  width: 100%;
-                                                                  height: 100%;
-                                                                  object-fit: cover;
-                                                                  object-position: center;
-                                                                  border: none;
-                                                                }
+  .bc-file-input__thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border: none;
+  }
   .bc-file-input__file-info {
     flex: 1;
     min-width: 0;
@@ -255,7 +255,6 @@
 }
 
 @layer components {
-
   /* Compact mode */
   .bc-file-input--compact {
     width: 100%;

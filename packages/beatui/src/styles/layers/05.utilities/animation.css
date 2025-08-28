@@ -8,7 +8,9 @@
   .bu-toggle--animated.bu-toggle--flyout-bottom,
   .bu-toggle--animated.bu-toggle--flyout-left,
   .bu-toggle--animated.bu-toggle--flyout-right {
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition:
+      opacity 0.5s ease-in-out,
+      transform 0.5s ease-in-out;
   }
 
   .bu-toggle--slide-right.bu-toggle--closed,

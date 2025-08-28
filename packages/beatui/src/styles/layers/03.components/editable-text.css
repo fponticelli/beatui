@@ -3,10 +3,10 @@
   .bc-editable-text {
     border-bottom: 1px dashed var(--color-gray-300);
     display: flex;
-      flex-direction: row;
-      gap: calc(var(--spacing-base) * 2);
-      align-items: flex-start;
-      cursor: pointer;
+    flex-direction: row;
+    gap: calc(var(--spacing-base) * 2);
+    align-items: flex-start;
+    cursor: pointer;
   }
 
   /* Input state */

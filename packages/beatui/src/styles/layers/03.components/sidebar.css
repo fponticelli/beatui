@@ -4,7 +4,8 @@
     padding: var(--spacing-lg);
   }
 
-  .bc-sidebar-group__header, .bc-sidebar-link {
+  .bc-sidebar-group__header,
+  .bc-sidebar-link {
     color: var(--text-normal-light);
   }
 
@@ -104,12 +105,15 @@
     transform: rotate(0deg);
   }
 
-  .bc-sidebar-group-collapsible--closed .bc-sidebar-group-collapsible-indicator {
+  .bc-sidebar-group-collapsible--closed
+    .bc-sidebar-group-collapsible-indicator {
     transform: rotate(90deg);
   }
 
   /* RTL support for collapsible indicator */
-  .b-rtl .bc-sidebar-group-collapsible--closed .bc-sidebar-group-collapsible-indicator {
+  .b-rtl
+    .bc-sidebar-group-collapsible--closed
+    .bc-sidebar-group-collapsible-indicator {
     transform: rotate(-90deg);
   }
 

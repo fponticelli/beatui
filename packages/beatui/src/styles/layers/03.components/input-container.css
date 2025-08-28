@@ -1,5 +1,4 @@
 @layer components {
-
   /* Input Container Component */
   .bc-base-input-container,
   .bc-input-container {
@@ -31,7 +30,8 @@
     outline-offset: -2px;
   }
 
-  .bc-base-input-container--default::placeholder .bc-input-container--default::placeholder {
+  .bc-base-input-container--default::placeholder
+    .bc-input-container--default::placeholder {
     color: var(--color-gray-400);
   }
 

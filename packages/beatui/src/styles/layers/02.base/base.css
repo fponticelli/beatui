@@ -60,7 +60,7 @@
     text-align: start;
   }
 
-  .b-rtl input[type="number"] {
+  .b-rtl input[type='number'] {
     text-align: end; /* Numbers should align to the end in RTL */
   }
 

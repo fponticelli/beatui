@@ -10,33 +10,33 @@
     border: 1px solid transparent;
     transition: all 0.2s ease-in-out;
     font-size: var(--font-size-base);
-      padding: 0 calc(var(--spacing-base) * 2);
-      font-size: var(--font-size-base);
-      gap: calc(var(--spacing-base) * 2);
-    }
+    padding: 0 calc(var(--spacing-base) * 2);
+    font-size: var(--font-size-base);
+    gap: calc(var(--spacing-base) * 2);
+  }
 
-    .bc-tag--xs {
-      font-size: var(--font-size-xs);
-      padding: 0 calc(var(--spacing-base) * 1);
-    }
+  .bc-tag--xs {
+    font-size: var(--font-size-xs);
+    padding: 0 calc(var(--spacing-base) * 1);
+  }
 
-    .bc-tag--sm {
-      font-size: var(--font-size-sm);
-      padding: 0 calc(var(--spacing-base) * 1.5);
-    }
+  .bc-tag--sm {
+    font-size: var(--font-size-sm);
+    padding: 0 calc(var(--spacing-base) * 1.5);
+  }
 
-    .bc-tag--lg {
-      font-size: var(--font-size-lg);
-      padding: 0 calc(var(--spacing-base) * 2.5);
-    }
+  .bc-tag--lg {
+    font-size: var(--font-size-lg);
+    padding: 0 calc(var(--spacing-base) * 2.5);
+  }
 
-    .bc-tag--xl {
-      font-size: var(--font-size-xl);
-      padding: 0 calc(var(--spacing-base) * 3);
-    }
+  .bc-tag--xl {
+    font-size: var(--font-size-xl);
+    padding: 0 calc(var(--spacing-base) * 3);
+  }
 
-    .bc-tag:has(.bc-tag__close) {
-      padding-inline-end: calc(var(--spacing-base) * 0.5);
+  .bc-tag:has(.bc-tag__close) {
+    padding-inline-end: calc(var(--spacing-base) * 0.5);
   }
 
   /* Close button */
@@ -54,29 +54,29 @@
     border: 1px solid transparent;
   }
 
-        .bc-tag__close:hover {
-          color: white;
-          border-color: var(--color-gray-300);
+  .bc-tag__close:hover {
+    color: white;
+    border-color: var(--color-gray-300);
   }
 
-        /* Disabled state via class */
-        .bc-tag.bc-tag--disabled {
-          opacity: 0.55;
-          filter: grayscale(0.4) saturate(0.8);
-          cursor: default;
-        }
+  /* Disabled state via class */
+  .bc-tag.bc-tag--disabled {
+    opacity: 0.55;
+    filter: grayscale(0.4) saturate(0.8);
+    cursor: default;
+  }
 
-        .bc-tag.bc-tag--disabled .bc-tag__close {
-          cursor: not-allowed;
-      opacity: 0.6;
-        pointer-events: none;
-      }
+  .bc-tag.bc-tag--disabled .bc-tag__close {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-      /* Neutralize hover on disabled close button */
-      .bc-tag.bc-tag--disabled .bc-tag__close:hover {
-        color: inherit;
-        border-color: transparent;
-      }
+  /* Neutralize hover on disabled close button */
+  .bc-tag.bc-tag--disabled .bc-tag__close:hover {
+    color: inherit;
+    border-color: transparent;
+  }
 
   /* Dark mode styles */
   .b-dark .bc-tag {

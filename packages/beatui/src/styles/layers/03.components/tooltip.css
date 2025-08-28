@@ -66,15 +66,15 @@
   }
 
   /* Show state */
-  [data-status="opened"] .bc-tooltip,
-  [data-status="entering"] .bc-tooltip {
+  [data-status='opened'] .bc-tooltip,
+  [data-status='entering'] .bc-tooltip {
     opacity: 1;
     transform: scale(1);
   }
 
   /* Hide state */
-  [data-status="closed"] .bc-tooltip,
-  [data-status="exiting"] .bc-tooltip {
+  [data-status='closed'] .bc-tooltip,
+  [data-status='exiting'] .bc-tooltip {
     opacity: 0;
     transform: scale(0.95);
   }
@@ -84,8 +84,9 @@
     background-color: var(--bg-elevated-dark);
     color: var(--text-normal-dark);
     border: 1px solid var(--border-border-dark);
-    box-shadow: 0 10px 15px -3px var(--shadow-color-dark),
-                0 4px 6px -2px var(--shadow-color-dark);
+    box-shadow:
+      0 10px 15px -3px var(--shadow-color-dark),
+      0 4px 6px -2px var(--shadow-color-dark);
   }
 
   .b-dark .bc-tooltip__arrow svg path {

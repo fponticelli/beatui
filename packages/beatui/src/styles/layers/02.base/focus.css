@@ -25,7 +25,7 @@
 
   /* Button-like elements */
   button:focus-visible,
-  [role="button"]:focus-visible,
+  [role='button']:focus-visible,
   .bc-button:focus-visible {
     outline-offset: -2px;
   }
@@ -36,7 +36,7 @@
   select:focus-visible,
   [contenteditable]:focus-visible,
   .bc-input:focus-visible {
-      outline: none;
+    outline: none;
   }
 
   /* Link elements */

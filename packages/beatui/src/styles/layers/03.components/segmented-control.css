@@ -3,7 +3,7 @@
   .bc-segmented-control {
     background-color: var(--color-base-200);
     border-radius: var(--radius-full);
-    box-shadow: 0 0 0.25rem 0.0rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0.25rem 0rem rgba(0, 0, 0, 0.1);
     position: relative;
     border: 1px solid var(--color-base-300);
     padding: var(--spacing-sm);
@@ -138,8 +138,9 @@
 
   .b-dark .bc-segmented-control__indicator {
     background-color: var(--bg-elevated-dark);
-    box-shadow: 0 1px 3px var(--shadow-color-dark),
-                0 0 0 1px var(--shadow-highlight-dark);
+    box-shadow:
+      0 1px 3px var(--shadow-color-dark),
+      0 0 0 1px var(--shadow-highlight-dark);
   }
 
   .b-dark .bc-segmented-control__segment {
@@ -149,7 +150,10 @@
     border-radius: var(--radius-full);
   }
 
-  .b-dark .bc-segmented-control__segment:hover:not(.bc-segmented-control__segment--active) {
+  .b-dark
+    .bc-segmented-control__segment:hover:not(
+      .bc-segmented-control__segment--active
+    ) {
     color: var(--text-normal-dark);
     background-color: var(--interactive-hover-dark);
   }
@@ -192,11 +196,15 @@
     background-color: transparent;
   }
 
-  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment--active {
+  .b-dark
+    .bc-segmented-control--disabled
+    .bc-segmented-control__segment--active {
     color: var(--text-muted-dark);
   }
 
-  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
+  .b-dark
+    .bc-segmented-control--disabled
+    .bc-segmented-control__segment--inactive {
     color: var(--text-muted-dark);
   }
 }

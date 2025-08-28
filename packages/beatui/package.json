@@ -59,7 +59,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
     "clean": "rm -rf dist",
     "release:patch": "pnpm run release:prepare && pnpm version patch && pnpm run release:publish && pnpm run release:commit",
     "release:minor": "pnpm run release:prepare && pnpm version minor && pnpm run release:publish && pnpm run release:commit",

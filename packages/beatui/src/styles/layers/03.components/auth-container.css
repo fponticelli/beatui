@@ -9,14 +9,18 @@
     padding: var(--spacing-2xl);
     background-color: var(--bg-surface-light);
     border-radius: var(--radius-lg);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition: all 0.2s ease-in-out;
   }
 
   /* Dark mode */
-    .b-dark .bc-auth-container--styled {
+  .b-dark .bc-auth-container--styled {
     background-color: var(--bg-surface-dark);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2);
   }
 
   /* Mode-specific styling */
@@ -51,7 +55,7 @@
       border: 2px solid var(--border-border-light);
     }
 
-        .b-dark .bc-auth-container--styled {
+    .b-dark .bc-auth-container--styled {
       border-color: var(--border-border-dark);
     }
   }
