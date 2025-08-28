@@ -30,6 +30,11 @@ const beatuiPaths = {
 
 export default defineConfig({
   root: '.',
+  define: {
+    __VUE_OPTIONS_API__: JSON.stringify(false),
+    __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
