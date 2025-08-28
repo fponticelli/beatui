@@ -235,8 +235,9 @@ export const InputsPage = () =>
             content: ColorInput({
               value: color,
               onChange: color.set,
-              showRgb: true,
+              displayValue: true,
               withAlpha: true,
+              colorTextFormat: 'hex',
             }),
             description: description(color),
           }),

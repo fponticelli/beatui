@@ -16,11 +16,14 @@ import { CommonInputAttributes, InputOptions } from './input-options'
 
 export type ColorInputOptions = InputOptions<string> & {
   // When true, renders the RGB value next to the blob
-  showRgb?: Value<boolean>
+  displayValue?: Value<boolean>
   // Size in pixels of the blob preview (square). Defaults to 32
   size?: Value<number>
   // Enable alpha channel support with a small opacity slider. Defaults to false
   withAlpha?: Value<boolean>
+  // Which color space to display in the text label when visible
+  // Defaults to 'rgb' for backward compatibility.
+  colorTextFormat?: Value<'hex' | 'rgb' | 'hsl' | 'hwb'>
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -38,6 +41,42 @@ function rgbToHex(r: number, g: number, b: number): string {
 
 function parseAnyColor(v: string): [number, number, number, number] {
   if (!v) return [0, 0, 0, 1]
+  // #RRGGBBAA, #RRGGBB, #RGBA, #RGB (with or without #)
+  const hex = v.trim()
+  const hexMatch = hex.match(/^#?([a-fA-F0-9]{3,4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/)
+  if (hexMatch) {
+    const h = hexMatch[1]
+    if (h.length === 8) {
+      const r = parseInt(h.slice(0, 2), 16)
+      const g = parseInt(h.slice(2, 4), 16)
+      const b = parseInt(h.slice(4, 6), 16)
+      const a = parseInt(h.slice(6, 8), 16) / 255
+      return [r, g, b, a]
+    }
+    if (h.length === 6) {
+      return [
+        parseInt(h.slice(0, 2), 16),
+        parseInt(h.slice(2, 4), 16),
+        parseInt(h.slice(4, 6), 16),
+        1,
+      ]
+    }
+    if (h.length === 4) {
+      // #RGBA -> expand each nibble
+      const r = parseInt(h[0] + h[0], 16)
+      const g = parseInt(h[1] + h[1], 16)
+      const b = parseInt(h[2] + h[2], 16)
+      const a = parseInt(h[3] + h[3], 16) / 255
+      return [r, g, b, a]
+    }
+    if (h.length === 3) {
+      const r = parseInt(h[0] + h[0], 16)
+      const g = parseInt(h[1] + h[1], 16)
+      const b = parseInt(h[2] + h[2], 16)
+      return [r, g, b, 1]
+    }
+  }
+  // rgba()
   const rgba = v.match(
     /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0|1|0?\.\d+)\s*\)$/i
   )
@@ -49,11 +88,36 @@ function parseAnyColor(v: string): [number, number, number, number] {
       parseFloat(rgba[4]),
     ]
   }
+  // rgb()
   const rgb = v.match(
     /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i
   )
   if (rgb) {
     return [parseInt(rgb[1], 10), parseInt(rgb[2], 10), parseInt(rgb[3], 10), 1]
+  }
+  // modern functional hsl() and hsla() with optional slash alpha
+  const hslModern = v.match(
+    /^hsla?\(\s*([+-]?[\d.]+)(?:deg)?\s*[ ,]?\s*([\d.]+)%\s*[ ,]?\s*([\d.]+)%\s*(?:[/,]\s*(\d?(?:\.\d+)?))?\s*\)$/i
+  )
+  if (hslModern) {
+    const h = parseFloat(hslModern[1])
+    const s = parseFloat(hslModern[2])
+    const l = parseFloat(hslModern[3])
+    const a = hslModern[4] != null ? parseFloat(hslModern[4]) : 1
+    const [r, g, b] = hslToRgb(h, s / 100, l / 100)
+    return [r, g, b, a]
+  }
+  // HWB: hwb(h w% b% / a?)
+  const hwb = v.match(
+    /^hwb\(\s*([+-]?[\d.]+)(?:deg)?\s*[, ]\s*([\d.]+)%\s*[, ]\s*([\d.]+)%\s*(?:[/]\s*(\d?(?:\.\d+)?))?\s*\)$/i
+  )
+  if (hwb) {
+    const h = parseFloat(hwb[1])
+    const w = parseFloat(hwb[2]) / 100
+    const b = parseFloat(hwb[3]) / 100
+    const a = hwb[4] != null ? parseFloat(hwb[4]) : 1
+    const [r, g, b_] = hwbToRgb(h, w, b)
+    return [r, g, b_, a]
   }
   const [r, g, b] = hexToRgb(v)
   return [r, g, b, 1]
@@ -72,6 +136,140 @@ function mulberry32(seed: number) {
     t = Math.imul(t ^ (t >>> 15), t | 1)
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+// Convert HSL (0..360, 0..1, 0..1) to RGB (0..255)
+function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+  h = ((h % 360) + 360) % 360
+  const c = (1 - Math.abs(2 * l - 1)) * s
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
+  const m = l - c / 2
+  let r1 = 0,
+    g1 = 0,
+    b1 = 0
+  if (0 <= h && h < 60) [r1, g1, b1] = [c, x, 0]
+  else if (60 <= h && h < 120) [r1, g1, b1] = [x, c, 0]
+  else if (120 <= h && h < 180) [r1, g1, b1] = [0, c, x]
+  else if (180 <= h && h < 240) [r1, g1, b1] = [0, x, c]
+  else if (240 <= h && h < 300) [r1, g1, b1] = [x, 0, c]
+  else [r1, g1, b1] = [c, 0, x]
+  return [
+    Math.round((r1 + m) * 255),
+    Math.round((g1 + m) * 255),
+    Math.round((b1 + m) * 255),
+  ]
+}
+
+// Convert HWB (h degrees, w 0..1, b 0..1) to RGB (0..255)
+function hwbToRgb(h: number, w: number, bl: number): [number, number, number] {
+  h = ((h % 360) + 360) % 360
+  // If w + b > 1, scale them down proportionally
+  const sum = w + bl
+  if (sum > 1) {
+    w /= sum
+    bl /= sum
+  }
+  // Pure hue color from HSL with s=1, l=0.5
+  const [pr, pg, pb] = hslToRgb(h, 1, 0.5).map(v => v / 255) as [
+    number,
+    number,
+    number,
+  ]
+  const scale = 1 - w - bl
+  const r = pr * scale + w
+  const g = pg * scale + w
+  const b = pb * scale + w
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)]
+}
+
+// Convert RGB (0..255) to HSL (h 0..360, s 0..100, l 0..100)
+function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+  r /= 255
+  g /= 255
+  b /= 255
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b)
+  let h = 0,
+    s = 0
+  const l = (max + min) / 2
+  const d = max - min
+  if (d !== 0) {
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0)
+        break
+      case g:
+        h = (b - r) / d + 2
+        break
+      default:
+        h = (r - g) / d + 4
+    }
+    h *= 60
+  }
+  return [Math.round(h), Math.round(s * 100), Math.round(l * 100)]
+}
+
+function rgbToHwb(r: number, g: number, b: number): [number, number, number] {
+  const [h] = rgbToHsl(r, g, b)
+  const rn = r / 255,
+    gn = g / 255,
+    bn = b / 255
+  const w = Math.min(rn, gn, bn)
+  const bl = 1 - Math.max(rn, gn, bn)
+  return [h, Math.round(w * 100), Math.round(bl * 100)]
+}
+
+function formatColor(
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb',
+  alphaEnabled?: boolean
+): string {
+  switch (fmt) {
+    case 'hex':
+      if (alphaEnabled) {
+        const toHex = (n: number) => n.toString(16).padStart(2, '0')
+        const aa = Math.max(0, Math.min(255, Math.round(a * 255)))
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(aa)}`
+      }
+      return rgbToHex(r, g, b)
+    case 'rgb':
+      return `rgb(${r}, ${g}, ${b})`
+    case 'rgba':
+      return `rgba(${r}, ${g}, ${b}, ${Math.round(a * 100) / 100})`
+    case 'hsl': {
+      const [h, s, l] = rgbToHsl(r, g, b)
+      return `hsl(${h}, ${s}%, ${l}%)`
+    }
+    case 'hsla': {
+      const [h, s, l] = rgbToHsl(r, g, b)
+      return `hsla(${h}, ${s}%, ${l}%, ${Math.round(a * 100) / 100})`
+    }
+    case 'hwb': {
+      const [h, w, bl] = rgbToHwb(r, g, b)
+      return a < 1
+        ? `hwb(${h} ${w}% ${bl}% / ${Math.round(a * 100) / 100})`
+        : `hwb(${h} ${w}% ${bl}%)`
+    }
+  }
+}
+
+function resolveEffectiveFormat(
+  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb',
+  alphaEnabled: boolean
+): 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' {
+  if (alphaEnabled) {
+    if (fmt === 'rgb') return 'rgba'
+    if (fmt === 'hsl') return 'hsla'
+    return fmt
+  } else {
+    if (fmt === 'rgba') return 'rgb'
+    if (fmt === 'hsla') return 'hsl'
+    return fmt
   }
 }
 
@@ -113,7 +311,15 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
 }
 
 export const ColorInput = (options: ColorInputOptions) => {
-  const { value, onBlur, onChange, onInput, showRgb, size, withAlpha } = options
+  const {
+    value,
+    onBlur,
+    onChange,
+    onInput,
+    displayValue: showRgb,
+    size,
+    withAlpha,
+  } = options
 
   const blobSize = Value.map(size ?? 32, s => s)
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
@@ -125,12 +331,24 @@ export const ColorInput = (options: ColorInputOptions) => {
   // Persist current alpha locally so it is preserved across color changes
   const alphaStore = prop<number>(Value.get(alpha) ?? 1)
   const alphaEnabled = Value.map(withAlpha ?? false, a => a)
+  // Format for label text. Default to 'rgb' for readability.
+  const displayFormatSignal = Value.map(
+    options.colorTextFormat ?? 'rgb',
+    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb'
+  )
   const rgbText = computedOf(
     rgb,
     alphaStore,
+    displayFormatSignal,
     alphaEnabled
-  )(([r, g, b], a, ea) =>
-    ea ? `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})` : `rgb(${r}, ${g}, ${b})`
+  )(([r, g, b], a, fmt, ae) =>
+    formatColor(r, g, b, a ?? 1, resolveEffectiveFormat(fmt, ae), ae)
+  )
+
+  // Format for emitted value. Default to 'hex' to keep backward compatibility
+  const emitFormatSignal = Value.map(
+    options.colorTextFormat ?? 'hex',
+    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb'
   )
   const svgViewBox = Value.map(blobSize, s => `-${s / 2} -${s / 2} ${s} ${s}`)
   const pathD = computedOf(
@@ -172,26 +390,28 @@ export const ColorInput = (options: ColorInputOptions) => {
         ? on.change(e => {
             const hex = (e.target as HTMLInputElement).value
             if (!onChange) return
+            const [r, g, b] = hexToRgb(hex)
             const a = Value.get(alphaStore) ?? 1
-            if (a < 1) {
-              const [r, g, b] = hexToRgb(hex)
-              onChange(toRgbaString(r, g, b, a))
-            } else {
-              onChange(hex)
-            }
+            const fmt = resolveEffectiveFormat(
+              Value.get(emitFormatSignal),
+              Value.get(alphaEnabled)
+            )
+            const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+            onChange(out)
           })
         : Empty,
       onInput != null
         ? on.input(e => {
             const hex = (e.target as HTMLInputElement).value
             if (!onInput) return
+            const [r, g, b] = hexToRgb(hex)
             const a = Value.get(alphaStore) ?? 1
-            if (a < 1) {
-              const [r, g, b] = hexToRgb(hex)
-              onInput(toRgbaString(r, g, b, a))
-            } else {
-              onInput(hex)
-            }
+            const fmt = resolveEffectiveFormat(
+              Value.get(emitFormatSignal),
+              Value.get(alphaEnabled)
+            )
+            const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+            onInput(out)
           })
         : Empty
     )
@@ -210,14 +430,22 @@ export const ColorInput = (options: ColorInputOptions) => {
         const a = parseFloat((e.target as HTMLInputElement).value)
         alphaStore.set(a)
         const [r, g, b] = Value.get(rgb) as [number, number, number]
-        const out = a < 1 ? toRgbaString(r, g, b, a) : rgbToHex(r, g, b)
+        const fmt = resolveEffectiveFormat(
+          Value.get(emitFormatSignal),
+          Value.get(alphaEnabled)
+        )
+        const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
         onInput?.(out)
       }),
       on.change(e => {
         const a = parseFloat((e.target as HTMLInputElement).value)
         alphaStore.set(a)
         const [r, g, b] = Value.get(rgb) as [number, number, number]
-        const out = a < 1 ? toRgbaString(r, g, b, a) : rgbToHex(r, g, b)
+        const fmt = resolveEffectiveFormat(
+          Value.get(emitFormatSignal),
+          Value.get(alphaEnabled)
+        )
+        const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
         onChange?.(out)
       })
     )
