@@ -134,13 +134,14 @@ export function JSONSchemaFormPage() {
           body: Ensure(
             schemaDef,
             schema =>
-              MapSignal(schema, schema =>
-                JSONSchemaForm<unknown>({
+              MapSignal(schema, schema => {
+                const { Form, controller } = JSONSchemaForm<unknown>({
                   schema,
                   initialValue: current,
-                  onChange: v => current.set(v),
                 })
-              ),
+                controller.value.feedProp(current)
+                return Form
+              }),
             () =>
               html.div(
                 attr.class('bu-text-red-600'),

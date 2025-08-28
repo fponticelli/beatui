@@ -10,7 +10,7 @@ import {
   NumberInputOptions,
   ObjectController,
 } from '../form'
-import { attr, html, TNode, WithElement } from '@tempots/dom'
+import { attr, html, Renderable, WithElement } from '@tempots/dom'
 import { Stack } from '../layout'
 import { objectEntries } from '@tempots/std'
 import { SchemaContext } from './schema-context'
@@ -24,7 +24,7 @@ export function JSONSchemaAny({
 }: {
   ctx: SchemaContext
   controller: Controller<unknown>
-}): TNode {
+}): Renderable {
   if (ctx.definition === true) {
     return JSONSchemaAny({
       ctx: ctx.with({
@@ -74,7 +74,7 @@ export function JSONSchemaNever({
 }: {
   ctx: SchemaContext
   controller: Controller<never>
-}): TNode {
+}): Renderable {
   console.warn(ctx, controller)
   throw new Error('Not implemented: never')
 }
@@ -101,7 +101,7 @@ export function JSONSchemaNumber({
 }: {
   ctx: SchemaContext
   controller: Controller<number>
-}): TNode {
+}): Renderable {
   const def = ctx.definition as JSONSchema7
   return Control<number, NumberInputOptions>(NumberInput, {
     ...definitionToInputWrapperOptions({ ctx }),
@@ -124,7 +124,7 @@ export function JSONSchemaInteger({
 }: {
   ctx: SchemaContext
   controller: Controller<number>
-}): TNode {
+}): Renderable {
   return JSONSchemaNumber({
     ctx: ctx.with({
       definition: {
@@ -144,7 +144,7 @@ export function JSONSchemaString({
 }: {
   ctx: SchemaContext
   controller: Controller<string | undefined>
-}): TNode {
+}): Renderable {
   const options = {
     ...definitionToInputWrapperOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
@@ -158,7 +158,7 @@ export function JSONSchemaBoolean({
 }: {
   ctx: SchemaContext
   controller: Controller<boolean>
-}): TNode {
+}): Renderable {
   return Control(CheckboxInput, {
     ...definitionToInputWrapperOptions({ ctx }),
     controller,
@@ -170,7 +170,7 @@ export function JSONSchemaNull({
 }: {
   ctx: SchemaContext
   controller: Controller<null>
-}): TNode {
+}): Renderable {
   return WithElement(() => {
     controller.change(null)
   })
@@ -182,7 +182,7 @@ export function JSONSchemaArray({
 }: {
   ctx: SchemaContext
   controller: ArrayController<unknown[]>
-}): TNode {
+}): Renderable {
   return ListControl({
     ...definitionToInputWrapperOptions({ ctx }),
     createItem: () =>
@@ -209,7 +209,7 @@ export function JSONSchemaObject({
 }: {
   ctx: SchemaContext
   controller: ObjectController<{ [key: string]: unknown }>
-}): TNode {
+}): Renderable {
   return Stack(
     attr.class('bu-gap-1'),
     ctx.name != null ? Label(ctx.widgetLabel) : null,
@@ -239,7 +239,7 @@ export function JSONSchemaUnion<T>({
 }: {
   ctx: SchemaContext
   controller: Controller<T>
-}): TNode {
+}): Renderable {
   console.warn(ctx, controller)
   throw new Error('Not implemented: union')
 }
@@ -250,7 +250,7 @@ export function JSONSchemaGenericControl<T>({
 }: {
   ctx: SchemaContext
   controller: Controller<T>
-}): TNode {
+}): Renderable {
   // Resolve $ref (in-document) if present; merge with siblings
   const baseDef = ctx.definition as JSONSchema7
   const resolvedDef = baseDef?.$ref ? resolveRef(baseDef, ctx.schema) : baseDef
@@ -331,7 +331,7 @@ export function JSONSchemaControl<T>({
   schema: JSONSchema7Definition
   controller: Controller<T>
   ajv?: import('ajv').default
-}): TNode {
+}): Renderable {
   const ctx = new SchemaContext({
     schema,
     definition: schema,
