@@ -1,59 +1,57 @@
-@layer components {
-  .bc-flyout {
-    /* Base flyout styles */
-    background-color: var(--color-neutral-50);
-    border: 1px solid var(--color-neutral-200);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    padding: var(--spacing-sm);
-    z-index: var(--z-index-popover);
-  }
+.bc-flyout {
+  /* Base flyout styles */
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-sm);
+  z-index: var(--z-index-popover);
+}
 
-  /* Transform origins for placement-aware animations */
-  .bc-flyout.bu-toggle--flyout-top {
-    transform-origin: bottom center;
-  }
+/* Transform origins for placement-aware animations */
+.bc-flyout.bu-toggle--flyout-top {
+  transform-origin: bottom center;
+}
 
-  .bc-flyout.bu-toggle--flyout-bottom {
-    transform-origin: top center;
-  }
+.bc-flyout.bu-toggle--flyout-bottom {
+  transform-origin: top center;
+}
 
-  .bc-flyout.bu-toggle--flyout-left {
-    transform-origin: right center;
-  }
+.bc-flyout.bu-toggle--flyout-left {
+  transform-origin: right center;
+}
 
-  .bc-flyout.bu-toggle--flyout-right {
-    transform-origin: left center;
-  }
+.bc-flyout.bu-toggle--flyout-right {
+  transform-origin: left center;
+}
 
-  /* Pointer events management */
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--closed,
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--start-opening,
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--closing,
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--start-closing,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closed,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-opening,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closing,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-closing,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--closed,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--start-opening,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--closing,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--start-closing,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--closed,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--start-opening,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--closing,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--start-closing {
-    pointer-events: none;
-  }
+/* Pointer events management */
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--closed,
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-opening,
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--closing,
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-closing,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closed,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-opening,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closing,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-closing,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--closed,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-opening,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--closing,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-closing,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--closed,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-opening,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--closing,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-closing {
+  pointer-events: none;
+}
 
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--opening,
-  .bc-flyout.bu-toggle--flyout-top.bu-toggle--opened,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opening,
-  .bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opened,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--opening,
-  .bc-flyout.bu-toggle--flyout-left.bu-toggle--opened,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--opening,
-  .bc-flyout.bu-toggle--flyout-right.bu-toggle--opened {
-    pointer-events: auto;
-  }
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--opening,
+.bc-flyout.bu-toggle--flyout-top.bu-toggle--opened,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opening,
+.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opened,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--opening,
+.bc-flyout.bu-toggle--flyout-left.bu-toggle--opened,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--opening,
+.bc-flyout.bu-toggle--flyout-right.bu-toggle--opened {
+  pointer-events: auto;
 }

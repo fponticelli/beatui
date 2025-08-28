@@ -8,10 +8,6 @@ function testBackgroundGeneration() {
 
   // Basic checks
   const checks = [
-    {
-      name: 'Contains @layer components',
-      test: css.includes('@layer components'),
-    },
     { name: 'Contains inherit variant', test: css.includes('.bu-bg-inherit') },
     { name: 'Contains primary solid', test: css.includes('.bu-bg-primary') },
     {

@@ -1,64 +1,62 @@
-@layer components {
-  .hover\:bu-underline:hover:not(:disabled),
-  .bu-underline {
-    text-decoration: underline;
-  }
+.hover\:bu-underline:hover:not(:disabled),
+.bu-underline {
+  text-decoration: underline;
+}
 
-  .bu-text-2xs {
-    font-size: var(--font-size-2xs);
-  }
-  .bu-text-3xs {
-    font-size: var(--font-size-3xs);
-  }
-  .bu-text-xs {
-    font-size: var(--font-size-xs);
-  }
-  .bu-text-sm {
-    font-size: var(--font-size-sm);
-  }
-  .bu-text-md,
-  .bu-text-base {
-    font-size: var(--font-size-base);
-  }
-  .bu-text-lg {
-    font-size: var(--font-size-lg);
-  }
-  .bu-text-xl {
-    font-size: var(--font-size-xl);
-  }
-  .bu-text-2xl {
-    font-size: var(--font-size-2xl);
-  }
-  .bu-text-3xl {
-    font-size: var(--font-size-3xl);
-  }
-  .bu-text-4xl {
-    font-size: var(--font-size-4xl);
-  }
-  .bu-text-5xl {
-    font-size: var(--font-size-5xl);
-  }
-  .bu-text-6xl {
-    font-size: var(--font-size-6xl);
-  }
-  .bu-text-7xl {
-    font-size: var(--font-size-7xl);
-  }
-  .bu-text-8xl {
-    font-size: var(--font-size-8xl);
-  }
-  .bu-text-9xl {
-    font-size: var(--font-size-9xl);
-  }
+.bu-text-2xs {
+  font-size: var(--font-size-2xs);
+}
+.bu-text-3xs {
+  font-size: var(--font-size-3xs);
+}
+.bu-text-xs {
+  font-size: var(--font-size-xs);
+}
+.bu-text-sm {
+  font-size: var(--font-size-sm);
+}
+.bu-text-md,
+.bu-text-base {
+  font-size: var(--font-size-base);
+}
+.bu-text-lg {
+  font-size: var(--font-size-lg);
+}
+.bu-text-xl {
+  font-size: var(--font-size-xl);
+}
+.bu-text-2xl {
+  font-size: var(--font-size-2xl);
+}
+.bu-text-3xl {
+  font-size: var(--font-size-3xl);
+}
+.bu-text-4xl {
+  font-size: var(--font-size-4xl);
+}
+.bu-text-5xl {
+  font-size: var(--font-size-5xl);
+}
+.bu-text-6xl {
+  font-size: var(--font-size-6xl);
+}
+.bu-text-7xl {
+  font-size: var(--font-size-7xl);
+}
+.bu-text-8xl {
+  font-size: var(--font-size-8xl);
+}
+.bu-text-9xl {
+  font-size: var(--font-size-9xl);
+}
 
-  .bu-nowrap {
-    white-space: nowrap;
-  }
-  .bu-overflow-ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .bu-overflow-clip {
-    overflow: hidden;
-  }
+.bu-nowrap {
+  white-space: nowrap;
+}
+.bu-overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bu-overflow-clip {
+  overflow: hidden;
 }

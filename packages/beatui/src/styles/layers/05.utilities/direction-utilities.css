@@ -1,366 +1,364 @@
-@layer utilities {
-  /* Direction Override Utilities */
+/* Direction Override Utilities */
 
-  /* Force LTR direction for content within RTL layouts */
-  .bu-dir-ltr {
+/* Force LTR direction for content within RTL layouts */
+.bu-dir-ltr {
+  direction: ltr;
+  text-align: start;
+}
+
+/* Force RTL direction for content within LTR layouts */
+.bu-dir-rtl {
+  direction: rtl;
+  text-align: start;
+}
+
+/* Direction isolation utilities */
+.bu-isolate-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.bu-isolate-rtl {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* Bidirectional text support */
+.bu-bidi-isolate {
+  unicode-bidi: isolate;
+}
+
+.bu-bidi-isolate-override {
+  unicode-bidi: isolate-override;
+}
+
+.bu-bidi-plaintext {
+  unicode-bidi: plaintext;
+}
+
+.bu-bidi-embed {
+  unicode-bidi: embed;
+}
+
+.bu-bidi-bidi-override {
+  unicode-bidi: bidi-override;
+}
+
+/* Text alignment utilities that respect direction */
+.bu-text-align-start {
+  text-align: start;
+}
+
+.bu-text-align-end {
+  text-align: end;
+}
+
+.bu-text-align-match-parent {
+  text-align: match-parent;
+}
+
+/* Writing mode utilities */
+.bu-writing-mode-horizontal-tb {
+  writing-mode: horizontal-tb;
+}
+
+.bu-writing-mode-vertical-rl {
+  writing-mode: vertical-rl;
+}
+
+.bu-writing-mode-vertical-lr {
+  writing-mode: vertical-lr;
+}
+
+/* Direction-aware margin utilities for mixed content */
+.bu-margin-inline-auto {
+  margin-inline: auto;
+}
+
+.bu-margin-block-auto {
+  margin-block: auto;
+}
+
+/* Direction-aware padding utilities for mixed content */
+.bu-padding-inline-0 {
+  padding-inline: 0;
+}
+
+.bu-padding-block-0 {
+  padding-block: 0;
+}
+
+/* Direction-aware border utilities for mixed content */
+.bu-border-inline-0 {
+  border-inline: 0;
+}
+
+.bu-border-block-0 {
+  border-block: 0;
+}
+
+.bu-border-inline {
+  border-inline: 1px solid var(--color-base-300);
+}
+
+.bu-border-block {
+  border-block: 1px solid var(--color-base-300);
+}
+
+/* Logical positioning utilities */
+.bu-inset-inline-0 {
+  inset-inline: 0;
+}
+
+.bu-inset-block-0 {
+  inset-block: 0;
+}
+
+.bu-inset-inline-auto {
+  inset-inline: auto;
+}
+
+.bu-inset-block-auto {
+  inset-block: auto;
+}
+
+/* Direction-aware flex utilities */
+.bu-flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.bu-flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
+/* Direction context utilities for nested content */
+.bu-context-ltr {
+  direction: ltr;
+}
+
+.bu-context-ltr * {
+  direction: inherit;
+}
+
+.bu-context-rtl {
+  direction: rtl;
+}
+
+.bu-context-rtl * {
+  direction: inherit;
+}
+
+/* Number and date formatting utilities */
+.bu-numbers-ltr {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+.bu-numbers-rtl {
+  direction: rtl;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+/* URL and email utilities (always LTR) */
+.bu-url-ltr {
+  direction: ltr;
+  unicode-bidi: embed;
+  word-break: break-all;
+}
+
+/* Code and technical content (usually LTR) */
+.bu-code-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-mono);
+}
+
+/* Mixed content containers */
+.bu-mixed-content {
+  unicode-bidi: plaintext;
+}
+
+.bu-mixed-content-isolate {
+  unicode-bidi: isolate;
+}
+
+/* Direction-aware list utilities */
+.bu-list-inside {
+  list-style-position: inside;
+}
+
+.bu-list-outside {
+  list-style-position: outside;
+}
+
+/* Direction-aware table utilities */
+.bu-table-auto {
+  table-layout: auto;
+}
+
+.bu-table-fixed {
+  table-layout: fixed;
+}
+
+/* Caption side utilities */
+.bu-caption-top {
+  caption-side: top;
+}
+
+.bu-caption-bottom {
+  caption-side: bottom;
+}
+
+.bu-caption-inline-start {
+  caption-side: inline-start;
+}
+
+.bu-caption-inline-end {
+  caption-side: inline-end;
+}
+
+/* Direction-aware overflow utilities */
+.bu-overflow-x-auto {
+  overflow-x: auto;
+}
+
+.bu-overflow-y-auto {
+  overflow-y: auto;
+}
+
+.bu-overflow-inline-auto {
+  overflow-inline: auto;
+}
+
+.bu-overflow-block-auto {
+  overflow-block: auto;
+}
+
+/* Scroll behavior utilities */
+.bu-scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+.bu-scroll-auto {
+  scroll-behavior: auto;
+}
+
+/* Direction-aware resize utilities */
+.bu-resize-inline {
+  resize: inline;
+}
+
+.bu-resize-block {
+  resize: block;
+}
+
+.bu-resize-both {
+  resize: both;
+}
+
+.bu-resize-none {
+  resize: none;
+}
+
+/* Responsive direction utilities */
+@media (width >= 40rem) {
+  .sm\:bu-dir-ltr {
     direction: ltr;
     text-align: start;
   }
 
-  /* Force RTL direction for content within LTR layouts */
-  .bu-dir-rtl {
+  .sm\:bu-dir-rtl {
     direction: rtl;
     text-align: start;
   }
 
-  /* Direction isolation utilities */
-  .bu-isolate-ltr {
-    direction: ltr;
-    unicode-bidi: isolate;
-  }
-
-  .bu-isolate-rtl {
-    direction: rtl;
-    unicode-bidi: isolate;
-  }
-
-  /* Bidirectional text support */
-  .bu-bidi-isolate {
-    unicode-bidi: isolate;
-  }
-
-  .bu-bidi-isolate-override {
-    unicode-bidi: isolate-override;
-  }
-
-  .bu-bidi-plaintext {
-    unicode-bidi: plaintext;
-  }
-
-  .bu-bidi-embed {
-    unicode-bidi: embed;
-  }
-
-  .bu-bidi-bidi-override {
-    unicode-bidi: bidi-override;
-  }
-
-  /* Text alignment utilities that respect direction */
-  .bu-text-align-start {
+  .sm\:bu-text-align-start {
     text-align: start;
   }
 
-  .bu-text-align-end {
+  .sm\:bu-text-align-end {
     text-align: end;
   }
+}
 
-  .bu-text-align-match-parent {
-    text-align: match-parent;
-  }
-
-  /* Writing mode utilities */
-  .bu-writing-mode-horizontal-tb {
-    writing-mode: horizontal-tb;
-  }
-
-  .bu-writing-mode-vertical-rl {
-    writing-mode: vertical-rl;
-  }
-
-  .bu-writing-mode-vertical-lr {
-    writing-mode: vertical-lr;
-  }
-
-  /* Direction-aware margin utilities for mixed content */
-  .bu-margin-inline-auto {
-    margin-inline: auto;
-  }
-
-  .bu-margin-block-auto {
-    margin-block: auto;
-  }
-
-  /* Direction-aware padding utilities for mixed content */
-  .bu-padding-inline-0 {
-    padding-inline: 0;
-  }
-
-  .bu-padding-block-0 {
-    padding-block: 0;
-  }
-
-  /* Direction-aware border utilities for mixed content */
-  .bu-border-inline-0 {
-    border-inline: 0;
-  }
-
-  .bu-border-block-0 {
-    border-block: 0;
-  }
-
-  .bu-border-inline {
-    border-inline: 1px solid var(--color-base-300);
-  }
-
-  .bu-border-block {
-    border-block: 1px solid var(--color-base-300);
-  }
-
-  /* Logical positioning utilities */
-  .bu-inset-inline-0 {
-    inset-inline: 0;
-  }
-
-  .bu-inset-block-0 {
-    inset-block: 0;
-  }
-
-  .bu-inset-inline-auto {
-    inset-inline: auto;
-  }
-
-  .bu-inset-block-auto {
-    inset-block: auto;
-  }
-
-  /* Direction-aware flex utilities */
-  .bu-flex-row-reverse {
-    flex-direction: row-reverse;
-  }
-
-  .bu-flex-col-reverse {
-    flex-direction: column-reverse;
-  }
-
-  /* Direction context utilities for nested content */
-  .bu-context-ltr {
+@media (width >= 48rem) {
+  .md\:bu-dir-ltr {
     direction: ltr;
+    text-align: start;
   }
 
-  .bu-context-ltr * {
-    direction: inherit;
-  }
-
-  .bu-context-rtl {
+  .md\:bu-dir-rtl {
     direction: rtl;
+    text-align: start;
   }
 
-  .bu-context-rtl * {
-    direction: inherit;
+  .md\:bu-text-align-start {
+    text-align: start;
   }
 
-  /* Number and date formatting utilities */
-  .bu-numbers-ltr {
+  .md\:bu-text-align-end {
+    text-align: end;
+  }
+}
+
+@media (width >= 64rem) {
+  .lg\:bu-dir-ltr {
     direction: ltr;
-    unicode-bidi: embed;
-    display: inline-block;
+    text-align: start;
   }
 
-  .bu-numbers-rtl {
+  .lg\:bu-dir-rtl {
     direction: rtl;
-    unicode-bidi: embed;
-    display: inline-block;
+    text-align: start;
   }
 
-  /* URL and email utilities (always LTR) */
-  .bu-url-ltr {
+  .lg\:bu-text-align-start {
+    text-align: start;
+  }
+
+  .lg\:bu-text-align-end {
+    text-align: end;
+  }
+}
+
+@media (width >= 80rem) {
+  .xl\:bu-dir-ltr {
     direction: ltr;
-    unicode-bidi: embed;
-    word-break: break-all;
+    text-align: start;
   }
 
-  /* Code and technical content (usually LTR) */
-  .bu-code-ltr {
+  .xl\:bu-dir-rtl {
+    direction: rtl;
+    text-align: start;
+  }
+
+  .xl\:bu-text-align-start {
+    text-align: start;
+  }
+
+  .xl\:bu-text-align-end {
+    text-align: end;
+  }
+}
+
+@media (width >= 96rem) {
+  .\2xl\:bu-dir-ltr {
     direction: ltr;
-    unicode-bidi: isolate;
-    font-family: var(--font-mono);
+    text-align: start;
   }
 
-  /* Mixed content containers */
-  .bu-mixed-content {
-    unicode-bidi: plaintext;
+  .\2xl\:bu-dir-rtl {
+    direction: rtl;
+    text-align: start;
   }
 
-  .bu-mixed-content-isolate {
-    unicode-bidi: isolate;
+  .\2xl\:bu-text-align-start {
+    text-align: start;
   }
 
-  /* Direction-aware list utilities */
-  .bu-list-inside {
-    list-style-position: inside;
-  }
-
-  .bu-list-outside {
-    list-style-position: outside;
-  }
-
-  /* Direction-aware table utilities */
-  .bu-table-auto {
-    table-layout: auto;
-  }
-
-  .bu-table-fixed {
-    table-layout: fixed;
-  }
-
-  /* Caption side utilities */
-  .bu-caption-top {
-    caption-side: top;
-  }
-
-  .bu-caption-bottom {
-    caption-side: bottom;
-  }
-
-  .bu-caption-inline-start {
-    caption-side: inline-start;
-  }
-
-  .bu-caption-inline-end {
-    caption-side: inline-end;
-  }
-
-  /* Direction-aware overflow utilities */
-  .bu-overflow-x-auto {
-    overflow-x: auto;
-  }
-
-  .bu-overflow-y-auto {
-    overflow-y: auto;
-  }
-
-  .bu-overflow-inline-auto {
-    overflow-inline: auto;
-  }
-
-  .bu-overflow-block-auto {
-    overflow-block: auto;
-  }
-
-  /* Scroll behavior utilities */
-  .bu-scroll-smooth {
-    scroll-behavior: smooth;
-  }
-
-  .bu-scroll-auto {
-    scroll-behavior: auto;
-  }
-
-  /* Direction-aware resize utilities */
-  .bu-resize-inline {
-    resize: inline;
-  }
-
-  .bu-resize-block {
-    resize: block;
-  }
-
-  .bu-resize-both {
-    resize: both;
-  }
-
-  .bu-resize-none {
-    resize: none;
-  }
-
-  /* Responsive direction utilities */
-  @media (width >= 40rem) {
-    .sm\:bu-dir-ltr {
-      direction: ltr;
-      text-align: start;
-    }
-
-    .sm\:bu-dir-rtl {
-      direction: rtl;
-      text-align: start;
-    }
-
-    .sm\:bu-text-align-start {
-      text-align: start;
-    }
-
-    .sm\:bu-text-align-end {
-      text-align: end;
-    }
-  }
-
-  @media (width >= 48rem) {
-    .md\:bu-dir-ltr {
-      direction: ltr;
-      text-align: start;
-    }
-
-    .md\:bu-dir-rtl {
-      direction: rtl;
-      text-align: start;
-    }
-
-    .md\:bu-text-align-start {
-      text-align: start;
-    }
-
-    .md\:bu-text-align-end {
-      text-align: end;
-    }
-  }
-
-  @media (width >= 64rem) {
-    .lg\:bu-dir-ltr {
-      direction: ltr;
-      text-align: start;
-    }
-
-    .lg\:bu-dir-rtl {
-      direction: rtl;
-      text-align: start;
-    }
-
-    .lg\:bu-text-align-start {
-      text-align: start;
-    }
-
-    .lg\:bu-text-align-end {
-      text-align: end;
-    }
-  }
-
-  @media (width >= 80rem) {
-    .xl\:bu-dir-ltr {
-      direction: ltr;
-      text-align: start;
-    }
-
-    .xl\:bu-dir-rtl {
-      direction: rtl;
-      text-align: start;
-    }
-
-    .xl\:bu-text-align-start {
-      text-align: start;
-    }
-
-    .xl\:bu-text-align-end {
-      text-align: end;
-    }
-  }
-
-  @media (width >= 96rem) {
-    .\2xl\:bu-dir-ltr {
-      direction: ltr;
-      text-align: start;
-    }
-
-    .\2xl\:bu-dir-rtl {
-      direction: rtl;
-      text-align: start;
-    }
-
-    .\2xl\:bu-text-align-start {
-      text-align: start;
-    }
-
-    .\2xl\:bu-text-align-end {
-      text-align: end;
-    }
+  .\2xl\:bu-text-align-end {
+    text-align: end;
   }
 }

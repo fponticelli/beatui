@@ -1,62 +1,60 @@
-@layer components {
-  /* Auth Container Component */
+/* Auth Container Component */
+.bc-auth-container--styled {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl);
+  background-color: var(--bg-surface-light);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Dark mode */
+.b-dark .bc-auth-container--styled {
+  background-color: var(--bg-surface-dark);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Mode-specific styling */
+.bc-auth-container--signin {
+  /* Specific styling for sign in mode if needed */
+}
+
+.bc-auth-container--signup {
+  /* Specific styling for sign up mode if needed */
+}
+
+.bc-auth-container--reset-password {
+  /* Specific styling for reset password mode if needed */
+}
+
+/* Responsive design */
+@media (width < 40rem) {
   .bc-auth-container--styled {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: var(--spacing-2xl);
-    background-color: var(--bg-surface-light);
-    border-radius: var(--radius-lg);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.2s ease-in-out;
+    max-width: none;
+    margin: 0;
+    padding: var(--spacing-lg);
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+    justify-content: center;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bc-auth-container--styled {
+    border: 2px solid var(--border-border-light);
   }
 
-  /* Dark mode */
   .b-dark .bc-auth-container--styled {
-    background-color: var(--bg-surface-dark);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.3),
-      0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Mode-specific styling */
-  .bc-auth-container--signin {
-    /* Specific styling for sign in mode if needed */
-  }
-
-  .bc-auth-container--signup {
-    /* Specific styling for sign up mode if needed */
-  }
-
-  .bc-auth-container--reset-password {
-    /* Specific styling for reset password mode if needed */
-  }
-
-  /* Responsive design */
-  @media (width < 40rem) {
-    .bc-auth-container--styled {
-      max-width: none;
-      margin: 0;
-      padding: var(--spacing-lg);
-      border-radius: 0;
-      box-shadow: none;
-      min-height: 100vh;
-      justify-content: center;
-    }
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .bc-auth-container--styled {
-      border: 2px solid var(--border-border-light);
-    }
-
-    .b-dark .bc-auth-container--styled {
-      border-color: var(--border-border-dark);
-    }
+    border-color: var(--border-border-dark);
   }
 }

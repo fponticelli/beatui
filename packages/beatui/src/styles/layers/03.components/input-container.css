@@ -1,203 +1,201 @@
-@layer components {
-  /* Input Container Component */
-  .bc-base-input-container,
+/* Input Container Component */
+.bc-base-input-container,
+.bc-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: calc(var(--spacing-base) * 2);
+  overflow: hidden;
+}
+
+.bc-input-container {
+  width: 100%;
+  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 4);
+  border: 0;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Default state */
+.bc-base-input-container--default,
+.bc-input-container--default {
+  color: var(--color-gray-900);
+}
+
+.bc-input-container--default {
+  background-color: var(--color-white);
+  outline: 2px solid var(--color-gray-200);
+  outline-offset: -2px;
+}
+
+.bc-base-input-container--default::placeholder
+  .bc-input-container--default::placeholder {
+  color: var(--color-gray-400);
+}
+
+/* Disabled state */
+.bc-base-input-container--disabled,
+.bc-input-container--disabled {
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+}
+
+.bc-input-container--disabled {
+  background-color: var(--color-gray-200);
+  outline: 2px solid var(--color-gray-300);
+  outline-offset: -2px;
+}
+
+.bc-input-container--disabled::placeholder {
+  color: var(--color-gray-400);
+}
+
+/* Focus within state */
+.bc-input-container:focus-within {
+  z-index: 10;
+  outline: 2px solid var(--color-sky-600);
+  outline-offset: -2px;
+}
+
+/* Error state */
+.bc-input-container--error {
+  outline: 2px solid var(--color-error-600);
+  outline-offset: -2px;
+}
+
+.bc-input-container--error:focus-within {
+  outline: 2px solid var(--color-red-600);
+  outline-offset: -2px;
+}
+
+/* Before and after elements */
+.bc-input-container__before,
+.bc-input-container__after {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Input wrapper */
+.bc-input-container__input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bc-input-container__input--grow {
+  flex-grow: 1;
+}
+
+/* Input element styles */
+.bc-input-container input,
+.bc-input-container textarea,
+.bc-input-container select,
+.bc-input-container .bc-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+}
+
+.bc-input-container input::placeholder,
+.bc-input-container textarea::placeholder,
+.bc-input::placeholder {
+  color: inherit;
+  opacity: 0.6;
+}
+
+/* Password toggle button */
+.bc-input-container__password-toggle {
+  font-size: var(--font-size-sm);
+  fill: var(--color-gray-400);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bc-input-container__password-toggle:hover {
+  background-color: var(--color-gray-100);
+}
+
+/* Tags input wrapper */
+.bc-input-container__tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing-base) * 2);
+  align-items: center;
+}
+
+/* Tags input text field */
+.bc-input-container .bc-input-container__tags-input {
+  min-width: 8rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  width: auto;
+  flex-grow: 1;
+}
+
+/* Dark mode styles */
+.b-dark .bc-input-container--default {
+  background-color: var(--bg-surface-dark);
+  color: var(--text-normal-dark);
+  outline: 2px solid var(--border-dark);
+}
+
+.b-dark .bc-input-container--default:focus-within {
+  outline: 2px solid var(--interactive-focus-dark);
+  background-color: var(--bg-elevated-dark);
+}
+
+.b-dark .bc-input-container--default::placeholder {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-input-container--disabled {
+  background-color: var(--bg-subtle-dark);
+  color: var(--text-muted-dark);
+  outline: 2px solid var(--border-divider-dark);
+  opacity: 0.6;
+}
+
+.b-dark .bc-input-container--disabled::placeholder {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-input-container--error {
+  outline: 2px solid var(--color-red-400);
+  background-color: var(--color-red-950);
+}
+
+.b-dark .bc-input-container--error:focus-within {
+  outline: 2px solid var(--color-red-400);
+  background-color: var(--color-red-900);
+}
+
+.b-dark .bc-input-container__password-toggle {
+  fill: var(--text-muted-dark);
+}
+
+.b-dark .bc-input-container__password-toggle:hover {
+  background-color: var(--interactive-hover-dark);
+  fill: var(--text-normal-dark);
+}
+
+/* Responsive styles */
+@media (width >=var(--breakpoint-sm)) {
   .bc-input-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: calc(var(--spacing-base) * 2);
-    overflow: hidden;
-  }
-
-  .bc-input-container {
-    width: 100%;
-    padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 4);
-    border: 0;
-    border-radius: var(--radius-md);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in-out;
-  }
-
-  /* Default state */
-  .bc-base-input-container--default,
-  .bc-input-container--default {
-    color: var(--color-gray-900);
-  }
-
-  .bc-input-container--default {
-    background-color: var(--color-white);
-    outline: 2px solid var(--color-gray-200);
-    outline-offset: -2px;
-  }
-
-  .bc-base-input-container--default::placeholder
-    .bc-input-container--default::placeholder {
-    color: var(--color-gray-400);
-  }
-
-  /* Disabled state */
-  .bc-base-input-container--disabled,
-  .bc-input-container--disabled {
-    color: var(--color-gray-500);
-    cursor: not-allowed;
-  }
-
-  .bc-input-container--disabled {
-    background-color: var(--color-gray-200);
-    outline: 2px solid var(--color-gray-300);
-    outline-offset: -2px;
-  }
-
-  .bc-input-container--disabled::placeholder {
-    color: var(--color-gray-400);
-  }
-
-  /* Focus within state */
-  .bc-input-container:focus-within {
-    z-index: 10;
-    outline: 2px solid var(--color-sky-600);
-    outline-offset: -2px;
-  }
-
-  /* Error state */
-  .bc-input-container--error {
-    outline: 2px solid var(--color-error-600);
-    outline-offset: -2px;
-  }
-
-  .bc-input-container--error:focus-within {
-    outline: 2px solid var(--color-red-600);
-    outline-offset: -2px;
-  }
-
-  /* Before and after elements */
-  .bc-input-container__before,
-  .bc-input-container__after {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    z-index: 10;
-  }
-
-  /* Input wrapper */
-  .bc-input-container__input {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow: hidden;
-  }
-
-  .bc-input-container__input--grow {
-    flex-grow: 1;
-  }
-
-  /* Input element styles */
-  .bc-input-container input,
-  .bc-input-container textarea,
-  .bc-input-container select,
-  .bc-input-container .bc-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    font: inherit;
-    color: inherit;
-  }
-
-  .bc-input-container input::placeholder,
-  .bc-input-container textarea::placeholder,
-  .bc-input::placeholder {
-    color: inherit;
-    opacity: 0.6;
-  }
-
-  /* Password toggle button */
-  .bc-input-container__password-toggle {
     font-size: var(--font-size-sm);
-    fill: var(--color-gray-400);
-    border-radius: var(--radius-full);
-    padding: var(--spacing-sm);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .bc-input-container__password-toggle:hover {
-    background-color: var(--color-gray-100);
-  }
-
-  /* Tags input wrapper */
-  .bc-input-container__tags {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: calc(var(--spacing-base) * 2);
-    align-items: center;
-  }
-
-  /* Tags input text field */
-  .bc-input-container .bc-input-container__tags-input {
-    min-width: 8rem;
-    flex-shrink: 0;
-    display: inline-flex;
-    width: auto;
-    flex-grow: 1;
-  }
-
-  /* Dark mode styles */
-  .b-dark .bc-input-container--default {
-    background-color: var(--bg-surface-dark);
-    color: var(--text-normal-dark);
-    outline: 2px solid var(--border-dark);
-  }
-
-  .b-dark .bc-input-container--default:focus-within {
-    outline: 2px solid var(--interactive-focus-dark);
-    background-color: var(--bg-elevated-dark);
-  }
-
-  .b-dark .bc-input-container--default::placeholder {
-    color: var(--text-muted-dark);
-  }
-
-  .b-dark .bc-input-container--disabled {
-    background-color: var(--bg-subtle-dark);
-    color: var(--text-muted-dark);
-    outline: 2px solid var(--border-divider-dark);
-    opacity: 0.6;
-  }
-
-  .b-dark .bc-input-container--disabled::placeholder {
-    color: var(--text-muted-dark);
-  }
-
-  .b-dark .bc-input-container--error {
-    outline: 2px solid var(--color-red-400);
-    background-color: var(--color-red-950);
-  }
-
-  .b-dark .bc-input-container--error:focus-within {
-    outline: 2px solid var(--color-red-400);
-    background-color: var(--color-red-900);
-  }
-
-  .b-dark .bc-input-container__password-toggle {
-    fill: var(--text-muted-dark);
-  }
-
-  .b-dark .bc-input-container__password-toggle:hover {
-    background-color: var(--interactive-hover-dark);
-    fill: var(--text-normal-dark);
-  }
-
-  /* Responsive styles */
-  @media (width >=var(--breakpoint-sm)) {
-    .bc-input-container {
-      font-size: var(--font-size-sm);
-      line-height: var(--line-height-normal);
-    }
+    line-height: var(--line-height-normal);
   }
 }

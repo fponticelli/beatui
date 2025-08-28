@@ -1,52 +1,62 @@
-@layer overrides {
-  /* Override layer for edge cases and consumer customizations */
-  /* This layer should be used sparingly and only when necessary */
+/* Override layer for edge cases and consumer customizations */
+/* This layer should be used sparingly and only when necessary */
 
-  /* Print styles */
-  @media print {
-    .bu-print-hidden {
-      display: none !important;
-    }
-
-    .bu-print-block {
-      display: block !important;
-    }
+/* Print styles */
+@media print {
+  .bu-print-hidden {
+    display: none !important;
   }
 
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .bc-button {
-      border-width: 2px;
-    }
+  .bu-print-block {
+    display: block !important;
+  }
+}
 
-    .bc-input {
-      border-width: 2px;
-    }
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bc-button {
+    border-width: 2px;
   }
 
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .bc-button {
-      transition: none;
-    }
+  .bc-input {
+    border-width: 2px;
+  }
+}
 
-    .bc-input {
-      transition: none;
-    }
-
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bc-button {
+    transition: none;
   }
 
-  /* Focus visible improvements for accessibility */
-  @media (prefers-reduced-motion: no-preference) {
-    *:focus-visible {
-      transition:
-        outline-color 0.15s ease-in-out,
-        outline-offset 0.15s ease-in-out;
-    }
+  .bc-input {
+    transition: none;
   }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible improvements for accessibility */
+@media (prefers-reduced-motion: no-preference) {
+  *:focus-visible {
+    transition:
+      outline-color 0.15s ease-in-out,
+      outline-offset 0.15s ease-in-out;
+  }
+}
+
+.bc-toolbar__group > :not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-left: -1px;
+}
+
+.bc-toolbar__group > :not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
 }

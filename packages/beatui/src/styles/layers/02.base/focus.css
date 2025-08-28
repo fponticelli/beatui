@@ -1,92 +1,90 @@
-@layer base {
-  /* Consistent Focus Styles for All Focusable Components */
+/* Consistent Focus Styles for All Focusable Components */
 
-  /* Base focus style for all focusable elements */
+/* Base focus style for all focusable elements */
+*:focus-visible {
+  outline: 2px solid var(--interactive-focus-light);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Dark mode focus styles */
+.b-dark *:focus-visible {
+  outline-color: var(--interactive-focus-dark);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
   *:focus-visible {
-    outline: 2px solid var(--interactive-focus-light);
-    outline-offset: -2px;
-    border-radius: var(--radius-sm);
+    outline-width: 2px;
+    outline-offset: 1px;
   }
+}
 
-  /* Dark mode focus styles */
-  .b-dark *:focus-visible {
-    outline-color: var(--interactive-focus-dark);
-  }
+/* Focus styles for specific component types */
 
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    *:focus-visible {
-      outline-width: 2px;
-      outline-offset: 1px;
-    }
-  }
+/* Button-like elements */
+button:focus-visible,
+[role='button']:focus-visible,
+.bc-button:focus-visible {
+  outline-offset: -2px;
+}
 
-  /* Focus styles for specific component types */
+/* Input-like elements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[contenteditable]:focus-visible,
+.bc-input:focus-visible {
+  outline: none;
+}
 
-  /* Button-like elements */
-  button:focus-visible,
-  [role='button']:focus-visible,
-  .bc-button:focus-visible {
-    outline-offset: -2px;
-  }
+/* Link elements */
+a:focus-visible {
+  outline-offset: -2px;
+  border-radius: var(--radius-xs);
+}
 
-  /* Input-like elements */
-  input:focus-visible,
-  textarea:focus-visible,
-  select:focus-visible,
-  [contenteditable]:focus-visible,
-  .bc-input:focus-visible {
-    outline: none;
-  }
+/* Custom component focus styles */
+.bc-switch:focus-visible {
+  outline: none; /* Remove outline from container */
+}
 
-  /* Link elements */
-  a:focus-visible {
-    outline-offset: -2px;
-    border-radius: var(--radius-xs);
-  }
+.bc-switch:focus-visible .bc-switch__track {
+  outline: 2px solid var(--interactive-focus-light);
+  outline-offset: -2px;
+  border-radius: var(--radius-full);
+}
 
-  /* Custom component focus styles */
-  .bc-switch:focus-visible {
-    outline: none; /* Remove outline from container */
-  }
+.b-dark .bc-switch:focus-visible .bc-switch__track {
+  outline-color: var(--interactive-focus-dark);
+}
 
-  .bc-switch:focus-visible .bc-switch__track {
-    outline: 2px solid var(--interactive-focus-light);
-    outline-offset: -2px;
-    border-radius: var(--radius-full);
-  }
+/* Focus styles for checkbox and radio are handled by the individual components */
+.bc-checkbox-input__checkbox:focus-visible,
+.bc-radio-input__radio:focus-visible {
+  outline: 2px solid var(--interactive-focus-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
 
-  .b-dark .bc-switch:focus-visible .bc-switch__track {
-    outline-color: var(--interactive-focus-dark);
-  }
+.b-dark .bc-checkbox-input__checkbox:focus-visible,
+.b-dark .bc-radio-input__radio:focus-visible {
+  outline-color: var(--interactive-focus-dark);
+}
 
-  /* Focus styles for checkbox and radio are handled by the individual components */
-  .bc-checkbox-input__checkbox:focus-visible,
-  .bc-radio-input__radio:focus-visible {
-    outline: 2px solid var(--interactive-focus-light);
-    outline-offset: 2px;
-    border-radius: var(--radius-sm);
-  }
+/* Modal and overlay focus management */
+.bc-modal:focus-visible,
+.bc-popover:focus-visible,
+.bc-tooltip:focus-visible {
+  outline: none; /* These should manage focus internally */
+}
 
-  .b-dark .bc-checkbox-input__checkbox:focus-visible,
-  .b-dark .bc-radio-input__radio:focus-visible {
-    outline-color: var(--interactive-focus-dark);
-  }
+/* Focus trap containers should not show focus outline */
+[data-focus-trap]:focus-visible {
+  outline: none;
+}
 
-  /* Modal and overlay focus management */
-  .bc-modal:focus-visible,
-  .bc-popover:focus-visible,
-  .bc-tooltip:focus-visible {
-    outline: none; /* These should manage focus internally */
-  }
-
-  /* Focus trap containers should not show focus outline */
-  [data-focus-trap]:focus-visible {
-    outline: none;
-  }
-
-  /* Ensure focus is visible on keyboard navigation */
-  .js-focus-visible *:focus:not(.focus-visible) {
-    outline: none;
-  }
+/* Ensure focus is visible on keyboard navigation */
+.js-focus-visible *:focus:not(.focus-visible) {
+  outline: none;
 }

@@ -1,8 +1,6 @@
-@layer components {
-  .bc-stack {
-    display: flex;
-    flex-direction: column;
-    justify-items: flex-start;
-    scroll-behavior: smooth;
-  }
+.bc-stack {
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  scroll-behavior: smooth;
 }

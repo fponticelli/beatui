@@ -6,14 +6,14 @@ import { generateAllTokenVariables } from '../src/tokens/index.js'
 function generateCSSVariables(): string {
   const variables = generateAllTokenVariables()
 
-  let cssContent = '@layer base {\n  :root {\n'
+  let cssContent = ':root {\n'
 
   // Add each variable to the CSS content
   Object.entries(variables).forEach(([name, value]) => {
-    cssContent += `    ${name}: ${value};\n`
+    cssContent += `  ${name}: ${value};\n`
   })
 
-  cssContent += '  }\n}\n'
+  cssContent += '  }\n'
 
   return cssContent
 }

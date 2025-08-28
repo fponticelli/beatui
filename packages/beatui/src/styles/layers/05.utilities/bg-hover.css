@@ -1,508 +1,506 @@
-@layer components {
-  /* solid */
-  .hover\:bu-bg-primary:hover:not(:disabled) {
-    background-color: var(--color-primary-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-secondary:hover:not(:disabled) {
-    background-color: var(--color-secondary-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-base:hover:not(:disabled) {
-    background-color: var(--color-base-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-success:hover:not(:disabled) {
-    background-color: var(--color-success-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-warning:hover:not(:disabled) {
-    background-color: var(--color-warning-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-error:hover:not(:disabled) {
-    background-color: var(--color-error-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-info:hover:not(:disabled) {
-    background-color: var(--color-info-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-white:hover:not(:disabled) {
-    background-color: var(--color-white);
-    color: var(--color-base-700);
-  }
-  .hover\:bu-bg-black:hover:not(:disabled) {
-    background-color: black;
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-transparent:hover:not(:disabled) {
-    background-color: transparent;
-    color: inherit;
-  }
-  .hover\:bu-bg-red:hover:not(:disabled) {
-    background-color: var(--color-red-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-orange:hover:not(:disabled) {
-    background-color: var(--color-orange-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-amber:hover:not(:disabled) {
-    background-color: var(--color-amber-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-yellow:hover:not(:disabled) {
-    background-color: var(--color-yellow-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-lime:hover:not(:disabled) {
-    background-color: var(--color-lime-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-green:hover:not(:disabled) {
-    background-color: var(--color-green-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-emerald:hover:not(:disabled) {
-    background-color: var(--color-emerald-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-teal:hover:not(:disabled) {
-    background-color: var(--color-teal-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-cyan:hover:not(:disabled) {
-    background-color: var(--color-cyan-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-sky:hover:not(:disabled) {
-    background-color: var(--color-sky-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-blue:hover:not(:disabled) {
-    background-color: var(--color-blue-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-indigo:hover:not(:disabled) {
-    background-color: var(--color-indigo-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-violet:hover:not(:disabled) {
-    background-color: var(--color-violet-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-purple:hover:not(:disabled) {
-    background-color: var(--color-purple-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-fuchsia:hover:not(:disabled) {
-    background-color: var(--color-fuchsia-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-pink:hover:not(:disabled) {
-    background-color: var(--color-pink-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-rose:hover:not(:disabled) {
-    background-color: var(--color-rose-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-slate:hover:not(:disabled) {
-    background-color: var(--color-slate-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-gray:hover:not(:disabled) {
-    background-color: var(--color-gray-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-zinc:hover:not(:disabled) {
-    background-color: var(--color-zinc-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-neutral:hover:not(:disabled) {
-    background-color: var(--color-neutral-600);
-    color: var(--color-white);
-  }
-  .hover\:bu-bg-stone:hover:not(:disabled) {
-    background-color: var(--color-stone-600);
-    color: var(--color-white);
-  }
+/* solid */
+.hover\:bu-bg-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-base:hover:not(:disabled) {
+  background-color: var(--color-base-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-success:hover:not(:disabled) {
+  background-color: var(--color-success-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-warning:hover:not(:disabled) {
+  background-color: var(--color-warning-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-error:hover:not(:disabled) {
+  background-color: var(--color-error-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-info:hover:not(:disabled) {
+  background-color: var(--color-info-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-white:hover:not(:disabled) {
+  background-color: var(--color-white);
+  color: var(--color-base-700);
+}
+.hover\:bu-bg-black:hover:not(:disabled) {
+  background-color: black;
+  color: var(--color-white);
+}
+.hover\:bu-bg-transparent:hover:not(:disabled) {
+  background-color: transparent;
+  color: inherit;
+}
+.hover\:bu-bg-red:hover:not(:disabled) {
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-orange:hover:not(:disabled) {
+  background-color: var(--color-orange-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-amber:hover:not(:disabled) {
+  background-color: var(--color-amber-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-yellow:hover:not(:disabled) {
+  background-color: var(--color-yellow-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-lime:hover:not(:disabled) {
+  background-color: var(--color-lime-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-green:hover:not(:disabled) {
+  background-color: var(--color-green-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-emerald:hover:not(:disabled) {
+  background-color: var(--color-emerald-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-teal:hover:not(:disabled) {
+  background-color: var(--color-teal-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-cyan:hover:not(:disabled) {
+  background-color: var(--color-cyan-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-sky:hover:not(:disabled) {
+  background-color: var(--color-sky-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-blue:hover:not(:disabled) {
+  background-color: var(--color-blue-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-indigo:hover:not(:disabled) {
+  background-color: var(--color-indigo-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-violet:hover:not(:disabled) {
+  background-color: var(--color-violet-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-purple:hover:not(:disabled) {
+  background-color: var(--color-purple-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-fuchsia:hover:not(:disabled) {
+  background-color: var(--color-fuchsia-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-pink:hover:not(:disabled) {
+  background-color: var(--color-pink-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-rose:hover:not(:disabled) {
+  background-color: var(--color-rose-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-slate:hover:not(:disabled) {
+  background-color: var(--color-slate-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-gray:hover:not(:disabled) {
+  background-color: var(--color-gray-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-zinc:hover:not(:disabled) {
+  background-color: var(--color-zinc-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-neutral:hover:not(:disabled) {
+  background-color: var(--color-neutral-600);
+  color: var(--color-white);
+}
+.hover\:bu-bg-stone:hover:not(:disabled) {
+  background-color: var(--color-stone-600);
+  color: var(--color-white);
+}
 
-  .b-dark .hover\:bu-bg-primary:hover:not(:disabled) {
-    background-color: var(--color-primary-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-secondary:hover:not(:disabled) {
-    background-color: var(--color-secondary-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-base:hover:not(:disabled) {
-    background-color: var(--color-base-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-success:hover:not(:disabled) {
-    background-color: var(--color-success-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-warning:hover:not(:disabled) {
-    background-color: var(--color-warning-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-error:hover:not(:disabled) {
-    background-color: var(--color-error-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-info:hover:not(:disabled) {
-    background-color: var(--color-info-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-red:hover:not(:disabled) {
-    background-color: var(--color-red-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-orange:hover:not(:disabled) {
-    background-color: var(--color-orange-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-amber:hover:not(:disabled) {
-    background-color: var(--color-amber-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-yellow:hover:not(:disabled) {
-    background-color: var(--color-yellow-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-lime:hover:not(:disabled) {
-    background-color: var(--color-lime-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-green:hover:not(:disabled) {
-    background-color: var(--color-green-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-emerald:hover:not(:disabled) {
-    background-color: var(--color-emerald-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-teal:hover:not(:disabled) {
-    background-color: var(--color-teal-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-cyan:hover:not(:disabled) {
-    background-color: var(--color-cyan-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-sky:hover:not(:disabled) {
-    background-color: var(--color-sky-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-blue:hover:not(:disabled) {
-    background-color: var(--color-blue-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-indigo:hover:not(:disabled) {
-    background-color: var(--color-indigo-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-violet:hover:not(:disabled) {
-    background-color: var(--color-violet-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-purple:hover:not(:disabled) {
-    background-color: var(--color-purple-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-fuchsia:hover:not(:disabled) {
-    background-color: var(--color-fuchsia-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-pink:hover:not(:disabled) {
-    background-color: var(--color-pink-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-rose:hover:not(:disabled) {
-    background-color: var(--color-rose-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-slate:hover:not(:disabled) {
-    background-color: var(--color-slate-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-gray:hover:not(:disabled) {
-    background-color: var(--color-gray-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-zinc:hover:not(:disabled) {
-    background-color: var(--color-zinc-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-neutral:hover:not(:disabled) {
-    background-color: var(--color-neutral-600);
-    color: var(--text-inverted-dark);
-  }
-  .b-dark .hover\:bu-bg-stone:hover:not(:disabled) {
-    background-color: var(--color-stone-600);
-    color: var(--text-inverted-dark);
-  }
+.b-dark .hover\:bu-bg-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-base:hover:not(:disabled) {
+  background-color: var(--color-base-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-success:hover:not(:disabled) {
+  background-color: var(--color-success-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-warning:hover:not(:disabled) {
+  background-color: var(--color-warning-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-error:hover:not(:disabled) {
+  background-color: var(--color-error-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-info:hover:not(:disabled) {
+  background-color: var(--color-info-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-red:hover:not(:disabled) {
+  background-color: var(--color-red-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-orange:hover:not(:disabled) {
+  background-color: var(--color-orange-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-amber:hover:not(:disabled) {
+  background-color: var(--color-amber-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-yellow:hover:not(:disabled) {
+  background-color: var(--color-yellow-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-lime:hover:not(:disabled) {
+  background-color: var(--color-lime-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-green:hover:not(:disabled) {
+  background-color: var(--color-green-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-emerald:hover:not(:disabled) {
+  background-color: var(--color-emerald-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-teal:hover:not(:disabled) {
+  background-color: var(--color-teal-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-cyan:hover:not(:disabled) {
+  background-color: var(--color-cyan-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-sky:hover:not(:disabled) {
+  background-color: var(--color-sky-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-blue:hover:not(:disabled) {
+  background-color: var(--color-blue-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-indigo:hover:not(:disabled) {
+  background-color: var(--color-indigo-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-violet:hover:not(:disabled) {
+  background-color: var(--color-violet-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-purple:hover:not(:disabled) {
+  background-color: var(--color-purple-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-fuchsia:hover:not(:disabled) {
+  background-color: var(--color-fuchsia-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-pink:hover:not(:disabled) {
+  background-color: var(--color-pink-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-rose:hover:not(:disabled) {
+  background-color: var(--color-rose-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-slate:hover:not(:disabled) {
+  background-color: var(--color-slate-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-gray:hover:not(:disabled) {
+  background-color: var(--color-gray-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-zinc:hover:not(:disabled) {
+  background-color: var(--color-zinc-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-neutral:hover:not(:disabled) {
+  background-color: var(--color-neutral-600);
+  color: var(--text-inverted-dark);
+}
+.b-dark .hover\:bu-bg-stone:hover:not(:disabled) {
+  background-color: var(--color-stone-600);
+  color: var(--text-inverted-dark);
+}
 
-  /* light */
-  .hover\:bu-bg-light-primary:hover:not(:disabled) {
-    background-color: var(--color-primary-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-secondary:hover:not(:disabled) {
-    background-color: var(--color-secondary-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-base:hover:not(:disabled) {
-    background-color: var(--color-base-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-success:hover:not(:disabled) {
-    background-color: var(--color-success-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-warning:hover:not(:disabled) {
-    background-color: var(--color-warning-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-error:hover:not(:disabled) {
-    background-color: var(--color-error-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-info:hover:not(:disabled) {
-    background-color: var(--color-info-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-white:hover:not(:disabled) {
-    background-color: var(--text-normal-light);
-    color: var(--color-base-900);
-  }
-  .hover\:bu-bg-light-black:hover:not(:disabled) {
-    background-color: black;
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-transparent:hover:not(:disabled) {
-    background-color: transparent;
-    color: inherit;
-  }
-  .hover\:bu-bg-light-red:hover:not(:disabled) {
-    background-color: var(--color-red-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-orange:hover:not(:disabled) {
-    background-color: var(--color-orange-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-amber:hover:not(:disabled) {
-    background-color: var(--color-amber-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-yellow:hover:not(:disabled) {
-    background-color: var(--color-yellow-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-lime:hover:not(:disabled) {
-    background-color: var(--color-lime-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-green:hover:not(:disabled) {
-    background-color: var(--color-green-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-emerald:hover:not(:disabled) {
-    background-color: var(--color-emerald-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-teal:hover:not(:disabled) {
-    background-color: var(--color-teal-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-cyan:hover:not(:disabled) {
-    background-color: var(--color-cyan-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-sky:hover:not(:disabled) {
-    background-color: var(--color-sky-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-blue:hover:not(:disabled) {
-    background-color: var(--color-blue-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-indigo:hover:not(:disabled) {
-    background-color: var(--color-indigo-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-violet:hover:not(:disabled) {
-    background-color: var(--color-violet-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-purple:hover:not(:disabled) {
-    background-color: var(--color-purple-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-fuchsia:hover:not(:disabled) {
-    background-color: var(--color-fuchsia-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-pink:hover:not(:disabled) {
-    background-color: var(--color-pink-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-rose:hover:not(:disabled) {
-    background-color: var(--color-rose-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-slate:hover:not(:disabled) {
-    background-color: var(--color-slate-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-gray:hover:not(:disabled) {
-    background-color: var(--color-gray-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-zinc:hover:not(:disabled) {
-    background-color: var(--color-zinc-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-neutral:hover:not(:disabled) {
-    background-color: var(--color-neutral-300);
-    color: var(--text-normal-light);
-  }
-  .hover\:bu-bg-light-stone:hover:not(:disabled) {
-    background-color: var(--color-stone-300);
-    color: var(--text-normal-light);
-  }
+/* light */
+.hover\:bu-bg-light-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-base:hover:not(:disabled) {
+  background-color: var(--color-base-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-success:hover:not(:disabled) {
+  background-color: var(--color-success-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-warning:hover:not(:disabled) {
+  background-color: var(--color-warning-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-error:hover:not(:disabled) {
+  background-color: var(--color-error-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-info:hover:not(:disabled) {
+  background-color: var(--color-info-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-white:hover:not(:disabled) {
+  background-color: var(--text-normal-light);
+  color: var(--color-base-900);
+}
+.hover\:bu-bg-light-black:hover:not(:disabled) {
+  background-color: black;
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-transparent:hover:not(:disabled) {
+  background-color: transparent;
+  color: inherit;
+}
+.hover\:bu-bg-light-red:hover:not(:disabled) {
+  background-color: var(--color-red-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-orange:hover:not(:disabled) {
+  background-color: var(--color-orange-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-amber:hover:not(:disabled) {
+  background-color: var(--color-amber-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-yellow:hover:not(:disabled) {
+  background-color: var(--color-yellow-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-lime:hover:not(:disabled) {
+  background-color: var(--color-lime-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-green:hover:not(:disabled) {
+  background-color: var(--color-green-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-emerald:hover:not(:disabled) {
+  background-color: var(--color-emerald-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-teal:hover:not(:disabled) {
+  background-color: var(--color-teal-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-cyan:hover:not(:disabled) {
+  background-color: var(--color-cyan-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-sky:hover:not(:disabled) {
+  background-color: var(--color-sky-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-blue:hover:not(:disabled) {
+  background-color: var(--color-blue-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-indigo:hover:not(:disabled) {
+  background-color: var(--color-indigo-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-violet:hover:not(:disabled) {
+  background-color: var(--color-violet-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-purple:hover:not(:disabled) {
+  background-color: var(--color-purple-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-fuchsia:hover:not(:disabled) {
+  background-color: var(--color-fuchsia-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-pink:hover:not(:disabled) {
+  background-color: var(--color-pink-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-rose:hover:not(:disabled) {
+  background-color: var(--color-rose-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-slate:hover:not(:disabled) {
+  background-color: var(--color-slate-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-gray:hover:not(:disabled) {
+  background-color: var(--color-gray-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-zinc:hover:not(:disabled) {
+  background-color: var(--color-zinc-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-neutral:hover:not(:disabled) {
+  background-color: var(--color-neutral-300);
+  color: var(--text-normal-light);
+}
+.hover\:bu-bg-light-stone:hover:not(:disabled) {
+  background-color: var(--color-stone-300);
+  color: var(--text-normal-light);
+}
 
-  /* light dark */
-  .b-dark .hover\:bu-bg-light-primary:hover:not(:disabled) {
-    background-color: var(--color-primary-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-secondary:hover:not(:disabled) {
-    background-color: var(--color-secondary-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-base:hover:not(:disabled) {
-    background-color: var(--color-base-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-success:hover:not(:disabled) {
-    background-color: var(--color-success-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-warning:hover:not(:disabled) {
-    background-color: var(--color-warning-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-error:hover:not(:disabled) {
-    background-color: var(--color-error-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-info:hover:not(:disabled) {
-    background-color: var(--color-info-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-white:hover:not(:disabled) {
-    background-color: var(--text-normal-dark);
-    color: var(--color-base-900);
-  }
-  .b-dark .hover\:bu-bg-light-black:hover:not(:disabled) {
-    background-color: black;
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-transparent:hover:not(:disabled) {
-    background-color: transparent;
-    color: inherit;
-  }
-  .b-dark .hover\:bu-bg-light-red:hover:not(:disabled) {
-    background-color: var(--color-red-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-orange:hover:not(:disabled) {
-    background-color: var(--color-orange-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-amber:hover:not(:disabled) {
-    background-color: var(--color-amber-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-yellow:hover:not(:disabled) {
-    background-color: var(--color-yellow-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-lime:hover:not(:disabled) {
-    background-color: var(--color-lime-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-green:hover:not(:disabled) {
-    background-color: var(--color-green-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-emerald:hover:not(:disabled) {
-    background-color: var(--color-emerald-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-teal:hover:not(:disabled) {
-    background-color: var(--color-teal-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-cyan:hover:not(:disabled) {
-    background-color: var(--color-cyan-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-sky:hover:not(:disabled) {
-    background-color: var(--color-sky-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-blue:hover:not(:disabled) {
-    background-color: var(--color-blue-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-indigo:hover:not(:disabled) {
-    background-color: var(--color-indigo-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-violet:hover:not(:disabled) {
-    background-color: var(--color-violet-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-purple:hover:not(:disabled) {
-    background-color: var(--color-purple-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-fuchsia:hover:not(:disabled) {
-    background-color: var(--color-fuchsia-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-pink:hover:not(:disabled) {
-    background-color: var(--color-pink-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-rose:hover:not(:disabled) {
-    background-color: var(--color-rose-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-slate:hover:not(:disabled) {
-    background-color: var(--color-slate-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-gray:hover:not(:disabled) {
-    background-color: var(--color-gray-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-zinc:hover:not(:disabled) {
-    background-color: var(--color-zinc-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-neutral:hover:not(:disabled) {
-    background-color: var(--color-neutral-700);
-    color: var(--text-normal-dark);
-  }
-  .b-dark .hover\:bu-bg-light-stone:hover:not(:disabled) {
-    background-color: var(--color-stone-700);
-    color: var(--text-normal-dark);
-  }
+/* light dark */
+.b-dark .hover\:bu-bg-light-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-base:hover:not(:disabled) {
+  background-color: var(--color-base-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-success:hover:not(:disabled) {
+  background-color: var(--color-success-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-warning:hover:not(:disabled) {
+  background-color: var(--color-warning-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-error:hover:not(:disabled) {
+  background-color: var(--color-error-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-info:hover:not(:disabled) {
+  background-color: var(--color-info-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-white:hover:not(:disabled) {
+  background-color: var(--text-normal-dark);
+  color: var(--color-base-900);
+}
+.b-dark .hover\:bu-bg-light-black:hover:not(:disabled) {
+  background-color: black;
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-transparent:hover:not(:disabled) {
+  background-color: transparent;
+  color: inherit;
+}
+.b-dark .hover\:bu-bg-light-red:hover:not(:disabled) {
+  background-color: var(--color-red-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-orange:hover:not(:disabled) {
+  background-color: var(--color-orange-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-amber:hover:not(:disabled) {
+  background-color: var(--color-amber-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-yellow:hover:not(:disabled) {
+  background-color: var(--color-yellow-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-lime:hover:not(:disabled) {
+  background-color: var(--color-lime-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-green:hover:not(:disabled) {
+  background-color: var(--color-green-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-emerald:hover:not(:disabled) {
+  background-color: var(--color-emerald-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-teal:hover:not(:disabled) {
+  background-color: var(--color-teal-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-cyan:hover:not(:disabled) {
+  background-color: var(--color-cyan-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-sky:hover:not(:disabled) {
+  background-color: var(--color-sky-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-blue:hover:not(:disabled) {
+  background-color: var(--color-blue-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-indigo:hover:not(:disabled) {
+  background-color: var(--color-indigo-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-violet:hover:not(:disabled) {
+  background-color: var(--color-violet-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-purple:hover:not(:disabled) {
+  background-color: var(--color-purple-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-fuchsia:hover:not(:disabled) {
+  background-color: var(--color-fuchsia-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-pink:hover:not(:disabled) {
+  background-color: var(--color-pink-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-rose:hover:not(:disabled) {
+  background-color: var(--color-rose-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-slate:hover:not(:disabled) {
+  background-color: var(--color-slate-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-gray:hover:not(:disabled) {
+  background-color: var(--color-gray-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-zinc:hover:not(:disabled) {
+  background-color: var(--color-zinc-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-neutral:hover:not(:disabled) {
+  background-color: var(--color-neutral-700);
+  color: var(--text-normal-dark);
+}
+.b-dark .hover\:bu-bg-light-stone:hover:not(:disabled) {
+  background-color: var(--color-stone-700);
+  color: var(--text-normal-dark);
 }

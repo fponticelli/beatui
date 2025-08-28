@@ -1,319 +1,317 @@
-@layer components {
-  /* Drawer Component */
-  .bc-drawer {
-    z-index: var(--z-index-modal);
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-xl);
-    background-color: var(--color-base-100);
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-  }
+/* Drawer Component */
+.bc-drawer {
+  z-index: var(--z-index-modal);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+  background-color: var(--color-base-100);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
 
-  /* Animation states for drawer sliding - specific transforms are defined per side below */
+/* Animation states for drawer sliding - specific transforms are defined per side below */
 
-  /* Right side animations */
-  .bc-drawer--side-right.bc-drawer--status-closed,
-  .bc-drawer--side-right.bc-drawer--status-start-closing,
-  .bc-drawer--side-right.bc-drawer--status-closing {
-    transform: translateX(100%);
-  }
+/* Right side animations */
+.bc-drawer--side-right.bc-drawer--status-closed,
+.bc-drawer--side-right.bc-drawer--status-start-closing,
+.bc-drawer--side-right.bc-drawer--status-closing {
+  transform: translateX(100%);
+}
 
-  .bc-drawer--side-right.bc-drawer--status-start-opening,
-  .bc-drawer--side-right.bc-drawer--status-opening,
-  .bc-drawer--side-right.bc-drawer--status-opened {
-    transform: translateX(0);
-  }
+.bc-drawer--side-right.bc-drawer--status-start-opening,
+.bc-drawer--side-right.bc-drawer--status-opening,
+.bc-drawer--side-right.bc-drawer--status-opened {
+  transform: translateX(0);
+}
 
-  /* Left side animations */
-  .bc-drawer--side-left.bc-drawer--status-closed,
-  .bc-drawer--side-left.bc-drawer--status-start-closing,
-  .bc-drawer--side-left.bc-drawer--status-closing {
-    transform: translateX(-100%);
-  }
+/* Left side animations */
+.bc-drawer--side-left.bc-drawer--status-closed,
+.bc-drawer--side-left.bc-drawer--status-start-closing,
+.bc-drawer--side-left.bc-drawer--status-closing {
+  transform: translateX(-100%);
+}
 
-  .bc-drawer--side-left.bc-drawer--status-start-opening,
-  .bc-drawer--side-left.bc-drawer--status-opening,
-  .bc-drawer--side-left.bc-drawer--status-opened {
-    transform: translateX(0);
-  }
+.bc-drawer--side-left.bc-drawer--status-start-opening,
+.bc-drawer--side-left.bc-drawer--status-opening,
+.bc-drawer--side-left.bc-drawer--status-opened {
+  transform: translateX(0);
+}
 
-  /* Direction-aware inline-end animations (right in LTR, left in RTL) */
-  .bc-drawer--side-inline-end.bc-drawer--status-closed,
-  .bc-drawer--side-inline-end.bc-drawer--status-start-closing,
-  .bc-drawer--side-inline-end.bc-drawer--status-closing {
-    transform: translateX(100%);
-  }
+/* Direction-aware inline-end animations (right in LTR, left in RTL) */
+.bc-drawer--side-inline-end.bc-drawer--status-closed,
+.bc-drawer--side-inline-end.bc-drawer--status-start-closing,
+.bc-drawer--side-inline-end.bc-drawer--status-closing {
+  transform: translateX(100%);
+}
 
-  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closed,
-  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-start-closing,
-  .b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closing {
-    transform: translateX(-100%);
-  }
+.b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closed,
+.b-rtl .bc-drawer--side-inline-end.bc-drawer--status-start-closing,
+.b-rtl .bc-drawer--side-inline-end.bc-drawer--status-closing {
+  transform: translateX(-100%);
+}
 
-  .bc-drawer--side-inline-end.bc-drawer--status-start-opening,
-  .bc-drawer--side-inline-end.bc-drawer--status-opening,
-  .bc-drawer--side-inline-end.bc-drawer--status-opened {
-    transform: translateX(0);
-  }
+.bc-drawer--side-inline-end.bc-drawer--status-start-opening,
+.bc-drawer--side-inline-end.bc-drawer--status-opening,
+.bc-drawer--side-inline-end.bc-drawer--status-opened {
+  transform: translateX(0);
+}
 
-  /* Direction-aware inline-start animations (left in LTR, right in RTL) */
-  .bc-drawer--side-inline-start.bc-drawer--status-closed,
-  .bc-drawer--side-inline-start.bc-drawer--status-start-closing,
-  .bc-drawer--side-inline-start.bc-drawer--status-closing {
-    transform: translateX(-100%);
-  }
+/* Direction-aware inline-start animations (left in LTR, right in RTL) */
+.bc-drawer--side-inline-start.bc-drawer--status-closed,
+.bc-drawer--side-inline-start.bc-drawer--status-start-closing,
+.bc-drawer--side-inline-start.bc-drawer--status-closing {
+  transform: translateX(-100%);
+}
 
-  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closed,
-  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-start-closing,
-  .b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closing {
-    transform: translateX(100%);
-  }
+.b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closed,
+.b-rtl .bc-drawer--side-inline-start.bc-drawer--status-start-closing,
+.b-rtl .bc-drawer--side-inline-start.bc-drawer--status-closing {
+  transform: translateX(100%);
+}
 
-  .bc-drawer--side-inline-start.bc-drawer--status-start-opening,
-  .bc-drawer--side-inline-start.bc-drawer--status-opening,
-  .bc-drawer--side-inline-start.bc-drawer--status-opened {
-    transform: translateX(0);
-  }
+.bc-drawer--side-inline-start.bc-drawer--status-start-opening,
+.bc-drawer--side-inline-start.bc-drawer--status-opening,
+.bc-drawer--side-inline-start.bc-drawer--status-opened {
+  transform: translateX(0);
+}
 
-  /* Top side animations */
-  .bc-drawer--side-top.bc-drawer--status-closed,
-  .bc-drawer--side-top.bc-drawer--status-start-closing,
-  .bc-drawer--side-top.bc-drawer--status-closing {
-    transform: translateY(-100%);
-  }
+/* Top side animations */
+.bc-drawer--side-top.bc-drawer--status-closed,
+.bc-drawer--side-top.bc-drawer--status-start-closing,
+.bc-drawer--side-top.bc-drawer--status-closing {
+  transform: translateY(-100%);
+}
 
-  .bc-drawer--side-top.bc-drawer--status-start-opening,
-  .bc-drawer--side-top.bc-drawer--status-opening,
-  .bc-drawer--side-top.bc-drawer--status-opened {
-    transform: translateY(0);
-  }
+.bc-drawer--side-top.bc-drawer--status-start-opening,
+.bc-drawer--side-top.bc-drawer--status-opening,
+.bc-drawer--side-top.bc-drawer--status-opened {
+  transform: translateY(0);
+}
 
-  /* Bottom side animations */
-  .bc-drawer--side-bottom.bc-drawer--status-closed,
-  .bc-drawer--side-bottom.bc-drawer--status-start-closing,
-  .bc-drawer--side-bottom.bc-drawer--status-closing {
-    transform: translateY(100%);
-  }
+/* Bottom side animations */
+.bc-drawer--side-bottom.bc-drawer--status-closed,
+.bc-drawer--side-bottom.bc-drawer--status-start-closing,
+.bc-drawer--side-bottom.bc-drawer--status-closing {
+  transform: translateY(100%);
+}
 
-  .bc-drawer--side-bottom.bc-drawer--status-start-opening,
-  .bc-drawer--side-bottom.bc-drawer--status-opening,
-  .bc-drawer--side-bottom.bc-drawer--status-opened {
-    transform: translateY(0);
-  }
+.bc-drawer--side-bottom.bc-drawer--status-start-opening,
+.bc-drawer--side-bottom.bc-drawer--status-opening,
+.bc-drawer--side-bottom.bc-drawer--status-opened {
+  transform: translateY(0);
+}
 
-  /* Drawer anchored to body (default) */
-  .bc-drawer--container-body {
-    position: fixed;
-  }
+/* Drawer anchored to body (default) */
+.bc-drawer--container-body {
+  position: fixed;
+}
 
-  /* Drawer anchored to element container */
-  .bc-drawer--container-element {
-    position: absolute;
-  }
+/* Drawer anchored to element container */
+.bc-drawer--container-element {
+  position: absolute;
+}
 
-  /* Drawer positioning - Right side (default) */
-  .bc-drawer--side-right.bc-drawer--container-body {
-    top: 0;
-    right: 0;
-    height: 100vh;
-    max-width: 90vw;
-  }
+/* Drawer positioning - Right side (default) */
+.bc-drawer--side-right.bc-drawer--container-body {
+  top: 0;
+  right: 0;
+  height: 100vh;
+  max-width: 90vw;
+}
 
-  .bc-drawer--side-right.bc-drawer--container-element {
-    top: 0;
-    right: 0;
-    height: 100%;
-    max-width: 90%;
-  }
+.bc-drawer--side-right.bc-drawer--container-element {
+  top: 0;
+  right: 0;
+  height: 100%;
+  max-width: 90%;
+}
 
-  /* Drawer positioning - Left side */
-  .bc-drawer--side-left.bc-drawer--container-body {
-    top: 0;
-    left: 0;
-    height: 100vh;
-    max-width: 90vw;
-  }
+/* Drawer positioning - Left side */
+.bc-drawer--side-left.bc-drawer--container-body {
+  top: 0;
+  left: 0;
+  height: 100vh;
+  max-width: 90vw;
+}
 
-  .bc-drawer--side-left.bc-drawer--container-element {
-    top: 0;
-    left: 0;
-    height: 100%;
-    max-width: 90%;
-  }
+.bc-drawer--side-left.bc-drawer--container-element {
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-width: 90%;
+}
 
-  /* Direction-aware drawer positioning - Inline End */
+/* Direction-aware drawer positioning - Inline End */
+.bc-drawer--side-inline-end.bc-drawer--container-body {
+  top: 0;
+  inset-inline-end: 0;
+  height: 100vh;
+  max-width: 90vw;
+}
+
+.bc-drawer--side-inline-end.bc-drawer--container-element {
+  top: 0;
+  inset-inline-end: 0;
+  height: 100%;
+  max-width: 90%;
+}
+
+/* Direction-aware drawer positioning - Inline Start */
+.bc-drawer--side-inline-start.bc-drawer--container-body {
+  top: 0;
+  inset-inline-start: 0;
+  height: 100vh;
+  max-width: 90vw;
+}
+
+.bc-drawer--side-inline-start.bc-drawer--container-element {
+  top: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  max-width: 90%;
+}
+
+/* Drawer positioning - Top side */
+.bc-drawer--side-top.bc-drawer--container-body {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  max-height: 90vh;
+}
+
+.bc-drawer--side-top.bc-drawer--container-element {
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 90%;
+}
+
+/* Drawer positioning - Bottom side */
+.bc-drawer--side-bottom.bc-drawer--container-body {
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  max-height: 90vh;
+}
+
+.bc-drawer--side-bottom.bc-drawer--container-element {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 90%;
+}
+
+/* Drawer sizes for vertical drawers (left/right/inline) */
+.bc-drawer--side-left.bc-drawer--size-sm,
+.bc-drawer--side-right.bc-drawer--size-sm,
+.bc-drawer--side-inline-start.bc-drawer--size-sm,
+.bc-drawer--side-inline-end.bc-drawer--size-sm {
+  width: min(320px, 90vw);
+}
+
+.bc-drawer--side-left.bc-drawer--size-md,
+.bc-drawer--side-right.bc-drawer--size-md,
+.bc-drawer--side-inline-start.bc-drawer--size-md,
+.bc-drawer--side-inline-end.bc-drawer--size-md {
+  width: min(480px, 90vw);
+}
+
+.bc-drawer--side-left.bc-drawer--size-lg,
+.bc-drawer--side-right.bc-drawer--size-lg,
+.bc-drawer--side-inline-start.bc-drawer--size-lg,
+.bc-drawer--side-inline-end.bc-drawer--size-lg {
+  width: min(640px, 90vw);
+}
+
+.bc-drawer--side-left.bc-drawer--size-xl,
+.bc-drawer--side-right.bc-drawer--size-xl,
+.bc-drawer--side-inline-start.bc-drawer--size-xl,
+.bc-drawer--side-inline-end.bc-drawer--size-xl {
+  width: min(800px, 90vw);
+}
+
+/* Drawer sizes for horizontal drawers (top/bottom) */
+.bc-drawer--side-top.bc-drawer--size-sm,
+.bc-drawer--side-bottom.bc-drawer--size-sm {
+  height: min(240px, 90vh);
+}
+
+.bc-drawer--side-top.bc-drawer--size-md,
+.bc-drawer--side-bottom.bc-drawer--size-md {
+  height: min(360px, 90vh);
+}
+
+.bc-drawer--side-top.bc-drawer--size-lg,
+.bc-drawer--side-bottom.bc-drawer--size-lg {
+  height: min(480px, 90vh);
+}
+
+.bc-drawer--side-top.bc-drawer--size-xl,
+.bc-drawer--side-bottom.bc-drawer--size-xl {
+  height: min(600px, 90vh);
+}
+
+/* Drawer content structure */
+.bc-drawer__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.bc-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-base-300);
+  background-color: var(--color-base-50);
+  flex-shrink: 0;
+}
+
+.bc-drawer__body {
+  flex: 1;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+}
+
+.bc-drawer__footer {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-base-300);
+  background-color: var(--color-base-50);
+  flex-shrink: 0;
+}
+
+/* Dark mode styles */
+.b-dark .bc-drawer {
+  background-color: var(--bg-surface-dark);
+  color: var(--text-normal-dark);
+  border: 1px solid var(--border-dark);
+}
+
+.b-dark .bc-drawer__header {
+  border-bottom: 1px solid var(--border-divider-dark);
+  background-color: var(--bg-elevated-dark);
+}
+
+.b-dark .bc-drawer__footer {
+  border-top: 1px solid var(--border-divider-dark);
+  background-color: var(--bg-elevated-dark);
+}
+
+/* Responsive adjustments */
+@media (width <= 640px) {
+  .bc-drawer--side-left.bc-drawer--container-body,
+  .bc-drawer--side-right.bc-drawer--container-body,
+  .bc-drawer--side-inline-start.bc-drawer--container-body,
   .bc-drawer--side-inline-end.bc-drawer--container-body {
-    top: 0;
-    inset-inline-end: 0;
-    height: 100vh;
-    max-width: 90vw;
-  }
-
-  .bc-drawer--side-inline-end.bc-drawer--container-element {
-    top: 0;
-    inset-inline-end: 0;
-    height: 100%;
-    max-width: 90%;
-  }
-
-  /* Direction-aware drawer positioning - Inline Start */
-  .bc-drawer--side-inline-start.bc-drawer--container-body {
-    top: 0;
-    inset-inline-start: 0;
-    height: 100vh;
-    max-width: 90vw;
-  }
-
-  .bc-drawer--side-inline-start.bc-drawer--container-element {
-    top: 0;
-    inset-inline-start: 0;
-    height: 100%;
-    max-width: 90%;
-  }
-
-  /* Drawer positioning - Top side */
-  .bc-drawer--side-top.bc-drawer--container-body {
-    top: 0;
-    left: 0;
     width: 100vw;
-    max-height: 90vh;
+    max-width: none;
   }
 
-  .bc-drawer--side-top.bc-drawer--container-element {
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-height: 90%;
-  }
-
-  /* Drawer positioning - Bottom side */
+  .bc-drawer--side-top.bc-drawer--container-body,
   .bc-drawer--side-bottom.bc-drawer--container-body {
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    max-height: 90vh;
-  }
-
-  .bc-drawer--side-bottom.bc-drawer--container-element {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-height: 90%;
-  }
-
-  /* Drawer sizes for vertical drawers (left/right/inline) */
-  .bc-drawer--side-left.bc-drawer--size-sm,
-  .bc-drawer--side-right.bc-drawer--size-sm,
-  .bc-drawer--side-inline-start.bc-drawer--size-sm,
-  .bc-drawer--side-inline-end.bc-drawer--size-sm {
-    width: min(320px, 90vw);
-  }
-
-  .bc-drawer--side-left.bc-drawer--size-md,
-  .bc-drawer--side-right.bc-drawer--size-md,
-  .bc-drawer--side-inline-start.bc-drawer--size-md,
-  .bc-drawer--side-inline-end.bc-drawer--size-md {
-    width: min(480px, 90vw);
-  }
-
-  .bc-drawer--side-left.bc-drawer--size-lg,
-  .bc-drawer--side-right.bc-drawer--size-lg,
-  .bc-drawer--side-inline-start.bc-drawer--size-lg,
-  .bc-drawer--side-inline-end.bc-drawer--size-lg {
-    width: min(640px, 90vw);
-  }
-
-  .bc-drawer--side-left.bc-drawer--size-xl,
-  .bc-drawer--side-right.bc-drawer--size-xl,
-  .bc-drawer--side-inline-start.bc-drawer--size-xl,
-  .bc-drawer--side-inline-end.bc-drawer--size-xl {
-    width: min(800px, 90vw);
-  }
-
-  /* Drawer sizes for horizontal drawers (top/bottom) */
-  .bc-drawer--side-top.bc-drawer--size-sm,
-  .bc-drawer--side-bottom.bc-drawer--size-sm {
-    height: min(240px, 90vh);
-  }
-
-  .bc-drawer--side-top.bc-drawer--size-md,
-  .bc-drawer--side-bottom.bc-drawer--size-md {
-    height: min(360px, 90vh);
-  }
-
-  .bc-drawer--side-top.bc-drawer--size-lg,
-  .bc-drawer--side-bottom.bc-drawer--size-lg {
-    height: min(480px, 90vh);
-  }
-
-  .bc-drawer--side-top.bc-drawer--size-xl,
-  .bc-drawer--side-bottom.bc-drawer--size-xl {
-    height: min(600px, 90vh);
-  }
-
-  /* Drawer content structure */
-  .bc-drawer__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-  }
-
-  .bc-drawer__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-md);
-    border-bottom: 1px solid var(--color-base-300);
-    background-color: var(--color-base-50);
-    flex-shrink: 0;
-  }
-
-  .bc-drawer__body {
-    flex: 1;
-    padding: var(--spacing-md);
-    overflow-y: auto;
-  }
-
-  .bc-drawer__footer {
-    padding: var(--spacing-md);
-    border-top: 1px solid var(--color-base-300);
-    background-color: var(--color-base-50);
-    flex-shrink: 0;
-  }
-
-  /* Dark mode styles */
-  .b-dark .bc-drawer {
-    background-color: var(--bg-surface-dark);
-    color: var(--text-normal-dark);
-    border: 1px solid var(--border-dark);
-  }
-
-  .b-dark .bc-drawer__header {
-    border-bottom: 1px solid var(--border-divider-dark);
-    background-color: var(--bg-elevated-dark);
-  }
-
-  .b-dark .bc-drawer__footer {
-    border-top: 1px solid var(--border-divider-dark);
-    background-color: var(--bg-elevated-dark);
-  }
-
-  /* Responsive adjustments */
-  @media (width <= 640px) {
-    .bc-drawer--side-left.bc-drawer--container-body,
-    .bc-drawer--side-right.bc-drawer--container-body,
-    .bc-drawer--side-inline-start.bc-drawer--container-body,
-    .bc-drawer--side-inline-end.bc-drawer--container-body {
-      width: 100vw;
-      max-width: none;
-    }
-
-    .bc-drawer--side-top.bc-drawer--container-body,
-    .bc-drawer--side-bottom.bc-drawer--container-body {
-      height: 100vh;
-      max-height: none;
-    }
+    height: 100vh;
+    max-height: none;
   }
 }

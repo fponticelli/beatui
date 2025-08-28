@@ -1,55 +1,53 @@
-@layer components {
-  .bc-nine-slice-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-  }
+.bc-nine-slice-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
 
-  .bc-nine-slice-pane-container {
-    position: absolute;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-  }
+.bc-nine-slice-pane-container {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
 
-  .bc-nine-slice-pane {
-    position: absolute;
-    overflow: visible;
-  }
-  .bc-nine-slice-top-start {
-    z-index: 60;
-  }
+.bc-nine-slice-pane {
+  position: absolute;
+  overflow: visible;
+}
+.bc-nine-slice-top-start {
+  z-index: 60;
+}
 
-  .bc-nine-slice-header {
-    z-index: 20;
-  }
+.bc-nine-slice-header {
+  z-index: 20;
+}
 
-  .bc-nine-slice-top-end {
-    z-index: 70;
-  }
+.bc-nine-slice-top-end {
+  z-index: 70;
+}
 
-  .bc-nine-slice-sidebar-start {
-    z-index: 30;
-  }
+.bc-nine-slice-sidebar-start {
+  z-index: 30;
+}
 
-  .bc-nine-slice-body {
-    z-index: 10;
-  }
+.bc-nine-slice-body {
+  z-index: 10;
+}
 
-  .bc-nine-slice-sidebar-end {
-    z-index: 40;
-  }
+.bc-nine-slice-sidebar-end {
+  z-index: 40;
+}
 
-  .bc-nine-slice-bottom-start {
-    z-index: 80;
-  }
+.bc-nine-slice-bottom-start {
+  z-index: 80;
+}
 
-  .bc-nine-slice-footer {
-    z-index: 50;
-  }
+.bc-nine-slice-footer {
+  z-index: 50;
+}
 
-  .bc-nine-slice-bottom-end {
-    z-index: 90;
-  }
+.bc-nine-slice-bottom-end {
+  z-index: 90;
 }

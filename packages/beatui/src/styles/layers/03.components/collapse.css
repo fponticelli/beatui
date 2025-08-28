@@ -1,19 +1,17 @@
-@layer components {
-  .bc-collapse {
-    overflow: hidden;
-    transition: height 0.4s ease-in-out;
-    --collapse-height: auto;
-  }
+.bc-collapse {
+  overflow: hidden;
+  transition: height 0.4s ease-in-out;
+  --collapse-height: auto;
+}
 
-  .bc-collapse--closed,
-  .bc-collapse--start-opening,
-  .bc-collapse--closing {
-    height: 0px;
-  }
+.bc-collapse--closed,
+.bc-collapse--start-opening,
+.bc-collapse--closing {
+  height: 0px;
+}
 
-  .bc-collapse--opening,
-  .bc-collapse--opened,
-  .bc-collapse--start-closing {
-    height: var(--collapse-height);
-  }
+.bc-collapse--opening,
+.bc-collapse--opened,
+.bc-collapse--start-closing {
+  height: var(--collapse-height);
 }

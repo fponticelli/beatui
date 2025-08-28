@@ -65,12 +65,12 @@ function generateBreakpointUtilities(): string {
   const utilityClassRegex = /\.bu-[\w-]+\s*{[^}]+}/g
   const utilityClasses = utilitiesContent.match(utilityClassRegex) || []
 
-  let breakpointCSS = '@layer utilities {\n'
+  let breakpointCSS = ''
 
   // Generate breakpoint-specific versions for each utility class
   Object.entries(breakpoints).forEach(([breakpointName, breakpointValue]) => {
-    breakpointCSS += `  /* ${breakpointName.toUpperCase()} Breakpoint (${breakpointValue}) */\n`
-    breakpointCSS += `  @media (width >= ${breakpointValue}) {\n`
+    breakpointCSS += `/* ${breakpointName.toUpperCase()} Breakpoint (${breakpointValue}) */\n`
+    breakpointCSS += `@media (width >= ${breakpointValue}) {\n`
 
     utilityClasses.forEach(utilityClass => {
       // Transform .bu-class to .bu-sm:class, .bu-md:class, etc.
@@ -78,13 +78,11 @@ function generateBreakpointUtilities(): string {
         /\.bu-([\w-]+)/,
         `.${breakpointName.startsWith('2') ? '\\' : ''}${breakpointName}\\:bu-$1`
       )
-      breakpointCSS += `    ${transformedClass}\n`
+      breakpointCSS += `  ${transformedClass}\n`
     })
 
-    breakpointCSS += '  }\n\n'
+    breakpointCSS += '}\n\n'
   })
-
-  breakpointCSS += '}\n'
 
   return breakpointCSS
 }

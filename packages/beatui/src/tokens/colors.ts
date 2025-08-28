@@ -250,14 +250,14 @@ export function generateBackgroundUtilities(): string {
  * Each variant includes dark mode overrides with .b-dark prefix.
  */
 
-@layer components {\n`
+`
 
   // Generate special colors first
   objectEntries(backgroundConfig.special).forEach(([colorName, styles]) => {
-    css += `  .bu-bg-${colorName} {\n`
-    css += `    background-color: ${styles.backgroundColor};\n`
-    css += `    color: ${styles.color};\n`
-    css += `  }\n\n`
+    css += `.bu-bg-${colorName} {\n`
+    css += `  background-color: ${styles.backgroundColor};\n`
+    css += `  color: ${styles.color};\n`
+    css += `}\n\n`
   })
 
   // Generate standard color variants
@@ -271,10 +271,10 @@ export function generateBackgroundUtilities(): string {
   allColors.forEach(colorName => {
     const lightConfig = backgroundConfig.variants.solid.light
 
-    css += `  .bu-bg-${colorName} {\n`
-    css += `    background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
-    css += `    color: ${lightConfig.textColor};\n`
-    css += `  }\n`
+    css += `.bu-bg-${colorName} {\n`
+    css += `  background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
+    css += `  color: ${lightConfig.textColor};\n`
+    css += `}\n`
   })
 
   css += '\n'
@@ -283,10 +283,10 @@ export function generateBackgroundUtilities(): string {
   allColors.forEach(colorName => {
     const darkConfig = backgroundConfig.variants.solid.dark
 
-    css += `  .b-dark .bu-bg-${colorName} {\n`
-    css += `    background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
-    css += `    color: ${darkConfig.textColor};\n`
-    css += `  }\n`
+    css += `.b-dark .bu-bg-${colorName} {\n`
+    css += `  background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
+    css += `  color: ${darkConfig.textColor};\n`
+    css += `}\n`
   })
 
   css += '\n'
@@ -296,10 +296,10 @@ export function generateBackgroundUtilities(): string {
 
   // Add special colors for light variant
   objectEntries(backgroundConfig.special).forEach(([colorName, styles]) => {
-    css += `  .bu-bg-light-${colorName} {\n`
-    css += `    background-color: ${styles.backgroundColor};\n`
-    css += `    color: ${styles.color};\n`
-    css += `  }\n`
+    css += `.bu-bg-light-${colorName} {\n`
+    css += `  background-color: ${styles.backgroundColor};\n`
+    css += `  color: ${styles.color};\n`
+    css += `}\n`
   })
 
   allColors.forEach(colorName => {
@@ -311,15 +311,15 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .bu-bg-light-${colorName} {\n`
-      css += `    background-color: ${override.light.backgroundColor};\n`
-      css += `    color: ${override.light.color};\n`
-      css += `  }\n`
+      css += `.bu-bg-light-${colorName} {\n`
+      css += `  background-color: ${override.light.backgroundColor};\n`
+      css += `  color: ${override.light.color};\n`
+      css += `}\n`
     } else {
-      css += `  .bu-bg-light-${colorName} {\n`
-      css += `    background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
-      css += `    color: ${lightConfig.textColor};\n`
-      css += `  }\n`
+      css += `.bu-bg-light-${colorName} {\n`
+      css += `  background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
+      css += `  color: ${lightConfig.textColor};\n`
+      css += `}\n`
     }
   })
 
@@ -335,15 +335,15 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .b-dark .bu-bg-light-${colorName} {\n`
-      css += `    background-color: ${override.dark.backgroundColor};\n`
-      css += `    color: ${override.dark.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-light-${colorName} {\n`
+      css += `  background-color: ${override.dark.backgroundColor};\n`
+      css += `  color: ${override.dark.color};\n`
+      css += `}\n`
     } else {
-      css += `  .b-dark .bu-bg-light-${colorName} {\n`
-      css += `    background-color: ${styles.backgroundColor};\n`
-      css += `    color: ${styles.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-light-${colorName} {\n`
+      css += `  background-color: ${styles.backgroundColor};\n`
+      css += `  color: ${styles.color};\n`
+      css += `}\n`
     }
   })
 
@@ -356,15 +356,15 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .b-dark .bu-bg-light-${colorName} {\n`
-      css += `    background-color: ${override.dark.backgroundColor};\n`
-      css += `    color: ${override.dark.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-light-${colorName} {\n`
+      css += `  background-color: ${override.dark.backgroundColor};\n`
+      css += `  color: ${override.dark.color};\n`
+      css += `}\n`
     } else {
-      css += `  .b-dark .bu-bg-light-${colorName} {\n`
-      css += `    background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
-      css += `    color: ${darkConfig.textColor};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-light-${colorName} {\n`
+      css += `  background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
+      css += `  color: ${darkConfig.textColor};\n`
+      css += `}\n`
     }
   })
 
@@ -375,10 +375,10 @@ export function generateBackgroundUtilities(): string {
 
   // Add special colors for lighter variant
   objectEntries(backgroundConfig.special).forEach(([colorName, styles]) => {
-    css += `  .bu-bg-lighter-${colorName} {\n`
-    css += `    background-color: ${styles.backgroundColor};\n`
-    css += `    color: ${styles.color};\n`
-    css += `  }\n`
+    css += `.bu-bg-lighter-${colorName} {\n`
+    css += `  background-color: ${styles.backgroundColor};\n`
+    css += `  color: ${styles.color};\n`
+    css += `}\n`
   })
 
   allColors.forEach(colorName => {
@@ -390,15 +390,15 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: ${override.light.backgroundColor};\n`
-      css += `    color: ${override.light.color};\n`
-      css += `  }\n`
+      css += `.bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: ${override.light.backgroundColor};\n`
+      css += `  color: ${override.light.color};\n`
+      css += `}\n`
     } else {
-      css += `  .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
-      css += `    color: ${lightConfig.textColor};\n`
-      css += `  }\n`
+      css += `.bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: var(--color-${colorName}-${lightConfig.bgShade});\n`
+      css += `  color: ${lightConfig.textColor};\n`
+      css += `}\n`
     }
   })
 
@@ -414,15 +414,15 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .b-dark .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: ${override.dark.backgroundColor};\n`
-      css += `    color: ${override.dark.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: ${override.dark.backgroundColor};\n`
+      css += `  color: ${override.dark.color};\n`
+      css += `}\n`
     } else {
-      css += `  .b-dark .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: ${styles.backgroundColor};\n`
-      css += `    color: ${styles.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: ${styles.backgroundColor};\n`
+      css += `  color: ${styles.color};\n`
+      css += `}\n`
     }
   })
 
@@ -435,19 +435,19 @@ export function generateBackgroundUtilities(): string {
         colorName as keyof typeof backgroundConfig.overrides
       ]
     if (override) {
-      css += `  .b-dark .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: ${override.dark.backgroundColor};\n`
-      css += `    color: ${override.dark.color};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: ${override.dark.backgroundColor};\n`
+      css += `  color: ${override.dark.color};\n`
+      css += `}\n`
     } else {
-      css += `  .b-dark .bu-bg-lighter-${colorName} {\n`
-      css += `    background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
-      css += `    color: ${darkConfig.textColor};\n`
-      css += `  }\n`
+      css += `.b-dark .bu-bg-lighter-${colorName} {\n`
+      css += `  background-color: var(--color-${colorName}-${darkConfig.bgShade});\n`
+      css += `  color: ${darkConfig.textColor};\n`
+      css += `}\n`
     }
   })
 
-  css += '}\n'
+  css += '\n'
 
   return css
 }

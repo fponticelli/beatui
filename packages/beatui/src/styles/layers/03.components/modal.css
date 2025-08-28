@@ -1,530 +1,527 @@
-@layer components {
-  /* Modal Component */
-  .bc-modal {
-    z-index: var(--z-index-modal);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
-    background-color: var(--color-base-100);
-    border: 3px solid var(--color-base-300);
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
-  }
+/* Modal Component */
+.bc-modal {
+  z-index: var(--z-index-modal);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  background-color: var(--color-base-100);
+  border: 3px solid var(--color-base-300);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
 
-  /* Modal anchored to body (default) */
+/* Modal anchored to body (default) */
+.bc-modal--container-body {
+  position: fixed;
+  max-height: 90vh;
+  max-width: 90vw;
+}
+
+/* Modal anchored to element container */
+.bc-modal--container-element {
+  position: absolute;
+  max-height: 90%;
+  max-width: 90%;
+}
+
+/* Modal positioning - Center (default) */
+.bc-modal--position-center.bc-modal--container-body {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bc-modal--position-center.bc-modal--container-element {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Modal positioning - Top */
+.bc-modal--position-top.bc-modal--container-body {
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bc-modal--position-top.bc-modal--container-element {
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Modal positioning - Bottom */
+.bc-modal--position-bottom.bc-modal--container-body {
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bc-modal--position-bottom.bc-modal--container-element {
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Modal positioning - Left */
+.bc-modal--position-left.bc-modal--container-body {
+  top: 50%;
+  left: 2rem;
+  transform: translateY(-50%);
+}
+
+.bc-modal--position-left.bc-modal--container-element {
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+}
+
+/* Modal positioning - Right */
+.bc-modal--position-right.bc-modal--container-body {
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+}
+
+.bc-modal--position-right.bc-modal--container-element {
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+
+/* Modal positioning - Top Left */
+.bc-modal--position-top-left.bc-modal--container-body {
+  top: 2rem;
+  left: 2rem;
+}
+
+.bc-modal--position-top-left.bc-modal--container-element {
+  top: 5%;
+  left: 5%;
+}
+
+/* Modal positioning - Top Right */
+.bc-modal--position-top-right.bc-modal--container-body {
+  top: 2rem;
+  right: 2rem;
+}
+
+.bc-modal--position-top-right.bc-modal--container-element {
+  top: 5%;
+  right: 5%;
+}
+
+/* Modal positioning - Bottom Left */
+.bc-modal--position-bottom-left.bc-modal--container-body {
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.bc-modal--position-bottom-left.bc-modal--container-element {
+  bottom: 5%;
+  left: 5%;
+}
+
+/* Modal positioning - Bottom Right */
+.bc-modal--position-bottom-right.bc-modal--container-body {
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.bc-modal--position-bottom-right.bc-modal--container-element {
+  bottom: 5%;
+  right: 5%;
+}
+
+/* Direction-aware modal positioning - Inline Start */
+.bc-modal--position-inline-start.bc-modal--container-body {
+  top: 50%;
+  inset-inline-start: 2rem;
+  transform: translateY(-50%);
+}
+
+.bc-modal--position-inline-start.bc-modal--container-element {
+  top: 50%;
+  inset-inline-start: 5%;
+  transform: translateY(-50%);
+}
+
+/* Direction-aware modal positioning - Inline End */
+.bc-modal--position-inline-end.bc-modal--container-body {
+  top: 50%;
+  inset-inline-end: 2rem;
+  transform: translateY(-50%);
+}
+
+.bc-modal--position-inline-end.bc-modal--container-element {
+  top: 50%;
+  inset-inline-end: 5%;
+  transform: translateY(-50%);
+}
+
+/* Direction-aware modal positioning - Top Inline Start */
+.bc-modal--position-top-inline-start.bc-modal--container-body {
+  top: 2rem;
+  inset-inline-start: 2rem;
+}
+
+.bc-modal--position-top-inline-start.bc-modal--container-element {
+  top: 5%;
+  inset-inline-start: 5%;
+}
+
+/* Direction-aware modal positioning - Top Inline End */
+.bc-modal--position-top-inline-end.bc-modal--container-body {
+  top: 2rem;
+  inset-inline-end: 2rem;
+}
+
+.bc-modal--position-top-inline-end.bc-modal--container-element {
+  top: 5%;
+  inset-inline-end: 5%;
+}
+
+/* Direction-aware modal positioning - Bottom Inline Start */
+.bc-modal--position-bottom-inline-start.bc-modal--container-body {
+  bottom: 2rem;
+  inset-inline-start: 2rem;
+}
+
+.bc-modal--position-bottom-inline-start.bc-modal--container-element {
+  bottom: 5%;
+  inset-inline-start: 5%;
+}
+
+/* Direction-aware modal positioning - Bottom Inline End */
+.bc-modal--position-bottom-inline-end.bc-modal--container-body {
+  bottom: 2rem;
+  inset-inline-end: 2rem;
+}
+
+.bc-modal--position-bottom-inline-end.bc-modal--container-element {
+  bottom: 5%;
+  inset-inline-end: 5%;
+}
+
+/* Modal sizes */
+.bc-modal--size-sm {
+  width: min(400px, 90vw);
+}
+
+.bc-modal--size-md {
+  width: min(600px, 90vw);
+}
+
+.bc-modal--size-lg {
+  width: min(800px, 90vw);
+}
+
+.bc-modal--size-xl {
+  width: min(1000px, 90vw);
+}
+
+/* Modal content container */
+.bc-modal__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: inherit;
+}
+
+/* Modal header */
+.bc-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-base-300);
+  flex-shrink: 0;
+  background-color: var(--color-base-100);
+}
+
+/* Modal body */
+.bc-modal__body {
+  padding: var(--spacing-2xl);
+  flex: 1;
+  overflow-y: auto;
+  color: var(--color-gray-700);
+  line-height: var(--line-height-normal);
+  background-color: var(--color-white);
+}
+
+/* Modal footer */
+.bc-modal__footer {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  border-top: 1px solid var(--color-base-300);
+  flex-shrink: 0;
+  background-color: var(--color-base-100);
+  align-items: center;
+}
+
+/* Animation states - Center position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-center,
+.bc-overlay[data-status='closing'] .bc-modal--position-center {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-center,
+.bc-overlay[data-status='opening'] .bc-modal--position-center {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Animation states - Top position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top,
+.bc-overlay[data-status='closing'] .bc-modal--position-top {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-top,
+.bc-overlay[data-status='opening'] .bc-modal--position-top {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Animation states - Bottom position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Animation states - Left position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-left,
+.bc-overlay[data-status='closing'] .bc-modal--position-left {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-left,
+.bc-overlay[data-status='opening'] .bc-modal--position-left {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Animation states - Right position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-right,
+.bc-overlay[data-status='closing'] .bc-modal--position-right {
+  opacity: 0;
+  transform: translateY(-50%) translateX(20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-right,
+.bc-overlay[data-status='opening'] .bc-modal--position-right {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Animation states - Corner positions */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-left,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-right,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-right {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-top-left,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-left,
+.bc-overlay[data-status='opened'] .bc-modal--position-top-right,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-right,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animation states - Direction-aware Inline Start position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-inline-start,
+.bc-overlay[data-status='closing'] .bc-modal--position-inline-start {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-inline-start,
+.bc-overlay[data-status='opening'] .bc-modal--position-inline-start {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Animation states - Direction-aware Inline End position */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-inline-end,
+.bc-overlay[data-status='closing'] .bc-modal--position-inline-end {
+  opacity: 0;
+  transform: translateY(-50%) translateX(20px) scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-inline-end,
+.bc-overlay[data-status='opening'] .bc-modal--position-inline-end {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Animation states - Direction-aware corner positions */
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-start,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-inline-start,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-end,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-inline-end,
+.bc-overlay[data-status='start-opening']
+  .bc-modal--position-bottom-inline-start,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-start,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-inline-end,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-end {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.bc-overlay[data-status='opened'] .bc-modal--position-top-inline-start,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-inline-start,
+.bc-overlay[data-status='opened'] .bc-modal--position-top-inline-end,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-inline-end,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-start,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-start,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-end,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-end {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Responsive adjustments */
+@container (max-width: 640px) {
   .bc-modal--container-body {
-    position: fixed;
-    max-height: 90vh;
-    max-width: 90vw;
+    margin: var(--spacing-md);
+    max-width: calc(100vw - calc(var(--spacing-md) * 2));
+    max-height: calc(100vh - calc(var(--spacing-md) * 2));
   }
 
-  /* Modal anchored to element container */
   .bc-modal--container-element {
-    position: absolute;
-    max-height: 90%;
-    max-width: 90%;
+    margin: var(--spacing-md);
+    max-width: calc(100% - calc(var(--spacing-md) * 2));
+    max-height: calc(100% - calc(var(--spacing-md) * 2));
   }
 
-  /* Modal positioning - Center (default) */
-  .bc-modal--position-center.bc-modal--container-body {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .bc-modal--position-center.bc-modal--container-element {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  /* Modal positioning - Top */
-  .bc-modal--position-top.bc-modal--container-body {
-    top: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .bc-modal--position-top.bc-modal--container-element {
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  /* Modal positioning - Bottom */
-  .bc-modal--position-bottom.bc-modal--container-body {
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .bc-modal--position-bottom.bc-modal--container-element {
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  /* Modal positioning - Left */
-  .bc-modal--position-left.bc-modal--container-body {
-    top: 50%;
-    left: 2rem;
-    transform: translateY(-50%);
-  }
-
-  .bc-modal--position-left.bc-modal--container-element {
-    top: 50%;
-    left: 5%;
-    transform: translateY(-50%);
-  }
-
-  /* Modal positioning - Right */
-  .bc-modal--position-right.bc-modal--container-body {
-    top: 50%;
-    right: 2rem;
-    transform: translateY(-50%);
-  }
-
-  .bc-modal--position-right.bc-modal--container-element {
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
-  }
-
-  /* Modal positioning - Top Left */
-  .bc-modal--position-top-left.bc-modal--container-body {
-    top: 2rem;
-    left: 2rem;
-  }
-
-  .bc-modal--position-top-left.bc-modal--container-element {
-    top: 5%;
-    left: 5%;
-  }
-
-  /* Modal positioning - Top Right */
-  .bc-modal--position-top-right.bc-modal--container-body {
-    top: 2rem;
-    right: 2rem;
-  }
-
-  .bc-modal--position-top-right.bc-modal--container-element {
-    top: 5%;
-    right: 5%;
-  }
-
-  /* Modal positioning - Bottom Left */
-  .bc-modal--position-bottom-left.bc-modal--container-body {
-    bottom: 2rem;
-    left: 2rem;
-  }
-
-  .bc-modal--position-bottom-left.bc-modal--container-element {
-    bottom: 5%;
-    left: 5%;
-  }
-
-  /* Modal positioning - Bottom Right */
-  .bc-modal--position-bottom-right.bc-modal--container-body {
-    bottom: 2rem;
-    right: 2rem;
-  }
-
-  .bc-modal--position-bottom-right.bc-modal--container-element {
-    bottom: 5%;
-    right: 5%;
-  }
-
-  /* Direction-aware modal positioning - Inline Start */
-  .bc-modal--position-inline-start.bc-modal--container-body {
-    top: 50%;
-    inset-inline-start: 2rem;
-    transform: translateY(-50%);
-  }
-
-  .bc-modal--position-inline-start.bc-modal--container-element {
-    top: 50%;
-    inset-inline-start: 5%;
-    transform: translateY(-50%);
-  }
-
-  /* Direction-aware modal positioning - Inline End */
-  .bc-modal--position-inline-end.bc-modal--container-body {
-    top: 50%;
-    inset-inline-end: 2rem;
-    transform: translateY(-50%);
-  }
-
-  .bc-modal--position-inline-end.bc-modal--container-element {
-    top: 50%;
-    inset-inline-end: 5%;
-    transform: translateY(-50%);
-  }
-
-  /* Direction-aware modal positioning - Top Inline Start */
-  .bc-modal--position-top-inline-start.bc-modal--container-body {
-    top: 2rem;
-    inset-inline-start: 2rem;
-  }
-
-  .bc-modal--position-top-inline-start.bc-modal--container-element {
-    top: 5%;
-    inset-inline-start: 5%;
-  }
-
-  /* Direction-aware modal positioning - Top Inline End */
-  .bc-modal--position-top-inline-end.bc-modal--container-body {
-    top: 2rem;
-    inset-inline-end: 2rem;
-  }
-
-  .bc-modal--position-top-inline-end.bc-modal--container-element {
-    top: 5%;
-    inset-inline-end: 5%;
-  }
-
-  /* Direction-aware modal positioning - Bottom Inline Start */
-  .bc-modal--position-bottom-inline-start.bc-modal--container-body {
-    bottom: 2rem;
-    inset-inline-start: 2rem;
-  }
-
-  .bc-modal--position-bottom-inline-start.bc-modal--container-element {
-    bottom: 5%;
-    inset-inline-start: 5%;
-  }
-
-  /* Direction-aware modal positioning - Bottom Inline End */
-  .bc-modal--position-bottom-inline-end.bc-modal--container-body {
-    bottom: 2rem;
-    inset-inline-end: 2rem;
-  }
-
-  .bc-modal--position-bottom-inline-end.bc-modal--container-element {
-    bottom: 5%;
-    inset-inline-end: 5%;
-  }
-
-  /* Modal sizes */
-  .bc-modal--size-sm {
-    width: min(400px, 90vw);
-  }
-
-  .bc-modal--size-md {
-    width: min(600px, 90vw);
-  }
-
-  .bc-modal--size-lg {
-    width: min(800px, 90vw);
-  }
-
-  .bc-modal--size-xl {
-    width: min(1000px, 90vw);
-  }
-
-  /* Modal content container */
-  .bc-modal__content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-height: inherit;
-  }
-
-  /* Modal header */
-  .bc-modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
-    border-bottom: 1px solid var(--color-base-300);
-    flex-shrink: 0;
-    background-color: var(--color-base-100);
-  }
-
-  /* Modal body */
   .bc-modal__body {
-    padding: var(--spacing-2xl);
-    flex: 1;
-    overflow-y: auto;
-    color: var(--color-gray-700);
-    line-height: var(--line-height-normal);
-    background-color: var(--color-white);
+    padding: var(--spacing-md);
   }
 
-  /* Modal footer */
   .bc-modal__footer {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
-    border-top: 1px solid var(--color-base-300);
-    flex-shrink: 0;
-    background-color: var(--color-base-100);
-    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+  }
+}
+
+/* Dark mode styles */
+.b-dark .bc-modal {
+  background-color: var(--bg-surface-dark);
+  border: 1px solid var(--border-border-dark);
+  color: var(--text-normal-dark);
+  box-shadow:
+    0 25px 50px -12px var(--shadow-color-dark),
+    0 0 0 1px var(--shadow-highlight-dark);
+}
+
+.b-dark .bc-modal__header {
+  border-bottom: 1px solid var(--border-divider-dark);
+  background-color: var(--bg-elevated-dark);
+}
+
+.b-dark .bc-modal__body {
+  color: var(--text-normal-dark);
+  background-color: var(--bg-surface-dark);
+}
+
+.b-dark .bc-modal__footer {
+  border-top: 1px solid var(--border-divider-dark);
+  background-color: var(--bg-elevated-dark);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bc-modal {
+    border-width: 2px;
   }
 
-  /* Animation states - Center position */
+  .bc-modal__header {
+    border-bottom-width: 2px;
+  }
+
+  .bc-modal__footer {
+    border-top-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bc-modal {
+    transition: none;
+  }
+
+  /* Center position */
   .bc-overlay[data-status='start-opening'] .bc-modal--position-center,
-  .bc-overlay[data-status='closing'] .bc-modal--position-center {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-
+  .bc-overlay[data-status='closing'] .bc-modal--position-center,
   .bc-overlay[data-status='opened'] .bc-modal--position-center,
   .bc-overlay[data-status='opening'] .bc-modal--position-center {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%);
   }
 
-  /* Animation states - Top position */
+  /* Top and bottom positions */
   .bc-overlay[data-status='start-opening'] .bc-modal--position-top,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px) scale(0.95);
-  }
-
+  .bc-overlay[data-status='closing'] .bc-modal--position-top,
   .bc-overlay[data-status='opened'] .bc-modal--position-top,
-  .bc-overlay[data-status='opening'] .bc-modal--position-top {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-
-  /* Animation states - Bottom position */
+  .bc-overlay[data-status='opening'] .bc-modal--position-top,
   .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom {
-    opacity: 0;
-    transform: translateX(-50%) translateY(20px) scale(0.95);
-  }
-
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom,
   .bc-overlay[data-status='opened'] .bc-modal--position-bottom,
   .bc-overlay[data-status='opening'] .bc-modal--position-bottom {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: translateX(-50%);
   }
 
-  /* Animation states - Left position */
+  /* Left and right positions */
   .bc-overlay[data-status='start-opening'] .bc-modal--position-left,
-  .bc-overlay[data-status='closing'] .bc-modal--position-left {
-    opacity: 0;
-    transform: translateY(-50%) translateX(-20px) scale(0.95);
-  }
-
+  .bc-overlay[data-status='closing'] .bc-modal--position-left,
   .bc-overlay[data-status='opened'] .bc-modal--position-left,
-  .bc-overlay[data-status='opening'] .bc-modal--position-left {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-
-  /* Animation states - Right position */
+  .bc-overlay[data-status='opening'] .bc-modal--position-left,
   .bc-overlay[data-status='start-opening'] .bc-modal--position-right,
-  .bc-overlay[data-status='closing'] .bc-modal--position-right {
-    opacity: 0;
-    transform: translateY(-50%) translateX(20px) scale(0.95);
-  }
-
+  .bc-overlay[data-status='closing'] .bc-modal--position-right,
   .bc-overlay[data-status='opened'] .bc-modal--position-right,
   .bc-overlay[data-status='opening'] .bc-modal--position-right {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
+    transform: translateY(-50%);
   }
 
-  /* Animation states - Corner positions */
+  /* Corner positions */
   .bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
   .bc-overlay[data-status='closing'] .bc-modal--position-top-left,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-
   .bc-overlay[data-status='opened'] .bc-modal--position-top-left,
   .bc-overlay[data-status='opening'] .bc-modal--position-top-left,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
   .bc-overlay[data-status='opened'] .bc-modal--position-top-right,
   .bc-overlay[data-status='opening'] .bc-modal--position-top-right,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
   .bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
   .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right,
   .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
   .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Animation states - Direction-aware Inline Start position */
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-inline-start,
-  .bc-overlay[data-status='closing'] .bc-modal--position-inline-start {
-    opacity: 0;
-    transform: translateY(-50%) translateX(-20px) scale(0.95);
-  }
-
-  .bc-overlay[data-status='opened'] .bc-modal--position-inline-start,
-  .bc-overlay[data-status='opening'] .bc-modal--position-inline-start {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-
-  /* Animation states - Direction-aware Inline End position */
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-inline-end,
-  .bc-overlay[data-status='closing'] .bc-modal--position-inline-end {
-    opacity: 0;
-    transform: translateY(-50%) translateX(20px) scale(0.95);
-  }
-
-  .bc-overlay[data-status='opened'] .bc-modal--position-inline-end,
-  .bc-overlay[data-status='opening'] .bc-modal--position-inline-end {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-
-  /* Animation states - Direction-aware corner positions */
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-start,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top-inline-start,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-inline-end,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top-inline-end,
-  .bc-overlay[data-status='start-opening']
-    .bc-modal--position-bottom-inline-start,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-start,
-  .bc-overlay[data-status='start-opening']
-    .bc-modal--position-bottom-inline-end,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-inline-end {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-
-  .bc-overlay[data-status='opened'] .bc-modal--position-top-inline-start,
-  .bc-overlay[data-status='opening'] .bc-modal--position-top-inline-start,
-  .bc-overlay[data-status='opened'] .bc-modal--position-top-inline-end,
-  .bc-overlay[data-status='opening'] .bc-modal--position-top-inline-end,
-  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-start,
-  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-start,
-  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-inline-end,
-  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-inline-end {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Responsive adjustments */
-  @container (max-width: 640px) {
-    .bc-modal--container-body {
-      margin: var(--spacing-md);
-      max-width: calc(100vw - calc(var(--spacing-md) * 2));
-      max-height: calc(100vh - calc(var(--spacing-md) * 2));
-    }
-
-    .bc-modal--container-element {
-      margin: var(--spacing-md);
-      max-width: calc(100% - calc(var(--spacing-md) * 2));
-      max-height: calc(100% - calc(var(--spacing-md) * 2));
-    }
-
-    .bc-modal__body {
-      padding: var(--spacing-md);
-    }
-
-    .bc-modal__footer {
-      padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
-    }
-  }
-
-  /* Dark mode styles */
-  .b-dark .bc-modal {
-    background-color: var(--bg-surface-dark);
-    border: 1px solid var(--border-border-dark);
-    color: var(--text-normal-dark);
-    box-shadow:
-      0 25px 50px -12px var(--shadow-color-dark),
-      0 0 0 1px var(--shadow-highlight-dark);
-  }
-
-  .b-dark .bc-modal__header {
-    border-bottom: 1px solid var(--border-divider-dark);
-    background-color: var(--bg-elevated-dark);
-  }
-
-  .b-dark .bc-modal__body {
-    color: var(--text-normal-dark);
-    background-color: var(--bg-surface-dark);
-  }
-
-  .b-dark .bc-modal__footer {
-    border-top: 1px solid var(--border-divider-dark);
-    background-color: var(--bg-elevated-dark);
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .bc-modal {
-      border-width: 2px;
-    }
-
-    .bc-modal__header {
-      border-bottom-width: 2px;
-    }
-
-    .bc-modal__footer {
-      border-top-width: 2px;
-    }
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .bc-modal {
-      transition: none;
-    }
-
-    /* Center position */
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-center,
-    .bc-overlay[data-status='closing'] .bc-modal--position-center,
-    .bc-overlay[data-status='opened'] .bc-modal--position-center,
-    .bc-overlay[data-status='opening'] .bc-modal--position-center {
-      transform: translate(-50%, -50%);
-    }
-
-    /* Top and bottom positions */
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-top,
-    .bc-overlay[data-status='closing'] .bc-modal--position-top,
-    .bc-overlay[data-status='opened'] .bc-modal--position-top,
-    .bc-overlay[data-status='opening'] .bc-modal--position-top,
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom,
-    .bc-overlay[data-status='closing'] .bc-modal--position-bottom,
-    .bc-overlay[data-status='opened'] .bc-modal--position-bottom,
-    .bc-overlay[data-status='opening'] .bc-modal--position-bottom {
-      transform: translateX(-50%);
-    }
-
-    /* Left and right positions */
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-left,
-    .bc-overlay[data-status='closing'] .bc-modal--position-left,
-    .bc-overlay[data-status='opened'] .bc-modal--position-left,
-    .bc-overlay[data-status='opening'] .bc-modal--position-left,
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-right,
-    .bc-overlay[data-status='closing'] .bc-modal--position-right,
-    .bc-overlay[data-status='opened'] .bc-modal--position-right,
-    .bc-overlay[data-status='opening'] .bc-modal--position-right {
-      transform: translateY(-50%);
-    }
-
-    /* Corner positions */
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
-    .bc-overlay[data-status='closing'] .bc-modal--position-top-left,
-    .bc-overlay[data-status='opened'] .bc-modal--position-top-left,
-    .bc-overlay[data-status='opening'] .bc-modal--position-top-left,
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
-    .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
-    .bc-overlay[data-status='opened'] .bc-modal--position-top-right,
-    .bc-overlay[data-status='opening'] .bc-modal--position-top-right,
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
-    .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
-    .bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
-    .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
-    .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
-    .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right,
-    .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
-    .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
-      transform: none;
-    }
+    transform: none;
   }
 }

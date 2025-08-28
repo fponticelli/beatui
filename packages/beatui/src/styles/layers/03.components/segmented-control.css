@@ -1,210 +1,204 @@
-@layer components {
-  /* Segmented Control Component */
-  .bc-segmented-control {
-    background-color: var(--color-base-200);
-    border-radius: var(--radius-full);
-    box-shadow: 0 0 0.25rem 0rem rgba(0, 0, 0, 0.1);
-    position: relative;
-    border: 1px solid var(--color-base-300);
-    padding: var(--spacing-sm);
-    display: inline-block;
-  }
+/* Segmented Control Component */
+.bc-segmented-control {
+  background-color: var(--color-base-200);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0.25rem 0rem rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid var(--color-base-300);
+  padding: var(--spacing-sm);
+  display: inline-block;
+}
 
-  .bc-segmented-control__container {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+.bc-segmented-control__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
-  .bc-segmented-control--xs .bc-segmented-control__container {
-    gap: var(--spacing-xs);
-  }
+.bu-text-xs .bc-segmented-control__container {
+  gap: var(--spacing-xs);
+}
 
-  .bc-segmented-control--sm .bc-segmented-control__container {
-    gap: var(--spacing-sm);
-  }
+.bu-text-sm .bc-segmented-control__container {
+  gap: var(--spacing-sm);
+}
 
-  .bc-segmented-control--md .bc-segmented-control__container {
-    gap: var(--spacing-md);
-  }
+.bu-text-md .bc-segmented-control__container {
+  gap: var(--spacing-md);
+}
 
-  .bc-segmented-control--lg .bc-segmented-control__container {
-    gap: var(--spacing-lg);
-  }
+.bu-text-lg .bc-segmented-control__container {
+  gap: var(--spacing-lg);
+}
 
-  .bc-segmented-control--xl .bc-segmented-control__container {
-    gap: var(--spacing-xl);
-  }
+.bu-text-xl .bc-segmented-control__container {
+  gap: var(--spacing-xl);
+}
 
-  /* Sliding indicator */
-  .bc-segmented-control__indicator {
-    position: absolute;
-    height: 100%;
-    background-color: var(--color-base-50);
-    transition: all 0.2s ease-in-out;
-    transform: translateX(0);
-    border-radius: var(--radius-full);
-    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);
-    z-index: 1;
-  }
+/* Sliding indicator */
+.bc-segmented-control__indicator {
+  position: absolute;
+  height: 100%;
+  background-color: var(--color-base-50);
+  transition: all 0.2s ease-in-out;
+  transform: translateX(0);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
 
-  /* Segment buttons */
-  .bc-segmented-control__segment {
-    position: relative;
-    /* padding: var(--spacing-sm) var(--spacing-md); */
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    white-space: nowrap;
-    font-weight: var(--font-weight-semibold);
-    text-transform: capitalize;
-    color: var(--color-base-700);
-    transition: color 0.2s ease-in-out;
-    z-index: 2;
-    border-radius: var(--radius-full);
-  }
+/* Segment buttons */
+.bc-segmented-control__segment {
+  position: relative;
+  /* padding: var(--spacing-sm) var(--spacing-md); */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: var(--font-weight-semibold);
+  text-transform: capitalize;
+  color: var(--color-base-700);
+  transition: color 0.2s ease-in-out;
+  z-index: 2;
+  border-radius: var(--radius-full);
+}
 
-  .bc-segmented-control--xs .bc-segmented-control__segment {
-    padding: var(--spacing-xs) var(--spacing-sm);
-  }
+.bu-text-xs .bc-segmented-control__segment {
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
 
-  .bc-segmented-control--sm .bc-segmented-control__segment {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
+.bu-text-sm .bc-segmented-control__segment {
+  padding: var(--spacing-sm) var(--spacing-md);
+}
 
-  .bc-segmented-control--md .bc-segmented-control__segment {
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
+.bu-text-md .bc-segmented-control__segment {
+  padding: var(--spacing-md) var(--spacing-lg);
+}
 
-  .bc-segmented-control--lg .bc-segmented-control__segment {
-    padding: var(--spacing-lg) var(--spacing-2xl);
-  }
+.bu-text-lg .bc-segmented-control__segment {
+  padding: var(--spacing-lg) var(--spacing-2xl);
+}
 
-  .bc-segmented-control--xl .bc-segmented-control__segment {
-    padding: var(--spacing-xl) var(--spacing-3xl);
-  }
+.bu-text-xl .bc-segmented-control__segment {
+  padding: var(--spacing-xl) var(--spacing-3xl);
+}
 
-  .bc-segmented-control__segment:hover {
-    background-color: var(--color-white);
-    color: var(--color-base-900);
-  }
+.bc-segmented-control__segment:hover {
+  background-color: var(--color-white);
+  color: var(--color-base-900);
+}
 
-  .bc-segmented-control__segment--active {
-    color: var(--color-primary-800);
-  }
+.bc-segmented-control__segment--active {
+  color: var(--color-primary-800);
+}
 
-  .bc-segmented-control__segment--inactive {
-    color: var(--color-base-600);
-  }
+.bc-segmented-control__segment--inactive {
+  color: var(--color-base-600);
+}
 
-  /* Disabled state */
-  .bc-segmented-control--disabled {
-    background-color: var(--color-gray-200);
-    border: 1px solid var(--color-gray-300);
-    cursor: not-allowed;
-  }
+/* Disabled state */
+.bu-text-disabled {
+  background-color: var(--color-gray-200);
+  border: 1px solid var(--color-gray-300);
+  cursor: not-allowed;
+}
 
-  .bc-segmented-control--disabled .bc-segmented-control__indicator {
-    background-color: var(--bg-elevated-light);
-    box-shadow: none;
-  }
+.bu-text-disabled .bc-segmented-control__indicator {
+  background-color: var(--bg-elevated-light);
+  box-shadow: none;
+}
 
-  .bc-segmented-control--disabled .bc-segmented-control__segment {
-    background-color: var(--bg-subtle-light);
-    color: var(--text-muted-light);
-    cursor: not-allowed;
-  }
+.bu-text-disabled .bc-segmented-control__segment {
+  background-color: var(--bg-subtle-light);
+  color: var(--text-muted-light);
+  cursor: not-allowed;
+}
 
-  .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
-    color: var(--text-muted-light);
-  }
+.bu-text-disabled .bc-segmented-control__segment:hover {
+  color: var(--text-muted-light);
+}
 
-  .bc-segmented-control--disabled .bc-segmented-control__segment--active {
-    background-color: var(--bg-elevated-light);
-    color: var(--text-muted-light);
-  }
+.bu-text-disabled .bc-segmented-control__segment--active {
+  background-color: var(--bg-elevated-light);
+  color: var(--text-muted-light);
+}
 
-  .bc-segmented-control--disabled .bc-segmented-control__segment--inactive {
-    color: var(--text-muted-light);
-  }
+.bu-text-disabled .bc-segmented-control__segment--inactive {
+  color: var(--text-muted-light);
+}
 
-  /* Dark mode styles */
-  .b-dark .bc-segmented-control {
-    background-color: var(--bg-subtle-dark);
-    border: 1px solid var(--border-border-dark);
-  }
+/* Dark mode styles */
+.b-dark .bc-segmented-control {
+  background-color: var(--bg-subtle-dark);
+  border: 1px solid var(--border-border-dark);
+}
 
-  .b-dark .bc-segmented-control__indicator {
-    background-color: var(--bg-elevated-dark);
-    box-shadow:
-      0 1px 3px var(--shadow-color-dark),
-      0 0 0 1px var(--shadow-highlight-dark);
-  }
+.b-dark .bc-segmented-control__indicator {
+  background-color: var(--bg-elevated-dark);
+  box-shadow:
+    0 1px 3px var(--shadow-color-dark),
+    0 0 0 1px var(--shadow-highlight-dark);
+}
 
-  .b-dark .bc-segmented-control__segment {
-    color: var(--text-muted-dark);
-    transition: all 0.2s ease-in-out;
-    position: relative;
-    border-radius: var(--radius-full);
-  }
+.b-dark .bc-segmented-control__segment {
+  color: var(--text-muted-dark);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  border-radius: var(--radius-full);
+}
 
-  .b-dark
-    .bc-segmented-control__segment:hover:not(
-      .bc-segmented-control__segment--active
-    ) {
-    color: var(--text-normal-dark);
-    background-color: var(--interactive-hover-dark);
-  }
+.b-dark
+  .bc-segmented-control__segment:hover:not(
+    .bc-segmented-control__segment--active
+  ) {
+  color: var(--text-normal-dark);
+  background-color: var(--interactive-hover-dark);
+}
 
-  .b-dark .bc-segmented-control__segment--active {
-    color: var(--text-normal-dark);
-  }
+.b-dark .bc-segmented-control__segment--active {
+  color: var(--text-normal-dark);
+}
 
-  .b-dark .bc-segmented-control__segment--active:hover {
-    color: var(--text-normal-dark);
-    background: transparent;
-    transform: none;
-    box-shadow: none;
-  }
+.b-dark .bc-segmented-control__segment--active:hover {
+  color: var(--text-normal-dark);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
 
-  .b-dark .bc-segmented-control__segment--inactive {
-    color: var(--text-muted-dark);
-  }
+.b-dark .bc-segmented-control__segment--inactive {
+  color: var(--text-muted-dark);
+}
 
-  .b-dark .bc-segmented-control__segment--inactive:hover {
-    color: var(--text-normal-dark);
-  }
+.b-dark .bc-segmented-control__segment--inactive:hover {
+  color: var(--text-normal-dark);
+}
 
-  .b-dark .bc-segmented-control--disabled {
-    background-color: var(--bg-background-dark);
-    border: 1px solid var(--border-divider-dark);
-    opacity: 0.5;
-  }
+.bu-text-disabled {
+  background-color: var(--bg-background-dark);
+  border: 1px solid var(--border-divider-dark);
+  opacity: 0.5;
+}
 
-  .b-dark .bc-segmented-control--disabled .bc-segmented-control__indicator {
-    background-color: var(--bg-subtle-dark);
-  }
+.bu-text-disabled .bc-segmented-control__indicator {
+  background-color: var(--bg-subtle-dark);
+}
 
-  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment {
-    color: var(--text-muted-dark);
-  }
+.bu-text-disabled .bc-segmented-control__segment {
+  color: var(--text-muted-dark);
+}
 
-  .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
-    color: var(--text-muted-dark);
-    background-color: transparent;
-  }
+.bu-text-disabled .bc-segmented-control__segment:hover {
+  color: var(--text-muted-dark);
+  background-color: transparent;
+}
 
-  .b-dark
-    .bc-segmented-control--disabled
-    .bc-segmented-control__segment--active {
-    color: var(--text-muted-dark);
-  }
+.b-dark .bu-text-disabled .bc-segmented-control__segment--active {
+  color: var(--text-muted-dark);
+}
 
-  .b-dark
-    .bc-segmented-control--disabled
-    .bc-segmented-control__segment--inactive {
-    color: var(--text-muted-dark);
-  }
+.b-dark .bu-text-disabled .bc-segmented-control__segment--inactive {
+  color: var(--text-muted-dark);
 }

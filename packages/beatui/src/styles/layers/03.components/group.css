@@ -1,7 +1,5 @@
-@layer components {
-  .bc-group {
-    display: flex;
-    justify-items: center;
-    gap: var(--spacing-md);
-  }
+.bc-group {
+  display: flex;
+  justify-items: center;
+  gap: var(--spacing-md);
 }

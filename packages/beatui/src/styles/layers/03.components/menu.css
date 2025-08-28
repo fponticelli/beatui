@@ -1,292 +1,290 @@
-@layer components {
-  /* Menu Component */
+/* Menu Component */
+.bc-menu {
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-xs);
+  z-index: var(--z-index-popover);
+  min-width: 12rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  outline: none;
+}
+
+/* Dark mode styles */
+.b-dark .bc-menu {
+  background-color: var(--color-neutral-800);
+  border-color: var(--color-neutral-700);
+}
+
+/* Submenu specific styles */
+.bc-submenu {
+  margin-left: var(--spacing-xs);
+}
+
+/* Menu Item Component */
+.bc-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  color: var(--text-normal-light);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  position: relative;
+  outline: none;
+  user-select: none;
+}
+
+/* Menu item hover state */
+.bc-menu-item:hover:not(.bc-menu-item--disabled) {
+  background-color: var(--color-neutral-100);
+  color: var(--text-normal-light);
+}
+
+/* Menu item focused state */
+.bc-menu-item--focused {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+
+/* Menu item disabled state */
+.bc-menu-item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--text-muted-light);
+}
+
+.bc-menu-item--disabled:hover {
+  background-color: transparent;
+}
+
+/* Menu item with submenu */
+.bc-menu-item--has-submenu::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  margin-left: auto;
+  opacity: 0.6;
+}
+
+/* Dark mode menu item styles */
+.b-dark .bc-menu-item {
+  color: var(--text-normal-dark);
+}
+
+.b-dark .bc-menu-item:hover:not(.bc-menu-item--disabled) {
+  background-color: var(--color-neutral-700);
+  color: var(--text-normal-dark);
+}
+
+.b-dark .bc-menu-item--focused {
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-200);
+}
+
+.b-dark .bc-menu-item--disabled {
+  color: var(--text-muted-dark);
+}
+
+/* Menu Item Content Areas */
+.bc-menu-item__start {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.bc-menu-item__content {
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.bc-menu-item__end {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+}
+
+/* Menu Separator Component */
+.bc-menu-separator {
+  margin: var(--spacing-xs) 0;
+  border-top: 1px solid var(--color-neutral-200);
+  position: relative;
+}
+
+.bc-menu-separator__label {
+  position: absolute;
+  top: -0.5em;
+  left: var(--spacing-sm);
+  background-color: var(--color-neutral-50);
+  padding: 0 var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Dark mode separator styles */
+.b-dark .bc-menu-separator {
+  border-color: var(--color-neutral-700);
+}
+
+.b-dark .bc-menu-separator__label {
+  background-color: var(--color-neutral-800);
+  color: var(--text-muted-dark);
+}
+
+/* Focus styles for accessibility */
+.bc-menu-item:focus-visible {
+  outline: 2px solid var(--interactive-focus-light);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+.b-dark .bc-menu-item:focus-visible {
+  outline-color: var(--interactive-focus-dark);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
   .bc-menu {
-    background-color: var(--color-neutral-50);
-    border: 1px solid var(--color-neutral-200);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xs);
-    z-index: var(--z-index-popover);
-    min-width: 12rem;
-    max-height: 20rem;
-    overflow-y: auto;
-    outline: none;
+    border-width: 2px;
   }
 
-  /* Dark mode styles */
-  .b-dark .bc-menu {
-    background-color: var(--color-neutral-800);
-    border-color: var(--color-neutral-700);
-  }
-
-  /* Submenu specific styles */
-  .bc-submenu {
-    margin-left: var(--spacing-xs);
-  }
-
-  /* Menu Item Component */
-  .bc-menu-item {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    color: var(--text-normal-light);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
-    position: relative;
-    outline: none;
-    user-select: none;
-  }
-
-  /* Menu item hover state */
-  .bc-menu-item:hover:not(.bc-menu-item--disabled) {
-    background-color: var(--color-neutral-100);
-    color: var(--text-normal-light);
-  }
-
-  /* Menu item focused state */
   .bc-menu-item--focused {
-    background-color: var(--color-primary-100);
-    color: var(--color-primary-700);
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
   }
 
-  /* Menu item disabled state */
-  .bc-menu-item--disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    color: var(--text-muted-light);
+  .bc-menu-separator {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bc-menu-item {
+    transition: none;
+  }
+}
+
+/* Menu size variants */
+.bc-menu--size-sm {
+  min-width: 8rem;
+  padding: var(--spacing-2xs);
+}
+
+.bc-menu--size-sm .bc-menu-item {
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+
+.bc-menu--size-lg {
+  min-width: 16rem;
+  padding: var(--spacing-sm);
+}
+
+.bc-menu--size-lg .bc-menu-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+}
+
+/* Menu item icon sizing */
+.bc-menu-item__start .bc-icon,
+.bc-menu-item__end .bc-icon {
+  width: 1em;
+  height: 1em;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 640px) {
+  .bc-menu {
+    min-width: 100%;
+    max-width: 100vw;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 50vh;
+    box-shadow: var(--shadow-xl);
   }
 
-  .bc-menu-item--disabled:hover {
-    background-color: transparent;
+  .bc-menu-item {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    min-height: 44px; /* Touch target size */
   }
 
-  /* Menu item with submenu */
-  .bc-menu-item--has-submenu::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 4px solid currentColor;
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    margin-left: auto;
-    opacity: 0.6;
+  .bc-submenu {
+    margin-left: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .bc-menu-item {
+    min-height: 44px; /* Minimum touch target */
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
-  /* Dark mode menu item styles */
-  .b-dark .bc-menu-item {
-    color: var(--text-normal-dark);
+  .bc-menu-item:hover {
+    background-color: transparent; /* Disable hover on touch devices */
   }
 
-  .b-dark .bc-menu-item:hover:not(.bc-menu-item--disabled) {
-    background-color: var(--color-neutral-700);
-    color: var(--text-normal-dark);
+  .bc-menu-item:active {
+    background-color: var(--color-neutral-200);
   }
 
-  .b-dark .bc-menu-item--focused {
-    background-color: var(--color-primary-800);
-    color: var(--color-primary-200);
+  .b-dark .bc-menu-item:active {
+    background-color: var(--color-neutral-600);
   }
+}
 
-  .b-dark .bc-menu-item--disabled {
-    color: var(--text-muted-dark);
-  }
-
-  /* Menu Item Content Areas */
-  .bc-menu-item__start {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .bc-menu-item__content {
-    flex: 1;
-    min-width: 0; /* Allow text truncation */
+/* Container queries for adaptive sizing */
+@container (max-width: 300px) {
+  .bc-menu {
+    min-width: 100%;
   }
 
   .bc-menu-item__end {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    margin-left: auto;
-    font-size: var(--font-size-xs);
-    opacity: 0.7;
+    display: none; /* Hide end content in narrow containers */
   }
+}
 
-  /* Menu Separator Component */
-  .bc-menu-separator {
-    margin: var(--spacing-xs) 0;
-    border-top: 1px solid var(--color-neutral-200);
-    position: relative;
-  }
-
-  .bc-menu-separator__label {
-    position: absolute;
-    top: -0.5em;
-    left: var(--spacing-sm);
-    background-color: var(--color-neutral-50);
-    padding: 0 var(--spacing-xs);
-    font-size: var(--font-size-xs);
-    color: var(--text-muted-light);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Dark mode separator styles */
-  .b-dark .bc-menu-separator {
-    border-color: var(--color-neutral-700);
-  }
-
-  .b-dark .bc-menu-separator__label {
-    background-color: var(--color-neutral-800);
-    color: var(--text-muted-dark);
-  }
-
-  /* Focus styles for accessibility */
-  .bc-menu-item:focus-visible {
-    outline: 2px solid var(--interactive-focus-light);
-    outline-offset: -2px;
-    border-radius: var(--radius-sm);
-  }
-
-  .b-dark .bc-menu-item:focus-visible {
-    outline-color: var(--interactive-focus-dark);
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .bc-menu {
-      border-width: 2px;
-    }
-
-    .bc-menu-item--focused {
-      outline: 2px solid currentColor;
-      outline-offset: -2px;
-    }
-
-    .bc-menu-separator {
-      border-width: 2px;
-    }
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .bc-menu-item {
-      transition: none;
-    }
-  }
-
-  /* Menu size variants */
-  .bc-menu--size-sm {
-    min-width: 8rem;
-    padding: var(--spacing-2xs);
-  }
-
-  .bc-menu--size-sm .bc-menu-item {
-    padding: var(--spacing-2xs) var(--spacing-xs);
-    font-size: var(--font-size-xs);
-  }
-
-  .bc-menu--size-lg {
-    min-width: 16rem;
-    padding: var(--spacing-sm);
-  }
-
-  .bc-menu--size-lg .bc-menu-item {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--font-size-base);
-  }
-
-  /* Menu item icon sizing */
-  .bc-menu-item__start .bc-icon,
-  .bc-menu-item__end .bc-icon {
-    width: 1em;
-    height: 1em;
-  }
-
-  /* Screen reader only content */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  /* Responsive design for mobile devices */
-  @media (max-width: 640px) {
-    .bc-menu {
-      min-width: 100%;
-      max-width: 100vw;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      max-height: 50vh;
-      box-shadow: var(--shadow-xl);
-    }
-
-    .bc-menu-item {
-      padding: var(--spacing-md) var(--spacing-lg);
-      font-size: var(--font-size-base);
-      min-height: 44px; /* Touch target size */
-    }
-
-    .bc-submenu {
-      margin-left: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 0;
-      max-height: 100vh;
-    }
-  }
-
-  /* Touch device optimizations */
-  @media (hover: none) and (pointer: coarse) {
-    .bc-menu-item {
-      min-height: 44px; /* Minimum touch target */
-      padding: var(--spacing-sm) var(--spacing-md);
-    }
-
-    .bc-menu-item:hover {
-      background-color: transparent; /* Disable hover on touch devices */
-    }
-
-    .bc-menu-item:active {
-      background-color: var(--color-neutral-200);
-    }
-
-    .b-dark .bc-menu-item:active {
-      background-color: var(--color-neutral-600);
-    }
-  }
-
-  /* Container queries for adaptive sizing */
-  @container (max-width: 300px) {
-    .bc-menu {
-      min-width: 100%;
-    }
-
-    .bc-menu-item__end {
-      display: none; /* Hide end content in narrow containers */
-    }
-  }
-
-  /* Print styles */
-  @media print {
-    .bc-menu {
-      display: none;
-    }
+/* Print styles */
+@media print {
+  .bc-menu {
+    display: none;
   }
 }

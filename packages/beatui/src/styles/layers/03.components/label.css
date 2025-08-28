@@ -1,37 +1,35 @@
-@layer components {
-  .bc-label {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
-  }
+.bc-label {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
 
-  .bc-label--emphasis {
-    font-weight: var(--font-weight-bold);
-  }
+.bc-label--emphasis {
+  font-weight: var(--font-weight-bold);
+}
 
-  .bc-label--default {
-    font-weight: var(--font-weight-medium);
-  }
+.bc-label--default {
+  font-weight: var(--font-weight-medium);
+}
 
-  .bc-label--muted {
-    font-weight: var(--font-weight-medium);
-    opacity: 0.5;
-  }
+.bc-label--muted {
+  font-weight: var(--font-weight-medium);
+  opacity: 0.5;
+}
 
-  .bc-label--error {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-error-500);
-  }
+.bc-label--error {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-error-500);
+}
 
-  /* Dark mode styles */
-  .b-dark .bc-label {
-    color: var(--text-normal-dark);
-  }
+/* Dark mode styles */
+.b-dark .bc-label {
+  color: var(--text-normal-dark);
+}
 
-  .b-dark .bc-label--muted {
-    color: var(--text-muted-dark);
-  }
+.b-dark .bc-label--muted {
+  color: var(--text-muted-dark);
+}
 
-  .b-dark .bc-label--error {
-    color: var(--color-error-400);
-  }
+.b-dark .bc-label--error {
+  color: var(--color-error-400);
 }
