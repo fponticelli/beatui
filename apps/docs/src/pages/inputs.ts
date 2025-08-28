@@ -19,6 +19,8 @@ import {
   FilesInput,
   NumberInput,
   NullableNumberInput,
+  BigintInput,
+  NullableBigintInput,
   PasswordInput,
   TagsInput,
   TextArea,
@@ -93,6 +95,8 @@ export const InputsPage = () =>
     const files = prop<File[]>([])
     const number = prop(0)
     const nullableNumber = prop<number | null>(null)
+    const bigint = prop<bigint>(0n)
+    const nullableBigint = prop<bigint | null>(null)
     const password = prop('')
     const tags = prop<string[]>([])
     const textAreaVal = prop('')
@@ -275,6 +279,24 @@ export const InputsPage = () =>
                   onChange: nullableNumber.set,
                 }),
                 description: description(nullableNumber),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'BigintInput',
+                content: BigintInput({ value: bigint, onChange: bigint.set }),
+                description: description(bigint),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableBigintInput',
+                content: NullableBigintInput({
+                  value: nullableBigint,
+                  onChange: nullableBigint.set,
+                }),
+                description: description(nullableBigint),
               })
           ),
           When(
