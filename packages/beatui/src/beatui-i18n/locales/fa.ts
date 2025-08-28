@@ -57,6 +57,8 @@ const fa: BeatUIMessages = {
   // file input
   removeFile: 'حذف فایل',
   clearAllFiles: 'حذف همه فایل‌ها',
+  // inputs reset
+  clearValue: 'حذف مقدار',
   unknownType: 'نوع ناشناخته',
   filesInputInstructions: (
     maxFiles: number | undefined,

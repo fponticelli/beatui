@@ -57,6 +57,8 @@ const he: BeatUIMessages = {
   // file input
   removeFile: 'הסר קובץ',
   clearAllFiles: 'נקה את כל הקבצים',
+  // inputs reset
+  clearValue: 'נקה ערך',
   unknownType: 'סוג לא ידוע',
   filesInputInstructions: (
     maxFiles: number | undefined,

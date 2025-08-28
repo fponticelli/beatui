@@ -232,7 +232,11 @@ export const InputsPage = () =>
           }),
           InputWrapper({
             label: 'ColorInput',
-            content: ColorInput({ value: color, onChange: color.set }),
+            content: ColorInput({
+              value: color,
+              onChange: color.set,
+              showRgb: true,
+            }),
             description: description(color),
           }),
           When(

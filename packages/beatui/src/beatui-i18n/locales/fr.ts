@@ -57,6 +57,9 @@ const fr: BeatUIMessages = {
   // file input
   removeFile: 'Supprimer le fichier',
   clearAllFiles: 'Effacer tous les fichiers',
+  // inputs reset
+  clearValue: 'Réinitialiser',
+
   unknownType: 'Type inconnu',
   filesInputInstructions: (
     maxFiles: number | undefined,

@@ -128,6 +128,24 @@
   background-color: var(--color-gray-100);
 }
 
+/* Nullable reset button */
+.bc-input-container__reset {
+  font-size: var(--font-size-sm);
+  fill: var(--color-gray-400);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bc-input-container__reset:hover {
+  background-color: var(--color-gray-100);
+}
+
 /* Tags input wrapper */
 .bc-input-container__tags {
   display: flex;
@@ -188,6 +206,16 @@
 }
 
 .b-dark .bc-input-container__password-toggle:hover {
+  background-color: var(--interactive-hover-dark);
+  fill: var(--text-normal-dark);
+}
+
+/* Dark mode for nullable reset */
+.b-dark .bc-input-container__reset {
+  fill: var(--text-muted-dark);
+}
+
+.b-dark .bc-input-container__reset:hover {
   background-color: var(--interactive-hover-dark);
   fill: var(--text-normal-dark);
 }

@@ -57,6 +57,8 @@ const tr: BeatUIMessages = {
   // file input
   removeFile: 'Dosyayı kaldır',
   clearAllFiles: 'Tüm dosyaları temizle',
+  // inputs reset
+  clearValue: 'Değeri temizle',
   unknownType: 'Bilinmeyen tür',
   filesInputInstructions: (
     maxFiles: number | undefined,

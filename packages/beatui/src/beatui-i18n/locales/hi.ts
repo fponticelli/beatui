@@ -57,6 +57,8 @@ const hi: BeatUIMessages = {
   // file input
   removeFile: 'फ़ाइल हटाएं',
   clearAllFiles: 'सभी फ़ाइलें हटाएं',
+  // inputs reset
+  clearValue: 'वृद्धि मान',
   unknownType: 'अज्ञात प्रकार',
   filesInputInstructions: (
     maxFiles: number | undefined,

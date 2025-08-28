@@ -57,6 +57,8 @@ const zh: BeatUIMessages = {
   // file input
   removeFile: '删除文件',
   clearAllFiles: '清除所有文件',
+  // inputs reset
+  clearValue: '清除值',
   unknownType: '未知类型',
   filesInputInstructions: (
     maxFiles: number | undefined,

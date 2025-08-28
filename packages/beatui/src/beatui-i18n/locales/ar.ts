@@ -57,6 +57,8 @@ const ar: BeatUIMessages = {
   // file input
   removeFile: 'إزالة الملف',
   clearAllFiles: 'مسح كل الملفات',
+  // inputs reset
+  clearValue: 'مسح القيمة',
   unknownType: 'نوع غير معروف',
   filesInputInstructions: (
     maxFiles: number | undefined,

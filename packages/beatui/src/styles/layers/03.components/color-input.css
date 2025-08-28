@@ -1,80 +1,68 @@
-/* Color Input Component */
-.bc-input.bc-color-input {
+/* Color Input Component (SVG blob preview overlaying native input) */
+
+.bc-color-input__control {
+  position: relative;
   display: inline-block;
   width: 2rem;
   height: 2rem;
-  padding: 0;
+  border-radius: var(--radius-md);
+  overflow: visible;
   cursor: pointer;
-  background: transparent;
-  overflow: hidden;
-  border-radius: var(--radius-md);
 }
 
-/* Remove default color input styling */
-.bc-color-input::-webkit-color-swatch-wrapper {
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-md);
-}
-
-.bc-color-input::-webkit-color-swatch {
-  border: none;
-  border-radius: var(--radius-md);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-.bc-color-input::-moz-color-swatch {
-  border: none;
-  border-radius: var(--radius-md);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
-
-/* Focus state */
-.bc-color-input:focus {
+.bc-color-input__control:focus-within {
   outline: 2px solid var(--color-sky-600);
   outline-offset: 2px;
 }
 
-/* Disabled state */
-.bc-color-input:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+.bc-color-input__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* ensure clicks go to the native input */
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
 }
 
-.bc-color-input:disabled::-webkit-color-swatch {
-  opacity: 0.6;
-}
-
-.bc-color-input:disabled::-moz-color-swatch {
-  opacity: 0.6;
-}
-
-/* Error state - handled by parent input container */
-.bc-input-container--error .bc-color-input:focus {
+.bc-input-container--error .bc-color-input__control:focus-within {
   outline: 2px solid var(--color-red-600);
-  outline-offset: 2px;
 }
 
-/* Dark mode styles */
-.b-dark .bc-color-input::-webkit-color-swatch {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+.bc-color-input__native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0; /* keep accessible and clickable */
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
 }
 
-.b-dark .bc-color-input::-moz-color-swatch {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+.bc-color-input__native:disabled {
+  cursor: not-allowed;
 }
 
-.b-dark .bc-color-input:focus {
+.bc-color-input__rgb {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+}
+
+/* Dark mode */
+.b-dark .bc-color-input__control:focus-within {
   outline: 2px solid var(--interactive-focus-dark);
 }
 
-.b-dark .bc-input-container--error .bc-color-input:focus {
+.b-dark .bc-input-container--error .bc-color-input__control:focus-within {
   outline: 2px solid var(--color-red-400);
 }
 
 /* Responsive styles */
 @media (width >=var(--breakpoint-sm)) {
-  .bc-color-input {
+  .bc-color-input__control {
     width: 2.75rem;
     height: 2.25rem;
   }
