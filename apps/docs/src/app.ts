@@ -2,6 +2,7 @@ import { html } from '@tempots/dom'
 import { RootRouter } from '@tempots/ui'
 import { BeatUI } from '@tempots/beatui'
 import { HomePage } from './pages/home'
+import { AboutPage } from './pages/about'
 import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
 import { ComboboxPage } from './pages/combobox'
@@ -45,6 +46,7 @@ export const App = () => {
     AppLayout({
       children: RootRouter({
         '/': HomePage,
+        '/about': AboutPage,
         '/authentication': AuthenticationPage,
         '/authentication/components': AuthenticationComponentsPage,
         '/button': ButtonPage,

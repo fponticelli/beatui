@@ -84,7 +84,7 @@ const setupBrowserMocks = () => {
   }
 
   // Observer stubs
-  ;;(globalThis as any).IntersectionObserver =
+  ;(globalThis as any).IntersectionObserver =
     (window as any).IntersectionObserver ||
     class {
       observe() {}
@@ -134,6 +134,7 @@ const main = async () => {
   const { html, attr } = await import('@tempots/dom')
   const { BeatUI } = await import('@tempots/beatui')
   const { HomePage } = await import('../src/pages/home')
+  const { AboutPage } = await import('../src/pages/about')
   const { AuthenticationPage } = await import('../src/pages/authentication')
   const { AuthenticationComponentsPage } = await import(
     '../src/pages/authentication-components'
@@ -251,6 +252,7 @@ const main = async () => {
         const pageMap: Record<string, () => import('@tempots/dom').Renderable> =
           {
             '/': HomePage,
+            '/about': AboutPage,
             '/authentication': AuthenticationPage,
             '/authentication/components': AuthenticationComponentsPage,
             '/button': ButtonPage,
