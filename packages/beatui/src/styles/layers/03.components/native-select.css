@@ -1,3 +1,19 @@
 .bc-native-select {
+  /* Match input height; container handles padding */
   height: 26px;
+  /* Reset native styling so BeatUI theme applies (Safari, Chrome, Firefox) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
+/* Remove default focus ring; container provides focus styles */
+.bc-native-select:focus,
+.bc-native-select:focus-visible {
+  outline: none;
 }
