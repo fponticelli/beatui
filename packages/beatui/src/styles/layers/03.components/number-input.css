@@ -2,7 +2,7 @@
 
   /* Number Input Component */
   .bc-number-input {
-    text-align: right;
+    text-align: end;
   }
 
   /* Remove default number input spinners */

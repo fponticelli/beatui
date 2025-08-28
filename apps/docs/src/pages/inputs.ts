@@ -268,7 +268,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'NumberInput',
-                content: NumberInput({ value: number, onChange: number.set }),
+                content: NumberInput({
+                  value: number,
+                  onChange: number.set,
+                  step: 1,
+                }),
                 description: description(number),
               }),
             () =>
@@ -277,6 +281,7 @@ export const InputsPage = () =>
                 content: NullableNumberInput({
                   value: nullableNumber,
                   onChange: nullableNumber.set,
+                  step: 1,
                 }),
                 description: description(nullableNumber),
               })
@@ -286,7 +291,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'BigintInput',
-                content: BigintInput({ value: bigint, onChange: bigint.set }),
+                content: BigintInput({
+                  value: bigint,
+                  onChange: bigint.set,
+                  step: 1n,
+                }),
                 description: description(bigint),
               }),
             () =>
@@ -295,6 +304,7 @@ export const InputsPage = () =>
                 content: NullableBigintInput({
                   value: nullableBigint,
                   onChange: nullableBigint.set,
+                  step: 1n,
                 }),
                 description: description(nullableBigint),
               })

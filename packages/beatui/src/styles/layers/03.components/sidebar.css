@@ -40,7 +40,7 @@
   .bc-sidebar-group__header {
     font-weight: 500;
     color: var(--color-base-500);
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   .bc-sidebar-link__content {
@@ -91,7 +91,7 @@
   }
 
   .bc-sidebar-group--rail {
-    padding-left: calc(var(--spacing-base) * 2);
+    padding-inline-start: calc(var(--spacing-base) * 2);
     margin-left: 1px;
     border-left: 1px solid var(--border-border-light);
   }

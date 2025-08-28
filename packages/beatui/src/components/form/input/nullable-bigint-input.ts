@@ -66,7 +66,8 @@ export const NullableBigintInput = (options: NullableBigintInputOptions) => {
           })
 
           const handle = (delta: bigint, event?: MouseEvent) => {
-            const current = ((Value.get(value) as bigint | null) ?? 0n) as bigint
+            const current = ((Value.get(value) as bigint | null) ??
+              0n) as bigint
             const stepVal = Value.get(step)
             const multiplier = event?.shiftKey ? 10n : 1n
             const target = current + stepVal * multiplier * delta

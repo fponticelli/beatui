@@ -191,20 +191,61 @@
   .bu-pt-10 { padding-top: calc(var(--spacing-base) * 10); }
   .bu-pt-12 { padding-top: calc(var(--spacing-base) * 12); }
 
-  .bu-pr-0 { padding-right: var(--spacing-0); }
-  .bu-pr-0\.25 { padding-right: calc(var(--spacing-base) * 0.25); }
-  .bu-pr-0\.5 { padding-right: calc(var(--spacing-base) * 0.5); }
-  .bu-pr-1 { padding-right: calc(var(--spacing-base) * 1); }
-  .bu-pr-1\.5 { padding-right: calc(var(--spacing-base) * 1.5); }
-  .bu-pr-2 { padding-right: calc(var(--spacing-base) * 2); }
-  .bu-pr-2\.5 { padding-right: calc(var(--spacing-base) * 2.5); }
-  .bu-pr-3 { padding-right: calc(var(--spacing-base) * 3); }
-  .bu-pr-4 { padding-right: calc(var(--spacing-base) * 4); }
-  .bu-pr-5 { padding-right: calc(var(--spacing-base) * 5); }
-  .bu-pr-6 { padding-right: calc(var(--spacing-base) * 6); }
-  .bu-pr-8 { padding-right: calc(var(--spacing-base) * 8); }
-  .bu-pr-10 { padding-right: calc(var(--spacing-base) * 10); }
-  .bu-pr-12 { padding-right: calc(var(--spacing-base) * 12); }
+                                .bu-pe-0 {
+                                  padding-inline-end: var(--spacing-0);
+                                }
+                
+                                .bu-pe-0\.25 {
+                                  padding-inline-end: calc(var(--spacing-base) * 0.25);
+                                }
+                
+                                .bu-pe-0\.5 {
+                                  padding-inline-end: calc(var(--spacing-base) * 0.5);
+                                }
+                
+                                .bu-pe-1 {
+                                  padding-inline-end: calc(var(--spacing-base) * 1);
+                                }
+                
+                                .bu-pe-1\.5 {
+                                  padding-inline-end: calc(var(--spacing-base) * 1.5);
+                                }
+                
+                                .bu-pe-2 {
+                                  padding-inline-end: calc(var(--spacing-base) * 2);
+                                }
+                
+                                .bu-pe-2\.5 {
+                                  padding-inline-end: calc(var(--spacing-base) * 2.5);
+                                }
+                
+                                .bu-pe-3 {
+                                  padding-inline-end: calc(var(--spacing-base) * 3);
+                                }
+                
+                                .bu-pe-4 {
+                                  padding-inline-end: calc(var(--spacing-base) * 4);
+                                }
+                
+                                .bu-pe-5 {
+                                  padding-inline-end: calc(var(--spacing-base) * 5);
+                                }
+                
+                                .bu-pe-6 {
+                                  padding-inline-end: calc(var(--spacing-base) * 6);
+                                }
+                
+                                .bu-pe-8 {
+                                  padding-inline-end: calc(var(--spacing-base) * 8);
+                                }
+                
+                                .bu-pe-10 {
+                                  padding-inline-end: calc(var(--spacing-base) * 10);
+                                }
+                
+                                .bu-pe-12 {
+                                  padding-inline-end: calc(var(--spacing-base) * 12);
+                                }
 
   .bu-pb-0 { padding-bottom: var(--spacing-0); }
   .bu-pb-0\.25 { padding-bottom: calc(var(--spacing-base) * 0.25); }
@@ -221,31 +262,115 @@
   .bu-pb-10 { padding-bottom: calc(var(--spacing-base) * 10); }
   .bu-pb-12 { padding-bottom: calc(var(--spacing-base) * 12); }
 
-  .bu-pl-0 { padding-left: var(--spacing-0); }
-  .bu-pl-1 { padding-left: calc(var(--spacing-base) * 1); }
-  .bu-pl-2 { padding-left: calc(var(--spacing-base) * 2); }
-  .bu-pl-3 { padding-left: calc(var(--spacing-base) * 3); }
-  .bu-pl-4 { padding-left: calc(var(--spacing-base) * 4); }
-  .bu-pl-5 { padding-left: calc(var(--spacing-base) * 5); }
-  .bu-pl-6 { padding-left: calc(var(--spacing-base) * 6); }
-  .bu-pl-8 { padding-left: calc(var(--spacing-base) * 8); }
-  .bu-pl-10 { padding-left: calc(var(--spacing-base) * 10); }
-  .bu-pl-12 { padding-left: calc(var(--spacing-base) * 12); }
+                .bu-pl-0 {
+                  padding-inline-start: var(--spacing-0);
+                }
+        
+                .bu-pl-1 {
+                  padding-inline-start: calc(var(--spacing-base) * 1);
+                }
+        
+                .bu-pl-2 {
+                  padding-inline-start: calc(var(--spacing-base) * 2);
+                }
+        
+                .bu-pl-3 {
+                  padding-inline-start: calc(var(--spacing-base) * 3);
+                }
+        
+                .bu-pl-4 {
+                  padding-inline-start: calc(var(--spacing-base) * 4);
+                }
+        
+                .bu-pl-5 {
+                  padding-inline-start: calc(var(--spacing-base) * 5);
+                }
+        
+                .bu-pl-6 {
+                  padding-inline-start: calc(var(--spacing-base) * 6);
+                }
+        
+                .bu-pl-8 {
+                  padding-inline-start: calc(var(--spacing-base) * 8);
+                }
+        
+                .bu-pl-10 {
+                  padding-inline-start: calc(var(--spacing-base) * 10);
+                }
+        
+                .bu-pl-12 {
+                  padding-inline-start: calc(var(--spacing-base) * 12);
+                }
+        
+                .bu-px-0 {
+                  padding-inline-start: var(--spacing-0);
+                  padding-inline-end: var(--spacing-0);
+                }
+        
+                .bu-px-0\.25 {
+                  padding-inline-start: calc(var(--spacing-base) * 0.25);
+                  padding-inline-end: calc(var(--spacing-base) * 0.25);
+                }
+        
+                .bu-px-0\.5 {
+                  padding-inline-start: calc(var(--spacing-base) * 0.5);
+                  padding-inline-end: calc(var(--spacing-base) * 0.5);
+                }
+        
+                .bu-px-1 {
+                  padding-inline-start: calc(var(--spacing-base) * 1);
+                  padding-inline-end: calc(var(--spacing-base) * 1);
+                }
+        
+                .bu-px-1\.5 {
+                  padding-inline-start: calc(var(--spacing-base) * 1.5);
+                  padding-inline-end: calc(var(--spacing-base) * 1.5);
+                }
+        
+                .bu-px-2 {
+                  padding-inline-start: calc(var(--spacing-base) * 2);
+                  padding-inline-end: calc(var(--spacing-base) * 2);
+                }
+        
+                .bu-px-2\.5 {
+                  padding-inline-start: calc(var(--spacing-base) * 2.5);
+                  padding-inline-end: calc(var(--spacing-base) * 2.5);
+                }
+        
+                .bu-px-3 {
+                  padding-inline-start: calc(var(--spacing-base) * 3);
+                  padding-inline-end: calc(var(--spacing-base) * 3);
+                }
+        
+                .bu-px-4 {
+                  padding-inline-start: calc(var(--spacing-base) * 4);
+                  padding-inline-end: calc(var(--spacing-base) * 4);
+                }
+        
+                .bu-px-5 {
+                  padding-inline-start: calc(var(--spacing-base) * 5);
+                  padding-inline-end: calc(var(--spacing-base) * 5);
+                }
+        
+                .bu-px-6 {
+                  padding-inline-start: calc(var(--spacing-base) * 6);
+                  padding-inline-end: calc(var(--spacing-base) * 6);
+                }
+        
+                .bu-px-8 {
+                  padding-inline-start: calc(var(--spacing-base) * 8);
+                  padding-inline-end: calc(var(--spacing-base) * 8);
+                }
+        
+                .bu-px-10 {
+                  padding-inline-start: calc(var(--spacing-base) * 10);
+                  padding-inline-end: calc(var(--spacing-base) * 10);
+                }
 
-  .bu-px-0 { padding-left: var(--spacing-0); padding-right: var(--spacing-0); }
-  .bu-px-0\.25 { padding-left: calc(var(--spacing-base) * 0.25); padding-right: calc(var(--spacing-base) * 0.25); }
-  .bu-px-0\.5 { padding-left: calc(var(--spacing-base) * 0.5); padding-right: calc(var(--spacing-base) * 0.5); }
-  .bu-px-1 { padding-left: calc(var(--spacing-base) * 1); padding-right: calc(var(--spacing-base) * 1); }
-  .bu-px-1\.5 { padding-left: calc(var(--spacing-base) * 1.5); padding-right: calc(var(--spacing-base) * 1.5); }
-  .bu-px-2 { padding-left: calc(var(--spacing-base) * 2); padding-right: calc(var(--spacing-base) * 2); }
-  .bu-px-2\.5 { padding-left: calc(var(--spacing-base) * 2.5); padding-right: calc(var(--spacing-base) * 2.5); }
-  .bu-px-3 { padding-left: calc(var(--spacing-base) * 3); padding-right: calc(var(--spacing-base) * 3); }
-  .bu-px-4 { padding-left: calc(var(--spacing-base) * 4); padding-right: calc(var(--spacing-base) * 4); }
-  .bu-px-5 { padding-left: calc(var(--spacing-base) * 5); padding-right: calc(var(--spacing-base) * 5); }
-  .bu-px-6 { padding-left: calc(var(--spacing-base) * 6); padding-right: calc(var(--spacing-base) * 6); }
-  .bu-px-8 { padding-left: calc(var(--spacing-base) * 8); padding-right: calc(var(--spacing-base) * 8); }
-  .bu-px-10 { padding-left: calc(var(--spacing-base) * 10); padding-right: calc(var(--spacing-base) * 10); }
-  .bu-px-12 { padding-left: calc(var(--spacing-base) * 12); padding-right: calc(var(--spacing-base) * 12); }
+                                .bu-px-12 {
+                                  padding-inline-start: calc(var(--spacing-base) * 12);
+                                  padding-inline-end: calc(var(--spacing-base) * 12);
+                                }
 
   .bu-py-0 { padding-top: var(--spacing-0); padding-bottom: var(--spacing-0); }
   .bu-py-0\.25 { padding-top: calc(var(--spacing-base) * 0.25); padding-bottom: calc(var(--spacing-base) * 0.25); }
