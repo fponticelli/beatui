@@ -14,6 +14,7 @@ import {
   Value,
   Use,
   coalesce,
+  Fragment,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -26,6 +27,7 @@ import {
   makeOnChangeHandler,
 } from '../control'
 import { InputWrapper } from './input-wrapper'
+import { Icon } from '@/components/data'
 
 export type ValueOption<T> = {
   type: 'value'
@@ -133,6 +135,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     options: selectOptions,
     unselectedLabel,
     equality = (a, b) => a === b,
+    after,
   } = options
 
   let element: HTMLSelectElement | undefined
@@ -140,6 +143,14 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
   return InputContainer(
     {
       ...options,
+      after: Fragment(
+        Icon({
+          icon: 'ph:caret-down-bold',
+          color: 'neutral',
+          size: 'sm',
+        }),
+        after
+      ),
       input: html.select(
         WithElement(el => {
           element = el as HTMLSelectElement
