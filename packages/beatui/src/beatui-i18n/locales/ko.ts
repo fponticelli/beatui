@@ -57,6 +57,8 @@ const ko: BeatUIMessages = {
   // file input
   removeFile: '파일 제거',
   clearAllFiles: '모든 파일 지우기',
+  // inputs reset
+  clearValue: '값 지우기',
   unknownType: '알 수 없는 형식',
   filesInputInstructions: (
     maxFiles: number | undefined,

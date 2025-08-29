@@ -7,7 +7,6 @@ import {
   Value,
   computedOf,
   aria,
-  Use,
   html,
   Fragment,
   OnDispose,
@@ -16,8 +15,9 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
 import { Icon } from '../../data/icon'
-import { BeatUII18n } from '@/beatui-i18n'
+import { defaultMessages } from '@/beatui-i18n'
 import { Stack } from '@/components/layout'
+import { NullableResetAfter } from './nullable-utils'
 
 export type NullableNumberInputOptions = Merge<
   InputOptions<number | null>,
@@ -47,87 +47,98 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
   }
 
   // Steppers (mirrors NumberInput for consistency)
-  const stepperButtons =
-    step != null
-      ? Use(BeatUII18n, t => {
-          const canDecrement = computedOf(
-            value,
-            min
-          )((val, minVal) => {
-            const current = (val as number | null) ?? 0
-            if (minVal == null) return true
-            return current > (minVal as number)
-          })
+  const stepperButtons = (() => {
+    if (step == null) return null
 
-          const canIncrement = computedOf(
-            value,
-            max
-          )((val, maxVal) => {
-            const current = (val as number | null) ?? 0
-            if (maxVal == null) return true
-            return current < (maxVal as number)
-          })
+    const canDecrement = computedOf(
+      value,
+      min
+    )((val, minVal) => {
+      const current = (val as number | null) ?? 0
+      if (minVal == null) return true
+      return current > (minVal as number)
+    })
 
-          const handleDecrement = (event?: MouseEvent) => {
-            const current = ((Value.get(value) as number | null) ?? 0) as number
-            const stepVal = Value.get(step)
-            const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = current - stepVal * multiplier
-            const minVal = min != null ? Value.get(min) : undefined
-            if (minVal != null && targetValue < minVal) return
-            const newValue = clampValue(targetValue)
-            if (newValue !== current && onChange) onChange(newValue)
-          }
+    const canIncrement = computedOf(
+      value,
+      max
+    )((val, maxVal) => {
+      const current = (val as number | null) ?? 0
+      if (maxVal == null) return true
+      return current < (maxVal as number)
+    })
 
-          const handleIncrement = (event?: MouseEvent) => {
-            const current = ((Value.get(value) as number | null) ?? 0) as number
-            const stepVal = Value.get(step)
-            const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = current + stepVal * multiplier
-            const maxVal = max != null ? Value.get(max) : undefined
-            if (maxVal != null && targetValue > maxVal) return
-            const newValue = clampValue(targetValue)
-            if (newValue !== current && onChange) onChange(newValue)
-          }
+    const handleDecrement = (event?: MouseEvent) => {
+      const current = ((Value.get(value) as number | null) ?? 0) as number
+      const stepVal = Value.get(step)
+      const multiplier = event?.shiftKey ? 10 : 1
+      const targetValue = current - stepVal * multiplier
+      const minVal = min != null ? Value.get(min) : undefined
+      if (minVal != null && targetValue < minVal) return
+      const newValue = clampValue(targetValue)
+      if (newValue !== current && onChange) onChange(newValue)
+    }
 
-          return Stack(
-            attr.class('bc-number-input-steppers'),
-            html.button(
-              attr.class(
-                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
-              ),
-              attr.disabled(
-                computedOf(
-                  canIncrement,
-                  options.disabled ?? false
-                )((canInc, disabled) => !canInc || disabled)
-              ),
-              on.click(event => handleIncrement(event)),
-              aria.label(t.$.incrementValue),
-              Icon({ icon: 'line-md:plus', size: 'xs' })
-            ),
-            html.button(
-              attr.class(
-                'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
-              ),
-              attr.disabled(
-                computedOf(
-                  canDecrement,
-                  options.disabled ?? false
-                )((canDec, disabled) => !canDec || disabled)
-              ),
-              on.click(event => handleDecrement(event)),
-              aria.label(t.$.decrementValue),
-              Icon({ icon: 'line-md:minus', size: 'xs' })
-            )
-          )
-        })
-      : null
+    const handleIncrement = (event?: MouseEvent) => {
+      const current = ((Value.get(value) as number | null) ?? 0) as number
+      const stepVal = Value.get(step)
+      const multiplier = event?.shiftKey ? 10 : 1
+      const targetValue = current + stepVal * multiplier
+      const maxVal = max != null ? Value.get(max) : undefined
+      if (maxVal != null && targetValue > maxVal) return
+      const newValue = clampValue(targetValue)
+      if (newValue !== current && onChange) onChange(newValue)
+    }
+
+    const render = (incLabel: string, decLabel: string) =>
+      Stack(
+        attr.class('bc-number-input-steppers'),
+        html.button(
+          attr.class(
+            'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
+          ),
+          attr.disabled(
+            computedOf(
+              canIncrement,
+              options.disabled ?? false
+            )((canInc, disabled) => !canInc || disabled)
+          ),
+          on.click(event => handleIncrement(event)),
+          aria.label(incLabel),
+          Icon({ icon: 'line-md:plus', size: 'xs' })
+        ),
+        html.button(
+          attr.class(
+            'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
+          ),
+          attr.disabled(
+            computedOf(
+              canDecrement,
+              options.disabled ?? false
+            )((canDec, disabled) => !canDec || disabled)
+          ),
+          on.click(event => handleDecrement(event)),
+          aria.label(decLabel),
+          Icon({ icon: 'line-md:minus', size: 'xs' })
+        )
+      )
+
+    return render(
+      defaultMessages.incrementValue,
+      defaultMessages.decrementValue
+    )
+  })()
+
+  const resetAfter = NullableResetAfter(value, options.disabled, onChange)
 
   const afterContent =
     after != null && stepperButtons != null
-      ? Fragment(stepperButtons, after)
-      : (after ?? stepperButtons)
+      ? Fragment(stepperButtons, resetAfter, after)
+      : after != null
+        ? Fragment(resetAfter, after)
+        : stepperButtons != null
+          ? Fragment(stepperButtons, resetAfter)
+          : resetAfter
 
   return InputContainer({
     ...options,

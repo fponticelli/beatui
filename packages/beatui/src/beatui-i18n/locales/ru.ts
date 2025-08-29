@@ -57,6 +57,8 @@ export const ru: BeatUIMessages = {
   // file input
   removeFile: 'Удалить файл',
   clearAllFiles: 'Очистить все файлы',
+  // inputs reset
+  clearValue: 'Очистить значение',
   unknownType: 'Неизвестный тип',
   filesInputInstructions: (
     maxFiles: number | undefined,

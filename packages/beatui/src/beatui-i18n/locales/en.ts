@@ -56,6 +56,8 @@ const en = {
   // file input
   removeFile: 'Remove file',
   clearAllFiles: 'Clear all files',
+  // inputs reset
+  clearValue: 'Reset',
   unknownType: 'Unknown type',
   filesInputInstructions: (
     maxFiles: number | undefined,

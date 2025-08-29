@@ -57,6 +57,8 @@ const ur: BeatUIMessages = {
   // file input
   removeFile: 'فائل حذف کریں',
   clearAllFiles: 'تمام فائلیں صاف کریں',
+  // inputs reset
+  clearValue: 'قدر صاف کریں',
   unknownType: 'نامعلوم قسم',
   filesInputInstructions: (
     maxFiles: number | undefined,

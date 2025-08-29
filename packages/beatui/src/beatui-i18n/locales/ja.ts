@@ -57,6 +57,8 @@ export const ja: BeatUIMessages = {
   // file input
   removeFile: 'ファイルを削除',
   clearAllFiles: 'すべてのファイルを削除',
+  // inputs reset
+  clearValue: 'リセット',
   unknownType: '不明なタイプ',
   filesInputInstructions: (
     maxFiles: number | undefined,

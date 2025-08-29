@@ -47,6 +47,16 @@ export const PasswordInput = (options: InputOptions<string>) => {
       hidePassword,
       placeholder
     )((t, hp, ph) => (hp ? '•••••••••••••••' : (ph ?? t)))
+    const toggle = html.button(
+      attr.class('bc-input-container__password-toggle bu-text-light-gray'),
+      aria.label(t.$.togglePasswordVisibility),
+      on.click(() => hidePassword.update(v => !v)),
+      When(
+        hidePassword,
+        () => Icon({ icon: 'line-md:watch' }),
+        () => Icon({ icon: 'line-md:watch-off' })
+      )
+    )
     return InputContainer({
       before: before,
       disabled: disabled,
@@ -68,18 +78,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
         onChange != null ? on.change(emitValue(onChange)) : Empty,
         onInput != null ? on.input(emitValue(onInput)) : Empty
       ),
-      after:
-        after ??
-        html.button(
-          attr.class('bc-input-container__password-toggle bu-text-light-gray'),
-          aria.label(t.$.togglePasswordVisibility),
-          on.click(() => hidePassword.update(v => !v)),
-          When(
-            hidePassword,
-            () => Icon({ icon: 'line-md:watch' }),
-            () => Icon({ icon: 'line-md:watch-off' })
-          )
-        ),
+      after: after != null ? Fragment(toggle, after) : toggle,
     })
   })
 }

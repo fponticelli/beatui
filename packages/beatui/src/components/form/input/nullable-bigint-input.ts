@@ -14,6 +14,7 @@ import { Stack } from '@/components/layout'
 import { Icon } from '../../data/icon'
 import { MaskInput } from './mask-input'
 import { InputOptions } from './input-options'
+import { NullableResetAfter } from './nullable-utils'
 
 export type NullableBigintInputOptions = Merge<
   InputOptions<bigint | null>,
@@ -113,10 +114,16 @@ export const NullableBigintInput = (options: NullableBigintInputOptions) => {
         })
       : null
 
+  const resetAfter = NullableResetAfter(value, options.disabled, onChange)
+
   const afterContent =
     after != null && stepperButtons != null
-      ? Fragment(stepperButtons, after)
-      : (after ?? stepperButtons)
+      ? Fragment(stepperButtons, resetAfter, after)
+      : after != null
+        ? Fragment(resetAfter, after)
+        : stepperButtons != null
+          ? Fragment(stepperButtons, resetAfter)
+          : resetAfter
 
   const handleChange = onChange
     ? (s: string) => {

@@ -1,13 +1,24 @@
-import { attr, emitValue, Empty, input, on, Value } from '@tempots/dom'
+import {
+  attr,
+  emitValue,
+  Empty,
+  input,
+  on,
+  Value,
+  Fragment,
+} from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { WithTemporal } from '@/temporal/with-temporal'
 import { ZonedDateTime } from '@/temporal'
+import { NullableResetAfter } from './nullable-utils'
 
 export const NullableZonedDateTimeInput = (
   options: InputOptions<ZonedDateTime | null>
 ) => {
-  const { value, onBlur, onChange } = options
+  const { value, onBlur, onChange, after, disabled } = options
+
+  const resetAfter = NullableResetAfter(value, disabled, onChange)
 
   return WithTemporal(T =>
     InputContainer({
@@ -30,6 +41,7 @@ export const NullableZonedDateTimeInput = (
             )
           : Empty
       ),
+      after: after != null ? Fragment(resetAfter, after) : resetAfter,
     })
   )
 }

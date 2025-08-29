@@ -6,9 +6,11 @@ import {
   input,
   on,
   Value,
+  Fragment,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
+import { NullableResetAfter } from './nullable-utils'
 
 const dateToString = (v: Date) => {
   const year = v.getFullYear()
@@ -22,8 +24,11 @@ const dateToString = (v: Date) => {
 }
 
 export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
-  const { value, onBlur, onChange } = options
+  const { value, onBlur, onChange, after, disabled } = options
   const date = Value.map(value, v => (v != null ? dateToString(v) : null))
+
+  const resetAfter = NullableResetAfter(value, disabled, onChange)
+
   return InputContainer({
     ...options,
     input: input['datetime-local'](
@@ -35,5 +40,6 @@ export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
         ? on.change(emitValueAsNullableDateTime(onChange))
         : Empty
     ),
+    after: after != null ? Fragment(resetAfter, after) : resetAfter,
   })
 }

@@ -7,7 +7,7 @@ import {
   transformEmptyStringToUndefined,
 } from '@/components/form'
 import { SchemaContext } from '../schema-context'
-import { Async, TNode } from '@tempots/dom'
+import { Async, Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
   Base64Input,
@@ -28,7 +28,7 @@ export function StringControl({
   ctx: SchemaContext
   options: Partial<InputWrapperOptions>
   controller: Controller<string | undefined>
-}): TNode {
+}): Renderable {
   const format = stringFormatDetection(ctx)
   switch (format?.format) {
     case 'email':

@@ -12,9 +12,10 @@ import {
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Tag } from '../../data/tag'
+import { Icon } from '@/components/data'
 
 export const TagsInput = (options: InputOptions<string[]>) => {
-  const { value, onChange, onBlur } = options
+  const { value, onChange, onBlur, before } = options
   const currentValue = prop('')
 
   const removeOne = (v: string) => {
@@ -31,6 +32,13 @@ export const TagsInput = (options: InputOptions<string[]>) => {
 
   return InputContainer({
     ...options,
+    before: Fragment(
+      before,
+      Icon({
+        icon: 'tabler:tag',
+        color: 'neutral',
+      })
+    ),
     input: Fragment(
       attr.class('bc-input-container__tags'),
       ForEach(value, v =>

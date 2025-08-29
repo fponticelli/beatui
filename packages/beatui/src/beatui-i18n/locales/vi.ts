@@ -57,6 +57,8 @@ const vi: BeatUIMessages = {
   // file input
   removeFile: 'Xóa tệp',
   clearAllFiles: 'Xóa tất cả tệp',
+  // inputs reset
+  clearValue: 'Xóa giá trị',
   unknownType: 'Loại không xác định',
   filesInputInstructions: (
     maxFiles: number | undefined,

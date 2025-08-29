@@ -2,6 +2,7 @@
 
 ## JSON Schema Form
 
+- [ ] address nullability and optionality correctly
 - [ ] tags input
 - [ ] const
 - [ ] enum input

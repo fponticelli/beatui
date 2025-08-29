@@ -57,6 +57,8 @@ export const nl: BeatUIMessages = {
   // file input
   removeFile: 'Bestand verwijderen',
   clearAllFiles: 'Alle bestanden wissen',
+  // inputs reset
+  clearValue: 'Waarde wissen',
   unknownType: 'Onbekend type',
   filesInputInstructions: (
     maxFiles: number | undefined,
