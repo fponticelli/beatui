@@ -248,8 +248,11 @@ export const InputsPage = () =>
             content: RatingInput({
               value: rating,
               onChange: rating.set,
+              emptyIcon: 'line-md:beer-alt-loop',
+              fullIcon: 'line-md:beer-alt-twotone-loop',
+              fullColor: 'orange',
               max: 5,
-              roundingDigits: 1,
+              rounding: 0.5,
               // fillColor: 'green',
               // fullIcon: 'https://api.iconify.design/mdi/star.svg',
               // emptyIcon: 'https://api.iconify.design/mdi/star-outline.svg',

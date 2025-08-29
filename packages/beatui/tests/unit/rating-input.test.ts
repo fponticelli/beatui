@@ -30,7 +30,7 @@ describe('RatingInput Component', () => {
     const rating = RatingInput({
       value,
       onChange: vi.fn(),
-      fillColor: 'green',
+      fullColor: 'green',
       fullIcon: 'full.svg',
       emptyIcon: 'empty.svg',
     })
