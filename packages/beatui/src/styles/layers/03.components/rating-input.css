@@ -6,8 +6,6 @@
 
 .bc-rating-input__icon-container {
   position: relative;
-  width: calc(var(--spacing-base) * 8);
-  height: calc(var(--spacing-base) * 8);
   cursor: pointer;
 }
 
@@ -16,7 +14,5 @@
 .bc-rating-input__icon-clipper {
   position: absolute;
   display: block;
-  width: calc(var(--spacing-base) * 8);
-  height: calc(var(--spacing-base) * 8);
   overflow: hidden;
 }

@@ -15,6 +15,7 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Icon } from '@/components/data'
 import { ThemeColorName } from '@/tokens'
+import { ControlSize } from '../../theme/types'
 
 type RatingInputOptions = InputOptions<number> & {
   max?: Value<number>
@@ -22,6 +23,7 @@ type RatingInputOptions = InputOptions<number> & {
   emptyColor?: Value<ThemeColorName>
   fullIcon?: Value<string>
   emptyIcon?: Value<string>
+  size?: Value<ControlSize>
   // Step size for rounding for keyboard interactions (e.g., 0.25 -> quarter steps)
   rounding?: Value<number>
 }
@@ -39,6 +41,7 @@ export const RatingInput = (options: RatingInputOptions) => {
     emptyColor = 'neutral',
     fullIcon = DEFAULT_FULL_ICON,
     emptyIcon = DEFAULT_EMPTY_ICON,
+    size = 'md',
     onBlur,
     rounding = 1,
   } = options
@@ -94,16 +97,20 @@ export const RatingInput = (options: RatingInputOptions) => {
     onChange?.(next)
   }
 
+  const iconSize = Value.map(size, (s): string => `bc-icon--${s}`)
+
   const RenderIcon = ({ index, counter }: ElementPosition) => {
     return html.span(
       attr.class('bc-rating-input__icon-container'),
+      attr.class(iconSize),
       Icon(
-        { icon: emptyIcon },
+        { icon: emptyIcon, size },
         attr.class('bc-rating-input__icon-empty'),
         attr.class(Value.map(emptyColor, c => `bu-fg-soft-${c}`))
       ),
       html.span(
         attr.class('bc-rating-input__icon-clipper'),
+        attr.class(iconSize),
         attr.class(Value.map(fullColor, c => `bu-fg-soft-${c}`)),
         style.width(
           Value.map(value, v => {
@@ -113,7 +120,7 @@ export const RatingInput = (options: RatingInputOptions) => {
             return `${(v - index) * 100}%`
           })
         ),
-        Icon({ icon: fullIcon }, attr.class('bc-rating-input__icon-full'))
+        Icon({ icon: fullIcon, size }, attr.class('bc-rating-input__icon-full'))
       ),
       on.click(
         emit(e => handleClick(e as MouseEvent, counter), {
