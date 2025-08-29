@@ -4,7 +4,6 @@ import {
   generateCSSVariablesPlugin,
   generateBackgroundUtilitiesPlugin,
   generateForegroundUtilitiesPlugin,
-  generateBreakpointUtilitiesPlugin,
 } from './scripts/vite-plugins'
 
 // Use import.meta.url for ESM
@@ -16,7 +15,6 @@ export default defineConfig({
     generateCSSVariablesPlugin(),
     generateBackgroundUtilitiesPlugin(),
     generateForegroundUtilitiesPlugin(),
-    generateBreakpointUtilitiesPlugin(),
   ],
   build: {
     lib: {
