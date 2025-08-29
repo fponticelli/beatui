@@ -15,7 +15,6 @@ import { MonacoEditorSpecificOptions } from '@/monaco/types'
 import { loadMonacoWithLanguage } from '@/monaco/lazy-loader'
 import type * as Monaco from 'monaco-editor'
 
-
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
   MonacoEditorSpecificOptions

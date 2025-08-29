@@ -25,7 +25,7 @@ const parseRoutes = (src: string): string[] => {
 }
 
 const toFilePath = (url: string): string => {
-  let u = url.startsWith('/') ? url.slice(1) : url
+  const u = url.startsWith('/') ? url.slice(1) : url
   if (u === '') return 'index.html'
   if (u.endsWith('/')) return `${u}index.html`
   return `${u}.html`
@@ -61,4 +61,3 @@ const main = () => {
 }
 
 main()
-

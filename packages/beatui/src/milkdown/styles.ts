@@ -8,4 +8,3 @@
 import css from '../components/milkdown/milkdown.css?inline'
 
 export default css as string
-

@@ -36,10 +36,7 @@ describe('NullableBigintInput Component', () => {
     const value = prop<bigint | null>(5n)
     const onChange = vi.fn()
     const el = NullableBigintInput({ value, onChange })
-    render(
-      Provide(Theme, {}, () => el),
-      container
-    )
+    render(BeatUI({}, el), container)
 
     const input = container.querySelector(
       'input.bc-number-input'

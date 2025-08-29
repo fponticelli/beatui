@@ -8,4 +8,3 @@
 import css from '../components/monaco/monaco-editor.css?inline'
 
 export default css as string
-

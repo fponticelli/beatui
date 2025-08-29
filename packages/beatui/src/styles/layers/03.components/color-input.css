@@ -14,12 +14,16 @@
 .bc-color-input__control--alpha {
   /* subtle checkerboard background to visualize transparency */
   background-image:
-    linear-gradient(45deg, rgba(0,0,0,0.08) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(0,0,0,0.08) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.08) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.08) 75%);
+    linear-gradient(45deg, rgba(0, 0, 0, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.08) 75%);
   background-size: 10px 10px;
-  background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+  background-position:
+    0 0,
+    0 5px,
+    5px -5px,
+    -5px 0px;
 }
 
 .bc-color-input__control:focus-within {

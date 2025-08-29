@@ -36,10 +36,7 @@ describe('NullableNumberInput Component', () => {
     const value = prop<number | null>(5)
     const onChange = vi.fn()
     const el = NullableNumberInput({ value, onChange })
-    render(
-      Provide(Theme, {}, () => el),
-      container
-    )
+    render(BeatUI({}, el), container)
 
     const input = container.querySelector(
       'input[type="number"]'

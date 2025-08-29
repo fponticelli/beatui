@@ -28,7 +28,7 @@
   color: inherit;
 }
 
-  /* solid */
+/* solid */
 .bu-fg-primary {
   color: var(--color-primary-500);
 }
@@ -117,7 +117,7 @@
   color: var(--color-stone-500);
 }
 
-  /* light dark */
+/* light dark */
 .b-dark .bu-fg-inherit {
   color: inherit;
 }
@@ -218,7 +218,7 @@
   color: var(--color-stone-600);
 }
 
-  /* soft */
+/* soft */
 .bu-fg-soft-inherit {
   color: inherit;
 }
@@ -319,7 +319,7 @@
   color: var(--color-stone-300);
 }
 
-  /* light dark */
+/* light dark */
 .b-dark .bu-fg-soft-inherit {
   color: inherit;
 }
@@ -420,7 +420,7 @@
   color: var(--color-stone-700);
 }
 
-  /* light */
+/* light */
 .bu-fg-light-inherit {
   color: inherit;
 }
@@ -521,7 +521,7 @@
   color: var(--color-stone-200);
 }
 
-  /* light dark */
+/* light dark */
 .b-dark .bu-fg-light-inherit {
   color: inherit;
 }
@@ -622,7 +622,7 @@
   color: var(--color-stone-800);
 }
 
-  /* lighter */
+/* lighter */
 .bu-fg-lighter-inherit {
   color: inherit;
 }
@@ -723,7 +723,7 @@
   color: var(--color-stone-100);
 }
 
-  /* light dark */
+/* light dark */
 .b-dark .bu-fg-lighter-inherit {
   color: inherit;
 }
@@ -823,4 +823,3 @@
 .b-dark .bu-fg-lighter-stone {
   color: var(--color-stone-900);
 }
-
