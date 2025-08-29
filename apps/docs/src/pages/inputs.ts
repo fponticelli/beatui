@@ -12,6 +12,7 @@ import {
   Base64sInput,
   CheckboxInput,
   ColorInput,
+  NullableColorInput,
   DateInput,
   DateTimeInput,
   EmailInput,
@@ -88,6 +89,7 @@ export const InputsPage = () =>
     const base64s = prop<string[]>([])
     const checkbox = prop(false)
     const color = prop('#3b82f6')
+    const nullableColor = prop<string | null>(null)
     const date = prop(new Date())
     const dateTime = prop(new Date())
     const email = prop('')
@@ -230,11 +232,24 @@ export const InputsPage = () =>
             content: CheckboxInput({ value: checkbox, onChange: checkbox.set }),
             description: description(checkbox),
           }),
-          InputWrapper({
-            label: 'ColorInput',
-            content: ColorInput({ value: color, onChange: color.set }),
-            description: description(color),
-          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'ColorInput',
+                content: ColorInput({ value: color, onChange: color.set }),
+                description: description(color),
+              }),
+            () =>
+              InputWrapper({
+                label: 'NullableColorInput',
+                content: NullableColorInput({
+                  value: nullableColor,
+                  onChange: nullableColor.set,
+                }),
+                description: description(nullableColor),
+              })
+          ),
           When(
             displayNonNullables,
             () =>
