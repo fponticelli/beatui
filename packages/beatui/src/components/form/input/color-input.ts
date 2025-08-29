@@ -396,15 +396,8 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
 }
 
 export const ColorInput = (options: ColorInputOptions) => {
-  const {
-    value,
-    onBlur,
-    onChange,
-    onInput,
-    displayValue: showRgb,
-    size,
-    withAlpha,
-  } = options
+  const { value, onBlur, onChange, onInput, displayValue, size, withAlpha } =
+    options
 
   const blobSize = Value.map(size ?? 32, s => s)
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
@@ -544,7 +537,7 @@ export const ColorInput = (options: ColorInputOptions) => {
     input: Preview,
     // If caller provided an `after`, append RGB before it
     after: Fragment(
-      When(showRgb ?? false, () =>
+      When(displayValue ?? false, () =>
         html.span(attr.class('bc-color-input__rgb'), rgbText)
       ),
       AlphaSlider,

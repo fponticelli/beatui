@@ -3,6 +3,7 @@ import { dirname, resolve } from 'path'
 import {
   generateCSSVariablesPlugin,
   generateBackgroundUtilitiesPlugin,
+  generateForegroundUtilitiesPlugin,
   generateBreakpointUtilitiesPlugin,
 } from './scripts/vite-plugins'
 
@@ -14,6 +15,7 @@ export default defineConfig({
   plugins: [
     generateCSSVariablesPlugin(),
     generateBackgroundUtilitiesPlugin(),
+    generateForegroundUtilitiesPlugin(),
     generateBreakpointUtilitiesPlugin(),
   ],
   build: {

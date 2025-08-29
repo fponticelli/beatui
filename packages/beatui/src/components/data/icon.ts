@@ -142,7 +142,7 @@ export interface IconOptions {
 function generateIconClasses(size: IconSize, color?: string): string {
   const classes = ['bc-icon', `bc-icon--${size}`]
   if (color) {
-    classes.push(`bu-fg--${color}`)
+    classes.push(`bu-fg-${color}`)
   }
   return classes.join(' ')
 }

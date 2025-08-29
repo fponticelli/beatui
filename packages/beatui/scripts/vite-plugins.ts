@@ -2,7 +2,10 @@ import { spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { breakpoints } from '../src/tokens/breakpoints.js'
-import { generateBackgroundUtilities } from '../src/tokens/colors.js'
+import {
+  generateBackgroundUtilities,
+  generateForegroundUtilities,
+} from '../src/tokens/colors.js'
 
 /**
  * Vite plugin to generate CSS variables before build
@@ -116,6 +119,41 @@ export function generateBackgroundUtilitiesPlugin() {
         console.log(`✅ Background utilities generated at ${outputPath}`)
       } catch (error) {
         console.error('❌ Failed to generate background utilities:', error)
+        throw error
+      }
+    },
+  }
+}
+
+/**
+ * Vite plugin to generate foreground (text color) utility classes
+ * Creates foreground utility classes from design tokens
+ */
+export function generateForegroundUtilitiesPlugin() {
+  return {
+    name: 'generate-foreground-utilities',
+    buildStart: async () => {
+      console.log('🎨 Generating foreground utility classes...')
+
+      try {
+        const fgCSS = generateForegroundUtilities()
+        const outputPath = path.resolve(
+          process.cwd(),
+          'src/styles/layers/05.utilities/fg.css'
+        )
+
+        // Ensure directory exists
+        const dirname = path.dirname(outputPath)
+        if (!fs.existsSync(dirname)) {
+          fs.mkdirSync(dirname, { recursive: true })
+        }
+
+        // Write the generated CSS
+        fs.writeFileSync(outputPath, fgCSS, 'utf8')
+
+        console.log(`✅ Foreground utilities generated at ${outputPath}`)
+      } catch (error) {
+        console.error('❌ Failed to generate foreground utilities:', error)
         throw error
       }
     },

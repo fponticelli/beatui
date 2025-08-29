@@ -89,7 +89,7 @@ export const InputsPage = () =>
     const base64s = prop<string[]>([])
     const checkbox = prop(false)
     const color = prop('#3b82f6')
-    const rating = prop(0)
+    const rating = prop(3.5)
     const date = prop(new Date())
     const dateTime = prop(new Date())
     const email = prop('')
@@ -249,9 +249,10 @@ export const InputsPage = () =>
               value: rating,
               onChange: rating.set,
               max: 5,
-              fillColor: 'green',
-              fullIcon: 'https://api.iconify.design/mdi/star.svg',
-              emptyIcon: 'https://api.iconify.design/mdi/star-outline.svg',
+              roundingDigits: 1,
+              // fillColor: 'green',
+              // fullIcon: 'https://api.iconify.design/mdi/star.svg',
+              // emptyIcon: 'https://api.iconify.design/mdi/star-outline.svg',
             }),
             description: description(rating),
           }),
