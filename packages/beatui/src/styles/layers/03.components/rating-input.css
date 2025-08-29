@@ -7,6 +7,7 @@
 .bc-rating-input__icon-container {
   position: relative;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .bc-rating-input__icon-empty,
@@ -15,4 +16,8 @@
   position: absolute;
   display: block;
   overflow: hidden;
+}
+
+.bc-rating-input__icon-container:hover {
+  transform: scale(1.2);
 }
