@@ -20,7 +20,3 @@
   height: calc(var(--spacing-base) * 8);
   overflow: hidden;
 }
-/*
-.bc-rating-input__icon-empty {
-  opacity: 0.5;
-} */
