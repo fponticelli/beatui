@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'
+import { spawn, spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
@@ -6,6 +6,30 @@ import {
   generateBackgroundUtilities,
   generateForegroundUtilities,
 } from '../src/tokens/colors.js'
+
+function formatWithPrettier(filePath: string) {
+  try {
+    const res = spawnSync(
+      'pnpm',
+      ['exec', 'prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    const res = spawnSync(
+      'npx',
+      ['prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
+  } catch {
+    console.warn('Warning: Prettier not available to format', filePath)
+  }
+}
 
 /**
  * Vite plugin to generate CSS variables before build
@@ -73,6 +97,10 @@ export function generateBackgroundUtilitiesPlugin() {
 
         // Write the generated CSS
         fs.writeFileSync(outputPath, bgCSS, 'utf8')
+        // Format the generated CSS
+        try {
+          formatWithPrettier(outputPath)
+        } catch {}
 
         console.log(`✅ Background utilities generated at ${outputPath}`)
       } catch (error) {
@@ -108,6 +136,10 @@ export function generateForegroundUtilitiesPlugin() {
 
         // Write the generated CSS
         fs.writeFileSync(outputPath, fgCSS, 'utf8')
+        // Format the generated CSS
+        try {
+          formatWithPrettier(outputPath)
+        } catch {}
 
         console.log(`✅ Foreground utilities generated at ${outputPath}`)
       } catch (error) {
@@ -117,4 +149,3 @@ export function generateForegroundUtilitiesPlugin() {
     },
   }
 }
-

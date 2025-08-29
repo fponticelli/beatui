@@ -14,6 +14,32 @@
  * Do not edit the generated bg.css file directly - modify the tokens instead.
  */
 
+import { spawnSync } from 'child_process'
+
+function formatWithPrettier(filePath: string) {
+  try {
+    const res = spawnSync(
+      'pnpm',
+      ['exec', 'prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    const res = spawnSync(
+      'npx',
+      ['prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
+  } catch {
+    console.warn('Warning: Prettier not available to format', filePath)
+  }
+}
+
 import fs from 'fs'
 import path from 'path'
 import { generateBackgroundUtilities } from '../src/tokens/colors.js'
@@ -41,6 +67,9 @@ function main() {
 
   ensureDirectoryExists(outputPath)
   fs.writeFileSync(outputPath, cssContent, 'utf8')
+  try {
+    formatWithPrettier(outputPath)
+  } catch {}
 
   console.log(`✅ Background utilities generated at ${outputPath}`)
 }

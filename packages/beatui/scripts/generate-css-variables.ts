@@ -1,6 +1,31 @@
 import fs from 'fs'
 import path from 'path'
 import { generateAllTokenVariables } from '../src/tokens/index.js'
+import { spawnSync } from 'child_process'
+
+function formatWithPrettier(filePath: string) {
+  try {
+    const res = spawnSync(
+      'pnpm',
+      ['exec', 'prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    const res = spawnSync(
+      'npx',
+      ['prettier', '--log-level', 'warn', '--write', filePath],
+      { stdio: 'inherit' }
+    )
+    if (res.status === 0) return
+  } catch {}
+  try {
+    spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
+  } catch {
+    console.warn('Warning: Prettier not available to format', filePath)
+  }
+}
 
 // Generate CSS variables content
 function generateCSSVariables(): string {
@@ -36,6 +61,9 @@ function main() {
 
   ensureDirectoryExists(outputPath)
   fs.writeFileSync(outputPath, cssContent, 'utf8')
+  try {
+    formatWithPrettier(outputPath)
+  } catch {}
 
   console.log(`✅ CSS variables generated at ${outputPath}`)
 }
