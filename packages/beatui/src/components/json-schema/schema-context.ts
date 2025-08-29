@@ -107,8 +107,17 @@ export class SchemaContext {
 
   get oneOf() {
     if (typeof this.definition === 'boolean') return undefined
-    return Array.isArray(this.definition.anyOf)
-      ? this.definition.anyOf.map(definition => {
+    return Array.isArray(this.definition.oneOf)
+      ? this.definition.oneOf.map(definition => {
+          return this.with({ definition })
+        })
+      : undefined
+  }
+
+  get allOf() {
+    if (typeof this.definition === 'boolean') return undefined
+    return Array.isArray(this.definition.allOf)
+      ? this.definition.allOf.map(definition => {
           return this.with({ definition })
         })
       : undefined
