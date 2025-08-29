@@ -6,6 +6,7 @@ import {
   WithBeatUIElementBreakpoint,
   RatingInput,
 } from '@tempots/beatui'
+
 import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
 import {
   AppearanceSelector,
@@ -50,6 +51,7 @@ import {
   NullablePlainMonthDayInput,
   DurationInput,
   NullableDurationInput,
+  NullableRatingInput,
   // Added inputs that require extra minimal props
   ComboboxInput,
   ComboboxOption,
@@ -90,6 +92,7 @@ export const InputsPage = () =>
     const checkbox = prop(false)
     const color = prop('#3b82f6')
     const rating = prop(3.5)
+    const nullableRating = prop<number | null>(null)
     const date = prop(new Date())
     const dateTime = prop(new Date())
     const email = prop('')
@@ -243,20 +246,39 @@ export const InputsPage = () =>
             }),
             description: description(color),
           }),
-          InputWrapper({
-            label: 'Rating Input',
-            content: RatingInput({
-              value: rating,
-              onChange: rating.set,
-              emptyIcon: 'line-md:beer-alt-loop',
-              fullIcon: 'line-md:beer-alt-twotone-loop',
-              fullColor: 'orange',
-              max: 5,
-              rounding: 0.5,
-              size: 'lg',
-            }),
-            description: description(rating),
-          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'Rating Input',
+                content: RatingInput({
+                  value: rating,
+                  onChange: rating.set,
+                  emptyIcon: 'line-md:beer-alt-loop',
+                  fullIcon: 'line-md:beer-alt-twotone-loop',
+                  fullColor: 'orange',
+                  max: 5,
+                  rounding: 0.5,
+                  size: 'lg',
+                }),
+                description: description(rating),
+              }),
+            () =>
+              InputWrapper({
+                label: 'Nullable Rating Input',
+                content: NullableRatingInput({
+                  value: nullableRating,
+                  onChange: nullableRating.set,
+                  emptyIcon: 'line-md:beer-alt-loop',
+                  fullIcon: 'line-md:beer-alt-twotone-loop',
+                  fullColor: 'orange',
+                  max: 5,
+                  rounding: 0.5,
+                  size: 'lg',
+                }),
+                description: description(nullableRating),
+              })
+          ),
           When(
             displayNonNullables,
             () =>
