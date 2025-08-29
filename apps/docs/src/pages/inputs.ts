@@ -4,6 +4,7 @@ import {
   InputWrapper,
   WithTemporal,
   WithBeatUIElementBreakpoint,
+  RatingInput,
 } from '@tempots/beatui'
 import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
 import {
@@ -88,6 +89,7 @@ export const InputsPage = () =>
     const base64s = prop<string[]>([])
     const checkbox = prop(false)
     const color = prop('#3b82f6')
+    const rating = prop(0)
     const date = prop(new Date())
     const dateTime = prop(new Date())
     const email = prop('')
@@ -232,8 +234,26 @@ export const InputsPage = () =>
           }),
           InputWrapper({
             label: 'ColorInput',
-            content: ColorInput({ value: color, onChange: color.set }),
+            content: ColorInput({
+              value: color,
+              onChange: color.set,
+              displayValue: true,
+              withAlpha: true,
+              colorTextFormat: 'hex',
+            }),
             description: description(color),
+          }),
+          InputWrapper({
+            label: 'RatingInput',
+            content: RatingInput({
+              value: rating,
+              onChange: rating.set,
+              max: 5,
+              fillColor: 'green',
+              fullIcon: 'https://api.iconify.design/mdi/star.svg',
+              emptyIcon: 'https://api.iconify.design/mdi/star-outline.svg',
+            }),
+            description: description(rating),
           }),
           When(
             displayNonNullables,
