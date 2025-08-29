@@ -21,7 +21,7 @@ describe('NullableDurationInput', () => {
     const value = prop<Duration | null>(null)
     const el = NullableDurationInput({ value, onChange: vi.fn() })
     render(BeatUI({}, el), container)
-    await sleep(10)
+    await sleep(20)
 
     const input = container.querySelector('input') as HTMLInputElement
     expect(input.value).toBe('')
@@ -32,7 +32,7 @@ describe('NullableDurationInput', () => {
     const onChange = vi.fn()
     const el = NullableDurationInput({ value, onChange })
     render(BeatUI({}, el), container)
-    await sleep(10)
+    await sleep(20)
 
     const input = container.querySelector('input') as HTMLInputElement
     input.value = 'P2DT3H'
