@@ -23,7 +23,7 @@ export type ColorInputOptions = InputOptions<string> & {
   withAlpha?: Value<boolean>
   // Which color space to display in the text label when visible
   // Defaults to 'rgb' for backward compatibility.
-  colorTextFormat?: Value<'hex' | 'rgb' | 'hsl' | 'hwb'>
+  colorTextFormat?: Value<'hex' | 'rgb' | 'hsl' | 'hwb' | 'oklch'>
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -43,7 +43,9 @@ function parseAnyColor(v: string): [number, number, number, number] {
   if (!v) return [0, 0, 0, 1]
   // #RRGGBBAA, #RRGGBB, #RGBA, #RGB (with or without #)
   const hex = v.trim()
-  const hexMatch = hex.match(/^#?([a-fA-F0-9]{3,4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/)
+  const hexMatch = hex.match(
+    /^#?([a-fA-F0-9]{3,4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/
+  )
   if (hexMatch) {
     const h = hexMatch[1]
     if (h.length === 8) {
@@ -118,6 +120,21 @@ function parseAnyColor(v: string): [number, number, number, number] {
     const a = hwb[4] != null ? parseFloat(hwb[4]) : 1
     const [r, g, b_] = hwbToRgb(h, w, b)
     return [r, g, b_, a]
+  }
+  // OKLCH: oklch(L C h [/ a]) where L can be percentage or 0..1
+  const oklch = v.match(
+    /^oklch\(\s*([+-]?[\d.]+%?)\s+([\d.]+)\s+([+-]?[\d.]+)(?:deg)?(?:\s*\/\s*(\d?(?:\.\d+)?))?\s*\)$/i
+  )
+  if (oklch) {
+    const Lraw = oklch[1]
+    const C = parseFloat(oklch[2])
+    const h = parseFloat(oklch[3])
+    const a = oklch[4] != null ? parseFloat(oklch[4]) : 1
+    const L = Lraw.endsWith('%')
+      ? Math.max(0, Math.min(1, parseFloat(Lraw) / 100))
+      : Math.max(0, Math.min(1, parseFloat(Lraw)))
+    const [r, g, b] = oklchToRgb(L, C, h)
+    return [r, g, b, a]
   }
   const [r, g, b] = hexToRgb(v)
   return [r, g, b, 1]
@@ -221,12 +238,70 @@ function rgbToHwb(r: number, g: number, b: number): [number, number, number] {
   return [h, Math.round(w * 100), Math.round(bl * 100)]
 }
 
+// OKLCH/OKLab conversion helpers
+function srgbToLinear(u: number): number {
+  const v = u / 255
+  return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+}
+
+function linearToSrgb(u: number): number {
+  const v = u <= 0.0031308 ? 12.92 * u : 1.055 * Math.pow(u, 1 / 2.4) - 0.055
+  return Math.round(Math.max(0, Math.min(1, v)) * 255)
+}
+
+function oklchToRgb(
+  L: number,
+  C: number,
+  hDeg: number
+): [number, number, number] {
+  const h = (hDeg * Math.PI) / 180
+  const a_ = Math.cos(h) * C
+  const b_ = Math.sin(h) * C
+
+  const l_ = L + 0.3963377774 * a_ + 0.2158037573 * b_
+  const m_ = L - 0.1055613458 * a_ - 0.0638541728 * b_
+  const s_ = L - 0.0894841775 * a_ - 1.291485548 * b_
+
+  const l = l_ * l_ * l_
+  const m = m_ * m_ * m_
+  const s = s_ * s_ * s_
+
+  const rLin = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s
+  const gLin = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s
+  const bLin = -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s
+
+  return [linearToSrgb(rLin), linearToSrgb(gLin), linearToSrgb(bLin)]
+}
+
+function rgbToOklch(r: number, g: number, b: number): [number, number, number] {
+  const rl = srgbToLinear(r)
+  const gl = srgbToLinear(g)
+  const bl = srgbToLinear(b)
+
+  const l = 0.4122214708 * rl + 0.5363325363 * gl + 0.0514459929 * bl
+  const m = 0.2119034982 * rl + 0.6806995451 * gl + 0.1073969566 * bl
+  const s = 0.0883024619 * rl + 0.2817188376 * gl + 0.6299787005 * bl
+
+  const l_ = Math.cbrt(l)
+  const m_ = Math.cbrt(m)
+  const s_ = Math.cbrt(s)
+
+  const L = 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_
+  const a_ = 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_
+  const b_ = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_
+
+  const C = Math.sqrt(a_ * a_ + b_ * b_)
+  let h = (Math.atan2(b_, a_) * 180) / Math.PI
+  if (h < 0) h += 360
+  return [L, C, h]
+}
+
 function formatColor(
   r: number,
   g: number,
   b: number,
   a: number,
-  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb',
+  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch',
   alphaEnabled?: boolean
 ): string {
   switch (fmt) {
@@ -255,13 +330,23 @@ function formatColor(
         ? `hwb(${h} ${w}% ${bl}% / ${Math.round(a * 100) / 100})`
         : `hwb(${h} ${w}% ${bl}%)`
     }
+    case 'oklch': {
+      const [L, C, h] = rgbToOklch(r, g, b)
+      const Ls = (Math.round(L * 1000) / 1000).toFixed(3)
+      const Cs = (Math.round(C * 1000) / 1000).toFixed(3)
+      const hs = (Math.round(h * 10) / 10).toFixed(1)
+      const as = Math.round(a * 100) / 100
+      return alphaEnabled || a < 1
+        ? `oklch(${Ls} ${Cs} ${hs} / ${as})`
+        : `oklch(${Ls} ${Cs} ${hs})`
+    }
   }
 }
 
 function resolveEffectiveFormat(
-  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb',
+  fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch',
   alphaEnabled: boolean
-): 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' {
+): 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch' {
   if (alphaEnabled) {
     if (fmt === 'rgb') return 'rgba'
     if (fmt === 'hsl') return 'hsla'
@@ -334,7 +419,7 @@ export const ColorInput = (options: ColorInputOptions) => {
   // Format for label text. Default to 'rgb' for readability.
   const displayFormatSignal = Value.map(
     options.colorTextFormat ?? 'rgb',
-    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb'
+    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch'
   )
   const rgbText = computedOf(
     rgb,
@@ -348,7 +433,7 @@ export const ColorInput = (options: ColorInputOptions) => {
   // Format for emitted value. Default to 'hex' to keep backward compatibility
   const emitFormatSignal = Value.map(
     options.colorTextFormat ?? 'hex',
-    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb'
+    f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch'
   )
   const svgViewBox = Value.map(blobSize, s => `-${s / 2} -${s / 2} ${s} ${s}`)
   const pathD = computedOf(
