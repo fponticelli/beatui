@@ -26,6 +26,10 @@ const beatuiPaths = {
     beatuiRoot,
     distExists ? 'dist/milkdown/index.es.js' : 'src/milkdown/index.ts'
   ),
+  markdown: resolve(
+    beatuiRoot,
+    distExists ? 'dist/markdown/index.es.js' : 'src/markdown/index.ts'
+  ),
 }
 
 export default defineConfig({
@@ -50,6 +54,7 @@ export default defineConfig({
       '@tempots/beatui/css': beatuiPaths.css,
       '@tempots/beatui/monaco': beatuiPaths.monaco,
       '@tempots/beatui/milkdown': beatuiPaths.milkdown,
+      '@tempots/beatui/markdown': beatuiPaths.markdown,
       '@tempots/beatui/json-schema': beatuiPaths.jsonSchema,
       '@tempots/beatui/auth': beatuiPaths.auth,
       '@tempots/beatui': beatuiPaths.main,

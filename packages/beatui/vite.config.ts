@@ -24,6 +24,7 @@ export default defineConfig({
         'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
         milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
+        markdown: resolve(__dirname, 'src/markdown/index.ts'),
       },
       name: 'BeatUIFramework',
       fileName: (format, entryName) => {
@@ -31,7 +32,8 @@ export default defineConfig({
           entryName === 'auth' ||
           entryName === 'json-schema' ||
           entryName === 'monaco' ||
-          entryName === 'milkdown'
+          entryName === 'milkdown' ||
+          entryName === 'markdown'
         ) {
           return `${entryName}/index.${format}.js`
         }

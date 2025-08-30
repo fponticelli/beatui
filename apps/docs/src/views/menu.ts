@@ -85,7 +85,8 @@ export function Menu() {
         SidebarLink({
           href: '/tags',
           content: 'Tags',
-        })
+        }),
+        SidebarLink({ href: '/markdown', content: 'Markdown' })
       ),
       // Utilities
       SidebarGroup(

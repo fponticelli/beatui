@@ -36,6 +36,12 @@
       "require": "./dist/milkdown/index.cjs.js",
       "default": "./dist/milkdown/index.es.js"
     },
+    "./markdown": {
+      "types": "./dist/types/markdown/index.d.ts",
+      "import": "./dist/markdown/index.es.js",
+      "require": "./dist/markdown/index.cjs.js",
+      "default": "./dist/markdown/index.es.js"
+    },
     "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -150,6 +156,7 @@
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "katex": "^0.16.22",
+    "micromark": "^4.0.2",
     "monaco-editor": "^0.52.2"
   }
 }
