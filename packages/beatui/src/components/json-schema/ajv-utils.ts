@@ -1,4 +1,5 @@
-import { type ErrorObject } from 'ajv'
+import type Ajv from 'ajv'
+import type { ErrorObject, KeywordDefinition } from 'ajv'
 import { Validation } from '@tempots/std'
 import type {
   ControllerError,
@@ -66,66 +67,69 @@ export function ajvErrorsToControllerValidation(
   return Validation.invalid(error)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function addUiWidgetKeyword(ajv: any) {
-  ajv.addKeyword({
+function addUiWidgetKeyword(ajv: Ajv) {
+  const def: KeywordDefinition = {
     keyword: 'ui:widget',
-    type: 'string',
+    // Accept both string and object shapes for future-proofing
+    schemaType: ['string', 'object'],
+    errors: false,
+    // No-op validation – vendor annotation only
     validate: () => true,
-  })
+  }
+  ajv.addKeyword(def)
 }
 
-export async function getAjvForSchema(schema: { $schema?: string }) {
+type BuildAjvResult =
+  | { ok: true; value: { ajv: Ajv; validate: import('ajv').ValidateFunction } }
+  | { ok: false; error: string }
+
+async function createAjv(base: '2020-12' | '2019-09' | 'draft-07') {
+  const createAjv = (
+    await (() => {
+      switch (base) {
+        case '2020-12':
+          return import('ajv/dist/2020')
+        case '2019-09':
+          return import('ajv/dist/2019')
+        case 'draft-07':
+          return import('ajv')
+      }
+    })()
+  ).default
+  const ajv = new createAjv({ meta: true, strictSchema: true, allErrors: true })
+  switch (base) {
+    case '2020-12':
+      ajv.opts.defaultMeta = 'https://json-schema.org/draft/2020-12/schema'
+      break
+    case '2019-09':
+      ajv.opts.defaultMeta = 'https://json-schema.org/draft/2019-09/schema'
+      break
+    case 'draft-07':
+      ajv.opts.defaultMeta = 'http://json-schema.org/draft-07/schema#'
+      break
+  }
+  addFormats(ajv)
+  addUiWidgetKeyword(ajv)
+  return ajv
+}
+
+function getFlavor(id: string | undefined): '2020-12' | '2019-09' | 'draft-07' {
+  if (id == null) return '2020-12'
+  if (id.includes('draft/2020-12')) return '2020-12'
+  if (id.includes('draft/2019-09')) return '2019-09'
+  return 'draft-07'
+}
+
+export async function getAjvForSchema(schema: {
+  $schema?: string
+}): Promise<BuildAjvResult> {
   try {
-    const id = schema.$schema ?? 'https://json-schema.org/draft/2020-12/schema'
-
-    if (id.includes('draft/2020-12')) {
-      const Ajv2020 = (await import('ajv/dist/2020')).default
-      const ajv2020 = new Ajv2020({
-        meta: true,
-        strictSchema: true,
-        allErrors: true,
-      })
-      // Set default meta-schema for schemaless inputs
-      ajv2020.opts.defaultMeta = 'https://json-schema.org/draft/2020-12/schema'
-      addFormats(ajv2020)
-      addUiWidgetKeyword(ajv2020)
-      return {
-        ok: true as const,
-        value: { ajv: ajv2020, validate: ajv2020.compile(schema) },
-      }
-    }
-    if (id.includes('draft/2019-09')) {
-      const Ajv2019 = (await import('ajv/dist/2019')).default
-      const ajv2019 = new Ajv2019({
-        meta: true,
-        strictSchema: true,
-        allErrors: true,
-      })
-      // Set default meta-schema for schemaless inputs
-      ajv2019.opts.defaultMeta = 'https://json-schema.org/draft/2019-09/schema'
-      addFormats(ajv2019)
-      addUiWidgetKeyword(ajv2019)
-      return {
-        ok: true as const,
-        value: { ajv: ajv2019, validate: ajv2019.compile(schema) },
-      }
-    }
-
-    const Ajv = (await import('ajv')).default
-    const ajv07 = new Ajv({ meta: true, strictSchema: true, allErrors: true })
-    // Set default meta-schema for schemaless inputs
-    ajv07.opts.defaultMeta = 'http://json-schema.org/draft-07/schema#'
-    addFormats(ajv07)
-    addUiWidgetKeyword(ajv07)
-    return {
-      ok: true as const,
-      value: { ajv: ajv07, validate: ajv07.compile(schema) },
-    }
+    const flavor = getFlavor(schema.$schema)
+    const ajv = await createAjv(flavor)
+    const validate = ajv.compile(schema)
+    return { ok: true, value: { ajv, validate } }
   } catch (e) {
-    return {
-      ok: false as const,
-      error: (e as Error).message ?? 'Failed to compile schema',
-    }
+    const message = e instanceof Error ? e.message : String(e)
+    return { ok: false, error: message }
   }
 }
