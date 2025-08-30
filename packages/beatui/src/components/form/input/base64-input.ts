@@ -1,7 +1,7 @@
 import { Merge, Value } from '@tempots/dom'
-import { FileInputMode } from './file-input'
 import { InputOptions } from './input-options'
 import { Base64sInput } from './base64s-input'
+import { FileInputMode } from './files-input'
 
 export type Base64InputOptions = Merge<
   InputOptions<string | undefined>,

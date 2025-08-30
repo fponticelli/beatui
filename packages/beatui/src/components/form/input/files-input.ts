@@ -22,7 +22,8 @@ import { Icon } from '../../data/icon'
 import { Merge } from '@tempots/std'
 import { formatFileSize } from '../../../utils'
 import { BeatUII18n } from '@/beatui-i18n'
-import { FileInputMode } from './file-input'
+
+export type FileInputMode = 'default' | 'compact'
 
 export type FilesInputOptions = Merge<
   InputOptions<File[]>,
@@ -99,7 +100,7 @@ function createFilePreview(file: Signal<File>): TNode {
         )
       )
     },
-    () => Icon({ icon: file.map(getFileIcon), size: 'xl' })
+    () => Icon({ icon: file.map(getFileIcon) })
   )
 }
 
@@ -200,13 +201,19 @@ export const FilesInput = (
               ForEach(files, file =>
                 html.span(
                   attr.class('bc-file-input__compact-value-item'),
-                  file.$.name
+                  createFilePreview(file),
+                  html.span(
+                    attr.class('bc-file-input__compact-value-item-name'),
+                    file.$.name
+                  )
                 )
               )
             ),
           () =>
             html.span(
               attr.class('bc-file-input__compact-placeholder'),
+              Icon({ icon: 'mdi:cloud-upload-outline', size: 'sm' }),
+              ' ',
               bind(t.$.filesInputInstructions)(
                 maxFiles as Signal<number | undefined>,
                 maxFileSize as Signal<number | undefined>,

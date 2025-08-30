@@ -103,14 +103,37 @@
 
 /* Thumbnail Styles */
 .bc-file-input__thumbnail-container {
-  width: calc(var(--spacing-base) * 12);
-  height: calc(var(--spacing-base) * 12);
+  min-width: calc(var(--spacing-base) * 12);
+  max-width: calc(var(--spacing-base) * 12);
+  min-height: calc(var(--spacing-base) * 12);
+  max-height: calc(var(--spacing-base) * 12);
   border-radius: var(--radius-sm);
   overflow: hidden;
   background-color: var(--color-gray-100);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bc-file-input__file-icon .bc-icon {
+  min-width: calc(var(--spacing-base) * 12);
+  max-width: calc(var(--spacing-base) * 12);
+  min-height: calc(var(--spacing-base) * 12);
+  max-height: calc(var(--spacing-base) * 12);
+}
+
+.bc-file-input__compact-value-item .bc-icon {
+  min-width: calc(var(--spacing-base) * 6);
+  max-width: calc(var(--spacing-base) * 6);
+  min-height: calc(var(--spacing-base) * 6);
+  max-height: calc(var(--spacing-base) * 6);
+}
+
+.bc-file-input__compact-value-item .bc-file-input__thumbnail-container {
+  min-width: calc(var(--spacing-base) * 6);
+  max-width: calc(var(--spacing-base) * 6);
+  min-height: calc(var(--spacing-base) * 6);
+  max-height: calc(var(--spacing-base) * 6);
 }
 
 .bc-file-input__thumbnail {
@@ -281,7 +304,13 @@
 .bc-file-input__compact-value-item {
   background-color: var(--color-gray-100);
   border-radius: var(--radius-sm);
-  padding: 0 var(--spacing-base);
+  padding: calc(var(--spacing-base) / 2) calc(var(--spacing-base) * 2);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-base) * 2);
+  flex-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bc-file-input__compact-clear {
@@ -307,3 +336,32 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.bc-file-input__compact-value-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Compact preview thumbnail */
+.bc-file-input__compact-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--spacing-base) * 6);
+  height: calc(var(--spacing-base) * 6);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  background-color: var(--color-gray-100);
+  flex-shrink: 0;
+}
+
+.bc-file-input__compact-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: none;
+  display: block;
+}
+

@@ -1,9 +1,7 @@
 import { Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
-import { FilesInput } from './files-input'
-
-export type FileInputMode = 'default' | 'compact'
+import { FileInputMode, FilesInput } from './files-input'
 
 export type FileInputOptions = Merge<
   InputOptions<File | undefined>,

@@ -1,5 +1,5 @@
 import { Merge, Value } from '@tempots/dom'
-import { FileInputMode } from './file-input'
+import { FileInputMode } from './files-input'
 import { FilesInput } from './files-input'
 import { decodeBase64 } from '@tempots/std'
 import { InputOptions } from './input-options'

@@ -329,9 +329,29 @@ export const InputsPage = () =>
               })
           ),
           InputWrapper({
+            label: 'File Input (compact)',
+            content: FileInput({
+              value: file,
+              onChange: file.set,
+              mode: 'compact',
+              disabled,
+            }),
+            description: description(file),
+          }),
+          InputWrapper({
             label: 'File Input',
             content: FileInput({ value: file, onChange: file.set, disabled }),
             description: description(file),
+          }),
+          InputWrapper({
+            label: 'Files Input (compact)',
+            content: FilesInput({
+              value: files,
+              onChange: files.set,
+              mode: 'compact',
+              disabled,
+            }),
+            description: description(files),
           }),
           InputWrapper({
             label: 'Files Input',
