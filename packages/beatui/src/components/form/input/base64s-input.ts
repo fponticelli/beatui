@@ -38,13 +38,17 @@ export function Base64sInput(options: Base64sInputOptions) {
     onInput: base64OnInput,
     ...rest
   } = options
-  const filesMap = new Map<string, string>()
+  const filesMap = new Map<string, { name: string; type: string }>()
   const value = Value.toSignal(base64Values).map(values => {
     return values.map((value, index) => {
-      const name = filesMap.get(value) ?? `file-${index}`
+      const { name, type } = filesMap.get(value) ?? {
+        name: `file-${index}`,
+        type: '',
+      }
+      console.log('pair', name, type)
       const bytes = decodeBase64(value ?? '')
-      const blob = new Blob([bytes])
-      return new File([blob], name)
+      const blob = new Blob([bytes], { type })
+      return new File([blob], name, { type })
     })
   })
   const update =
@@ -52,7 +56,8 @@ export function Base64sInput(options: Base64sInputOptions) {
       if (base64OnChange != null) {
         filesToBase64s(files).then(vs => {
           for (const [i, v] of vs.entries()) {
-            filesMap.set(v, files[i].name)
+            console.log('store', files[i].name, files[i].type)
+            filesMap.set(v, { name: files[i].name, type: files[i].type })
           }
           fn?.(vs)
         })
