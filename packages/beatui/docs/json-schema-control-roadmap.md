@@ -1,6 +1,6 @@
 # JSON Schema Control — End‑to‑End Implementation Plan (Draft-07 → 2020‑12)
 
-This document lays out a detailed, sequenced plan to complete `JSONSchemaControl` so it can render and validate forms for JSON Schema definitions from Draft-07 onward (including 2019‑09 and 2020‑12), with robust UI heuristics and a powerful `ui:widget` customization layer. It is based on a deep read of the current implementation.
+This document lays out a detailed, sequenced plan to complete `JSONSchemaControl` so it can render and validate forms for JSON Schema definitions from Draft-07 onward (including 2019‑09 and 2020‑12), with robust UI heuristics and a powerful `x:ui` customization layer. It is based on a deep read of the current implementation.
 
 Key files reviewed:
 
@@ -19,10 +19,10 @@ Key files reviewed:
 Working now (verified in code):
 
 - Core setup
-  - AJV integration with `ajv-formats`, and registering `ui:widget` as vendor keyword for acceptance. json-schema-form.ts:1
+  - AJV integration with `ajv-formats`, and registering `x:ui` as a vendor keyword for acceptance. json-schema-form.ts:1
   - Controllers and wrappers to render inputs with consistent label/description/error. form/control and form/input
 - Primitive types
-  - string: Format detection with heuristics and `ui:widget` override. widgets/string-controls.ts:1, string-detection.ts:1
+  - string: Format detection with heuristics and `x:ui` override. widgets/string-controls.ts:1, string-detection.ts:1
   - number, integer: Basic constraints wired (min/max/multipleOf → step). controls.ts:102
   - boolean: Checkbox rendered. controls.ts:146
   - null: Writes `null` immediately. controls.ts:166
@@ -45,7 +45,7 @@ Missing or incomplete:
 - Formats/annotations: Many formats not mapped to widgets (uri/url, hostname, ipv4/ipv6, regex, duration, color, etc.). Some inputs exist in BeatUI but are not hooked up yet.
 - Read-only/write-only/deprecated: Not surfaced to UI visibility/disabled logic.
 - `$ref` scope: Only in‑document refs; no external/remote/bundled ref strategy.
-- Vendor `ui:*` keywords: Only `ui:widget` added to AJV; no broader allowance for `ui:options`, `ui:order`, etc. Strict AJV may warn.
+- Vendor extension: Only `x:ui` is supported; no broader `ui:*` keywords planned. Configure AJV to ignore `x:ui` without warnings.
 - Array tuple controls: No explicit support for 2020‑12 `prefixItems` and `items` interplay; minimal affordances for minItems/maxItems/uniqueItems beyond ListControl behavior.
 
 ## 2) Target Coverage Scope (Draft‑07 → 2020‑12)
@@ -67,80 +67,84 @@ Phase 1 — Foundations and correctness:
 
 1. Fix existing context/composition bugs and wire baselines
    - Implement `JSONSchemaUnion` to handle `type: [..]` and general union display.
-   - Extend AJV instance to accept planned `ui:*` vendors (`ui:options`, `ui:order`, etc.), or configure strictness appropriately.
+   - Extend AJV instance to accept `x:ui` (string or object) and avoid adding other vendor keywords. Configure AJV strictness accordingly.
 2. Enum and const handling
    - Map enum/const to proper widgets for strings/numbers/booleans and arrays of enums (single/multi select, radio, segmented).
-   - Add label mapping capability (e.g., `ui:enumLabels` or `ui:options.enumLabels`).
+   - Add label mapping with `x:ui` object options (preferred: `labels` inside `{ format: 'radio'|'select'|..., labels: [...]|{...} }`).
 3. Basic composition support
    - AnyOf/OneOf branch selection UI with AJV‑driven auto‑match and manual override when ambiguous.
    - AllOf merge strategy for annotations and constraints; detect conflicts and surface errors.
    - Not: visualize disallowed branch feedback.
+4. Optionality & nullability baseline
+  - Adopt the Optionality & Nullability Strategy in this document as a foundational behavior: non‑nullable by default, explicit null toggles only when schema allows null, and presence toggles/clear actions for optional fields.
 
 Phase 2 — Conditionals and dependencies:
 
-4. `if`/`then`/`else`
+1. `if`/`then`/`else`
    - Live evaluate condition per current value; apply `then`/`else` schema overlays to active branch of the UI.
-5. Dependencies
+2. Dependencies
    - `dependentRequired`: dynamically mark fields required; show errors inline.
    - `dependentSchemas`: apply extra subschema when the key is present.
 
 Phase 3 — Objects and properties breadth:
 
-6. Additional/pattern properties
+1. Additional/pattern properties
    - UI affordances to add arbitrary properties when allowed; guided by `additionalProperties` schema.
    - Respect `patternProperties` and `propertyNames` constraints; show inline validation for key names.
-7. Unevaluated properties (2019‑09/2020‑12)
+2. Unevaluated properties (2019‑09/2020‑12)
    - Track evaluated properties via AJV; disable or visually flag unevaluated property creation as needed.
 
 Phase 4 — Arrays and tuples breadth:
 
-8. Arrays
+1. Arrays
    - Explicit support for tuple validation: Draft‑07 `items: []` + `additionalItems`; 2020‑12 `prefixItems` + `items`.
    - `contains` + `minContains`/`maxContains`: validate and visually indicate requirements; assistive hints.
    - Enforce minItems/maxItems/uniqueItems in add/move/remove affordances.
 
 Phase 5 — Formats and advanced widgets:
 
-9. Formats and media
+1. Formats and media
    - Map remaining common formats: uri/url, uri‑reference, regex, hostname, ipv4/ipv6, duration, color, country‑code, language‑tag, etc.
    - Use `contentMediaType` + `contentEncoding` to select binary/file widgets.
-10. Accessibility & annotations
+2. Accessibility & annotations
 
 - Support readOnly/writeOnly, deprecated; surface through disabled/hidden state with overrides.
 - Titles/descriptions/placeholders/examples consistently rendered; placeholder heuristics existing in controls.ts extended across types.
 
 Phase 6 — References and composition depth:
 
-11. `$ref` enhancement
+1. `$ref` enhancement
 
 - Strategy for external refs: bundle or provide a resolver; caching compiled subschemas; cycle and resolution errors surfaced.
 
-12. AllOf/oneOf across refs
+2. AllOf/oneOf across refs
 
 - Ensure sibling keywords vs $ref merge semantics are preserved (already partly done for in‑doc refs).
 
 Phase 7 — Customization layer and DX:
 
-13. `ui:widget` schema and options
+1. `x:ui` schema and options
 
-- Define canonical widget names per type and support `ui:widget` object inline options via `{ format, ... }`; document precedence and merge behavior with `ui:options`.
-- Add layout and grouping extensions: `ui:order`, `ui:group`, `ui:fieldset`, `ui:tabs`, `ui:accordion`, `ui:cols`.
+- Define canonical widget names per type and support `x:ui` object inline options via `{ format, ... }`. No separate `ui:*` keywords.
+- Express layout and grouping via object‑level `x:ui` container options instead of new keywords:
+  - Object containers: `x:ui: { format: 'fieldset'|'tabs'|'accordion'|'group'|'grid', order?: string[]|{...}, groups?: { label: string, fields: string[] }[], cols?: { base?: number, sm?: number, md?: number, lg?: number } }`.
+  - Precedence: Object‑level layout organizes children but does not override each child’s own `x:ui` (per‑field input widget). `groups` > `order`; unspecified fields append at the end.
 
-14. Plugin/registry
+2. Plugin/registry
 
 - Allow registering custom widget resolvers and components; expose extension points.
 
 Phase 8 — Testing, performance, polish:
 
-15. Test suite
+1. Test suite
 
 - Unit tests per keyword family; integration tests for composition/conditionals; snapshot tests of rendered trees.
 
-16. Perf & caching
+2. Perf & caching
 
 - Cache compiled AJV validators per subschema; memoize branch detection; debounce expensive re‑eval.
 
-17. Documentation
+3. Documentation
 
 - Author comprehensive README covering configuration, examples, and extension APIs.
 
@@ -152,19 +156,19 @@ Below are actionable checklists for each area. No code included; this lists requ
 
 - Type unions (`type: ["string", "null", ...]`)
   - Implement `JSONSchemaUnion` to choose a variant:
-    - Auto‑select on current value type; if ambiguous (empty/undefined), pick a default branch (via `ui:options.unionDefault` or first non‑null type).
+    - Auto‑select on current value type; if ambiguous (empty/undefined), pick a default branch (via `x:ui.unionDefault` or first non‑null type).
     - Render a branch selector when more than one viable variant exists; selector widgets: segmented/radio/select depending on count; allow `ui:widget: 'segmented'|'radio'|'select'` override.
-    - Preserve value on branch switch if convertible and valid; otherwise, clear with confirmation if `ui:options.confirmBranchChange`.
+    - Preserve value on branch switch if convertible and valid; otherwise, clear with confirmation if `x:ui.confirmBranchChange`.
 - anyOf/oneOf
   - Detection: Use AJV to validate the current value against each subschema; count matches.
   - anyOf: render as a list of matching candidates; allow manual selection when multiple match; prefer a stable choice across edits; optionally skip selection UI if only one matches.
-  - oneOf: if exactly one matches, auto‑select; if none or multiple match, show explicit selection required with per‑option label (use `title`, `discriminator`, or `ui:options.oneOfLabels`).
-  - Option labelling: Prefer `title`; fall back to a compact schema summary; allow `ui:options.labels` keyed by index.
-  - Option rendering: Defer nested form rendering to selected branch; keep hidden branches unmounted or parked depending on `ui:options.preserveUnmounted`.
+  - oneOf: if exactly one matches, auto‑select; if none or multiple match, show explicit selection required with per‑option label (use `title`, `discriminator`, or `x:ui.oneOfLabels`).
+  - Option labelling: Prefer `title`; fall back to a compact schema summary; allow `x:ui.labels` keyed by index.
+  - Option rendering: Defer nested form rendering to selected branch; keep hidden branches unmounted or parked depending on `x:ui.preserveUnmounted`.
 - allOf
   - Merge strategy: Deep merge constraints; intersect validations; merge annotations carefully:
     - `type`: intersect or reduce; detect conflicts (e.g., string ∧ number) → show schema error banner.
-    - `properties`, `required`: union `required`, deep merge `properties` (conflicts resolved by later schemas or fail with error based on `ui:options.allOfConflict` policy: 'lastWins'|'error').
+    - `properties`, `required`: union `required`, deep merge `properties` (conflicts resolved by later schemas or fail with error based on `x:ui.allOfConflict` policy: 'lastWins'|'error').
   - Render: One integrated form reflecting merged schema; rely on AJV runtime validation for edge cases and show errors.
 - not
   - Evaluate with AJV; if violated, show error “Value matches disallowed schema” near offending node; optionally show hint from `title` of the `not` branch.
@@ -195,13 +199,13 @@ Below are actionable checklists for each area. No code included; this lists requ
   - Respect `maxProperties`/`minProperties` in add/remove affordances.
 - Pattern properties
   - Provide UI to add keys that match a pattern; show hints of allowed patterns; validate keys live against `patternProperties` and `propertyNames`.
-  - Key editor: inline editable key with validation; lock once value entered if `ui:options.lockKeyAfterSet`.
+  - Key editor: inline editable key with validation; lock once value entered if `x:ui.lockKeyAfterSet`.
 - Unevaluated properties (2019‑09/2020‑12)
   - If `unevaluatedProperties: false`, hide “add property” affordance for keys not covered by evaluated keywords; show explanation tooltip.
   - If it’s a schema, treat like `additionalProperties` but only for unevaluated keys.
 - ReadOnly/writeOnly/deprecated
-  - `readOnly`: disable input and style as read‑only unless `ui:options.ignoreReadOnly`.
-  - `writeOnly`: hide in display modes; optionally render with warning if `ui:options.showWriteOnly`.
+  - `readOnly`: disable input and style as read‑only unless `x:ui.ignoreReadOnly`.
+  - `writeOnly`: hide in display modes; optionally render with warning if `x:ui.showWriteOnly`.
   - `deprecated`: add visual badge; optional disable.
 
 ### 4.4 Arrays and Tuples
@@ -213,7 +217,7 @@ Below are actionable checklists for each area. No code included; this lists requ
 - Tuple validation
   - Draft‑07: `items: [s1, s2, ...]`, with `additionalItems` for overflow.
   - 2020‑12: `prefixItems: [s1, s2, ...]`, with `items` for tail.
-  - Render per‑index schema; optional headers for tuple positions from `title` or `ui:options.tupleLabels`.
+  - Render per‑index schema; optional headers for tuple positions from `title` or `x:ui.tupleLabels`.
 - contains/minContains/maxContains
   - Provide helper text “Must contain at least N item(s) matching X”; summarize X via `title` or compact description.
   - Highlight matching items; show count indicator; prevent submit until satisfied.
@@ -222,11 +226,11 @@ Below are actionable checklists for each area. No code included; this lists requ
 
 - Strings
   - Formats to map: `email`, `uri`/`url`, `uri-reference`, `hostname`, `ipv4`, `ipv6`, `uuid` (already), `regex` (editor with validation), `date`, `date-time`, `time`, `duration` (use existing `nullable-duration-input`), `color` (use `ColorInput`), and binary via `contentEncoding`/`contentMediaType`.
-  - Heuristic: long fields → textarea; names matching `description|comment|notes|text` already used; expand keyword list via `ui:options.textAreaTriggers`.
+  - Heuristic: long fields → textarea; names matching `description|comment|notes|text` already used; expand keyword list via `x:ui.textAreaTriggers`.
   - Nullability: use non-nullable string inputs by default; only use a nullable wrapper when the schema is truly nullable (see Optionality & Nullability Strategy).
 - Numbers/Integers
   - Support sliders (`ui:widget: 'slider'`) when bounded and continuous; step from `multipleOf`; integer coerces step to 1.
-  - Support steppers (`ui:widget: 'stepper'`), rating (`ui:widget: 'rating'`) when 1..N and small range; currency/percent masks via `ui:options.format`.
+  - Support steppers (`x:ui: 'stepper'`), rating (`x:ui: 'rating'`) when 1..N and small range; currency/percent masks via `x:ui.displayFormat`.
 - Booleans
   - Map to checkbox by default; allow `ui:widget: 'switch'`.
 - Nulls
@@ -239,7 +243,7 @@ Below are actionable checklists for each area. No code included; this lists requ
 - Multi‑select arrays of enums
   - Use tags input for strings (chips); use multi‑select for other scalars.
 - Labels
-  - Support `ui:enumLabels` (array aligned to `enum`) or object map; fall back to stringification.
+  - Preferred: `labels` via `ui:widget` object options (array aligned to `enum` or object map); fall back to stringification.
 - Const
   - Render read‑only display with the const value; optionally hide control and show as static text.
 
@@ -264,36 +268,36 @@ Below are actionable checklists for each area. No code included; this lists requ
 - Surface schema conflicts (e.g., impossible allOf) as static banner on the form section.
 - Debounce revalidation when typing; avoid thrashing branch selection.
 
-### 4.10 Customization Layer: `ui:*` Keywords
+### 4.10 Customization Layer: `x:ui` Only
 
-Define a conventional set of vendor keys. All should be inert for AJV (ignored by validation). Ensure AJV accepts them by either registering no‑op keywords or relaxing strict mode.
+Use a single vendor keyword: `x:ui`. This keeps extensions minimal while remaining expressive. AJV must accept `x:ui` (string or object) and ignore its contents for validation.
 
-- `ui:widget` (string | object)
+- `x:ui` (string | object)
   - String: canonical widget name (see per‑type lists below).
-  - Object: `{ format: string, ...widgetSpecificOptions }` where `format` is required and the rest are widget‑specific options. Example: `{ format: 'rating', max: 5 }`.
-  - If both `ui:widget` (object) and `ui:options` are present, options are merged with `ui:widget` fields taking precedence.
-- `ui:options` (object)
-  - Generic options and layout preferences. May also include widget options for backward compatibility; merged with `ui:widget` when provided.
-    - Common: `placeholder`, `help`, `autofocus`, `disabled`, `readonly`, `hideLabel`, `cols`, `rows`, `variant`, `size`.
-    - Layout: `horizontal`, `order` (array of property keys), `group`, `fieldset`, `tabs`, `accordion`, `collapsible`, `collapsibleInitiallyOpen`, `cols` (grid columns per breakpoint).
-    - Validation UX: `showRequiredAsterisk`, `showHelperIcons`, `preserveUnmounted`, `confirmBranchChange`.
-- `ui:enumLabels` (array|string->label map)
-  - Human labels for enums; array parallel to `enum` or object map.
-- `ui:visibleIf` (expression or rules)
-  - Simple visibility rules referencing sibling fields; evaluated client‑side.
-- `ui:discriminator`
-  - For oneOf: key path that acts as discriminator; maps discriminator value to branch index.
-- `ui:order` (object | array)
-  - Objects: order property keys; arrays: explicit ordering with `'*'` wildcard for the rest.
+  - Object: `{ format: string, ...options }` where `format` selects the widget and the rest are options for that widget. Example: `{ format: 'rating', max: 5 }`.
+  - Container layout (for object nodes): set `format` to a container style such as `'fieldset' | 'tabs' | 'accordion' | 'group' | 'grid'` and pass layout options inline, e.g. `{ format: 'tabs', groups: [{ label: 'Basic', fields: ['a','b'] }], order: ['*','advanced'], cols: { md: 2 } }`.
+  - Precedence: An object‑level container `x:ui` arranges children but never overrides each child’s own `x:ui` selection.
 
-Per‑type `ui:widget` formats and notable inline options (also allowed under `ui:options`):
+Common cross‑widget options (when applicable): `placeholder`, `help`, `autofocus`, `disabled`, `readonly`, `hideLabel`, `rows`, `variant`, `size`, `showRequiredAsterisk`, `showHelperIcons`, `preserveUnmounted`, `confirmBranchChange`.
+
+Visibility and discrimination without extra keywords:
+
+- Visibility: prefer `x:ui.visibleIf` per node (simple rules referencing sibling fields). No separate visibility keyword.
+- Discriminator: prefer OpenAPI `discriminator` when present; otherwise allow `x:ui.discriminatorKey` on the combinator node.
+
+Ordering and grouping without extra keywords:
+
+- Objects: use the parent object’s container `x:ui` with `order` and/or `groups`.
+- Arrays: use array‑level `x:ui.order` if needed for tuple/contains presentation.
+
+Per‑type `ui:widget` formats and notable inline options:
 
 - string
   - text (default), textarea, password, email, url, uri, regex, uuid, date, date-time, time, duration, color, markdown, binary (file/base64), combobox, tags.
   - Options: `rows`, `mask`, `pattern`, `mediaType`, `accept` (MIME), `maxBytes`, `textAreaTriggers`.
 - number/integer
   - number (default), stepper, slider, rating, segmented, currency, percent.
-  - Options: `min`, `max`, `step`, `precision`, `prefix`, `suffix`.
+  - Options: `min`, `max`, `step`, `precision`, `prefix`, `suffix`, `displayFormat` (e.g., currency/percent mask).
 - boolean
   - checkbox (default), switch, segmented (Yes/No).
   - Options: `labels` ({ true, false }).
@@ -302,14 +306,14 @@ Per‑type `ui:widget` formats and notable inline options (also allowed under `u
   - Options: `controlsLayout` ('aside'|'below'), `addLabel`, `reorderable`, `uniqueBy`, `minItems`, `maxItems`.
 - object
   - group (default), fieldset, accordion, tabs.
-  - Options: `order`, `cols`, `groups` (map of key→group), `collapsible`, `collapsibleInitiallyOpen`.
+  - Options: `order`, `cols`, `groups` (array of `{ label, fields }`), `collapsible`, `collapsibleInitiallyOpen`.
 - enum/const
-  - radio, segmented, select, combobox, checklist (multi).
-  - Options: `enumLabels`, `inline`, `searchable`, `maxInlineOptions`.
+  - `format`: radio, segmented, select, combobox, checklist (multi).
+  - Widget options: `labels` (array or map), `inline`, `searchable`, `maxInlineOptions`.
 
 Precedence order for widget resolution:
 
-1. Explicit `ui:widget` (object.format or string)
+1. Explicit `x:ui` (object.format or string)
 2. Schema annotations/format/media cues (`format`, `contentMediaType`, `contentEncoding`)
 3. Schema constraints (enum/const, min/max/step, array uniqueness, tuple vs homogeneous)
 4. Heuristics (name/title matches, length bounds)
@@ -360,7 +364,7 @@ Purpose: prevent over‑nullable controls and clearly differentiate “missing�
 
 - Base instance
   - `allErrors: true` for rich feedback; keep `ajv-formats` installed. json-schema-form.ts:1
-  - Register no‑op vendor keywords: at least `ui:widget`, `ui:options`, `ui:order`, `ui:enumLabels`, `ui:visibleIf`, `ui:discriminator`. For `ui:widget`, accept either a string or an object with a required `format` field (and arbitrary additional option fields). Alternatively, set `strictSchema: false` if acceptable.
+- Accept a single vendor keyword: `x:ui` (string or object with required `format`). Do not register additional `ui:*` keywords. If needed, set `strictSchema: false` to silence unknown-keyword warnings.
 - Subschema compilation
   - Pre‑compile validators for each combinator branch (anyOf/oneOf/allOf/if/then/else/dependentSchemas) and cache by pointer.
   - Expose a small helper to test “does value validate against subschema X?” without re‑compiling.
@@ -396,23 +400,23 @@ Milestone B: Dependencies and properties
 
 Milestone C: Customization and polish
 
-- Comprehensive `ui:*` support, widget registry, readOnly/writeOnly/deprecated; i18n and a11y checks; performance pass.
-- Acceptance: Documentation examples cover all listed widgets and keywords; tests stable; large form performs well.
+- Comprehensive `x:ui` support (including container layouts), widget registry, readOnly/writeOnly/deprecated; i18n and a11y checks; performance pass.
+- Acceptance: Documentation examples cover all listed widgets and options; tests stable; large form performs well.
 
 ## 9) Open Questions / Decisions
 
 - External `$ref` support: bundle requirement vs built‑in fetcher; repo‑wide guidance.
 - Conflict policy for `allOf` merges: configuration default ('lastWins' vs 'error').
-- Visibility rules: standardize `ui:visibleIf` expression language (simple JSONPath equality vs function hook).
-- Discriminator support: adopt OpenAPI `discriminator` or `ui:discriminator` only.
-- Strict AJV: prefer no‑op vendor keywords vs `strictSchema: false`.
+- Visibility rules: standardize `x:ui.visibleIf` expression language (simple JSONPath equality vs function hook).
+- Discriminator support: prefer OpenAPI `discriminator`; otherwise allow `x:ui.discriminatorKey` on combinator nodes.
+- Strict AJV: decide between registering only `x:ui` vs using `strictSchema: false`.
 
 ## 10) Immediate Next Actions
 
 1. Fix `SchemaContext.oneOf` bug and implement `JSONSchemaUnion` stub to unblock composition flows.
 2. Add enum/const mapping with basic widgets (radio/select/segmented, multi‑select/tags).
 3. Implement oneOf/anyOf branch selection with AJV auto‑detection and manual override; persist selection per path.
-4. Update AJV to allow `ui:widget` object shape (`{ format, ... }`) and merge with `ui:options`.
+4. Update AJV to allow `x:ui` object shape (`{ format, ... }`); migrate any prior `ui:options` usage to inline `x:ui` options.
 5. Adjust widget resolution to use non‑nullable inputs by default; add explicit null/presence toggles per Optionality & Nullability Strategy.
 6. Add tests for the above and wire missing common string formats to existing inputs (email, url, uuid, date/time, color, duration, binary).
 
