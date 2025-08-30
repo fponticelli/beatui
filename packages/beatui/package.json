@@ -157,6 +157,7 @@
     "ajv-formats": "^3.0.1",
     "katex": "^0.16.22",
     "micromark": "^4.0.2",
+    "micromark-extension-gfm": "^3.0.0",
     "monaco-editor": "^0.52.2"
   }
 }

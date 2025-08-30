@@ -1,11 +1,24 @@
-import { TNode, Value, attr, html, computedOf, Task } from '@tempots/dom'
+import {
+  TNode,
+  Value,
+  attr,
+  html,
+  computedOf,
+  Task,
+  MapSignal,
+  Async,
+} from '@tempots/dom'
 import { micromark } from 'micromark'
 import { StylePortal } from '@/components/misc/style-portal'
+import { resolveExtensions } from '@/markdown/extensions'
 
 export type MarkdownOptions = {
   content: Value<string>
   /** Escape HTML by default for safety. Set true to allow raw HTML passthrough. */
   allowHtml?: Value<boolean>
+  features?: Value<{
+    gfm?: boolean
+  }>
 }
 
 /**
@@ -22,10 +35,12 @@ export function Markdown(
 
   const rendered = computedOf(
     content,
-    allowHtml
-  )((md = '', allowDangerousHtml = false) =>
-    micromark(md, { allowDangerousHtml })
-  )
+    allowHtml,
+    options.features
+  )(async (md = '', allowDangerousHtml = false, features = {}) => {
+    const { extensions, htmlExtensions } = await resolveExtensions(features)
+    return micromark(md, { allowDangerousHtml, extensions, htmlExtensions })
+  })
 
   return html.div(
     // Ensure styles are present declaratively via head portal
@@ -34,7 +49,9 @@ export function Markdown(
       ({ default: css }) => StylePortal({ id: 'beatui-markdown-css', css })
     ),
     attr.class('bc-markdown bu-prose'),
-    attr.innerHTML(rendered),
+    MapSignal(rendered, html =>
+      Async(html, content => attr.innerHTML(content))
+    ),
     ...children
   )
 }

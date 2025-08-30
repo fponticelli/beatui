@@ -3,6 +3,8 @@ import type { InputOptions } from '../form/input/input-options'
 import { Merge } from '@tempots/std'
 import { Crepe } from '@milkdown/crepe'
 import { replaceAll } from '@milkdown/kit/utils'
+import { StylePortal } from '@/components/misc/style-portal'
+import milkdownCss from '@/components/milkdown/milkdown.css?inline'
 
 // Minimal listener and editor shape we rely on
 export type ListenerManager = {
@@ -41,6 +43,7 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
   const dis = Value.toSignal(disabled ?? false)
 
   return html.div(
+    StylePortal({ id: 'beatui-milkdown-css', css: milkdownCss }),
     attr.class('bc-milkdown-editor-container'),
     attr.class(cls),
     attr.class(
@@ -54,17 +57,7 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
       const disposers: Array<() => void> = []
 
       const mount = async () => {
-        // Lazily inject Milkdown CSS without requiring app configuration
-        const { default: milkdownCss } = await import('@/milkdown/styles')
-        if (typeof document !== 'undefined' && milkdownCss) {
-          const id = 'beatui-milkdown-css'
-          if (!document.getElementById(id)) {
-            const style = document.createElement('style')
-            style.id = id
-            style.textContent = milkdownCss
-            document.head.appendChild(style)
-          }
-        }
+        // CSS is already declared via StylePortal. Proceed.
         try {
           const cfg: Record<string, unknown> = {
             root: container as unknown as HTMLElement,

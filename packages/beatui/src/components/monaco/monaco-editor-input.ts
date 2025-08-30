@@ -14,6 +14,8 @@ import { Theme } from '../theme'
 import { MonacoEditorSpecificOptions } from '@/monaco/types'
 import { loadMonacoWithLanguage } from '@/monaco/lazy-loader'
 import type * as Monaco from 'monaco-editor'
+import { StylePortal } from '@/components/misc/style-portal'
+import monacoCss from '@/monaco/styles'
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
@@ -51,6 +53,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
 
   return Use(Theme, ({ appearance }) =>
     html.div(
+      StylePortal({ id: 'beatui-monaco-css', css: monacoCss }),
       attr.class('bc-monaco-editor-container'),
       attr.class(cls),
       attr.class(
@@ -65,17 +68,7 @@ export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
         const disposers = [] as (() => void)[]
 
         const mount = async () => {
-          // Lazily inject Monaco CSS without requiring app configuration
-          const { default: monacoCss } = await import('@/monaco/styles')
-          if (typeof document !== 'undefined' && monacoCss) {
-            const id = 'beatui-monaco-css'
-            if (!document.getElementById(id)) {
-              const style = document.createElement('style')
-              style.id = id
-              style.textContent = monacoCss
-              document.head.appendChild(style)
-            }
-          }
+          // Styles are declared via StylePortal above; proceed to monaco setup
           try {
             // Get initial language for loading appropriate features
             const initialLanguage = Value.get(language) ?? 'plaintext'
