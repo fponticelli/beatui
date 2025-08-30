@@ -145,3 +145,10 @@
   max-width: 100%;
   height: auto;
 }
+
+/* Image as the only child of a paragraph should be centered */
+.bu-prose p > img {
+  display: block;
+  margin: 0 auto;
+  border-radius: var(--radius-md, 0.5rem);
+}
