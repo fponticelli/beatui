@@ -17,7 +17,20 @@ import {
 import { JSONSchemaForm } from '@tempots/beatui/json-schema'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
 
-const sampleNames = ['sample', 'draft-2019', 'draft-2020', 'draft-07']
+const sampleNames = [
+  'sample',
+  'unions-conditions',
+  'arrays-tuples',
+  'additional-pattern-props',
+  'formats-media',
+  'enums-nullability',
+  'composition-refs',
+  'prefix-items',
+  'annotations',
+  'draft-2019',
+  'draft-2020',
+  'draft-07',
+]
 
 // Edit the JSON Schema (via Monaco) and see the form update live
 export function JSONSchemaFormPage() {
