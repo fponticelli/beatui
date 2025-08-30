@@ -81,7 +81,13 @@ export async function getAjvForSchema(schema: { $schema?: string }) {
 
     if (id.includes('draft/2020-12')) {
       const Ajv2020 = (await import('ajv/dist/2020')).default
-      const ajv2020 = new Ajv2020({ meta: false, strictSchema: true })
+      const ajv2020 = new Ajv2020({
+        meta: true,
+        strictSchema: true,
+        allErrors: true,
+      })
+      // Set default meta-schema for schemaless inputs
+      ajv2020.opts.defaultMeta = 'https://json-schema.org/draft/2020-12/schema'
       addFormats(ajv2020)
       addUiWidgetKeyword(ajv2020)
       return {
@@ -91,7 +97,13 @@ export async function getAjvForSchema(schema: { $schema?: string }) {
     }
     if (id.includes('draft/2019-09')) {
       const Ajv2019 = (await import('ajv/dist/2019')).default
-      const ajv2019 = new Ajv2019({ meta: false, strictSchema: true })
+      const ajv2019 = new Ajv2019({
+        meta: true,
+        strictSchema: true,
+        allErrors: true,
+      })
+      // Set default meta-schema for schemaless inputs
+      ajv2019.opts.defaultMeta = 'https://json-schema.org/draft/2019-09/schema'
       addFormats(ajv2019)
       addUiWidgetKeyword(ajv2019)
       return {
@@ -101,7 +113,9 @@ export async function getAjvForSchema(schema: { $schema?: string }) {
     }
 
     const Ajv = (await import('ajv')).default
-    const ajv07 = new Ajv({ meta: false, strictSchema: true })
+    const ajv07 = new Ajv({ meta: true, strictSchema: true, allErrors: true })
+    // Set default meta-schema for schemaless inputs
+    ajv07.opts.defaultMeta = 'http://json-schema.org/draft-07/schema#'
     addFormats(ajv07)
     addUiWidgetKeyword(ajv07)
     return {
