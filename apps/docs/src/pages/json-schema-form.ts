@@ -7,77 +7,42 @@ import {
   Computed,
   MapSignal,
 } from '@tempots/dom'
-import { ScrollablePanel, Stack, Group } from '@tempots/beatui'
+import {
+  ScrollablePanel,
+  Stack,
+  Group,
+  NativeSelect,
+  SelectOption,
+} from '@tempots/beatui'
 import { JSONSchemaForm } from '@tempots/beatui/json-schema'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
 
+const sampleNames = ['sample', 'draft-2019', 'draft-2020', 'draft-07']
+
 // Edit the JSON Schema (via Monaco) and see the form update live
 export function JSONSchemaFormPage() {
-  // Initial schema sample with $defs and $ref usage
-  const schemaObject = {
-    type: 'object',
-    $defs: {
-      address_def: {
-        type: 'object',
-        title: 'Address',
-        properties: {
-          street: { type: 'string', title: 'Street' },
-          city: { type: 'string', title: 'City' },
-        },
-        required: ['street', 'city'],
-        additionalProperties: false,
-      },
+  const selectedSample = prop(sampleNames[0])
+  const sample = selectedSample.mapAsync<{
+    schema: object | null
+    data: unknown
+  }>(
+    async name => {
+      const files = await Promise.all([
+        import(`./json-samples/${name}-schema.ts`).then(m => m.default),
+        import(`./json-samples/${name}-data.ts`).then(m => m.default),
+      ])
+      return {
+        schema: files[0] as object,
+        data: files[1] as object,
+      }
     },
-    properties: {
-      name: { type: 'string', title: 'Name', description: 'Your full name' },
-      email: {
-        type: 'string',
-        title: 'Email',
-        format: 'email',
-        description: 'Your email address',
-      },
-      birthdate: {
-        type: 'string',
-        format: 'date',
-        description: 'Your birthdate',
-      },
-      image: {
-        type: 'string',
-        title: 'Image',
-        format: 'binary',
-        description: 'Your profile image',
-        contentMediaType: 'image/*',
-      },
-      description: {
-        type: 'string',
-        title: 'Description',
-        'ui:widget': 'markdown',
-        description: 'A brief description of yourself',
-      },
-      age: { type: 'integer', title: 'Age', minimum: 18 },
-      isActive: { type: 'boolean', title: 'Active' },
-      // Use $ref and override a sibling (title) to demonstrate sibling-override merge
-      address: { $ref: '#/$defs/address_def', title: 'Home Address' },
-      tags: { type: 'array', title: 'Tags', items: { type: 'string' } },
-    },
-    required: ['name'],
-    additionalProperties: false,
-  }
-
-  // Initial form value matching the sample schema
-  const initial: unknown = {
-    name: 'Ada Lovelace',
-    age: 28,
-    isActive: true,
-    address: { street: '12 Analytical St', city: 'London' },
-    tags: ['math', 'computing'],
-  }
-
-  // Form value (kept when schema changes)
-  const current = prop<unknown>(initial)
+    { schema: null, data: {} }
+  )
+  const data = sample.$.data.deriveProp()
+  const schema = sample.$.schema
 
   // Monaco editor content (JSON string)
-  const schemaJson = prop<string>(JSON.stringify(schemaObject, null, 2))
+  const schemaJson = schema.map(v => JSON.stringify(v, null, 2)).deriveProp()
 
   // Parse schema text -> either { ok, value } or { ok, error }
   const parsedSchema = schemaJson.map(text => {
@@ -103,9 +68,16 @@ export function JSONSchemaFormPage() {
       // Left: JSON Schema editor (Monaco)
       ScrollablePanel(
         {
-          header: html.h3(
-            attr.class('bu-text-lg bu-font-semibold'),
-            'Edit JSON Schema (JSON)'
+          header: html.div(
+            html.h3(
+              attr.class('bu-text-lg bu-font-semibold'),
+              'Edit JSON Schema (JSON)'
+            ),
+            NativeSelect({
+              options: sampleNames.map(name => SelectOption.value(name, name)),
+              value: selectedSample,
+              onChange: selectedSample.set,
+            })
           ),
           body: MonacoEditorInput({
             value: schemaJson,
@@ -135,12 +107,13 @@ export function JSONSchemaFormPage() {
             schemaDef,
             schema =>
               MapSignal(schema, schema => {
-                const { Form, controller } = JSONSchemaForm<unknown>({
-                  schema,
-                  initialValue: current,
-                })
-                controller.value.feedProp(current)
-                return Form
+                return JSONSchemaForm(
+                  { schema, initialValue: data },
+                  ({ Form, controller }) => {
+                    controller.value.feedProp(data)
+                    return Form
+                  }
+                )
               }),
             () =>
               html.div(
@@ -154,7 +127,7 @@ export function JSONSchemaFormPage() {
           {
             body: html.pre(
               attr.class('bu-whitespace-pre-wrap bu-text-sm'),
-              current.map(v => JSON.stringify(v, null, 2))
+              data.map(v => JSON.stringify(v, null, 2))
             ),
           },
           style.height('50%')

@@ -11,7 +11,8 @@
     "preview:vite": "vite preview",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\""
+    "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
+    "gen:schema": "npx tsx scripts/gen-meta-schemas.ts"
   },
   "keywords": [
     "documentation",
@@ -21,6 +22,7 @@
   "author": "Franco Ponticelli",
   "license": "MIT",
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^14.2.0",
     "@tempots/beatui": "workspace:*",
     "@tempots/dom": "29.0.0",
     "@tempots/std": "0.22.1",

@@ -1,11 +1,11 @@
-import Ajv, { type ErrorObject } from 'ajv'
+import { type ErrorObject } from 'ajv'
 import { Validation } from '@tempots/std'
-import type { JSONSchema7Definition } from 'json-schema'
 import type {
   ControllerError,
   ControllerValidation,
   PathSegment,
 } from '../form'
+import addFormats from 'ajv-formats'
 
 export function jsonPointerToSegments(ptr: string): PropertyKey[] {
   return ptr
@@ -66,9 +66,48 @@ export function ajvErrorsToControllerValidation(
   return Validation.invalid(error)
 }
 
-export function compileSchema(schema: JSONSchema7Definition, ajv: Ajv) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function addUiWidgetKeyword(ajv: any) {
+  ajv.addKeyword({
+    keyword: 'ui:widget',
+    type: 'string',
+    validate: () => true,
+  })
+}
+
+export async function getAjvForSchema(schema: { $schema?: string }) {
   try {
-    return { ok: true as const, value: ajv.compile(schema) }
+    const id = schema.$schema ?? 'https://json-schema.org/draft/2020-12/schema'
+
+    if (id.includes('draft/2020-12')) {
+      const Ajv2020 = (await import('ajv/dist/2020')).default
+      const ajv2020 = new Ajv2020({ meta: false, strictSchema: true })
+      addFormats(ajv2020)
+      addUiWidgetKeyword(ajv2020)
+      return {
+        ok: true as const,
+        value: { ajv: ajv2020, validate: ajv2020.compile(schema) },
+      }
+    }
+    if (id.includes('draft/2019-09')) {
+      const Ajv2019 = (await import('ajv/dist/2019')).default
+      const ajv2019 = new Ajv2019({ meta: false, strictSchema: true })
+      addFormats(ajv2019)
+      addUiWidgetKeyword(ajv2019)
+      return {
+        ok: true as const,
+        value: { ajv: ajv2019, validate: ajv2019.compile(schema) },
+      }
+    }
+
+    const Ajv = (await import('ajv')).default
+    const ajv07 = new Ajv({ meta: false, strictSchema: true })
+    addFormats(ajv07)
+    addUiWidgetKeyword(ajv07)
+    return {
+      ok: true as const,
+      value: { ajv: ajv07, validate: ajv07.compile(schema) },
+    }
   } catch (e) {
     return {
       ok: false as const,

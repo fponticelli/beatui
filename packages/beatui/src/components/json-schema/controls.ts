@@ -76,7 +76,8 @@ export function JSONSchemaNever({
   controller: Controller<never>
 }): Renderable {
   console.warn(ctx, controller)
-  throw new Error('Not implemented: never')
+  // TODO
+  return html.div(attr.class('bc-json-schema-never'), 'Never')
 }
 
 function makePlaceholder<T>(
@@ -241,7 +242,8 @@ export function JSONSchemaUnion<T>({
   controller: Controller<T>
 }): Renderable {
   console.warn(ctx, controller)
-  throw new Error('Not implemented: union')
+  // TODO
+  return html.div(attr.class('bc-json-schema-union'), 'Union')
 }
 
 export function JSONSchemaGenericControl<T>({
@@ -319,7 +321,9 @@ export function JSONSchemaGenericControl<T>({
         controller: controller as unknown as Controller<null>,
       })
     default:
-      throw new Error(`Not implemented: unknown type ${resolvedDef.type}`)
+      console.warn('Unknown type', resolvedDef.type)
+      // TODO
+      return html.div(attr.class('bc-json-schema-unknown'), 'Unknown')
   }
 }
 
