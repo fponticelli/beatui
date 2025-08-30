@@ -67,9 +67,9 @@ export function ajvErrorsToControllerValidation(
   return Validation.invalid(error)
 }
 
-function addUiWidgetKeyword(ajv: Ajv) {
+function addUIKeyword(ajv: Ajv) {
   const def: KeywordDefinition = {
-    keyword: 'ui:widget',
+    keyword: 'x:ui',
     // Accept both string and object shapes for future-proofing
     schemaType: ['string', 'object'],
     errors: false,
@@ -109,7 +109,7 @@ async function createAjv(base: '2020-12' | '2019-09' | 'draft-07') {
       break
   }
   addFormats(ajv)
-  addUiWidgetKeyword(ajv)
+  addUIKeyword(ajv)
   return ajv
 }
 

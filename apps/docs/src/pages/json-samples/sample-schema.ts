@@ -39,7 +39,7 @@ export default {
     description: {
       type: 'string',
       title: 'Description',
-      'ui:widget': 'markdown',
+      'x:ui': 'markdown',
       description: 'A brief description of yourself',
     },
     age: { type: 'integer', title: 'Age', minimum: 18 },

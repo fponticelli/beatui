@@ -157,7 +157,7 @@ Below are actionable checklists for each area. No code included; this lists requ
 - Type unions (`type: ["string", "null", ...]`)
   - Implement `JSONSchemaUnion` to choose a variant:
     - Auto‑select on current value type; if ambiguous (empty/undefined), pick a default branch (via `x:ui.unionDefault` or first non‑null type).
-    - Render a branch selector when more than one viable variant exists; selector widgets: segmented/radio/select depending on count; allow `ui:widget: 'segmented'|'radio'|'select'` override.
+    - Render a branch selector when more than one viable variant exists; selector widgets: segmented/radio/select depending on count; allow `x:ui: 'segmented'|'radio'|'select'` override.
     - Preserve value on branch switch if convertible and valid; otherwise, clear with confirmation if `x:ui.confirmBranchChange`.
 - anyOf/oneOf
   - Detection: Use AJV to validate the current value against each subschema; count matches.
@@ -229,21 +229,21 @@ Below are actionable checklists for each area. No code included; this lists requ
   - Heuristic: long fields → textarea; names matching `description|comment|notes|text` already used; expand keyword list via `x:ui.textAreaTriggers`.
   - Nullability: use non-nullable string inputs by default; only use a nullable wrapper when the schema is truly nullable (see Optionality & Nullability Strategy).
 - Numbers/Integers
-  - Support sliders (`ui:widget: 'slider'`) when bounded and continuous; step from `multipleOf`; integer coerces step to 1.
+  - Support sliders (`x:ui: 'slider'`) when bounded and continuous; step from `multipleOf`; integer coerces step to 1.
   - Support steppers (`x:ui: 'stepper'`), rating (`x:ui: 'rating'`) when 1..N and small range; currency/percent masks via `x:ui.displayFormat`.
 - Booleans
-  - Map to checkbox by default; allow `ui:widget: 'switch'`.
+  - Map to checkbox by default; allow `x:ui: 'switch'`.
 - Nulls
   - Only render nullable affordances when `null` is permitted (type includes `'null'`, `nullable: true`, `enum`/`const` includes `null`, or via composition). Prefer a presence toggle/null switch rather than overloading empty values.
 
 ### 4.6 Enums and Const
 
 - Single‑select for scalars
-  - Small set (≤5): radio/segmented based on `ui:widget` or heuristic; else select/combobox.
+  - Small set (≤5): radio/segmented based on `x:ui` or heuristic; else select/combobox.
 - Multi‑select arrays of enums
   - Use tags input for strings (chips); use multi‑select for other scalars.
 - Labels
-  - Preferred: `labels` via `ui:widget` object options (array aligned to `enum` or object map); fall back to stringification.
+  - Preferred: `labels` via `x:ui` object options (array aligned to `enum` or object map); fall back to stringification.
 - Const
   - Render read‑only display with the const value; optionally hide control and show as static text.
 
@@ -290,7 +290,7 @@ Ordering and grouping without extra keywords:
 - Objects: use the parent object’s container `x:ui` with `order` and/or `groups`.
 - Arrays: use array‑level `x:ui.order` if needed for tuple/contains presentation.
 
-Per‑type `ui:widget` formats and notable inline options:
+Per‑type `x:ui` formats and notable inline options:
 
 - string
   - text (default), textarea, password, email, url, uri, regex, uuid, date, date-time, time, duration, color, markdown, binary (file/base64), combobox, tags.

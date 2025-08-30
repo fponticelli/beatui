@@ -1,5 +1,5 @@
 import { AnyStringWidgetOptions } from './string-type'
-import { getUIWidget } from './utils'
+import { getUIInfo } from './utils'
 import { SchemaContext } from '../schema-context'
 
 const textAreaFields = ['description', 'comment', 'notes', 'text']
@@ -15,7 +15,7 @@ export function stringFormatDetection(
     maxLength: definition.maxLength,
   }
   // test uiwidget
-  const widget = getUIWidget(definition)
+  const widget = getUIInfo(definition)
   if (widget != null) {
     switch (widget) {
       case 'binary':
