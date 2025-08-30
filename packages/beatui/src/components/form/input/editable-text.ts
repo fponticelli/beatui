@@ -19,6 +19,7 @@ export type EditableTextOptions = {
   onChange: (value: string) => void
   placeholder?: Value<string>
   startEditing?: Value<boolean>
+  disabled?: Value<boolean>
 }
 
 export const EditableText = ({
@@ -26,12 +27,20 @@ export const EditableText = ({
   value,
   onChange,
   placeholder,
+  disabled,
 }: EditableTextOptions): Renderable => {
   const isEditing = Value.deriveProp(startEditing ?? false)
   const escaped = prop(false)
+  const isDisabled = Value.map(disabled ?? false, d => d)
 
   return html.div(
     attr.class('bc-editable-text'),
+    attr.class(
+      Value.map(isDisabled, d =>
+        d ? 'bc-editable-text--disabled' : ''
+      ) as Value<string>
+    ),
+    aria.disabled(isDisabled),
     When(
       isEditing,
       () =>
@@ -61,7 +70,9 @@ export const EditableText = ({
         ),
       () =>
         html.span(
-          on.click(() => isEditing.set(true)),
+          on.click(() => {
+            if (!Value.get(isDisabled)) isEditing.set(true)
+          }),
           attr.class('bc-editable-text__display'),
           When(
             Value.map(value, v => v != null && v.trim() !== ''),
@@ -72,11 +83,15 @@ export const EditableText = ({
                 placeholder
               )
           ),
-          html.button(
-            attr.class('bc-editable-text__edit-button'),
-            Use(BeatUII18n, t => aria.label(t.$.editLabel)),
-            on.click(() => isEditing.set(true)),
-            Icon({ icon: 'line-md/pencil', color: 'neutral' })
+          When(
+            Value.map(isDisabled, d => !d),
+            () =>
+              html.button(
+                attr.class('bc-editable-text__edit-button'),
+                Use(BeatUII18n, t => aria.label(t.$.editLabel)),
+                on.click(() => isEditing.set(true)),
+                Icon({ icon: 'line-md/pencil', color: 'neutral' })
+              )
           )
         )
     )

@@ -8,9 +8,24 @@
   cursor: pointer;
 }
 
+/* Disabled state */
+.bc-editable-text--disabled {
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.bc-editable-text--disabled .bc-editable-text__display {
+  cursor: default;
+}
+
+.bc-editable-text--disabled .bc-editable-text__edit-button {
+  display: none;
+}
+
+
 /* Input state */
 .bc-editable-text__input {
-  outline-offset: calc(var(--spacing-base) * 1);
+  outline: none;
   padding: 0 calc(var(--spacing-base) / 2);
   background: transparent;
   border: none;
@@ -21,11 +36,19 @@
   height: 2rem;
 }
 
-.bc-editable-text__input:focus {
-  outline: 2px solid var(--interactive-focus-light);
+/* Use base focus system for inputs (consistent with TextInput) */
+.bc-editable-text__input:focus-visible {
+  outline: none; /* Input itself should not draw outline */
 }
 
-.b-dark .bc-editable-text__input:focus {
+/* Draw the focus on the display container similar to other inputs via focus-within */
+.bc-editable-text:focus-within {
+  outline: 2px solid var(--interactive-focus-light);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+.b-dark .bc-editable-text:focus-within {
   outline-color: var(--interactive-focus-dark);
 }
 

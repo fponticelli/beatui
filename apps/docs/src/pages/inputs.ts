@@ -227,8 +227,7 @@ export const InputsPage = () =>
             content: AppearanceSelector({
               value: appearance,
               onChange: appearance.set,
-              // TODO
-              // disabled,
+              disabled,
             }),
             description: description(appearance),
           }),
@@ -611,8 +610,7 @@ export const InputsPage = () =>
             content: EditableText({
               value: editableTextVal,
               onChange: editableTextVal.set,
-              // TODO
-              // disabled,
+              disabled,
             }),
             description: description(editableTextVal),
           }),

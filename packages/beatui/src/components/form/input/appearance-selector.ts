@@ -6,15 +6,18 @@ import { SegmentedInput } from './segmented-input'
 export type AppearanceSelectorOptions = {
   value: Value<AppearancePreference>
   onChange?: (value: AppearancePreference) => void
+  disabled?: Value<boolean>
 }
 
 export function AppearanceSelector({
   value,
   onChange,
+  disabled,
 }: AppearanceSelectorOptions) {
   return SegmentedInput<Record<AppearancePreference, TNode>>({
     size: 'sm',
     value,
+    disabled,
     options: {
       system: html.span(
         attr.title('System'),
