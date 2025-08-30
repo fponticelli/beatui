@@ -9,14 +9,27 @@ import {
   NumberInput,
   NumberInputOptions,
   ObjectController,
+  NativeSelect,
+  NativeSelectControl,
+  InputWrapper,
 } from '../form'
-import { attr, html, Renderable, WithElement } from '@tempots/dom'
-import { Stack } from '../layout'
-import { objectEntries } from '@tempots/std'
+import {
+  attr,
+  html,
+  Renderable,
+  WithElement,
+  Value,
+  localStorageProp,
+  Ensure,
+  prop,
+} from '@tempots/dom'
+import { Group, Stack } from '../layout'
+import { objectEntries, upperCaseFirst } from '@tempots/std'
 import { SchemaContext } from './schema-context'
 import { StringControl } from './widgets/string-controls'
 import { resolveRef } from './ref-utils'
-import { Label } from '../typography'
+import { Label, MutedLabel } from '../typography'
+import { SegmentedInput } from '../form/input/segmented-input'
 
 export function JSONSchemaAny({
   ctx,
@@ -44,6 +57,44 @@ export function JSONSchemaAny({
     }),
     controller: controller as unknown as Controller<unknown>,
   })
+}
+
+export function JSONSchemaEnum({
+  ctx,
+  controller,
+}: {
+  ctx: SchemaContext
+  controller: Controller<unknown>
+}): Renderable {
+  const def = ctx.definition as JSONSchema7
+  return NativeSelectControl({
+    ...definitionToInputWrapperOptions({ ctx }),
+    options: (def.enum ?? []).map(e => ({
+      type: 'value',
+      value: e,
+      label: String(e),
+    })),
+    controller,
+  })
+}
+
+export function JSONSchemaConst({
+  ctx,
+  controller,
+}: {
+  ctx: SchemaContext
+  controller: Controller<unknown>
+}): Renderable {
+  const def = ctx.definition as JSONSchema7
+  return Group(
+    MutedLabel(ctx.widgetLabel, ': '),
+    Label(String(def.const)),
+    WithElement(() => {
+      if (controller.value.value !== def.const) {
+        controller.change(def.const)
+      }
+    })
+  )
 }
 
 function definitionToInputWrapperOptions({
@@ -234,6 +285,129 @@ export function JSONSchemaObject({
   )
 }
 
+type JSONTypeName =
+  | 'string'
+  | 'number'
+  | 'integer'
+  | 'object'
+  | 'array'
+  | 'boolean'
+  | 'null'
+
+function detectTypeName(
+  v: unknown,
+  union: JSONTypeName[]
+): JSONTypeName | null {
+  if (v === null) return union.includes('null') ? 'null' : null
+  const t = typeof v
+  switch (t) {
+    case 'string':
+      return union.includes('string') ? 'string' : null
+    case 'number': {
+      if (Number.isInteger(v as number) && union.includes('integer'))
+        return 'integer'
+      return union.includes('number') ? 'number' : null
+    }
+    case 'boolean':
+      return union.includes('boolean') ? 'boolean' : null
+    case 'object': {
+      if (Array.isArray(v)) return union.includes('array') ? 'array' : null
+      return union.includes('object') ? 'object' : null
+    }
+    default:
+      return null
+  }
+}
+
+function tryConvert(
+  value: unknown,
+  target: JSONTypeName
+): { ok: true; value: unknown } | { ok: false } {
+  try {
+    switch (target) {
+      case 'string':
+        if (value == null) return { ok: true, value: undefined }
+        return { ok: true, value: String(value) }
+      case 'number': {
+        if (typeof value === 'number') return { ok: true, value }
+        if (typeof value === 'string') {
+          const n = Number(value)
+          return Number.isFinite(n) ? { ok: true, value: n } : { ok: false }
+        }
+        if (typeof value === 'boolean')
+          return { ok: true, value: value ? 1 : 0 }
+        return { ok: false }
+      }
+      case 'integer': {
+        if (typeof value === 'number' && Number.isInteger(value))
+          return { ok: true, value }
+        if (typeof value === 'string') {
+          if (/^[-+]?\d+$/.test(value.trim()))
+            return { ok: true, value: parseInt(value, 10) }
+          return { ok: false }
+        }
+        if (typeof value === 'boolean')
+          return { ok: true, value: value ? 1 : 0 }
+        return { ok: false }
+      }
+      case 'boolean': {
+        if (typeof value === 'boolean') return { ok: true, value }
+        if (typeof value === 'string') {
+          const s = value.trim().toLowerCase()
+          if (s === 'true' || s === '1' || s === 'yes')
+            return { ok: true, value: true }
+          if (s === 'false' || s === '0' || s === 'no')
+            return { ok: true, value: false }
+          return { ok: false }
+        }
+        if (typeof value === 'number') return { ok: true, value: value !== 0 }
+        return { ok: false }
+      }
+      case 'array':
+        if (Array.isArray(value)) return { ok: true, value }
+        return { ok: false }
+      case 'object':
+        if (value != null && typeof value === 'object' && !Array.isArray(value))
+          return { ok: true, value }
+        return { ok: false }
+      case 'null':
+        return { ok: true, value: null }
+    }
+  } catch {
+    return { ok: false }
+  }
+}
+
+function defaultClearedValue(target: JSONTypeName): unknown {
+  switch (target) {
+    case 'null':
+      return null
+    case 'array':
+      return []
+    case 'object':
+      return {}
+    default:
+      return undefined
+  }
+}
+
+function getXUI(def: JSONSchema7): {
+  unionDefault?: JSONTypeName
+  confirmBranchChange?: boolean
+  selector?: 'segmented' | 'select'
+} {
+  const raw = (def as unknown as Record<string, unknown>)['x:ui']
+  if (raw && typeof raw === 'object') {
+    const o = raw as Record<string, unknown>
+    return {
+      unionDefault: o['unionDefault'] as JSONTypeName | undefined,
+      confirmBranchChange: Boolean(o['confirmBranchChange']) || false,
+      selector: (o['selector'] as 'segmented' | 'select') || undefined,
+    }
+  }
+  return {}
+}
+
 export function JSONSchemaUnion<T>({
   ctx,
   controller,
@@ -241,9 +415,101 @@ export function JSONSchemaUnion<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
-  console.warn(ctx, controller)
-  // TODO
-  return html.div(attr.class('bc-json-schema-union'), 'Union')
+  const def = ctx.definition as JSONSchema7
+  const types = (def.type as JSONTypeName[]) ?? []
+  const xui = getXUI(def)
+
+  const selectionStore = prop<JSONTypeName | null>(null)
+  controller.onDispose(selectionStore.dispose)
+
+  // Determine initial branch
+  const current = controller.value.value as unknown
+  const detected = detectTypeName(current, types)
+  const initial: JSONTypeName =
+    detected ??
+    selectionStore.value ??
+    (xui.unionDefault && types.includes(xui.unionDefault)
+      ? xui.unionDefault
+      : (types.find(t => t !== 'null') ?? types[0]!))
+
+  // Active selection signal in storage
+  if (selectionStore.value !== initial) selectionStore.set(initial)
+  const selectedValue = Value.map(selectionStore, s => s ?? initial)
+
+  const Selector = (onChange: (t: JSONTypeName) => void) => {
+    const mode = xui.selector ?? (types.length <= 3 ? 'segmented' : 'select')
+    if (mode === 'segmented') {
+      const labels = Object.fromEntries(
+        types.map(t => [t, upperCaseFirst(t)])
+      ) as Record<JSONTypeName, string>
+      return SegmentedInput<Record<JSONTypeName, string>>({
+        options: labels,
+        value: selectedValue,
+        onChange: (t: keyof typeof labels) => onChange(t as JSONTypeName),
+        size: 'sm',
+      })
+    }
+    // Fallback to native select
+    return NativeSelect<JSONTypeName>({
+      options: types.map(t => ({
+        type: 'value',
+        value: t,
+        label: upperCaseFirst(t),
+      })),
+      value: selectedValue,
+      onChange: onChange,
+    })
+  }
+
+  const changeBranch = (next: JSONTypeName) => {
+    const currentVal = controller.value.value as unknown
+    if (detectTypeName(currentVal, [next])) {
+      selectionStore.set(next)
+      return
+    }
+    const conv = tryConvert(currentVal, next)
+    if (conv.ok) {
+      selectionStore.set(next)
+      controller.change(conv.value as T)
+      return
+    }
+    const clear = () => {
+      selectionStore.set(next)
+      controller.change(defaultClearedValue(next) as T)
+    }
+    if (xui.confirmBranchChange) {
+      if (typeof window === 'object' && typeof window.confirm === 'function') {
+        const ok = window.confirm(
+          'Changing type will clear the current value. Continue?'
+        )
+        if (!ok) return
+      }
+    }
+    clear()
+  }
+
+  // Render active branch control reactively
+  const inner = Ensure(
+    selectedValue as unknown as Value<JSONTypeName | undefined>,
+    sv =>
+      JSONSchemaGenericControl({
+        ctx: ctx.with({
+          definition: {
+            ...(def as JSONSchema7),
+            type: Value.get(sv) as JSONTypeName,
+          },
+        }),
+        controller: controller as unknown as Controller<unknown>,
+      })
+  )
+
+  if (ctx.isRoot) {
+    return Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
+  }
+  return InputWrapper({
+    ...definitionToInputWrapperOptions({ ctx }),
+    content: Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner),
+  })
 }
 
 export function JSONSchemaGenericControl<T>({
@@ -254,10 +520,29 @@ export function JSONSchemaGenericControl<T>({
   controller: Controller<T>
 }): Renderable {
   // Resolve $ref (in-document) if present; merge with siblings
-  const baseDef = ctx.definition as JSONSchema7
+  // TODO comparing to boolean is not strictly correct (false is never, true is correct)
+  const baseDef = typeof ctx.definition === 'boolean' ? {} : ctx.definition
   const resolvedDef = baseDef?.$ref ? resolveRef(baseDef, ctx.schema) : baseDef
   const nextCtx = ctx.with({ definition: resolvedDef })
 
+  if (resolvedDef == null) {
+    return JSONSchemaAny({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
+  if (resolvedDef.enum != null) {
+    return JSONSchemaEnum({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
+  if (resolvedDef.const != null) {
+    return JSONSchemaConst({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
   if (resolvedDef?.type == null) {
     return JSONSchemaAny({
       ctx: nextCtx,
