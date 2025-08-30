@@ -21,3 +21,15 @@
 .bc-rating-input__icon-container:hover {
   transform: scale(1.2);
 }
+
+
+/* Disabled state: no hover scale and different cursor */
+.bc-rating-input[aria-disabled='true'] .bc-rating-input__icon-container,
+.bc-input-container--disabled .bc-rating-input__icon-container {
+  cursor: not-allowed;
+}
+
+.bc-rating-input[aria-disabled='true'] .bc-rating-input__icon-container:hover,
+.bc-input-container--disabled .bc-rating-input__icon-container:hover {
+  transform: none;
+}
