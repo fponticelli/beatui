@@ -5,6 +5,7 @@ import {
   WithTemporal,
   WithBeatUIElementBreakpoint,
   RatingInput,
+  Group,
 } from '@tempots/beatui'
 
 import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
@@ -65,6 +66,7 @@ import {
   ListInput,
   useController,
 } from '@tempots/beatui'
+import { ControlsHeader } from '../elements/controls-header'
 
 const max = 40
 const ellipsis = (s: string) => (s.length > max ? s.slice(0, max) + '...' : s)
@@ -84,6 +86,7 @@ function description(value: Prop<any>) {
 export const InputsPage = () =>
   WithTemporal(T => {
     const displayNonNullables = prop(true)
+    const disabled = prop(false)
 
     // Simple input values
     const appearance = prop<'system' | 'light' | 'dark'>('system')
@@ -194,16 +197,23 @@ export const InputsPage = () =>
     const list = listCtl.controller.array()
 
     return ScrollablePanel({
+      header: ControlsHeader(
+        Group(
+          InputWrapper({
+            label: 'Display non-nullables',
+            content: Switch({
+              value: displayNonNullables,
+              onChange: displayNonNullables.set,
+            }),
+          }),
+          InputWrapper({
+            label: 'Disabled',
+            content: Switch({ value: disabled, onChange: disabled.set }),
+          })
+        )
+      ),
       body: Stack(
         attr.class('bu-p-4 bu-gap-4'),
-        InputWrapper({
-          label: 'Display non-nullables',
-          content: Switch({
-            value: displayNonNullables,
-            onChange: displayNonNullables.set,
-          }),
-        }),
-
         // Simple inputs that only need a value
         html.h2(
           attr.style(
@@ -217,22 +227,36 @@ export const InputsPage = () =>
             content: AppearanceSelector({
               value: appearance,
               onChange: appearance.set,
+              // TODO
+              // disabled,
             }),
             description: description(appearance),
           }),
           InputWrapper({
             label: 'Base64 Input',
-            content: Base64Input({ value: base64, onChange: base64.set }),
+            content: Base64Input({
+              value: base64,
+              onChange: base64.set,
+              disabled,
+            }),
             description: description(base64),
           }),
           InputWrapper({
             label: 'Base64s Input',
-            content: Base64sInput({ value: base64s, onChange: base64s.set }),
+            content: Base64sInput({
+              value: base64s,
+              onChange: base64s.set,
+              disabled,
+            }),
             description: description(base64s),
           }),
           InputWrapper({
             label: 'Checkbox Input',
-            content: CheckboxInput({ value: checkbox, onChange: checkbox.set }),
+            content: CheckboxInput({
+              value: checkbox,
+              onChange: checkbox.set,
+              disabled,
+            }),
             description: description(checkbox),
           }),
           InputWrapper({
@@ -243,6 +267,7 @@ export const InputsPage = () =>
               displayValue: true,
               withAlpha: true,
               colorTextFormat: 'hex',
+              disabled,
             }),
             description: description(color),
           }),
@@ -260,6 +285,7 @@ export const InputsPage = () =>
                   max: 5,
                   rounding: 0.5,
                   size: 'lg',
+                  disabled,
                 }),
                 description: description(rating),
               }),
@@ -275,6 +301,7 @@ export const InputsPage = () =>
                   max: 5,
                   rounding: 0.5,
                   size: 'lg',
+                  disabled,
                 }),
                 description: description(nullableRating),
               })
@@ -284,7 +311,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'Email Input',
-                content: EmailInput({ value: email, onChange: email.set }),
+                content: EmailInput({
+                  value: email,
+                  onChange: email.set,
+                  disabled,
+                }),
                 description: description(email),
               }),
             () =>
@@ -293,18 +324,23 @@ export const InputsPage = () =>
                 content: NullableEmailInput({
                   value: nullableEmail,
                   onChange: nullableEmail.set,
+                  disabled,
                 }),
                 description: description(nullableEmail),
               })
           ),
           InputWrapper({
             label: 'File Input',
-            content: FileInput({ value: file, onChange: file.set }),
+            content: FileInput({ value: file, onChange: file.set, disabled }),
             description: description(file),
           }),
           InputWrapper({
             label: 'Files Input',
-            content: FilesInput({ value: files, onChange: files.set }),
+            content: FilesInput({
+              value: files,
+              onChange: files.set,
+              disabled,
+            }),
             description: description(files),
           }),
           When(
@@ -316,6 +352,7 @@ export const InputsPage = () =>
                   value: number,
                   onChange: number.set,
                   step: 1,
+                  disabled,
                 }),
                 description: description(number),
               }),
@@ -326,6 +363,7 @@ export const InputsPage = () =>
                   value: nullableNumber,
                   onChange: nullableNumber.set,
                   step: 1,
+                  disabled,
                 }),
                 description: description(nullableNumber),
               })
@@ -339,6 +377,7 @@ export const InputsPage = () =>
                   value: bigint,
                   onChange: bigint.set,
                   step: 1n,
+                  disabled,
                 }),
                 description: description(bigint),
               }),
@@ -349,6 +388,7 @@ export const InputsPage = () =>
                   value: nullableBigint,
                   onChange: nullableBigint.set,
                   step: 1n,
+                  disabled,
                 }),
                 description: description(nullableBigint),
               })
@@ -361,6 +401,7 @@ export const InputsPage = () =>
                 content: PasswordInput({
                   value: password,
                   onChange: password.set,
+                  disabled,
                 }),
                 description: description(password),
               }),
@@ -370,13 +411,14 @@ export const InputsPage = () =>
                 content: NullablePasswordInput({
                   value: nullablePassword,
                   onChange: nullablePassword.set,
+                  disabled,
                 }),
                 description: description(nullablePassword),
               })
           ),
           InputWrapper({
             label: 'Tags Input',
-            content: TagsInput({ value: tags, onChange: tags.set }),
+            content: TagsInput({ value: tags, onChange: tags.set, disabled }),
             description: description(tags),
           }),
           When(
@@ -387,6 +429,7 @@ export const InputsPage = () =>
                 content: TextArea({
                   value: textAreaVal,
                   onChange: textAreaVal.set,
+                  disabled,
                 }),
                 description: description(textAreaVal),
               }),
@@ -396,6 +439,7 @@ export const InputsPage = () =>
                 content: NullableTextArea({
                   value: nullableTextAreaVal,
                   onChange: nullableTextAreaVal.set,
+                  disabled,
                 }),
                 description: description(nullableTextAreaVal),
               })
@@ -405,7 +449,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'Text Input',
-                content: TextInput({ value: textVal, onChange: textVal.set }),
+                content: TextInput({
+                  value: textVal,
+                  onChange: textVal.set,
+                  disabled,
+                }),
                 description: description(textVal),
               }),
             () =>
@@ -414,6 +462,7 @@ export const InputsPage = () =>
                 content: NullableTextInput({
                   value: nullableTextVal,
                   onChange: nullableTextVal.set,
+                  disabled,
                 }),
                 description: description(nullableTextVal),
               })
@@ -425,7 +474,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'UUID Input',
-                content: UUIDInput({ value: uuid, onChange: uuid.set }),
+                content: UUIDInput({
+                  value: uuid,
+                  onChange: uuid.set,
+                  disabled,
+                }),
                 description: description(uuid),
               }),
             () =>
@@ -434,6 +487,7 @@ export const InputsPage = () =>
                 content: NullableUUIDInput({
                   value: nullableUuid,
                   onChange: nullableUuid.set,
+                  disabled,
                 }),
                 description: description(nullableUuid),
               })
@@ -443,7 +497,11 @@ export const InputsPage = () =>
             () =>
               InputWrapper({
                 label: 'Date Input',
-                content: DateInput({ value: date, onChange: date.set }),
+                content: DateInput({
+                  value: date,
+                  onChange: date.set,
+                  disabled,
+                }),
                 description: description(date),
               }),
             () =>
@@ -452,6 +510,7 @@ export const InputsPage = () =>
                 content: NullableDateInput({
                   value: nullableDate,
                   onChange: nullableDate.set,
+                  disabled,
                 }),
                 description: description(nullableDate),
               })
@@ -464,6 +523,7 @@ export const InputsPage = () =>
                 content: DateTimeInput({
                   value: dateTime,
                   onChange: dateTime.set,
+                  disabled,
                 }),
                 description: description(dateTime),
               }),
@@ -473,6 +533,7 @@ export const InputsPage = () =>
                 content: NullableDateTimeInput({
                   value: nullableDateTime,
                   onChange: nullableDateTime.set,
+                  disabled,
                 }),
                 description: description(nullableDateTime),
               })
@@ -492,6 +553,7 @@ export const InputsPage = () =>
               value: comboboxValue,
               options: comboboxOptions,
               onChange: comboboxValue.set,
+              disabled,
             }),
             description: description(comboboxValue),
           }),
@@ -501,6 +563,7 @@ export const InputsPage = () =>
               value: nativeSelectValue,
               options: nativeSelectOptions,
               onChange: nativeSelectValue.set,
+              disabled,
             }),
             description: description(nativeSelectValue),
           }),
@@ -514,6 +577,7 @@ export const InputsPage = () =>
                 { id: 'b', label: 'B' },
               ],
               onChange: lazySelectValue.set,
+              disabled,
             }),
             description: description(lazySelectValue),
           }),
@@ -526,6 +590,7 @@ export const InputsPage = () =>
                   value: maskVal,
                   mask: '999-999',
                   onChange: maskVal.set,
+                  disabled,
                 }),
                 description: description(maskVal),
               }),
@@ -536,6 +601,7 @@ export const InputsPage = () =>
                   value: nullableMaskVal,
                   mask: '999-999',
                   onChange: nullableMaskVal.set,
+                  disabled,
                 }),
                 description: description(nullableMaskVal),
               })
@@ -545,19 +611,29 @@ export const InputsPage = () =>
             content: EditableText({
               value: editableTextVal,
               onChange: editableTextVal.set,
+              // TODO
+              // disabled,
             }),
             description: description(editableTextVal),
           }),
           InputWrapper({
             label: 'Switch',
-            content: Switch({ value: switchVal, onChange: switchVal.set }),
+            content: Switch({
+              value: switchVal,
+              onChange: switchVal.set,
+              disabled,
+            }),
             description: description(switchVal),
           }),
           InputWrapper({
             label: 'List Input',
             content: Stack(
               ListInput(list, ({ item }) =>
-                TextInput({ value: item.value, onChange: item.change })
+                TextInput({
+                  value: item.value,
+                  onChange: item.change,
+                  disabled,
+                })
               ),
               html.div(listCtl.controller.value.map(v => String(v)))
             ),
@@ -579,6 +655,7 @@ export const InputsPage = () =>
                 content: PlainDateInput({
                   value: plainDate,
                   onChange: plainDate.set,
+                  disabled,
                 }),
                 description: description(plainDate),
               }),
@@ -588,6 +665,7 @@ export const InputsPage = () =>
                 content: NullablePlainDateInput({
                   value: nullablePlainDate,
                   onChange: v => nullablePlainDate.set(v),
+                  disabled,
                 }),
                 description: description(nullablePlainDate),
               })
@@ -600,6 +678,7 @@ export const InputsPage = () =>
                 content: PlainTimeInput({
                   value: plainTime,
                   onChange: plainTime.set,
+                  disabled,
                 }),
                 description: description(plainTime),
               }),
@@ -609,6 +688,7 @@ export const InputsPage = () =>
                 content: NullablePlainTimeInput({
                   value: nullablePlainTime,
                   onChange: v => nullablePlainTime.set(v),
+                  disabled,
                 }),
                 description: description(nullablePlainTime),
               })
@@ -621,6 +701,7 @@ export const InputsPage = () =>
                 content: PlainDateTimeInput({
                   value: plainDateTime,
                   onChange: plainDateTime.set,
+                  disabled,
                 }),
                 description: description(plainDateTime),
               }),
@@ -630,6 +711,7 @@ export const InputsPage = () =>
                 content: NullablePlainDateTimeInput({
                   value: nullablePlainDateTime,
                   onChange: v => nullablePlainDateTime.set(v),
+                  disabled,
                 }),
                 description: description(nullablePlainDateTime),
               })
@@ -642,6 +724,7 @@ export const InputsPage = () =>
                 content: InstantInput({
                   value: instant,
                   onChange: instant.set,
+                  disabled,
                 }),
                 description: description(instant),
               }),
@@ -651,6 +734,7 @@ export const InputsPage = () =>
                 content: NullableInstantInput({
                   value: nullableInstant,
                   onChange: v => nullableInstant.set(v),
+                  disabled,
                 }),
                 description: description(nullableInstant),
               })
@@ -663,6 +747,7 @@ export const InputsPage = () =>
                 content: ZonedDateTimeInput({
                   value: zonedDateTime,
                   onChange: zonedDateTime.set,
+                  disabled,
                 }),
                 description: description(zonedDateTime),
               }),
@@ -672,6 +757,7 @@ export const InputsPage = () =>
                 content: NullableZonedDateTimeInput({
                   value: nullableZonedDateTime,
                   onChange: v => nullableZonedDateTime.set(v),
+                  disabled,
                 }),
                 description: description(nullableZonedDateTime),
               })
@@ -684,6 +770,7 @@ export const InputsPage = () =>
                 content: PlainYearMonthInput({
                   value: plainYearMonth,
                   onChange: plainYearMonth.set,
+                  disabled,
                 }),
                 description: description(plainYearMonth),
               }),
@@ -692,7 +779,8 @@ export const InputsPage = () =>
                 label: 'Nullable Plain Year Month Input',
                 content: NullablePlainYearMonthInput({
                   value: nullablePlainYearMonth,
-                  onChange: v => nullablePlainYearMonth.set(v),
+                  onChange: nullablePlainYearMonth.set,
+                  disabled,
                 }),
                 description: description(nullablePlainYearMonth),
               })
@@ -705,6 +793,7 @@ export const InputsPage = () =>
                 content: PlainMonthDayInput({
                   value: plainMonthDay,
                   onChange: plainMonthDay.set,
+                  disabled,
                 }),
                 description: description(plainMonthDay),
               }),
@@ -713,7 +802,8 @@ export const InputsPage = () =>
                 label: 'Nullable Plain Month Day Input',
                 content: NullablePlainMonthDayInput({
                   value: nullablePlainMonthDay,
-                  onChange: v => nullablePlainMonthDay.set(v),
+                  onChange: nullablePlainMonthDay.set,
+                  disabled,
                 }),
                 description: description(nullablePlainMonthDay),
               })
@@ -726,6 +816,7 @@ export const InputsPage = () =>
                 content: DurationInput({
                   value: duration,
                   onChange: duration.set,
+                  disabled,
                 }),
                 description: description(duration),
               }),
@@ -734,7 +825,8 @@ export const InputsPage = () =>
                 label: 'Nullable Duration Input',
                 content: NullableDurationInput({
                   value: nullableDuration,
-                  onChange: v => nullableDuration.set(v),
+                  onChange: nullableDuration.set,
+                  disabled,
                 }),
                 description: description(nullableDuration),
               })

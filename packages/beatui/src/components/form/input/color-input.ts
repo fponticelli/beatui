@@ -504,6 +504,7 @@ export const ColorInput = (options: ColorInputOptions) => {
       attr.max(1),
       attr.step(0.01),
       attr.value(Value.map(alphaStore, a => String(a ?? 1))),
+      attr.disabled(options.disabled),
       on.input(e => {
         const a = parseFloat((e.target as HTMLInputElement).value)
         alphaStore.set(a)
