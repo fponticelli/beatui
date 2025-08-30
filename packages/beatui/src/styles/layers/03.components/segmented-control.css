@@ -119,3 +119,64 @@
   background-color: var(--color-base-200);
   color: var(--text-muted-light);
 }
+
+
+/* Dark mode styles */
+.b-dark .bc-segmented-control {
+  background-color: var(--bg-subtle-dark);
+  border: 1px solid var(--border-border-dark);
+}
+
+.b-dark .bc-segmented-control__indicator {
+  background-color: var(--bg-elevated-dark);
+  box-shadow:
+    0 1px 3px var(--shadow-color-dark),
+    0 0 0 1px var(--shadow-highlight-dark);
+}
+
+.b-dark .bc-segmented-control__segment {
+  color: var(--text-muted-dark);
+  transition: all 0.2s ease-in-out;
+  border-radius: var(--radius-full);
+}
+
+.b-dark .bc-segmented-control__segment:hover {
+  color: var(--text-normal-dark);
+  background-color: var(--interactive-hover-dark);
+}
+
+.b-dark .bc-segmented-control__segment--active,
+.b-dark .bc-segmented-control__segment--active:hover {
+  color: var(--text-normal-dark);
+  background: transparent;
+}
+
+.b-dark .bc-segmented-control__segment--inactive {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-segmented-control__segment--inactive:hover {
+  color: var(--text-normal-dark);
+}
+
+/* Disabled state (dark) */
+.b-dark .bc-segmented-control--disabled {
+  background-color: var(--bg-background-dark);
+  border: 1px solid var(--border-divider-dark);
+  opacity: 0.5;
+}
+
+.b-dark .bc-segmented-control--disabled .bc-segmented-control__indicator {
+  background-color: var(--bg-subtle-dark);
+  box-shadow: none;
+}
+
+.b-dark .bc-segmented-control--disabled .bc-segmented-control__segment {
+  color: var(--text-muted-dark);
+  cursor: not-allowed;
+}
+
+.b-dark .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+  color: var(--text-muted-dark);
+  background-color: transparent;
+}
