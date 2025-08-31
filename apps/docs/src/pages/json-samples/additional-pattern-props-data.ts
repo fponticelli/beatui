@@ -3,4 +3,3 @@ export default {
   'x-max': 5,
   feature: 'enabled',
 }
-

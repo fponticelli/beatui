@@ -8,4 +8,3 @@ export default {
   favoriteColor: '#3366ff',
   // avatar omitted for brevity
 }
-

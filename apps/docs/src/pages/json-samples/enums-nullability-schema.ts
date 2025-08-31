@@ -31,4 +31,3 @@ export default {
   required: ['status', 'role'],
   additionalProperties: false,
 }
-

@@ -33,4 +33,3 @@ export default {
   required: ['email', 'id'],
   additionalProperties: false,
 }
-

@@ -16,10 +16,10 @@ export default {
       items: { type: 'string', title: 'Tag' },
       minItems: 3,
       maxItems: 6,
-      description: 'First three items are fixed; any additional are string tags.',
+      description:
+        'First three items are fixed; any additional are string tags.',
     },
   },
   required: ['event'],
   additionalProperties: false,
 }
-

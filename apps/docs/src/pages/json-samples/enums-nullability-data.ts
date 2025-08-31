@@ -4,4 +4,3 @@ export default {
   nickname: null,
   tags: ['a', 'c'],
 }
-

@@ -1,3 +1,7 @@
+---
+type: 'always_apply'
+---
+
 # Tempo TS – Engineer’s Usage Guide
 
 ## Overview of Tempo and Its Packages

@@ -1,22 +1,23 @@
 export default {
   type: 'object',
   title: 'allOf Merge Strategy Demo',
-  description: 'Demonstrates how allOf branches are merged with conflict detection',
-  
+  description:
+    'Demonstrates how allOf branches are merged with conflict detection',
+
   // This allOf will demonstrate successful merging
   allOf: [
     {
       type: 'object',
       properties: {
-        name: { 
+        name: {
           type: 'string',
           title: 'Name',
-          description: 'User name'
+          description: 'User name',
         },
-        email: { 
+        email: {
           type: 'string',
           format: 'email',
-          title: 'Email'
+          title: 'Email',
         },
       },
       required: ['name'],
@@ -24,15 +25,15 @@ export default {
     {
       type: 'object',
       properties: {
-        age: { 
+        age: {
           type: 'number',
           minimum: 0,
           maximum: 150,
-          title: 'Age'
+          title: 'Age',
         },
-        phone: { 
+        phone: {
           type: 'string',
-          title: 'Phone Number'
+          title: 'Phone Number',
         },
       },
       required: ['age'],
@@ -47,12 +48,12 @@ export default {
               type: 'string',
               enum: ['light', 'dark', 'auto'],
               default: 'auto',
-              title: 'Theme Preference'
+              title: 'Theme Preference',
             },
             notifications: {
               type: 'boolean',
               default: true,
-              title: 'Enable Notifications'
+              title: 'Enable Notifications',
             },
           },
         },
@@ -60,10 +61,10 @@ export default {
       required: ['email'], // This will be merged with other required arrays
     },
   ],
-  
+
   // Additional properties to test merging
   additionalProperties: false,
-  
+
   // Example data for testing
   examples: [
     {

@@ -20,4 +20,3 @@ export default {
   minProperties: 1,
   maxProperties: 10,
 }
-

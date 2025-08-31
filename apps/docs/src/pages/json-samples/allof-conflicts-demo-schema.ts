@@ -2,7 +2,7 @@ export default {
   type: 'object',
   title: 'allOf Conflicts Demo',
   description: 'Demonstrates conflict detection in allOf merge strategy',
-  
+
   // This allOf will demonstrate conflicts that are detected and reported
   allOf: [
     {
@@ -18,27 +18,27 @@ export default {
     {
       type: 'object',
       properties: {
-        conflictingProp: { 
+        conflictingProp: {
           type: 'string',
-          title: 'String Property'
+          title: 'String Property',
         },
       },
     },
     {
       type: 'object',
       properties: {
-        conflictingProp: { 
+        conflictingProp: {
           type: 'number', // This conflicts with the string version above
-          title: 'Number Property'
+          title: 'Number Property',
         },
         nonConflictingProp: {
           type: 'boolean',
-          title: 'Non-conflicting Property'
+          title: 'Non-conflicting Property',
         },
       },
     },
   ],
-  
+
   // Example data - this won't validate due to the type conflicts
   examples: [
     'This is a string example',

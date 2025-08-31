@@ -20,4 +20,3 @@ export default {
   required: ['title'],
   additionalProperties: false,
 }
-

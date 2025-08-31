@@ -34,7 +34,7 @@ describe('JSON Schema Optionality and Nullability', () => {
       expect(requiredCtx.shouldShowPresenceToggle).toBe(false)
 
       expect(optionalCtx.isOptional).toBe(true)
-      expect(optionalCtx.shouldShowPresenceToggle).toBe(true)
+      expect(optionalCtx.shouldShowPresenceToggle).toBe(false) // Optional primitives don't show presence toggles
     })
 
     it('should not show presence toggle for root level properties', () => {
@@ -235,7 +235,7 @@ describe('JSON Schema Optionality and Nullability', () => {
 
       expect(ctx.isOptional).toBe(true)
       expect(ctx.isNullable).toBe(false)
-      expect(ctx.shouldShowPresenceToggle).toBe(true)
+      expect(ctx.shouldShowPresenceToggle).toBe(false) // Optional primitives don't show presence toggles
     })
 
     it('should handle required non-nullable fields', () => {

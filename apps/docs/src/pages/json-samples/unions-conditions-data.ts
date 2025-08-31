@@ -8,4 +8,3 @@ export default {
   newsletter: true,
   email: 'ada@example.com',
 }
-

@@ -4,4 +4,3 @@ export default {
   notes: 'legacy value',
   name: 'Ada',
 }
-
