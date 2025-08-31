@@ -212,8 +212,8 @@ describe('JSON Schema Optionality and Nullability', () => {
 
       expect(ctx.isOptional).toBe(true)
       expect(ctx.isNullable).toBe(true)
-      expect(ctx.isPrimitive).toBe(true)
-      expect(ctx.shouldShowPresenceToggle).toBe(false) // No presence toggle for nullable primitives
+      expect(ctx.isPrimitive).toBe(false) // Unions including null are treated as non-primitive
+      expect(ctx.shouldShowPresenceToggle).toBe(true) // Show presence toggle for optional non-primitive
     })
 
     it('should handle optional non-nullable fields', () => {
@@ -298,18 +298,18 @@ describe('JSON Schema Optionality and Nullability', () => {
       // All should be optional and nullable
       expect(stringCtx.isOptional).toBe(true)
       expect(stringCtx.isNullable).toBe(true)
-      expect(stringCtx.isPrimitive).toBe(true)
-      expect(stringCtx.shouldShowPresenceToggle).toBe(false) // No presence toggle for nullable primitives
+      expect(stringCtx.isPrimitive).toBe(false)
+      expect(stringCtx.shouldShowPresenceToggle).toBe(true) // Presence toggle shown for optional unions incl. null
 
       expect(numberCtx.isOptional).toBe(true)
       expect(numberCtx.isNullable).toBe(true)
-      expect(numberCtx.isPrimitive).toBe(true)
-      expect(numberCtx.shouldShowPresenceToggle).toBe(false) // No presence toggle for nullable primitives
+      expect(numberCtx.isPrimitive).toBe(false)
+      expect(numberCtx.shouldShowPresenceToggle).toBe(true) // Presence toggle shown for optional unions incl. null
 
       expect(booleanCtx.isOptional).toBe(true)
       expect(booleanCtx.isNullable).toBe(true)
-      expect(booleanCtx.isPrimitive).toBe(true)
-      expect(booleanCtx.shouldShowPresenceToggle).toBe(false) // No presence toggle for nullable primitives
+      expect(booleanCtx.isPrimitive).toBe(false)
+      expect(booleanCtx.shouldShowPresenceToggle).toBe(true) // Presence toggle shown for optional unions incl. null
     })
 
     it('should show presence toggle for optional non-nullable objects', () => {
