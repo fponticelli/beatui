@@ -140,7 +140,7 @@ function PresenceToggle<T>({
   content: Renderable
 }) {
   const isPresent = Value.map(controller.value, v => v !== undefined)
-  const label = ctx.widgetLabel || 'Property'
+  const label = ctx.widgetLabel ?? 'Property'
 
   const handleToggle = (checked: boolean) => {
     if (checked) {
@@ -276,7 +276,7 @@ export function JSONSchemaConst({
   return Fragment(
     WithElement(() => {
       // Set const value on mount
-      if (controller.value.value !== def.const) {
+      if (Value.get(controller.value) !== def.const) {
         controller.change(def.const)
       }
     }),
@@ -731,7 +731,7 @@ export function JSONSchemaObject({
           disabled: !canAdd,
           onClick: () => {
             if (!canAdd) return
-            const keys = new Set(Object.keys(controller.value.value ?? {}))
+            const keys = new Set(Object.keys(Value.get(controller.value) ?? {}))
             const newKey = nextAvailableKey('property', keys)
             const permitted = validatePropertyName(newKey)
             if (!permitted.ok) return
@@ -743,7 +743,10 @@ export function JSONSchemaObject({
             }
 
             const val = makeDefaultFor(valueSchema)
-            const next = { ...(controller.value.value ?? {}), [newKey]: val }
+            const next = {
+              ...(Value.get(controller.value) ?? {}),
+              [newKey]: val,
+            }
             controller.change(next)
           },
         },
@@ -784,7 +787,7 @@ export function JSONSchemaObject({
         if (!trimmed || trimmed === key) return
         if (
           Object.prototype.hasOwnProperty.call(
-            controller.value.value ?? {},
+            Value.get(controller.value) ?? {},
             trimmed
           )
         )
@@ -795,7 +798,7 @@ export function JSONSchemaObject({
           return
         }
         keyError.set(null)
-        const obj = { ...(controller.value.value ?? {}) }
+        const obj = { ...(Value.get(controller.value) ?? {}) }
         const val = obj[key]
         delete (obj as Record<string, unknown>)[key]
         ;(obj as Record<string, unknown>)[trimmed] = val
@@ -807,9 +810,9 @@ export function JSONSchemaObject({
           label: t.$.removeItem,
           disabled: !canRemove(Object.keys(current ?? {}).length),
           onClick: () => {
-            const count = Object.keys(controller.value.value ?? {}).length
+            const count = Object.keys(Value.get(controller.value) ?? {}).length
             if (!canRemove(count)) return
-            const obj = { ...(controller.value.value ?? {}) }
+            const obj = { ...(Value.get(controller.value) ?? {}) }
             delete (obj as Record<string, unknown>)[key]
             controller.change(obj)
           },
@@ -900,7 +903,7 @@ export function JSONSchemaObject({
         if (!trimmed || trimmed === key) return
         if (
           Object.prototype.hasOwnProperty.call(
-            controller.value.value ?? {},
+            Value.get(controller.value) ?? {},
             trimmed
           )
         )
@@ -911,7 +914,7 @@ export function JSONSchemaObject({
           return
         }
         keyError.set(null)
-        const obj = { ...(controller.value.value ?? {}) }
+        const obj = { ...(Value.get(controller.value) ?? {}) }
         const val = obj[key]
         delete (obj as Record<string, unknown>)[key]
         ;(obj as Record<string, unknown>)[trimmed] = val
@@ -924,9 +927,9 @@ export function JSONSchemaObject({
           label: t.$.removeItem,
           disabled: !canRemove(Object.keys(current ?? {}).length),
           onClick: () => {
-            const count = Object.keys(controller.value.value ?? {}).length
+            const count = Object.keys(Value.get(controller.value) ?? {}).length
             if (!canRemove(count)) return
-            const obj = { ...(controller.value.value ?? {}) }
+            const obj = { ...(Value.get(controller.value) ?? {}) }
             delete (obj as Record<string, unknown>)[key]
             controller.change(obj)
           },
@@ -1168,7 +1171,7 @@ export function JSONSchemaUnion<T>({
   controller.onDispose(selectionStore.dispose)
 
   // Determine initial branch
-  const current = controller.value.value as unknown
+  const current = Value.get(controller.value) as unknown
   const detected = detectTypeName(current, types)
   const initial: JSONTypeName =
     detected ??
@@ -1207,7 +1210,7 @@ export function JSONSchemaUnion<T>({
   }
 
   const changeBranch = (next: JSONTypeName) => {
-    const currentVal = controller.value.value as unknown
+    const currentVal = Value.get(controller.value) as unknown
     if (detectTypeName(currentVal, [next])) {
       selectionStore.set(next)
       return
@@ -1312,7 +1315,7 @@ export function JSONSchemaGenericControl<T>({
   // Evaluate not violations against current controller value
   let notViolations = [...nextCtx.notViolations]
   if (resolvedDef?.not != null && typeof resolvedDef.not === 'object') {
-    const currentValue = controller.value.value
+    const currentValue = Value.get(controller.value)
     const violation = evaluateNotViolation(
       resolvedDef.not,
       currentValue,
