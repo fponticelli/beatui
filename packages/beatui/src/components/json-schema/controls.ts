@@ -272,14 +272,14 @@ export function JSONSchemaConst({
   controller: Controller<unknown>
 }): Renderable {
   const def = ctx.definition as JSONSchema
-  return Group(
-    MutedLabel(ctx.widgetLabel, ': '),
-    Label(String(def.const)),
+  return Fragment(
     WithElement(() => {
+      // Set const value on mount
       if (controller.value.value !== def.const) {
         controller.change(def.const)
       }
-    })
+    }),
+    Group(MutedLabel(ctx.widgetLabel, ': '), Label(String(def.const)))
   )
 }
 
@@ -496,7 +496,7 @@ export function JSONSchemaBoolean({
   })
 
   // For optional nullable primitives, use nullable controls instead of presence toggles
-  if (!ctx.isNullable || (!ctx.isOptional && ctx.shouldShowPresenceToggle))
+  if (!ctx.isNullable || (ctx.isOptional && !ctx.shouldShowPresenceToggle))
     return base
 
   // Nullable boolean: add a small clear button that sets the value to null
@@ -540,7 +540,9 @@ export function JSONSchemaArray({
       const d = ctx.definition as JSONSchema
       const definition = Array.isArray(d.items)
         ? d.items[payload.position.index]
-        : (d.items ?? {})
+        : d.items === false
+          ? false
+          : (d.items ?? {})
       return JSONSchemaGenericControl({
         ctx: ctx
           .with({ definition: definition as JSONSchemaDefinition })
@@ -585,7 +587,11 @@ export function JSONSchemaObject({
     // Handle unevaluatedProperties (2019-09/2020-12)
     const unevaluatedProps = (effective as unknown as Record<string, unknown>)
       .unevaluatedProperties as boolean | JSONSchema | undefined
-    const evaluatedKeys = getEvaluatedProperties(effective, current, ctx.ajv)
+    const evaluatedKeys = getEvaluatedProperties(
+      effective,
+      current ?? {},
+      ctx.ajv
+    )
 
     // Remove unused pattern separation since we handle it in rendering
 
@@ -707,8 +713,9 @@ export function JSONSchemaObject({
       // Find a key that also satisfies constraints
       const base = baseName
       const tryKey = (k: string) => {
-        // temporary pass-through, will be replaced below after we define validatePropertyName
-        return !exists.has(k)
+        if (exists.has(k)) return false
+        const validity = validatePropertyName(k)
+        return validity.ok
       }
       if (tryKey(base)) return base
       let i = 1
@@ -1298,7 +1305,7 @@ export function JSONSchemaGenericControl<T>({
   // Evaluate not violations against current controller value
   let notViolations = [...nextCtx.notViolations]
   if (resolvedDef?.not != null && typeof resolvedDef.not === 'object') {
-    const currentValue = controller.value
+    const currentValue = controller.value.value
     const violation = evaluateNotViolation(
       resolvedDef.not,
       currentValue,
@@ -1426,7 +1433,9 @@ export function JSONSchemaGenericControl<T>({
           controller:
             controller instanceof ArrayController
               ? (controller as unknown as ArrayController<unknown[]>)
-              : (controller.array() as unknown as ArrayController<unknown[]>),
+              : ((
+                  controller as unknown as Controller<unknown[]>
+                ).array() as ArrayController<unknown[]>),
         }),
         controller
       )
