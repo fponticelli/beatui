@@ -1,5 +1,6 @@
 ---
-type: 'always_apply'
+type: "agent_requested"
+description: "Example description"
 ---
 
 # Tempo TS – Engineer’s Usage Guide
@@ -105,7 +106,7 @@ render(html.div(counterDisplay, incButton), document.body)
 
 ### Attributes and Events
 
-All attributes and events are added to renderables using helper functions. For attributes, use `attr.name(value)`. For events, use `on.eventName(handler)`. For SVG attributes, use `svgAttr.name(value)` (use `svg.svg()` for SVG elements). For Aria attributes, use `aria.name(value)`. For data attributes use `dataAttr.name(value)` where `name` is the data attribute name.
+All attributes and events are added to renderables using helper functions. For attributes, use `attr.name(value)`. For events, use `on.eventName(handler)`. For SVG attributes, use `svgAttr.name(value)` (use `svg.svg()` for SVG elements). For Aria attributes, use `aria.name(value)`. For data attributes use `dataAttr.name(value)` where `name` is the data attribute name. For style properties, use `style.display('block')` instead of a style object. If styles are immutable you could prefer `attr.style('display: block;')`.
 
 ```typescript
 import { html, attr, on } from '@tempots/dom'
