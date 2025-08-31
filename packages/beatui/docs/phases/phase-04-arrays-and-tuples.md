@@ -15,9 +15,6 @@ Actionable TODOs to implement tuple arrays, contains semantics, and array constr
   - Validate and highlight items that match the `contains` subschema; show a count and helper text “Must contain at least N item(s) matching X”.
   - Prevent submit until `minContains` is satisfied; flag `maxContains` violations with clear guidance.
 
-- [ ] Performance considerations for large arrays
-  - Virtualize list rendering when item count exceeds a threshold; debounce validations during drag-reorder operations.
-
 - [ ] Tests for arrays/tuples/contains
   - Add unit tests under `packages/beatui/tests/unit/` for: tuple indexing, tail handling, min/max items enforcement, uniqueItems detection, contains counts and highlighting.
 

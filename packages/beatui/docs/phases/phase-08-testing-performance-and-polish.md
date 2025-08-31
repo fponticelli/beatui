@@ -2,6 +2,9 @@
 
 Actionable TODOs to harden quality via tests, improve performance, and complete documentation.
 
+- [ ] Performance considerations for large arrays
+  - Virtualize list rendering when item count exceeds a threshold; debounce validations during drag-reorder operations.
+
 - [ ] Build a comprehensive unit test suite
   - Add per-keyword family tests under `packages/beatui/tests/unit/` for enums/const, unions, composition (allOf/anyOf/oneOf/not), conditionals, additional/pattern/unevaluated properties, arrays (tuple/contains), formats, and annotations.
   - Verify AJV→Controller error path mapping for common errors (required, additionalProperties, contains, oneOf mismatch).

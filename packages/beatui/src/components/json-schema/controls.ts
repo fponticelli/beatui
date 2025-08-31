@@ -30,6 +30,7 @@ import {
   Value,
   prop,
   MapSignal,
+  computedOf,
   When,
   Use,
   Ensure,
@@ -828,7 +829,10 @@ export function JSONSchemaObject({
           content: EditableText({
             value: keySignal,
             onChange: handleRename,
-            disabled: Value.map(controller.disabled, d => d) || keyLocked,
+            disabled: computedOf(
+              controller.disabled,
+              keyLocked
+            )((d, locked) => d || locked),
           }),
           error: Ensure(keyError, keyError =>
             html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
@@ -942,7 +946,10 @@ export function JSONSchemaObject({
           content: EditableText({
             value: keySignal,
             onChange: handleRename,
-            disabled: Value.map(controller.disabled, d => d) || keyLocked,
+            disabled: computedOf(
+              controller.disabled,
+              keyLocked
+            )((d, locked) => d || locked),
           }),
           error: Ensure(keyError, keyError =>
             html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
