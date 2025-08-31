@@ -101,6 +101,8 @@ render(html.div(counterDisplay, incButton), document.body)
 
 ### Attributes and Events
 
+All attributes and events are added to renderables using helper functions. For attributes, use `attr.name(value)`. For events, use `on.eventName(handler)`. For SVG attributes, use `svgAttr.name(value)` (use `svg.svg()` for SVG elements). For Aria attributes, use `aria.name(value)`. For data attributes use `dataAttr.name(value)` where `name` is the data attribute name.
+
 ```typescript
 import { html, attr, on } from '@tempots/dom'
 
@@ -113,6 +115,8 @@ const actionButton = html.button(
 ```
 
 ### Conditional Rendering
+
+When it is necessary to render different content based on a condition, you must use the `When` / `Unless`, `Ensure` helpers. `When` / `Unless` take a boolean Value and two renderable functions. The first function is rendered when the signal is true, and the second function is rendered when the signal is false. `Ensure` takes a signal and two renderable functions. The first function is rendered when the signal is not null or undefined, and the second function is rendered when the signal is null or undefined. The first function of `Ensure` receives the non-null value of the signal.
 
 ```typescript
 import { html, When, prop } from '@tempots/dom'
@@ -131,6 +135,8 @@ render(greeting, document.body)
 ```
 
 ### Lists and Iteration
+
+When it is necessary to render a list of items, you must use the `ForEach` or `Repeat` helper. `ForEach` is used when you have an array of items and want to render a UI element for each item. `Repeat` is used when you want to render a UI element multiple times based on a number signal.
 
 ```typescript
 import { html, ForEach, prop } from '@tempots/dom'
