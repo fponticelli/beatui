@@ -1,6 +1,6 @@
 ---
-type: 'agent_requested'
-description: 'Example description'
+type: "agent_requested"
+description: "when a component has human readable text"
 ---
 
 Whenever there is a need for a localized message that is user visable (either rendered in the dom or as an "aria label"), use the `Use(BeatUI18n, t => ...)` component to retrieve the localized messages. Make sure that any new localized message is correctly added to each locale file like `en.ts` and `it.ts`.

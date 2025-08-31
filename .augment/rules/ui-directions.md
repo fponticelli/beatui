@@ -1,6 +1,6 @@
 ---
 type: "agent_requested"
-description: "Example description"
+description: "when making changes or additions to UI components and the frontend in general"
 ---
 
 # Tempo TS – Engineer’s Usage Guide
@@ -248,6 +248,10 @@ function TooltipExample() {
 render(TooltipExample(), document.body)
 ```
 
+### Mapping Signals
+
+The `MapSignal` component allows to render a `TNode`/`Renderable` based on the value of a signal. This is to be used consciously as the entire tree of nodes will be re-rendered when the signal changes. Other components like `When`/`Unless`/`Ensure`/`ForEach`/`Repeat` are preferred when possible as they only re-render when really necessary. In general all components except only change very specific parts of the DOM.
+
 ### Form Helpers
 
 ```typescript
@@ -282,6 +286,14 @@ function LoginForm() {
 
 render(LoginForm(), document.body)
 ```
+
+### Correct usage of Value
+
+`Value` is a simple wrapper that allows to use either a literal value or a signal. It is useful so that developers can pass in either a literal value or a signal and the component will handle both cases correctly.
+
+`Value` provides a set of static methods that wrap the behavior of signals like `Value.map` or `Value.on`. These should preferred over unwrapping the value and use it directly.
+
+It is important to remember that both Value static method and Signal method that require a callback (like `on` or `map`), as well as utilities like `computedOf` or `effectOf` are always executed at least once on initialization and as such it is not required to have special handling for the first render.
 
 ## @tempots/std – Standard Utilities Library
 
@@ -347,14 +359,6 @@ successResult.match({
   failure: error => console.error(`Error: ${error}`),
 })
 ```
-
-### Correct usage of Value
-
-`Value` is a simple wrapper that allows to use either a literal value or a signal. It is useful so that developers can pass in either a literal value or a signal and the component will handle both cases correctly.
-
-`Value` provides a set of static methods that wrap the behavior of signals like `Value.map` or `Value.on`. These should preferred over unwrapping the value and use it directly.
-
-It is important to remember that both Value static method and Signal method that require a callback (like `on` or `map`), as well as utilities like `computedOf` or `effectOf` are always executed at least once on initialization and as such it is not required to have special handling for the first render.
 
 ## Conclusion
 

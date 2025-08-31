@@ -37,6 +37,7 @@ import {
   SchemaContext,
   mergeAllOf,
   evaluateNotViolation,
+  composeEffectiveObjectSchema,
   type SchemaConflict,
   type NotViolation,
 } from './schema-context'
@@ -506,27 +507,48 @@ export function JSONSchemaObject({
   ctx: SchemaContext
   controller: ObjectController<{ [key: string]: unknown }>
 }): Renderable {
-  return Stack(
-    attr.class('bu-gap-1'),
-    ctx.suppressLabel || ctx.name == null ? null : Label(ctx.widgetLabel),
-    ...objectEntries((ctx.definition as JSONSchema7).properties ?? {}).map(
-      ([k, definition]) => {
+  // Recompute effective object schema reactively based on current value to support
+  // if/then/else, dependentRequired, dependentSchemas, and draft-07 dependencies.
+  return MapSignal(controller.value, vSignal => {
+    const current = Value.get(vSignal)
+    const base = ctx.definition as JSONSchema7
+    const { effective, conflicts } = composeEffectiveObjectSchema(
+      base,
+      current,
+      ctx.ajv,
+      ctx.path
+    )
+    const effCtx = ctx.with({
+      definition: effective,
+      schemaConflicts: [...ctx.schemaConflicts, ...conflicts],
+    })
+
+    return Stack(
+      attr.class('bu-gap-1'),
+      effCtx.suppressLabel || effCtx.name == null
+        ? null
+        : Label(effCtx.widgetLabel),
+      ...objectEntries(
+        (effective.properties ?? {}) as Record<string, JSONSchema7Definition>
+      ).map(([k, definition]) => {
         // deprecated fields are not rendered
         if (definition === false) return null
         const key = k as string
         const field = controller.field(key)
         return JSONSchemaGenericControl({
-          ctx: ctx
+          ctx: effCtx
             .with({
               definition,
-              isPropertyRequired: ctx.hasRequiredProperty(key),
+              isPropertyRequired: Array.isArray(effective.required)
+                ? effective.required.includes(key)
+                : effCtx.hasRequiredProperty(key),
             })
             .append(key),
           controller: field,
         })
-      }
+      })
     )
-  )
+  })
 }
 
 type JSONTypeName =

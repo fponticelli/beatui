@@ -387,3 +387,110 @@ export function evaluateNotViolation(
     return null
   }
 }
+
+/**
+ * Evaluate if/then/else and dependencies overlays for an object schema without
+ * mutating the base definition. Returns a new effective schema plus any merge
+ * conflicts discovered while composing overlays.
+ */
+export function composeEffectiveObjectSchema(
+  baseDef: JSONSchema7,
+  value: unknown,
+  ajv: Ajv | undefined,
+  basePath: ReadonlyArray<PropertyKey> = []
+): { effective: JSONSchema7; conflicts: readonly SchemaConflict[] } {
+  const overlays: JSONSchema7[] = []
+  const conflicts: SchemaConflict[] = []
+
+  // 1) Conditional overlay from if/then/else
+  const cond = evaluateIfThenElseOverlay(baseDef, value, ajv)
+  if (cond) overlays.push(cond)
+
+  // Prepare working required/properties from base to fold dependentRequired into
+  const baseRequired = Array.isArray(baseDef.required) ? [...baseDef.required] : []
+
+  // 2) dependentRequired (2020-12) and draft-07 dependencies: string[]
+  if (typeof value === 'object' && value != null && !Array.isArray(value)) {
+    const obj = value as Record<string, unknown>
+
+    // dependentRequired
+    const dr = (baseDef as unknown as { dependentRequired?: Record<string, string[]> })
+      .dependentRequired
+    if (dr) {
+      for (const [k, deps] of Object.entries(dr)) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+          for (const dep of deps) baseRequired.push(dep)
+        }
+      }
+    }
+
+    // draft-07 dependencies: map entries to depRequired/depSchemas
+    const deps = (baseDef as unknown as {
+      dependencies?: Record<string, JSONSchema7 | string[]>
+    }).dependencies
+    if (deps) {
+      for (const [k, spec] of Object.entries(deps)) {
+        if (!Object.prototype.hasOwnProperty.call(obj, k)) continue
+        if (Array.isArray(spec)) {
+          for (const dep of spec) baseRequired.push(dep)
+        } else if (typeof spec === 'object' && spec) {
+          overlays.push(spec as JSONSchema7)
+        }
+      }
+    }
+
+    // dependentSchemas
+    const ds = (baseDef as unknown as { dependentSchemas?: Record<string, JSONSchema7> })
+      .dependentSchemas
+    if (ds) {
+      for (const [k, schema] of Object.entries(ds)) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) overlays.push(schema)
+      }
+    }
+  }
+
+  // Merge base with overlays (if any) using same deep-merge rules as allOf
+  const toMerge: JSONSchema7[] = [baseDef, ...overlays]
+  const { mergedSchema, conflicts: mergeConflicts } = mergeAllOf(toMerge, basePath)
+
+  // Ensure required from dependentRequired/dependencies are preserved (mergeAllOf
+  // already unions required, but in case base had none and overlays did not include
+  // required keyword we still need to apply baseRequired)
+  if (baseRequired.length > 0) {
+    const req = new Set([...(mergedSchema.required ?? []), ...baseRequired])
+    mergedSchema.required = [...req]
+  }
+
+  conflicts.push(...mergeConflicts)
+
+  return { effective: mergedSchema, conflicts }
+}
+
+/**
+ * Returns the overlay schema coming from if/then/else for the given value or
+ * null if no overlay applies or no AJV instance is available.
+ */
+export function evaluateIfThenElseOverlay(
+  def: JSONSchema7,
+  value: unknown,
+  ajv: Ajv | undefined
+): JSONSchema7 | null {
+  if (!ajv) return null
+  if (!def.if || typeof def.if !== 'object') return null
+
+  try {
+    const validate = ajv.compile(def.if as JSONSchema7)
+    const matches = validate(value)
+    if (matches) {
+      const thenSchema = def.then
+      if (thenSchema && typeof thenSchema === 'object') return thenSchema as JSONSchema7
+    } else {
+      const elseSchema = def.else
+      if (elseSchema && typeof elseSchema === 'object') return elseSchema as JSONSchema7
+    }
+  } catch {
+    // ignore compile errors and treat as no overlay
+  }
+  return null
+}
+
