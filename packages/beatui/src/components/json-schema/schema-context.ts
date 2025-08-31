@@ -407,15 +407,18 @@ export function composeEffectiveObjectSchema(
   if (cond) overlays.push(cond)
 
   // Prepare working required/properties from base to fold dependentRequired into
-  const baseRequired = Array.isArray(baseDef.required) ? [...baseDef.required] : []
+  const baseRequired = Array.isArray(baseDef.required)
+    ? [...baseDef.required]
+    : []
 
   // 2) dependentRequired (2020-12) and draft-07 dependencies: string[]
   if (typeof value === 'object' && value != null && !Array.isArray(value)) {
     const obj = value as Record<string, unknown>
 
     // dependentRequired
-    const dr = (baseDef as unknown as { dependentRequired?: Record<string, string[]> })
-      .dependentRequired
+    const dr = (
+      baseDef as unknown as { dependentRequired?: Record<string, string[]> }
+    ).dependentRequired
     if (dr) {
       for (const [k, deps] of Object.entries(dr)) {
         if (Object.prototype.hasOwnProperty.call(obj, k)) {
@@ -425,9 +428,11 @@ export function composeEffectiveObjectSchema(
     }
 
     // draft-07 dependencies: map entries to depRequired/depSchemas
-    const deps = (baseDef as unknown as {
-      dependencies?: Record<string, JSONSchema7 | string[]>
-    }).dependencies
+    const deps = (
+      baseDef as unknown as {
+        dependencies?: Record<string, JSONSchema7 | string[]>
+      }
+    ).dependencies
     if (deps) {
       for (const [k, spec] of Object.entries(deps)) {
         if (!Object.prototype.hasOwnProperty.call(obj, k)) continue
@@ -440,8 +445,9 @@ export function composeEffectiveObjectSchema(
     }
 
     // dependentSchemas
-    const ds = (baseDef as unknown as { dependentSchemas?: Record<string, JSONSchema7> })
-      .dependentSchemas
+    const ds = (
+      baseDef as unknown as { dependentSchemas?: Record<string, JSONSchema7> }
+    ).dependentSchemas
     if (ds) {
       for (const [k, schema] of Object.entries(ds)) {
         if (Object.prototype.hasOwnProperty.call(obj, k)) overlays.push(schema)
@@ -451,7 +457,10 @@ export function composeEffectiveObjectSchema(
 
   // Merge base with overlays (if any) using same deep-merge rules as allOf
   const toMerge: JSONSchema7[] = [baseDef, ...overlays]
-  const { mergedSchema, conflicts: mergeConflicts } = mergeAllOf(toMerge, basePath)
+  const { mergedSchema, conflicts: mergeConflicts } = mergeAllOf(
+    toMerge,
+    basePath
+  )
 
   // Ensure required from dependentRequired/dependencies are preserved (mergeAllOf
   // already unions required, but in case base had none and overlays did not include
@@ -483,14 +492,15 @@ export function evaluateIfThenElseOverlay(
     const matches = validate(value)
     if (matches) {
       const thenSchema = def.then
-      if (thenSchema && typeof thenSchema === 'object') return thenSchema as JSONSchema7
+      if (thenSchema && typeof thenSchema === 'object')
+        return thenSchema as JSONSchema7
     } else {
       const elseSchema = def.else
-      if (elseSchema && typeof elseSchema === 'object') return elseSchema as JSONSchema7
+      if (elseSchema && typeof elseSchema === 'object')
+        return elseSchema as JSONSchema7
     }
   } catch {
     // ignore compile errors and treat as no overlay
   }
   return null
 }
-

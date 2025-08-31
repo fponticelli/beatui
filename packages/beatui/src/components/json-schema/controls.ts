@@ -47,6 +47,7 @@ import { resolveRef } from './ref-utils'
 import { Label, MutedLabel } from '../typography'
 import { SegmentedInput } from '../form/input/segmented-input'
 import { NullableResetAfter } from '../form/input/nullable-utils'
+import { Notice } from '../misc'
 
 function SchemaConflictsBanner({
   conflicts,
@@ -55,15 +56,13 @@ function SchemaConflictsBanner({
 }) {
   if (conflicts.length === 0) return null
 
-  return html.div(
-    attr.class('bc-schema-conflicts-banner'),
-    attr.style(
-      'background-color: var(--color-warning-50); border: 1px solid var(--color-warning-200); border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--color-warning-800);'
-    ),
-    html.div(
-      attr.style('font-weight: 600; margin-bottom: 0.25rem;'),
-      'Schema Conflicts Detected'
-    ),
+  return Notice(
+    {
+      variant: 'warning',
+      tone: 'prominent',
+      title: 'Schema Conflicts Detected',
+      class: 'bc-schema-conflicts-banner',
+    },
     html.ul(
       attr.style('margin: 0; padding-left: 1.25rem; list-style-type: disc;'),
       ...conflicts.map(conflict =>
@@ -91,15 +90,13 @@ function NotViolationsBanner({
 }) {
   if (violations.length === 0) return null
 
-  return html.div(
-    attr.class('bc-not-violations-banner'),
-    attr.style(
-      'background-color: var(--color-error-50); border: 1px solid var(--color-error-200); border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--color-error-800);'
-    ),
-    html.div(
-      attr.style('font-weight: 600; margin-bottom: 0.25rem;'),
-      'Schema Violations Detected'
-    ),
+  return Notice(
+    {
+      variant: 'error',
+      tone: 'prominent',
+      title: 'Schema Violations Detected',
+      class: 'bc-not-violations-banner',
+    },
     html.ul(
       attr.style('margin: 0; padding-left: 1.25rem; list-style-type: disc;'),
       ...violations.map(violation =>

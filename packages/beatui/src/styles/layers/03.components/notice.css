@@ -1,0 +1,92 @@
+/* Notice Component */
+.bc-notice {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  align-items: start;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.bc-notice__icon {
+  line-height: 0;
+}
+
+.bc-notice__title {
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-xs);
+}
+
+.bc-notice__content {
+  color: var(--text-normal-light);
+}
+
+/* Tones */
+.bc-notice--tone-subtle {
+  border: 1px solid var(--border-border-light);
+  background-color: var(--bg-surface-light);
+}
+
+.bc-notice--tone-prominent {
+  border: 1px solid var(--border-border-light);
+}
+
+/* Variants base color variables per tone */
+.bc-notice--info.bc-notice--tone-prominent {
+  background-color: var(--color-info-50);
+  border-color: var(--color-info-200);
+  color: var(--color-info-900);
+}
+
+.bc-notice--success.bc-notice--tone-prominent {
+  background-color: var(--color-success-50);
+  border-color: var(--color-success-200);
+  color: var(--color-success-900);
+}
+
+.bc-notice--warning.bc-notice--tone-prominent {
+  background-color: var(--color-warning-50);
+  border-color: var(--color-warning-200);
+  color: var(--color-warning-900);
+}
+
+.bc-notice--error.bc-notice--tone-prominent {
+  background-color: var(--color-error-50);
+  border-color: var(--color-error-200);
+  color: var(--color-error-900);
+}
+
+.bc-notice--info.bc-notice--tone-subtle {
+  background-color: var(--bg-surface-light);
+  color: var(--color-info-800);
+}
+
+.bc-notice--success.bc-notice--tone-subtle {
+  background-color: var(--bg-surface-light);
+  color: var(--color-success-800);
+}
+
+.bc-notice--warning.bc-notice--tone-subtle {
+  background-color: var(--bg-surface-light);
+  color: var(--color-warning-800);
+}
+
+.bc-notice--error.bc-notice--tone-subtle {
+  background-color: var(--bg-surface-light);
+  color: var(--color-error-800);
+}
+
+.bc-notice__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.bc-notice__close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  flex-shrink: 0;
+}

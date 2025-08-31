@@ -295,6 +295,10 @@ render(LoginForm(), document.body)
 
 It is important to remember that both Value static method and Signal method that require a callback (like `on` or `map`), as well as utilities like `computedOf` or `effectOf` are always executed at least once on initialization and as such it is not required to have special handling for the first render.
 
+`computedOf` of a single value works but it is probably less clear than just using `Value.map` or `signal.map`.
+
+Having `Value.map`/`computedOf` returning a `TNode`/`Renderable` is a code smell. It is true that those can be resolved with `MapSignal` but there are better ways of dealing with that. For example `computedOf(value)(v => attr.class(v.toUpperCase()))` should be `attr.class(Value.map(value, v => v.toUpperCase()))`.
+
 ## @tempots/std – Standard Utilities Library
 
 ### Array Utilities

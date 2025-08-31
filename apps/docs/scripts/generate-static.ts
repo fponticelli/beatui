@@ -174,6 +174,7 @@ const main = async () => {
   const { TemporalPage } = await import('../src/pages/temporal')
   const { InputsPage } = await import('../src/pages/inputs')
   const { MarkdownPage } = await import('../src/pages/markdown')
+  const { NoticePage } = await import('../src/pages/notice')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -287,6 +288,7 @@ const main = async () => {
             '/temporal': TemporalPage,
             '/inputs': InputsPage,
             '/markdown': MarkdownPage,
+            '/notice': NoticePage,
           }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))
@@ -341,7 +343,8 @@ const main = async () => {
                 html.a(attr.href('/toolbar'), 'Toolbar'),
                 html.a(attr.href('/temporal'), 'Temporal'),
                 html.a(attr.href('/inputs'), 'Inputs'),
-                html.a(attr.href('/markdown'), 'Markdown')
+                html.a(attr.href('/markdown'), 'Markdown'),
+                html.a(attr.href('/notice'), 'Notice')
               )
             ),
             html.main(PageComponent())

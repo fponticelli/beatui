@@ -38,6 +38,7 @@ import { ToolbarPage } from './pages/toolbar'
 import { TemporalPage } from './pages/temporal'
 import { InputsPage } from './pages/inputs'
 import { MarkdownPage } from './pages/markdown'
+import { NoticePage } from './pages/notice'
 
 export const App = () => {
   return BeatUI(
@@ -82,6 +83,7 @@ export const App = () => {
         '/temporal': TemporalPage,
         '/inputs': InputsPage,
         '/markdown': MarkdownPage,
+        '/notice': NoticePage,
         '/*': () => html.div('Not Found'),
       }),
     })

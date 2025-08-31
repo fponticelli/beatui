@@ -39,7 +39,7 @@ describe('composeEffectiveObjectSchema', () => {
   })
 
   it('activates dependentRequired when key present', () => {
-    const base: JSONSchema7 = {
+    const base = {
       type: 'object',
       properties: {
         featureA: { type: 'boolean' },
@@ -48,7 +48,7 @@ describe('composeEffectiveObjectSchema', () => {
       dependentRequired: {
         featureA: ['detailsA'],
       },
-    }
+    } as JSONSchema7
 
     const on = composeEffectiveObjectSchema(base, { featureA: true }, ajv)
     expect(on.effective.required).toContain('detailsA')
@@ -58,7 +58,7 @@ describe('composeEffectiveObjectSchema', () => {
   })
 
   it('merges dependentSchemas when key present', () => {
-    const base: JSONSchema7 = {
+    const base = {
       type: 'object',
       properties: {
         featureB: { type: 'boolean' },
@@ -71,7 +71,7 @@ describe('composeEffectiveObjectSchema', () => {
           required: ['detailsB'],
         },
       },
-    }
+    } as JSONSchema7
 
     const withB = composeEffectiveObjectSchema(base, { featureB: true }, ajv)
     expect(withB.effective.properties).toHaveProperty('detailsB')
@@ -83,7 +83,7 @@ describe('composeEffectiveObjectSchema', () => {
   })
 
   it('supports draft-07 dependencies array and schema forms', () => {
-    const base: JSONSchema7 = {
+    const base = {
       type: 'object',
       properties: {
         flag: { type: 'number' },
@@ -92,7 +92,7 @@ describe('composeEffectiveObjectSchema', () => {
         mode: { type: 'string' },
       },
       // Emulate draft-07 dependencies
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       dependencies: {
         flag: ['x', 'y'],
         mode: {
@@ -101,9 +101,9 @@ describe('composeEffectiveObjectSchema', () => {
             extra: { type: 'number' },
           },
           required: ['mode'],
-        } as any,
-      } as any,
-    }
+        },
+      },
+    } as JSONSchema7
 
     const withFlag = composeEffectiveObjectSchema(base, { flag: 1 }, ajv)
     expect(withFlag.effective.required).toEqual(

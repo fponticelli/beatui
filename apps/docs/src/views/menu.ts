@@ -82,6 +82,7 @@ export function Menu() {
       SidebarGroup(
         { header: 'Data Display', rail: true },
         SidebarLink({ href: '/icon', content: 'Icon' }),
+        SidebarLink({ href: '/notice', content: 'Notice' }),
         SidebarLink({
           href: '/tags',
           content: 'Tags',
