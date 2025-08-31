@@ -1,4 +1,4 @@
-import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
+import type { JSONSchema, JSONSchemaDefinition } from './schema-context'
 import { jsonPointerToSegments } from './ajv-utils'
 
 /**
@@ -8,10 +8,10 @@ import { jsonPointerToSegments } from './ajv-utils'
  * - Resolves chains of $ref until a non-$ref definition is reached or a cycle is detected.
  */
 export function resolveRef(
-  def: JSONSchema7,
-  root: JSONSchema7Definition
-): JSONSchema7 {
-  let current: JSONSchema7 = def
+  def: JSONSchema,
+  root: JSONSchemaDefinition
+): JSONSchema {
+  let current: JSONSchema = def
   const seen = new Set<string>()
 
   while (isRef(current)) {
@@ -33,13 +33,13 @@ export function resolveRef(
 
     // Merge: resolved target + siblings (without $ref) where siblings override
     const { $ref: _omit, ...siblings } = current as { $ref?: string }
-    current = { ...(target as JSONSchema7), ...(siblings as JSONSchema7) }
+    current = { ...(target as JSONSchema), ...(siblings as JSONSchema) }
   }
 
   return current
 }
 
-function isRef(def: unknown): def is JSONSchema7 & { $ref: string } {
+function isRef(def: unknown): def is JSONSchema & { $ref: string } {
   return isObject(def) && typeof (def as { $ref?: unknown }).$ref === 'string'
 }
 
@@ -47,7 +47,7 @@ function isObject(x: unknown): x is Record<string, unknown> {
   return typeof x === 'object' && x != null && !Array.isArray(x)
 }
 
-function getFromPointer(root: JSONSchema7Definition, pointer: string): unknown {
+function getFromPointer(root: JSONSchemaDefinition, pointer: string): unknown {
   if (!pointer.startsWith('#')) return undefined
   // Special case: '#'
   if (pointer === '#') return root

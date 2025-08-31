@@ -1,4 +1,4 @@
-import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
+import type { JSONSchema, JSONSchemaDefinition } from './schema-context'
 import {
   ArrayController,
   CheckboxInput,
@@ -31,7 +31,6 @@ import {
   prop,
   MapSignal,
   When,
-  on,
   Use,
   Ensure,
   style,
@@ -56,7 +55,7 @@ import { SegmentedInput } from '../form/input/segmented-input'
 import { NullableResetAfter } from '../form/input/nullable-utils'
 import { Notice } from '../misc'
 import { BeatUII18n } from '@/beatui-i18n'
-import { CloseButton } from '../button'
+import { Button, CloseButton } from '../button'
 
 function SchemaConflictsBanner({
   conflicts,
@@ -150,7 +149,7 @@ function PresenceToggle<T>({
         controller.change(defaultValue as T)
       } else {
         // Set appropriate empty value based on schema type
-        const def = ctx.definition as JSONSchema7
+        const def = ctx.definition as JSONSchema
         if (def.type === 'string') {
           controller.change('' as T)
         } else if (def.type === 'number' || def.type === 'integer') {
@@ -253,10 +252,10 @@ export function JSONSchemaEnum({
   ctx: SchemaContext
   controller: Controller<unknown>
 }): Renderable {
-  const def = ctx.definition as JSONSchema7
+  const def = ctx.definition as JSONSchema
   return NativeSelectControl({
     ...definitionToInputWrapperOptions({ ctx }),
-    options: (def.enum ?? []).map(e => ({
+    options: (def.enum ?? []).map((e: unknown) => ({
       type: 'value',
       value: e,
       label: String(e),
@@ -272,7 +271,7 @@ export function JSONSchemaConst({
   ctx: SchemaContext
   controller: Controller<unknown>
 }): Renderable {
-  const def = ctx.definition as JSONSchema7
+  const def = ctx.definition as JSONSchema
   return Group(
     MutedLabel(ctx.widgetLabel, ': '),
     Label(String(def.const)),
@@ -339,7 +338,7 @@ export function JSONSchemaNever({
 }
 
 function makePlaceholder<T>(
-  definition: JSONSchema7,
+  definition: JSONSchema,
   converter: (value: unknown) => T
 ) {
   if (definition.default != null) {
@@ -366,10 +365,10 @@ export function JSONSchemaNumber({
     return Fragment()
   }
 
-  const def = ctx.definition as JSONSchema7
+  const def = ctx.definition as JSONSchema
   const baseOptions = {
     ...definitionToInputWrapperOptions({ ctx }),
-    placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
+    placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
     min: def.minimum,
     max: def.maximum,
     step: def.multipleOf,
@@ -407,9 +406,9 @@ export function JSONSchemaInteger({
   return JSONSchemaNumber({
     ctx: ctx.with({
       definition: {
-        ...(ctx.definition as JSONSchema7),
+        ...(ctx.definition as JSONSchema),
         multipleOf: integerMultipleOf(
-          (ctx.definition as JSONSchema7).multipleOf
+          (ctx.definition as JSONSchema).multipleOf
         ),
       },
     }),
@@ -431,7 +430,7 @@ export function JSONSchemaString({
 
   const options = {
     ...definitionToInputWrapperOptions({ ctx }),
-    placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
+    placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
     // Disable input if readOnly (unless overridden) or deprecated
     disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
   }
@@ -533,17 +532,19 @@ export function JSONSchemaArray({
   return ListControl({
     ...definitionToInputWrapperOptions({ ctx }),
     createItem: () =>
-      makePlaceholder(ctx.definition as JSONSchema7, () => undefined),
+      makePlaceholder(ctx.definition as JSONSchema, () => undefined),
     controller,
     element: payload => {
       const item = payload.item as Controller<unknown>
       const index = payload.position.index
-      const d = ctx.definition as JSONSchema7
+      const d = ctx.definition as JSONSchema
       const definition = Array.isArray(d.items)
         ? d.items[payload.position.index]
         : (d.items ?? {})
       return JSONSchemaGenericControl({
-        ctx: ctx.with({ definition: definition as JSONSchema7 }).append(index),
+        ctx: ctx
+          .with({ definition: definition as JSONSchemaDefinition })
+          .append(index),
         controller: item,
       })
     },
@@ -559,9 +560,8 @@ export function JSONSchemaObject({
 }): Renderable {
   // Recompute effective object schema reactively based on current value to support
   // if/then/else, dependentRequired, dependentSchemas, and draft-07 dependencies.
-  return MapSignal(controller.value, vSignal => {
-    const current = Value.get(vSignal) as Record<string, unknown> | undefined
-    const base = ctx.definition as JSONSchema7
+  return MapSignal(controller.value, current => {
+    const base = ctx.definition as JSONSchema
     const { effective, conflicts } = composeEffectiveObjectSchema(
       base,
       current,
@@ -575,12 +575,17 @@ export function JSONSchemaObject({
 
     const knownProps = (effective.properties ?? {}) as Record<
       string,
-      JSONSchema7Definition
+      JSONSchemaDefinition
     >
 
-    const currentKeys = Object.keys(current ?? {})
     const knownKeys = new Set(Object.keys(knownProps))
+    const currentKeys = Object.keys(current ?? {})
     const additionalKeys = currentKeys.filter(k => !knownKeys.has(k))
+
+    // Handle unevaluatedProperties (2019-09/2020-12)
+    const unevaluatedProps = (effective as unknown as Record<string, unknown>)
+      .unevaluatedProperties as boolean | JSONSchema | undefined
+    const evaluatedKeys = getEvaluatedProperties(effective, current, ctx.ajv)
 
     // Remove unused pattern separation since we handle it in rendering
 
@@ -591,21 +596,14 @@ export function JSONSchemaObject({
     )
 
     const ap =
-      (effective.additionalProperties as boolean | JSONSchema7 | undefined) ??
+      (effective.additionalProperties as boolean | JSONSchema | undefined) ??
       true
     const apAllowed = ap !== false
-    const apSchema: JSONSchema7 =
-      ap === true || ap === undefined
-        ? ({} as JSONSchema7)
-        : (ap as JSONSchema7)
+    const apSchema: JSONSchema =
+      ap === true || ap === undefined ? ({} as JSONSchema) : (ap as JSONSchema)
 
     const minProps = (effective.minProperties as number | undefined) ?? 0
     const maxProps = (effective.maxProperties as number | undefined) ?? Infinity
-
-    // Handle unevaluatedProperties (2019-09/2020-12)
-    const unevaluatedProps = (effective as unknown as Record<string, unknown>)
-      .unevaluatedProperties as boolean | JSONSchema7 | undefined
-    const evaluatedKeys = getEvaluatedProperties(effective, current, ctx.ajv)
 
     // Determine if we can add properties based on unevaluatedProperties
     let canAddUnevaluated = true
@@ -625,7 +623,7 @@ export function JSONSchemaObject({
     // patternProperties and propertyNames constraints
     const patternProps = (effective.patternProperties ?? {}) as Record<
       string,
-      JSONSchema7Definition
+      JSONSchemaDefinition
     >
     const patternList = Object.keys(patternProps)
       .filter(Boolean)
@@ -640,7 +638,7 @@ export function JSONSchemaObject({
 
     const propertyNamesDef = effective.propertyNames as
       | boolean
-      | JSONSchema7
+      | JSONSchema
       | undefined
 
     const validatePropertyName = (
@@ -655,7 +653,7 @@ export function JSONSchemaObject({
       }
       if (propertyNamesDef && typeof propertyNamesDef === 'object' && ctx.ajv) {
         try {
-          const validate = ctx.ajv.compile(propertyNamesDef as JSONSchema7)
+          const validate = ctx.ajv.compile(propertyNamesDef as JSONSchema)
           const ok = validate(trimmed)
           if (!ok) {
             const msg = validate.errors?.[0]?.message ?? 'Invalid property name'
@@ -691,7 +689,7 @@ export function JSONSchemaObject({
         (xuiRaw as Record<string, unknown>)['lockKeyAfterSet']
     )
 
-    const makeDefaultFor = (schema: JSONSchema7): unknown => {
+    const makeDefaultFor = (schema: JSONSchema): unknown => {
       // try placeholder or null/undefined
       const def = makePlaceholder(schema, v => v) as unknown
       if (def !== undefined) return def
@@ -718,28 +716,30 @@ export function JSONSchemaObject({
       return base + i
     }
 
-    const addPropertyButton = Use(BeatUII18n, t =>
-      html.button(
-        attr.class('bc-json-schema__add-prop bu-btn bu-btn--sm'),
-        attr.disabled(Value.map(vSignal, _ => !canAdd)),
-        attr.title(unevaluatedTooltip ?? ''),
-        on.click(() => {
-          if (!canAdd) return
-          const keys = new Set(Object.keys(controller.value.value ?? {}))
-          const newKey = nextAvailableKey('property', keys)
-          const permitted = validatePropertyName(newKey)
-          if (!permitted.ok) return
+    const AddPropertyButton = Use(BeatUII18n, t =>
+      Button(
+        {
+          variant: 'outline',
+          disabled: !canAdd,
+          onClick: () => {
+            if (!canAdd) return
+            const keys = new Set(Object.keys(controller.value.value ?? {}))
+            const newKey = nextAvailableKey('property', keys)
+            const permitted = validatePropertyName(newKey)
+            if (!permitted.ok) return
 
-          // Use unevaluatedProperties schema if available, otherwise additionalProperties
-          let valueSchema = apSchema
-          if (unevaluatedProps && typeof unevaluatedProps === 'object') {
-            valueSchema = unevaluatedProps as JSONSchema7
-          }
+            // Use unevaluatedProperties schema if available, otherwise additionalProperties
+            let valueSchema = apSchema
+            if (unevaluatedProps && typeof unevaluatedProps === 'object') {
+              valueSchema = unevaluatedProps as JSONSchema
+            }
 
-          const val = makeDefaultFor(valueSchema)
-          const next = { ...(controller.value.value ?? {}), [newKey]: val }
-          controller.change(next)
-        }),
+            const val = makeDefaultFor(valueSchema)
+            const next = { ...(controller.value.value ?? {}), [newKey]: val }
+            controller.change(next)
+          },
+        },
+        attr.title(unevaluatedTooltip),
         t.$.addLabel
       )
     )
@@ -766,7 +766,7 @@ export function JSONSchemaObject({
             patternSchemaDef !== false &&
             typeof patternSchemaDef === 'object'
           ) {
-            valueSchema = patternSchemaDef as JSONSchema7
+            valueSchema = patternSchemaDef as JSONSchema
           }
         }
       }
@@ -797,10 +797,7 @@ export function JSONSchemaObject({
         CloseButton({
           size: 'xs',
           label: t.$.removeItem,
-          disabled: Value.map(
-            vSignal,
-            v => !canRemove(Object.keys(v ?? {}).length)
-          ),
+          disabled: !canRemove(Object.keys(current ?? {}).length),
           onClick: () => {
             const count = Object.keys(controller.value.value ?? {}).length
             if (!canRemove(count)) return
@@ -856,10 +853,10 @@ export function JSONSchemaObject({
       const keyError = prop<string | null>(null)
 
       // Determine which schema to use for unevaluated properties
-      let valueSchema: JSONSchema7
+      let valueSchema: JSONSchema
       if (unevaluatedProps && typeof unevaluatedProps === 'object') {
         // Use unevaluatedProperties schema
-        valueSchema = unevaluatedProps as JSONSchema7
+        valueSchema = unevaluatedProps as JSONSchema
       } else if (usePatternSchema) {
         // Find the first matching pattern and use its schema
         const matchingPattern = Object.keys(patternProps).find(pattern => {
@@ -875,7 +872,7 @@ export function JSONSchemaObject({
             patternSchemaDef !== false &&
             typeof patternSchemaDef === 'object'
           ) {
-            valueSchema = patternSchemaDef as JSONSchema7
+            valueSchema = patternSchemaDef as JSONSchema
           } else {
             valueSchema = apSchema
           }
@@ -914,10 +911,7 @@ export function JSONSchemaObject({
         CloseButton({
           size: 'xs',
           label: t.$.removeItem,
-          disabled: Value.map(
-            vSignal,
-            v => !canRemove(Object.keys(v ?? {}).length)
-          ),
+          disabled: !canRemove(Object.keys(current ?? {}).length),
           onClick: () => {
             const count = Object.keys(controller.value.value ?? {}).length
             if (!canRemove(count)) return
@@ -1004,7 +998,7 @@ export function JSONSchemaObject({
         return renderUnevaluatedEntry(k, isPatternMatched)
       }),
       // Add affordance
-      apAllowed ? addPropertyButton : null
+      apAllowed ? AddPropertyButton : null
     )
   })
 }
@@ -1115,7 +1109,7 @@ function defaultClearedValue(target: JSONTypeName): unknown {
   }
 }
 
-function getXUI(def: JSONSchema7): {
+function getXUI(def: JSONSchema): {
   unionDefault?: JSONTypeName
   confirmBranchChange?: boolean
   selector?: 'segmented' | 'select'
@@ -1139,7 +1133,7 @@ export function JSONSchemaUnion<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
-  const def = ctx.definition as JSONSchema7
+  const def = ctx.definition as JSONSchema
   let types = (def.type as JSONTypeName[]) ?? []
   const xui = getXUI(def)
 
@@ -1231,7 +1225,7 @@ export function JSONSchemaUnion<T>({
 
     // For primitive+null unions, map number/integer to NullableNumberInput
     if (onlyPrimitivePlusNull && (t === 'number' || t === 'integer')) {
-      const d = def as JSONSchema7
+      const d = def as JSONSchema
       return Control(NullableNumberInput, {
         ...definitionToInputWrapperOptions({
           ctx: ctx.with({ suppressLabel: true }),
@@ -1246,7 +1240,7 @@ export function JSONSchemaUnion<T>({
     return JSONSchemaGenericControl({
       ctx: ctx.with({
         definition: {
-          ...(def as JSONSchema7),
+          ...(def as JSONSchema),
           type: t,
         },
         suppressLabel: true,
@@ -1286,7 +1280,7 @@ export function JSONSchemaGenericControl<T>({
   if (resolvedDef?.allOf != null) {
     // Filter out boolean schemas (true/false) and only process object schemas
     const objectSchemas = resolvedDef.allOf.filter(
-      (schema): schema is JSONSchema7 =>
+      (schema): schema is JSONSchema =>
         typeof schema === 'object' && schema !== null
     )
     if (objectSchemas.length > 0) {
@@ -1483,7 +1477,7 @@ export function JSONSchemaAnyOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
-  const variants = (ctx.definition as JSONSchema7).anyOf as JSONSchema7[]
+  const variants = (ctx.definition as JSONSchema).anyOf as JSONSchema[]
   return JSONSchemaOneOfLike({ ctx, controller, kind: 'anyOf', variants })
 }
 
@@ -1494,7 +1488,7 @@ export function JSONSchemaOneOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
-  const variants = (ctx.definition as JSONSchema7).oneOf as JSONSchema7[]
+  const variants = (ctx.definition as JSONSchema).oneOf as JSONSchema[]
   return JSONSchemaOneOfLike({ ctx, controller, kind: 'oneOf', variants })
 }
 
@@ -1505,7 +1499,7 @@ export function JSONSchemaAllOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
-  const variants = (ctx.definition as JSONSchema7).allOf as JSONSchema7[]
+  const variants = (ctx.definition as JSONSchema).allOf as JSONSchema[]
 
   // Merge all allOf branches into a single effective schema
   const { mergedSchema, conflicts } = mergeAllOf(variants, ctx.path)
@@ -1532,7 +1526,7 @@ function JSONSchemaOneOfLike<T>({
   ctx: SchemaContext
   controller: Controller<T>
   kind: 'anyOf' | 'oneOf'
-  variants: JSONSchema7[]
+  variants: JSONSchema[]
 }): Renderable {
   const typesOrTitles = variants.map(def => {
     const t =
@@ -1602,7 +1596,7 @@ export function JSONSchemaControl<T>({
   controller,
   ajv,
 }: {
-  schema: JSONSchema7Definition
+  schema: JSONSchemaDefinition
   controller: Controller<T>
   ajv?: import('ajv').default
 }): Renderable {

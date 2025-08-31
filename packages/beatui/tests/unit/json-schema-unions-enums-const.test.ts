@@ -1,11 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { SchemaContext } from '../../src/components/json-schema/schema-context'
-import type { JSONSchema7 } from 'json-schema'
+import {
+  SchemaContext,
+  type JSONSchema,
+} from '../../src/components/json-schema/schema-context'
 
 describe('JSON Schema Unions, Enums, and Const', () => {
   describe('Union type detection', () => {
     it('should detect union types correctly', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: ['string', 'number'],
       }
 
@@ -23,7 +25,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect primitive plus null unions', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: ['string', 'null'],
       }
 
@@ -41,7 +43,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should handle complex union types', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: ['string', 'number', 'boolean', 'null'],
       }
 
@@ -63,7 +65,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
 
   describe('Enum handling', () => {
     it('should detect enum values correctly', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         enum: ['option1', 'option2', 'option3'],
       }
 
@@ -83,7 +85,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect enum with null values', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         enum: ['option1', 'option2', null],
       }
 
@@ -102,7 +104,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should handle mixed type enums', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         enum: ['string_value', 42, true, null],
       }
 
@@ -122,7 +124,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should handle empty enum arrays', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         enum: [],
       }
 
@@ -142,7 +144,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
 
   describe('Const handling', () => {
     it('should detect const string values', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         const: 'fixed_value',
       }
 
@@ -161,7 +163,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect const null values', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         const: null,
       }
 
@@ -179,7 +181,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect const number values', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         const: 42,
       }
 
@@ -198,7 +200,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect const boolean values', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         const: true,
       }
 
@@ -219,12 +221,8 @@ describe('JSON Schema Unions, Enums, and Const', () => {
 
   describe('anyOf and oneOf nullability', () => {
     it('should detect nullability in anyOf branches', () => {
-      const schema: JSONSchema7 = {
-        anyOf: [
-          { type: 'string' },
-          { type: 'number' },
-          { type: 'null' },
-        ],
+      const schema: JSONSchema = {
+        anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'null' }],
       }
 
       const ctx = new SchemaContext({
@@ -239,11 +237,8 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect nullability in oneOf branches', () => {
-      const schema: JSONSchema7 = {
-        oneOf: [
-          { type: 'string' },
-          { const: null },
-        ],
+      const schema: JSONSchema = {
+        oneOf: [{ type: 'string' }, { const: null }],
       }
 
       const ctx = new SchemaContext({
@@ -258,11 +253,8 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect non-nullability when no null branches exist', () => {
-      const schema: JSONSchema7 = {
-        anyOf: [
-          { type: 'string' },
-          { type: 'number' },
-        ],
+      const schema: JSONSchema = {
+        anyOf: [{ type: 'string' }, { type: 'number' }],
       }
 
       const ctx = new SchemaContext({
@@ -277,14 +269,11 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should handle nested anyOf/oneOf nullability', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         anyOf: [
           { type: 'string' },
           {
-            oneOf: [
-              { type: 'number' },
-              { type: 'null' },
-            ],
+            oneOf: [{ type: 'number' }, { type: 'null' }],
           },
         ],
       }
@@ -303,7 +292,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
 
   describe('Schema context properties', () => {
     it('should provide correct widget labels', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         title: 'Custom Title',
       }
@@ -322,7 +311,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should fall back to humanized field name when no title', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
       }
 
@@ -339,7 +328,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should handle nested paths correctly', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
       }
 
@@ -357,7 +346,7 @@ describe('JSON Schema Unions, Enums, and Const', () => {
     })
 
     it('should detect root level correctly', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
       }
 

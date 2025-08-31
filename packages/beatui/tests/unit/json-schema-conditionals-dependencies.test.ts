@@ -1,13 +1,15 @@
 import { describe, it, expect } from 'vitest'
 import Ajv from 'ajv'
-import type { JSONSchema7 } from 'json-schema'
-import { composeEffectiveObjectSchema } from '../../src/components/json-schema/schema-context'
+import {
+  composeEffectiveObjectSchema,
+  JSONSchema,
+} from '../../src/components/json-schema/schema-context'
 
 describe('composeEffectiveObjectSchema', () => {
   const ajv = new Ajv()
 
   it('applies then/else overlays based on `if` condition', () => {
-    const base: JSONSchema7 = {
+    const base: JSONSchema = {
       type: 'object',
       properties: {
         type: { type: 'string', enum: ['A', 'B'] },
@@ -48,7 +50,7 @@ describe('composeEffectiveObjectSchema', () => {
       dependentRequired: {
         featureA: ['detailsA'],
       },
-    } as JSONSchema7
+    } as JSONSchema
 
     const on = composeEffectiveObjectSchema(base, { featureA: true }, ajv)
     expect(on.effective.required).toContain('detailsA')
@@ -71,7 +73,7 @@ describe('composeEffectiveObjectSchema', () => {
           required: ['detailsB'],
         },
       },
-    } as JSONSchema7
+    } as JSONSchema
 
     const withB = composeEffectiveObjectSchema(base, { featureB: true }, ajv)
     expect(withB.effective.properties).toHaveProperty('detailsB')
@@ -103,7 +105,7 @@ describe('composeEffectiveObjectSchema', () => {
           required: ['mode'],
         },
       },
-    } as JSONSchema7
+    } as JSONSchema
 
     const withFlag = composeEffectiveObjectSchema(base, { flag: 1 }, ajv)
     expect(withFlag.effective.required).toEqual(

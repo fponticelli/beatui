@@ -1,11 +1,102 @@
 import { humanize, upperCaseFirst } from '@tempots/std'
-import type {
-  JSONSchema7Definition,
-  JSONSchema7Type,
-  JSONSchema7TypeName,
-  JSONSchema7,
-} from 'json-schema'
 import type Ajv from 'ajv'
+
+// Universal JSON Schema types that work across draft-07, 2019-09, and 2020-12
+export type JSONSchemaType =
+  | 'null'
+  | 'boolean'
+  | 'object'
+  | 'array'
+  | 'number'
+  | 'string'
+  | 'integer'
+
+export type JSONSchemaDefinition = JSONSchema | boolean
+
+export interface JSONSchema {
+  // Core keywords (all drafts)
+  $id?: string
+  $schema?: string
+  $ref?: string
+  $comment?: string
+
+  // Meta-data keywords (all drafts)
+  title?: string
+  description?: string
+  default?: unknown
+  examples?: unknown[]
+  readOnly?: boolean
+  writeOnly?: boolean
+  deprecated?: boolean
+
+  // Type keywords (all drafts)
+  type?: JSONSchemaType | JSONSchemaType[]
+  enum?: unknown[]
+  const?: unknown
+
+  // Number keywords (all drafts)
+  multipleOf?: number
+  maximum?: number
+  exclusiveMaximum?: number
+  minimum?: number
+  exclusiveMinimum?: number
+
+  // String keywords (all drafts)
+  maxLength?: number
+  minLength?: number
+  pattern?: string
+  format?: string
+
+  // Array keywords (all drafts)
+  items?: JSONSchemaDefinition | JSONSchemaDefinition[]
+  additionalItems?: JSONSchemaDefinition
+  maxItems?: number
+  minItems?: number
+  uniqueItems?: boolean
+  contains?: JSONSchemaDefinition
+
+  // Object keywords (all drafts)
+  maxProperties?: number
+  minProperties?: number
+  required?: string[]
+  properties?: Record<string, JSONSchemaDefinition>
+  patternProperties?: Record<string, JSONSchemaDefinition>
+  additionalProperties?: JSONSchemaDefinition
+  dependencies?: Record<string, JSONSchemaDefinition | string[]>
+  propertyNames?: JSONSchemaDefinition
+
+  // Conditional keywords (draft-07+)
+  if?: JSONSchemaDefinition
+  then?: JSONSchemaDefinition
+  else?: JSONSchemaDefinition
+
+  // Composition keywords (all drafts)
+  allOf?: JSONSchemaDefinition[]
+  anyOf?: JSONSchemaDefinition[]
+  oneOf?: JSONSchemaDefinition[]
+  not?: JSONSchemaDefinition
+
+  // Draft 2019-09+ keywords
+  dependentRequired?: Record<string, string[]>
+  dependentSchemas?: Record<string, JSONSchemaDefinition>
+  unevaluatedItems?: JSONSchemaDefinition
+  unevaluatedProperties?: JSONSchemaDefinition
+
+  // Draft 2020-12+ keywords
+  prefixItems?: JSONSchemaDefinition[]
+
+  // Content keywords (draft-07+)
+  contentEncoding?: string
+  contentMediaType?: string
+  contentSchema?: JSONSchemaDefinition
+
+  // Definitions (all drafts, different locations)
+  definitions?: Record<string, JSONSchemaDefinition>
+  $defs?: Record<string, JSONSchemaDefinition>
+
+  // Extension point for custom keywords
+  [key: string]: unknown
+}
 
 export type SchemaConflict = {
   readonly path: ReadonlyArray<PropertyKey>
@@ -14,19 +105,19 @@ export type SchemaConflict = {
 }
 
 export type AllOfMergeResult = {
-  readonly mergedSchema: JSONSchema7
+  readonly mergedSchema: JSONSchema
   readonly conflicts: readonly SchemaConflict[]
 }
 
 export type NotViolation = {
   readonly path: ReadonlyArray<PropertyKey>
   readonly message: string
-  readonly notSchema: JSONSchema7
+  readonly notSchema: JSONSchema
 }
 
 export type SchemaContextOptions = {
-  schema: JSONSchema7Definition
-  definition: JSONSchema7Definition
+  schema: JSONSchemaDefinition
+  definition: JSONSchemaDefinition
   horizontal: boolean
   path: ReadonlyArray<PropertyKey>
   ajv?: Ajv
@@ -37,8 +128,8 @@ export type SchemaContextOptions = {
 }
 
 export class SchemaContext {
-  readonly schema: JSONSchema7Definition
-  readonly definition: JSONSchema7Definition
+  readonly schema: JSONSchemaDefinition
+  readonly definition: JSONSchemaDefinition
   readonly horizontal: boolean
   readonly path: ReadonlyArray<PropertyKey>
   readonly ajv: Ajv | undefined
@@ -267,7 +358,7 @@ export class SchemaContext {
       : undefined
   }
 
-  readonly hasType = (type: JSONSchema7TypeName) => {
+  readonly hasType = (type: JSONSchemaType) => {
     if (this.definition === true) return true
     if (this.definition === false) return false
     return Array.isArray(this.definition.type)
@@ -275,14 +366,14 @@ export class SchemaContext {
       : this.definition.type === type
   }
 
-  readonly hasEnumValue = (value: JSONSchema7Type) => {
+  readonly hasEnumValue = (value: unknown) => {
     if (typeof this.definition === 'boolean') return false
     return Array.isArray(this.definition.enum)
       ? this.definition.enum.includes(value)
       : false
   }
 
-  readonly hasConstValue = (value: JSONSchema7Type) => {
+  readonly hasConstValue = (value: unknown) => {
     if (typeof this.definition === 'boolean') return false
     return this.definition.const === value
   }
@@ -311,16 +402,16 @@ export class SchemaContext {
  * - Detects and reports conflicts as non-blocking schema errors
  */
 export function mergeAllOf(
-  allOfSchemas: readonly JSONSchema7[],
+  allOfSchemas: readonly JSONSchema[],
   basePath: ReadonlyArray<PropertyKey> = []
 ): AllOfMergeResult {
   const conflicts: SchemaConflict[] = []
-  const merged: JSONSchema7 = {}
+  const merged: JSONSchema = {}
 
   // Collect all types from all schemas
-  const allTypes: JSONSchema7TypeName[] = []
+  const allTypes: JSONSchemaType[] = []
   const allRequired: string[] = []
-  const allProperties: Record<string, JSONSchema7Definition> = {}
+  const allProperties: Record<string, JSONSchemaDefinition> = {}
 
   for (const schema of allOfSchemas) {
     // Handle type intersection
@@ -411,7 +502,7 @@ export function mergeAllOf(
  * Returns a NotViolation if the value matches the disallowed schema.
  */
 export function evaluateNotViolation(
-  notSchema: JSONSchema7,
+  notSchema: JSONSchema,
   value: unknown,
   ajv: Ajv | undefined,
   basePath: ReadonlyArray<PropertyKey> = []
@@ -448,12 +539,12 @@ export function evaluateNotViolation(
  * conflicts discovered while composing overlays.
  */
 export function composeEffectiveObjectSchema(
-  baseDef: JSONSchema7,
+  baseDef: JSONSchema,
   value: unknown,
   ajv: Ajv | undefined,
   basePath: ReadonlyArray<PropertyKey> = []
-): { effective: JSONSchema7; conflicts: readonly SchemaConflict[] } {
-  const overlays: JSONSchema7[] = []
+): { effective: JSONSchema; conflicts: readonly SchemaConflict[] } {
+  const overlays: JSONSchema[] = []
   const conflicts: SchemaConflict[] = []
 
   // 1) Conditional overlay from if/then/else
@@ -484,7 +575,7 @@ export function composeEffectiveObjectSchema(
     // draft-07 dependencies: map entries to depRequired/depSchemas
     const deps = (
       baseDef as unknown as {
-        dependencies?: Record<string, JSONSchema7 | string[]>
+        dependencies?: Record<string, JSONSchema | string[]>
       }
     ).dependencies
     if (deps) {
@@ -493,14 +584,14 @@ export function composeEffectiveObjectSchema(
         if (Array.isArray(spec)) {
           for (const dep of spec) baseRequired.push(dep)
         } else if (typeof spec === 'object' && spec) {
-          overlays.push(spec as JSONSchema7)
+          overlays.push(spec as JSONSchema)
         }
       }
     }
 
     // dependentSchemas
     const ds = (
-      baseDef as unknown as { dependentSchemas?: Record<string, JSONSchema7> }
+      baseDef as unknown as { dependentSchemas?: Record<string, JSONSchema> }
     ).dependentSchemas
     if (ds) {
       for (const [k, schema] of Object.entries(ds)) {
@@ -510,7 +601,7 @@ export function composeEffectiveObjectSchema(
   }
 
   // Merge base with overlays (if any) using same deep-merge rules as allOf
-  const toMerge: JSONSchema7[] = [baseDef, ...overlays]
+  const toMerge: JSONSchema[] = [baseDef, ...overlays]
   const { mergedSchema, conflicts: mergeConflicts } = mergeAllOf(
     toMerge,
     basePath
@@ -534,24 +625,24 @@ export function composeEffectiveObjectSchema(
  * null if no overlay applies or no AJV instance is available.
  */
 export function evaluateIfThenElseOverlay(
-  def: JSONSchema7,
+  def: JSONSchema,
   value: unknown,
   ajv: Ajv | undefined
-): JSONSchema7 | null {
+): JSONSchema | null {
   if (!ajv) return null
   if (!def.if || typeof def.if !== 'object') return null
 
   try {
-    const validate = ajv.compile(def.if as JSONSchema7)
+    const validate = ajv.compile(def.if as JSONSchema)
     const matches = validate(value)
     if (matches) {
       const thenSchema = def.then
       if (thenSchema && typeof thenSchema === 'object')
-        return thenSchema as JSONSchema7
+        return thenSchema as JSONSchema
     } else {
       const elseSchema = def.else
       if (elseSchema && typeof elseSchema === 'object')
-        return elseSchema as JSONSchema7
+        return elseSchema as JSONSchema
     }
   } catch {
     // ignore compile errors and treat as no overlay
@@ -564,7 +655,7 @@ export function evaluateIfThenElseOverlay(
  * This is used to implement unevaluatedProperties semantics for 2019-09/2020-12.
  */
 export function getEvaluatedProperties(
-  schema: JSONSchema7,
+  schema: JSONSchema,
   value: Record<string, unknown> | undefined,
   ajv: Ajv | undefined
 ): Set<string> {
@@ -655,7 +746,7 @@ export function getEvaluatedProperties(
 
   // Properties from dependentSchemas
   const dependentSchemas = (schema as unknown as Record<string, unknown>)
-    .dependentSchemas as Record<string, JSONSchema7> | undefined
+    .dependentSchemas as Record<string, JSONSchema> | undefined
   if (dependentSchemas) {
     Object.keys(dependentSchemas).forEach(dependentKey => {
       if (dependentKey in value) {

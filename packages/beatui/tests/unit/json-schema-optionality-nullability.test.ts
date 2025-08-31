@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { SchemaContext } from '../../src/components/json-schema/schema-context'
-import type { JSONSchema7 } from 'json-schema'
+import type { JSONSchema } from '../../src/components/json-schema/schema-context'
 
 describe('JSON Schema Optionality and Nullability', () => {
   describe('SchemaContext optionality detection', () => {
     it('should detect required properties correctly', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           requiredField: { type: 'string' },
@@ -38,7 +38,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should not show presence toggle for root level properties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
       }
 
@@ -57,7 +57,7 @@ describe('JSON Schema Optionality and Nullability', () => {
 
   describe('SchemaContext nullability detection', () => {
     it('should detect nullable from union with null type', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: ['string', 'null'],
       }
 
@@ -73,7 +73,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect nullable from OpenAPI nullable extension', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         nullable: true,
       }
@@ -90,7 +90,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect nullable from enum with null', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         enum: ['option1', 'option2', null],
       }
 
@@ -106,7 +106,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect nullable from const null', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         const: null,
       }
 
@@ -122,7 +122,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect non-nullable for simple types', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
       }
 
@@ -138,7 +138,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect nullable from anyOf branches', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         anyOf: [{ type: 'string' }, { type: 'null' }],
       }
 
@@ -154,7 +154,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should detect nullable from oneOf branches', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         oneOf: [{ type: 'string' }, { type: 'null' }],
       }
 
@@ -172,7 +172,7 @@ describe('JSON Schema Optionality and Nullability', () => {
 
   describe('Combined optionality and nullability', () => {
     it('should handle required nullable fields', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           field: { type: ['string', 'null'] },
@@ -194,7 +194,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should handle optional nullable fields', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           field: { type: ['string', 'null'] },
@@ -217,7 +217,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should handle optional non-nullable fields', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           field: { type: 'string' },
@@ -239,7 +239,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should handle required non-nullable fields', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           field: { type: 'string' },
@@ -261,7 +261,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should not show presence toggle for optional nullable primitives', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           stringField: { type: ['string', 'null'] },
@@ -313,7 +313,7 @@ describe('JSON Schema Optionality and Nullability', () => {
     })
 
     it('should show presence toggle for optional non-nullable objects', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           nestedObject: {

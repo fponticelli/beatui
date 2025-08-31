@@ -3,14 +3,14 @@ import {
   mergeAllOf,
   SchemaContext,
   evaluateNotViolation,
+  JSONSchema,
 } from '../../src/components/json-schema/schema-context'
-import type { JSONSchema7 } from 'json-schema'
 import Ajv from 'ajv'
 
 describe('allOf merge strategy', () => {
   describe('mergeAllOf', () => {
     it('should merge simple schemas without conflicts', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'object',
           properties: {
@@ -41,7 +41,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should detect type conflicts', () => {
-      const schemas: JSONSchema7[] = [{ type: 'string' }, { type: 'number' }]
+      const schemas: JSONSchema[] = [{ type: 'string' }, { type: 'number' }]
 
       const result = mergeAllOf(schemas)
 
@@ -55,7 +55,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should detect property conflicts', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'object',
           properties: {
@@ -84,7 +84,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should merge compatible types', () => {
-      const schemas: JSONSchema7[] = [{ type: 'object' }, { type: 'object' }]
+      const schemas: JSONSchema[] = [{ type: 'object' }, { type: 'object' }]
 
       const result = mergeAllOf(schemas)
 
@@ -93,7 +93,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should union required arrays', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'object',
           required: ['name', 'email'],
@@ -111,7 +111,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should merge other schema properties', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'object',
           title: 'First Schema',
@@ -136,7 +136,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should handle complex nested merging', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'object',
           properties: {
@@ -188,7 +188,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should handle single schema', () => {
-      const schemas: JSONSchema7[] = [
+      const schemas: JSONSchema[] = [
         {
           type: 'string',
           minLength: 5,
@@ -205,7 +205,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should include base path in conflict paths', () => {
-      const schemas: JSONSchema7[] = [{ type: 'string' }, { type: 'number' }]
+      const schemas: JSONSchema[] = [{ type: 'string' }, { type: 'number' }]
 
       const result = mergeAllOf(schemas, ['user', 'profile'])
 
@@ -254,7 +254,7 @@ describe('allOf merge strategy', () => {
     const ajv = new Ajv()
 
     it('should return null when value does not match not schema', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         type: 'string',
         enum: ['admin', 'root'],
       }
@@ -265,7 +265,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should return violation when value matches not schema', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         title: 'reserved word',
         type: 'string',
         enum: ['admin', 'root'],
@@ -281,7 +281,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should use default title when not schema has no title', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         type: 'number',
         minimum: 13,
         maximum: 17,
@@ -297,7 +297,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should return null when ajv is not provided', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         type: 'string',
         enum: ['admin'],
       }
@@ -308,7 +308,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should handle complex not schemas', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         title: 'empty profile',
         type: 'object',
         properties: {
@@ -331,7 +331,7 @@ describe('allOf merge strategy', () => {
     })
 
     it('should return null for valid complex objects', () => {
-      const notSchema: JSONSchema7 = {
+      const notSchema: JSONSchema = {
         title: 'empty profile',
         type: 'object',
         properties: {

@@ -2,8 +2,9 @@ import { describe, it, expect } from 'vitest'
 import {
   SchemaContext,
   getEvaluatedProperties,
+  type JSONSchema,
 } from '../../src/components/json-schema/schema-context'
-import type { JSONSchema7 } from 'json-schema'
+
 import Ajv from 'ajv'
 
 describe('JSON Schema Object Properties', () => {
@@ -11,7 +12,7 @@ describe('JSON Schema Object Properties', () => {
 
   describe('SchemaContext readOnly/writeOnly/deprecated properties', () => {
     it('should detect readOnly properties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         readOnly: true,
       }
@@ -30,7 +31,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should detect writeOnly properties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         writeOnly: true,
       }
@@ -49,7 +50,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should detect deprecated properties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'string',
         deprecated: true,
       }
@@ -72,7 +73,7 @@ describe('JSON Schema Object Properties', () => {
         type: 'string',
         readOnly: true,
         'x:ui': { ignoreReadOnly: true },
-      } as JSONSchema7
+      } as JSONSchema
 
       const ctx = new SchemaContext({
         schema,
@@ -91,7 +92,7 @@ describe('JSON Schema Object Properties', () => {
         type: 'string',
         writeOnly: true,
         'x:ui': { showWriteOnly: true },
-      } as JSONSchema7
+      } as JSONSchema
 
       const ctx = new SchemaContext({
         schema,
@@ -108,7 +109,7 @@ describe('JSON Schema Object Properties', () => {
 
   describe('getEvaluatedProperties', () => {
     it('should track properties from properties keyword', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
@@ -125,7 +126,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should track properties from patternProperties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         patternProperties: {
           '^x-': { type: 'string' },
@@ -140,7 +141,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should track all properties when additionalProperties is not false', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
@@ -156,7 +157,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should track properties from allOf branches', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         allOf: [
           {
@@ -180,7 +181,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should track properties from if/then/else overlays', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           type: { type: 'string', enum: ['A', 'B'] },
@@ -216,7 +217,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should track properties from dependentSchemas', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           feature: { type: 'boolean' },
@@ -249,7 +250,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should handle draft-07 dependencies', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           flag: { type: 'boolean' },
@@ -273,7 +274,7 @@ describe('JSON Schema Object Properties', () => {
 
   describe('Pattern properties validation', () => {
     it('should validate property names against patterns', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         patternProperties: {
           '^[a-z]+$': { type: 'string' },
@@ -296,7 +297,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should validate property names with propertyNames constraint', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         propertyNames: {
           type: 'string',
@@ -325,7 +326,7 @@ describe('JSON Schema Object Properties', () => {
           name: { type: 'string' },
         },
         unevaluatedProperties: false,
-      } as JSONSchema7
+      } as JSONSchema
 
       const value = { name: 'John', extra: 'value' }
       const evaluated = getEvaluatedProperties(schema, value, ajv)
@@ -341,7 +342,7 @@ describe('JSON Schema Object Properties', () => {
           name: { type: 'string' },
         },
         unevaluatedProperties: { type: 'number' },
-      } as JSONSchema7
+      } as JSONSchema
 
       const value = { name: 'John', count: 42 }
       const evaluated = getEvaluatedProperties(schema, value, ajv)
@@ -369,7 +370,7 @@ describe('JSON Schema Object Properties', () => {
           },
         },
         unevaluatedProperties: false,
-      } as JSONSchema7
+      } as JSONSchema
 
       const value = { base: 'special', special: true, extra: 'not allowed' }
       const evaluated = getEvaluatedProperties(schema, value, ajv)
@@ -382,7 +383,7 @@ describe('JSON Schema Object Properties', () => {
 
   describe('Additional properties behavior', () => {
     it('should handle additionalProperties: true', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
@@ -398,7 +399,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should handle additionalProperties: false', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
@@ -414,7 +415,7 @@ describe('JSON Schema Object Properties', () => {
     })
 
     it('should handle additionalProperties with schema', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
@@ -432,7 +433,7 @@ describe('JSON Schema Object Properties', () => {
 
   describe('Min/Max properties constraints', () => {
     it('should respect minProperties and maxProperties', () => {
-      const schema: JSONSchema7 = {
+      const schema: JSONSchema = {
         type: 'object',
         properties: {
           name: { type: 'string' },
