@@ -2,8 +2,10 @@ import { describe, it, expect } from 'vitest'
 import {
   mergeAllOf,
   SchemaContext,
+  evaluateNotViolation,
 } from '../../src/components/json-schema/schema-context'
 import type { JSONSchema7 } from 'json-schema'
+import Ajv from 'ajv'
 
 describe('allOf merge strategy', () => {
   describe('mergeAllOf', () => {
@@ -245,6 +247,107 @@ describe('allOf merge strategy', () => {
       expect(updatedCtx.schemaConflicts).toHaveLength(2)
       expect(updatedCtx.schemaConflicts[0]).toEqual(initialConflicts[0])
       expect(updatedCtx.schemaConflicts[1]).toEqual(newConflicts[0])
+    })
+  })
+
+  describe('evaluateNotViolation', () => {
+    const ajv = new Ajv()
+
+    it('should return null when value does not match not schema', () => {
+      const notSchema: JSONSchema7 = {
+        type: 'string',
+        enum: ['admin', 'root'],
+      }
+
+      const result = evaluateNotViolation(notSchema, 'user', ajv)
+
+      expect(result).toBeNull()
+    })
+
+    it('should return violation when value matches not schema', () => {
+      const notSchema: JSONSchema7 = {
+        title: 'reserved word',
+        type: 'string',
+        enum: ['admin', 'root'],
+      }
+
+      const result = evaluateNotViolation(notSchema, 'admin', ajv, ['username'])
+
+      expect(result).toEqual({
+        path: ['username'],
+        message: 'Value matches reserved word',
+        notSchema,
+      })
+    })
+
+    it('should use default title when not schema has no title', () => {
+      const notSchema: JSONSchema7 = {
+        type: 'number',
+        minimum: 13,
+        maximum: 17,
+      }
+
+      const result = evaluateNotViolation(notSchema, 15, ajv)
+
+      expect(result).toEqual({
+        path: [],
+        message: 'Value matches disallowed schema',
+        notSchema,
+      })
+    })
+
+    it('should return null when ajv is not provided', () => {
+      const notSchema: JSONSchema7 = {
+        type: 'string',
+        enum: ['admin'],
+      }
+
+      const result = evaluateNotViolation(notSchema, 'admin', undefined)
+
+      expect(result).toBeNull()
+    })
+
+    it('should handle complex not schemas', () => {
+      const notSchema: JSONSchema7 = {
+        title: 'empty profile',
+        type: 'object',
+        properties: {
+          bio: { maxLength: 0 },
+          website: { maxLength: 0 },
+        },
+        additionalProperties: false,
+      }
+
+      const emptyProfile = { bio: '', website: '' }
+      const result = evaluateNotViolation(notSchema, emptyProfile, ajv, [
+        'profile',
+      ])
+
+      expect(result).toEqual({
+        path: ['profile'],
+        message: 'Value matches empty profile',
+        notSchema,
+      })
+    })
+
+    it('should return null for valid complex objects', () => {
+      const notSchema: JSONSchema7 = {
+        title: 'empty profile',
+        type: 'object',
+        properties: {
+          bio: { maxLength: 0 },
+          website: { maxLength: 0 },
+        },
+        additionalProperties: false,
+      }
+
+      const validProfile = {
+        bio: 'Hello world',
+        website: 'https://example.com',
+      }
+      const result = evaluateNotViolation(notSchema, validProfile, ajv)
+
+      expect(result).toBeNull()
     })
   })
 })

@@ -120,7 +120,6 @@
   color: var(--text-muted-light);
 }
 
-
 /* Dark mode styles */
 .b-dark .bc-segmented-control {
   background-color: var(--bg-subtle-dark);

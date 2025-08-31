@@ -30,6 +30,8 @@ const sampleNames = [
   'composition-refs',
   'allof-merge-demo',
   'allof-conflicts-demo',
+  'not-violations-demo',
+  'optionality-nullability-demo',
   'prefix-items',
   'annotations',
   'draft-2019',

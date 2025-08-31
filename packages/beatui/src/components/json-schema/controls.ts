@@ -13,6 +13,13 @@ import {
   NativeSelectControl,
   InputWrapper,
   NullableNumberInput,
+  transformEmptyStringToUndefined,
+  TextInput,
+  EmailInput,
+  PasswordInput,
+  UUIDInput,
+  TextArea,
+  Switch,
 } from '../form'
 import {
   attr,
@@ -22,15 +29,19 @@ import {
   Value,
   prop,
   MapSignal,
+  When,
 } from '@tempots/dom'
 import { Group, Stack } from '../layout'
 import { objectEntries, upperCaseFirst } from '@tempots/std'
 import {
   SchemaContext,
   mergeAllOf,
+  evaluateNotViolation,
   type SchemaConflict,
+  type NotViolation,
 } from './schema-context'
 import { StringControl } from './widgets/string-controls'
+import { stringFormatDetection } from './widgets/string-detection'
 import { resolveRef } from './ref-utils'
 import { Label, MutedLabel } from '../typography'
 import { SegmentedInput } from '../form/input/segmented-input'
@@ -72,18 +83,131 @@ function SchemaConflictsBanner({
   )
 }
 
-function withSchemaConflicts(
-  ctx: SchemaContext,
+function NotViolationsBanner({
+  violations,
+}: {
+  violations: readonly NotViolation[]
+}) {
+  if (violations.length === 0) return null
+
+  return html.div(
+    attr.class('bc-not-violations-banner'),
+    attr.style(
+      'background-color: var(--color-error-50); border: 1px solid var(--color-error-200); border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--color-error-800);'
+    ),
+    html.div(
+      attr.style('font-weight: 600; margin-bottom: 0.25rem;'),
+      'Schema Violations Detected'
+    ),
+    html.ul(
+      attr.style('margin: 0; padding-left: 1.25rem; list-style-type: disc;'),
+      ...violations.map(violation =>
+        html.li(
+          attr.style('margin-bottom: 0.25rem;'),
+          violation.message,
+          violation.path.length > 0
+            ? html.code(
+                attr.style(
+                  'margin-left: 0.5rem; font-size: 0.75rem; opacity: 0.7;'
+                ),
+                ` (${violation.path.join('.')})`
+              )
+            : null
+        )
+      )
+    )
+  )
+}
+
+/**
+ * Presence toggle for optional properties.
+ * Shows a toggle that controls whether the property key exists in the parent object.
+ */
+function PresenceToggle<T>({
+  ctx,
+  controller,
+  content,
+}: {
+  ctx: SchemaContext
+  controller: Controller<T>
   content: Renderable
+}) {
+  const isPresent = Value.map(controller.value, v => v !== undefined)
+  const label = ctx.widgetLabel || 'Property'
+
+  const handleToggle = (checked: boolean) => {
+    if (checked) {
+      // Set to default value or appropriate empty value
+      const defaultValue = ctx.default
+      if (defaultValue !== undefined) {
+        controller.change(defaultValue as T)
+      } else {
+        // Set appropriate empty value based on schema type
+        const def = ctx.definition as JSONSchema7
+        if (def.type === 'string') {
+          controller.change('' as T)
+        } else if (def.type === 'number' || def.type === 'integer') {
+          controller.change(0 as T)
+        } else if (def.type === 'boolean') {
+          controller.change(false as T)
+        } else if (def.type === 'array') {
+          controller.change([] as T)
+        } else if (def.type === 'object') {
+          controller.change({} as T)
+        } else {
+          controller.change(null as T)
+        }
+      }
+    } else {
+      // Remove the property by setting to undefined
+      controller.change(undefined as T)
+    }
+  }
+
+  return Stack(
+    html.div(
+      attr.class('bc-presence-toggle'),
+      Switch({
+        value: isPresent,
+        onChange: handleToggle,
+        label: `Include ${label}`,
+        size: 'xs',
+      })
+    ),
+    When(isPresent, () => content)
+  )
+}
+
+function withSchemaIssues<T>(
+  ctx: SchemaContext,
+  content: Renderable,
+  controller?: Controller<T>
 ): Renderable {
-  if (ctx.schemaConflicts.length === 0) {
-    return content
+  const hasConflicts = ctx.schemaConflicts.length > 0
+  const hasViolations = ctx.notViolations.length > 0
+  const shouldShowPresence = ctx.shouldShowPresenceToggle && controller != null
+
+  let wrappedContent = content
+
+  // Wrap with presence toggle if needed
+  if (shouldShowPresence && controller != null) {
+    wrappedContent = PresenceToggle({ ctx, controller, content })
+  }
+
+  // Add schema issues banners if needed
+  if (!hasConflicts && !hasViolations) {
+    return wrappedContent
   }
 
   return Stack(
     attr.class('bu-gap-2'),
-    SchemaConflictsBanner({ conflicts: ctx.schemaConflicts }),
-    content
+    hasViolations
+      ? NotViolationsBanner({ violations: ctx.notViolations })
+      : null,
+    hasConflicts
+      ? SchemaConflictsBanner({ conflicts: ctx.schemaConflicts })
+      : null,
+    wrappedContent
   )
 }
 
@@ -211,6 +335,20 @@ export function JSONSchemaNumber({
   controller: Controller<number>
 }): Renderable {
   const def = ctx.definition as JSONSchema7
+
+  // For optional nullable primitives, use nullable controls instead of presence toggles
+  if (ctx.isNullable && (ctx.isOptional || !ctx.shouldShowPresenceToggle)) {
+    return Control(NullableNumberInput, {
+      ...definitionToInputWrapperOptions({ ctx }),
+      controller: controller as unknown as Controller<number | null>,
+      placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
+      min: def.minimum,
+      max: def.maximum,
+      step: def.multipleOf,
+    })
+  }
+
+  // For non-nullable numbers, use regular number input
   return Control<number, NumberInputOptions>(NumberInput, {
     ...definitionToInputWrapperOptions({ ctx }),
     controller,
@@ -257,7 +395,41 @@ export function JSONSchemaString({
     ...definitionToInputWrapperOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
   }
-  return StringControl({ ctx, options, controller })
+
+  // For optional nullable primitives, use nullable controls instead of presence toggles
+  if (ctx.isNullable && (ctx.isOptional || !ctx.shouldShowPresenceToggle)) {
+    return StringControl({ ctx, options, controller })
+  }
+
+  // For non-nullable strings, use regular text input that maps empty to undefined
+  const format = stringFormatDetection(ctx)
+  switch (format?.format) {
+    case 'email':
+      return Control(EmailInput, {
+        ...options,
+        controller: transformEmptyStringToUndefined(controller),
+      })
+    case 'password':
+      return Control(PasswordInput, {
+        ...options,
+        controller: transformEmptyStringToUndefined(controller),
+      })
+    case 'uuid':
+      return Control(UUIDInput, {
+        ...options,
+        controller: transformEmptyStringToUndefined(controller),
+      })
+    case 'textarea':
+      return Control(TextArea, {
+        ...options,
+        controller: transformEmptyStringToUndefined(controller),
+      })
+    default:
+      return Control(TextInput, {
+        ...options,
+        controller: transformEmptyStringToUndefined(controller),
+      })
+  }
 }
 
 export function JSONSchemaBoolean({
@@ -267,16 +439,15 @@ export function JSONSchemaBoolean({
   ctx: SchemaContext
   controller: Controller<boolean | null>
 }): Renderable {
-  const hasNull = Array.isArray((ctx.definition as JSONSchema7).type)
-    ? (ctx.definition as JSONSchema7).type!.includes('null' as never)
-    : (ctx.definition as JSONSchema7).type === 'null'
-
+  // Use non-nullable boolean by default
   const base = Control(CheckboxInput, {
     ...definitionToInputWrapperOptions({ ctx }),
     controller: controller as unknown as Controller<boolean>,
   })
 
-  if (!hasNull) return base
+  // For optional nullable primitives, use nullable controls instead of presence toggles
+  if (!ctx.isNullable || (!ctx.isOptional && ctx.shouldShowPresenceToggle))
+    return base
 
   // Nullable boolean: add a small clear button that sets the value to null
   return Control(CheckboxInput, {
@@ -650,104 +821,131 @@ export function JSONSchemaGenericControl<T>({
     }
   }
 
+  // Evaluate not violations against current controller value
+  let notViolations = [...nextCtx.notViolations]
+  if (resolvedDef?.not != null && typeof resolvedDef.not === 'object') {
+    const currentValue = controller.value
+    const violation = evaluateNotViolation(
+      resolvedDef.not,
+      currentValue,
+      nextCtx.ajv,
+      nextCtx.path
+    )
+    if (violation) {
+      notViolations = [...notViolations, violation]
+      nextCtx = nextCtx.with({ notViolations })
+    }
+  }
+
   if (resolvedDef == null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaAny({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (resolvedDef.enum != null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaEnum({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (resolvedDef.const != null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaConst({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (resolvedDef.anyOf != null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaAnyOf({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (resolvedDef.oneOf != null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaOneOf({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (resolvedDef?.type == null) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaAny({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   if (Array.isArray(resolvedDef.type)) {
-    return withSchemaConflicts(
+    return withSchemaIssues(
       nextCtx,
       JSONSchemaUnion({
         ctx: nextCtx,
         controller: controller as unknown as Controller<unknown>,
-      })
+      }),
+      controller
     )
   }
   switch (resolvedDef.type) {
     case 'number':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaNumber({
           ctx: nextCtx,
           controller: controller as unknown as Controller<number>,
-        })
+        }),
+        controller
       )
     case 'integer':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaInteger({
           ctx: nextCtx,
           controller: controller as unknown as Controller<number>,
-        })
+        }),
+        controller
       )
     case 'string':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaString({
           ctx: nextCtx,
           controller: controller as unknown as Controller<string | undefined>,
-        })
+        }),
+        controller
       )
     case 'boolean':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaBoolean({
           ctx: nextCtx,
           controller: controller as unknown as Controller<boolean | null>,
-        })
+        }),
+        controller
       )
     case 'array':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaArray({
           ctx: nextCtx,
@@ -755,7 +953,8 @@ export function JSONSchemaGenericControl<T>({
             controller instanceof ArrayController
               ? (controller as unknown as ArrayController<unknown[]>)
               : (controller.array() as unknown as ArrayController<unknown[]>),
-        })
+        }),
+        controller
       )
     case 'object': {
       const schema = JSONSchemaObject({
@@ -769,27 +968,30 @@ export function JSONSchemaGenericControl<T>({
         }>,
       })
       if (nextCtx.isRoot) {
-        return withSchemaConflicts(nextCtx, schema)
+        return withSchemaIssues(nextCtx, schema, controller)
       }
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
-        html.div(attr.class('bc-json-schema-object'), schema)
+        html.div(attr.class('bc-json-schema-object'), schema),
+        controller
       )
     }
     case 'null':
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
         JSONSchemaNull({
           ctx: nextCtx,
           controller: controller as unknown as Controller<null>,
-        })
+        }),
+        controller
       )
     default:
       console.warn('Unknown type', resolvedDef.type)
       // TODO
-      return withSchemaConflicts(
+      return withSchemaIssues(
         nextCtx,
-        html.div(attr.class('bc-json-schema-unknown'), 'Unknown')
+        html.div(attr.class('bc-json-schema-unknown'), 'Unknown'),
+        controller
       )
   }
 }

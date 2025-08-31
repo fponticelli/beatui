@@ -18,6 +18,12 @@ export type AllOfMergeResult = {
   readonly conflicts: readonly SchemaConflict[]
 }
 
+export type NotViolation = {
+  readonly path: ReadonlyArray<PropertyKey>
+  readonly message: string
+  readonly notSchema: JSONSchema7
+}
+
 export type SchemaContextOptions = {
   schema: JSONSchema7Definition
   definition: JSONSchema7Definition
@@ -27,6 +33,7 @@ export type SchemaContextOptions = {
   isPropertyRequired?: boolean
   suppressLabel?: boolean
   schemaConflicts?: readonly SchemaConflict[]
+  notViolations?: readonly NotViolation[]
 }
 
 export class SchemaContext {
@@ -38,6 +45,7 @@ export class SchemaContext {
   readonly isPropertyRequired: boolean
   readonly suppressLabel: boolean
   readonly schemaConflicts: readonly SchemaConflict[]
+  readonly notViolations: readonly NotViolation[]
   constructor(options: SchemaContextOptions) {
     const {
       schema,
@@ -48,6 +56,7 @@ export class SchemaContext {
       isPropertyRequired,
       suppressLabel,
       schemaConflicts,
+      notViolations,
     } = options
     this.schema = schema
     this.definition = definition
@@ -57,6 +66,7 @@ export class SchemaContext {
     this.isPropertyRequired = isPropertyRequired ?? false
     this.suppressLabel = suppressLabel ?? false
     this.schemaConflicts = schemaConflicts ?? []
+    this.notViolations = notViolations ?? []
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -69,6 +79,7 @@ export class SchemaContext {
       isPropertyRequired: options.isPropertyRequired ?? this.isPropertyRequired,
       suppressLabel: options.suppressLabel ?? this.suppressLabel,
       schemaConflicts: options.schemaConflicts ?? this.schemaConflicts,
+      notViolations: options.notViolations ?? this.notViolations,
     })
   }
 
@@ -115,13 +126,64 @@ export class SchemaContext {
 
   get isNullable(): boolean {
     return (
-      this.nullable ??
-      (this.hasType('null') ||
-        this.hasEnumValue(null) ||
-        this.hasConstValue(null) ||
-        this.anyOf?.some(ctx => ctx.isNullable) ||
-        this.oneOf?.some(ctx => ctx.isNullable))
+      this.nullable ||
+      this.hasType('null') ||
+      this.hasEnumValue(null) ||
+      this.hasConstValue(null) ||
+      (this.anyOf?.some(ctx => ctx.isNullable) ?? false) ||
+      (this.oneOf?.some(ctx => ctx.isNullable) ?? false)
     )
+  }
+
+  /**
+   * Determines if this property is optional (can be absent from parent object).
+   * This is different from nullable - optional means the key can be missing,
+   * while nullable means the value can be explicitly null.
+   */
+  get isOptional(): boolean {
+    return !this.isPropertyRequired
+  }
+
+  /**
+   * Determines if this property should show a presence toggle.
+   * Optional properties that are not at the root level should have presence toggles,
+   * but primitive values that allow null should use nullable controls instead.
+   */
+  get shouldShowPresenceToggle(): boolean {
+    if (!this.isOptional || this.isRoot) {
+      return false
+    }
+
+    // For primitive values that are nullable, use nullable controls instead of presence toggles
+    if ((this.isNullable || this.isOptional) && this.isPrimitive) {
+      return false
+    }
+
+    return true
+  }
+
+  /**
+   * Determines if this schema represents a primitive type (string, number, boolean, null).
+   */
+  get isPrimitive(): boolean {
+    if (typeof this.definition === 'boolean') {
+      return false
+    }
+
+    const def = this.definition
+
+    // If no type is specified but has const or enum, consider it primitive
+    if (def.const !== undefined || def.enum !== undefined) {
+      return true
+    }
+
+    if (def.type) {
+      const types = Array.isArray(def.type) ? def.type : [def.type]
+      const primitiveTypes = ['string', 'number', 'integer', 'boolean']
+      return types.every(type => primitiveTypes.includes(type))
+    }
+
+    return false
   }
 
   get anyOf() {
@@ -287,5 +349,41 @@ export function mergeAllOf(
   return {
     mergedSchema: merged,
     conflicts,
+  }
+}
+
+/**
+ * Evaluate `not` subschema against the current value using AJV.
+ * Returns a NotViolation if the value matches the disallowed schema.
+ */
+export function evaluateNotViolation(
+  notSchema: JSONSchema7,
+  value: unknown,
+  ajv: Ajv | undefined,
+  basePath: ReadonlyArray<PropertyKey> = []
+): NotViolation | null {
+  if (!ajv) {
+    // Cannot evaluate without AJV instance
+    return null
+  }
+
+  try {
+    const validate = ajv.compile(notSchema)
+    const isValid = validate(value)
+
+    if (isValid) {
+      // Value matches the disallowed schema - this is a violation
+      const title = notSchema.title || 'disallowed schema'
+      return {
+        path: basePath,
+        message: `Value matches ${title}`,
+        notSchema,
+      }
+    }
+
+    return null
+  } catch (_error) {
+    // If compilation fails, we can't evaluate - return null
+    return null
   }
 }

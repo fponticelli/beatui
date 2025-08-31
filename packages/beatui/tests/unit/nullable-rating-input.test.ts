@@ -44,7 +44,9 @@ describe('NullableRatingInput Component', () => {
     // Click at the middle of the icon to set ~0.5
     const rect = { left: 0, width: 100 } as DOMRect as unknown as DOMRect
     // Monkey patch getBoundingClientRect on the element to a known value
-    ;(firstIcon as any).getBoundingClientRect = () => rect
+    ;(
+      firstIcon as unknown as { getBoundingClientRect: () => DOMRect }
+    ).getBoundingClientRect = () => rect
     firstIcon.dispatchEvent(
       new MouseEvent('click', { bubbles: true, clientX: 50 })
     )

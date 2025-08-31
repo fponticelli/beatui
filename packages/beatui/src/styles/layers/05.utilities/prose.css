@@ -104,12 +104,20 @@
   margin-block: 0.75rem;
 }
 
-.bu-prose ul { list-style: disc; }
-.bu-prose ol { list-style: decimal; }
+.bu-prose ul {
+  list-style: disc;
+}
+.bu-prose ol {
+  list-style: decimal;
+}
 
-.bu-prose li { margin-block: 0.25rem; }
+.bu-prose li {
+  margin-block: 0.25rem;
+}
 .bu-prose li > ul,
-.bu-prose li > ol { margin-block-start: 0.25rem; }
+.bu-prose li > ol {
+  margin-block-start: 0.25rem;
+}
 
 /* Tables */
 .bu-prose table {

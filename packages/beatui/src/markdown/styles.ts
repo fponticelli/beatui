@@ -4,4 +4,3 @@
 import css from './styles.css?inline'
 
 export default css as string
-
