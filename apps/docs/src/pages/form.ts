@@ -1,7 +1,7 @@
 import { attr, html, style } from '@tempots/dom'
 import {
-  ComboboxControl,
-  ComboboxOption,
+  DropdownControl,
+  DropdownOption,
   Control,
   DateInput,
   EnsureControl,
@@ -77,30 +77,30 @@ export const FormPage = () => {
             controller: controller.field('name'),
             label: 'Name',
           }),
-          ComboboxControl({
+          DropdownControl({
             controller: controller.field('favoriteColor'),
             label: 'Favorite Color',
             placeholder: 'Select a color',
             options: [
-              ComboboxOption.value('red', 'Red', {
+              DropdownOption.value('red', 'Red', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#ef4444')
                 ),
               }),
-              ComboboxOption.value('blue', 'Blue', {
+              DropdownOption.value('blue', 'Blue', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#3b82f6')
                 ),
               }),
-              ComboboxOption.value('green', 'Green', {
+              DropdownOption.value('green', 'Green', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#10b981')
                 ),
               }),
-              ComboboxOption.value('purple', 'Purple', {
+              DropdownOption.value('purple', 'Purple', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#8b5cf6')

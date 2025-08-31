@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import {
-  ComboboxInput,
-  ComboboxOption,
-} from '../../src/components/form/input/combobox-input'
-import { ComboboxControl } from '../../src/components/form/input/combobox-input'
+  DropdownInput,
+  DropdownOption,
+} from '../../src/components/form/input/dropdown-input'
+import { DropdownControl } from '../../src/components/form/input/dropdown-input'
 import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form/use-form'
 
-describe('Combobox', () => {
+describe('Dropdown', () => {
   let container: HTMLElement
 
   beforeEach(() => {
@@ -23,15 +23,15 @@ describe('Combobox', () => {
   describe('Basic Functionality', () => {
     it('should render with basic options', () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
-        ComboboxOption.value('cherry', 'Cherry'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
+        DropdownOption.value('cherry', 'Cherry'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -40,23 +40,23 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox')
+      const trigger = container.querySelector('.bc-dropdown')
       expect(trigger).not.toBeNull()
-      expect(trigger?.getAttribute('role')).toBe('combobox')
+      expect(trigger?.getAttribute('role')).toBe('dropdown')
       expect(trigger?.getAttribute('aria-haspopup')).toBe('listbox')
       expect(trigger?.getAttribute('aria-expanded')).toBe('false')
     })
 
     it('should display selected value', () => {
       const value = prop<string>('apple')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -65,19 +65,19 @@ describe('Combobox', () => {
         container
       )
 
-      const display = container.querySelector('.bc-combobox__display')
+      const display = container.querySelector('.bc-dropdown__display')
       expect(display?.textContent).toBe('Apple')
     })
 
     it('should show placeholder when no value selected', () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             placeholder: 'Select a fruit',
@@ -87,7 +87,7 @@ describe('Combobox', () => {
         container
       )
 
-      const display = container.querySelector('.bc-combobox__display')
+      const display = container.querySelector('.bc-dropdown__display')
       expect(display?.textContent).toBe('Select a fruit')
     })
   })
@@ -95,14 +95,14 @@ describe('Combobox', () => {
   describe('Dropdown Interaction', () => {
     it('should open dropdown when trigger is clicked', async () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -111,13 +111,13 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.click()
 
       // Wait for flyout to appear
       await new Promise(resolve => setTimeout(resolve, 100))
 
-      const listbox = document.querySelector('.bc-combobox__listbox')
+      const listbox = document.querySelector('.bc-dropdown__listbox')
       expect(listbox).not.toBeNull()
       expect(trigger.getAttribute('aria-expanded')).toBe('true')
     })
@@ -125,14 +125,14 @@ describe('Combobox', () => {
     it('should select option when clicked', async () => {
       const value = prop<string>('')
       let selectedValue = ''
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: val => {
@@ -143,7 +143,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.click()
 
       await new Promise(resolve => setTimeout(resolve, 100))
@@ -161,14 +161,14 @@ describe('Combobox', () => {
   describe('Keyboard Navigation', () => {
     it('should open dropdown with ArrowDown key', async () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -177,7 +177,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.focus()
 
       trigger.dispatchEvent(
@@ -191,15 +191,15 @@ describe('Combobox', () => {
 
     it('should navigate options with arrow keys', async () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
-        ComboboxOption.value('cherry', 'Cherry'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
+        DropdownOption.value('cherry', 'Cherry'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -208,7 +208,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.focus()
 
       // Open dropdown
@@ -225,20 +225,20 @@ describe('Combobox', () => {
 
       // Check if aria-activedescendant is set
       const activedescendant = trigger.getAttribute('aria-activedescendant')
-      expect(activedescendant).toContain('combobox-option-')
+      expect(activedescendant).toContain('dropdown-option-')
     })
 
     it('should select option with Enter key', async () => {
       const value = prop<string>('')
       let selectedValue = ''
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: val => {
@@ -249,7 +249,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.focus()
 
       // Open dropdown and navigate to first option
@@ -273,13 +273,13 @@ describe('Combobox', () => {
 
     it('should close dropdown with Escape key', async () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -288,7 +288,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       trigger.focus()
 
       // Open dropdown
@@ -314,13 +314,13 @@ describe('Combobox', () => {
   describe('Accessibility', () => {
     it('should have proper ARIA attributes', () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -329,8 +329,8 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox')
-      expect(trigger?.getAttribute('role')).toBe('combobox')
+      const trigger = container.querySelector('.bc-dropdown')
+      expect(trigger?.getAttribute('role')).toBe('dropdown')
       expect(trigger?.getAttribute('aria-haspopup')).toBe('listbox')
       expect(trigger?.getAttribute('aria-expanded')).toBe('false')
       expect(trigger?.getAttribute('tabindex')).toBe('0')
@@ -338,13 +338,13 @@ describe('Combobox', () => {
 
     it('should update aria-expanded when dropdown opens/closes', async () => {
       const value = prop<string>('')
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxInput({
+          DropdownInput({
             value,
             options,
             onChange: () => {},
@@ -353,7 +353,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox') as HTMLElement
+      const trigger = container.querySelector('.bc-dropdown') as HTMLElement
       expect(trigger.getAttribute('aria-expanded')).toBe('false')
 
       trigger.click()
@@ -363,19 +363,19 @@ describe('Combobox', () => {
   })
 
   describe('Form Integration', () => {
-    it('should work with ComboboxControl', () => {
+    it('should work with DropdownControl', () => {
       const { controller } = useController({
         initialValue: '',
       })
 
-      const options = prop<ComboboxOption<string>[]>([
-        ComboboxOption.value('apple', 'Apple'),
-        ComboboxOption.value('banana', 'Banana'),
+      const options = prop<DropdownOption<string>[]>([
+        DropdownOption.value('apple', 'Apple'),
+        DropdownOption.value('banana', 'Banana'),
       ])
 
       render(
         WithProviders(() =>
-          ComboboxControl({
+          DropdownControl({
             controller,
             options,
           })
@@ -383,7 +383,7 @@ describe('Combobox', () => {
         container
       )
 
-      const trigger = container.querySelector('.bc-combobox__trigger')
+      const trigger = container.querySelector('.bc-dropdown__trigger')
       expect(trigger).not.toBeNull()
     })
   })

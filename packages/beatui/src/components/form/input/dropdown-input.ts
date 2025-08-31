@@ -39,7 +39,7 @@ import {
 import { InputWrapper } from './input-wrapper'
 
 // Extend existing SelectOption types to support rich content
-export type ComboboxValueOption<T> = {
+export type DropdownValueOption<T> = {
   type: 'value'
   value: T
   label: string
@@ -48,22 +48,22 @@ export type ComboboxValueOption<T> = {
   after?: TNode
 }
 
-export type ComboboxGroupOption<T> = {
+export type DropdownGroupOption<T> = {
   type: 'group'
   group: string
-  options: ComboboxValueOption<T>[]
+  options: DropdownValueOption<T>[]
   disabled?: boolean
 }
 
-export type ComboboxBreakOption = { type: 'break' }
+export type DropdownBreakOption = { type: 'break' }
 
-export type ComboboxOption<T> =
-  | ComboboxValueOption<T>
-  | ComboboxGroupOption<T>
-  | ComboboxBreakOption
+export type DropdownOption<T> =
+  | DropdownValueOption<T>
+  | DropdownGroupOption<T>
+  | DropdownBreakOption
 
 // Helper functions similar to SelectOption
-export const ComboboxOption = {
+export const DropdownOption = {
   value: <T>(
     value: T,
     label: string,
@@ -80,11 +80,11 @@ export const ComboboxOption = {
       disabled: options?.disabled,
       before: options?.before,
       after: options?.after,
-    }) as ComboboxValueOption<T>,
+    }) as DropdownValueOption<T>,
 
   group: <T>(
     group: string,
-    options: (ComboboxValueOption<T> | ComboboxBreakOption)[],
+    options: (DropdownValueOption<T> | DropdownBreakOption)[],
     disabled?: boolean
   ) =>
     ({
@@ -92,14 +92,14 @@ export const ComboboxOption = {
       group,
       options,
       disabled,
-    }) as ComboboxGroupOption<T>,
+    }) as DropdownGroupOption<T>,
 
-  break: { type: 'break' } as ComboboxBreakOption,
+  break: { type: 'break' } as DropdownBreakOption,
 
-  getOptionValues: <T>(options: ComboboxOption<T>[]): T[] => {
+  getOptionValues: <T>(options: DropdownOption<T>[]): T[] => {
     return options.flatMap(o =>
       o.type === 'group'
-        ? ComboboxOption.getOptionValues(o.options as ComboboxOption<T>[])
+        ? DropdownOption.getOptionValues(o.options as DropdownOption<T>[])
         : o.type === 'break'
           ? []
           : [o.value]
@@ -107,18 +107,18 @@ export const ComboboxOption = {
   },
 
   contains: <T>(
-    options: ComboboxOption<T>[],
+    options: DropdownOption<T>[],
     value: T,
     equality: (a: T, b: T) => boolean = (a, b) => a === b
   ) => {
-    return ComboboxOption.getOptionValues(options).some(v => equality(v, value))
+    return DropdownOption.getOptionValues(options).some(v => equality(v, value))
   },
 }
 
-export type ComboboxOptions<T> = Merge<
+export type DropdownOptions<T> = Merge<
   InputOptions<T>,
   {
-    options: Value<ComboboxOption<T>[]>
+    options: Value<DropdownOption<T>[]>
     unselectedLabel?: Value<string>
     equality?: (a: T, b: T) => boolean
     placeholder?: Value<string>
@@ -127,14 +127,14 @@ export type ComboboxOptions<T> = Merge<
 >
 
 // Internal component for rendering individual options
-const ComboboxOptionItem = <T>(
-  option: Signal<ComboboxOption<T>>,
+const DropdownOptionItem = <T>(
+  option: Signal<DropdownOption<T>>,
   equality: (a: T, b: T) => boolean,
   currentValue: Value<T>,
   onSelect: (value: T) => void,
   focusedValue: Signal<T | null>
 ): Renderable => {
-  return Ensure(option as Signal<ComboboxOption<T> | undefined>, option =>
+  return Ensure(option as Signal<DropdownOption<T> | undefined>, option =>
     OneOfType(option, {
       value: v => {
         const isSelected = computedOf(
@@ -154,7 +154,7 @@ const ComboboxOptionItem = <T>(
         return html.div(
           OnDispose(isSelected.dispose),
           OnDispose(isFocused.dispose),
-          attr.class('bc-combobox__option'),
+          attr.class('bc-dropdown__option'),
           attr.class(
             computedOf(
               isSelected,
@@ -162,14 +162,14 @@ const ComboboxOptionItem = <T>(
               v
             )((selected, focused, option) => {
               const classes = []
-              if (selected) classes.push('bc-combobox__option--selected')
-              if (focused) classes.push('bc-combobox__option--focused')
-              if (option.disabled) classes.push('bc-combobox__option--disabled')
+              if (selected) classes.push('bc-dropdown__option--selected')
+              if (focused) classes.push('bc-dropdown__option--focused')
+              if (option.disabled) classes.push('bc-dropdown__option--disabled')
               return classes.join(' ')
             })
           ),
           attr.role('option'),
-          attr.id(v.map(option => `combobox-option-${String(option.value)}`)),
+          attr.id(v.map(option => `dropdown-option-${String(option.value)}`)),
           aria.selected(isSelected as Value<boolean | 'undefined'>),
           Expando('value', v.$.value),
           When(
@@ -178,30 +178,30 @@ const ComboboxOptionItem = <T>(
             () => Empty
           ),
           html.div(
-            attr.class('bc-combobox__option-content'),
+            attr.class('bc-dropdown__option-content'),
             // Before content - simple conditional rendering
             v.value.before &&
               html.span(
-                attr.class('bc-combobox__option-before'),
+                attr.class('bc-dropdown__option-before'),
                 v.value.before
               ),
             // Label
-            html.span(attr.class('bc-combobox__option-label'), v.$.label),
+            html.span(attr.class('bc-dropdown__option-label'), v.$.label),
             // After content - simple conditional rendering
             v.value.after &&
-              html.span(attr.class('bc-combobox__option-after'), v.value.after)
+              html.span(attr.class('bc-dropdown__option-after'), v.value.after)
           )
         )
       },
       group: v =>
         html.div(
-          attr.class('bc-combobox__group'),
+          attr.class('bc-dropdown__group'),
           attr.role('group'),
           aria.label(v.$.group),
-          html.div(attr.class('bc-combobox__group-label'), v.$.group),
+          html.div(attr.class('bc-dropdown__group-label'), v.$.group),
           ForEach(v.$.options, o =>
-            ComboboxOptionItem(
-              o as Signal<ComboboxOption<T>>,
+            DropdownOptionItem(
+              o as Signal<DropdownOption<T>>,
               equality,
               currentValue,
               onSelect,
@@ -209,17 +209,17 @@ const ComboboxOptionItem = <T>(
             )
           )
         ),
-      break: () => html.hr(attr.class('bc-combobox__separator')),
+      break: () => html.hr(attr.class('bc-dropdown__separator')),
     })
   )
 }
 
-export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
+export const DropdownInput = <T>(options: DropdownOptions<T>) => {
   const {
     value,
     onBlur,
     onChange,
-    options: comboboxOptions,
+    options: dropdownOptions,
     unselectedLabel,
     equality = (a, b) => a === b,
     placeholder,
@@ -229,7 +229,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   const isOpen = prop(false)
   const focusedIndex = prop(-1)
   const focusedValue = prop<T | null>(null)
-  const comboboxId = sessionId('combobox')
+  const dropdownId = sessionId('dropdown')
   const listboxId = sessionId('listbox')
 
   let triggerElement: HTMLElement | undefined
@@ -238,16 +238,16 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   // Get display label for current value
   const displayLabel = computedOf(
     value,
-    comboboxOptions
+    dropdownOptions
   )((currentValue, opts) => {
     if (currentValue == null) return ''
 
-    const findLabel = (options: ComboboxOption<T>[]): string | undefined => {
+    const findLabel = (options: DropdownOption<T>[]): string | undefined => {
       for (const opt of options) {
         if (opt.type === 'value' && equality(opt.value, currentValue as T)) {
           return opt.label
         } else if (opt.type === 'group') {
-          const label = findLabel(opt.options as ComboboxOption<T>[])
+          const label = findLabel(opt.options as DropdownOption<T>[])
           if (label) return label
         }
       }
@@ -277,13 +277,13 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
 
   // Get all selectable options (flattened)
   const getSelectableOptions = (
-    opts: ComboboxOption<T>[]
-  ): ComboboxValueOption<T>[] => {
+    opts: DropdownOption<T>[]
+  ): DropdownValueOption<T>[] => {
     return opts.flatMap(opt => {
       if (opt.type === 'value' && !opt.disabled) {
         return [opt]
       } else if (opt.type === 'group') {
-        return getSelectableOptions(opt.options as ComboboxOption<T>[])
+        return getSelectableOptions(opt.options as DropdownOption<T>[])
       }
       return []
     })
@@ -291,7 +291,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
 
   // Keyboard navigation
   const handleKeyDown = (event: KeyboardEvent) => {
-    const opts = Value.get(comboboxOptions)
+    const opts = Value.get(dropdownOptions)
     const selectableOptions = getSelectableOptions(opts)
 
     switch (event.key) {
@@ -363,9 +363,9 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
     {
       ...options,
       input: Group(
-        attr.class('bc-combobox__trigger'),
+        attr.class('bc-dropdown__trigger'),
         html.span(
-          attr.class('bc-combobox__display'),
+          attr.class('bc-dropdown__display'),
           When(
             displayLabel.map(label => label.length > 0),
             () => displayLabel,
@@ -377,7 +377,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
         ),
         Icon(
           { icon: 'ph:caret-up-down-bold', color: 'neutral' },
-          attr.class('bc-combobox__arrow')
+          attr.class('bc-dropdown__arrow')
         )
       ),
     },
@@ -391,18 +391,18 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
       return OnDispose(() => el.removeEventListener('keydown', handleKeyDown))
     }),
     CommonInputAttributes(options),
-    attr.id(comboboxId),
+    attr.id(dropdownId),
     attr.tabindex(0),
     aria.expanded(isOpen as Value<boolean | 'undefined'>),
-    attr.class('bc-combobox'),
-    attr.role('combobox'),
+    attr.class('bc-dropdown'),
+    attr.role('dropdown'),
     aria.activedescendant(
       computedOf(
         isOpen,
         focusedValue
       )((open, focused): string => {
         if (open && focused != null) {
-          return `combobox-option-${String(focused)}`
+          return `dropdown-option-${String(focused)}`
         }
         return ''
       })
@@ -426,12 +426,12 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
           WithElement(el => {
             listboxElement = el
           }),
-          attr.class('bc-combobox__listbox'),
+          attr.class('bc-dropdown__listbox'),
           attr.role('listbox'),
           attr.id(listboxId),
-          aria.labelledby(comboboxId),
-          ForEach(comboboxOptions, option =>
-            ComboboxOptionItem(
+          aria.labelledby(dropdownId),
+          ForEach(dropdownOptions, option =>
+            DropdownOptionItem(
               option,
               equality,
               value,
@@ -442,9 +442,9 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
         ),
       placement: 'bottom-start',
       showOn: (flyoutShow, flyoutHide) => {
-        // Override flyoutHide to also update combobox state
+        // Override flyoutHide to also update dropdown state
         // This ensures that when Flyout's closable behavior triggers,
-        // the combobox state is properly updated
+        // the dropdown state is properly updated
         const originalHide = flyoutHide
         flyoutHide = () => {
           isOpen.set(false)
@@ -458,7 +458,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
           if (isOpen.value) {
             flyoutHide()
           } else {
-            const opts = Value.get(comboboxOptions)
+            const opts = Value.get(dropdownOptions)
             const selectableOptions = getSelectableOptions(opts)
             isOpen.set(true)
             if (selectableOptions.length > 0) {
@@ -478,11 +478,11 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   )
 }
 
-export const BaseComboboxControl = <T>(
-  options: BaseControllerOptions<T, ComboboxOptions<T>>
+export const BaseDropdownControl = <T>(
+  options: BaseControllerOptions<T, DropdownOptions<T>>
 ) => {
   const { controller, onChange, onBlur, ...rest } = options
-  return ComboboxInput({
+  return DropdownInput({
     ...rest,
     value: controller.value,
     onChange: makeOnChangeHandler(controller, onChange),
@@ -490,11 +490,11 @@ export const BaseComboboxControl = <T>(
   })
 }
 
-export const ComboboxControl = <T>(
-  options: ControllerOptions<T, ComboboxOptions<T>>
+export const DropdownControl = <T>(
+  options: ControllerOptions<T, DropdownOptions<T>>
 ) => {
   return InputWrapper({
     ...options,
-    content: BaseComboboxControl(options),
+    content: BaseDropdownControl(options),
   })
 }

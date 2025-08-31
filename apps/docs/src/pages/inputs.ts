@@ -54,8 +54,8 @@ import {
   NullableDurationInput,
   NullableRatingInput,
   // Added inputs that require extra minimal props
-  ComboboxInput,
-  ComboboxOption,
+  DropdownInput,
+  DropdownOption,
   NativeSelect,
   SelectOption,
   LazyNativeSelect,
@@ -119,12 +119,12 @@ export const InputsPage = () =>
     const nullableTextVal = prop<string | null>(null)
 
     // Inputs that need minimal extra props beyond value
-    const comboboxValue = prop('apple')
-    const comboboxOptions = prop<
-      import('@tempots/beatui').ComboboxOption<string>[]
+    const dropdownValue = prop('apple')
+    const dropdownOptions = prop<
+      import('@tempots/beatui').DropdownOption<string>[]
     >([
-      ComboboxOption.value('apple', 'Apple'),
-      ComboboxOption.value('banana', 'Banana'),
+      DropdownOption.value('apple', 'Apple'),
+      DropdownOption.value('banana', 'Banana'),
     ])
 
     const nativeSelectValue = prop('one')
@@ -567,14 +567,14 @@ export const InputsPage = () =>
         Columns(
           // Inputs that need minimal extra props beyond value
           InputWrapper({
-            label: 'Combobox Input',
-            content: ComboboxInput({
-              value: comboboxValue,
-              options: comboboxOptions,
-              onChange: comboboxValue.set,
+            label: 'Dropdown Input',
+            content: DropdownInput({
+              value: dropdownValue,
+              options: dropdownOptions,
+              onChange: dropdownValue.set,
               disabled,
             }),
-            description: description(comboboxValue),
+            description: description(dropdownValue),
           }),
           InputWrapper({
             label: 'Native Select',

@@ -1,40 +1,40 @@
 import { attr, html, prop, style } from '@tempots/dom'
 import {
-  ComboboxControl,
-  ComboboxOption,
+  DropdownControl,
+  DropdownOption,
   Group,
   Icon,
   ScrollablePanel,
   Stack,
   useController,
-  ComboboxInput,
+  DropdownInput,
 } from '@tempots/beatui'
 
-export const ComboboxPage = () => {
+export const DropdownPage = () => {
   // Basic example
   const basicValue = prop<string>('')
-  const basicOptions = prop<ComboboxOption<string>[]>([
-    ComboboxOption.value('apple', 'Apple', {
+  const basicOptions = prop<DropdownOption<string>[]>([
+    DropdownOption.value('apple', 'Apple', {
       before: html.span(style.color('red'), '🍎'),
     }),
-    ComboboxOption.value('banana', 'Banana', {
+    DropdownOption.value('banana', 'Banana', {
       before: html.span(style.color('yellow'), '🍌'),
     }),
-    ComboboxOption.value('cherry', 'Cherry', {
+    DropdownOption.value('cherry', 'Cherry', {
       before: html.span(style.color('red'), '🍒'),
     }),
-    ComboboxOption.value('date', 'Date', {
+    DropdownOption.value('date', 'Date', {
       before: html.span(style.color('brown'), '🌰'),
     }),
-    ComboboxOption.value('elderberry', 'Elderberry', {
+    DropdownOption.value('elderberry', 'Elderberry', {
       before: html.span(style.color('purple'), '🍇'),
     }),
   ])
 
   // Rich content example
   const colorValue = prop<string>('')
-  const colorOptions = prop<ComboboxOption<string>[]>([
-    ComboboxOption.value('red', 'Red', {
+  const colorOptions = prop<DropdownOption<string>[]>([
+    DropdownOption.value('red', 'Red', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -42,7 +42,7 @@ export const ComboboxPage = () => {
         style.backgroundColor('#ef4444')
       ),
     }),
-    ComboboxOption.value('blue', 'Blue', {
+    DropdownOption.value('blue', 'Blue', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -50,7 +50,7 @@ export const ComboboxPage = () => {
         style.backgroundColor('#3b82f6')
       ),
     }),
-    ComboboxOption.value('green', 'Green', {
+    DropdownOption.value('green', 'Green', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -58,7 +58,7 @@ export const ComboboxPage = () => {
         style.backgroundColor('#10b981')
       ),
     }),
-    ComboboxOption.value('purple', 'Purple', {
+    DropdownOption.value('purple', 'Purple', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -71,17 +71,17 @@ export const ComboboxPage = () => {
 
   // Grouped options example
   const categoryValue = prop<string>('')
-  const categoryOptions = prop<ComboboxOption<string>[]>([
-    ComboboxOption.group('Fruits', [
-      ComboboxOption.value('apple', 'Apple'),
-      ComboboxOption.value('banana', 'Banana'),
-      ComboboxOption.value('cherry', 'Cherry'),
+  const categoryOptions = prop<DropdownOption<string>[]>([
+    DropdownOption.group('Fruits', [
+      DropdownOption.value('apple', 'Apple'),
+      DropdownOption.value('banana', 'Banana'),
+      DropdownOption.value('cherry', 'Cherry'),
     ]),
-    ComboboxOption.break,
-    ComboboxOption.group('Vegetables', [
-      ComboboxOption.value('carrot', 'Carrot'),
-      ComboboxOption.value('broccoli', 'Broccoli'),
-      ComboboxOption.value('spinach', 'Spinach'),
+    DropdownOption.break,
+    DropdownOption.group('Vegetables', [
+      DropdownOption.value('carrot', 'Carrot'),
+      DropdownOption.value('broccoli', 'Broccoli'),
+      DropdownOption.value('spinach', 'Spinach'),
     ]),
   ])
 
@@ -90,14 +90,14 @@ export const ComboboxPage = () => {
     initialValue: 'medium',
   })
 
-  const sizeOptions = prop<ComboboxOption<string>[]>([
-    ComboboxOption.value('small', 'Small', {
+  const sizeOptions = prop<DropdownOption<string>[]>([
+    DropdownOption.value('small', 'Small', {
       before: Icon({ icon: 'line-md:circle-small', size: 'sm' }),
     }),
-    ComboboxOption.value('medium', 'Medium', {
+    DropdownOption.value('medium', 'Medium', {
       before: Icon({ icon: 'line-md:circle', size: 'sm' }),
     }),
-    ComboboxOption.value('large', 'Large', {
+    DropdownOption.value('large', 'Large', {
       before: Icon({ icon: 'line-md:circle-large', size: 'sm' }),
     }),
   ])
@@ -109,7 +109,7 @@ export const ComboboxPage = () => {
       // Page title
       html.h1(
         attr.class('bu-text-3xl bu-font-bold bu-text-gray'),
-        'Combobox Component'
+        'Dropdown Component'
       ),
 
       html.p(
@@ -126,7 +126,7 @@ export const ComboboxPage = () => {
         ),
         html.p(
           attr.class('bu-text-light-gray'),
-          'A simple combobox with text options.'
+          'A simple dropdown with text options.'
         ),
         Group(
           attr.class('bu-gap-4 bu-items-end'),
@@ -137,7 +137,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Select a fruit:'
             ),
-            ComboboxInput({
+            DropdownInput({
               value: basicValue,
               options: basicOptions,
               placeholder: 'Choose a fruit...',
@@ -172,7 +172,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Pick a color:'
             ),
-            ComboboxInput({
+            DropdownInput({
               value: colorValue,
               options: colorOptions,
               placeholder: 'Select color...',
@@ -207,7 +207,7 @@ export const ComboboxPage = () => {
               attr.class('bu-text-sm bu-font-medium bu-text-gray'),
               'Choose category:'
             ),
-            ComboboxInput({
+            DropdownInput({
               value: categoryValue,
               options: categoryOptions,
               placeholder: 'Select item...',
@@ -231,14 +231,14 @@ export const ComboboxPage = () => {
         ),
         html.p(
           attr.class('bu-text-light-gray'),
-          'Combobox works seamlessly with BeatUI form controllers.'
+          'Dropdown works seamlessly with BeatUI form controllers.'
         ),
         Group(
           attr.class('bu-gap-4 bu-items-end'),
           Stack(
             attr.class('bu-gap-2'),
             style.width('16rem'),
-            ComboboxControl({
+            DropdownControl({
               controller: formController,
               label: 'Size',
               description: 'Choose your preferred size',

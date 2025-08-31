@@ -1,5 +1,5 @@
-/* Combobox Component */
-.bc-combobox {
+/* Dropdown Component */
+.bc-dropdown {
   position: relative;
   width: 100%;
   background: transparent;
@@ -10,7 +10,7 @@
   padding: 0;
 }
 
-.bc-combobox__trigger {
+.bc-dropdown__trigger {
   width: 100%;
   display: flex;
   align-items: center;
@@ -19,7 +19,7 @@
 }
 
 /* Display area for selected value */
-.bc-combobox__display {
+.bc-dropdown__display {
   flex: 1;
   text-align: left;
   overflow: hidden;
@@ -28,7 +28,7 @@
 }
 
 /* Arrow indicator */
-.bc-combobox__arrow {
+.bc-dropdown__arrow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +40,7 @@
 }
 
 /* Listbox (dropdown) */
-.bc-combobox__listbox {
+.bc-dropdown__listbox {
   background-color: var(--color-white);
   border: 1px solid var(--color-gray-300);
   border-radius: var(--radius-md);
@@ -54,7 +54,7 @@
 }
 
 /* Individual option */
-.bc-combobox__option {
+.bc-dropdown__option {
   display: flex;
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -65,59 +65,59 @@
   background-color: transparent;
 }
 
-.bc-combobox__option:hover {
+.bc-dropdown__option:hover {
   background-color: var(--color-gray-100);
 }
 
-.bc-combobox__option--focused {
+.bc-dropdown__option--focused {
   background-color: var(--color-sky-100);
   color: var(--color-sky-900);
 }
 
-.bc-combobox__option--selected {
+.bc-dropdown__option--selected {
   background-color: var(--color-sky-600);
   color: var(--color-white);
 }
 
-.bc-combobox__option--disabled {
+.bc-dropdown__option--disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* Option content layout */
-.bc-combobox__option-content {
+.bc-dropdown__option-content {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
   width: 100%;
 }
 
-.bc-combobox__option-before {
+.bc-dropdown__option-before {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
-.bc-combobox__option-label {
+.bc-dropdown__option-label {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.bc-combobox__option-after {
+.bc-dropdown__option-after {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
 /* Option groups */
-.bc-combobox__group {
+.bc-dropdown__group {
   margin: var(--spacing-xs) 0;
 }
 
-.bc-combobox__group-label {
+.bc-dropdown__group-label {
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
@@ -127,63 +127,63 @@
 }
 
 /* Separator */
-.bc-combobox__separator {
+.bc-dropdown__separator {
   margin: var(--spacing-xs) 0;
   border: none;
   border-top: 1px solid var(--color-gray-200);
 }
 
 /* Dark mode styles */
-.b-dark .bc-combobox__listbox {
+.b-dark .bc-dropdown__listbox {
   background-color: var(--bg-surface-dark);
   border-color: var(--border-dark);
   color: var(--text-normal-dark);
 }
 
-.b-dark .bc-combobox__option {
+.b-dark .bc-dropdown__option {
   color: var(--text-normal-dark);
 }
 
-.b-dark .bc-combobox__option:hover {
+.b-dark .bc-dropdown__option:hover {
   background-color: var(--interactive-hover-dark);
 }
 
-.b-dark .bc-combobox__option--focused {
+.b-dark .bc-dropdown__option--focused {
   background-color: var(--color-sky-900);
   color: var(--color-sky-100);
 }
 
-.b-dark .bc-combobox__option--selected {
+.b-dark .bc-dropdown__option--selected {
   background-color: var(--color-sky-600);
   color: var(--color-white);
 }
 
-.b-dark .bc-combobox__group-label {
+.b-dark .bc-dropdown__group-label {
   color: var(--text-muted-dark);
 }
 
-.b-dark .bc-combobox__separator {
+.b-dark .bc-dropdown__separator {
   border-color: var(--border-divider-dark);
 }
 
 /* Responsive styles */
 @media (width >= var(--breakpoint-sm)) {
-  .bc-combobox__option {
+  .bc-dropdown__option {
     padding: var(--spacing-xs) var(--spacing-sm);
   }
 
-  .bc-combobox__listbox {
+  .bc-dropdown__listbox {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
   }
 }
 
 /* Animation for dropdown appearance */
-.bc-combobox__listbox {
-  animation: combobox-appear 0.15s ease-out;
+.bc-dropdown__listbox {
+  animation: dropdown-appear 0.15s ease-out;
 }
 
-@keyframes combobox-appear {
+@keyframes dropdown-appear {
   from {
     opacity: 0;
     transform: translateY(-0.5rem);
@@ -196,12 +196,12 @@
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .bc-combobox__option--focused {
+  .bc-dropdown__option--focused {
     outline: 2px solid currentColor;
     outline-offset: -2px;
   }
 
-  .bc-combobox__option--selected {
+  .bc-dropdown__option--selected {
     outline: 2px solid currentColor;
     outline-offset: -2px;
   }
@@ -209,7 +209,7 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .bc-combobox__listbox {
+  .bc-dropdown__listbox {
     animation: none;
   }
 }

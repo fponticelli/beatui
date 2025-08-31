@@ -139,7 +139,7 @@ const main = async () => {
     '../src/pages/authentication-components'
   )
   const { ButtonPage } = await import('../src/pages/button')
-  const { ComboboxPage } = await import('../src/pages/combobox')
+  const { DropdownPage } = await import('../src/pages/dropdown')
   const { SwitchPage } = await import('../src/pages/switch')
   const { CollapsePage } = await import('../src/pages/collapse')
   const { IconPage } = await import('../src/pages/icon')
@@ -257,7 +257,7 @@ const main = async () => {
             '/authentication': AuthenticationPage,
             '/authentication/components': AuthenticationComponentsPage,
             '/button': ButtonPage,
-            '/combobox': ComboboxPage,
+            '/dropdown': DropdownPage,
             '/switch': SwitchPage,
             '/collapse': CollapsePage,
             '/icon': IconPage,
@@ -310,7 +310,7 @@ const main = async () => {
                   'Auth Components'
                 ),
                 html.a(attr.href('/button'), 'Button'),
-                html.a(attr.href('/combobox'), 'Combobox'),
+                html.a(attr.href('/dropdown'), 'Dropdown'),
                 html.a(attr.href('/switch'), 'Switch'),
                 html.a(attr.href('/collapse'), 'Collapse'),
                 html.a(attr.href('/icon'), 'Icon'),

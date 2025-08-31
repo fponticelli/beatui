@@ -239,7 +239,7 @@ Below are actionable checklists for each area. No code included; this lists requ
 ### 4.6 Enums and Const
 
 - Single‑select for scalars
-  - Small set (≤5): radio/segmented based on `x:ui` or heuristic; else select/combobox.
+  - Small set (≤5): radio/segmented based on `x:ui` or heuristic; else select/dropdown.
 - Multi‑select arrays of enums
   - Use tags input for strings (chips); use multi‑select for other scalars.
 - Labels
@@ -293,7 +293,7 @@ Ordering and grouping without extra keywords:
 Per‑type `x:ui` formats and notable inline options:
 
 - string
-  - text (default), textarea, password, email, url, uri, regex, uuid, date, date-time, time, duration, color, markdown, binary (file/base64), combobox, tags.
+  - text (default), textarea, password, email, url, uri, regex, uuid, date, date-time, time, duration, color, markdown, binary (file/base64), dropdown, tags.
   - Options: `rows`, `mask`, `pattern`, `mediaType`, `accept` (MIME), `maxBytes`, `textAreaTriggers`.
 - number/integer
   - number (default), stepper, slider, rating, segmented, currency, percent.
@@ -308,7 +308,7 @@ Per‑type `x:ui` formats and notable inline options:
   - group (default), fieldset, accordion, tabs.
   - Options: `order`, `cols`, `groups` (array of `{ label, fields }`), `collapsible`, `collapsibleInitiallyOpen`.
 - enum/const
-  - `format`: radio, segmented, select, combobox, checklist (multi).
+  - `format`: radio, segmented, select, dropdown, checklist (multi).
   - Widget options: `labels` (array or map), `inline`, `searchable`, `maxInlineOptions`.
 
 Precedence order for widget resolution:
