@@ -12,6 +12,7 @@ import {
   NativeSelect,
   NativeSelectControl,
   InputWrapper,
+  NullableNumberInput,
 } from '../form'
 import {
   attr,
@@ -19,9 +20,8 @@ import {
   Renderable,
   WithElement,
   Value,
-  localStorageProp,
-  Ensure,
   prop,
+  MapSignal,
 } from '@tempots/dom'
 import { Group, Stack } from '../layout'
 import { objectEntries, upperCaseFirst } from '@tempots/std'
@@ -30,6 +30,7 @@ import { StringControl } from './widgets/string-controls'
 import { resolveRef } from './ref-utils'
 import { Label, MutedLabel } from '../typography'
 import { SegmentedInput } from '../form/input/segmented-input'
+import { NullableResetAfter } from '../form/input/nullable-utils'
 
 export function JSONSchemaAny({
   ctx,
@@ -112,7 +113,7 @@ function definitionToInputWrapperOptions({
     }
   }
   return {
-    label: ctx.widgetLabel,
+    label: ctx.suppressLabel ? undefined : ctx.widgetLabel,
     description,
     required: ctx.isPropertyRequired,
     horizontal: ctx.horizontal,
@@ -209,11 +210,28 @@ export function JSONSchemaBoolean({
   controller,
 }: {
   ctx: SchemaContext
-  controller: Controller<boolean>
+  controller: Controller<boolean | null>
 }): Renderable {
+  const hasNull = Array.isArray((ctx.definition as JSONSchema7).type)
+    ? (ctx.definition as JSONSchema7).type!.includes('null' as never)
+    : (ctx.definition as JSONSchema7).type === 'null'
+
+  const base = Control(CheckboxInput, {
+    ...definitionToInputWrapperOptions({ ctx }),
+    controller: controller as unknown as Controller<boolean>,
+  })
+
+  if (!hasNull) return base
+
+  // Nullable boolean: add a small clear button that sets the value to null
   return Control(CheckboxInput, {
     ...definitionToInputWrapperOptions({ ctx }),
-    controller,
+    controller: controller as unknown as Controller<boolean>,
+    after: NullableResetAfter(
+      controller.value as unknown as Value<boolean | null>,
+      (controller as unknown as Controller<boolean | null>).disabled,
+      v => (controller as unknown as Controller<boolean | null>).change(v)
+    ),
   })
 }
 
@@ -264,7 +282,7 @@ export function JSONSchemaObject({
 }): Renderable {
   return Stack(
     attr.class('bu-gap-1'),
-    ctx.name != null ? Label(ctx.widgetLabel) : null,
+    ctx.suppressLabel || ctx.name == null ? null : Label(ctx.widgetLabel),
     ...objectEntries((ctx.definition as JSONSchema7).properties ?? {}).map(
       ([k, definition]) => {
         // deprecated fields are not rendered
@@ -416,8 +434,21 @@ export function JSONSchemaUnion<T>({
   controller: Controller<T>
 }): Renderable {
   const def = ctx.definition as JSONSchema7
-  const types = (def.type as JSONTypeName[]) ?? []
+  let types = (def.type as JSONTypeName[]) ?? []
   const xui = getXUI(def)
+
+  // If only primitives + null, hide null in selector and use nullable control
+  const hasNull = types.includes('null')
+  const primitives = types.filter(
+    t =>
+      t !== 'null' &&
+      (t === 'string' || t === 'number' || t === 'integer' || t === 'boolean')
+  )
+  const onlyPrimitivePlusNull =
+    hasNull && primitives.length === types.length - 1
+  if (onlyPrimitivePlusNull) {
+    types = primitives
+  }
 
   const selectionStore = prop<JSONTypeName | null>(null)
   controller.onDispose(selectionStore.dispose)
@@ -489,26 +520,46 @@ export function JSONSchemaUnion<T>({
   }
 
   // Render active branch control reactively
-  const inner = Ensure(
-    selectedValue as unknown as Value<JSONTypeName | undefined>,
-    sv =>
-      JSONSchemaGenericControl({
-        ctx: ctx.with({
-          definition: {
-            ...(def as JSONSchema7),
-            type: Value.get(sv) as JSONTypeName,
-          },
+  const inner = MapSignal(selectedValue, sv => {
+    const t = Value.get(sv) as JSONTypeName
+
+    // For primitive+null unions, map number/integer to NullableNumberInput
+    if (onlyPrimitivePlusNull && (t === 'number' || t === 'integer')) {
+      const d = def as JSONSchema7
+      return Control(NullableNumberInput, {
+        ...definitionToInputWrapperOptions({
+          ctx: ctx.with({ suppressLabel: true }),
         }),
-        controller: controller as unknown as Controller<unknown>,
+        controller: controller as unknown as Controller<number | null>,
+        min: d.minimum,
+        max: d.maximum,
+        step: t === 'integer' ? integerMultipleOf(d.multipleOf) : d.multipleOf,
       })
-  )
+    }
+
+    return JSONSchemaGenericControl({
+      ctx: ctx.with({
+        definition: {
+          ...(def as JSONSchema7),
+          type: t,
+        },
+        suppressLabel: true,
+      }),
+      controller: controller as unknown as Controller<unknown>,
+    })
+  })
 
   if (ctx.isRoot) {
-    return Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
+    return types.length > 1
+      ? Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
+      : inner
   }
   return InputWrapper({
     ...definitionToInputWrapperOptions({ ctx }),
-    content: Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner),
+    content:
+      types.length > 1
+        ? Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
+        : inner,
   })
 }
 
@@ -539,6 +590,24 @@ export function JSONSchemaGenericControl<T>({
   }
   if (resolvedDef.const != null) {
     return JSONSchemaConst({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
+  if (resolvedDef.anyOf != null) {
+    return JSONSchemaAnyOf({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
+  if (resolvedDef.oneOf != null) {
+    return JSONSchemaOneOf({
+      ctx: nextCtx,
+      controller: controller as unknown as Controller<unknown>,
+    })
+  }
+  if (resolvedDef.allOf != null) {
+    return JSONSchemaAllOf({
       ctx: nextCtx,
       controller: controller as unknown as Controller<unknown>,
     })
@@ -574,7 +643,7 @@ export function JSONSchemaGenericControl<T>({
     case 'boolean':
       return JSONSchemaBoolean({
         ctx: nextCtx,
-        controller: controller as unknown as Controller<boolean>,
+        controller: controller as unknown as Controller<boolean | null>,
       })
     case 'array':
       return JSONSchemaArray({
@@ -610,6 +679,121 @@ export function JSONSchemaGenericControl<T>({
       // TODO
       return html.div(attr.class('bc-json-schema-unknown'), 'Unknown')
   }
+}
+
+export function JSONSchemaAnyOf<T>({
+  ctx,
+  controller,
+}: {
+  ctx: SchemaContext
+  controller: Controller<T>
+}): Renderable {
+  const variants = (ctx.definition as JSONSchema7).anyOf as JSONSchema7[]
+  return JSONSchemaOneOfLike({ ctx, controller, kind: 'anyOf', variants })
+}
+
+export function JSONSchemaOneOf<T>({
+  ctx,
+  controller,
+}: {
+  ctx: SchemaContext
+  controller: Controller<T>
+}): Renderable {
+  const variants = (ctx.definition as JSONSchema7).oneOf as JSONSchema7[]
+  return JSONSchemaOneOfLike({ ctx, controller, kind: 'oneOf', variants })
+}
+
+export function JSONSchemaAllOf<T>({
+  ctx,
+  controller,
+}: {
+  ctx: SchemaContext
+  controller: Controller<T>
+}): Renderable {
+  const variants = (ctx.definition as JSONSchema7).allOf as JSONSchema7[]
+  return Stack(
+    attr.class('bu-gap-2'),
+    ...variants.map(def =>
+      JSONSchemaGenericControl({
+        ctx: ctx.with({ definition: def, suppressLabel: true }),
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
+  )
+}
+
+function JSONSchemaOneOfLike<T>({
+  ctx,
+  controller,
+  kind,
+  variants,
+}: {
+  ctx: SchemaContext
+  controller: Controller<T>
+  kind: 'anyOf' | 'oneOf'
+  variants: JSONSchema7[]
+}): Renderable {
+  const typesOrTitles = variants.map(def => {
+    const t =
+      def.title ??
+      (Array.isArray(def.type)
+        ? def.type.join(' | ')
+        : ((def.type as string) ?? kind))
+    return String(t)
+  })
+
+  const sel = prop<number>(0)
+  controller.onDispose(sel.dispose)
+
+  const count = variants.length
+
+  const Selector = (onChange: (idx: number) => void) => {
+    if (count <= 3) {
+      return SegmentedInput<Record<string, string>>({
+        options: Object.fromEntries(
+          typesOrTitles.map((s, i) => [String(i), s])
+        ),
+        value: Value.map(sel, v => String(v)) as unknown as Value<string>,
+        onChange: (k: string) => onChange(Number(k)),
+        size: 'sm',
+      })
+    }
+    return NativeSelect<number>({
+      options: variants.map((_, i) => ({
+        type: 'value',
+        value: i,
+        label: typesOrTitles[i]!,
+      })),
+      value: sel,
+      onChange: onChange,
+    } as unknown as Parameters<typeof NativeSelect<number>>[0])
+  }
+
+  const change = (idx: number) => sel.set(idx)
+
+  const inner = MapSignal(sel, i =>
+    JSONSchemaGenericControl({
+      ctx: ctx.with({
+        definition: variants[Value.get(i)],
+        suppressLabel: true,
+      }),
+      controller: controller as unknown as Controller<unknown>,
+    })
+  )
+
+  if (count <= 1) {
+    if (ctx.isRoot) return inner
+    return InputWrapper({
+      ...definitionToInputWrapperOptions({ ctx }),
+      content: inner,
+    })
+  }
+
+  if (ctx.isRoot) return Stack(attr.class('bu-gap-2'), Selector(change), inner)
+  return InputWrapper({
+    ...definitionToInputWrapperOptions({ ctx }),
+    content: Stack(attr.class('bu-gap-2'), Selector(change), inner),
+  })
 }
 
 export function JSONSchemaControl<T>({

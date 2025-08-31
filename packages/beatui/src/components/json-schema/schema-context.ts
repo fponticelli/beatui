@@ -13,6 +13,7 @@ export type SchemaContextOptions = {
   path: ReadonlyArray<PropertyKey>
   ajv?: Ajv
   isPropertyRequired?: boolean
+  suppressLabel?: boolean
 }
 
 export class SchemaContext {
@@ -22,15 +23,24 @@ export class SchemaContext {
   readonly path: ReadonlyArray<PropertyKey>
   readonly ajv: Ajv | undefined
   readonly isPropertyRequired: boolean
+  readonly suppressLabel: boolean
   constructor(options: SchemaContextOptions) {
-    const { schema, definition, horizontal, path, ajv, isPropertyRequired } =
-      options
+    const {
+      schema,
+      definition,
+      horizontal,
+      path,
+      ajv,
+      isPropertyRequired,
+      suppressLabel,
+    } = options
     this.schema = schema
     this.definition = definition
     this.horizontal = horizontal
     this.path = path
     this.ajv = ajv
     this.isPropertyRequired = isPropertyRequired ?? false
+    this.suppressLabel = suppressLabel ?? false
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -41,6 +51,7 @@ export class SchemaContext {
       path: options.path ?? this.path,
       ajv: options.ajv ?? this.ajv,
       isPropertyRequired: options.isPropertyRequired ?? this.isPropertyRequired,
+      suppressLabel: options.suppressLabel ?? this.suppressLabel,
     })
   }
 

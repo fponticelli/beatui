@@ -6,6 +6,7 @@ import {
   Ensure,
   Computed,
   MapSignal,
+  ForEach,
 } from '@tempots/dom'
 import {
   ScrollablePanel,
@@ -16,6 +17,8 @@ import {
 } from '@tempots/beatui'
 import { JSONSchemaForm } from '@tempots/beatui/json-schema'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
+import { Validation } from '@tempots/std'
+import type { ControllerValidation } from '@tempots/beatui'
 
 const sampleNames = [
   'sample',
@@ -53,6 +56,35 @@ export function JSONSchemaFormPage() {
   )
   const data = sample.$.data.deriveProp()
   const schema = sample.$.schema
+
+  // Track form validation status (AJV-mapped)
+  const validation = prop<ControllerValidation>(Validation.valid)
+
+  // Helpers to render error list
+  const pathToString = (segments: Array<string | number>): string =>
+    segments.reduce((acc: string, seg) => {
+      return typeof seg === 'number'
+        ? `${acc}[${seg}]`
+        : (acc as string).length === 0
+          ? String(seg)
+          : `${acc}.${String(seg)}`
+    }, '')
+
+  const flattenErrors = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    err: { message?: string; dependencies?: Record<string | number, any> },
+    base: Array<string | number> = []
+  ): Array<{ path: string; message: string }> => {
+    const out: Array<{ path: string; message: string }> = []
+    if (err.message)
+      out.push({ path: pathToString(base), message: err.message })
+    const deps = err.dependencies ?? {}
+    for (const key of Object.keys(deps)) {
+      const k: string | number = isNaN(Number(key)) ? key : Number(key)
+      out.push(...flattenErrors(deps[key], [...base, k]))
+    }
+    return out
+  }
 
   // Monaco editor content (JSON string)
   const schemaJson = schema.map(v => JSON.stringify(v, null, 2)).deriveProp()
@@ -124,6 +156,8 @@ export function JSONSchemaFormPage() {
                   { schema, initialValue: data },
                   ({ Form, controller }) => {
                     controller.value.feedProp(data)
+                    // Feed validation status to the page-level signal
+                    controller.status.feedProp(validation)
                     return Form
                   }
                 )
@@ -134,6 +168,31 @@ export function JSONSchemaFormPage() {
                 'Invalid JSON: ',
                 schemaError.map(String)
               )
+          ),
+          // AJV errors panel (only when there are errors)
+          footer: Ensure(
+            validation.map(v => (v.type === 'invalid' ? v.error : null)),
+            error => {
+              const errors = error.map(flattenErrors)
+              return ScrollablePanel({
+                header: html.h3(
+                  attr.class('bu-text-lg bu-font-semibold bu-bg-lighter-red'),
+                  'AJV Validation Errors'
+                ),
+                body: html.ul(
+                  attr.class('bu-list-disc bu-pl-5 bu-text-sm bu-space-y-1'),
+                  ForEach(errors, error =>
+                    html.li(
+                      html.span(attr.class('bu-text-red-700'), error.$.message),
+                      html.code(
+                        attr.class('bu-ml-2 bu-opacity-70'),
+                        error.$.path.map(v => `(${v})`)
+                      )
+                    )
+                  )
+                ),
+              })
+            }
           ),
         }),
         ScrollablePanel(

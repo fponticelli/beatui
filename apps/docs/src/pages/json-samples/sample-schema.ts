@@ -18,11 +18,12 @@ export default {
       title: 'Name',
       description: 'Your full name',
     },
-    email: {
-      type: 'string',
-      title: 'Email',
-      format: 'email',
-      description: 'Your email address',
+    contact: {
+      anyOf: [
+        { type: 'string', format: 'email', title: 'Email' },
+        { type: 'string', format: 'uri', title: 'Website' },
+        { type: 'string', title: 'Phone' },
+      ],
     },
     birthdate: {
       type: 'string',
