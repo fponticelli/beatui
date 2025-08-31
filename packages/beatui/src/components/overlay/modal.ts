@@ -14,8 +14,7 @@ import {
   coalesce,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
-import { Button } from '../button'
-import { Icon } from '../data/icon'
+import { Button, CloseButton } from '../button'
 import { OverlayEffect } from '../theme'
 import { FocusTrap } from '@/utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
@@ -161,17 +160,15 @@ export function Modal(
                 content.header
               ),
               When(showCloseButton, () =>
-                Button(
-                  {
-                    variant: 'text',
+                Use(BeatUII18n, t =>
+                  CloseButton({
                     size: 'sm',
+                    label: t.$.closeModal,
                     onClick: () => {
                       currentClose()
                       closeOverlay()
                     },
-                  },
-                  Use(BeatUII18n, t => aria.label(t.$.closeModal)),
-                  Icon({ icon: 'line-md:close', size: 'sm' })
+                  })
                 )
               )
             )

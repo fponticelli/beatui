@@ -2,7 +2,7 @@
 
 Actionable TODOs to implement additional/pattern properties, evaluated property semantics, and readOnly/writeOnly/deprecated behaviors.
 
-- [ ] Implement add/remove UI for `additionalProperties`
+- [x] Implement add/remove UI for `additionalProperties`
   - In `packages/beatui/src/components/json-schema/controls.ts`, add affordances on object controls to add arbitrary properties when `additionalProperties` is true.
   - When `additionalProperties` is a schema, use it to render newly added keys; allow deleting these keys; enforce `minProperties`/`maxProperties` in controls state.
 

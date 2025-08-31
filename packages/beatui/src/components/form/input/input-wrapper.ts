@@ -5,7 +5,6 @@ import {
   html,
   Value,
   computedOf,
-  Ensure,
   aria,
   dataAttr,
   When,
@@ -22,7 +21,7 @@ export type InputWrapperOptions = {
   label?: TNode
   context?: TNode
   description?: TNode
-  error?: Value<TNode | null>
+  error?: TNode
   required?: Value<boolean>
   content: TNode
   labelFor?: Value<string>
@@ -73,14 +72,14 @@ export const InputWrapper = (
   }: InputWrapperOptions,
   ...children: TNode[]
 ) => {
-  const computedHasError = hasError ?? Value.map(error ?? null, e => e != null)
+  const computedHasError = hasError ?? error != null
   const computedDisabled = disabled ?? false
   const computedHorizontal = horizontal ?? false
 
   // Generate unique IDs for accessibility
   const wrapperId = sessionId('input-wrapper')
   const descriptionId = description ? `${wrapperId}-description` : undefined
-  const errorId = error ? `${wrapperId}-error` : undefined
+  const errorId = error != null ? `${wrapperId}-error` : undefined
 
   return html.div(
     attr.class(
@@ -155,16 +154,16 @@ export const InputWrapper = (
         )
     ),
     error != null
-      ? Ensure(error as Value<TNode | null | undefined>, errorValue =>
+      ? When(computedHasError, () =>
           html.div(
             attr.class('bc-input-wrapper__error'),
             attr.id(errorId!),
             aria.live('polite'), // Announce errors to screen readers
             attr.role('alert'), // Mark as alert for immediate attention
-            errorValue as TNode
+            error
           )
         )
-      : Empty,
+      : null,
     ...children
   )
 }

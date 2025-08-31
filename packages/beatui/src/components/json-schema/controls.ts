@@ -20,6 +20,7 @@ import {
   UUIDInput,
   TextArea,
   Switch,
+  EditableText,
 } from '../form'
 import {
   attr,
@@ -30,6 +31,10 @@ import {
   prop,
   MapSignal,
   When,
+  on,
+  Use,
+  Ensure,
+  style,
 } from '@tempots/dom'
 import { Group, Stack } from '../layout'
 import { objectEntries, upperCaseFirst } from '@tempots/std'
@@ -48,6 +53,8 @@ import { Label, MutedLabel } from '../typography'
 import { SegmentedInput } from '../form/input/segmented-input'
 import { NullableResetAfter } from '../form/input/nullable-utils'
 import { Notice } from '../misc'
+import { BeatUII18n } from '@/beatui-i18n'
+import { CloseButton } from '../button'
 
 function SchemaConflictsBanner({
   conflicts,
@@ -507,7 +514,7 @@ export function JSONSchemaObject({
   // Recompute effective object schema reactively based on current value to support
   // if/then/else, dependentRequired, dependentSchemas, and draft-07 dependencies.
   return MapSignal(controller.value, vSignal => {
-    const current = Value.get(vSignal)
+    const current = Value.get(vSignal) as Record<string, unknown> | undefined
     const base = ctx.definition as JSONSchema7
     const { effective, conflicts } = composeEffectiveObjectSchema(
       base,
@@ -520,15 +527,234 @@ export function JSONSchemaObject({
       schemaConflicts: [...ctx.schemaConflicts, ...conflicts],
     })
 
+    const knownProps = (effective.properties ?? {}) as Record<
+      string,
+      JSONSchema7Definition
+    >
+
+    const currentKeys = Object.keys(current ?? {})
+    const knownKeys = new Set(Object.keys(knownProps))
+    const additionalKeys = currentKeys.filter(k => !knownKeys.has(k))
+
+    const ap =
+      (effective.additionalProperties as boolean | JSONSchema7 | undefined) ??
+      true
+    const apAllowed = ap !== false
+    const apSchema: JSONSchema7 =
+      ap === true || ap === undefined
+        ? ({} as JSONSchema7)
+        : (ap as JSONSchema7)
+
+    const minProps = (effective.minProperties as number | undefined) ?? 0
+    const maxProps = (effective.maxProperties as number | undefined) ?? Infinity
+
+    const canAdd = apAllowed && currentKeys.length < maxProps
+    const canRemove = (count: number) => count > minProps
+    // patternProperties and propertyNames constraints
+    const patternProps = (effective.patternProperties ?? {}) as Record<
+      string,
+      JSONSchema7Definition
+    >
+    const patternList = Object.keys(patternProps)
+      .filter(Boolean)
+      .map(p => {
+        try {
+          return new RegExp(p)
+        } catch {
+          return null
+        }
+      })
+      .filter((r): r is RegExp => r != null)
+
+    const propertyNamesDef = effective.propertyNames as
+      | boolean
+      | JSONSchema7
+      | undefined
+
+    const validatePropertyName = (
+      name: string
+    ): { ok: true } | { ok: false; message: string } => {
+      const trimmed = (name ?? '').trim()
+      if (trimmed === '') return { ok: false, message: 'Key cannot be empty' }
+
+      // propertyNames handling
+      if (propertyNamesDef === false) {
+        return { ok: false, message: 'No property names are allowed by schema' }
+      }
+      if (propertyNamesDef && typeof propertyNamesDef === 'object' && ctx.ajv) {
+        try {
+          const validate = ctx.ajv.compile(propertyNamesDef as JSONSchema7)
+          const ok = validate(trimmed)
+          if (!ok) {
+            const msg = validate.errors?.[0]?.message ?? 'Invalid property name'
+            return { ok: false, message: msg }
+          }
+        } catch {
+          // ignore compile errors; treat as no constraint
+        }
+      }
+
+      // If additionalProperties is false and new key is not declared, require match against patternProperties
+      if (!apAllowed && !knownKeys.has(trimmed)) {
+        if (patternList.length === 0) {
+          return { ok: false, message: 'Only declared properties are allowed' }
+        }
+        const matches = patternList.some(r => r.test(trimmed))
+        if (!matches) {
+          return {
+            ok: false,
+            message: `Key must match one of: ${Object.keys(patternProps).join(', ')}`,
+          }
+        }
+      }
+
+      return { ok: true }
+    }
+
+    // x:ui.lockKeyAfterSet support (object-level)
+    const xuiRaw = (effective as unknown as Record<string, unknown>)['x:ui']
+    const lockKeyAfterSet = Boolean(
+      xuiRaw &&
+        typeof xuiRaw === 'object' &&
+        (xuiRaw as Record<string, unknown>)['lockKeyAfterSet']
+    )
+
+    const makeDefaultFor = (schema: JSONSchema7): unknown => {
+      // try placeholder or null/undefined
+      const def = makePlaceholder(schema, v => v) as unknown
+      if (def !== undefined) return def
+      // empty value per type
+      const t = schema.type
+      if (t === 'string') return ''
+      if (t === 'number' || t === 'integer') return 0
+      if (t === 'boolean') return false
+      if (t === 'array') return []
+      if (t === 'object') return {}
+      return undefined
+    }
+
+    const nextAvailableKey = (baseName: string, exists: Set<string>) => {
+      // Find a key that also satisfies constraints
+      const base = baseName
+      const tryKey = (k: string) => {
+        // temporary pass-through, will be replaced below after we define validatePropertyName
+        return !exists.has(k)
+      }
+      if (tryKey(base)) return base
+      let i = 1
+      while (exists.has(base + i) || !tryKey(base + i)) i++
+      return base + i
+    }
+
+    const addPropertyButton = Use(BeatUII18n, t =>
+      html.button(
+        attr.class('bc-json-schema__add-prop bu-btn bu-btn--sm'),
+        attr.disabled(Value.map(vSignal, _ => !canAdd)),
+        on.click(() => {
+          if (!canAdd) return
+          const keys = new Set(Object.keys(controller.value.value ?? {}))
+          const newKey = nextAvailableKey('property', keys)
+          const permitted = validatePropertyName(newKey)
+          if (!permitted.ok) return
+          const val = makeDefaultFor(apSchema)
+          const next = { ...(controller.value.value ?? {}), [newKey]: val }
+          controller.change(next)
+        }),
+        t.$.addLabel
+      )
+    )
+
+    const renderAdditionalEntry = (key: string) => {
+      const valueCtrl = controller.field(key) as Controller<unknown>
+      const keySignal = prop(key)
+      const keyError = prop<string | null>(null)
+
+      const handleRename = (nextKey: string) => {
+        const trimmed = (nextKey ?? '').trim()
+        if (!trimmed || trimmed === key) return
+        if (
+          Object.prototype.hasOwnProperty.call(
+            controller.value.value ?? {},
+            trimmed
+          )
+        )
+          return // avoid duplicates
+        const validity = validatePropertyName(trimmed)
+        if (!validity.ok) {
+          keyError.set(validity.message)
+          return
+        }
+        keyError.set(null)
+        const obj = { ...(controller.value.value ?? {}) }
+        const val = obj[key]
+        delete (obj as Record<string, unknown>)[key]
+        ;(obj as Record<string, unknown>)[trimmed] = val
+        controller.change(obj)
+      }
+      const RemoveBtn = Use(BeatUII18n, t =>
+        CloseButton({
+          size: 'xs',
+          label: t.$.removeItem,
+          disabled: Value.map(
+            vSignal,
+            v => !canRemove(Object.keys(v ?? {}).length)
+          ),
+          onClick: () => {
+            const count = Object.keys(controller.value.value ?? {}).length
+            if (!canRemove(count)) return
+            const obj = { ...(controller.value.value ?? {}) }
+            delete (obj as Record<string, unknown>)[key]
+            controller.change(obj)
+          },
+        })
+      )
+
+      const keyLocked = Value.map(
+        valueCtrl.value,
+        v => lockKeyAfterSet && v != null
+      )
+
+      // Render key editor, hints/errors, and value control
+      return html.div(
+        attr.class('bu-grid bu-gap-2'),
+        style.gridTemplateColumns('2fr 3fr min-content'),
+        InputWrapper({
+          content: EditableText({
+            value: keySignal,
+            onChange: handleRename,
+            disabled: Value.map(controller.disabled, d => d) || keyLocked,
+          }),
+          error: Ensure(keyError, keyError =>
+            html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
+          ),
+          description:
+            patternList.length > 0
+              ? html.div(
+                  attr.class('bu-text-muted-600 bu-text-xs'),
+                  'Allowed patterns: ',
+                  Object.keys(patternProps).join(', ')
+                )
+              : null,
+        }),
+        html.div(
+          JSONSchemaGenericControl({
+            ctx: effCtx
+              .with({ definition: apSchema, suppressLabel: true })
+              .append(key),
+            controller: valueCtrl,
+          })
+        ),
+        html.div(attr.class('bu-pt-3 bu-flex-shrink'), RemoveBtn)
+      )
+    }
+
     return Stack(
       attr.class('bu-gap-1'),
       effCtx.suppressLabel || effCtx.name == null
         ? null
         : Label(effCtx.widgetLabel),
-      ...objectEntries(
-        (effective.properties ?? {}) as Record<string, JSONSchema7Definition>
-      ).map(([k, definition]) => {
-        // deprecated fields are not rendered
+      // Known properties
+      ...objectEntries(knownProps).map(([k, definition]) => {
         if (definition === false) return null
         const key = k as string
         const field = controller.field(key)
@@ -543,7 +769,11 @@ export function JSONSchemaObject({
             .append(key),
           controller: field,
         })
-      })
+      }),
+      // Additional keys present in value
+      ...additionalKeys.map(k => renderAdditionalEntry(k)),
+      // Add affordance
+      apAllowed ? addPropertyButton : null
     )
   })
 }

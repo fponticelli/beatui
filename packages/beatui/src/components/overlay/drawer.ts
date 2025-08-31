@@ -14,8 +14,7 @@ import {
   Use,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
-import { Button } from '../button'
-import { Icon } from '../data'
+import { CloseButton } from '../button'
 import { Overlay } from './overlay'
 import { OverlayEffect } from '../theme/types'
 import { ScrollablePanel } from '../layout'
@@ -163,14 +162,12 @@ export function Drawer(
                   attr.class('bc-drawer__header'),
                   html.div(attr.id(headerContentId!), header),
                   When(showCloseButton, () =>
-                    Button(
-                      {
-                        variant: 'text',
+                    Use(BeatUII18n, t =>
+                      CloseButton({
                         size: 'sm',
                         onClick: handleClose,
-                      },
-                      Use(BeatUII18n, t => aria.label(t.$.closeDrawer)),
-                      Icon({ icon: 'line-md:close', size: 'sm' })
+                        label: t.$.closeDrawer,
+                      })
                     )
                   )
                 ),
