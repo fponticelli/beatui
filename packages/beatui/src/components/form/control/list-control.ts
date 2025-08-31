@@ -16,7 +16,7 @@ import {
   MoveDirection,
   MovableDirection,
 } from '../input/list-input'
-import { Button } from '@/components/button'
+import { Button, CloseButton } from '@/components/button'
 import { Icon } from '@/components/data'
 import { Group } from '@/components/layout/group'
 import { Stack } from '@/components/layout/stack'
@@ -106,21 +106,13 @@ export const ListControl = <T>(
     )
 
     const removeButton = When(showRemove, () =>
-      Button(
-        {
+      Use(BeatUII18n, t =>
+        CloseButton({
           size: 'xs',
-          roundedness: 'full',
-          variant: 'text',
+          label: t.$.removeItem,
           color: 'error',
           onClick: payload.remove,
-        },
-        Use(BeatUII18n, t =>
-          Group(
-            attr.class('bu-gap-1'),
-            Icon({ size: 'xs', icon: 'line-md:close' }),
-            html.span(attr.class('sr-only'), t.$.removeItem)
-          )
-        )
+        })
       )
     )
 

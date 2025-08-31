@@ -22,6 +22,7 @@ import { Icon } from '../../data/icon'
 import { Merge } from '@tempots/std'
 import { formatFileSize } from '../../../utils'
 import { BeatUII18n } from '@/beatui-i18n'
+import { CloseButton } from '@/components/button'
 
 export type FileInputMode = 'default' | 'compact'
 
@@ -235,17 +236,14 @@ export const FilesInput = (
           When(
             files.map(({ length }) => length > 0),
             () =>
-              html.button(
-                attr.type('button'),
-                attr.class('bc-file-input__compact-clear'),
-                attr.title(t.$.clearAllFiles),
-                attr.disabled(disabled),
-                Icon({ icon: 'mdi:close', size: 'sm' }),
-                on.click((e: Event) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  clearAllFiles()
-                })
+              CloseButton(
+                {
+                  size: 'sm',
+                  label: t.$.clearAllFiles,
+                  disabled,
+                  onClick: clearAllFiles,
+                },
+                attr.class('bc-file-input__compact-clear')
               )
           )
         ),
@@ -312,17 +310,14 @@ export const FilesInput = (
                               )((type, unknownType) => type || unknownType)
                             )
                           ),
-                          html.button(
-                            attr.type('button'),
-                            attr.class('bc-file-input__remove-button'),
-                            attr.title(t.$.removeFile),
-                            attr.disabled(disabled),
-                            Icon({ icon: 'mdi:close', size: 'sm' }),
-                            on.click((e: Event) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              removeFile(index)
-                            })
+                          CloseButton(
+                            {
+                              size: 'sm',
+                              label: t.$.removeFile,
+                              disabled,
+                              onClick: () => removeFile(index),
+                            },
+                            attr.class('bc-file-input__remove-button')
                           )
                         )
                       })

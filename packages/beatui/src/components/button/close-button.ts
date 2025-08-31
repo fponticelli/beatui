@@ -1,6 +1,15 @@
-import { aria, attr, coalesce, Renderable, Use, Value } from '@tempots/dom'
+import {
+  aria,
+  attr,
+  coalesce,
+  Renderable,
+  TNode,
+  Use,
+  Value,
+} from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 import { ControlSize } from '../theme'
+import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
 import { Icon } from '../data/icon'
 import { Button } from './button'
@@ -10,19 +19,24 @@ export type CloseButtonOptions = {
   icon?: Value<string>
   disabled?: Value<boolean>
   roundedness?: Value<RadiusName>
+  color?: Value<ThemeColorName | 'black' | 'white'>
   onClick?: () => void
   /** Optional localized label for screen readers; defaults to t.$.closeModal */
   label?: Value<string>
 }
 
-export function CloseButton({
-  size = 'sm',
-  icon = 'line-md:close',
-  disabled,
-  roundedness = 'full',
-  onClick,
-  label,
-}: CloseButtonOptions = {}): Renderable {
+export function CloseButton(
+  {
+    size = 'sm',
+    icon = 'line-md:close',
+    disabled,
+    roundedness = 'full',
+    color = 'base',
+    onClick,
+    label,
+  }: CloseButtonOptions,
+  ...children: TNode[]
+): Renderable {
   return Use(BeatUII18n, t => {
     const title = coalesce(label, t.$.closeModal)
     return Button(
@@ -31,12 +45,12 @@ export function CloseButton({
         size,
         roundedness,
         disabled,
+        color,
         onClick,
       },
       attr.title(title),
-      // a11y
       aria.label(title),
-      // icon-only button
+      ...children,
       Icon({ icon, size: size ?? 'sm' })
     )
   })

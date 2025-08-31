@@ -6,15 +6,15 @@ import {
   computedOf,
   When,
   prop,
-  aria,
   Use,
-  on,
   Unless,
   Ensure,
 } from '@tempots/dom'
 import { Icon } from '../data'
 import type { ThemeColorName } from '@/tokens'
 import { BeatUII18n } from '@/beatui-i18n'
+
+import { CloseButton } from '../button'
 
 export type NoticeVariant = 'info' | 'success' | 'warning' | 'error'
 export type NoticeTone = 'subtle' | 'prominent'
@@ -136,19 +136,14 @@ export function Notice(
         html.div(attr.class('bc-notice__content'), ...children)
       ),
       When(isDismissible, () =>
-        html.button(
-          attr.class('bc-notice__close'),
-          aria.label(t.$.closeModal),
-          Icon({
-            icon: 'line-md:close',
-            size: 'xs',
-            accessibility: 'decorative',
-          }),
-          on.click(() => {
+        CloseButton({
+          size: 'xs',
+          label: t.$.closeModal,
+          onClick: () => {
             visible.set(false)
             onDismiss?.()
-          })
-        )
+          },
+        })
       )
     )
   )

@@ -26,7 +26,7 @@ export interface ButtonOptions {
   loading?: Value<boolean>
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
-  color?: Value<ThemeColorName | 'black'>
+  color?: Value<ThemeColorName | 'black' | 'white'>
   roundedness?: Value<RadiusName>
   onClick?: () => void
 }

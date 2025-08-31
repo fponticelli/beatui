@@ -14,6 +14,7 @@ import {
   Group,
   NativeSelect,
   SelectOption,
+  Button,
 } from '@tempots/beatui'
 import { JSONSchemaForm } from '@tempots/beatui/json-schema'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
@@ -178,29 +179,47 @@ export function JSONSchemaFormPage() {
             validation.map(v => (v.type === 'invalid' ? v.error : null)),
             error => {
               const errors = error.map(flattenErrors)
-              return ScrollablePanel({
-                header: html.h3(
-                  attr.class('bu-text-lg bu-font-semibold bu-bg-lighter-red'),
-                  'AJV Validation Errors'
-                ),
-                body: html.ul(
-                  attr.class('bu-list-disc bu-pl-5 bu-text-sm bu-space-y-1'),
-                  ForEach(errors, error =>
-                    html.li(
-                      html.span(attr.class('bu-text-red-700'), error.$.message),
-                      html.code(
-                        attr.class('bu-ml-2 bu-opacity-70'),
-                        error.$.path.map(v => `(${v})`)
+              return ScrollablePanel(
+                {
+                  header: html.h3(
+                    attr.class('bu-text-lg bu-font-semibold bu-bg-lighter-red'),
+                    'AJV Validation Errors'
+                  ),
+                  body: html.ul(
+                    attr.class('bu-list-disc bu-pl-5 bu-text-sm bu-space-y-1'),
+                    ForEach(errors, error =>
+                      html.li(
+                        html.span(
+                          attr.class('bu-text-red-700'),
+                          error.$.message
+                        ),
+                        html.code(
+                          attr.class('bu-ml-2 bu-opacity-70'),
+                          error.$.path.map(v => `(${v})`)
+                        )
                       )
                     )
-                  )
-                ),
-              })
+                  ),
+                },
+                style.maxHeight('10rem')
+              )
             }
           ),
         }),
         ScrollablePanel(
           {
+            header: Group(
+              attr.class('bu-gap-2 bu-items-center bu-justify-end'),
+              Button(
+                {
+                  variant: 'filled',
+                  color: 'primary',
+                  roundedness: 'md',
+                  onClick: () => data.set({}),
+                },
+                'Reset'
+              )
+            ),
             body: html.pre(
               attr.class('bu-whitespace-pre-wrap bu-text-sm'),
               data.map(v => JSON.stringify(v, null, 2))
