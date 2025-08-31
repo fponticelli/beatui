@@ -25,12 +25,67 @@ import {
 } from '@tempots/dom'
 import { Group, Stack } from '../layout'
 import { objectEntries, upperCaseFirst } from '@tempots/std'
-import { SchemaContext } from './schema-context'
+import {
+  SchemaContext,
+  mergeAllOf,
+  type SchemaConflict,
+} from './schema-context'
 import { StringControl } from './widgets/string-controls'
 import { resolveRef } from './ref-utils'
 import { Label, MutedLabel } from '../typography'
 import { SegmentedInput } from '../form/input/segmented-input'
 import { NullableResetAfter } from '../form/input/nullable-utils'
+
+function SchemaConflictsBanner({
+  conflicts,
+}: {
+  conflicts: readonly SchemaConflict[]
+}) {
+  if (conflicts.length === 0) return null
+
+  return html.div(
+    attr.class('bc-schema-conflicts-banner'),
+    attr.style(
+      'background-color: var(--color-warning-50); border: 1px solid var(--color-warning-200); border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--color-warning-800);'
+    ),
+    html.div(
+      attr.style('font-weight: 600; margin-bottom: 0.25rem;'),
+      'Schema Conflicts Detected'
+    ),
+    html.ul(
+      attr.style('margin: 0; padding-left: 1.25rem; list-style-type: disc;'),
+      ...conflicts.map(conflict =>
+        html.li(
+          attr.style('margin-bottom: 0.25rem;'),
+          conflict.message,
+          conflict.path.length > 0
+            ? html.code(
+                attr.style(
+                  'margin-left: 0.5rem; font-size: 0.75rem; opacity: 0.7;'
+                ),
+                ` (${conflict.path.join('.')})`
+              )
+            : null
+        )
+      )
+    )
+  )
+}
+
+function withSchemaConflicts(
+  ctx: SchemaContext,
+  content: Renderable
+): Renderable {
+  if (ctx.schemaConflicts.length === 0) {
+    return content
+  }
+
+  return Stack(
+    attr.class('bu-gap-2'),
+    SchemaConflictsBanner({ conflicts: ctx.schemaConflicts }),
+    content
+  )
+}
 
 export function JSONSchemaAny({
   ctx,
@@ -573,86 +628,135 @@ export function JSONSchemaGenericControl<T>({
   // Resolve $ref (in-document) if present; merge with siblings
   // TODO comparing to boolean is not strictly correct (false is never, true is correct)
   const baseDef = typeof ctx.definition === 'boolean' ? {} : ctx.definition
-  const resolvedDef = baseDef?.$ref ? resolveRef(baseDef, ctx.schema) : baseDef
-  const nextCtx = ctx.with({ definition: resolvedDef })
+  let resolvedDef = baseDef?.$ref ? resolveRef(baseDef, ctx.schema) : baseDef
+  let nextCtx = ctx.with({ definition: resolvedDef })
+
+  // Handle allOf early by merging into effective schema
+  if (resolvedDef?.allOf != null) {
+    // Filter out boolean schemas (true/false) and only process object schemas
+    const objectSchemas = resolvedDef.allOf.filter(
+      (schema): schema is JSONSchema7 =>
+        typeof schema === 'object' && schema !== null
+    )
+    if (objectSchemas.length > 0) {
+      const { mergedSchema, conflicts } = mergeAllOf(objectSchemas, ctx.path)
+      // Merge the allOf result with any other properties from the parent schema
+      const { allOf: _allOf, ...parentProps } = resolvedDef
+      resolvedDef = { ...parentProps, ...mergedSchema }
+      nextCtx = ctx.with({
+        definition: resolvedDef,
+        schemaConflicts: [...ctx.schemaConflicts, ...conflicts],
+      })
+    }
+  }
 
   if (resolvedDef == null) {
-    return JSONSchemaAny({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaAny({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (resolvedDef.enum != null) {
-    return JSONSchemaEnum({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaEnum({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (resolvedDef.const != null) {
-    return JSONSchemaConst({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaConst({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (resolvedDef.anyOf != null) {
-    return JSONSchemaAnyOf({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaAnyOf({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (resolvedDef.oneOf != null) {
-    return JSONSchemaOneOf({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
-  }
-  if (resolvedDef.allOf != null) {
-    return JSONSchemaAllOf({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaOneOf({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (resolvedDef?.type == null) {
-    return JSONSchemaAny({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaAny({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   if (Array.isArray(resolvedDef.type)) {
-    return JSONSchemaUnion({
-      ctx: nextCtx,
-      controller: controller as unknown as Controller<unknown>,
-    })
+    return withSchemaConflicts(
+      nextCtx,
+      JSONSchemaUnion({
+        ctx: nextCtx,
+        controller: controller as unknown as Controller<unknown>,
+      })
+    )
   }
   switch (resolvedDef.type) {
     case 'number':
-      return JSONSchemaNumber({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<number>,
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaNumber({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<number>,
+        })
+      )
     case 'integer':
-      return JSONSchemaInteger({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<number>,
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaInteger({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<number>,
+        })
+      )
     case 'string':
-      return JSONSchemaString({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<string | undefined>,
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaString({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<string | undefined>,
+        })
+      )
     case 'boolean':
-      return JSONSchemaBoolean({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<boolean | null>,
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaBoolean({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<boolean | null>,
+        })
+      )
     case 'array':
-      return JSONSchemaArray({
-        ctx: nextCtx,
-        controller:
-          controller instanceof ArrayController
-            ? (controller as unknown as ArrayController<unknown[]>)
-            : (controller.array() as unknown as ArrayController<unknown[]>),
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaArray({
+          ctx: nextCtx,
+          controller:
+            controller instanceof ArrayController
+              ? (controller as unknown as ArrayController<unknown[]>)
+              : (controller.array() as unknown as ArrayController<unknown[]>),
+        })
+      )
     case 'object': {
       const schema = JSONSchemaObject({
         ctx: nextCtx,
@@ -665,19 +769,28 @@ export function JSONSchemaGenericControl<T>({
         }>,
       })
       if (nextCtx.isRoot) {
-        return schema
+        return withSchemaConflicts(nextCtx, schema)
       }
-      return html.div(attr.class('bc-json-schema-object'), schema)
+      return withSchemaConflicts(
+        nextCtx,
+        html.div(attr.class('bc-json-schema-object'), schema)
+      )
     }
     case 'null':
-      return JSONSchemaNull({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<null>,
-      })
+      return withSchemaConflicts(
+        nextCtx,
+        JSONSchemaNull({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<null>,
+        })
+      )
     default:
       console.warn('Unknown type', resolvedDef.type)
       // TODO
-      return html.div(attr.class('bc-json-schema-unknown'), 'Unknown')
+      return withSchemaConflicts(
+        nextCtx,
+        html.div(attr.class('bc-json-schema-unknown'), 'Unknown')
+      )
   }
 }
 
@@ -711,15 +824,21 @@ export function JSONSchemaAllOf<T>({
   controller: Controller<T>
 }): Renderable {
   const variants = (ctx.definition as JSONSchema7).allOf as JSONSchema7[]
-  return Stack(
-    attr.class('bu-gap-2'),
-    ...variants.map(def =>
-      JSONSchemaGenericControl({
-        ctx: ctx.with({ definition: def, suppressLabel: true }),
-        controller: controller as unknown as Controller<unknown>,
-      })
-    )
-  )
+
+  // Merge all allOf branches into a single effective schema
+  const { mergedSchema, conflicts } = mergeAllOf(variants, ctx.path)
+
+  // Create new context with merged schema and conflicts
+  const mergedCtx = ctx.with({
+    definition: mergedSchema,
+    schemaConflicts: [...ctx.schemaConflicts, ...conflicts],
+  })
+
+  // Render the merged schema as a single control
+  return JSONSchemaGenericControl({
+    ctx: mergedCtx,
+    controller: controller as unknown as Controller<unknown>,
+  })
 }
 
 function JSONSchemaOneOfLike<T>({

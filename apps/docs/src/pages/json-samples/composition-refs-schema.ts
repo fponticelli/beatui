@@ -22,7 +22,11 @@ export default {
     price: { type: 'number', minimum: 0, title: 'Price' },
 
     // Branch-specific fields
-    shippingWeight: { type: 'number', title: 'Shipping Weight (kg)', minimum: 0 },
+    shippingWeight: {
+      type: 'number',
+      title: 'Shipping Weight (kg)',
+      minimum: 0,
+    },
     downloadUrl: { type: 'string', title: 'Download URL', format: 'uri' },
 
     // Contact: must have at least one
@@ -51,6 +55,17 @@ export default {
     {
       if: { properties: { kind: { const: 'digital' } } },
       then: { required: ['downloadUrl'] },
+    },
+    // Additional allOf branch to demonstrate merging
+    {
+      type: 'object',
+      properties: {
+        tags: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Product tags for categorization',
+        },
+      },
     },
   ],
 

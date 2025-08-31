@@ -3,8 +3,20 @@ import type {
   JSONSchema7Definition,
   JSONSchema7Type,
   JSONSchema7TypeName,
+  JSONSchema7,
 } from 'json-schema'
 import type Ajv from 'ajv'
+
+export type SchemaConflict = {
+  readonly path: ReadonlyArray<PropertyKey>
+  readonly message: string
+  readonly conflictingValues: readonly unknown[]
+}
+
+export type AllOfMergeResult = {
+  readonly mergedSchema: JSONSchema7
+  readonly conflicts: readonly SchemaConflict[]
+}
 
 export type SchemaContextOptions = {
   schema: JSONSchema7Definition
@@ -14,6 +26,7 @@ export type SchemaContextOptions = {
   ajv?: Ajv
   isPropertyRequired?: boolean
   suppressLabel?: boolean
+  schemaConflicts?: readonly SchemaConflict[]
 }
 
 export class SchemaContext {
@@ -24,6 +37,7 @@ export class SchemaContext {
   readonly ajv: Ajv | undefined
   readonly isPropertyRequired: boolean
   readonly suppressLabel: boolean
+  readonly schemaConflicts: readonly SchemaConflict[]
   constructor(options: SchemaContextOptions) {
     const {
       schema,
@@ -33,6 +47,7 @@ export class SchemaContext {
       ajv,
       isPropertyRequired,
       suppressLabel,
+      schemaConflicts,
     } = options
     this.schema = schema
     this.definition = definition
@@ -41,6 +56,7 @@ export class SchemaContext {
     this.ajv = ajv
     this.isPropertyRequired = isPropertyRequired ?? false
     this.suppressLabel = suppressLabel ?? false
+    this.schemaConflicts = schemaConflicts ?? []
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -52,6 +68,7 @@ export class SchemaContext {
       ajv: options.ajv ?? this.ajv,
       isPropertyRequired: options.isPropertyRequired ?? this.isPropertyRequired,
       suppressLabel: options.suppressLabel ?? this.suppressLabel,
+      schemaConflicts: options.schemaConflicts ?? this.schemaConflicts,
     })
   }
 
@@ -167,5 +184,108 @@ export class SchemaContext {
   get default() {
     if (typeof this.definition === 'boolean') return undefined
     return this.definition.default
+  }
+}
+
+/**
+ * Deep merge allOf branches into a single effective schema.
+ * - Intersects types (detects conflicts like string ∧ number)
+ * - Unions required arrays
+ * - Deep merges properties objects
+ * - Detects and reports conflicts as non-blocking schema errors
+ */
+export function mergeAllOf(
+  allOfSchemas: readonly JSONSchema7[],
+  basePath: ReadonlyArray<PropertyKey> = []
+): AllOfMergeResult {
+  const conflicts: SchemaConflict[] = []
+  const merged: JSONSchema7 = {}
+
+  // Collect all types from all schemas
+  const allTypes: JSONSchema7TypeName[] = []
+  const allRequired: string[] = []
+  const allProperties: Record<string, JSONSchema7Definition> = {}
+
+  for (const schema of allOfSchemas) {
+    // Handle type intersection
+    if (schema.type != null) {
+      const types = Array.isArray(schema.type) ? schema.type : [schema.type]
+      allTypes.push(...types)
+    }
+
+    // Union required arrays
+    if (Array.isArray(schema.required)) {
+      allRequired.push(...schema.required)
+    }
+
+    // Deep merge properties
+    if (schema.properties != null) {
+      for (const [key, propDef] of Object.entries(schema.properties)) {
+        if (allProperties[key] != null && allProperties[key] !== propDef) {
+          // Property conflict detected
+          conflicts.push({
+            path: [...basePath, 'properties', key],
+            message: `Property "${key}" has conflicting definitions in allOf branches`,
+            conflictingValues: [allProperties[key], propDef],
+          })
+        }
+        allProperties[key] = propDef
+      }
+    }
+
+    // Copy other schema properties (shallow merge, later wins)
+    const {
+      type: _type,
+      required: _required,
+      properties: _properties,
+      allOf: _allOf,
+      ...otherProps
+    } = schema
+    Object.assign(merged, otherProps)
+  }
+
+  // Handle type intersection conflicts
+  const uniqueTypes = [...new Set(allTypes)]
+  if (uniqueTypes.length > 1) {
+    // Check for incompatible type combinations
+    const hasString = uniqueTypes.includes('string')
+    const hasNumber =
+      uniqueTypes.includes('number') || uniqueTypes.includes('integer')
+    const hasBoolean = uniqueTypes.includes('boolean')
+    const hasObject = uniqueTypes.includes('object')
+    const hasArray = uniqueTypes.includes('array')
+
+    const primitiveCount = [hasString, hasNumber, hasBoolean].filter(
+      Boolean
+    ).length
+    const structuralCount = [hasObject, hasArray].filter(Boolean).length
+
+    if (primitiveCount > 1 || (primitiveCount > 0 && structuralCount > 0)) {
+      conflicts.push({
+        path: [...basePath, 'type'],
+        message: `Incompatible types in allOf: ${uniqueTypes.join(', ')}`,
+        conflictingValues: uniqueTypes,
+      })
+    }
+  }
+
+  // Set merged properties
+  if (uniqueTypes.length === 1) {
+    merged.type = uniqueTypes[0]
+  } else if (uniqueTypes.length > 1) {
+    merged.type = uniqueTypes
+  }
+
+  if (allRequired.length > 0) {
+    merged.required = [...new Set(allRequired)]
+  }
+
+  if (Object.keys(allProperties).length > 0) {
+    merged.properties = allProperties
+  }
+
+  return {
+    mergedSchema: merged,
+    conflicts,
   }
 }

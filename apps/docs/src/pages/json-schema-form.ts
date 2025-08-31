@@ -28,6 +28,8 @@ const sampleNames = [
   'formats-media',
   'enums-nullability',
   'composition-refs',
+  'allof-merge-demo',
+  'allof-conflicts-demo',
   'prefix-items',
   'annotations',
   'draft-2019',
