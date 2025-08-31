@@ -106,7 +106,13 @@ export function SocialLoginButtons({
       SocialLoginButton({
         provider: item.$.provider,
         flow: item.$.flow,
-        color: item.map(({ provider }) => socialProviderInfo[provider].color),
+        color: item.map(
+          ({ provider }) =>
+            socialProviderInfo[provider].color as
+              | ThemeColorName
+              | 'black'
+              | 'white'
+        ),
         name: item.map(({ provider }) => socialProviderInfo[provider].name),
         icon: item.map(({ provider }) => socialProviderInfo[provider].icon),
         onClick: async () => {

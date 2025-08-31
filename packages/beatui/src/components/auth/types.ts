@@ -188,7 +188,7 @@ export interface SocialLoginButtonOptions {
   flow?: Value<'redirect' | 'popup' | undefined>
   name: Value<string>
   icon: Value<string>
-  color: Value<ThemeColorName | 'black'>
+  color: Value<ThemeColorName | 'black' | 'white'>
   labels?: {
     continueWithProvider?: Value<(provider: string) => string>
   }
@@ -205,5 +205,5 @@ export interface PasswordStrengthIndicatorOptions {
 export interface ProviderInfo {
   name: string
   icon: string
-  color: ThemeColorName
+  color: ThemeColorName | 'black' | 'white'
 }

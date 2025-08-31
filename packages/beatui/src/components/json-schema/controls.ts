@@ -35,6 +35,7 @@ import {
   Use,
   Ensure,
   style,
+  Fragment,
 } from '@tempots/dom'
 import { Group, Stack } from '../layout'
 import { objectEntries, upperCaseFirst } from '@tempots/std'
@@ -43,6 +44,7 @@ import {
   mergeAllOf,
   evaluateNotViolation,
   composeEffectiveObjectSchema,
+  getEvaluatedProperties,
   type SchemaConflict,
   type NotViolation,
 } from './schema-context'
@@ -296,6 +298,26 @@ function definitionToInputWrapperOptions({
       description = `example: ${examples}`
     }
   }
+
+  // Add deprecated/readOnly/writeOnly indicators to description
+  const indicators: string[] = []
+  if (ctx.isDeprecated) {
+    indicators.push('deprecated')
+  }
+  if (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) {
+    indicators.push('read-only')
+  }
+  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+    indicators.push('write-only')
+  }
+
+  if (indicators.length > 0) {
+    const indicatorText = `(${indicators.join(', ')})`
+    description = description
+      ? `${description} ${indicatorText}`
+      : indicatorText
+  }
+
   return {
     label: ctx.suppressLabel ? undefined : ctx.widgetLabel,
     description,
@@ -339,28 +361,34 @@ export function JSONSchemaNumber({
   ctx: SchemaContext
   controller: Controller<number>
 }): Renderable {
+  // Handle writeOnly fields - hide them unless explicitly shown
+  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+    return Fragment()
+  }
+
   const def = ctx.definition as JSONSchema7
+  const baseOptions = {
+    ...definitionToInputWrapperOptions({ ctx }),
+    placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
+    min: def.minimum,
+    max: def.maximum,
+    step: def.multipleOf,
+    // Disable input if readOnly (unless overridden) or deprecated
+    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
+  }
 
   // For optional nullable primitives, use nullable controls instead of presence toggles
   if (ctx.isNullable && (ctx.isOptional || !ctx.shouldShowPresenceToggle)) {
     return Control(NullableNumberInput, {
-      ...definitionToInputWrapperOptions({ ctx }),
+      ...baseOptions,
       controller: controller as unknown as Controller<number | null>,
-      placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
-      min: def.minimum,
-      max: def.maximum,
-      step: def.multipleOf,
     })
   }
 
   // For non-nullable numbers, use regular number input
   return Control<number, NumberInputOptions>(NumberInput, {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...baseOptions,
     controller,
-    placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
-    min: def.minimum,
-    max: def.maximum,
-    step: def.multipleOf,
   })
 }
 
@@ -396,9 +424,16 @@ export function JSONSchemaString({
   ctx: SchemaContext
   controller: Controller<string | undefined>
 }): Renderable {
+  // Handle writeOnly fields - hide them unless explicitly shown
+  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+    return Fragment()
+  }
+
   const options = {
     ...definitionToInputWrapperOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema7, String),
+    // Disable input if readOnly (unless overridden) or deprecated
+    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
   }
 
   // For optional nullable primitives, use nullable controls instead of presence toggles
@@ -444,9 +479,20 @@ export function JSONSchemaBoolean({
   ctx: SchemaContext
   controller: Controller<boolean | null>
 }): Renderable {
+  // Handle writeOnly fields - hide them unless explicitly shown
+  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+    return Fragment()
+  }
+
+  const baseOptions = {
+    ...definitionToInputWrapperOptions({ ctx }),
+    // Disable input if readOnly (unless overridden) or deprecated
+    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
+  }
+
   // Use non-nullable boolean by default
   const base = Control(CheckboxInput, {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...baseOptions,
     controller: controller as unknown as Controller<boolean>,
   })
 
@@ -456,7 +502,7 @@ export function JSONSchemaBoolean({
 
   // Nullable boolean: add a small clear button that sets the value to null
   return Control(CheckboxInput, {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...baseOptions,
     controller: controller as unknown as Controller<boolean>,
     after: NullableResetAfter(
       controller.value as unknown as Value<boolean | null>,
@@ -536,6 +582,14 @@ export function JSONSchemaObject({
     const knownKeys = new Set(Object.keys(knownProps))
     const additionalKeys = currentKeys.filter(k => !knownKeys.has(k))
 
+    // Remove unused pattern separation since we handle it in rendering
+
+    // Separate keys into evaluated and unevaluated for unevaluatedProperties handling
+    const unevaluatedKeys = additionalKeys.filter(k => !evaluatedKeys.has(k))
+    const evaluatedAdditionalKeys = additionalKeys.filter(k =>
+      evaluatedKeys.has(k)
+    )
+
     const ap =
       (effective.additionalProperties as boolean | JSONSchema7 | undefined) ??
       true
@@ -548,7 +602,25 @@ export function JSONSchemaObject({
     const minProps = (effective.minProperties as number | undefined) ?? 0
     const maxProps = (effective.maxProperties as number | undefined) ?? Infinity
 
-    const canAdd = apAllowed && currentKeys.length < maxProps
+    // Handle unevaluatedProperties (2019-09/2020-12)
+    const unevaluatedProps = (effective as unknown as Record<string, unknown>)
+      .unevaluatedProperties as boolean | JSONSchema7 | undefined
+    const evaluatedKeys = getEvaluatedProperties(effective, current, ctx.ajv)
+
+    // Determine if we can add properties based on unevaluatedProperties
+    let canAddUnevaluated = true
+    let unevaluatedTooltip: string | null = null
+
+    if (unevaluatedProps === false) {
+      canAddUnevaluated = false
+      unevaluatedTooltip = 'No unevaluated properties are allowed by schema'
+    } else if (unevaluatedProps && typeof unevaluatedProps === 'object') {
+      // unevaluatedProperties is a schema - we can add but must validate against it
+      canAddUnevaluated = true
+    }
+
+    const canAdd =
+      apAllowed && canAddUnevaluated && currentKeys.length < maxProps
     const canRemove = (count: number) => count > minProps
     // patternProperties and propertyNames constraints
     const patternProps = (effective.patternProperties ?? {}) as Record<
@@ -650,13 +722,21 @@ export function JSONSchemaObject({
       html.button(
         attr.class('bc-json-schema__add-prop bu-btn bu-btn--sm'),
         attr.disabled(Value.map(vSignal, _ => !canAdd)),
+        attr.title(unevaluatedTooltip ?? ''),
         on.click(() => {
           if (!canAdd) return
           const keys = new Set(Object.keys(controller.value.value ?? {}))
           const newKey = nextAvailableKey('property', keys)
           const permitted = validatePropertyName(newKey)
           if (!permitted.ok) return
-          const val = makeDefaultFor(apSchema)
+
+          // Use unevaluatedProperties schema if available, otherwise additionalProperties
+          let valueSchema = apSchema
+          if (unevaluatedProps && typeof unevaluatedProps === 'object') {
+            valueSchema = unevaluatedProps as JSONSchema7
+          }
+
+          const val = makeDefaultFor(valueSchema)
           const next = { ...(controller.value.value ?? {}), [newKey]: val }
           controller.change(next)
         }),
@@ -664,10 +744,32 @@ export function JSONSchemaObject({
       )
     )
 
-    const renderAdditionalEntry = (key: string) => {
+    const renderAdditionalEntry = (key: string, usePatternSchema = false) => {
       const valueCtrl = controller.field(key) as Controller<unknown>
       const keySignal = prop(key)
       const keyError = prop<string | null>(null)
+
+      // Determine which schema to use for the value
+      let valueSchema = apSchema
+      if (usePatternSchema) {
+        // Find the first matching pattern and use its schema
+        const matchingPattern = Object.keys(patternProps).find(pattern => {
+          try {
+            return new RegExp(pattern).test(key)
+          } catch {
+            return false
+          }
+        })
+        if (matchingPattern) {
+          const patternSchemaDef = patternProps[matchingPattern]
+          if (
+            patternSchemaDef !== false &&
+            typeof patternSchemaDef === 'object'
+          ) {
+            valueSchema = patternSchemaDef as JSONSchema7
+          }
+        }
+      }
 
       const handleRename = (nextKey: string) => {
         const trimmed = (nextKey ?? '').trim()
@@ -739,7 +841,128 @@ export function JSONSchemaObject({
         html.div(
           JSONSchemaGenericControl({
             ctx: effCtx
-              .with({ definition: apSchema, suppressLabel: true })
+              .with({ definition: valueSchema, suppressLabel: true })
+              .append(key),
+            controller: valueCtrl,
+          })
+        ),
+        html.div(attr.class('bu-pt-3 bu-flex-shrink'), RemoveBtn)
+      )
+    }
+
+    const renderUnevaluatedEntry = (key: string, usePatternSchema = false) => {
+      const valueCtrl = controller.field(key) as Controller<unknown>
+      const keySignal = prop(key)
+      const keyError = prop<string | null>(null)
+
+      // Determine which schema to use for unevaluated properties
+      let valueSchema: JSONSchema7
+      if (unevaluatedProps && typeof unevaluatedProps === 'object') {
+        // Use unevaluatedProperties schema
+        valueSchema = unevaluatedProps as JSONSchema7
+      } else if (usePatternSchema) {
+        // Find the first matching pattern and use its schema
+        const matchingPattern = Object.keys(patternProps).find(pattern => {
+          try {
+            return new RegExp(pattern).test(key)
+          } catch {
+            return false
+          }
+        })
+        if (matchingPattern) {
+          const patternSchemaDef = patternProps[matchingPattern]
+          if (
+            patternSchemaDef !== false &&
+            typeof patternSchemaDef === 'object'
+          ) {
+            valueSchema = patternSchemaDef as JSONSchema7
+          } else {
+            valueSchema = apSchema
+          }
+        } else {
+          valueSchema = apSchema
+        }
+      } else {
+        // Fall back to additionalProperties schema
+        valueSchema = apSchema
+      }
+
+      const handleRename = (nextKey: string) => {
+        const trimmed = (nextKey ?? '').trim()
+        if (!trimmed || trimmed === key) return
+        if (
+          Object.prototype.hasOwnProperty.call(
+            controller.value.value ?? {},
+            trimmed
+          )
+        )
+          return // avoid duplicates
+        const validity = validatePropertyName(trimmed)
+        if (!validity.ok) {
+          keyError.set(validity.message)
+          return
+        }
+        keyError.set(null)
+        const obj = { ...(controller.value.value ?? {}) }
+        const val = obj[key]
+        delete (obj as Record<string, unknown>)[key]
+        ;(obj as Record<string, unknown>)[trimmed] = val
+        controller.change(obj)
+      }
+
+      const RemoveBtn = Use(BeatUII18n, t =>
+        CloseButton({
+          size: 'xs',
+          label: t.$.removeItem,
+          disabled: Value.map(
+            vSignal,
+            v => !canRemove(Object.keys(v ?? {}).length)
+          ),
+          onClick: () => {
+            const count = Object.keys(controller.value.value ?? {}).length
+            if (!canRemove(count)) return
+            const obj = { ...(controller.value.value ?? {}) }
+            delete (obj as Record<string, unknown>)[key]
+            controller.change(obj)
+          },
+        })
+      )
+
+      const keyLocked = Value.map(
+        valueCtrl.value,
+        v => lockKeyAfterSet && v != null
+      )
+
+      // Render key editor with unevaluated property indicator
+      return html.div(
+        attr.class('bu-grid bu-gap-2'),
+        style.gridTemplateColumns('2fr 3fr min-content'),
+        InputWrapper({
+          content: EditableText({
+            value: keySignal,
+            onChange: handleRename,
+            disabled: Value.map(controller.disabled, d => d) || keyLocked,
+          }),
+          error: Ensure(keyError, keyError =>
+            html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
+          ),
+          description: html.div(
+            attr.class('bu-text-muted-600 bu-text-xs'),
+            unevaluatedProps === false
+              ? 'Unevaluated property (not allowed by schema)'
+              : 'Unevaluated property',
+            patternList.length > 0
+              ? html.span(
+                  ' • Allowed patterns: ',
+                  Object.keys(patternProps).join(', ')
+                )
+              : null
+          ),
+        }),
+        html.div(
+          JSONSchemaGenericControl({
+            ctx: effCtx
+              .with({ definition: valueSchema, suppressLabel: true })
               .append(key),
             controller: valueCtrl,
           })
@@ -770,8 +993,16 @@ export function JSONSchemaObject({
           controller: field,
         })
       }),
-      // Additional keys present in value
-      ...additionalKeys.map(k => renderAdditionalEntry(k)),
+      // Evaluated additional keys (pattern-matched and truly additional)
+      ...evaluatedAdditionalKeys.map(k => {
+        const isPatternMatched = patternList.some(r => r.test(k))
+        return renderAdditionalEntry(k, isPatternMatched)
+      }),
+      // Unevaluated keys (use unevaluatedProperties schema if available)
+      ...unevaluatedKeys.map(k => {
+        const isPatternMatched = patternList.some(r => r.test(k))
+        return renderUnevaluatedEntry(k, isPatternMatched)
+      }),
       // Add affordance
       apAllowed ? addPropertyButton : null
     )

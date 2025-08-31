@@ -186,6 +186,60 @@ export class SchemaContext {
     return false
   }
 
+  /**
+   * Determines if this property is marked as readOnly.
+   */
+  get isReadOnly(): boolean {
+    if (typeof this.definition === 'boolean') return false
+    return Boolean(this.definition.readOnly)
+  }
+
+  /**
+   * Determines if this property is marked as writeOnly.
+   */
+  get isWriteOnly(): boolean {
+    if (typeof this.definition === 'boolean') return false
+    return Boolean(this.definition.writeOnly)
+  }
+
+  /**
+   * Determines if this property is marked as deprecated.
+   */
+  get isDeprecated(): boolean {
+    if (typeof this.definition === 'boolean') return false
+    return Boolean(
+      (this.definition as unknown as Record<string, unknown>).deprecated
+    )
+  }
+
+  /**
+   * Checks if readOnly should be ignored based on x:ui.ignoreReadOnly.
+   */
+  get shouldIgnoreReadOnly(): boolean {
+    if (typeof this.definition === 'boolean') return false
+    const xuiRaw = (this.definition as unknown as Record<string, unknown>)[
+      'x:ui'
+    ]
+    if (xuiRaw && typeof xuiRaw === 'object') {
+      return Boolean((xuiRaw as Record<string, unknown>)['ignoreReadOnly'])
+    }
+    return false
+  }
+
+  /**
+   * Checks if writeOnly should be shown based on x:ui.showWriteOnly.
+   */
+  get shouldShowWriteOnly(): boolean {
+    if (typeof this.definition === 'boolean') return false
+    const xuiRaw = (this.definition as unknown as Record<string, unknown>)[
+      'x:ui'
+    ]
+    if (xuiRaw && typeof xuiRaw === 'object') {
+      return Boolean((xuiRaw as Record<string, unknown>)['showWriteOnly'])
+    }
+    return false
+  }
+
   get anyOf() {
     if (typeof this.definition === 'boolean') return undefined
     return Array.isArray(this.definition.anyOf)
@@ -503,4 +557,133 @@ export function evaluateIfThenElseOverlay(
     // ignore compile errors and treat as no overlay
   }
   return null
+}
+
+/**
+ * Tracks which properties have been evaluated by various JSON Schema keywords.
+ * This is used to implement unevaluatedProperties semantics for 2019-09/2020-12.
+ */
+export function getEvaluatedProperties(
+  schema: JSONSchema7,
+  value: Record<string, unknown> | undefined,
+  ajv: Ajv | undefined
+): Set<string> {
+  const evaluated = new Set<string>()
+
+  if (!value || typeof value !== 'object') {
+    return evaluated
+  }
+
+  // Properties from 'properties' keyword
+  if (schema.properties) {
+    Object.keys(schema.properties).forEach(key => {
+      if (key in value) {
+        evaluated.add(key)
+      }
+    })
+  }
+
+  // Properties from 'patternProperties' keyword
+  if (schema.patternProperties) {
+    Object.keys(value).forEach(key => {
+      Object.keys(schema.patternProperties!).forEach(pattern => {
+        try {
+          if (new RegExp(pattern).test(key)) {
+            evaluated.add(key)
+          }
+        } catch {
+          // ignore invalid regex patterns
+        }
+      })
+    })
+  }
+
+  // Properties from 'additionalProperties' (if explicitly true or a schema, additional properties are evaluated)
+  if (
+    schema.additionalProperties === true ||
+    (schema.additionalProperties &&
+      typeof schema.additionalProperties === 'object')
+  ) {
+    // Get properties already covered by 'properties' and 'patternProperties'
+    const coveredByProperties = new Set<string>()
+    if (schema.properties) {
+      Object.keys(schema.properties).forEach(key => {
+        if (key in value) {
+          coveredByProperties.add(key)
+        }
+      })
+    }
+
+    if (schema.patternProperties) {
+      Object.keys(value).forEach(key => {
+        Object.keys(schema.patternProperties!).forEach(pattern => {
+          try {
+            if (new RegExp(pattern).test(key)) {
+              coveredByProperties.add(key)
+            }
+          } catch {
+            // ignore invalid regex patterns
+          }
+        })
+      })
+    }
+
+    // All properties not covered by 'properties' or 'patternProperties' are evaluated by additionalProperties
+    Object.keys(value).forEach(key => {
+      if (!coveredByProperties.has(key)) {
+        evaluated.add(key)
+      }
+    })
+  }
+
+  // Properties from allOf branches
+  if (schema.allOf) {
+    schema.allOf.forEach(subschema => {
+      if (typeof subschema === 'object') {
+        const subEvaluated = getEvaluatedProperties(subschema, value, ajv)
+        subEvaluated.forEach(key => evaluated.add(key))
+      }
+    })
+  }
+
+  // Properties from if/then/else overlays
+  const overlay = evaluateIfThenElseOverlay(schema, value, ajv)
+  if (overlay) {
+    const overlayEvaluated = getEvaluatedProperties(overlay, value, ajv)
+    overlayEvaluated.forEach(key => evaluated.add(key))
+  }
+
+  // Properties from dependentSchemas
+  const dependentSchemas = (schema as unknown as Record<string, unknown>)
+    .dependentSchemas as Record<string, JSONSchema7> | undefined
+  if (dependentSchemas) {
+    Object.keys(dependentSchemas).forEach(dependentKey => {
+      if (dependentKey in value) {
+        const dependentSchema = dependentSchemas[dependentKey]
+        if (typeof dependentSchema === 'object') {
+          const depEvaluated = getEvaluatedProperties(
+            dependentSchema,
+            value,
+            ajv
+          )
+          depEvaluated.forEach(key => evaluated.add(key))
+        }
+      }
+    })
+  }
+
+  // Properties from draft-07 dependencies (schema form)
+  if (schema.dependencies) {
+    Object.keys(schema.dependencies).forEach(dependentKey => {
+      if (dependentKey in value) {
+        const dependency = schema.dependencies![dependentKey]
+        if (typeof dependency === 'object' && !Array.isArray(dependency)) {
+          const depEvaluated = getEvaluatedProperties(dependency, value, ajv)
+          depEvaluated.forEach(key => evaluated.add(key))
+        }
+      }
+    })
+  }
+
+  return evaluated
 }

@@ -2,6 +2,9 @@
 
 Actionable TODOs to finalize the `x:ui` customization API, add container layouts, and expose extension points.
 
+- [ ] Do not allow invalid content in the data payload
+  - When the payload contains value that are not allowed by the schema, automatically remove the invalid data from the payload. For example additional properties when `additionalProperties` is false should be removed immediately (or ignored if preferable).
+
 - [ ] Implement unified `x:ui` parsing and precedence
   - Update the widget resolver (in `packages/beatui/src/components/json-schema/controls.ts` and `widgets/utils.ts`) to accept `x:ui` as either a string or object `{ format, ...options }` and compute the effective widget selection.
   - Apply precedence: explicit `x:ui` > schema annotations/format/media cues > constraints > heuristics > type fallback.
