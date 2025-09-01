@@ -35,17 +35,27 @@ pnpm add @tempots/dom @tempots/std @tempots/ui
 yarn add @tempots/dom @tempots/std @tempots/ui
 ```
 
-## CSS Import
+## CSS – Zero‑config by default
 
-Import the CSS in your main CSS file or entry point:
+BeatUI injects its base layered CSS automatically when you use the `BeatUI(...)` root provider. No extra configuration or imports are needed in typical apps.
+
+- Recommended: wrap your app with `BeatUI(...)` and you’re done.
+- Advanced: if you don’t use the root provider and still want global styles, you can explicitly import the CSS subpath.
+
+```typescript
+import { BeatUI } from '@tempots/beatui'
+// ...use BeatUI(...) at the top of your app
+```
+
+Optional explicit CSS import (not required when using BeatUI(...) root provider):
 
 ```css
 @import '@tempots/beatui/css';
 ```
 
-Or import it in your JavaScript/TypeScript entry point:
+Or in TypeScript:
 
-```typescript
+```ts
 import '@tempots/beatui/css'
 ```
 

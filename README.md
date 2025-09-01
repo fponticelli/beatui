@@ -70,7 +70,7 @@ beatui/
 - **Build System**: Turborepo for monorepo management
 - **Package Manager**: pnpm with workspaces
 - **UI Library**: TypeScript + Vite + Tempo DOM
-- **Documentation**: VitePress
+- **Documentation**: Custom Vite app built with @tempots/dom
 - **Testing**: Vitest + Playwright
 - **Styling**: Layered CSS with design tokens
 - **Icons**: Iconify integration
@@ -83,6 +83,13 @@ Visit the [documentation site](./apps/docs/) for:
 - Component documentation
 - Design system guidelines
 - API reference
+
+### Local Development (Option A)
+
+- In one terminal: `pnpm --filter @tempots/beatui build:watch`
+- In another terminal: `pnpm --filter @beatui/docs dev`
+
+The docs import the library like a consumer app (from `dist`), so no custom Vite aliasing is needed.
 
 ## 🎨 Design System
 

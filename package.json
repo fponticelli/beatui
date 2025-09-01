@@ -10,7 +10,8 @@
     "test:watch": "turbo test:watch",
     "lint": "turbo lint",
     "format": "turbo format",
-    "clean": "turbo clean"
+    "clean": "turbo clean",
+    "dev:docs": "pnpm --filter @tempots/beatui build:watch & pnpm --filter @beatui/docs dev"
   },
   "keywords": [],
   "author": "Franco Ponticelli",
