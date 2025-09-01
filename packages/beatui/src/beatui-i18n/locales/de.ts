@@ -10,6 +10,8 @@ const de: BeatUIMessages = {
   failedToLoadIcon: 'Symbol konnte nicht geladen werden',
   editLabel: 'Bearbeiten',
   selectOne: 'Eines auswählen',
+  selectMany: 'Mehrere auswählen',
+  noResults: 'Keine Ergebnisse',
   passwordPlaceholderText: 'Geheimes Passwort',
   togglePasswordVisibility: 'Passwort-Sichtbarkeit umschalten',
   toggleMenu: 'Menü umschalten',

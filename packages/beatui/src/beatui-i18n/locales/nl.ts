@@ -10,6 +10,8 @@ export const nl: BeatUIMessages = {
   failedToLoadIcon: 'Pictogram laden mislukt',
   editLabel: 'Bewerken',
   selectOne: 'Selecteer een',
+  selectMany: 'Selecteer meerdere',
+  noResults: 'Geen resultaten',
   passwordPlaceholderText: 'Geheim wachtwoord',
   togglePasswordVisibility: 'Wachtwoord zichtbaarheid wisselen',
   toggleMenu: 'Menu wisselen',

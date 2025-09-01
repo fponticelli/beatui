@@ -10,6 +10,8 @@ const hi: BeatUIMessages = {
   failedToLoadIcon: 'आइकन लोड करने में विफल',
   editLabel: 'संपादित करें',
   selectOne: 'एक चुनें',
+  selectMany: 'बहुत चुनें',
+  noResults: 'कोई परिणाम नहीं',
   passwordPlaceholderText: 'गुप्त पासवर्ड',
   togglePasswordVisibility: 'पासवर्ड दृश्यता टॉगल करें',
   toggleMenu: 'मेनू टॉगल करें',

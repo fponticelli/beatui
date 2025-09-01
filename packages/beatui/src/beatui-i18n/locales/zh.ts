@@ -10,6 +10,8 @@ const zh: BeatUIMessages = {
   failedToLoadIcon: '图标加载失败',
   editLabel: '编辑',
   selectOne: '选择一个',
+  selectMany: '选择多个',
+  noResults: '无结果',
   passwordPlaceholderText: '密码',
   togglePasswordVisibility: '切换密码可见性',
   toggleMenu: '切换菜单',

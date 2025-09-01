@@ -10,6 +10,8 @@ const pt: BeatUIMessages = {
   failedToLoadIcon: 'Falha ao carregar ícone',
   editLabel: 'Editar',
   selectOne: 'Selecionar um',
+  selectMany: 'Selecionar vários',
+  noResults: 'Sem resultados',
   passwordPlaceholderText: 'Senha Secreta',
   togglePasswordVisibility: 'Alternar visibilidade da senha',
   toggleMenu: 'Alternar menu',

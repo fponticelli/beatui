@@ -10,6 +10,8 @@ const es: BeatUIMessages = {
   failedToLoadIcon: 'Error al cargar el icono',
   editLabel: 'Editar',
   selectOne: 'Seleccionar uno',
+  selectMany: 'Seleccionar varios',
+  noResults: 'Sin resultados',
   passwordPlaceholderText: 'Contraseña Secreta',
   togglePasswordVisibility: 'Alternar visibilidad de contraseña',
   toggleMenu: 'Alternar menú',

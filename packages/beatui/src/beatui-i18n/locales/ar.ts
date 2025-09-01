@@ -10,6 +10,8 @@ const ar: BeatUIMessages = {
   failedToLoadIcon: 'فشل في تحميل الأيقونة',
   editLabel: 'تحرير',
   selectOne: 'اختر واحد',
+  selectMany: 'اختر عدة',
+  noResults: 'لا نتائج',
   passwordPlaceholderText: 'كلمة المرور السرية',
   togglePasswordVisibility: 'إظهار/إخفاء كلمة المرور',
   toggleMenu: 'تبديل القائمة',

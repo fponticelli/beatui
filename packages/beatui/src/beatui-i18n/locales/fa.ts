@@ -10,6 +10,8 @@ const fa: BeatUIMessages = {
   failedToLoadIcon: 'بارگذاری نماد ناموفق بود',
   editLabel: 'ویرایش',
   selectOne: 'یکی را انتخاب کنید',
+  selectMany: 'چند مورد را انتخاب کنید',
+  noResults: 'بدون نتیجه',
   passwordPlaceholderText: 'رمز عبور محرمانه',
   togglePasswordVisibility: 'نمایش/مخفی کردن رمز عبور',
   toggleMenu: 'نمایش/مخفی کردن منو',

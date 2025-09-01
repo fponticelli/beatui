@@ -9,6 +9,8 @@ const en = {
   failedToLoadIcon: 'Failed to load icon',
   editLabel: 'Edit',
   selectOne: 'Select one',
+  selectMany: 'Select many',
+  noResults: 'No results',
   passwordPlaceholderText: 'Secret Password',
   togglePasswordVisibility: 'Toggle password visibility',
   toggleMenu: 'Toggle menu',

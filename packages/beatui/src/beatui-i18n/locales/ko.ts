@@ -10,6 +10,8 @@ const ko: BeatUIMessages = {
   failedToLoadIcon: '아이콘 로드 실패',
   editLabel: '편집',
   selectOne: '하나 선택',
+  selectMany: '여러 개 선택',
+  noResults: '결과 없음',
   passwordPlaceholderText: '비밀번호',
   togglePasswordVisibility: '비밀번호 표시 전환',
   toggleMenu: '메뉴 전환',

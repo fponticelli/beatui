@@ -1,6 +1,6 @@
 ---
-type: 'always_apply'
-description: 'rules to apply when writing TypeScript code'
+type: "always_apply"
+description: "rules to apply when writing TypeScript code"
 ---
 
 - Always prefer avoid using `any` and try to find correct types

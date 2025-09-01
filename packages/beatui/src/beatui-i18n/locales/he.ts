@@ -10,6 +10,8 @@ const he: BeatUIMessages = {
   failedToLoadIcon: 'נכשל בטעינת הסמל',
   editLabel: 'עריכה',
   selectOne: 'בחר אחד',
+  selectMany: 'בחר מספר',
+  noResults: 'אין תוצאות',
   passwordPlaceholderText: 'סיסמה סודית',
   togglePasswordVisibility: 'הצג/הסתר סיסמה',
   toggleMenu: 'הצג/הסתר תפריט',

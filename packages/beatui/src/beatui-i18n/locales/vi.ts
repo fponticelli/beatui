@@ -10,6 +10,8 @@ const vi: BeatUIMessages = {
   failedToLoadIcon: 'Không thể tải biểu tượng',
   editLabel: 'Chỉnh sửa',
   selectOne: 'Chọn một',
+  selectMany: 'Chọn nhiều',
+  noResults: 'Không có kết quả',
   passwordPlaceholderText: 'Mật khẩu bí mật',
   togglePasswordVisibility: 'Chuyển đổi hiển thị mật khẩu',
   toggleMenu: 'Chuyển đổi menu',

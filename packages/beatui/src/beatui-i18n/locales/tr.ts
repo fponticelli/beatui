@@ -10,6 +10,8 @@ const tr: BeatUIMessages = {
   failedToLoadIcon: 'Simge yüklenemedi',
   editLabel: 'Düzenle',
   selectOne: 'Birini seç',
+  selectMany: 'Birden fazlasını seç',
+  noResults: 'Sonuç yok',
   passwordPlaceholderText: 'Gizli Şifre',
   togglePasswordVisibility: 'Şifre görünürlüğünü değiştir',
   toggleMenu: 'Menüyü değiştir',
