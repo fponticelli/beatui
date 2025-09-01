@@ -440,6 +440,7 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
             )
           )
         ),
+      mainAxisOffset: 0,
       placement: 'bottom-start',
       showOn: (flyoutShow, flyoutHide) => {
         // Override flyoutHide to also update dropdown state

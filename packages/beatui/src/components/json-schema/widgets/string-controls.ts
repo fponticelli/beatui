@@ -11,6 +11,7 @@ import { Async, Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
   Base64Input,
+  FileInput,
   NullableEmailInput,
   NullableDateInput,
   NullableDateTimeInput,
@@ -18,7 +19,11 @@ import {
   NullableTextArea,
   NullableTextInput,
   NullableUUIDInput,
+  NullableDurationInput,
+  ColorInput,
+  NullableUrlInput,
 } from '@/components/form/input'
+import { WithTemporal } from '@/temporal'
 
 export function StringControl({
   ctx,
@@ -60,21 +65,136 @@ export function StringControl({
       })
     }
     case 'time':
-      // TODO
-      throw new Error('Not implemented: time')
+      // TODO: Implement time input
+      return Control(NullableTextInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: 'HH:MM:SS',
+      })
     case 'password':
       return Control(NullablePasswordInput, {
         ...options,
         controller: transformNullToUndefined(controller),
       })
     case 'binary': {
+      const { definition } = ctx
+      const xui =
+        typeof definition === 'object'
+          ? (definition['x:ui'] as Record<string, unknown> | undefined)
+          : undefined
+
+      // Check if this should be a file upload vs base64 text
+      const shouldUseFileUpload =
+        format.mediaType &&
+        (format.mediaType.startsWith('image/') ||
+          format.mediaType.startsWith('video/') ||
+          format.mediaType.startsWith('audio/') ||
+          format.mediaType === 'application/pdf' ||
+          xui?.preferFileUpload === true)
+
+      if (shouldUseFileUpload) {
+        return MappedControl(FileInput, {
+          ...options,
+          mode: 'compact',
+          accept: format.mediaType || '*/*',
+          maxFileSize:
+            (typeof xui?.maxBytes === 'number' ? xui.maxBytes : undefined) ||
+            (typeof xui?.maxFileSize === 'number'
+              ? xui.maxFileSize
+              : undefined),
+          showFileList: true,
+          controller: transformNullToUndefined(controller),
+          toInput: (base64String: string | null) => {
+            if (!base64String) return null
+            try {
+              // Convert base64 to File for display
+              const byteCharacters = atob(base64String)
+              const byteNumbers = new Array(byteCharacters.length)
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i)
+              }
+              const byteArray = new Uint8Array(byteNumbers)
+              return new File([byteArray], 'uploaded-file', {
+                type: format.mediaType || 'application/octet-stream',
+              })
+            } catch {
+              return null
+            }
+          },
+          fromInput: (file: File | null) => {
+            if (!file) return null
+            // For now, return a placeholder - in a real implementation,
+            // this would need to be handled asynchronously
+            return `[File: ${file.name}]`
+          },
+        })
+      }
+
+      // Default to base64 text input
       return Control(Base64Input, {
         mode: 'compact',
         accept: format.mediaType,
+        maxFileSize:
+          (typeof xui?.maxBytes === 'number' ? xui.maxBytes : undefined) ||
+          (typeof xui?.maxFileSize === 'number' ? xui.maxFileSize : undefined),
         ...options,
         controller,
       })
     }
+    case 'uri':
+    case 'url':
+      return Control(NullableUrlInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: 'https://example.com',
+      })
+    case 'uri-reference':
+      return Control(NullableTextInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: 'Enter URL...',
+      })
+    case 'hostname':
+      return Control(NullableTextInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: 'example.com',
+      })
+    case 'ipv4':
+      return Control(NullableTextInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: '192.168.1.1',
+      })
+    case 'ipv6':
+      return Control(NullableTextInput, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: '2001:db8::1',
+      })
+    case 'regex':
+      return Control(NullableTextArea, {
+        ...options,
+        controller: transformNullToUndefined(controller),
+        placeholder: '^[a-zA-Z0-9]+$',
+        rows: 3,
+      })
+    case 'duration':
+      return WithTemporal(({ Duration }) =>
+        MappedControl(NullableDurationInput, {
+          ...options,
+          controller: transformNullToUndefined(controller),
+          toInput: v => (v == null ? null : Duration.from(v)),
+          fromInput: (v: unknown) =>
+            (v as { toString?: () => string })?.toString?.() ?? null,
+        })
+      )
+    case 'color':
+      return Control(ColorInput, {
+        ...options,
+        controller,
+        displayValue: true,
+      })
     case 'uuid':
       return Control(NullableUUIDInput, {
         ...options,

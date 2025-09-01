@@ -42,6 +42,42 @@ export type UUIDWidgetOptions = StringWidgetOptions & {
   format: 'uuid'
 }
 
+export type URIWidgetOptions = StringWidgetOptions & {
+  format: 'uri'
+}
+
+export type URLWidgetOptions = StringWidgetOptions & {
+  format: 'url'
+}
+
+export type URIReferenceWidgetOptions = StringWidgetOptions & {
+  format: 'uri-reference'
+}
+
+export type HostnameWidgetOptions = StringWidgetOptions & {
+  format: 'hostname'
+}
+
+export type IPv4WidgetOptions = StringWidgetOptions & {
+  format: 'ipv4'
+}
+
+export type IPv6WidgetOptions = StringWidgetOptions & {
+  format: 'ipv6'
+}
+
+export type RegexWidgetOptions = StringWidgetOptions & {
+  format: 'regex'
+}
+
+export type DurationWidgetOptions = StringWidgetOptions & {
+  format: 'duration'
+}
+
+export type ColorWidgetOptions = StringWidgetOptions & {
+  format: 'color'
+}
+
 export type AnyStringWidgetOptions =
   | BinaryWidgetOptions
   | DateTimeWidgetOptions
@@ -52,3 +88,12 @@ export type AnyStringWidgetOptions =
   | TextAreaWidgetOptions
   | TimeWidgetOptions
   | UUIDWidgetOptions
+  | URIWidgetOptions
+  | URLWidgetOptions
+  | URIReferenceWidgetOptions
+  | HostnameWidgetOptions
+  | IPv4WidgetOptions
+  | IPv6WidgetOptions
+  | RegexWidgetOptions
+  | DurationWidgetOptions
+  | ColorWidgetOptions

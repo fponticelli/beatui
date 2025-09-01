@@ -1,8 +1,17 @@
 import { AnyStringWidgetOptions } from './string-type'
-import { getUIInfo } from './utils'
-import { SchemaContext } from '../schema-context'
+import { getUIFormat } from './utils'
+import { JSONSchema, SchemaContext } from '../schema-context'
 
 const textAreaFields = ['description', 'comment', 'notes', 'text']
+
+function getTextAreaTriggers(definition: JSONSchema): string[] {
+  if (typeof definition === 'boolean') return textAreaFields
+  const xui = definition['x:ui'] as Record<string, unknown> | undefined
+  if (xui && Array.isArray(xui.textAreaTriggers)) {
+    return [...textAreaFields, ...(xui.textAreaTriggers as string[])]
+  }
+  return textAreaFields
+}
 
 export function stringFormatDetection(
   ctx: SchemaContext
@@ -15,7 +24,7 @@ export function stringFormatDetection(
     maxLength: definition.maxLength,
   }
   // test uiwidget
-  const widget = getUIInfo(definition)
+  const widget = getUIFormat(definition)
   if (widget != null) {
     switch (widget) {
       case 'binary':
@@ -64,6 +73,39 @@ export function stringFormatDetection(
   if (definition.format === 'uuid') {
     return { ...options, format: 'uuid' }
   }
+  if (definition.format === 'uri' || definition.format === 'iri') {
+    return { ...options, format: 'uri' }
+  }
+  if (definition.format === 'url') {
+    return { ...options, format: 'url' }
+  }
+  if (
+    definition.format === 'uri-reference' ||
+    definition.format === 'iri-reference'
+  ) {
+    return { ...options, format: 'uri-reference' }
+  }
+  if (
+    definition.format === 'hostname' ||
+    definition.format === 'idn-hostname'
+  ) {
+    return { ...options, format: 'hostname' }
+  }
+  if (definition.format === 'ipv4') {
+    return { ...options, format: 'ipv4' }
+  }
+  if (definition.format === 'ipv6') {
+    return { ...options, format: 'ipv6' }
+  }
+  if (definition.format === 'regex') {
+    return { ...options, format: 'regex' }
+  }
+  if (definition.format === 'duration') {
+    return { ...options, format: 'duration' }
+  }
+  if (definition.format === 'color') {
+    return { ...options, format: 'color' }
+  }
   // contentEncoding
   if (definition.contentEncoding === 'base64') {
     return { ...options, format: 'binary' }
@@ -80,11 +122,12 @@ export function stringFormatDetection(
     }
   }
   // heuristic
+  const triggers = getTextAreaTriggers(definition)
   if (
     (definition.minLength != null && definition.minLength > 20) ||
     (definition.maxLength != null && definition.maxLength > 100) ||
     (ctx.name != null &&
-      textAreaFields.some(f => ctx.name!.toLocaleLowerCase().includes(f)))
+      triggers.some(f => ctx.name!.toLocaleLowerCase().includes(f)))
   ) {
     return { ...options, format: 'textarea' }
   }

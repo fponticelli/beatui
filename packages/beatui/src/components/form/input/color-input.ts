@@ -432,7 +432,7 @@ export const ColorInput = (options: ColorInputOptions) => {
   const pathD = computedOf(
     rgb,
     blobSize
-  )((rgb, s) => generateBlobPath(rgb, s / 2 - 1))
+  )((rgb, s) => generateBlobPath(rgb, s / 2))
 
   const fillColor = computedOf(
     rgb,

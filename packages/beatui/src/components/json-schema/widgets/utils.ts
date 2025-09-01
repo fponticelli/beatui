@@ -1,6 +1,13 @@
 import { JSONSchema } from '../schema-context'
 
-export function getUIInfo(definition: JSONSchema): string | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (definition as any)['x:ui']
+export function getUIFormat(definition: JSONSchema): string | undefined {
+  const raw = (definition as unknown as Record<string, unknown>)['x:ui']
+  if (raw == null) return undefined
+  if (typeof raw === 'string') return raw
+  if (typeof raw === 'object') {
+    const o = raw as Record<string, unknown>
+    const widget = (o['widget'] ?? o['format']) as unknown
+    if (typeof widget === 'string') return widget
+  }
+  return undefined
 }

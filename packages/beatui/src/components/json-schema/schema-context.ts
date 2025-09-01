@@ -54,6 +54,8 @@ export interface JSONSchema {
   minItems?: number
   uniqueItems?: boolean
   contains?: JSONSchemaDefinition
+  minContains?: number
+  maxContains?: number
 
   // Object keywords (all drafts)
   maxProperties?: number
