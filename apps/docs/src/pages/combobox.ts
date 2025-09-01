@@ -1,8 +1,7 @@
-import { attr, html, prop, style } from '@tempots/dom'
+import { attr, Ensure, html, prop, Signal, style } from '@tempots/dom'
 import {
   ComboboxInput,
   Group,
-  Icon,
   Option,
   ScrollablePanel,
   Stack,
@@ -32,7 +31,7 @@ export const ComboboxPage = () => {
   ]
 
   // Basic example
-  const basicValue = prop<Fruit | null>(null)
+  const basicValue = prop<Fruit | null>(allFruits[0])
 
   const loadFruitOptions = async (search: string) => {
     const q = search.trim().toLowerCase()
@@ -56,23 +55,30 @@ export const ComboboxPage = () => {
   }
 
   // Custom renderers
-  const renderOption = (f: Fruit | null) =>
-    Group(
-      attr.class('bu-gap-2 bu-items-center'),
-      html.span(attr.class('bu-font-medium'), f?.name ?? ''),
-      html.span(attr.class('bu-text-xs bu-text-light-gray'), `(${f?.id ?? ''})`)
+  const renderOption = (f: Signal<Fruit | null>) =>
+    Ensure(f, f =>
+      Group(
+        attr.class('bu-gap-2 bu-items-center'),
+        html.span(attr.class('bu-font-medium'), f.$.name),
+        html.span(
+          attr.class('bu-text-xs bu-text-light-gray'),
+          f.$.id.map(id => `(${id})`)
+        )
+      )
     )
 
-  const renderValue = (f: Fruit | null) =>
-    Group(
-      attr.class('bu-gap-2 bu-items-center'),
-      html.div(
-        style.width('0.75rem'),
-        style.height('0.75rem'),
-        style.borderRadius('50%'),
-        style.backgroundColor(f?.color ?? 'transparent')
-      ),
-      html.span(f?.name ?? '')
+  const renderValue = (f: Signal<Fruit | null>) =>
+    Ensure(f, f =>
+      Group(
+        attr.class('bu-gap-2 bu-items-center'),
+        html.div(
+          style.width('0.75rem'),
+          style.height('0.75rem'),
+          style.borderRadius('50%'),
+          style.backgroundColor(f.$.color)
+        ),
+        html.span(f.$.name)
+      )
     )
 
   // Form integration example
@@ -161,44 +167,6 @@ export const ComboboxPage = () => {
             'Controller value: ',
             fruitController.value.map(v => (v ? v.name : 'None'))
           )
-        )
-      ),
-
-      // Advanced display (show icons in label)
-      Stack(
-        attr.class('bu-gap-4'),
-        html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
-          'Decorated Options'
-        ),
-        html.p(
-          attr.class('bu-text-light-gray'),
-          'Options support before/after slots and custom rendering.'
-        ),
-        Stack(
-          attr.class('bu-gap-2'),
-          style.width('20rem'),
-          ComboboxInput<Fruit | null>({
-            value: basicValue,
-            placeholder: 'Choose...',
-            loadOptions: async q => {
-              const opts = await loadFruitOptions(q)
-              // Mark some favorites with an icon in the "after" slot
-              return opts.map(o =>
-                o.type === 'value' &&
-                (o.value.id === 'mango' || o.value.id === 'strawberry')
-                  ? {
-                      ...o,
-                      after: Icon({ icon: 'line-md:star-filled', size: 'sm' }),
-                    }
-                  : o
-              )
-            },
-            renderOption,
-            renderValue,
-            onChange: v => basicValue.set(v),
-            equality: (a, b) => a?.id === b?.id,
-          })
         )
       )
     ),
