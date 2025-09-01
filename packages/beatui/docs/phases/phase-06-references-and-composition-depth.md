@@ -9,7 +9,7 @@ Actionable TODOs to extend `$ref` support beyond in-document references and ensu
 - [ ] Cache compiled validators and resolved refs
   - In `packages/beatui/src/components/json-schema/ajv-utils.ts` and `ref-utils.ts`, cache compiled validators by JSON Pointer / `$id` and memoize `$ref` resolutions; include cycle detection and clear error messaging on resolution failures.
 
-- [ ] Preserve sibling keyword semantics when a node uses `$ref`
+- [x] Preserve sibling keyword semantics when a node uses `$ref`
   - Ensure the current in-document `$ref` merge behavior (sibling keywords merged with the referenced schema) is used uniformly, including within unions and combinators, before branching on `type`.
 
 - [ ] Validate `allOf`/`oneOf` across referenced schemas
@@ -18,4 +18,3 @@ Actionable TODOs to extend `$ref` support beyond in-document references and ensu
 
 - [ ] Tests for external refs and composition
   - Add unit tests under `packages/beatui/tests/unit/` that load small external schemas to verify: `$ref` resolution, sibling keyword merges, allOf deep merge across refs, and oneOf branch detection with referenced branches.
-

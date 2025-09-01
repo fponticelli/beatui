@@ -4,6 +4,7 @@ import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form'
 import { JSONSchemaControl } from '../../src/components/json-schema/controls/generic-control'
 import type { JSONSchema } from '../../src/components/json-schema/schema-context'
+import { Validation } from '@tempots/std'
 
 describe('JSON Schema Arrays and Tuples', () => {
   let container: HTMLElement
@@ -27,7 +28,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['John', 'Doe', 25],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -55,7 +56,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['2023-01-01T00:00:00Z', 'info', 'Test message'],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -81,7 +82,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['John', 25, 'Extra note 1', 'Extra note 2'],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -105,7 +106,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['a', 'b', 1],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -129,7 +130,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['single'],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -154,7 +155,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['first', 'second'],
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -180,7 +181,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['apple', 'banana', 'apple'], // duplicate 'apple'
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -204,7 +205,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: [5, 15, 8, 20], // 15 and 20 match contains
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -227,7 +228,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: [5, 15, 8], // no items match contains
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -251,7 +252,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: [15, 20, 25, 30], // 4 items match contains, exceeds maxContains
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -278,7 +279,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: [5, 8], // no items match contains
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -309,7 +310,7 @@ describe('JSON Schema Arrays and Tuples', () => {
 
       const { controller } = useController({
         initialValue: ['John', 85, 95], // Score 95 matches contains
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(

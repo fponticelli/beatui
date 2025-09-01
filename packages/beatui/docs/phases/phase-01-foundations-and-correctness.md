@@ -17,7 +17,7 @@ Actionable TODOs for implementing robust baseline behavior across primitives, un
   - Add a pure function in `packages/beatui/src/components/json-schema/schema-context.ts` to deep-merge `allOf` branches: intersect types, union `required`, deep-merge `properties`, and detect conflicts; surface conflicts as non-blocking schema errors exposed to the UI.
   - Ensure the merged view is used by the control resolver prior to rendering.
 
-- [ ] Visualize `not` violations in the UI
+- [x] Visualize `not` violations in the UI
   - Evaluate the `not` subschema for the current node; when the value matches, render a contextual error banner “Value matches disallowed schema” near the control.
 
 - [x] Extend AJV initialization to accept `x:ui` vendor extension
@@ -29,11 +29,10 @@ Actionable TODOs for implementing robust baseline behavior across primitives, un
   - Support optional label mapping from `x:ui.labels` (array aligned to `enum` or key/value map) and fall back to stringification.
   - Render `const` as a non-editable display field with the const value; optionally hide the input chrome.
 
-- [ ] Establish optionality and nullability behavior across inputs
+- [x] Establish optionality and nullability behavior across inputs
   - For object properties, treat “optional” as “key absent” rather than `null`; add a presence toggle or clear action that removes the key for optional fields.
   - Only render a null toggle when the schema allows `null` (union includes `"null"`, OpenAPI `nullable: true`, or `enum` includes `null`).
   - Update string/number/boolean widgets to use non-nullable controls by default; add explicit null/presence toggles where applicable.
 
-- [ ] Add unit coverage for unions, enums/const, and nullability
+- [x] Add unit coverage for unions, enums/const, and nullability
   - Write focused tests under `packages/beatui/tests/unit/` covering: union branch selection and persistence, enum label mapping, const display, and required vs optional presence toggles.
-
