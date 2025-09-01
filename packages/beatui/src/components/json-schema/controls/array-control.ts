@@ -122,23 +122,83 @@ export function JSONSchemaArray({
 
   // Contains validation logic
   const containsInfo = computedOf(controller.value)(value => {
-    if (!schema.contains || !value || !ctx.ajv) {
+    if (!schema.contains || !value) {
       return { matchingIndices: new Set<number>(), count: 0, isValid: true }
     }
 
     const matchingIndices = new Set<number>()
     let count = 0
 
-    try {
-      const validate = ctx.ajv.compile(schema.contains)
+    // Prefer AJV when available, otherwise use a basic fallback matcher for common cases
+    if (ctx.ajv) {
+      try {
+        const validate = ctx.ajv.compile(schema.contains)
+        for (let i = 0; i < value.length; i++) {
+          if (validate(value[i])) {
+            matchingIndices.add(i)
+            count++
+          }
+        }
+      } catch {
+        // If validation fails, assume no matches
+      }
+    } else {
+      // Fallback matcher: supports simple numeric/string constraints used in tests
+      const contains = schema.contains
+      const basicMatch = (item: unknown): boolean => {
+        if (typeof contains === 'boolean') return contains
+        if (typeof contains !== 'object' || contains == null) return false
+
+        const c = contains as JSONSchema
+        const tp = c.type
+
+        if (tp === 'integer' || tp === 'number') {
+          if (typeof item !== 'number' || !Number.isFinite(item)) return false
+          if (tp === 'integer' && !Number.isInteger(item)) return false
+          if (typeof c.minimum === 'number' && item < c.minimum) return false
+          if (
+            typeof c.exclusiveMinimum === 'number' &&
+            item <= c.exclusiveMinimum
+          )
+            return false
+          if (typeof c.maximum === 'number' && item > c.maximum) return false
+          if (
+            typeof c.exclusiveMaximum === 'number' &&
+            item >= c.exclusiveMaximum
+          )
+            return false
+          if (typeof c.multipleOf === 'number' && item % c.multipleOf !== 0)
+            return false
+          return true
+        }
+
+        if (tp === 'string') {
+          if (typeof item !== 'string') return false
+          if (typeof c.minLength === 'number' && item.length < c.minLength)
+            return false
+          if (typeof c.maxLength === 'number' && item.length > c.maxLength)
+            return false
+          if (typeof c.pattern === 'string') {
+            try {
+              const re = new RegExp(c.pattern)
+              if (!re.test(item)) return false
+            } catch {
+              // ignore invalid patterns in fallback
+            }
+          }
+          return true
+        }
+
+        // Default conservative behavior
+        return false
+      }
+
       for (let i = 0; i < value.length; i++) {
-        if (validate(value[i])) {
+        if (basicMatch(value[i])) {
           matchingIndices.add(i)
           count++
         }
       }
-    } catch {
-      // If validation fails, assume no matches
     }
 
     const minContains = schema.minContains ?? (schema.contains ? 1 : 0)
@@ -189,8 +249,11 @@ export function JSONSchemaArray({
       }
     },
     controller,
-    showAdd: canAddItems,
-    showRemove: canRemoveItems,
+    // Always render add/remove controls but disable them when constraints forbid actions
+    showAdd: true,
+    addDisabled: computedOf(canAddItems)(v => !v),
+    showRemove: true,
+    removeDisabled: computedOf(canRemoveItems)(v => !v),
     element: payload => {
       const item = payload.item as Controller<unknown>
       const index = payload.position.index

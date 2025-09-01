@@ -136,6 +136,59 @@ export function JSONSchemaGenericControl<T>({
     )
   }
   if (Array.isArray(resolvedDef.type)) {
+    // Special-case: nullable primitive (e.g., ["number", "null"]) should render as a nullable primitive control
+    const types = resolvedDef.type as unknown as Array<
+      'null' | 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array'
+    >
+    const nonNull = types.filter(t => t !== 'null')
+    if (
+      nonNull.length === 1 &&
+      ['string', 'number', 'integer', 'boolean'].includes(nonNull[0])
+    ) {
+      const t = nonNull[0]
+      switch (t) {
+        case 'number':
+          return WithSchemaIssues(
+            nextCtx,
+            JSONSchemaNumber({
+              ctx: nextCtx,
+              controller: controller as unknown as Controller<number>,
+            }),
+            controller
+          )
+        case 'integer':
+          return WithSchemaIssues(
+            nextCtx,
+            JSONSchemaInteger({
+              ctx: nextCtx,
+              controller: controller as unknown as Controller<number>,
+            }),
+            controller
+          )
+        case 'string':
+          return WithSchemaIssues(
+            nextCtx,
+            JSONSchemaString({
+              ctx: nextCtx,
+              controller: controller as unknown as Controller<
+                string | undefined
+              >,
+            }),
+            controller
+          )
+        case 'boolean':
+          return WithSchemaIssues(
+            nextCtx,
+            JSONSchemaBoolean({
+              ctx: nextCtx,
+              controller: controller as unknown as Controller<boolean | null>,
+            }),
+            controller
+          )
+      }
+    }
+
+    // General union of multiple types → use union control
     return WithSchemaIssues(
       nextCtx,
       JSONSchemaUnion({
