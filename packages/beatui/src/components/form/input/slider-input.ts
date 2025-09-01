@@ -70,26 +70,36 @@ export const NullableSliderInput = (options: NullableSliderInputOptions) => {
   })
 
   return InputContainer(
-    { ...options, focusableSelector: 'input[type="range"]', after: resetAfter, input: html.input(
-      attr.type('range'),
-      CommonInputAttributes(options),
-      attr.min(min),
-      attr.max(max),
-      attr.step(step),
-      attr.valueAsNumber(effectiveValue),
-      attr.class('bc-input bc-slider-input'),
-      onBlur != null ? on.blur(emitValueAsNumber(onBlur)) : Empty,
-      onChange != null ?
-        on.change(emitValueAsNumber(n => {
-          onChange(n as number)
-        })) : Empty,
-      onInput != null ?
-        on.input(emitValueAsNumber(n => {
-          onInput(n as number)
-        })) : Empty
-    ) },
+    {
+      ...options,
+      focusableSelector: 'input[type="range"]',
+      after: resetAfter,
+      input: html.input(
+        attr.type('range'),
+        CommonInputAttributes(options),
+        attr.min(min),
+        attr.max(max),
+        attr.step(step),
+        attr.valueAsNumber(effectiveValue),
+        attr.class('bc-input bc-slider-input'),
+        onBlur != null ? on.blur(emitValueAsNumber(onBlur)) : Empty,
+        onChange != null
+          ? on.change(
+              emitValueAsNumber(n => {
+                onChange(n as number)
+              })
+            )
+          : Empty,
+        onInput != null
+          ? on.input(
+              emitValueAsNumber(n => {
+                onInput(n as number)
+              })
+            )
+          : Empty
+      ),
+    },
     // Ensure container grows input naturally
     Fragment()
   )
 }
-
