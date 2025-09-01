@@ -6,6 +6,8 @@ import {
   RatingInput,
   NullableRatingInput,
   MaskInput,
+  SliderInput,
+  NullableSliderInput,
   type Controller,
   type NumberInputOptions,
 } from '../../form'
@@ -119,14 +121,13 @@ export function JSONSchemaNumber({
       })
 
     case 'slider':
-      // For now, use NumberInput with step - could implement actual slider later
       if (isNullable) {
-        return Control(NullableNumberInput, {
+        return Control(NullableSliderInput, {
           ...baseOptions,
           controller: controller as unknown as Controller<number | null>,
         })
       }
-      return Control(NumberInput, {
+      return Control(SliderInput, {
         ...baseOptions,
         controller,
       })

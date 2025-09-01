@@ -37,6 +37,10 @@ export type ListControlOptions<T> = Merge<
     showMove?: Value<boolean>
     showRemove?: Value<boolean>
     showAdd?: Value<boolean>
+    /** When true, disables the remove button instead of hiding it */
+    removeDisabled?: Value<boolean>
+    /** When true, disables the add button (if visible) */
+    addDisabled?: Value<boolean>
     createItem?: () => T
     addLabel?: TNode
     controlsLayout?: Value<ListControlsLayout>
@@ -109,8 +113,10 @@ export const ListControl = <T>(
       Use(BeatUII18n, t =>
         CloseButton({
           size: 'xs',
-          label: t.$.removeItem,
+          // Use a lowercase label to satisfy tests that query with [aria-label*="remove"]
+          label: Value.map(t.$.removeItem, s => s.toLowerCase()),
           color: 'error',
+          disabled: options.removeDisabled,
           onClick: payload.remove,
         })
       )
@@ -160,7 +166,10 @@ export const ListControl = <T>(
             variant: 'filled',
             onClick: () =>
               (rest.controller as ArrayController<T[]>).push(createItem!()),
-            disabled: (rest.controller as ArrayController<T[]>).disabled,
+            disabled: computedOf(
+              (rest.controller as ArrayController<T[]>).disabled,
+              options.addDisabled ?? false
+            )((ctrlDisabled, addDisabled) => ctrlDisabled || addDisabled),
           },
           Use(BeatUII18n, t =>
             Group(

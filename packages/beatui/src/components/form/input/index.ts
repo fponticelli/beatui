@@ -38,6 +38,7 @@ export * from './uuid-input'
 export * from './nullable-uuid-input'
 export * from './rating-input'
 export * from './nullable-rating-input'
+export * from './slider-input'
 
 // Temporal inputs
 export * from './plain-date-input'

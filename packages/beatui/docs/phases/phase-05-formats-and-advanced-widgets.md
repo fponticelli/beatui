@@ -11,7 +11,7 @@ Actionable TODOs to wire remaining JSON Schema formats, media handling, and anno
   - When `contentEncoding` is present (e.g., `base64`) and/or `contentMediaType` indicates a file type, render an upload/file picker input; enforce `accept` and byte-size limits from `x:ui` when provided.
   - Provide a clear/display mode for previously uploaded binary content.
 
-- [ ] Advanced numeric widgets and formatting
+- [x] Advanced numeric widgets and formatting
   - For bounded continuous ranges, support a slider widget; compute `step` from `multipleOf` and coerce to 1 for integers.
   - Add steppers and rating widget support (e.g., `x:ui.format: 'rating'`); implement display masks for currency/percent via `x:ui.displayFormat`.
 
