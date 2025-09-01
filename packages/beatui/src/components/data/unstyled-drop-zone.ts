@@ -128,9 +128,18 @@ export function UnstyledDropZone({
           input = el
           return OnDispose(
             files.on(files => {
-              const dataTransfer = new DataTransfer()
-              files.forEach(file => dataTransfer.items.add(file))
-              el.files = dataTransfer.files
+              // In non-browser test environments DataTransfer may be undefined.
+              // Guard to avoid ReferenceError while still allowing normal behavior in browsers.
+              const DT = (
+                globalThis as unknown as {
+                  DataTransfer?: { new (): DataTransfer }
+                }
+              ).DataTransfer
+              if (DT != null) {
+                const dataTransfer = new DT()
+                files.forEach(file => dataTransfer.items.add(file))
+                el.files = dataTransfer.files
+              }
             })
           )
         })

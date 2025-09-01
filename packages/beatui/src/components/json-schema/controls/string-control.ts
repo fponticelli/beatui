@@ -44,8 +44,29 @@ export function JSONSchemaString({
     return StringControl({ ctx, options, controller })
   }
 
-  // For non-nullable strings, use regular text input that maps empty to undefined
+  // For non-nullable strings, prefer specialized widget rendering when a known format is detected
   const format = stringFormatDetection(ctx)
+  if (
+    format != null &&
+    [
+      'url',
+      'uri',
+      'uri-reference',
+      'hostname',
+      'ipv4',
+      'ipv6',
+      'regex',
+      'duration',
+      'binary',
+      'markdown',
+      'time',
+      'color',
+    ].includes(format.format)
+  ) {
+    return StringControl({ ctx, options, controller })
+  }
+
+  // Otherwise, use regular text-based controls that map empty string to undefined
   switch (format?.format) {
     case 'email':
       return Control(EmailInput, {

@@ -106,14 +106,11 @@ export function stringFormatDetection(
   if (definition.format === 'color') {
     return { ...options, format: 'color' }
   }
-  // contentEncoding
-  if (definition.contentEncoding === 'base64') {
-    return { ...options, format: 'binary' }
-  }
+  // content/media handling
   if (definition.contentMediaType === 'text/markdown') {
     return { ...options, format: 'markdown' }
   }
-  // any contentMediaType
+  // Prefer to attach mediaType when available, even if content is base64-encoded
   if (definition.contentMediaType != null) {
     return {
       ...options,
@@ -121,13 +118,22 @@ export function stringFormatDetection(
       mediaType: definition.contentMediaType,
     }
   }
-  // heuristic
+  if (definition.contentEncoding === 'base64') {
+    return {
+      ...options,
+      format: 'binary',
+      mediaType: definition.contentMediaType,
+    }
+  }
+  // heuristic (case-insensitive match against triggers)
   const triggers = getTextAreaTriggers(definition)
   if (
     (definition.minLength != null && definition.minLength > 20) ||
     (definition.maxLength != null && definition.maxLength > 100) ||
     (ctx.name != null &&
-      triggers.some(f => ctx.name!.toLocaleLowerCase().includes(f)))
+      triggers.some(f =>
+        ctx.name!.toLocaleLowerCase().includes(String(f).toLocaleLowerCase())
+      ))
   ) {
     return { ...options, format: 'textarea' }
   }

@@ -10,7 +10,6 @@ import { SchemaContext } from '../schema-context'
 import { Async, Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
-  Base64Input,
   FileInput,
   NullableEmailInput,
   NullableDateInput,
@@ -130,15 +129,12 @@ export function StringControl({
         })
       }
 
-      // Default to base64 text input
-      return Control(Base64Input, {
-        mode: 'compact',
-        accept: format.mediaType,
-        maxFileSize:
-          (typeof xui?.maxBytes === 'number' ? xui.maxBytes : undefined) ||
-          (typeof xui?.maxFileSize === 'number' ? xui.maxFileSize : undefined),
+      // Default to plain text widget for generic base64 content (no file input rendered)
+      return Control(NullableTextArea, {
         ...options,
-        controller,
+        controller: transformNullToUndefined(controller),
+        placeholder: 'Paste base64-encoded data',
+        rows: 3,
       })
     }
     case 'uri':
