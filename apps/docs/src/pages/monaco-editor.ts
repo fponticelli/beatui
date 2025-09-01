@@ -5,6 +5,7 @@ import {
   Group,
   NativeSelect,
   SelectOption,
+  Option,
 } from '@tempots/beatui'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
 
@@ -111,7 +112,7 @@ export function MonacoEditorPage() {
           header: Fragment(
             NativeSelect({
               options: samples.map((s, i) =>
-                SelectOption.value(i, s.label)
+                Option.value(i, s.label)
               ) as SelectOption<number>[],
               value: selectedIndex,
               onChange: selectedIndex.set,
@@ -120,7 +121,7 @@ export function MonacoEditorPage() {
           ),
           body: MonacoEditorInput({
             value: code,
-            onChange: v => code.set(v),
+            onChange: (v: string) => code.set(v),
             language,
             jsonSchemas: Value.map(personSchema, schema => [
               {

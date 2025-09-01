@@ -1,23 +1,27 @@
-import { SegmentedInput, AuthProvider } from '@tempots/beatui'
+import { SegmentedInput } from '@tempots/beatui'
 import { Prop } from '@tempots/dom'
+
+const OPTIONS = {
+  google: 'Google',
+  github: 'GitHub',
+  apple: 'Apple',
+  facebook: 'Facebook',
+  twitter: 'Twitter',
+  microsoft: 'Microsoft',
+} as const
+
+export type AuthProviderKey = keyof typeof OPTIONS
 
 export function AuthProviderSelector({
   provider,
   onChange,
 }: {
-  provider: Prop<AuthProvider>
-  onChange?: (value: AuthProvider) => void
+  provider: Prop<AuthProviderKey>
+  onChange?: (value: AuthProviderKey) => void
 }) {
   return SegmentedInput({
     size: 'sm',
-    options: {
-      google: 'Google',
-      github: 'GitHub',
-      apple: 'Apple',
-      facebook: 'Facebook',
-      twitter: 'Twitter',
-      microsoft: 'Microsoft',
-    },
+    options: OPTIONS,
     value: provider,
     onChange,
   })

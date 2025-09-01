@@ -1,12 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
-import {
-  DropdownInput,
-  DropdownOption,
-} from '../../src/components/form/input/dropdown-input'
+import { DropdownInput } from '../../src/components/form/input/dropdown-input'
 import { DropdownControl } from '../../src/components/form/input/dropdown-input'
 import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form/use-form'
+import { DropdownOption, Option } from '@/index'
 
 describe('Dropdown', () => {
   let container: HTMLElement
@@ -24,9 +22,9 @@ describe('Dropdown', () => {
     it('should render with basic options', () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
-        DropdownOption.value('cherry', 'Cherry'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
+        Option.value('cherry', 'Cherry'),
       ])
 
       render(
@@ -50,8 +48,8 @@ describe('Dropdown', () => {
     it('should display selected value', () => {
       const value = prop<string>('apple')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(
@@ -72,7 +70,7 @@ describe('Dropdown', () => {
     it('should show placeholder when no value selected', () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
+        Option.value('apple', 'Apple'),
       ])
 
       render(
@@ -96,8 +94,8 @@ describe('Dropdown', () => {
     it('should open dropdown when trigger is clicked', async () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(
@@ -126,8 +124,8 @@ describe('Dropdown', () => {
       const value = prop<string>('')
       let selectedValue = ''
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(
@@ -162,8 +160,8 @@ describe('Dropdown', () => {
     it('should open dropdown with ArrowDown key', async () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(
@@ -192,9 +190,9 @@ describe('Dropdown', () => {
     it('should navigate options with arrow keys', async () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
-        DropdownOption.value('cherry', 'Cherry'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
+        Option.value('cherry', 'Cherry'),
       ])
 
       render(
@@ -232,8 +230,8 @@ describe('Dropdown', () => {
       const value = prop<string>('')
       let selectedValue = ''
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(
@@ -274,7 +272,7 @@ describe('Dropdown', () => {
     it('should close dropdown with Escape key', async () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
+        Option.value('apple', 'Apple'),
       ])
 
       render(
@@ -315,7 +313,7 @@ describe('Dropdown', () => {
     it('should have proper ARIA attributes', () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
+        Option.value('apple', 'Apple'),
       ])
 
       render(
@@ -339,7 +337,7 @@ describe('Dropdown', () => {
     it('should update aria-expanded when dropdown opens/closes', async () => {
       const value = prop<string>('')
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
+        Option.value('apple', 'Apple'),
       ])
 
       render(
@@ -369,8 +367,8 @@ describe('Dropdown', () => {
       })
 
       const options = prop<DropdownOption<string>[]>([
-        DropdownOption.value('apple', 'Apple'),
-        DropdownOption.value('banana', 'Banana'),
+        Option.value('apple', 'Apple'),
+        Option.value('banana', 'Banana'),
       ])
 
       render(

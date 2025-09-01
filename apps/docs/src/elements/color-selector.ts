@@ -1,6 +1,6 @@
 import {
   NativeSelect,
-  SelectOption,
+  Option,
   ThemeColorName,
   themeColorNames,
 } from '@tempots/beatui'
@@ -14,7 +14,7 @@ export function ColorSelector({
   onChange?: (value: ThemeColorName) => void
 }) {
   return NativeSelect({
-    options: themeColorNames.map(name => SelectOption.value(name, name)),
+    options: themeColorNames.map(name => Option.value(name, name)),
     value: color,
     onChange,
   })

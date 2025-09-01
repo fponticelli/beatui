@@ -1,3 +1,4 @@
+import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
 import {
   Stack,
   ScrollablePanel,
@@ -6,10 +7,6 @@ import {
   WithBeatUIElementBreakpoint,
   RatingInput,
   Group,
-} from '@tempots/beatui'
-
-import { prop, attr, html, TNode, Prop, When } from '@tempots/dom'
-import {
   AppearanceSelector,
   Base64Input,
   Base64sInput,
@@ -55,9 +52,7 @@ import {
   NullableRatingInput,
   // Added inputs that require extra minimal props
   DropdownInput,
-  DropdownOption,
   NativeSelect,
-  SelectOption,
   LazyNativeSelect,
   MaskInput,
   NullableMaskInput,
@@ -65,6 +60,9 @@ import {
   Switch,
   ListInput,
   useController,
+  Option,
+  DropdownOption,
+  SelectOption,
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
@@ -120,17 +118,16 @@ export const InputsPage = () =>
 
     // Inputs that need minimal extra props beyond value
     const dropdownValue = prop('apple')
-    const dropdownOptions = prop<
-      import('@tempots/beatui').DropdownOption<string>[]
-    >([
-      DropdownOption.value('apple', 'Apple'),
-      DropdownOption.value('banana', 'Banana'),
+    const dropdownOptions = prop<DropdownOption<string>[]>([
+      Option.value('apple', 'Apple'),
+      Option.value('banana', 'Banana'),
     ])
 
     const nativeSelectValue = prop('one')
-    const nativeSelectOptions = prop<
-      import('@tempots/beatui').SelectOption<string>[]
-    >([SelectOption.value('one', 'One'), SelectOption.value('two', 'Two')])
+    const nativeSelectOptions = prop<SelectOption<string>[]>([
+      Option.value('one', 'One'),
+      Option.value('two', 'Two'),
+    ])
 
     const lazySelectValue = prop('a')
     const lazySelectRequest = prop({ q: 'x' })

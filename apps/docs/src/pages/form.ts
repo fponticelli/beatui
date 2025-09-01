@@ -1,7 +1,7 @@
 import { attr, html, style } from '@tempots/dom'
 import {
   DropdownControl,
-  DropdownOption,
+  Option,
   Control,
   DateInput,
   EnsureControl,
@@ -12,7 +12,6 @@ import {
   NullableDateInput,
   NumberInput,
   ScrollablePanel,
-  SelectOption,
   Stack,
   TextInput,
   useForm,
@@ -82,25 +81,25 @@ export const FormPage = () => {
             label: 'Favorite Color',
             placeholder: 'Select a color',
             options: [
-              DropdownOption.value('red', 'Red', {
+              Option.value('red', 'Red', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#ef4444')
                 ),
               }),
-              DropdownOption.value('blue', 'Blue', {
+              Option.value('blue', 'Blue', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#3b82f6')
                 ),
               }),
-              DropdownOption.value('green', 'Green', {
+              Option.value('green', 'Green', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#10b981')
                 ),
               }),
-              DropdownOption.value('purple', 'Purple', {
+              Option.value('purple', 'Purple', {
                 before: html.div(
                   attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
                   style.backgroundColor('#8b5cf6')
@@ -113,9 +112,9 @@ export const FormPage = () => {
             controller: delayChoices,
             label: 'Delay',
             options: [
-              SelectOption.value('off', 'Off'),
-              SelectOption.value('default', 'Default'),
-              SelectOption.value('custom', 'Custom'),
+              Option.value('off', 'Off'),
+              Option.value('default', 'Default'),
+              Option.value('custom', 'Custom'),
             ] as ValueOption<'off' | 'default' | 'custom'>[],
           }),
           EnsureControl(delayValue, controller =>

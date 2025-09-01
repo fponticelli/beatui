@@ -38,6 +38,7 @@ export function Menu() {
           content: 'Segmented Control',
         }),
         SidebarLink({ href: '/dropdown', content: 'Dropdown' }),
+        SidebarLink({ href: '/combobox', content: 'Combobox' }),
         SidebarLink({ href: '/color-picker', content: 'Color Picker' }),
         SidebarLink({ href: '/file-input', content: 'File Input' }),
         SidebarLink({ href: '/mask-input', content: 'Mask Input' }),

@@ -4,6 +4,7 @@ import {
   Icon,
   TextInput,
   NativeSelect,
+  Option,
   SelectOption,
 } from '@tempots/beatui'
 import {
@@ -32,9 +33,9 @@ export const ToolbarPage = () =>
         ToolbarButton({}, Icon({ icon: 'mdi:magnify' })),
         NativeSelect({
           options: [
-            SelectOption.value('apple', 'Apple'),
-            SelectOption.value('banana', 'Banana'),
-            SelectOption.value('cherry', 'Cherry'),
+            Option.value('apple', 'Apple'),
+            Option.value('banana', 'Banana'),
+            Option.value('cherry', 'Cherry'),
           ] as SelectOption<string>[],
           value: '',
           onChange: () => {},

@@ -8,25 +8,26 @@ import {
   Stack,
   useController,
   DropdownInput,
+  Option,
 } from '@tempots/beatui'
 
 export const DropdownPage = () => {
   // Basic example
   const basicValue = prop<string>('')
   const basicOptions = prop<DropdownOption<string>[]>([
-    DropdownOption.value('apple', 'Apple', {
+    Option.value('apple', 'Apple', {
       before: html.span(style.color('red'), '🍎'),
     }),
-    DropdownOption.value('banana', 'Banana', {
+    Option.value('banana', 'Banana', {
       before: html.span(style.color('yellow'), '🍌'),
     }),
-    DropdownOption.value('cherry', 'Cherry', {
+    Option.value('cherry', 'Cherry', {
       before: html.span(style.color('red'), '🍒'),
     }),
-    DropdownOption.value('date', 'Date', {
+    Option.value('date', 'Date', {
       before: html.span(style.color('brown'), '🌰'),
     }),
-    DropdownOption.value('elderberry', 'Elderberry', {
+    Option.value('elderberry', 'Elderberry', {
       before: html.span(style.color('purple'), '🍇'),
     }),
   ])
@@ -34,7 +35,7 @@ export const DropdownPage = () => {
   // Rich content example
   const colorValue = prop<string>('')
   const colorOptions = prop<DropdownOption<string>[]>([
-    DropdownOption.value('red', 'Red', {
+    Option.value('red', 'Red', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -42,7 +43,7 @@ export const DropdownPage = () => {
         style.backgroundColor('#ef4444')
       ),
     }),
-    DropdownOption.value('blue', 'Blue', {
+    Option.value('blue', 'Blue', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -50,7 +51,7 @@ export const DropdownPage = () => {
         style.backgroundColor('#3b82f6')
       ),
     }),
-    DropdownOption.value('green', 'Green', {
+    Option.value('green', 'Green', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -58,7 +59,7 @@ export const DropdownPage = () => {
         style.backgroundColor('#10b981')
       ),
     }),
-    DropdownOption.value('purple', 'Purple', {
+    Option.value('purple', 'Purple', {
       before: html.div(
         style.width('1rem'),
         style.height('1rem'),
@@ -72,16 +73,16 @@ export const DropdownPage = () => {
   // Grouped options example
   const categoryValue = prop<string>('')
   const categoryOptions = prop<DropdownOption<string>[]>([
-    DropdownOption.group('Fruits', [
-      DropdownOption.value('apple', 'Apple'),
-      DropdownOption.value('banana', 'Banana'),
-      DropdownOption.value('cherry', 'Cherry'),
+    Option.group('Fruits', [
+      Option.value('apple', 'Apple'),
+      Option.value('banana', 'Banana'),
+      Option.value('cherry', 'Cherry'),
     ]),
-    DropdownOption.break,
-    DropdownOption.group('Vegetables', [
-      DropdownOption.value('carrot', 'Carrot'),
-      DropdownOption.value('broccoli', 'Broccoli'),
-      DropdownOption.value('spinach', 'Spinach'),
+    Option.break,
+    Option.group('Vegetables', [
+      Option.value('carrot', 'Carrot'),
+      Option.value('broccoli', 'Broccoli'),
+      Option.value('spinach', 'Spinach'),
     ]),
   ])
 
@@ -91,13 +92,13 @@ export const DropdownPage = () => {
   })
 
   const sizeOptions = prop<DropdownOption<string>[]>([
-    DropdownOption.value('small', 'Small', {
+    Option.value('small', 'Small', {
       before: Icon({ icon: 'line-md:circle-small', size: 'sm' }),
     }),
-    DropdownOption.value('medium', 'Medium', {
+    Option.value('medium', 'Medium', {
       before: Icon({ icon: 'line-md:circle', size: 'sm' }),
     }),
-    DropdownOption.value('large', 'Large', {
+    Option.value('large', 'Large', {
       before: Icon({ icon: 'line-md:circle-large', size: 'sm' }),
     }),
   ])

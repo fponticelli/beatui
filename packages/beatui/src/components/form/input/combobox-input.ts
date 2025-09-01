@@ -1,29 +1,28 @@
 import {
+  aria,
   attr,
+  computedOf,
   Empty,
   Ensure,
   ForEach,
   Fragment,
   html,
-  computedOf,
+  Merge,
   on,
-  OnDispose,
-  WithElement,
   OneOfType,
+  OnDispose,
+  prop,
   Renderable,
   Signal,
-  Value,
+  TNode,
   Use,
-  prop,
+  Value,
   When,
-  aria,
-  coalesce,
-  Merge,
+  WithElement,
 } from '@tempots/dom'
 
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { Expando } from '../../misc/expando'
 import { BeatUII18n } from '@/beatui-i18n'
 import { Flyout } from '../../navigation/flyout'
 import { sessionId } from '../../../utils/session-id'
@@ -38,24 +37,29 @@ import {
 import { InputWrapper } from './input-wrapper'
 import { DropdownOption, Option } from './option'
 
-export type DropdownOptions<T> = Merge<
+export type ComboboxOptions<T> = Merge<
   InputOptions<T>,
   {
-    options: Value<DropdownOption<T>[]>
-    unselectedLabel?: Value<string>
+    // Fetch options dynamically based on current search text
+    loadOptions: (search: string) => Promise<DropdownOption<T>[]>
+    // Renderers for displaying values
+    renderOption: (value: T) => TNode
+    renderValue?: (value: T) => TNode
+    // Behavior
     equality?: (a: T, b: T) => boolean
     placeholder?: Value<string>
-    searchable?: Value<boolean>
+    searchPlaceholder?: Value<string>
+    debounceMs?: number
   }
 >
 
-// Internal component for rendering individual options
-const DropdownOptionItem = <T>(
+const ComboboxOptionItem = <T>(
   option: Signal<DropdownOption<T>>,
   equality: (a: T, b: T) => boolean,
   currentValue: Value<T>,
   onSelect: (value: T) => void,
-  focusedValue: Signal<T | null>
+  focusedValue: Signal<T | null>,
+  renderOption: (value: T) => TNode
 ): Renderable => {
   return Ensure(option as Signal<DropdownOption<T> | undefined>, option =>
     OneOfType(option, {
@@ -63,16 +67,15 @@ const DropdownOptionItem = <T>(
         const isSelected = computedOf(
           v,
           currentValue
-        )((v, currentValue) => {
-          return equality(v.value, currentValue as T)
-        })
+        )((v, currentValue) => equality(v.value, currentValue as T))
 
         const isFocused = computedOf(
           v,
           focusedValue
-        )((v, focusedVal) => {
-          return focusedVal != null && equality(v.value, focusedVal as T)
-        })
+        )(
+          (v, focusedVal) =>
+            focusedVal != null && equality(v.value, focusedVal as T)
+        )
 
         return html.div(
           OnDispose(isSelected.dispose),
@@ -84,7 +87,7 @@ const DropdownOptionItem = <T>(
               isFocused,
               v
             )((selected, focused, option) => {
-              const classes = []
+              const classes: string[] = []
               if (selected) classes.push('bc-dropdown__option--selected')
               if (focused) classes.push('bc-dropdown__option--focused')
               if (option.disabled) classes.push('bc-dropdown__option--disabled')
@@ -94,7 +97,6 @@ const DropdownOptionItem = <T>(
           attr.role('option'),
           attr.id(v.map(option => `dropdown-option-${String(option.value)}`)),
           aria.selected(isSelected as Value<boolean | 'undefined'>),
-          Expando('value', v.$.value),
           When(
             v.map(option => !option.disabled),
             () => on.click(() => onSelect(v.value.value)),
@@ -102,15 +104,18 @@ const DropdownOptionItem = <T>(
           ),
           html.div(
             attr.class('bc-dropdown__option-content'),
-            // Before content - simple conditional rendering
+            // Before slot
             v.value.before &&
               html.span(
                 attr.class('bc-dropdown__option-before'),
                 v.value.before
               ),
-            // Label
-            html.span(attr.class('bc-dropdown__option-label'), v.$.label),
-            // After content - simple conditional rendering
+            // Custom renderer for the main content
+            html.span(
+              attr.class('bc-dropdown__option-label'),
+              renderOption(v.value.value)
+            ),
+            // After slot
             v.value.after &&
               html.span(attr.class('bc-dropdown__option-after'), v.value.after)
           )
@@ -123,12 +128,13 @@ const DropdownOptionItem = <T>(
           aria.label(v.$.group),
           html.div(attr.class('bc-dropdown__group-label'), v.$.group),
           ForEach(v.$.options, o =>
-            DropdownOptionItem(
+            ComboboxOptionItem(
               o as Signal<DropdownOption<T>>,
               equality,
               currentValue,
               onSelect,
-              focusedValue
+              focusedValue,
+              renderOption
             )
           )
         ),
@@ -137,72 +143,50 @@ const DropdownOptionItem = <T>(
   )
 }
 
-export const DropdownInput = <T>(options: DropdownOptions<T>) => {
+export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   const {
     value,
     onBlur,
     onChange,
-    options: dropdownOptions,
-    unselectedLabel,
+    loadOptions,
+    renderOption,
+    renderValue,
     equality = (a, b) => a === b,
     placeholder,
-    searchable = false,
+    searchPlaceholder,
+    debounceMs = 150,
   } = options
 
   const isOpen = prop(false)
   const focusedIndex = prop(-1)
   const focusedValue = prop<T | null>(null)
-  const dropdownId = sessionId('dropdown')
+  const searchText = prop('')
+  const loading = prop(false)
+  const internalOptions = prop<DropdownOption<T>[]>([])
+
+  const dropdownId = sessionId('combobox')
   const listboxId = sessionId('listbox')
 
   let triggerElement: HTMLElement | undefined
   let listboxElement: HTMLElement | undefined
+  let searchInputElement: HTMLInputElement | undefined
 
-  // Get display label for current value
-  const displayLabel = computedOf(
-    value,
-    dropdownOptions
-  )((currentValue, opts) => {
-    if (currentValue == null) return ''
+  // Rendered value when closed (reactive via Ensure)
+  const renderClosedValue = () =>
+    Ensure(value as Signal<T | undefined>, v =>
+      (renderValue ?? renderOption)(v.value as T)
+    )
 
-    const findLabel = (options: DropdownOption<T>[]): string | undefined => {
-      for (const opt of options) {
-        if (opt.type === 'value' && equality(opt.value, currentValue as T)) {
-          return opt.label
-        } else if (opt.type === 'group') {
-          const label = findLabel(opt.options as DropdownOption<T>[])
-          if (label) return label
-        }
-      }
-      return undefined
-    }
-
-    return findLabel(opts) || String(currentValue)
-  })
-
-  // Create a wrapped onChange that closes the dropdown after selection
   const wrappedOnChange = (selectedValue: T) => {
-    // Call the original onChange callback
     onChange?.(selectedValue)
-
-    // Close the dropdown by setting isOpen to false
-    // The Flyout will automatically close when isOpen becomes false
     isOpen.set(false)
     focusedIndex.set(-1)
     focusedValue.set(null)
     triggerElement?.focus()
   }
 
-  // Handle option selection (for keyboard navigation)
-  const handleSelect = (selectedValue: T) => {
-    wrappedOnChange(selectedValue)
-  }
-
-  // Keyboard navigation
   const handleKeyDown = (event: KeyboardEvent) => {
-    const opts = Value.get(dropdownOptions)
-    const selectableOptions = Option.getValues(opts)
-
+    const selectableOptions = Option.getValues(Value.get(internalOptions))
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
@@ -221,7 +205,6 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
           focusedValue.set(selectableOptions[nextIndex] ?? null)
         }
         break
-
       case 'ArrowUp':
         event.preventDefault()
         if (isOpen.value) {
@@ -230,42 +213,60 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
           focusedValue.set(selectableOptions[prevIndex] ?? null)
         }
         break
-
       case 'Enter':
-        event.preventDefault()
         if (isOpen.value && focusedIndex.value >= 0) {
+          event.preventDefault()
           const selectedOption = selectableOptions[focusedIndex.value]
-          if (selectedOption) {
-            handleSelect(selectedOption)
-          }
-        } else {
-          isOpen.set(true)
-          if (selectableOptions.length > 0) {
-            focusedIndex.set(0)
-            focusedValue.set(selectableOptions[0])
-          }
+          if (selectedOption) wrappedOnChange(selectedOption)
         }
         break
-
       case 'Escape':
-        event.preventDefault()
-        isOpen.set(false)
-        focusedIndex.set(-1)
-        focusedValue.set(null)
-        triggerElement?.focus()
-        break
-
-      case ' ':
-        if (!Value.get(searchable)) {
+        if (isOpen.value) {
           event.preventDefault()
-          isOpen.set(!isOpen.value)
-          if (isOpen.value && selectableOptions.length > 0) {
-            focusedIndex.set(0)
-            focusedValue.set(selectableOptions[0])
-          }
+          isOpen.set(false)
+          focusedIndex.set(-1)
+          focusedValue.set(null)
+          triggerElement?.focus()
         }
         break
     }
+  }
+
+  // Debounced loader
+  let debounceHandle: number | null = null
+  const runLoad = (query: string) => {
+    loading.set(true)
+    Promise.resolve(loadOptions(query))
+      .then(opts => {
+        internalOptions.set(opts ?? [])
+        const selectable = Option.getValues(opts ?? [])
+        if (selectable.length > 0) {
+          focusedIndex.set(0)
+          focusedValue.set(selectable[0])
+        } else {
+          focusedIndex.set(-1)
+          focusedValue.set(null)
+        }
+      })
+      .catch(() => {
+        internalOptions.set([])
+        focusedIndex.set(-1)
+        focusedValue.set(null)
+      })
+      .finally(() => loading.set(false))
+  }
+
+  const requestLoad = (query: string) => {
+    if (debounceHandle != null) {
+      clearTimeout(debounceHandle)
+      debounceHandle = null
+    }
+    debounceHandle = setTimeout(
+      () => {
+        runLoad(query)
+      },
+      Math.max(0, debounceMs)
+    ) as unknown as number
   }
 
   return InputContainer(
@@ -276,12 +277,9 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
         html.span(
           attr.class('bc-dropdown__display'),
           When(
-            displayLabel.map(label => label.length > 0),
-            () => displayLabel,
-            () =>
-              Use(BeatUII18n, t =>
-                coalesce(placeholder, unselectedLabel, t.$.selectOne)
-              )
+            computedOf(value)(v => v != null),
+            renderClosedValue,
+            () => Use(BeatUII18n, t => t.$.selectOne)
           )
         ),
         Icon(
@@ -296,7 +294,6 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
       el.addEventListener('keydown', handleKeyDown)
       el.setAttribute('aria-haspopup', 'listbox')
       el.setAttribute('aria-controls', listboxId)
-      // Set up reactive aria attributes
       return OnDispose(() => el.removeEventListener('keydown', handleKeyDown))
     }),
     CommonInputAttributes(options),
@@ -304,21 +301,17 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
     attr.tabindex(0),
     aria.expanded(isOpen as Value<boolean | 'undefined'>),
     attr.class('bc-dropdown'),
-    attr.role('dropdown'),
+    attr.role('combobox'),
     aria.activedescendant(
       computedOf(
         isOpen,
         focusedValue
-      )((open, focused): string => {
-        if (open && focused != null) {
-          return `dropdown-option-${String(focused)}`
-        }
-        return ''
-      })
+      )((open, focused): string =>
+        open && focused != null ? `dropdown-option-${String(focused)}` : ''
+      )
     ),
     onBlur != null
       ? on.blur(() => {
-          // Delay to allow option click to register
           setTimeout(() => {
             if (!listboxElement?.contains(document.activeElement)) {
               isOpen.set(false)
@@ -328,33 +321,65 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
           }, 100)
         })
       : Empty,
-    // Dropdown using Flyout with custom trigger
+
     Flyout({
       content: () =>
         Fragment(
-          WithElement(el => {
-            listboxElement = el
-          }),
           attr.class('bc-dropdown__listbox'),
           attr.role('listbox'),
           attr.id(listboxId),
           aria.labelledby(dropdownId),
-          ForEach(dropdownOptions, option =>
-            DropdownOptionItem(
-              option,
-              equality,
-              value,
-              wrappedOnChange,
-              focusedValue
+          WithElement(el => {
+            listboxElement = el
+          }),
+          // Search input at the top
+          html.div(
+            attr.class('bc-dropdown__search'),
+            html.input(
+              attr.type('text'),
+              attr.class('bc-input'),
+              attr.placeholder(
+                computedOf(
+                  searchPlaceholder,
+                  placeholder
+                )((sph, ph) => sph ?? ph ?? 'Search')
+              ),
+              attr.value(searchText),
+              WithElement(el => {
+                searchInputElement = el as HTMLInputElement
+                return Empty
+              }),
+              on.input(e => {
+                const target = e.target as HTMLInputElement
+                searchText.set(target.value)
+                requestLoad(target.value)
+              }),
+              on.keydown(handleKeyDown)
             )
+          ),
+          When(
+            loading,
+            () =>
+              html.div(
+                attr.class('bc-dropdown__loading'),
+                Icon({ icon: 'ph:spinner-bold', color: 'neutral' })
+              ),
+            () =>
+              ForEach(internalOptions, option =>
+                ComboboxOptionItem(
+                  option,
+                  equality,
+                  value,
+                  wrappedOnChange,
+                  focusedValue,
+                  renderOption
+                )
+              )
           )
         ),
       mainAxisOffset: 0,
       placement: 'bottom-start',
       showOn: (flyoutShow, flyoutHide) => {
-        // Override flyoutHide to also update dropdown state
-        // This ensures that when Flyout's closable behavior triggers,
-        // the dropdown state is properly updated
         const originalHide = flyoutHide
         flyoutHide = () => {
           isOpen.set(false)
@@ -363,36 +388,36 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
           originalHide()
         }
 
-        // Custom click handler that manages both our state and the flyout
+        const open = () => {
+          const current = Value.get(searchText)
+          isOpen.set(true)
+          requestLoad(current)
+          flyoutShow()
+          // Focus the search input after open
+          setTimeout(() => searchInputElement?.focus(), 0)
+        }
+
         const handleClick = () => {
           if (isOpen.value) {
             flyoutHide()
           } else {
-            const opts = Value.get(dropdownOptions)
-            const selectableOptions = Option.getValues(opts)
-            isOpen.set(true)
-            if (selectableOptions.length > 0) {
-              focusedIndex.set(0)
-              focusedValue.set(selectableOptions[0])
-            }
-            flyoutShow()
+            open()
           }
         }
-
         return on.click(handleClick)
       },
       showDelay: 0,
       hideDelay: 0,
-      closable: true, // Allow closing when clicking outside
+      closable: true,
     })
   )
 }
 
-export const BaseDropdownControl = <T>(
-  options: BaseControllerOptions<T, DropdownOptions<T>>
+export const BaseComboboxControl = <T>(
+  options: BaseControllerOptions<T, ComboboxOptions<T>>
 ) => {
   const { controller, onChange, onBlur, ...rest } = options
-  return DropdownInput({
+  return ComboboxInput({
     ...rest,
     value: controller.value,
     onChange: makeOnChangeHandler(controller, onChange),
@@ -400,11 +425,11 @@ export const BaseDropdownControl = <T>(
   })
 }
 
-export const DropdownControl = <T>(
-  options: ControllerOptions<T, DropdownOptions<T>>
+export const ComboboxControl = <T>(
+  options: ControllerOptions<T, ComboboxOptions<T>>
 ) => {
   return InputWrapper({
     ...options,
-    content: BaseDropdownControl(options),
+    content: BaseComboboxControl(options),
   })
 }

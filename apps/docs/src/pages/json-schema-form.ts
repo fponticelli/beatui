@@ -13,7 +13,7 @@ import {
   Stack,
   Group,
   NativeSelect,
-  SelectOption,
+  Option,
   Button,
 } from '@tempots/beatui'
 import { JSONSchemaForm } from '@tempots/beatui/json-schema'
@@ -124,7 +124,7 @@ export function JSONSchemaFormPage() {
               'Edit JSON Schema (JSON)'
             ),
             NativeSelect({
-              options: sampleNames.map(name => SelectOption.value(name, name)),
+              options: sampleNames.map(name => Option.value(name, name)),
               value: selectedSample,
               onChange: selectedSample.set,
             })

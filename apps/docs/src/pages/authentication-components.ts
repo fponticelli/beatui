@@ -21,6 +21,7 @@ import {
 import { AuthModeSelector } from '../elements/auth-mode-selector'
 import { AuthProviderSelector } from '../elements/auth-provider-selector'
 import { ControlsHeader } from '../elements/controls-header'
+import type { AuthProviderKey } from '../elements/auth-provider-selector'
 
 export const AuthenticationComponentsPage = () => {
   // AuthContainer demo state
@@ -31,7 +32,7 @@ export const AuthenticationComponentsPage = () => {
   const demoMessage = prop<string>('')
 
   // Social login demo state
-  const socialProvider = prop<AuthProviderName>('google')
+  const socialProvider = prop<AuthProviderKey>('google')
   const socialLoading = prop(false)
 
   // Password strength demo state
@@ -97,10 +98,18 @@ export const AuthenticationComponentsPage = () => {
         socialProviders: showSocial
           ? [{ provider: 'google' }, { provider: 'github' }]
           : undefined,
-        onSignIn: data => handleAuthAction(data, 'Sign in'),
-        onSignUp: data => handleAuthAction(data, 'Sign up'),
-        onResetPassword: data => handleAuthAction(data, 'Password reset'),
-        onSocialLogin: handleSocialLogin,
+        onSignIn: async data => {
+          await handleAuthAction(data, 'Sign in')
+          return null
+        },
+        onSignUp: async data => {
+          await handleAuthAction(data, 'Sign up')
+          return null
+        },
+        onResetPassword: async data => {
+          await handleAuthAction(data, 'Password reset')
+          return null
+        },
         onModeChange: authMode.set,
       }),
 
@@ -115,7 +124,10 @@ export const AuthenticationComponentsPage = () => {
             attr.class('bu-max-w-sm'),
             SignInForm({
               showRememberMe: true,
-              onSubmit: data => handleAuthAction(data, 'Individual sign in'),
+              onSignIn: async data => {
+                await handleAuthAction(data, 'Individual sign in')
+                return null
+              },
             })
           )
         ),
@@ -127,7 +139,10 @@ export const AuthenticationComponentsPage = () => {
             attr.class('bu-max-w-sm'),
             SignUpForm({
               showPasswordStrength: true,
-              onSubmit: data => handleAuthAction(data, 'Individual sign up'),
+              onSignUp: async data => {
+                await handleAuthAction(data, 'Individual sign up')
+                return null
+              },
             })
           )
         ),
@@ -138,8 +153,10 @@ export const AuthenticationComponentsPage = () => {
           html.div(
             attr.class('bu-max-w-sm'),
             ResetPasswordForm({
-              onSubmit: data =>
-                handleAuthAction(data, 'Individual password reset'),
+              onResetPassword: async data => {
+                await handleAuthAction(data, 'Individual password reset')
+                return null
+              },
             })
           )
         )

@@ -1,9 +1,10 @@
 import { html, Signal, Use, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
-import { NativeSelect, SelectOption } from './native-select'
+import { NativeSelect } from './native-select'
 import { Resource } from '@tempots/ui'
 import { BeatUII18n } from '@/beatui-i18n'
 import { Icon } from '@/components/data'
+import { Option, SelectOption } from './option'
 
 export type LazyNativeSelectOptions<T, R> = InputOptions<T> & {
   request: Signal<R>
@@ -27,7 +28,7 @@ export const LazyNativeSelect = <T, R>(
       const selectOptions = list.map(ls =>
         ls.map(item => {
           if (typeof item === 'object' && 'id' in item && 'label' in item) {
-            return SelectOption.value(item.id, item.label)
+            return Option.value(item.id, item.label)
           }
           return item as SelectOption<T>
         })

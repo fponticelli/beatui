@@ -15,6 +15,7 @@ import {
   NativeSelect,
   NineSliceScrollView,
   NumberInput,
+  Option,
   ScrollablePanel,
   SelectOption,
   Stack,
@@ -317,10 +318,10 @@ export const NineSliceScrollViewPage = () => {
           label: 'Anchor Mode',
           content: NativeSelect({
             options: [
-              SelectOption.value('container-edge', 'Container Edge'),
-              SelectOption.value('body-end', 'Body End'),
-              SelectOption.value('body-bottom', 'Body Bottom'),
-              SelectOption.value('body-end-bottom', 'Body End & Bottom'),
+              Option.value('container-edge', 'Container Edge'),
+              Option.value('body-end', 'Body End'),
+              Option.value('body-bottom', 'Body Bottom'),
+              Option.value('body-end-bottom', 'Body End & Bottom'),
             ] as SelectOption<AnchorMode>[],
             value: anchorMode,
             onChange: anchorMode.set,

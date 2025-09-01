@@ -28,61 +28,7 @@ import {
 } from '../control'
 import { InputWrapper } from './input-wrapper'
 import { Icon } from '@/components/data'
-
-export type ValueOption<T> = {
-  type: 'value'
-  value: T
-  label: string
-  disabled?: boolean
-}
-export type GroupOption<T> = {
-  type: 'group'
-  group: string
-  options: ValueOption<T>[]
-  disabled?: boolean
-}
-export type BreakOption = { type: 'break' }
-export type SelectOption<T> = ValueOption<T> | GroupOption<T> | BreakOption
-
-export const SelectOption = {
-  value: <T>(value: T, label: string, disabled?: boolean) =>
-    ({
-      type: 'value',
-      value,
-      label,
-      disabled,
-    }) as ValueOption<T>,
-  group: <T>(
-    group: string,
-    options: (ValueOption<T> | BreakOption)[],
-    disabled?: boolean
-  ) =>
-    ({
-      type: 'group',
-      group,
-      options,
-      disabled,
-    }) as GroupOption<T>,
-
-  break: { type: 'break' } as BreakOption,
-
-  getOptionValues: <T>(options: SelectOption<T>[]): T[] => {
-    return options.flatMap(o =>
-      o.type === 'group'
-        ? SelectOption.getOptionValues(o.options as SelectOption<T>[])
-        : o.type === 'break'
-          ? []
-          : [o.value]
-    )
-  },
-  contains: <T>(
-    options: SelectOption<T>[],
-    value: T,
-    equality: (a: T, b: T) => boolean = (a, b) => a === b
-  ) => {
-    return SelectOption.getOptionValues(options).some(v => equality(v, value))
-  },
-}
+import { SelectOption } from './option'
 
 export type NativeSelectOptions<T> = InputOptions<T> & {
   options: Value<SelectOption<T>[]>

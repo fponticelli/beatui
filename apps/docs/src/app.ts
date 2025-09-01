@@ -6,6 +6,7 @@ import { AboutPage } from './pages/about'
 import { AppLayout } from './app-layout'
 import { ButtonPage } from './pages/button'
 import { DropdownPage } from './pages/dropdown'
+import { ComboboxPage } from './pages/combobox'
 import { SwitchPage } from './pages/switch'
 import { IconPage } from './pages/icon'
 import { LinkPage } from './pages/link'
@@ -53,6 +54,7 @@ export const App = () => {
         '/authentication/components': AuthenticationComponentsPage,
         '/button': ButtonPage,
         '/dropdown': DropdownPage,
+        '/combobox': ComboboxPage,
         '/switch': SwitchPage,
         '/collapse': CollapsePage,
         '/icon': IconPage,

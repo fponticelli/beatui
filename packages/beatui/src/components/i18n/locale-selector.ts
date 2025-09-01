@@ -1,9 +1,10 @@
 import { Locale } from '@/components/i18n'
-import { InputWrapper, NativeSelect, SelectOption } from '../form'
+import { InputWrapper, NativeSelect } from '../form'
 import { attr, Use, Value } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 import { Group } from '../layout'
 import { Icon } from '../data'
+import { Option, SelectOption } from '../form/input/option'
 
 export type LocaleItem = {
   code: string
@@ -41,7 +42,7 @@ export function LocaleSelector({
                 if (l.nativeName != null && l.nativeName !== l.name) {
                   name += ` (${l.nativeName})`
                 }
-                return SelectOption.value(l.code, name) as SelectOption<string>
+                return Option.value(l.code, name) as SelectOption<string>
               })
             ),
             value: locale,
