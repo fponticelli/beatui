@@ -9,6 +9,7 @@ import {
   Use,
   Unless,
   Ensure,
+  Renderable,
 } from '@tempots/dom'
 import { Icon } from '../data'
 import type { ThemeColorName } from '@/tokens'
@@ -87,7 +88,7 @@ export function Notice(
     class: cls,
   }: NoticeOptions,
   ...children: TNode[]
-): TNode {
+): Renderable {
   const isDismissible = Value.map(
     closable,
     v => Boolean(v) || onDismiss != null

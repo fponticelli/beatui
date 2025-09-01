@@ -1,5 +1,5 @@
 ---
-type: "agent_requested"
+type: "always_apply"
 description: "when making changes or additions to UI components and the frontend in general"
 ---
 
