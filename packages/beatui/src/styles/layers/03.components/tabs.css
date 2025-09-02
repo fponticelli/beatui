@@ -193,33 +193,31 @@
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .bc-tabs__list {
-    background-color: var(--color-base-800);
-    border-color: var(--color-base-700);
-  }
+.b-dark .bc-tabs__list {
+  background-color: var(--color-base-800);
+  border-color: var(--color-base-700);
+}
 
-  .bc-tab {
-    color: var(--color-base-300);
-  }
+.b-dark .bc-tab {
+  color: var(--color-base-300);
+}
 
-  .bc-tab:hover:not(.bc-tab--disabled) {
-    color: var(--color-base-100);
-    background-color: var(--color-base-700);
-  }
+.b-dark .bc-tab:hover:not(.bc-tab--disabled) {
+  color: var(--color-base-100);
+  background-color: var(--color-base-700);
+}
 
-  .bc-tab--active {
-    color: var(--color-primary-400);
-    background-color: var(--color-base-900);
-  }
+.b-dark .bc-tab--active {
+  color: var(--color-primary-400);
+  background-color: var(--color-base-900);
+}
 
-  .bc-tab--disabled {
-    color: var(--color-base-600);
-  }
+.b-dark .bc-tab--disabled {
+  color: var(--color-base-600);
+}
 
-  .bc-tabs__panel {
-    background-color: var(--color-base-900);
-  }
+.b-dark .bc-tabs__panel {
+  background-color: var(--color-base-900);
 }
 
 /* High contrast mode support */
