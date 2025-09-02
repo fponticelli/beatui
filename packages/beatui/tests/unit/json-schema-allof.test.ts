@@ -75,8 +75,7 @@ describe('allOf merge strategy', () => {
       expect(result.conflicts).toHaveLength(1)
       expect(result.conflicts[0]).toEqual({
         path: ['properties', 'name'],
-        message:
-          'Property "name" has conflicting definitions in allOf branches',
+        message: 'Property "name" has conflicting types: string vs number',
         conflictingValues: [{ type: 'string' }, { type: 'number' }],
       })
       // Last definition wins
@@ -135,7 +134,7 @@ describe('allOf merge strategy', () => {
       })
     })
 
-    it('should handle complex nested merging', () => {
+    it('should merge compatible nested object properties', () => {
       const schemas: JSONSchema[] = [
         {
           type: 'object',
@@ -168,15 +167,20 @@ describe('allOf merge strategy', () => {
 
       const result = mergeAllOf(schemas)
 
-      expect(result.conflicts).toHaveLength(1)
-      expect(result.conflicts[0].message).toContain(
-        'Property "user" has conflicting definitions'
-      )
+      expect(result.conflicts).toHaveLength(0)
 
-      // Should still merge the top-level properties and required
+      // Should merge the nested user properties and required arrays
       expect(result.mergedSchema.required).toEqual(['user', 'metadata'])
       expect(result.mergedSchema.properties?.metadata).toEqual({
         type: 'object',
+      })
+      expect(result.mergedSchema.properties?.user).toEqual({
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          age: { type: 'number' },
+        },
+        required: ['name', 'age'],
       })
     })
 

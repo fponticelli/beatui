@@ -65,6 +65,12 @@ export function JSONSchemaFormPage() {
   // Track form validation status (AJV-mapped)
   const validation = prop<ControllerValidation>(Validation.valid)
 
+  // Sanitization mode for additional properties in the form
+  const sanitizeMode = prop<'all' | 'failing' | 'off'>('all')
+  const sanitizeAdditional = sanitizeMode.map(mode =>
+    mode === 'off' ? false : mode
+  )
+
   // Helpers to render error list
   const pathToString = (segments: Array<string | number>): string =>
     segments.reduce((acc: string, seg) => {
@@ -156,17 +162,23 @@ export function JSONSchemaFormPage() {
           body: Ensure(
             schemaDef,
             schema =>
-              MapSignal(schema, schema => {
-                return JSONSchemaForm(
-                  { schema, initialValue: data },
-                  ({ Form, controller }) => {
-                    controller.value.feedProp(data)
-                    // Feed validation status to the page-level signal
-                    controller.status.feedProp(validation)
-                    return Form
-                  }
-                )
-              }),
+              MapSignal(sanitizeAdditional, sanitizeAdditional =>
+                MapSignal(schema, schema => {
+                  return JSONSchemaForm(
+                    {
+                      schema,
+                      initialValue: data,
+                      sanitizeAdditional,
+                    },
+                    ({ Form, controller }) => {
+                      controller.value.feedProp(data)
+                      // Feed validation status to the page-level signal
+                      controller.status.feedProp(validation)
+                      return Form
+                    }
+                  )
+                })
+              ),
             () =>
               html.div(
                 attr.class('bu-text-red-600'),
@@ -209,7 +221,26 @@ export function JSONSchemaFormPage() {
         ScrollablePanel(
           {
             header: Group(
-              attr.class('bu-gap-2 bu-items-center bu-justify-end'),
+              attr.class('bu-gap-2 bu-items-center bu-justify-between'),
+              Group(
+                attr.class('bu-gap-2 bu-items-center'),
+                html.label(
+                  attr.class('bu-text-sm bu-opacity-80'),
+                  'Sanitize Additional: '
+                ),
+                NativeSelect<'all' | 'failing' | 'off'>({
+                  options: [
+                    Option.value<'all' | 'failing' | 'off'>('all', 'all'),
+                    Option.value<'all' | 'failing' | 'off'>(
+                      'failing',
+                      'failing'
+                    ),
+                    Option.value<'all' | 'failing' | 'off'>('off', 'off'),
+                  ],
+                  value: sanitizeMode,
+                  onChange: sanitizeMode.set,
+                })
+              ),
               Button(
                 {
                   variant: 'filled',
@@ -220,9 +251,22 @@ export function JSONSchemaFormPage() {
                 'Reset'
               )
             ),
-            body: html.pre(
-              attr.class('bu-whitespace-pre-wrap bu-text-sm'),
-              data.map(v => JSON.stringify(v, null, 2))
+            body: Group(
+              attr.class('bu-gap-2'),
+              html.div(
+                attr.class('bu-text-xs bu-opacity-80'),
+                'Mode: ',
+                sanitizeMode.map(String),
+                ' — ',
+                html.span(
+                  attr.class('bu-opacity-80'),
+                  'all: prune any extras; failing: prune only when invalid; off: keep extras'
+                )
+              ),
+              html.pre(
+                attr.class('bu-whitespace-pre-wrap bu-text-sm'),
+                data.map(v => JSON.stringify(v, null, 2))
+              )
             ),
           },
           style.height('50%')

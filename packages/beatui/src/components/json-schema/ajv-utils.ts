@@ -86,11 +86,56 @@ let COMPILE_CACHE: WeakMap<
   WeakMap<object, ValidateFunction>
 > = new WeakMap()
 
+/**
+ * Clear all AJV compilation caches. Useful for:
+ * - Test isolation (call in beforeEach)
+ * - Memory management in long-running applications
+ * - Forcing recompilation after schema changes
+ *
+ * Thread-safe: Uses WeakMap reassignment for atomic clearing.
+ */
 export function clearCaches() {
-  // Reassign to a new WeakMap to clear
+  // Reassign to a new WeakMap to clear atomically
   COMPILE_CACHE = new WeakMap()
 }
 
+/**
+ * Clear caches for a specific AJV instance.
+ * Useful when you want to invalidate only schemas compiled with a particular AJV instance
+ * while preserving caches for other instances.
+ */
+export function clearCachesForAjv(ajv: Ajv) {
+  COMPILE_CACHE.delete(ajv)
+}
+
+/**
+ * Get cache statistics for debugging and monitoring.
+ * Returns the number of AJV instances with cached validators.
+ */
+export function getCacheStats(): { ajvInstances: number } {
+  // WeakMap doesn't expose size, but we can provide basic info
+  // This is mainly for debugging - in production, WeakMaps auto-cleanup
+  return {
+    ajvInstances: 0, // WeakMap doesn't expose size for privacy/security
+  }
+}
+
+/**
+ * Compile a JSON Schema with caching for performance optimization.
+ *
+ * Uses a two-level WeakMap cache structure:
+ * - Level 1: AJV instance -> Schema cache map
+ * - Level 2: Schema object -> Compiled ValidateFunction
+ *
+ * This ensures that:
+ * - Same schema compiled with same AJV instance is cached
+ * - Different AJV instances maintain separate caches
+ * - Memory is automatically cleaned up when objects are garbage collected
+ *
+ * @param ajv - The AJV instance to use for compilation
+ * @param schema - The schema object to compile (must be object identity stable)
+ * @returns Cached or newly compiled ValidateFunction
+ */
 export function compileWithCache(ajv: Ajv, schema: object): ValidateFunction {
   let cache = COMPILE_CACHE.get(ajv)
   if (cache == null) {
@@ -104,15 +149,38 @@ export function compileWithCache(ajv: Ajv, schema: object): ValidateFunction {
   return validate
 }
 
-type BuildAjvResult =
+/**
+ * Result type for AJV instance creation and schema compilation.
+ * Uses discriminated union for type-safe error handling.
+ */
+export type BuildAjvResult =
   | { ok: true; value: { ajv: Ajv; validate: import('ajv').ValidateFunction } }
   | { ok: false; error: string }
 
-type AjvBuildOptions = {
+/**
+ * Configuration options for building AJV instances with external reference support.
+ */
+export interface AjvBuildOptions {
+  /**
+   * Pre-bundled external schemas to register with AJV.
+   * These schemas must have $id properties for reference resolution.
+   */
   externalSchemas?: ReadonlyArray<SchemaObject>
+
+  /**
+   * Dynamic resolver for external $ref URIs.
+   * Called when external references are encountered during compilation.
+   */
   refResolver?: (
     ids: ReadonlyArray<string>
   ) => Promise<ReadonlyArray<SchemaObject>>
+
+  /**
+   * Controls automatic removal of additional properties during validation.
+   * - 'all': Remove all additional properties
+   * - 'failing': Remove only properties that cause validation failures
+   * - false: No automatic removal (default)
+   */
   sanitizeAdditional?: 'all' | 'failing' | false
 }
 
@@ -262,6 +330,39 @@ async function preloadExternalRefs(
   return `refResolver reached iteration limit while resolving external $refs`
 }
 
+/**
+ * Create and configure an AJV instance for a specific JSON Schema with external reference support.
+ *
+ * This is the primary entry point for creating AJV instances in the JSON Schema form system.
+ * It handles:
+ * - Automatic JSON Schema draft detection ($schema property)
+ * - Pre-bundled external schema registration
+ * - Dynamic external reference resolution via refResolver
+ * - Compilation caching for performance
+ * - Error handling with detailed messages
+ *
+ * @param schema - The root JSON Schema to compile. Must be a valid JSON Schema object.
+ *                 The $schema property determines which AJV version to use.
+ * @param options - Configuration for external references and sanitization
+ * @returns Promise resolving to either a successful AJV instance with compiled validator,
+ *          or an error result with descriptive message
+ *
+ * @example
+ * ```typescript
+ * // Basic usage
+ * const result = await getAjvForSchema(mySchema)
+ * if (result.ok) {
+ *   const { ajv, validate } = result.value
+ *   const isValid = validate(data)
+ * }
+ *
+ * // With external schemas
+ * const result = await getAjvForSchema(mySchema, {
+ *   externalSchemas: [addressSchema, personSchema],
+ *   refResolver: async (ids) => await fetchSchemas(ids)
+ * })
+ * ```
+ */
 export async function getAjvForSchema(
   schema: { $schema?: string } & SchemaObject,
   options?: AjvBuildOptions

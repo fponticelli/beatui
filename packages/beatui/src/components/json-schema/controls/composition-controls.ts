@@ -1,4 +1,11 @@
-import { attr, Renderable, Value, prop, MapSignal } from '@tempots/dom'
+import {
+  attr,
+  Renderable,
+  Value,
+  prop,
+  MapSignal,
+  computedOf,
+} from '@tempots/dom'
 import { Stack } from '../../layout'
 import { NativeSelect, InputWrapper, type Controller } from '../../form'
 import { SegmentedInput } from '../../form/input/segmented-input'
@@ -6,6 +13,10 @@ import type { SchemaContext, JSONSchema } from '../schema-context'
 import { mergeAllOf } from '../schema-context'
 import { definitionToInputWrapperOptions } from './shared-utils'
 import { JSONSchemaGenericControl } from './generic-control'
+import {
+  autoSelectOneOfBranch,
+  getOneOfBranchLabel,
+} from '../oneof-branch-detection'
 
 /**
  * Control for anyOf schemas
@@ -77,17 +88,36 @@ function JSONSchemaOneOfLike<T>({
   kind: 'anyOf' | 'oneOf'
   variants: JSONSchema[]
 }): Renderable {
-  const typesOrTitles = variants.map(def => {
-    const t =
-      def.title ??
-      (Array.isArray(def.type)
-        ? def.type.join(' | ')
-        : ((def.type as string) ?? kind))
-    return String(t)
+  // Generate labels for each branch
+  const typesOrTitles = variants.map((def, index) => {
+    return getOneOfBranchLabel(def, index, `${kind} ${index + 1}`)
   })
 
-  const sel = prop<number>(0)
+  // Auto-detect the active branch based on current value
+  const autoDetectedBranch = computedOf(
+    controller.value,
+    ctx.ajv
+  )((value, ajv) => {
+    if (kind === 'oneOf') {
+      return autoSelectOneOfBranch(ctx, value, ajv)
+    }
+    // For anyOf, we could implement similar logic but it's more permissive
+    return autoSelectOneOfBranch(ctx, value, ajv)
+  })
+
+  // Initialize selection with auto-detected branch or fallback to 0
+  const initialBranch = Value.get(autoDetectedBranch)
+  const sel = prop<number>(initialBranch >= 0 ? initialBranch : 0)
   controller.onDispose(sel.dispose)
+
+  // Update selection when auto-detection changes (but only if user hasn't manually selected)
+  let userHasManuallySelected = false
+  const autoUpdateCancel = autoDetectedBranch.on(detectedBranch => {
+    if (!userHasManuallySelected && detectedBranch >= 0) {
+      sel.set(detectedBranch)
+    }
+  })
+  controller.onDispose(autoUpdateCancel)
 
   const count = variants.length
 
@@ -113,7 +143,26 @@ function JSONSchemaOneOfLike<T>({
     } as unknown as Parameters<typeof NativeSelect<number>>[0])
   }
 
-  const change = (idx: number) => sel.set(idx)
+  const change = (idx: number) => {
+    userHasManuallySelected = true
+    sel.set(idx)
+  }
+
+  // Branch detection info could be used for debugging/development in the future
+  // const _branchDetectionInfo = computedOf(
+  //   controller.value,
+  //   ctx.ajv
+  // )((value, ajv) => {
+  //   if (kind === 'oneOf') {
+  //     const detection = detectOneOfBranch(ctx, value, ajv)
+  //     return {
+  //       isAmbiguous: detection.isAmbiguous,
+  //       hasNoMatch: detection.hasNoMatch,
+  //       validBranches: detection.validBranches,
+  //     }
+  //   }
+  //   return { isAmbiguous: false, hasNoMatch: false, validBranches: [] }
+  // })
 
   const inner = MapSignal(sel, i => {
     return JSONSchemaGenericControl({

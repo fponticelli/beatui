@@ -10,7 +10,11 @@ export default {
     createdAt: { type: 'string', format: 'date-time', title: 'Created At' },
     startTime: { type: 'string', format: 'time', title: 'Start Time' },
     duration: { type: 'string', format: 'duration', title: 'Duration' },
-    favoriteColor: { type: 'string', format: 'color', title: 'Favorite Color' },
+    favoriteColor: {
+      type: 'string',
+      'x:ui': 'color',
+      title: 'Favorite Color',
+    },
 
     // Binary upload (raw)
     avatar: {

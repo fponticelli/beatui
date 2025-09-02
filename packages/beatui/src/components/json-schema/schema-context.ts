@@ -398,6 +398,232 @@ export class SchemaContext {
 }
 
 /**
+ * Merge two compatible schema definitions into one.
+ */
+function mergeCompatibleSchemas(
+  existing: JSONSchemaDefinition,
+  incoming: JSONSchemaDefinition
+): JSONSchemaDefinition {
+  // Handle boolean schemas
+  if (typeof existing === 'boolean' || typeof incoming === 'boolean') {
+    return incoming // Last wins for boolean schemas
+  }
+
+  // Both are objects - deep merge
+  const merged = { ...existing }
+
+  // Merge all properties from incoming, with special handling for certain fields
+  for (const [key, value] of Object.entries(incoming)) {
+    if (
+      key === 'required' &&
+      Array.isArray(existing.required) &&
+      Array.isArray(value)
+    ) {
+      // Union required arrays
+      merged.required = [...new Set([...existing.required, ...value])]
+    } else if (
+      key === 'properties' &&
+      existing.properties &&
+      typeof value === 'object' &&
+      value != null
+    ) {
+      // Deep merge properties
+      merged.properties = { ...existing.properties, ...value }
+    } else {
+      // For other properties, incoming wins
+      ;(merged as Record<string, unknown>)[key] = value
+    }
+  }
+
+  return merged
+}
+
+/**
+ * Check if two schema definitions are compatible (can be merged without conflicts).
+ */
+function areSchemaDefinitionsCompatible(
+  existing: JSONSchemaDefinition,
+  incoming: JSONSchemaDefinition
+): boolean {
+  // Boolean schemas
+  if (typeof existing === 'boolean' || typeof incoming === 'boolean') {
+    return existing === incoming
+  }
+
+  // Both are objects - check for compatibility
+  const existingType = existing.type
+  const incomingType = incoming.type
+
+  // Different types are incompatible
+  if (
+    existingType != null &&
+    incomingType != null &&
+    existingType !== incomingType
+  ) {
+    return false
+  }
+
+  // Check string constraints
+  if (existingType === 'string' && incomingType === 'string') {
+    if (
+      existing.minLength != null &&
+      incoming.maxLength != null &&
+      existing.minLength > incoming.maxLength
+    ) {
+      return false
+    }
+    if (
+      existing.maxLength != null &&
+      incoming.minLength != null &&
+      existing.maxLength < incoming.minLength
+    ) {
+      return false
+    }
+  }
+
+  // Check numeric constraints
+  if (
+    (existingType === 'number' || existingType === 'integer') &&
+    (incomingType === 'number' || incomingType === 'integer')
+  ) {
+    if (
+      existing.minimum != null &&
+      incoming.maximum != null &&
+      existing.minimum > incoming.maximum
+    ) {
+      return false
+    }
+    if (
+      existing.maximum != null &&
+      incoming.minimum != null &&
+      existing.maximum < incoming.minimum
+    ) {
+      return false
+    }
+  }
+
+  // If we get here, schemas are compatible
+  return true
+}
+
+/**
+ * Analyze a property conflict between two schema definitions and provide detailed information.
+ */
+function analyzePropertyConflict(
+  propertyName: string,
+  existing: JSONSchemaDefinition,
+  incoming: JSONSchemaDefinition,
+  path: ReadonlyArray<PropertyKey>
+): SchemaConflict | null {
+  // Handle boolean schemas
+  if (typeof existing === 'boolean' || typeof incoming === 'boolean') {
+    return {
+      path,
+      message: `Property "${propertyName}" has conflicting boolean schema definitions in allOf branches`,
+      conflictingValues: [existing, incoming],
+    }
+  }
+
+  // Analyze type conflicts
+  const existingType = existing.type
+  const incomingType = incoming.type
+
+  if (
+    existingType != null &&
+    incomingType != null &&
+    existingType !== incomingType
+  ) {
+    const existingTypes = Array.isArray(existingType)
+      ? existingType
+      : [existingType]
+    const incomingTypes = Array.isArray(incomingType)
+      ? incomingType
+      : [incomingType]
+
+    return {
+      path,
+      message: `Property "${propertyName}" has conflicting types: ${existingTypes.join('|')} vs ${incomingTypes.join('|')}`,
+      conflictingValues: [existing, incoming],
+    }
+  }
+
+  // Analyze constraint conflicts (for same types)
+  if (existingType === incomingType && existingType === 'string') {
+    const conflicts: string[] = []
+    if (
+      existing.minLength != null &&
+      incoming.maxLength != null &&
+      existing.minLength > incoming.maxLength
+    ) {
+      conflicts.push(
+        `minLength ${existing.minLength} > maxLength ${incoming.maxLength}`
+      )
+    }
+    if (
+      existing.maxLength != null &&
+      incoming.minLength != null &&
+      existing.maxLength < incoming.minLength
+    ) {
+      conflicts.push(
+        `maxLength ${existing.maxLength} < minLength ${incoming.minLength}`
+      )
+    }
+    if (conflicts.length > 0) {
+      return {
+        path,
+        message: `Property "${propertyName}" has conflicting string constraints: ${conflicts.join(', ')}`,
+        conflictingValues: [existing, incoming],
+      }
+    }
+  }
+
+  if (
+    existingType === incomingType &&
+    (existingType === 'number' || existingType === 'integer')
+  ) {
+    const conflicts: string[] = []
+    if (
+      existing.minimum != null &&
+      incoming.maximum != null &&
+      existing.minimum > incoming.maximum
+    ) {
+      conflicts.push(
+        `minimum ${existing.minimum} > maximum ${incoming.maximum}`
+      )
+    }
+    if (
+      existing.maximum != null &&
+      incoming.minimum != null &&
+      existing.maximum < incoming.minimum
+    ) {
+      conflicts.push(
+        `maximum ${existing.maximum} < minimum ${incoming.minimum}`
+      )
+    }
+    if (conflicts.length > 0) {
+      return {
+        path,
+        message: `Property "${propertyName}" has conflicting numeric constraints: ${conflicts.join(', ')}`,
+        conflictingValues: [existing, incoming],
+      }
+    }
+  }
+
+  // Check if schemas are actually compatible (no real conflict)
+  if (areSchemaDefinitionsCompatible(existing, incoming)) {
+    // No actual conflict - schemas can be merged without issues
+    return null
+  }
+
+  // Generic conflict fallback
+  return {
+    path,
+    message: `Property "${propertyName}" has conflicting definitions in allOf branches`,
+    conflictingValues: [existing, incoming],
+  }
+}
+
+/**
  * Deep merge allOf branches into a single effective schema.
  * - Intersects types (detects conflicts like string ∧ number)
  * - Unions required arrays
@@ -428,30 +654,89 @@ export function mergeAllOf(
       allRequired.push(...schema.required)
     }
 
-    // Deep merge properties
+    // Deep merge properties with enhanced conflict detection
     if (schema.properties != null) {
       for (const [key, propDef] of Object.entries(schema.properties)) {
         if (allProperties[key] != null && allProperties[key] !== propDef) {
-          // Property conflict detected
-          conflicts.push({
-            path: [...basePath, 'properties', key],
-            message: `Property "${key}" has conflicting definitions in allOf branches`,
-            conflictingValues: [allProperties[key], propDef],
-          })
+          // Property conflict detected - provide detailed analysis
+          const existing = allProperties[key]
+          const conflict = analyzePropertyConflict(key, existing, propDef, [
+            ...basePath,
+            'properties',
+            key,
+          ])
+          if (conflict != null) {
+            conflicts.push(conflict)
+          }
         }
-        allProperties[key] = propDef
+        // Merge compatible properties instead of just overwriting
+        if (allProperties[key] != null) {
+          allProperties[key] = mergeCompatibleSchemas(
+            allProperties[key],
+            propDef
+          )
+        } else {
+          allProperties[key] = propDef
+        }
       }
     }
 
-    // Copy other schema properties (shallow merge, later wins)
+    // Copy other schema properties with conflict detection for critical properties
     const {
       type: _type,
       required: _required,
       properties: _properties,
       allOf: _allOf,
+      additionalProperties,
+      patternProperties,
+      minProperties,
+      maxProperties,
       ...otherProps
     } = schema
+
+    // Detect additionalProperties conflicts
+    if (
+      additionalProperties != null &&
+      merged.additionalProperties != null &&
+      merged.additionalProperties !== additionalProperties
+    ) {
+      conflicts.push({
+        path: [...basePath, 'additionalProperties'],
+        message: `Conflicting additionalProperties values in allOf: ${merged.additionalProperties} vs ${additionalProperties}`,
+        conflictingValues: [merged.additionalProperties, additionalProperties],
+      })
+    }
+
+    // Detect property count conflicts
+    if (
+      minProperties != null &&
+      merged.maxProperties != null &&
+      minProperties > merged.maxProperties
+    ) {
+      conflicts.push({
+        path: [...basePath, 'minProperties'],
+        message: `minProperties ${minProperties} conflicts with existing maxProperties ${merged.maxProperties}`,
+        conflictingValues: [minProperties, merged.maxProperties],
+      })
+    }
+    if (
+      maxProperties != null &&
+      merged.minProperties != null &&
+      maxProperties < merged.minProperties
+    ) {
+      conflicts.push({
+        path: [...basePath, 'maxProperties'],
+        message: `maxProperties ${maxProperties} conflicts with existing minProperties ${merged.minProperties}`,
+        conflictingValues: [maxProperties, merged.minProperties],
+      })
+    }
+
     Object.assign(merged, otherProps)
+    if (additionalProperties != null)
+      merged.additionalProperties = additionalProperties
+    if (patternProperties != null) merged.patternProperties = patternProperties
+    if (minProperties != null) merged.minProperties = minProperties
+    if (maxProperties != null) merged.maxProperties = maxProperties
   }
 
   // Handle type intersection conflicts
