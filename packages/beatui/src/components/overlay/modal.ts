@@ -12,6 +12,7 @@ import {
   dataAttr,
   Use,
   coalesce,
+  Renderable,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button, CloseButton } from '../button'
@@ -63,7 +64,7 @@ export interface ModalContentOptions {
 export function Modal(
   options: ModalOptions,
   fn: (open: (content: ModalContentOptions) => void, close: () => void) => TNode
-): TNode {
+): Renderable {
   const {
     size = 'md',
     dismissable = true,
@@ -219,7 +220,7 @@ export function ConfirmModal(
     onCancel?: () => void
   },
   fn: (open: (message: TNode) => void, close: () => void) => TNode
-): TNode {
+): Renderable {
   const { confirmText, cancelText, onConfirm, onCancel, ...modalOptions } =
     options
 

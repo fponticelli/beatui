@@ -10,7 +10,6 @@ import { SchemaContext } from '../schema-context'
 import { Async, Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
-  FileInput,
   NullableEmailInput,
   NullableDateInput,
   NullableDateTimeInput,
@@ -22,6 +21,7 @@ import {
   ColorInput,
   NullableUrlInput,
 } from '@/components/form/input'
+import { NullableBase64Input } from '../../form/input/nullable-base64-input'
 import { WithTemporal } from '@/temporal'
 
 export function StringControl({
@@ -92,8 +92,10 @@ export function StringControl({
           xui?.preferFileUpload === true)
 
       if (shouldUseFileUpload) {
-        return MappedControl(FileInput, {
+        // Use Base64Input for file upload with base64 encoding
+        return Control(NullableBase64Input, {
           ...options,
+          controller: transformNullToUndefined(controller),
           mode: 'compact',
           accept: format.mediaType || '*/*',
           maxFileSize:
@@ -102,34 +104,10 @@ export function StringControl({
               ? xui.maxFileSize
               : undefined),
           showFileList: true,
-          controller: transformNullToUndefined(controller),
-          toInput: (base64String: string | null) => {
-            if (!base64String) return null
-            try {
-              // Convert base64 to File for display
-              const byteCharacters = atob(base64String)
-              const byteNumbers = new Array(byteCharacters.length)
-              for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i)
-              }
-              const byteArray = new Uint8Array(byteNumbers)
-              return new File([byteArray], 'uploaded-file', {
-                type: format.mediaType || 'application/octet-stream',
-              })
-            } catch {
-              return null
-            }
-          },
-          fromInput: (file: File | null) => {
-            if (!file) return null
-            // For now, return a placeholder - in a real implementation,
-            // this would need to be handled asynchronously
-            return `[File: ${file.name}]`
-          },
         })
       }
 
-      // Default to plain text widget for generic base64 content (no file input rendered)
+      // For non-file binary data, use a text area for base64 content
       return Control(NullableTextArea, {
         ...options,
         controller: transformNullToUndefined(controller),

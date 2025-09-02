@@ -168,6 +168,9 @@ const main = async () => {
     '../src/pages/nine-slice-scroll-view'
   )
   const { JSONSchemaFormPage } = await import('../src/pages/json-schema-form')
+  const { JSONSchemaXUIGuidePage } = await import(
+    '../src/pages/json-schema-x-ui-guide'
+  )
   const { MonacoEditorPage } = await import('../src/pages/monaco-editor')
   const { MilkdownEditorPage } = await import('../src/pages/milkdown-editor')
   const { MaskInputPage } = await import('../src/pages/mask-input')
@@ -283,6 +286,7 @@ const main = async () => {
             '/breakpoint': BreakpointPage,
             '/nine-slice-scroll-view': NineSliceScrollViewPage,
             '/json-schema-form': JSONSchemaFormPage,
+            '/json-schema-x-ui-guide': JSONSchemaXUIGuidePage,
             '/monaco-editor': MonacoEditorPage,
             '/milkdown-editor': MilkdownEditorPage,
             '/mask-input': MaskInputPage,
@@ -340,6 +344,10 @@ const main = async () => {
                   'Nine-slice Scroll View'
                 ),
                 html.a(attr.href('/json-schema-form'), 'JSON Schema Form'),
+                html.a(
+                  attr.href('/json-schema-x-ui-guide'),
+                  'JSON Schema x:ui Guide'
+                ),
                 html.a(attr.href('/monaco-editor'), 'Monaco Editor'),
                 html.a(attr.href('/milkdown-editor'), 'Milkdown Editor'),
                 html.a(attr.href('/mask-input'), 'Mask Input'),

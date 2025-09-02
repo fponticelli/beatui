@@ -1,7 +1,7 @@
 // Auth Divider Component
 // Simple divider component for separating social login from email/password forms
 
-import { attr, coalesce, html, TNode, Use, Value } from '@tempots/dom'
+import { attr, coalesce, html, Renderable, Use, Value } from '@tempots/dom'
 import { AuthI18n } from '@/auth-i18n/translations'
 
 export interface AuthDividerOptions {
@@ -12,7 +12,7 @@ export interface AuthDividerOptions {
 export function AuthDivider({
   labels,
   className,
-}: AuthDividerOptions = {}): TNode {
+}: AuthDividerOptions = {}): Renderable {
   return html.div(
     attr.class('bc-auth-divider'),
     attr.class(className),

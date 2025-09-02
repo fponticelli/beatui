@@ -11,6 +11,7 @@ import {
   WithElement,
   aria,
   dataAttr,
+  Renderable,
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
 import { Flyout, FlyoutTrigger } from './flyout'
@@ -91,7 +92,7 @@ export interface MenuSeparatorOptions {
  * )
  * ```
  */
-export function Menu(options: MenuOptions): TNode {
+export function Menu(options: MenuOptions): Renderable {
   const {
     items,
     placement = 'bottom-start',
@@ -370,7 +371,7 @@ export function Menu(options: MenuOptions): TNode {
  * })
  * ```
  */
-export function MenuItem(options: MenuItemOptions): TNode {
+export function MenuItem(options: MenuItemOptions): Renderable {
   const {
     key,
     content,
@@ -463,7 +464,7 @@ export function MenuItem(options: MenuItemOptions): TNode {
  * })
  * ```
  */
-export function MenuSeparator(options: MenuSeparatorOptions = {}): TNode {
+export function MenuSeparator(options: MenuSeparatorOptions = {}): Renderable {
   const { label } = options
 
   return html.div(

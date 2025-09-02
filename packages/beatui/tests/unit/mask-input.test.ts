@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, prop } from '@tempots/dom'
+import { render, prop, Renderable } from '@tempots/dom'
 import { MaskInput } from '../../src/components/form/input/mask-input'
 
 describe('MaskInput', () => {
@@ -22,7 +22,7 @@ describe('MaskInput', () => {
         value,
         mask: '(999) 999-9999',
         id: 'phone',
-      }),
+      }) as Renderable,
       container
     )
 
@@ -46,7 +46,7 @@ describe('MaskInput', () => {
         mask: '9999',
         onAccept,
         onComplete,
-      }),
+      }) as Renderable,
       container
     )
 
@@ -64,12 +64,10 @@ describe('MaskInput', () => {
   it('supports dynamic mask function', () => {
     const value = prop('')
 
-    const dynamicMask = (raw: string) => (raw.length <= 5 ? '99999' : '999-99-9999')
+    const dynamicMask = (raw: string) =>
+      raw.length <= 5 ? '99999' : '999-99-9999'
 
-    render(
-      MaskInput({ value, mask: dynamicMask }),
-      container
-    )
+    render(MaskInput({ value, mask: dynamicMask }) as Renderable, container)
 
     const input = container.querySelector('input') as HTMLInputElement
 

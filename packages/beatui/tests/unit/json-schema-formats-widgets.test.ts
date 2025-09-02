@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render } from '@tempots/dom'
+import { Validation } from '@tempots/std'
 import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form'
 import { JSONSchemaControl } from '../../src/components/json-schema/controls/generic-control'
@@ -119,7 +120,9 @@ describe('JSON Schema Formats and Widgets', () => {
       })
       const mediaResult = stringFormatDetection(mediaCtx)
       expect(mediaResult?.format).toBe('binary')
-      expect(mediaResult?.mediaType).toBe('image/jpeg')
+      expect((mediaResult as { mediaType?: string })?.mediaType).toBe(
+        'image/jpeg'
+      )
     })
 
     it('should detect textarea from x:ui hints', () => {
@@ -187,7 +190,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: 'test@example.com',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -207,7 +210,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: 'https://example.com',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -227,7 +230,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: 'This is a long text that should render as textarea',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -247,7 +250,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '#ff0000',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -269,7 +272,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: 3,
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -291,7 +294,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -312,7 +315,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -332,7 +335,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -357,7 +360,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(
@@ -379,7 +382,7 @@ describe('JSON Schema Formats and Widgets', () => {
 
       const { controller } = useController({
         initialValue: '',
-        validate: () => ({ valid: true }),
+        validate: () => Validation.valid,
       })
 
       render(

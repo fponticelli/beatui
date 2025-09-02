@@ -263,7 +263,7 @@ export class BooleanValidator extends BaseValidator<boolean> {
     return validator
   }
 
-  literal(value: true, message?: string): BooleanValidator {
+  literal(_value: true, message?: string): BooleanValidator {
     const validator = new BooleanValidator()
     validator.mustBeTrue = true
     validator.trueMessage = message

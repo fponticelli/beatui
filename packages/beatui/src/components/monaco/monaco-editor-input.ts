@@ -1,5 +1,5 @@
 import {
-  TNode,
+  Renderable,
   Value,
   WithElement,
   OnDispose,
@@ -26,7 +26,9 @@ export type MonacoEditorInputOptions = Merge<
  * MonacoEditorInput mounts a Monaco editor in an InputContainer and wires its value to BeatUI inputs.
  * Note: This component dynamically imports 'monaco-editor' at runtime and does not include it in the main bundle.
  */
-export const MonacoEditorInput = (options: MonacoEditorInputOptions): TNode => {
+export const MonacoEditorInput = (
+  options: MonacoEditorInputOptions
+): Renderable => {
   const {
     value,
     onChange,

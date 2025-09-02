@@ -8,7 +8,7 @@ import {
   on,
   OnDispose,
   prop,
-  TNode,
+  Renderable,
   Use,
   When,
 } from '@tempots/dom'
@@ -31,7 +31,7 @@ export function SignInForm({
   passwordRules,
   labels,
   showRememberMe,
-}: SignInFormOptions): TNode {
+}: SignInFormOptions): Renderable {
   const loading = prop(false)
 
   // Initialize form with remembered email if available

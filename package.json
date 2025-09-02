@@ -10,6 +10,8 @@
     "test:watch": "turbo test:watch",
     "lint": "turbo lint",
     "format": "turbo format",
+    "typecheck": "turbo typecheck",
+    "check": "turbo check",
     "clean": "turbo clean",
     "dev:docs": "pnpm --filter @tempots/beatui build:watch & pnpm --filter @beatui/docs dev"
   },

@@ -23,6 +23,12 @@
     "format": {
       "outputs": []
     },
+    "typecheck": {
+      "dependsOn": []
+    },
+    "check": {
+      "dependsOn": ["build", "lint", "format", "typecheck", "test"]
+    },
     "clean": {
       "cache": false
     }

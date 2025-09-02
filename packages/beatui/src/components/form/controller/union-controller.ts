@@ -23,6 +23,8 @@ export interface UnionBranch<T = unknown> {
   defaultValue: () => T
 }
 
+export type ValidationMode = 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+
 /**
  * Controller for union types that manages multiple possible value types
  */
@@ -39,6 +41,7 @@ export class UnionController<T> extends Controller<T> {
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
+      validationMode?: Signal<ValidationMode>
     },
     branches: UnionBranch[],
     equals: (a: T, b: T) => boolean = strictEqual
@@ -91,7 +94,10 @@ export class UnionController<T> extends Controller<T> {
           equals as (a: unknown, b: unknown) => boolean
         ),
         status.map(makeMapValidation([branchKey])),
-        { disabled: this.disabled },
+        {
+          disabled: this.disabled,
+          validationMode: this.parent.validationMode,
+        },
         equals as (a: unknown, b: unknown) => boolean
       )
 
@@ -152,7 +158,10 @@ export class UnionController<T> extends Controller<T> {
         strictEqual as (a: unknown, b: unknown) => boolean
       ),
       this.status.map(makeMapValidation([branchKey])),
-      { disabled: this.disabled },
+      {
+        disabled: this.disabled,
+        validationMode: this.parent.validationMode,
+      },
       strictEqual as (a: unknown, b: unknown) => boolean
     )
 

@@ -7,6 +7,7 @@ import {
   Task,
   MapSignal,
   Async,
+  Renderable,
 } from '@tempots/dom'
 import { micromark } from 'micromark'
 import { StylePortal } from '@/components/misc/style-portal'
@@ -30,7 +31,7 @@ export type MarkdownOptions = {
 export function Markdown(
   options: MarkdownOptions,
   ...children: TNode[]
-): TNode {
+): Renderable {
   const { content, allowHtml = false } = options
 
   const rendered = computedOf(

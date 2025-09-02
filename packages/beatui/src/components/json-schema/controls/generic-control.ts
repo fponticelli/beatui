@@ -12,6 +12,8 @@ import {
 } from '../schema-context'
 import { resolveRef } from '../ref-utils'
 import { WithSchemaIssues } from './schema-wrapper'
+import { getVisibilityConfig } from '../visibility/visibility-evaluation'
+import { WithVisibility } from '../visibility/visibility-wrapper'
 
 // Import all control types
 import { JSONSchemaAny } from './any-control'
@@ -86,13 +88,17 @@ export function JSONSchemaGenericControl<T>({
     )
   }
   if (resolvedDef.enum != null) {
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaEnum({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaEnum({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   if (resolvedDef.const != null) {
@@ -218,13 +224,17 @@ export function JSONSchemaGenericControl<T>({
         controller
       )
     case 'string':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaString({
-          ctx: nextCtx,
-          controller: controller as unknown as Controller<string | undefined>,
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaString({
+            ctx: nextCtx,
+            controller: controller as unknown as Controller<string | undefined>,
+          }),
+          controller
+        )
       )
     case 'boolean':
       return WithSchemaIssues(
@@ -316,4 +326,30 @@ export function JSONSchemaControl<T>({
     return Fragment()
   }
   return JSONSchemaGenericControl({ ctx, controller })
+}
+
+/**
+ * Helper to wrap a control with visibility if needed
+ */
+function withVisibilityIfNeeded<T>(
+  ctx: SchemaContext,
+  controller: Controller<T>,
+  control: Renderable
+): Renderable {
+  // Check if the schema has visibility conditions
+  const visibilityConfig = getVisibilityConfig(ctx.definition as JSONSchema)
+
+  if (!visibilityConfig) {
+    return control
+  }
+
+  return WithVisibility({
+    ctx,
+    controller,
+    children: control,
+    options: {
+      behavior: 'hide', // Default to hide behavior
+      clearOnHide: false, // Don't clear values by default
+    },
+  })
 }

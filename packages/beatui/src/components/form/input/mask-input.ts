@@ -5,9 +5,9 @@ import {
   on,
   Value,
   WithElement,
-  TNode,
   Fragment,
   computedOf,
+  Renderable,
 } from '@tempots/dom'
 import { Merge } from '@tempots/std'
 import { InputContainer } from './input-container'
@@ -322,7 +322,7 @@ function unmaskValue(conformed: string, opts?: UnmaskOptions): string {
 
 // --- Numeric formatting helpers ---
 
-export const MaskInput = (options: MaskInputOptions): TNode => {
+export const MaskInput = (options: MaskInputOptions): Renderable => {
   const {
     value,
     onBlur,

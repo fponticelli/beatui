@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, prop } from '@tempots/dom'
+import { render, prop, Renderable } from '@tempots/dom'
 import { MaskInput } from '../../src/components/form/input/mask-input'
 
 // Placeholder behavior basic smoke: when empty, value is empty and not prefixed with literals
@@ -22,7 +22,7 @@ describe('MaskInput - placeholder/guide basics', () => {
       MaskInput({
         value,
         mask: '(999) 999-9999',
-      }),
+      }) as Renderable,
       container
     )
 

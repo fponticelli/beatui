@@ -6,6 +6,7 @@ import {
   ControllerValidation,
 } from './controller-validation'
 import { strictEqual } from '@tempots/std'
+import { ValidationMode } from './union-controller'
 
 export class Controller<T> {
   readonly path: Path
@@ -25,11 +26,11 @@ export class Controller<T> {
     touched: prop(false),
   }
   readonly #equals: (a: T, b: T) => boolean
-  #baseline: T
+  #baseline = prop<T>(undefined as unknown as T)
   protected readonly parent: {
     disabled: Signal<boolean>
     // Optional validation mode signal supplied by useController/useForm
-    validationMode?: Signal<'onSubmit' | 'continuous' | 'touchedOrSubmit'>
+    validationMode?: Signal<ValidationMode>
   }
   readonly disabled: Signal<boolean>
   readonly #disposeCallbacks: (() => void)[] = []
@@ -43,7 +44,7 @@ export class Controller<T> {
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
-      validationMode?: Signal<'onSubmit' | 'continuous' | 'touchedOrSubmit'>
+      validationMode?: Signal<ValidationMode>
     },
     equals: (a: T, b: T) => boolean = strictEqual
   ) {
@@ -52,7 +53,7 @@ export class Controller<T> {
     this.value = value
     this.status = status
     this.#equals = equals
-    this.#baseline = value.value
+    this.#baseline.set(value.value)
     this.error = status.map(s =>
       s?.type === 'invalid' ? s.error?.message : undefined
     )
@@ -75,7 +76,10 @@ export class Controller<T> {
         this.touched
       )((hasError, touched) => !!hasError && !!touched)
     }
-    this.dirty = this.value.map(v => !this.#equals(v, this.#baseline))
+    this.dirty = computedOf(
+      this.value,
+      this.#baseline
+    )((v, b) => !this.#equals(v, b))
     this.dependencyErrors = status.map(s =>
       s?.type === 'invalid' ? s.error?.dependencies : undefined
     )
@@ -98,6 +102,7 @@ export class Controller<T> {
       this.error.dispose()
       this.errorVisible.dispose()
       this.dirty.dispose()
+      this.#baseline.dispose()
       this.dependencyErrors.dispose()
       this.disabledOrHasErrors.dispose()
     })
@@ -140,11 +145,11 @@ export class Controller<T> {
   }
 
   readonly markPristine = () => {
-    this.#baseline = this.value.value
+    this.#baseline.set(this.value.value)
   }
 
   readonly reset = () => {
-    this.change(this.#baseline)
+    this.change(this.#baseline.value)
   }
 
   readonly array = (equals: (a: T, b: T) => boolean = strictEqual) => {
@@ -223,6 +228,8 @@ export class ObjectController<
   readonly #childDirtyCancel = new Map<keyof T, () => void>()
   readonly #dirtyDeep = prop(false)
   readonly dirtyDeep: Signal<boolean> = this.#dirtyDeep
+  readonly #parentTouchedCancel: () => void
+  readonly #parentDirtyCancel: () => void
 
   readonly #recomputeTouchedDeep = () => {
     let anyChild = false
@@ -254,6 +261,16 @@ export class ObjectController<
       equals
     )
 
+    // Keep aggregates in sync when parent touched/dirty change
+    this.#parentTouchedCancel = this.touched.on(() => {
+      this.#recomputeTouchedDeep()
+    })
+    this.#parentDirtyCancel = this.dirty.on(() => {
+      this.#recomputeDirtyDeep()
+    })
+    // Also recompute when value changes (covers structural changes and baseline compares)
+    const cancelValue = this.value.on(() => this.#recomputeDirtyDeep())
+
     // Register disposal of child controllers
     this.onDispose(() => {
       for (const controller of this.#controllers.values()) {
@@ -268,6 +285,9 @@ export class ObjectController<
       this.#childDirtyCancel.clear()
       this.#childDirty.clear()
       this.#dirtyDeep.dispose()
+      this.#parentTouchedCancel()
+      this.#parentDirtyCancel()
+      cancelValue()
     })
   }
 
@@ -286,7 +306,11 @@ export class ObjectController<
       onChange,
       this.value.map((v: T) => v[field] as T[K]),
       this.status.map(makeMapValidation([field])),
-      { disabled: this.disabled }
+      {
+        disabled: this.disabled,
+        // propagate validationMode to children if present
+        validationMode: this.parent.validationMode,
+      }
     )
     this.#controllers.set(field, controller as Controller<unknown>)
     // Track child touched for aggregation
@@ -351,6 +375,8 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   readonly #childDirtyCancel = new Map<number, () => void>()
   readonly #dirtyDeep = prop(false)
   readonly dirtyDeep: Signal<boolean> = this.#dirtyDeep
+  readonly #parentTouchedCancel: () => void
+  readonly #parentDirtyCancel: () => void
 
   readonly #recomputeTouchedDeep = () => {
     let anyChild = false
@@ -396,6 +422,15 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
     })
     this.length = arr.map(v => v.length)
 
+    // Keep aggregates in sync when parent touched/dirty change
+    this.#parentTouchedCancel = this.touched.on(() => {
+      this.#recomputeTouchedDeep()
+    })
+    this.#parentDirtyCancel = this.dirty.on(() => {
+      this.#recomputeDirtyDeep()
+    })
+    const cancelValue = this.value.on(() => this.#recomputeDirtyDeep())
+
     // Register disposal of child controllers and resources
     this.onDispose(() => {
       for (const controller of this.#controllers) {
@@ -413,6 +448,9 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
       this.#childDirtyCancel.clear()
       this.#childDirty.clear()
       this.#dirtyDeep.dispose()
+      this.#parentTouchedCancel()
+      this.#parentDirtyCancel()
+      cancelValue()
     })
   }
 
@@ -430,7 +468,10 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
       onChange,
       this.value.map((v: T) => v[index] as T[number]),
       this.status.map(makeMapValidation([index])),
-      { disabled: this.disabled }
+      {
+        disabled: this.disabled,
+        validationMode: this.parent.validationMode,
+      }
     )
     this.#controllers[index] = controller
     const cancel = controller.touched.on(v => {

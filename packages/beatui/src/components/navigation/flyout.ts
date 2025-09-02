@@ -1,4 +1,5 @@
 import {
+  Renderable,
   TNode,
   Value,
   OnDispose,
@@ -79,7 +80,7 @@ function placementToAnimation(placement: Placement): Animation {
  *
  * Uses @tempo-ts/ui PopOver for positioning.
  */
-export function Flyout(options: FlyoutOptions): TNode {
+export function Flyout(options: FlyoutOptions): Renderable {
   const {
     content,
     placement = 'top',

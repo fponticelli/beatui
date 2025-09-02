@@ -8,7 +8,7 @@ import {
   computedOf,
   ForEach,
   html,
-  TNode,
+  Renderable,
   Use,
   Value,
 } from '@tempots/dom'
@@ -29,7 +29,7 @@ export function SocialLoginButton({
   color,
   flow,
   labels,
-}: SocialLoginButtonOptions): TNode {
+}: SocialLoginButtonOptions): Renderable {
   const handleClick = async () => {
     if (onClick) {
       try {
@@ -98,7 +98,7 @@ export function SocialLoginButtons({
   onProviderClick?: (provider: AuthProviderName) => Promise<void>
   size?: Value<ControlSize>
   className?: Value<string>
-}): TNode {
+}): Renderable {
   return Stack(
     attr.class('bc-social-login-buttons bu-gap-2 bu-px-8'),
     attr.class(className),

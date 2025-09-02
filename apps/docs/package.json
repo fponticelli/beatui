@@ -12,6 +12,7 @@
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
+    "typecheck": "tsc --noEmit",
     "gen:schema": "npx tsx scripts/gen-meta-schemas.ts"
   },
   "keywords": [

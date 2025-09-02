@@ -1,4 +1,4 @@
-import { OnDispose, WithElement, TNode } from '@tempots/dom'
+import { OnDispose, WithElement, Renderable } from '@tempots/dom'
 
 /**
  * Selector for focusable elements
@@ -59,7 +59,7 @@ export interface FocusTrapOptions {
  * Creates a focus trap within an element
  * Returns a TNode that should be added to the container element
  */
-export function FocusTrap(options: FocusTrapOptions = {}): TNode {
+export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
   const {
     active = true,
     escapeDeactivates = true,

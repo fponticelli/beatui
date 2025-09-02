@@ -17,6 +17,10 @@ import {
   autoSelectOneOfBranch,
   getOneOfBranchLabel,
 } from '../oneof-branch-detection'
+import {
+  getDiscriminatorConfig,
+  selectOneOfBranch,
+} from '../discriminator/discriminator-utils'
 
 /**
  * Control for anyOf schemas
@@ -93,12 +97,30 @@ function JSONSchemaOneOfLike<T>({
     return getOneOfBranchLabel(def, index, `${kind} ${index + 1}`)
   })
 
+  // Check for discriminator configuration
+  const discriminatorConfig =
+    typeof ctx.definition === 'boolean'
+      ? { discriminator: null, type: null }
+      : getDiscriminatorConfig(ctx.definition)
+
   // Auto-detect the active branch based on current value
   const autoDetectedBranch = computedOf(
     controller.value,
     ctx.ajv
   )((value, ajv) => {
     if (kind === 'oneOf') {
+      // Try discriminator-based selection first
+      if (discriminatorConfig.discriminator) {
+        const discriminatorBranch = selectOneOfBranch(
+          variants,
+          discriminatorConfig,
+          value
+        )
+        if (discriminatorBranch !== null) {
+          return discriminatorBranch
+        }
+      }
+      // Fall back to validation-based selection
       return autoSelectOneOfBranch(ctx, value, ajv)
     }
     // For anyOf, we could implement similar logic but it's more permissive

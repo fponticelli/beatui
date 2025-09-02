@@ -8,7 +8,7 @@ import {
   on,
   OnDispose,
   prop,
-  TNode,
+  Renderable,
   Use,
   When,
 } from '@tempots/dom'
@@ -41,7 +41,7 @@ export function SignUpForm({
   showConfirmPassword,
   showAcceptTermsAndConditions,
   termsAndConditions,
-}: SignUpFormOptions): TNode {
+}: SignUpFormOptions): Renderable {
   const loading = prop(false)
   const passwordRules_ = passwordRules || defaultPasswordRules
 
@@ -160,7 +160,7 @@ export function SignUpForm({
                   coalesce(labels?.acceptTermsLabel, t.$.acceptTermsLabel)
               )
             ),
-            When(acceptTermsController.hasError, () =>
+            When(acceptTermsController.errorVisible, () =>
               html.div(
                 attr.class('bc-auth-form__field-error'),
                 acceptTermsController.error.map(err => err || '')

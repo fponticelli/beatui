@@ -6,6 +6,7 @@ import {
   on,
   prop,
   TNode,
+  Renderable,
   Value,
   When,
   WithElement,
@@ -54,7 +55,7 @@ export interface DrawerOptions {
  */
 export function Drawer(
   fn: (open: (options: DrawerOptions) => void, close: () => void) => TNode
-): TNode {
+): Renderable {
   return Overlay((openOverlay, closeOverlay) => {
     let currentClose: () => void = closeOverlay
 

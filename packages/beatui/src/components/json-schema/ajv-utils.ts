@@ -202,7 +202,7 @@ async function createAjv(
   ).default
   const ajv = new createAjv({
     meta: true,
-    strictSchema: true,
+    strictSchema: false, // Allow more flexible schema validation for tuple arrays
     allErrors: true,
     removeAdditional,
   })

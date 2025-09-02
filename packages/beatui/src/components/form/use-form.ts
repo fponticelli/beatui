@@ -14,6 +14,7 @@ import {
   Controller,
   ControllerError,
   ObjectController,
+  ValidationMode,
 } from './controller'
 import { convertStandardSchemaIssues } from './schema'
 import { Validation, strictEqual } from '@tempots/std'
@@ -50,9 +51,7 @@ export function useController<T>({
   const value = Value.deriveProp(initialValue)
   const status = prop<ControllerValidation>(Validation.valid)
   const disabledSignal = prop(false)
-  const modeSignal = prop<'onSubmit' | 'continuous' | 'touchedOrSubmit'>(
-    validationMode ?? 'touchedOrSubmit'
-  )
+  const modeSignal = prop<ValidationMode>(validationMode ?? 'touchedOrSubmit')
 
   const setStatus = (result: ControllerValidation) => {
     status.set(result)

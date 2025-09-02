@@ -1,15 +1,17 @@
 import { describe, it, expect } from 'vitest'
 import { prop } from '@tempots/dom'
+import { Validation } from '@tempots/std'
 import {
   ColorController,
   createColorController,
   colorInputOptionsFromController,
 } from '../../src/components/form/controller/color-controller'
 import { Controller } from '../../src/components/form/controller/controller'
+import { ControllerValidation } from '../../src/components/form/controller/controller-validation'
 
 function createTestColorController(initialValue = '#ff0000') {
   const value = prop(initialValue)
-  const status = prop({ type: 'valid' as const })
+  const status = prop<ControllerValidation>(Validation.valid)
   const disabled = prop(false)
 
   return new ColorController(
@@ -172,7 +174,7 @@ describe('ColorController', () => {
 describe('createColorController', () => {
   it('should create a ColorController from a regular Controller', () => {
     const value = prop('#ff0000')
-    const status = prop({ type: 'valid' as const })
+    const status = prop<ControllerValidation>(Validation.valid)
     const disabled = prop(false)
 
     const baseController = new Controller(

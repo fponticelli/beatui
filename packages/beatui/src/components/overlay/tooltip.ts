@@ -8,6 +8,7 @@ import {
   svgAttr,
   Signal,
   WithElement,
+  Renderable,
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
 import { Flyout, FlyoutTrigger } from '../navigation/flyout'
@@ -18,7 +19,9 @@ export type TooltipTrigger = FlyoutTrigger
 /**
  * Creates an SVG arrow element for the tooltip
  */
-function SVGArrow(direction: Signal<'up' | 'down' | 'left' | 'right'>): TNode {
+function SVGArrow(
+  direction: Signal<'up' | 'down' | 'left' | 'right'>
+): Renderable {
   const paths = {
     up: 'M0 16 L8 10 L16 16 Z',
     down: 'M0 0 L8 6 L16 0 Z',
@@ -65,7 +68,7 @@ export interface TooltipOptions {
  * )
  * ```
  */
-export function Tooltip(options: TooltipOptions): TNode {
+export function Tooltip(options: TooltipOptions): Renderable {
   const {
     content,
     placement = 'top',

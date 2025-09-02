@@ -8,7 +8,7 @@ import {
   on,
   OnDispose,
   prop,
-  TNode,
+  Renderable,
   Use,
 } from '@tempots/dom'
 import { Button } from '../button'
@@ -28,7 +28,7 @@ import { Control } from '../form'
 export function ResetPasswordForm({
   onResetPassword,
   labels = {},
-}: ResetPasswordFormOptions): TNode {
+}: ResetPasswordFormOptions): Renderable {
   const persistedEmail = useAuthEmailProp()
   const loading = prop(false)
 
