@@ -213,6 +213,7 @@ export function JSONSchemaFormPage() {
                     )
                   ),
                 },
+                style.minHeight('10rem'),
                 style.maxHeight('10rem')
               )
             }

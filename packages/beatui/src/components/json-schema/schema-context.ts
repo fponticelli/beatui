@@ -198,11 +198,13 @@ export class SchemaContext {
   }
 
   get widgetLabel(): string | undefined {
-    if (typeof this.definition === 'boolean') return undefined
-    return (
-      this.definition.title ??
-      (this.name != null ? upperCaseFirst(humanize(this.name!)) : undefined)
-    )
+    const name = this.name
+    // Prefer explicit title when available; otherwise fall back to path-derived name
+    const title =
+      typeof this.definition === 'object' && this.definition !== null
+        ? this.definition.title
+        : undefined
+    return title ?? (name != null ? upperCaseFirst(humanize(name)) : undefined)
   }
 
   readonly hasRequiredProperty = (name: string) => {
