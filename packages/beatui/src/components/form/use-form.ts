@@ -16,18 +16,23 @@ import {
   ObjectController,
 } from './controller'
 import { convertStandardSchemaIssues } from './schema'
-import { Validation } from '@tempots/std'
+import { Validation, strictEqual } from '@tempots/std'
 
 export interface UseFormOptions<T> {
   schema: StandardSchemaV1<T, T>
   initialValue?: Value<T>
   submit?: (value: T) => Promise<ControllerValidation>
+  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validateDebounceMs?: number
 }
 
 export interface UseControllerOptions<T> {
   initialValue: Value<T>
   onChange?: (value: T) => void
   validate?: (value: T) => Promise<ControllerValidation> | ControllerValidation
+  equals?: (a: T, b: T) => boolean
+  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validateDebounceMs?: number
 }
 
 /**
@@ -38,33 +43,69 @@ export function useController<T>({
   initialValue,
   onChange,
   validate,
+  equals,
+  validationMode,
+  validateDebounceMs,
 }: UseControllerOptions<T>) {
   const value = Value.deriveProp(initialValue)
   const status = prop<ControllerValidation>(Validation.valid)
   const disabledSignal = prop(false)
+  const modeSignal = prop<'onSubmit' | 'continuous' | 'touchedOrSubmit'>(
+    validationMode ?? 'touchedOrSubmit'
+  )
 
   const setStatus = (result: ControllerValidation) => {
     status.set(result)
   }
 
-  const change = async (v: T) => {
-    value.set(v)
-    onChange?.(v)
+  let validateTimer: ReturnType<typeof setTimeout> | undefined
+  const runValidate = async (v: T) => {
     if (validate != null) {
       const result = await validate(v)
       setStatus(result)
     }
   }
 
-  const controller = new Controller<T>([], change, value, status, {
-    disabled: disabledSignal,
-  })
+  const change = async (v: T) => {
+    value.set(v)
+    onChange?.(v)
+    const mode = modeSignal.value
+    if (validate != null) {
+      if (mode === 'onSubmit') {
+        // skip validation on change
+        return
+      }
+      const delay = validateDebounceMs ?? 0
+      if (delay > 0) {
+        if (validateTimer) clearTimeout(validateTimer)
+        validateTimer = setTimeout(() => {
+          runValidate(v)
+        }, delay)
+      } else {
+        await runValidate(v)
+      }
+    }
+  }
+
+  const controller = new Controller<T>(
+    [],
+    change,
+    value,
+    status,
+    {
+      disabled: disabledSignal,
+      validationMode: modeSignal,
+    },
+    equals ?? (strictEqual as (a: T, b: T) => boolean)
+  )
 
   // Add disposal logic for the signals we created
   controller.onDispose(() => {
     disabledSignal.dispose()
     value.dispose()
     status.dispose()
+    modeSignal.dispose()
+    if (validateTimer) clearTimeout(validateTimer)
   })
 
   return { controller, setStatus }
@@ -201,11 +242,20 @@ export function useForm<T>({
   initialValue = {} as Value<T>,
   schema,
   submit = async () => Validation.valid,
+  validationMode,
+  validateDebounceMs,
 }: UseFormOptions<T>): UseFormResult<T> {
   const { controller: baseController, setStatus } = useController({
     initialValue,
-    validate: async v =>
-      standardSchemaResultToValidation(await schema['~standard'].validate(v)),
+    validationMode: validationMode ?? 'touchedOrSubmit',
+    validateDebounceMs,
+    validate:
+      (validationMode ?? 'touchedOrSubmit') === 'onSubmit'
+        ? undefined
+        : async v =>
+            standardSchemaResultToValidation(
+              await schema['~standard'].validate(v)
+            ),
   })
   const submitting = prop(false)
   const controller = baseController.object()
@@ -213,6 +263,18 @@ export function useForm<T>({
   const onSubmit = async (e: Event) => {
     submitting.set(true)
     e.preventDefault()
+    controller.markAllTouched()
+    if ((validationMode ?? 'touchedOrSubmit') === 'onSubmit') {
+      const v = controller.value.value
+      const result = standardSchemaResultToValidation(
+        await schema['~standard'].validate(v)
+      )
+      setStatus(result)
+      if (result.type === 'invalid') {
+        submitting.set(false)
+        return
+      }
+    }
     const result = await submit(controller.value.value)
     submitting.set(false)
     if (result.type === 'invalid') {

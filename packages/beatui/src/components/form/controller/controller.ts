@@ -14,14 +14,22 @@ export class Controller<T> {
   readonly status: Signal<ControllerValidation>
   readonly error: Signal<undefined | string>
   readonly hasError: Signal<boolean>
+  readonly touched: Signal<boolean>
+  readonly errorVisible: Signal<boolean>
+  readonly dirty: Signal<boolean>
   readonly dependencyErrors: Signal<
     undefined | Record<string | number, ControllerError>
   >
   readonly #local = {
     disabled: prop(false),
+    touched: prop(false),
   }
+  readonly #equals: (a: T, b: T) => boolean
+  #baseline: T
   protected readonly parent: {
     disabled: Signal<boolean>
+    // Optional validation mode signal supplied by useController/useForm
+    validationMode?: Signal<'onSubmit' | 'continuous' | 'touchedOrSubmit'>
   }
   readonly disabled: Signal<boolean>
   readonly #disposeCallbacks: (() => void)[] = []
@@ -35,16 +43,39 @@ export class Controller<T> {
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
-    }
+      validationMode?: Signal<'onSubmit' | 'continuous' | 'touchedOrSubmit'>
+    },
+    equals: (a: T, b: T) => boolean = strictEqual
   ) {
     this.path = path
     this.change = change
     this.value = value
     this.status = status
+    this.#equals = equals
+    this.#baseline = value.value
     this.error = status.map(s =>
       s?.type === 'invalid' ? s.error?.message : undefined
     )
     this.hasError = this.error.map(e => e != null)
+    this.touched = this.#local.touched
+    // Error visibility respects validation mode if provided by parent
+    if (parent.validationMode) {
+      this.errorVisible = computedOf(
+        this.hasError,
+        this.touched,
+        parent.validationMode
+      )((hasError, touched, mode) => {
+        if (mode === 'continuous') return !!hasError
+        // onSubmit and touchedOrSubmit gate on touched
+        return !!hasError && !!touched
+      })
+    } else {
+      this.errorVisible = computedOf(
+        this.hasError,
+        this.touched
+      )((hasError, touched) => !!hasError && !!touched)
+    }
+    this.dirty = this.value.map(v => !this.#equals(v, this.#baseline))
     this.dependencyErrors = status.map(s =>
       s?.type === 'invalid' ? s.error?.dependencies : undefined
     )
@@ -62,8 +93,11 @@ export class Controller<T> {
     // Register disposal of internal resources
     this.onDispose(() => {
       this.#local.disabled.dispose()
+      this.#local.touched.dispose()
       this.disabled.dispose()
       this.error.dispose()
+      this.errorVisible.dispose()
+      this.dirty.dispose()
       this.dependencyErrors.dispose()
       this.disabledOrHasErrors.dispose()
     })
@@ -96,6 +130,22 @@ export class Controller<T> {
   readonly disable = () => this.setDisabled(true)
 
   readonly enable = () => this.setDisabled(false)
+
+  readonly markTouched = () => {
+    this.#local.touched.set(true)
+  }
+
+  readonly resetTouched = () => {
+    this.#local.touched.set(false)
+  }
+
+  readonly markPristine = () => {
+    this.#baseline = this.value.value
+  }
+
+  readonly reset = () => {
+    this.change(this.#baseline)
+  }
 
   readonly array = (equals: (a: T, b: T) => boolean = strictEqual) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,7 +186,8 @@ export class Controller<T> {
       (value: Out) => this.change(untransform(value)),
       this.value.map(transform, equals),
       this.status.map(makeMapValidation(subpath)),
-      this.parent
+      this.parent,
+      equals
     )
   }
 
@@ -154,7 +205,8 @@ export class Controller<T> {
       },
       this.value.mapAsync(transform, alt, undefined, equals),
       this.status.map(makeMapValidation(subpath)),
-      this.parent
+      this.parent,
+      equals
     )
   }
 }
@@ -163,6 +215,25 @@ export class ObjectController<
   T extends Record<keyof T, T[keyof T]>,
 > extends Controller<T> {
   readonly #controllers = new Map<keyof T, Controller<unknown>>()
+  readonly #childTouched = new Map<keyof T, boolean>()
+  readonly #childTouchedCancel = new Map<keyof T, () => void>()
+  readonly #touchedDeep = prop(false)
+  readonly touchedDeep: Signal<boolean> = this.#touchedDeep
+  readonly #childDirty = new Map<keyof T, boolean>()
+  readonly #childDirtyCancel = new Map<keyof T, () => void>()
+  readonly #dirtyDeep = prop(false)
+  readonly dirtyDeep: Signal<boolean> = this.#dirtyDeep
+
+  readonly #recomputeTouchedDeep = () => {
+    let anyChild = false
+    for (const v of this.#childTouched.values()) {
+      if (v) {
+        anyChild = true
+        break
+      }
+    }
+    this.#touchedDeep.set(this.touched.value || anyChild)
+  }
 
   constructor(
     path: Path,
@@ -179,7 +250,8 @@ export class ObjectController<
       change,
       value.map(v => (v == null ? {} : v) as T, equals),
       status,
-      parent
+      parent,
+      equals
     )
 
     // Register disposal of child controllers
@@ -188,6 +260,14 @@ export class ObjectController<
         controller.dispose()
       }
       this.#controllers.clear()
+      for (const cancel of this.#childTouchedCancel.values()) cancel()
+      this.#childTouchedCancel.clear()
+      this.#childTouched.clear()
+      this.#touchedDeep.dispose()
+      for (const cancel of this.#childDirtyCancel.values()) cancel()
+      this.#childDirtyCancel.clear()
+      this.#childDirty.clear()
+      this.#dirtyDeep.dispose()
     })
   }
 
@@ -209,13 +289,79 @@ export class ObjectController<
       { disabled: this.disabled }
     )
     this.#controllers.set(field, controller as Controller<unknown>)
+    // Track child touched for aggregation
+    const cancel = controller.touched.on(v => {
+      this.#childTouched.set(field, v)
+      this.#recomputeTouchedDeep()
+    })
+    this.#childTouchedCancel.set(field, cancel)
+    // Track child dirty for aggregation
+    const cancelDirty = controller.dirty.on(v => {
+      this.#childDirty.set(field, v)
+      this.#recomputeDirtyDeep()
+    })
+    this.#childDirtyCancel.set(field, cancelDirty)
     return controller
+  }
+
+  readonly markAllTouched = () => {
+    this.markTouched()
+    // Ensure all current fields are marked
+    const current = this.value.value
+    for (const key of Object.keys(current as object) as (keyof T & string)[]) {
+      this.field(key).markTouched()
+    }
+    for (const ctrl of this.#controllers.values()) {
+      ctrl.markTouched()
+    }
+  }
+
+  readonly markAllPristine = () => {
+    this.markPristine()
+    const current = this.value.value
+    for (const key of Object.keys(current as object) as (keyof T & string)[]) {
+      this.field(key)['markPristine']?.()
+    }
+    for (const ctrl of this.#controllers.values()) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(ctrl as any).markPristine?.()
+    }
+  }
+
+  readonly #recomputeDirtyDeep = () => {
+    let anyChild = false
+    for (const v of this.#childDirty.values()) {
+      if (v) {
+        anyChild = true
+        break
+      }
+    }
+    this.#dirtyDeep.set(this.dirty.value || anyChild)
   }
 }
 
 export class ArrayController<T extends unknown[]> extends Controller<T> {
   readonly #controllers = new Array<Controller<T[number]>>()
   readonly length: Signal<number>
+  readonly #childTouched = new Map<number, boolean>()
+  readonly #childTouchedCancel = new Map<number, () => void>()
+  readonly #touchedDeep = prop(false)
+  readonly touchedDeep: Signal<boolean> = this.#touchedDeep
+  readonly #childDirty = new Map<number, boolean>()
+  readonly #childDirtyCancel = new Map<number, () => void>()
+  readonly #dirtyDeep = prop(false)
+  readonly dirtyDeep: Signal<boolean> = this.#dirtyDeep
+
+  readonly #recomputeTouchedDeep = () => {
+    let anyChild = false
+    for (const v of this.#childTouched.values()) {
+      if (v) {
+        anyChild = true
+        break
+      }
+    }
+    this.#touchedDeep.set(this.touched.value || anyChild)
+  }
 
   constructor(
     path: Path,
@@ -228,11 +374,24 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
     equals: (a: T, b: T) => boolean
   ) {
     const arr = value.map(v => (v == null ? [] : v) as T, equals)
-    super(path, change, arr, status, parent)
+    super(path, change, arr, status, parent, equals)
     const cancel = arr.on(v => {
       const diff = this.#controllers.length - v.length
       if (diff > 0) {
-        this.#controllers.splice(v.length, diff).forEach(c => c.dispose())
+        this.#controllers.splice(v.length, diff).forEach((c, idx) => {
+          const absoluteIndex = v.length + idx
+          c.dispose()
+          const cancel = this.#childTouchedCancel.get(absoluteIndex)
+          cancel?.()
+          this.#childTouchedCancel.delete(absoluteIndex)
+          this.#childTouched.delete(absoluteIndex)
+          const cancelDirty = this.#childDirtyCancel.get(absoluteIndex)
+          cancelDirty?.()
+          this.#childDirtyCancel.delete(absoluteIndex)
+          this.#childDirty.delete(absoluteIndex)
+        })
+        this.#recomputeTouchedDeep()
+        this.#recomputeDirtyDeep()
       }
     })
     this.length = arr.map(v => v.length)
@@ -246,6 +405,14 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
       this.#controllers.length = 0
       cancel()
       arr.dispose()
+      for (const cancel of this.#childTouchedCancel.values()) cancel()
+      this.#childTouchedCancel.clear()
+      this.#childTouched.clear()
+      this.#touchedDeep.dispose()
+      for (const cancel of this.#childDirtyCancel.values()) cancel()
+      this.#childDirtyCancel.clear()
+      this.#childDirty.clear()
+      this.#dirtyDeep.dispose()
     })
   }
 
@@ -266,6 +433,16 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
       { disabled: this.disabled }
     )
     this.#controllers[index] = controller
+    const cancel = controller.touched.on(v => {
+      this.#childTouched.set(index, v)
+      this.#recomputeTouchedDeep()
+    })
+    this.#childTouchedCancel.set(index, cancel)
+    const cancelDirty = controller.dirty.on(v => {
+      this.#childDirty.set(index, v)
+      this.#recomputeDirtyDeep()
+    })
+    this.#childDirtyCancel.set(index, cancelDirty)
     return controller
   }
 
@@ -302,5 +479,33 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
     const items = copy.splice(from, length)
     copy.splice(to, 0, ...items)
     this.change(copy)
+  }
+
+  readonly markAllTouched = () => {
+    this.markTouched()
+    const len = this.value.value.length
+    for (let i = 0; i < len; i++) {
+      this.item(i).markTouched()
+    }
+  }
+
+  readonly markAllPristine = () => {
+    this.markPristine()
+    const len = this.value.value.length
+    for (let i = 0; i < len; i++) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(this.item(i) as any).markPristine?.()
+    }
+  }
+
+  readonly #recomputeDirtyDeep = () => {
+    let anyChild = false
+    for (const v of this.#childDirty.values()) {
+      if (v) {
+        anyChild = true
+        break
+      }
+    }
+    this.#dirtyDeep.set(this.dirty.value || anyChild)
   }
 }

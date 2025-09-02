@@ -112,6 +112,9 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
   schema: SchemaObject
   /** Reactive value containing the form data */
   initialValue: Value<T>
+  /** Validation behavior */
+  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validateDebounceMs?: number
 }
 
 export function JSONSchemaForm<T>(
@@ -121,6 +124,8 @@ export function JSONSchemaForm<T>(
     externalSchemas,
     refResolver,
     sanitizeAdditional,
+    validationMode,
+    validateDebounceMs,
   }: JSONSchemaFormProps<T>,
   fn: ({
     Form,
@@ -150,32 +155,37 @@ export function JSONSchemaForm<T>(
         const asyncValidator =
           asyncRules.length > 0 ? new AsyncValidator() : null
 
+        const mode = validationMode ?? 'touchedOrSubmit'
+        const validateFn = (value: T): ControllerValidation => {
+          // Apply base AJV validation
+          const ok = validate(value)
+          let baseValidation: ControllerValidation
+          if (ok) {
+            baseValidation = Validation.valid
+          } else {
+            baseValidation = ajvErrorsToControllerValidation(
+              validate.errors ?? []
+            )
+          }
+
+          // Apply conditional validation if configured
+          if (conditionalConfig) {
+            return applyConditionalValidation(
+              value,
+              value, // formData is the same as value for root-level validation
+              conditionalConfig,
+              validate
+            )
+          }
+
+          return baseValidation
+        }
+
         const { controller, setStatus } = useController({
           initialValue,
-          validate: (value: T) => {
-            // Apply base AJV validation
-            const ok = validate(value)
-            let baseValidation: ControllerValidation
-            if (ok) {
-              baseValidation = Validation.valid
-            } else {
-              baseValidation = ajvErrorsToControllerValidation(
-                validate.errors ?? []
-              )
-            }
-
-            // Apply conditional validation if configured
-            if (conditionalConfig) {
-              return applyConditionalValidation(
-                value,
-                value, // formData is the same as value for root-level validation
-                conditionalConfig,
-                validate
-              )
-            }
-
-            return baseValidation
-          },
+          validationMode: mode,
+          validateDebounceMs,
+          validate: mode === 'onSubmit' ? undefined : validateFn,
         })
 
         // Set up conditional validation watcher if needed

@@ -6,7 +6,7 @@ import { InputWrapper, InputWrapperOptions } from '../input'
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (_controller: Controller<any>, onBlur?: () => void) => () => {
-    // _controller.touch() // TODO: Implement touch functionality
+    _controller.markTouched()
     onBlur?.()
   }
 
@@ -40,7 +40,7 @@ export function BaseControl<T, O extends BaseControlOptions>(
     id: controller.name,
     disabled: controller.disabled,
     value: controller.value,
-    hasError: controller.hasError,
+    hasError: controller.errorVisible,
     ...rest,
     onChange: makeOnChangeHandler(controller, onChange),
     onBlur: makeOnBlurHandler(controller, onBlur),

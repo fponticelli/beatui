@@ -6,6 +6,8 @@ import {
   prop,
   computedOf,
   on,
+  aria,
+  Value,
 } from '@tempots/dom'
 import { Stack } from '../../layout'
 import { Card } from '../../layout/card'
@@ -165,7 +167,7 @@ export function TabsContainer({
     html.div(
       attr.class('bc-tabs__header'),
       attr.role('tablist'),
-      ...groupEntries.map(([groupName]) =>
+      ...groupEntries.map(([groupName], index) =>
         html.button(
           attr.class('bc-tabs__tab'),
           attr.class(
@@ -174,7 +176,34 @@ export function TabsContainer({
             )
           ),
           attr.role('tab'),
+          attr.tabindex(
+            activeTab.map((active): number => (active === groupName ? 0 : -1))
+          ),
           on.click(() => activeTab.set(groupName)),
+          on.keydown((e: KeyboardEvent) => {
+            switch (e.key) {
+              case 'ArrowLeft':
+                e.preventDefault()
+                const prevIndex =
+                  index > 0 ? index - 1 : groupEntries.length - 1
+                activeTab.set(groupEntries[prevIndex][0])
+                break
+              case 'ArrowRight':
+                e.preventDefault()
+                const nextIndex =
+                  index < groupEntries.length - 1 ? index + 1 : 0
+                activeTab.set(groupEntries[nextIndex][0])
+                break
+              case 'Home':
+                e.preventDefault()
+                activeTab.set(groupEntries[0][0])
+                break
+              case 'End':
+                e.preventDefault()
+                activeTab.set(groupEntries[groupEntries.length - 1][0])
+                break
+            }
+          }),
           groupName
         )
       )
@@ -263,6 +292,7 @@ export function AccordionContainer({
         attr.class('bc-accordion__item'),
         html.button(
           attr.class('bc-accordion__header'),
+          aria.expanded(isOpen as Value<boolean | 'undefined'>),
           on.click(() => {
             const current = openSections.value
             const newSections = new Set(current)
@@ -272,6 +302,19 @@ export function AccordionContainer({
               newSections.add(groupName)
             }
             openSections.set(newSections)
+          }),
+          on.keydown((e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              const current = openSections.value
+              const newSections = new Set(current)
+              if (newSections.has(groupName)) {
+                newSections.delete(groupName)
+              } else {
+                newSections.add(groupName)
+              }
+              openSections.set(newSections)
+            }
           }),
           html.span(groupName),
           Icon({

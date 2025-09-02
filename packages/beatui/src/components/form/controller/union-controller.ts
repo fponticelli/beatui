@@ -43,7 +43,7 @@ export class UnionController<T> extends Controller<T> {
     branches: UnionBranch[],
     equals: (a: T, b: T) => boolean = strictEqual
   ) {
-    super(path, change, value, status, parent)
+    super(path, change, value, status, parent, equals)
 
     this.branches = branches
 
@@ -91,7 +91,8 @@ export class UnionController<T> extends Controller<T> {
           equals as (a: unknown, b: unknown) => boolean
         ),
         status.map(makeMapValidation([branchKey])),
-        { disabled: this.disabled }
+        { disabled: this.disabled },
+        equals as (a: unknown, b: unknown) => boolean
       )
 
       this.#branchControllers.set(branchKey, branchController)
@@ -151,7 +152,8 @@ export class UnionController<T> extends Controller<T> {
         strictEqual as (a: unknown, b: unknown) => boolean
       ),
       this.status.map(makeMapValidation([branchKey])),
-      { disabled: this.disabled }
+      { disabled: this.disabled },
+      strictEqual as (a: unknown, b: unknown) => boolean
     )
 
     this.#branchControllers.set(branchKey, branchController)

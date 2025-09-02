@@ -164,7 +164,7 @@ export function colorInputOptionsFromController(controller: ColorController) {
     id: controller.name,
     disabled: controller.disabled,
     value: controller.normalizedHex,
-    hasError: controller.hasError,
+    hasError: controller.errorVisible,
     onChange: controller.setColor,
     onInput: controller.setColor,
   }
