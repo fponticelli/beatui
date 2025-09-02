@@ -63,6 +63,15 @@ import {
   Option,
   DropdownOption,
   SelectOption,
+  // Newly showcased inputs
+  UrlInput,
+  NullableUrlInput,
+  SliderInput,
+  NullableSliderInput,
+  SegmentedInput,
+  SelectTagsInput,
+  ComboboxTagsInput,
+  ComboboxInput,
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
@@ -128,6 +137,44 @@ export const InputsPage = () =>
       Option.value('one', 'One'),
       Option.value('two', 'Two'),
     ])
+
+    // URL values
+    const urlVal = prop('')
+    const nullableUrlVal = prop<string | null>(null)
+
+    // Slider values
+    const sliderVal = prop(50)
+    const nullableSliderVal = prop<number | null>(null)
+
+    // Segmented input
+    const segmentedOptions = { one: 'One', two: 'Two', three: 'Three' } as const
+    type SegmentedKey = keyof typeof segmentedOptions
+    const segmentedVal = prop<SegmentedKey>('one')
+
+    // Tags (selectable) options/values
+    const selectTagsVal = prop<string[]>([])
+    const selectTagsOptions = prop<DropdownOption<string>[]>([
+      Option.value('red', 'Red'),
+      Option.value('green', 'Green'),
+      Option.value('blue', 'Blue'),
+    ])
+
+    // Combobox (single) fruits
+    const comboboxFruits: DropdownOption<string>[] = [
+      Option.value('apple', 'Apple'),
+      Option.value('banana', 'Banana'),
+      Option.value('cherry', 'Cherry'),
+    ]
+    const comboboxVal = prop('apple')
+    const loadFruits = async (q: string) =>
+      comboboxFruits.filter(
+        o =>
+          o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())
+      )
+
+    // Combobox Tags
+    const comboboxTagsVal = prop<string[]>([])
+    const comboboxTagsOptions = selectTagsOptions
 
     const lazySelectValue = prop('a')
     const lazySelectRequest = prop({ q: 'x' })
@@ -278,6 +325,7 @@ export const InputsPage = () =>
                   emptyIcon: 'line-md:beer-alt-loop',
                   fullIcon: 'line-md:beer-alt-twotone-loop',
                   fullColor: 'orange',
+
                   max: 5,
                   rounding: 0.5,
                   size: 'lg',
@@ -323,6 +371,29 @@ export const InputsPage = () =>
                   disabled,
                 }),
                 description: description(nullableEmail),
+              })
+          ),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'URL Input',
+                content: UrlInput({
+                  value: urlVal,
+                  onChange: urlVal.set,
+                  disabled,
+                }),
+                description: description(urlVal),
+              }),
+            () =>
+              InputWrapper({
+                label: 'Nullable URL Input',
+                content: NullableUrlInput({
+                  value: nullableUrlVal,
+                  onChange: nullableUrlVal.set,
+                  disabled,
+                }),
+                description: description(nullableUrlVal),
               })
           ),
           InputWrapper({
