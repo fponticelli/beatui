@@ -1,17 +1,6 @@
-import {
-  attr,
-  Renderable,
-  Value,
-  prop,
-  MapSignal,
-  computedOf,
-} from '@tempots/dom'
-import { Stack } from '../../layout'
-import { NativeSelect, InputWrapper, type Controller } from '../../form'
-import { SegmentedInput } from '../../form/input/segmented-input'
+import { Renderable, Value, prop, MapSignal, computedOf } from '@tempots/dom'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { mergeAllOf } from '../schema-context'
-import { definitionToInputWrapperOptions } from './shared-utils'
 import { JSONSchemaGenericControl } from './generic-control'
 import {
   autoSelectOneOfBranch,
@@ -21,6 +10,8 @@ import {
   getDiscriminatorConfig,
   selectOneOfBranch,
 } from '../discriminator/discriminator-utils'
+import { ChoiceSelector, withSelectorLayout } from './composition-shared'
+import type { Controller } from '../../form'
 
 /**
  * Control for anyOf schemas
@@ -143,48 +134,23 @@ function JSONSchemaOneOfLike<T>({
 
   const count = variants.length
 
-  const Selector = (onChange: (idx: number) => void) => {
-    if (count <= 3) {
-      return SegmentedInput<Record<string, string>>({
-        options: Object.fromEntries(
-          typesOrTitles.map((s, i) => [String(i), s])
-        ),
-        value: Value.map(sel, v => String(v)) as unknown as Value<string>,
-        onChange: (k: string) => onChange(Number(k)),
-        size: 'sm',
-      })
-    }
-    return NativeSelect<number>({
-      options: variants.map((_, i) => ({
-        type: 'value',
-        value: i,
-        label: typesOrTitles[i]!,
-      })),
-      value: sel,
-      onChange: onChange,
-    } as unknown as Parameters<typeof NativeSelect<number>>[0])
-  }
-
   const change = (idx: number) => {
     userHasManuallySelected = true
     sel.set(idx)
   }
 
-  // Branch detection info could be used for debugging/development in the future
-  // const _branchDetectionInfo = computedOf(
-  //   controller.value,
-  //   ctx.ajv
-  // )((value, ajv) => {
-  //   if (kind === 'oneOf') {
-  //     const detection = detectOneOfBranch(ctx, value, ajv)
-  //     return {
-  //       isAmbiguous: detection.isAmbiguous,
-  //       hasNoMatch: detection.hasNoMatch,
-  //       validBranches: detection.validBranches,
-  //     }
-  //   }
-  //   return { isAmbiguous: false, hasNoMatch: false, validBranches: [] }
-  // })
+  const selector =
+    count > 1
+      ? ChoiceSelector<number>({
+          options: variants.map((_, i) => ({
+            value: i,
+            label: typesOrTitles[i]!,
+          })),
+          selected: sel,
+          onChange: change,
+          // auto mode chooses segmented for <=3
+        })
+      : ('' as unknown as Renderable)
 
   const inner = MapSignal(sel, i => {
     return JSONSchemaGenericControl({
@@ -197,17 +163,10 @@ function JSONSchemaOneOfLike<T>({
     })
   })
 
-  if (count <= 1) {
-    if (ctx.isRoot) return inner
-    return InputWrapper({
-      ...definitionToInputWrapperOptions({ ctx }),
-      content: inner,
-    })
-  }
-
-  if (ctx.isRoot) return Stack(attr.class('bu-gap-2'), Selector(change), inner)
-  return InputWrapper({
-    ...definitionToInputWrapperOptions({ ctx }),
-    content: Stack(attr.class('bu-gap-2'), Selector(change), inner),
+  return withSelectorLayout({
+    ctx,
+    showSelector: count > 1,
+    selector,
+    inner,
   })
 }

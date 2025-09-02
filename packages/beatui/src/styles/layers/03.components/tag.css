@@ -92,3 +92,16 @@
   color: var(--text-normal-dark);
   border-color: var(--border-dark);
 }
+
+.bc-input-container__tags-selector {
+  flex-grow: 1;
+  background-color: transparent;
+  min-width: 100px;
+  min-height: 1rem;
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: calc(var(--spacing-base) * 2);
+}

@@ -1,17 +1,14 @@
-import { attr, Renderable, Value, MapSignal } from '@tempots/dom'
-import { Stack } from '../../layout'
+import { Renderable, Value, MapSignal } from '@tempots/dom'
 import {
   Control,
-  NativeSelect,
   NullableNumberInput,
-  InputWrapper,
   type Controller,
   type UnionBranch,
   UnionController,
 } from '../../form'
-import { SegmentedInput } from '../../form/input/segmented-input'
 import { upperCaseFirst } from '@tempots/std'
 import type { SchemaContext, JSONSchema } from '../schema-context'
+import { ChoiceSelector, withSelectorLayout } from './composition-shared'
 import {
   JSONTypeName,
   detectTypeName,
@@ -87,30 +84,13 @@ export function JSONSchemaUnion<T>({
   controller.onDispose(() => unionController.dispose())
 
   // Create selector component
-  const Selector = (onChange: (t: JSONTypeName) => void) => {
-    const mode = xui.selector ?? (types.length <= 3 ? 'segmented' : 'select')
-    if (mode === 'segmented') {
-      const labels = Object.fromEntries(
-        types.map(t => [t, upperCaseFirst(t)])
-      ) as Record<JSONTypeName, string>
-      return SegmentedInput<Record<string, string>>({
-        options: labels as Record<string, string>,
-        value: unionController.activeBranch as Value<string>,
-        onChange: (t: string) => onChange(t as JSONTypeName),
-        size: 'sm',
-      })
-    }
-    // Fallback to native select
-    return NativeSelect<JSONTypeName>({
-      options: types.map(t => ({
-        type: 'value',
-        value: t,
-        label: upperCaseFirst(t),
-      })),
-      value: unionController.activeBranch as Value<JSONTypeName>,
-      onChange: onChange,
+  const Selector = (onChange: (t: JSONTypeName) => void) =>
+    ChoiceSelector<JSONTypeName>({
+      options: types.map(t => ({ value: t, label: upperCaseFirst(t) })),
+      selected: unionController.activeBranch as Value<JSONTypeName>,
+      onChange,
+      mode: (xui.selector ?? 'auto') as 'segmented' | 'select' | 'auto',
     })
-  }
 
   // Handle branch switching
   const changeBranch = (next: JSONTypeName) => {
@@ -203,16 +183,10 @@ export function JSONSchemaUnion<T>({
     }
   })
 
-  if (ctx.isRoot) {
-    return types.length > 1
-      ? Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
-      : inner
-  }
-  return InputWrapper({
-    ...definitionToInputWrapperOptions({ ctx }),
-    content:
-      types.length > 1
-        ? Stack(attr.class('bu-gap-2'), Selector(changeBranch), inner)
-        : inner,
+  return withSelectorLayout({
+    ctx,
+    showSelector: types.length > 1,
+    selector: Selector(changeBranch),
+    inner,
   })
 }

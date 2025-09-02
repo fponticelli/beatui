@@ -151,7 +151,15 @@ export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
         disabled: options.disabled,
         onRemove: removeOne,
       }),
-      menu
+      html.div(
+        attr.class('bc-input-container__tags-selector'),
+        Icon({
+          icon: 'line-md:plus',
+          color: 'neutral',
+          size: 'sm',
+        }),
+        menu
+      )
     ),
   })
 }
