@@ -5,6 +5,7 @@ import {
   Fragment,
   on,
   prop,
+  Signal,
   Value,
 } from '@tempots/dom'
 import { StandardSchemaV1 } from './schema/standard-schema-v1'
@@ -193,6 +194,7 @@ export type UseFormResult<T> = {
   controller: ObjectController<T>
   setStatus: (result: ControllerValidation) => void
   onSubmit: (e: Event) => Promise<void>
+  submitting: Signal<boolean>
 }
 
 export function useForm<T>({
@@ -205,10 +207,13 @@ export function useForm<T>({
     validate: async v =>
       standardSchemaResultToValidation(await schema['~standard'].validate(v)),
   })
+  const submitting = prop(false)
   const controller = baseController.object()
   const onSubmit = async (e: Event) => {
+    submitting.set(true)
     e.preventDefault()
     const result = await submit(controller.value.value)
+    submitting.set(false)
     if (result.type === 'invalid') {
       setStatus(result)
     }
@@ -217,5 +222,6 @@ export function useForm<T>({
     controller: controller as unknown as ObjectController<T>,
     setStatus,
     onSubmit,
+    submitting,
   }
 }
