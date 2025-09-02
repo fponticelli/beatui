@@ -186,7 +186,8 @@ export interface AjvBuildOptions {
 
 async function createAjv(
   base: '2020-12' | '2019-09' | 'draft-07',
-  removeAdditional: 'all' | 'failing' | boolean
+  removeAdditional: 'all' | 'failing' | boolean,
+  registerMeta: boolean
 ) {
   const createAjv = (
     await (() => {
@@ -201,7 +202,7 @@ async function createAjv(
     })()
   ).default
   const ajv = new createAjv({
-    meta: true,
+    meta: registerMeta,
     strictSchema: false, // Allow more flexible schema validation for tuple arrays
     allErrors: true,
     removeAdditional,
@@ -232,6 +233,25 @@ function getFlavor(id: string | undefined): '2020-12' | '2019-09' | 'draft-07' {
 function normalizeExternalRef(ref: string): string {
   const hashIndex = ref.indexOf('#')
   return hashIndex >= 0 ? ref.slice(0, hashIndex) : ref
+}
+
+function stripNestedDocIdsAndDynamicAnchors(
+  input: unknown,
+  isRoot: boolean = true
+): unknown {
+  if (Array.isArray(input))
+    return input.map(v => stripNestedDocIdsAndDynamicAnchors(v, false))
+  if (input != null && typeof input === 'object') {
+    const src = input as Record<string, unknown>
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(src)) {
+      if (!isRoot && (k === '$id' || k === '$schema' || k === '$dynamicAnchor'))
+        continue
+      out[k] = stripNestedDocIdsAndDynamicAnchors(v, false)
+    }
+    return out
+  }
+  return input
 }
 
 function collectExternalRefIds(input: unknown): string[] {
@@ -364,7 +384,7 @@ async function preloadExternalRefs(
  * ```
  */
 export async function getAjvForSchema(
-  schema: { $schema?: string } & SchemaObject,
+  schema: { $schema?: string; $id?: string } & SchemaObject,
   options?: AjvBuildOptions
 ): Promise<BuildAjvResult> {
   try {
@@ -373,7 +393,45 @@ export async function getAjvForSchema(
       options?.sanitizeAdditional === false
         ? false
         : (options?.sanitizeAdditional ?? false)
-    const ajv = await createAjv(flavor, removeAdditional)
+
+    // Helper to normalize ids by trimming trailing '#'
+    const norm = (s: string | undefined) =>
+      typeof s === 'string' && s.endsWith('#') ? s.slice(0, -1) : (s ?? '')
+
+    // Detect if the input is one of the canonical meta-schemas
+    const rootIdRaw = schema.$id
+    const rootId = norm(rootIdRaw)
+
+    const META_IDS = new Set<string>([
+      'https://json-schema.org/draft/2020-12/schema',
+      'https://json-schema.org/draft/2019-09/schema',
+      'http://json-schema.org/draft-07/schema',
+    ])
+
+    if (rootId !== '' && META_IDS.has(rootId)) {
+      // Special handling: build AJV with NO pre-registered metas
+      const ajv = await createAjv(flavor, removeAdditional, false)
+
+      // Compile a clone with nested $id/$schema/$dynamicAnchor removed so dynamic anchors (e.g. '#meta')
+      // do not get duplicated across sub-metas and all intra-document $refs resolve against a single doc.
+      const metaForCompile = stripNestedDocIdsAndDynamicAnchors(
+        schema
+      ) as SchemaObject
+
+      // Register bundled meta-schema explicitly (and only once)
+      try {
+        ajv.addMetaSchema(metaForCompile)
+      } catch {}
+
+      // Retrieve the validator for this meta by its id to avoid re-compilation/registration
+      const validate =
+        ajv.getSchema(rootIdRaw ?? rootId) ?? ajv.compile(metaForCompile)
+
+      return { ok: true, value: { ajv, validate } }
+    }
+
+    // Normal path for regular schemas: build AJV with metas pre-registered
+    const ajv = await createAjv(flavor, removeAdditional, true)
 
     // Register pre-bundled external schemas first
     if (options?.externalSchemas && options.externalSchemas.length > 0) {
@@ -393,7 +451,7 @@ export async function getAjvForSchema(
       }
     }
 
-    const validate = ajv.compile(schema)
+    const validate = ajv.compile(schema as SchemaObject)
     return { ok: true, value: { ajv, validate } }
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e)
