@@ -113,9 +113,13 @@ type AjvBuildOptions = {
   refResolver?: (
     ids: ReadonlyArray<string>
   ) => Promise<ReadonlyArray<SchemaObject>>
+  sanitizeAdditional?: 'all' | 'failing' | false
 }
 
-async function createAjv(base: '2020-12' | '2019-09' | 'draft-07') {
+async function createAjv(
+  base: '2020-12' | '2019-09' | 'draft-07',
+  removeAdditional: 'all' | 'failing' | boolean
+) {
   const createAjv = (
     await (() => {
       switch (base) {
@@ -128,7 +132,12 @@ async function createAjv(base: '2020-12' | '2019-09' | 'draft-07') {
       }
     })()
   ).default
-  const ajv = new createAjv({ meta: true, strictSchema: true, allErrors: true })
+  const ajv = new createAjv({
+    meta: true,
+    strictSchema: true,
+    allErrors: true,
+    removeAdditional,
+  })
   switch (base) {
     case '2020-12':
       ajv.opts.defaultMeta = 'https://json-schema.org/draft/2020-12/schema'
@@ -259,7 +268,11 @@ export async function getAjvForSchema(
 ): Promise<BuildAjvResult> {
   try {
     const flavor = getFlavor(schema.$schema)
-    const ajv = await createAjv(flavor)
+    const removeAdditional =
+      options?.sanitizeAdditional === false
+        ? false
+        : (options?.sanitizeAdditional ?? false)
+    const ajv = await createAjv(flavor, removeAdditional)
 
     // Register pre-bundled external schemas first
     if (options?.externalSchemas && options.externalSchemas.length > 0) {

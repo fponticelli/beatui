@@ -19,6 +19,7 @@ export function JSONSchemaForm<T>(
     initialValue,
     externalSchemas,
     refResolver,
+    sanitizeAdditional,
   }: {
     schema: SchemaObject
     initialValue: Value<T>
@@ -26,6 +27,7 @@ export function JSONSchemaForm<T>(
     refResolver?: (
       ids: ReadonlyArray<string>
     ) => Promise<ReadonlyArray<SchemaObject>>
+    sanitizeAdditional?: 'all' | 'failing' | false
   },
   fn: ({
     Form,
@@ -38,7 +40,11 @@ export function JSONSchemaForm<T>(
   }) => Renderable
 ): Renderable {
   return Async(
-    getAjvForSchema(schema, { externalSchemas, refResolver }),
+    getAjvForSchema(schema, {
+      externalSchemas,
+      refResolver,
+      sanitizeAdditional,
+    }),
     result => {
       if (result.ok) {
         const { ajv, validate } = result.value
