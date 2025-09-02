@@ -1,5 +1,6 @@
 import { humanize, upperCaseFirst } from '@tempots/std'
 import type Ajv from 'ajv'
+import { compileWithCache } from './ajv-utils'
 
 // Universal JSON Schema types that work across draft-07, 2019-09, and 2020-12
 export type JSONSchemaType =
@@ -515,7 +516,7 @@ export function evaluateNotViolation(
   }
 
   try {
-    const validate = ajv.compile(notSchema)
+    const validate = compileWithCache(ajv, notSchema)
     const isValid = validate(value)
 
     if (isValid) {
@@ -635,7 +636,7 @@ export function evaluateIfThenElseOverlay(
   if (!def.if || typeof def.if !== 'object') return null
 
   try {
-    const validate = ajv.compile(def.if as JSONSchema)
+    const validate = compileWithCache(ajv, def.if as JSONSchema)
     const matches = validate(value)
     if (matches) {
       const thenSchema = def.then

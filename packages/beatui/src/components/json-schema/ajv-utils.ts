@@ -1,5 +1,6 @@
 import type Ajv from 'ajv'
-import type { ErrorObject, KeywordDefinition } from 'ajv'
+import type { ErrorObject, KeywordDefinition, ValidateFunction } from 'ajv'
+import type { SchemaObject } from 'ajv'
 import { Validation } from '@tempots/std'
 import type {
   ControllerError,
@@ -79,9 +80,40 @@ function addUIKeyword(ajv: Ajv) {
   ajv.addKeyword(def)
 }
 
+// Module-level caches
+let COMPILE_CACHE: WeakMap<
+  Ajv,
+  WeakMap<object, ValidateFunction>
+> = new WeakMap()
+
+export function clearCaches() {
+  // Reassign to a new WeakMap to clear
+  COMPILE_CACHE = new WeakMap()
+}
+
+export function compileWithCache(ajv: Ajv, schema: object): ValidateFunction {
+  let cache = COMPILE_CACHE.get(ajv)
+  if (cache == null) {
+    cache = new WeakMap<object, ValidateFunction>()
+    COMPILE_CACHE.set(ajv, cache)
+  }
+  const existing = cache.get(schema)
+  if (existing) return existing
+  const validate = ajv.compile(schema)
+  cache.set(schema, validate)
+  return validate
+}
+
 type BuildAjvResult =
   | { ok: true; value: { ajv: Ajv; validate: import('ajv').ValidateFunction } }
   | { ok: false; error: string }
+
+type AjvBuildOptions = {
+  externalSchemas?: ReadonlyArray<SchemaObject>
+  refResolver?: (
+    ids: ReadonlyArray<string>
+  ) => Promise<ReadonlyArray<SchemaObject>>
+}
 
 async function createAjv(base: '2020-12' | '2019-09' | 'draft-07') {
   const createAjv = (
@@ -120,12 +152,133 @@ function getFlavor(id: string | undefined): '2020-12' | '2019-09' | 'draft-07' {
   return 'draft-07'
 }
 
-export async function getAjvForSchema(schema: {
-  $schema?: string
-}): Promise<BuildAjvResult> {
+function normalizeExternalRef(ref: string): string {
+  const hashIndex = ref.indexOf('#')
+  return hashIndex >= 0 ? ref.slice(0, hashIndex) : ref
+}
+
+function collectExternalRefIds(input: unknown): string[] {
+  const out = new Set<string>()
+  const visit = (node: unknown): void => {
+    if (node == null) return
+    if (Array.isArray(node)) {
+      for (const item of node) visit(item)
+      return
+    }
+    if (typeof node === 'object') {
+      const obj = node as Record<string, unknown>
+      const ref = obj['$ref']
+      if (typeof ref === 'string' && ref.length > 0 && ref[0] !== '#') {
+        out.add(normalizeExternalRef(ref))
+      }
+      for (const v of Object.values(obj)) visit(v)
+    }
+  }
+  visit(input)
+  return [...out]
+}
+
+function addSchemasSafely(ajv: Ajv, schemas: ReadonlyArray<SchemaObject>) {
+  for (const s of schemas) {
+    const id = (s as { $id?: string }).$id
+    if (typeof id === 'string' && id.length > 0) {
+      // Avoid duplicate registration
+      if (!ajv.getSchema(id)) {
+        try {
+          ajv.addSchema(s)
+        } catch (_e) {
+          // Ignore addSchema errors for duplicates or invalid externals
+        }
+      }
+    }
+  }
+}
+
+async function preloadExternalRefs(
+  ajv: Ajv,
+  root: SchemaObject,
+  resolver: AjvBuildOptions['refResolver'],
+  seeded: ReadonlyArray<SchemaObject> | undefined
+): Promise<string | null> {
+  if (resolver == null) return null
+  const registeredIds = new Set<string>()
+  if (seeded && seeded.length > 0) {
+    for (const s of seeded) {
+      const id = (s as { $id?: string }).$id
+      if (typeof id === 'string' && id.length > 0) registeredIds.add(id)
+    }
+  }
+
+  const resolvedSchemas: SchemaObject[] = []
+  const MAX_ROUNDS = 5
+  for (let i = 0; i < MAX_ROUNDS; i++) {
+    const idsFromRoot = collectExternalRefIds(root)
+    const idsFromResolved = resolvedSchemas.flatMap(s =>
+      collectExternalRefIds(s)
+    )
+    const wanted = new Set<string>([...idsFromRoot, ...idsFromResolved])
+
+    // Filter out those already registered in AJV or in local set
+    const pending: string[] = []
+    for (const id of wanted) {
+      if (registeredIds.has(id)) continue
+      if (ajv.getSchema(id)) {
+        registeredIds.add(id)
+        continue
+      }
+      pending.push(id)
+    }
+
+    if (pending.length === 0) return null
+
+    try {
+      const newly = await resolver(pending)
+      if (!Array.isArray(newly) || newly.length === 0) {
+        // Nothing more to add; stop trying
+        return null
+      }
+      addSchemasSafely(ajv, newly)
+      for (const s of newly) {
+        const sid = (s as { $id?: string }).$id
+        if (typeof sid === 'string' && sid.length > 0) {
+          registeredIds.add(sid)
+          resolvedSchemas.push(s)
+        }
+      }
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e)
+      return `refResolver failed: ${message}`
+    }
+  }
+  return `refResolver reached iteration limit while resolving external $refs`
+}
+
+export async function getAjvForSchema(
+  schema: { $schema?: string } & SchemaObject,
+  options?: AjvBuildOptions
+): Promise<BuildAjvResult> {
   try {
     const flavor = getFlavor(schema.$schema)
     const ajv = await createAjv(flavor)
+
+    // Register pre-bundled external schemas first
+    if (options?.externalSchemas && options.externalSchemas.length > 0) {
+      addSchemasSafely(ajv, options.externalSchemas)
+    }
+
+    // Use resolver to preload external $refs if provided (transitively)
+    if (options?.refResolver) {
+      const preloadError = await preloadExternalRefs(
+        ajv,
+        schema,
+        options.refResolver,
+        options.externalSchemas
+      )
+      if (preloadError != null) {
+        return { ok: false, error: preloadError }
+      }
+    }
+
     const validate = ajv.compile(schema)
     return { ok: true, value: { ajv, validate } }
   } catch (e) {
