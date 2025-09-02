@@ -190,7 +190,8 @@ function JSONSchemaOneOfLike<T>({
     return JSONSchemaGenericControl({
       ctx: ctx.with({
         definition: variants[Value.get(i)],
-        suppressLabel: true,
+        // Suppress inner labels only when combinator is nested (non-root)
+        suppressLabel: !ctx.isRoot,
       }),
       controller: controller as unknown as Controller<unknown>,
     })

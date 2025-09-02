@@ -253,6 +253,9 @@ export function JSONSchemaObject({
               isPropertyRequired: Array.isArray(effective.required)
                 ? effective.required.includes(key)
                 : effCtx.hasRequiredProperty(key),
+              // Ensure child fields show their own labels even when this object
+              // is rendered inside a union/combinator where labels are suppressed
+              suppressLabel: false,
             })
             .append(key),
           controller: field,

@@ -126,8 +126,9 @@ export function JSONSchemaUnion<T>({
     if (onlyPrimitivePlusNull && (t === 'number' || t === 'integer')) {
       const d = def as JSONSchema
       return Control(NullableNumberInput, {
+        // Suppress inner labels only when union is nested (non-root)
         ...definitionToInputWrapperOptions({
-          ctx: ctx.with({ suppressLabel: true }),
+          ctx: ctx.with({ suppressLabel: !ctx.isRoot }),
         }),
         controller: branchController as unknown as Controller<number | null>,
         min: d.minimum,
@@ -139,7 +140,8 @@ export function JSONSchemaUnion<T>({
     // Delegate directly to specific type controls to avoid circular dependency
     const nextCtx = ctx.with({
       definition: { ...(def as JSONSchema), type: t },
-      suppressLabel: true,
+      // Suppress inner labels only when union is nested (non-root)
+      suppressLabel: !ctx.isRoot,
     })
 
     switch (t) {
