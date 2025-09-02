@@ -2,18 +2,19 @@
 
 ## JSON Schema Form
 
-- [ ] address nullability and optionality correctly
-- [ ] tags input
-- [ ] const
-- [ ] enum input
-- [ ] union
-- [ ] nullable inputs
-- [ ] date input
-- [ ] datetime input
-- [ ] markdown input
+- [x] address nullability and optionality correctly
+- [x] tags input
+- [x] const
+- [x] enum input
+- [x] union
+- [x] nullable inputs
+- [x] date input
+- [x] datetime input
+- [x] markdown input
 - [ ] grid view
 - [ ] basic layout
-- [ ] add visual hints for component that cannot be rendered
+- [x] add visual hints for component that cannot be rendered
+- [ ] add option to enable heuristics based on field names
 - [ ] color (infer from name, pattern or format)
 
 - [ ] format:
@@ -45,7 +46,6 @@
 
 ## useForm
 
-- [ ] submitting
 - [ ] validation strategy
   - [ ] validate on submit
   - [ ] continuous validation

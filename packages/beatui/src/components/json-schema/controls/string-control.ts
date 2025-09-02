@@ -11,7 +11,7 @@ import {
 } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { StringControl } from '../widgets/string-controls'
-import { stringFormatDetection } from '../widgets/string-detection'
+import { resolveWidget } from '../widgets/utils'
 import {
   definitionToInputWrapperOptions,
   makePlaceholder,
@@ -44,10 +44,13 @@ export function JSONSchemaString({
     return StringControl({ ctx, options, controller })
   }
 
-  // For non-nullable strings, prefer specialized widget rendering when a known format is detected
-  const format = stringFormatDetection(ctx)
+  // Use new widget resolver with precedence rules
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const widget = resolved?.widget
+
+  // For complex widgets that need specialized rendering, delegate to StringControl
   if (
-    format != null &&
+    widget != null &&
     [
       'url',
       'uri',
@@ -61,13 +64,13 @@ export function JSONSchemaString({
       'markdown',
       'time',
       'color',
-    ].includes(format.format)
+    ].includes(widget)
   ) {
     return StringControl({ ctx, options, controller })
   }
 
   // Otherwise, use regular text-based controls that map empty string to undefined
-  switch (format?.format) {
+  switch (widget) {
     case 'email':
       return Control(EmailInput, {
         ...options,

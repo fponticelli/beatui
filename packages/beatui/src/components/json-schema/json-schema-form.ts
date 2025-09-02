@@ -12,6 +12,15 @@ import { Validation } from '@tempots/std'
 import { Controller, ControllerValidation, useController } from '../form'
 import { ajvErrorsToControllerValidation, getAjvForSchema } from './ajv-utils'
 import { JSONSchemaControl } from './controls'
+import {
+  getConditionalValidation,
+  applyConditionalValidation,
+  createConditionalWatcher,
+} from './validation/conditional-validation'
+import {
+  getAsyncValidationRules,
+  AsyncValidator,
+} from './validation/async-validation'
 
 function cloneJson<T>(v: T): T {
   // Use structuredClone when available; fallback to JSON round-trip for plain data
@@ -132,19 +141,56 @@ export function JSONSchemaForm<T>(
     result => {
       if (result.ok) {
         const { ajv, validate } = result.value
+
+        // Extract conditional validation configuration from schema
+        const conditionalConfig = getConditionalValidation(schema)
+
+        // Extract async validation rules from schema
+        const asyncRules = getAsyncValidationRules(schema)
+        const asyncValidator =
+          asyncRules.length > 0 ? new AsyncValidator() : null
+
         const { controller, setStatus } = useController({
           initialValue,
           validate: (value: T) => {
+            // Apply base AJV validation
             const ok = validate(value)
-            if (ok) return Validation.valid
-            return ajvErrorsToControllerValidation(validate.errors ?? [])
+            let baseValidation: ControllerValidation
+            if (ok) {
+              baseValidation = Validation.valid
+            } else {
+              baseValidation = ajvErrorsToControllerValidation(
+                validate.errors ?? []
+              )
+            }
+
+            // Apply conditional validation if configured
+            if (conditionalConfig) {
+              return applyConditionalValidation(
+                value,
+                value, // formData is the same as value for root-level validation
+                conditionalConfig,
+                validate
+              )
+            }
+
+            return baseValidation
           },
         })
+
+        // Set up conditional validation watcher if needed
+        const conditionalWatcher = conditionalConfig
+          ? createConditionalWatcher(conditionalConfig, () => {
+              // Trigger revalidation by forcing a status update
+              const currentValidation = controller.status.value
+              setStatus(currentValidation)
+            })
+          : null
 
         // Optional sanitization pass: remove additional properties eagerly
         const shouldSanitize = sanitizeAdditional !== false
         let sanitizing = false
-        const cancel = shouldSanitize
+        const cancelSanitization = shouldSanitize
           ? controller.value.on(v => {
               if (sanitizing) return
               const working = cloneJson(v)
@@ -157,12 +203,47 @@ export function JSONSchemaForm<T>(
             })
           : () => {}
 
+        // Set up conditional validation watching
+        const cancelConditionalWatch = conditionalWatcher
+          ? controller.value.on((currentValue, previousValue) => {
+              // Check if any watched paths have changed
+              if (previousValue != null) {
+                // Simple change detection - could be enhanced with deep path checking
+                const hasRelevantChanges =
+                  JSON.stringify(currentValue) !== JSON.stringify(previousValue)
+                if (hasRelevantChanges) {
+                  // Trigger revalidation after a short delay to batch changes
+                  setTimeout(() => {
+                    const newValidation = controller.status.value
+                    setStatus(newValidation)
+                  }, 10)
+                }
+              }
+            })
+          : () => {}
+
+        // Set up async validation triggers if needed
+        const cancelAsyncWatch =
+          asyncValidator && asyncRules.length > 0
+            ? controller.value.on(currentValue => {
+                for (const rule of asyncRules) {
+                  asyncValidator.validateField(rule, currentValue, currentValue)
+                }
+              })
+            : () => {}
+
+        // Combined cleanup function
+        const cleanup = () => {
+          cancelSanitization()
+          cancelConditionalWatch()
+          cancelAsyncWatch()
+          asyncValidator?.dispose()
+          controller.dispose()
+        }
+
         // Pass AJV for conditional evaluation in combinators
         const Form = Fragment(
-          OnDispose(() => {
-            cancel()
-            controller.dispose()
-          }),
+          OnDispose(cleanup),
           JSONSchemaControl({ schema, controller, ajv })
         )
         return fn({ Form, controller, setStatus })

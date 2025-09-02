@@ -116,20 +116,28 @@ export function defaultClearedValue(target: JSONTypeName): unknown {
 }
 
 /**
- * Extract x:ui configuration from schema
+ * Extract x:ui configuration from schema with proper typing
  */
 export function getXUI(def: JSONSchema): {
   unionDefault?: JSONTypeName
   confirmBranchChange?: boolean
   selector?: 'segmented' | 'select'
 } {
-  const raw = (def as unknown as Record<string, unknown>)['x:ui']
-  if (raw && typeof raw === 'object') {
+  if (typeof def === 'boolean') return {}
+
+  const raw = (def as Record<string, unknown>)['x:ui']
+  if (raw != null && typeof raw === 'object' && !Array.isArray(raw)) {
     const o = raw as Record<string, unknown>
     return {
-      unionDefault: o['unionDefault'] as JSONTypeName | undefined,
-      confirmBranchChange: Boolean(o['confirmBranchChange']) || false,
-      selector: (o['selector'] as 'segmented' | 'select') || undefined,
+      unionDefault:
+        typeof o['unionDefault'] === 'string'
+          ? (o['unionDefault'] as JSONTypeName)
+          : undefined,
+      confirmBranchChange: Boolean(o['confirmBranchChange']),
+      selector:
+        o['selector'] === 'segmented' || o['selector'] === 'select'
+          ? o['selector']
+          : undefined,
     }
   }
   return {}

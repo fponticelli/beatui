@@ -17,6 +17,10 @@ import {
   composeEffectiveObjectSchema,
   getEvaluatedProperties,
 } from '../schema-context'
+import {
+  getContainerLayout,
+  applyContainerLayout,
+} from '../containers/container-layouts'
 
 /**
  * Control for object schemas
@@ -221,14 +225,24 @@ export function JSONSchemaObject({
       )
     )
 
-    return Stack(
-      attr.class('bu-gap-1'),
-      effCtx.suppressLabel || effCtx.name == null
-        ? null
-        : Label(effCtx.widgetLabel),
+    // Get container layout configuration
+    const containerLayout = getContainerLayout(effCtx)
+
+    // Collect property names and children in order
+    const knownPropertyEntries = objectEntries(knownProps).filter(
+      ([, definition]) => definition !== false
+    )
+    const knownPropertyNames = knownPropertyEntries.map(([k]) => k as string)
+    const allPropertyNames = [
+      ...knownPropertyNames,
+      ...evaluatedAdditionalKeys,
+      ...unevaluatedKeys,
+    ]
+
+    // Collect all property children
+    const propertyChildren = [
       // Known properties
-      ...objectEntries(knownProps).map(([k, definition]) => {
-        if (definition === false) return null
+      ...knownPropertyEntries.map(([k, definition]) => {
         const key = k as string
         const field = controller.field(key)
 
@@ -272,7 +286,26 @@ export function JSONSchemaObject({
         })
       }),
       // Add affordance
-      apAllowed ? AddPropertyButton : null
+      apAllowed ? AddPropertyButton : null,
+    ].filter(Boolean)
+
+    // Apply container layout or use default Stack
+    const content = applyContainerLayout(
+      containerLayout,
+      effCtx,
+      propertyChildren,
+      allPropertyNames
     )
+
+    // Wrap with label if needed and not handled by container
+    const shouldShowLabel =
+      !effCtx.suppressLabel &&
+      effCtx.name != null &&
+      (!containerLayout ||
+        !['fieldset', 'group'].includes(containerLayout.format || ''))
+
+    return shouldShowLabel
+      ? Stack(attr.class('bu-gap-1'), Label(effCtx.widgetLabel), content)
+      : content
   })
 }

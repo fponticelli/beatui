@@ -4,6 +4,7 @@ import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form'
 import { JSONSchemaControl } from '../../src/components/json-schema/controls/generic-control'
 import type { JSONSchema } from '../../src/components/json-schema/schema-context'
+import { Validation } from '@tempots/std'
 
 describe('JSON Schema Number Slider', () => {
   let container: HTMLElement
@@ -22,11 +23,19 @@ describe('JSON Schema Number Slider', () => {
       title: 'Score',
     }
 
-    const { controller } = useController({ initialValue: 50, validate: () => ({ valid: true }) })
+    const { controller } = useController({
+      initialValue: 50,
+      validate: () => Validation.valid,
+    })
 
-    render(WithProviders(() => JSONSchemaControl({ schema, controller })), container)
+    render(
+      WithProviders(() => JSONSchemaControl({ schema, controller })),
+      container
+    )
 
-    const slider = container.querySelector('input[type="range"]') as HTMLInputElement
+    const slider = container.querySelector(
+      'input[type="range"]'
+    ) as HTMLInputElement
     expect(slider).toBeTruthy()
     expect(slider.min).toBe('0')
     expect(slider.max).toBe('100')
@@ -41,11 +50,19 @@ describe('JSON Schema Number Slider', () => {
       maximum: 5,
     }
 
-    const { controller } = useController({ initialValue: 3, validate: () => ({ valid: true }) })
+    const { controller } = useController({
+      initialValue: 3,
+      validate: () => Validation.valid,
+    })
 
-    render(WithProviders(() => JSONSchemaControl({ schema, controller })), container)
+    render(
+      WithProviders(() => JSONSchemaControl({ schema, controller })),
+      container
+    )
 
-    const slider = container.querySelector('input[type="range"]') as HTMLInputElement
+    const slider = container.querySelector(
+      'input[type="range"]'
+    ) as HTMLInputElement
     expect(slider).toBeTruthy()
   })
 
@@ -57,12 +74,19 @@ describe('JSON Schema Number Slider', () => {
       multipleOf: 1,
     }
 
-    const { controller } = useController({ initialValue: null, validate: () => ({ valid: true }) })
+    const { controller } = useController({
+      initialValue: null,
+      validate: () => Validation.valid,
+    })
 
-    render(WithProviders(() => JSONSchemaControl({ schema, controller })), container)
+    render(
+      WithProviders(() => JSONSchemaControl({ schema, controller })),
+      container
+    )
 
-    const slider = container.querySelector('input[type="range"]') as HTMLInputElement
+    const slider = container.querySelector(
+      'input[type="range"]'
+    ) as HTMLInputElement
     expect(slider).toBeTruthy()
   })
 })
-

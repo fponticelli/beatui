@@ -209,6 +209,7 @@ export function useForm<T>({
   })
   const submitting = prop(false)
   const controller = baseController.object()
+  controller.onDispose(submitting.dispose)
   const onSubmit = async (e: Event) => {
     submitting.set(true)
     e.preventDefault()

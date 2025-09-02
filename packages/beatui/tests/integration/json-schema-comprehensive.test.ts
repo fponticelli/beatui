@@ -11,6 +11,21 @@ function nextTick(): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, 0))
 }
 
+function waitFor(cond: () => boolean, timeoutMs = 500): Promise<void> {
+  const start = Date.now()
+  return new Promise((resolve, reject) => {
+    const tick = () => {
+      if (cond()) return resolve()
+      if (Date.now() - start >= timeoutMs) {
+        reject(new Error('Timeout waiting for condition'))
+        return
+      }
+      setTimeout(tick, 0)
+    }
+    tick()
+  })
+}
+
 beforeEach(() => {
   clearCaches()
   clearRefCaches()
@@ -149,7 +164,9 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
       WithProviders(() => app),
       host
     )
-    await nextTick()
+
+    // Wait for the async JSONSchemaForm to resolve and set formController
+    await waitFor(() => formController !== null)
 
     // Verify form rendered without errors
     expect(formController).toBeTruthy()
@@ -296,7 +313,9 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
       WithProviders(() => app),
       host
     )
-    await nextTick()
+
+    // Wait for the async JSONSchemaForm to resolve and set formController
+    await waitFor(() => formController !== null)
 
     // Verify form rendered and resolved external refs
     expect(formController).toBeTruthy()

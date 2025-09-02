@@ -12,6 +12,7 @@ import {
   type NumberInputOptions,
 } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
+import { resolveWidget } from '../widgets/utils'
 import {
   definitionToInputWrapperOptions,
   makePlaceholder,
@@ -25,24 +26,23 @@ function detectNumericWidget(ctx: SchemaContext): {
   widget: 'number' | 'slider' | 'rating' | 'currency' | 'percent'
   options?: Record<string, unknown>
 } {
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+
+  // Use resolved widget if available
+  if (resolved?.widget === 'slider') {
+    return { widget: 'slider', options: resolved.options }
+  }
+  if (resolved?.widget === 'rating') {
+    return { widget: 'rating', options: resolved.options }
+  }
+
+  // Handle legacy x:ui displayFormat for currency/percent
   const def = ctx.definition as JSONSchema
   const xui =
     typeof def === 'object'
       ? (def['x:ui'] as Record<string, unknown> | undefined)
       : undefined
 
-  // Check explicit widget type from x:ui
-  if (xui?.widget === 'slider' || xui?.format === 'slider') {
-    return { widget: 'slider' }
-  }
-  if (xui?.widget === 'rating' || xui?.format === 'rating') {
-    return {
-      widget: 'rating',
-      options: {
-        max: (typeof xui?.max === 'number' ? xui.max : def.maximum) || 5,
-      },
-    }
-  }
   if (xui?.displayFormat === 'currency') {
     return {
       widget: 'currency',
@@ -53,16 +53,6 @@ function detectNumericWidget(ctx: SchemaContext): {
   }
   if (xui?.displayFormat === 'percent') {
     return { widget: 'percent' }
-  }
-
-  // Auto-detect slider for bounded continuous ranges
-  if (def.minimum != null && def.maximum != null && def.multipleOf != null) {
-    const range = def.maximum - def.minimum
-    const steps = range / def.multipleOf
-    // Use slider if reasonable number of steps (not too granular)
-    if (steps <= 1000 && steps >= 2) {
-      return { widget: 'slider' }
-    }
   }
 
   return { widget: 'number' }
