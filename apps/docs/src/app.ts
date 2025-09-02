@@ -31,7 +31,6 @@ import { ColorPickerPage } from './pages/color-picker'
 import { FileInputPage } from './pages/file-input'
 import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
 import { JSONSchemaFormPage } from './pages/json-schema-form'
-import { JSONSchemaXUIGuidePage } from './pages/json-schema-x-ui-guide'
 import { MonacoEditorPage } from './pages/monaco-editor'
 import { MilkdownEditorPage } from './pages/milkdown-editor'
 import { TagsInputPage } from './pages/tags-input'
@@ -79,7 +78,6 @@ export const App = () => {
         '/breakpoint': BreakpointPage,
         '/nine-slice-scroll-view': NineSliceScrollViewPage,
         '/json-schema-form': JSONSchemaFormPage,
-        '/json-schema-x-ui-guide': JSONSchemaXUIGuidePage,
         '/monaco-editor': MonacoEditorPage,
         '/milkdown-editor': MilkdownEditorPage,
         '/mask-input': MaskInputPage,

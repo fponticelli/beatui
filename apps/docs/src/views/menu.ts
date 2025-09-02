@@ -45,10 +45,6 @@ export function Menu() {
         SidebarLink({ href: '/editable-text', content: 'Editable Text' }),
         SidebarLink({ href: '/form', content: 'Form' }),
         SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' }),
-        SidebarLink({
-          href: '/json-schema-x-ui-guide',
-          content: 'JSON Schema x:ui Guide',
-        }),
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
         SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' }),
         SidebarLink({

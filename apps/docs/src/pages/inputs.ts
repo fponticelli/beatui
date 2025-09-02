@@ -723,6 +723,76 @@ export const InputsPage = () =>
               ),
               html.div(listCtl.controller.value.map(v => String(v)))
             ),
+          }),
+          When(
+            displayNonNullables,
+            () =>
+              InputWrapper({
+                label: 'Slider Input',
+                content: SliderInput({
+                  value: sliderVal,
+                  onChange: sliderVal.set,
+                  min: 0,
+                  max: 100,
+                  step: 1,
+                  disabled,
+                }),
+                description: description(sliderVal),
+              }),
+            () =>
+              InputWrapper({
+                label: 'Nullable Slider Input',
+                content: NullableSliderInput({
+                  value: nullableSliderVal,
+                  onChange: nullableSliderVal.set,
+                  min: 0,
+                  max: 100,
+                  step: 1,
+                  disabled,
+                }),
+                description: description(nullableSliderVal),
+              })
+          ),
+          InputWrapper({
+            label: 'Segmented Input',
+            content: SegmentedInput({
+              options: segmentedOptions,
+              value: segmentedVal,
+              onChange: segmentedVal.set,
+              disabled,
+            }),
+            description: description(segmentedVal),
+          }),
+          InputWrapper({
+            label: 'Select Tags Input',
+            content: SelectTagsInput({
+              value: selectTagsVal,
+              options: selectTagsOptions,
+              onChange: selectTagsVal.set,
+              disabled,
+            }),
+            description: description(selectTagsVal),
+          }),
+          InputWrapper({
+            label: 'Combobox Input',
+            content: ComboboxInput<string>({
+              value: comboboxVal,
+              onChange: comboboxVal.set,
+              loadOptions: loadFruits,
+              renderOption: v => v,
+              disabled,
+            }),
+            description: description(comboboxVal),
+          }),
+          InputWrapper({
+            label: 'Combobox Tags Input',
+            content: ComboboxTagsInput({
+              value: comboboxTagsVal,
+              onChange: comboboxTagsVal.set,
+              options: comboboxTagsOptions,
+              disabled,
+            }),
+            description: description(comboboxTagsVal),
           })
         ),
         html.h2(
