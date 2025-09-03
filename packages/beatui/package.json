@@ -42,6 +42,9 @@
       "require": "./dist/markdown/index.cjs.js",
       "default": "./dist/markdown/index.es.js"
     },
+    "./milkdown.css": "./dist/milkdown.css",
+    "./monaco.css": "./dist/monaco.css",
+    "./markdown.css": "./dist/markdown.css",
     "./css": "./dist/beatui.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -59,7 +62,7 @@
     "dist/monaco/index.cjs.js"
   ],
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-css-entries.mjs",
     "build:watch": "vite build --watch",
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",

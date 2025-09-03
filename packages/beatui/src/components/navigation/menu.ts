@@ -14,7 +14,7 @@ import {
   Renderable,
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
-import { Flyout, FlyoutTrigger } from './flyout'
+import { Flyout, FlyoutTrigger, FlyoutTriggerFunction } from './flyout'
 import { sessionId } from '../../utils/session-id'
 
 export type MenuTrigger = FlyoutTrigger
@@ -32,8 +32,8 @@ export interface MenuOptions {
   mainAxisOffset?: Value<number>
   /** Offset in pixels from the cross axis */
   crossAxisOffset?: Value<number>
-  /** How to show the menu */
-  showOn?: Value<MenuTrigger>
+  /** How to show the menu (accepts Flyout trigger or a custom trigger function) */
+  showOn?: Value<MenuTrigger> | FlyoutTriggerFunction
   /** Whether the menu can be closed with Escape key */
   closable?: Value<boolean>
   /** Callback when menu is closed */

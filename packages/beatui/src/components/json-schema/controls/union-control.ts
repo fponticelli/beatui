@@ -8,7 +8,7 @@ import {
 } from '../../form'
 import { upperCaseFirst } from '@tempots/std'
 import type { SchemaContext, JSONSchema } from '../schema-context'
-import { ChoiceSelector, withSelectorLayout } from './composition-shared'
+import { ChoiceSelector, WithSelectorLayout } from './composition-shared'
 import {
   JSONTypeName,
   detectTypeName,
@@ -183,7 +183,7 @@ export function JSONSchemaUnion<T>({
     }
   })
 
-  return withSelectorLayout({
+  return WithSelectorLayout({
     ctx,
     showSelector: types.length > 1,
     selector: Selector(changeBranch),

@@ -37,7 +37,7 @@ export function ChoiceSelector<T extends string | number>(
     mode = 'auto',
     size = 'sm',
     keyFor = (v: T) => String(v),
-    parseKey = (k: string) => (k as unknown) as T,
+    parseKey = (k: string) => k as unknown as T,
   } = params
 
   const count = options.length
@@ -51,7 +51,7 @@ export function ChoiceSelector<T extends string | number>(
 
     return SegmentedInput<Record<string, string>>({
       options: labels,
-      value: (Value.map(selected, v => keyFor(v)) as unknown) as Value<string>,
+      value: Value.map(selected, v => keyFor(v)) as unknown as Value<string>,
       onChange: (k: string) => onChange(parseKey(k)),
       size,
     })
@@ -59,7 +59,11 @@ export function ChoiceSelector<T extends string | number>(
 
   // Fallback to native select
   return NativeSelect<T>({
-    options: options.map(o => ({ type: 'value', value: o.value, label: o.label })),
+    options: options.map(o => ({
+      type: 'value',
+      value: o.value,
+      label: o.label,
+    })),
     value: selected,
     onChange,
   })
@@ -77,7 +81,7 @@ export interface WithSelectorLayoutParams {
  * - At root: show selector + inner in a vertical Stack when showSelector is true
  * - Non-root: wrap content in InputWrapper and include selector when needed
  */
-export function withSelectorLayout({
+export function WithSelectorLayout({
   ctx,
   showSelector,
   selector,
@@ -88,7 +92,8 @@ export function withSelectorLayout({
   }
   return InputWrapper({
     ...definitionToInputWrapperOptions({ ctx }),
-    content: showSelector ? Stack(attr.class('bu-gap-2'), selector, inner) : inner,
+    content: showSelector
+      ? Stack(attr.class('bu-gap-2 bu-items-start'), selector, inner)
+      : inner,
   })
 }
-

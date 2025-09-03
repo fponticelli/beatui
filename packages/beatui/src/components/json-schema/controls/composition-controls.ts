@@ -10,7 +10,7 @@ import {
   getDiscriminatorConfig,
   selectOneOfBranch,
 } from '../discriminator/discriminator-utils'
-import { ChoiceSelector, withSelectorLayout } from './composition-shared'
+import { ChoiceSelector, WithSelectorLayout } from './composition-shared'
 import type { Controller } from '../../form'
 
 /**
@@ -139,7 +139,7 @@ function JSONSchemaOneOfLike<T>({
     sel.set(idx)
   }
 
-  const selector =
+  const Selector =
     count > 1
       ? ChoiceSelector<number>({
           options: variants.map((_, i) => ({
@@ -163,10 +163,10 @@ function JSONSchemaOneOfLike<T>({
     })
   })
 
-  return withSelectorLayout({
+  return WithSelectorLayout({
     ctx,
     showSelector: count > 1,
-    selector,
+    selector: Selector,
     inner,
   })
 }

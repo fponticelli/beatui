@@ -14,12 +14,12 @@ import { Theme } from '../theme'
 import { MonacoEditorSpecificOptions } from '@/monaco/types'
 import { loadMonacoWithLanguage } from '@/monaco/lazy-loader'
 import type * as Monaco from 'monaco-editor'
-import { StylePortal } from '@/components/misc/style-portal'
-import monacoCss from '@/monaco/styles'
+import { Task } from '@tempots/dom'
+import { LinkPortal } from '@/components/misc/link-portal'
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
-  MonacoEditorSpecificOptions
+  MonacoEditorSpecificOptions & { cssInjection?: 'link' | 'none' }
 >
 
 /**
@@ -55,7 +55,12 @@ export const MonacoEditorInput = (
 
   return Use(Theme, ({ appearance }) =>
     html.div(
-      StylePortal({ id: 'beatui-monaco-css', css: monacoCss }),
+      (options.cssInjection ?? 'none') === 'none'
+        ? null
+        : Task(
+            () => import('@/monaco/styles-url'),
+            ({ default: href }) => LinkPortal({ id: 'beatui-monaco-css', href })
+          ),
       attr.class('bc-monaco-editor-container'),
       attr.class(cls),
       attr.class(

@@ -9,6 +9,8 @@ import {
   Use,
   computedOf,
   aria,
+  WithElement,
+  OnDispose,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
@@ -29,7 +31,7 @@ import {
   filterOptionsByQuery,
 } from './tag-utils'
 import { Chips } from './select-tags-input'
-import { AutoFocus } from '@tempots/ui'
+// AutoFocus not needed since search is always visible
 
 export type ComboboxTagsOptions<T> = {
   options: Value<DropdownOption<T>[]>
@@ -72,40 +74,6 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
   const menu = Menu({
     items: () => {
       const items: TNode[] = []
-      // Search input
-      items.push(
-        html.div(
-          attr.class('bc-dropdown__search'),
-          html.input(
-            AutoFocus(),
-            attr.type('text'),
-            attr.class('bc-dropdown__search-input'),
-            attr.placeholder(
-              computedOf(
-                searchPlaceholder,
-                placeholder
-              )((sph, ph) => sph ?? ph ?? '')
-            ),
-            attr.value(query),
-            on.input(e => {
-              const target = e.target as HTMLInputElement
-              query.set(target.value)
-            }),
-            on.keydown(ev => {
-              // Prevent Menu global handler while typing
-              if (
-                ev.key === 'ArrowUp' ||
-                ev.key === 'ArrowDown' ||
-                ev.key === 'Enter' ||
-                ev.key === ' '
-              ) {
-                ev.stopPropagation()
-              }
-            })
-          )
-        )
-      )
-
       const opts = Value.get(filteredOptions)
       if (opts.length === 0) {
         items.push(
@@ -163,28 +131,73 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
     placement: 'bottom-start',
     showDelay: 0,
     hideDelay: 100,
-    showOn: 'click',
+    // Open the menu when the search input gains focus
+    // We intentionally do not auto-hide on blur here because the Menu
+    // manages its own close behavior (outside click, Escape, etc.)
+    showOn: (flyoutShow, _flyoutHide) => {
+      return WithElement(trigger => {
+        const input = trigger.querySelector(
+          '.bc-dropdown__search-input'
+        ) as HTMLInputElement | null
+        if (input) {
+          const onFocus = () => flyoutShow()
+          input.addEventListener('focus', onFocus)
+          return OnDispose(() => {
+            input.removeEventListener('focus', onFocus)
+          })
+        }
+        return Fragment()
+      })
+    },
     closable: true,
   })
 
-  return InputContainer(
-    {
-      ...options,
-      before: options.before ?? Icon({ icon: 'tabler:tags', color: 'neutral' }),
-      input: Fragment(
-        attr.class('bc-input-container__tags'),
-        Chips({
-          values: value,
-          options: allOptions,
-          placeholder,
-          equality,
-          disabled: options.disabled,
-          onRemove: removeOne,
-        })
-      ),
-    },
-    menu
-  )
+  return InputContainer({
+    ...options,
+    before: options.before ?? Icon({ icon: 'tabler:tags', color: 'neutral' }),
+    input: Fragment(
+      attr.class('bc-input-container__tags'),
+      Chips({
+        values: value,
+        options: allOptions,
+        placeholder,
+        equality,
+        disabled: options.disabled,
+        onRemove: removeOne,
+      }),
+      // Always-visible search box replacing the selector button
+      html.div(
+        attr.class('bc-input-container__tags-selector'),
+        html.input(
+          attr.type('text'),
+          attr.class('bc-dropdown__search-input'),
+          attr.placeholder(
+            computedOf(
+              searchPlaceholder,
+              placeholder
+            )((sph, ph) => sph ?? ph ?? '')
+          ),
+          attr.value(query),
+          on.input(e => {
+            const target = e.target as HTMLInputElement
+            query.set(target.value)
+          }),
+          on.keydown(ev => {
+            // Prevent Menu global handler while typing
+            if (
+              ev.key === 'ArrowUp' ||
+              ev.key === 'ArrowDown' ||
+              ev.key === 'Enter' ||
+              ev.key === ' '
+            ) {
+              ev.stopPropagation()
+            }
+          })
+        ),
+        menu
+      )
+    ),
+  })
 }
 
 export function BaseComboboxTagsControl<T>(

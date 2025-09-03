@@ -1,4 +1,4 @@
-import { spawn, spawnSync } from 'child_process'
+import { spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
@@ -6,6 +6,7 @@ import {
   generateBackgroundUtilities,
   generateForegroundUtilities,
 } from '../src/tokens/colors.js'
+import { generateAllTokenVariables } from '../src/tokens/index.js'
 
 function formatWithPrettier(filePath: string) {
   try {
@@ -42,28 +43,30 @@ export function generateCSSVariablesPlugin() {
       console.log('🎨 Generating CSS variables from design tokens...')
 
       try {
-        await new Promise((resolve, reject) => {
-          const child = spawn('tsx', ['scripts/generate-css-variables.ts'], {
-            stdio: 'inherit',
-            cwd: process.cwd(),
-          })
-
-          child.on('close', code => {
-            if (code === 0) {
-              resolve(code)
-            } else {
-              reject(
-                new Error(`CSS variables generation failed with code ${code}`)
-              )
-            }
-          })
-
-          child.on('error', error => {
-            reject(error)
-          })
+        // Build CSS variables content inline (no child process)
+        const variables = generateAllTokenVariables()
+        let cssContent = ':root {\n'
+        Object.entries(variables).forEach(([name, value]) => {
+          cssContent += `  ${name}: ${value};\n`
         })
+        cssContent += '  }\n'
 
-        console.log('✅ CSS variables generated successfully')
+        const outputPath = path.resolve(
+          process.cwd(),
+          'src/styles/layers/02.base/variables.css'
+        )
+
+        const dirname = path.dirname(outputPath)
+        if (!fs.existsSync(dirname)) {
+          fs.mkdirSync(dirname, { recursive: true })
+        }
+
+        fs.writeFileSync(outputPath, cssContent, 'utf8')
+        try {
+          formatWithPrettier(outputPath)
+        } catch {}
+
+        console.log(`✅ CSS variables generated at ${outputPath}`)
       } catch (error) {
         console.error('❌ Failed to generate CSS variables:', error)
         throw error

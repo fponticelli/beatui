@@ -10,7 +10,7 @@ import {
   Renderable,
 } from '@tempots/dom'
 import { micromark } from 'micromark'
-import { StylePortal } from '@/components/misc/style-portal'
+import { LinkPortal } from '@/components/misc/link-portal'
 import { resolveExtensions } from '@/markdown/extensions'
 
 export type MarkdownOptions = {
@@ -20,6 +20,7 @@ export type MarkdownOptions = {
   features?: Value<{
     gfm?: boolean
   }>
+  cssInjection?: 'link' | 'none'
 }
 
 /**
@@ -45,10 +46,12 @@ export function Markdown(
 
   return html.div(
     // Ensure styles are present declaratively via head portal
-    Task(
-      () => import('@/markdown/styles'),
-      ({ default: css }) => StylePortal({ id: 'beatui-markdown-css', css })
-    ),
+    (options.cssInjection ?? 'none') === 'none'
+      ? null
+      : Task(
+          () => import('@/markdown/styles-url'),
+          ({ default: href }) => LinkPortal({ id: 'beatui-markdown-css', href })
+        ),
     attr.class('bc-markdown bu-prose'),
     MapSignal(rendered, html =>
       Async(html, content => attr.innerHTML(content))

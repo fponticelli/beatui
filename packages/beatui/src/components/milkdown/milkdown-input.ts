@@ -1,10 +1,17 @@
-import { TNode, Value, WithElement, OnDispose, html, attr } from '@tempots/dom'
+import {
+  TNode,
+  Value,
+  WithElement,
+  OnDispose,
+  html,
+  attr,
+  Task,
+} from '@tempots/dom'
 import type { InputOptions } from '../form/input/input-options'
 import { Merge } from '@tempots/std'
 import { Crepe } from '@milkdown/crepe'
 import { replaceAll } from '@milkdown/kit/utils'
-import { StylePortal } from '@/components/misc/style-portal'
-import milkdownCss from '@/components/milkdown/milkdown.css?inline'
+import { LinkPortal } from '@/components/misc/link-portal'
 
 // Minimal listener and editor shape we rely on
 export type ListenerManager = {
@@ -21,6 +28,7 @@ export type MilkdownInputOptions = Merge<
     readOnly?: Value<boolean>
     featureConfigs?: Record<string, unknown> | undefined
     features?: Record<string, boolean> | undefined
+    cssInjection?: 'link' | 'none'
   }
 >
 
@@ -43,7 +51,12 @@ export const MilkdownInput = (options: MilkdownInputOptions): TNode => {
   const dis = Value.toSignal(disabled ?? false)
 
   return html.div(
-    StylePortal({ id: 'beatui-milkdown-css', css: milkdownCss }),
+    (options.cssInjection ?? 'none') === 'none'
+      ? null
+      : Task(
+          () => import('./milkdown-url'),
+          ({ default: href }) => LinkPortal({ id: 'beatui-milkdown-css', href })
+        ),
     attr.class('bc-milkdown-editor-container'),
     attr.class(cls),
     attr.class(
