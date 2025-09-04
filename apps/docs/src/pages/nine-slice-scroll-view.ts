@@ -83,7 +83,7 @@ const createGrid = ({
   })
 }
 
-export const NineSliceScrollViewPage = () => {
+export default function NineSliceScrollViewPage() {
   const rows = prop(30)
   const columns = prop(16)
   const headerRows = prop(3)

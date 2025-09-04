@@ -14,7 +14,7 @@ const samples = [
   },
 ]
 
-export function MilkdownEditorPage() {
+export default function MilkdownEditorPage() {
   const selectedIndex = prop(0)
   const markdown = selectedIndex.map(i => samples[i].value).deriveProp()
 

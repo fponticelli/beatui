@@ -16,7 +16,7 @@ import { html, attr, prop, computedOf, on, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { Placement } from '@tempots/ui'
 
-export const FlyoutPage = () => {
+export default function FlyoutPage() {
   const placement = prop<Placement>('top')
   const showOn = prop<FlyoutTrigger>('hover-focus')
   const showDelay = prop(250)

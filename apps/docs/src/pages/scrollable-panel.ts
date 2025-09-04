@@ -2,7 +2,7 @@ import { html, attr, prop, merge, MapSignal } from '@tempots/dom'
 import { ScrollablePanel, Switch } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
-export const ScrollablePanelPage = () => {
+export default function ScrollablePanelPage() {
   const displayShadows = prop(true)
   const displayHeader = prop(true)
   const displayFooter = prop(true)

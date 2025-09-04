@@ -14,7 +14,7 @@ import {
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
-export const RTLLTRPage = () => {
+export default function RTLLTRPage() {
   return Use(
     Locale,
     ({

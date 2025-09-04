@@ -8,7 +8,7 @@ import {
   ResetPasswordData,
 } from '@tempots/beatui/auth'
 
-export const AuthenticationPage = () => {
+export default function AuthenticationPage() {
   // Demo state
   const demoMessage = prop<string>('')
 

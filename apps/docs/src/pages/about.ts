@@ -1,7 +1,7 @@
 import { html, attr } from '@tempots/dom'
 import { Stack, Card } from '@tempots/beatui'
 
-export const AboutPage = () => {
+export default function AboutPage() {
   return html.div(
     attr.class('bu-p-6'),
     Stack(

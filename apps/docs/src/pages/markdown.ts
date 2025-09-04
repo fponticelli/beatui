@@ -1,5 +1,6 @@
-import { Async, attr, prop } from '@tempots/dom'
+import { attr, prop } from '@tempots/dom'
 import { Stack } from '@tempots/beatui'
+import { Markdown } from '@tempots/beatui/markdown'
 
 const content = prop(`
 # Markdown Sample
@@ -35,10 +36,9 @@ function greet(name: string) {
 ![Image](https://picsum.photos/600/400)
 `)
 
-export const MarkdownPage = () =>
-  Async(import('@tempots/beatui/markdown'), ({ Markdown }) =>
-    Stack(
-      attr.class('bu-p-4 bu-gap-4 bu-h-full bu-overflow-auto'),
-      Markdown({ content, features: { gfm: true } })
-    )
+export default function MarkdownPage() {
+  return Stack(
+    attr.class('bu-p-4 bu-gap-4 bu-h-full bu-overflow-auto'),
+    Markdown({ content, features: { gfm: true } })
   )
+}

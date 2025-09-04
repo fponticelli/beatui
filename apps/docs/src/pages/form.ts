@@ -19,7 +19,7 @@ import {
 } from '@tempots/beatui'
 import { z } from 'zod/v4'
 
-export const FormPage = () => {
+export default function FormPage() {
   const { controller } = useForm({
     schema: z.object({
       name: z.string().min(1),

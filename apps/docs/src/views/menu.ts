@@ -90,6 +90,11 @@ export function Menu() {
         }),
         SidebarLink({ href: '/markdown', content: 'Markdown' })
       ),
+      // Docs
+      SidebarGroup(
+        { header: 'Docs', rail: true },
+        SidebarLink({ href: '/x-ui-usage', content: 'x:ui Usage' })
+      ),
       // Utilities
       SidebarGroup(
         { header: 'Utilities', rail: true },

@@ -90,8 +90,8 @@ function description(value: Prop<any>) {
   })
 }
 
-export const InputsPage = () =>
-  WithTemporal(T => {
+export default function InputsPage() {
+  return WithTemporal(T => {
     const displayNonNullables = prop(true)
     const disabled = prop(false)
 
@@ -991,3 +991,4 @@ export const InputsPage = () =>
       ),
     })
   })
+}

@@ -10,7 +10,7 @@ import {
   Option,
 } from '@tempots/beatui'
 
-export const TagsInputPage = () => {
+export default function TagsInputPage() {
   const tags = prop<string[]>(['alpha', 'beta'])
 
   // Predefined options for select/combobox tags

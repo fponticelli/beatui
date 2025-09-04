@@ -1,8 +1,8 @@
 import { attr, html } from '@tempots/dom'
 import { Stack, WithTemporal } from '@tempots/beatui'
 
-export const TemporalPage = () =>
-  Stack(
+export default function TemporalPage() {
+  return Stack(
     attr.class('bu-p-4 bu-gap-4'),
     WithTemporal(Temporal => {
       const date = Temporal.Now
@@ -14,3 +14,4 @@ export const TemporalPage = () =>
       )
     })
   )
+}

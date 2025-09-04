@@ -1,45 +1,8 @@
 import { html } from '@tempots/dom'
 import { RootRouter } from '@tempots/ui'
 import { BeatUI } from '@tempots/beatui'
-import { HomePage } from './pages/home'
-import { AboutPage } from './pages/about'
 import { AppLayout } from './app-layout'
-import { ButtonPage } from './pages/button'
-import { DropdownPage } from './pages/dropdown'
-import { ComboboxPage } from './pages/combobox'
-import { SwitchPage } from './pages/switch'
-import { IconPage } from './pages/icon'
-import { LinkPage } from './pages/link'
-import { SegmentedControlPage } from './pages/segmented-control'
-import { TagsPage } from './pages/tags'
-import { FormPage } from './pages/form'
-import { EditableTextPage } from './pages/editable-text'
-import { BreakpointPage } from './pages/breakpoint'
-import { CollapsePage } from './pages/collapse'
-import { SidebarPage } from './pages/sidebar'
-import { ModalPage } from './pages/modal'
-import { DrawerPage } from './pages/drawer'
-import { TooltipPage } from './pages/tooltip'
-import { FlyoutPage } from './pages/flyout'
-import { MenuPage } from './pages/menu'
-import { ScrollablePanelPage } from './pages/scrollable-panel'
-import { RTLLTRPage } from './pages/rtl-ltr'
-import { TabsPage } from './pages/tabs'
-import { AuthenticationPage } from './pages/authentication'
-import { AuthenticationComponentsPage } from './pages/authentication-components'
-import { ColorPickerPage } from './pages/color-picker'
-import { FileInputPage } from './pages/file-input'
-import { NineSliceScrollViewPage } from './pages/nine-slice-scroll-view'
-import { JSONSchemaFormPage } from './pages/json-schema-form'
-import { MonacoEditorPage } from './pages/monaco-editor'
-import { MilkdownEditorPage } from './pages/milkdown-editor'
-import { TagsInputPage } from './pages/tags-input'
-import { MaskInputPage } from './pages/mask-input'
-import { ToolbarPage } from './pages/toolbar'
-import { TemporalPage } from './pages/temporal'
-import { InputsPage } from './pages/inputs'
-import { MarkdownPage } from './pages/markdown'
-import { NoticePage } from './pages/notice'
+import { Async } from '@tempots/dom'
 
 export const App = () => {
   return BeatUI(
@@ -48,44 +11,98 @@ export const App = () => {
     },
     AppLayout({
       children: RootRouter({
-        '/': HomePage,
-        '/about': AboutPage,
-        '/authentication': AuthenticationPage,
-        '/authentication/components': AuthenticationComponentsPage,
-        '/button': ButtonPage,
-        '/dropdown': DropdownPage,
-        '/combobox': ComboboxPage,
-        '/switch': SwitchPage,
-        '/collapse': CollapsePage,
-        '/icon': IconPage,
-        '/link': LinkPage,
-        '/modal': ModalPage,
-        '/drawer': DrawerPage,
-        '/tooltip': TooltipPage,
-        '/flyout': FlyoutPage,
-        '/menu': MenuPage,
-        '/scrollable-panel': ScrollablePanelPage,
-        '/rtl-ltr': RTLLTRPage,
-        '/segmented-control': SegmentedControlPage,
-        '/sidebar': SidebarPage,
-        '/tabs': TabsPage,
-        '/tags': TagsPage,
-        '/tags-input': TagsInputPage,
-        '/form': FormPage,
-        '/file-input': FileInputPage,
-        '/color-picker': ColorPickerPage,
-        '/editable-text': EditableTextPage,
-        '/breakpoint': BreakpointPage,
-        '/nine-slice-scroll-view': NineSliceScrollViewPage,
-        '/json-schema-form': JSONSchemaFormPage,
-        '/monaco-editor': MonacoEditorPage,
-        '/milkdown-editor': MilkdownEditorPage,
-        '/mask-input': MaskInputPage,
-        '/toolbar': ToolbarPage,
-        '/temporal': TemporalPage,
-        '/inputs': InputsPage,
-        '/markdown': MarkdownPage,
-        '/notice': NoticePage,
+        '/': () => Async(import('./pages/home'), ({ default: Page }) => Page()),
+        '/about': () =>
+          Async(import('./pages/about'), ({ default: Page }) => Page()),
+        '/authentication': () =>
+          Async(import('./pages/authentication'), ({ default: Page }) =>
+            Page()
+          ),
+        '/authentication/components': () =>
+          Async(
+            import('./pages/authentication-components'),
+            ({ default: Page }) => Page()
+          ),
+        '/button': () =>
+          Async(import('./pages/button'), ({ default: Page }) => Page()),
+        '/dropdown': () =>
+          Async(import('./pages/dropdown'), ({ default: Page }) => Page()),
+        '/combobox': () =>
+          Async(import('./pages/combobox'), ({ default: Page }) => Page()),
+        '/switch': () =>
+          Async(import('./pages/switch'), ({ default: Page }) => Page()),
+        '/collapse': () =>
+          Async(import('./pages/collapse'), ({ default: Page }) => Page()),
+        '/icon': () =>
+          Async(import('./pages/icon'), ({ default: Page }) => Page()),
+        '/link': () =>
+          Async(import('./pages/link'), ({ default: Page }) => Page()),
+        '/modal': () =>
+          Async(import('./pages/modal'), ({ default: Page }) => Page()),
+        '/drawer': () =>
+          Async(import('./pages/drawer'), ({ default: Page }) => Page()),
+        '/tooltip': () =>
+          Async(import('./pages/tooltip'), ({ default: Page }) => Page()),
+        '/flyout': () =>
+          Async(import('./pages/flyout'), ({ default: Page }) => Page()),
+        '/menu': () =>
+          Async(import('./pages/menu'), ({ default: Page }) => Page()),
+        '/scrollable-panel': () =>
+          Async(import('./pages/scrollable-panel'), ({ default: Page }) =>
+            Page()
+          ),
+        '/rtl-ltr': () =>
+          Async(import('./pages/rtl-ltr'), ({ default: Page }) => Page()),
+        '/segmented-control': () =>
+          Async(import('./pages/segmented-control'), ({ default: Page }) =>
+            Page()
+          ),
+        '/sidebar': () =>
+          Async(import('./pages/sidebar'), ({ default: Page }) => Page()),
+        '/tabs': () =>
+          Async(import('./pages/tabs'), ({ default: Page }) => Page()),
+        '/tags': () =>
+          Async(import('./pages/tags'), ({ default: Page }) => Page()),
+        '/tags-input': () =>
+          Async(import('./pages/tags-input'), ({ default: Page }) => Page()),
+        '/form': () =>
+          Async(import('./pages/form'), ({ default: Page }) => Page()),
+        '/file-input': () =>
+          Async(import('./pages/file-input'), ({ default: Page }) => Page()),
+        '/color-picker': () =>
+          Async(import('./pages/color-picker'), ({ default: Page }) => Page()),
+        '/editable-text': () =>
+          Async(import('./pages/editable-text'), ({ default: Page }) => Page()),
+        '/breakpoint': () =>
+          Async(import('./pages/breakpoint'), ({ default: Page }) => Page()),
+        '/nine-slice-scroll-view': () =>
+          Async(import('./pages/nine-slice-scroll-view'), ({ default: Page }) =>
+            Page()
+          ),
+        '/json-schema-form': () =>
+          Async(import('./pages/json-schema-form'), ({ default: Page }) =>
+            Page()
+          ),
+        '/monaco-editor': () =>
+          Async(import('./pages/monaco-editor'), ({ default: Page }) => Page()),
+        '/milkdown-editor': () =>
+          Async(import('./pages/milkdown-editor'), ({ default: Page }) =>
+            Page()
+          ),
+        '/mask-input': () =>
+          Async(import('./pages/mask-input'), ({ default: Page }) => Page()),
+        '/toolbar': () =>
+          Async(import('./pages/toolbar'), ({ default: Page }) => Page()),
+        '/temporal': () =>
+          Async(import('./pages/temporal'), ({ default: Page }) => Page()),
+        '/inputs': () =>
+          Async(import('./pages/inputs'), ({ default: Page }) => Page()),
+        '/markdown': () =>
+          Async(import('./pages/markdown'), ({ default: Page }) => Page()),
+        '/x-ui-usage': () =>
+          Async(import('./pages/x-ui-usage'), ({ default: Page }) => Page()),
+        '/notice': () =>
+          Async(import('./pages/notice'), ({ default: Page }) => Page()),
         '/*': () => html.div('Not Found'),
       }),
     })

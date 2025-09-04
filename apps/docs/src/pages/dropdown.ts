@@ -11,7 +11,7 @@ import {
   Option,
 } from '@tempots/beatui'
 
-export const DropdownPage = () => {
+export default function DropdownPage() {
   // Basic example
   const basicValue = prop<string>('')
   const basicOptions = prop<DropdownOption<string>[]>([

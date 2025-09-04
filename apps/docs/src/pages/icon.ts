@@ -75,7 +75,7 @@ const icons = [
   'tabler:star',
 ]
 
-export const IconPage = () => {
+export default function IconPage() {
   const size = prop<IconSize>('md')
   const color = prop<ThemeColorName>('base')
 

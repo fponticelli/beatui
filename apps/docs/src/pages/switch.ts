@@ -12,7 +12,7 @@ import { ControlsHeader } from '../elements/controls-header'
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
-export const SwitchPage = () => {
+export default function SwitchPage() {
   const label = prop('Switch me')
   const onLabel = prop('ON')
   const offLabel = prop('OFF')

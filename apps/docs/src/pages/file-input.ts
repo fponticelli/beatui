@@ -16,7 +16,7 @@ import {
 import { z } from 'zod/v4'
 import { ControlsHeader } from '../elements/controls-header'
 
-export function FileInputPage() {
+export default function FileInputPage() {
   // Values
   const basicFiles = prop<File[]>([])
   const imageFiles = prop<File[]>([])

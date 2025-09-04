@@ -99,7 +99,7 @@ console.log(hello)`,
   },
 ]
 
-export function MonacoEditorPage() {
+export default function MonacoEditorPage() {
   const selectedIndex = prop(1)
   const code = selectedIndex.map(i => samples[i].value).deriveProp()
   const language = selectedIndex.map(i => samples[i].language)

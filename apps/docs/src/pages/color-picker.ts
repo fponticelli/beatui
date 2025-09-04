@@ -17,7 +17,7 @@ import {
 } from '@tempots/beatui'
 import { z } from 'zod/v4'
 
-export const ColorPickerPage = () => {
+export default function ColorPickerPage() {
   // Simple color picker example
   const simpleColor = prop('#3b82f6')
 

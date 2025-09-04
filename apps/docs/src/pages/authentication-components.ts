@@ -23,7 +23,7 @@ import { AuthProviderSelector } from '../elements/auth-provider-selector'
 import { ControlsHeader } from '../elements/controls-header'
 import type { AuthProviderKey } from '../elements/auth-provider-selector'
 
-export const AuthenticationComponentsPage = () => {
+export default function AuthenticationComponentsPage() {
   // AuthContainer demo state
   const authMode = prop<AuthMode>('signin')
   const showSocial = prop(true)

@@ -10,7 +10,7 @@ import { ControlsHeader } from '../elements/controls-header'
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
-export const SegmentedControlPage = () => {
+export default function SegmentedControlPage() {
   const disabled = prop(false)
   const options = {
     first: 'First',

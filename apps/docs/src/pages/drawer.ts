@@ -25,7 +25,7 @@ type DrawerSide =
   | 'inline-start'
   | 'inline-end'
 
-export const DrawerPage = () => {
+export default function DrawerPage() {
   const size = prop<DrawerSize>('md')
   const dismissable = prop(true)
   const showCloseButton = prop(true)

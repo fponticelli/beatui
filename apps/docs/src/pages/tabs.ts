@@ -16,7 +16,7 @@ import { ControlSizeSelector } from '../elements/control-size-selector'
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
-export const TabsPage = () => {
+export default function TabsPage() {
   const disabled = prop(false)
   const size = prop<ControlSize>('md')
   const orientation = prop<'horizontal' | 'vertical'>('horizontal')

@@ -16,7 +16,7 @@ import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { Placement } from '@tempots/ui'
 
-export const MenuPage = () => {
+export default function MenuPage() {
   const placement = prop<Placement>('bottom-start')
   const showOn = prop<MenuTrigger>('click')
 

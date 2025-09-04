@@ -14,7 +14,7 @@ import {
 import { z } from 'zod/v4'
 import { ControlsHeader } from '../elements/controls-header'
 
-export function MaskInputPage() {
+export default function MaskInputPage() {
   // Reactive controls for demo
   const showGuide = prop(true)
   const disabled = prop(false)

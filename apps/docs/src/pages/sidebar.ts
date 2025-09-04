@@ -7,7 +7,7 @@ import {
 } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
 
-export const SidebarPage = () => {
+export default function SidebarPage() {
   return ScrollablePanel({
     body: Group(
       attr.class('bu-p-4 bu-gap-4'),

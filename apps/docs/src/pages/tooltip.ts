@@ -15,7 +15,7 @@ import { html, attr, prop, computedOf } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { Placement } from '@tempots/ui'
 
-export const TooltipPage = () => {
+export default function TooltipPage() {
   const placement = prop<Placement>('top')
   const showOn = prop<TooltipTrigger>('hover-focus')
   const showDelay = prop(250)

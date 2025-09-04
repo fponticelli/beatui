@@ -10,7 +10,7 @@ import {
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
-export const NoticePage = () => {
+export default function NoticePage() {
   const variant = prop<'info' | 'success' | 'warning' | 'error'>('info')
   const tone = prop<'subtle' | 'prominent'>('prominent')
   const role = prop<'auto' | 'status' | 'alert'>('auto')

@@ -1,7 +1,7 @@
 import { html, attr, prop, ForEach } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Tag } from '@tempots/beatui'
 
-export const TagsPage = () => {
+export default function TagsPage() {
   // For closable example
   const closable = prop<string[]>(['alpha', 'beta', 'gamma', 'delta'])
   const removeClosable = (v: string) =>

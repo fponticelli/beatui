@@ -86,7 +86,7 @@ function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
   )
 }
 
-export const BreakpointPage = () => {
+export default function BreakpointPage() {
   return ScrollablePanel({
     body: Stack(
       attr.class('bu-p-4'),

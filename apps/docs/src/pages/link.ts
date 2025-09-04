@@ -9,7 +9,7 @@ import {
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
-export const LinkPage = () => {
+export default function LinkPage() {
   const variant = prop<LinkVariant>('default')
 
   return ScrollablePanel({

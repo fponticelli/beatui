@@ -1,7 +1,7 @@
 import { attr, html, prop } from '@tempots/dom'
 import { Card, Group, Stack, EditableText, Switch } from '@tempots/beatui'
 
-export const EditableTextPage = () => {
+export default function EditableTextPage() {
   const text = prop('Click to edit me')
   const disabled = prop(false)
 

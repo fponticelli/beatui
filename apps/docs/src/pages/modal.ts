@@ -17,7 +17,7 @@ import { ControlsHeader } from '../elements/controls-header'
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl'
 
-export const ModalPage = () => {
+export default function ModalPage() {
   const size = prop<ModalSize>('md')
   const dismissable = prop(true)
   const showCloseButton = prop(true)

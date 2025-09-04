@@ -15,8 +15,8 @@ import {
   ToolbarSpacer,
 } from '@tempots/beatui'
 
-export const ToolbarPage = () =>
-  Stack(
+export default function ToolbarPage() {
+  return Stack(
     attr.class('bu-gap-6 bu-p-6 bu-items-start'),
     Toolbar(
       ToolbarGroup(
@@ -58,3 +58,4 @@ export const ToolbarPage = () =>
       ToolbarButton({}, Icon({ icon: 'mdi:format-underline' }))
     )
   )
+}

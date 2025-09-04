@@ -2,7 +2,7 @@ import { html, attr } from '@tempots/dom'
 import { Anchor } from '@tempots/ui'
 import { Stack, Card } from '@tempots/beatui'
 
-export const HomePage = () => {
+const HomePage = () => {
   return html.div(
     attr.class('bu-p-6'),
     Stack(
@@ -107,3 +107,5 @@ export const HomePage = () => {
     )
   )
 }
+
+export default HomePage

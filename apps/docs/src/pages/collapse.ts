@@ -9,7 +9,7 @@ import {
 import { html, attr, prop, style } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
-export const CollapsePage = () => {
+export default function CollapsePage() {
   const open = prop(true)
 
   return ScrollablePanel({

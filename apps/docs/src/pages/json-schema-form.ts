@@ -41,7 +41,7 @@ const sampleNames = [
 ]
 
 // Edit the JSON Schema (via Monaco) and see the form update live
-export function JSONSchemaFormPage() {
+export default function JSONSchemaFormPage() {
   const selectedSample = prop(sampleNames[0])
   const sample = selectedSample.mapAsync<{
     schema: object | null

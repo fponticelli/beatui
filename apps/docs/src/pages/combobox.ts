@@ -10,7 +10,7 @@ import {
 
 type Fruit = { id: string; name: string; color: string; emoji: string }
 
-export const ComboboxPage = () => {
+export default function ComboboxPage() {
   // Demo dataset for async filtering
   const allFruits = [
     { id: 'apple', name: 'Apple', color: '#ef4444', emoji: '🍎' },

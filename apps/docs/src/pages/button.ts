@@ -56,7 +56,7 @@ const allColors: ThemeColorName[] = [
   'emerald',
 ]
 
-export const ButtonPage = () => {
+export default function ButtonPage() {
   const roundedness = prop<RadiusName>('md')
   const size = prop<ControlSize>('md')
   const text = prop('Click Me!')
