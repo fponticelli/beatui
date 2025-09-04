@@ -9,7 +9,7 @@ Actionable TODOs to harden quality via tests, improve performance, and complete 
   - Add per-keyword family tests under `packages/beatui/tests/unit/` for enums/const, unions, composition (allOf/anyOf/oneOf/not), conditionals, additional/pattern/unevaluated properties, arrays (tuple/contains), formats, and annotations.
   - Verify AJV→Controller error path mapping for common errors (required, additionalProperties, contains, oneOf mismatch).
 
-- [ ] Add integration tests for representative complex schemas
+- [x] Add integration tests for representative complex schemas
   - Create deeply nested schemas exercising oneOf + dependencies + arrays; snapshot rendered tree and validate interactions: switching branches, adding/removing items/properties, toggling nullable.
 
 - [ ] Caching and performance improvements
@@ -19,4 +19,3 @@ Actionable TODOs to harden quality via tests, improve performance, and complete 
 - [ ] Documentation pass
   - Author or update README/docs explaining configuration, `x:ui` options (including container layouts), extension points, and advanced usage with examples.
   - Ensure accessibility notes and internationalization hooks are documented and reflected in examples.
-
