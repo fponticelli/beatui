@@ -1,13 +1,14 @@
 import { attr, Renderable, Value, MapSignal, Use } from '@tempots/dom'
-import { Stack } from '../../layout'
-import { ObjectController } from '../../form'
+import { ObjectController, InputWrapper } from '../../form'
 import { Button } from '../../button'
-import { Label } from '../../typography'
 import { objectEntries } from '@tempots/std'
 import { BeatUII18n } from '@/beatui-i18n'
 import { renderAdditionalEntry, renderUnevaluatedEntry } from './object-helpers'
 import { JSONSchemaGenericControl } from './generic-control'
-import { makePlaceholder } from './shared-utils'
+import {
+  makePlaceholder,
+  definitionToInputWrapperOptions,
+} from './shared-utils'
 import type {
   SchemaContext,
   JSONSchema,
@@ -300,15 +301,19 @@ export function JSONSchemaObject({
       allPropertyNames
     )
 
-    // Wrap with label if needed and not handled by container
-    const shouldShowLabel =
+    // Wrap with InputWrapper when label/description should be displayed and
+    // container does not already render them (fieldset/group)
+    const shouldWrap =
       !effCtx.suppressLabel &&
       effCtx.name != null &&
       (!containerLayout ||
         !['fieldset', 'group'].includes(containerLayout.format || ''))
 
-    return shouldShowLabel
-      ? Stack(attr.class('bu-gap-1'), Label(effCtx.widgetLabel), content)
-      : content
+    if (!shouldWrap) return content
+
+    return InputWrapper({
+      ...definitionToInputWrapperOptions({ ctx: effCtx }),
+      content,
+    })
   })
 }

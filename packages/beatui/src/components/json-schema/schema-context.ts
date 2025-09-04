@@ -639,16 +639,21 @@ export function mergeAllOf(
   const conflicts: SchemaConflict[] = []
   const merged: JSONSchema = {}
 
-  // Collect all types from all schemas
-  const allTypes: JSONSchemaType[] = []
+  // Collect per-branch allowed types for intersection analysis
+  const perBranchTypes: Array<Set<JSONSchemaType>> = []
   const allRequired: string[] = []
   const allProperties: Record<string, JSONSchemaDefinition> = {}
 
   for (const schema of allOfSchemas) {
-    // Handle type intersection
+    // Track allowed types (normalized) per branch for intersection
     if (schema.type != null) {
       const types = Array.isArray(schema.type) ? schema.type : [schema.type]
-      allTypes.push(...types)
+      const normalized = new Set<JSONSchemaType>(
+        (types as JSONSchemaType[]).map(t => t)
+      )
+      // Treat 'number' as also allowing 'integer' for intersection purposes
+      if (normalized.has('number')) normalized.add('integer')
+      perBranchTypes.push(normalized)
     }
 
     // Union required arrays
@@ -741,36 +746,35 @@ export function mergeAllOf(
     if (maxProperties != null) merged.maxProperties = maxProperties
   }
 
-  // Handle type intersection conflicts
-  const uniqueTypes = [...new Set(allTypes)]
-  if (uniqueTypes.length > 1) {
-    // Check for incompatible type combinations
-    const hasString = uniqueTypes.includes('string')
-    const hasNumber =
-      uniqueTypes.includes('number') || uniqueTypes.includes('integer')
-    const hasBoolean = uniqueTypes.includes('boolean')
-    const hasObject = uniqueTypes.includes('object')
-    const hasArray = uniqueTypes.includes('array')
+  // Determine effective type via intersection of allowed types across branches
+  if (perBranchTypes.length > 0) {
+    let intersection: Set<JSONSchemaType> | null = null
+    for (const types of perBranchTypes) {
+      if (intersection == null) {
+        intersection = new Set(types)
+      } else {
+        const next = new Set<JSONSchemaType>()
+        for (const t of intersection) {
+          if (types.has(t)) next.add(t)
+        }
+        intersection = next
+      }
+    }
 
-    const primitiveCount = [hasString, hasNumber, hasBoolean].filter(
-      Boolean
-    ).length
-    const structuralCount = [hasObject, hasArray].filter(Boolean).length
-
-    if (primitiveCount > 1 || (primitiveCount > 0 && structuralCount > 0)) {
+    const final = Array.from(intersection ?? [])
+    if (final.length === 0) {
+      // No overlap – true incompatibility across branches
+      const values = perBranchTypes.map(s => Array.from(s))
       conflicts.push({
         path: [...basePath, 'type'],
-        message: `Incompatible types in allOf: ${uniqueTypes.join(', ')}`,
-        conflictingValues: uniqueTypes,
+        message: `Incompatible types in allOf (no common types)`,
+        conflictingValues: values,
       })
+    } else if (final.length === 1) {
+      merged.type = final[0]
+    } else {
+      merged.type = final
     }
-  }
-
-  // Set merged properties
-  if (uniqueTypes.length === 1) {
-    merged.type = uniqueTypes[0]
-  } else if (uniqueTypes.length > 1) {
-    merged.type = uniqueTypes
   }
 
   if (allRequired.length > 0) {

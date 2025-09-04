@@ -12,7 +12,7 @@ Actionable TODOs to extend `$ref` support beyond in-document references and ensu
 - [x] Preserve sibling keyword semantics when a node uses `$ref`
   - Ensure the current in-document `$ref` merge behavior (sibling keywords merged with the referenced schema) is used uniformly, including within unions and combinators, before branching on `type`.
 
-- [ ] Validate `allOf`/`oneOf` across referenced schemas
+ - [x] Validate `allOf`/`oneOf` across referenced schemas
   - Verify deep-merge behavior for `allOf` where branches reference external schemas; surface conflicts with actionable error text.
   - For `oneOf` across refs, ensure branch detection and selection behave identically to inlined schemas.
 

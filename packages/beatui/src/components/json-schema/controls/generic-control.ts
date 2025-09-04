@@ -10,7 +10,7 @@ import {
   evaluateNotViolation,
   SchemaContext as SchemaContextClass,
 } from '../schema-context'
-import { resolveRef } from '../ref-utils'
+import { resolveRef, resolveAnyRef } from '../ref-utils'
 import { WithSchemaIssues } from './schema-wrapper'
 import { getVisibilityConfig } from '../visibility/visibility-evaluation'
 import { WithVisibility } from '../visibility/visibility-wrapper'
@@ -50,7 +50,11 @@ export function JSONSchemaGenericControl<T>({
         typeof schema === 'object' && schema !== null
     )
     if (objectSchemas.length > 0) {
-      const { mergedSchema, conflicts } = mergeAllOf(objectSchemas, ctx.path)
+      // Resolve internal/external refs before merging
+      const resolvedAllOf = objectSchemas.map(schema =>
+        resolveAnyRef(schema, ctx.schema, ctx.ajv)
+      )
+      const { mergedSchema, conflicts } = mergeAllOf(resolvedAllOf, ctx.path)
       // Merge the allOf result with any other properties from the parent schema
       const { allOf: _allOf, ...parentProps } = resolvedDef
       resolvedDef = { ...parentProps, ...mergedSchema }
@@ -78,13 +82,17 @@ export function JSONSchemaGenericControl<T>({
   }
 
   if (resolvedDef == null) {
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaAny({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaAny({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   if (resolvedDef.enum != null) {
@@ -102,33 +110,45 @@ export function JSONSchemaGenericControl<T>({
     )
   }
   if (resolvedDef.const != null) {
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaConst({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaConst({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   if (resolvedDef.anyOf != null) {
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaAnyOf({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaAnyOf({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   if (resolvedDef.oneOf != null) {
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaOneOf({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaOneOf({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   if (resolvedDef?.type == null) {
@@ -195,33 +215,45 @@ export function JSONSchemaGenericControl<T>({
     }
 
     // General union of multiple types → use union control
-    return WithSchemaIssues(
+    return withVisibilityIfNeeded(
       nextCtx,
-      JSONSchemaUnion({
-        ctx: nextCtx,
-        controller: controller as unknown as Controller<unknown>,
-      }),
-      controller
+      controller,
+      WithSchemaIssues(
+        nextCtx,
+        JSONSchemaUnion({
+          ctx: nextCtx,
+          controller: controller as unknown as Controller<unknown>,
+        }),
+        controller
+      )
     )
   }
   switch (resolvedDef.type) {
     case 'number':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaNumber({
-          ctx: nextCtx,
-          controller: controller as unknown as Controller<number>,
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaNumber({
+            ctx: nextCtx,
+            controller: controller as unknown as Controller<number>,
+          }),
+          controller
+        )
       )
     case 'integer':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaInteger({
-          ctx: nextCtx,
-          controller: controller as unknown as Controller<number>,
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaInteger({
+            ctx: nextCtx,
+            controller: controller as unknown as Controller<number>,
+          }),
+          controller
+        )
       )
     case 'string':
       return withVisibilityIfNeeded(
@@ -237,27 +269,35 @@ export function JSONSchemaGenericControl<T>({
         )
       )
     case 'boolean':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaBoolean({
-          ctx: nextCtx,
-          controller: controller as unknown as Controller<boolean | null>,
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaBoolean({
+            ctx: nextCtx,
+            controller: controller as unknown as Controller<boolean | null>,
+          }),
+          controller
+        )
       )
     case 'array':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaArray({
-          ctx: nextCtx,
-          controller:
-            controller instanceof ArrayController
-              ? (controller as unknown as ArrayController<unknown[]>)
-              : ((
-                  controller as unknown as Controller<unknown[]>
-                ).array() as ArrayController<unknown[]>),
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaArray({
+            ctx: nextCtx,
+            controller:
+              controller instanceof ArrayController
+                ? (controller as unknown as ArrayController<unknown[]>)
+                : ((
+                    controller as unknown as Controller<unknown[]>
+                  ).array() as ArrayController<unknown[]>),
+          }),
+          controller
+        )
       )
     case 'object': {
       const schema = JSONSchemaObject({
@@ -271,29 +311,45 @@ export function JSONSchemaGenericControl<T>({
         }>,
       })
       if (nextCtx.isRoot) {
-        return WithSchemaIssues(nextCtx, schema, controller)
+        return withVisibilityIfNeeded(
+          nextCtx,
+          controller,
+          WithSchemaIssues(nextCtx, schema, controller)
+        )
       }
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        html.div(attr.class('bc-json-schema-object'), schema),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          html.div(attr.class('bc-json-schema-object'), schema),
+          controller
+        )
       )
     }
     case 'null':
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        JSONSchemaNull({
-          ctx: nextCtx,
-          controller: controller as unknown as Controller<null>,
-        }),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          JSONSchemaNull({
+            ctx: nextCtx,
+            controller: controller as unknown as Controller<null>,
+          }),
+          controller
+        )
       )
     default:
       console.warn('Unknown type', resolvedDef.type)
-      return WithSchemaIssues(
+      return withVisibilityIfNeeded(
         nextCtx,
-        html.div(attr.class('bc-json-schema-unknown'), 'Unknown'),
-        controller
+        controller,
+        WithSchemaIssues(
+          nextCtx,
+          html.div(attr.class('bc-json-schema-unknown'), 'Unknown'),
+          controller
+        )
       )
   }
 }

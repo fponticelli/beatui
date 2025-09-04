@@ -1,4 +1,5 @@
 import type { JSONSchema, JSONSchemaDefinition } from './schema-context'
+import type { Ajv } from 'ajv'
 import { jsonPointerToSegments } from './ajv-utils'
 
 // Caches to speed up in-document $ref resolution
@@ -117,4 +118,81 @@ function getFromPointerCached(
   }
   map.set(pointer, cur)
   return cur
+}
+
+/**
+ * Resolve a $ref in a schema definition, supporting both in-document ("#...")
+ * and external references (e.g., "https://example.com/schema#/$defs/Thing") when
+ * an AJV instance is available. Sibling keywords next to $ref are shallow-merged
+ * over the resolved target at each step. Cycles are detected and resolution stops.
+ */
+export function resolveAnyRef(
+  def: JSONSchema,
+  root: JSONSchemaDefinition,
+  ajv: Ajv | undefined
+): JSONSchema {
+  let current: JSONSchema = def
+  const seen = new Set<string>()
+
+  const mergeSiblings = (
+    target: JSONSchema,
+    withSiblings: JSONSchema
+  ): JSONSchema => {
+    // Merge: resolved target + siblings (without $ref) where siblings override
+    const { $ref: _omit, ...siblings } = withSiblings as { $ref?: string }
+    return { ...(target as JSONSchema), ...(siblings as JSONSchema) }
+  }
+
+  while (isRef(current)) {
+    const ref = current.$ref!
+    if (seen.has(ref)) {
+      // Cycle detected
+      console.warn(
+        `resolveAnyRef: cycle detected while resolving $ref chain: ${[...seen, ref].join(' -> ')}`
+      )
+      break
+    }
+    seen.add(ref)
+
+    if (ref.startsWith('#')) {
+      // In-document ref
+      const target = getFromPointerCached(root, ref)
+      if (!isObject(target)) {
+        console.warn(`resolveAnyRef: could not resolve JSON Pointer ${ref}`)
+        break
+      }
+      current = mergeSiblings(target as JSONSchema, current)
+      continue
+    }
+
+    // External ref – try AJV when available
+    if (!ajv) {
+      console.warn(`resolveAnyRef: external $ref without AJV not resolved: ${ref}`)
+      break
+    }
+
+    // Try with full ref first (including fragment), then without fragment
+    const hashIndex = ref.indexOf('#')
+    const base = hashIndex >= 0 ? ref.slice(0, hashIndex) : ref
+
+    let validate = ajv.getSchema(ref) || ajv.getSchema(base)
+    if (!validate) {
+      // Try compiling a tiny wrapper to force AJV to resolve the ref
+      try {
+        validate = ajv.compile({ $ref: ref } as unknown as object)
+      } catch {}
+    }
+
+    // If still unavailable, bail out
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const targetSchema = (validate as any)?.schema as JSONSchema | undefined
+    if (!targetSchema || typeof targetSchema !== 'object') {
+      console.warn(`resolveAnyRef: AJV could not provide schema for ${ref}`)
+      break
+    }
+
+    current = mergeSiblings(targetSchema, current)
+  }
+
+  return current
 }

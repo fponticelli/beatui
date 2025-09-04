@@ -1,6 +1,7 @@
 import { Renderable, Value, prop, MapSignal, computedOf } from '@tempots/dom'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { mergeAllOf } from '../schema-context'
+import { resolveAnyRef } from '../ref-utils'
 import { JSONSchemaGenericControl } from './generic-control'
 import {
   autoSelectOneOfBranch,
@@ -53,8 +54,13 @@ export function JSONSchemaAllOf<T>({
 }): Renderable {
   const variants = (ctx.definition as JSONSchema).allOf as JSONSchema[]
 
+  // Resolve $ref (internal/external) in allOf branches before merging
+  const resolvedVariants = variants
+    .filter((schema): schema is JSONSchema => typeof schema === 'object')
+    .map(schema => resolveAnyRef(schema, ctx.schema, ctx.ajv))
+
   // Merge all allOf branches into a single effective schema
-  const { mergedSchema, conflicts } = mergeAllOf(variants, ctx.path)
+  const { mergedSchema, conflicts } = mergeAllOf(resolvedVariants, ctx.path)
 
   // Create new context with merged schema and conflicts
   const mergedCtx = ctx.with({
