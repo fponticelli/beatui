@@ -16,8 +16,8 @@ describe('Enhanced allOf conflict detection', () => {
     expect(result.conflicts).toHaveLength(1)
     expect(result.conflicts[0]).toEqual({
       path: ['type'],
-      message: 'Incompatible types in allOf: string, number',
-      conflictingValues: ['string', 'number'],
+      message: 'Incompatible types in allOf (no common types)',
+      conflictingValues: [['string'], ['number', 'integer']],
     })
   })
 

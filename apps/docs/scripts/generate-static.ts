@@ -132,50 +132,62 @@ const main = async () => {
   // Import components for SSG
   const { html, attr } = await import('@tempots/dom')
   const { BeatUI } = await import('@tempots/beatui')
-  const { HomePage } = await import('../src/pages/home')
-  const { AboutPage } = await import('../src/pages/about')
-  const { AuthenticationPage } = await import('../src/pages/authentication')
-  const { AuthenticationComponentsPage } = await import(
+  const { default: HomePage } = await import('../src/pages/home')
+  const { default: AboutPage } = await import('../src/pages/about')
+  const { default: AuthenticationPage } = await import(
+    '../src/pages/authentication'
+  )
+  const { default: AuthenticationComponentsPage } = await import(
     '../src/pages/authentication-components'
   )
-  const { ButtonPage } = await import('../src/pages/button')
-  const { DropdownPage } = await import('../src/pages/dropdown')
-  const { ComboboxPage } = await import('../src/pages/combobox')
-  const { SwitchPage } = await import('../src/pages/switch')
-  const { CollapsePage } = await import('../src/pages/collapse')
-  const { IconPage } = await import('../src/pages/icon')
-  const { LinkPage } = await import('../src/pages/link')
-  const { ModalPage } = await import('../src/pages/modal')
-  const { DrawerPage } = await import('../src/pages/drawer')
-  const { TooltipPage } = await import('../src/pages/tooltip')
-  const { FlyoutPage } = await import('../src/pages/flyout')
-  const { MenuPage } = await import('../src/pages/menu')
-  const { ScrollablePanelPage } = await import('../src/pages/scrollable-panel')
-  const { RTLLTRPage } = await import('../src/pages/rtl-ltr')
-  const { SegmentedControlPage } = await import(
+  const { default: ButtonPage } = await import('../src/pages/button')
+  const { default: DropdownPage } = await import('../src/pages/dropdown')
+  const { default: ComboboxPage } = await import('../src/pages/combobox')
+  const { default: SwitchPage } = await import('../src/pages/switch')
+  const { default: CollapsePage } = await import('../src/pages/collapse')
+  const { default: IconPage } = await import('../src/pages/icon')
+  const { default: LinkPage } = await import('../src/pages/link')
+  const { default: ModalPage } = await import('../src/pages/modal')
+  const { default: DrawerPage } = await import('../src/pages/drawer')
+  const { default: TooltipPage } = await import('../src/pages/tooltip')
+  const { default: FlyoutPage } = await import('../src/pages/flyout')
+  const { default: MenuPage } = await import('../src/pages/menu')
+  const { default: ScrollablePanelPage } = await import(
+    '../src/pages/scrollable-panel'
+  )
+  const { default: RTLLTRPage } = await import('../src/pages/rtl-ltr')
+  const { default: SegmentedControlPage } = await import(
     '../src/pages/segmented-control'
   )
-  const { SidebarPage } = await import('../src/pages/sidebar')
-  const { TabsPage } = await import('../src/pages/tabs')
-  const { TagsPage } = await import('../src/pages/tags')
-  const { TagsInputPage } = await import('../src/pages/tags-input')
-  const { FormPage } = await import('../src/pages/form')
-  const { FileInputPage } = await import('../src/pages/file-input')
-  const { ColorPickerPage } = await import('../src/pages/color-picker')
-  const { EditableTextPage } = await import('../src/pages/editable-text')
-  const { BreakpointPage } = await import('../src/pages/breakpoint')
-  const { NineSliceScrollViewPage } = await import(
+  const { default: SidebarPage } = await import('../src/pages/sidebar')
+  const { default: TabsPage } = await import('../src/pages/tabs')
+  const { default: TagsPage } = await import('../src/pages/tags')
+  const { default: TagsInputPage } = await import('../src/pages/tags-input')
+  const { default: FormPage } = await import('../src/pages/form')
+  const { default: FileInputPage } = await import('../src/pages/file-input')
+  const { default: ColorPickerPage } = await import('../src/pages/color-picker')
+  const { default: EditableTextPage } = await import(
+    '../src/pages/editable-text'
+  )
+  const { default: BreakpointPage } = await import('../src/pages/breakpoint')
+  const { default: NineSliceScrollViewPage } = await import(
     '../src/pages/nine-slice-scroll-view'
   )
-  const { JSONSchemaFormPage } = await import('../src/pages/json-schema-form')
-  const { MonacoEditorPage } = await import('../src/pages/monaco-editor')
-  const { MilkdownEditorPage } = await import('../src/pages/milkdown-editor')
-  const { MaskInputPage } = await import('../src/pages/mask-input')
-  const { ToolbarPage } = await import('../src/pages/toolbar')
-  const { TemporalPage } = await import('../src/pages/temporal')
-  const { InputsPage } = await import('../src/pages/inputs')
-  const { MarkdownPage } = await import('../src/pages/markdown')
-  const { NoticePage } = await import('../src/pages/notice')
+  const { default: JSONSchemaFormPage } = await import(
+    '../src/pages/json-schema-form'
+  )
+  const { default: MonacoEditorPage } = await import(
+    '../src/pages/monaco-editor'
+  )
+  const { default: MilkdownEditorPage } = await import(
+    '../src/pages/milkdown-editor'
+  )
+  const { default: MaskInputPage } = await import('../src/pages/mask-input')
+  const { default: ToolbarPage } = await import('../src/pages/toolbar')
+  const { default: TemporalPage } = await import('../src/pages/temporal')
+  const { default: InputsPage } = await import('../src/pages/inputs')
+  const { default: MarkdownPage } = await import('../src/pages/markdown')
+  const { default: NoticePage } = await import('../src/pages/notice')
 
   // Load HTML template
   const htmlTemplate = (async () => {

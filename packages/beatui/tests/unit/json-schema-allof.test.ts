@@ -48,10 +48,11 @@ describe('allOf merge strategy', () => {
       expect(result.conflicts).toHaveLength(1)
       expect(result.conflicts[0]).toEqual({
         path: ['type'],
-        message: 'Incompatible types in allOf: string, number',
-        conflictingValues: ['string', 'number'],
+        message: 'Incompatible types in allOf (no common types)',
+        conflictingValues: [['string'], ['number', 'integer']],
       })
-      expect(result.mergedSchema.type).toEqual(['string', 'number'])
+      // When there are no common types, the merged schema doesn't have a type property
+      expect(result.mergedSchema.type).toBeUndefined()
     })
 
     it('should detect property conflicts', () => {

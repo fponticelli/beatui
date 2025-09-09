@@ -167,7 +167,9 @@ export function resolveAnyRef(
 
     // External ref – try AJV when available
     if (!ajv) {
-      console.warn(`resolveAnyRef: external $ref without AJV not resolved: ${ref}`)
+      console.warn(
+        `resolveAnyRef: external $ref without AJV not resolved: ${ref}`
+      )
       break
     }
 
