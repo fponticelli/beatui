@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.19.1",
+  "version": "0.20.0",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -122,9 +122,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/dom": "30.0.0",
+    "@tempots/dom": "30.1.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "8.0.2"
+    "@tempots/ui": "9.0.0"
   },
   "peerDependenciesMeta": {
     "@tempots/dom": {
@@ -149,7 +149,7 @@
     "tsx": "^4.19.4",
     "typescript": "5.8.3",
     "typescript-eslint": "8.32.1",
-    "vite": "6.3.5",
+    "vite": "7.1.7",
     "vitest": "3.1.3"
   },
   "dependencies": {
@@ -162,6 +162,6 @@
     "katex": "^0.16.22",
     "micromark": "^4.0.2",
     "micromark-extension-gfm": "^3.0.0",
-    "monaco-editor": "^0.52.2"
+    "monaco-editor": "0.53.0"
   }
 }
