@@ -1,4 +1,4 @@
-/* Rating Input Component */
+/* Legacy styles retained for consumers not using Tailwind components bundle */
 .bc-rating-input {
   display: inline-flex;
   gap: calc(var(--spacing-base) * 1);

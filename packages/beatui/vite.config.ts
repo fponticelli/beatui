@@ -25,6 +25,7 @@ export default defineConfig({
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
         milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
+        tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
       },
       name: 'BeatUIFramework',
       fileName: (format, entryName) => {
@@ -33,7 +34,8 @@ export default defineConfig({
           entryName === 'json-schema' ||
           entryName === 'monaco' ||
           entryName === 'milkdown' ||
-          entryName === 'markdown'
+          entryName === 'markdown' ||
+          entryName === 'tailwind'
         ) {
           return `${entryName}/index.${format}.js`
         }

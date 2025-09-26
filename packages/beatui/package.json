@@ -46,6 +46,24 @@
     "./monaco.css": "./dist/monaco.css",
     "./markdown.css": "./dist/markdown.css",
     "./css": "./dist/beatui.css",
+    "./tailwind": {
+      "types": "./dist/tailwind.d.ts",
+      "import": "./dist/tailwind/index.mjs",
+      "require": "./dist/tailwind/index.cjs",
+      "default": "./dist/tailwind/index.mjs"
+    },
+    "./tailwind/preset": {
+      "types": "./dist/types/tailwind/preset.d.ts",
+      "import": "./dist/tailwind/preset.mjs",
+      "require": "./dist/tailwind/preset.cjs",
+      "default": "./dist/tailwind/preset.mjs"
+    },
+    "./tailwind/tokens": {
+      "types": "./dist/types/tailwind/tokens.d.ts",
+      "import": "./dist/tailwind/preset.mjs",
+      "require": "./dist/tailwind/preset.cjs",
+      "default": "./dist/tailwind/preset.mjs"
+    },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
@@ -62,7 +80,7 @@
     "dist/monaco/index.cjs.js"
   ],
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-css-entries.mjs",
+    "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-css-entries.mjs && node scripts/build-tailwind-entries.mjs",
     "build:watch": "vite build --watch",
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",
@@ -138,6 +156,7 @@
     }
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
     "@testing-library/dom": "10.4.0",
     "@types/node": "22.15.18",
     "@typescript-eslint/eslint-plugin": "8.32.1",
@@ -146,10 +165,12 @@
     "eslint-config-prettier": "10.1.5",
     "jsdom": "26.1.0",
     "prettier": "3.5.3",
+    "@tailwindcss/cli": "4.1.13",
+    "tailwindcss": "4.1.13",
     "tsx": "^4.19.4",
     "typescript": "5.8.3",
     "typescript-eslint": "8.32.1",
-    "vite": "6.3.5",
+    "vite": "7.1.7",
     "vitest": "3.1.3"
   },
   "dependencies": {

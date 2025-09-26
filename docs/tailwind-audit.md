@@ -124,6 +124,26 @@ The following table summarises current utility families and their responsibiliti
 ### `animation.css`
 - Toggle/flyout state machines have no direct Tailwind analogue. Keep them as component-scoped CSS modules, or consider generating Tailwind utilities via a dedicated plugin if reuse is required.
 
+## Reset vs Tailwind Preflight
+
+| Rule Group | Covered by Tailwind preflight? | Action |
+| --- | --- | --- |
+| `*, *::before, *::after { box-sizing: border-box; }` | ✅ identical rule emitted | Drop from custom reset. |
+| `* { margin: 0; }` | ⚠️ preflight only clears margins on `body` + headings | Replace with targeted spacing resets where needed (e.g. components that assumed zero margins). |
+| `html`/`body` font smoothing + background defaults | ⚠️ only `-webkit-text-size-adjust` provided; smoothing not included | Keep smoothing + theme background initialisers inside `@layer base`. |
+| Media elements (`img`, `picture`, `video`, `canvas`, `svg`) block display + max-width | ✅ equivalent preflight rules | Drop from reset. |
+| Form controls inherit font (`input`, `button`, `textarea`, `select`) | ✅ preflight sets `font: inherit` plus additional normalisation | Drop from reset. |
+| Typography override `p, h1…h6 { font-size: 1rem; line-height: 1.5rem; font-weight: 400; }` | ❌ preflight leaves native scales | Do not carry forward globally; move `overflow-wrap: break-word` into base layer and let Tailwind typography utilities govern sizing. |
+| `button` stripping (border/background/padding) | ✅ preflight removes border/background and normalises appearance | Drop; rely on Tailwind utilities per component. |
+| `button { cursor: pointer; }` / `button:disabled { cursor: not-allowed; }` | ⚠️ pointer defaults vary | Keep as focused base rule (possibly at component scope) to preserve affordance/disabled behaviour. |
+| `a { color: inherit; text-decoration: none; }` | ⚠️ preflight inherits colour but not remove underline | Keep `text-decoration` reset in base layer (or convert to `@apply no-underline`). |
+| `ul, ol { list-style: none; padding: 0; }` | ❌ preflight retains list markers | Only apply within components that expect marker-less lists; remove from global reset to avoid surprising prose. |
+| `*:focus { outline: none; }` | ❌ preflight leaves focus outlines intact | Remove (accessibility); rely on the base `*:focus-visible` rules in `02.base/focus.css` and Tailwind `focus-visible` utilities. |
+
+Additional notes:
+- Move the surviving reset snippets (smoothing, button cursor, link underline override) into a Tailwind `@layer base` module so they are co-located with other base utilities.
+- Review `02.base/focus.css` while adopting Tailwind rings to ensure the new focus styles pair correctly with the restored native outline fallback.
+
 ## Notes & Gaps
 - Several utilities reference `var(--spacing-0)` which is not defined in `variables.css`; likely intended to map to `--spacing-none`.
 - Dark-mode support is implemented via `.b-dark` wrappers rather than data attributes or media queries; Tailwind config must reproduce the wrapper strategy or migrate components to `class="dark"` semantics.
