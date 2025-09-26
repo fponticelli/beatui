@@ -21,20 +21,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 29.0.3
-        version: 29.0.3
+        specifier: 30.1.0
+        version: 30.1.0
       '@tempots/std':
-        specifier: 0.22.1
-        version: 0.22.1
+        specifier: 0.24.0
+        version: 0.24.0
       '@tempots/ui':
-        specifier: 7.0.3
-        version: 7.0.3(@tempots/dom@29.0.3)(@tempots/std@0.22.1)
-      monaco-editor:
-        specifier: ^0.52.2
-        version: 0.52.2
-      monaco-yaml:
-        specifier: ^5.4.0
-        version: 5.4.0(monaco-editor@0.52.2)
+        specifier: 9.0.0
+        version: 9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)
       zod:
         specifier: ^3.25.67
         version: 3.25.76
@@ -88,8 +82,8 @@ importers:
         specifier: 8.32.1
         version: 8.32.1(eslint@9.27.0(jiti@2.6.0))(typescript@5.8.3)
       vite:
-        specifier: ^6.3.5
-        version: 6.3.5(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
+        specifier: ^7.1.7
+        version: 7.1.7(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
 
   packages/beatui:
     dependencies:
@@ -103,14 +97,14 @@ importers:
         specifier: ^7.15.3
         version: 7.15.3(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(typescript@5.8.3)
       '@tempots/dom':
-        specifier: 30.0.0
-        version: 30.0.0
+        specifier: 30.1.0
+        version: 30.1.0
       '@tempots/std':
-        specifier: 0.23.0
-        version: 0.23.0
+        specifier: 0.24.0
+        version: 0.24.0
       '@tempots/ui':
-        specifier: 8.0.1
-        version: 8.0.1(@tempots/dom@30.0.0)(@tempots/std@0.23.0)
+        specifier: 9.0.0
+        version: 9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -130,8 +124,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       monaco-editor:
-        specifier: ^0.52.2
-        version: 0.52.2
+        specifier: 0.53.0
+        version: 0.53.0
     devDependencies:
       '@tailwindcss/cli':
         specifier: 4.1.13
@@ -1103,29 +1097,17 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tempots/dom@29.0.3':
-    resolution: {integrity: sha512-fd+wBrxJSimAjoFC+w7zkIqsoNpeMfHkcfmN/Myv5pw91j65zGa40qC6SaonvOSoPlJ+nQdp57hQ+tZzj+WW6g==}
+  '@tempots/dom@30.1.0':
+    resolution: {integrity: sha512-27fAFu1eyGQzXUkbuX+ky9NuM7MiC4XelHjPwc4fMHs9LQ80s2WDFCxXci2hrHELE0ktj+oG/bUop8jPRKc5XQ==}
 
-  '@tempots/dom@30.0.0':
-    resolution: {integrity: sha512-Dbsa7o+5PxD2QfEMJlZsio5AnGU1ZkhUtoNxHwtcwW4yvQ03ZlKra+rLnU3gQp8jqTcDh67nO3D+9eOINJjpkQ==}
+  '@tempots/std@0.24.0':
+    resolution: {integrity: sha512-8YhRh41k0hVYp6hnoOAQ8Qw5ANUXlp4UZdArZwev9v4RIJ8hmYoKadqCOqfU42njO3qaR0Ks9sS/YdC4zXb2LA==}
 
-  '@tempots/std@0.22.1':
-    resolution: {integrity: sha512-5cRPTMf4pRRCkuSa5VRKswv44WriBePNOMFtibXjzdoNL6iZvDAIGqFsuzRI20VsbHNjOjRMsk0zj33I/ARAFQ==}
-
-  '@tempots/std@0.23.0':
-    resolution: {integrity: sha512-ZiYPPi3ULwQRnYWEZqkFnxIZUUgvApTCpUtW/DMh6nnHo6y2KPN3ohpmB8Mb7Mpl/pGao+5Lq1Gkbmr5pBcFWg==}
-
-  '@tempots/ui@7.0.3':
-    resolution: {integrity: sha512-2/JyfIxJz7AocnQGgXud0cDSS2QKY39CLaR0yA1fZCFBXnvAE3DfMyw1cg35tMOhAjAHC40SKDswat44yrmXiw==}
+  '@tempots/ui@9.0.0':
+    resolution: {integrity: sha512-WM5KNOQt2CLzXWnn0jX5Cm9CvuLSC+cAOS8Y7a8GvK4pOkbNKmZUVR+Tv3pCsmMp60em6UF5ORBAMqDsT9ohxw==}
     peerDependencies:
-      '@tempots/dom': 29.0.3
-      '@tempots/std': 0.22.1
-
-  '@tempots/ui@8.0.1':
-    resolution: {integrity: sha512-4FvmE7J30iYLdydmG1ziOTKjYhxZuTtbnE5YwbcvUY+vqkHmpJH6UKXJ0hnmfWSnqzJV/bQV51rqzym/KhkLHg==}
-    peerDependencies:
-      '@tempots/dom': 30.0.0
-      '@tempots/std': 0.23.0
+      '@tempots/dom': 30.1.0
+      '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -1178,6 +1160,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/trusted-types@1.0.6':
+    resolution: {integrity: sha512-230RC8sFeHoT6sSUlRO6a8cAnclO06eeiq1QDfiv2FGCLWFvvERWgwIQD4FWqD9A69BN7Lzee4OXwoMVnnsWDw==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -1916,9 +1901,6 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  jsonc-parser@3.3.1:
-    resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
-
   jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
 
@@ -2204,27 +2186,8 @@ packages:
     resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
     engines: {node: '>= 18'}
 
-  monaco-editor@0.52.2:
-    resolution: {integrity: sha512-GEQWEZmfkOGLdd3XK8ryrfWz3AIP8YymVXiPHEdewrUq7mh0qrKrfHLNCXcbB6sTnMLnOZ3ztSiKcciFUkIJwQ==}
-
-  monaco-languageserver-types@0.4.0:
-    resolution: {integrity: sha512-QQ3BZiU5LYkJElGncSNb5AKoJ/LCs6YBMCJMAz9EA7v+JaOdn3kx2cXpPTcZfKA5AEsR0vc97sAw+5mdNhVBmw==}
-
-  monaco-marker-data-provider@1.2.4:
-    resolution: {integrity: sha512-4DsPgsAqpTyUDs3humXRBPUJoihTv+L6v9aupQWD80X2YXaCXUd11mWYeSCYHuPgdUmjFaNWCEOjQ6ewf/QA1Q==}
-
-  monaco-types@0.1.0:
-    resolution: {integrity: sha512-aWK7SN9hAqNYi0WosPoMjenMeXJjwCxDibOqWffyQ/qXdzB/86xshGQobRferfmNz7BSNQ8GB0MD0oby9/5fTQ==}
-
-  monaco-worker-manager@2.0.1:
-    resolution: {integrity: sha512-kdPL0yvg5qjhKPNVjJoym331PY/5JC11aPJXtCZNwWRvBr6jhkIamvYAyiY5P1AWFmNOy0aRDRoMdZfa71h8kg==}
-    peerDependencies:
-      monaco-editor: '>=0.30.0'
-
-  monaco-yaml@5.4.0:
-    resolution: {integrity: sha512-tuBVDy1KAPrgO905GHTItu8AaA5bIzF5S4X0JVRAE/D66FpRhkDUk7tKi5bwKMVTTugtpMLsXN4ewh4CgE/FtQ==}
-    peerDependencies:
-      monaco-editor: '>=0.36'
+  monaco-editor@0.53.0:
+    resolution: {integrity: sha512-0WNThgC6CMWNXXBxTbaYYcunj08iB5rnx4/G56UOPeL9UVIUGGHA1GR0EWIh9Ebabj7NpCRawQ5b0hfN1jQmYQ==}
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -2301,9 +2264,6 @@ packages:
 
   parse5@7.3.0:
     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
-
-  path-browserify@1.0.1:
-    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
 
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
@@ -2875,22 +2835,6 @@ packages:
         optional: true
       jsdom:
         optional: true
-
-  vscode-jsonrpc@8.2.0:
-    resolution: {integrity: sha512-C+r0eKJUIfiDIfwJhria30+TYWPtuHJXHtI7J0YlOmKAo7ogxP20T0zxB7HZQIFhIyvoBPwWskjxrvAtfjyZfA==}
-    engines: {node: '>=14.0.0'}
-
-  vscode-languageserver-protocol@3.17.5:
-    resolution: {integrity: sha512-mb1bvRJN8SVznADSGWM9u/b07H7Ecg0I3OgXDuLdn307rl/J3A9YD6/eYOssqhecL27hK1IPZAsaqh00i/Jljg==}
-
-  vscode-languageserver-textdocument@1.0.12:
-    resolution: {integrity: sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA==}
-
-  vscode-languageserver-types@3.17.5:
-    resolution: {integrity: sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==}
-
-  vscode-uri@3.1.0:
-    resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
   vue@3.5.19:
     resolution: {integrity: sha512-ZRh0HTmw6KChRYWgN8Ox/wi7VhpuGlvMPrHjIsdRbzKNgECFLzy+dKL5z9yGaBSjCpmcfJCbh3I1tNSRmBz2tg==}
@@ -4125,25 +4069,15 @@ snapshots:
       tailwindcss: 4.1.13
       vite: 7.1.7(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
 
-  '@tempots/dom@29.0.3': {}
+  '@tempots/dom@30.1.0': {}
 
-  '@tempots/dom@30.0.0': {}
+  '@tempots/std@0.24.0': {}
 
-  '@tempots/std@0.22.1': {}
-
-  '@tempots/std@0.23.0': {}
-
-  '@tempots/ui@7.0.3(@tempots/dom@29.0.3)(@tempots/std@0.22.1)':
+  '@tempots/ui@9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)':
     dependencies:
       '@floating-ui/dom': 1.7.0
-      '@tempots/dom': 29.0.3
-      '@tempots/std': 0.22.1
-
-  '@tempots/ui@8.0.1(@tempots/dom@30.0.0)(@tempots/std@0.23.0)':
-    dependencies:
-      '@floating-ui/dom': 1.7.0
-      '@tempots/dom': 30.0.0
-      '@tempots/std': 0.23.0
+      '@tempots/dom': 30.1.0
+      '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -4206,6 +4140,8 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/tough-cookie@4.0.5': {}
+
+  '@types/trusted-types@1.0.6': {}
 
   '@types/trusted-types@2.0.7':
     optional: true
@@ -5029,8 +4965,6 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  jsonc-parser@3.3.1: {}
-
   jsonfile@6.1.0:
     dependencies:
       universalify: 2.0.1
@@ -5481,38 +5415,9 @@ snapshots:
     dependencies:
       minipass: 7.1.2
 
-  monaco-editor@0.52.2: {}
-
-  monaco-languageserver-types@0.4.0:
+  monaco-editor@0.53.0:
     dependencies:
-      monaco-types: 0.1.0
-      vscode-languageserver-protocol: 3.17.5
-      vscode-uri: 3.1.0
-
-  monaco-marker-data-provider@1.2.4:
-    dependencies:
-      monaco-types: 0.1.0
-
-  monaco-types@0.1.0: {}
-
-  monaco-worker-manager@2.0.1(monaco-editor@0.52.2):
-    dependencies:
-      monaco-editor: 0.52.2
-
-  monaco-yaml@5.4.0(monaco-editor@0.52.2):
-    dependencies:
-      jsonc-parser: 3.3.1
-      monaco-editor: 0.52.2
-      monaco-languageserver-types: 0.4.0
-      monaco-marker-data-provider: 1.2.4
-      monaco-types: 0.1.0
-      monaco-worker-manager: 2.0.1(monaco-editor@0.52.2)
-      path-browserify: 1.0.1
-      prettier: 3.5.3
-      vscode-languageserver-textdocument: 1.0.12
-      vscode-languageserver-types: 3.17.5
-      vscode-uri: 3.1.0
-      yaml: 2.8.1
+      '@types/trusted-types': 1.0.6
 
   mri@1.2.0: {}
 
@@ -5581,8 +5486,6 @@ snapshots:
   parse5@7.3.0:
     dependencies:
       entities: 6.0.1
-
-  path-browserify@1.0.1: {}
 
   path-exists@4.0.0: {}
 
@@ -6216,19 +6119,6 @@ snapshots:
       - tsx
       - yaml
 
-  vscode-jsonrpc@8.2.0: {}
-
-  vscode-languageserver-protocol@3.17.5:
-    dependencies:
-      vscode-jsonrpc: 8.2.0
-      vscode-languageserver-types: 3.17.5
-
-  vscode-languageserver-textdocument@1.0.12: {}
-
-  vscode-languageserver-types@3.17.5: {}
-
-  vscode-uri@3.1.0: {}
-
   vue@3.5.19(typescript@5.8.3):
     dependencies:
       '@vue/compiler-dom': 3.5.19
@@ -6287,7 +6177,8 @@ snapshots:
 
   yallist@5.0.0: {}
 
-  yaml@2.8.1: {}
+  yaml@2.8.1:
+    optional: true
 
   yocto-queue@0.1.0: {}
 
