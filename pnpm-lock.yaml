@@ -103,14 +103,14 @@ importers:
         specifier: ^7.15.3
         version: 7.15.3(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(typescript@5.8.3)
       '@tempots/dom':
-        specifier: 29.0.3
-        version: 29.0.3
+        specifier: 30.0.0
+        version: 30.0.0
       '@tempots/std':
-        specifier: 0.22.1
-        version: 0.22.1
+        specifier: 0.23.0
+        version: 0.23.0
       '@tempots/ui':
-        specifier: 7.0.3
-        version: 7.0.3(@tempots/dom@29.0.3)(@tempots/std@0.22.1)
+        specifier: 8.0.1
+        version: 8.0.1(@tempots/dom@30.0.0)(@tempots/std@0.23.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -791,14 +791,26 @@ packages:
   '@tempots/dom@29.0.3':
     resolution: {integrity: sha512-fd+wBrxJSimAjoFC+w7zkIqsoNpeMfHkcfmN/Myv5pw91j65zGa40qC6SaonvOSoPlJ+nQdp57hQ+tZzj+WW6g==}
 
+  '@tempots/dom@30.0.0':
+    resolution: {integrity: sha512-Dbsa7o+5PxD2QfEMJlZsio5AnGU1ZkhUtoNxHwtcwW4yvQ03ZlKra+rLnU3gQp8jqTcDh67nO3D+9eOINJjpkQ==}
+
   '@tempots/std@0.22.1':
     resolution: {integrity: sha512-5cRPTMf4pRRCkuSa5VRKswv44WriBePNOMFtibXjzdoNL6iZvDAIGqFsuzRI20VsbHNjOjRMsk0zj33I/ARAFQ==}
+
+  '@tempots/std@0.23.0':
+    resolution: {integrity: sha512-ZiYPPi3ULwQRnYWEZqkFnxIZUUgvApTCpUtW/DMh6nnHo6y2KPN3ohpmB8Mb7Mpl/pGao+5Lq1Gkbmr5pBcFWg==}
 
   '@tempots/ui@7.0.3':
     resolution: {integrity: sha512-2/JyfIxJz7AocnQGgXud0cDSS2QKY39CLaR0yA1fZCFBXnvAE3DfMyw1cg35tMOhAjAHC40SKDswat44yrmXiw==}
     peerDependencies:
       '@tempots/dom': 29.0.3
       '@tempots/std': 0.22.1
+
+  '@tempots/ui@8.0.1':
+    resolution: {integrity: sha512-4FvmE7J30iYLdydmG1ziOTKjYhxZuTtbnE5YwbcvUY+vqkHmpJH6UKXJ0hnmfWSnqzJV/bQV51rqzym/KhkLHg==}
+    peerDependencies:
+      '@tempots/dom': 30.0.0
+      '@tempots/std': 0.23.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -3387,13 +3399,23 @@ snapshots:
 
   '@tempots/dom@29.0.3': {}
 
+  '@tempots/dom@30.0.0': {}
+
   '@tempots/std@0.22.1': {}
+
+  '@tempots/std@0.23.0': {}
 
   '@tempots/ui@7.0.3(@tempots/dom@29.0.3)(@tempots/std@0.22.1)':
     dependencies:
       '@floating-ui/dom': 1.7.0
       '@tempots/dom': 29.0.3
       '@tempots/std': 0.22.1
+
+  '@tempots/ui@8.0.1(@tempots/dom@30.0.0)(@tempots/std@0.23.0)':
+    dependencies:
+      '@floating-ui/dom': 1.7.0
+      '@tempots/dom': 30.0.0
+      '@tempots/std': 0.23.0
 
   '@testing-library/dom@10.4.0':
     dependencies:
