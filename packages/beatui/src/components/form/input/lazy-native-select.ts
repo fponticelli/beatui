@@ -1,7 +1,7 @@
 import { html, Signal, Use, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { NativeSelect } from './native-select'
-import { Resource } from '@tempots/ui'
+import { Query } from '@tempots/ui'
 import { BeatUII18n } from '@/beatui-i18n'
 import { Icon } from '@/components/data'
 import { Option, SelectOption } from './option'
@@ -19,12 +19,11 @@ export type LazyNativeSelectOptions<T, R> = InputOptions<T> & {
 export const LazyNativeSelect = <T, R>(
   options: LazyNativeSelectOptions<T, R>
 ) => {
-  return Resource({
+  return Query({
     request: options.request,
     load: options.load,
-    mapError: String,
-  })({
-    success: list => {
+    convertError: String,
+    success: ({ value: list }) => {
       const selectOptions = list.map(ls =>
         ls.map(item => {
           if (typeof item === 'object' && 'id' in item && 'label' in item) {
@@ -40,7 +39,7 @@ export const LazyNativeSelect = <T, R>(
         equality: options.equality,
       })
     },
-    loading: () =>
+    pending: () =>
       Use(BeatUII18n, t =>
         html.span(
           Icon({

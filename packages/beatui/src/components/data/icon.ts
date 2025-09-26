@@ -12,7 +12,7 @@ import {
   coalesce,
 } from '@tempots/dom'
 import { IconSize } from '../theme'
-import { Resource, WhenInViewport } from '@tempots/ui'
+import { Query, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 import { BeatUII18n } from '@/beatui-i18n'
 
@@ -182,18 +182,17 @@ export function Icon(
         () => aria.hidden(true)
       ),
       WhenInViewport({ once: true }, () =>
-        Resource<string, string, string>({
+        Query<string, string, string>({
           request: icon,
           load: ({ request }) => loadIconSvg(request),
-          mapError: String,
-        })({
-          success: svg =>
+          convertError: String,
+          success: ({ value: svg }) =>
             html.span(
               style.width('100%'),
               style.height('100%'),
               attr.innerHTML(svg)
             ),
-          loading: () =>
+          pending: () =>
             html.span(
               attr.class('animate-spin'),
               // Loading state accessibility
@@ -204,9 +203,9 @@ export function Icon(
               ),
               '↻'
             ),
-          failure: err =>
+          failure: ({ error }) =>
             html.span(
-              attr.title(err),
+              attr.title(error),
               attr.class('text-red-500'),
               // Error state accessibility
               When(
