@@ -1,5 +1,1 @@
-.bc-group {
-  display: flex;
-  justify-items: center;
-  gap: var(--spacing-md);
-}
+/* migrated to tailwind/components.css */

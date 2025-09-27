@@ -1,23 +1,14 @@
-@tailwind components;
+@tailwind utilities;
 
-@layer components {
+@layer utilities {
   /* Center */
   .bc-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+    @apply flex flex-col items-center justify-center h-full w-full;
     gap: var(--spacing-lg);
   }
 
   .bc-center-h {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    @apply flex flex-col items-center justify-center h-full;
   }
 
   .bc-center--gap-none {
@@ -45,24 +36,32 @@
   }
 
   .bc-center__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @apply flex flex-col items-center;
     gap: inherit;
+  }
+
+  /* Stack */
+  .bc-stack {
+    @apply flex flex-col;
+    justify-items: flex-start;
+    scroll-behavior: smooth;
+  }
+
+  /* Group */
+  .bc-group {
+    @apply flex items-center;
+    gap: var(--spacing-md);
+    justify-items: center;
   }
 
   /* Tag */
   .bc-tag {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: var(--radius-full);
+    @apply inline-flex flex-row items-center rounded-full transition-all duration-200 border border-transparent;
     line-height: var(--line-height-tight, 1.2);
-    border: 1px solid transparent;
-    transition: all 0.2s ease-in-out;
     font-size: var(--font-size-base);
     padding-inline: var(--spacing-lg);
     gap: var(--spacing-lg);
+    transition-timing-function: ease-in-out;
   }
 
   .bc-tag--xs {
@@ -90,17 +89,13 @@
   }
 
   .bc-tag__close {
+    @apply flex items-center justify-center rounded-full transition-all duration-200 border border-transparent;
     background: transparent;
     color: var(--color-gray-200);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: calc(var(--spacing-base) * 4);
     height: calc(var(--spacing-base) * 4);
-    border-radius: var(--radius-full);
-    transition: all 0.2s ease-in-out;
-    border: 1px solid transparent;
+    transition-timing-function: ease-in-out;
   }
 
   .bc-tag__close:hover {
@@ -109,15 +104,14 @@
   }
 
   .bc-tag.bc-tag--disabled {
+    @apply cursor-default;
     opacity: 0.55;
     filter: grayscale(0.4) saturate(0.8);
-    cursor: default;
   }
 
   .bc-tag.bc-tag--disabled .bc-tag__close {
-    cursor: not-allowed;
+    @apply cursor-not-allowed pointer-events-none;
     opacity: 0.6;
-    pointer-events: none;
   }
 
   .bc-tag.bc-tag--disabled .bc-tag__close:hover {
@@ -140,37 +134,142 @@
     border-color: var(--border-dark);
   }
 
+  .bc-dropdown__search-input {
+    @apply w-full bg-transparent border-0 outline-none font-inherit;
+    color: inherit;
+    padding: var(--spacing-base) calc(var(--spacing-base) * 2);
+    margin: 0;
+    background-color: var(--color-gray-50);
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-gray-300);
+  }
+
+  .bc-input-container__tags {
+    @apply flex flex-row flex-wrap items-center;
+    gap: calc(var(--spacing-base) * 2);
+  }
+
+  .bc-input-container .bc-input-container__tags-input {
+    @apply inline-flex flex-grow;
+    min-width: 8rem;
+    flex-shrink: 0;
+    width: auto;
+  }
+
   .bc-input-container__tags-selector {
-    flex: 1;
+    @apply flex items-center justify-end flex-1;
     background-color: transparent;
     min-width: 100px;
     min-height: 1rem;
     align-self: stretch;
     justify-self: stretch;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     gap: var(--spacing-lg);
+  }
+
+  /* Sink */
+  .bc-sink {
+    @apply flex flex-col transition-all duration-200;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-base-300);
+    padding: var(--spacing-md);
+    box-shadow: inset 0 0 0.25rem rgba(0, 0, 0, 0.2);
+    background-color: var(--color-base-50);
+    transition-timing-function: ease-in-out;
+  }
+
+  .bc-sink--deep {
+    box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  .bc-sink--shallow {
+    box-shadow: inset 0 0 0.125rem rgba(0, 0, 0, 0.1);
+  }
+
+  .bc-sink--flat {
+    box-shadow: none;
+    border: 1px solid var(--color-base-200);
+  }
+
+  .bc-sink--padding-xs {
+    padding: var(--spacing-xs);
+  }
+
+  .bc-sink--padding-sm {
+    padding: var(--spacing-sm);
+  }
+
+  .bc-sink--padding-md {
+    padding: var(--spacing-md);
+  }
+
+  .bc-sink--padding-lg {
+    padding: var(--spacing-lg);
+  }
+
+  .bc-sink--padding-xl {
+    padding: var(--spacing-xl);
+  }
+
+  .bc-sink--rounded-none {
+    border-radius: 0;
+  }
+
+  .bc-sink--rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+
+  .bc-sink--rounded-md {
+    border-radius: var(--radius-md);
+  }
+
+  .bc-sink--rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+
+  .bc-sink--rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+
+  .bc-sink--rounded-full {
+    border-radius: var(--radius-full);
+  }
+
+  .b-dark .bc-sink {
+    background-color: var(--bg-background-dark);
+    border: 1px solid var(--border-dark);
+    box-shadow: inset 0 2px 4px var(--shadow-color-dark);
+    color: var(--text-normal-dark);
+  }
+
+  .b-dark .bc-sink--deep {
+    box-shadow: inset 0 4px 8px var(--shadow-color-dark);
+  }
+
+  .b-dark .bc-sink--shallow {
+    box-shadow: inset 0 1px 2px var(--shadow-color-dark);
+  }
+
+  .b-dark .bc-sink--flat {
+    box-shadow: none;
+    border: 1px solid var(--border-divider-dark);
+    background-color: var(--bg-subtle-dark);
   }
 
   /* Rating input */
   .bc-rating-input {
-    display: inline-flex;
+    @apply inline-flex;
     gap: var(--spacing-sm);
   }
 
   .bc-rating-input__icon-container {
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    @apply relative cursor-pointer transition-all duration-200;
+    transition-timing-function: ease-in-out;
   }
 
   .bc-rating-input__icon-empty,
   .bc-rating-input__icon-full,
   .bc-rating-input__icon-clipper {
-    position: absolute;
-    display: block;
-    overflow: hidden;
+    @apply absolute block overflow-hidden;
   }
 
   .bc-rating-input__icon-container:hover {
@@ -179,7 +278,7 @@
 
   [aria-disabled='true'] .bc-rating-input__icon-container,
   .bc-input-container--disabled .bc-rating-input__icon-container {
-    cursor: not-allowed;
+    @apply cursor-not-allowed;
   }
 
   [aria-disabled='true'] .bc-rating-input__icon-container:hover,

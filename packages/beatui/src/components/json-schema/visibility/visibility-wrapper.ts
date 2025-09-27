@@ -1,4 +1,13 @@
-import { Fragment, Renderable, When, type Signal } from '@tempots/dom'
+import {
+  Fragment,
+  Renderable,
+  When,
+  attr,
+  computedOf,
+  dataAttr,
+  html,
+  type Signal,
+} from '@tempots/dom'
 import type { Controller } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import {
@@ -27,6 +36,26 @@ export interface VisibilityOptions {
 const DEFAULT_VISIBILITY_OPTIONS: VisibilityOptions = {
   behavior: 'hide',
   clearOnHide: false,
+}
+
+function renderVisibilityContainer(
+  children: Renderable,
+  isVisible: Signal<boolean>,
+  hiddenClass?: string
+): Renderable {
+  const hiddenStateClass = hiddenClass?.trim() || 'hidden'
+  const visibilityState = computedOf(isVisible)(visible =>
+    visible ? 'visible' : 'hidden'
+  )
+  const visibilityClasses = computedOf(isVisible)(visible =>
+    visible ? 'contents' : hiddenStateClass
+  )
+
+  return html.div(
+    attr.class(visibilityClasses),
+    dataAttr['visibility-state'](visibilityState),
+    children
+  )
 }
 
 /**
@@ -83,18 +112,7 @@ export function WithVisibility<T>({
     case 'hide':
     default:
       // Hide with CSS but keep in DOM
-      return When(
-        isVisible,
-        () => children,
-        () =>
-          Fragment(
-            // Keep the component in DOM but hidden
-            // This preserves form state and validation
-            children
-            // Note: In a real implementation, you'd add CSS classes
-            // to hide the element visually while keeping it in DOM
-          )
-      )
+      return renderVisibilityContainer(children, isVisible)
   }
 }
 
@@ -116,6 +134,7 @@ export function WithVisibilityAndCSS<T>({
   controller,
   children,
   options = DEFAULT_VISIBILITY_OPTIONS,
+  hiddenClass,
 }: {
   ctx: SchemaContext
   controller: Controller<T>
@@ -154,7 +173,7 @@ export function WithVisibilityAndCSS<T>({
   }
 
   // Wrap children with conditional CSS class
-  return When(isVisible, () => children)
+  return renderVisibilityContainer(children, isVisible, hiddenClass)
 }
 
 /**

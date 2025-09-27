@@ -85,7 +85,7 @@
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint . --ext .ts && node ./scripts/check-legacy-utilities.mjs",
     "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
