@@ -401,12 +401,6 @@ export function MenuItem(options: MenuItemOptions): Renderable {
     dataAttr.key(itemKey),
     aria.disabled(disabled),
     aria.selected(false), // Will be updated by focus management
-    hasSubmenu
-      ? WithElement(el => {
-          el.setAttribute('aria-haspopup', 'menu')
-          return Fragment()
-        })
-      : Fragment(),
     hasSubmenu ? aria.expanded(false) : Fragment(),
     ariaLabel ? aria.label(ariaLabel) : Fragment(),
     on.click(event => {
@@ -438,6 +432,7 @@ export function MenuItem(options: MenuItemOptions): Renderable {
             ),
           placement: submenuPlacement,
           showOn: 'hover',
+          hasPopup: 'menu',
           showDelay: 100,
           hideDelay: 300,
           mainAxisOffset: 0,

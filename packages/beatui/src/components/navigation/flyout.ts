@@ -6,8 +6,11 @@ import {
   Fragment,
   on,
   attr,
+  aria,
   OneOfValue,
   WithElement,
+  prop,
+  SplitNValue,
 } from '@tempots/dom'
 import { PopOver, Placement } from '@tempots/ui'
 import { delayedAnimationFrame } from '@tempots/std'
@@ -61,6 +64,8 @@ export interface FlyoutOptions {
   arrow?: (signal: any) => TNode
   /** Additional role attribute for accessibility */
   role?: Value<string>
+  /** Optional aria-haspopup value for the trigger element */
+  hasPopup?: Value<boolean | 'dialog' | 'menu' | 'listbox' | 'tree' | 'grid'>
 }
 
 function placementToAnimation(placement: Placement): Animation {
@@ -92,6 +97,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
     closable = true,
     arrow,
     role,
+    hasPopup = 'dialog',
   } = options
 
   return PopOver((open, close) => {
@@ -102,6 +108,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
 
     // Generate unique IDs for accessibility
     const flyoutId = sessionId('flyout')
+    const triggerExpanded = prop<boolean | 'undefined'>(false)
 
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
@@ -138,6 +145,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
       }
 
       // Reset PopOver state
+      triggerExpanded.set(false)
       isPopOverOpen = false
     }
 
@@ -152,6 +160,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
       }
 
       isPopOverOpen = true // Mark PopOver as open
+      triggerExpanded.set(true)
 
       open({
         placement: placement ?? 'top',
@@ -179,13 +188,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
               event.preventDefault()
               event.stopPropagation()
               hide()
-              // Update ARIA attributes on trigger element
-              const triggerElement = document.querySelector(
-                `[aria-controls="${flyoutId}"]`
-              )
-              if (triggerElement) {
-                triggerElement.setAttribute('aria-expanded', 'false')
-              }
+              triggerExpanded.set(false)
             }
           }
 
@@ -273,6 +276,8 @@ export function Flyout(options: FlyoutOptions): Renderable {
         hideTimeout = null
       }
 
+      triggerExpanded.set(false)
+
       // Clear any pending delayed open callback
       if (delayedOpenCleanup) {
         delayedOpenCleanup()
@@ -310,39 +315,46 @@ export function Flyout(options: FlyoutOptions): Renderable {
     }
 
     // Add ARIA attributes to trigger element
-    return WithElement(triggerElement => {
-      // Set ARIA attributes on the trigger element
-      const updateTriggerAria = (isOpen: boolean) => {
-        triggerElement.setAttribute('aria-expanded', isOpen.toString())
-        triggerElement.setAttribute('aria-controls', flyoutId)
-        if (!triggerElement.hasAttribute('aria-haspopup')) {
-          triggerElement.setAttribute('aria-haspopup', 'dialog')
-        }
-      }
-
-      // Initialize ARIA attributes
-      updateTriggerAria(false)
-
-      // Enhanced show function with ARIA updates
+    return WithElement(_triggerElement => {
       const enhancedShow = () => {
         show()
-        updateTriggerAria(true)
+        triggerExpanded.set(true)
       }
 
-      // Enhanced hide function with ARIA updates
       const enhancedHide = () => {
         hide()
-        updateTriggerAria(false)
+        triggerExpanded.set(false)
       }
+
+      const ariaAttributes = Fragment(
+        aria.expanded(triggerExpanded),
+        aria.controls(flyoutId),
+        aria.haspopup(
+          hasPopup as SplitNValue<
+            | boolean
+            | 'true'
+            | 'false'
+            | 'menu'
+            | 'listbox'
+            | 'tree'
+            | 'grid'
+            | 'dialog'
+          >
+        )
+      )
 
       // Handle custom trigger config
       if (typeof showOn === 'function') {
-        return (showOn as FlyoutTriggerFunction)(enhancedShow, enhancedHide)
+        return Fragment(
+          ariaAttributes,
+          (showOn as FlyoutTriggerFunction)(enhancedShow, enhancedHide)
+        )
       }
 
       // Handle built-in trigger types
       const triggerValue = showOn as Value<FlyoutTrigger>
       return Fragment(
+        ariaAttributes,
         OnDispose(() => {
           // Dispose the animatedToggle when the entire Flyout is disposed
           animatedToggle.dispose()

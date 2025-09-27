@@ -8,8 +8,7 @@ import {
   ElementPosition,
   style,
   emit,
-  WithElement,
-  OnDispose,
+  computedOf,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -144,29 +143,22 @@ export const RatingInput = (options: RatingInputOptions) => {
       attr.role('slider'),
       attr.tabindex(Value.map(disabled ?? false, (d): number => (d ? -1 : 0))),
       aria.disabled(disabled ?? false),
+      aria.valuemin(0),
+      aria.valuemax(Value.map(max, m => m ?? 0)),
+      aria.valuenow(Value.map(value, v => v ?? 0)),
+      aria.valuetext(
+        computedOf(
+          value,
+          max
+        )((current, maxValue) => {
+          const currentValue = current ?? 0
+          const maxResolved = maxValue ?? 0
+          return `${String(currentValue)} / ${String(maxResolved)}`
+        })
+      ),
       // Keyboard & focus handlers
       on.keydown(handleKeyDown),
       onBlur != null ? on.blur(onBlur) : null,
-      // Reactive ARIA value attributes
-      WithElement(el => {
-        const set = (name: string, v: string) => el.setAttribute(name, v)
-        set('aria-valuemin', '0')
-        set('aria-valuemax', String(Value.get(max)))
-        set('aria-valuenow', String(Value.get(value) ?? 0))
-        set(
-          'aria-valuetext',
-          `${String(Value.get(value) ?? 0)} / ${String(Value.get(max))}`
-        )
-        const off1 = Value.on(max, m => set('aria-valuemax', String(m)))
-        const off2 = Value.on(value, v => {
-          set('aria-valuenow', String(v ?? 0))
-          set('aria-valuetext', `${String(v ?? 0)} / ${String(Value.get(max))}`)
-        })
-        return OnDispose(() => {
-          off1()
-          off2()
-        })
-      }),
       Repeat(max, RenderIcon)
     ),
   })

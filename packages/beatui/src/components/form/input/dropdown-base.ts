@@ -166,8 +166,6 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
         WithElement(el => {
           triggerElement = el
           el.addEventListener('keydown', handleKeyDown)
-          el.setAttribute('aria-haspopup', 'listbox')
-          el.setAttribute('aria-controls', listboxId)
           return OnDispose(() =>
             el.removeEventListener('keydown', handleKeyDown)
           )
@@ -175,6 +173,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
         CommonInputAttributes(options),
         attr.id(dropdownId),
         attr.tabindex(0),
+        aria.controls(listboxId),
         aria.expanded(isOpen as Value<boolean | 'undefined'>),
         attr.class('bc-dropdown'),
         attr.role(role),
@@ -219,6 +218,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
             ),
           mainAxisOffset: 0,
           placement: 'bottom-start',
+          hasPopup: 'listbox',
           showOn: (flyoutShow, flyoutHide) => {
             const originalHide = flyoutHide
             flyoutHide = () => {
