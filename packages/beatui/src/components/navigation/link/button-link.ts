@@ -6,7 +6,7 @@ import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
 import { generateButtonClasses } from '../../button/button'
-import { UrlMatchMode, isUrlMatch } from './navigation-link'
+import { UrlMatchMode, createLocationMatcher } from './navigation-link'
 
 export interface ButtonLinkOptions {
   // Link-specific props
@@ -52,17 +52,20 @@ export function ButtonLink(
   // If navigation props are provided, use NavigationLink-like behavior
   if (matchMode !== undefined || disableWhenActive !== undefined) {
     return Use(Location, (locationHandle: LocationHandle) => {
+      const matchSignal =
+        matchMode !== undefined
+          ? locationHandle.matchSignal(createLocationMatcher(href, matchMode))
+          : computedOf(locationHandle.location)(() => false)
+
       const isActive = computedOf(
-        locationHandle.location,
-        href,
+        matchSignal,
         disableWhenActive
-      )((currentLocation, href, disableWhenActive) => {
+      )((matches, disableWhenActive) => {
         const shouldDisable = disableWhenActive ?? true
         if (!shouldDisable) return false
         if (!matchMode) return false
 
-        const hrefValue = Value.get(href)
-        return isUrlMatch(currentLocation, hrefValue, matchMode)
+        return matches
       })
 
       const effectiveDisabled = computedOf(

@@ -97,6 +97,22 @@ export function isUrlMatch(
   }
 }
 
+type LocationMatcher = string | RegExp | ((location: LocationData) => boolean)
+
+export function createLocationMatcher(
+  href: Value<string>,
+  matchMode: UrlMatchMode
+): Value<LocationMatcher> {
+  if (matchMode === 'exact') {
+    return computedOf(href)<LocationMatcher>(hrefValue => hrefValue)
+  }
+
+  return computedOf(href)<LocationMatcher>(
+    (hrefValue: string) => (location: LocationData) =>
+      isUrlMatch(location, hrefValue, matchMode)
+  )
+}
+
 export function NavigationLink(
   {
     href,
@@ -107,15 +123,18 @@ export function NavigationLink(
   ...children: TNode[]
 ) {
   return Use(Location, (locationHandle: LocationHandle) => {
+    const matchSignal = locationHandle.matchSignal(
+      createLocationMatcher(href, matchMode)
+    )
+
     const isActive = computedOf(
-      locationHandle.location,
-      href,
+      matchSignal,
       disableWhenActive
-    )((currentLocation, href, disableWhenActive) => {
+    )((matches, disableWhenActive) => {
       const shouldDisable = disableWhenActive ?? true
       if (!shouldDisable) return false
 
-      return isUrlMatch(currentLocation, Value.get(href), matchMode)
+      return matches
     })
 
     return Link(

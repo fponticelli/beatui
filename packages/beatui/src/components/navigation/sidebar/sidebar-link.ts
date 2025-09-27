@@ -1,7 +1,7 @@
 import { Icon } from '@/components/data'
 import {
+  aria,
   attr,
-  computedOf,
   DOMContext,
   html,
   on,
@@ -9,11 +9,11 @@ import {
   Use,
   Value,
   When,
-  WithElement,
 } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
 import type { LocationHandle, NavigationOptions } from '@tempots/ui'
 import { buildNavigationOptions } from '../link/navigation-options'
+import { createLocationMatcher } from '../link/navigation-link'
 
 export type UrlAction = {
   href: Value<string>
@@ -67,47 +67,16 @@ export function SidebarClickLink(
 ) {
   return html.button(
     on.click(options.onClick),
-    // Add ARIA attributes if provided using WithElement for dynamic updates
-    WithElement(el => {
-      if (options.ariaExpanded != null) {
-        const updateExpanded = (expanded: boolean) => {
-          el.setAttribute('aria-expanded', String(expanded))
-        }
-        // Set initial value
-        updateExpanded(Value.get(options.ariaExpanded))
-        // Subscribe to changes if it's a signal
-        if (
-          typeof options.ariaExpanded === 'object' &&
-          'on' in options.ariaExpanded
-        ) {
-          options.ariaExpanded.on(updateExpanded)
-        }
-      }
-      if (options.ariaControls != null) {
-        const updateControls = (controls: string) => {
-          el.setAttribute('aria-controls', controls)
-        }
-        updateControls(Value.get(options.ariaControls))
-        if (
-          typeof options.ariaControls === 'object' &&
-          'on' in options.ariaControls
-        ) {
-          options.ariaControls.on(updateControls)
-        }
-      }
-      if (options.ariaLabel != null) {
-        const updateLabel = (label: string) => {
-          el.setAttribute('aria-label', label)
-        }
-        updateLabel(Value.get(options.ariaLabel))
-        if (
-          typeof options.ariaLabel === 'object' &&
-          'on' in options.ariaLabel
-        ) {
-          options.ariaLabel.on(updateLabel)
-        }
-      }
-    }),
+    options.ariaExpanded != null
+      ? aria.expanded(
+          Value.map(
+            options.ariaExpanded,
+            expanded => expanded as boolean | 'undefined'
+          )
+        )
+      : null,
+    options.ariaControls != null ? aria.controls(options.ariaControls) : null,
+    options.ariaLabel != null ? aria.label(options.ariaLabel) : null,
     ...children
   )
 }
@@ -145,10 +114,14 @@ export function SidebarLink(options: SidebarLinkOptions) {
     return SidebarClickLink(options, ...children)
   }
   return Use(Location, (locationHandle: LocationHandle) => {
-    const isActive = computedOf(
-      locationHandle.pathname,
-      options.href
-    )((pathname, href) => pathname === href)
+    const isActive = locationHandle.matchSignal(
+      createLocationMatcher(options.href, 'exact'),
+      {
+        includeSearch: false,
+        includeHash: false,
+      }
+    )
+
     return When(
       isActive,
       () => SidebarActiveLink(...children),

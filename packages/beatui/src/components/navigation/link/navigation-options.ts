@@ -1,6 +1,8 @@
 import type { NavigationOptions } from '@tempots/ui'
 
-export type NavigationProps = Partial<Pick<NavigationOptions, 'state' | 'scroll' | 'replace'>> & {
+export type NavigationProps = Partial<
+  Pick<NavigationOptions, 'state' | 'scroll' | 'replace'>
+> & {
   viewTransition?: NavigationOptions['viewTransition']
 }
 
