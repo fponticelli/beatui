@@ -37,9 +37,9 @@ export function Toolbar(...children: TNode[]) {
         )
         if (items.length === 0) return
         // Initialize roving tabindex
-        items.forEach((el, i) =>
-          el.setAttribute('tabindex', i === 0 ? '0' : '-1')
-        )
+        items.forEach((el, i) => {
+          el.tabIndex = i === 0 ? 0 : -1
+        })
       }
 
       const moveFocus = (direction: 1 | -1) => {
@@ -54,9 +54,11 @@ export function Toolbar(...children: TNode[]) {
         let nextIndex = start + direction
         if (nextIndex < 0) nextIndex = items.length - 1
         if (nextIndex >= items.length) nextIndex = 0
-        items.forEach(el => el.setAttribute('tabindex', '-1'))
+        items.forEach(el => {
+          el.tabIndex = -1
+        })
         const next = items[nextIndex]
-        next.setAttribute('tabindex', '0')
+        next.tabIndex = 0
         next.focus()
       }
 
@@ -82,9 +84,11 @@ export function Toolbar(...children: TNode[]) {
                 container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
               )
               if (items.length) {
-                items.forEach(el => el.setAttribute('tabindex', '-1'))
+                items.forEach(el => {
+                  el.tabIndex = -1
+                })
                 const first = items[0]
-                first.setAttribute('tabindex', '0')
+                first.tabIndex = 0
                 first.focus()
               }
             }
@@ -96,9 +100,11 @@ export function Toolbar(...children: TNode[]) {
                 container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
               )
               if (items.length) {
-                items.forEach(el => el.setAttribute('tabindex', '-1'))
+                items.forEach(el => {
+                  el.tabIndex = -1
+                })
                 const last = items[items.length - 1]
-                last.setAttribute('tabindex', '0')
+                last.tabIndex = 0
                 last.focus()
               }
             }

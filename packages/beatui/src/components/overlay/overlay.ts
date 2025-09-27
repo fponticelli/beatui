@@ -99,16 +99,16 @@ export function Overlay(
         )) {
           if (el.hasAttribute('inert')) {
             inertChildren.add(el)
-          } else {
-            el.setAttribute('inert', '')
+          } else if (el instanceof HTMLElement) {
+            el.inert = true
           }
         }
         disposables.push(() => {
           for (const el of ctx.element.querySelectorAll(
             ':scope > :not([data-overlay])'
           )) {
-            if (!inertChildren.has(el)) {
-              el.removeAttribute('inert')
+            if (!inertChildren.has(el) && el instanceof HTMLElement) {
+              el.inert = false
             }
           }
           inertChildren.clear()

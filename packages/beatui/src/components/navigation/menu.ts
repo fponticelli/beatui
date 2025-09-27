@@ -241,13 +241,13 @@ export function Menu(options: MenuOptions): Renderable {
             items[focusedItemIndex.value].classList.remove(
               'bc-menu-item--focused'
             )
-            items[focusedItemIndex.value].removeAttribute('aria-selected')
+            items[focusedItemIndex.value].ariaSelected = 'false'
           }
 
           // Focus new item
           if (index >= 0 && items[index]) {
             items[index].classList.add('bc-menu-item--focused')
-            items[index].setAttribute('aria-selected', 'true')
+            items[index].ariaSelected = 'true'
             focusedItemIndex.set(index)
 
             // Scroll item into view if needed (check for method availability in test environments)
@@ -401,12 +401,7 @@ export function MenuItem(options: MenuItemOptions): Renderable {
     dataAttr.key(itemKey),
     aria.disabled(disabled),
     aria.selected(false), // Will be updated by focus management
-    hasSubmenu
-      ? WithElement(el => {
-          el.setAttribute('aria-haspopup', 'menu')
-          return Fragment()
-        })
-      : Fragment(),
+    hasSubmenu ? aria.haspopup('menu') : Fragment(),
     hasSubmenu ? aria.expanded(false) : Fragment(),
     ariaLabel ? aria.label(ariaLabel) : Fragment(),
     on.click(event => {
@@ -438,6 +433,7 @@ export function MenuItem(options: MenuItemOptions): Renderable {
             ),
           placement: submenuPlacement,
           showOn: 'hover',
+          hasPopup: 'menu',
           showDelay: 100,
           hideDelay: 300,
           mainAxisOffset: 0,

@@ -1,4 +1,5 @@
 import {
+  aria,
   attr,
   TNode,
   Value,
@@ -7,7 +8,6 @@ import {
   svg,
   svgAttr,
   Signal,
-  WithElement,
   Renderable,
 } from '@tempots/dom'
 import { Placement } from '@tempots/ui'
@@ -82,11 +82,9 @@ export function Tooltip(options: TooltipOptions): Renderable {
   // Generate unique ID for the tooltip
   const tooltipId = sessionId('tooltip')
 
-  return WithElement(triggerElement => {
-    // Set aria-describedby on the trigger element to associate it with the tooltip
-    triggerElement.setAttribute('aria-describedby', tooltipId)
-
-    return Flyout({
+  return Fragment(
+    aria.describedby(tooltipId),
+    Flyout({
       content: () =>
         Fragment(
           attr.class('bc-tooltip'),
@@ -141,5 +139,5 @@ export function Tooltip(options: TooltipOptions): Renderable {
         )
       },
     })
-  })
+  )
 }

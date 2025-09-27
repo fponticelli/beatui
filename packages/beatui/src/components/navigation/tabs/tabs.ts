@@ -8,7 +8,7 @@ import {
   computedOf,
   Fragment,
   aria,
-  WithElement,
+  dataAttr,
   When,
   Ensure,
   MapSignal,
@@ -281,9 +281,7 @@ export function Tabs(options: TabsOptions): TNode {
           aria.controls(panelId),
           aria.disabled(isTabDisabled),
           attr.disabled(isTabDisabled),
-          WithElement(el =>
-            el.setAttribute('data-tab-index', index.toString())
-          ),
+          dataAttr['tab-index'](String(index)),
           item.ariaLabel ? aria.label(item.ariaLabel) : Fragment(),
 
           on.click(event => {
