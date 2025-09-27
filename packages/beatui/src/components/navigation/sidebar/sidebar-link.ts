@@ -12,10 +12,15 @@ import {
   WithElement,
 } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
-import type { LocationHandle } from '@tempots/ui'
+import type { LocationHandle, NavigationOptions } from '@tempots/ui'
+import { buildNavigationOptions } from '../link/navigation-options'
 
 export type UrlAction = {
   href: Value<string>
+  viewTransition?: boolean
+  state?: NavigationOptions['state']
+  scroll?: NavigationOptions['scroll']
+  replace?: NavigationOptions['replace']
 }
 
 export type ClickAction = {
@@ -40,7 +45,13 @@ export type SidebarLinkOptions = {
 } & LinkAction
 
 export function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
-  return Anchor({ href: options.href, viewTransition: true }, ...children)
+  const navigationOptions = buildNavigationOptions({
+    viewTransition: options.viewTransition ?? true,
+    state: options.state,
+    scroll: options.scroll,
+    replace: options.replace,
+  })
+  return Anchor({ href: options.href, ...navigationOptions }, ...children)
 }
 
 export function SidebarActiveLink(...children: TNode[]) {

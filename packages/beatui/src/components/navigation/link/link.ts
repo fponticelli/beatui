@@ -1,5 +1,7 @@
 import { attr, computedOf, html, TNode, Value, When } from '@tempots/dom'
 import { Anchor } from '@tempots/ui'
+import type { NavigationOptions } from '@tempots/ui'
+import { buildNavigationOptions } from './navigation-options'
 import { ThemeColorName } from '@/tokens'
 
 export type LinkVariant = 'default' | 'plain' | 'hover'
@@ -11,6 +13,9 @@ export interface LinkOptions {
   colorDisabled?: Value<ThemeColorName>
   disabled?: Value<boolean>
   viewTransition?: boolean
+  state?: NavigationOptions['state']
+  scroll?: NavigationOptions['scroll']
+  replace?: NavigationOptions['replace']
   target?: Value<string>
   rel?: Value<string>
 }
@@ -55,6 +60,9 @@ export function Link(
     colorDisabled = 'base',
     disabled = false,
     viewTransition = true,
+    state,
+    scroll,
+    replace,
     target,
     rel,
   }: LinkOptions,
@@ -79,7 +87,12 @@ export function Link(
       Anchor(
         {
           href,
-          viewTransition,
+          ...buildNavigationOptions({
+            viewTransition,
+            state,
+            scroll,
+            replace,
+          }),
         },
         attr.class(
           computedOf(

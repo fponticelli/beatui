@@ -1,6 +1,7 @@
 import { attr, computedOf, html, TNode, Use, Value, When } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
-import type { LocationHandle } from '@tempots/ui'
+import type { LocationHandle, NavigationOptions } from '@tempots/ui'
+import { buildNavigationOptions } from './navigation-options'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
@@ -11,6 +12,9 @@ export interface ButtonLinkOptions {
   // Link-specific props
   href: Value<string>
   viewTransition?: boolean
+  state?: NavigationOptions['state']
+  scroll?: NavigationOptions['scroll']
+  replace?: NavigationOptions['replace']
   target?: Value<string>
   rel?: Value<string>
 
@@ -30,6 +34,9 @@ export function ButtonLink(
   {
     href,
     viewTransition = true,
+    state,
+    scroll,
+    replace,
     target,
     rel,
     matchMode,
@@ -67,6 +74,9 @@ export function ButtonLink(
         {
           href,
           viewTransition,
+          state,
+          scroll,
+          replace,
           target,
           rel,
           variant,
@@ -85,6 +95,9 @@ export function ButtonLink(
     {
       href,
       viewTransition,
+      state,
+      scroll,
+      replace,
       target,
       rel,
       variant,
@@ -101,6 +114,9 @@ function ButtonLinkCore(
   {
     href,
     viewTransition,
+    state,
+    scroll,
+    replace,
     target,
     rel,
     variant,
@@ -139,7 +155,12 @@ function ButtonLinkCore(
       Anchor(
         {
           href,
-          viewTransition,
+          ...buildNavigationOptions({
+            viewTransition,
+            state,
+            scroll,
+            replace,
+          }),
         },
         attr.class(
           computedOf(
