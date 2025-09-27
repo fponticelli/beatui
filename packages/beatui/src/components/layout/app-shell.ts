@@ -25,6 +25,7 @@ import {
   ToggleStatus,
   useAnimatedElementToggle,
 } from '@/utils/use-animated-toggle'
+import { backgroundPalette } from '@/utils/color-style'
 import { BeatUII18n } from '@/beatui-i18n'
 
 export interface AppShellBreakpointOptions {
@@ -74,13 +75,21 @@ export interface AppShellOptions {
 
 function generatePanelClasses(
   side: Side,
-  color: PanelColor,
+  _color: PanelColor,
   shadow: PanelShadow
 ): string {
   const sideStr = (Array.isArray(side) ? side : [side])
     .map(s => `bc-panel--side-${s}`)
     .join(' ')
-  return `bc-panel ${sideStr} bu-bg-lighter-${color} bc-panel--shadow-${shadow}`
+  return `bc-panel ${sideStr} bc-panel--shadow-${shadow}`
+}
+
+function resolvePanelStyle(color: PanelColor): string {
+  if (color === 'transparent') {
+    return '--panel-bg: transparent; --panel-text: inherit; --panel-bg-dark: transparent; --panel-text-dark: inherit'
+  }
+  const palette = backgroundPalette(color, 'lighter')
+  return `--panel-bg: ${palette.light.backgroundColor}; --panel-text: ${palette.light.textColor}; --panel-bg-dark: ${palette.dark.backgroundColor}; --panel-text-dark: ${palette.dark.textColor}`
 }
 
 const defaults = {
@@ -537,7 +546,9 @@ export function AppShell({
           menuStatus.dispose()
           asideStatus.dispose()
         }),
-        attr.class('bu-grid bu-h-full bu-w-full'),
+        style.display('grid'),
+        style.height('100%'),
+        style.width('100%'),
         style.gridTemplateColumns(template.$.columns),
         style.gridTemplateRows(template.$.rows),
         style.gridTemplateAreas(template.$.areas),
@@ -552,6 +563,7 @@ export function AppShell({
                   options.banner.shadow ?? 'none'
                 )
               ),
+              attr.style(resolvePanelStyle(options.banner.color ?? 'white')),
               style.height('100%'),
               style.gridArea('banner'),
               options.banner.content
@@ -565,7 +577,8 @@ export function AppShell({
               options.header?.shadow ?? 'none'
             )
           ),
-          attr.class('bu-z-20'),
+          attr.style(resolvePanelStyle(options.header?.color ?? 'white')),
+          style.zIndex('20'),
           style.display(displayHeader ? 'block' : 'none'),
           style.gridArea('header'),
           ElementRect(rect => {
@@ -622,10 +635,10 @@ export function AppShell({
                 aria.label(t.$.toggleAside),
                 Icon(
                   { icon: 'line-md/chevron-left' },
-                  attr.class('bu-transition-transform'),
-                  attr.class(
+                  style.transition('transform 0.2s ease-in-out'),
+                  style.transform(
                     asideStatus.display.map((v): string =>
-                      v ? 'bu-rotate-180' : ''
+                      v ? 'rotate(180deg)' : 'rotate(0deg)'
                     )
                   )
                 )
@@ -636,11 +649,11 @@ export function AppShell({
         options.menu
           ? html.nav(
               WithElement(el => menuStatus.setElement(el)),
-              attr.class('bu-z-10'),
+              style.zIndex('10'),
               // Add ARIA attributes for navigation landmark
               aria.label(t.$.mainNavigation),
               attr.role('navigation'),
-              attr.class('bu-overflow-hidden'),
+              style.overflow('hidden'),
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
@@ -654,6 +667,11 @@ export function AppShell({
                         options.menu?.color ?? 'white',
                         options.menu?.shadow ?? 'none'
                       )
+                )
+              ),
+              attr.style(
+                displayMenuAs.map(() =>
+                  resolvePanelStyle(options.menu?.color ?? 'white')
                 )
               ),
               style.height('100%'),
@@ -704,6 +722,9 @@ export function AppShell({
                   options.mainHeader?.shadow ?? 'none'
                 )
               ),
+              attr.style(
+                resolvePanelStyle(options.mainHeader?.color ?? 'white')
+              ),
               options.mainHeader.content
             )
           : null,
@@ -718,6 +739,7 @@ export function AppShell({
               options.main?.shadow ?? 'none'
             )
           ),
+          attr.style(resolvePanelStyle(options.main?.color ?? 'white')),
           options.main.content
         ),
         options.mainFooter
@@ -731,6 +753,9 @@ export function AppShell({
                   options.mainFooter?.shadow ?? 'none'
                 )
               ),
+              attr.style(
+                resolvePanelStyle(options.mainFooter?.color ?? 'white')
+              ),
               options.mainFooter.content
             )
           : null,
@@ -739,17 +764,26 @@ export function AppShell({
               WithElement(el => {
                 asideStatus.setElement(el)
               }),
-              attr.class('bu-z-10'),
+              style.zIndex('10'),
               // Add ARIA attributes for aside landmark
               aria.label(t.$.sidebar),
               attr.role('complementary'),
               attr.class(
                 displayAsideAs.map((v): string =>
                   v === 'float'
-                    ? generatePanelClasses('left', 'white', 'md')
-                    : generatePanelClasses('left', 'white', 'none')
+                    ? generatePanelClasses(
+                        'left',
+                        options.aside?.color ?? 'white',
+                        options.aside?.shadow ?? 'md'
+                      )
+                    : generatePanelClasses(
+                        'left',
+                        options.aside?.color ?? 'white',
+                        options.aside?.shadow ?? 'none'
+                      )
                 )
               ),
+              attr.style(resolvePanelStyle(options.aside?.color ?? 'white')),
               style.height('100%'),
               style.gridArea('aside'),
               style.display(

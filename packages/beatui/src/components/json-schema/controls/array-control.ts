@@ -303,11 +303,8 @@ export function JSONSchemaArray({
       // Wrap with label for tuple items
       if (label && tupleInfo.isTuple) {
         content = Stack(
-          attr.class('bu-gap-1'),
-          Label(
-            attr.class('bu-text-sm bu-font-medium bu-text-neutral-700'),
-            label
-          ),
+          attr.class('gap-1'),
+          Label(attr.class('text-sm font-medium text-neutral-700'), label),
           content
         )
       }
@@ -320,7 +317,7 @@ export function JSONSchemaArray({
         indicators.push(
           When(isDuplicate, () =>
             Label(
-              attr.class('bu-text-xs bu-text-red-600 bu-font-medium'),
+              attr.class('text-xs text-red-600 font-medium'),
               '⚠️ Duplicate value'
             )
           )
@@ -332,7 +329,7 @@ export function JSONSchemaArray({
         indicators.push(
           When(matchesContains, () =>
             Label(
-              attr.class('bu-text-xs bu-text-green-600 bu-font-medium'),
+              attr.class('text-xs text-green-600 font-medium'),
               '✓ Matches required pattern'
             )
           )
@@ -340,7 +337,7 @@ export function JSONSchemaArray({
       }
 
       if (indicators.length > 0) {
-        return Stack(attr.class('bu-gap-1'), content, ...indicators)
+        return Stack(attr.class('gap-1'), content, ...indicators)
       }
 
       return content
@@ -350,7 +347,7 @@ export function JSONSchemaArray({
   // If there's contains validation, wrap with summary
   if (schema.contains && containsSummary) {
     return Stack(
-      attr.class('bu-gap-2'),
+      attr.class('gap-2'),
       listControl,
       MapSignal(
         computedOf(
@@ -364,8 +361,8 @@ export function JSONSchemaArray({
           Label(
             attr.class(
               info.isValid
-                ? 'bu-text-sm bu-text-green-600'
-                : 'bu-text-sm bu-text-red-600 bu-font-medium'
+                ? 'text-sm text-green-600'
+                : 'text-sm text-red-600 font-medium'
             ),
             summary
           )

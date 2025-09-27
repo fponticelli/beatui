@@ -9,49 +9,42 @@
 }
 
 /* Transform origins for placement-aware animations */
-.bc-flyout.bu-toggle--flyout-top {
+.bc-flyout[data-bu-toggle-animation='flyout-top'] {
   transform-origin: bottom center;
 }
 
-.bc-flyout.bu-toggle--flyout-bottom {
+.bc-flyout[data-bu-toggle-animation='flyout-bottom'] {
   transform-origin: top center;
 }
 
-.bc-flyout.bu-toggle--flyout-left {
+.bc-flyout[data-bu-toggle-animation='flyout-left'] {
   transform-origin: right center;
 }
 
-.bc-flyout.bu-toggle--flyout-right {
+.bc-flyout[data-bu-toggle-animation='flyout-right'] {
   transform-origin: left center;
 }
 
 /* Pointer events management */
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-closing {
+.bc-flyout:is(
+    [data-bu-toggle-animation='flyout-top'],
+    [data-bu-toggle-animation='flyout-bottom'],
+    [data-bu-toggle-animation='flyout-left'],
+    [data-bu-toggle-animation='flyout-right']
+  ):is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='start-opening'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-closing']
+  ) {
   pointer-events: none;
 }
 
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--opened {
+.bc-flyout:is(
+    [data-bu-toggle-animation='flyout-top'],
+    [data-bu-toggle-animation='flyout-bottom'],
+    [data-bu-toggle-animation='flyout-left'],
+    [data-bu-toggle-animation='flyout-right']
+  ):is([data-bu-toggle-state='opening'], [data-bu-toggle-state='opened']) {
   pointer-events: auto;
 }

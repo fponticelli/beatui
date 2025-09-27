@@ -1,0 +1,378 @@
+/* Animated toggle transitions governed by data attributes so Tailwind consumers can scope variants */
+[data-bu-toggle='animated'] {
+  transition: all 0.4s ease-in-out;
+}
+
+/* Flyout animations use a longer easing curve */
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-top'],
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-bottom'],
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-left'],
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-right'],
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-inline-start'],
+[data-bu-toggle='animated'][data-bu-toggle-animation='flyout-inline-end'] {
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
+}
+
+[data-bu-toggle-animation='slide-right']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(-100%);
+}
+
+[data-bu-toggle-animation='slide-right']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+}
+
+[data-bu-toggle-animation='slide-left']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(100%);
+}
+
+[data-bu-toggle-animation='slide-left']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+}
+
+[data-bu-toggle-animation='slide-up']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateY(100%);
+}
+
+[data-bu-toggle-animation='slide-up']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateY(0);
+}
+
+[data-bu-toggle-animation='slide-down']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateY(-100%);
+}
+
+[data-bu-toggle-animation='slide-down']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateY(0);
+}
+
+[data-bu-toggle-animation='fade']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='fade']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='fade-slide-right']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='fade-slide-right']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='fade-slide-left']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='fade-slide-left']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='fade-slide-up']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='fade-slide-up']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='fade-slide-down']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='fade-slide-down']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='scale']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: scale(0.75);
+}
+
+[data-bu-toggle-animation='scale']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: scale(1);
+}
+
+[data-bu-toggle-animation='scale-fade']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: scale(0.75);
+  opacity: 0;
+}
+
+[data-bu-toggle-animation='scale-fade']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: scale(1);
+  opacity: 1;
+}
+
+[data-bu-toggle-animation='flyout-top']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateY(8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-top']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+[data-bu-toggle-animation='flyout-bottom']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-bottom']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+[data-bu-toggle-animation='flyout-left']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateX(8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-left']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+[data-bu-toggle-animation='flyout-right']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateX(-8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-right']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+[data-bu-toggle-animation='slide-inline-start']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(-100%);
+}
+
+.b-rtl
+  [data-bu-toggle-animation='slide-inline-start']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(100%);
+}
+
+[data-bu-toggle-animation='slide-inline-start']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+}
+
+[data-bu-toggle-animation='slide-inline-end']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(100%);
+}
+
+.b-rtl
+  [data-bu-toggle-animation='slide-inline-end']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(-100%);
+}
+
+[data-bu-toggle-animation='slide-inline-end']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  transform: translateX(0);
+}
+
+[data-bu-toggle-animation='flyout-inline-start']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateX(8px) scale(0.95);
+}
+
+.b-rtl
+  [data-bu-toggle-animation='flyout-inline-start']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(-8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-inline-start']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+[data-bu-toggle-animation='flyout-inline-end']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  opacity: 0;
+  transform: translateX(-8px) scale(0.95);
+}
+
+.b-rtl
+  [data-bu-toggle-animation='flyout-inline-end']:is(
+    [data-bu-toggle-state='closed'],
+    [data-bu-toggle-state='closing'],
+    [data-bu-toggle-state='start-opening']
+  ) {
+  transform: translateX(8px) scale(0.95);
+}
+
+[data-bu-toggle-animation='flyout-inline-end']:is(
+    [data-bu-toggle-state='start-closing'],
+    [data-bu-toggle-state='opened'],
+    [data-bu-toggle-state='opening']
+  ) {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}

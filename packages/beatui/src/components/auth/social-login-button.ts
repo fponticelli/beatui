@@ -64,14 +64,19 @@ export function SocialLoginButton({
       computedOf(provider)((p): string => `bc-social-login-button--${p}`)
     ),
     Group(
-      attr.class('bu-items-center bu-w-full'),
-      Icon({ icon, size }, attr.class('bu-bg-white bu-rounded-full bu-p-2')),
+      attr.class('items-center w-full'),
+      Icon(
+        { icon, size },
+        attr.class(
+          'bg-white text-base-900 dark:bg-black dark:text-base-100 rounded-full p-2'
+        )
+      ),
 
       // Button text or custom children
       Use(AuthI18n, t =>
         html.span(
           attr.class(
-            'bu-flex-grow bu-flex bu-items-center bu-align-center bu-text-center bu-px-4'
+            'flex-grow flex items-center justify-center text-center px-4'
           ),
           bind(
             coalesce(labels?.continueWithProvider, t.$.continueWithProvider)
@@ -100,7 +105,7 @@ export function SocialLoginButtons({
   className?: Value<string>
 }): Renderable {
   return Stack(
-    attr.class('bc-social-login-buttons bu-gap-2 bu-px-8'),
+    attr.class('bc-social-login-buttons gap-2 px-8'),
     attr.class(className),
     ForEach(providers, item =>
       SocialLoginButton({

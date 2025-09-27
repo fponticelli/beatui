@@ -1,4 +1,11 @@
-import { attr, computedOf, prop, Value, type Signal } from '@tempots/dom'
+import {
+  dataAttr,
+  Fragment,
+  prop,
+  Value,
+  type Renderable,
+  type Signal,
+} from '@tempots/dom'
 import { delayed, delayedAnimationFrame } from '@tempots/std'
 
 export type ToggleStatus =
@@ -237,11 +244,10 @@ export type Animation =
 export function AnimatedToggleClass(
   animation: Value<Animation>,
   status: Signal<ToggleStatus>
-) {
-  return attr.class(
-    computedOf(
-      animation,
-      status
-    )((a, s) => `bu-toggle--animated bu-toggle--${a} bu-toggle--${s}`)
+): Renderable {
+  return Fragment(
+    dataAttr['bu-toggle']('animated'),
+    dataAttr['bu-toggle-animation'](animation as Value<string>),
+    dataAttr['bu-toggle-state'](status as Value<string>)
   )
 }

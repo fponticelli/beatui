@@ -31,11 +31,10 @@ const buildColorScale = (name: ThemeColorName): TailwindColorScale => {
 
 export const beatuiColors: Record<string, TailwindColorScale> = (() => {
   const palette: Record<string, TailwindColorScale> = {}
-  themeColorNames.forEach((token) => {
+  themeColorNames.forEach(token => {
     palette[token] = buildColorScale(token)
   })
-
-  ;(Object.keys(semanticColors) as SemanticColorName[]).forEach((semantic) => {
+  ;(Object.keys(semanticColors) as SemanticColorName[]).forEach(semantic => {
     const resolved = semanticColors[semantic]
     palette[semantic] = buildColorScale(resolved)
   })
@@ -65,13 +64,18 @@ export const beatuiLineHeight = { ...lineHeight }
 
 export const beatuiLetterSpacing = { ...letterSpacing }
 
-export const beatuiFontSize = (Object.entries(fontSize) as [
-  TokenFontSize,
-  [string, { lineHeight: string }],
-][]).reduce((acc, [key, [size, options]]) => {
-  acc[key] = [size, options]
-  return acc
-}, {} as Record<TokenFontSize, [string, { lineHeight: string }]>)
+export const beatuiFontSize = (
+  Object.entries(fontSize) as [
+    TokenFontSize,
+    [string, { lineHeight: string }],
+  ][]
+).reduce(
+  (acc, [key, [size, options]]) => {
+    acc[key] = [size, options]
+    return acc
+  },
+  {} as Record<TokenFontSize, [string, { lineHeight: string }]>
+)
 
 export const beatuiScreens = { ...breakpoints }
 

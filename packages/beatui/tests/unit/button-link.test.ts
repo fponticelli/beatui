@@ -49,6 +49,7 @@ describe('ButtonLink Component', () => {
     expect(link).toBeNull()
     expect(span!.textContent).toBe('Disabled Link')
     expect(span!.className).toContain('bc-button')
+    expect(span!.className).toContain('bc-button--disabled')
   })
 
   it('should apply button styling variants', () => {
@@ -72,10 +73,13 @@ describe('ButtonLink Component', () => {
 
     const link = container.querySelector('a')
     expect(link!.className).toContain('bc-button')
-    expect(link!.className).toContain('bu-text-lg')
+    expect(link!.className).toContain('bc-button--outline')
     expect(link!.className).toContain('bc-control--padding-lg')
-    expect(link!.className).toContain('bu-rounded-md')
-    expect(link!.className).toContain('bu-border--primary')
+    expect(link!.style.fontSize).toBe('var(--font-size-lg)')
+    expect(link!.style.borderRadius).toBe('var(--radius-md)')
+    expect(link!.style.getPropertyValue('--button-border')).toBe(
+      'var(--color-primary-500)'
+    )
   })
 
   it('should support target and rel attributes', () => {
@@ -140,7 +144,7 @@ describe('ButtonLink Component', () => {
     await new Promise(resolve => setTimeout(resolve, 0))
 
     span = container.querySelector('span')
-    expect(span!.className).toContain('bu-border--base')
+    expect(span!.className).toContain('bc-button--disabled')
   })
 
   it('should support navigation behavior with matchMode', () => {

@@ -1,4 +1,8 @@
-export { beatuiPreset, type BeatUIPreset, type BeatUIPresetOptions } from './preset'
+export {
+  beatuiPreset,
+  type BeatUIPreset,
+  type BeatUIPresetOptions,
+} from './preset'
 export {
   beatuiColors,
   beatuiFontFamily,

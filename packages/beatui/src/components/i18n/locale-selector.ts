@@ -28,7 +28,7 @@ export function LocaleSelector({
       return InputWrapper({
         horizontal: true,
         content: Group(
-          attr.class('bu-flex bu-items-center bu-gap-2'),
+          attr.class('flex items-center gap-2'),
           Icon({
             icon: 'ic:twotone-language',
             size: 'lg',

@@ -15,6 +15,7 @@ import { IconSize } from '../theme'
 import { Query, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 import { BeatUII18n } from '@/beatui-i18n'
+import { solidForegroundPalette } from '@/utils/color-style'
 
 const dbName = 'bui-icons'
 
@@ -139,12 +140,14 @@ export interface IconOptions {
   accessibility?: Value<'decorative' | 'informative' | 'auto'>
 }
 
-function generateIconClasses(size: IconSize, color?: string): string {
-  const classes = ['bc-icon', `bc-icon--${size}`]
-  if (color) {
-    classes.push(`bu-fg-${color}`)
-  }
-  return classes.join(' ')
+function generateIconClasses(size: IconSize): string {
+  return ['bc-icon', `bc-icon--${size}`].join(' ')
+}
+
+function resolveIconStyle(color?: ThemeColorName): string | undefined {
+  if (!color) return undefined
+  const palette = solidForegroundPalette(color)
+  return `--icon-color: ${palette.light}; --icon-color-dark: ${palette.dark}`
 }
 
 export function Icon(
@@ -164,12 +167,14 @@ export function Icon(
 
   return Use(BeatUII18n, t =>
     html.span(
-      attr.class('bu-content-box'),
       attr.class(
-        computedOf(
-          size,
-          color
-        )((size, color) => generateIconClasses(size ?? 'md', color))
+        computedOf(size)(sizeValue => generateIconClasses(sizeValue ?? 'md'))
+      ),
+      attr.style(
+        computedOf(color)((colorValue): string => {
+          const styleString = resolveIconStyle(colorValue ?? undefined)
+          return styleString ?? ''
+        })
       ),
       // Add accessibility attributes based on icon type
       When(

@@ -3,7 +3,13 @@ import { Anchor, Location } from '@tempots/ui'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
-import { generateButtonClasses } from '../../button/button'
+import {
+  buttonClasses,
+  buttonFontSize,
+  buttonRadius,
+  buttonStyle,
+  normalizeButtonColor,
+} from '../../button/button'
 import { UrlMatchMode, isUrlMatch } from './navigation-link'
 
 export interface ButtonLinkOptions {
@@ -110,6 +116,21 @@ function ButtonLinkCore(
   }: Omit<ButtonLinkOptions, 'matchMode' | 'disableWhenActive'>,
   ...children: TNode[]
 ) {
+  const inlineStyle = computedOf(
+    variant,
+    color,
+    size,
+    roundedness
+  )((variantValue, colorValue, sizeValue, radiusValue) => {
+    const declarations = [
+      `font-size: ${buttonFontSize(sizeValue ?? 'md')}`,
+      `border-radius: ${buttonRadius(radiusValue ?? 'sm')}`,
+      buttonStyle(variantValue ?? 'filled', normalizeButtonColor(colorValue)),
+    ]
+
+    return declarations.join('; ')
+  })
+
   return When(
     disabled ?? false,
     () =>
@@ -117,21 +138,14 @@ function ButtonLinkCore(
         attr.class(
           computedOf(
             variant,
-            size,
-            color,
-            roundedness,
-            disabled
-          )((variant, size, color, roundedness, disabled) =>
-            generateButtonClasses(
-              variant ?? 'filled',
-              size ?? 'md',
-              color ?? 'base',
-              roundedness ?? 'sm',
-              disabled,
-              false // loading is always false for ButtonLink
-            )
+            size
+          )((variantValue, sizeValue) =>
+            buttonClasses(variantValue ?? 'filled', sizeValue ?? 'md', {
+              disabled: true,
+            })
           )
         ),
+        attr.style(inlineStyle),
         ...children
       ),
     () =>
@@ -144,20 +158,14 @@ function ButtonLinkCore(
           computedOf(
             variant,
             size,
-            color,
-            roundedness,
             disabled
-          )((variant, size, color, roundedness, disabled) =>
-            generateButtonClasses(
-              variant ?? 'filled',
-              size ?? 'md',
-              color ?? 'base',
-              roundedness ?? 'sm',
-              disabled,
-              false // loading is always false for ButtonLink
-            )
+          )((variantValue, sizeValue, disabledValue) =>
+            buttonClasses(variantValue ?? 'filled', sizeValue ?? 'md', {
+              disabled: disabledValue ?? false,
+            })
           )
         ),
+        attr.style(inlineStyle),
         target ? attr.target(target) : null,
         rel ? attr.rel(rel) : null,
         ...children

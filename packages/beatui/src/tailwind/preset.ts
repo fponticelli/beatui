@@ -22,7 +22,9 @@ export interface BeatUIPreset {
 
 const DEFAULT_SAFELIST: (string | RegExp)[] = []
 
-export const beatuiPreset = (options: BeatUIPresetOptions = {}): BeatUIPreset => {
+export const beatuiPreset = (
+  options: BeatUIPresetOptions = {}
+): BeatUIPreset => {
   const darkWrapper = options.darkWrapper ?? '.b-dark'
 
   return {

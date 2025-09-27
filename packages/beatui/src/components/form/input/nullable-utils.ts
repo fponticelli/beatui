@@ -14,7 +14,7 @@ export function NullableResetAfter<V>(
   return When(hasValue, () =>
     html.button(
       attr.type('button'),
-      attr.class('bc-input-container__reset bu-text-light-gray'),
+      attr.class('bc-input-container__reset text-gray-600 dark:text-gray-400'),
       aria.label(label),
       attr.title(label),
       attr.disabled(disabled ?? false),

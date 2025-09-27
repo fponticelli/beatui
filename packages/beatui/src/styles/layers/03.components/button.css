@@ -1,5 +1,27 @@
 /* Button Component */
 .bc-button {
+  --button-bg: var(--bg-elevated-light);
+  --button-text: var(--text-normal-light);
+  --button-border: transparent;
+  --button-hover-bg: var(--interactive-hover-light);
+  --button-hover-border: var(--border-divider-light);
+  --button-active-bg: var(--interactive-active-light);
+  --button-active-border: transparent;
+  --button-hover-decoration: none;
+  --button-disabled-bg: var(--bg-subtle-light);
+  --button-disabled-text: var(--text-muted-light);
+  --button-disabled-border: var(--border-divider-light);
+  --button-bg-dark: var(--bg-elevated-dark);
+  --button-text-dark: var(--text-normal-dark);
+  --button-border-dark: transparent;
+  --button-hover-bg-dark: var(--interactive-hover-dark);
+  --button-hover-border-dark: var(--border-divider-dark);
+  --button-active-bg-dark: var(--interactive-active-dark);
+  --button-active-border-dark: transparent;
+  --button-hover-decoration-dark: none;
+  --button-disabled-bg-dark: var(--bg-subtle-dark);
+  --button-disabled-text-dark: var(--text-muted-dark);
+  --button-disabled-border-dark: var(--border-divider-dark);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,6 +35,9 @@
   border-radius: var(--radius-md);
   transition: all 0.2s ease-in-out;
   text-transform: capitalize;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-color: var(--button-border);
 }
 
 .bc-button > span {
@@ -21,38 +46,66 @@
 
 .bc-button:hover:not(:disabled) {
   transform: scale(1.03);
+  background-color: var(--button-hover-bg);
+  border-color: var(--button-hover-border);
+  text-decoration: var(--button-hover-decoration, none);
 }
 
 .bc-button:active:not(:disabled) {
   z-index: 1;
   transform: translateY(var(--spacing-base));
+  background-color: var(--button-active-bg);
+  border-color: var(--button-active-border);
 }
 
 .bc-button:disabled {
   cursor: not-allowed;
+  color: var(--button-disabled-text);
+  background-color: var(--button-disabled-bg);
+  border-color: var(--button-disabled-border);
 }
 
 .bc-button:disabled:not(.bc-button--loading) {
   opacity: 0.5;
 }
 
+.bc-button--disabled {
+  cursor: not-allowed;
+  color: var(--button-disabled-text);
+  background-color: var(--button-disabled-bg);
+  border-color: var(--button-disabled-border);
+  opacity: 0.5;
+}
+
 /* Dark mode styles */
 .b-dark .bc-button {
-  color: var(--text-normal-dark);
-  background-color: var(--bg-elevated-dark);
+  color: var(--button-text-dark);
+  background-color: var(--button-bg-dark);
+  border-color: var(--button-border-dark);
 }
 
 .b-dark .bc-button:hover:not(:disabled) {
-  background-color: var(--interactive-hover-dark);
-  border-color: var(--border-divider-dark);
+  background-color: var(--button-hover-bg-dark);
+  border-color: var(--button-hover-border-dark);
+  text-decoration: var(
+    --button-hover-decoration-dark,
+    var(--button-hover-decoration, none)
+  );
 }
 
 .b-dark .bc-button:active:not(:disabled) {
-  background-color: var(--interactive-active-dark);
+  background-color: var(--button-active-bg-dark);
+  border-color: var(--button-active-border-dark);
 }
 
 .b-dark .bc-button:disabled {
-  color: var(--text-muted-dark);
-  background-color: var(--bg-subtle-dark);
-  border-color: var(--border-divider-dark);
+  color: var(--button-disabled-text-dark);
+  background-color: var(--button-disabled-bg-dark);
+  border-color: var(--button-disabled-border-dark);
+}
+
+.b-dark .bc-button--disabled {
+  color: var(--button-disabled-text-dark);
+  background-color: var(--button-disabled-bg-dark);
+  border-color: var(--button-disabled-border-dark);
 }

@@ -22,6 +22,7 @@
 
 ### 2. Library Styling Refactor
 - [ ] Replace custom utility class usage across components with Tailwind class names or `@apply` in component styles when utilities cannot express a rule. _(Started with `bc-center` and `bc-rating-input`; continue migrating remaining components.)_
+  - [x] Migrate animated toggle/flyout helpers off `.bu-toggle--*` utilities to data attributes + component-layer CSS (2025-02-12).
 - [ ] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers.
 - [ ] Remove or rewrite style-generation scripts so they either emit Tailwind artifacts or are no longer needed.
 - [ ] Add lint/test safeguards preventing reintroduction of removed utility classes (e.g. ESLint rule, smoke test).

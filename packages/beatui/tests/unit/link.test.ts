@@ -7,23 +7,23 @@ import { isUrlMatch } from '../../src/components/navigation/link/navigation-link
 describe('Link', () => {
   describe('generateLinkClasses', () => {
     it('should generate default variant classes', () => {
-      const classes = generateLinkClasses('default', 'primary', false)
-      expect(classes).toBe('bc-link bu-text-primary bc-link--default')
+      const classes = generateLinkClasses('default', false)
+      expect(classes).toBe('bc-link bc-link--default')
     })
 
     it('should generate plain variant classes', () => {
-      const classes = generateLinkClasses('plain', 'secondary', false)
-      expect(classes).toBe('bc-link bu-text-secondary bc-link--plain')
+      const classes = generateLinkClasses('plain', false)
+      expect(classes).toBe('bc-link bc-link--plain')
     })
 
     it('should generate hover variant classes', () => {
-      const classes = generateLinkClasses('hover', 'error', false)
-      expect(classes).toBe('bc-link bu-text-error bc-link--hover')
+      const classes = generateLinkClasses('hover', false)
+      expect(classes).toBe('bc-link bc-link--hover')
     })
 
     it('should generate disabled classes', () => {
-      const classes = generateLinkClasses('default', 'primary', true)
-      expect(classes).toBe('bc-link bu-text-primary bc-link--disabled')
+      const classes = generateLinkClasses('default', true)
+      expect(classes).toBe('bc-link bc-link--disabled')
     })
   })
 

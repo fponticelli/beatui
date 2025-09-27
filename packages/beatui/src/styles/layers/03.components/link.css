@@ -1,5 +1,8 @@
 /* Link Component */
 .bc-link {
+  --link-color: var(--color-primary-700);
+  --link-color-dark: var(--color-primary-200);
+  color: var(--link-color);
   transition: color 0.2s ease-in-out;
   cursor: pointer;
 }
@@ -41,6 +44,14 @@
 
 .bc-link--disabled:focus-visible {
   outline: none;
+}
+
+.b-dark .bc-link {
+  color: var(--link-color-dark, var(--link-color));
+}
+
+.b-dark .bc-link--disabled {
+  /* color handled via custom properties */
 }
 
 /* High contrast mode support */

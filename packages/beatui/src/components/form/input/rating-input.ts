@@ -10,12 +10,14 @@ import {
   emit,
   WithElement,
   OnDispose,
+  computedOf,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Icon } from '@/components/data'
 import { ThemeColorName } from '@/tokens'
 import { ControlSize } from '../../theme/types'
+import { softForegroundPalette } from '@/utils/color-style'
 
 type RatingInputOptions = InputOptions<number> & {
   max?: Value<number>
@@ -106,12 +108,22 @@ export const RatingInput = (options: RatingInputOptions) => {
       Icon(
         { icon: emptyIcon, size },
         attr.class('bc-rating-input__icon-empty'),
-        attr.class(Value.map(emptyColor, c => `bu-fg-soft-${c}`))
+        attr.style(
+          computedOf(emptyColor)(colorValue => {
+            const palette = softForegroundPalette(colorValue ?? 'neutral')
+            return `--icon-color: ${palette.light}; --icon-color-dark: ${palette.dark}`
+          })
+        )
       ),
       html.span(
         attr.class('bc-rating-input__icon-clipper'),
         attr.class(iconSize),
-        attr.class(Value.map(fullColor, c => `bu-fg-soft-${c}`)),
+        attr.style(
+          computedOf(fullColor)(colorValue => {
+            const palette = softForegroundPalette(colorValue ?? 'yellow')
+            return `--icon-color: ${palette.light}; --icon-color-dark: ${palette.dark}`
+          })
+        ),
         style.width(
           Value.map(value, v => {
             const rounded = Math.floor(v)

@@ -128,7 +128,7 @@ export function renderAdditionalEntry(
 
   // Render key editor, hints/errors, and value control
   return html.div(
-    attr.class('bu-grid bu-gap-2'),
+    attr.class('grid gap-2'),
     style.gridTemplateColumns('2fr 3fr min-content'),
     InputWrapper({
       content: EditableText({
@@ -140,12 +140,12 @@ export function renderAdditionalEntry(
         )((d, locked) => d || locked),
       }),
       error: Ensure(keyError, keyError =>
-        html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
+        html.div(attr.class('text-red-600 text-sm'), keyError)
       ),
       description:
         Object.keys(patternProps).length > 0
           ? html.div(
-              attr.class('bu-text-muted-600 bu-text-xs'),
+              attr.class('text-base-600 dark:text-base-400 text-xs'),
               'Allowed patterns: ',
               Object.keys(patternProps).join(', ')
             )
@@ -159,7 +159,7 @@ export function renderAdditionalEntry(
         controller: valueCtrl,
       })
     ),
-    html.div(attr.class('bu-pt-3 bu-flex-shrink'), RemoveBtn)
+    html.div(attr.class('pt-3 flex-shrink'), RemoveBtn)
   )
 }
 
@@ -262,7 +262,7 @@ export function renderUnevaluatedEntry(
 
   // Render key editor with unevaluated property indicator
   return html.div(
-    attr.class('bu-grid bu-gap-2'),
+    attr.class('grid gap-2'),
     style.gridTemplateColumns('2fr 3fr min-content'),
     InputWrapper({
       content: EditableText({
@@ -274,10 +274,10 @@ export function renderUnevaluatedEntry(
         )((d, locked) => d || locked),
       }),
       error: Ensure(keyError, keyError =>
-        html.div(attr.class('bu-text-red-600 bu-text-sm'), keyError)
+        html.div(attr.class('text-red-600 text-sm'), keyError)
       ),
       description: html.div(
-        attr.class('bu-text-muted-600 bu-text-xs'),
+        attr.class('text-base-600 dark:text-base-400 text-xs'),
         unevaluatedProps === false
           ? 'Unevaluated property (not allowed by schema)'
           : 'Unevaluated property',
@@ -297,6 +297,6 @@ export function renderUnevaluatedEntry(
         controller: valueCtrl,
       })
     ),
-    html.div(attr.class('bu-pt-3 bu-flex-shrink'), RemoveBtn)
+    html.div(attr.class('pt-3 flex-shrink'), RemoveBtn)
   )
 }

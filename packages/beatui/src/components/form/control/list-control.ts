@@ -68,10 +68,10 @@ export const ListControl = <T>(
   const renderControls = (payload: ListInputPayload<T>) => {
     const moveButtons = When(showMove ?? false, () =>
       html.div(
-        attr.class('bu-items-center'),
+        attr.class('items-center'),
         attr.class(
           isAside.map((v): string =>
-            v ? 'bu-flex-col' : 'bu-flex-row bu-gap-1'
+            v ? 'flex flex-col' : 'flex flex-row gap-1'
           )
         ),
         Button(
@@ -127,10 +127,10 @@ export const ListControl = <T>(
         isAside,
         () =>
           Group(
-            attr.class('bu-gap-1 bu-items-center'),
-            Stack(attr.class('bu-flex-grow'), content),
+            attr.class('gap-1 items-center'),
+            Stack(attr.class('flex-grow'), content),
             Stack(
-              attr.class('bu-items-center'),
+              attr.class('items-center'),
               When(
                 options.controller.value.map(v => v.length > 1),
                 () => moveButtons
@@ -140,10 +140,10 @@ export const ListControl = <T>(
           ),
         () =>
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             content,
             Group(
-              attr.class('bu-gap-2 bu-justify-between'),
+              attr.class('gap-2 justify-between'),
               When(
                 options.controller.value.map(v => v.length > 1),
                 () => moveButtons,
@@ -159,7 +159,7 @@ export const ListControl = <T>(
     computedOf(showAdd, createItem)((show, create) => show && create != null),
     () =>
       Group(
-        attr.class('bu-gap-2 bu-items-center bu-justify-center'),
+        attr.class('gap-2 items-center justify-center'),
         Button(
           {
             size: 'sm',
@@ -173,7 +173,7 @@ export const ListControl = <T>(
           },
           Use(BeatUII18n, t =>
             Group(
-              attr.class('bu-gap-2'),
+              attr.class('gap-2'),
               Icon({ icon: 'line-md:plus' }),
               addLabel ?? t.$.addLabel
             )
@@ -186,7 +186,7 @@ export const ListControl = <T>(
     {
       ...rest,
       content: Stack(
-        attr.class('bu-gap-2'),
+        attr.class('gap-2'),
         ListInput(
           rest.controller as ArrayController<T[]>,
           payload => {

@@ -11,6 +11,7 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
+import { controlFontSize } from '../../theme/font-size'
 import { Label } from '@/components/typography'
 import { sessionId } from '../../../utils/session-id'
 import { Locale } from '../../i18n/locale'
@@ -41,7 +42,7 @@ export const Switch = ({
   const labelId = `${switchId}-label`
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
-    const classes = ['bc-switch', `bu-text-${size}`, `bc-switch--${size}`]
+    const classes = ['bc-switch', `bc-switch--${size}`]
 
     if (disabled) {
       classes.push('bc-switch--disabled')
@@ -76,6 +77,7 @@ export const Switch = ({
         generateSwitchClasses(disabled ?? false, size ?? 'md')
       )
     ),
+    style.fontSize(controlFontSize(size ?? 'md')),
     attr.id(switchId),
     attr.role('switch'),
     attr.tabindex(
@@ -87,7 +89,13 @@ export const Switch = ({
     on.click(handleToggle),
     on.keydown(handleKeyDown),
     label != null
-      ? Label(attr.id(labelId), attr.class(`bu-text-${size} bu-nowrap`), label)
+      ? Label(
+          attr.id(labelId),
+          attr.class('bc-switch__label'),
+          style.fontSize(controlFontSize(size ?? 'md')),
+          attr.style('white-space: nowrap;'),
+          label
+        )
       : null,
     html.div(
       attr.class('bc-switch__track'),

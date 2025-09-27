@@ -258,7 +258,7 @@ export function JSONSchemaForm<T>(
         )
         return fn({ Form, controller, setStatus })
       }
-      return html.div(attr.class('bu-text-red-600'), result.error)
+      return html.div(attr.class('text-red-600'), result.error)
     }
   )
 }

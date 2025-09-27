@@ -11,8 +11,10 @@ import {
   OnDispose,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
+import { controlFontSize } from '../../theme/font-size'
 import { delayedAnimationFrame, objectEntries } from '@tempots/std'
 import { ElementRect } from '@tempots/ui'
+
 function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
@@ -32,11 +34,7 @@ function generateSegmentedInputClasses(
   size: ControlSize,
   disabled: boolean
 ): string {
-  const classes = [
-    'bc-segmented-control',
-    `bu-text-${size}`,
-    `bc-segmented-control--${size}`,
-  ]
+  const classes = ['bc-segmented-control', `bc-segmented-control--${size}`]
 
   if (disabled) {
     classes.push('bc-segmented-control--disabled')
@@ -77,6 +75,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
           generateSegmentedInputClasses(size ?? 'md', disabled ?? false)
         )
       ),
+      style.fontSize(Value.map(size, s => controlFontSize(s ?? 'md'))),
       html.div(
         attr.class('bc-segmented-control__container'),
         html.div(

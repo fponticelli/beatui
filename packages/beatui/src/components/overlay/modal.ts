@@ -156,7 +156,7 @@ export function Modal(
             html.div(
               attr.class('bc-modal__header'),
               html.div(
-                attr.class('bu-font-semibold bu-text-gray'),
+                attr.class('font-semibold text-gray-800 dark:text-gray-200'),
                 ...(content.header ? [attr.id(headerId)] : []),
                 content.header
               ),
@@ -240,7 +240,7 @@ export function ConfirmModal(
         openModal({
           body: message,
           footer: Fragment(
-            attr.class('bu-justify-end'),
+            attr.class('justify-end'),
             Button(
               {
                 variant: 'outline',

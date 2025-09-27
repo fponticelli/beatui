@@ -3,14 +3,10 @@ import { ThemeColorName } from '../../tokens'
 import { ControlSize } from '../theme'
 import { CloseButton } from '../button'
 import { BeatUII18n } from '@/beatui-i18n'
+import { backgroundPalette } from '@/utils/color-style'
 
-function generateTagClasses(
-  color: string,
-  size: ControlSize,
-  disabled: boolean
-): string {
+function generateTagClasses(size: ControlSize, disabled: boolean): string {
   const classes = ['bc-tag']
-  classes.push(`bu-bg-${color}`)
   if (size !== 'md') {
     classes.push(`bc-tag--${size}`)
   }
@@ -18,6 +14,20 @@ function generateTagClasses(
     classes.push('bc-tag--disabled')
   }
   return classes.join(' ')
+}
+
+function resolveTagStyle(color: ThemeColorName): string {
+  const palette = backgroundPalette(color, 'solid')
+  const entries: Array<[string, string]> = [
+    ['--tag-bg', palette.light.backgroundColor],
+    ['--tag-text', palette.light.textColor],
+    ['--tag-border', palette.light.backgroundColor],
+    ['--tag-bg-dark', palette.dark.backgroundColor],
+    ['--tag-text-dark', palette.dark.textColor],
+    ['--tag-border-dark', palette.dark.backgroundColor],
+  ]
+
+  return entries.map(([prop, value]) => `${prop}: ${value}`).join('; ')
 }
 
 export const Tag = ({
@@ -38,10 +48,19 @@ export const Tag = ({
   return html.span(
     attr.class(
       computedOf(
-        color ?? 'base',
         size ?? 'md',
         disabled ?? false
-      )((color, size, disabled) => generateTagClasses(color, size, disabled))
+      )(
+        (
+          sizeValue: ControlSize | undefined,
+          disabledValue: boolean | undefined
+        ) => generateTagClasses(sizeValue ?? 'md', disabledValue ?? false)
+      )
+    ),
+    attr.style(
+      computedOf(color ?? 'base')(colorValue =>
+        resolveTagStyle(colorValue ?? 'base')
+      )
     ),
     // Allow external classes like bc-tag--disabled to be applied
     attr.class(cls),

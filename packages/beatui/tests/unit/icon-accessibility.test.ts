@@ -40,7 +40,9 @@ describe('Icon Accessibility', () => {
         container
       )
 
-      const icon = container.querySelector('.bc-icon')!
+      const icon = container.querySelector('.bc-icon') as HTMLElement | null
+      expect(icon).not.toBeNull()
+      if (!icon) return
       expect(icon.getAttribute('aria-hidden')).toBe('true')
       expect(icon.getAttribute('role')).toBeNull()
       expect(icon.getAttribute('aria-label')).toBeNull()
@@ -231,8 +233,15 @@ describe('Icon Accessibility', () => {
         container
       )
 
-      const icon = container.querySelector('.bc-icon')!
-      expect(icon.className).toContain('bu-fg-primary')
+      const icon = container.querySelector('.bc-icon') as HTMLElement | null
+      expect(icon).not.toBeNull()
+      if (!icon) return
+      expect(icon.style.getPropertyValue('--icon-color')).toBe(
+        'var(--color-primary-500)'
+      )
+      expect(icon.style.getPropertyValue('--icon-color-dark')).toBe(
+        'var(--color-primary-600)'
+      )
       expect(icon.getAttribute('role')).toBe('img')
       expect(icon.getAttribute('aria-label')).toBe('Colored icon')
     })
