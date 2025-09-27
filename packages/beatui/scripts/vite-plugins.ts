@@ -89,7 +89,7 @@ export function generateBackgroundUtilitiesPlugin() {
         const bgCSS = generateBackgroundUtilities()
         const outputPath = path.resolve(
           process.cwd(),
-          'src/styles/layers/05.utilities/bg.css'
+          'src/styles/tailwind/legacy-utilities/bg.css'
         )
 
         // Ensure directory exists
@@ -128,7 +128,7 @@ export function generateForegroundUtilitiesPlugin() {
         const fgCSS = generateForegroundUtilities()
         const outputPath = path.resolve(
           process.cwd(),
-          'src/styles/layers/05.utilities/fg.css'
+          'src/styles/tailwind/legacy-utilities/fg.css'
         )
 
         // Ensure directory exists

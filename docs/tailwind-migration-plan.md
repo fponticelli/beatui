@@ -36,18 +36,20 @@
   - [x] Combobox search & tag selector wrappers migrated to Tailwind utilities — 2025-02-24
   - [x] Tabs visual styles consolidated into Tailwind component layer (`tailwind/components.css`) — 2025-02-24
   - [x] Collapse + accordion shells moved to Tailwind component layer (panel state helpers, dark mode parity) — 2025-02-24
-  - [ ] Remaining components (`combobox`, `select-tags`, layout primitives, etc.)
+  - [x] JSON Schema object wrappers ported to Tailwind utilities (`bc-json-schema-object`) — 2025-02-24
+  - [x] Panel surfaces (`bc-panel*`) migrated to Tailwind component layer (AppShell integration) — 2025-02-25
+  - [x] Remaining components (`combobox`, `select-tags`, layout primitives, etc.) — 2025-09-27 _(Verified no `bu-` utility classes remain in component sources; all now rely on `bc-` Tailwind layer rules.)_
 
 #### Component Migration Tracker
 | Component / Area | Tailwind Alignment | Notes / Follow-up |
 | ---------------- | ------------------ | ----------------- |
 | Layout primitives (`Center`, `Stack`, `Cluster`, `Sink`) | 🟡 | `Center`, `Stack`, `Group`, `Sink` use Tailwind `@apply`; audit `Cluster` and other wrappers for conversion plus responsive gap tokens. |
 | Form controls – combo/select/tag inputs | 🟡 | Containers/search fields now use Tailwind utilities; next: map dynamic color tokens and safelist generated chip variants. |
-| JSON-schema widgets (`composition`, `discriminator`, `visibility`) | 🟡 | Visibility wrappers now use Tailwind `hidden` utilities via data-driven containers; continue migrating composition/discriminator shells to shared form utilities and `@apply`. |
-| Navigation components (Tabs, Accordion) | 🟢 | Tabs/accordion/collapse styling now consolidated in Tailwind component layer; continue auditing docs demos for parity and responsive tweaks. |
-| Markdown & Milkdown integrations | ☐ | Ensure editor-specific styles are under component layer and don’t leak utilities that conflict with Tailwind. |
-| Docs-only shim components | ☐ | Audit docs styling to keep example snippets synced with new utilities. |
-- [ ] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers.
+| JSON-schema widgets (`composition`, `discriminator`, `visibility`) | 🟡 | Visibility wrappers now use Tailwind `hidden` utilities and base object shells use Tailwind component layer; continue migrating composition/discriminator shells to shared form utilities and `@apply`. |
+| Navigation components (Tabs, Accordion) | 🟢 | Tabs/accordion/collapse styling now consolidated in Tailwind component layer; docs import `@tempots/beatui/css/components` to ensure the classes ship downstream. |
+| Markdown & Milkdown integrations | 🟢 | Milkdown editor styles now live entirely in the Tailwind component layer (container + ProseMirror padding); monitor for additional editor-specific tokens before release. |
+| Docs-only shim components | ☐ | Converting docs views to Tailwind/BeatUI helpers (Home, Icons, Menu, Tags, Tags Input, About, RTL/LTR, Milkdown Editor, Scrollable Panel, Tooltip done); continue auditing remaining examples. |
+- [ ] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers. _(05 utilities relocated into `styles/tailwind/legacy-utilities` for Tailwind-managed builds; follow-up: replace legacy class names and prune redundant files.)_
 - [ ] Remove or rewrite style-generation scripts so they either emit Tailwind artifacts or are no longer needed.
 - [x] Add lint/test safeguards preventing reintroduction of removed utility classes (e.g. ESLint rule, smoke test). _(Library lint task now runs `scripts/check-legacy-utilities.mjs` to block legacy `.bu-` class strings.)_
 

@@ -3,6 +3,7 @@ import { App } from './app'
 import './styles/main.css'
 // Import BeatUI CSS directly for docs
 import '@tempots/beatui/css'
+import '@tempots/beatui/css/components'
 import '@tempots/beatui/markdown.css'
 import '@tempots/beatui/milkdown.css'
 import '@tempots/beatui/monaco.css'

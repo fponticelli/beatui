@@ -27,7 +27,7 @@ export default function RTLLTRPage() {
       ScrollablePanel({
         header: ControlsHeader(
           Group(
-            attr.class('bu-gap-4'),
+            attr.class('gap-4'),
             Stack(
               Label('Locale'),
               SegmentedInput({
@@ -56,26 +56,26 @@ export default function RTLLTRPage() {
             Stack(
               Label('Current Direction'),
               html.span(
-                attr.class('bu-font-bold bu-text-primary'),
+                attr.class('font-bold text-primary-600'),
                 direction.map(d => d.toUpperCase())
               )
             )
           )
         ),
         body: Stack(
-          attr.class('bu-p-6 bu-gap-6'),
+          attr.class('p-6 gap-6'),
 
           // Introduction
           Card(
             { variant: 'outlined' },
             Stack(
-              attr.class('bu-gap-4'),
+              attr.class('gap-4'),
               html.h1(
-                attr.class('bu-text-2xl bu-font-bold'),
+                attr.class('text-2xl font-bold'),
                 'RTL/LTR Internationalization'
               ),
               html.p(
-                attr.class('bu-text-gray'),
+                attr.class('text-gray-500'),
                 'BeatUI provides comprehensive support for right-to-left (RTL) and left-to-right (LTR) text directions. The system automatically detects direction from locale and provides utilities for mixed-direction content.'
               )
             )
@@ -85,16 +85,16 @@ export default function RTLLTRPage() {
           Card(
             { variant: 'outlined' },
             Stack(
-              attr.class('bu-gap-4'),
+              attr.class('gap-4'),
               html.h2(
-                attr.class('bu-text-xl bu-font-semibold'),
+                attr.class('text-xl font-semibold'),
                 'Automatic Direction Detection'
               ),
               html.p(
                 'BeatUI automatically detects text direction based on the locale. RTL languages include Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), and others.'
               ),
               html.div(
-                attr.class('bu-p-4 bu-bg-light-gray bu-rounded'),
+                attr.class('p-4 bg-neutral-100 rounded'),
                 html.code('Current locale: '),
                 locale,
                 html.br(),
@@ -111,9 +111,9 @@ export default function RTLLTRPage() {
           Card(
             { variant: 'outlined' },
             Stack(
-              attr.class('bu-gap-4'),
+              attr.class('gap-4'),
               html.h2(
-                attr.class('bu-text-xl bu-font-semibold'),
+                attr.class('text-xl font-semibold'),
                 'Layout Components'
               ),
               html.p(
@@ -121,7 +121,7 @@ export default function RTLLTRPage() {
               ),
 
               Group(
-                attr.class('bu-gap-4'),
+                attr.class('gap-4'),
                 Drawer((open, _close) =>
                   Button(
                     {
@@ -129,9 +129,9 @@ export default function RTLLTRPage() {
                         open({
                           side: 'left',
                           body: Stack(
-                            attr.class('bu-p-4 bu-gap-4'),
+                            attr.class('p-4 gap-4'),
                             html.h3(
-                              attr.class('bu-font-semibold'),
+                              attr.class('font-semibold'),
                               'Direction-Aware Drawer'
                             ),
                             html.p(
@@ -149,7 +149,7 @@ export default function RTLLTRPage() {
                       onClick: () =>
                         open({
                           body: Stack(
-                            attr.class('bu-gap-4'),
+                            attr.class('gap-4'),
                             html.p(
                               'This modal is positioned at the center and adapts to text direction.'
                             )
@@ -163,18 +163,18 @@ export default function RTLLTRPage() {
 
               // Sample text in different directions
               html.div(
-                attr.class('bu-p-4 bu-border bu-rounded'),
-                html.h3(attr.class('bu-font-semibold bu-mb-2'), 'Sample Text'),
+                attr.class('p-4 border rounded'),
+                html.h3(attr.class('font-semibold mb-2'), 'Sample Text'),
                 html.p(
-                  attr.class('bu-mb-2'),
+                  attr.class('mb-2'),
                   'English text (LTR): This text flows from left to right.'
                 ),
                 html.p(
-                  attr.class('bu-mb-2 bu-dir-rtl'),
+                  attr.class('mb-2 bu-dir-rtl'),
                   'Arabic text (RTL): هذا النص يتدفق من اليمين إلى اليسار.'
                 ),
                 html.p(
-                  attr.class('bu-mb-2 bu-dir-rtl'),
+                  attr.class('mb-2 bu-dir-rtl'),
                   'Hebrew text (RTL): הטקסט הזה זורם מימין לשמאל.'
                 )
               )
@@ -185,25 +185,25 @@ export default function RTLLTRPage() {
           Card(
             { variant: 'outlined' },
             Stack(
-              attr.class('bu-gap-4'),
+              attr.class('gap-4'),
               html.h2(
-                attr.class('bu-text-xl bu-font-semibold'),
+                attr.class('text-xl font-semibold'),
                 'Direction Utilities'
               ),
               html.p('BeatUI provides utility classes for direction control:'),
 
               html.div(
-                attr.class('bu-grid bu-grid-cols-1 md:bu-grid-cols-2 bu-gap-4'),
+                attr.class('grid grid-cols-1 md:grid-cols-2 gap-4'),
 
                 // Direction Override
                 html.div(
-                  attr.class('bu-p-4 bu-border bu-rounded'),
+                  attr.class('p-4 border rounded'),
                   html.h4(
-                    attr.class('bu-font-semibold bu-mb-2'),
+                    attr.class('font-semibold mb-2'),
                     'Direction Override'
                   ),
                   html.div(
-                    attr.class('bu-space-y-2'),
+                    attr.class('space-y-2'),
                     html.div(
                       attr.class('bu-dir-ltr'),
                       '.bu-dir-ltr - Force LTR'
@@ -217,13 +217,13 @@ export default function RTLLTRPage() {
 
                 // Text Alignment
                 html.div(
-                  attr.class('bu-p-4 bu-border bu-rounded'),
+                  attr.class('p-4 border rounded'),
                   html.h4(
-                    attr.class('bu-font-semibold bu-mb-2'),
+                    attr.class('font-semibold mb-2'),
                     'Text Alignment'
                   ),
                   html.div(
-                    attr.class('bu-space-y-2'),
+                    attr.class('space-y-2'),
                     html.div(
                       attr.class('bu-text-start'),
                       '.bu-text-start - Align to start'
@@ -237,27 +237,27 @@ export default function RTLLTRPage() {
 
                 // Logical Properties
                 html.div(
-                  attr.class('bu-p-4 bu-border bu-rounded'),
+                  attr.class('p-4 border rounded'),
                   html.h4(
-                    attr.class('bu-font-semibold bu-mb-2'),
+                    attr.class('font-semibold mb-2'),
                     'Logical Properties'
                   ),
                   html.div(
-                    attr.class('bu-space-y-2'),
+                    attr.class('space-y-2'),
                     html.div(
-                      attr.class('bu-ps-4 bu-bg-light-gray'),
+                      attr.class('bu-ps-4 bg-neutral-100'),
                       '.bu-ps-4 - Padding inline start'
                     ),
                     html.div(
-                      attr.class('bu-pe-4 bu-bg-light-gray'),
+                      attr.class('bu-pe-4 bg-neutral-100'),
                       '.bu-pe-4 - Padding inline end'
                     ),
                     html.div(
-                      attr.class('bu-ms-4 bu-bg-light-gray'),
+                      attr.class('bu-ms-4 bg-neutral-100'),
                       '.bu-ms-4 - Margin inline start'
                     ),
                     html.div(
-                      attr.class('bu-me-4 bu-bg-light-gray'),
+                      attr.class('bu-me-4 bg-neutral-100'),
                       '.bu-me-4 - Margin inline end'
                     )
                   )
@@ -265,13 +265,13 @@ export default function RTLLTRPage() {
 
                 // Mixed Content
                 html.div(
-                  attr.class('bu-p-4 bu-border bu-rounded'),
+                  attr.class('p-4 border rounded'),
                   html.h4(
-                    attr.class('bu-font-semibold bu-mb-2'),
+                    attr.class('font-semibold mb-2'),
                     'Mixed Content'
                   ),
                   html.div(
-                    attr.class('bu-space-y-2'),
+                    attr.class('space-y-2'),
                     html.div(
                       attr.class('bu-isolate-ltr'),
                       '.bu-isolate-ltr - Isolate LTR content'
@@ -294,14 +294,14 @@ export default function RTLLTRPage() {
           Card(
             { variant: 'outlined' },
             Stack(
-              attr.class('bu-gap-4'),
+              attr.class('gap-4'),
               html.h2(
-                attr.class('bu-text-xl bu-font-semibold'),
+                attr.class('text-xl font-semibold'),
                 'Migration Guide'
               ),
               html.p('To add RTL support to existing BeatUI projects:'),
               html.ol(
-                attr.class('bu-list-decimal bu-list-inside bu-space-y-2'),
+                attr.class('list-decimal list-inside space-y-2'),
                 html.li('Update to the latest version of BeatUI'),
                 html.li(
                   'Use logical property utilities (bu-ms-*, bu-me-*, bu-ps-*, bu-pe-*) instead of directional ones'

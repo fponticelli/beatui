@@ -2,6 +2,7 @@ import {
   Fragment,
   Renderable,
   When,
+  Value,
   attr,
   computedOf,
   dataAttr,
@@ -46,7 +47,7 @@ function renderVisibilityContainer(
   const hiddenStateClass = hiddenClass?.trim() || 'hidden'
   const visibilityState = computedOf(isVisible)(visible =>
     visible ? 'visible' : 'hidden'
-  )
+  ) as Value<string>
   const visibilityClasses = computedOf(isVisible)(visible =>
     visible ? 'contents' : hiddenStateClass
   )

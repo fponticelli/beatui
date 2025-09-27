@@ -57,10 +57,10 @@
     --crepe-color-selected: #32353a;
     --crepe-color-inline-area: #111418;
   }
-}
 
-.bc-milkdown-editor-container .milkdown .ProseMirror {
-  padding: 0rem;
-  padding-top: 2rem;
-  padding-inline-start: 6rem;
+  .bc-milkdown-editor-container .milkdown .ProseMirror {
+    padding: 0;
+    padding-top: 2rem;
+    padding-inline-start: 6rem;
+  }
 }

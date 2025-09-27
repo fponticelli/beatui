@@ -61,7 +61,7 @@ function ensureDirectoryExists(filePath: string) {
 function main() {
   const outputPath = path.resolve(
     process.cwd(),
-    'src/styles/layers/05.utilities/bg.css'
+    'src/styles/tailwind/legacy-utilities/bg.css'
   )
   const cssContent = generateBgUtilitiesCSS()
 

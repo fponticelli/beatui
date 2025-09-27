@@ -4,26 +4,26 @@ import { Stack, Card } from '@tempots/beatui'
 
 const HomePage = () => {
   return html.div(
-    attr.class('bu-p-6'),
+    attr.class('p-6'),
     Stack(
-      attr.class('bu-max-w-4xl bu-mx-auto'),
+      attr.class('max-w-4xl mx-auto'),
       html.h1(
-        attr.class('bu-text-4xl bu-font-bold bu-mb-4'),
+        attr.class('text-4xl font-bold mb-4'),
         'Welcome to BeatUI'
       ),
       html.p(
-        attr.class('bu-text-xl bu-text-muted bu-mb-8'),
+        attr.class('text-xl bc-text-muted mb-8'),
         'A modern TypeScript UI component library built with Tempo-ts'
       ),
 
       // Featured sections
       html.h2(
-        attr.class('bu-text-2xl bu-font-semibold bu-mb-4'),
+        attr.class('text-2xl font-semibold mb-4'),
         'Documentation'
       ),
 
       html.div(
-        attr.class('bu-grid bu-grid-cols-1 md:bu-grid-cols-2 bu-gap-4 bu-mb-8'),
+        attr.class('grid grid-cols-1 md:grid-cols-2 gap-4 mb-8'),
 
         // Authentication
         Anchor(
@@ -31,16 +31,16 @@ const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
+              'p-6 bc-hover-surface-subtle transition-colors'
             ),
             Stack(
-              attr.class('bu-gap-3'),
+              attr.class('gap-3'),
               html.h3(
-                attr.class('bu-text-lg bu-font-semibold'),
+                attr.class('text-lg font-semibold'),
                 'Authentication'
               ),
               html.p(
-                attr.class('bu-text-muted'),
+                attr.class('bc-text-muted'),
                 'Complete authentication component suite with social login support'
               )
             )
@@ -53,13 +53,13 @@ const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
+              'p-6 bc-hover-surface-subtle transition-colors'
             ),
             Stack(
-              attr.class('bu-gap-3'),
-              html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Components'),
+              attr.class('gap-3'),
+              html.h3(attr.class('text-lg font-semibold'), 'Components'),
               html.p(
-                attr.class('bu-text-muted'),
+                attr.class('bc-text-muted'),
                 'Explore all available UI components and their documentation'
               )
             )
@@ -72,13 +72,13 @@ const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
+              'p-6 bc-hover-surface-subtle transition-colors'
             ),
             Stack(
-              attr.class('bu-gap-3'),
-              html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Forms'),
+              attr.class('gap-3'),
+              html.h3(attr.class('text-lg font-semibold'), 'Forms'),
               html.p(
-                attr.class('bu-text-muted'),
+                attr.class('bc-text-muted'),
                 'Powerful form handling with validation and type safety'
               )
             )
@@ -91,13 +91,13 @@ const HomePage = () => {
           Card(
             {},
             attr.class(
-              'bu-p-6 bu-hover:bu-bg-lighter-neutral bu-transition-colors'
+              'p-6 bc-hover-surface-subtle transition-colors'
             ),
             Stack(
-              attr.class('bu-gap-3'),
-              html.h3(attr.class('bu-text-lg bu-font-semibold'), 'About'),
+              attr.class('gap-3'),
+              html.h3(attr.class('text-lg font-semibold'), 'About'),
               html.p(
-                attr.class('bu-text-muted'),
+                attr.class('bc-text-muted'),
                 'Learn more about BeatUI and its design principles'
               )
             )
