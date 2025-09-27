@@ -30,22 +30,22 @@ describe('Link', () => {
   describe('isUrlMatch', () => {
     describe('exact match mode', () => {
       it('should match exact pathname', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/docs', 'exact')).toBe(true)
       })
 
       it('should not match different pathname', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/blog', 'exact')).toBe(false)
       })
 
       it('should match pathname with search params', () => {
-        const location = { pathname: '/docs', search: { page: '1' }, hash: '' }
+        const location = { pathname: '/docs', search: { page: '1' }, hash: undefined }
         expect(isUrlMatch(location, '/docs?page=1', 'exact')).toBe(true)
       })
 
       it('should match pathname with hash', () => {
-        const location = { pathname: '/docs', search: {}, hash: '#section1' }
+        const location = { pathname: '/docs', search: {}, hash: 'section1' }
         expect(isUrlMatch(location, '/docs#section1', 'exact')).toBe(true)
       })
 
@@ -53,7 +53,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs',
           search: { page: '1', sort: 'name' },
-          hash: '#section1',
+          hash: 'section1',
         }
         expect(
           isUrlMatch(location, '/docs?page=1&sort=name#section1', 'exact')
@@ -61,7 +61,7 @@ describe('Link', () => {
       })
 
       it('should handle empty search object', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/docs', 'exact')).toBe(true)
       })
 
@@ -71,14 +71,14 @@ describe('Link', () => {
       })
 
       it('should not match when search params differ', () => {
-        const location = { pathname: '/docs', search: { page: '1' }, hash: '' }
+        const location = { pathname: '/docs', search: { page: '1' }, hash: undefined }
         expect(isUrlMatch(location, '/docs?page=2', 'exact')).toBe(false)
       })
     })
 
     describe('prefix match mode', () => {
       it('should match exact pathname', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/docs', 'prefix')).toBe(true)
       })
 
@@ -86,7 +86,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs/getting-started',
           search: {},
-          hash: '',
+          hash: undefined,
         }
         expect(isUrlMatch(location, '/docs', 'prefix')).toBe(true)
       })
@@ -95,7 +95,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs/api',
           search: { version: 'v1' },
-          hash: '',
+          hash: undefined,
         }
         expect(isUrlMatch(location, '/docs', 'prefix')).toBe(true)
       })
@@ -104,18 +104,18 @@ describe('Link', () => {
         const location = {
           pathname: '/docs',
           search: { page: '1', sort: 'name' },
-          hash: '',
+          hash: undefined,
         }
         expect(isUrlMatch(location, '/docs?page=1', 'prefix')).toBe(true)
       })
 
       it('should not match when pathname does not start with target', () => {
-        const location = { pathname: '/blog/post', search: {}, hash: '' }
+        const location = { pathname: '/blog/post', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/docs', 'prefix')).toBe(false)
       })
 
       it('should handle root path prefix', () => {
-        const location = { pathname: '/docs/guide', search: {}, hash: '' }
+        const location = { pathname: '/docs/guide', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/', 'prefix')).toBe(true)
       })
     })
@@ -125,7 +125,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs',
           search: { page: '1', sort: 'name' },
-          hash: '#section1',
+          hash: 'section1',
         }
         expect(isUrlMatch(location, '/docs?page=1&sort=name', 'params')).toBe(
           true
@@ -136,7 +136,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs',
           search: { page: '1' },
-          hash: '#different',
+          hash: 'different',
         }
         expect(isUrlMatch(location, '/docs?page=1#original', 'params')).toBe(
           true
@@ -147,7 +147,7 @@ describe('Link', () => {
         const location = {
           pathname: '/docs',
           search: { page: '1', sort: 'name' },
-          hash: '',
+          hash: undefined,
         }
         expect(isUrlMatch(location, '/docs?sort=name&page=1', 'params')).toBe(
           true
@@ -155,22 +155,22 @@ describe('Link', () => {
       })
 
       it('should not match when pathname differs', () => {
-        const location = { pathname: '/docs', search: { page: '1' }, hash: '' }
+        const location = { pathname: '/docs', search: { page: '1' }, hash: undefined }
         expect(isUrlMatch(location, '/blog?page=1', 'params')).toBe(false)
       })
 
       it('should not match when search params differ', () => {
-        const location = { pathname: '/docs', search: { page: '1' }, hash: '' }
+        const location = { pathname: '/docs', search: { page: '1' }, hash: undefined }
         expect(isUrlMatch(location, '/docs?page=2', 'params')).toBe(false)
       })
 
       it('should handle empty search params', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/docs', 'params')).toBe(true)
       })
 
       it('should fall back to pathname comparison on URL parsing error', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         // Invalid URL that would cause parsing error
         expect(isUrlMatch(location, 'invalid://url', 'params')).toBe(false)
         expect(isUrlMatch(location, '/docs', 'params')).toBe(true)
@@ -179,7 +179,7 @@ describe('Link', () => {
 
     describe('invalid match mode', () => {
       it('should return false for unknown match mode', () => {
-        const location = { pathname: '/docs', search: {}, hash: '' }
+        const location = { pathname: '/docs', search: {}, hash: undefined }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expect(isUrlMatch(location, '/docs', 'unknown' as any)).toBe(false)
       })
@@ -190,7 +190,7 @@ describe('Link', () => {
         const location = {
           pathname: '/search',
           search: { q: 'hello world', filter: 'type:doc' },
-          hash: '',
+          hash: undefined,
         }
         // The location.search object contains unencoded values, but the target URL contains encoded values
         // URLSearchParams will handle the encoding/decoding automatically
@@ -204,12 +204,12 @@ describe('Link', () => {
       })
 
       it('should handle empty strings', () => {
-        const location = { pathname: '', search: {}, hash: '' }
+        const location = { pathname: '', search: {}, hash: undefined }
         expect(isUrlMatch(location, '', 'exact')).toBe(true)
       })
 
       it('should handle root path', () => {
-        const location = { pathname: '/', search: {}, hash: '' }
+        const location = { pathname: '/', search: {}, hash: undefined }
         expect(isUrlMatch(location, '/', 'exact')).toBe(true)
       })
     })

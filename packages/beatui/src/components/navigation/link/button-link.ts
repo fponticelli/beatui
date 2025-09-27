@@ -1,5 +1,6 @@
 import { attr, computedOf, html, TNode, Use, Value, When } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
+import type { LocationHandle } from '@tempots/ui'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
@@ -9,7 +10,7 @@ import { UrlMatchMode, isUrlMatch } from './navigation-link'
 export interface ButtonLinkOptions {
   // Link-specific props
   href: Value<string>
-  withViewTransition?: boolean
+  viewTransition?: boolean
   target?: Value<string>
   rel?: Value<string>
 
@@ -28,7 +29,7 @@ export interface ButtonLinkOptions {
 export function ButtonLink(
   {
     href,
-    withViewTransition = true,
+    viewTransition = true,
     target,
     rel,
     matchMode,
@@ -43,18 +44,18 @@ export function ButtonLink(
 ) {
   // If navigation props are provided, use NavigationLink-like behavior
   if (matchMode !== undefined || disableWhenActive !== undefined) {
-    return Use(Location, location => {
+    return Use(Location, (locationHandle: LocationHandle) => {
       const isActive = computedOf(
-        location,
+        locationHandle.location,
         href,
         disableWhenActive
-      )((location, href, disableWhenActive) => {
+      )((currentLocation, href, disableWhenActive) => {
         const shouldDisable = disableWhenActive ?? true
         if (!shouldDisable) return false
         if (!matchMode) return false
 
         const hrefValue = Value.get(href)
-        return isUrlMatch(location, hrefValue, matchMode)
+        return isUrlMatch(currentLocation, hrefValue, matchMode)
       })
 
       const effectiveDisabled = computedOf(
@@ -65,7 +66,7 @@ export function ButtonLink(
       return ButtonLinkCore(
         {
           href,
-          withViewTransition,
+          viewTransition,
           target,
           rel,
           variant,
@@ -83,7 +84,7 @@ export function ButtonLink(
   return ButtonLinkCore(
     {
       href,
-      withViewTransition,
+      viewTransition,
       target,
       rel,
       variant,
@@ -99,7 +100,7 @@ export function ButtonLink(
 function ButtonLinkCore(
   {
     href,
-    withViewTransition,
+    viewTransition,
     target,
     rel,
     variant,
@@ -138,7 +139,7 @@ function ButtonLinkCore(
       Anchor(
         {
           href,
-          withViewTransition,
+          viewTransition,
         },
         attr.class(
           computedOf(

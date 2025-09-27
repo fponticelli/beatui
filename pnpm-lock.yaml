@@ -21,14 +21,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 30.1.0
-        version: 30.1.0
+        specifier: 31.0.0
+        version: 31.0.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 9.0.0
-        version: 9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)
+        specifier: 10.1.0
+        version: 10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)
       zod:
         specifier: ^3.25.67
         version: 3.25.76
@@ -97,14 +97,14 @@ importers:
         specifier: ^7.15.3
         version: 7.15.3(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(typescript@5.8.3)
       '@tempots/dom':
-        specifier: 30.1.0
-        version: 30.1.0
+        specifier: 31.0.0
+        version: 31.0.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 9.0.0
-        version: 9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)
+        specifier: 10.1.0
+        version: 10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -892,16 +892,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tempots/dom@30.1.0':
-    resolution: {integrity: sha512-27fAFu1eyGQzXUkbuX+ky9NuM7MiC4XelHjPwc4fMHs9LQ80s2WDFCxXci2hrHELE0ktj+oG/bUop8jPRKc5XQ==}
+  '@tempots/dom@31.0.0':
+    resolution: {integrity: sha512-ALb8+85NwlJhcVQOljPOfT+/h391HWedl1gemffHYgiQKCRA2EizcIt38y479hz8qe7Y7RI5bdCFCgMHuTmtWQ==}
 
   '@tempots/std@0.24.0':
     resolution: {integrity: sha512-8YhRh41k0hVYp6hnoOAQ8Qw5ANUXlp4UZdArZwev9v4RIJ8hmYoKadqCOqfU42njO3qaR0Ks9sS/YdC4zXb2LA==}
 
-  '@tempots/ui@9.0.0':
-    resolution: {integrity: sha512-WM5KNOQt2CLzXWnn0jX5Cm9CvuLSC+cAOS8Y7a8GvK4pOkbNKmZUVR+Tv3pCsmMp60em6UF5ORBAMqDsT9ohxw==}
+  '@tempots/ui@10.1.0':
+    resolution: {integrity: sha512-krbjhcSfJTGMEv4d4bfUsPffCtUgIIceFUClCyYnQ6DZqc3MkRKnzlW5tYfp8z4yXPz70iqlaIuzvrFxGa4lTg==}
     peerDependencies:
-      '@tempots/dom': 30.1.0
+      '@tempots/dom': 31.0.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -3582,14 +3582,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.52.2':
     optional: true
 
-  '@tempots/dom@30.1.0': {}
+  '@tempots/dom@31.0.0': {}
 
   '@tempots/std@0.24.0': {}
 
-  '@tempots/ui@9.0.0(@tempots/dom@30.1.0)(@tempots/std@0.24.0)':
+  '@tempots/ui@10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)':
     dependencies:
       '@floating-ui/dom': 1.7.0
-      '@tempots/dom': 30.1.0
+      '@tempots/dom': 31.0.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':

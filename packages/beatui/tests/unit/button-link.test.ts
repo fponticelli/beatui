@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import { ButtonLink } from '../../src/components/navigation/link/button-link'
-import { WithProviders, Provide } from '../helpers/test-providers'
-import { Location } from '@tempots/ui'
+import { WithProviders, WithLocation } from '../helpers/test-providers'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
 import { ButtonVariant } from '@/index'
 
@@ -21,7 +20,7 @@ describe('ButtonLink Component', () => {
   it('should render as anchor with default props', () => {
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
           ButtonLink({ href: '/test' }, 'Click me')
         )
       ),
@@ -54,7 +53,7 @@ describe('ButtonLink Component', () => {
   it('should apply button styling variants', () => {
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: '/test',
@@ -81,7 +80,7 @@ describe('ButtonLink Component', () => {
   it('should support target and rel attributes', () => {
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: 'https://example.com',
@@ -106,7 +105,7 @@ describe('ButtonLink Component', () => {
 
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: '/test',
@@ -145,14 +144,14 @@ describe('ButtonLink Component', () => {
 
   it('should support navigation behavior with matchMode', () => {
     // Test the isUrlMatch function directly since Location provider testing is complex
-    const location = { pathname: '/test', search: {}, hash: '' }
+    const location = { pathname: '/test', search: {}, hash: undefined }
     const shouldMatch = isUrlMatch(location, '/test', 'exact')
     expect(shouldMatch).toBe(true)
 
     // Test that ButtonLink accepts navigation props without errors
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: '/test',
@@ -175,7 +174,7 @@ describe('ButtonLink Component', () => {
   it('should render as anchor when not matching current location', () => {
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/other', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/other', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: '/test',
@@ -201,7 +200,7 @@ describe('ButtonLink Component', () => {
   it('should not disable when disableWhenActive is false', () => {
     render(
       WithProviders(() =>
-        Provide(Location, { pathname: '/test', search: {}, hash: '' }, () =>
+        WithLocation({ pathname: '/test', search: {}, hash: undefined }, () =>
           ButtonLink(
             {
               href: '/test',

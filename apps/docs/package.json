@@ -25,9 +25,9 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^14.2.0",
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "30.1.0",
+    "@tempots/dom": "31.0.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "9.0.0",
+    "@tempots/ui": "10.1.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {

@@ -12,6 +12,7 @@ import {
   WithElement,
 } from '@tempots/dom'
 import { Anchor, Location } from '@tempots/ui'
+import type { LocationHandle } from '@tempots/ui'
 
 export type UrlAction = {
   href: Value<string>
@@ -39,7 +40,7 @@ export type SidebarLinkOptions = {
 } & LinkAction
 
 export function SidebarUrlLink(options: UrlAction, ...children: TNode[]) {
-  return Anchor({ href: options.href, withViewTransition: true }, ...children)
+  return Anchor({ href: options.href, viewTransition: true }, ...children)
 }
 
 export function SidebarActiveLink(...children: TNode[]) {
@@ -132,11 +133,11 @@ export function SidebarLink(options: SidebarLinkOptions) {
   if ('onClick' in options) {
     return SidebarClickLink(options, ...children)
   }
-  return Use(Location, location => {
+  return Use(Location, (locationHandle: LocationHandle) => {
     const isActive = computedOf(
-      location,
+      locationHandle.pathname,
       options.href
-    )(({ pathname }, href) => pathname === href)
+    )((pathname, href) => pathname === href)
     return When(
       isActive,
       () => SidebarActiveLink(...children),

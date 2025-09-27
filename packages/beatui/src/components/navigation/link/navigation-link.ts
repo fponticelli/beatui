@@ -1,5 +1,6 @@
 import { computedOf, TNode, Use, Value } from '@tempots/dom'
 import { Location } from '@tempots/ui'
+import type { LocationData, LocationHandle } from '@tempots/ui'
 import { Link, LinkOptions } from './link'
 
 export type UrlMatchMode = 'exact' | 'prefix' | 'params'
@@ -19,17 +20,34 @@ export interface NavigationLinkOptions extends Omit<LinkOptions, 'disabled'> {
   disableWhenActive?: Value<boolean>
 }
 
+const normalizeHash = (hash: string | undefined): string => {
+  if (!hash) return ''
+  return hash.startsWith('#') ? hash : `#${hash}`
+}
+
+const toSearchParams = (
+  search: Record<string, string> | string | URLSearchParams | undefined
+) => {
+  if (!search) return new URLSearchParams()
+  if (typeof search === 'string') {
+    const trimmed = search.startsWith('?') ? search.slice(1) : search
+    return new URLSearchParams(trimmed)
+  }
+  if (search instanceof URLSearchParams) {
+    return new URLSearchParams(search)
+  }
+  return new URLSearchParams(search)
+}
+
 export function isUrlMatch(
-  location: { pathname: string; search: Record<string, string>; hash?: string },
+  location: LocationData,
   targetHref: string,
   matchMode: UrlMatchMode
 ): boolean {
-  // Convert search object to string for comparison
-  const searchString =
-    Object.keys(location.search).length > 0
-      ? '?' + new URLSearchParams(location.search).toString()
-      : ''
-  const hashString = location.hash || ''
+  const searchParams = toSearchParams(location.search)
+  const searchParamsString = searchParams.toString()
+  const searchString = searchParamsString ? `?${searchParamsString}` : ''
+  const hashString = normalizeHash(location.hash)
 
   switch (matchMode) {
     case 'exact':
@@ -49,9 +67,6 @@ export function isUrlMatch(
             ? document.baseURI
             : 'http://localhost/'
         const targetUrl = new URL(targetHref, base)
-        const targetSearchParams = new URLSearchParams(targetUrl.search)
-        const currentSearchParams = new URLSearchParams(location.search)
-
         // Compare pathname first
         if (location.pathname !== targetUrl.pathname) {
           return false
@@ -59,8 +74,10 @@ export function isUrlMatch(
 
         // Compare search params by checking each key-value pair
         // This handles different parameter orders correctly
-        const targetEntries = Array.from(targetSearchParams.entries()).sort()
-        const currentEntries = Array.from(currentSearchParams.entries()).sort()
+        const targetEntries = Array.from(
+          new URLSearchParams(targetUrl.search).entries()
+        ).sort()
+        const currentEntries = Array.from(searchParams.entries()).sort()
 
         if (targetEntries.length !== currentEntries.length) {
           return false
@@ -89,16 +106,16 @@ export function NavigationLink(
   }: NavigationLinkOptions,
   ...children: TNode[]
 ) {
-  return Use(Location, location => {
+  return Use(Location, (locationHandle: LocationHandle) => {
     const isActive = computedOf(
-      location,
+      locationHandle.location,
       href,
       disableWhenActive
-    )((location, href, disableWhenActive) => {
+    )((currentLocation, href, disableWhenActive) => {
       const shouldDisable = disableWhenActive ?? true
       if (!shouldDisable) return false
 
-      return isUrlMatch(location, Value.get(href), matchMode)
+      return isUrlMatch(currentLocation, Value.get(href), matchMode)
     })
 
     return Link(

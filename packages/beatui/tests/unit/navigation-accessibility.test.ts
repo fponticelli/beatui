@@ -4,8 +4,7 @@ import { AppShell } from '../../src/components/layout/app-shell'
 import { SidebarLink } from '../../src/components/navigation/sidebar/sidebar-link'
 import { CollapsibleSidebarGroup } from '../../src/components/navigation/sidebar/collapsible-sidebar-group'
 import { SidebarGroup } from '../../src/components/navigation/sidebar/sidebar-group'
-import { WithProviders, Provide } from '../helpers/test-providers'
-import { Location } from '@tempots/ui'
+import { WithProviders, WithLocation } from '../helpers/test-providers'
 
 describe('Navigation Accessibility', () => {
   let container: HTMLElement
@@ -140,7 +139,7 @@ describe('Navigation Accessibility', () => {
     it('should render as anchor for URL links', () => {
       render(
         WithProviders(() =>
-          Provide(Location, { pathname: '/', search: '', hash: '' }, () =>
+          WithLocation({ pathname: '/', search: {}, hash: undefined }, () =>
             SidebarLink({
               content: 'Test Link',
               href: '/test',

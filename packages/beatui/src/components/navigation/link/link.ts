@@ -10,7 +10,7 @@ export interface LinkOptions {
   color?: Value<ThemeColorName>
   colorDisabled?: Value<ThemeColorName>
   disabled?: Value<boolean>
-  withViewTransition?: boolean
+  viewTransition?: boolean
   target?: Value<string>
   rel?: Value<string>
 }
@@ -54,7 +54,7 @@ export function Link(
     color = 'primary',
     colorDisabled = 'base',
     disabled = false,
-    withViewTransition = true,
+    viewTransition = true,
     target,
     rel,
   }: LinkOptions,
@@ -79,7 +79,7 @@ export function Link(
       Anchor(
         {
           href,
-          withViewTransition,
+          viewTransition,
         },
         attr.class(
           computedOf(
