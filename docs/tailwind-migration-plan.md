@@ -34,6 +34,8 @@
   - [x] Center & tag primitives moved to Tailwind component layer via `@apply` (structural flex/border utilities) — 2025-02-23
   - [x] Group & Sink layout shells ported to Tailwind utilities (token-preserving overrides) — 2025-02-24
   - [x] Combobox search & tag selector wrappers migrated to Tailwind utilities — 2025-02-24
+  - [x] Tabs visual styles consolidated into Tailwind component layer (`tailwind/components.css`) — 2025-02-24
+  - [x] Collapse + accordion shells moved to Tailwind component layer (panel state helpers, dark mode parity) — 2025-02-24
   - [ ] Remaining components (`combobox`, `select-tags`, layout primitives, etc.)
 
 #### Component Migration Tracker
@@ -42,6 +44,7 @@
 | Layout primitives (`Center`, `Stack`, `Cluster`, `Sink`) | 🟡 | `Center`, `Stack`, `Group`, `Sink` use Tailwind `@apply`; audit `Cluster` and other wrappers for conversion plus responsive gap tokens. |
 | Form controls – combo/select/tag inputs | 🟡 | Containers/search fields now use Tailwind utilities; next: map dynamic color tokens and safelist generated chip variants. |
 | JSON-schema widgets (`composition`, `discriminator`, `visibility`) | 🟡 | Visibility wrappers now use Tailwind `hidden` utilities via data-driven containers; continue migrating composition/discriminator shells to shared form utilities and `@apply`. |
+| Navigation components (Tabs, Accordion) | 🟢 | Tabs/accordion/collapse styling now consolidated in Tailwind component layer; continue auditing docs demos for parity and responsive tweaks. |
 | Markdown & Milkdown integrations | ☐ | Ensure editor-specific styles are under component layer and don’t leak utilities that conflict with Tailwind. |
 | Docs-only shim components | ☐ | Audit docs styling to keep example snippets synced with new utilities. |
 - [ ] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers.
