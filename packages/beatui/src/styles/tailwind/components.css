@@ -1,4 +1,14 @@
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+@import '../layers/02.base/variables.css' layer(base);
+@import '../layers/02.base/foundation.css' layer(base);
+@import '../layers/02.base/base.css' layer(base);
+@import '../layers/02.base/focus.css' layer(base);
+
+/* Bring back full component styling so Tailwind consumers get parity with the legacy bundle. */
+@import '../layers/03.components/index.css' layer(components);
+@import '../layers/06.overrides/index.css' layer(overrides);
 
 @layer utilities {
   /* Center */

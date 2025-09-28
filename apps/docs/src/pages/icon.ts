@@ -89,9 +89,9 @@ export default function IconPage() {
       )
     ),
     body: Stack(
-      attr.class('space-y-6 p-4'),
+        attr.class('space-y-6 p-4'),
       Group(
-        attr.class('gap-4 flex flex-wrap justify-center'),
+        attr.class('gap-4 flex-wrap justify-center'),
         ...icons.map(icon => DisplayIcon({ value: icon, size, color }))
       )
     ),

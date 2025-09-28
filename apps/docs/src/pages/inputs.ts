@@ -257,7 +257,7 @@ export default function InputsPage() {
         )
       ),
       body: Stack(
-        attr.class('bu-p-4 bu-gap-4'),
+        attr.class('p-4 gap-4'),
         // Simple inputs that only need a value
         html.h2(
           attr.style(

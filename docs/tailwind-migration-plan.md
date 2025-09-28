@@ -21,7 +21,7 @@
 - [x] Decide final distribution layout (file names, Tailwind preset/plugin exposure) and update package `exports` design doc. _(See `docs/tailwind-distribution-strategy.md`.)_
 
 ### 2. Library Styling Refactor
-- [ ] Replace custom utility class usage across components with Tailwind class names or `@apply` in component styles when utilities cannot express a rule. _(Incrementally updating component bundles; track per-component status below.)_
+- [x] Replace custom utility class usage across components with Tailwind class names or `@apply` in component styles when utilities cannot express a rule. _(All component sources now rely on `bc-` layer classes; legacy `.bu-` helpers have been removed from the distribution.)_
   - [x] Animated toggle & flyout helpers (data attributes replacing `.bu-toggle--*`) — 2025-02-12
   - [x] Sidebar link/button patterns (ARIA helpers instead of manual attributes) — 2025-02-23
   - [x] Flyout trigger + tooltip integration (configurable `aria-haspopup`, no imperative DOM writes) — 2025-02-23
@@ -43,13 +43,13 @@
 #### Component Migration Tracker
 | Component / Area | Tailwind Alignment | Notes / Follow-up |
 | ---------------- | ------------------ | ----------------- |
-| Layout primitives (`Center`, `Stack`, `Cluster`, `Sink`) | 🟡 | `Center`, `Stack`, `Group`, `Sink` use Tailwind `@apply`; audit `Cluster` and other wrappers for conversion plus responsive gap tokens. |
-| Form controls – combo/select/tag inputs | 🟡 | Containers/search fields now use Tailwind utilities; next: map dynamic color tokens and safelist generated chip variants. |
+| Layout primitives (`Center`, `Stack`, `Cluster`, `Sink`) | 🟢 | `Center`, `Stack`, `Group`, `Sink` render with `bc-*` Tailwind classes; no remaining `bu-*` usages detected in layout sources. |
+| Form controls – combo/select/tag inputs | 🟢 | Combo + tag inputs now ship `bc-*` classes exclusively; dynamic chip colors reuse Tailwind tokens without extra safelist requirements. |
 | JSON-schema widgets (`composition`, `discriminator`, `visibility`) | 🟡 | Visibility wrappers now use Tailwind `hidden` utilities and base object shells use Tailwind component layer; continue migrating composition/discriminator shells to shared form utilities and `@apply`. |
 | Navigation components (Tabs, Accordion) | 🟢 | Tabs/accordion/collapse styling now consolidated in Tailwind component layer; docs import `@tempots/beatui/css/components` to ensure the classes ship downstream. |
 | Markdown & Milkdown integrations | 🟢 | Milkdown editor styles now live entirely in the Tailwind component layer (container + ProseMirror padding); monitor for additional editor-specific tokens before release. |
-| Docs-only shim components | ☐ | Converting docs views to Tailwind/BeatUI helpers (Home, Icons, Menu, Tags, Tags Input, About, RTL/LTR, Milkdown Editor, Scrollable Panel, Tooltip done); continue auditing remaining examples. |
-- [ ] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers. _(05 utilities relocated into `styles/tailwind/legacy-utilities` for Tailwind-managed builds; follow-up: replace legacy class names and prune redundant files.)_
+| Docs-only shim components | ☐ | Converting docs views to Tailwind/BeatUI helpers (Home, Icons, Menu, Tags, Tags Input, About, RTL/LTR, Milkdown Editor, Monaco Editor, Scrollable Panel, Tooltip, Temporal, File Input, Flyout, Markdown done); continue auditing remaining examples. |
+- [x] Collapse former layers into Tailwind conventions: retire `01.reset`, `04.variants`, `05.utilities`; merge remaining rules into base/component/utility layers. _(Reset rules now live in `layers/02.base/foundation.css`, the `04.variants` directory is gone, and the old `legacy-utilities` bundle has been deleted.)_
 - [ ] Remove or rewrite style-generation scripts so they either emit Tailwind artifacts or are no longer needed.
 - [x] Add lint/test safeguards preventing reintroduction of removed utility classes (e.g. ESLint rule, smoke test). _(Library lint task now runs `scripts/check-legacy-utilities.mjs` to block legacy `.bu-` class strings.)_
 
@@ -57,7 +57,7 @@
 - [x] Update build tooling (e.g. Vite/Rollup scripts) to run Tailwind twice: once to tree-shake BeatUI usage for the standalone bundle, once to emit the component-layer CSS/preset for consumers. _(CLI path now compiles `css/beatui-components.css` during `pnpm --filter @tempots/beatui build`; current component layer mirrors legacy rules while we continue migrating individual classes.)_
 - [x] Ensure both builds read from the shared Tailwind config to keep tokens aligned. _(See `packages/beatui/tailwind.config.ts` consumed by the CLI and preset.)_
 - [x] Update package build outputs (`package.json` exports, declaration files) and document import paths for both consumption modes. _(See `packages/beatui/package.json` and `docs/tailwind-distribution-strategy.md`.)_
-- [ ] Add CI steps validating bundle size/content (snapshot or hash check) so drift is detected early.
+- [x] Add CI steps validating bundle size/content (snapshot or hash check) so drift is detected early. _(New `bundle-integrity` workflow builds @tempots/beatui and runs `pnpm --filter @tempots/beatui run bundle:check` against the CSS hash snapshot.)_
 - [ ] Add automated test that exercises both CSS outputs in a sample app (standalone + Tailwind) to catch missing classes before release.
 
 ### 4. Documentation & Example Apps
@@ -84,3 +84,4 @@
 ## Tracking & Status
 - Use this document to track progress; mark checkboxes as tasks complete.
 - Consider adding owners or links to issues/PRs next to each task for visibility.
+- Bundle integrity snapshot lives at `packages/beatui/scripts/bundle-integrity.snapshot.json`; refresh it intentionally with `pnpm --filter @tempots/beatui run bundle:snapshot` after validating bundle changes.

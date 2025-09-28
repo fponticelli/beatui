@@ -90,11 +90,11 @@ export default function NoticePage() {
       )
     ),
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4'),
+      attr.class('gap-4 p-4'),
 
       // Live sample
       html.section(
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Live Notice'),
+        html.h3(attr.class('text-lg font-semibold'), 'Live Notice'),
         Notice(
           {
             variant,
@@ -110,9 +110,9 @@ export default function NoticePage() {
 
       // Gallery
       html.section(
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Gallery'),
+        html.h3(attr.class('text-lg font-semibold'), 'Gallery'),
         Stack(
-          attr.class('bu-gap-2'),
+          attr.class('gap-2'),
           Notice({}, html.span('Default info (subtle).')),
           Notice(
             { variant: 'success', tone: 'prominent' },

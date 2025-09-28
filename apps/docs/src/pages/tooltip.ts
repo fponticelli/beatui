@@ -22,7 +22,7 @@ export default function TooltipPage() {
   const hideDelay = prop(500)
 
   return Stack(
-    attr.class('h-full overflow-auto'),
+        attr.class('h-full overflow-auto'),
     ControlsHeader(
       Stack(
         Label('Placement'),
@@ -77,7 +77,7 @@ export default function TooltipPage() {
 
     // Main content area
     Group(
-      attr.class('items-start justify-center gap-8 p-8 flex-1'),
+        attr.class('items-start justify-center gap-8 p-8 flex-1'),
 
       // Basic tooltip example
       html.div(
@@ -101,7 +101,7 @@ export default function TooltipPage() {
         attr.class('text-center space-y-4'),
         html.h3(attr.class('text-lg font-semibold'), 'Multiple Tooltips'),
         Group(
-          attr.class('gap-4'),
+        attr.class('gap-4'),
           Button(
             { variant: 'outline' },
             'Save',

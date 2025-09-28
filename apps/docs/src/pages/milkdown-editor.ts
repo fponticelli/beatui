@@ -20,11 +20,11 @@ export default function MilkdownEditorPage() {
 
   return ScrollablePanel({
     body: Group(
-      attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
+        attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
       ScrollablePanel(
         {
           header: Group(
-            attr.class('gap-2 items-center'),
+        attr.class('gap-2 items-center'),
             html.h3(
               attr.class('text-lg font-semibold'),
               'Milkdown Editor'

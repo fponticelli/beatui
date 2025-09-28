@@ -2,16 +2,11 @@
 /* Modern CSS architecture with explicit layers and design tokens */
 
 /* Define layer order - this is critical for specificity management */
-@layer reset;
 @layer base;
 @layer components;
-@layer variants;
-@layer utilities;
 @layer overrides;
 
 /* Import all layers in order */
-@import './layers/01.reset/index.css' layer(reset);
 @import './layers/02.base/index.css' layer(base);
 @import './layers/03.components/index.css' layer(components);
-@import './tailwind/legacy-utilities/index.css' layer(utilities);
 @import './layers/06.overrides/index.css' layer(overrides);

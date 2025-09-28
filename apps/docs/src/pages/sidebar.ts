@@ -10,11 +10,11 @@ import { html, attr } from '@tempots/dom'
 export default function SidebarPage() {
   return ScrollablePanel({
     body: Group(
-      attr.class('bu-p-4 bu-gap-4'),
+      attr.class('p-4 gap-4'),
       // Light background mode sidebar (default)
       Sidebar(
         { backgroundMode: 'light' },
-        attr.class('bu-w-80 bu-border'),
+        attr.class('w-80 border'),
         CollapsibleSidebarGroup(
           {
             icon: 'lucide:home',
@@ -64,7 +64,7 @@ export default function SidebarPage() {
       html.br(),
       Sidebar(
         { backgroundMode: 'dark' },
-        attr.class('bu-w-80 bu-border'),
+        attr.class('w-80 border'),
         CollapsibleSidebarGroup(
           {
             icon: 'lucide:moon',

@@ -1,0 +1,41 @@
+name: Bundle Integrity
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    paths:
+      - 'packages/beatui/**'
+      - '.github/workflows/bundle-integrity.yml'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build BeatUI package
+        run: pnpm --filter @tempots/beatui run build
+
+      - name: Validate CSS bundle integrity
+        run: pnpm --filter @tempots/beatui run bundle:check

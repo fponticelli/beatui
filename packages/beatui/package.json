@@ -87,6 +87,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint . --ext .ts && node ./scripts/check-legacy-utilities.mjs",
+    "bundle:check": "node ./scripts/check-bundle-integrity.mjs",
+    "bundle:snapshot": "node ./scripts/check-bundle-integrity.mjs --write",
     "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",

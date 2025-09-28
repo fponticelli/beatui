@@ -82,7 +82,7 @@ export default <Config>{
 - Preserve `focus-visible` behaviours with either Tailwind's `ring` utilities or a thin plugin that applies BeatUI's colour tokens to `focus:ring` values.
 
 ## Plugins & Automation
-- **logicalPropertyPlugin**: recreate the logical margin/padding helpers currently emitted under `.bu-*`. Tailwind 3.3 ships logical variants (`ms-*`, `me-*`, etc.); if the core plugin covers all cases we can drop the custom builder. For unique helpers (e.g. inline border shorthands) emit utilities powered by CSS logical properties.
+- **logicalPropertyPlugin**: optional. Tailwind 3.3+ ships logical variants (`ms-*`, `me-*`, `ps-*`, `pe-*`) that now cover BeatUI's needs; retain a thin plugin only if we decide to generate additional shorthands (inline border helpers, writing-mode utilities, etc.).
 - **rtlVariantPlugin**: produce `rtl:` and `ltr:` variants that wrap selectors in `.b-rtl` / `.b-ltr`, mirroring the class-based wrappers used today.
 - **focus ring**: define CSS custom properties for focus ring colour/offset (`--interactive-focus-light/dark`) and provide utilities (`focus-ring-primary`, etc.) that map to Tailwind's ring API.
 - Evaluate whether to keep bespoke animation classes (`.bu-toggle--*`) as part of the preset (plugin generating groups) or rewrite components to use `transition` + `data-*` driven utilities.
@@ -95,4 +95,3 @@ export default <Config>{
 - Shared preset package (`packages/beatui/tailwind-preset.ts`) exporting the config above.
 - Consuming Tailwind configs (`apps/docs/tailwind.config.ts`, consumer examples) that simply `import preset from '@beatui/tailwind-preset'` and spread/override as needed.
 - CI smoke test that renders library components in both `.b-light` and `.b-dark .b-rtl` contexts to ensure variants compile correctly.
-

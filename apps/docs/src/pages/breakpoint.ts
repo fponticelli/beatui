@@ -89,21 +89,21 @@ function BreakpointsTable<T extends Breakpoints>(info: BreakpointInfo<T>) {
 export default function BreakpointPage() {
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-p-4'),
-      html.h1(attr.class('bu-text-2xl'), 'Viewport Breakpoints'),
+      attr.class('p-4'),
+      html.h1(attr.class('text-2xl'), 'Viewport Breakpoints'),
       WithBeatUIBreakpoint(info =>
         html.div(
           html.div(
             'Viewport width: ',
             html.span(
-              attr.class('bu-font-bold'),
+              attr.class('font-bold'),
               info.value.map(({ width }) => `${width}px`)
             )
           ),
           html.div(
             'Current breakpoint: ',
             html.span(
-              attr.class('bu-font-bold'),
+              attr.class('font-bold'),
               info.value.$.breakpoint.map(String)
             )
           ),
@@ -112,20 +112,20 @@ export default function BreakpointPage() {
         )
       ),
       html.br(),
-      html.h1(attr.class('bu-text-2xl'), 'Element Breakpoints'),
+      html.h1(attr.class('text-2xl'), 'Element Breakpoints'),
       WithBeatUIElementBreakpoint(info =>
         html.div(
           html.div(
             'Element width: ',
             html.span(
-              attr.class('bu-font-bold'),
+              attr.class('font-bold'),
               info.value.map(({ width }) => `${width}px`)
             )
           ),
           html.div(
             'Current breakpoint: ',
             html.span(
-              attr.class('bu-font-bold'),
+              attr.class('font-bold'),
               info.value.$.breakpoint.map(String)
             )
           ),

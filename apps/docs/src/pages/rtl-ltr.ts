@@ -170,11 +170,13 @@ export default function RTLLTRPage() {
                   'English text (LTR): This text flows from left to right.'
                 ),
                 html.p(
-                  attr.class('mb-2 bu-dir-rtl'),
+                  attr.dir('rtl'),
+                  attr.class('mb-2'),
                   'Arabic text (RTL): هذا النص يتدفق من اليمين إلى اليسار.'
                 ),
                 html.p(
-                  attr.class('mb-2 bu-dir-rtl'),
+                  attr.dir('rtl'),
+                  attr.class('mb-2'),
                   'Hebrew text (RTL): הטקסט הזה זורם מימין לשמאל.'
                 )
               )
@@ -190,7 +192,9 @@ export default function RTLLTRPage() {
                 attr.class('text-xl font-semibold'),
                 'Direction Utilities'
               ),
-              html.p('BeatUI provides utility classes for direction control:'),
+              html.p(
+                'BeatUI pairs with Tailwind logical utilities and the standard `dir` attribute for precise direction control:'
+              ),
 
               html.div(
                 attr.class('grid grid-cols-1 md:grid-cols-2 gap-4'),
@@ -205,12 +209,14 @@ export default function RTLLTRPage() {
                   html.div(
                     attr.class('space-y-2'),
                     html.div(
-                      attr.class('bu-dir-ltr'),
-                      '.bu-dir-ltr - Force LTR'
+                      attr.dir('ltr'),
+                      attr.class('font-mono block'),
+                      'dir="ltr" – Force LTR'
                     ),
                     html.div(
-                      attr.class('bu-dir-rtl'),
-                      '.bu-dir-rtl - Force RTL'
+                      attr.dir('rtl'),
+                      attr.class('font-mono block'),
+                      'dir="rtl" – Force RTL'
                     )
                   )
                 ),
@@ -225,12 +231,12 @@ export default function RTLLTRPage() {
                   html.div(
                     attr.class('space-y-2'),
                     html.div(
-                      attr.class('bu-text-start'),
-                      '.bu-text-start - Align to start'
+                      attr.class('text-start font-mono'),
+                      'text-start – Align to start'
                     ),
                     html.div(
-                      attr.class('bu-text-end'),
-                      '.bu-text-end - Align to end'
+                      attr.class('text-end font-mono'),
+                      'text-end – Align to end'
                     )
                   )
                 ),
@@ -245,20 +251,20 @@ export default function RTLLTRPage() {
                   html.div(
                     attr.class('space-y-2'),
                     html.div(
-                      attr.class('bu-ps-4 bg-neutral-100'),
-                      '.bu-ps-4 - Padding inline start'
+                      attr.class('ps-4 bg-neutral-100 rounded'),
+                      'ps-4 – Padding inline start'
                     ),
                     html.div(
-                      attr.class('bu-pe-4 bg-neutral-100'),
-                      '.bu-pe-4 - Padding inline end'
+                      attr.class('pe-4 bg-neutral-100 rounded'),
+                      'pe-4 – Padding inline end'
                     ),
                     html.div(
-                      attr.class('bu-ms-4 bg-neutral-100'),
-                      '.bu-ms-4 - Margin inline start'
+                      attr.class('ms-4 bg-neutral-100 rounded'),
+                      'ms-4 – Margin inline start'
                     ),
                     html.div(
-                      attr.class('bu-me-4 bg-neutral-100'),
-                      '.bu-me-4 - Margin inline end'
+                      attr.class('me-4 bg-neutral-100 rounded'),
+                      'me-4 – Margin inline end'
                     )
                   )
                 ),
@@ -273,16 +279,21 @@ export default function RTLLTRPage() {
                   html.div(
                     attr.class('space-y-2'),
                     html.div(
-                      attr.class('bu-isolate-ltr'),
-                      '.bu-isolate-ltr - Isolate LTR content'
+                      attr.dir('ltr'),
+                      attr.style('unicode-bidi: isolate;'),
+                      attr.class('font-mono block'),
+                      'dir="ltr" + unicode-bidi:isolate – Isolate LTR content'
                     ),
                     html.div(
-                      attr.class('bu-isolate-rtl'),
-                      '.bu-isolate-rtl - Isolate RTL content'
+                      attr.dir('rtl'),
+                      attr.style('unicode-bidi: isolate;'),
+                      attr.class('font-mono block'),
+                      'dir="rtl" + unicode-bidi:isolate – Isolate RTL content'
                     ),
                     html.div(
-                      attr.class('bu-bidi-isolate'),
-                      '.bu-bidi-isolate - Bidirectional isolation'
+                      attr.style('unicode-bidi: isolate;'),
+                      attr.class('font-mono block'),
+                      'unicode-bidi:isolate – Bidirectional isolation'
                     )
                   )
                 )
@@ -304,16 +315,16 @@ export default function RTLLTRPage() {
                 attr.class('list-decimal list-inside space-y-2'),
                 html.li('Update to the latest version of BeatUI'),
                 html.li(
-                  'Use logical property utilities (bu-ms-*, bu-me-*, bu-ps-*, bu-pe-*) instead of directional ones'
+                  'Use Tailwind logical spacing utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`) instead of physical `ml/mr/pl/pr` classes.'
                 ),
                 html.li(
-                  'Replace bu-text-left/right with bu-text-start/end for direction-aware alignment'
+                  'Switch to `text-start`/`text-end` for direction-aware alignment and use the `dir` attribute to override direction when needed.'
                 ),
                 html.li(
-                  'Test your components with RTL locales (ar-SA, he-IL, fa-IR)'
+                  'Test your components with RTL locales (ar-SA, he-IL, fa-IR) to verify layout expectations.'
                 ),
                 html.li(
-                  'Use direction override utilities for mixed-direction content'
+                  'Apply `unicode-bidi: isolate` or container-specific styles when mixing RTL and LTR snippets in the same block.'
                 )
               )
             )

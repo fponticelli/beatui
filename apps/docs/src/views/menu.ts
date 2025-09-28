@@ -11,11 +11,11 @@ import { attr } from '@tempots/dom'
 const TodoTag = () => Tag({ value: 'TODO', color: 'red', size: 'xs' })
 
 const Todo = (content: string) =>
-  Group(attr.class('bu-justify-between'), content, TodoTag())
+  Group(attr.class('justify-between'), content, TodoTag())
 
 export function Menu() {
   return Stack(
-    attr.class('bu-h-full bu-overflow-y-auto'),
+    attr.class('h-full overflow-y-auto'),
     Sidebar(
       {},
       // Authentication Section

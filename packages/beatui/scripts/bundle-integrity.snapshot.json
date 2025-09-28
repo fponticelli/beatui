@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "dist/beatui.css",
+      "bytes": 116651,
+      "sha256": "4d47c8a78cb975a9b4d475eaabc59e102855717cec09bfcbc773f501897adc3b",
+      "description": "Standalone CSS bundle consumed without Tailwind"
+    },
+    {
+      "path": "dist/css/beatui-components.css",
+      "bytes": 42427,
+      "sha256": "83b0c8a0b8754c7ac103fac806d2951199fac4d85b131e4da852b3044e4ba195",
+      "description": "Tailwind component layer bundle shipped alongside the preset"
+    }
+  ]
+}

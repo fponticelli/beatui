@@ -1,17 +1,6 @@
 /* Override layer for edge cases and consumer customizations */
 /* This layer should be used sparingly and only when necessary */
 
-/* Print styles */
-@media print {
-  .bu-print-hidden {
-    display: none !important;
-  }
-
-  .bu-print-block {
-    display: block !important;
-  }
-}
-
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bc-button {

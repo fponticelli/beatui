@@ -4,10 +4,9 @@ This document catalogs the current BeatUI styling layers and utility families ah
 
 ## Layer Overview
 
-### 01.reset
-- Provides a bespoke "modern reset" that zeroes margins, enforces `box-sizing: border-box`, normalises typography to `1rem/1.5` with `font-weight: 400`, removes default list styles, and strips default focus outlines.
-- Adds WebKit font smoothing and sets `button` defaults (no border/background, pointer cursor) plus disabled cursor styles.
-- Largely overlaps with Tailwind Preflight except for: font-size overrides on headings, explicit cursor rules, blanket focus outline removal.
+### 01.reset (retired)
+- Former bespoke reset that zeroed margins, enforced `box-sizing: border-box`, normalised typography, and stripped default focus outlines.
+- Rules now live inside the Tailwind-driven base layer: `tailwindcss/preflight` plus `layers/02.base/foundation.css` retain the smoothing, overflow-wrap, and cursor treatments we still need.
 
 ### 02.base
 - `variables.css` defines the design token surface (OKLCH palettes for 20+ color families, semantic aliases such as `--color-primary-500`, surface/background text tokens, focus colors, spacing scale, typography scale, radius, shadows, z-index tiers).
@@ -21,11 +20,11 @@ This document catalogs the current BeatUI styling layers and utility families ah
 - Several files note directional (`.b-rtl`, `.b-ltr`) variants and dark-mode overrides.
 - Migration will likely replace many declarations with Tailwind utility classes or `@apply`, but components with complex interactive states (flyouts, drawers) may still require bespoke CSS.
 
-### 04.variants
-- Directory currently empty. Legacy pipeline likely reserved it for skin/theme variants.
-- Opportunity to delete or repurpose as Tailwind "components" layer.
+### 04.variants (retired)
+- Directory removed; Tailwind component layering now handled via `tailwind/components.css` and the component-level `@layer` rules.
 
-### 05.utilities
+### 05.utilities (retired)
+- Legacy `.bu-*` utility bundle removed from the library; notes below are retained for historical reference while the Tailwind preset fully replaces these helpers.
 - Large bundle of class-based utilities prefixed with `.bu-` (and `hover:bu-` etc.) acting as BeatUI's Tailwind analogue.
 - Structure:
   - `utilities.css`: layout (`display`, flex/grid helpers), flex alignment/justification, gap, intrinsic sizing, text alignment, floats, font weight/size, border radius, positioning, z-index, overflow, spacing (`bu-p*`, `bu-px*`, etc.), cursor states.
@@ -42,12 +41,12 @@ This document catalogs the current BeatUI styling layers and utility families ah
   - `animation.css`: stateful toggle/flyout animation classes (`.bu-toggle--slide-right`, `.bu-toggle--flyout-top`, etc.) not readily represented by Tailwind utilities.
 
 ### 06.overrides
-- Contains override hooks for print (`.bu-print-*`), prefers-contrast adjustments, reduced-motion treatment, global focus transition smoothing, and toolbar edge-case styling.
+- Contains prefers-contrast adjustments, reduced-motion treatment, global focus transition smoothing, and toolbar edge-case styling.
 - Acts as final layer for consumer-specific tweaks; likely to shrink once Tailwind handles utilities and component layering.
 
-## Utility Family Inventory
+## Utility Family Inventory (legacy)
 
-The following table summarises current utility families and their responsibilities.
+The table below captures the former `.bu-*` utility sources for archival purposes; these files have been removed from the active codebase.
 
 | File | Prefix/Pattern | Responsibility |
 | --- | --- | --- |

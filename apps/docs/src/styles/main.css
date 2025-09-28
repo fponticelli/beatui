@@ -1,4 +1,12 @@
-#app {
-  height: 100vh;
-  overflow: hidden;
+@import "tailwindcss";
+@import "@tempots/beatui/css";
+@import "@tempots/beatui/css/components";
+@import "@tempots/beatui/markdown.css";
+@import "@tempots/beatui/milkdown.css";
+@import "@tempots/beatui/monaco.css";
+
+@layer base {
+  #app {
+    @apply h-screen overflow-hidden;
+  }
 }

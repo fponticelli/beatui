@@ -38,5 +38,9 @@
   "eslint.format.enable": false,
   // Ensure Prettier uses the project's configuration
   "prettier.requireConfig": true,
-  "prettier.useEditorConfig": false
+  "prettier.useEditorConfig": false,
+  // Allow Tailwind-specific at-rules like @tailwind and @apply without editor warnings
+  "css.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore"
 }
