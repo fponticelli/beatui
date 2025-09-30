@@ -56,3 +56,16 @@
   background-color: var(--bg-subtle-dark);
   border-color: var(--border-divider-dark);
 }
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-button {
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-button {
+    transition: none;
+  }
+}

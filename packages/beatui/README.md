@@ -105,12 +105,9 @@ document.body.appendChild(card)
 
 BeatUI uses a layered CSS architecture:
 
-- `@layer reset` - CSS resets and normalizations
-- `@layer base` - Base styles and design tokens
-- `@layer components` - Component styles with `bc-` prefix
-- `@layer variants` - Component variants and modifiers
-- `@layer utilities` - Utility classes with `bu-` prefix
-- `@layer overrides` - Custom overrides and exceptions
+- `@layer base` - Reset + foundational styles and design tokens
+- `@layer components` - Component styles and modifiers (the `bc-` namespace)
+- `@layer utilities` - Single-purpose utility classes (the `bu-` namespace)
 
 ## Design Tokens
 

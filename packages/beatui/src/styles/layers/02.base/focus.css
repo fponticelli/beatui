@@ -88,3 +88,12 @@ a:focus-visible {
 .js-focus-visible *:focus:not(.focus-visible) {
   outline: none;
 }
+
+/* Smooth focus transition when motion is allowed */
+@media (prefers-reduced-motion: no-preference) {
+  *:focus-visible {
+    transition:
+      outline-color 0.15s ease-in-out,
+      outline-offset 0.15s ease-in-out;
+  }
+}

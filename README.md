@@ -95,12 +95,9 @@ The docs import the library like a consumer app (from `dist`), so no custom Vite
 
 BeatUI follows a layered CSS architecture:
 
-- `@layer reset` - CSS resets and normalizations
-- `@layer base` - Base styles and design tokens
-- `@layer components` - Component styles (bc- prefix)
-- `@layer variants` - Component variants and modifiers
-- `@layer utilities` - Utility classes (bu- prefix)
-- `@layer overrides` - Custom overrides
+- `@layer base` - Reset + foundational styles and design tokens
+- `@layer components` - Component styles and modifiers (bc- prefix)
+- `@layer utilities` - Single-purpose utility classes (bu- prefix)
 
 ## 🤝 Contributing
 

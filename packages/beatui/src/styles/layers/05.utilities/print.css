@@ -1,0 +1,10 @@
+/* Print-specific utilities */
+@media print {
+  .bu-print-hidden {
+    display: none !important;
+  }
+
+  .bu-print-block {
+    display: block !important;
+  }
+}

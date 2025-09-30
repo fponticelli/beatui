@@ -227,3 +227,18 @@
     line-height: var(--line-height-normal);
   }
 }
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-input-container,
+  .bc-input {
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-input-container,
+  .bc-input {
+    transition: none;
+  }
+}

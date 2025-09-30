@@ -41,12 +41,9 @@ BeatUI is built on the Tempo ecosystem:
 ### CSS Architecture
 BeatUI uses a **layered CSS architecture** with strict ordering:
 
-1. `@layer reset` - CSS resets and normalizations
-2. `@layer base` - Base styles and design tokens (CSS variables)
-3. `@layer components` - Component styles (prefixed with `bc-`)
-4. `@layer variants` - Component variants and modifiers
-5. `@layer utilities` - Utility classes (prefixed with `bu-`)
-6. `@layer overrides` - Custom overrides
+1. `@layer base` - Reset + foundational styles and design tokens
+2. `@layer components` - Component styles and modifiers (prefixed with `bc-`)
+3. `@layer utilities` - Utility classes (prefixed with `bu-`)
 
 ### Design Token System
 - Design tokens are defined in TypeScript files (`src/tokens/`)
