@@ -1,3 +1,7 @@
+@source "../../index.html";
+/* @import "tailwindcss"; */
+@source "../../src/**/*.{ts}";
+
 #app {
   height: 100vh;
   overflow: hidden;
