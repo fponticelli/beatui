@@ -1,0 +1,7 @@
+/* BeatUI standalone bundle: includes full reset + tokens + components */
+@layer base;
+@layer components;
+
+@import './layers/01.reset/index.css' layer(base);
+@import './layers/02.base/index.css' layer(base);
+@import './layers/03.components/index.css' layer(components);

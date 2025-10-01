@@ -1,0 +1,10 @@
+/* BeatUI Tailwind bundle: assumes Tailwind v4 preflight and base tokens via preset */
+@layer base;
+@layer components;
+
+@import './base/tokens-semantic.css' layer(base);
+@import './base/reset-tailwind.css' layer(base);
+@import './layers/02.base/base.css' layer(base);
+@import './layers/02.base/focus.css' layer(base);
+@import './layers/02.base/a11y.css' layer(base);
+@import './layers/03.components/index.css' layer(components);

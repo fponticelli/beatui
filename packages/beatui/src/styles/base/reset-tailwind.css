@@ -1,0 +1,4 @@
+/* Tailwind-specific reset additions for BeatUI components.
+ * This file stays lean to avoid duplicating Tailwind's preflight.
+ * Populate with BeatUI-only overrides as they are identified.
+ */

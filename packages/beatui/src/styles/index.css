@@ -1,11 +1,1 @@
-/* Beat UI Library - Layered CSS Architecture */
-/* Modern CSS architecture with explicit layers and design tokens */
-
-/* Tailwind-compatible layer order */
-@layer base;
-@layer components;
-
-/* Import all layers in Tailwind order */
-@import './layers/01.reset/index.css' layer(base);
-@import './layers/02.base/index.css' layer(base);
-@import './layers/03.components/index.css' layer(components);
+@import './styles.css';
