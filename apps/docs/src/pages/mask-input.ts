@@ -33,12 +33,12 @@ export default function MaskInputPage() {
   return ScrollablePanel({
     header: ControlsHeader('Mask Input'),
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4'),
+      attr.class('gap-4 p-4'),
 
       Card(
         {},
         Group(
-          attr.class('bu-gap-4 bu-items-center'),
+          attr.class('gap-4 items-center'),
           Switch({
             value: showGuide,
             onChange: showGuide.set,
@@ -51,10 +51,10 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(attr.class('bu-text-xl bu-font-semibold'), 'Static mask'),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Static mask'),
           html.p(
-            attr.class('bu-text-gray-600'),
+            attr.class('text-gray-600-600'),
             'US phone number: (999) 999-9999'
           ),
           MaskInput({
@@ -71,10 +71,10 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(attr.class('bu-text-xl bu-font-semibold'), 'Dynamic mask'),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Dynamic mask'),
           html.p(
-            attr.class('bu-text-gray-600'),
+            attr.class('text-gray-600-600'),
             'Switch between 5-digit zip and SSN when length > 5'
           ),
           InputWrapper({
@@ -94,13 +94,10 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Form integration'
-          ),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Form integration'),
           html.form(
-            attr.class('bu-space-y-4'),
+            attr.class('space-y-4'),
             Control(TextInput, {
               controller: controller.field('phone'),
               label: 'Name',
@@ -120,11 +117,8 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Date mask (MM/YY)'
-          ),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Date mask (MM/YY)'),
           MaskInput({
             value: prop(''),
             // Enforce valid month (01–12) using a dynamic mask so second digit depends on the first
@@ -148,8 +142,8 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(attr.class('bu-text-xl bu-font-semibold'), 'License plate'),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'License plate'),
           MaskInput({
             value: prop(''),
             mask: 'AAA-999',
@@ -161,9 +155,9 @@ export default function MaskInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
+          attr.class('space-y-4'),
           html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
+            attr.class('text-xl font-semibold'),
             'Custom token: hex color (#RRGGBB)'
           ),
           MaskInput({

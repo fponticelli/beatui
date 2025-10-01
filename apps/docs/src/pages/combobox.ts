@@ -49,7 +49,7 @@ export default function ComboboxPage() {
           style.borderRadius('50%'),
           style.backgroundColor(f.color)
         ),
-        after: html.span(attr.class('bu-ml-2'), f.emoji),
+        after: html.span(attr.class('ml--2'), f.emoji),
       })
     )
   }
@@ -58,10 +58,10 @@ export default function ComboboxPage() {
   const renderOption = (f: Signal<Fruit | null>) =>
     Ensure(f, f =>
       Group(
-        attr.class('bu-gap-2 bu-items-center'),
-        html.span(attr.class('bu-font-medium'), f.$.name),
+        attr.class('gap-2 items-center'),
+        html.span(attr.class('font-medium'), f.$.name),
         html.span(
-          attr.class('bu-text-xs bu-text-light-gray'),
+          attr.class('text-xs text-gray-500'),
           f.$.id.map(id => `(${id})`)
         )
       )
@@ -70,7 +70,7 @@ export default function ComboboxPage() {
   const renderValue = (f: Signal<Fruit | null>) =>
     Ensure(f, f =>
       Group(
-        attr.class('bu-gap-2 bu-items-center'),
+        attr.class('gap-2 items-center'),
         html.div(
           style.width('0.75rem'),
           style.height('0.75rem'),
@@ -88,32 +88,32 @@ export default function ComboboxPage() {
 
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-p-6 bu-gap-8'),
+      attr.class('p-6 gap-8'),
 
-      html.h1(attr.class('bu-text-3xl bu-font-bold bu-text-gray'), 'Combobox'),
+      html.h1(attr.class('text-3xl font-bold text-gray-600'), 'Combobox'),
       html.p(
-        attr.class('bu-text-lg bu-text-light-gray'),
+        attr.class('text-lg text-gray-500'),
         'Searchable dropdown with dynamic options and custom renderers.'
       ),
 
       // Basic
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Basic Usage'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'Type to search and load matching fruits.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('20rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
+              attr.class('text-sm font-medium text-gray-600'),
               'Select a fruit:'
             ),
             ComboboxInput<Fruit | null>({
@@ -128,7 +128,7 @@ export default function ComboboxPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Selected: ',
             basicValue.map(v => (v ? v.name : 'None'))
           )
@@ -137,19 +137,19 @@ export default function ComboboxPage() {
 
       // Form integration
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Form Integration'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'Combobox works with BeatUI form controllers.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('20rem'),
             ComboboxInput<Fruit | null>({
               value: fruitController.value,
@@ -163,7 +163,7 @@ export default function ComboboxPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Controller value: ',
             fruitController.value.map(v => (v ? v.name : 'None'))
           )

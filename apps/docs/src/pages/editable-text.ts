@@ -6,26 +6,26 @@ export default function EditableTextPage() {
   const disabled = prop(false)
 
   return Group(
-    attr.class('bu-items-start bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+    attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
     Stack(
-      attr.class('bu-gap-4'),
+      attr.class('gap-4'),
       Card(
         {},
         Group(
-          attr.class('bu-gap-4 bu-items-center'),
+          attr.class('gap-4 items-center'),
           Switch({ value: disabled, onChange: disabled.set, label: 'Disabled' })
         )
       ),
       Card(
         {},
         Group(
-          attr.class('bu-gap-2 bu-items-baseline'),
+          attr.class('gap-2 items-baseline'),
           html.div('EditableText'),
           EditableText({ value: text, onChange: text.set, disabled })
         ),
         html.hr(),
         Group(
-          attr.class('bu-gap-2 bu-items-baseline'),
+          attr.class('gap-2 items-baseline'),
           html.div('Current value:'),
           html.pre(text.map(v => String(v)))
         )

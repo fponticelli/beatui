@@ -95,13 +95,10 @@ export default function DrawerPage() {
       })
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-1 bu-p-4'),
+      attr.class('items-start gap-1 p-4'),
 
       // Basic Drawer Example
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Basic Drawer'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Basic Drawer'),
       html.p(
         'A slide-out panel that can be anchored to any side of the viewport or element.'
       ),
@@ -138,13 +135,13 @@ export default function DrawerPage() {
 
       // Semantic Anchoring Example
       html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
+        attr.class('text-xl font-semibold pt-4'),
         'Semantic Anchoring (RTL/LTR Support)'
       ),
       html.p('Drawers with semantic anchoring that adapt to text direction:'),
 
       Group(
-        attr.class('bu-gap-2'),
+        attr.class('gap-2'),
         Drawer((open, _close) =>
           Button(
             {
@@ -198,10 +195,7 @@ export default function DrawerPage() {
       ),
 
       // Navigation Drawer Example
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Navigation Drawer'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Navigation Drawer'),
       html.p(
         'A common use case for drawers is navigation menus, especially on mobile devices.'
       ),
@@ -217,29 +211,29 @@ export default function DrawerPage() {
                 showCloseButton: false,
                 overlayEffect: 'opaque',
                 header: Group(
-                  attr.class('bu-flex bu-items-center bu-gap-2'),
+                  attr.class('flex items-center gap-2'),
                   Icon({ icon: 'lucide:menu', size: 'sm' }),
                   html.span('Navigation')
                 ),
                 body: html.nav(
-                  attr.class('bu-flex bu-flex-col bu-gap-2'),
+                  attr.class('flex flex-col gap-2'),
                   html.a(
-                    attr.class('bu-p-2 bu-rounded bu-hover:bg-base-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200'),
                     attr.href('#'),
                     'Home'
                   ),
                   html.a(
-                    attr.class('bu-p-2 bu-rounded bu-hover:bg-base-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200'),
                     attr.href('#'),
                     'About'
                   ),
                   html.a(
-                    attr.class('bu-p-2 bu-rounded bu-hover:bg-base-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200'),
                     attr.href('#'),
                     'Services'
                   ),
                   html.a(
-                    attr.class('bu-p-2 bu-rounded bu-hover:bg-base-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200'),
                     attr.href('#'),
                     'Contact'
                   )
@@ -252,10 +246,7 @@ export default function DrawerPage() {
       ),
 
       // Settings Drawer Example
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Settings Drawer'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Settings Drawer'),
       html.p(
         'Drawers work well for settings panels and configuration options.'
       ),
@@ -271,14 +262,14 @@ export default function DrawerPage() {
                 showCloseButton: true,
                 overlayEffect: 'opaque',
                 header: Group(
-                  attr.class('bu-flex bu-items-center bu-gap-2'),
+                  attr.class('flex items-center gap-2'),
                   Icon({ icon: 'lucide:settings', size: 'sm' }),
                   html.span('Settings')
                 ),
                 body: Stack(
-                  attr.class('bu-gap-4'),
+                  attr.class('gap-4'),
                   Group(
-                    attr.class('bu-flex-col bu-gap-2'),
+                    attr.class('flex flex-col gap-2'),
                     Label('Theme'),
                     SegmentedInput({
                       value: prop<'light' | 'dark' | 'auto'>('light'),
@@ -290,7 +281,7 @@ export default function DrawerPage() {
                     })
                   ),
                   Group(
-                    attr.class('bu-flex-col bu-gap-2'),
+                    attr.class('flex flex-col gap-2'),
                     Switch({
                       label: 'Enable notifications',
                       value: prop(true),
@@ -309,7 +300,7 @@ export default function DrawerPage() {
                   )
                 ),
                 footer: Group(
-                  attr.class('bu-justify-end bu-gap-2'),
+                  attr.class('justify-end gap-2'),
                   Button({ variant: 'outline' }, 'Cancel'),
                   Button(
                     { variant: 'filled', color: 'primary' },
@@ -324,15 +315,12 @@ export default function DrawerPage() {
       ),
 
       // Top/Bottom Drawer Example
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Top/Bottom Drawers'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Top/Bottom Drawers'),
       html.p(
         'Drawers can also slide in from the top or bottom, useful for notifications or quick actions.'
       ),
       Group(
-        attr.class('bu-gap-2'),
+        attr.class('gap-2'),
         Drawer((open, _close) =>
           Button(
             {
@@ -345,24 +333,24 @@ export default function DrawerPage() {
                   showCloseButton: true,
                   overlayEffect: 'transparent',
                   header: Group(
-                    attr.class('bu-flex bu-items-center bu-gap-2'),
+                    attr.class('flex items-center gap-2'),
                     Icon({ icon: 'lucide:bell', size: 'sm' }),
                     html.span('Notifications')
                   ),
                   body: html.div(
                     html.p('You have 3 new notifications'),
                     html.div(
-                      attr.class('bu-mt-2 bu-space-y-1'),
+                      attr.class('mt-2 space-y-1'),
                       html.div(
-                        attr.class('bu-p-2 bu-bg-base-100 bu-rounded'),
+                        attr.class('p-2 bg-gray-100 rounded'),
                         'New message from John'
                       ),
                       html.div(
-                        attr.class('bu-p-2 bu-bg-base-100 bu-rounded'),
+                        attr.class('p-2 bg-gray-100 rounded'),
                         'System update available'
                       ),
                       html.div(
-                        attr.class('bu-p-2 bu-bg-base-100 bu-rounded'),
+                        attr.class('p-2 bg-gray-100 rounded'),
                         'Meeting reminder'
                       )
                     )
@@ -384,12 +372,12 @@ export default function DrawerPage() {
                   showCloseButton: true,
                   overlayEffect: 'opaque',
                   header: Group(
-                    attr.class('bu-flex bu-items-center bu-gap-2'),
+                    attr.class('flex items-center gap-2'),
                     Icon({ icon: 'lucide:share', size: 'sm' }),
                     html.span('Share Options')
                   ),
                   body: Group(
-                    attr.class('bu-gap-2 bu-flex-wrap'),
+                    attr.class('gap-2 flex-wrap'),
                     Button(
                       { variant: 'outline', size: 'sm' },
                       Icon({ icon: 'lucide:twitter', size: 'sm' }),

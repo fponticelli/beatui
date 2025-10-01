@@ -23,10 +23,10 @@ function DisplayIcon({
 }) {
   return html.div(
     attr.class(
-      'bu-flex-col bu-items-center bu-p-2 bu-rounded hover:bu-bg-light-gray bu-cursor-pointer'
+      'flex flex-col items-center p-2 rounded hover:bg-gray-200 cursor-pointer'
     ),
     html.div(
-      attr.class('bu-mb-2'),
+      attr.class('mb-2'),
       Icon({
         icon: value,
         size,
@@ -34,10 +34,7 @@ function DisplayIcon({
         title: value as Value<string | undefined>,
       })
     ),
-    html.div(
-      attr.class('bu-text-xs bu-text-gray bu-text-center bu-break-all'),
-      value
-    )
+    html.div(attr.class('text-xs text-gray-600 text-center break-all'), value)
   )
 }
 
@@ -91,9 +88,9 @@ export default function IconPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-space-y-lg bu-p-4'),
+      attr.class('space-y-lg p-4'),
       Group(
-        attr.class('bu-gap-4 bu-flex-wrap bu-flex bu-justify-center'),
+        attr.class('gap-4 flex-wrap flex justify-center'),
         ...icons.map(icon => DisplayIcon({ value: icon, size, color }))
       )
     ),

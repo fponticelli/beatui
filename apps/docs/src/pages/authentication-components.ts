@@ -79,14 +79,14 @@ export default function AuthenticationComponentsPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-p-4'),
+      attr.class('p-4'),
       // Demo message
       When(
         demoMessage.map(msg => msg.length > 0),
         () =>
           html.div(
             attr.class(
-              'bu-bg-info-lighter bu-text-info-darker bu-p-4 bu-rounded-lg bu-mb-6 bu-text-sm bu-font-mono bu-whitespace-pre-wrap'
+              'bg-cyan-200 text-gray-800 p-4 rounded-lg mb-6 text-sm font-mono whitespace-pre-wrap'
             ),
             demoMessage
           )
@@ -115,13 +115,13 @@ export default function AuthenticationComponentsPage() {
 
       // Individual Forms Demo
       html.div(
-        attr.class('bu-grid bu-grid-cols-1 lg:bu-grid-cols-3 bu-gap-6'),
+        attr.class('grid grid-cols-1 lg:grid-cols-3 gap-6'),
 
         // SignInForm
         html.div(
-          html.h4(attr.class('bu-font-medium bu-mb-3'), 'SignInForm'),
+          html.h4(attr.class('font-medium mb-3'), 'SignInForm'),
           html.div(
-            attr.class('bu-max-w-sm'),
+            attr.class('max-w-48'),
             SignInForm({
               showRememberMe: true,
               onSignIn: async data => {
@@ -134,9 +134,9 @@ export default function AuthenticationComponentsPage() {
 
         // SignUpForm
         html.div(
-          html.h4(attr.class('bu-font-medium bu-mb-3'), 'SignUpForm'),
+          html.h4(attr.class('font-medium mb-3'), 'SignUpForm'),
           html.div(
-            attr.class('bu-max-w-sm'),
+            attr.class('max-w-48'),
             SignUpForm({
               showPasswordStrength: true,
               onSignUp: async data => {
@@ -149,9 +149,9 @@ export default function AuthenticationComponentsPage() {
 
         // ResetPasswordForm
         html.div(
-          html.h4(attr.class('bu-font-medium bu-mb-3'), 'ResetPasswordForm'),
+          html.h4(attr.class('font-medium mb-3'), 'ResetPasswordForm'),
           html.div(
-            attr.class('bu-max-w-sm'),
+            attr.class('max-w-48'),
             ResetPasswordForm({
               onResetPassword: async data => {
                 await handleAuthAction(data, 'Individual password reset')
@@ -164,7 +164,7 @@ export default function AuthenticationComponentsPage() {
 
       // Social Login Buttons Demo
       Group(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         Stack(
           Label('Provider'),
           AuthProviderSelector({
@@ -174,14 +174,14 @@ export default function AuthenticationComponentsPage() {
         )
       ),
       Stack(
-        attr.class('bu-gap-4 bu-items-center'),
+        attr.class('gap-4 items-center'),
 
         // All providers showcase
         html.div(
-          attr.class('bu-w-full'),
-          html.h4(attr.class('bu-font-medium bu-mb-2'), 'All Providers'),
+          attr.class('w-full'),
+          html.h4(attr.class('font-medium mb-2'), 'All Providers'),
           html.div(
-            attr.class('bu-grid bu-grid-cols-2 md:bu-grid-cols-4 bu-gap-2'),
+            attr.class('grid grid-cols-2 md:grid-cols-4 gap-2'),
             ...(
               [
                 'google',
@@ -230,9 +230,9 @@ export default function AuthenticationComponentsPage() {
         })
       ),
       Stack(
-        attr.class('bu-gap-4 bu-w-full bu-max-w-md'),
+        attr.class('gap-4 w-full max-w-64'),
 
-        html.h4(attr.class('bu-font-medium'), 'Full Indicator'),
+        html.h4(attr.class('font-medium'), 'Full Indicator'),
         PasswordStrengthIndicator({
           password: passwordValue,
           showLabel: true,
@@ -245,7 +245,7 @@ export default function AuthenticationComponentsPage() {
           },
         }),
 
-        html.h4(attr.class('bu-font-medium bu-mt-4'), 'Bar Only'),
+        html.h4(attr.class('font-medium mt-4'), 'Bar Only'),
         PasswordStrengthIndicator({
           password: passwordValue,
           showLabel: false,

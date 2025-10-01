@@ -22,7 +22,7 @@ export default function TooltipPage() {
   const hideDelay = prop(500)
 
   return Stack(
-    attr.class('bu-h-full bu-overflow-auto'),
+    attr.class('h-full overflow-auto'),
     ControlsHeader(
       Stack(
         Label('Placement'),
@@ -77,12 +77,12 @@ export default function TooltipPage() {
 
     // Main content area
     Group(
-      attr.class('bu-items-start bu-justify-center bu-gap-8 bu-p-8 bu-flex-1'),
+      attr.class('items-start justify-center gap-8 p-8 flex-1'),
 
       // Basic tooltip example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Basic Tooltip'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Basic Tooltip'),
         Button(
           { variant: 'filled', color: 'primary' },
           'Hover or focus me',
@@ -98,10 +98,10 @@ export default function TooltipPage() {
 
       // Multiple tooltips example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Multiple Tooltips'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Multiple Tooltips'),
         Group(
-          attr.class('bu-gap-4'),
+          attr.class('gap-4'),
           Button(
             { variant: 'outline' },
             'Save',
@@ -137,13 +137,10 @@ export default function TooltipPage() {
 
       // Different placements example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(
-          attr.class('bu-text-lg bu-font-semibold'),
-          'Different Placements'
-        ),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Different Placements'),
         html.div(
-          attr.class('bu-grid bu-grid-cols-3 bu-gap-4 bu-w-64'),
+          attr.class('grid grid-cols-3 gap-4 w-64'),
           Button(
             { variant: 'light', size: 'sm' },
             'Top',
@@ -185,20 +182,20 @@ export default function TooltipPage() {
 
       // Custom content example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Custom Content'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Custom Content'),
         Button(
           { variant: 'filled', color: 'secondary' },
           'Rich Tooltip',
           Tooltip({
             content: html.div(
-              attr.class('bu-space-y-2 bu-p-2'),
-              html.div(attr.class('bu-font-semibold'), 'Rich Tooltip'),
+              attr.class('space-y-2 p-2'),
+              html.div(attr.class('font-semibold'), 'Rich Tooltip'),
               html.div(
                 'This tooltip contains custom HTML content with multiple elements.'
               ),
               html.div(
-                attr.class('bu-text-xs bu-opacity-75'),
+                attr.class('text-xs opacity-75'),
                 computedOf(
                   showDelay,
                   hideDelay

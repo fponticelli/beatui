@@ -3,7 +3,7 @@ import { Stack, WithTemporal } from '@tempots/beatui'
 
 export default function TemporalPage() {
   return Stack(
-    attr.class('bu-p-4 bu-gap-4'),
+    attr.class('p-4 gap-4'),
     WithTemporal(Temporal => {
       const date = Temporal.Now
       return Stack(

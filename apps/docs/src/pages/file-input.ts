@@ -59,18 +59,15 @@ export default function FileInputPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4'),
+      attr.class('gap-4 p-4'),
       // Interactive Example
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Interactive Example'
-          ),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Interactive Example'),
           html.p(
-            attr.class('bu-text-gray-600'),
+            attr.class('text-gray-600-600'),
             'Try the file input with different settings using the controls above.'
           ),
 
@@ -89,13 +86,10 @@ export default function FileInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Image Files Only'
-          ),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Image Files Only'),
           html.p(
-            attr.class('bu-text-gray-600'),
+            attr.class('text-gray-600-600'),
             'File input that only accepts image files with a 2MB size limit per file and maximum of 3 files.'
           ),
 
@@ -116,18 +110,15 @@ export default function FileInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Form Integration'
-          ),
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Form Integration'),
           html.p(
-            attr.class('bu-text-gray-600'),
+            attr.class('text-gray-600-600'),
             'File controls integrated with form validation using FileControl component.'
           ),
 
           html.form(
-            attr.class('bu-space-y-4'),
+            attr.class('space-y-4'),
             Control(TextInput, {
               controller: controller.field('name'),
               placeholder: 'Enter your name',

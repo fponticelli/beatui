@@ -104,10 +104,10 @@ export default function ModalPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-1 bu-p-4'),
+      attr.class('items-start gap-1 p-4'),
 
       // Basic Modal Example
-      html.h3(attr.class('bu-text-xl bu-font-semibold bu-pt-4'), 'Basic Modal'),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Basic Modal'),
       html.p(
         'A simple modal with title, body content, and optional close button.'
       ),
@@ -145,10 +145,7 @@ export default function ModalPage() {
       ),
 
       // Modal with Custom Header
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Custom Header Modal'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Custom Header Modal'),
       html.p('Modal with custom header content instead of default title.'),
       Modal(
         {
@@ -166,7 +163,7 @@ export default function ModalPage() {
               onClick: () =>
                 open({
                   header: Group(
-                    attr.class('bu-flex bu-items-center bu-gap-2'),
+                    attr.class('flex items-center gap-2'),
                     Icon({ icon: 'mdi:information', size: 'md' }),
                     html.h2('Custom Header with Icon')
                   ),
@@ -182,7 +179,7 @@ export default function ModalPage() {
 
       // Modal with Footer Actions
       html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
+        attr.class('text-xl font-semibold pt-4'),
         'Modal with Footer Actions'
       ),
       html.p('Modal with custom footer containing action buttons.'),
@@ -210,7 +207,7 @@ export default function ModalPage() {
                     )
                   ),
                   footer: Fragment(
-                    attr.class('bu-justify-between'),
+                    attr.class('justify-between'),
                     Button(
                       {
                         variant: 'text',
@@ -240,10 +237,7 @@ export default function ModalPage() {
       ),
 
       // Confirmation Modal Example
-      html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
-        'Confirmation Modal'
-      ),
+      html.h3(attr.class('text-xl font-semibold pt-4'), 'Confirmation Modal'),
       html.p('Pre-built confirmation dialog with confirm/cancel actions.'),
       ConfirmModal(
         {
@@ -273,7 +267,7 @@ export default function ModalPage() {
 
       // Non-dismissable Modal Example
       html.h3(
-        attr.class('bu-text-xl bu-font-semibold bu-pt-4'),
+        attr.class('text-xl font-semibold pt-4'),
         'Non-dismissable Modal'
       ),
       html.p(
@@ -296,10 +290,10 @@ export default function ModalPage() {
                 open({
                   header: html.h2('Processing...'),
                   body: html.div(
-                    attr.class('bu-text-center bu-py-4'),
+                    attr.class('text-center py-4'),
                     html.p('Please wait while we process your request...'),
                     html.div(
-                      attr.class('bu-mt-4'),
+                      attr.class('mt-4'),
                       Button(
                         {
                           variant: 'outline',

@@ -66,11 +66,11 @@ export default function FormPage() {
   const list = controller.field('experience').array()
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-p-4'),
+      attr.class('p-4'),
       Group(
-        attr.class('bu-items-start bu-gap-2'),
+        attr.class('items-start gap-2'),
         Stack(
-          attr.class('bu-gap-2'),
+          attr.class('gap-2'),
           style.width('24rem'),
           Control(TextInput, {
             controller: controller.field('name'),
@@ -83,25 +83,25 @@ export default function FormPage() {
             options: [
               Option.value('red', 'Red', {
                 before: html.div(
-                  attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
+                  attr.class('w-4 h-4 rounded-full'),
                   style.backgroundColor('#ef4444')
                 ),
               }),
               Option.value('blue', 'Blue', {
                 before: html.div(
-                  attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
+                  attr.class('w-4 h-4 rounded-full'),
                   style.backgroundColor('#3b82f6')
                 ),
               }),
               Option.value('green', 'Green', {
                 before: html.div(
-                  attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
+                  attr.class('w-4 h-4 rounded-full'),
                   style.backgroundColor('#10b981')
                 ),
               }),
               Option.value('purple', 'Purple', {
                 before: html.div(
-                  attr.class('bu-w-4 bu-h-4 bu-rounded-full'),
+                  attr.class('w-4 h-4 rounded-full'),
                   style.backgroundColor('#8b5cf6')
                 ),
                 after: Icon({ icon: 'line-md:star-filled', size: 'sm' }),
@@ -126,7 +126,7 @@ export default function FormPage() {
               max: 1000,
             })
           ),
-          html.div(attr.class('bu-p-2')),
+          html.div(attr.class('p-2')),
           ListControl({
             label: 'Experience',
             controller: list,
@@ -139,7 +139,7 @@ export default function FormPage() {
             element: opts => {
               const group = opts.item.object()
               return Stack(
-                attr.class('bu-gap-2'),
+                attr.class('gap-2'),
                 Stack(
                   Control(
                     TextInput,
@@ -179,11 +179,11 @@ export default function FormPage() {
         ),
         Stack(
           html.pre(
-            attr.class('bu-whitespace-pre-wrap'),
+            attr.class('whitespace-pre-wrap'),
             controller.value.map(v => JSON.stringify(v, null, 2))
           ),
           html.pre(
-            attr.class('bu-whitespace-pre-wrap'),
+            attr.class('whitespace-pre-wrap'),
             controller.dependencyErrors.map(v => JSON.stringify(v, null, 2))
           )
         )

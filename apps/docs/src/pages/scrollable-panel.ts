@@ -8,29 +8,26 @@ export default function ScrollablePanelPage() {
   const displayFooter = prop(true)
 
   const header = html.div(
-    attr.class('bu-p-2 bu-bg-light-gray bu-border-b'),
-    html.h3(attr.class('bu-font-semibold'), 'Header Content'),
-    html.p(
-      attr.class('bu-text-sm bu-text-gray'),
-      'This header stays at the top'
-    )
+    attr.class('p-2 bg-gray-200 border-b'),
+    html.h3(attr.class('font-semibold'), 'Header Content'),
+    html.p(attr.class('text-sm text-gray-600'), 'This header stays at the top')
   )
 
   const body = html.div(
-    attr.class('bu-p-4'),
-    html.h4(attr.class('bu-font-medium bu-mb-2'), 'Scrollable Content'),
+    attr.class('p-4'),
+    html.h4(attr.class('font-medium mb-2'), 'Scrollable Content'),
     ...Array.from({ length: 20 }, (_, i) =>
       html.p(
-        attr.class('bu-mb-2'),
+        attr.class('mb-2'),
         `This is paragraph ${i + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`
       )
     )
   )
 
   const footer = html.div(
-    attr.class('bu-p-2 bu-bg-lighter-gray bu-border-t'),
+    attr.class('p-2 bg-gray-100 border-t'),
     html.p(
-      attr.class('bu-text-sm bu-text-gray'),
+      attr.class('text-sm text-gray-600'),
       'This footer stays at the bottom'
     )
   )

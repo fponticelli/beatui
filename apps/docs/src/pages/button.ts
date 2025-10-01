@@ -96,7 +96,7 @@ export default function ButtonPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-4 bu-p-4'),
+      attr.class('items-start gap-4 p-4'),
       html.table(
         html.thead(
           html.tr(

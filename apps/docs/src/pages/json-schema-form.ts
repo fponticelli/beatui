@@ -119,14 +119,14 @@ export default function JSONSchemaFormPage() {
 
   return ScrollablePanel({
     body: Group(
-      attr.class('bu-items-start bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+      attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
 
       // Left: JSON Schema editor (Monaco)
       ScrollablePanel(
         {
           header: html.div(
             html.h3(
-              attr.class('bu-text-lg bu-font-semibold'),
+              attr.class('text-lg font-semibold'),
               'Edit JSON Schema (JSON)'
             ),
             NativeSelect({
@@ -156,7 +156,7 @@ export default function JSONSchemaFormPage() {
 
       // Right: Form rendered from schema + live value
       Stack(
-        attr.class('bu-gap-2 bu-h-full bu-overflow-hidden'),
+        attr.class('gap-2 h-full overflow-hidden'),
         style.width('50%'),
         ScrollablePanel({
           body: Ensure(
@@ -181,7 +181,7 @@ export default function JSONSchemaFormPage() {
               ),
             () =>
               html.div(
-                attr.class('bu-text-red-600'),
+                attr.class('text-red-600'),
                 'Invalid JSON: ',
                 schemaError.map(String)
               )
@@ -194,19 +194,16 @@ export default function JSONSchemaFormPage() {
               return ScrollablePanel(
                 {
                   header: html.h3(
-                    attr.class('bu-text-lg bu-font-semibold bu-bg-lighter-red'),
+                    attr.class('text-lg font-semibold bg-r-ed100'),
                     'AJV Validation Errors'
                   ),
                   body: html.ul(
-                    attr.class('bu-list-disc bu-pl-5 bu-text-sm bu-space-y-1'),
+                    attr.class('list-disc pl--5 text-sm space-y-1'),
                     ForEach(errors, error =>
                       html.li(
-                        html.span(
-                          attr.class('bu-text-red-700'),
-                          error.$.message
-                        ),
+                        html.span(attr.class('text-red-700'), error.$.message),
                         html.code(
-                          attr.class('bu-ml-2 bu-opacity-70'),
+                          attr.class('ml--2 opacity-70'),
                           error.$.path.map(v => `(${v})`)
                         )
                       )
@@ -222,11 +219,11 @@ export default function JSONSchemaFormPage() {
         ScrollablePanel(
           {
             header: Group(
-              attr.class('bu-gap-2 bu-items-center bu-justify-between'),
+              attr.class('gap-2 items-center justify-between'),
               Group(
-                attr.class('bu-gap-2 bu-items-center'),
+                attr.class('gap-2 items-center'),
                 html.label(
-                  attr.class('bu-text-sm bu-opacity-80'),
+                  attr.class('text-sm opacity-80'),
                   'Sanitize Additional: '
                 ),
                 NativeSelect<'all' | 'failing' | 'off'>({
@@ -253,19 +250,19 @@ export default function JSONSchemaFormPage() {
               )
             ),
             body: Group(
-              attr.class('bu-gap-2'),
+              attr.class('gap-2'),
               html.div(
-                attr.class('bu-text-xs bu-opacity-80'),
+                attr.class('text-xs opacity-80'),
                 'Mode: ',
                 sanitizeMode.map(String),
                 ' — ',
                 html.span(
-                  attr.class('bu-opacity-80'),
+                  attr.class('opacity-80'),
                   'all: prune any extras; failing: prune only when invalid; off: keep extras'
                 )
               ),
               html.pre(
-                attr.class('bu-whitespace-pre-wrap bu-text-sm'),
+                attr.class('whitespace-pre-wrap text-sm'),
                 data.map(v => JSON.stringify(v, null, 2))
               )
             ),

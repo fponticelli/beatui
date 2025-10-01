@@ -17,11 +17,11 @@ export function AppLayout({ children }: { children: TNode }) {
     },
     header: {
       content: Group(
-        attr.class('bu-h-full bu-justify-between bu-items-center'),
+        attr.class('h-full justify-between items-center'),
         Anchor(
-          { href: '/', withViewTransition: true },
-          attr.class('bu-h-full bu-p-2 bu-flex-grow'),
-          html.img(attr.class('bu-h-full'), attr.src('/beatui-logo.png'))
+          { href: '/', viewTransition: true },
+          attr.class('h-full p-2 flex-grow'),
+          html.img(attr.class('h-full'), attr.src('/beatui-logo.png'))
         ),
         html.div(
           Use(BeatUII18n, t =>
@@ -53,11 +53,11 @@ export function AppLayout({ children }: { children: TNode }) {
             })
           )
         ),
-        html.div(attr.class('bu-px-2'), StandaloneAppearanceSelector())
+        html.div(attr.class('px-2'), StandaloneAppearanceSelector())
       ),
     },
     main: {
-      content: html.div(attr.class('bu-h-full bu-overflow-hidden'), children),
+      content: html.div(attr.class('h-full overflow-hidden'), children),
     },
   })
 }

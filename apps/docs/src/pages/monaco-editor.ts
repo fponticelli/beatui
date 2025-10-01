@@ -106,7 +106,7 @@ export default function MonacoEditorPage() {
 
   return ScrollablePanel({
     body: Group(
-      attr.class('bu-items-start bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+      attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
       ScrollablePanel(
         {
           header: Fragment(
@@ -142,10 +142,10 @@ export default function MonacoEditorPage() {
         style.width('42rem')
       ),
       Stack(
-        attr.class('bu-gap-2 bu-flex-1'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Current Value'),
+        attr.class('gap-2 flex-1'),
+        html.h3(attr.class('text-lg font-semibold'), 'Current Value'),
         html.pre(
-          attr.class('bu-whitespace-pre-wrap'),
+          attr.class('whitespace-pre-wrap'),
           code.map(v => String(v))
         )
       )

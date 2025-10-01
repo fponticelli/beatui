@@ -33,16 +33,14 @@ export default function AuthenticationPage() {
   }
 
   return Stack(
-    attr.class('bu-items-center bu-gap-8'),
+    attr.class('items-center gap-8'),
 
     // Demo message
     When(
       demoMessage.map(v => v.length > 0),
       () =>
         html.div(
-          attr.class(
-            'bu-bg-lighter-green bu-text-darker-green bu-p-3 bu-rounded-lg bu-text-sm'
-          ),
+          attr.class('bg-green-100 text-green-800 p-3 rounded-lg text-sm'),
           demoMessage
         )
     ),
@@ -50,11 +48,11 @@ export default function AuthenticationPage() {
     // Auth container demo
     html.div(
       html.h2(
-        attr.class('bu-text-xl bu-font-semibold bu-mb-4'),
+        attr.class('text-xl font-semibold mb-4'),
         'Auth Container (Direct)'
       ),
       html.div(
-        attr.class('bu-w-full bu-max-w-md bu-p-4 bu-border bu-rounded-lg'),
+        attr.class('w-full max-w-64 p-4 border rounded-lg'),
         AuthContainer({
           mode: 'signin',
           onSignIn: handleSignIn,
@@ -68,11 +66,11 @@ export default function AuthenticationPage() {
     // Auth modal demo
     html.div(
       html.h2(
-        attr.class('bu-text-xl bu-font-semibold bu-mb-4'),
+        attr.class('text-xl font-semibold mb-4'),
         'Auth Modal (Modal Wrapper)'
       ),
       html.p(
-        attr.class('bu-text-gray bu-mb-4 bu-text-center'),
+        attr.class('text-gray-600 mb-4 text-center'),
         'Click the button below to open the authentication form in a modal.'
       ),
       AuthModal(open =>

@@ -45,7 +45,7 @@ const createGrid = ({
 }) => {
   return Repeat(rows, ({ index: row }) => {
     return html.div(
-      attr.class('bu-flex-row bu-flex-nowrap bu-text-xs'),
+      attr.class('flex flex-row flex-nowrap text-xs'),
       style.width(
         computedOf(
           columns,
@@ -56,7 +56,7 @@ const createGrid = ({
       ),
       Repeat(columns, ({ index: column }) => {
         return html.div(
-          attr.class('bu-flex-row bu-items-center bu-justify-center'),
+          attr.class('flex flex-row items-center justify-center'),
           style.width(cellWidth.map(w => `${w}px`)),
           style.height(cellHeight.map(h => `${h}px`)),
           style.backgroundColor(
@@ -330,7 +330,7 @@ export default function NineSliceScrollViewPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-items-start bu-gap-1 bu-p-4 bu-h-full'),
+      attr.class('items-start gap-1 p-4 h-full'),
       NineSliceScrollView({
         anchorMode,
         body,

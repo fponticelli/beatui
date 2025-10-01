@@ -29,16 +29,16 @@ export default function TagsInputPage() {
 
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4 bu-h-full'),
+      attr.class('gap-4 p-4 h-full'),
 
       // Basic example
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
-          html.h2(attr.class('bu-text-xl bu-font-semibold'), 'Basic TagsInput'),
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-xl font-semibold'), 'Basic TagsInput'),
           html.p(
-            attr.class('bu-text-sm bu-text-gray-600'),
+            attr.class('text-sm text-gray-600-600'),
             'Type a tag, then unfocus the field (or submit the change) to add it. Click × to remove.'
           ),
           InputWrapper({
@@ -52,7 +52,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('bu-text-sm bu-text-muted'),
+            attr.class('text-sm text-gray-500'),
             html.strong('Current value: '),
             tags.map(list => list.join(', '))
           )
@@ -63,9 +63,9 @@ export default function TagsInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
+          attr.class('space-y-3'),
           html.h2(
-            attr.class('bu-text-lg bu-font-semibold'),
+            attr.class('text-lg font-semibold'),
             'Select Tags (predefined options)'
           ),
           InputWrapper({
@@ -79,7 +79,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('bu-text-sm bu-text-muted'),
+            attr.class('text-sm text-gray-500'),
             html.strong('Current value: '),
             selectedColors1.map(list => list.join(', '))
           )
@@ -90,9 +90,9 @@ export default function TagsInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
+          attr.class('space-y-3'),
           html.h2(
-            attr.class('bu-text-lg bu-font-semibold'),
+            attr.class('text-lg font-semibold'),
             'Combobox Tags (searchable)'
           ),
           InputWrapper({
@@ -107,7 +107,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('bu-text-sm bu-text-muted'),
+            attr.class('text-sm text-gray-500'),
             html.strong('Current value: '),
             selectedColors2.map(list => list.join(', '))
           )
@@ -118,8 +118,8 @@ export default function TagsInputPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
-          html.h2(attr.class('bu-text-lg bu-font-semibold'), 'Disabled state'),
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Disabled state'),
           InputWrapper({
             label: 'Disabled Tags',
             content: TagsInput({

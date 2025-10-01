@@ -28,7 +28,7 @@ export default function LinkPage() {
       )
     ),
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4'),
+      attr.class('gap-4 p-4'),
 
       // Basic example
       html.div(
@@ -50,7 +50,7 @@ export default function LinkPage() {
       html.div(
         html.h3('All Variants'),
         Stack(
-          attr.class('bu-gap-2'),
+          attr.class('gap-2'),
           html.div(
             html.strong('Default: '),
             Link(
@@ -91,7 +91,7 @@ export default function LinkPage() {
               variant: 'hover',
               target: '_blank',
               rel: 'noopener noreferrer',
-              withViewTransition: false,
+              viewTransition: false,
             },
             'BeatUI on GitHub'
           ),

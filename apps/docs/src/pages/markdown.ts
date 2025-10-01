@@ -38,7 +38,7 @@ function greet(name: string) {
 
 export default function MarkdownPage() {
   return Stack(
-    attr.class('bu-p-4 bu-gap-4 bu-h-full bu-overflow-auto'),
+    attr.class('p-4 gap-4 h-full overflow-auto'),
     Markdown({ content, features: { gfm: true } })
   )
 }

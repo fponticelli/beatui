@@ -30,11 +30,8 @@ export default function TabsPage() {
       label: 'Overview',
       content: () =>
         html.div(
-          attr.class('bu-p-4'),
-          html.h3(
-            attr.class('bu-text-lg bu-font-semibold bu-mb-2'),
-            'Overview'
-          ),
+          attr.class('p-4'),
+          html.h3(attr.class('text-lg font-semibold mb-2'), 'Overview'),
           html.p(
             'This is the overview tab content. It provides a general introduction to the topic.'
           )
@@ -45,13 +42,13 @@ export default function TabsPage() {
       label: 'Details',
       content: () =>
         html.div(
-          attr.class('bu-p-4'),
-          html.h3(attr.class('bu-text-lg bu-font-semibold bu-mb-2'), 'Details'),
+          attr.class('p-4'),
+          html.h3(attr.class('text-lg font-semibold mb-2'), 'Details'),
           html.p(
             'Here you can find detailed information about the specific features and functionality.'
           ),
           html.ul(
-            attr.class('bu-list-disc bu-list-inside bu-mt-2'),
+            attr.class('list-disc list-inside mt-2'),
             html.li('Feature 1: Advanced functionality'),
             html.li('Feature 2: Enhanced performance'),
             html.li('Feature 3: Better user experience')
@@ -63,21 +60,18 @@ export default function TabsPage() {
       label: 'Settings',
       content: () =>
         html.div(
-          attr.class('bu-p-4'),
-          html.h3(
-            attr.class('bu-text-lg bu-font-semibold bu-mb-2'),
-            'Settings'
-          ),
+          attr.class('p-4'),
+          html.h3(attr.class('text-lg font-semibold mb-2'), 'Settings'),
           html.p('Configure your preferences and options here.'),
           html.div(
-            attr.class('bu-mt-4 bu-space-y-2'),
+            attr.class('mt-4 space-y-2'),
             html.label(
-              attr.class('bu-flex bu-items-center bu-gap-2'),
+              attr.class('flex items-center gap-2'),
               html.input(attr.type('checkbox')),
               'Enable notifications'
             ),
             html.label(
-              attr.class('bu-flex bu-items-center bu-gap-2'),
+              attr.class('flex items-center gap-2'),
               html.input(attr.type('checkbox')),
               'Auto-save changes'
             )
@@ -88,10 +82,7 @@ export default function TabsPage() {
       key: 'disabled',
       label: 'Disabled Tab',
       content: () =>
-        html.div(
-          attr.class('bu-p-4'),
-          'This content should not be accessible.'
-        ),
+        html.div(attr.class('p-4'), 'This content should not be accessible.'),
       disabled: true,
     },
   ]
@@ -119,17 +110,17 @@ export default function TabsPage() {
       })
     ),
     body: Stack(
-      attr.class('bu-gap-8 bu-overflow-hidden'),
+      attr.class('gap-8 overflow-hidden'),
 
       // Basic Example
       html.section(
-        html.h2(attr.class('bu-text-xl bu-font-bold bu-mb-4'), 'Basic Tabs'),
+        html.h2(attr.class('text-xl font-bold mb-4'), 'Basic Tabs'),
         html.p(
-          attr.class('bu-text-gray-600 bu-mb-4'),
+          attr.class('text-gray-600-600 mb-4'),
           'A simple tabs component with different content panels.'
         ),
         html.div(
-          attr.class('bu-border bu-rounded-lg bu-overflow-hidden'),
+          attr.class('border rounded-lg overflow-hidden'),
           Tabs({
             items: basicTabs,
             value: activeTab,
@@ -145,25 +136,22 @@ export default function TabsPage() {
 
       // Size Variations
       html.section(
-        html.h2(
-          attr.class('bu-text-xl bu-font-bold bu-mb-4'),
-          'Size Variations'
-        ),
+        html.h2(attr.class('text-xl font-bold mb-4'), 'Size Variations'),
         html.p(
-          attr.class('bu-text-gray-600 bu-mb-4'),
+          attr.class('text-gray-600-600 mb-4'),
           'Tabs component supports different sizes from xs to xl.'
         ),
         html.div(
-          attr.class('bu-space-y-6'),
+          attr.class('space-y-6'),
           ...allSizes.map(currentSize => {
             const sizeActiveTab = prop('overview')
             return html.div(
               html.h3(
-                attr.class('bu-text-lg bu-font-semibold bu-mb-2'),
+                attr.class('text-lg font-semibold mb-2'),
                 `Size: ${currentSize}`
               ),
               html.div(
-                attr.class('bu-border bu-rounded-lg bu-overflow-hidden'),
+                attr.class('border rounded-lg overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3), // Only show first 3 tabs for size demo
                   value: sizeActiveTab,
@@ -179,16 +167,13 @@ export default function TabsPage() {
 
       // Vertical Orientation
       html.section(
-        html.h2(
-          attr.class('bu-text-xl bu-font-bold bu-mb-4'),
-          'Vertical Orientation'
-        ),
+        html.h2(attr.class('text-xl font-bold mb-4'), 'Vertical Orientation'),
         html.p(
-          attr.class('bu-text-gray-600 bu-mb-4'),
+          attr.class('text-gray-600-600 mb-4'),
           'Tabs can be displayed vertically for sidebar-style navigation.'
         ),
         html.div(
-          attr.class('bu-border bu-rounded-lg bu-overflow-hidden bu-h-96'),
+          attr.class('border rounded-lg overflow-hidden h-96'),
           (() => {
             const verticalActiveTab = prop('overview')
             return Tabs({
@@ -204,19 +189,13 @@ export default function TabsPage() {
 
       // Accessibility Features
       html.section(
-        html.h2(
-          attr.class('bu-text-xl bu-font-bold bu-mb-4'),
-          'Accessibility Features'
-        ),
+        html.h2(attr.class('text-xl font-bold mb-4'), 'Accessibility Features'),
         html.div(
-          attr.class('bu-space-y-4'),
+          attr.class('space-y-4'),
           html.div(
-            html.h3(
-              attr.class('bu-text-lg bu-font-semibold'),
-              'Keyboard Navigation'
-            ),
+            html.h3(attr.class('text-lg font-semibold'), 'Keyboard Navigation'),
             html.ul(
-              attr.class('bu-list-disc bu-list-inside bu-mt-2 bu-space-y-1'),
+              attr.class('list-disc list-inside mt-2 space-y-1'),
               html.li('Arrow keys: Navigate between tabs'),
               html.li('Home/End: Jump to first/last tab'),
               html.li('Enter/Space: Activate focused tab'),
@@ -224,9 +203,9 @@ export default function TabsPage() {
             )
           ),
           html.div(
-            html.h3(attr.class('bu-text-lg bu-font-semibold'), 'ARIA Support'),
+            html.h3(attr.class('text-lg font-semibold'), 'ARIA Support'),
             html.ul(
-              attr.class('bu-list-disc bu-list-inside bu-mt-2 bu-space-y-1'),
+              attr.class('list-disc list-inside mt-2 space-y-1'),
               html.li('Proper role attributes (tablist, tab, tabpanel)'),
               html.li('aria-selected for active tab state'),
               html.li('aria-controls linking tabs to panels'),

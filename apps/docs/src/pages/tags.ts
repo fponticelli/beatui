@@ -9,20 +9,20 @@ export default function TagsPage() {
 
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+      attr.class('gap-4 p-4 h-full overflow-hidden'),
 
       // Basic colors
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
-          html.h2(attr.class('bu-text-xl bu-font-semibold'), 'Tag – Basic'),
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-xl font-semibold'), 'Tag – Basic'),
           html.p(
-            attr.class('bu-text-sm bu-text-gray-600'),
+            attr.class('text-sm text-gray-600-600'),
             'Simple Tag component with common colors.'
           ),
           html.div(
-            attr.class('bu-flex-row bu-flex-wrap bu-gap-2'),
+            attr.class('flex flex-row flex-wrap gap-2'),
             Tag({ value: 'Base' }),
             Tag({ value: 'Primary', color: 'primary' }),
             Tag({ value: 'Secondary', color: 'secondary' }),
@@ -38,10 +38,10 @@ export default function TagsPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
-          html.h2(attr.class('bu-text-lg bu-font-semibold'), 'Sizes'),
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.div(
-            attr.class('bu-flex-row bu-flex-wrap bu-gap-2 bu-items-center'),
+            attr.class('flex flex-row flex-wrap gap-2 items-center'),
             Tag({ value: 'XS', size: 'xs', color: 'primary' }),
             Tag({ value: 'SM', size: 'sm', color: 'primary' }),
             Tag({ value: 'MD', size: 'md', color: 'primary' }),
@@ -55,14 +55,14 @@ export default function TagsPage() {
       Card(
         {},
         html.div(
-          attr.class('bu-space-y-3'),
-          html.h2(attr.class('bu-text-lg bu-font-semibold'), 'Closable'),
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Closable'),
           html.p(
-            attr.class('bu-text-sm bu-text-gray-600'),
+            attr.class('text-sm text-gray-600-600'),
             'Tags can display a close button when onClose is provided.'
           ),
           html.div(
-            attr.class('bu-flex-row bu-flex-wrap bu-gap-2'),
+            attr.class('flex flex-row flex-wrap gap-2'),
             ForEach(closable, v =>
               Tag({
                 value: v,

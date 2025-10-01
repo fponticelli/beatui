@@ -28,7 +28,7 @@ export default function FlyoutPage() {
   )
 
   return Stack(
-    attr.class('bu-h-full bu-overflow-auto'),
+    attr.class('h-full overflow-auto'),
     ControlsHeader(
       Stack(
         Label('Placement'),
@@ -93,12 +93,12 @@ export default function FlyoutPage() {
 
     // Main content area
     Group(
-      attr.class('bu-items-start bu-justify-center bu-gap-8 bu-p-8 bu-flex-1'),
+      attr.class('items-start justify-center gap-8 p-8 flex-1'),
 
       // Basic flyout example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Basic Flyout'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Basic Flyout'),
         Button(
           { variant: 'filled', color: 'primary' },
           'Hover or focus me',
@@ -107,11 +107,8 @@ export default function FlyoutPage() {
               Fragment(
                 attr.class(animationClass),
                 html.div(
-                  attr.class('bu-p-4 bu-max-w-xs'),
-                  html.h4(
-                    attr.class('bu-font-semibold bu-mb-2'),
-                    'Flyout Content'
-                  ),
+                  attr.class('p-4 max-w-24'),
+                  html.h4(attr.class('font-semibold mb-2'), 'Flyout Content'),
                   html.p(
                     'This is a basic flyout with rich content and smooth animations!'
                   )
@@ -128,8 +125,8 @@ export default function FlyoutPage() {
 
       // Custom trigger example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Custom Trigger'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Custom Trigger'),
         Button(
           { variant: 'outline', color: 'secondary' },
           'Double-click me!',
@@ -138,13 +135,13 @@ export default function FlyoutPage() {
               Fragment(
                 attr.class(animationClass),
                 html.div(
-                  attr.class('bu-p-4'),
+                  attr.class('p-4'),
                   html.div(
-                    attr.class('bu-font-semibold bu-text-center'),
+                    attr.class('font-semibold text-center'),
                     '🎉 Custom Trigger!'
                   ),
                   html.p(
-                    attr.class('bu-mt-2'),
+                    attr.class('mt-2'),
                     'This flyout uses a custom trigger that responds to double-click.'
                   )
                 )
@@ -159,10 +156,10 @@ export default function FlyoutPage() {
 
       // Multiple flyouts example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Multiple Flyouts'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Multiple Flyouts'),
         Group(
-          attr.class('bu-gap-4'),
+          attr.class('gap-4'),
           Button(
             { variant: 'outline' },
             Icon({ icon: 'mdi:content-save', size: 'sm' }),
@@ -172,10 +169,10 @@ export default function FlyoutPage() {
                 Fragment(
                   attr.class(animationClass),
                   html.div(
-                    attr.class('bu-p-3'),
-                    html.div(attr.class('bu-font-semibold'), 'Save Document'),
+                    attr.class('p-3'),
+                    html.div(attr.class('font-semibold'), 'Save Document'),
                     html.p(
-                      attr.class('bu-text-sm bu-mt-1'),
+                      attr.class('text-sm mt-1'),
                       'Save your current work to prevent data loss.'
                     )
                   )
@@ -193,10 +190,10 @@ export default function FlyoutPage() {
                 Fragment(
                   attr.class(animationClass),
                   html.div(
-                    attr.class('bu-p-3'),
-                    html.div(attr.class('bu-font-semibold'), 'Edit Item'),
+                    attr.class('p-3'),
+                    html.div(attr.class('font-semibold'), 'Edit Item'),
                     html.p(
-                      attr.class('bu-text-sm bu-mt-1'),
+                      attr.class('text-sm mt-1'),
                       'Modify the selected item properties.'
                     )
                   )
@@ -214,13 +211,13 @@ export default function FlyoutPage() {
                 Fragment(
                   attr.class(animationClass),
                   html.div(
-                    attr.class('bu-p-3'),
+                    attr.class('p-3'),
                     html.div(
-                      attr.class('bu-font-semibold bu-text-red-600'),
+                      attr.class('font-semibold text-red-600'),
                       '⚠️ Delete Item'
                     ),
                     html.p(
-                      attr.class('bu-text-sm bu-mt-1'),
+                      attr.class('text-sm mt-1'),
                       'Permanently remove the selected item. This action cannot be undone.'
                     )
                   )
@@ -234,13 +231,10 @@ export default function FlyoutPage() {
 
       // Placement grid example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(
-          attr.class('bu-text-lg bu-font-semibold'),
-          'Different Placements'
-        ),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Different Placements'),
         html.div(
-          attr.class('bu-grid bu-grid-cols-3 bu-gap-4 bu-w-64'),
+          attr.class('grid grid-cols-3 gap-4 w-64'),
           html.div(), // empty
           Button(
             { variant: 'light', size: 'sm' },
@@ -249,7 +243,7 @@ export default function FlyoutPage() {
               content: () =>
                 Fragment(
                   attr.class(animationClass),
-                  html.div(attr.class('bu-p-2'), 'Flyout on top')
+                  html.div(attr.class('p-2'), 'Flyout on top')
                 ),
               placement: 'top',
               showOn: 'hover',
@@ -263,7 +257,7 @@ export default function FlyoutPage() {
               content: () =>
                 Fragment(
                   attr.class(animationClass),
-                  html.div(attr.class('bu-p-2'), 'Flyout on left')
+                  html.div(attr.class('p-2'), 'Flyout on left')
                 ),
               placement: 'left',
               showOn: 'hover',
@@ -271,7 +265,7 @@ export default function FlyoutPage() {
           ),
           html.div(
             attr.class(
-              'bu-flex bu-items-center bu-justify-center bu-text-sm bu-text-light-gray'
+              'flex items-center justify-center text-sm text-gray-500'
             ),
             'Center'
           ),
@@ -282,7 +276,7 @@ export default function FlyoutPage() {
               content: () =>
                 Fragment(
                   attr.class(animationClass),
-                  html.div(attr.class('bu-p-2'), 'Flyout on right')
+                  html.div(attr.class('p-2'), 'Flyout on right')
                 ),
               placement: 'right',
               showOn: 'hover',
@@ -296,7 +290,7 @@ export default function FlyoutPage() {
               content: () =>
                 Fragment(
                   attr.class(animationClass),
-                  html.div(attr.class('bu-p-2'), 'Flyout on bottom')
+                  html.div(attr.class('p-2'), 'Flyout on bottom')
                 ),
               placement: 'bottom',
               showOn: 'hover',
@@ -308,8 +302,8 @@ export default function FlyoutPage() {
 
       // Rich content example
       html.div(
-        attr.class('bu-text-center bu-space-y-4'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Rich Content'),
+        attr.class('text-center space-y-4'),
+        html.h3(attr.class('text-lg font-semibold'), 'Rich Content'),
         Button(
           { variant: 'filled', color: 'accent' },
           'Rich Flyout',
@@ -318,32 +312,27 @@ export default function FlyoutPage() {
               Fragment(
                 attr.class(animationClass),
                 html.div(
-                  attr.class('bu-p-4 bu-max-w-sm'),
+                  attr.class('p-4 max-w-48'),
                   html.div(
-                    attr.class('bu-flex bu-items-center bu-gap-2 bu-mb-3'),
+                    attr.class('flex items-center gap-2 mb-3'),
                     Icon({
                       icon: 'mdi:information',
                       size: 'sm',
                       color: 'primary',
                     }),
-                    html.h4(
-                      attr.class('bu-font-semibold'),
-                      'Rich Flyout Content'
-                    )
+                    html.h4(attr.class('font-semibold'), 'Rich Flyout Content')
                   ),
                   html.p(
-                    attr.class('bu-mb-3'),
+                    attr.class('mb-3'),
                     'This flyout contains rich HTML content with multiple elements, icons, and interactive components.'
                   ),
                   html.div(
-                    attr.class('bu-flex bu-gap-2'),
+                    attr.class('flex gap-2'),
                     Button({ variant: 'filled', size: 'xs' }, 'Action'),
                     Button({ variant: 'outline', size: 'xs' }, 'Cancel')
                   ),
                   html.div(
-                    attr.class(
-                      'bu-text-xs bu-text-gray bu-mt-3 bu-pt-3 bu-border-t'
-                    ),
+                    attr.class('text-xs text-gray-600 mt-3 pt-3 border-t'),
                     computedOf(
                       showDelay,
                       hideDelay,

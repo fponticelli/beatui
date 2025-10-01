@@ -17,7 +17,7 @@ import {
 
 export default function ToolbarPage() {
   return Stack(
-    attr.class('bu-gap-6 bu-p-6 bu-items-start'),
+    attr.class('gap-6 p-6 items-start'),
     Toolbar(
       ToolbarGroup(
         ToolbarButton({}, Icon({ icon: 'mdi:home' }), html.span('Home')),

@@ -72,14 +72,14 @@ export default function ColorPickerPage() {
 
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-p-6 bu-gap-8'),
+      attr.class('p-6 gap-8'),
 
       // Page Header
       Stack(
-        attr.class('bu-gap-2'),
-        html.h1(attr.class('bu-text-3xl bu-font-bold'), 'Color Picker'),
+        attr.class('gap-2'),
+        html.h1(attr.class('text-3xl font-bold'), 'Color Picker'),
         html.p(
-          attr.class('bu-text-gray-600'),
+          attr.class('text-gray-600-600'),
           'Interactive color picker component with validation and format conversion.'
         )
       ),
@@ -88,17 +88,14 @@ export default function ColorPickerPage() {
       Card(
         {},
         Stack(
-          attr.class('bu-gap-4'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Basic Color Picker'
-          ),
+          attr.class('gap-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Basic Color Picker'),
           html.p(
-            attr.class('bu-text-sm bu-text-gray-600'),
+            attr.class('text-sm text-gray-600-600'),
             'A simple color picker that updates a preview box.'
           ),
           Group(
-            attr.class('bu-items-center bu-gap-4'),
+            attr.class('items-center gap-4'),
             InputWrapper({
               label: 'Pick a Color',
               content: ColorInput({
@@ -108,13 +105,11 @@ export default function ColorPickerPage() {
               }),
             }),
             html.div(
-              attr.class(
-                'bu-w-16 bu-h-16 bu-rounded-lg bu-border-2 bu-border-gray-300'
-              ),
+              attr.class('w-16 h-16 rounded-lg border-2 border-gray-300'),
               style.backgroundColor(simpleColor)
             ),
             Stack(
-              attr.class('bu-text-sm'),
+              attr.class('text-sm'),
               html.div(html.strong('Selected: '), simpleColor)
             )
           )
@@ -125,22 +120,19 @@ export default function ColorPickerPage() {
       Card(
         {},
         Stack(
-          attr.class('bu-gap-6'),
-          html.h2(
-            attr.class('bu-text-xl bu-font-semibold'),
-            'Color Theme Designer'
-          ),
+          attr.class('gap-6'),
+          html.h2(attr.class('text-xl font-semibold'), 'Color Theme Designer'),
           html.p(
-            attr.class('bu-text-sm bu-text-gray-600'),
+            attr.class('text-sm text-gray-600-600'),
             'Design a color theme with validation and real-time preview.'
           ),
 
           Group(
-            attr.class('bu-gap-8 bu-items-start'),
+            attr.class('gap-8 items-start'),
 
             // Color Controls
             Stack(
-              attr.class('bu-gap-4 bu-min-w-80'),
+              attr.class('gap-4 min-w-80'),
               InputWrapper({
                 label: 'Primary Color',
                 description: 'Main brand color',
@@ -185,15 +177,15 @@ export default function ColorPickerPage() {
 
             // Preview Panel
             Stack(
-              attr.class('bu-gap-4 bu-flex-1'),
-              html.h3(attr.class('bu-text-lg bu-font-medium'), 'Live Preview'),
+              attr.class('gap-4 flex-1'),
+              html.h3(attr.class('text-lg font-medium'), 'Live Preview'),
 
               // Color swatches
               Group(
-                attr.class('bu-gap-2 bu-flex-wrap'),
+                attr.class('gap-2 flex-wrap'),
                 html.div(
                   attr.class(
-                    'bu-w-20 bu-h-20 bu-rounded-lg bu-border bu-flex bu-items-center bu-justify-center bu-text-xs bu-font-medium bu-px-1'
+                    'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
                     controller.value.map(v => v.primaryColor)
@@ -203,7 +195,7 @@ export default function ColorPickerPage() {
                 ),
                 html.div(
                   attr.class(
-                    'bu-w-20 bu-h-20 bu-rounded-lg bu-border bu-flex bu-items-center bu-justify-center bu-text-xs bu-font-medium bu-px-1'
+                    'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
                     controller.value.map(v => v.secondaryColor)
@@ -213,7 +205,7 @@ export default function ColorPickerPage() {
                 ),
                 html.div(
                   attr.class(
-                    'bu-w-20 bu-h-20 bu-rounded-lg bu-border bu-flex bu-items-center bu-justify-center bu-text-xs bu-font-medium bu-px-1'
+                    'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
                     controller.value.map(v => v.backgroundColor)
@@ -225,22 +217,19 @@ export default function ColorPickerPage() {
 
               // Sample UI with theme colors
               html.div(
-                attr.class('bu-p-6 bu-rounded-lg bu-border-2'),
+                attr.class('p-6 rounded-lg border-2'),
                 style.backgroundColor(
                   controller.value.map(v => v.backgroundColor)
                 ),
                 style.color(controller.value.map(v => v.textColor)),
                 Stack(
-                  attr.class('bu-gap-4'),
-                  html.h4(
-                    attr.class('bu-text-lg bu-font-semibold'),
-                    'Sample UI'
-                  ),
+                  attr.class('gap-4'),
+                  html.h4(attr.class('text-lg font-semibold'), 'Sample UI'),
                   html.p(
                     'This is how your theme colors would look in a real interface.'
                   ),
                   Group(
-                    attr.class('bu-gap-2'),
+                    attr.class('gap-2'),
                     Button(
                       {
                         variant: 'filled',
@@ -266,8 +255,8 @@ export default function ColorPickerPage() {
 
               // Color Information
               Stack(
-                attr.class('bu-gap-2 bu-text-sm'),
-                html.h4(attr.class('bu-font-medium'), 'Color Information'),
+                attr.class('gap-2 text-sm'),
+                html.h4(attr.class('font-medium'), 'Color Information'),
                 html.div(html.strong('Primary RGB: '), rgbValues),
                 html.div(html.strong('Contrast Ratio: '), contrastRatio),
                 html.div(
@@ -275,10 +264,10 @@ export default function ColorPickerPage() {
                     contrastRatio.map((ratio): string => {
                       const r = parseFloat(ratio)
                       return r >= 4.5
-                        ? 'bu-text-green-600'
+                        ? 'text-green-600'
                         : r >= 3
-                          ? 'bu-text-yellow-600'
-                          : 'bu-text-red-600'
+                          ? 'text-yellow-600'
+                          : 'text-red-600'
                     })
                   ),
                   contrastRatio.map((ratio): string => {

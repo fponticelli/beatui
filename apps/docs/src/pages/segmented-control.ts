@@ -22,24 +22,22 @@ export default function SegmentedControlPage() {
   return ScrollablePanel({
     header: ControlsHeader(DisabledSelector({ disabled })),
     body: Stack(
-      attr.class(
-        'bu-items-center bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'
-      ),
-      html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Size Variations'),
+      attr.class('items-center gap-4 p-4 h-full overflow-hidden'),
+      html.h3(attr.class('text-lg font-semibold'), 'Size Variations'),
       html.table(
-        attr.class('bu-w-full bu-border-collapse'),
+        attr.class('w-full border-collapse'),
         html.thead(
           html.tr(
-            html.th(attr.class('bu-border bu-p-2 bu-text-left'), 'Size'),
-            html.th(attr.class('bu-border bu-p-2 bu-text-left'), 'Example')
+            html.th(attr.class('border p-2 text-left'), 'Size'),
+            html.th(attr.class('border p-2 text-left'), 'Example')
           )
         ),
         html.tbody(
           ...allSizes.map(currentSize =>
             html.tr(
-              html.th(attr.class('bu-border bu-p-2'), currentSize),
+              html.th(attr.class('border p-2'), currentSize),
               html.td(
-                attr.class('bu-border bu-p-2'),
+                attr.class('border p-2'),
                 SegmentedInput({
                   options,
                   size: currentSize,

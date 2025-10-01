@@ -20,15 +20,12 @@ export default function MilkdownEditorPage() {
 
   return ScrollablePanel({
     body: Group(
-      attr.class('bu-items-start bu-gap-4 bu-p-4 bu-h-full bu-overflow-hidden'),
+      attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
       ScrollablePanel(
         {
           header: Group(
-            attr.class('bu-gap-2 bu-items-center'),
-            html.h3(
-              attr.class('bu-text-lg bu-font-semibold'),
-              'Milkdown Editor'
-            ),
+            attr.class('gap-2 items-center'),
+            html.h3(attr.class('text-lg font-semibold'), 'Milkdown Editor'),
             NativeSelect({
               options: samples.map((s, i) => ({
                 type: 'value',
@@ -51,10 +48,10 @@ export default function MilkdownEditorPage() {
       Stack(
         style.minWidth('42rem'),
         style.maxWidth('42rem'),
-        attr.class('bu-flex-1 bu-gap-2'),
-        html.h3(attr.class('bu-text-lg bu-font-semibold'), 'Current Value'),
+        attr.class('flex-1 gap-2'),
+        html.h3(attr.class('text-lg font-semibold'), 'Current Value'),
         html.pre(
-          attr.class('bu-overflow-y-auto'),
+          attr.class('overflow-y-auto'),
           markdown.map(v => String(v))
         )
       )

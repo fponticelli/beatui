@@ -105,37 +105,37 @@ export default function DropdownPage() {
 
   return ScrollablePanel({
     body: Stack(
-      attr.class('bu-p-6 bu-gap-8'),
+      attr.class('p-6 gap-8'),
 
       // Page title
       html.h1(
-        attr.class('bu-text-3xl bu-font-bold bu-text-gray'),
+        attr.class('text-3xl font-bold text-gray-600'),
         'Dropdown Component'
       ),
 
       html.p(
-        attr.class('bu-text-lg bu-text-light-gray'),
+        attr.class('text-lg text-gray-500'),
         'A flexible dropdown component that supports rich content, keyboard navigation, and accessibility features.'
       ),
 
       // Basic Example
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Basic Usage'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'A simple dropdown with text options.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
+              attr.class('text-sm font-medium text-gray-600'),
               'Select a fruit:'
             ),
             DropdownInput({
@@ -146,7 +146,7 @@ export default function DropdownPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Selected: ',
             basicValue.map(v => v || 'None')
           )
@@ -155,22 +155,22 @@ export default function DropdownPage() {
 
       // Rich Content Example
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Rich Content'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'Options can include icons, colors, and other rich content.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
+              attr.class('text-sm font-medium text-gray-600'),
               'Pick a color:'
             ),
             DropdownInput({
@@ -181,7 +181,7 @@ export default function DropdownPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Selected: ',
             colorValue.map(v => v || 'None')
           )
@@ -190,22 +190,22 @@ export default function DropdownPage() {
 
       // Grouped Options Example
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Grouped Options'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'Options can be organized into groups with separators.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('bu-text-sm bu-font-medium bu-text-gray'),
+              attr.class('text-sm font-medium text-gray-600'),
               'Choose category:'
             ),
             DropdownInput({
@@ -216,7 +216,7 @@ export default function DropdownPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Selected: ',
             categoryValue.map(v => v || 'None')
           )
@@ -225,19 +225,19 @@ export default function DropdownPage() {
 
       // Form Integration Example
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Form Integration'
         ),
         html.p(
-          attr.class('bu-text-light-gray'),
+          attr.class('text-gray-500'),
           'Dropdown works seamlessly with BeatUI form controllers.'
         ),
         Group(
-          attr.class('bu-gap-4 bu-items-end'),
+          attr.class('gap-4 items-end'),
           Stack(
-            attr.class('bu-gap-2'),
+            attr.class('gap-2'),
             style.width('16rem'),
             DropdownControl({
               controller: formController,
@@ -247,7 +247,7 @@ export default function DropdownPage() {
             })
           ),
           html.div(
-            attr.class('bu-text-sm bu-text-light-gray'),
+            attr.class('text-sm text-gray-500'),
             'Controller value: ',
             formController.value.map(v => v || 'None')
           )
@@ -256,15 +256,13 @@ export default function DropdownPage() {
 
       // Accessibility Features
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Accessibility Features'
         ),
         html.ul(
-          attr.class(
-            'bu-list-disc bu-list-inside bu-text-light-gray bu-space-y-2'
-          ),
+          attr.class('list-disc list-inside text-gray-500 space-y-2'),
           html.li('Full keyboard navigation (Arrow keys, Enter, Escape)'),
           html.li('ARIA attributes for screen readers'),
           html.li('Focus management and visual indicators'),
@@ -275,18 +273,18 @@ export default function DropdownPage() {
 
       // Usage Instructions
       Stack(
-        attr.class('bu-gap-4'),
+        attr.class('gap-4'),
         html.h2(
-          attr.class('bu-text-2xl bu-font-semibold bu-text-gray'),
+          attr.class('text-2xl font-semibold text-gray-600'),
           'Keyboard Navigation'
         ),
         html.div(
-          attr.class('bu-grid bu-grid-cols-2 bu-gap-4 bu-text-sm'),
+          attr.class('grid grid-cols-2 gap-4 text-sm'),
           html.div(
-            attr.class('bu-space-y-2'),
-            html.div(attr.class('bu-font-medium'), 'Navigation:'),
+            attr.class('space-y-2'),
+            html.div(attr.class('font-medium'), 'Navigation:'),
             html.ul(
-              attr.class('bu-space-y-1 bu-text-light-gray'),
+              attr.class('space-y-1 text-gray-500'),
               html.li('↓ Arrow Down - Open dropdown / Move down'),
               html.li('↑ Arrow Up - Move up'),
               html.li('Enter - Select focused option'),
@@ -294,10 +292,10 @@ export default function DropdownPage() {
             )
           ),
           html.div(
-            attr.class('bu-space-y-2'),
-            html.div(attr.class('bu-font-medium'), 'Interaction:'),
+            attr.class('space-y-2'),
+            html.div(attr.class('font-medium'), 'Interaction:'),
             html.ul(
-              attr.class('bu-space-y-1 bu-text-light-gray'),
+              attr.class('space-y-1 text-gray-500'),
               html.li('Click - Open/close dropdown'),
               html.li('Tab - Move to next element'),
               html.li('Space - Open dropdown (when not searchable)')
