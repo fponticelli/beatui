@@ -19,5 +19,5 @@
 }
 
 .animate-spin {
-  animation: bc-spin 1s linear infinite;
+  animation: var(--animate-spin, bc-spin 1s linear infinite);
 }
