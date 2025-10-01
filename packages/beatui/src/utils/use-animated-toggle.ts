@@ -242,6 +242,6 @@ export function AnimatedToggleClass(
     computedOf(
       animation,
       status
-    )((a, s) => `bu-toggle--animated bu-toggle--${a} bu-toggle--${s}`)
+    )((a, s) => `bc-toggle--animated bc-toggle--${a} bc-toggle--${s}`)
   )
 }

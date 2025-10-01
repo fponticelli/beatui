@@ -9,49 +9,49 @@
 }
 
 /* Transform origins for placement-aware animations */
-.bc-flyout.bu-toggle--flyout-top {
+.bc-flyout.bc-toggle--flyout-top {
   transform-origin: bottom center;
 }
 
-.bc-flyout.bu-toggle--flyout-bottom {
+.bc-flyout.bc-toggle--flyout-bottom {
   transform-origin: top center;
 }
 
-.bc-flyout.bu-toggle--flyout-left {
+.bc-flyout.bc-toggle--flyout-left {
   transform-origin: right center;
 }
 
-.bc-flyout.bu-toggle--flyout-right {
+.bc-flyout.bc-toggle--flyout-right {
   transform-origin: left center;
 }
 
 /* Pointer events management */
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--start-closing,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--closed,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-opening,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--closing,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--start-closing {
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--closed,
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--start-opening,
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--closing,
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--start-closing,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--closed,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--start-opening,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--closing,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--start-closing,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--closed,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--start-opening,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--closing,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--start-closing,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--closed,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--start-opening,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--closing,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--start-closing {
   pointer-events: none;
 }
 
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-top.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-bottom.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-left.bu-toggle--opened,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--opening,
-.bc-flyout.bu-toggle--flyout-right.bu-toggle--opened {
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--opening,
+.bc-flyout.bc-toggle--flyout-top.bc-toggle--opened,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--opening,
+.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--opened,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--opening,
+.bc-flyout.bc-toggle--flyout-left.bc-toggle--opened,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--opening,
+.bc-flyout.bc-toggle--flyout-right.bc-toggle--opened {
   pointer-events: auto;
 }

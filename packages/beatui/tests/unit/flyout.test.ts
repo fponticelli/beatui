@@ -108,7 +108,7 @@ describe('Flyout Component', () => {
       const flyoutAfterEscape = document.querySelector('.closable-test')
       if (flyoutAfterEscape) {
         // If still present, it should be in closing state
-        expect(flyoutAfterEscape.classList.contains('bu-toggle--closing')).toBe(
+        expect(flyoutAfterEscape.classList.contains('bc-toggle--closing')).toBe(
           true
         )
       } else {
@@ -405,7 +405,7 @@ describe('Flyout Component', () => {
       // First should be gone or closing, second should still be visible
       const flyout1 = document.querySelector('.flyout-1')
       if (flyout1) {
-        expect(flyout1.classList.contains('bu-toggle--closing')).toBe(true)
+        expect(flyout1.classList.contains('bc-toggle--closing')).toBe(true)
       }
       expect(document.querySelector('.flyout-2')).not.toBeNull()
 
@@ -417,10 +417,10 @@ describe('Flyout Component', () => {
       const flyout1Final = document.querySelector('.flyout-1')
       const flyout2Final = document.querySelector('.flyout-2')
       if (flyout1Final) {
-        expect(flyout1Final.classList.contains('bu-toggle--closing')).toBe(true)
+        expect(flyout1Final.classList.contains('bc-toggle--closing')).toBe(true)
       }
       if (flyout2Final) {
-        expect(flyout2Final.classList.contains('bu-toggle--closing')).toBe(true)
+        expect(flyout2Final.classList.contains('bc-toggle--closing')).toBe(true)
       }
     })
   })
@@ -872,7 +872,7 @@ describe('Flyout Component', () => {
       flyout = document.querySelector('.user-bug-test')
       if (flyout) {
         // If still present, it should be in closing state
-        expect(flyout.classList.contains('bu-toggle--closing')).toBe(true)
+        expect(flyout.classList.contains('bc-toggle--closing')).toBe(true)
       }
 
       // Step 3: Hover again - this should show and stay visible
@@ -895,7 +895,7 @@ describe('Flyout Component', () => {
       flyout = document.querySelector('.user-bug-test')
       if (flyout) {
         // If still present, it should be in closing state
-        expect(flyout.classList.contains('bu-toggle--closing')).toBe(true)
+        expect(flyout.classList.contains('bc-toggle--closing')).toBe(true)
       } // Otherwise it's properly disposed (null is also acceptable)
     })
 

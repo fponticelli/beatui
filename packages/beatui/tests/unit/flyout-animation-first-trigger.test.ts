@@ -6,12 +6,12 @@ import { WithProviders } from '../helpers/test-providers'
 
 function getToggleStatusFromClasses(element: HTMLElement): string {
   const classList = element.className
-  if (classList.includes('bu-toggle--closed')) return 'closed'
-  if (classList.includes('bu-toggle--start-opening')) return 'start-opening'
-  if (classList.includes('bu-toggle--opening')) return 'opening'
-  if (classList.includes('bu-toggle--opened')) return 'opened'
-  if (classList.includes('bu-toggle--start-closing')) return 'start-closing'
-  if (classList.includes('bu-toggle--closing')) return 'closing'
+  if (classList.includes('bc-toggle--closed')) return 'closed'
+  if (classList.includes('bc-toggle--start-opening')) return 'start-opening'
+  if (classList.includes('bc-toggle--opening')) return 'opening'
+  if (classList.includes('bc-toggle--opened')) return 'opened'
+  if (classList.includes('bc-toggle--start-closing')) return 'start-closing'
+  if (classList.includes('bc-toggle--closing')) return 'closing'
   return 'unknown'
 }
 
