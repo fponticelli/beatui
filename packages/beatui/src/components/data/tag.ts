@@ -3,6 +3,11 @@ import { ThemeColorName } from '../../tokens'
 import { ControlSize } from '../theme'
 import { CloseButton } from '../button'
 import { BeatUII18n } from '@/beatui-i18n'
+import {
+  backgroundValue,
+  hoverBackgroundValue,
+  ExtendedColor,
+} from '../theme/style-utils'
 
 function generateTagClasses(
   color: string,
@@ -10,7 +15,6 @@ function generateTagClasses(
   disabled: boolean
 ): string {
   const classes = ['bc-tag']
-  classes.push(`bu-bg-${color}`)
   if (size !== 'md') {
     classes.push(`bc-tag--${size}`)
   }
@@ -18,6 +22,24 @@ function generateTagClasses(
     classes.push('bc-tag--disabled')
   }
   return classes.join(' ')
+}
+
+function generateTagStyles(color: ExtendedColor): string {
+  const baseLight = backgroundValue(color, 'light', 'light')
+  const baseDark = backgroundValue(color, 'light', 'dark')
+  const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+  const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+
+  return [
+    `--tag-bg: ${baseLight.backgroundColor}`,
+    `--tag-text: ${baseLight.textColor}`,
+    `--tag-bg-dark: ${baseDark.backgroundColor}`,
+    `--tag-text-dark: ${baseDark.textColor}`,
+    `--tag-bg-hover: ${hoverLight.backgroundColor}`,
+    `--tag-text-hover: ${hoverLight.textColor}`,
+    `--tag-bg-hover-dark: ${hoverDark.backgroundColor}`,
+    `--tag-text-hover-dark: ${hoverDark.textColor}`,
+  ].join('; ')
 }
 
 export const Tag = ({
@@ -42,6 +64,11 @@ export const Tag = ({
         size ?? 'md',
         disabled ?? false
       )((color, size, disabled) => generateTagClasses(color, size, disabled))
+    ),
+    attr.style(
+      computedOf(color)((color) =>
+        generateTagStyles((color ?? 'base') as ExtendedColor)
+      )
     ),
     // Allow external classes like bc-tag--disabled to be applied
     attr.class(cls),

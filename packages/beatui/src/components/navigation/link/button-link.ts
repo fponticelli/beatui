@@ -5,7 +5,8 @@ import { buildNavigationOptions } from './navigation-options'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
-import { generateButtonClasses } from '../../button/button'
+import { generateButtonClasses, generateButtonStyles } from '../../button/button'
+import type { ExtendedColor } from '../../theme/style-utils'
 import { UrlMatchMode, createLocationMatcher } from './navigation-link'
 
 export interface ButtonLinkOptions {
@@ -25,7 +26,7 @@ export interface ButtonLinkOptions {
   // Button visual styling props (excluding loading and onClick)
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
-  color?: Value<ThemeColorName>
+  color?: Value<ThemeColorName | 'black' | 'white'>
   roundedness?: Value<RadiusName>
   disabled?: Value<boolean>
 }
@@ -145,10 +146,19 @@ function ButtonLinkCore(
             generateButtonClasses(
               variant ?? 'filled',
               size ?? 'md',
-              color ?? 'base',
+              (color ?? 'base') as ExtendedColor,
               roundedness ?? 'sm',
               disabled,
               false // loading is always false for ButtonLink
+            )
+          )
+        ),
+        attr.style(
+          computedOf(variant, color, disabled)((variant, color, disabled) =>
+            generateButtonStyles(
+              variant ?? 'filled',
+              (color ?? 'base') as ExtendedColor,
+              disabled
             )
           )
         ),
@@ -176,10 +186,19 @@ function ButtonLinkCore(
             generateButtonClasses(
               variant ?? 'filled',
               size ?? 'md',
-              color ?? 'base',
+              (color ?? 'base') as ExtendedColor,
               roundedness ?? 'sm',
               disabled,
               false // loading is always false for ButtonLink
+            )
+          )
+        ),
+        attr.style(
+          computedOf(variant, color, disabled)((variant, color, disabled) =>
+            generateButtonStyles(
+              variant ?? 'filled',
+              (color ?? 'base') as ExtendedColor,
+              disabled
             )
           )
         ),

@@ -89,7 +89,7 @@ export function FieldsetContainer({
     title ? html.legend(attr.class('bc-fieldset__legend'), title) : null,
     html.div(
       attr.class('bc-fieldset__content'),
-      Stack(attr.class('bu-gap-1'), ...children)
+      Stack(attr.class('bc-stack--gap-1'), ...children)
     )
   )
 }
@@ -106,7 +106,7 @@ export function GroupContainer({
 }): Renderable {
   return Card(
     { variant: 'outlined', size: 'md' },
-    Stack(attr.class('bu-gap-1'), title ? Label(title) : null, ...children)
+    Stack(attr.class('bc-stack--gap-1'), title ? Label(title) : null, ...children)
   )
 }
 
@@ -122,25 +122,38 @@ export function GridContainer({
 }): Renderable {
   const gridClasses =
     typeof cols === 'number'
-      ? `bu-grid bu-grid-cols-${cols}`
+      ? `bc-schema-grid bc-schema-grid--cols-${cols}`
       : computedOf(cols)(colsConfig => {
           if (typeof colsConfig === 'number') {
-            return `bu-grid bu-grid-cols-${colsConfig}`
+            return `bc-schema-grid bc-schema-grid--cols-${colsConfig}`
           }
           if (colsConfig && typeof colsConfig === 'object') {
-            const classes = ['bu-grid']
-            if (colsConfig.sm) classes.push(`sm:bu-grid-cols-${colsConfig.sm}`)
-            if (colsConfig.md) classes.push(`md:bu-grid-cols-${colsConfig.md}`)
-            if (colsConfig.lg) classes.push(`lg:bu-grid-cols-${colsConfig.lg}`)
-            if (colsConfig.xl) classes.push(`xl:bu-grid-cols-${colsConfig.xl}`)
-            if (colsConfig['2xl'])
-              classes.push(`2xl:bu-grid-cols-${colsConfig['2xl']}`)
+            const classes = ['bc-schema-grid']
+            if (colsConfig.sm) {
+              classes.push(`bc-schema-grid--cols-sm-${colsConfig.sm}`)
+            }
+            if (colsConfig.md) {
+              classes.push(`bc-schema-grid--cols-md-${colsConfig.md}`)
+            }
+            if (colsConfig.lg) {
+              classes.push(`bc-schema-grid--cols-lg-${colsConfig.lg}`)
+            }
+            if (colsConfig.xl) {
+              classes.push(`bc-schema-grid--cols-xl-${colsConfig.xl}`)
+            }
+            if (colsConfig['2xl']) {
+              classes.push(`bc-schema-grid--cols-2xl-${colsConfig['2xl']}`)
+            }
             return classes.join(' ')
           }
-          return 'bu-grid bu-grid-cols-1'
+          return 'bc-schema-grid bc-schema-grid--cols-1'
         })
 
-  return html.div(attr.class(gridClasses), attr.class('bu-gap-4'), ...children)
+  return html.div(
+    attr.class(gridClasses),
+    attr.class('bc-schema-grid--gap-4'),
+    ...children
+  )
 }
 
 /**
@@ -223,7 +236,7 @@ export function TabsContainer({
           ),
           attr.role('tabpanel'),
           Stack(
-            attr.class('bu-gap-1'),
+            attr.class('bc-stack--gap-1'),
             // Filter children to only show properties in this group
             ...children.filter((_, index) => {
               // This is a simplified approach - in practice, you'd need to match
@@ -257,7 +270,7 @@ function SimpleTabsContainer({
       attr.class('bc-tabs__content'),
       html.div(
         attr.class('bc-tabs__panel bc-tabs__panel--active'),
-        Stack(attr.class('bu-gap-1'), ...children)
+        Stack(attr.class('bc-stack--gap-1'), ...children)
       )
     )
   )
@@ -334,7 +347,7 @@ export function AccordionContainer({
             )
           ),
           Stack(
-            attr.class('bu-gap-1'),
+            attr.class('bc-stack--gap-1'),
             // Filter children to only show properties in this group
             ...children.filter((_, index) => {
               // This is a simplified approach - in practice, you'd need to match
@@ -384,7 +397,7 @@ function SimpleAccordionContainer({
               : 'bc-accordion__content--closed'
           )
         ),
-        Stack(attr.class('bu-gap-1'), ...children)
+        Stack(attr.class('bc-stack--gap-1'), ...children)
       )
     )
   )
@@ -477,9 +490,9 @@ export function applyContainerLayout(
         config,
         propertyNames
       )
-      return Stack(attr.class('bu-gap-1'), ...orderedChildren)
+      return Stack(attr.class('bc-stack--gap-1'), ...orderedChildren)
     }
-    return Stack(attr.class('bu-gap-1'), ...children)
+    return Stack(attr.class('bc-stack--gap-1'), ...children)
   }
 
   const title = ctx.widgetLabel || ctx.name
@@ -516,6 +529,6 @@ export function applyContainerLayout(
       })
 
     default:
-      return Stack(attr.class('bu-gap-1'), ...orderedChildren)
+      return Stack(attr.class('bc-stack--gap-1'), ...orderedChildren)
   }
 }

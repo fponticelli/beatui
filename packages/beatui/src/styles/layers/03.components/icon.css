@@ -4,6 +4,12 @@
   justify-content: center;
   line-height: 0;
   vertical-align: middle;
+  box-sizing: content-box;
+  color: var(--icon-color, currentColor);
+}
+
+.b-dark .bc-icon {
+  color: var(--icon-color-dark, var(--icon-color, currentColor));
 }
 
 .bc-icon svg {

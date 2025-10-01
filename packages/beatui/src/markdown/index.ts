@@ -26,7 +26,7 @@ export type MarkdownOptions = {
 /**
  * Markdown component: renders Markdown to HTML using micromark.
  * - Escapes HTML by default (allowHtml: false)
- * - Applies bu-prose utilities for typography and a small component CSS (bc-markdown)
+ * - Applies bc-markdown typography styles for consistent Markdown rendering
  * - Ships as separate subpath bundle (@tempots/beatui/markdown)
  */
 export function Markdown(
@@ -52,7 +52,7 @@ export function Markdown(
           () => import('@/markdown/styles-url'),
           ({ default: href }) => LinkPortal({ id: 'beatui-markdown-css', href })
         ),
-    attr.class('bc-markdown bu-prose'),
+    attr.class('bc-markdown'),
     MapSignal(rendered, html =>
       Async(html, content => attr.innerHTML(content))
     ),

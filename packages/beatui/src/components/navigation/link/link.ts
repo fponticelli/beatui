@@ -3,6 +3,7 @@ import { Anchor } from '@tempots/ui'
 import type { NavigationOptions } from '@tempots/ui'
 import { buildNavigationOptions } from './navigation-options'
 import { ThemeColorName } from '@/tokens'
+import { textColorValue } from '../../theme/style-utils'
 
 export type LinkVariant = 'default' | 'plain' | 'hover'
 
@@ -27,9 +28,6 @@ export function generateLinkClasses(
 ): string {
   const classes = ['bc-link']
 
-  // Add color class
-  classes.push(`bu-text-${color}`)
-
   // Add disabled class
   if (disabled) {
     classes.push('bc-link--disabled')
@@ -50,6 +48,17 @@ export function generateLinkClasses(
   }
 
   return classes.join(' ')
+}
+
+export function generateLinkStyles(color: ThemeColorName): string {
+  const light = textColorValue(color, 'light')
+  const dark = textColorValue(color, 'dark')
+  return [
+    `--link-color: ${light}`,
+    `--link-color-dark: ${dark}`,
+    `--link-hover-color: ${light}`,
+    `--link-hover-color-dark: ${dark}`,
+  ].join('; ')
 }
 
 export function Link(
@@ -81,6 +90,11 @@ export function Link(
             generateLinkClasses(variant, color, disabled)
           )
         ),
+        attr.style(
+          computedOf(colorDisabled)(color =>
+            generateLinkStyles(color ?? 'base')
+          )
+        ),
         ...children
       ),
     () =>
@@ -102,6 +116,9 @@ export function Link(
           )((variant, color, disabled) =>
             generateLinkClasses(variant, color, disabled)
           )
+        ),
+        attr.style(
+          computedOf(color)(color => generateLinkStyles(color ?? 'primary'))
         ),
         target ? attr.target(target) : null,
         rel ? attr.rel(rel) : null,

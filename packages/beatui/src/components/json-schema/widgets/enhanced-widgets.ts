@@ -159,7 +159,7 @@ export function FileUploadWidget({
       }),
 
       Stack(
-        attr.class('bu-gap-2 bu-items-center'),
+        attr.class('bc-group--gap-2 bc-group--align-center'),
         Icon({ icon: 'upload', size: 'lg' }),
         html.div(
           attr.class('bc-file-upload__text'),

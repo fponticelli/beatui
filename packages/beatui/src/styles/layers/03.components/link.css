@@ -1,7 +1,25 @@
 /* Link Component */
 .bc-link {
+  --link-color: inherit;
+  --link-color-dark: inherit;
+  --link-hover-color: var(--link-color);
+  --link-hover-color-dark: var(--link-color-dark);
+
   transition: color 0.2s ease-in-out;
   cursor: pointer;
+  color: var(--link-color);
+}
+
+.bc-link:hover {
+  color: var(--link-hover-color);
+}
+
+.b-dark .bc-link {
+  color: var(--link-color-dark);
+}
+
+.b-dark .bc-link:hover {
+  color: var(--link-hover-color-dark);
 }
 
 .bc-link:focus-visible {

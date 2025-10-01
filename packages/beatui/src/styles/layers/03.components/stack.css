@@ -1,6 +1,28 @@
 .bc-stack {
   display: flex;
   flex-direction: column;
-  justify-items: flex-start;
+  align-items: flex-start;
   scroll-behavior: smooth;
+  gap: 0;
+}
+
+.bc-stack--gap-1 {
+  gap: calc(var(--spacing-base) * 1);
+}
+
+.bc-stack--gap-2 {
+  gap: calc(var(--spacing-base) * 2);
+}
+
+.bc-stack--gap-4 {
+  gap: calc(var(--spacing-base) * 4);
+}
+
+.bc-stack--align-center {
+  align-items: center;
+}
+
+.bc-stack--grow {
+  flex-grow: 1;
+  width: 100%;
 }

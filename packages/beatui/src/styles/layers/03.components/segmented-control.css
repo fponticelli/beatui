@@ -15,23 +15,23 @@
   align-items: center;
 }
 
-.bu-text-xs .bc-segmented-control__container {
+.bc-segmented-control--size-xs .bc-segmented-control__container {
   gap: var(--spacing-xs);
 }
 
-.bu-text-sm .bc-segmented-control__container {
+.bc-segmented-control--size-sm .bc-segmented-control__container {
   gap: var(--spacing-sm);
 }
 
-.bu-text-md .bc-segmented-control__container {
+.bc-segmented-control--size-md .bc-segmented-control__container {
   gap: var(--spacing-md);
 }
 
-.bu-text-lg .bc-segmented-control__container {
+.bc-segmented-control--size-lg .bc-segmented-control__container {
   gap: var(--spacing-lg);
 }
 
-.bu-text-xl .bc-segmented-control__container {
+.bc-segmented-control--size-xl .bc-segmented-control__container {
   gap: var(--spacing-xl);
 }
 
@@ -65,23 +65,23 @@
   border-radius: var(--radius-full);
 }
 
-.bu-text-xs .bc-segmented-control__segment {
+.bc-segmented-control--size-xs .bc-segmented-control__segment {
   padding: var(--spacing-xs) var(--spacing-sm);
 }
 
-.bu-text-sm .bc-segmented-control__segment {
+.bc-segmented-control--size-sm .bc-segmented-control__segment {
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
-.bu-text-md .bc-segmented-control__segment {
+.bc-segmented-control--size-md .bc-segmented-control__segment {
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
-.bu-text-lg .bc-segmented-control__segment {
+.bc-segmented-control--size-lg .bc-segmented-control__segment {
   padding: var(--spacing-lg) var(--spacing-2xl);
 }
 
-.bu-text-xl .bc-segmented-control__segment {
+.bc-segmented-control--size-xl .bc-segmented-control__segment {
   padding: var(--spacing-xl) var(--spacing-3xl);
 }
 

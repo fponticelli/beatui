@@ -1,3 +1,17 @@
+.bc-panel {
+  --panel-bg: var(--bg-elevated-light);
+  --panel-bg-dark: var(--bg-elevated-dark);
+  --panel-text: var(--text-normal-light);
+  --panel-text-dark: var(--text-normal-dark);
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+}
+
+.b-dark .bc-panel {
+  background-color: var(--panel-bg-dark);
+  color: var(--panel-text-dark);
+}
+
 .bc-panel--side-none {
   border: none;
 }

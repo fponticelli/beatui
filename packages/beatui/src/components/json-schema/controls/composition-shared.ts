@@ -88,12 +88,12 @@ export function WithSelectorLayout({
   inner,
 }: WithSelectorLayoutParams): Renderable {
   if (ctx.isRoot) {
-    return showSelector ? Stack(attr.class('bu-gap-2'), selector, inner) : inner
+    return showSelector ? Stack(attr.class('bc-stack--gap-2'), selector, inner) : inner
   }
   return InputWrapper({
     ...definitionToInputWrapperOptions({ ctx }),
     content: showSelector
-      ? Stack(attr.class('bu-gap-2 bu-items-start'), selector, inner)
+      ? Stack(attr.class('bc-stack--gap-2 bc-stack--align-start'), selector, inner)
       : inner,
   })
 }

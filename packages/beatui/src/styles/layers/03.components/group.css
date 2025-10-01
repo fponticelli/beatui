@@ -1,5 +1,62 @@
 .bc-group {
   display: flex;
-  justify-items: center;
+  flex-direction: row;
+  align-items: center;
   gap: var(--spacing-md);
+}
+
+.bc-group--direction-column {
+  flex-direction: column;
+}
+
+.bc-group--direction-row {
+  flex-direction: row;
+}
+
+.bc-group--align-start {
+  align-items: flex-start;
+}
+
+.bc-group--align-center {
+  align-items: center;
+}
+
+.bc-group--align-end {
+  align-items: flex-end;
+}
+
+.bc-group--justify-between {
+  justify-content: space-between;
+}
+
+.bc-group--justify-center {
+  justify-content: center;
+}
+
+.bc-group--justify-end {
+  justify-content: flex-end;
+}
+
+.bc-group--gap-0 {
+  gap: 0;
+}
+
+.bc-group--gap-1 {
+  gap: calc(var(--spacing-base) * 1);
+}
+
+.bc-group--gap-2 {
+  gap: calc(var(--spacing-base) * 2);
+}
+
+.bc-group--gap-4 {
+  gap: calc(var(--spacing-base) * 4);
+}
+
+.bc-group--gap-md {
+  gap: var(--spacing-md);
+}
+
+.bc-group--grow {
+  flex-grow: 1;
 }

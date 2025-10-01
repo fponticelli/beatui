@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { generateLinkClasses } from '../../src/components/navigation/link/link'
+import {
+  generateLinkClasses,
+  generateLinkStyles,
+} from '../../src/components/navigation/link/link'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
 
 // Test the class generation function directly since the full component
@@ -8,22 +11,28 @@ describe('Link', () => {
   describe('generateLinkClasses', () => {
     it('should generate default variant classes', () => {
       const classes = generateLinkClasses('default', 'primary', false)
-      expect(classes).toBe('bc-link bu-text-primary bc-link--default')
+      expect(classes).toBe('bc-link bc-link--default')
     })
 
     it('should generate plain variant classes', () => {
       const classes = generateLinkClasses('plain', 'secondary', false)
-      expect(classes).toBe('bc-link bu-text-secondary bc-link--plain')
+      expect(classes).toBe('bc-link bc-link--plain')
     })
 
     it('should generate hover variant classes', () => {
       const classes = generateLinkClasses('hover', 'error', false)
-      expect(classes).toBe('bc-link bu-text-error bc-link--hover')
+      expect(classes).toBe('bc-link bc-link--hover')
     })
 
     it('should generate disabled classes', () => {
       const classes = generateLinkClasses('default', 'primary', true)
-      expect(classes).toBe('bc-link bu-text-primary bc-link--disabled')
+      expect(classes).toBe('bc-link bc-link--disabled')
+    })
+
+    it('should generate link style variables for colors', () => {
+      const styles = generateLinkStyles('primary')
+      expect(styles).toContain('--link-color: var(--color-primary-800)')
+      expect(styles).toContain('--link-color-dark: var(--color-primary-200)')
     })
   })
 

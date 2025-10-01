@@ -41,7 +41,7 @@ export const Switch = ({
   const labelId = `${switchId}-label`
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
-    const classes = ['bc-switch', `bu-text-${size}`, `bc-switch--${size}`]
+    const classes = ['bc-switch', `bc-switch--size-${size}`, `bc-switch--${size}`]
 
     if (disabled) {
       classes.push('bc-switch--disabled')
@@ -87,7 +87,11 @@ export const Switch = ({
     on.click(handleToggle),
     on.keydown(handleKeyDown),
     label != null
-      ? Label(attr.id(labelId), attr.class(`bu-text-${size} bu-nowrap`), label)
+      ? Label(
+          attr.id(labelId),
+          attr.class(`bc-switch__label bc-switch__label--size-${size} bc-switch__label--nowrap`),
+          label
+        )
       : null,
     html.div(
       attr.class('bc-switch__track'),

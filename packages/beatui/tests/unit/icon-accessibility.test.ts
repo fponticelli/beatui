@@ -232,7 +232,9 @@ describe('Icon Accessibility', () => {
       )
 
       const icon = container.querySelector('.bc-icon')!
-      expect(icon.className).toContain('bu-fg-primary')
+      const style = icon.getAttribute('style') ?? ''
+      expect(style).toContain('--icon-color: var(--color-primary-500)')
+      expect(style).toContain('--icon-color-dark: var(--color-primary-600)')
       expect(icon.getAttribute('role')).toBe('img')
       expect(icon.getAttribute('aria-label')).toBe('Colored icon')
     })

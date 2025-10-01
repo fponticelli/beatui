@@ -30,7 +30,7 @@ export function WithSchemaIssues<T>(
   }
 
   return Stack(
-    attr.class('bu-gap-2'),
+    attr.class('bc-stack--gap-2'),
     hasViolations
       ? NotViolationsBanner({ violations: ctx.notViolations })
       : null,

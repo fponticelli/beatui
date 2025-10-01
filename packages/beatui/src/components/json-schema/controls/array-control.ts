@@ -303,11 +303,8 @@ export function JSONSchemaArray({
       // Wrap with label for tuple items
       if (label && tupleInfo.isTuple) {
         content = Stack(
-          attr.class('bu-gap-1'),
-          Label(
-            attr.class('bu-text-sm bu-font-medium bu-text-neutral-700'),
-            label
-          ),
+          attr.class('bc-stack--gap-1'),
+          Label(attr.class('bc-array-control__item-label'), label),
           content
         )
       }
@@ -320,7 +317,9 @@ export function JSONSchemaArray({
         indicators.push(
           When(isDuplicate, () =>
             Label(
-              attr.class('bu-text-xs bu-text-red-600 bu-font-medium'),
+              attr.class(
+                'bc-array-control__indicator bc-array-control__indicator--error'
+              ),
               '⚠️ Duplicate value'
             )
           )
@@ -332,7 +331,9 @@ export function JSONSchemaArray({
         indicators.push(
           When(matchesContains, () =>
             Label(
-              attr.class('bu-text-xs bu-text-green-600 bu-font-medium'),
+              attr.class(
+                'bc-array-control__indicator bc-array-control__indicator--success'
+              ),
               '✓ Matches required pattern'
             )
           )
@@ -340,7 +341,7 @@ export function JSONSchemaArray({
       }
 
       if (indicators.length > 0) {
-        return Stack(attr.class('bu-gap-1'), content, ...indicators)
+        return Stack(attr.class('bc-stack--gap-1'), content, ...indicators)
       }
 
       return content
@@ -350,7 +351,7 @@ export function JSONSchemaArray({
   // If there's contains validation, wrap with summary
   if (schema.contains && containsSummary) {
     return Stack(
-      attr.class('bu-gap-2'),
+      attr.class('bc-stack--gap-2'),
       listControl,
       MapSignal(
         computedOf(
@@ -364,8 +365,8 @@ export function JSONSchemaArray({
           Label(
             attr.class(
               info.isValid
-                ? 'bu-text-sm bu-text-green-600'
-                : 'bu-text-sm bu-text-red-600 bu-font-medium'
+                ? 'bc-array-control__summary bc-array-control__summary--success'
+                : 'bc-array-control__summary bc-array-control__summary--error'
             ),
             summary
           )

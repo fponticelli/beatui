@@ -57,10 +57,12 @@ describe('RatingInput Component', () => {
     expect(clippers.length).toBeGreaterThan(0)
     expect(fulls.length).toBeGreaterThan(0)
 
-    // fullColor applies on clipper container as text color utility
-    expect(
-      Array.from(clippers[0].classList).some(cls => cls.includes('bu-fg-soft-'))
-    ).toBe(true)
+    // fullColor applies on clipper container via CSS variables
+    const innerIcon = clippers[0].querySelector('.bc-icon')
+    expect(innerIcon).not.toBeNull()
+    const iconStyle = innerIcon!.getAttribute('style') ?? ''
+    expect(iconStyle).toContain('--icon-color: var(--color-green-300)')
+    expect(iconStyle).toContain('--icon-color-dark: var(--color-green-700)')
   })
 
   it('masks fractional values', () => {

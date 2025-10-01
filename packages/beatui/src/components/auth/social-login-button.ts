@@ -16,7 +16,7 @@ import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { SocialLoginButtonOptions, AuthProviderName } from './index'
 import { ControlSize } from '../theme'
-import { Group, Stack } from '../layout'
+import { Stack } from '../layout'
 import { ThemeColorName } from '@/tokens'
 import { AuthI18n } from '@/auth-i18n/translations'
 
@@ -63,16 +63,15 @@ export function SocialLoginButton({
     attr.class(
       computedOf(provider)((p): string => `bc-social-login-button--${p}`)
     ),
-    Group(
-      attr.class('bu-items-center bu-w-full'),
-      Icon({ icon, size }, attr.class('bu-bg-white bu-rounded-full bu-p-2')),
-
-      // Button text or custom children
+    html.span(
+      attr.class('bc-social-login-button__inner'),
+      html.span(
+        attr.class('bc-social-login-button__icon'),
+        Icon({ icon, size }, attr.class('bc-social-login-button__icon-inner'))
+      ),
       Use(AuthI18n, t =>
         html.span(
-          attr.class(
-            'bu-flex-grow bu-flex bu-items-center bu-align-center bu-text-center bu-px-4'
-          ),
+          attr.class('bc-social-login-button__label'),
           bind(
             coalesce(labels?.continueWithProvider, t.$.continueWithProvider)
           )(name)
@@ -100,7 +99,7 @@ export function SocialLoginButtons({
   className?: Value<string>
 }): Renderable {
   return Stack(
-    attr.class('bc-social-login-buttons bu-gap-2 bu-px-8'),
+    attr.class('bc-social-login-buttons'),
     attr.class(className),
     ForEach(providers, item =>
       SocialLoginButton({

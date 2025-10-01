@@ -1,0 +1,67 @@
+.bc-social-login-buttons.bc-stack {
+  gap: calc(var(--spacing-base) * 2);
+  padding-inline: calc(var(--spacing-base) * 8);
+  width: 100%;
+}
+
+.bc-social-login-button {
+  width: 100%;
+}
+
+.bc-social-login-button__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: calc(var(--spacing-base) * 2);
+}
+
+.bc-social-login-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+  padding: calc(var(--spacing-base) * 2);
+}
+
+.b-dark .bc-social-login-button__icon {
+  background-color: var(--bg-elevated-dark);
+}
+
+.bc-social-login-button__icon-inner {
+  color: var(--color-base-900);
+}
+
+.b-dark .bc-social-login-button__icon-inner {
+  color: var(--text-normal-dark);
+}
+
+.bc-social-login-button__label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: calc(var(--spacing-base) * 4);
+}
+
+.bc-social-login-button--google .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+.bc-social-login-button--github .bc-social-login-button__icon {
+  background-color: var(--color-black);
+}
+
+.bc-social-login-button--github .bc-social-login-button__icon-inner {
+  color: var(--color-white);
+}
+
+.bc-social-login-button--apple .bc-social-login-button__icon {
+  background-color: var(--color-black);
+}
+
+.bc-social-login-button--apple .bc-social-login-button__icon-inner {
+  color: var(--color-white);
+}

@@ -525,3 +525,19 @@
     transform: none;
   }
 }
+
+.bc-modal__title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+}
+
+.b-dark .bc-modal__title {
+  color: var(--color-gray-200);
+}
+
+.bc-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: calc(var(--spacing-base) * 2);
+}
+

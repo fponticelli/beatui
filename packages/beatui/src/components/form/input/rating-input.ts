@@ -103,14 +103,12 @@ export const RatingInput = (options: RatingInputOptions) => {
       attr.class('bc-rating-input__icon-container'),
       attr.class(iconSize),
       Icon(
-        { icon: emptyIcon, size },
-        attr.class('bc-rating-input__icon-empty'),
-        attr.class(Value.map(emptyColor, c => `bu-fg-soft-${c}`))
+        { icon: emptyIcon, size, color: emptyColor, tone: 'soft' },
+        attr.class('bc-rating-input__icon-empty')
       ),
       html.span(
         attr.class('bc-rating-input__icon-clipper'),
         attr.class(iconSize),
-        attr.class(Value.map(fullColor, c => `bu-fg-soft-${c}`)),
         style.width(
           Value.map(value, v => {
             const rounded = Math.floor(v)
@@ -119,7 +117,10 @@ export const RatingInput = (options: RatingInputOptions) => {
             return `${(v - index) * 100}%`
           })
         ),
-        Icon({ icon: fullIcon, size }, attr.class('bc-rating-input__icon-full'))
+        Icon(
+          { icon: fullIcon, size, color: fullColor, tone: 'soft' },
+          attr.class('bc-rating-input__icon-full')
+        )
       ),
       on.click(
         emit(e => handleClick(e as MouseEvent, counter), {

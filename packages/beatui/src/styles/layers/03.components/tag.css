@@ -1,17 +1,33 @@
 /* Tag Component */
 .bc-tag {
-  /* text-transform: uppercase; */
+  --tag-bg: var(--bg-subtle-light);
+  --tag-bg-dark: var(--bg-elevated-dark);
+  --tag-text: var(--text-normal-light);
+  --tag-text-dark: var(--text-normal-dark);
+  --tag-bg-hover: var(--tag-bg);
+  --tag-bg-hover-dark: var(--tag-bg-dark);
+  --tag-text-hover: var(--tag-text);
+  --tag-text-hover-dark: var(--tag-text-dark);
+  --tag-border: transparent;
+  --tag-border-dark: transparent;
+
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   border-radius: var(--radius-full);
   line-height: 1.2;
-  border: 1px solid transparent;
+  border: 1px solid var(--tag-border);
   transition: all 0.2s ease-in-out;
   font-size: var(--font-size-base);
   padding: 0 calc(var(--spacing-base) * 2);
-  font-size: var(--font-size-base);
   gap: calc(var(--spacing-base) * 2);
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.bc-tag:hover {
+  background-color: var(--tag-bg-hover);
+  color: var(--tag-text-hover);
 }
 
 .bc-tag--xs {
@@ -79,9 +95,14 @@
 
 /* Dark mode styles */
 .b-dark .bc-tag {
-  color: var(--text-normal-dark);
-  background-color: var(--bg-elevated-dark);
-  border: 1px solid var(--border-dark);
+  background-color: var(--tag-bg-dark);
+  color: var(--tag-text-dark);
+  border-color: var(--tag-border-dark);
+}
+
+.b-dark .bc-tag:hover {
+  background-color: var(--tag-bg-hover-dark);
+  color: var(--tag-text-hover-dark);
 }
 
 .b-dark .bc-tag__close {

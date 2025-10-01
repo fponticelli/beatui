@@ -13,6 +13,30 @@
   user-select: none;
 }
 
+.bc-switch__label--nowrap {
+  white-space: nowrap;
+}
+
+.bc-switch--size-xs .bc-switch__label {
+  font-size: var(--font-size-xs);
+}
+
+.bc-switch--size-sm .bc-switch__label {
+  font-size: var(--font-size-sm);
+}
+
+.bc-switch--size-md .bc-switch__label {
+  font-size: var(--font-size-base);
+}
+
+.bc-switch--size-lg .bc-switch__label {
+  font-size: var(--font-size-lg);
+}
+
+.bc-switch--size-xl .bc-switch__label {
+  font-size: var(--font-size-xl);
+}
+
 /* Switch track container */
 .bc-switch__track {
   position: relative;

@@ -1,10 +1,22 @@
 /* Button Component */
 .bc-button {
+  --button-bg: transparent;
+  --button-bg-dark: transparent;
+  --button-bg-hover: var(--button-bg);
+  --button-bg-hover-dark: var(--button-bg-dark);
+  --button-text: inherit;
+  --button-text-dark: inherit;
+  --button-text-hover: var(--button-text);
+  --button-text-hover-dark: var(--button-text-dark);
+  --button-border: transparent;
+  --button-border-dark: transparent;
+  --button-hover-decoration: none;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: calc(var(--spacing-base) / 2);
-  border: 1.5px solid transparent;
+  border: 1.5px solid var(--button-border);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
   font-family: inherit;
@@ -13,6 +25,8 @@
   border-radius: var(--radius-md);
   transition: all 0.2s ease-in-out;
   text-transform: capitalize;
+  background-color: var(--button-bg);
+  color: var(--button-text);
 }
 
 .bc-button > span {
@@ -21,6 +35,9 @@
 
 .bc-button:hover:not(:disabled) {
   transform: scale(1.03);
+  background-color: var(--button-bg-hover);
+  color: var(--button-text-hover);
+  text-decoration: var(--button-hover-decoration);
 }
 
 .bc-button:active:not(:disabled) {
@@ -36,25 +53,40 @@
   opacity: 0.5;
 }
 
+.bc-button--size-xs {
+  font-size: var(--font-size-xs);
+}
+
+.bc-button--size-sm {
+  font-size: var(--font-size-sm);
+}
+
+.bc-button--size-md {
+  font-size: var(--font-size-base);
+}
+
+.bc-button--size-lg {
+  font-size: var(--font-size-lg);
+}
+
+.bc-button--size-xl {
+  font-size: var(--font-size-xl);
+}
+
 /* Dark mode styles */
 .b-dark .bc-button {
-  color: var(--text-normal-dark);
-  background-color: var(--bg-elevated-dark);
+  background-color: var(--button-bg-dark);
+  color: var(--button-text-dark);
+  border-color: var(--button-border-dark);
 }
 
 .b-dark .bc-button:hover:not(:disabled) {
-  background-color: var(--interactive-hover-dark);
-  border-color: var(--border-divider-dark);
-}
-
-.b-dark .bc-button:active:not(:disabled) {
-  background-color: var(--interactive-active-dark);
+  background-color: var(--button-bg-hover-dark);
+  color: var(--button-text-hover-dark);
 }
 
 .b-dark .bc-button:disabled {
   color: var(--text-muted-dark);
-  background-color: var(--bg-subtle-dark);
-  border-color: var(--border-divider-dark);
 }
 
 /* Accessibility adjustments */

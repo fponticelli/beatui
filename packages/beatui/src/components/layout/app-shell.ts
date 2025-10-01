@@ -20,6 +20,7 @@ import { Button } from '../button'
 import { Icon } from '../data/icon'
 import { ElementRect } from '@tempots/ui'
 import { PanelColor, PanelShadow, Side } from '../theme'
+import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 import {
   AnimatedToggleClass,
   ToggleStatus,
@@ -80,7 +81,18 @@ function generatePanelClasses(
   const sideStr = (Array.isArray(side) ? side : [side])
     .map(s => `bc-panel--side-${s}`)
     .join(' ')
-  return `bc-panel ${sideStr} bu-bg-lighter-${color} bc-panel--shadow-${shadow}`
+  return `bc-panel ${sideStr} bc-panel--shadow-${shadow}`
+}
+
+function generatePanelStyles(color: PanelColor): string {
+  const baseLight = backgroundValue(color as ExtendedColor, 'lighter', 'light')
+  const baseDark = backgroundValue(color as ExtendedColor, 'lighter', 'dark')
+  return [
+    `--panel-bg: ${baseLight.backgroundColor}`,
+    `--panel-text: ${baseLight.textColor}`,
+    `--panel-bg-dark: ${baseDark.backgroundColor}`,
+    `--panel-text-dark: ${baseDark.textColor}`,
+  ].join('; ')
 }
 
 const defaults = {
@@ -537,7 +549,9 @@ export function AppShell({
           menuStatus.dispose()
           asideStatus.dispose()
         }),
-        attr.class('bu-grid bu-h-full bu-w-full'),
+        style.display('grid'),
+        style.height('100%'),
+        style.width('100%'),
         style.gridTemplateColumns(template.$.columns),
         style.gridTemplateRows(template.$.rows),
         style.gridTemplateAreas(template.$.areas),
@@ -552,6 +566,9 @@ export function AppShell({
                   options.banner.shadow ?? 'none'
                 )
               ),
+              attr.style(
+                generatePanelStyles(options.banner.color ?? 'white')
+              ),
               style.height('100%'),
               style.gridArea('banner'),
               options.banner.content
@@ -565,7 +582,8 @@ export function AppShell({
               options.header?.shadow ?? 'none'
             )
           ),
-          attr.class('bu-z-20'),
+          attr.style(generatePanelStyles(options.header?.color ?? 'white')),
+          style.zIndex('20'),
           style.display(displayHeader ? 'block' : 'none'),
           style.gridArea('header'),
           ElementRect(rect => {
@@ -622,10 +640,10 @@ export function AppShell({
                 aria.label(t.$.toggleAside),
                 Icon(
                   { icon: 'line-md/chevron-left' },
-                  attr.class('bu-transition-transform'),
-                  attr.class(
-                    asideStatus.display.map((v): string =>
-                      v ? 'bu-rotate-180' : ''
+                  attr.style('transition: transform 0.2s ease-in-out'),
+                  attr.style(
+                    asideStatus.display.map(
+                      (v): string => `transform: rotate(${v ? 180 : 0}deg)`
                     )
                   )
                 )
@@ -636,11 +654,11 @@ export function AppShell({
         options.menu
           ? html.nav(
               WithElement(el => menuStatus.setElement(el)),
-              attr.class('bu-z-10'),
+              style.zIndex('10'),
               // Add ARIA attributes for navigation landmark
               aria.label(t.$.mainNavigation),
               attr.role('navigation'),
-              attr.class('bu-overflow-hidden'),
+              style.overflow('hidden'),
               attr.class(
                 displayMenuAs.map((v): string =>
                   v === 'float'
@@ -654,6 +672,11 @@ export function AppShell({
                         options.menu?.color ?? 'white',
                         options.menu?.shadow ?? 'none'
                       )
+                )
+              ),
+              attr.style(
+                displayMenuAs.map(() =>
+                  generatePanelStyles(options.menu?.color ?? 'white')
                 )
               ),
               style.height('100%'),
@@ -704,6 +727,9 @@ export function AppShell({
                   options.mainHeader?.shadow ?? 'none'
                 )
               ),
+              attr.style(
+                generatePanelStyles(options.mainHeader?.color ?? 'white')
+              ),
               options.mainHeader.content
             )
           : null,
@@ -718,6 +744,7 @@ export function AppShell({
               options.main?.shadow ?? 'none'
             )
           ),
+          attr.style(generatePanelStyles(options.main?.color ?? 'white')),
           options.main.content
         ),
         options.mainFooter
@@ -731,6 +758,9 @@ export function AppShell({
                   options.mainFooter?.shadow ?? 'none'
                 )
               ),
+              attr.style(
+                generatePanelStyles(options.mainFooter?.color ?? 'white')
+              ),
               options.mainFooter.content
             )
           : null,
@@ -739,7 +769,7 @@ export function AppShell({
               WithElement(el => {
                 asideStatus.setElement(el)
               }),
-              attr.class('bu-z-10'),
+              style.zIndex('10'),
               // Add ARIA attributes for aside landmark
               aria.label(t.$.sidebar),
               attr.role('complementary'),
@@ -749,6 +779,9 @@ export function AppShell({
                     ? generatePanelClasses('left', 'white', 'md')
                     : generatePanelClasses('left', 'white', 'none')
                 )
+              ),
+              attr.style(
+                displayAsideAs.map(() => generatePanelStyles('white'))
               ),
               style.height('100%'),
               style.gridArea('aside'),
@@ -790,6 +823,7 @@ export function AppShell({
         options.footer
           ? html.footer(
               attr.class(generatePanelClasses('top', 'white', 'none')),
+              attr.style(generatePanelStyles('white')),
               style.height('100%'),
               style.gridArea('footer'),
               options.footer.content

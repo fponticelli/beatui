@@ -15,6 +15,13 @@ import {
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '@/tokens'
+import {
+  backgroundValue,
+  borderColorValue,
+  hoverBackgroundValue,
+  textColorValue,
+  ExtendedColor,
+} from '../theme/style-utils'
 import { RadiusName } from '@/tokens/radius'
 import { Icon } from '../data/icon'
 import { ElementRect, Rect } from '@tempots/ui'
@@ -34,58 +41,137 @@ export interface ButtonOptions {
 export function generateButtonClasses(
   variant: ButtonVariant,
   size: ControlSize,
-  color: string,
+  color: ExtendedColor,
   roundedness: RadiusName,
   disabled?: boolean,
   loading?: boolean
 ): string {
   const classes = [
     'bc-button',
-    `bu-text-${size}`,
+    `bc-button--size-${size}`,
     `bc-control--padding-${size}`,
-    `bu-rounded-${roundedness}`,
+    `bc-control--rounded-${roundedness}`,
   ]
 
   if (loading) {
     classes.push('bc-button--loading')
   }
 
-  switch (variant) {
-    case 'filled':
-      classes.push(`bu-bg-${color}`)
-      if (!disabled) {
-        classes.push(`hover:bu-bg-${color}`)
-      }
-      break
-    case 'light':
-      classes.push(`bu-bg-light-${color}`)
-      if (!disabled) {
-        classes.push(`hover:bu-bg-light-${color}`)
-      }
-      break
-    case 'outline':
-      classes.push(`bu-border--${color}`)
-      if (!disabled) {
-        classes.push(`hover:bu-bg-light-${color}`)
-      }
-      break
-    case 'default':
-      classes.push(`bu-bg-light-neutral`)
-      classes.push(`bu-text-${color}`)
-      if (!disabled) {
-        classes.push(`hover:bu-bg-light-base`)
-      }
-      break
-    case 'text':
-      classes.push(`bu-bg-inherit`)
-      classes.push(`bu-text-${color}`)
-      if (!disabled) {
-        classes.push(`hover:bu-underline`)
-      }
-      break
+  return classes.join(' ')
+}
+
+export function generateButtonStyles(
+  variant: ButtonVariant,
+  color: ExtendedColor,
+  disabled?: boolean
+): string {
+  const styles = new Map<string, string>()
+
+  const ensureHover = (
+    lightBg: string,
+    darkBg: string,
+    lightText: string,
+    darkText: string
+  ) => {
+    if (disabled) return
+    styles.set('--button-bg-hover', lightBg)
+    styles.set('--button-text-hover', lightText)
+    styles.set('--button-bg-hover-dark', darkBg)
+    styles.set('--button-text-hover-dark', darkText)
   }
 
-  return classes.join(' ')
+  switch (variant) {
+    case 'filled': {
+      const baseLight = backgroundValue(color, 'solid', 'light')
+      const baseDark = backgroundValue(color, 'solid', 'dark')
+      styles.set('--button-bg', baseLight.backgroundColor)
+      styles.set('--button-text', baseLight.textColor)
+      styles.set('--button-bg-dark', baseDark.backgroundColor)
+      styles.set('--button-text-dark', baseDark.textColor)
+
+      const hoverLight = hoverBackgroundValue(color, 'solid', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'solid', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
+
+    case 'light': {
+      const baseLight = backgroundValue(color, 'light', 'light')
+      const baseDark = backgroundValue(color, 'light', 'dark')
+      styles.set('--button-bg', baseLight.backgroundColor)
+      styles.set('--button-text', baseLight.textColor)
+      styles.set('--button-bg-dark', baseDark.backgroundColor)
+      styles.set('--button-text-dark', baseDark.textColor)
+
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
+
+    case 'outline': {
+      styles.set('--button-bg', 'transparent')
+      styles.set('--button-bg-dark', 'transparent')
+      styles.set('--button-border', borderColorValue(color, 'light'))
+      styles.set('--button-border-dark', borderColorValue(color, 'dark'))
+      styles.set('--button-text', textColorValue(color, 'light'))
+      styles.set('--button-text-dark', textColorValue(color, 'dark'))
+
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
+
+    case 'default': {
+      const baseLight = backgroundValue('neutral', 'light', 'light')
+      const baseDark = backgroundValue('neutral', 'light', 'dark')
+      styles.set('--button-bg', baseLight.backgroundColor)
+      styles.set('--button-text', textColorValue(color, 'light'))
+      styles.set('--button-bg-dark', baseDark.backgroundColor)
+      styles.set('--button-text-dark', textColorValue(color, 'dark'))
+
+      const hoverLight = hoverBackgroundValue('base', 'light', 'light')
+      const hoverDark = hoverBackgroundValue('base', 'light', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        styles.get('--button-text') ?? baseLight.textColor,
+        styles.get('--button-text-dark') ?? baseDark.textColor
+      )
+      break
+    }
+
+    case 'text': {
+      styles.set('--button-bg', 'transparent')
+      styles.set('--button-bg-dark', 'transparent')
+      styles.set('--button-text', textColorValue(color, 'light'))
+      styles.set('--button-text-dark', textColorValue(color, 'dark'))
+      if (!disabled) {
+        styles.set('--button-hover-decoration', 'underline')
+      }
+      break
+    }
+  }
+
+  return Array.from(styles.entries())
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ')
 }
 
 export function Button(
@@ -126,10 +212,23 @@ export function Button(
           generateButtonClasses(
             variant ?? 'filled',
             size ?? 'md',
-            color ?? 'base',
+            (color ?? 'base') as ExtendedColor,
             roundedness ?? 'sm',
             disabled,
             loading
+          )
+        )
+      ),
+      attr.style(
+        computedOf(
+          variant,
+          color,
+          disabled
+        )((variant, color, disabled) =>
+          generateButtonStyles(
+            variant ?? 'filled',
+            (color ?? 'base') as ExtendedColor,
+            disabled
           )
         )
       ),

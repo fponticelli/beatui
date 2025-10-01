@@ -15,6 +15,10 @@ import { IconSize } from '../theme'
 import { Query, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 import { BeatUII18n } from '@/beatui-i18n'
+import {
+  foregroundColorValue,
+  ForegroundTone,
+} from '../theme/style-utils'
 
 const dbName = 'bui-icons'
 
@@ -137,18 +141,32 @@ export interface IconOptions {
    * @default 'auto'
    */
   accessibility?: Value<'decorative' | 'informative' | 'auto'>
+  tone?: Value<ForegroundTone>
 }
 
-function generateIconClasses(size: IconSize, color?: string): string {
-  const classes = ['bc-icon', `bc-icon--${size}`]
-  if (color) {
-    classes.push(`bu-fg-${color}`)
-  }
-  return classes.join(' ')
+function generateIconClasses(size: IconSize): string {
+  return ['bc-icon', `bc-icon--${size}`].join(' ')
+}
+
+function generateIconStyles(
+  color?: ThemeColorName,
+  tone: ForegroundTone = 'solid'
+): string {
+  if (!color) return ''
+  const light = foregroundColorValue(color, tone, 'light')
+  const dark = foregroundColorValue(color, tone, 'dark')
+  return `--icon-color: ${light}; --icon-color-dark: ${dark}`
 }
 
 export function Icon(
-  { icon, size = 'md', color, title, accessibility = 'auto' }: IconOptions,
+  {
+    icon,
+    size = 'md',
+    color,
+    title,
+    accessibility = 'auto',
+    tone = 'solid',
+  }: IconOptions,
   ...children: TNode[]
 ) {
   // Determine if icon is decorative or informative
@@ -164,12 +182,16 @@ export function Icon(
 
   return Use(BeatUII18n, t =>
     html.span(
-      attr.class('bu-content-box'),
       attr.class(
         computedOf(
           size,
           color
-        )((size, color) => generateIconClasses(size ?? 'md', color))
+        )((size) => generateIconClasses(size ?? 'md'))
+      ),
+      attr.style(
+        computedOf(color, tone)((color, tone) =>
+          generateIconStyles(color ?? undefined, tone ?? 'solid')
+        )
       ),
       // Add accessibility attributes based on icon type
       When(
