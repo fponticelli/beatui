@@ -4,10 +4,8 @@
 /* Tailwind-compatible layer order */
 @layer base;
 @layer components;
-@layer utilities;
 
 /* Import all layers in Tailwind order */
 @import './layers/01.reset/index.css' layer(base);
 @import './layers/02.base/index.css' layer(base);
 @import './layers/03.components/index.css' layer(components);
-@import './layers/05.utilities/index.css' layer(utilities);

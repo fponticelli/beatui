@@ -97,7 +97,6 @@ BeatUI follows a layered CSS architecture:
 
 - `@layer base` - Reset + foundational styles and design tokens
 - `@layer components` - Component styles and modifiers (bc- prefix)
-- `@layer utilities` - Single-purpose utility classes (bu- prefix)
 
 ## 🤝 Contributing
 

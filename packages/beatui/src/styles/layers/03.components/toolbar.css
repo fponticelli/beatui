@@ -72,7 +72,7 @@
   /* Hide only text labels at narrow widths; keep icons visible */
   .bc-toolbar__button
     .bc-button
-    > span:not(.sr-only):not(.bc-icon):not(.bu-content-box) {
+    > span:not(.sr-only):not(.bc-icon):not(.bc-content-box) {
     display: none;
   }
 }

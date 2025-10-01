@@ -2,10 +2,6 @@ import { spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
-import {
-  generateBackgroundUtilities,
-  generateForegroundUtilities,
-} from '../src/tokens/colors.js'
 import { generateAllTokenVariables } from '../src/tokens/index.js'
 
 function formatWithPrettier(filePath: string) {
@@ -69,84 +65,6 @@ export function generateCSSVariablesPlugin() {
         console.log(`✅ CSS variables generated at ${outputPath}`)
       } catch (error) {
         console.error('❌ Failed to generate CSS variables:', error)
-        throw error
-      }
-    },
-  }
-}
-
-/**
- * Vite plugin to generate background utility classes
- * Creates background utility classes from design tokens
- */
-export function generateBackgroundUtilitiesPlugin() {
-  return {
-    name: 'generate-background-utilities',
-    buildStart: async () => {
-      console.log('🎨 Generating background utility classes...')
-
-      try {
-        const bgCSS = generateBackgroundUtilities()
-        const outputPath = path.resolve(
-          process.cwd(),
-          'src/styles/layers/05.utilities/bg.css'
-        )
-
-        // Ensure directory exists
-        const dirname = path.dirname(outputPath)
-        if (!fs.existsSync(dirname)) {
-          fs.mkdirSync(dirname, { recursive: true })
-        }
-
-        // Write the generated CSS
-        fs.writeFileSync(outputPath, bgCSS, 'utf8')
-        // Format the generated CSS
-        try {
-          formatWithPrettier(outputPath)
-        } catch {}
-
-        console.log(`✅ Background utilities generated at ${outputPath}`)
-      } catch (error) {
-        console.error('❌ Failed to generate background utilities:', error)
-        throw error
-      }
-    },
-  }
-}
-
-/**
- * Vite plugin to generate foreground (text color) utility classes
- * Creates foreground utility classes from design tokens
- */
-export function generateForegroundUtilitiesPlugin() {
-  return {
-    name: 'generate-foreground-utilities',
-    buildStart: async () => {
-      console.log('🎨 Generating foreground utility classes...')
-
-      try {
-        const fgCSS = generateForegroundUtilities()
-        const outputPath = path.resolve(
-          process.cwd(),
-          'src/styles/layers/05.utilities/fg.css'
-        )
-
-        // Ensure directory exists
-        const dirname = path.dirname(outputPath)
-        if (!fs.existsSync(dirname)) {
-          fs.mkdirSync(dirname, { recursive: true })
-        }
-
-        // Write the generated CSS
-        fs.writeFileSync(outputPath, fgCSS, 'utf8')
-        // Format the generated CSS
-        try {
-          formatWithPrettier(outputPath)
-        } catch {}
-
-        console.log(`✅ Foreground utilities generated at ${outputPath}`)
-      } catch (error) {
-        console.error('❌ Failed to generate foreground utilities:', error)
         throw error
       }
     },

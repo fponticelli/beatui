@@ -43,7 +43,6 @@ BeatUI uses a **layered CSS architecture** with strict ordering:
 
 1. `@layer base` - Reset + foundational styles and design tokens
 2. `@layer components` - Component styles and modifiers (prefixed with `bc-`)
-3. `@layer utilities` - Utility classes (prefixed with `bu-`)
 
 ### Design Token System
 - Design tokens are defined in TypeScript files (`src/tokens/`)
