@@ -7,7 +7,7 @@
 - Ship a Vite-first integration story (plugin + docs) that wires BeatUI into a Tailwind-aware build in a single step.
 
 ## Deliverables
-- `standalone.css`: includes BeatUI core tokens, reset, semantic aliases, and component layers for non-Tailwind projects.
+- `styles.css`: includes BeatUI core tokens, reset, semantic aliases, and component layers for non-Tailwind projects.
 - `tailwind.css`: includes only BeatUI semantic aliases + component layers and assumes Tailwind v4 preflight/tokens.
 - `packages/beatui/vite-plugin-tailwind.ts`: Vite plugin that injects BeatUI Tailwind preset/config + CSS entry wires.
 - Tailwind preset (consumed by the plugin) that registers BeatUI tokens via `@theme` / `addBase`, exposes semantic colors.
@@ -20,16 +20,16 @@
 ### 1. CSS Architecture Restructure
 - [ ] Extract shared core tokens to `packages/beatui/src/styles/base/tokens-core.css` (raw palette, spacing, typography, animations).
 - [ ] Move BeatUI semantic aliases to `tokens-semantic.css` (primary/secondary/success/etc.).
-- [ ] Split reset styles into `reset-standalone.css` and `reset-tailwind.css` (the latter keeps only BeatUI-specific additions).
+- [ ] Split reset styles into `reset.css` and `reset-tailwind.css` (the latter keeps only BeatUI-specific additions).
 - [ ] Update existing layered imports to consume the new partials; ensure component layer order remains stable.
 - [ ] Remove bespoke keyframes (`bc-spin`) and rely on Tailwind animations; keep standalone fallbacks via `@supports not` if required.
 - [ ] Drop custom list-style defaults from `.b-ltr/.b-rtl`; plan Tailwind utility usage instead.
 
 ### 2. Build Outputs
-- [ ] Create `standalone.css` bundle (tokens-core → tokens-semantic → reset-standalone → focus/a11y → components).
+- [ ] Create `styles.css` bundle (tokens-core → tokens-semantic → reset-standalone → focus/a11y → components).
 - [ ] Create `tailwind.css` bundle (tokens-semantic → focus/a11y → components) without re-importing Tailwind tokens/reset.
 - [ ] Update `base.ts` (and any other CSS entry exports) to re-export both bundles with clear naming.
-- [ ] Ensure Rollup/Vite build config emits both CSS files under predictable paths (e.g. `dist/standalone.css` & `dist/tailwind.css`).
+- [ ] Ensure Rollup/Vite build config emits both CSS files under predictable paths (e.g. `dist/styles.css` & `dist/tailwind.css`).
 - [ ] Add bundle-size sanity checks to keep `tailwind.css` lean.
 
 ### 3. Tailwind Integration Preset & Vite Plugin
