@@ -34,11 +34,11 @@
 
 ### 3. Tailwind Integration Preset & Vite Plugin
 - [x] Capture preset scaffolding strategy and integration notes (see `docs/tailwind-preset-notes.md`).
-- [ ] Implement a Tailwind v4 preset exposing BeatUI tokens via `@theme` and semantic aliases via `addBase`/`theme.extend`.
-- [ ] Provide configuration hooks so client apps can override semantic mappings (primary/secondary/etc.).
+- [x] Implement a Tailwind v4 preset exposing BeatUI tokens via `@theme` and semantic aliases via `addBase`/`theme.extend`.
+- [x] Provide configuration hooks so client apps can override semantic mappings (primary/secondary/etc.).
 - [ ] Build a Vite plugin that: (a) registers the Tailwind preset, (b) injects `import 'beatui/tailwind.css'`, (c) optionally wires `.b-dark` ⇄ `.dark` class mappings.
 - [ ] Offer API surface for opting into dark/RTL selector alignment (default `.dark`, `[dir='rtl']`).
-- [ ] Document how to use the preset without the Vite plugin for advanced setups.
+- [x] Document how to use the preset without the Vite plugin for advanced setups (see `docs/tailwind-preset-usage.md`).
 
 ### 4. Component CSS Audit
 - [ ] Inventory BeatUI components using custom spacing/list/animation rules; replace with Tailwind utilities (`@apply` or class usage) where practical.
@@ -50,7 +50,7 @@
 ### 5. Documentation & Examples
 - [ ] Update BeatUI docs with two installation guides (standalone vs Tailwind) and plugin instructions.
 - [ ] Provide example Vite + Tailwind v4 project demonstrating BeatUI usage with semantic color overrides.
-- [ ] Document configuration API for primary/secondary/warning overrides, including defaults and merge behaviour.
+- [x] Document configuration API for primary/secondary/warning overrides, including defaults and merge behaviour (see `docs/tailwind-preset-notes.md`).
 - [ ] Add migration notes summarising breaking changes (removed `bc-spin`, `.b-ltr` list defaults, etc.).
 
 ### 6. Testing & Validation
@@ -68,3 +68,11 @@
 - Do we need to publish the Tailwind preset as a separate package for tree-shaking or keep it internal to BeatUI?
 - How should we version/control breaking changes to existing consumers during rollout (beta tag vs major release)?
 - Are there additional semantic groups (info, accent, neutral) clients expect to configure beyond primary/secondary/warning/success/error?
+
+## Next Implementation Focus
+- Tailwind Vite plugin skeleton:
+  - auto-register `createBeatuiPreset()` when Tailwind config is detected
+  - inject `import '@tempots/beatui/tailwind.css'` (tree-shakeable) and expose dark/RTL selector options
+- Testing tasks:
+  - snapshot generated CSS bundles to enforce size limits (especially `beatui.tailwind.css`)
+  - add Tailwind integration e2e/smoke test in docs app once plugin lands

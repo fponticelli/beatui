@@ -59,6 +59,34 @@ Or in TypeScript:
 import '@tempots/beatui/css'
 ```
 
+### Using BeatUI alongside Tailwind v4
+
+If your project already ships Tailwind v4, pull in the slimmer Tailwind bundle and preset so the design tokens come from Tailwind instead of the standalone reset.
+
+```css
+/* apps/main.css */
+@import '@tempots/beatui/tailwind.css';
+```
+
+```ts
+// tailwind.config.ts
+import { defineConfig } from 'tailwindcss'
+import { createBeatuiPreset } from '@tempots/beatui/tailwind/preset'
+
+export default defineConfig({
+  presets: [
+    createBeatuiPreset({
+      semanticColors: {
+        primary: 'emerald',
+        secondary: 'slate',
+      },
+    }),
+  ],
+})
+```
+
+The preset registers BeatUI tokens through Tailwind’s `@theme`/`addBase` pipeline, provides semantic color overrides, and exposes `beatui-dark`, `beatui-light`, `beatui-rtl`, and `beatui-ltr` variants that target BeatUI’s layout wrappers. See `docs/tailwind-preset-usage.md` for the full option list.
+
 ## Usage
 
 ```typescript

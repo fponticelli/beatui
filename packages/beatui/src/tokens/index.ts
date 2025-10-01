@@ -13,6 +13,7 @@ import {
   generateColorVariables,
   generateCoreColorVariables,
   generateSemanticColorVariables,
+  SemanticColorOverrides,
 } from './colors'
 import { generateSpacingVariables } from './spacing'
 import { generateTypographyVariables } from './typography'
@@ -36,9 +37,11 @@ export function generateCoreTokenVariables(): Record<string, string> {
   }
 }
 
-export function generateSemanticTokenVariables(): Record<string, string> {
+export function generateSemanticTokenVariables(
+  overrides?: SemanticColorOverrides
+): Record<string, string> {
   return {
-    ...generateSemanticColorVariables(),
+    ...generateSemanticColorVariables(overrides),
   }
 }
 

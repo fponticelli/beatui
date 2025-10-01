@@ -56,6 +56,16 @@ export const semanticColors = {
   info: 'blue',
 } as Record<SemanticColorName, ColorName>
 
+export type SemanticColorOverrides = Partial<
+  Record<SemanticColorName, ThemeColorName>
+>
+
+export function resolveSemanticColorMap(
+  overrides?: SemanticColorOverrides
+) {
+  return { ...semanticColors, ...overrides }
+}
+
 export type BackgroundColorName =
   | 'background'
   | 'surface'
@@ -143,9 +153,13 @@ export const interactiveColors = {
 }
 
 // Helper function to get color CSS variable
-export function normalizeColorName(color: ThemeColorName) {
+export function normalizeColorName(
+  color: ThemeColorName,
+  overrides?: SemanticColorOverrides
+) {
+  const map = resolveSemanticColorMap(overrides)
   if (semanticColorNames.includes(color as SemanticColorName)) {
-    return semanticColors[color as SemanticColorName]
+    return map[color as SemanticColorName] as ColorName
   }
   return color
 }
@@ -258,12 +272,15 @@ export function generateCoreColorVariables(): Record<string, string> {
   return variables
 }
 
-export function generateSemanticColorVariables(): Record<string, string> {
+export function generateSemanticColorVariables(
+  overrides?: SemanticColorOverrides
+): Record<string, string> {
   const variables = {} as Record<string, string>
+  const semanticMap = resolveSemanticColorMap(overrides)
 
   // semantic colors
   semanticColorNames.forEach(colorName => {
-    const baseColor = semanticColors[colorName]
+    const baseColor = normalizeColorName(semanticMap[colorName], overrides)
     colorShades.forEach(shade => {
       variables[getColorVarName(colorName, shade)] = getColorVar(
         baseColor,
@@ -275,22 +292,28 @@ export function generateSemanticColorVariables(): Record<string, string> {
   // background colors
   objectEntries(bgColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([bgName, [baseColor, shade]]) => {
-      variables[`--bg-${bgName}-${mode}`] = getColorVar(baseColor, shade)
+      const resolvedBase = normalizeColorName(baseColor, overrides)
+      variables[`--bg-${bgName}-${mode}`] = getColorVar(resolvedBase, shade)
     })
   })
 
   // text colors
   objectEntries(textColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([textName, [baseColor, shade]]) => {
-      variables[`--text-${textName}-${mode}`] = getColorVar(baseColor, shade)
+      const resolvedBase = normalizeColorName(baseColor, overrides)
+      variables[`--text-${textName}-${mode}`] = getColorVar(
+        resolvedBase,
+        shade
+      )
     })
   })
 
   // border colors
   objectEntries(borderColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([borderName, [baseColor, shade]]) => {
+      const resolvedBase = normalizeColorName(baseColor, overrides)
       variables[`--border-${borderName}-${mode}`] = getColorVar(
-        baseColor,
+        resolvedBase,
         shade
       )
     })
@@ -299,8 +322,9 @@ export function generateSemanticColorVariables(): Record<string, string> {
   // interactive colors
   objectEntries(interactiveColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([interactiveName, [baseColor, shade]]) => {
+      const resolvedBase = normalizeColorName(baseColor, overrides)
       variables[`--interactive-${interactiveName}-${mode}`] = getColorVar(
-        baseColor,
+        resolvedBase,
         shade
       )
     })
