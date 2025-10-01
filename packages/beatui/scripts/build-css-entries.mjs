@@ -58,6 +58,15 @@ function main() {
   const markdownSrc = path.resolve(pkgRoot, 'src/markdown/styles.css')
   const markdownCss = readFileSync(markdownSrc, 'utf8')
   writeOut('markdown.css', markdownCss)
+
+  // Build BeatUI CSS bundles
+  const standaloneSrc = path.resolve(pkgRoot, 'src/styles/styles.css')
+  const standaloneCss = inlineCssImports(standaloneSrc)
+  writeOut('beatui.css', standaloneCss)
+
+  const tailwindSrc = path.resolve(pkgRoot, 'src/styles/tailwind.css')
+  const tailwindCss = inlineCssImports(tailwindSrc)
+  writeOut('beatui.tailwind.css', tailwindCss)
 }
 
 main()

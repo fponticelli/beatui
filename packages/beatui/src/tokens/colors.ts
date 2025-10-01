@@ -241,7 +241,7 @@ export const backgroundConfig = {
 // Generate background utility CSS
 // Generate foreground (text color) utility CSS
 // Generate CSS variables from color tokens
-export function generateColorVariables(): Record<string, string> {
+export function generateCoreColorVariables(): Record<string, string> {
   const variables = {} as Record<string, string>
 
   variables['--color-white'] = 'white'
@@ -254,6 +254,12 @@ export function generateColorVariables(): Record<string, string> {
       variables[getColorVarName(colorName, shade)] = value
     })
   })
+
+  return variables
+}
+
+export function generateSemanticColorVariables(): Record<string, string> {
+  const variables = {} as Record<string, string>
 
   // semantic colors
   semanticColorNames.forEach(colorName => {
@@ -301,4 +307,11 @@ export function generateColorVariables(): Record<string, string> {
   })
 
   return variables
+}
+
+export function generateColorVariables(): Record<string, string> {
+  return {
+    ...generateCoreColorVariables(),
+    ...generateSemanticColorVariables(),
+  }
 }

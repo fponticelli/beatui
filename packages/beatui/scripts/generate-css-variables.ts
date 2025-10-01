@@ -1,49 +1,31 @@
 import fs from 'fs'
 import path from 'path'
-import { generateAllTokenVariables } from '../src/tokens/index.js'
 import { spawnSync } from 'child_process'
 
+import {
+  generateCoreTokenVariables,
+  generateSemanticTokenVariables,
+} from '../src/tokens/index.js'
+
 function formatWithPrettier(filePath: string) {
-  try {
-    const res = spawnSync(
-      'pnpm',
-      ['exec', 'prettier', '--log-level', 'warn', '--write', filePath],
-      { stdio: 'inherit' }
-    )
-    if (res.status === 0) return
-  } catch {}
-  try {
-    const res = spawnSync(
-      'npx',
-      ['prettier', '--log-level', 'warn', '--write', filePath],
-      { stdio: 'inherit' }
-    )
-    if (res.status === 0) return
-  } catch {}
-  try {
-    spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
-  } catch {
-    console.warn('Warning: Prettier not available to format', filePath)
+  const formatters = [
+    ['pnpm', ['exec', 'prettier', '--log-level', 'warn', '--write', filePath]],
+    ['npx', ['prettier', '--log-level', 'warn', '--write', filePath]],
+    ['prettier', ['--write', filePath]],
+  ] as const
+
+  for (const [command, args] of formatters) {
+    try {
+      const res = spawnSync(command, args, { stdio: 'inherit' })
+      if (res.status === 0) return
+    } catch {
+      // ignore and try next formatter
+    }
   }
+
+  console.warn('Warning: Prettier not available to format', filePath)
 }
 
-// Generate CSS variables content
-function generateCSSVariables(): string {
-  const variables = generateAllTokenVariables()
-
-  let cssContent = ':root {\n'
-
-  // Add each variable to the CSS content
-  Object.entries(variables).forEach(([name, value]) => {
-    cssContent += `  ${name}: ${value};\n`
-  })
-
-  cssContent += '  }\n'
-
-  return cssContent
-}
-
-// Ensure directory exists
 function ensureDirectoryExists(filePath: string) {
   const dirname = path.dirname(filePath)
   if (!fs.existsSync(dirname)) {
@@ -51,21 +33,46 @@ function ensureDirectoryExists(filePath: string) {
   }
 }
 
-// Main function
+function buildCssFromVariables(variables: Record<string, string>): string {
+  let cssContent = ':root {\n'
+  Object.entries(variables).forEach(([name, value]) => {
+    cssContent += `  ${name}: ${value};\n`
+  })
+  cssContent += '}\n'
+  return cssContent
+}
+
+function writeCss(filePath: string, content: string) {
+  ensureDirectoryExists(filePath)
+  fs.writeFileSync(filePath, content, 'utf8')
+  try {
+    formatWithPrettier(filePath)
+  } catch {}
+}
+
 function main() {
-  const outputPath = path.resolve(
-    process.cwd(),
+  const pkgRoot = process.cwd()
+
+  const coreOutput = path.resolve(pkgRoot, 'src/styles/base/tokens-core.css')
+  const semanticOutput = path.resolve(
+    pkgRoot,
+    'src/styles/base/tokens-semantic.css'
+  )
+  const shimOutput = path.resolve(
+    pkgRoot,
     'src/styles/layers/02.base/variables.css'
   )
-  const cssContent = generateCSSVariables()
 
-  ensureDirectoryExists(outputPath)
-  fs.writeFileSync(outputPath, cssContent, 'utf8')
-  try {
-    formatWithPrettier(outputPath)
-  } catch {}
+  const coreCss = buildCssFromVariables(generateCoreTokenVariables())
+  const semanticCss = buildCssFromVariables(generateSemanticTokenVariables())
+  const shimCss =
+    "@import '../../base/tokens-core.css';\n@import '../../base/tokens-semantic.css';\n"
 
-  console.log(`✅ CSS variables generated at ${outputPath}`)
+  writeCss(coreOutput, coreCss)
+  writeCss(semanticOutput, semanticCss)
+  writeCss(shimOutput, shimCss)
+
+  console.log('✅ CSS token files refreshed')
 }
 
 main()

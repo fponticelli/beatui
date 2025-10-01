@@ -9,7 +9,11 @@ export * from './spacing'
 export * from './typography'
 export * from './z-index'
 
-import { generateColorVariables } from './colors'
+import {
+  generateColorVariables,
+  generateCoreColorVariables,
+  generateSemanticColorVariables,
+} from './colors'
 import { generateSpacingVariables } from './spacing'
 import { generateTypographyVariables } from './typography'
 import { generateBreakpointVariables } from './breakpoints'
@@ -19,9 +23,9 @@ import { generateTextShadowVariables } from './text-shadows'
 import { generateZIndexVariables } from './z-index'
 
 // Generate all CSS variables
-export function generateAllTokenVariables(): Record<string, string> {
+export function generateCoreTokenVariables(): Record<string, string> {
   return {
-    ...generateColorVariables(),
+    ...generateCoreColorVariables(),
     ...generateSpacingVariables(),
     ...generateTypographyVariables(),
     ...generateBreakpointVariables(),
@@ -29,6 +33,19 @@ export function generateAllTokenVariables(): Record<string, string> {
     ...generateShadowVariables(),
     ...generateTextShadowVariables(),
     ...generateZIndexVariables(),
+  }
+}
+
+export function generateSemanticTokenVariables(): Record<string, string> {
+  return {
+    ...generateSemanticColorVariables(),
+  }
+}
+
+export function generateAllTokenVariables(): Record<string, string> {
+  return {
+    ...generateCoreTokenVariables(),
+    ...generateSemanticTokenVariables(),
   }
 }
 

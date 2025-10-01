@@ -20,19 +20,20 @@
 ### 1. CSS Architecture Restructure
 - [x] Extract shared core tokens to `packages/beatui/src/styles/base/tokens-core.css` (raw palette, spacing, typography, animations).
 - [x] Move BeatUI semantic aliases to `tokens-semantic.css` (primary/secondary/success/etc.).
-- [ ] Split reset styles into `reset.css` and `reset-tailwind.css` (the latter keeps only BeatUI-specific additions).
+- [x] Split reset styles into `reset.css` and `reset-tailwind.css` (the latter keeps only BeatUI-specific additions).
 - [x] Update existing layered imports to consume the new partials; ensure component layer order remains stable.
-- [ ] Remove bespoke keyframes (`bc-spin`) and rely on Tailwind animations; keep standalone fallbacks via `@supports not` if required.
-- [ ] Drop custom list-style defaults from `.b-ltr/.b-rtl`; plan Tailwind utility usage instead.
+- [x] Remove bespoke keyframes (`bc-spin`) and rely on Tailwind animations; keep standalone fallbacks via `@supports not` if required.
+- [x] Drop custom list-style defaults from `.b-ltr/.b-rtl`; plan Tailwind utility usage instead.
 
 ### 2. Build Outputs
 - [x] Create `styles.css` bundle (tokens-core → tokens-semantic → reset-standalone → focus/a11y → components).
 - [x] Create `tailwind.css` bundle (tokens-semantic → focus/a11y → components) without re-importing Tailwind tokens/reset.
 - [x] Update `base.ts` (and any other CSS entry exports) to re-export both bundles with clear naming.
-- [ ] Ensure Rollup/Vite build config emits both CSS files under predictable paths (e.g. `dist/styles.css` & `dist/tailwind.css`).
+- [x] Ensure Rollup/Vite build config emits both CSS files under predictable paths (e.g. `dist/styles.css` & `dist/tailwind.css`).
 - [ ] Add bundle-size sanity checks to keep `tailwind.css` lean.
 
 ### 3. Tailwind Integration Preset & Vite Plugin
+- [x] Capture preset scaffolding strategy and integration notes (see `docs/tailwind-preset-notes.md`).
 - [ ] Implement a Tailwind v4 preset exposing BeatUI tokens via `@theme` and semantic aliases via `addBase`/`theme.extend`.
 - [ ] Provide configuration hooks so client apps can override semantic mappings (primary/secondary/etc.).
 - [ ] Build a Vite plugin that: (a) registers the Tailwind preset, (b) injects `import 'beatui/tailwind.css'`, (c) optionally wires `.b-dark` ⇄ `.dark` class mappings.
@@ -41,7 +42,7 @@
 
 ### 4. Component CSS Audit
 - [ ] Inventory BeatUI components using custom spacing/list/animation rules; replace with Tailwind utilities (`@apply` or class usage) where practical.
-- [ ] For standalone build, generate minimal fallback utilities (e.g. `.animate-spin`) within a dedicated `@layer utilities` that’s excluded from the Tailwind bundle.
+- [x] For standalone build, generate minimal fallback utilities (e.g. `.animate-spin`) within a dedicated `@layer utilities` that’s excluded from the Tailwind bundle.
 - [ ] Verify dropdown/other bespoke animations remain intact or convert to Tailwind-friendly definitions.
 - [ ] Ensure no component relies on `.b-*` list styles; update templates to apply explicit classes if needed.
 - [ ] Run visual checks in docs for dark/RTL/Tailwind combinations after refactor.

@@ -46,6 +46,7 @@
     "./monaco.css": "./dist/monaco.css",
     "./markdown.css": "./dist/markdown.css",
     "./css": "./dist/beatui.css",
+    "./tailwind.css": "./dist/beatui.tailwind.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },

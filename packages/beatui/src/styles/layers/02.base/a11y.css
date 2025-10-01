@@ -11,13 +11,5 @@
   border: 0;
 }
 
-/* Basic spinner used by loading indicators */
-@keyframes bc-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: var(--animate-spin, bc-spin 1s linear infinite);
-}
+/* Spinners rely on Tailwind's `animate-spin` utility; a standalone fallback
+   lives in the standalone bundle's utility layer. */

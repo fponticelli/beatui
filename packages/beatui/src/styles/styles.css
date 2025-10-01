@@ -5,3 +5,15 @@
 @import './layers/01.reset/index.css' layer(base);
 @import './layers/02.base/index.css' layer(base);
 @import './layers/03.components/index.css' layer(components);
+
+@layer utilities {
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
