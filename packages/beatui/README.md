@@ -71,9 +71,16 @@ If your project already ships Tailwind v4, pull in the slimmer Tailwind bundle a
 ```ts
 // tailwind.config.ts
 import { defineConfig } from 'tailwindcss'
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 import { createBeatuiPreset } from '@tempots/beatui/tailwind/preset'
 
 export default defineConfig({
+  plugins: [
+    beatuiTailwindPlugin({
+      darkClass: 'dark',
+      rtlAttribute: 'dir',
+    }),
+  ],
   presets: [
     createBeatuiPreset({
       semanticColors: {
@@ -85,7 +92,7 @@ export default defineConfig({
 })
 ```
 
-The preset registers BeatUI tokens through Tailwind’s `@theme`/`addBase` pipeline, provides semantic color overrides, and exposes `beatui-dark`, `beatui-light`, `beatui-rtl`, and `beatui-ltr` variants that target BeatUI’s layout wrappers. See `docs/tailwind-preset-usage.md` for the full option list.
+The preset registers BeatUI tokens through Tailwind’s `@theme`/`addBase` pipeline, provides semantic color overrides, and exposes `beatui-dark`, `beatui-light`, `beatui-rtl`, and `beatui-ltr` variants that target BeatUI’s layout wrappers. See `docs/tailwind-preset-usage.md` for the full option list. The Vite plugin synchronises Tailwind’s dark/RTL selectors with BeatUI’s `.b-dark` / `.b-rtl` helpers and injects the slim CSS bundle automatically—additional options are documented in `docs/tailwind-plugin-usage.md`.
 
 ## Usage
 

@@ -66,7 +66,7 @@ export const Tag = ({
       )((color, size, disabled) => generateTagClasses(color, size, disabled))
     ),
     attr.style(
-      computedOf(color)((color) =>
+      computedOf(color)(color =>
         generateTagStyles((color ?? 'base') as ExtendedColor)
       )
     ),

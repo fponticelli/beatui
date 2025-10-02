@@ -106,7 +106,11 @@ export function GroupContainer({
 }): Renderable {
   return Card(
     { variant: 'outlined', size: 'md' },
-    Stack(attr.class('bc-stack--gap-1'), title ? Label(title) : null, ...children)
+    Stack(
+      attr.class('bc-stack--gap-1'),
+      title ? Label(title) : null,
+      ...children
+    )
   )
 }
 

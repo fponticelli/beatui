@@ -5,7 +5,10 @@ import { buildNavigationOptions } from './navigation-options'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
 import { RadiusName } from '@/tokens/radius'
-import { generateButtonClasses, generateButtonStyles } from '../../button/button'
+import {
+  generateButtonClasses,
+  generateButtonStyles,
+} from '../../button/button'
 import type { ExtendedColor } from '../../theme/style-utils'
 import { UrlMatchMode, createLocationMatcher } from './navigation-link'
 
@@ -154,7 +157,11 @@ function ButtonLinkCore(
           )
         ),
         attr.style(
-          computedOf(variant, color, disabled)((variant, color, disabled) =>
+          computedOf(
+            variant,
+            color,
+            disabled
+          )((variant, color, disabled) =>
             generateButtonStyles(
               variant ?? 'filled',
               (color ?? 'base') as ExtendedColor,
@@ -194,7 +201,11 @@ function ButtonLinkCore(
           )
         ),
         attr.style(
-          computedOf(variant, color, disabled)((variant, color, disabled) =>
+          computedOf(
+            variant,
+            color,
+            disabled
+          )((variant, color, disabled) =>
             generateButtonStyles(
               variant ?? 'filled',
               (color ?? 'base') as ExtendedColor,

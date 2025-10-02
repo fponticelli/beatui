@@ -60,9 +60,7 @@ export type SemanticColorOverrides = Partial<
   Record<SemanticColorName, ThemeColorName>
 >
 
-export function resolveSemanticColorMap(
-  overrides?: SemanticColorOverrides
-) {
+export function resolveSemanticColorMap(overrides?: SemanticColorOverrides) {
   return { ...semanticColors, ...overrides }
 }
 
@@ -301,10 +299,7 @@ export function generateSemanticColorVariables(
   objectEntries(textColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([textName, [baseColor, shade]]) => {
       const resolvedBase = normalizeColorName(baseColor, overrides)
-      variables[`--text-${textName}-${mode}`] = getColorVar(
-        resolvedBase,
-        shade
-      )
+      variables[`--text-${textName}-${mode}`] = getColorVar(resolvedBase, shade)
     })
   })
 

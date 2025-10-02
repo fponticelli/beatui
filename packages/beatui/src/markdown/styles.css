@@ -36,167 +36,166 @@
     max-width: 100%;
     height: auto;
   }
-.bc-markdown {
-  font-size: 1rem;
-  line-height: 1.75rem;
-  font-weight: 400;
-}
+  .bc-markdown {
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+  }
 
-/* Headings */
-.bc-markdown h1 {
-  margin-block: 1.25rem 0.75rem;
-  font-size: 1.75rem;
-  line-height: 2.25rem;
-  font-weight: 700;
-}
+  /* Headings */
+  .bc-markdown h1 {
+    margin-block: 1.25rem 0.75rem;
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+  }
 
-.bc-markdown h2 {
-  margin-block: 1.25rem 0.75rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 600;
-}
+  .bc-markdown h2 {
+    margin-block: 1.25rem 0.75rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
 
-.bc-markdown h3 {
-  margin-block: 1rem 0.5rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-}
+  .bc-markdown h3 {
+    margin-block: 1rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
 
-.bc-markdown h4 {
-  margin-block: 0.75rem 0.5rem;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-}
+  .bc-markdown h4 {
+    margin-block: 0.75rem 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
 
-.bc-markdown h5 {
-  margin-block: 0.75rem 0.5rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 600;
-}
+  .bc-markdown h5 {
+    margin-block: 0.75rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
 
-.bc-markdown h6 {
-  margin-block: 0.75rem 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 600;
-}
+  .bc-markdown h6 {
+    margin-block: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
 
-/* Paragraphs */
-.bc-markdown p {
-  margin-block: 0.75rem;
-  font-size: 1rem;
-  line-height: 1.75rem;
-  font-weight: 400;
-}
+  /* Paragraphs */
+  .bc-markdown p {
+    margin-block: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+  }
 
-/* Links */
-.bc-markdown a {
-  color: var(--color-primary-600);
-  text-decoration: underline;
-}
+  /* Links */
+  .bc-markdown a {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+  }
 
-.bc-markdown a:hover {
-  color: var(--color-primary-700);
-}
+  .bc-markdown a:hover {
+    color: var(--color-primary-700);
+  }
 
-/* Inline Code */
-.bc-markdown code {
-  font-family: var(--font-family-mono);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 400;
-  color: var(--color-primary-700);
-}
+  /* Inline Code */
+  .bc-markdown code {
+    font-family: var(--font-family-mono);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    color: var(--color-primary-700);
+  }
 
-/* Code blocks */
-.bc-markdown pre {
-  font-family: var(--font-family-mono);
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  font-weight: 400;
-  color: var(--color-primary-700);
-  background: var(--color-base-50);
-  border: 1px solid var(--color-base-200);
-  border-radius: var(--radius-md, 0.5rem);
-  padding: 0.75rem 1rem;
-  overflow: auto;
-}
+  /* Code blocks */
+  .bc-markdown pre {
+    font-family: var(--font-family-mono);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    color: var(--color-primary-700);
+    background: var(--color-base-50);
+    border: 1px solid var(--color-base-200);
+    border-radius: var(--radius-md, 0.5rem);
+    padding: 0.75rem 1rem;
+    overflow: auto;
+  }
 
-/* Blockquote */
-.bc-markdown blockquote {
-  margin-block: 1rem;
-  padding: 0.75rem 1rem;
-  border-inline-start: 4px solid var(--color-primary-200);
-  background: color-mix(in srgb, var(--color-primary-50) 30%, transparent);
-  border-radius: var(--radius-md, 0.5rem);
-}
+  /* Blockquote */
+  .bc-markdown blockquote {
+    margin-block: 1rem;
+    padding: 0.75rem 1rem;
+    border-inline-start: 4px solid var(--color-primary-200);
+    background: color-mix(in srgb, var(--color-primary-50) 30%, transparent);
+    border-radius: var(--radius-md, 0.5rem);
+  }
 
-/* Lists */
-.bc-markdown ul,
-.bc-markdown ol {
-  padding-inline-start: 1.5rem;
-  margin-block: 0.75rem;
-}
+  /* Lists */
+  .bc-markdown ul,
+  .bc-markdown ol {
+    padding-inline-start: 1.5rem;
+    margin-block: 0.75rem;
+  }
 
-.bc-markdown ul {
-  list-style: disc;
-}
-.bc-markdown ol {
-  list-style: decimal;
-}
+  .bc-markdown ul {
+    list-style: disc;
+  }
+  .bc-markdown ol {
+    list-style: decimal;
+  }
 
-.bc-markdown li {
-  margin-block: 0.25rem;
-}
-.bc-markdown li > ul,
-.bc-markdown li > ol {
-  margin-block-start: 0.25rem;
-}
+  .bc-markdown li {
+    margin-block: 0.25rem;
+  }
+  .bc-markdown li > ul,
+  .bc-markdown li > ol {
+    margin-block-start: 0.25rem;
+  }
 
-/* Tables */
-.bc-markdown table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-block: 1rem;
-}
+  /* Tables */
+  .bc-markdown table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1rem;
+  }
 
-.bc-markdown th {
-  text-align: left;
-  font-weight: 600;
-}
+  .bc-markdown th {
+    text-align: left;
+    font-weight: 600;
+  }
 
-.bc-markdown td,
-.bc-markdown th {
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--color-base-200);
-}
+  .bc-markdown td,
+  .bc-markdown th {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-base-200);
+  }
 
-.bc-markdown tr:nth-child(even) {
-  background-color: var(--color-base-100);
-}
+  .bc-markdown tr:nth-child(even) {
+    background-color: var(--color-base-100);
+  }
 
-/* Horizontal rule */
-.bc-markdown hr {
-  border: none;
-  border-top: 1px solid var(--color-base-200);
-  margin: 1rem 0;
-}
+  /* Horizontal rule */
+  .bc-markdown hr {
+    border: none;
+    border-top: 1px solid var(--color-base-200);
+    margin: 1rem 0;
+  }
 
-/* Images */
-.bc-markdown img {
-  max-width: 100%;
-  height: auto;
-}
+  /* Images */
+  .bc-markdown img {
+    max-width: 100%;
+    height: auto;
+  }
 
-/* Image as the only child of a paragraph should be centered */
-.bc-markdown p > img {
-  display: block;
-  margin: 0 auto;
-  border-radius: var(--radius-md, 0.5rem);
-}
-
+  /* Image as the only child of a paragraph should be centered */
+  .bc-markdown p > img {
+    display: block;
+    margin: 0 auto;
+    border-radius: var(--radius-md, 0.5rem);
+  }
 }

@@ -161,7 +161,9 @@ export const ListControl = <T>(
     computedOf(showAdd, createItem)((show, create) => show && create != null),
     () =>
       Group(
-        attr.class('bc-group--gap-2 bc-group--align-center bc-group--justify-center'),
+        attr.class(
+          'bc-group--gap-2 bc-group--align-center bc-group--justify-center'
+        ),
         Button(
           {
             size: 'sm',

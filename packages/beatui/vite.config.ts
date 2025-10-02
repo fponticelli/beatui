@@ -18,6 +18,11 @@ export default defineConfig({
         milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
+        'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
+        'tailwind/vite-plugin': resolve(
+          __dirname,
+          'src/tailwind/vite-plugin.ts'
+        ),
       },
       name: 'BeatUIFramework',
       fileName: (format, entryName) => {
@@ -31,11 +36,27 @@ export default defineConfig({
         ) {
           return `${entryName}/index.${format}.js`
         }
+        if (entryName.startsWith('tailwind/')) {
+          return `${entryName}.${format}.js`
+        }
         return `${entryName}.${format}.js`
       },
     },
     rollupOptions: {
-      external: ['@tempots/dom', '@tempots/ui'],
+      external: [
+        '@tempots/dom',
+        '@tempots/ui',
+        'tailwindcss',
+        'tailwindcss/plugin',
+        'fs',
+        'node:fs',
+        'path',
+        'node:path',
+        'module',
+        'node:module',
+        'url',
+        'node:url',
+      ],
       output: {
         globals: {
           '@tempots/dom': 'TempoDom',

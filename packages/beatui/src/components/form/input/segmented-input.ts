@@ -32,10 +32,7 @@ function generateSegmentedInputClasses(
   size: ControlSize,
   disabled: boolean
 ): string {
-  const classes = [
-    'bc-segmented-control',
-    `bc-segmented-control--size-${size}`,
-  ]
+  const classes = ['bc-segmented-control', `bc-segmented-control--size-${size}`]
 
   if (disabled) {
     classes.push('bc-segmented-control--disabled')

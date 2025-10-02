@@ -41,7 +41,11 @@ export const Switch = ({
   const labelId = `${switchId}-label`
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
-    const classes = ['bc-switch', `bc-switch--size-${size}`, `bc-switch--${size}`]
+    const classes = [
+      'bc-switch',
+      `bc-switch--size-${size}`,
+      `bc-switch--${size}`,
+    ]
 
     if (disabled) {
       classes.push('bc-switch--disabled')
@@ -89,7 +93,9 @@ export const Switch = ({
     label != null
       ? Label(
           attr.id(labelId),
-          attr.class(`bc-switch__label bc-switch__label--size-${size} bc-switch__label--nowrap`),
+          attr.class(
+            `bc-switch__label bc-switch__label--size-${size} bc-switch__label--nowrap`
+          ),
           label
         )
       : null,

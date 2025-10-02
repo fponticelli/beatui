@@ -15,10 +15,7 @@ import { IconSize } from '../theme'
 import { Query, WhenInViewport } from '@tempots/ui'
 import { ThemeColorName } from '@/tokens'
 import { BeatUII18n } from '@/beatui-i18n'
-import {
-  foregroundColorValue,
-  ForegroundTone,
-} from '../theme/style-utils'
+import { foregroundColorValue, ForegroundTone } from '../theme/style-utils'
 
 const dbName = 'bui-icons'
 
@@ -183,13 +180,13 @@ export function Icon(
   return Use(BeatUII18n, t =>
     html.span(
       attr.class(
-        computedOf(
-          size,
-          color
-        )((size) => generateIconClasses(size ?? 'md'))
+        computedOf(size, color)(size => generateIconClasses(size ?? 'md'))
       ),
       attr.style(
-        computedOf(color, tone)((color, tone) =>
+        computedOf(
+          color,
+          tone
+        )((color, tone) =>
           generateIconStyles(color ?? undefined, tone ?? 'solid')
         )
       ),

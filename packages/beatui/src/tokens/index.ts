@@ -10,7 +10,6 @@ export * from './typography'
 export * from './z-index'
 
 import {
-  generateColorVariables,
   generateCoreColorVariables,
   generateSemanticColorVariables,
   SemanticColorOverrides,

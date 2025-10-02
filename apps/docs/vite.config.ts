@@ -1,10 +1,14 @@
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
 export default defineConfig({
   root: '.',
-  plugins: [tailwindcss()],
+  plugins: [
+    tailwindcss(),
+    beatuiTailwindPlugin({ darkClass: 'dark', rtlAttribute: 'dir' }),
+  ],
   build: {
     outDir: 'dist',
     emptyOutDir: true,

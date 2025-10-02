@@ -36,48 +36,108 @@
 }
 
 @media (width >= 40rem) {
-  .bc-schema-grid--cols-sm-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-sm-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-sm-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-sm-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-sm-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-sm-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bc-schema-grid--cols-sm-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-sm-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-sm-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-sm-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-sm-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-sm-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 @media (width >= 48rem) {
-  .bc-schema-grid--cols-md-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-md-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-md-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-md-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-md-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-md-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bc-schema-grid--cols-md-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-md-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-md-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-md-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-md-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-md-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 @media (width >= 64rem) {
-  .bc-schema-grid--cols-lg-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-lg-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-lg-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-lg-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-lg-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-lg-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bc-schema-grid--cols-lg-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-lg-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-lg-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-lg-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-lg-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-lg-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 @media (width >= 80rem) {
-  .bc-schema-grid--cols-xl-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-xl-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-xl-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-xl-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-xl-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-xl-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bc-schema-grid--cols-xl-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-xl-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-xl-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-xl-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-xl-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-xl-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 @media (width >= 96rem) {
-  .bc-schema-grid--cols-2xl-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-2xl-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-2xl-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-2xl-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-2xl-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .bc-schema-grid--cols-2xl-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bc-schema-grid--cols-2xl-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-2xl-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-2xl-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-2xl-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-2xl-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .bc-schema-grid--cols-2xl-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 .bc-array-control__item-label {
@@ -169,4 +229,3 @@
 .b-dark .bc-json-schema-form__error {
   color: var(--color-red-400);
 }
-

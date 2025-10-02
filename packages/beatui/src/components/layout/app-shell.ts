@@ -566,9 +566,7 @@ export function AppShell({
                   options.banner.shadow ?? 'none'
                 )
               ),
-              attr.style(
-                generatePanelStyles(options.banner.color ?? 'white')
-              ),
+              attr.style(generatePanelStyles(options.banner.color ?? 'white')),
               style.height('100%'),
               style.gridArea('banner'),
               options.banner.content

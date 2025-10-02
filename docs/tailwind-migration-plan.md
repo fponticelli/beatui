@@ -36,8 +36,10 @@
 - [x] Capture preset scaffolding strategy and integration notes (see `docs/tailwind-preset-notes.md`).
 - [x] Implement a Tailwind v4 preset exposing BeatUI tokens via `@theme` and semantic aliases via `addBase`/`theme.extend`.
 - [x] Provide configuration hooks so client apps can override semantic mappings (primary/secondary/etc.).
-- [ ] Build a Vite plugin that: (a) registers the Tailwind preset, (b) injects `import 'beatui/tailwind.css'`, (c) optionally wires `.b-dark` ⇄ `.dark` class mappings.
-- [ ] Offer API surface for opting into dark/RTL selector alignment (default `.dark`, `[dir='rtl']`).
+- [x] Outline Tailwind Vite plugin responsibilities (see `docs/tailwind-plugin-outline.md`).
+- [x] Build a Vite plugin that injects the BeatUI Tailwind CSS bundle and exposes preset metadata (`@tempots/beatui/tailwind/vite-plugin` → `beatuiTailwindPlugin`).
+- [x] Extend plugin to auto-register the preset and map `.b-dark`/`.b-rtl` selectors when configured.
+- [x] Document how to use the plugin (see `docs/tailwind-plugin-usage.md`).
 - [x] Document how to use the preset without the Vite plugin for advanced setups (see `docs/tailwind-preset-usage.md`).
 
 ### 4. Component CSS Audit

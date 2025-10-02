@@ -33,7 +33,8 @@ function resolveSpecial(color: ExtendedColor, mode: Mode) {
     return special
   }
 
-  const override = backgroundOverrides[color as keyof typeof backgroundOverrides]
+  const override =
+    backgroundOverrides[color as keyof typeof backgroundOverrides]
   return override ? override[mode] : special
 }
 
@@ -42,7 +43,8 @@ export function backgroundValue(
   variant: BackgroundVariant,
   mode: Mode
 ): { backgroundColor: string; textColor: string } {
-  const override = backgroundOverrides[color as keyof typeof backgroundOverrides]
+  const override =
+    backgroundOverrides[color as keyof typeof backgroundOverrides]
   if (override) {
     const entry = override[mode]
     if (entry) {
@@ -87,7 +89,8 @@ export function hoverBackgroundValue(
   variant: 'solid' | 'light' | 'soft',
   mode: Mode
 ): { backgroundColor: string; textColor: string } {
-  const override = backgroundOverrides[color as keyof typeof backgroundOverrides]
+  const override =
+    backgroundOverrides[color as keyof typeof backgroundOverrides]
   if (override) {
     const entry = override[mode]
     if (entry) {

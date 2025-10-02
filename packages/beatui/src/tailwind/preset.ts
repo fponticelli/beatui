@@ -1,6 +1,3 @@
-import plugin from 'tailwindcss/plugin'
-import type { Config } from 'tailwindcss'
-
 import {
   generateCoreTokenVariables,
   generateSemanticTokenVariables,
@@ -35,7 +32,10 @@ function buildSemanticColorTheme() {
     semanticColorNames.map(semanticName => [
       semanticName,
       Object.fromEntries(
-        colorShades.map(shade => [shade, `var(--color-${semanticName}-${shade})`])
+        colorShades.map(shade => [
+          shade,
+          `var(--color-${semanticName}-${shade})`,
+        ])
       ),
     ])
   )
@@ -63,13 +63,69 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
   return base
 }
 
+interface TailwindPluginApi {
+  addBase: (base: Record<string, Record<string, string>>) => void
+  addVariant: (name: string, variant: string | string[]) => void
+}
+
+interface TailwindPreset {
+  darkMode: string
+  theme: {
+    extend: Record<string, unknown>
+  }
+  plugins: TailwindPluginConfig[]
+}
+
+interface TailwindPluginConfig {
+  handler: (api: TailwindPluginApi) => void
+  config?: Record<string, unknown>
+}
+
+type TailwindPluginFactory = {
+  (
+    handler: TailwindPluginConfig['handler'],
+    config?: TailwindPluginConfig['config']
+  ): TailwindPluginConfig
+  withOptions<T>(
+    pluginFunction: (options?: T) => TailwindPluginConfig['handler'],
+    configFunction?: (options?: T) => TailwindPluginConfig['config']
+  ): (options?: T) => TailwindPluginConfig
+}
+
+const tailwindPluginFactory: TailwindPluginFactory = Object.assign(
+  (
+    handler: TailwindPluginConfig['handler'],
+    config?: TailwindPluginConfig['config']
+  ) => ({
+    handler,
+    config,
+  }),
+  {
+    withOptions<T>(
+      pluginFunction: (options?: T) => TailwindPluginConfig['handler'],
+      configFunction: (
+        options?: T
+      ) => TailwindPluginConfig['config'] = () => ({})
+    ) {
+      const pluginWithOptions = (options?: T) => ({
+        handler: pluginFunction(options),
+        config: configFunction(options),
+      })
+      ;(
+        pluginWithOptions as { __isOptionsFunction?: boolean }
+      ).__isOptionsFunction = true
+      return pluginWithOptions
+    },
+  }
+)
+
 export function createBeatuiPreset(
   options: BeatuiPresetOptions = {}
-): Config {
+): TailwindPreset {
   const baseDeclarations = buildBaseDeclarations(options)
   const extendTheme = options.extendTheme ?? true
 
-  return {
+  const preset: TailwindPreset = {
     darkMode: 'class',
     theme: {
       extend: extendTheme
@@ -79,12 +135,12 @@ export function createBeatuiPreset(
         : {},
     },
     plugins: [
-      plugin(({ addBase }) => {
+      tailwindPluginFactory(({ addBase }: TailwindPluginApi) => {
         if (Object.keys(baseDeclarations).length > 0) {
           addBase(baseDeclarations)
         }
       }),
-      plugin(({ addVariant }) => {
+      tailwindPluginFactory(({ addVariant }: TailwindPluginApi) => {
         // Convenience variants for BeatUI theme helpers
         addVariant('beatui-dark', '.b-dark &')
         addVariant('beatui-light', '.b-light &')
@@ -92,7 +148,9 @@ export function createBeatuiPreset(
         addVariant('beatui-ltr', '.b-ltr &')
       }),
     ],
-  } as Config
+  }
+
+  return preset
 }
 
 export const beatuiPreset = createBeatuiPreset()

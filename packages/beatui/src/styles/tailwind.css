@@ -2,6 +2,7 @@
 @layer base;
 @layer components;
 
+@import './base/tokens-core.css' layer(base);
 @import './base/tokens-semantic.css' layer(base);
 @import './base/reset-tailwind.css' layer(base);
 @import './layers/02.base/base.css' layer(base);

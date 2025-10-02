@@ -59,6 +59,12 @@
       "require": "./dist/tailwind/preset.cjs.js",
       "default": "./dist/tailwind/preset.es.js"
     },
+    "./tailwind/vite-plugin": {
+      "types": "./dist/types/tailwind/vite-plugin.d.ts",
+      "import": "./dist/tailwind/vite-plugin.es.js",
+      "require": "./dist/tailwind/vite-plugin.cjs.js",
+      "default": "./dist/tailwind/vite-plugin.es.js"
+    },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
@@ -137,7 +143,8 @@
   "peerDependencies": {
     "@tempots/dom": "31.0.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "10.1.0"
+    "@tempots/ui": "10.1.0",
+    "tailwindcss": "^4.1.13"
   },
   "peerDependenciesMeta": {
     "@tempots/dom": {
@@ -148,6 +155,9 @@
     },
     "@tempots/ui": {
       "optional": false
+    },
+    "tailwindcss": {
+      "optional": true
     }
   },
   "devDependencies": {
