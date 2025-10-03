@@ -3,8 +3,6 @@
 .bc-color-input__control {
   position: relative;
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
   border-radius: var(--radius-md);
   overflow: visible;
   cursor: pointer;

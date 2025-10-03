@@ -1,5 +1,5 @@
-@source "../../index.html";
 @import "tailwindcss";
+@source "../../index.html";
 @source "../../src/**/*.{ts}";
 
 #app {

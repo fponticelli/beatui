@@ -22,7 +22,7 @@ import { Validation, strictEqual } from '@tempots/std'
 export interface UseFormOptions<T> {
   schema: StandardSchemaV1<T, T>
   initialValue?: Value<T>
-  submit?: (value: T) => Promise<ControllerValidation>
+  onSubmit?: (value: T) => Promise<ControllerValidation>
   validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
   validateDebounceMs?: number
 }
@@ -233,14 +233,14 @@ function createNestedDependencies(
 export type UseFormResult<T> = {
   controller: ObjectController<T>
   setStatus: (result: ControllerValidation) => void
-  onSubmit: (e: Event) => Promise<void>
+  submit: (e?: Event) => Promise<void>
   submitting: Signal<boolean>
 }
 
 export function useForm<T>({
   initialValue = {} as Value<T>,
   schema,
-  submit = async () => Validation.valid,
+  onSubmit = async () => Validation.valid,
   validationMode,
   validateDebounceMs,
 }: UseFormOptions<T>): UseFormResult<T> {
@@ -259,9 +259,9 @@ export function useForm<T>({
   const submitting = prop(false)
   const controller = baseController.object()
   controller.onDispose(submitting.dispose)
-  const onSubmit = async (e: Event) => {
+  const submitHandler = async (e?: Event) => {
     submitting.set(true)
-    e.preventDefault()
+    e?.preventDefault()
     controller.markAllTouched()
     if ((validationMode ?? 'touchedOrSubmit') === 'onSubmit') {
       const v = controller.value.value
@@ -274,7 +274,7 @@ export function useForm<T>({
         return
       }
     }
-    const result = await submit(controller.value.value)
+    const result = await onSubmit(controller.value.value)
     submitting.set(false)
     if (result.type === 'invalid') {
       setStatus(result)
@@ -283,7 +283,7 @@ export function useForm<T>({
   return {
     controller: controller as unknown as ObjectController<T>,
     setStatus,
-    onSubmit,
+    submit: submitHandler,
     submitting,
   }
 }

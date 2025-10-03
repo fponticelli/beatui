@@ -17,7 +17,9 @@ export function AppLayout({ children }: { children: TNode }) {
     },
     header: {
       content: Group(
-        attr.class('h-full justify-between items-center'),
+        attr.class(
+          'h-full justify-between items-center bg-gray-100 dark:bg-gray-900'
+        ),
         Anchor(
           { href: '/', viewTransition: true },
           attr.class('h-full p-2 flex-grow'),

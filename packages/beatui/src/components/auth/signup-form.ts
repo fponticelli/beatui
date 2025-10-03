@@ -54,7 +54,7 @@ export function SignUpForm({
 
   const form: UseFormResult<SignUpFormData> = useForm({
     schema,
-    submit: requestToControllerValidation({
+    onSubmit: requestToControllerValidation({
       task:
         onSignUp != null
           ? (data: SignUpFormData) =>

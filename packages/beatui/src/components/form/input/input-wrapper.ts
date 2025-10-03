@@ -19,6 +19,7 @@ export const RequiredSymbol = html.span(
 
 export type InputWrapperOptions = {
   label?: TNode
+  labelChildren?: TNode
   context?: TNode
   description?: TNode
   error?: TNode
@@ -61,6 +62,7 @@ export const InputWrapper = (
   {
     required,
     label,
+    labelChildren,
     context,
     description,
     content,
@@ -125,7 +127,8 @@ export const InputWrapper = (
                 )
             )
           ),
-          context != null ? Label(context) : Empty
+          context != null ? Label(context) : Empty,
+          labelChildren
         )
       : Empty,
     html.div(

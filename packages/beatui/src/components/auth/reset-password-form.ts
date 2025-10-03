@@ -35,7 +35,7 @@ export function ResetPasswordForm({
   // Initialize form
   const form: UseFormResult<ResetPasswordData> = useForm({
     schema: resetPasswordSchema,
-    submit: requestToControllerValidation({
+    onSubmit: requestToControllerValidation({
       task: onResetPassword,
       message: 'Reset password failed',
       onStart: () => {

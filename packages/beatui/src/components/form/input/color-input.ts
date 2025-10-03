@@ -449,7 +449,7 @@ export const ColorInput = (options: ColorInputOptions) => {
         a ? 'bc-color-input__control--alpha' : ''
       )
     ),
-    attr.style(computedOf(blobSize)(s => `width:${s}px;height:${s}px`)),
+    attr.style(computedOf(blobSize)(s => `min-width:${s}px;height:${s}px`)),
     // The SVG blob preview
     svg.svg(
       attr.class('bc-color-input__svg'),

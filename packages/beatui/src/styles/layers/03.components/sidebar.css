@@ -1,6 +1,7 @@
 .bc-sidebar {
   background-color: var(--bg-background-light);
   padding: var(--spacing-lg);
+  width: 100%;
 }
 
 .bc-sidebar-group__header,
@@ -55,6 +56,7 @@ a.bc-sidebar-link:hover {
 
 span.bc-sidebar-link {
   font-weight: var(--font-weight-medium);
+  width: 100%;
 }
 
 .bc-sidebar-link--icon {
@@ -88,6 +90,8 @@ span.bc-sidebar-link {
   display: flex;
   flex-direction: column;
   gap: 0;
+  justify-content: stretch;
+  width: 100%;
 }
 
 .bc-sidebar-group--rail {

@@ -15,7 +15,7 @@ const Todo = (content: string) =>
 
 export function Menu() {
   return Stack(
-    attr.class('h-full overflow-y-auto'),
+    attr.class('h-full overflow-y-auto bg-gray-100 dark:bg-gray-900'),
     Sidebar(
       {},
       // Authentication Section

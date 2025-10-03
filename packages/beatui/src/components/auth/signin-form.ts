@@ -40,7 +40,7 @@ export function SignInForm({
 
   const form = useForm({
     schema,
-    submit: requestToControllerValidation({
+    onSubmit: requestToControllerValidation({
       task:
         onSignIn != null
           ? (data: SignInFormData) =>
