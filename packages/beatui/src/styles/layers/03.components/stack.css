@@ -1,9 +1,7 @@
 .bc-stack {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   scroll-behavior: smooth;
-  gap: 0;
 }
 
 .bc-stack--gap-1 {
