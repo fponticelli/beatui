@@ -5,7 +5,7 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-sm);
   border: 1px solid var(--color-neutral-200);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-control, var(--radius-md));
   background-color: var(--color-neutral-50);
   width: 100%;
 }

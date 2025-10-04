@@ -4,7 +4,7 @@
 *:focus-visible {
   outline: 2px solid var(--interactive-focus-light);
   outline-offset: -2px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-focus, var(--radius-sm));
 }
 
 /* Dark mode focus styles */
@@ -41,7 +41,7 @@ select:focus-visible,
 /* Link elements */
 a:focus-visible {
   outline-offset: -2px;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-focus, var(--radius-xs));
 }
 
 /* Custom component focus styles */
@@ -52,7 +52,7 @@ a:focus-visible {
 .bc-switch:focus-visible .bc-switch__track {
   outline: 2px solid var(--interactive-focus-light);
   outline-offset: -2px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill, var(--radius-full));
 }
 
 .b-dark .bc-switch:focus-visible .bc-switch__track {
@@ -64,7 +64,7 @@ a:focus-visible {
 .bc-radio-input__radio:focus-visible {
   outline: 2px solid var(--interactive-focus-light);
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-focus, var(--radius-sm));
 }
 
 .b-dark .bc-checkbox-input__checkbox:focus-visible,

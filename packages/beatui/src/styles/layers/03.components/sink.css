@@ -2,7 +2,7 @@
 .bc-sink {
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-surface, var(--radius-lg));
   border: 1px solid var(--color-base-300);
   padding: var(--spacing-md);
   box-shadow: inset 0 0 0.25rem

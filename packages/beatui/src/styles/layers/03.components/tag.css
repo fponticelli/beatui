@@ -14,7 +14,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill, var(--radius-full));
   line-height: 1.2;
   border: 1px solid var(--tag-border);
   transition: all 0.2s ease-in-out;

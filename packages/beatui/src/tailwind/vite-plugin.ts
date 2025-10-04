@@ -267,19 +267,23 @@ export function beatuiTailwindPlugin(
   const presetOptions: BeatuiPresetOptions = {
     semanticColors: options.semanticColors,
     semanticFonts: options.semanticFonts,
+    semanticRadii: options.semanticRadii,
     fontFamilies: options.fontFamilies,
     includeCoreTokens: options.includeCoreTokens,
     includeSemanticTokens: options.includeSemanticTokens,
     extendTheme: options.extendTheme,
   }
   const hasSemanticOverrides =
-    options.semanticColors != null || options.semanticFonts != null
+    options.semanticColors != null ||
+    options.semanticFonts != null ||
+    options.semanticRadii != null
 
   const semanticOverrideCss = hasSemanticOverrides
     ? buildCssFromVariables(
         generateSemanticTokenVariables({
           colors: options.semanticColors,
           fonts: options.semanticFonts,
+          radii: options.semanticRadii,
         })
       )
     : ''

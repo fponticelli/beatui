@@ -248,12 +248,12 @@ export function generateSemanticFontVariables(
     variables[getSemanticFontVarName(key as SemanticFontName)] = value
   })
 
-  variables['--default-font-family'] = mapping.body
-  variables['--default-heading-font-family'] = mapping.heading
-  variables['--default-display-font-family'] = mapping.display
-  variables['--default-ui-font-family'] = mapping.ui
-  variables['--default-prose-font-family'] = mapping.prose
-  variables['--default-mono-font-family'] = mapping.mono
+  variables['--default-font-family'] = getSemanticFontVar('body')
+  variables['--default-heading-font-family'] = getSemanticFontVar('heading')
+  variables['--default-display-font-family'] = getSemanticFontVar('display')
+  variables['--default-ui-font-family'] = getSemanticFontVar('ui')
+  variables['--default-prose-font-family'] = getSemanticFontVar('prose')
+  variables['--default-mono-font-family'] = getSemanticFontVar('mono')
 
   return variables
 }

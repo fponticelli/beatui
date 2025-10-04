@@ -55,18 +55,24 @@ export default function SwitchPage() {
       html.table(
         html.thead(
           html.tr(
-            html.th('size / status'),
-            ...['on', 'off'].map(status => html.th(status))
+            html.th(
+              attr.class('px-1 py-2 border-b border-gray-300'),
+              'size / status'
+            ),
+            ...['on', 'off'].map(status =>
+              html.th(attr.class('px-1 py-2 border-b border-gray-300'), status)
+            )
           )
         ),
         html.tbody(
           ...allSizes.map(size => {
             return html.tr(
-              html.th(size),
+              html.th(attr.class('px-1 py-2 border-b border-gray-300'), size),
               ...[true, false].map(status => {
                 const localValue = value.map(v => v === status).deriveProp()
                 const onChange = () => localValue.update(v => !v)
                 return html.td(
+                  attr.class('px-1 py-2 border-b border-gray-300'),
                   Switch({
                     value: localValue,
                     onChange,

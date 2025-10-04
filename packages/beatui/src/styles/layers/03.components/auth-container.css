@@ -7,7 +7,7 @@
   margin: 0 auto;
   padding: var(--spacing-2xl);
   background-color: var(--bg-surface-light);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-surface, var(--radius-lg));
   box-shadow: var(--shadow-md);
   transition: all 0.2s ease-in-out;
 }

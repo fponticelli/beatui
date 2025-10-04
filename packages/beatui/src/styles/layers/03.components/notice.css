@@ -4,7 +4,7 @@
   flex-direction: row;
   gap: var(--spacing-md);
   align-items: start;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-control, var(--radius-md));
   padding: var(--spacing-md);
   font-size: var(--font-size-sm);
 }

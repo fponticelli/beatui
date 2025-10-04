@@ -38,3 +38,50 @@ export function generateRadiusVariables(): Record<string, string> {
 
   return variables
 }
+
+export const semanticRadiusNames = [
+  'control',
+  'control-sm',
+  'control-xs',
+  'button',
+  'surface',
+  'overlay',
+  'popover',
+  'pill',
+  'focus',
+] as const
+
+export type SemanticRadiusName = (typeof semanticRadiusNames)[number]
+
+export type SemanticRadiusOverrides = Partial<
+  Record<SemanticRadiusName, string>
+>
+
+const defaultSemanticRadii: Record<SemanticRadiusName, string> = {
+  control: getRadiusVar('md'),
+  'control-sm': getRadiusVar('sm'),
+  'control-xs': getRadiusVar('xs'),
+  button: getRadiusVar('md'),
+  surface: getRadiusVar('lg'),
+  overlay: getRadiusVar('lg'),
+  popover: getRadiusVar('md'),
+  pill: getRadiusVar('full'),
+  focus: getRadiusVar('sm'),
+}
+
+export function getSemanticRadiusVarName(name: SemanticRadiusName): string {
+  return `--radius-${name}`
+}
+
+export function generateSemanticRadiusVariables(
+  overrides?: SemanticRadiusOverrides
+): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const mapping = { ...defaultSemanticRadii, ...overrides }
+
+  objectEntries(mapping).forEach(([name, value]) => {
+    variables[getSemanticRadiusVarName(name as SemanticRadiusName)] = value
+  })
+
+  return variables
+}

@@ -100,16 +100,22 @@ export default function ButtonPage() {
       html.table(
         html.thead(
           html.tr(
-            html.th('color / variant'),
-            ...allVariants.map(variant => html.th(variant))
+            html.th(
+              attr.class('px-1 py-2 border-b border-gray-300'),
+              'color / variant'
+            ),
+            ...allVariants.map(variant =>
+              html.th(attr.class('px-1 py-2 border-b border-gray-300'), variant)
+            )
           )
         ),
         html.tbody(
           ...allColors.map(color =>
             html.tr(
-              html.th(color),
+              html.th(attr.class('px-1 py-2 border-b border-gray-300'), color),
               ...allVariants.map(variant =>
                 html.td(
+                  attr.class('px-1 py-2 border-b border-gray-300'),
                   Button(
                     {
                       disabled,

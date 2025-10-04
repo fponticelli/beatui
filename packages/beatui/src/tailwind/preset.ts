@@ -12,6 +12,7 @@ import type {
   FontFamilyOverrides,
   SemanticFontOverrides,
 } from '../tokens/typography'
+import type { SemanticRadiusOverrides } from '../tokens/radius'
 
 export interface BeatuiPresetOptions {
   /**
@@ -22,6 +23,10 @@ export interface BeatuiPresetOptions {
    * Override semantic font aliases (e.g. map `heading` to `var(--font-family-serif)`).
    */
   semanticFonts?: SemanticFontOverrides
+  /**
+   * Override semantic radius aliases for controls, surfaces, etc.
+   */
+  semanticRadii?: SemanticRadiusOverrides
   /**
    * Override the default font family tokens (e.g. set `sans` to a custom stack).
    */
@@ -70,6 +75,7 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
       ...generateSemanticTokenVariables({
         colors: options.semanticColors,
         fonts: options.semanticFonts,
+        radii: options.semanticRadii,
       }),
     }
   }

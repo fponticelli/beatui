@@ -25,7 +25,7 @@
   );
   font-size: inherit;
   line-height: 1;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-button, var(--radius-control, var(--radius-md)));
   transition: all 0.2s ease-in-out;
   text-transform: capitalize;
   background-color: var(--button-bg);

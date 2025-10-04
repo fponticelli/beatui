@@ -16,6 +16,9 @@ export default defineConfig({
       semanticFonts: {
         heading: 'var(--font-family-serif)',
       },
+      semanticRadii: {
+        control: '10px',
+      },
       includeCoreTokens: true,
       includeSemanticTokens: true,
       extendTheme: true,
@@ -28,6 +31,7 @@ export default defineConfig({
 
 - `semanticColors`: remap BeatUI semantic color names to other Tailwind palette names (`primary`, `secondary`, `success`, `warning`, `danger`, `info`, `base`).
 - `semanticFonts`: remap semantic font aliases (`body`, `heading`, `mono`, `ui`, `prose`, `display`).
+- `semanticRadii`: remap semantic radius aliases for controls, surfaces, overlays (`control`, `surface`, `popover`, `pill`, etc.).
 - `fontFamilies`: override `--font-family-*` base tokens (e.g., `{ sans: ['Inter', 'system-ui'] }`).
 - `includeCoreTokens` (default `true`): register spacing, typography, breakpoint, radius, shadow, etc. variables.
 - `includeSemanticTokens` (default `true`): register semantic color aliases (e.g., `--color-primary-500`).

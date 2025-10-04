@@ -16,6 +16,7 @@
 interface BeatuiTailwindPluginOptions {
   semanticColors?: SemanticColorOverrides
   semanticFonts?: SemanticFontOverrides
+  semanticRadii?: SemanticRadiusOverrides
   injectCss?: boolean
   darkClass?: string
   rtlSelector?: string

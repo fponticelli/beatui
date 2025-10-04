@@ -2,7 +2,7 @@
   /* Base flyout styles */
   background-color: var(--color-neutral-50);
   border: 1px solid var(--color-neutral-200);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-popover, var(--radius-md));
   box-shadow: var(--shadow-lg);
   padding: var(--spacing-sm);
   z-index: var(--z-index-popover);
