@@ -7,11 +7,13 @@ import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 const beatuiPlugin = beatuiTailwindPlugin({
   googleFonts: [
     {
-      family: 'Jacquard 12 Charted',
+      family: 'Alan Sans',
       weights: [400],
     },
   ],
-  fontFamilies: { sans: ['"Jacquard 12 Charted"', 'system-ui'] },
+  semanticFonts: {
+    heading: '"Alan Sans"',
+  },
   darkClass: 'dark',
   rtlAttribute: 'dir',
   semanticColors: {

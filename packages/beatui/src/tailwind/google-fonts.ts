@@ -181,7 +181,8 @@ function getCssCacheFileName(
 
 export function buildGoogleFontCssUrl(request: GoogleFontRequest): string {
   const { family } = request
-  const normalizedFamily = family.trim().replace(/\s+/g, '+')
+  // Leave whitespace intact and let URLSearchParams encode it.
+  const normalizedFamily = family.trim().replace(/\s+/g, ' ')
   const weights = normalizeWeights(request.weights)
   const styles = normalizeStyles(request.styles)
 
