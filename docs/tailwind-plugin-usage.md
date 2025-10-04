@@ -16,7 +16,15 @@ export default defineConfig({
       semanticShadows: { surface: 'var(--shadow-md)' },
       semanticMotion: { 'transition-fast': '90ms' },
       semanticSpacing: { 'stack-md': '2rem' },
-      fontFamilies: { sans: ['Inter', 'system-ui'] },
+      googleFonts: [
+        {
+          family: 'Inter',
+          weights: [400, 600],
+          styles: ['normal', 'italic'],
+          display: 'swap',
+        },
+      ],
+      fontFamilies: { sans: ['"Inter"', 'system-ui'] },
       darkClass: 'dark',
       rtlAttribute: 'dir',
     }),
@@ -33,6 +41,7 @@ export default defineConfig({
 - `semanticMotion`: override semantic motion tokens (`--motion-transition-fast`, `--motion-easing-standard`, etc.).
 - `semanticSpacing`: override spacing stack aliases (e.g., `--spacing-stack-md`).
 - `fontFamilies`: forward overrides for BeatUI font family tokens (e.g., `{ sans: 'Inter, system-ui' }`).
+- `googleFonts`: download Google Fonts at build time so they are served locally (e.g., `{ family: 'Inter', weights: [400, 600] }`).
 - `includeCoreTokens`, `includeSemanticTokens`, `extendTheme`: same meaning as preset options.
 - `injectCss` (default `true`): when `false` the plugin will not inject the Tailwind CSS bundle; you must import `@tempots/beatui/tailwind.css` manually.
 - `tailwindConfigPath`: specify when your Tailwind config file lives outside the project root.
@@ -40,3 +49,5 @@ export default defineConfig({
 - `rtlAttribute` (default `dir`) & `rtlValue` (default `rtl`): attribute/value pair that toggles `.b-rtl` / `.b-ltr` on `<body>`.
 
 The plugin injects the BeatUI Tailwind CSS bundle into the HTML during dev/build, attempts to register the Tailwind PostCSS plugin with the BeatUI preset automatically, and exposes the generated preset via `import.meta.env.BEATUI_TAILWIND_PRESET` for advanced tooling.
+
+Google Fonts are cached under `node_modules/.beatui/google-fonts` and are only downloaded when missing from the cache.

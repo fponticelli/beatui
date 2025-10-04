@@ -5,6 +5,13 @@ import { resolve } from 'path'
 import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
 const beatuiPlugin = beatuiTailwindPlugin({
+  googleFonts: [
+    {
+      family: 'Jacquard 12 Charted',
+      weights: [400],
+    },
+  ],
+  fontFamilies: { sans: ['"Jacquard 12 Charted"', 'system-ui'] },
   darkClass: 'dark',
   rtlAttribute: 'dir',
   semanticColors: {

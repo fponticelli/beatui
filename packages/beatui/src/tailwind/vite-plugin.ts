@@ -90,6 +90,12 @@ import {
   generateSemanticTokenVariables,
   generateFontFamilyOverrideVariables,
 } from '../tokens'
+import {
+  prepareGoogleFonts,
+  buildGoogleFontCssUrl,
+  type GoogleFontRequest,
+  type GoogleFontAsset,
+} from './google-fonts'
 
 const CSS_MODULE_ID = '@tempots/beatui/tailwind.css'
 const CSS_ASSET_FILENAME = 'beatui.tailwind.css'
@@ -119,6 +125,8 @@ export interface BeatuiTailwindPluginOptions extends BeatuiPresetOptions {
   rtlAttribute?: string
   /** Value of RTL attribute that should trigger `.b-rtl`. Defaults to `rtl`. */
   rtlValue?: string
+  /** Request Google Fonts for local hosting. */
+  googleFonts?: GoogleFontRequest | GoogleFontRequest[]
 }
 
 const DEFAULT_CONFIG_FILES = [
@@ -238,6 +246,26 @@ function resolveTailwindCssFile(projectRoot: string): string | null {
   return null
 }
 
+function normalizeGoogleFontOptions(
+  input?: GoogleFontRequest | GoogleFontRequest[]
+): GoogleFontRequest[] {
+  if (!input) {
+    return []
+  }
+  return Array.isArray(input) ? input : [input]
+}
+
+function replacePlaceholders(
+  source: string,
+  replacements: Map<string, string>
+): string {
+  let result = source
+  for (const [placeholder, value] of replacements) {
+    result = result.split(placeholder).join(value)
+  }
+  return result
+}
+
 async function resolveWithPluginContext(
   context: unknown,
   id: string
@@ -304,16 +332,40 @@ export function beatuiTailwindPlugin(
         generateFontFamilyOverrideVariables(options.fontFamilies)
       )
     : ''
-  const overrideCss = [semanticOverrideCss, fontOverrideCss]
-    .filter(fragment => fragment.length > 0)
-    .join('\n')
+  const googleFontRequests = normalizeGoogleFontOptions(options.googleFonts)
+  let googleFontCssRaw = ''
+  let googleFontAssets: GoogleFontAsset[] = []
+  const placeholderToDevPath = new Map<string, string>()
+  const placeholderToBuildRef = new Map<string, string>()
+  const devFontPathMap = new Map<string, string>()
+  const GOOGLE_FONT_DEV_PREFIX = '/@beatui/google-fonts'
+  const googleFontFallbackUrls: string[] = []
+  let tailwindCssAssetRef: string | null = null
   let tailwindCssPath: string | null = null
+  let isBuildCommand = false
+
+  const buildOverrideCss = (mode: 'dev' | 'raw'): string => {
+    const fragments = [semanticOverrideCss, fontOverrideCss]
+    if (googleFontCssRaw) {
+      if (mode === 'dev') {
+        fragments.push(
+          replacePlaceholders(googleFontCssRaw, placeholderToDevPath)
+        )
+      } else {
+        fragments.push(googleFontCssRaw)
+      }
+    }
+    return fragments
+      .filter(fragment => fragment && fragment.length > 0)
+      .join('\n')
+  }
 
   return {
     name: 'beatui-tailwind',
     enforce: 'pre',
     async configResolved(resolved) {
       projectRoot = resolved.root
+      isBuildCommand = resolved.command === 'build'
       resolvedConfigPath =
         findTailwindConfig(projectRoot, options.tailwindConfigPath) ??
         resolvedConfigPath
@@ -331,6 +383,34 @@ export function beatuiTailwindPlugin(
         tailwindCssPath =
           normalizeResolvedId(resolvedCssModule) ??
           resolveTailwindCssFile(projectRoot)
+      }
+
+      if (googleFontRequests.length > 0) {
+        const remoteCssUrls = Array.from(
+          new Set(googleFontRequests.map(buildGoogleFontCssUrl))
+        )
+        const preparation = await prepareGoogleFonts({
+          projectRoot,
+          requests: googleFontRequests,
+          logger: message => this.warn(`[BeatUI] ${message}`),
+        })
+        googleFontCssRaw = preparation?.cssText ?? ''
+        googleFontAssets = preparation?.assets ?? []
+        placeholderToDevPath.clear()
+        placeholderToBuildRef.clear()
+        devFontPathMap.clear()
+        googleFontFallbackUrls.length = 0
+        if (googleFontAssets.length > 0) {
+          for (const asset of googleFontAssets) {
+            const devPath = `${GOOGLE_FONT_DEV_PREFIX}/${asset.fileName}`
+            placeholderToDevPath.set(asset.placeholder, devPath)
+            devFontPathMap.set(devPath, asset.localPath)
+          }
+        } else {
+          googleFontFallbackUrls.push(...remoteCssUrls)
+        }
+      } else {
+        googleFontFallbackUrls.length = 0
       }
       if (!resolvedConfigPath) {
         this.warn(
@@ -370,6 +450,7 @@ export function beatuiTailwindPlugin(
         res.setHeader('Content-Type', 'text/css')
         try {
           let cssSource = fs.readFileSync(tailwindCssPath!, 'utf8')
+          const overrideCss = buildOverrideCss('dev')
           if (overrideCss) {
             cssSource += `\n${overrideCss}`
           }
@@ -382,19 +463,64 @@ export function beatuiTailwindPlugin(
           res.end()
         }
       })
+
+      if (devFontPathMap.size > 0) {
+        server.middlewares.use((req, res, next) => {
+          const method = req.method ?? 'GET'
+          if (!['GET', 'HEAD'].includes(method)) {
+            next()
+            return
+          }
+          const urlPath = (req.url ?? '').split('?')[0]
+          const localPath = urlPath ? devFontPathMap.get(urlPath) : undefined
+          if (!localPath) {
+            next()
+            return
+          }
+          res.setHeader('Content-Type', 'font/woff2')
+          fs.createReadStream(localPath)
+            .on('error', () => {
+              res.statusCode = 500
+              res.end()
+            })
+            .pipe(res)
+        })
+      }
     },
     buildStart() {
-      if (!injectCss || tailwindCssPath == null) return
+      if (!isBuildCommand || !injectCss || tailwindCssPath == null) return
+      placeholderToBuildRef.clear()
+      tailwindCssAssetRef = null
       const cssFilePath = tailwindCssPath!
       let cssSource = fs.readFileSync(cssFilePath, 'utf8')
+      const overrideCss = buildOverrideCss('raw')
       if (overrideCss) {
         cssSource += `\n${overrideCss}`
       }
-      this.emitFile({
+      tailwindCssAssetRef = this.emitFile({
         type: 'asset',
         fileName: CSS_ASSET_FILENAME,
         source: cssSource,
       })
+      if (googleFontAssets.length > 0) {
+        for (const asset of googleFontAssets) {
+          try {
+            const buffer = fs.readFileSync(asset.localPath)
+            const refId = this.emitFile({
+              type: 'asset',
+              name: `assets/${asset.fileName}`,
+              source: buffer,
+            })
+            placeholderToBuildRef.set(asset.placeholder, refId)
+          } catch (error) {
+            this.warn(
+              `[BeatUI] Failed to include Google Font asset ${asset.fileName}: ${String(
+                error
+              )}`
+            )
+          }
+        }
+      }
     },
     async config(userConfig) {
       const beatuiPreset = createBeatuiPreset(presetOptions)
@@ -503,6 +629,29 @@ export function beatuiTailwindPlugin(
 
       return updatedConfig as unknown as UserConfig
     },
+    generateBundle(_, bundle) {
+      if (!isBuildCommand) {
+        return
+      }
+      if (!tailwindCssAssetRef) {
+        return
+      }
+      const cssFileName = this.getFileName(tailwindCssAssetRef)
+      const asset = bundle[cssFileName]
+      if (
+        !asset ||
+        asset.type !== 'asset' ||
+        typeof asset.source !== 'string'
+      ) {
+        return
+      }
+      let updated = asset.source
+      for (const [placeholder, refId] of placeholderToBuildRef) {
+        const fileName = this.getFileName(refId)
+        updated = updated.split(placeholder).join(fileName)
+      }
+      asset.source = updated
+    },
     transformIndexHtml(html) {
       const tags: HtmlTagDescriptor[] = []
 
@@ -519,6 +668,37 @@ export function beatuiTailwindPlugin(
           },
           injectTo: 'head-prepend',
         })
+      }
+
+      if (googleFontFallbackUrls.length > 0) {
+        tags.push(
+          {
+            tag: 'link',
+            attrs: {
+              rel: 'preconnect',
+              href: 'https://fonts.googleapis.com',
+            },
+            injectTo: 'head' as const,
+          },
+          {
+            tag: 'link',
+            attrs: {
+              rel: 'preconnect',
+              href: 'https://fonts.gstatic.com',
+              crossorigin: '',
+            },
+            injectTo: 'head' as const,
+          },
+          ...googleFontFallbackUrls.map(url => ({
+            tag: 'link',
+            attrs: {
+              rel: 'stylesheet',
+              href: url,
+              'data-beatui-google-font': '',
+            },
+            injectTo: 'head' as const,
+          }))
+        )
       }
 
       const syncScript = `
@@ -561,3 +741,4 @@ export function beatuiTailwindPlugin(
 }
 
 export default beatuiTailwindPlugin
+export type { GoogleFontRequest }

@@ -211,8 +211,9 @@ export function generateTypographyVariables(): Record<string, string> {
 
   // Font families
   Object.entries(fontFamily).forEach(([key, value]) => {
-    variables[getFontFamilyVarName(key as FontFamily)] =
-      normalizeFontFamilyValue(value)
+    const normalizedValue = normalizeFontFamilyValue(value)
+    variables[getFontFamilyVarName(key as FontFamily)] = normalizedValue
+    variables[`--font-${key}`] = normalizedValue
   })
 
   return variables
@@ -231,8 +232,9 @@ export function generateFontFamilyOverrideVariables(
     if (value == null) {
       return
     }
-    variables[getFontFamilyVarName(key as FontFamily)] =
-      normalizeFontFamilyValue(value)
+    const normalizedValue = normalizeFontFamilyValue(value)
+    variables[getFontFamilyVarName(key as FontFamily)] = normalizedValue
+    variables[`--font-${key}`] = normalizedValue
   })
 
   return variables

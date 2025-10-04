@@ -92,6 +92,15 @@ export default defineConfig({
 })
 ```
 
+Need to self-host Google Fonts? Provide `googleFonts` entries and update your font tokens in one place:
+
+```ts
+beatuiTailwindPlugin({
+  googleFonts: [{ family: 'Inter', weights: [400, 600], styles: ['normal', 'italic'] }],
+  fontFamilies: { sans: ['"Inter"', 'system-ui'] },
+})
+```
+
 The preset registers BeatUI tokens through Tailwind’s `@theme`/`addBase` pipeline, provides semantic color overrides, and exposes `beatui-dark`, `beatui-light`, `beatui-rtl`, and `beatui-ltr` variants that target BeatUI’s layout wrappers. See `docs/tailwind-preset-usage.md` for the full option list. The Vite plugin synchronises Tailwind’s dark/RTL selectors with BeatUI’s `.b-dark` / `.b-rtl` helpers and injects the slim CSS bundle automatically—additional options are documented in `docs/tailwind-plugin-usage.md`.
 
 ## Usage
