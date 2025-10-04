@@ -83,7 +83,7 @@ export function SignUpForm({
     },
   })
 
-  const { controller, onSubmit } = form
+  const { controller, submit } = form
 
   loading.on(controller.setDisabled)
 
@@ -98,7 +98,7 @@ export function SignUpForm({
     html.form(
       OnDispose(controller.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
-      on.submit(onSubmit),
+      on.submit(submit),
 
       Stack(
         attr.class('bc-auth-form__fields'),
