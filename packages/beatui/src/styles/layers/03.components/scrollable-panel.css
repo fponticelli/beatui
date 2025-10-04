@@ -59,10 +59,7 @@
   transition: box-shadow
     var(--motion-transition-slow, var(--motion-duration-slow, 0.5s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  box-shadow: var(
-    --shadow-scrollable-panel-idle,
-    0 0 0 transparent
-  );
+  box-shadow: var(--shadow-scrollable-panel-idle, 0 0 0 transparent);
   background-color: transparent;
 }
 

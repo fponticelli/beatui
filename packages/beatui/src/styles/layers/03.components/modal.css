@@ -537,8 +537,5 @@
 .bc-modal__actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(
-    --spacing-stack-sm,
-    calc(var(--spacing-base) * 2)
-  );
+  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
 }

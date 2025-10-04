@@ -7,8 +7,7 @@
   padding: var(--spacing-md);
   box-shadow: var(
     --shadow-sink,
-    inset 0 0 0.25rem
-      color-mix(in srgb, var(--color-black) 20%, transparent)
+    inset 0 0 0.25rem color-mix(in srgb, var(--color-black) 20%, transparent)
   );
   background-color: var(--color-base-50);
   transition: all
@@ -20,16 +19,14 @@
 .bc-sink--deep {
   box-shadow: var(
     --shadow-sink-deep,
-    inset 0 0 0.5rem
-      color-mix(in srgb, var(--color-black) 30%, transparent)
+    inset 0 0 0.5rem color-mix(in srgb, var(--color-black) 30%, transparent)
   );
 }
 
 .bc-sink--shallow {
   box-shadow: var(
     --shadow-sink-shallow,
-    inset 0 0 0.125rem
-      color-mix(in srgb, var(--color-black) 10%, transparent)
+    inset 0 0 0.125rem color-mix(in srgb, var(--color-black) 10%, transparent)
   );
 }
 
@@ -88,10 +85,7 @@
 .b-dark .bc-sink {
   background-color: var(--bg-background-dark);
   border: 1px solid var(--border-border-dark);
-  box-shadow: var(
-    --shadow-sink-dark,
-    inset 0 2px 4px var(--shadow-color-dark)
-  );
+  box-shadow: var(--shadow-sink-dark, inset 0 2px 4px var(--shadow-color-dark));
   color: var(--text-normal-dark);
 }
 

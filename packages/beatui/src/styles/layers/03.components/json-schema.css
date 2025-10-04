@@ -8,10 +8,7 @@
 }
 
 .bc-schema-grid--gap-4 {
-  gap: var(
-    --spacing-stack-lg,
-    calc(var(--spacing-base) * 4)
-  );
+  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
 }
 
 .bc-schema-grid--cols-1 {
@@ -197,10 +194,7 @@
 
 .bc-object-helpers__row {
   display: grid;
-  gap: var(
-    --spacing-stack-sm,
-    calc(var(--spacing-base) * 2)
-  );
+  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
   grid-template-columns: 2fr 3fr min-content;
 }
 
