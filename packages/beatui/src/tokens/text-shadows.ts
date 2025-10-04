@@ -1,5 +1,5 @@
-// Radius Design Tokens
-// TypeScript-defined radius values that generate CSS variables and media queries at build time
+// Text Shadow Design Tokens
+// TypeScript-defined text shadow values that generate CSS variables at build time
 
 import { objectEntries } from '@tempots/std'
 
@@ -13,6 +13,24 @@ export const textShadows = {
 } as const
 
 export type TextShadowSize = keyof typeof textShadows
+
+export const semanticTextShadowNames = [
+  'button-filled',
+  'button-light',
+  'button-default',
+] as const
+
+export type SemanticTextShadowName = (typeof semanticTextShadowNames)[number]
+
+export type SemanticTextShadowOverrides = Partial<
+  Record<SemanticTextShadowName, string>
+>
+
+const defaultSemanticTextShadows: Record<SemanticTextShadowName, string> = {
+  'button-filled': getTextShadowVar('sm'),
+  'button-light': getTextShadowVar('xs'),
+  'button-default': getTextShadowVar('2xs'),
+}
 
 // Helper functions
 export function getTextShadowVarName(size: TextShadowSize): string {
@@ -29,6 +47,26 @@ export function generateTextShadowVariables(): Record<string, string> {
 
   objectEntries(textShadows).forEach(([size, value]) => {
     variables[getTextShadowVarName(size as TextShadowSize)] = value
+  })
+
+  return variables
+}
+
+export function getSemanticTextShadowVarName(
+  name: SemanticTextShadowName
+): string {
+  return `--text-shadow-${name}`
+}
+
+export function generateSemanticTextShadowVariables(
+  overrides?: SemanticTextShadowOverrides
+): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const mapping = { ...defaultSemanticTextShadows, ...overrides }
+
+  objectEntries(mapping).forEach(([name, value]) => {
+    variables[getSemanticTextShadowVarName(name as SemanticTextShadowName)] =
+      value
   })
 
   return variables

@@ -10,6 +10,7 @@ export * from './shadows'
 export * from './typography'
 export * from './z-index'
 export * from './motion'
+export * from './text-shadows'
 
 import {
   generateCoreColorVariables,
@@ -34,6 +35,10 @@ import {
   SemanticShadowOverrides,
 } from './shadows'
 import { generateTextShadowVariables } from './text-shadows'
+import {
+  generateSemanticTextShadowVariables,
+  SemanticTextShadowOverrides,
+} from './text-shadows'
 import { generateZIndexVariables } from './z-index'
 import {
   generateMotionVariables,
@@ -67,6 +72,7 @@ export interface SemanticTokenOverrideOptions {
   shadows?: SemanticShadowOverrides
   motion?: SemanticMotionOverrides
   spacing?: SemanticSpacingOverrides
+  textShadows?: SemanticTextShadowOverrides
 }
 
 function isSemanticTokenOverrideOptions(
@@ -80,7 +86,8 @@ function isSemanticTokenOverrideOptions(
       'radii' in overrides ||
       'shadows' in overrides ||
       'motion' in overrides ||
-      'spacing' in overrides)
+      'spacing' in overrides ||
+      'textShadows' in overrides)
   )
 }
 
@@ -93,6 +100,7 @@ export function generateSemanticTokenVariables(
   let shadowOverrides: SemanticShadowOverrides | undefined
   let motionOverrides: SemanticMotionOverrides | undefined
   let spacingOverrides: SemanticSpacingOverrides | undefined
+  let textShadowOverrides: SemanticTextShadowOverrides | undefined
 
   if (isSemanticTokenOverrideOptions(overrides)) {
     colorOverrides = overrides.colors
@@ -101,6 +109,7 @@ export function generateSemanticTokenVariables(
     shadowOverrides = overrides.shadows
     motionOverrides = overrides.motion
     spacingOverrides = overrides.spacing
+    textShadowOverrides = overrides.textShadows
   } else {
     colorOverrides = overrides
   }
@@ -112,6 +121,7 @@ export function generateSemanticTokenVariables(
     ...generateSemanticShadowVariables(shadowOverrides),
     ...generateSemanticMotionVariables(motionOverrides),
     ...generateSemanticSpacingVariables(spacingOverrides),
+    ...generateSemanticTextShadowVariables(textShadowOverrides),
   }
 }
 

@@ -64,6 +64,9 @@ export function generateButtonStyles(
 ): string {
   const styles = new Map<string, string>()
 
+  styles.set('--button-text-shadow', 'var(--text-shadow-none)')
+  styles.set('--button-text-shadow-dark', 'var(--text-shadow-none)')
+
   const ensureHover = (
     lightBg: string,
     darkBg: string,
@@ -85,6 +88,14 @@ export function generateButtonStyles(
       styles.set('--button-text', baseLight.textColor)
       styles.set('--button-bg-dark', baseDark.backgroundColor)
       styles.set('--button-text-dark', baseDark.textColor)
+      styles.set(
+        '--button-text-shadow',
+        'var(--text-shadow-button-filled, var(--text-shadow-sm))'
+      )
+      styles.set(
+        '--button-text-shadow-dark',
+        'var(--text-shadow-button-filled, var(--text-shadow-sm))'
+      )
 
       const hoverLight = hoverBackgroundValue(color, 'solid', 'light')
       const hoverDark = hoverBackgroundValue(color, 'solid', 'dark')
@@ -123,6 +134,14 @@ export function generateButtonStyles(
       styles.set('--button-border-dark', borderColorValue(color, 'dark'))
       styles.set('--button-text', textColorValue(color, 'light'))
       styles.set('--button-text-dark', textColorValue(color, 'dark'))
+      styles.set(
+        '--button-text-shadow',
+        'var(--text-shadow-button-light, var(--text-shadow-xs))'
+      )
+      styles.set(
+        '--button-text-shadow-dark',
+        'var(--text-shadow-button-light, var(--text-shadow-xs))'
+      )
 
       const hoverLight = hoverBackgroundValue(color, 'light', 'light')
       const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
@@ -142,6 +161,14 @@ export function generateButtonStyles(
       styles.set('--button-text', textColorValue(color, 'light'))
       styles.set('--button-bg-dark', baseDark.backgroundColor)
       styles.set('--button-text-dark', textColorValue(color, 'dark'))
+      styles.set(
+        '--button-text-shadow',
+        'var(--text-shadow-button-default, var(--text-shadow-2xs))'
+      )
+      styles.set(
+        '--button-text-shadow-dark',
+        'var(--text-shadow-button-default, var(--text-shadow-2xs))'
+      )
 
       const hoverLight = hoverBackgroundValue('base', 'light', 'light')
       const hoverDark = hoverBackgroundValue('base', 'light', 'dark')

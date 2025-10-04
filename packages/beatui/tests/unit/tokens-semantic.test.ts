@@ -20,6 +20,12 @@ describe('generateSemanticTokenVariables', () => {
       'var(--motion-easing-standard)'
     )
     expect(variables['--spacing-stack-sm']).toBe('calc(var(--spacing-base) * 2)')
+    expect(variables['--text-shadow-button-filled']).toBe(
+      'var(--text-shadow-sm)'
+    )
+    expect(variables['--text-shadow-button-light']).toBe(
+      'var(--text-shadow-xs)'
+    )
   })
 
   it('allows overriding fonts via semantic options', () => {
@@ -95,5 +101,17 @@ describe('generateSemanticTokenVariables', () => {
     })
 
     expect(variables['--spacing-stack-sm']).toBe('1.5rem')
+  })
+
+  it('allows overriding text shadow aliases', () => {
+    const variables = generateSemanticTokenVariables({
+      textShadows: {
+        'button-filled': '0 0 4px rgba(255, 255, 255, 0.6)',
+      },
+    })
+
+    expect(variables['--text-shadow-button-filled']).toBe(
+      '0 0 4px rgba(255, 255, 255, 0.6)'
+    )
   })
 })

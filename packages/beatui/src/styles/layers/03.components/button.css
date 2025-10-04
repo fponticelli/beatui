@@ -11,6 +11,8 @@
   --button-border: transparent;
   --button-border-dark: transparent;
   --button-hover-decoration: none;
+  --button-text-shadow: var(--text-shadow-none);
+  --button-text-shadow-dark: var(--text-shadow-none);
 
   display: inline-flex;
   align-items: center;
@@ -31,6 +33,7 @@
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   background-color: var(--button-bg);
   color: var(--button-text);
+  text-shadow: var(--button-text-shadow, var(--text-shadow-none));
 }
 
 .bc-button > span {
@@ -82,6 +85,10 @@
   background-color: var(--button-bg-dark);
   color: var(--button-text-dark);
   border-color: var(--button-border-dark);
+  text-shadow: var(
+    --button-text-shadow-dark,
+    var(--button-text-shadow, var(--text-shadow-none))
+  );
 }
 
 .b-dark .bc-button:hover:not(:disabled) {
