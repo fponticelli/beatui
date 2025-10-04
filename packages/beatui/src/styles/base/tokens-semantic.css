@@ -106,4 +106,16 @@
   --interactive-focus-dark: var(--color-primary-300);
   --interactive-hover-dark: var(--color-base-800);
   --interactive-active-dark: var(--color-base-700);
+  --font-body: var(--font-family-sans);
+  --font-heading: var(--font-family-sans);
+  --font-display: var(--font-family-sans);
+  --font-mono: var(--font-family-mono);
+  --font-ui: var(--font-family-sans);
+  --font-prose: var(--font-family-serif);
+  --default-font-family: var(--font-family-sans);
+  --default-heading-font-family: var(--font-family-sans);
+  --default-display-font-family: var(--font-family-sans);
+  --default-ui-font-family: var(--font-family-sans);
+  --default-prose-font-family: var(--font-family-serif);
+  --default-mono-font-family: var(--font-family-mono);
 }

@@ -63,6 +63,10 @@
   transition: color 0.2s ease-in-out;
   z-index: 2;
   border-radius: var(--radius-full);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
 }
 
 .bc-segmented-control--size-xs .bc-segmented-control__segment {

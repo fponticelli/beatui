@@ -15,7 +15,11 @@ import {
   SemanticColorOverrides,
 } from './colors'
 import { generateSpacingVariables } from './spacing'
-import { generateTypographyVariables } from './typography'
+import {
+  generateSemanticFontVariables,
+  generateTypographyVariables,
+  SemanticFontOverrides,
+} from './typography'
 import { generateBreakpointVariables } from './breakpoints'
 import { generateRadiusVariables } from './radius'
 import { generateShadowVariables } from './shadows'
@@ -36,11 +40,37 @@ export function generateCoreTokenVariables(): Record<string, string> {
   }
 }
 
+export interface SemanticTokenOverrideOptions {
+  colors?: SemanticColorOverrides
+  fonts?: SemanticFontOverrides
+}
+
+function isSemanticTokenOverrideOptions(
+  overrides: SemanticColorOverrides | SemanticTokenOverrideOptions | undefined
+): overrides is SemanticTokenOverrideOptions {
+  return (
+    typeof overrides === 'object' &&
+    overrides !== null &&
+    ('colors' in overrides || 'fonts' in overrides)
+  )
+}
+
 export function generateSemanticTokenVariables(
-  overrides?: SemanticColorOverrides
+  overrides?: SemanticColorOverrides | SemanticTokenOverrideOptions
 ): Record<string, string> {
+  let colorOverrides: SemanticColorOverrides | undefined
+  let fontOverrides: SemanticFontOverrides | undefined
+
+  if (isSemanticTokenOverrideOptions(overrides)) {
+    colorOverrides = overrides.colors
+    fontOverrides = overrides.fonts
+  } else {
+    colorOverrides = overrides
+  }
+
   return {
-    ...generateSemanticColorVariables(overrides),
+    ...generateSemanticColorVariables(colorOverrides),
+    ...generateSemanticFontVariables(fontOverrides),
   }
 }
 

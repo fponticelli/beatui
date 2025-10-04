@@ -1,6 +1,10 @@
 .bc-label {
   font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
 }
 
 .bc-label--emphasis {

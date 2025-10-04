@@ -23,6 +23,10 @@
   gap: calc(var(--spacing-base) * 2);
   background-color: var(--tag-bg);
   color: var(--tag-text);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
 }
 
 .bc-tag:hover {

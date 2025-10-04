@@ -113,6 +113,28 @@ function normalizeFontFamilyValue(value: string | readonly string[]) {
   return Array.isArray(value) ? value.join(', ') : (value as string)
 }
 
+export const semanticFontNames = [
+  'body',
+  'heading',
+  'display',
+  'mono',
+  'ui',
+  'prose',
+] as const
+
+export type SemanticFontName = (typeof semanticFontNames)[number]
+
+export type SemanticFontOverrides = Partial<Record<SemanticFontName, string>>
+
+const defaultSemanticFonts: Record<SemanticFontName, string> = {
+  body: getFontFamilyVar('sans'),
+  heading: getFontFamilyVar('sans'),
+  display: getFontFamilyVar('sans'),
+  mono: getFontFamilyVar('mono'),
+  ui: getFontFamilyVar('sans'),
+  prose: getFontFamilyVar('serif'),
+}
+
 // Helper functions
 export function getFontSizeVarName(size: FontSize): string {
   return `--font-size-${size}`
@@ -152,6 +174,14 @@ export function getFontFamilyVarName(family: FontFamily): string {
 
 export function getFontFamilyVar(family: FontFamily): string {
   return `var(${getFontFamilyVarName(family)})`
+}
+
+export function getSemanticFontVarName(name: SemanticFontName): string {
+  return `--font-${name}`
+}
+
+export function getSemanticFontVar(name: SemanticFontName): string {
+  return `var(${getSemanticFontVarName(name)})`
 }
 
 // Generate CSS variables from typography tokens
@@ -204,6 +234,26 @@ export function generateFontFamilyOverrideVariables(
     variables[getFontFamilyVarName(key as FontFamily)] =
       normalizeFontFamilyValue(value)
   })
+
+  return variables
+}
+
+export function generateSemanticFontVariables(
+  overrides?: SemanticFontOverrides
+): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const mapping = { ...defaultSemanticFonts, ...overrides }
+
+  Object.entries(mapping).forEach(([key, value]) => {
+    variables[getSemanticFontVarName(key as SemanticFontName)] = value
+  })
+
+  variables['--default-font-family'] = mapping.body
+  variables['--default-heading-font-family'] = mapping.heading
+  variables['--default-display-font-family'] = mapping.display
+  variables['--default-ui-font-family'] = mapping.ui
+  variables['--default-prose-font-family'] = mapping.prose
+  variables['--default-mono-font-family'] = mapping.mono
 
   return variables
 }

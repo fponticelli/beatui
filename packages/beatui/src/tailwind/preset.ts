@@ -8,13 +8,20 @@ import {
   semanticColorNames,
   type SemanticColorOverrides,
 } from '../tokens/colors'
-import type { FontFamilyOverrides } from '../tokens/typography'
+import type {
+  FontFamilyOverrides,
+  SemanticFontOverrides,
+} from '../tokens/typography'
 
 export interface BeatuiPresetOptions {
   /**
    * Override the semantic color mapping BeatUI uses (e.g. map `primary` to `emerald`).
    */
   semanticColors?: SemanticColorOverrides
+  /**
+   * Override semantic font aliases (e.g. map `heading` to `var(--font-family-serif)`).
+   */
+  semanticFonts?: SemanticFontOverrides
   /**
    * Override the default font family tokens (e.g. set `sans` to a custom stack).
    */
@@ -49,8 +56,6 @@ function buildSemanticColorTheme() {
 
 function buildBaseDeclarations(options: BeatuiPresetOptions) {
   const { includeCoreTokens = true, includeSemanticTokens = true } = options
-  const semanticOverrides = options.semanticColors
-
   const base: Record<string, Record<string, string>> = {}
 
   if (includeCoreTokens) {
@@ -62,7 +67,10 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
   if (includeSemanticTokens) {
     base[':root'] = {
       ...(base[':root'] ?? {}),
-      ...generateSemanticTokenVariables(semanticOverrides),
+      ...generateSemanticTokenVariables({
+        colors: options.semanticColors,
+        fonts: options.semanticFonts,
+      }),
     }
   }
 

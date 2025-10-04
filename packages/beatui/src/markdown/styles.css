@@ -1,7 +1,7 @@
 @layer components {
   .bc-markdown pre,
   .bc-markdown code {
-    font-family: var(--font-family-mono);
+    font-family: var(--font-mono, var(--font-family-mono));
   }
 
   .bc-markdown pre {
@@ -40,6 +40,13 @@
     font-size: 1rem;
     line-height: 1.75rem;
     font-weight: 400;
+    font-family: var(
+      --font-prose,
+      var(
+        --default-prose-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   /* Headings */
@@ -48,6 +55,13 @@
     font-size: 1.75rem;
     line-height: 2.25rem;
     font-weight: 700;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   .bc-markdown h2 {
@@ -55,6 +69,13 @@
     font-size: 1.5rem;
     line-height: 2rem;
     font-weight: 600;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   .bc-markdown h3 {
@@ -62,6 +83,13 @@
     font-size: 1.25rem;
     line-height: 1.75rem;
     font-weight: 600;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   .bc-markdown h4 {
@@ -69,6 +97,13 @@
     font-size: 1.125rem;
     line-height: 1.75rem;
     font-weight: 600;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   .bc-markdown h5 {
@@ -76,6 +111,13 @@
     font-size: 1rem;
     line-height: 1.5rem;
     font-weight: 600;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   .bc-markdown h6 {
@@ -83,6 +125,13 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 600;
+    font-family: var(
+      --font-heading,
+      var(
+        --default-heading-font-family,
+        var(--font-body, var(--font-family-sans))
+      )
+    );
   }
 
   /* Paragraphs */
@@ -105,7 +154,7 @@
 
   /* Inline Code */
   .bc-markdown code {
-    font-family: var(--font-family-mono);
+    font-family: var(--font-mono, var(--font-family-mono));
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 400;
@@ -114,7 +163,7 @@
 
   /* Code blocks */
   .bc-markdown pre {
-    font-family: var(--font-family-mono);
+    font-family: var(--font-mono, var(--font-family-mono));
     font-size: 0.875rem;
     line-height: 1.5rem;
     font-weight: 400;

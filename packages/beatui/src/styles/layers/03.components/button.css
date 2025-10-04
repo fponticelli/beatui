@@ -19,7 +19,10 @@
   border: 1.5px solid var(--button-border);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
-  font-family: inherit;
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
   font-size: inherit;
   line-height: 1;
   border-radius: var(--radius-md);
