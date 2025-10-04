@@ -48,15 +48,15 @@
 }
 
 .bc-panel--shadow-sm {
-  box-shadow: 0 0 0.25rem 0.125rem var(--shadow-color-light);
+  box-shadow: var(--shadow-sm);
 }
 
 .bc-panel--shadow-md {
-  box-shadow: 0 0 0.5rem 0.125rem var(--shadow-color-light);
+  box-shadow: var(--shadow-md);
 }
 
 .bc-panel--shadow-lg {
-  box-shadow: 0 0 1rem 0.25rem var(--shadow-color-light);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Dark mode styles */
@@ -78,22 +78,4 @@
 
 .b-dark .bc-panel--side-right {
   border-right: 1px solid var(--border-dark);
-}
-
-.b-dark .bc-panel--shadow-sm {
-  box-shadow:
-    0 0 0.25rem 0.125rem var(--shadow-color-dark),
-    0 0 0 1px var(--shadow-highlight-dark);
-}
-
-.b-dark .bc-panel--shadow-md {
-  box-shadow:
-    0 0 0.5rem 0.125rem var(--shadow-color-dark),
-    0 0 0 1px var(--shadow-highlight-dark);
-}
-
-.b-dark .bc-panel--shadow-lg {
-  box-shadow:
-    0 0 1rem 0.25rem var(--shadow-color-dark),
-    0 0 0 1px var(--shadow-highlight-dark);
 }

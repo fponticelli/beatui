@@ -230,7 +230,7 @@ export default function AuthenticationComponentsPage() {
         })
       ),
       Stack(
-        attr.class('gap-4 w-full max-w-64'),
+        attr.class('gap-4 w-full max-w-128'),
 
         html.h4(attr.class('font-medium'), 'Full Indicator'),
         PasswordStrengthIndicator({

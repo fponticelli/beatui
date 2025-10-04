@@ -89,7 +89,7 @@
 
 .bc-file-input__file-item:hover {
   border-color: var(--color-gray-300);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .bc-file-input__file-item:last-child {

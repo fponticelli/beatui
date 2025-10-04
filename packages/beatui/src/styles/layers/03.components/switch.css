@@ -235,5 +235,5 @@
 
 .b-dark .bc-switch__thumb {
   background-color: var(--text-normal-dark);
-  box-shadow: 0 2px 4px var(--shadow-color-dark);
+  box-shadow: var(--shadow-md);
 }

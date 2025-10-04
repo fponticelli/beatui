@@ -11,7 +11,7 @@ import {
   Stack,
   TextInput,
 } from '@tempots/beatui'
-import { z } from 'zod/v4'
+import { z } from 'zod'
 import { ControlsHeader } from '../elements/controls-header'
 
 export default function MaskInputPage() {

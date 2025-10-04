@@ -21,17 +21,17 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 31.0.0
-        version: 31.0.0
+        specifier: 31.1.0
+        version: 31.1.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 10.1.0
-        version: 10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)
+        specifier: 10.2.0
+        version: 10.2.0(@tempots/dom@31.1.0)(@tempots/std@0.24.0)
       zod:
-        specifier: ^3.25.67
-        version: 3.25.76
+        specifier: 4.1.11
+        version: 4.1.11
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.13
@@ -91,6 +91,31 @@ importers:
         specifier: ^7.1.7
         version: 7.1.7(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
 
+  apps/standalone:
+    dependencies:
+      '@tempots/beatui':
+        specifier: workspace:*
+        version: link:../../packages/beatui
+      '@tempots/dom':
+        specifier: 31.1.0
+        version: 31.1.0
+      '@tempots/std':
+        specifier: 0.24.0
+        version: 0.24.0
+      '@tempots/ui':
+        specifier: 10.2.0
+        version: 10.2.0(@tempots/dom@31.1.0)(@tempots/std@0.24.0)
+    devDependencies:
+      '@types/node':
+        specifier: 22.15.18
+        version: 22.15.18
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vite:
+        specifier: ^7.1.7
+        version: 7.1.7(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
+
   packages/beatui:
     dependencies:
       '@js-temporal/polyfill':
@@ -103,14 +128,14 @@ importers:
         specifier: ^7.15.3
         version: 7.15.3(@codemirror/language@6.11.3)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(typescript@5.8.3)
       '@tempots/dom':
-        specifier: 31.0.0
-        version: 31.0.0
+        specifier: 31.1.0
+        version: 31.1.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 10.1.0
-        version: 10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)
+        specifier: 10.2.0
+        version: 10.2.0(@tempots/dom@31.1.0)(@tempots/std@0.24.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -157,6 +182,9 @@ importers:
       prettier:
         specifier: 3.5.3
         version: 3.5.3
+      tailwindcss:
+        specifier: ^4.1.13
+        version: 4.1.13
       tsx:
         specifier: ^4.19.4
         version: 4.20.3
@@ -1008,16 +1036,16 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tempots/dom@31.0.0':
-    resolution: {integrity: sha512-ALb8+85NwlJhcVQOljPOfT+/h391HWedl1gemffHYgiQKCRA2EizcIt38y479hz8qe7Y7RI5bdCFCgMHuTmtWQ==}
+  '@tempots/dom@31.1.0':
+    resolution: {integrity: sha512-OtxlexF9mnwXBs+ORa4RjfNXZkF1lqQT0t4ls6VAlQaKw9uOnJ/7zAyikT1tG1YPtVP9ElCMH80hVnBM1bJRBg==}
 
   '@tempots/std@0.24.0':
     resolution: {integrity: sha512-8YhRh41k0hVYp6hnoOAQ8Qw5ANUXlp4UZdArZwev9v4RIJ8hmYoKadqCOqfU42njO3qaR0Ks9sS/YdC4zXb2LA==}
 
-  '@tempots/ui@10.1.0':
-    resolution: {integrity: sha512-krbjhcSfJTGMEv4d4bfUsPffCtUgIIceFUClCyYnQ6DZqc3MkRKnzlW5tYfp8z4yXPz70iqlaIuzvrFxGa4lTg==}
+  '@tempots/ui@10.2.0':
+    resolution: {integrity: sha512-fO41qEf1IVlSzkDeGLgSroKyFwD8zW62mEnIn22SgVaDDiRAn7hmKoYsqbLzW9t10LflUxK2ILOuU/RuiZ2+IQ==}
     peerDependencies:
-      '@tempots/dom': 31.0.0
+      '@tempots/dom': 31.1.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -2820,8 +2848,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.1.11:
+    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -3898,14 +3926,14 @@ snapshots:
       tailwindcss: 4.1.13
       vite: 7.1.7(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.3)(yaml@2.8.1)
 
-  '@tempots/dom@31.0.0': {}
+  '@tempots/dom@31.1.0': {}
 
   '@tempots/std@0.24.0': {}
 
-  '@tempots/ui@10.1.0(@tempots/dom@31.0.0)(@tempots/std@0.24.0)':
+  '@tempots/ui@10.2.0(@tempots/dom@31.1.0)(@tempots/std@0.24.0)':
     dependencies:
       '@floating-ui/dom': 1.7.0
-      '@tempots/dom': 31.0.0
+      '@tempots/dom': 31.1.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -6005,6 +6033,6 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.25.76: {}
+  zod@4.1.11: {}
 
   zwitch@2.0.4: {}

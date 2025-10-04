@@ -432,9 +432,6 @@
   background-color: var(--bg-surface-dark);
   border: 1px solid var(--border-border-dark);
   color: var(--text-normal-dark);
-  box-shadow:
-    0 25px 50px -12px var(--shadow-color-dark),
-    0 0 0 1px var(--shadow-highlight-dark);
 }
 
 .b-dark .bc-modal__header {

@@ -17,7 +17,7 @@ import {
   useForm,
   ValueOption,
 } from '@tempots/beatui'
-import { z } from 'zod/v4'
+import { z } from 'zod'
 
 export default function FormPage() {
   const { controller } = useForm({

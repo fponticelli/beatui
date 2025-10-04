@@ -52,7 +52,7 @@ export default function AuthenticationPage() {
         'Auth Container (Direct)'
       ),
       html.div(
-        attr.class('w-full max-w-64 p-4 border rounded-lg'),
+        attr.class('w-full max-w-128 p-4 border rounded-lg'),
         AuthContainer({
           mode: 'signin',
           onSignIn: handleSignIn,
