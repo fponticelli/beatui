@@ -5,11 +5,13 @@
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-overlay, var(--radius-lg));
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-overlay, var(--shadow-xl));
   background-color: var(--color-base-100);
   border: 3px solid var(--color-base-300);
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  transition: all
+    var(--motion-transition-overlay, var(--motion-duration-slow, 0.3s))
+    var(--motion-easing-emphasis, cubic-bezier(0.33, 1, 0.68, 1));
 }
 
 /* Modal anchored to body (default) */
@@ -254,7 +256,7 @@
 /* Modal footer */
 .bc-modal__footer {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
   padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
   border-top: 1px solid var(--color-base-300);
   flex-shrink: 0;
@@ -535,5 +537,8 @@
 .bc-modal__actions {
   display: flex;
   justify-content: flex-end;
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(
+    --spacing-stack-sm,
+    calc(var(--spacing-base) * 2)
+  );
 }

@@ -1,13 +1,15 @@
 /* Rating Input Component */
 .bc-rating-input {
   display: inline-flex;
-  gap: calc(var(--spacing-base) * 1);
+  gap: var(--spacing-stack-xs, calc(var(--spacing-base) * 1));
 }
 
 .bc-rating-input__icon-container {
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-rating-input__icon-empty,

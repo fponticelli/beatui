@@ -1,6 +1,8 @@
 .bc-collapse {
   overflow: hidden;
-  transition: height 0.4s ease-in-out;
+  transition: height
+    var(--motion-transition-slow, var(--motion-duration-slow, 0.4s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   --collapse-height: auto;
 }
 

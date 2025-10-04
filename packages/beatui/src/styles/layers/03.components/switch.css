@@ -3,7 +3,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
   cursor: pointer;
 }
 
@@ -43,9 +43,14 @@
   display: grid;
   grid-template-areas: 'stack';
   border-radius: var(--radius-full);
-  box-shadow: inset 0 0 calc(var(--spacing-base))
-    color-mix(in srgb, var(--color-black) 20%, transparent);
-  transition: all 0.2s ease-in-out;
+  box-shadow: var(
+    --shadow-switch-track,
+    inset 0 0 calc(var(--spacing-base))
+      color-mix(in srgb, var(--color-black) 20%, transparent)
+  );
+  transition: background-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   cursor: pointer;
   padding: calc(var(--spacing-base)) var(--spacing-base);
 }
@@ -66,7 +71,9 @@
   display: flex;
   align-items: center;
   z-index: 1;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity
+    var(--motion-transition-medium, var(--motion-duration-base, 0.3s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   pointer-events: none;
 }
 
@@ -105,11 +112,15 @@
   /* margin-top: calc(var(--spacing-base) / 2); */
   border-radius: var(--radius-full);
   background-color: var(--color-white);
-  box-shadow:
+  box-shadow: var(
+    --shadow-switch-thumb,
     0 1px 3px 0 color-mix(in srgb, var(--color-black) 10%, transparent),
-    0 1px 2px 0 color-mix(in srgb, var(--color-black) 6%, transparent);
+    0 1px 2px 0 color-mix(in srgb, var(--color-black) 6%, transparent)
+  );
   z-index: 1;
-  transition: transform 0.2s ease-in-out;
+  transition: transform
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   pointer-events: none;
 }
 
@@ -236,5 +247,5 @@
 
 .b-dark .bc-switch__thumb {
   background-color: var(--text-normal-dark);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-switch-thumb-dark, var(--shadow-md));
 }

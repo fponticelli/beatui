@@ -56,9 +56,13 @@
   width: 100%;
   height: 20px;
   position: absolute;
-  transition: all;
-  box-shadow: 0 0 0 transparent;
-  transition-duration: 0.5s;
+  transition: box-shadow
+    var(--motion-transition-slow, var(--motion-duration-slow, 0.5s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  box-shadow: var(
+    --shadow-scrollable-panel-idle,
+    0 0 0 transparent
+  );
   background-color: transparent;
 }
 
@@ -67,7 +71,7 @@
 }
 
 .bc-scrollable-panel--scrolled-down .bc-scrollable-panel--header-shadow > div {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-surface-elevated, var(--shadow-md));
 }
 
 .bc-scrollable-panel--footer-shadow > div {
@@ -90,7 +94,9 @@
 .bc-scrollable-panel__body::-webkit-scrollbar-thumb {
   background: var(--color-base-400);
   border-radius: var(--radius-sm);
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-scrollable-panel__body::-webkit-scrollbar-thumb:hover {

@@ -31,10 +31,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
   font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 2);
 }
 
@@ -101,7 +103,9 @@ span.bc-sidebar-link {
 }
 
 .bc-sidebar-group-collapsible-indicator {
-  transition: all 0.2s ease-in-out;
+  transition: transform
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-sidebar-group-collapsible--open .bc-sidebar-group-collapsible-indicator {

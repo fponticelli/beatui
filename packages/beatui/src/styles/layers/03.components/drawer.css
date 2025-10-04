@@ -3,10 +3,12 @@
   z-index: var(--z-index-modal);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--shadow-overlay, var(--shadow-xl));
   background-color: var(--color-base-100);
   overflow: hidden;
-  transition: transform 0.3s ease-in-out;
+  transition: transform
+    var(--motion-transition-overlay, var(--motion-duration-slow, 0.3s))
+    var(--motion-easing-emphasis, cubic-bezier(0.33, 1, 0.68, 1));
 }
 
 /* Animation states for drawer sliding - specific transforms are defined per side below */

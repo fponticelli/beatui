@@ -44,3 +44,42 @@ export function generateShadowVariables(): Record<string, string> {
 
   return variables
 }
+
+export const semanticShadowNames = [
+  'surface',
+  'surface-elevated',
+  'popover',
+  'overlay',
+  'button',
+] as const
+
+export type SemanticShadowName = (typeof semanticShadowNames)[number]
+
+export type SemanticShadowOverrides = Partial<
+  Record<SemanticShadowName, string>
+>
+
+const defaultSemanticShadows: Record<SemanticShadowName, string> = {
+  surface: getShadowVar('sm'),
+  'surface-elevated': getShadowVar('md'),
+  popover: getShadowVar('lg'),
+  overlay: getShadowVar('xl'),
+  button: getShadowVar('xs'),
+}
+
+export function getSemanticShadowVarName(name: SemanticShadowName): string {
+  return `--shadow-${name}`
+}
+
+export function generateSemanticShadowVariables(
+  overrides?: SemanticShadowOverrides
+): Record<string, string> {
+  const variables: Record<string, string> = {}
+  const mapping = { ...defaultSemanticShadows, ...overrides }
+
+  objectEntries(mapping).forEach(([name, value]) => {
+    variables[getSemanticShadowVarName(name as SemanticShadowName)] = value
+  })
+
+  return variables
+}

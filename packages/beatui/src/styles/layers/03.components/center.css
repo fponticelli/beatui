@@ -6,7 +6,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 /* Center Horizontal Only */
@@ -24,23 +24,23 @@
 }
 
 .bc-center--gap-xs {
-  gap: var(--spacing-xs);
+  gap: var(--spacing-stack-xs, var(--spacing-xs));
 }
 
 .bc-center--gap-sm {
-  gap: var(--spacing-sm);
+  gap: var(--spacing-stack-sm, var(--spacing-sm));
 }
 
 .bc-center--gap-md {
-  gap: var(--spacing-md);
+  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
 }
 
 .bc-center--gap-lg {
-  gap: var(--spacing-lg);
+  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
 }
 
 .bc-center--gap-xl {
-  gap: var(--spacing-xl);
+  gap: var(--spacing-stack-xl, var(--spacing-xl));
 }
 
 /* Center content wrapper */

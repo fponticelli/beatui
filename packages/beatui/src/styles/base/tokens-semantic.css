@@ -127,4 +127,24 @@
   --radius-popover: var(--radius-md);
   --radius-pill: var(--radius-full);
   --radius-focus: var(--radius-sm);
+  --shadow-surface: var(--shadow-sm);
+  --shadow-surface-elevated: var(--shadow-md);
+  --shadow-popover: var(--shadow-lg);
+  --shadow-overlay: var(--shadow-xl);
+  --shadow-button: var(--shadow-xs);
+  --motion-transition-fast: var(--motion-duration-fast);
+  --motion-transition-medium: var(--motion-duration-base);
+  --motion-transition-slow: var(--motion-duration-slow);
+  --motion-transition-overlay: var(--motion-duration-relaxed);
+  --motion-transition-emphasis: var(--motion-duration-fast);
+  --motion-easing-standard: var(--motion-easing-standard);
+  --motion-easing-emphasis: var(--motion-easing-emphasized);
+  --motion-easing-entrance: var(--motion-easing-entrance);
+  --motion-easing-exit: var(--motion-easing-exit);
+  --spacing-stack-2xs: calc(var(--spacing-base) / 2);
+  --spacing-stack-xs: calc(var(--spacing-base) * 1);
+  --spacing-stack-sm: calc(var(--spacing-base) * 2);
+  --spacing-stack-md: calc(var(--spacing-base) * 3);
+  --spacing-stack-lg: calc(var(--spacing-base) * 4);
+  --spacing-stack-xl: calc(var(--spacing-base) * 6);
 }

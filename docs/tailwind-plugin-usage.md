@@ -13,6 +13,9 @@ export default defineConfig({
       semanticColors: { primary: 'emerald' },
       semanticFonts: { heading: 'var(--font-family-serif)' },
       semanticRadii: { control: '8px', surface: 'var(--radius-xl)' },
+      semanticShadows: { surface: 'var(--shadow-md)' },
+      semanticMotion: { 'transition-fast': '90ms' },
+      semanticSpacing: { 'stack-md': '2rem' },
       fontFamilies: { sans: ['Inter', 'system-ui'] },
       darkClass: 'dark',
       rtlAttribute: 'dir',
@@ -26,6 +29,9 @@ export default defineConfig({
 - `semanticColors`: forwarded to `createBeatuiPreset` to remap semantic color tokens.
 - `semanticFonts`: override semantic font aliases such as `--font-heading`, `--font-body`, `--font-prose`.
 - `semanticRadii`: override semantic radius aliases (`--radius-control`, `--radius-surface`, `--radius-popover`, etc.).
+- `semanticShadows`: override semantic elevation aliases (`--shadow-surface`, `--shadow-popover`, `--shadow-overlay`, etc.).
+- `semanticMotion`: override semantic motion tokens (`--motion-transition-fast`, `--motion-easing-standard`, etc.).
+- `semanticSpacing`: override spacing stack aliases (e.g., `--spacing-stack-md`).
 - `fontFamilies`: forward overrides for BeatUI font family tokens (e.g., `{ sans: 'Inter, system-ui' }`).
 - `includeCoreTokens`, `includeSemanticTokens`, `extendTheme`: same meaning as preset options.
 - `injectCss` (default `true`): when `false` the plugin will not inject the Tailwind CSS bundle; you must import `@tempots/beatui/tailwind.css` manually.

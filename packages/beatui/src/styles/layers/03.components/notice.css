@@ -2,7 +2,7 @@
 .bc-notice {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-md);
+  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
   align-items: start;
   border-radius: var(--radius-control, var(--radius-md));
   padding: var(--spacing-md);

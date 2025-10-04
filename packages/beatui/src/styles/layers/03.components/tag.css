@@ -17,10 +17,15 @@
   border-radius: var(--radius-pill, var(--radius-full));
   line-height: 1.2;
   border: 1px solid var(--tag-border);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   font-size: var(--font-size-base);
   padding: 0 calc(var(--spacing-base) * 2);
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(
+    --spacing-stack-sm,
+    calc(var(--spacing-base) * 2)
+  );
   background-color: var(--tag-bg);
   color: var(--tag-text);
   font-family: var(
@@ -69,7 +74,9 @@
   width: calc(var(--spacing-base) * 4);
   height: calc(var(--spacing-base) * 4);
   border-radius: var(--radius-full);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   border: 1px solid transparent;
 }
 
@@ -128,5 +135,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(
+    --spacing-stack-sm,
+    calc(var(--spacing-base) * 2)
+  );
 }

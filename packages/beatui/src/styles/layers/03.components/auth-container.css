@@ -8,8 +8,10 @@
   padding: var(--spacing-2xl);
   background-color: var(--bg-surface-light);
   border-radius: var(--radius-surface, var(--radius-lg));
-  box-shadow: var(--shadow-md);
-  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-surface, var(--shadow-md));
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 /* Dark mode */
@@ -37,7 +39,7 @@
     margin: 0;
     padding: var(--spacing-lg);
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: var(--shadow-none, none);
     min-height: 100vh;
     justify-content: center;
   }

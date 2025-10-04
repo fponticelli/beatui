@@ -59,7 +59,9 @@
   );
   font-weight: var(--font-weight-medium);
   color: var(--color-base-600);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   white-space: nowrap;
   position: relative;
   border-radius: var(--radius-control-sm, var(--radius-sm))
@@ -125,7 +127,9 @@
   content: '';
   position: absolute;
   background-color: var(--color-primary-500);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-tabs--horizontal .bc-tab--active::after {

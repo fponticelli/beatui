@@ -268,6 +268,9 @@ export function beatuiTailwindPlugin(
     semanticColors: options.semanticColors,
     semanticFonts: options.semanticFonts,
     semanticRadii: options.semanticRadii,
+    semanticShadows: options.semanticShadows,
+    semanticMotion: options.semanticMotion,
+    semanticSpacing: options.semanticSpacing,
     fontFamilies: options.fontFamilies,
     includeCoreTokens: options.includeCoreTokens,
     includeSemanticTokens: options.includeSemanticTokens,
@@ -276,7 +279,10 @@ export function beatuiTailwindPlugin(
   const hasSemanticOverrides =
     options.semanticColors != null ||
     options.semanticFonts != null ||
-    options.semanticRadii != null
+    options.semanticRadii != null ||
+    options.semanticShadows != null ||
+    options.semanticMotion != null ||
+    options.semanticSpacing != null
 
   const semanticOverrideCss = hasSemanticOverrides
     ? buildCssFromVariables(
@@ -284,6 +290,9 @@ export function beatuiTailwindPlugin(
           colors: options.semanticColors,
           fonts: options.semanticFonts,
           radii: options.semanticRadii,
+          shadows: options.semanticShadows,
+          motion: options.semanticMotion,
+          spacing: options.semanticSpacing,
         })
       )
     : ''

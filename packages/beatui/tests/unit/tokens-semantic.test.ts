@@ -11,6 +11,15 @@ describe('generateSemanticTokenVariables', () => {
     expect(variables['--default-font-family']).toBe('var(--font-body)')
     expect(variables['--default-mono-font-family']).toBe('var(--font-mono)')
     expect(variables['--default-heading-font-family']).toBe('var(--font-heading)')
+    expect(variables['--shadow-surface']).toBe('var(--shadow-sm)')
+    expect(variables['--shadow-popover']).toBe('var(--shadow-lg)')
+    expect(variables['--motion-transition-fast']).toBe(
+      'var(--motion-duration-fast)'
+    )
+    expect(variables['--motion-easing-standard']).toBe(
+      'var(--motion-easing-standard)'
+    )
+    expect(variables['--spacing-stack-sm']).toBe('calc(var(--spacing-base) * 2)')
   })
 
   it('allows overriding fonts via semantic options', () => {
@@ -50,5 +59,41 @@ describe('generateSemanticTokenVariables', () => {
 
     expect(variables['--radius-control']).toBe('12px')
     expect(variables['--radius-surface']).toBe('var(--radius-xl)')
+  })
+
+  it('allows overriding shadow aliases', () => {
+    const variables = generateSemanticTokenVariables({
+      shadows: {
+        surface: 'var(--shadow-lg)',
+        overlay: '0 20px 50px rgba(0, 0, 0, 0.4)',
+      },
+    })
+
+    expect(variables['--shadow-surface']).toBe('var(--shadow-lg)')
+    expect(variables['--shadow-overlay']).toBe(
+      '0 20px 50px rgba(0, 0, 0, 0.4)'
+    )
+  })
+
+  it('allows overriding motion aliases', () => {
+    const variables = generateSemanticTokenVariables({
+      motion: {
+        'transition-fast': '100ms',
+        'easing-standard': 'linear',
+      },
+    })
+
+    expect(variables['--motion-transition-fast']).toBe('100ms')
+    expect(variables['--motion-easing-standard']).toBe('linear')
+  })
+
+  it('allows overriding spacing stack aliases', () => {
+    const variables = generateSemanticTokenVariables({
+      spacing: {
+        'stack-sm': '1.5rem',
+      },
+    })
+
+    expect(variables['--spacing-stack-sm']).toBe('1.5rem')
   })
 })

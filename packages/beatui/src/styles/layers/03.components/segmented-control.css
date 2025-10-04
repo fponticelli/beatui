@@ -2,7 +2,7 @@
 .bc-segmented-control {
   background-color: var(--color-base-200);
   border-radius: var(--radius-pill, var(--radius-full));
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-surface, var(--shadow-sm));
   position: relative;
   border: 1px solid var(--color-base-300);
   padding: var(--spacing-sm);
@@ -16,23 +16,23 @@
 }
 
 .bc-segmented-control--size-xs .bc-segmented-control__container {
-  gap: var(--spacing-xs);
+  gap: var(--spacing-stack-xs, var(--spacing-xs));
 }
 
 .bc-segmented-control--size-sm .bc-segmented-control__container {
-  gap: var(--spacing-sm);
+  gap: var(--spacing-stack-sm, var(--spacing-sm));
 }
 
 .bc-segmented-control--size-md .bc-segmented-control__container {
-  gap: var(--spacing-md);
+  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
 }
 
 .bc-segmented-control--size-lg .bc-segmented-control__container {
-  gap: var(--spacing-lg);
+  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
 }
 
 .bc-segmented-control--size-xl .bc-segmented-control__container {
-  gap: var(--spacing-xl);
+  gap: var(--spacing-stack-xl, var(--spacing-xl));
 }
 
 /* Sliding indicator */
@@ -40,10 +40,12 @@
   position: absolute;
   height: 100%;
   background-color: var(--color-base-50);
-  transition: all 0.2s ease-in-out;
+  transition: transform
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   transform: translateX(0);
   border-radius: var(--radius-pill, var(--radius-full));
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-surface, var(--shadow-sm));
   z-index: 1;
 }
 
@@ -60,7 +62,9 @@
   font-weight: var(--font-weight-semibold);
   text-transform: capitalize;
   color: var(--color-base-700);
-  transition: color 0.2s ease-in-out;
+  transition: color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   z-index: 2;
   border-radius: var(--radius-pill, var(--radius-full));
   font-family: var(
@@ -132,14 +136,18 @@
 
 .b-dark .bc-segmented-control__indicator {
   background-color: var(--bg-elevated-dark);
-  box-shadow:
+  box-shadow: var(
+    --shadow-segmented-control-indicator-dark,
     0 1px 3px var(--shadow-color-dark),
-    0 0 0 1px var(--shadow-highlight-dark);
+    0 0 0 1px var(--shadow-highlight-dark)
+  );
 }
 
 .b-dark .bc-segmented-control__segment {
   color: var(--text-muted-dark);
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   border-radius: var(--radius-full);
 }
 
@@ -171,7 +179,7 @@
 
 .b-dark .bc-segmented-control--disabled .bc-segmented-control__indicator {
   background-color: var(--bg-subtle-dark);
-  box-shadow: none;
+  box-shadow: var(--shadow-none, none);
 }
 
 .b-dark .bc-segmented-control--disabled .bc-segmented-control__segment {

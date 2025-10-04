@@ -19,6 +19,15 @@ export default defineConfig({
       semanticRadii: {
         control: '10px',
       },
+      semanticShadows: {
+        surface: 'var(--shadow-md)',
+      },
+      semanticMotion: {
+        'transition-fast': '120ms',
+      },
+      semanticSpacing: {
+        'stack-lg': '2.5rem',
+      },
       includeCoreTokens: true,
       includeSemanticTokens: true,
       extendTheme: true,
@@ -32,6 +41,9 @@ export default defineConfig({
 - `semanticColors`: remap BeatUI semantic color names to other Tailwind palette names (`primary`, `secondary`, `success`, `warning`, `danger`, `info`, `base`).
 - `semanticFonts`: remap semantic font aliases (`body`, `heading`, `mono`, `ui`, `prose`, `display`).
 - `semanticRadii`: remap semantic radius aliases for controls, surfaces, overlays (`control`, `surface`, `popover`, `pill`, etc.).
+- `semanticShadows`: remap semantic shadow aliases (`surface`, `surface-elevated`, `popover`, `overlay`, `button`).
+- `semanticMotion`: remap semantic motion tokens (`transition-fast`, `transition-overlay`, `easing-standard`, etc.).
+- `semanticSpacing`: remap spacing stack aliases used by layout helpers (`stack-xs` … `stack-xl`).
 - `fontFamilies`: override `--font-family-*` base tokens (e.g., `{ sans: ['Inter', 'system-ui'] }`).
 - `includeCoreTokens` (default `true`): register spacing, typography, breakpoint, radius, shadow, etc. variables.
 - `includeSemanticTokens` (default `true`): register semantic color aliases (e.g., `--color-primary-500`).

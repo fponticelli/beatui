@@ -32,7 +32,9 @@
   outline: 1px solid var(--color-gray-300);
   outline-offset: -1px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-number-input-steppers-button .bc-icon {

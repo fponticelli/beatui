@@ -48,15 +48,15 @@
 }
 
 .bc-panel--shadow-sm {
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-surface, var(--shadow-sm));
 }
 
 .bc-panel--shadow-md {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-surface-elevated, var(--shadow-md));
 }
 
 .bc-panel--shadow-lg {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-overlay, var(--shadow-lg));
 }
 
 /* Dark mode styles */

@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--spacing-base) / 2);
+  gap: var(--spacing-stack-2xs, calc(var(--spacing-base) / 2));
   border: 1.5px solid var(--button-border);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
@@ -26,8 +26,9 @@
   font-size: inherit;
   line-height: 1;
   border-radius: var(--radius-button, var(--radius-control, var(--radius-md)));
-  transition: all 0.2s ease-in-out;
-  text-transform: capitalize;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   background-color: var(--button-bg);
   color: var(--button-text);
 }

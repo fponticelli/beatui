@@ -13,6 +13,9 @@ import type {
   SemanticFontOverrides,
 } from '../tokens/typography'
 import type { SemanticRadiusOverrides } from '../tokens/radius'
+import type { SemanticShadowOverrides } from '../tokens/shadows'
+import type { SemanticMotionOverrides } from '../tokens/motion'
+import type { SemanticSpacingOverrides } from '../tokens/spacing'
 
 export interface BeatuiPresetOptions {
   /**
@@ -27,6 +30,18 @@ export interface BeatuiPresetOptions {
    * Override semantic radius aliases for controls, surfaces, etc.
    */
   semanticRadii?: SemanticRadiusOverrides
+  /**
+   * Override semantic shadow aliases (elevation levels for surfaces, overlays, etc.).
+   */
+  semanticShadows?: SemanticShadowOverrides
+  /**
+   * Override semantic motion tokens (transition durations/easing).
+   */
+  semanticMotion?: SemanticMotionOverrides
+  /**
+   * Override spacing stack aliases for layout stacks.
+   */
+  semanticSpacing?: SemanticSpacingOverrides
   /**
    * Override the default font family tokens (e.g. set `sans` to a custom stack).
    */
@@ -76,6 +91,9 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
         colors: options.semanticColors,
         fonts: options.semanticFonts,
         radii: options.semanticRadii,
+        shadows: options.semanticShadows,
+        motion: options.semanticMotion,
+        spacing: options.semanticSpacing,
       }),
     }
   }

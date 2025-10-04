@@ -8,7 +8,9 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
   width: 100%;
   height: 100%;
   z-index: var(--z-index-overlay);
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color
+    var(--motion-transition-overlay, var(--motion-duration-relaxed, 0.3s))
+    var(--motion-easing-emphasis, cubic-bezier(0.33, 1, 0.68, 1));
 }
 
 .bc-overlay[data-status='start-opening'],
