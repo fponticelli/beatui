@@ -16,9 +16,9 @@ import {
 import { ControlSize } from '../../theme'
 import { sessionId } from '../../../utils/session-id'
 
-export interface TabItem {
+export interface TabItem<T extends string> {
   /** Unique identifier for the tab */
-  key: string
+  key: T
   /** Tab label content */
   label: TNode
   /** Tab content to display when active */
@@ -31,13 +31,13 @@ export interface TabItem {
 
 export type TabsDirection = 'horizontal' | 'vertical'
 
-export interface TabsOptions {
+export interface TabsOptions<T extends string> {
   /** Array of tab items */
-  items: TabItem[]
+  items: TabItem<T>[]
   /** Currently active tab key */
-  value: Value<string>
+  value: Value<T>
   /** Callback when tab changes */
-  onChange?: (key: string) => void
+  onChange?: (key: T) => void
   /** Size of the tabs */
   size?: Value<ControlSize>
   /** Whether tabs are disabled */
@@ -85,9 +85,9 @@ function generateTabClasses(
 /**
  * Find the next enabled tab in the given direction
  */
-function findNextEnabledTab(
+function findNextEnabledTab<T extends string>(
   currentIndex: number,
-  items: TabItem[],
+  items: TabItem<T>[],
   direction: 1 | -1
 ): number {
   const length = items.length
@@ -141,7 +141,7 @@ function findNextEnabledTab(
  * })
  * ```
  */
-export function Tabs(options: TabsOptions): TNode {
+export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
   const {
     items,
     value,
