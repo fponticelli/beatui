@@ -14,6 +14,8 @@ import { ControlSize } from '../../theme/types'
 import { Label } from '@/components/typography'
 import { sessionId } from '../../../utils/session-id'
 import { Locale } from '../../i18n/locale'
+import { ThemeColorName } from '@/tokens'
+import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
 export type SwitchOptions = {
   value: Value<boolean>
@@ -24,6 +26,7 @@ export type SwitchOptions = {
   disabled?: Value<boolean>
   size?: ControlSize
   id?: string
+  color?: Value<ThemeColorName>
 }
 
 export const Switch = ({
@@ -35,6 +38,7 @@ export const Switch = ({
   disabled = false,
   size = 'md',
   id,
+  color = 'primary',
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
   const switchId = id ?? sessionId('switch')
@@ -52,6 +56,27 @@ export const Switch = ({
     }
 
     return classes.join(' ')
+  }
+
+  function generateSwitchStyles(color?: ThemeColorName): string {
+    const resolvedColor = color ?? 'primary'
+    const styles = new Map<string, string>()
+
+    const light = backgroundValue(resolvedColor, 'solid', 'light')
+    const dark = backgroundValue(resolvedColor, 'solid', 'dark')
+
+    styles.set('--switch-track-on-bg', light.backgroundColor)
+    styles.set('--switch-track-on-label', light.textColor)
+    styles.set('--switch-track-on-bg-dark', dark.backgroundColor)
+    styles.set('--switch-track-on-label-dark', dark.textColor)
+    styles.set(
+      '--switch-track-on-border-dark',
+      borderColorValue(resolvedColor, 'dark')
+    )
+
+    return Array.from(styles.entries())
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('; ')
   }
 
   // Handle toggle action
@@ -78,6 +103,11 @@ export const Switch = ({
         size
       )((disabled, size) =>
         generateSwitchClasses(disabled ?? false, size ?? 'md')
+      )
+    ),
+    attr.style(
+      computedOf(color)(currentColor =>
+        generateSwitchStyles(currentColor as ThemeColorName | undefined)
       )
     ),
     attr.id(switchId),

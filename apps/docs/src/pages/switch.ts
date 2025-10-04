@@ -5,10 +5,12 @@ import {
   Label,
   Stack,
   ScrollablePanel,
+  ThemeColorName,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
+import { ColorSelector } from '../elements/color-selector'
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
@@ -18,6 +20,7 @@ export default function SwitchPage() {
   const offLabel = prop('OFF')
   const disabled = prop(false)
   const value = prop(false)
+  const color = prop<ThemeColorName>('primary')
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -26,6 +29,7 @@ export default function SwitchPage() {
         label: 'On/Off',
         value,
         onChange: value.set,
+        color,
       }),
       html.div(
         Label('Label'),
@@ -47,6 +51,10 @@ export default function SwitchPage() {
           value: offLabel,
           onInput: (value: string) => offLabel.set(value),
         })
+      ),
+      Stack(
+        Label('Color'),
+        ColorSelector({ color, onChange: color.set })
       ),
       Stack(DisabledSelector({ disabled }))
     ),
@@ -81,6 +89,7 @@ export default function SwitchPage() {
                     label,
                     onLabel,
                     offLabel,
+                    color,
                   })
                 )
               })
