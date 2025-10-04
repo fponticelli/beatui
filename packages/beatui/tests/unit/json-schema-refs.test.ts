@@ -97,7 +97,7 @@ describe('in-document $ref semantics', () => {
       },
       type: 'object',
       properties: {
-        name: { $ref: '#/$defs/Name', minLength: 3 },
+        name: { $ref: '#/$defs/Name', type: 'string', minLength: 3 },
       },
     }
 

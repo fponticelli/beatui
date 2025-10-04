@@ -255,7 +255,7 @@ export default function ModalPage() {
           Button(
             {
               variant: 'filled',
-              color: 'error',
+              color: 'danger',
               onClick: () =>
                 open(
                   'Are you sure you want to delete this item? This action cannot be undone.'

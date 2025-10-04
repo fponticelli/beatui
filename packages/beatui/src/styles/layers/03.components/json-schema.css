@@ -156,7 +156,7 @@
 }
 
 .bc-array-control__indicator--error {
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
 }
 
 .bc-array-control__indicator--success {
@@ -164,7 +164,7 @@
 }
 
 .b-dark .bc-array-control__indicator--error {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }
 
 .b-dark .bc-array-control__indicator--success {
@@ -180,7 +180,7 @@
 }
 
 .bc-array-control__summary--error {
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
   font-weight: var(--font-weight-medium);
 }
 
@@ -189,7 +189,7 @@
 }
 
 .b-dark .bc-array-control__summary--error {
-  color: var(--color-error-300);
+  color: var(--color-danger-300);
 }
 
 .bc-object-helpers__row {
@@ -200,7 +200,7 @@
 
 .bc-object-helpers__error {
   font-size: var(--font-size-sm);
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
 }
 
 .bc-object-helpers__description {
@@ -214,7 +214,7 @@
 }
 
 .b-dark .bc-object-helpers__error {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }
 
 .b-dark .bc-object-helpers__description {
@@ -222,10 +222,10 @@
 }
 
 .bc-json-schema-form__error {
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
   font-size: var(--font-size-sm);
 }
 
 .b-dark .bc-json-schema-form__error {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }

@@ -83,12 +83,12 @@
 /* Field error */
 .bc-auth-form__field-error {
   font-size: var(--font-size-xs);
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
   margin-top: var(--spacing-xs);
 }
 
 .b-dark .bc-auth-form__field-error {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }
 
 /* Submit button */

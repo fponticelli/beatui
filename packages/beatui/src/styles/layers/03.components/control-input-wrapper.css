@@ -38,14 +38,14 @@
 }
 
 .bc-control-input-wrapper__label-text--error {
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
   font-weight: var(--font-weight-normal);
 }
 
 /* Required symbol */
 .bc-control-input-wrapper__required {
   font-size: var(--font-size-xs);
-  color: var(--color-error-600);
+  color: var(--color-danger-600);
   vertical-align: top;
 }
 
@@ -64,7 +64,7 @@
 /* Error message */
 .bc-control-input-wrapper__error {
   font-size: var(--font-size-sm);
-  color: var(--color-error-500);
+  color: var(--color-danger-500);
   line-height: var(--line-height-normal);
 }
 
@@ -78,11 +78,11 @@
 }
 
 .b-dark .bc-control-input-wrapper__label-text--error {
-  color: var(--color-error-300);
+  color: var(--color-danger-300);
 }
 
 .b-dark .bc-control-input-wrapper__required {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }
 
 .b-dark .bc-control-input-wrapper__description {
@@ -90,5 +90,5 @@
 }
 
 .b-dark .bc-control-input-wrapper__error {
-  color: var(--color-error-400);
+  color: var(--color-danger-400);
 }

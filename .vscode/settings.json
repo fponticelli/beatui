@@ -38,5 +38,6 @@
   "eslint.format.enable": false,
   // Ensure Prettier uses the project's configuration
   "prettier.requireConfig": true,
-  "prettier.useEditorConfig": false
+  "prettier.useEditorConfig": false,
+  "chatgpt.commentCodeLensEnabled": true
 }

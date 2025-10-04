@@ -17,7 +17,7 @@ import { BeatUII18n } from '@/beatui-i18n'
 
 import { CloseButton } from '../button'
 
-export type NoticeVariant = 'info' | 'success' | 'warning' | 'error'
+export type NoticeVariant = 'info' | 'success' | 'warning' | 'danger'
 export type NoticeTone = 'subtle' | 'prominent'
 export type NoticeRole = 'status' | 'alert'
 
@@ -38,7 +38,7 @@ function variantToIcon(variant: NoticeVariant): string {
       return 'material-symbols:check-circle-outline'
     case 'warning':
       return 'material-symbols:warning-outline'
-    case 'error':
+    case 'danger':
       return 'material-symbols:error-outline'
     case 'info':
     default:
@@ -52,8 +52,8 @@ function variantToColor(variant: NoticeVariant): ThemeColorName {
       return 'success'
     case 'warning':
       return 'warning'
-    case 'error':
-      return 'error'
+    case 'danger':
+      return 'danger'
     case 'info':
     default:
       return 'info'
@@ -99,7 +99,9 @@ export function Notice(
   const ariaRole = computedOf(
     role,
     currentVariant
-  )((r, v) => (r ?? (v === 'error' ? 'alert' : 'status')) as 'status' | 'alert')
+  )(
+    (r, v) => (r ?? (v === 'danger' ? 'alert' : 'status')) as 'status' | 'alert'
+  )
 
   // Manage local visibility when closable without external state
   const visible = prop(true)

@@ -86,7 +86,10 @@ function getPluginName(plugin: PostcssPluginEntry): string | undefined {
 
 import { createBeatuiPreset } from './preset'
 import type { BeatuiPresetOptions } from './preset'
-import { generateSemanticTokenVariables } from '../tokens'
+import {
+  generateSemanticTokenVariables,
+  generateFontFamilyOverrideVariables,
+} from '../tokens'
 
 const CSS_MODULE_ID = '@tempots/beatui/tailwind.css'
 const CSS_ASSET_FILENAME = 'beatui.tailwind.css'
@@ -263,6 +266,7 @@ export function beatuiTailwindPlugin(
   let publicBasePath = '/'
   const presetOptions: BeatuiPresetOptions = {
     semanticColors: options.semanticColors,
+    fontFamilies: options.fontFamilies,
     includeCoreTokens: options.includeCoreTokens,
     includeSemanticTokens: options.includeSemanticTokens,
     extendTheme: options.extendTheme,
@@ -272,6 +276,14 @@ export function beatuiTailwindPlugin(
         generateSemanticTokenVariables(options.semanticColors)
       )
     : ''
+  const fontOverrideCss = options.fontFamilies
+    ? buildCssFromVariables(
+        generateFontFamilyOverrideVariables(options.fontFamilies)
+      )
+    : ''
+  const overrideCss = [semanticOverrideCss, fontOverrideCss]
+    .filter(fragment => fragment.length > 0)
+    .join('\n')
   let tailwindCssPath: string | null = null
 
   return {
@@ -335,8 +347,8 @@ export function beatuiTailwindPlugin(
         res.setHeader('Content-Type', 'text/css')
         try {
           let cssSource = fs.readFileSync(tailwindCssPath!, 'utf8')
-          if (semanticOverrideCss) {
-            cssSource += `\n${semanticOverrideCss}`
+          if (overrideCss) {
+            cssSource += `\n${overrideCss}`
           }
           res.end(cssSource)
         } catch (error) {
@@ -352,8 +364,8 @@ export function beatuiTailwindPlugin(
       if (!injectCss || tailwindCssPath == null) return
       const cssFilePath = tailwindCssPath!
       let cssSource = fs.readFileSync(cssFilePath, 'utf8')
-      if (semanticOverrideCss) {
-        cssSource += `\n${semanticOverrideCss}`
+      if (overrideCss) {
+        cssSource += `\n${overrideCss}`
       }
       this.emitFile({
         type: 'asset',

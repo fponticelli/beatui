@@ -53,10 +53,10 @@
 }
 
 .bc-milkdown-editor-container {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 
 .bc-milkdown-editor-container .milkdown {
   background-color: #eee;

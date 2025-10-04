@@ -1,21 +1,21 @@
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
+import type { PluginOption } from 'vite'
 import { resolve } from 'path'
 import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
+const beatuiPlugin = beatuiTailwindPlugin({
+  darkClass: 'dark',
+  rtlAttribute: 'dir',
+  semanticColors: {
+    primary: 'sky',
+    secondary: 'cyan',
+  },
+}) as PluginOption
+
 export default defineConfig({
   root: '.',
-  plugins: [
-    tailwindcss(),
-    beatuiTailwindPlugin({
-      darkClass: 'dark',
-      rtlAttribute: 'dir',
-      semanticColors: {
-        primary: 'sky',
-        secondary: 'cyan',
-      },
-    }),
-  ],
+  plugins: [tailwindcss(), beatuiPlugin],
   build: {
     outDir: 'dist',
     emptyOutDir: true,

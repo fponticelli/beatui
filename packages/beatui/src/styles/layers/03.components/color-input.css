@@ -56,7 +56,7 @@
 }
 
 .bc-input-container--error .bc-color-input__control:focus-within {
-  outline: 2px solid var(--color-error-600);
+  outline: 2px solid var(--color-danger-600);
 }
 
 .bc-color-input__native {
@@ -94,7 +94,7 @@
 }
 
 .b-dark .bc-input-container--error .bc-color-input__control:focus-within {
-  outline: 2px solid var(--color-error-400);
+  outline: 2px solid var(--color-danger-400);
 }
 
 /* Responsive styles */

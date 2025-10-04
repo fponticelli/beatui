@@ -26,7 +26,7 @@ export type SemanticColorName =
   | 'base'
   | 'success'
   | 'warning'
-  | 'error'
+  | 'danger'
   | 'info'
 
 export type ThemeColorName = ColorName | SemanticColorName
@@ -37,7 +37,7 @@ export const semanticColorNames = [
   'base',
   'success',
   'warning',
-  'error',
+  'danger',
   'info',
 ] as const
 
@@ -52,7 +52,7 @@ export const semanticColors = {
   base: 'gray',
   success: 'green',
   warning: 'amber',
-  error: 'red',
+  danger: 'red',
   info: 'blue',
 } as Record<SemanticColorName, ColorName>
 

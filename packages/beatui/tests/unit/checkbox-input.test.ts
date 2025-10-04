@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
-import { Theme } from '../../src/components/theme/theme'
+import { WithProviders } from '../helpers/test-providers'
 
 describe('CheckboxInput Component', () => {
   let container: HTMLElement
@@ -17,14 +17,14 @@ describe('CheckboxInput Component', () => {
 
   it('should render with default props', () => {
     const value = prop(false)
-    const checkbox = CheckboxInput({
-      value,
-      onChange: vi.fn(),
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange: vi.fn(),
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -36,14 +36,14 @@ describe('CheckboxInput Component', () => {
 
   it('should handle checked state', () => {
     const value = prop(true)
-    const checkbox = CheckboxInput({
-      value,
-      onChange: vi.fn(),
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange: vi.fn(),
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -57,14 +57,14 @@ describe('CheckboxInput Component', () => {
   it('should handle click events', () => {
     const value = prop(false)
     const onChange = vi.fn()
-    const checkbox = CheckboxInput({
-      value,
-      onChange,
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange,
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -79,14 +79,14 @@ describe('CheckboxInput Component', () => {
   it('should handle keyboard events', () => {
     const value = prop(false)
     const onChange = vi.fn()
-    const checkbox = CheckboxInput({
-      value,
-      onChange,
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange,
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -113,15 +113,15 @@ describe('CheckboxInput Component', () => {
     const value = prop(false)
     const onChange = vi.fn()
     const disabled = prop(true)
-    const checkbox = CheckboxInput({
-      value,
-      onChange,
-      disabled,
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange,
+          disabled,
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -142,15 +142,15 @@ describe('CheckboxInput Component', () => {
   it('should handle blur events', () => {
     const value = prop(true)
     const onBlur = vi.fn()
-    const checkbox = CheckboxInput({
-      value,
-      onChange: vi.fn(),
-      onBlur,
-      placeholder: 'Test checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange: vi.fn(),
+          onBlur,
+          placeholder: 'Test checkbox',
+        })
+      ),
       container
     )
 
@@ -164,15 +164,15 @@ describe('CheckboxInput Component', () => {
 
   it('should have proper accessibility attributes', () => {
     const value = prop(false)
-    const checkbox = CheckboxInput({
-      value,
-      onChange: vi.fn(),
-      placeholder: 'Test checkbox',
-      id: 'test-checkbox',
-    })
-
     render(
-      Provide(Theme, {}, () => checkbox),
+      WithProviders(() =>
+        CheckboxInput({
+          value,
+          onChange: vi.fn(),
+          placeholder: 'Test checkbox',
+          id: 'test-checkbox',
+        })
+      ),
       container
     )
 

@@ -16,9 +16,9 @@
   opacity: 0.5;
 }
 
-.bc-label--error {
+.bc-label--danger {
   font-weight: var(--font-weight-medium);
-  color: var(--color-error-500);
+  color: var(--color-danger-500);
 }
 
 /* Dark mode styles */
@@ -30,6 +30,6 @@
   color: var(--text-muted-dark);
 }
 
-.b-dark .bc-label--error {
-  color: var(--color-error-400);
+.b-dark .bc-label--danger {
+  color: var(--color-danger-400);
 }

@@ -69,7 +69,7 @@
 ## Outstanding Questions
 - Do we need to publish the Tailwind preset as a separate package for tree-shaking or keep it internal to BeatUI?
 - How should we version/control breaking changes to existing consumers during rollout (beta tag vs major release)?
-- Are there additional semantic groups (info, accent, neutral) clients expect to configure beyond primary/secondary/warning/success/error?
+- Are there additional semantic groups (info, accent, neutral) clients expect to configure beyond primary/secondary/warning/success/danger?
 
 ## Next Implementation Focus
 - Tailwind Vite plugin skeleton:

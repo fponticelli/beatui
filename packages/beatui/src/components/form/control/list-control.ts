@@ -117,7 +117,7 @@ export const ListControl = <T>(
           size: 'xs',
           // Use a lowercase label to satisfy tests that query with [aria-label*="remove"]
           label: Value.map(t.$.removeItem, s => s.toLowerCase()),
-          color: 'error',
+          color: 'danger',
           disabled: options.removeDisabled,
           onClick: payload.remove,
         })

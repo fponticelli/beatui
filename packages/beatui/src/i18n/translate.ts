@@ -117,7 +117,7 @@ export function makeMessages<M extends object>({
         continue
       }
     }
-    console.warn(`No locale found for "'${locale}", using fallback`)
+    console.warn(`No locale found for "${locale.value}", using fallback`)
     if (newLocale === currentLocale.value) {
       currentMessages.set(defaultMessages)
     }

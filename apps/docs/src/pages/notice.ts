@@ -11,7 +11,7 @@ import {
 import { ControlsHeader } from '../elements/controls-header'
 
 export default function NoticePage() {
-  const variant = prop<'info' | 'success' | 'warning' | 'error'>('info')
+  const variant = prop<'info' | 'success' | 'warning' | 'danger'>('info')
   const tone = prop<'subtle' | 'prominent'>('prominent')
   const role = prop<'auto' | 'status' | 'alert'>('auto')
   const closable = prop(false)
@@ -34,7 +34,7 @@ export default function NoticePage() {
             info: 'Info',
             success: 'Success',
             warning: 'Warning',
-            error: 'Error',
+            danger: 'Danger',
           },
           onChange: variant.set,
           size: 'sm',
@@ -123,8 +123,8 @@ export default function NoticePage() {
             html.span('Warning notice without icon.')
           ),
           Notice(
-            { variant: 'error', tone: 'prominent', icon: 'mdi:alert' },
-            html.span('Error with custom icon (alert).')
+            { variant: 'danger', tone: 'prominent', icon: 'mdi:alert' },
+            html.span('Danger with custom icon (alert).')
           )
         )
       )

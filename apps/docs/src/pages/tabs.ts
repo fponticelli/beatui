@@ -21,10 +21,12 @@ export default function TabsPage() {
   const size = prop<ControlSize>('md')
   const orientation = prop<'horizontal' | 'vertical'>('horizontal')
   const showContent = prop(true)
-  const activeTab = prop('overview')
+  type DemoTabKey = 'overview' | 'details' | 'settings' | 'disabled'
+
+  const activeTab = prop<DemoTabKey>('overview')
 
   // Basic tabs example
-  const basicTabs: TabItem[] = [
+  const basicTabs: TabItem<DemoTabKey>[] = [
     {
       key: 'overview',
       label: 'Overview',
@@ -144,7 +146,7 @@ export default function TabsPage() {
         html.div(
           attr.class('space-y-6'),
           ...allSizes.map(currentSize => {
-            const sizeActiveTab = prop('overview')
+            const sizeActiveTab = prop<DemoTabKey>('overview')
             return html.div(
               html.h3(
                 attr.class('text-lg font-semibold mb-2'),
@@ -175,7 +177,7 @@ export default function TabsPage() {
         html.div(
           attr.class('border rounded-lg overflow-hidden h-96'),
           (() => {
-            const verticalActiveTab = prop('overview')
+            const verticalActiveTab = prop<DemoTabKey>('overview')
             return Tabs({
               items: basicTabs.slice(0, 3),
               value: verticalActiveTab,

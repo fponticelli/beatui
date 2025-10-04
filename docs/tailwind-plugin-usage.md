@@ -11,6 +11,7 @@ export default defineConfig({
     react(),
     beatuiTailwindPlugin({
       semanticColors: { primary: 'emerald' },
+      fontFamilies: { sans: ['Inter', 'system-ui'] },
       darkClass: 'dark',
       rtlAttribute: 'dir',
     }),
@@ -21,6 +22,7 @@ export default defineConfig({
 ## Options
 
 - `semanticColors`: forwarded to `createBeatuiPreset` to remap semantic tokens.
+- `fontFamilies`: forward overrides for BeatUI font family tokens (e.g., `{ sans: 'Inter, system-ui' }`).
 - `includeCoreTokens`, `includeSemanticTokens`, `extendTheme`: same meaning as preset options.
 - `injectCss` (default `true`): when `false` the plugin will not inject the Tailwind CSS bundle; you must import `@tempots/beatui/tailwind.css` manually.
 - `tailwindConfigPath`: specify when your Tailwind config file lives outside the project root.

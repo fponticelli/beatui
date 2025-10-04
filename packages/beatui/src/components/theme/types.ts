@@ -42,7 +42,7 @@ export type PanelColor =
   | 'black'
   | 'transparent'
 export type PanelShadow = 'none' | 'sm' | 'md' | 'lg'
-export type LabelType = 'emphasis' | 'default' | 'muted' | 'error'
+export type LabelType = 'emphasis' | 'default' | 'muted' | 'danger'
 
 export type JustifyContent =
   | 'flex-start'

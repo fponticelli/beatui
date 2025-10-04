@@ -161,11 +161,13 @@ describe('JSON Schema Object Properties', () => {
         type: 'object',
         allOf: [
           {
+            type: 'object',
             properties: {
               name: { type: 'string' },
             },
           },
           {
+            type: 'object',
             properties: {
               age: { type: 'number' },
             },
@@ -187,14 +189,17 @@ describe('JSON Schema Object Properties', () => {
           type: { type: 'string', enum: ['A', 'B'] },
         },
         if: {
+          type: 'object',
           properties: { type: { const: 'A' } },
         },
         then: {
+          type: 'object',
           properties: {
             aField: { type: 'string' },
           },
         },
         else: {
+          type: 'object',
           properties: {
             bField: { type: 'string' },
           },
@@ -224,6 +229,7 @@ describe('JSON Schema Object Properties', () => {
         },
         dependentSchemas: {
           feature: {
+            type: 'object',
             properties: {
               details: { type: 'string' },
             },
@@ -257,6 +263,7 @@ describe('JSON Schema Object Properties', () => {
         },
         dependencies: {
           flag: {
+            type: 'object',
             properties: {
               extra: { type: 'string' },
             },
@@ -356,15 +363,18 @@ describe('JSON Schema Object Properties', () => {
         type: 'object',
         allOf: [
           {
+            type: 'object',
             properties: {
               base: { type: 'string' },
             },
           },
         ],
         if: {
+          type: 'object',
           properties: { base: { const: 'special' } },
         },
         then: {
+          type: 'object',
           properties: {
             special: { type: 'boolean' },
           },

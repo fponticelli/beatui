@@ -317,8 +317,8 @@ describe('allOf merge strategy', () => {
         title: 'empty profile',
         type: 'object',
         properties: {
-          bio: { maxLength: 0 },
-          website: { maxLength: 0 },
+          bio: { type: 'string', maxLength: 0 },
+          website: { type: 'string', maxLength: 0 },
         },
         additionalProperties: false,
       }
@@ -340,8 +340,8 @@ describe('allOf merge strategy', () => {
         title: 'empty profile',
         type: 'object',
         properties: {
-          bio: { maxLength: 0 },
-          website: { maxLength: 0 },
+          bio: { type: 'string', maxLength: 0 },
+          website: { type: 'string', maxLength: 0 },
         },
         additionalProperties: false,
       }

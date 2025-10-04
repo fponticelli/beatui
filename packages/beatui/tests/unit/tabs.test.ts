@@ -24,7 +24,7 @@ describe('Tabs Component', () => {
     const value = prop(activeTab)
     const onChange = vi.fn((key: string) => value.set(key))
 
-    const items: TabItem[] = [
+    const items: TabItem<string>[] = [
       { key: 'tab1', label: 'First Tab', content: () => html.div('Content 1') },
       {
         key: 'tab2',
@@ -178,7 +178,7 @@ describe('Tabs Component', () => {
 
     it('should handle disabled tabs correctly', () => {
       const { value, onChange } = createBasicTabs()
-      const items: TabItem[] = [
+      const items: TabItem<string>[] = [
         {
           key: 'tab1',
           label: 'First Tab',
@@ -354,7 +354,7 @@ describe('Tabs Component', () => {
 
     it('should skip disabled tabs during keyboard navigation', () => {
       const { value, onChange } = createBasicTabs()
-      const items: TabItem[] = [
+      const items: TabItem<string>[] = [
         {
           key: 'tab1',
           label: 'First Tab',

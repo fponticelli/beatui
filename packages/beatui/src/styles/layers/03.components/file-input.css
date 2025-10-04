@@ -182,12 +182,12 @@
 }
 
 .bc-file-input__remove-button:hover {
-  background-color: var(--color-error-50);
-  color: var(--color-error-500);
+  background-color: var(--color-danger-50);
+  color: var(--color-danger-500);
 }
 
 .bc-file-input__remove-button:focus {
-  outline: 2px solid var(--color-error-500);
+  outline: 2px solid var(--color-danger-500);
   outline-offset: 2px;
 }
 
@@ -211,13 +211,13 @@
 }
 
 .bc-file-input__clear-all-button:hover {
-  border-color: var(--color-error-300);
-  background-color: var(--color-error-50);
-  color: var(--color-error-600);
+  border-color: var(--color-danger-300);
+  background-color: var(--color-danger-50);
+  color: var(--color-danger-600);
 }
 
 .bc-file-input__clear-all-button:focus {
-  outline: 2px solid var(--color-error-500);
+  outline: 2px solid var(--color-danger-500);
   outline-offset: 2px;
 }
 
@@ -228,12 +228,12 @@
 
 /* Error State */
 .bc-base-input-container--error .bc-file-input__drop-zone {
-  border-color: var(--color-error-300);
+  border-color: var(--color-danger-300);
 }
 
 .bc-base-input-container--error .bc-file-input__drop-zone:hover {
-  border-color: var(--color-error-400);
-  background-color: var(--color-error-50);
+  border-color: var(--color-danger-400);
+  background-color: var(--color-danger-50);
 }
 
 /* Disabled State */
@@ -328,8 +328,8 @@
 }
 
 .bc-file-input__compact-clear:hover {
-  background-color: var(--color-error-50);
-  color: var(--color-error-500);
+  background-color: var(--color-danger-50);
+  color: var(--color-danger-500);
 }
 
 .bc-file-input__compact-clear:disabled {

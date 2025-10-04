@@ -73,11 +73,7 @@ export interface AppShellOptions {
   smallBreakpoint?: BeatUIBreakpoint
 }
 
-function generatePanelClasses(
-  side: Side,
-  color: PanelColor,
-  shadow: PanelShadow
-): string {
+function generatePanelClasses(side: Side, shadow: PanelShadow): string {
   const sideStr = (Array.isArray(side) ? side : [side])
     .map(s => `bc-panel--side-${s}`)
     .join(' ')
@@ -560,11 +556,7 @@ export function AppShell({
         options.banner
           ? html.header(
               attr.class(
-                generatePanelClasses(
-                  'none',
-                  options.banner.color ?? 'white',
-                  options.banner.shadow ?? 'none'
-                )
+                generatePanelClasses('none', options.banner.shadow ?? 'none')
               ),
               attr.style(generatePanelStyles(options.banner.color ?? 'white')),
               style.height('100%'),
@@ -574,11 +566,7 @@ export function AppShell({
           : null,
         html.header(
           attr.class(
-            generatePanelClasses(
-              'bottom',
-              options.header?.color ?? 'white',
-              options.header?.shadow ?? 'none'
-            )
+            generatePanelClasses('bottom', options.header?.shadow ?? 'none')
           ),
           attr.style(generatePanelStyles(options.header?.color ?? 'white')),
           style.zIndex('20'),
@@ -662,12 +650,10 @@ export function AppShell({
                   v === 'float'
                     ? generatePanelClasses(
                         'right',
-                        options.menu?.color ?? 'white',
                         options.menu?.shadow ?? 'md'
                       )
                     : generatePanelClasses(
                         'right',
-                        options.menu?.color ?? 'white',
                         options.menu?.shadow ?? 'none'
                       )
                 )
@@ -722,7 +708,6 @@ export function AppShell({
               attr.class(
                 generatePanelClasses(
                   'none',
-                  options.mainHeader?.color ?? 'white',
                   options.mainHeader?.shadow ?? 'none'
                 )
               ),
@@ -737,11 +722,7 @@ export function AppShell({
           style.overflow('hidden'),
           style.gridArea('main'),
           attr.class(
-            generatePanelClasses(
-              'none',
-              options.main?.color ?? 'white',
-              options.main?.shadow ?? 'none'
-            )
+            generatePanelClasses('none', options.main?.shadow ?? 'none')
           ),
           attr.style(generatePanelStyles(options.main?.color ?? 'white')),
           options.main.content
@@ -753,7 +734,6 @@ export function AppShell({
               attr.class(
                 generatePanelClasses(
                   'none',
-                  options.mainFooter?.color ?? 'white',
                   options.mainFooter?.shadow ?? 'none'
                 )
               ),
@@ -775,8 +755,8 @@ export function AppShell({
               attr.class(
                 displayAsideAs.map((v): string =>
                   v === 'float'
-                    ? generatePanelClasses('left', 'white', 'md')
-                    : generatePanelClasses('left', 'white', 'none')
+                    ? generatePanelClasses('left', 'md')
+                    : generatePanelClasses('left', 'none')
                 )
               ),
               attr.style(
@@ -821,7 +801,7 @@ export function AppShell({
           : null,
         options.footer
           ? html.footer(
-              attr.class(generatePanelClasses('top', 'white', 'none')),
+              attr.class(generatePanelClasses('top', 'none')),
               attr.style(generatePanelStyles('white')),
               style.height('100%'),
               style.gridArea('footer'),

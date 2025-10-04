@@ -39,11 +39,8 @@ export interface ButtonOptions {
 }
 
 export function generateButtonClasses(
-  variant: ButtonVariant,
   size: ControlSize,
-  color: ExtendedColor,
   roundedness: RadiusName,
-  disabled?: boolean,
   loading?: boolean
 ): string {
   const classes = [
@@ -202,21 +199,11 @@ export function Button(
       When(loading ?? false, () => aria.label(t.$.loadingExtended)),
       attr.class(
         computedOf(
-          variant,
           size,
-          color,
           roundedness,
-          disabled,
           loading
-        )((variant, size, color, roundedness, disabled, loading) =>
-          generateButtonClasses(
-            variant ?? 'filled',
-            size ?? 'md',
-            (color ?? 'base') as ExtendedColor,
-            roundedness ?? 'sm',
-            disabled,
-            loading
-          )
+        )((size, roundedness, loading) =>
+          generateButtonClasses(size ?? 'md', roundedness ?? 'sm', loading)
         )
       ),
       attr.style(

@@ -60,12 +60,12 @@
 
 /* Error state */
 .bc-input-container--error {
-  outline: 2px solid var(--color-error-600);
+  outline: 2px solid var(--color-danger-600);
   outline-offset: -2px;
 }
 
 .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-error-600);
+  outline: 2px solid var(--color-danger-600);
   outline-offset: -2px;
 }
 
@@ -192,13 +192,13 @@
 }
 
 .b-dark .bc-input-container--error {
-  outline: 2px solid var(--color-error-400);
-  background-color: var(--color-error-950);
+  outline: 2px solid var(--color-danger-400);
+  background-color: var(--color-danger-950);
 }
 
 .b-dark .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-error-400);
-  background-color: var(--color-error-900);
+  outline: 2px solid var(--color-danger-400);
+  background-color: var(--color-danger-900);
 }
 
 .b-dark .bc-input-container__password-toggle {

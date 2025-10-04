@@ -10,22 +10,22 @@ import { isUrlMatch } from '../../src/components/navigation/link/navigation-link
 describe('Link', () => {
   describe('generateLinkClasses', () => {
     it('should generate default variant classes', () => {
-      const classes = generateLinkClasses('default', 'primary', false)
+      const classes = generateLinkClasses('default', false)
       expect(classes).toBe('bc-link bc-link--default')
     })
 
     it('should generate plain variant classes', () => {
-      const classes = generateLinkClasses('plain', 'secondary', false)
+      const classes = generateLinkClasses('plain', false)
       expect(classes).toBe('bc-link bc-link--plain')
     })
 
     it('should generate hover variant classes', () => {
-      const classes = generateLinkClasses('hover', 'error', false)
+      const classes = generateLinkClasses('hover', false)
       expect(classes).toBe('bc-link bc-link--hover')
     })
 
     it('should generate disabled classes', () => {
-      const classes = generateLinkClasses('default', 'primary', true)
+      const classes = generateLinkClasses('default', true)
       expect(classes).toBe('bc-link bc-link--disabled')
     })
 

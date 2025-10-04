@@ -140,18 +140,12 @@ function ButtonLinkCore(
       html.span(
         attr.class(
           computedOf(
-            variant,
             size,
-            color,
-            roundedness,
-            disabled
-          )((variant, size, color, roundedness, disabled) =>
+            roundedness
+          )((size, roundedness) =>
             generateButtonClasses(
-              variant ?? 'filled',
               size ?? 'md',
-              (color ?? 'base') as ExtendedColor,
               roundedness ?? 'sm',
-              disabled,
               false // loading is always false for ButtonLink
             )
           )
@@ -184,18 +178,12 @@ function ButtonLinkCore(
         },
         attr.class(
           computedOf(
-            variant,
             size,
-            color,
-            roundedness,
-            disabled
-          )((variant, size, color, roundedness, disabled) =>
+            roundedness
+          )((size, roundedness) =>
             generateButtonClasses(
-              variant ?? 'filled',
               size ?? 'md',
-              (color ?? 'base') as ExtendedColor,
               roundedness ?? 'sm',
-              disabled,
               false // loading is always false for ButtonLink
             )
           )

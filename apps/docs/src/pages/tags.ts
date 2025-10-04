@@ -28,7 +28,7 @@ export default function TagsPage() {
             Tag({ value: 'Secondary', color: 'secondary' }),
             Tag({ value: 'Success', color: 'success' }),
             Tag({ value: 'Warning', color: 'warning' }),
-            Tag({ value: 'Error', color: 'error' }),
+            Tag({ value: 'Danger', color: 'danger' }),
             Tag({ value: 'Disabled', class: 'bc-tag--disabled' })
           )
         )

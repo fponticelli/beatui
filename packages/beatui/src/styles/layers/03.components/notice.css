@@ -51,10 +51,10 @@
   color: var(--color-warning-900);
 }
 
-.bc-notice--error.bc-notice--tone-prominent {
-  background-color: var(--color-error-50);
-  border-color: var(--color-error-200);
-  color: var(--color-error-900);
+.bc-notice--danger.bc-notice--tone-prominent {
+  background-color: var(--color-danger-50);
+  border-color: var(--color-danger-200);
+  color: var(--color-danger-900);
 }
 
 .bc-notice--info.bc-notice--tone-subtle {
@@ -72,9 +72,9 @@
   color: var(--color-warning-800);
 }
 
-.bc-notice--error.bc-notice--tone-subtle {
+.bc-notice--danger.bc-notice--tone-subtle {
   background-color: var(--bg-surface-light);
-  color: var(--color-error-800);
+  color: var(--color-danger-800);
 }
 
 .bc-notice__body {

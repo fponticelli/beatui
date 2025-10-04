@@ -1,6 +1,6 @@
 import { attr, html, TNode } from '@tempots/dom'
 
-type LabelType = 'default' | 'emphasis' | 'muted' | 'error'
+type LabelType = 'default' | 'emphasis' | 'muted' | 'danger'
 
 function generateLabelClasses(type: LabelType): string {
   return `bc-label bc-label--${type}`
@@ -15,5 +15,5 @@ export const Label = (...children: TNode[]) =>
 export const MutedLabel = (...children: TNode[]) =>
   html.span(attr.class(generateLabelClasses('muted')), ...children)
 
-export const ErrorLabel = (...children: TNode[]) =>
-  html.span(attr.class(generateLabelClasses('error')), ...children)
+export const DangerLabel = (...children: TNode[]) =>
+  html.span(attr.class(generateLabelClasses('danger')), ...children)

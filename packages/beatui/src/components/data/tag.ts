@@ -9,11 +9,7 @@ import {
   ExtendedColor,
 } from '../theme/style-utils'
 
-function generateTagClasses(
-  color: string,
-  size: ControlSize,
-  disabled: boolean
-): string {
+function generateTagClasses(size: ControlSize, disabled: boolean): string {
   const classes = ['bc-tag']
   if (size !== 'md') {
     classes.push(`bc-tag--${size}`)
@@ -60,10 +56,9 @@ export const Tag = ({
   return html.span(
     attr.class(
       computedOf(
-        color ?? 'base',
         size ?? 'md',
         disabled ?? false
-      )((color, size, disabled) => generateTagClasses(color, size, disabled))
+      )((size, disabled) => generateTagClasses(size, disabled))
     ),
     attr.style(
       computedOf(color)(color =>

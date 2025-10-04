@@ -51,7 +51,7 @@ export function NotViolationsBanner({
 
   return Notice(
     {
-      variant: 'error',
+      variant: 'danger',
       tone: 'prominent',
       title: 'Schema Violations Detected',
       class: 'bc-not-violations-banner',

@@ -23,7 +23,6 @@ export interface LinkOptions {
 
 export function generateLinkClasses(
   variant: LinkVariant,
-  color: ThemeColorName,
   disabled: boolean
 ): string {
   const classes = ['bc-link']
@@ -84,11 +83,8 @@ export function Link(
         attr.class(
           computedOf(
             variant,
-            colorDisabled,
             disabled
-          )((variant, color, disabled) =>
-            generateLinkClasses(variant, color, disabled)
-          )
+          )((variant, disabled) => generateLinkClasses(variant, disabled))
         ),
         attr.style(
           computedOf(colorDisabled)(color =>
@@ -111,11 +107,8 @@ export function Link(
         attr.class(
           computedOf(
             variant,
-            color,
             disabled
-          )((variant, color, disabled) =>
-            generateLinkClasses(variant, color, disabled)
-          )
+          )((variant, disabled) => generateLinkClasses(variant, disabled))
         ),
         attr.style(
           computedOf(color)(color => generateLinkStyles(color ?? 'primary'))

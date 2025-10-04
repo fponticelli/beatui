@@ -105,6 +105,14 @@ export const fontFamily = {
 
 export type FontFamily = keyof typeof fontFamily
 
+export type FontFamilyOverrides = Partial<
+  Record<FontFamily, string | readonly string[]>
+>
+
+function normalizeFontFamilyValue(value: string | readonly string[]) {
+  return Array.isArray(value) ? value.join(', ') : (value as string)
+}
+
 // Helper functions
 export function getFontSizeVarName(size: FontSize): string {
   return `--font-size-${size}`
@@ -173,7 +181,28 @@ export function generateTypographyVariables(): Record<string, string> {
 
   // Font families
   Object.entries(fontFamily).forEach(([key, value]) => {
-    variables[getFontFamilyVarName(key as FontFamily)] = value.join(', ')
+    variables[getFontFamilyVarName(key as FontFamily)] =
+      normalizeFontFamilyValue(value)
+  })
+
+  return variables
+}
+
+export function generateFontFamilyOverrideVariables(
+  overrides?: FontFamilyOverrides
+): Record<string, string> {
+  if (!overrides) {
+    return {}
+  }
+
+  const variables: Record<string, string> = {}
+
+  Object.entries(overrides).forEach(([key, value]) => {
+    if (value == null) {
+      return
+    }
+    variables[getFontFamilyVarName(key as FontFamily)] =
+      normalizeFontFamilyValue(value)
   })
 
   return variables

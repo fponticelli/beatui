@@ -1,18 +1,24 @@
 import {
   generateCoreTokenVariables,
   generateSemanticTokenVariables,
+  generateFontFamilyOverrideVariables,
 } from '../tokens'
 import {
   colorShades,
   semanticColorNames,
   type SemanticColorOverrides,
 } from '../tokens/colors'
+import type { FontFamilyOverrides } from '../tokens/typography'
 
 export interface BeatuiPresetOptions {
   /**
    * Override the semantic color mapping BeatUI uses (e.g. map `primary` to `emerald`).
    */
   semanticColors?: SemanticColorOverrides
+  /**
+   * Override the default font family tokens (e.g. set `sans` to a custom stack).
+   */
+  fontFamilies?: FontFamilyOverrides
   /**
    * When false, skip registering core token variables (spacing, typography, etc.).
    */
@@ -57,6 +63,13 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
     base[':root'] = {
       ...(base[':root'] ?? {}),
       ...generateSemanticTokenVariables(semanticOverrides),
+    }
+  }
+
+  if (options.fontFamilies) {
+    base[':root'] = {
+      ...(base[':root'] ?? {}),
+      ...generateFontFamilyOverrideVariables(options.fontFamilies),
     }
   }
 

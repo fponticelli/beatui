@@ -30,7 +30,7 @@ const allColors: ThemeColorName[] = [
   'secondary',
   'success',
   'warning',
-  'error',
+  'danger',
   'info',
   'blue',
   'indigo',
