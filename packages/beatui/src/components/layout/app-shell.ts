@@ -678,6 +678,7 @@ export function AppShell({
                 )
               ),
               style.height('100%'),
+              style.overflow('hidden'),
               style.gridArea('menu'),
               style.display(
                 computedOf(

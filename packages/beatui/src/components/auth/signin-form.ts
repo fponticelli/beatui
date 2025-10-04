@@ -65,7 +65,7 @@ export function SignInForm({
     },
   })
 
-  const { controller, onSubmit } = form
+  const { controller, submit } = form
 
   loading.on(controller.setDisabled)
 
@@ -88,7 +88,7 @@ export function SignInForm({
     html.form(
       OnDispose(controller.dispose, persistedEmail.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
-      on.submit(onSubmit),
+      on.submit(submit),
 
       Stack(
         attr.class('bc-auth-form__fields'),

@@ -1,13 +1,6 @@
 @import '@milkdown/crepe/theme/common/style.css';
 
 @layer components {
-  .bc-milkdown-editor-container {
-    min-height: 200px;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-  }
-
   .bc-milkdown-editor-container .milkdown {
     --crepe-color-background: transparent;
     --crepe-color-on-background: #1b1c1d;
@@ -59,8 +52,26 @@
   }
 }
 
+.bc-milkdown-editor-container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+.bc-milkdown-editor-container .milkdown {
+  background-color: #eee;
+  padding: 1rem;
+  border-radius: var(--radius-md, 0.5rem);
+  height: 100%;
+}
+
 .bc-milkdown-editor-container .milkdown .ProseMirror {
-  padding: 0rem;
-  padding-top: 2rem;
-  padding-inline-start: 6rem;
+  padding: 1rem;
+  margin-top: 1.1rem;
+  margin-inline-start: 5.5rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: var(--shadow-md);
+  max-height: calc(100% - 3rem);
+  overflow: auto;
 }

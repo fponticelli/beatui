@@ -12,17 +12,32 @@ function inlineCssImports(filePath, seen = new Set()) {
   const dir = path.dirname(absPath)
   let css = readFileSync(absPath, 'utf8')
 
-  // Replace simple @import "..."; with inlined content recursively
-  css = css.replace(/@import\s+['"]([^'"\)]+)['"];?/g, (_, spec) => {
-    try {
-      // Resolve bare or relative specifiers using Node resolution
-      const resolved = require.resolve(spec, { paths: [dir] })
-      return inlineCssImports(resolved, seen)
-    } catch (_e) {
-      // If resolution fails, keep the original import
-      return `@import "${spec}";`
+  // Replace @import statements with inlined content recursively, preserving layer(...) info
+  css = css.replace(
+    /@import\s+(?:url\()?['"]([^'"\)]+)['"](?:\))?\s*(layer\([^;]+\))?\s*;?/g,
+    (match, spec, layerClause) => {
+      let resolved
+      try {
+        // Resolve bare or relative specifiers using Node resolution
+        resolved = require.resolve(spec, { paths: [dir] })
+      } catch (_e) {
+        // If resolution fails, keep the original import intact
+        return match
+      }
+
+      const inlinedContent = inlineCssImports(resolved, seen)
+      if (!layerClause) {
+        return inlinedContent
+      }
+
+      const layerName = layerClause.slice('layer('.length, -1).trim()
+      if (!layerName) {
+        return inlinedContent
+      }
+
+      return `@layer ${layerName} {\n${inlinedContent}\n}`
     }
-  })
+  )
 
   return css
 }

@@ -52,7 +52,7 @@ export function ResetPasswordForm({
     },
   })
 
-  const { controller, onSubmit } = form
+  const { controller, submit } = form
 
   loading.on(controller.setDisabled)
 
@@ -74,7 +74,7 @@ export function ResetPasswordForm({
         attr.class('bc-auth-form__description'),
         coalesce(labels?.resetPasswordDescription, t.$.resetPasswordDescription)
       ),
-      on.submit(onSubmit),
+      on.submit(submit),
       Stack(
         attr.class('bc-auth-form__fields'),
         // Email field

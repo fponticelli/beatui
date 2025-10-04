@@ -5,6 +5,8 @@
   --panel-text-dark: var(--text-normal-dark);
   background-color: var(--panel-bg);
   color: var(--panel-text);
+  height: 100%;
+  overflow: hidden;
 }
 
 .b-dark .bc-panel {

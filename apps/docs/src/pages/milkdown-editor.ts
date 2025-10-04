@@ -1,5 +1,5 @@
 import { attr, html, prop, style, Value } from '@tempots/dom'
-import { Group, NativeSelect, ScrollablePanel, Stack } from '@tempots/beatui'
+import { NativeSelect, ScrollablePanel, Stack } from '@tempots/beatui'
 import { MilkdownInput } from '@tempots/beatui/milkdown'
 
 const samples = [
@@ -19,31 +19,31 @@ export default function MilkdownEditorPage() {
   const markdown = selectedIndex.map(i => samples[i].value).deriveProp()
 
   return ScrollablePanel({
-    body: Group(
-      attr.class('items-start gap-4 p-4 h-full overflow-hidden'),
-      ScrollablePanel(
-        {
-          header: Group(
-            attr.class('gap-2 items-center'),
-            html.h3(attr.class('text-lg font-semibold'), 'Milkdown Editor'),
-            NativeSelect({
-              options: samples.map((s, i) => ({
-                type: 'value',
-                value: i,
-                label: s.label,
-              })),
-              value: selectedIndex,
-              onChange: selectedIndex.set,
-            })
+    body: html.div(
+      attr.class('flex flex-rowitems-start gap-4 p-4 h-full overflow-hidden'),
+      html.div(
+        attr.class('flex flex-col'),
+        html.div(
+          attr.class('flex flex-row items-center mb-2 w-full gap-4'),
+          html.h3(
+            attr.class('text-lg font-semibold text-nowrap'),
+            'Milkdown Editor'
           ),
-          body: MilkdownInput({
-            value: markdown as Value<string>,
-            onChange: v => markdown.set(v),
-            autofocus: true,
-          }),
-        },
-        style.minWidth('42rem'),
-        style.maxWidth('42rem')
+          NativeSelect({
+            options: samples.map((s, i) => ({
+              type: 'value',
+              value: i,
+              label: s.label,
+            })),
+            value: selectedIndex,
+            onChange: selectedIndex.set,
+          })
+        ),
+        MilkdownInput({
+          value: markdown as Value<string>,
+          onChange: v => markdown.set(v),
+          autofocus: true,
+        })
       ),
       Stack(
         style.minWidth('42rem'),
