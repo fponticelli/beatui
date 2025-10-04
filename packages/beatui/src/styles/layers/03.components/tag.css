@@ -70,7 +70,7 @@
 }
 
 .bc-tag__close:hover {
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-gray-300);
 }
 
@@ -111,7 +111,7 @@
 
 .b-dark .bc-tag__close:hover:not(:disabled) {
   color: var(--text-normal-dark);
-  border-color: var(--border-dark);
+  border-color: var(--border-border-dark);
 }
 
 .bc-input-container__tags-selector {

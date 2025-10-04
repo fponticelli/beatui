@@ -43,7 +43,8 @@
   display: grid;
   grid-template-areas: 'stack';
   border-radius: var(--radius-full);
-  box-shadow: inset 0 0 calc(var(--spacing-base)) rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 calc(var(--spacing-base))
+      color-mix(in srgb, var(--color-black) 20%, transparent);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   padding: calc(var(--spacing-base)) var(--spacing-base);
@@ -105,8 +106,8 @@
   border-radius: var(--radius-full);
   background-color: var(--color-white);
   box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    0 1px 3px 0 color-mix(in srgb, var(--color-black) 10%, transparent),
+    0 1px 2px 0 color-mix(in srgb, var(--color-black) 6%, transparent);
   z-index: 1;
   transition: transform 0.2s ease-in-out;
   pointer-events: none;
@@ -217,7 +218,7 @@
 
 .b-dark .bc-switch__track--off {
   background-color: var(--bg-subtle-dark);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-border-dark);
 }
 
 .b-dark .bc-switch__track--on {

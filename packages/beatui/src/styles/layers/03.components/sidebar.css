@@ -74,7 +74,7 @@ span.bc-sidebar-link {
   justify-content: center;
   width: calc(var(--spacing-base) * 6);
   height: calc(var(--spacing-base) * 6);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-border-light);
   border-radius: var(--radius-md);
   cursor: pointer;
   padding: var(--spacing-sm);
@@ -139,7 +139,7 @@ span.bc-sidebar-link {
 
 .b-dark .bc-sidebar-link--action {
   color: var(--text-normal-dark);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-border-dark);
 }
 
 .b-dark .bc-sidebar-link--action:hover {
@@ -148,7 +148,7 @@ span.bc-sidebar-link {
 }
 
 .b-dark .bc-sidebar-group--rail {
-  border-inline-start: 1px solid var(--border-dark);
+  border-inline-start: 1px solid var(--border-border-dark);
 }
 
 /* Dark background mode styles - inverted colors in light theme */
@@ -171,7 +171,7 @@ span.bc-sidebar-link {
 
 .bc-sidebar--dark-bg .bc-sidebar-link--action {
   color: var(--text-normal-dark);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-border-dark);
 }
 
 .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
@@ -180,7 +180,7 @@ span.bc-sidebar-link {
 }
 
 .bc-sidebar--dark-bg .bc-sidebar-group--rail {
-  border-inline-start: 1px solid var(--border-dark);
+  border-inline-start: 1px solid var(--border-border-dark);
 }
 
 /* Dark background mode in dark theme - inverted back to light colors */
@@ -203,7 +203,7 @@ span.bc-sidebar-link {
 
 .b-dark .bc-sidebar--dark-bg .bc-sidebar-link--action {
   color: var(--text-normal-light);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-border-light);
 }
 
 .b-dark .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
@@ -212,11 +212,11 @@ span.bc-sidebar-link {
 }
 
 .b-dark .bc-sidebar--dark-bg .bc-sidebar-group--rail {
-  border-inline-start: 1px solid var(--border-light);
+  border-inline-start: 1px solid var(--border-border-light);
 }
 
 .bc-sidebar-separator {
   border: none;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-border-light);
   margin: calc(var(--spacing-base) * 2) 0;
 }

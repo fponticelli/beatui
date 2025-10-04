@@ -156,19 +156,19 @@
 }
 
 .bc-array-control__indicator--error {
-  color: var(--color-red-600);
+  color: var(--color-error-600);
 }
 
 .bc-array-control__indicator--success {
-  color: var(--color-green-600);
+  color: var(--color-success-600);
 }
 
 .b-dark .bc-array-control__indicator--error {
-  color: var(--color-red-400);
+  color: var(--color-error-400);
 }
 
 .b-dark .bc-array-control__indicator--success {
-  color: var(--color-green-400);
+  color: var(--color-success-400);
 }
 
 .bc-array-control__summary {
@@ -176,20 +176,20 @@
 }
 
 .bc-array-control__summary--success {
-  color: var(--color-green-600);
+  color: var(--color-success-600);
 }
 
 .bc-array-control__summary--error {
-  color: var(--color-red-600);
+  color: var(--color-error-600);
   font-weight: var(--font-weight-medium);
 }
 
 .b-dark .bc-array-control__summary--success {
-  color: var(--color-green-300);
+  color: var(--color-success-300);
 }
 
 .b-dark .bc-array-control__summary--error {
-  color: var(--color-red-300);
+  color: var(--color-error-300);
 }
 
 .bc-object-helpers__row {
@@ -200,7 +200,7 @@
 
 .bc-object-helpers__error {
   font-size: var(--font-size-sm);
-  color: var(--color-red-600);
+  color: var(--color-error-600);
 }
 
 .bc-object-helpers__description {
@@ -214,7 +214,7 @@
 }
 
 .b-dark .bc-object-helpers__error {
-  color: var(--color-red-400);
+  color: var(--color-error-400);
 }
 
 .b-dark .bc-object-helpers__description {
@@ -222,10 +222,10 @@
 }
 
 .bc-json-schema-form__error {
-  color: var(--color-red-600);
+  color: var(--color-error-600);
   font-size: var(--font-size-sm);
 }
 
 .b-dark .bc-json-schema-form__error {
-  color: var(--color-red-400);
+  color: var(--color-error-400);
 }

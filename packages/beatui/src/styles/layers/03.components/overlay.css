@@ -14,7 +14,7 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
 .bc-overlay[data-status='start-opening'],
 .bc-overlay[data-status='closing'] {
   backdrop-filter: blur(0);
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
 }
 
 .bc-overlay > * {
@@ -26,22 +26,22 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
 }
 
 .bc-overlay--effect-transparent {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: color-mix(in srgb, var(--color-black) 5%, transparent);
 }
 
 .bc-overlay--effect-opaque[data-status='opened'],
 .bc-overlay--effect-opaque[data-status='opening'] {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: color-mix(in srgb, var(--color-black) 50%, transparent);
   backdrop-filter: blur(2px);
 }
 
 /* Dark mode styles */
 .b-dark .bc-overlay--effect-transparent {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: color-mix(in srgb, var(--color-white) 2%, transparent);
 }
 
 .b-dark .bc-overlay--effect-opaque[data-status='opened'],
 .b-dark .bc-overlay--effect-opaque[data-status='opening'] {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: color-mix(in srgb, var(--color-black) 80%, transparent);
   backdrop-filter: blur(4px);
 }

@@ -25,7 +25,7 @@
 
 .bc-input-container--default {
   background-color: var(--color-white);
-  outline: 1px solid var(--color-gray-300);
+  outline: 1px solid var(--border-divider-light);
   outline-offset: -1px;
 }
 
@@ -43,7 +43,7 @@
 
 .bc-input-container--disabled {
   background-color: var(--color-gray-200);
-  outline: 2px solid var(--color-gray-300);
+  outline: 2px solid var(--border-divider-light);
   outline-offset: -2px;
 }
 
@@ -54,7 +54,7 @@
 /* Focus within state */
 .bc-input-container:focus-within {
   z-index: 10;
-  outline: 2px solid var(--color-sky-600);
+  outline: 2px solid var(--interactive-focus-light);
   outline-offset: -2px;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-red-600);
+  outline: 2px solid var(--color-error-600);
   outline-offset: -2px;
 }
 
@@ -168,7 +168,7 @@
 .b-dark .bc-input-container--default {
   background-color: var(--bg-surface-dark);
   color: var(--text-normal-dark);
-  outline: 2px solid var(--border-dark);
+  outline: 2px solid var(--border-border-dark);
 }
 
 .b-dark .bc-input-container--default:focus-within {
@@ -192,13 +192,13 @@
 }
 
 .b-dark .bc-input-container--error {
-  outline: 2px solid var(--color-red-400);
-  background-color: var(--color-red-950);
+  outline: 2px solid var(--color-error-400);
+  background-color: var(--color-error-950);
 }
 
 .b-dark .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-red-400);
-  background-color: var(--color-red-900);
+  outline: 2px solid var(--color-error-400);
+  background-color: var(--color-error-900);
 }
 
 .b-dark .bc-input-container__password-toggle {

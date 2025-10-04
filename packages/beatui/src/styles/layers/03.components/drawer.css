@@ -286,7 +286,7 @@
 .b-dark .bc-drawer {
   background-color: var(--bg-surface-dark);
   color: var(--text-normal-dark);
-  border: 1px solid var(--border-dark);
+  border: 1px solid var(--border-border-dark);
 }
 
 .b-dark .bc-drawer__header {

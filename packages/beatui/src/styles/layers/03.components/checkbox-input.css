@@ -11,7 +11,7 @@
   position: relative;
   width: calc(var(--spacing-base) * 7);
   height: calc(var(--spacing-base) * 7);
-  background-color: var(--color-sky-600);
+  background-color: var(--color-primary-600);
   --svg: url('https://api.iconify.design/akar-icons/box.svg');
   -webkit-mask-image: var(--svg);
   mask-image: var(--svg);
@@ -74,12 +74,12 @@ Checkmark icon .bc-checkbox-input__checkbox::after {
 /* Dark mode styles */
 .b-dark .bc-checkbox-input__checkbox {
   background-color: var(--bg-surface-dark);
-  border-color: var(--border-dark);
+  border-color: var(--border-border-dark);
 }
 
 .b-dark .bc-checkbox-input__checkbox--checked {
-  background-color: var(--color-indigo-500);
-  border-color: var(--color-indigo-500);
+  background-color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
 }
 
 .b-dark .bc-checkbox-input__checkbox--disabled {
