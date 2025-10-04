@@ -86,11 +86,24 @@ function getPluginName(plugin: PostcssPluginEntry): string | undefined {
 
 import { createBeatuiPreset } from './preset'
 import type { BeatuiPresetOptions } from './preset'
+import { generateSemanticTokenVariables } from '../tokens'
 
 const CSS_MODULE_ID = '@tempots/beatui/tailwind.css'
 const CSS_ASSET_FILENAME = 'beatui.tailwind.css'
 const MODULE_DIR = path.dirname(fileUrlToPath(import.meta.url))
 const PACKAGE_ROOT = findPackageRoot(MODULE_DIR) ?? MODULE_DIR
+
+function buildCssFromVariables(variables: Record<string, string>): string {
+  if (Object.keys(variables).length === 0) {
+    return ''
+  }
+  let css = ':root {\n'
+  for (const [name, value] of Object.entries(variables)) {
+    css += `  ${name}: ${value};\n`
+  }
+  css += '}\n'
+  return css
+}
 
 export interface BeatuiTailwindPluginOptions extends BeatuiPresetOptions {
   /** Automatically import the BeatUI Tailwind CSS bundle into the application entry. */
@@ -254,6 +267,11 @@ export function beatuiTailwindPlugin(
     includeSemanticTokens: options.includeSemanticTokens,
     extendTheme: options.extendTheme,
   }
+  const semanticOverrideCss = options.semanticColors
+    ? buildCssFromVariables(
+        generateSemanticTokenVariables(options.semanticColors)
+      )
+    : ''
   let tailwindCssPath: string | null = null
 
   return {
@@ -315,21 +333,28 @@ export function beatuiTailwindPlugin(
         }
 
         res.setHeader('Content-Type', 'text/css')
-        const stream = fs.createReadStream(tailwindCssPath!)
-        stream.on('error', error => {
+        try {
+          let cssSource = fs.readFileSync(tailwindCssPath!, 'utf8')
+          if (semanticOverrideCss) {
+            cssSource += `\n${semanticOverrideCss}`
+          }
+          res.end(cssSource)
+        } catch (error) {
           server.config.logger.error(
             `[BeatUI] Failed to stream ${CSS_MODULE_ID}: ${String(error)}`
           )
           res.statusCode = 500
           res.end()
-        })
-        stream.pipe(res)
+        }
       })
     },
     buildStart() {
       if (!injectCss || tailwindCssPath == null) return
       const cssFilePath = tailwindCssPath!
-      const cssSource = fs.readFileSync(cssFilePath, 'utf8')
+      let cssSource = fs.readFileSync(cssFilePath, 'utf8')
+      if (semanticOverrideCss) {
+        cssSource += `\n${semanticOverrideCss}`
+      }
       this.emitFile({
         type: 'asset',
         fileName: CSS_ASSET_FILENAME,

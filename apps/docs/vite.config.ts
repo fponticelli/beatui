@@ -7,7 +7,14 @@ export default defineConfig({
   root: '.',
   plugins: [
     tailwindcss(),
-    beatuiTailwindPlugin({ darkClass: 'dark', rtlAttribute: 'dir' }),
+    beatuiTailwindPlugin({
+      darkClass: 'dark',
+      rtlAttribute: 'dir',
+      semanticColors: {
+        primary: 'sky',
+        secondary: 'cyan',
+      },
+    }),
   ],
   build: {
     outDir: 'dist',

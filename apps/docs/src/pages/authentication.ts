@@ -48,11 +48,11 @@ export default function AuthenticationPage() {
     // Auth container demo
     html.div(
       html.h2(
-        attr.class('text-xl font-semibold mb-4'),
+        attr.class('text-xl font-semibold my-4'),
         'Auth Container (Direct)'
       ),
       html.div(
-        attr.class('w-full max-w-128 p-4 border rounded-lg'),
+        attr.class('w-full max-w-128 rounded-lg'),
         AuthContainer({
           mode: 'signin',
           onSignIn: handleSignIn,

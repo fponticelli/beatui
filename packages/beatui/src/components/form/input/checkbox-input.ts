@@ -1,11 +1,29 @@
-import { aria, attr, Empty, html, on, Value } from '@tempots/dom'
+import { aria, attr, Empty, html, on, Value, computedOf } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { MutedLabel } from '../../typography/label'
 import { sessionId } from '../../../utils/session-id'
+import { Icon } from '../../data/icon'
+import { IconSize } from '../../theme'
 
-export const CheckboxInput = (options: InputOptions<boolean>) => {
-  const { value, onBlur, onChange, placeholder, disabled, id } = options
+export type CheckboxInputOptions = InputOptions<boolean> & {
+  checkedIcon?: Value<string | undefined>
+  uncheckedIcon?: Value<string | undefined>
+  iconSize?: Value<IconSize>
+}
+
+export const CheckboxInput = (options: CheckboxInputOptions) => {
+  const {
+    value,
+    onBlur,
+    onChange,
+    placeholder,
+    disabled,
+    id,
+    checkedIcon,
+    uncheckedIcon,
+    iconSize = 'lg',
+  } = options
 
   // Generate unique IDs for accessibility
   const checkboxId = id ?? sessionId('checkbox')
@@ -40,7 +58,9 @@ export const CheckboxInput = (options: InputOptions<boolean>) => {
           attr.class('bc-checkbox-input__checkbox'),
           attr.class(
             Value.map(value, (v): string =>
-              v ? 'bc-checkbox-input__checkbox--checked' : ''
+              v
+                ? 'bc-checkbox-input__checkbox--checked'
+                : 'bc-checkbox-input__checkbox--unchecked'
             )
           ),
           attr.class(
@@ -59,7 +79,20 @@ export const CheckboxInput = (options: InputOptions<boolean>) => {
           aria.disabled(disabled),
           placeholder != null ? aria.labelledby(labelId) : Empty,
           on.keydown(handleKeyDown),
-          onBlur != null ? on.blur(onBlur) : Empty
+          onBlur != null ? on.blur(onBlur) : Empty,
+          Icon({
+            icon: computedOf(
+              value,
+              checkedIcon,
+              uncheckedIcon
+            )((isChecked, checkedIconName, uncheckedIconName): string =>
+              isChecked
+                ? (checkedIconName ?? 'akar-icons/check-box-fill')
+                : (uncheckedIconName ?? 'akar-icons/box')
+            ),
+            accessibility: 'decorative',
+            size: iconSize,
+          })
         ),
         placeholder != null
           ? html.label(

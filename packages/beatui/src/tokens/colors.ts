@@ -136,12 +136,12 @@ export type InteractiveColorName = 'focus' | 'hover' | 'active'
 
 export const interactiveColors = {
   light: {
-    focus: ['info', 700],
+    focus: ['primary', 700],
     hover: ['base', 100],
     active: ['base', 200],
   },
   dark: {
-    focus: ['info', 300],
+    focus: ['primary', 300],
     hover: ['base', 800],
     active: ['base', 700],
   },
@@ -290,25 +290,22 @@ export function generateSemanticColorVariables(
   // background colors
   objectEntries(bgColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([bgName, [baseColor, shade]]) => {
-      const resolvedBase = normalizeColorName(baseColor, overrides)
-      variables[`--bg-${bgName}-${mode}`] = getColorVar(resolvedBase, shade)
+      variables[`--bg-${bgName}-${mode}`] = getColorVar(baseColor, shade)
     })
   })
 
   // text colors
   objectEntries(textColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([textName, [baseColor, shade]]) => {
-      const resolvedBase = normalizeColorName(baseColor, overrides)
-      variables[`--text-${textName}-${mode}`] = getColorVar(resolvedBase, shade)
+      variables[`--text-${textName}-${mode}`] = getColorVar(baseColor, shade)
     })
   })
 
   // border colors
   objectEntries(borderColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([borderName, [baseColor, shade]]) => {
-      const resolvedBase = normalizeColorName(baseColor, overrides)
       variables[`--border-${borderName}-${mode}`] = getColorVar(
-        resolvedBase,
+        baseColor,
         shade
       )
     })
@@ -317,9 +314,8 @@ export function generateSemanticColorVariables(
   // interactive colors
   objectEntries(interactiveColors).forEach(([mode, colors]) => {
     objectEntries(colors).forEach(([interactiveName, [baseColor, shade]]) => {
-      const resolvedBase = normalizeColorName(baseColor, overrides)
       variables[`--interactive-${interactiveName}-${mode}`] = getColorVar(
-        resolvedBase,
+        baseColor,
         shade
       )
     })
