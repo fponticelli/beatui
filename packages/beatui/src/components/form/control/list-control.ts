@@ -8,6 +8,7 @@ import {
   Value,
   computedOf,
   Merge,
+  Fragment,
 } from '@tempots/dom'
 import { ArrayController } from '../controller/controller'
 import {
@@ -28,30 +29,30 @@ export type { MoveDirection, MovableDirection }
 
 export type ListControlsLayout = 'below' | 'aside'
 
+export type BaseListControlOptions<T> = {
+  controller: ArrayController<T[]>
+  element: (payload: ListInputPayload<T>) => TNode
+  separator?: (pos: ElementPosition) => TNode
+  showMove?: Value<boolean>
+  showRemove?: Value<boolean>
+  showAdd?: Value<boolean>
+  /** When true, disables the remove button instead of hiding it */
+  removeDisabled?: Value<boolean>
+  /** When true, disables the add button (if visible) */
+  addDisabled?: Value<boolean>
+  createItem?: () => T
+  addLabel?: TNode
+  controlsLayout?: Value<ListControlsLayout>
+}
+
 export type ListControlOptions<T> = Merge<
   Omit<InputWrapperOptions, 'content'>,
-  {
-    controller: ArrayController<T[]>
-    element: (payload: ListInputPayload<T>) => TNode
-    separator?: (pos: ElementPosition) => TNode
-    showMove?: Value<boolean>
-    showRemove?: Value<boolean>
-    showAdd?: Value<boolean>
-    /** When true, disables the remove button instead of hiding it */
-    removeDisabled?: Value<boolean>
-    /** When true, disables the add button (if visible) */
-    addDisabled?: Value<boolean>
-    createItem?: () => T
-    addLabel?: TNode
-    controlsLayout?: Value<ListControlsLayout>
-  }
+  BaseListControlOptions<T>
 >
 
-export const ListControl = <T>(
-  options: ListControlOptions<T>,
-  ...children: TNode[]
-) => {
+export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
   const {
+    controller,
     element,
     separator,
     showMove = true,
@@ -60,7 +61,8 @@ export const ListControl = <T>(
     createItem,
     addLabel,
     controlsLayout = 'aside',
-    ...rest
+    removeDisabled,
+    addDisabled,
   } = options
 
   const isAside = Value.toSignal(controlsLayout).map(l => l === 'aside')
@@ -118,7 +120,7 @@ export const ListControl = <T>(
           // Use a lowercase label to satisfy tests that query with [aria-label*="remove"]
           label: Value.map(t.$.removeItem, s => s.toLowerCase()),
           color: 'danger',
-          disabled: options.removeDisabled,
+          disabled: removeDisabled,
           onClick: payload.remove,
         })
       )
@@ -134,7 +136,7 @@ export const ListControl = <T>(
             Stack(
               attr.class('bc-stack--align-center'),
               When(
-                options.controller.value.map(v => v.length > 1),
+                controller.value.map(v => v.length > 1),
                 () => moveButtons
               ),
               removeButton
@@ -147,7 +149,7 @@ export const ListControl = <T>(
             Group(
               attr.class('bc-group--gap-2 bc-group--justify-between'),
               When(
-                options.controller.value.map(v => v.length > 1),
+                controller.value.map(v => v.length > 1),
                 () => moveButtons,
                 () => html.div()
               ),
@@ -168,12 +170,14 @@ export const ListControl = <T>(
           {
             size: 'sm',
             variant: 'filled',
-            onClick: () =>
-              (rest.controller as ArrayController<T[]>).push(createItem!()),
+            onClick: () => controller.push(createItem!()),
             disabled: computedOf(
-              (rest.controller as ArrayController<T[]>).disabled,
-              options.addDisabled ?? false
-            )((ctrlDisabled, addDisabled) => ctrlDisabled || addDisabled),
+              controller.disabled,
+              addDisabled ?? false
+            )(
+              (ctrlDisabled, addDisabledValue) =>
+                ctrlDisabled || addDisabledValue
+            ),
           },
           Use(BeatUII18n, t =>
             Group(
@@ -186,21 +190,54 @@ export const ListControl = <T>(
       )
   )
 
+  return Fragment(
+    ListInput(
+      controller,
+      payload => {
+        const wrap = renderControls(payload)
+        return wrap(element(payload))
+      },
+      separator
+    ),
+    AddToolbar
+  )
+}
+
+export const ListControl = <T>(
+  options: ListControlOptions<T>,
+  ...children: TNode[]
+) => {
+  const {
+    controller,
+    element,
+    separator,
+    showMove,
+    showRemove,
+    showAdd,
+    createItem,
+    addLabel,
+    controlsLayout,
+    removeDisabled,
+    addDisabled,
+    ...inputWrapperOptions
+  } = options
+
   return InputWrapper(
     {
-      ...rest,
-      content: Stack(
-        attr.class('bc-stack--gap-2'),
-        ListInput(
-          rest.controller as ArrayController<T[]>,
-          payload => {
-            const wrap = renderControls(payload)
-            return wrap(element(payload))
-          },
-          separator
-        ),
-        AddToolbar
-      ),
+      ...inputWrapperOptions,
+      content: BaseListControl({
+        controller,
+        element,
+        separator,
+        showMove,
+        showRemove,
+        showAdd,
+        createItem,
+        addLabel,
+        controlsLayout,
+        removeDisabled,
+        addDisabled,
+      }),
     },
     ...children
   )

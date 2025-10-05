@@ -428,7 +428,7 @@ export const ColorInput = (options: ColorInputOptions) => {
     options.colorTextFormat ?? 'hex',
     f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch'
   )
-  const svgViewBox = Value.map(blobSize, s => `-${s / 2} -${s / 2} ${s} ${s}`)
+  const svgViewBox = Value.map(blobSize, s => `0 0 ${s} ${s}`)
   const pathD = computedOf(
     rgb,
     blobSize
@@ -449,7 +449,9 @@ export const ColorInput = (options: ColorInputOptions) => {
         a ? 'bc-color-input__control--alpha' : ''
       )
     ),
-    attr.style(computedOf(blobSize)(s => `min-width:${s}px;height:${s}px`)),
+    attr.style(
+      computedOf(blobSize)(s => `min-width:${s + 2}px;height:${s + 2}px`)
+    ),
     // The SVG blob preview
     svg.svg(
       attr.class('bc-color-input__svg'),
