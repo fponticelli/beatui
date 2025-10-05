@@ -2,12 +2,14 @@ import {
   aria,
   attr,
   computedOf,
+  Fragment,
   html,
   OnDispose,
   prop,
   style,
   TNode,
   Use,
+  Value,
   WithElement,
 } from '@tempots/dom'
 import {
@@ -80,15 +82,19 @@ function generatePanelClasses(side: Side, shadow: PanelShadow): string {
   return `bc-panel ${sideStr} bc-panel--shadow-${shadow}`
 }
 
-function generatePanelStyles(color: PanelColor): string {
-  const baseLight = backgroundValue(color as ExtendedColor, 'lighter', 'light')
-  const baseDark = backgroundValue(color as ExtendedColor, 'lighter', 'dark')
-  return [
-    `--panel-bg: ${baseLight.backgroundColor}`,
-    `--panel-text: ${baseLight.textColor}`,
-    `--panel-bg-dark: ${baseDark.backgroundColor}`,
-    `--panel-text-dark: ${baseDark.textColor}`,
-  ].join('; ')
+function PanelStyles(color: Value<PanelColor>): TNode {
+  const baseLight = Value.toSignal(color).map(c =>
+    backgroundValue(c as ExtendedColor, 'lighter', 'light')
+  )
+  const baseDark = Value.toSignal(color).map(c =>
+    backgroundValue(c as ExtendedColor, 'lighter', 'dark')
+  )
+  return Fragment(
+    style.variable('--panel-bg', baseLight.$.backgroundColor),
+    style.variable('--panel-text', baseLight.$.textColor),
+    style.variable('--panel-bg-dark', baseDark.$.backgroundColor),
+    style.variable('--panel-text-dark', baseDark.$.textColor)
+  )
 }
 
 const defaults = {
@@ -558,7 +564,7 @@ export function AppShell({
               attr.class(
                 generatePanelClasses('none', options.banner.shadow ?? 'none')
               ),
-              attr.style(generatePanelStyles(options.banner.color ?? 'white')),
+              PanelStyles(options.banner.color ?? 'white'),
               style.height('100%'),
               style.gridArea('banner'),
               options.banner.content
@@ -568,7 +574,7 @@ export function AppShell({
           attr.class(
             generatePanelClasses('bottom', options.header?.shadow ?? 'none')
           ),
-          attr.style(generatePanelStyles(options.header?.color ?? 'white')),
+          PanelStyles(options.header?.color ?? 'white'),
           style.zIndex('20'),
           style.display(displayHeader ? 'block' : 'none'),
           style.gridArea('header'),
@@ -658,12 +664,12 @@ export function AppShell({
                       )
                 )
               ),
-              attr.style(
-                displayMenuAs.map(() =>
-                  generatePanelStyles(options.menu?.color ?? 'white')
+              PanelStyles(options.menu?.color ?? 'white'),
+              style.height(
+                displayMenuAs.map((v): string =>
+                  v === 'float' ? 'auto' : '100%'
                 )
               ),
-              style.height('100%'),
               style.overflow('hidden'),
               style.gridArea('menu'),
               style.display(
@@ -697,7 +703,7 @@ export function AppShell({
                 })
               ),
               style.width(template.$.menuWidth),
-              style.bottom(headerBottom.map(v => `${v}px`)),
+              style.bottom('0'),
               options.menu?.content
             )
           : null,
@@ -711,9 +717,7 @@ export function AppShell({
                   options.mainHeader?.shadow ?? 'none'
                 )
               ),
-              attr.style(
-                generatePanelStyles(options.mainHeader?.color ?? 'white')
-              ),
+              PanelStyles(options.mainHeader?.color ?? 'white'),
               options.mainHeader.content
             )
           : null,
@@ -724,7 +728,7 @@ export function AppShell({
           attr.class(
             generatePanelClasses('none', options.main?.shadow ?? 'none')
           ),
-          attr.style(generatePanelStyles(options.main?.color ?? 'white')),
+          PanelStyles(options.main?.color ?? 'white'),
           options.main.content
         ),
         options.mainFooter
@@ -737,9 +741,7 @@ export function AppShell({
                   options.mainFooter?.shadow ?? 'none'
                 )
               ),
-              attr.style(
-                generatePanelStyles(options.mainFooter?.color ?? 'white')
-              ),
+              PanelStyles(options.mainFooter?.color ?? 'white'),
               options.mainFooter.content
             )
           : null,
@@ -759,9 +761,7 @@ export function AppShell({
                     : generatePanelClasses('left', 'none')
                 )
               ),
-              attr.style(
-                displayAsideAs.map(() => generatePanelStyles('white'))
-              ),
+              PanelStyles('white'),
               style.height('100%'),
               style.gridArea('aside'),
               style.display(
@@ -802,7 +802,7 @@ export function AppShell({
         options.footer
           ? html.footer(
               attr.class(generatePanelClasses('top', 'none')),
-              attr.style(generatePanelStyles('white')),
+              PanelStyles('white'),
               style.height('100%'),
               style.gridArea('footer'),
               options.footer.content
