@@ -63,7 +63,6 @@ describe('Flyout First Trigger Animation Bug', () => {
 
     // Check the animation status at the moment it appears (now using CSS classes)
     const statusAtAppearance = getToggleStatusFromClasses(flyout)
-    console.log('Status when flyout first appears:', statusAtAppearance)
 
     // It should be in 'closed', 'start-opening' or 'opening' state, NOT 'opened'
     // If it's 'opened' immediately, the animation was skipped
@@ -121,8 +120,6 @@ describe('Flyout First Trigger Animation Bug', () => {
       }
     }
 
-    console.log('Status transition history:', statusHistory)
-
     // The expected transition should be: start-opening → opening → opened
     // OR at minimum we should see 'opening' before 'opened'
     expect(statusHistory).not.toEqual(['opened']) // Should not jump directly to opened
@@ -170,7 +167,6 @@ describe('Flyout First Trigger Animation Bug', () => {
     let flyout = document.querySelector('.element-setup-test') as HTMLElement
     if (flyout) {
       const immediateStatus = getToggleStatusFromClasses(flyout)
-      console.log('Status after hover trigger:', immediateStatus)
 
       // Should be closed, start-opening or opening, but definitely not opened immediately
       expect(['closed', 'start-opening', 'opening']).toContain(immediateStatus)
@@ -183,7 +179,6 @@ describe('Flyout First Trigger Animation Bug', () => {
     expect(flyout).not.toBeNull()
 
     const statusAfterDelay = getToggleStatusFromClasses(flyout)
-    console.log('Status after animation delay:', statusAfterDelay)
 
     // Should be in start-opening, opening or opened state by now
     expect(['start-opening', 'opening', 'opened']).toContain(statusAfterDelay)

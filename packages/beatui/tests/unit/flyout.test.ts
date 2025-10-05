@@ -985,10 +985,6 @@ describe('Flyout Component', () => {
 
       const flyout = document.querySelector('.rapid-test')
       expect(flyout).not.toBeNull()
-      console.log(
-        'Final state after rapid interactions:',
-        flyout?.getAttribute('data-status')
-      )
     })
 
     it('should handle hover after full disposal correctly', async () => {

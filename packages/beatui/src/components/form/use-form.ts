@@ -187,15 +187,11 @@ export async function taskToValidation<T>({
 }): Promise<ControllerValidation> {
   try {
     const result = await task()
-    console.log(validation)
     if (validation != null) {
-      console.log('Applying validation')
       return validation(result)
     }
-    console.log('No validation')
     return Validation.valid
   } catch (err) {
-    console.log('Error', err)
     const message =
       errorMessage ?? (err instanceof Error ? err.message : 'Operation failed')
 
