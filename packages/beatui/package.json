@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.26.0",
+  "version": "0.27.0",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -141,9 +141,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/dom": "31.2.0",
+    "@tempots/dom": "31.3.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "10.3.0",
+    "@tempots/ui": "10.4.0",
     "tailwindcss": "4.1.14"
   },
   "peerDependenciesMeta": {
