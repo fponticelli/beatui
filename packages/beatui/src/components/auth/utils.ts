@@ -270,6 +270,7 @@ export function requestToControllerValidation<T>({
   onStart?: () => void
   onEnd?: () => void
 }) {
+  console.log(task)
   return async (value: T) => {
     onStart?.()
     const result = await taskToValidation({
@@ -277,9 +278,12 @@ export function requestToControllerValidation<T>({
       errorMessage: message,
       errorPath: ['root'],
       validation: result => {
+        console.log('Validating', result)
         if (result != null) {
+          console.log('Invalid', result)
           return Validation.invalid({ message: result })
         }
+        console.log('Valid')
         return Validation.valid
       },
     })

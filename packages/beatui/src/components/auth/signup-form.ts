@@ -4,6 +4,7 @@
 import {
   attr,
   coalesce,
+  Ensure,
   html,
   on,
   OnDispose,
@@ -31,6 +32,7 @@ import { createSignUpSchema } from './schemas'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
 import { AuthI18n } from '@/auth-i18n/translations'
 import { Control } from '../form'
+import { Notice } from '../misc'
 
 export function SignUpForm({
   passwordRules,
@@ -102,6 +104,13 @@ export function SignUpForm({
 
       Stack(
         attr.class('bc-auth-form__fields'),
+
+        Ensure(controller.error, error =>
+          Notice(
+            { variant: 'danger', tone: 'prominent', role: 'alert' },
+            html.div(error)
+          )
+        ),
 
         // Name field (optional)
         When(showNameField !== false, () =>

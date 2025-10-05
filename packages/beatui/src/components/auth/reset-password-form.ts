@@ -4,6 +4,7 @@
 import {
   attr,
   coalesce,
+  Ensure,
   html,
   on,
   OnDispose,
@@ -24,6 +25,7 @@ import { resetPasswordSchema } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
 import { useAuthEmailProp } from './auth-email-prop'
 import { Control } from '../form'
+import { Notice } from '../misc'
 
 export function ResetPasswordForm({
   onResetPassword,
@@ -69,6 +71,14 @@ export function ResetPasswordForm({
     html.form(
       OnDispose(controller.dispose, persistedEmail.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
+
+      Ensure(controller.error, error =>
+        Notice(
+          { variant: 'danger', tone: 'prominent', role: 'alert' },
+          html.div(error)
+        )
+      ),
+
       // Description
       html.p(
         attr.class('bc-auth-form__description'),

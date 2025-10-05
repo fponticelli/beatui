@@ -1,5 +1,5 @@
 import { html, attr, prop, When } from '@tempots/dom'
-import { Stack, Button } from '@tempots/beatui'
+import { Stack, Button, SegmentedInput } from '@tempots/beatui'
 import {
   AuthContainer,
   AuthModal,
@@ -7,12 +7,20 @@ import {
   SignUpData,
   ResetPasswordData,
 } from '@tempots/beatui/auth'
+import { sleep } from '@tempots/std'
 
 export default function AuthenticationPage() {
+  const outcome = prop(
+    'invalid_credentials' as 'invalid_credentials' | 'success'
+  )
   // Demo state
   const demoMessage = prop<string>('')
 
   const handleSignIn = async (data: SignInData) => {
+    await sleep(2000)
+    if (outcome.value === 'invalid_credentials') {
+      return 'Invalid credentials'
+    }
     demoMessage.set(`Sign in successful! Email: ${data.email}`)
     setTimeout(() => demoMessage.set(''), 3000)
     return null
@@ -43,6 +51,18 @@ export default function AuthenticationPage() {
           attr.class('bg-green-100 text-green-800 p-3 rounded-lg text-sm'),
           demoMessage
         )
+    ),
+
+    html.div(
+      attr.class('mt-8'),
+      SegmentedInput({
+        value: outcome,
+        options: {
+          invalid_credentials: 'Invalid Credentials',
+          success: 'Success',
+        },
+        onChange: outcome.set,
+      })
     ),
 
     // Auth container demo

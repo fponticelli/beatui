@@ -4,6 +4,7 @@
 import {
   attr,
   coalesce,
+  Ensure,
   html,
   on,
   OnDispose,
@@ -16,15 +17,12 @@ import { Button } from '../button'
 import { EmailInput, PasswordInput, CheckboxInput } from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm } from '../form/use-form'
-import {
-  SignInFormData,
-  SignInFormOptions,
-  requestToControllerValidation,
-} from './index'
+import { SignInFormOptions, requestToControllerValidation } from './index'
 import { createSignInSchema } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
 import { useAuthEmailProp } from './auth-email-prop'
 import { Control } from '../form'
+import { Notice } from '../misc'
 
 export function SignInForm({
   onSignIn,
@@ -41,14 +39,7 @@ export function SignInForm({
   const form = useForm({
     schema,
     onSubmit: requestToControllerValidation({
-      task:
-        onSignIn != null
-          ? (data: SignInFormData) =>
-              onSignIn({
-                email: data.email,
-                password: data.password,
-              })
-          : undefined,
+      task: onSignIn,
       message: 'Reset password failed',
       onStart: () => {
         loading.set(true)
@@ -92,6 +83,12 @@ export function SignInForm({
 
       Stack(
         attr.class('bc-auth-form__fields'),
+        Ensure(controller.error, error =>
+          Notice(
+            { variant: 'danger', tone: 'prominent', role: 'alert' },
+            html.div(error)
+          )
+        ),
 
         // Email field
         Control(EmailInput, {
