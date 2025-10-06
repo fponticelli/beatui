@@ -11,12 +11,12 @@ export const spacing = {
   base: baseSpacing,
   xs: 'calc(var(--spacing-base) / 2)',
   sm: 'var(--spacing-base)',
-  md: 'calc(var(--spacing-base) * 1.5)',
-  lg: 'calc(var(--spacing-base) * 2)',
-  xl: 'calc(var(--spacing-base) * 3)',
-  '2xl': 'calc(var(--spacing-base) * 4)',
-  '3xl': 'calc(var(--spacing-base) * 6)',
-  '4xl': 'calc(var(--spacing-base) * 8)',
+  md: 'calc(var(--spacing-base) * 2)',
+  lg: 'calc(var(--spacing-base) * 4)',
+  xl: 'calc(var(--spacing-base) * 6)',
+  '2xl': 'calc(var(--spacing-base) * 8)',
+  '3xl': 'calc(var(--spacing-base) * 12)',
+  '4xl': 'calc(var(--spacing-base) * 16)',
   full: '2000px',
 } as const
 

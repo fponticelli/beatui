@@ -6,7 +6,8 @@
   max-width: 400px;
   margin: 0 auto;
   padding: var(--spacing-2xl);
-  background-color: var(--bg-surface-light);
+  --auth-container-bg: var(--bg-background-light);
+  background-color: var(--auth-container-bg);
   border-radius: var(--radius-surface, var(--radius-lg));
   box-shadow: var(--shadow-surface, var(--shadow-md));
   transition: all

@@ -249,12 +249,12 @@
   --spacing-base: 0.25rem;
   --spacing-xs: calc(var(--spacing-base) / 2);
   --spacing-sm: var(--spacing-base);
-  --spacing-md: calc(var(--spacing-base) * 1.5);
-  --spacing-lg: calc(var(--spacing-base) * 2);
-  --spacing-xl: calc(var(--spacing-base) * 3);
-  --spacing-2xl: calc(var(--spacing-base) * 4);
-  --spacing-3xl: calc(var(--spacing-base) * 6);
-  --spacing-4xl: calc(var(--spacing-base) * 8);
+  --spacing-md: calc(var(--spacing-base) * 2);
+  --spacing-lg: calc(var(--spacing-base) * 4);
+  --spacing-xl: calc(var(--spacing-base) * 6);
+  --spacing-2xl: calc(var(--spacing-base) * 8);
+  --spacing-3xl: calc(var(--spacing-base) * 12);
+  --spacing-4xl: calc(var(--spacing-base) * 16);
   --spacing-full: 2000px;
   --font-size-3xs: 0.5rem;
   --font-size-2xs: 0.625rem;

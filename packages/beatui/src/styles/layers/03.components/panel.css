@@ -1,6 +1,6 @@
 .bc-panel {
-  --panel-bg: var(--bg-elevated-light);
-  --panel-bg-dark: var(--bg-elevated-dark);
+  --panel-bg: var(--bg-surface-light);
+  --panel-bg-dark: var(--bg-surface-dark);
   --panel-text: var(--text-normal-light);
   --panel-text-dark: var(--text-normal-dark);
   background-color: var(--panel-bg);
