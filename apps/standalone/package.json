@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "31.2.0",
+    "@tempots/dom": "31.3.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "10.3.0"
+    "@tempots/ui": "10.4.0"
   },
   "devDependencies": {
     "@types/node": "22.15.18",

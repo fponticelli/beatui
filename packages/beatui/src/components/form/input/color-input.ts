@@ -428,7 +428,10 @@ export const ColorInput = (options: ColorInputOptions) => {
     options.colorTextFormat ?? 'hex',
     f => f as 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch'
   )
-  const svgViewBox = Value.map(blobSize, s => `0 0 ${s} ${s}`)
+  const svgViewBox = Value.map(
+    blobSize,
+    s => `${-s / 2} ${-s / 2} ${s / 2} ${s / 2}`
+  )
   const pathD = computedOf(
     rgb,
     blobSize

@@ -35,7 +35,7 @@ export const Option = {
       before,
       after,
     }: { disabled?: boolean; before?: TNode; after?: TNode } = {}
-  ) =>
+  ): SelectOption<T> =>
     ({
       type: 'value',
       value,
@@ -56,7 +56,7 @@ export const Option = {
       before?: TNode
       after?: TNode
     } = {}
-  ) =>
+  ): SelectOption<T> =>
     ({
       type: 'group',
       group,
@@ -66,7 +66,7 @@ export const Option = {
       after,
     }) as GroupOption<T>,
 
-  break: { type: 'break' } as BreakOption,
+  break: { type: 'break' } as SelectOption<never>,
 
   getValues: <T>(options: AnyOption<T>[]): T[] => {
     return options.flatMap(o =>
