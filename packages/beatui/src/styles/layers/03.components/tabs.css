@@ -161,6 +161,7 @@
 .bc-tabs__panels {
   flex: 1;
   position: relative;
+  flex-grow: 1;
 }
 
 .bc-tabs--vertical .bc-tabs__panels {

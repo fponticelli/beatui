@@ -1,6 +1,7 @@
 import {
   aria,
   attr,
+  coalesce,
   computedOf,
   Fragment,
   html,
@@ -702,7 +703,7 @@ export function AppShell({
                   return s
                 })
               ),
-              style.width(template.$.menuWidth),
+              style.width(coalesce(options.menu?.width, template.$.menuWidth)),
               style.bottom('0'),
               options.menu?.content
             )
@@ -794,7 +795,9 @@ export function AppShell({
                   return s
                 })
               ),
-              style.width(template.$.asideWidth),
+              style.width(
+                coalesce(options.aside?.width, template.$.asideWidth)
+              ),
               style.bottom(headerBottom.map(v => `${v}px`)),
               options.aside.content
             )

@@ -13,6 +13,7 @@ import { Menu } from './views/menu'
 export function AppLayout({ children }: { children: TNode }) {
   return AppShell({
     menu: {
+      width: 240,
       content: Menu(),
     },
     header: {
