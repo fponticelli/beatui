@@ -99,6 +99,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
         // clickable buttons
         optionsList.map(({ label, key }, index) => {
           return html.button(
+            attr.type('button'),
             on.click(e => {
               e.preventDefault()
               const isDisabled = Value.get(disabled)

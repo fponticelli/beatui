@@ -82,6 +82,7 @@ export const NullableBigintInput = (options: NullableBigintInputOptions) => {
 
           return Stack(
             attr.class('bc-number-input-steppers'),
+            attr.type('button'),
             html.button(
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
@@ -97,6 +98,7 @@ export const NullableBigintInput = (options: NullableBigintInputOptions) => {
               Icon({ icon: 'line-md:plus', size: 'xs' })
             ),
             html.button(
+              attr.type('button'),
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
               ),

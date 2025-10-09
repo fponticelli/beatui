@@ -186,6 +186,7 @@ export function TabsContainer({
       attr.role('tablist'),
       ...groupEntries.map(([groupName], index) =>
         html.button(
+          attr.type('button'),
           attr.class('bc-tabs__tab'),
           attr.class(
             computedOf(activeTab)((active): string =>
@@ -308,6 +309,7 @@ export function AccordionContainer({
       return html.div(
         attr.class('bc-accordion__item'),
         html.button(
+          attr.type('button'),
           attr.class('bc-accordion__header'),
           aria.expanded(isOpen as Value<boolean | 'undefined'>),
           on.click(() => {
@@ -382,6 +384,7 @@ function SimpleAccordionContainer({
     html.div(
       attr.class('bc-accordion__item'),
       html.button(
+        attr.type('button'),
         attr.class('bc-accordion__header'),
         on.click(() => isOpen.set(!isOpen.value)),
         html.span(title),

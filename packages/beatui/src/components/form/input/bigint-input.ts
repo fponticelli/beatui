@@ -78,6 +78,7 @@ export const BigintInput = (options: BigintInputOptions) => {
           return Stack(
             attr.class('bc-number-input-steppers'),
             html.button(
+              attr.type('button'),
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
               ),
@@ -92,6 +93,7 @@ export const BigintInput = (options: BigintInputOptions) => {
               Icon({ icon: 'line-md:plus', size: 'xs' })
             ),
             html.button(
+              attr.type('button'),
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
               ),

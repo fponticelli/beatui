@@ -87,6 +87,7 @@ export const EditableText = ({
             Value.map(isDisabled, d => !d),
             () =>
               html.button(
+                attr.type('button'),
                 attr.class('bc-editable-text__edit-button'),
                 Use(BeatUII18n, t => aria.label(t.$.editLabel)),
                 on.click(() => isEditing.set(true)),

@@ -66,6 +66,7 @@ export function SidebarClickLink(
   ...children: TNode[]
 ) {
   return html.button(
+    attr.type('button'),
     on.click(options.onClick),
     options.ariaExpanded != null
       ? aria.expanded(
@@ -102,6 +103,7 @@ export function SidebarLink(options: SidebarLinkOptions) {
   if (options.action != null) {
     children.push(
       html.button(
+        attr.type('button'),
         attr.class('bc-sidebar-link--action'),
         on.click((_, ctx) => {
           options.action?.onClick?.(ctx)

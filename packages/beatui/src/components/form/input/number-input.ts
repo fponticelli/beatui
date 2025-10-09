@@ -108,6 +108,7 @@ export const NumberInput = (options: NumberInputOptions) => {
             attr.class('bc-number-input-steppers'),
             // Increment second
             html.button(
+              attr.type('button'),
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
               ),
@@ -124,6 +125,7 @@ export const NumberInput = (options: NumberInputOptions) => {
             ),
             // Decrement first (matches tests expecting first button to be decrement)
             html.button(
+              attr.type('button'),
               attr.class(
                 'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
               ),

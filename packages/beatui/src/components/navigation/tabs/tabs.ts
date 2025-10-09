@@ -253,6 +253,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
         const panelId = `${tabListId}-panel-${item.key}`
 
         return html.button(
+          attr.type('button'),
           attr.class(
             computedOf(
               size,

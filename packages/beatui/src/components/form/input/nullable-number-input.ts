@@ -94,6 +94,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
       Stack(
         attr.class('bc-number-input-steppers'),
         html.button(
+          attr.type('button'),
           attr.class(
             'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--increment'
           ),
@@ -108,6 +109,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
           Icon({ icon: 'line-md:plus', size: 'xs' })
         ),
         html.button(
+          attr.type('button'),
           attr.class(
             'bc-button bc-number-input-steppers-button bc-number-input-steppers-button--decrement'
           ),
