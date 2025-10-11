@@ -175,7 +175,7 @@
   background-color: var(--color-white);
   border-radius: 0 0 var(--radius-popover, var(--radius-md))
     var(--radius-popover, var(--radius-md));
-  min-height: 200px;
+  height: 100%;
 }
 
 .bc-tabs--vertical .bc-tabs__panel {
