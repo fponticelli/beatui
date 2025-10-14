@@ -78,31 +78,31 @@
 .bc-tab--xs {
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-xs);
-  min-height: var(--spacing-2xl);
+  min-height: var(--spacing-xl);
 }
 
 .bc-tab--sm {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-sm);
-  min-height: var(--spacing-3xl);
+  min-height: var(--spacing-2xl);
 }
 
 .bc-tab--md {
   padding: var(--spacing-md) var(--spacing-xl);
   font-size: var(--font-size-base);
-  min-height: var(--spacing-4xl);
+  min-height: var(--spacing-3xl);
 }
 
 .bc-tab--lg {
   padding: var(--spacing-lg) var(--spacing-2xl);
   font-size: var(--font-size-lg);
-  min-height: var(--spacing-5xl);
+  min-height: var(--spacing-4xl);
 }
 
 .bc-tab--xl {
   padding: var(--spacing-xl) var(--spacing-3xl);
   font-size: var(--font-size-xl);
-  min-height: var(--spacing-6xl);
+  min-height: var(--spacing-5xl);
 }
 
 /* Tab States */

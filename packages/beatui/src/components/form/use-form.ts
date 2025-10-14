@@ -230,14 +230,14 @@ function createNestedDependencies(
   }
 }
 
-export type UseFormResult<T> = {
+export type UseFormResult<T extends object> = {
   controller: ObjectController<T>
   setStatus: (result: ControllerValidation) => void
   submit: (e?: Event) => Promise<void>
   submitting: Signal<boolean>
 }
 
-export function useForm<T>({
+export function useForm<T extends object>({
   initialValue = {} as Value<T>,
   schema,
   onSubmit = async () => Validation.valid,

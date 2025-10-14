@@ -216,9 +216,7 @@ export class Controller<T> {
   }
 }
 
-export class ObjectController<
-  T extends Record<keyof T, T[keyof T]>,
-> extends Controller<T> {
+export class ObjectController<T extends object> extends Controller<T> {
   readonly #controllers = new Map<keyof T, Controller<unknown>>()
   readonly #childTouched = new Map<keyof T, boolean>()
   readonly #childTouchedCancel = new Map<keyof T, () => void>()
