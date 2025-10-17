@@ -1,173 +1,248 @@
-import { TNode, Value, html, prop, on, MapSignal } from '@tempots/dom'
+import {
+  TNode,
+  Value,
+  Use,
+  attr,
+  When,
+  Signal,
+  signal,
+  Repeat,
+  computedOf,
+  Ensure,
+} from '@tempots/dom'
 import { Icon } from '@/components/data/icon'
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarDivider,
   ToolbarGroup,
 } from '@/components/navigation/toolbar/toolbar'
-import { Use } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 import type { EditorView } from 'prosemirror-view'
 import type { MarkdownFeatures } from './prosemirror-markdown-input'
+import { LinkDialogButton } from './link-dialog-button'
+import { ButtonVariant, ControlSize } from '../theme'
+import { MarkType } from 'prosemirror-model'
+import { EditorState } from 'prosemirror-state'
 
 export interface ProseMirrorToolbarOptions {
   /** The ProseMirror editor view */
-  view: EditorView
+  view: Signal<EditorView | null>
+  stateUpdate: Signal<number>
   /** Enabled markdown features */
-  features: Value<MarkdownFeatures>
+  features: Signal<MarkdownFeatures>
+  /** Whether the editor is readonly */
+  readOnly?: Signal<boolean>
+  size?: Value<ControlSize>
+}
+
+function EToolbarButton({
+  active,
+  display,
+  onClick,
+  disabled,
+  label,
+  icon,
+  size,
+}: {
+  active: Signal<boolean>
+  display: Signal<boolean>
+  onClick: () => void
+  disabled: Signal<boolean>
+  label: Value<string>
+  icon: Value<string>
+  size: Value<ControlSize>
+}) {
+  return When(display, () =>
+    ToolbarButton(
+      {
+        onClick,
+        disabled,
+        variant: active.map(v => (v ? 'filled' : 'light') as ButtonVariant),
+        size,
+      },
+      attr.title(label),
+      Icon({ icon, size })
+    )
+  )
+}
+
+function EToolbarGroup(
+  {
+    display,
+  }: {
+    display: Signal<boolean>[]
+  },
+  ...children: TNode[]
+) {
+  return When(
+    computedOf(...display)((...v) => v.some(Boolean)),
+    () => ToolbarGroup(...children)
+  )
+}
+
+function isMarkActive(state: EditorState, markType: MarkType) {
+  const { from, $from, to, empty } = state.selection
+  if (!markType) return false
+  if (empty) return !!markType.isInSet(state.storedMarks || $from.marks())
+  return state.doc.rangeHasMark(from, to, markType)
+}
+
+function makeActiveMarkSignal(
+  state: Signal<number>,
+  view: EditorView,
+  markType: string
+) {
+  return state.map(() => {
+    const mark = view.state.schema.marks[markType]
+    console.log(mark)
+    return isMarkActive(view.state, mark)
+  })
 }
 
 /**
  * Create a toolbar for the ProseMirror markdown editor
  */
-export function ProseMirrorToolbar(options: ProseMirrorToolbarOptions): TNode {
-  const { view, features } = options
+export function ProseMirrorToolbar({
+  view,
+  stateUpdate,
+  features,
+  readOnly = signal(false),
+  size = 'md',
+}: ProseMirrorToolbarOptions): TNode {
+  return Ensure(view, v =>
+    Use(BeatUII18n, t => {
+      const view = v as unknown as Signal<EditorView>
+      const pmt = t.$.prosemirror
+      return Toolbar(
+        // Text formatting group
+        EToolbarGroup(
+          { display: [features.$.bold, features.$.italic, features.$.code] },
+          EToolbarButton({
+            active: makeActiveMarkSignal(stateUpdate, view.value, 'strong'),
+            display: features.$.bold,
+            onClick: () => toggleMark(view.value, 'strong'),
+            disabled: readOnly,
+            label: pmt.$.bold,
+            icon: 'mdi:format-bold',
+            size,
+          }),
+          EToolbarButton({
+            active: makeActiveMarkSignal(stateUpdate, view.value, 'em'),
+            display: features.$.italic,
+            onClick: () => toggleMark(view.value, 'em'),
+            disabled: readOnly,
+            label: pmt.$.italic,
+            icon: 'mdi:format-italic',
+            size,
+          }),
+          EToolbarButton({
+            active: makeActiveMarkSignal(stateUpdate, view.value, 'code'),
+            display: features.$.code,
+            onClick: () => toggleMark(view.value, 'code'),
+            disabled: readOnly,
+            label: pmt.$.code,
+            icon: 'mdi:code-tags',
+            size,
+          })
+        ),
 
-  return Use(BeatUII18n, t => {
-    const i18n = Value.get(t)
-    return Toolbar(
-      // Text formatting group
-      ToolbarGroup(
-        MapSignal(features, f =>
-          f.bold
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleMark(view, 'strong'),
-                },
-                Icon({ icon: 'mdi:format-bold', size: 'sm' })
-              )
-            : null
+        // Headings group
+        EToolbarGroup(
+          { display: [features.$.headings] },
+          Repeat(
+            features.$.headerLevels.map(level =>
+              Math.min(Math.max(level, 1), 6)
+            ),
+            ({ counter: level }) => {
+              return EToolbarButton({
+                active: signal(false),
+                display: features.$.headings,
+                onClick: () => setHeading(view.value, level),
+                disabled: readOnly,
+                label: pmt.map(v => v.heading(level)),
+                icon: `mdi:format-header-${level}`,
+                size,
+              })
+            }
+          )
         ),
-        MapSignal(features, f =>
-          f.italic
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleMark(view, 'em'),
-                },
-                Icon({ icon: 'mdi:format-italic', size: 'sm' })
-              )
-            : null
+
+        // Lists group
+        EToolbarGroup(
+          { display: [features.$.bulletList, features.$.orderedList] },
+          EToolbarButton({
+            active: signal(false),
+            display: features.$.bulletList,
+            onClick: () => toggleList(view.value, 'bullet_list'),
+            disabled: readOnly,
+            label: pmt.$.bulletList,
+            icon: 'mdi:format-list-bulleted',
+            size,
+          }),
+          EToolbarButton({
+            active: signal(false),
+            display: features.$.orderedList,
+            onClick: () => toggleList(view.value, 'ordered_list'),
+            disabled: readOnly,
+            label: pmt.$.orderedList,
+            icon: 'mdi:format-list-numbered',
+            size,
+          })
         ),
-        MapSignal(features, f =>
-          f.code
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleMark(view, 'code'),
-                },
-                Icon({ icon: 'mdi:code-tags', size: 'sm' })
-              )
-            : null
+
+        // Block formatting group
+        EToolbarGroup(
+          {
+            display: [
+              features.$.blockquote,
+              features.$.codeBlock,
+              features.$.horizontalRule,
+            ],
+          },
+          EToolbarButton({
+            active: signal(false),
+            display: features.$.blockquote,
+            onClick: () => toggleBlockquote(view.value),
+            disabled: readOnly,
+            label: pmt.$.blockquote,
+            icon: 'mdi:format-quote-close',
+            size,
+          }),
+          EToolbarButton({
+            active: signal(false),
+            display: features.$.codeBlock,
+            onClick: () => toggleCodeBlock(view.value),
+            disabled: readOnly,
+            label: pmt.$.codeBlock,
+            icon: 'mdi:code-braces',
+            size,
+          }),
+          EToolbarButton({
+            active: signal(false),
+            display: features.$.horizontalRule,
+            onClick: () => insertHorizontalRule(view.value),
+            disabled: readOnly,
+            label: pmt.$.horizontalRule,
+            icon: 'mdi:minus',
+            size,
+          })
+        ),
+
+        When(features.$.links, () =>
+          LinkDialogButton({
+            view: view.value,
+            isReadOnly: readOnly,
+            label: pmt.$.link,
+            linkDialogTitle: pmt.$.linkDialogTitle,
+            linkDialogUrlPlaceholder: pmt.$.linkDialogUrlPlaceholder,
+            linkDialogSave: pmt.$.linkDialogSave,
+            linkDialogCancel: pmt.$.linkDialogCancel,
+            linkDialogRemoveLink: pmt.$.linkDialogRemoveLink,
+          })
         )
-      ),
-
-      ToolbarDivider(),
-
-      // Headings group
-      MapSignal(features, f =>
-        f.headings
-          ? ToolbarGroup(
-              ToolbarButton(
-                {
-                  onClick: () => setHeading(view, 1),
-                },
-                Icon({ icon: 'mdi:format-header-1', size: 'sm' })
-              ),
-              ToolbarButton(
-                {
-                  onClick: () => setHeading(view, 2),
-                },
-                Icon({ icon: 'mdi:format-header-2', size: 'sm' })
-              ),
-              ToolbarButton(
-                {
-                  onClick: () => setHeading(view, 3),
-                },
-                Icon({ icon: 'mdi:format-header-3', size: 'sm' })
-              )
-            )
-          : null
-      ),
-
-      MapSignal(features, f => (f.headings ? ToolbarDivider() : null)),
-
-      // Lists group
-      ToolbarGroup(
-        MapSignal(features, f =>
-          f.bulletList
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleList(view, 'bullet_list'),
-                },
-                Icon({ icon: 'mdi:format-list-bulleted', size: 'sm' })
-              )
-            : null
-        ),
-        MapSignal(features, f =>
-          f.orderedList
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleList(view, 'ordered_list'),
-                },
-                Icon({ icon: 'mdi:format-list-numbered', size: 'sm' })
-              )
-            : null
-        )
-      ),
-
-      ToolbarDivider(),
-
-      // Block formatting group
-      ToolbarGroup(
-        MapSignal(features, f =>
-          f.blockquote
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleBlockquote(view),
-                },
-                Icon({ icon: 'mdi:format-quote-close', size: 'sm' })
-              )
-            : null
-        ),
-        MapSignal(features, f =>
-          f.codeBlock
-            ? ToolbarButton(
-                {
-                  onClick: () => toggleCodeBlock(view),
-                },
-                Icon({ icon: 'mdi:code-braces', size: 'sm' })
-              )
-            : null
-        ),
-        MapSignal(features, f =>
-          f.horizontalRule
-            ? ToolbarButton(
-                {
-                  onClick: () => insertHorizontalRule(view),
-                },
-                Icon({ icon: 'mdi:minus', size: 'sm' })
-              )
-            : null
-        )
-      ),
-
-      ToolbarDivider(),
-
-      // Link group
-      MapSignal(features, f =>
-        f.links
-          ? ToolbarGroup(
-              ToolbarButton(
-                {
-                  onClick: () => insertLink(view),
-                },
-                Icon({ icon: 'mdi:link-variant', size: 'sm' })
-              )
-            )
-          : null
       )
-    )
-  })
+    })
+  )
 }
 
 /**
@@ -236,38 +311,8 @@ async function toggleCodeBlock(view: EditorView) {
 function insertHorizontalRule(view: EditorView) {
   const hrType = view.state.schema.nodes.horizontal_rule
   if (hrType != null) {
-    const { from } = view.state.selection
     const tr = view.state.tr.replaceSelectionWith(hrType.create())
     view.dispatch(tr)
     view.focus()
   }
-}
-
-/**
- * Insert or edit link
- */
-async function insertLink(view: EditorView) {
-  const { toggleMark } = await import('prosemirror-commands')
-  const linkMark = view.state.schema.marks.link
-  if (linkMark == null) return
-
-  const { from, to } = view.state.selection
-  const hasLink = view.state.doc.rangeHasMark(from, to, linkMark)
-
-  if (hasLink) {
-    // Remove link
-    toggleMark(linkMark)(view.state, view.dispatch)
-  } else {
-    // Add link
-    const href = prompt('Enter URL:')
-    if (href != null && href !== '') {
-      const tr = view.state.tr.addMark(
-        from,
-        to,
-        linkMark.create({ href, title: null })
-      )
-      view.dispatch(tr)
-    }
-  }
-  view.focus()
 }

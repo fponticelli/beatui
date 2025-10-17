@@ -89,7 +89,7 @@
   ],
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-css-entries.mjs",
-    "build:watch": "vite build --watch",
+    "build:watch": "node scripts/build-css-entries.mjs && vite build --watch",
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",
     "test:watch": "vitest",

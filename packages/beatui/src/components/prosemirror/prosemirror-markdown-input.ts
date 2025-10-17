@@ -16,7 +16,7 @@ import { Merge } from '@tempots/std'
 import { Theme } from '../theme'
 import { ProseMirrorToolbar } from './prosemirror-toolbar'
 import { LinkPortal } from '@/components/misc/link-portal'
-import { EditorState } from 'prosemirror-state'
+import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { MarkSpec, NodeSpec, Schema } from 'prosemirror-model'
 import { schema as basicSchema } from 'prosemirror-schema-basic'
@@ -26,34 +26,37 @@ import {
 } from 'prosemirror-markdown'
 import { history, undo, redo } from 'prosemirror-history'
 import { keymap } from 'prosemirror-keymap'
-import { baseKeymap } from 'prosemirror-commands'
+import { baseKeymap, toggleMark } from 'prosemirror-commands'
+import { ticker } from '@tempots/ui'
 
 /**
  * Markdown features that can be enabled/disabled in the editor
  */
 export interface MarkdownFeatures {
   /** Enable heading nodes (h1-h6) */
-  headings?: boolean
+  headings: boolean
   /** Enable bold text */
-  bold?: boolean
+  bold: boolean
   /** Enable italic text */
-  italic?: boolean
+  italic: boolean
   /** Enable code inline */
-  code?: boolean
+  code: boolean
   /** Enable links */
-  links?: boolean
+  links: boolean
   /** Enable bullet lists */
-  bulletList?: boolean
+  bulletList: boolean
   /** Enable ordered lists */
-  orderedList?: boolean
+  orderedList: boolean
   /** Enable blockquotes */
-  blockquote?: boolean
+  blockquote: boolean
   /** Enable code blocks */
-  codeBlock?: boolean
+  codeBlock: boolean
   /** Enable horizontal rules */
-  horizontalRule?: boolean
+  horizontalRule: boolean
   /** Enable hard breaks */
-  hardBreak?: boolean
+  hardBreak: boolean
+  /** Maximum heading level */
+  headerLevels: number
 }
 
 /**
@@ -76,7 +79,7 @@ export type ProseMirrorMarkdownInputOptions = Merge<
 /**
  * Default markdown features - all enabled
  */
-const DEFAULT_FEATURES: MarkdownFeatures = {
+export const DEFAULT_FEATURES: MarkdownFeatures = {
   headings: true,
   bold: true,
   italic: true,
@@ -88,6 +91,17 @@ const DEFAULT_FEATURES: MarkdownFeatures = {
   codeBlock: true,
   horizontalRule: true,
   hardBreak: true,
+  headerLevels: 3,
+}
+
+function stateWatcher(onChange: (state: EditorState) => void) {
+  return new Plugin({
+    view: () => ({
+      update: v => {
+        onChange(v.state)
+      },
+    }),
+  })
 }
 
 /**
@@ -145,9 +159,13 @@ export const ProseMirrorMarkdownInput = (
 
   // Store editor view for toolbar
   const editorView = prop<EditorView | null>(null)
+  const editorStateNotifier = ticker()
 
   return Use(Theme, ({ appearance }) =>
     html.div(
+      OnDispose(editorStateNotifier.dispose, editorView.dispose, () => {
+        editorView.value?.destroy()
+      }),
       (options.cssInjection ?? 'none') === 'none'
         ? null
         : Task(
@@ -172,8 +190,10 @@ export const ProseMirrorMarkdownInput = (
             editorView.map(v => v != null),
             () =>
               ProseMirrorToolbar({
-                view: editorView.value!,
+                view: editorView,
+                stateUpdate: editorStateNotifier,
                 features: resolvedFeatures,
+                readOnly: resolvedReadonly,
               })
           ),
         () => null
@@ -203,6 +223,9 @@ export const ProseMirrorMarkdownInput = (
               // Parse initial markdown
               const doc = defaultMarkdownParser.parse(initialValue) ?? undefined
 
+              // Create keyboard shortcuts for formatting
+              const formatKeymap = createFormatKeymap(filteredSchema)
+
               // Create editor state
               const state = EditorState.create({
                 doc,
@@ -214,7 +237,9 @@ export const ProseMirrorMarkdownInput = (
                     'Mod-y': redo,
                     'Mod-Shift-z': redo,
                   }),
+                  keymap(formatKeymap),
                   keymap(baseKeymap),
+                  stateWatcher(editorStateNotifier.tick),
                 ],
               })
 
@@ -339,6 +364,43 @@ export const ProseMirrorMarkdownInput = (
       )
     )
   )
+}
+
+/**
+ * Create keyboard shortcuts for text formatting
+ */
+function createFormatKeymap(schema: Schema<string, string>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const keymap: Record<string, (state: any, dispatch: any) => boolean> = {}
+
+  // Bold (Ctrl+B / Cmd+B)
+  const strongMark = schema.marks.strong
+  if (strongMark != null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    keymap['Mod-b'] = (state: any, dispatch: any) => {
+      return toggleMark(strongMark)(state, dispatch)
+    }
+  }
+
+  // Italic (Ctrl+I / Cmd+I)
+  const emMark = schema.marks.em
+  if (emMark != null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    keymap['Mod-i'] = (state: any, dispatch: any) => {
+      return toggleMark(emMark)(state, dispatch)
+    }
+  }
+
+  // Code (Ctrl+` / Cmd+`)
+  const codeMark = schema.marks.code
+  if (codeMark != null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    keymap['Mod-`'] = (state: any, dispatch: any) => {
+      return toggleMark(codeMark)(state, dispatch)
+    }
+  }
+
+  return keymap
 }
 
 /**
