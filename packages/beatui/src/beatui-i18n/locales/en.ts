@@ -97,6 +97,21 @@ const en = {
 
     return instruction
   },
+  // ProseMirror editor
+  prosemirror: {
+    bold: 'Bold',
+    italic: 'Italic',
+    code: 'Inline code',
+    link: 'Insert link',
+    heading1: 'Heading 1',
+    heading2: 'Heading 2',
+    heading3: 'Heading 3',
+    bulletList: 'Bullet list',
+    orderedList: 'Ordered list',
+    blockquote: 'Blockquote',
+    codeBlock: 'Code block',
+    horizontalRule: 'Horizontal rule',
+  },
 }
 
 export default en

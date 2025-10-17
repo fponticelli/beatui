@@ -1,5 +1,9 @@
 import tseslint from 'typescript-eslint'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default tseslint.config(
   ...tseslint.configs.recommended,
@@ -14,6 +18,11 @@ export default tseslint.config(
     ],
   },
   {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+      },
+    },
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',

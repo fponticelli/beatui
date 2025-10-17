@@ -89,6 +89,10 @@ export const App = () => {
           Async(import('./pages/milkdown-editor'), ({ default: Page }) =>
             Page()
           ),
+        '/prosemirror-editor': () =>
+          Async(import('./pages/prosemirror-editor'), ({ default: Page }) =>
+            Page()
+          ),
         '/mask-input': () =>
           Async(import('./pages/mask-input'), ({ default: Page }) => Page()),
         '/toolbar': () =>

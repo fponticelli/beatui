@@ -100,6 +100,21 @@ export const ru: BeatUIMessages = {
 
     return instruction
   },
+  // prosemirror
+  prosemirror: {
+    bold: 'Bold',
+    italic: 'Italic',
+    code: 'Code',
+    link: 'Link',
+    heading1: 'Heading 1',
+    heading2: 'Heading 2',
+    heading3: 'Heading 3',
+    bulletList: 'Bullet List',
+    orderedList: 'Ordered List',
+    blockquote: 'Blockquote',
+    codeBlock: 'Code Block',
+    horizontalRule: 'Horizontal Rule',
+  },
 }
 
 export default ru

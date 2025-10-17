@@ -74,6 +74,14 @@ function main() {
   const markdownCss = readFileSync(markdownSrc, 'utf8')
   writeOut('markdown.css', markdownCss)
 
+  // Build ProseMirror CSS (simple copy)
+  const prosemirrorSrc = path.resolve(
+    pkgRoot,
+    'src/components/prosemirror/prosemirror-editor.css'
+  )
+  const prosemirrorCss = readFileSync(prosemirrorSrc, 'utf8')
+  writeOut('prosemirror.css', prosemirrorCss)
+
   // Build BeatUI CSS bundles
   const standaloneSrc = path.resolve(pkgRoot, 'src/styles/styles.css')
   const standaloneCss = inlineCssImports(standaloneSrc)

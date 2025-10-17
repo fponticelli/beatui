@@ -42,9 +42,16 @@
       "require": "./dist/markdown/index.cjs.js",
       "default": "./dist/markdown/index.es.js"
     },
+    "./prosemirror": {
+      "types": "./dist/types/prosemirror/index.d.ts",
+      "import": "./dist/prosemirror/index.es.js",
+      "require": "./dist/prosemirror/index.cjs.js",
+      "default": "./dist/prosemirror/index.es.js"
+    },
     "./milkdown.css": "./dist/milkdown.css",
     "./monaco.css": "./dist/monaco.css",
     "./markdown.css": "./dist/markdown.css",
+    "./prosemirror.css": "./dist/prosemirror.css",
     "./css": "./dist/beatui.css",
     "./tailwind.css": "./dist/beatui.tailwind.css",
     "./tailwind": {
@@ -169,10 +176,10 @@
     "eslint-config-prettier": "10.1.8",
     "jsdom": "26.1.0",
     "prettier": "3.6.2",
+    "tailwindcss": "4.1.14",
     "tsx": "4.20.6",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.0",
-    "tailwindcss": "4.1.14",
     "vite": "7.1.9",
     "vitest": "3.2.4"
   },
@@ -186,6 +193,15 @@
     "katex": "0.16.23",
     "micromark": "^4.0.2",
     "micromark-extension-gfm": "^3.0.0",
-    "monaco-editor": "0.54.0"
+    "monaco-editor": "0.54.0",
+    "prosemirror-commands": "^1.7.1",
+    "prosemirror-history": "^1.4.1",
+    "prosemirror-keymap": "^1.2.3",
+    "prosemirror-markdown": "^1.13.2",
+    "prosemirror-model": "^1.25.3",
+    "prosemirror-schema-basic": "^1.2.4",
+    "prosemirror-schema-list": "^1.5.1",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.41.3"
   }
 }

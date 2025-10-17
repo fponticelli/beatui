@@ -17,6 +17,7 @@ export default defineConfig({
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
         milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
+        prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
         'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
         'tailwind/vite-plugin': resolve(
@@ -32,6 +33,7 @@ export default defineConfig({
           entryName === 'monaco' ||
           entryName === 'milkdown' ||
           entryName === 'markdown' ||
+          entryName === 'prosemirror' ||
           entryName === 'tailwind'
         ) {
           return `${entryName}/index.${format}.js`
@@ -43,24 +45,41 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: [
-        '@tempots/dom',
-        '@tempots/ui',
-        'tailwindcss',
-        'tailwindcss/plugin',
-        'fs',
-        'node:fs',
-        'fs/promises',
-        'node:fs/promises',
-        'path',
-        'node:path',
-        'crypto',
-        'node:crypto',
-        'module',
-        'node:module',
-        'url',
-        'node:url',
-      ],
+      external: (id, _parentId) => {
+        // Always externalize these core dependencies
+        const alwaysExternal = [
+          '@tempots/dom',
+          '@tempots/ui',
+          'tailwindcss',
+          'tailwindcss/plugin',
+          'fs',
+          'node:fs',
+          'fs/promises',
+          'node:fs/promises',
+          'path',
+          'node:path',
+          'crypto',
+          'node:crypto',
+          'module',
+          'node:module',
+          'url',
+          'node:url',
+        ]
+
+        if (alwaysExternal.includes(id)) {
+          return true
+        }
+
+        // Bundle ProseMirror packages into the prosemirror entry
+        // (don't externalize them)
+        if (id.startsWith('prosemirror-')) {
+          return false
+        }
+
+        // For all other dependencies, use default behavior
+        // (externalize dependencies, bundle devDependencies)
+        return undefined
+      },
       output: {
         globals: {
           '@tempots/dom': 'TempoDom',

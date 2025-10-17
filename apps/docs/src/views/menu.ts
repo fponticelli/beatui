@@ -48,6 +48,10 @@ export function Menu() {
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
         SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' }),
         SidebarLink({
+          href: '/prosemirror-editor',
+          content: 'ProseMirror Editor',
+        }),
+        SidebarLink({
           href: '/tags-input',
           content: 'Tags Input',
         })
