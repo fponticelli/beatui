@@ -408,26 +408,69 @@ async function toggleList(view: EditorView, listType: string) {
 
 /**
  * Toggle blockquote
+ * If already in a blockquote, remove it
+ * Otherwise, wrap in a blockquote
  */
 async function toggleBlockquote(view: EditorView) {
-  const { wrapIn } = await import('prosemirror-commands')
+  const { wrapIn, lift } = await import('prosemirror-commands')
   const blockquoteType = view.state.schema.nodes.blockquote
-  if (blockquoteType != null) {
-    wrapIn(blockquoteType)(view.state, view.dispatch)
-    view.focus()
+  if (blockquoteType == null) return
+
+  const { state } = view
+  const { $from } = state.selection
+
+  // Check if we're currently in a blockquote
+  let inBlockquote = false
+  for (let d = $from.depth; d > 0; d--) {
+    if ($from.node(d).type.name === 'blockquote') {
+      inBlockquote = true
+      break
+    }
   }
+
+  if (inBlockquote) {
+    // Remove the blockquote by lifting
+    lift(state, view.dispatch)
+  } else {
+    // Wrap in blockquote
+    wrapIn(blockquoteType)(state, view.dispatch)
+  }
+
+  view.focus()
 }
 
 /**
  * Toggle code block
+ * If already in a code block, convert to paragraph
+ * Otherwise, convert to code block
  */
 async function toggleCodeBlock(view: EditorView) {
   const { setBlockType } = await import('prosemirror-commands')
   const codeBlockType = view.state.schema.nodes.code_block
-  if (codeBlockType != null) {
-    setBlockType(codeBlockType)(view.state, view.dispatch)
-    view.focus()
+  const paragraphType = view.state.schema.nodes.paragraph
+  if (codeBlockType == null || paragraphType == null) return
+
+  const { state } = view
+  const { $from } = state.selection
+
+  // Check if we're currently in a code block
+  let inCodeBlock = false
+  for (let d = $from.depth; d > 0; d--) {
+    if ($from.node(d).type.name === 'code_block') {
+      inCodeBlock = true
+      break
+    }
   }
+
+  if (inCodeBlock) {
+    // Convert to paragraph
+    setBlockType(paragraphType)(state, view.dispatch)
+  } else {
+    // Convert to code block
+    setBlockType(codeBlockType)(state, view.dispatch)
+  }
+
+  view.focus()
 }
 
 /**
