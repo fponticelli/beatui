@@ -21,7 +21,7 @@ import type { EditorView } from 'prosemirror-view'
 import type { MarkdownFeatures } from './prosemirror-markdown-input'
 import { LinkDialogButton } from './link-dialog-button'
 import { ButtonVariant, ControlSize } from '../theme'
-import { MarkType } from 'prosemirror-model'
+import { MarkType, NodeType } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 
 export interface ProseMirrorToolbarOptions {
@@ -142,6 +142,54 @@ function makeActiveMarkSignal(
 }
 
 /**
+ * Check if a node type is active at the current selection
+ */
+function isNodeActive(
+  state: EditorState,
+  nodeType: NodeType,
+  attrs?: Record<string, unknown>
+) {
+  const { $from } = state.selection
+
+  // Check if the current selection is within a node of the given type
+  for (let d = $from.depth; d > 0; d--) {
+    const node = $from.node(d)
+    if (node.type.name === nodeType.name) {
+      // If attrs are specified, check if they match
+      if (attrs != null) {
+        return Object.keys(attrs).every(key => node.attrs[key] === attrs[key])
+      }
+      return true
+    }
+  }
+
+  // Also check the node at the selection
+  const node = state.doc.nodeAt($from.pos)
+  if (node && node.type.name === nodeType.name) {
+    if (attrs != null) {
+      return Object.keys(attrs).every(key => node.attrs[key] === attrs[key])
+    }
+    return true
+  }
+
+  return false
+}
+
+function makeActiveNodeSignal(
+  state: Signal<number>,
+  view: Signal<EditorView>,
+  nodeTypeName: string,
+  attrs?: Record<string, unknown>
+) {
+  return state.map(() => {
+    const editorView = view.value
+    const nodeType = editorView.state.schema.nodes[nodeTypeName]
+    if (!nodeType) return false
+    return isNodeActive(editorView.state, nodeType, attrs)
+  })
+}
+
+/**
  * Create a toolbar for the ProseMirror markdown editor
  */
 export function ProseMirrorToolbar({
@@ -197,7 +245,9 @@ export function ProseMirrorToolbar({
             ),
             ({ counter: level }) => {
               return EToolbarButton({
-                active: signal(false),
+                active: makeActiveNodeSignal(stateUpdate, view, 'heading', {
+                  level,
+                }),
                 display: features.$.headings,
                 onClick: () => setHeading(view.value, level),
                 disabled: readOnly,
@@ -213,7 +263,7 @@ export function ProseMirrorToolbar({
         EToolbarGroup(
           { display: [features.$.bulletList, features.$.orderedList] },
           EToolbarButton({
-            active: signal(false),
+            active: makeActiveNodeSignal(stateUpdate, view, 'bullet_list'),
             display: features.$.bulletList,
             onClick: () => toggleList(view.value, 'bullet_list'),
             disabled: readOnly,
@@ -222,7 +272,7 @@ export function ProseMirrorToolbar({
             size,
           }),
           EToolbarButton({
-            active: signal(false),
+            active: makeActiveNodeSignal(stateUpdate, view, 'ordered_list'),
             display: features.$.orderedList,
             onClick: () => toggleList(view.value, 'ordered_list'),
             disabled: readOnly,
@@ -242,7 +292,7 @@ export function ProseMirrorToolbar({
             ],
           },
           EToolbarButton({
-            active: signal(false),
+            active: makeActiveNodeSignal(stateUpdate, view, 'blockquote'),
             display: features.$.blockquote,
             onClick: () => toggleBlockquote(view.value),
             disabled: readOnly,
@@ -251,7 +301,7 @@ export function ProseMirrorToolbar({
             size,
           }),
           EToolbarButton({
-            active: signal(false),
+            active: makeActiveNodeSignal(stateUpdate, view, 'code_block'),
             display: features.$.codeBlock,
             onClick: () => toggleCodeBlock(view.value),
             disabled: readOnly,
@@ -313,14 +363,47 @@ async function setHeading(view: EditorView, level: number) {
 
 /**
  * Toggle list (bullet or ordered)
+ * If already in the same list type, remove the list
+ * If in a different list type, convert to the new type
+ * Otherwise, wrap in the list
  */
 async function toggleList(view: EditorView, listType: string) {
-  const { wrapInList } = await import('prosemirror-schema-list')
+  const { wrapInList, liftListItem } = await import('prosemirror-schema-list')
   const type = view.state.schema.nodes[listType]
-  if (type != null) {
-    wrapInList(type)(view.state, view.dispatch)
-    view.focus()
+  const listItemType = view.state.schema.nodes.list_item
+
+  if (type == null || listItemType == null) return
+
+  const { state } = view
+  const { $from } = state.selection
+
+  // Check if we're currently in a list
+  let currentListType: string | null = null
+  for (let d = $from.depth; d > 0; d--) {
+    const node = $from.node(d)
+    if (node.type.name === 'bullet_list' || node.type.name === 'ordered_list') {
+      currentListType = node.type.name
+      break
+    }
   }
+
+  if (currentListType === listType) {
+    // Same list type - remove the list
+    liftListItem(listItemType)(state, view.dispatch)
+  } else if (currentListType != null) {
+    // Different list type - convert by lifting then wrapping
+    // Dispatch is synchronous, so view.state will be updated after the first call
+    const lifted = liftListItem(listItemType)(view.state, view.dispatch)
+    if (lifted) {
+      // view.state is now updated, wrap in the new list type
+      wrapInList(type)(view.state, view.dispatch)
+    }
+  } else {
+    // Not in a list - wrap in the list
+    wrapInList(type)(state, view.dispatch)
+  }
+
+  view.focus()
 }
 
 /**
