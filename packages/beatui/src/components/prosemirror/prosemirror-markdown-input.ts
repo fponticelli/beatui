@@ -94,13 +94,17 @@ export const DEFAULT_FEATURES: MarkdownFeatures = {
   headerLevels: 3,
 }
 
-function stateWatcher(onChange: (state: EditorState) => void) {
+function stateWatcher(onChange: () => void) {
   return new Plugin({
     view: () => ({
-      update: v => {
-        onChange(v.state)
+      update: () => {
+        onChange()
       },
     }),
+    filterTransaction: () => {
+      onChange()
+      return true
+    },
   })
 }
 

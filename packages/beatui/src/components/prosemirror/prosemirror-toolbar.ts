@@ -83,19 +83,61 @@ function EToolbarGroup(
 function isMarkActive(state: EditorState, markType: MarkType) {
   const { from, $from, to, empty } = state.selection
   if (!markType) return false
-  if (empty) return !!markType.isInSet(state.storedMarks || $from.marks())
-  return state.doc.rangeHasMark(from, to, markType)
+
+  if (empty) {
+    // Check storedMarks first (marks that will be applied to next typed character)
+    if (state.storedMarks) {
+      // Compare by mark type name instead of object identity
+      const hasStoredMark = state.storedMarks.some(
+        m => m.type.name === markType.name
+      )
+      if (hasStoredMark) return true
+    }
+
+    // Check marks at current position
+    const marksHere = $from.marks()
+    const hasMarkHere = marksHere.some(m => m.type.name === markType.name)
+    if (hasMarkHere) return true
+
+    // Also check the character after the cursor (nodeAfter)
+    // This handles the case where cursor is at the start of a marked range
+    const nodeAfter = $from.nodeAfter
+    if (nodeAfter && nodeAfter.marks) {
+      const hasMarkAfter = nodeAfter.marks.some(
+        m => m.type.name === markType.name
+      )
+      if (hasMarkAfter) return true
+    }
+
+    return false
+  }
+
+  // For non-empty selections, check if the range has the mark
+  // We need to manually check by name instead of using rangeHasMark
+  // which uses object identity comparison
+  let hasMark = false
+  state.doc.nodesBetween(from, to, node => {
+    if (hasMark) return false // Stop iteration if we found the mark
+    if (node.marks) {
+      const foundMark = node.marks.some(m => m.type.name === markType.name)
+      if (foundMark) {
+        hasMark = true
+        return false // Stop iteration
+      }
+    }
+  })
+  return hasMark
 }
 
 function makeActiveMarkSignal(
   state: Signal<number>,
-  view: EditorView,
+  view: Signal<EditorView>,
   markType: string
 ) {
   return state.map(() => {
-    const mark = view.state.schema.marks[markType]
-    console.log(mark)
-    return isMarkActive(view.state, mark)
+    const editorView = view.value
+    const mark = editorView.state.schema.marks[markType]
+    return isMarkActive(editorView.state, mark)
   })
 }
 
@@ -109,16 +151,16 @@ export function ProseMirrorToolbar({
   readOnly = signal(false),
   size = 'md',
 }: ProseMirrorToolbarOptions): TNode {
-  return Ensure(view, v =>
+  return Ensure(view, viewSignal =>
     Use(BeatUII18n, t => {
-      const view = v as unknown as Signal<EditorView>
       const pmt = t.$.prosemirror
+      const view = viewSignal as unknown as Signal<EditorView>
       return Toolbar(
         // Text formatting group
         EToolbarGroup(
           { display: [features.$.bold, features.$.italic, features.$.code] },
           EToolbarButton({
-            active: makeActiveMarkSignal(stateUpdate, view.value, 'strong'),
+            active: makeActiveMarkSignal(stateUpdate, view, 'strong'),
             display: features.$.bold,
             onClick: () => toggleMark(view.value, 'strong'),
             disabled: readOnly,
@@ -127,7 +169,7 @@ export function ProseMirrorToolbar({
             size,
           }),
           EToolbarButton({
-            active: makeActiveMarkSignal(stateUpdate, view.value, 'em'),
+            active: makeActiveMarkSignal(stateUpdate, view, 'em'),
             display: features.$.italic,
             onClick: () => toggleMark(view.value, 'em'),
             disabled: readOnly,
@@ -136,7 +178,7 @@ export function ProseMirrorToolbar({
             size,
           }),
           EToolbarButton({
-            active: makeActiveMarkSignal(stateUpdate, view.value, 'code'),
+            active: makeActiveMarkSignal(stateUpdate, view, 'code'),
             display: features.$.code,
             onClick: () => toggleMark(view.value, 'code'),
             disabled: readOnly,
