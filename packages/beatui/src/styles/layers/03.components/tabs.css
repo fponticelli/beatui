@@ -30,6 +30,7 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  min-height: max-content;
 }
 
 .bc-tabs__list::-webkit-scrollbar {
