@@ -185,6 +185,7 @@ const main = async () => {
   const { default: InputsPage } = await import('../src/pages/inputs')
   const { default: MarkdownPage } = await import('../src/pages/markdown')
   const { default: NoticePage } = await import('../src/pages/notice')
+  const { default: RibbonPage } = await import('../src/pages/ribbon')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -299,6 +300,7 @@ const main = async () => {
             '/inputs': InputsPage,
             '/markdown': MarkdownPage,
             '/notice': NoticePage,
+            '/ribbon': RibbonPage,
           }
 
         const PageComponent = pageMap[pageUrl] || (() => html.div('Not Found'))
@@ -354,7 +356,8 @@ const main = async () => {
                 html.a(attr.href('/temporal'), 'Temporal'),
                 html.a(attr.href('/inputs'), 'Inputs'),
                 html.a(attr.href('/markdown'), 'Markdown'),
-                html.a(attr.href('/notice'), 'Notice')
+                html.a(attr.href('/notice'), 'Notice'),
+                html.a(attr.href('/ribbon'), 'Ribbon')
               )
             ),
             html.main(PageComponent())

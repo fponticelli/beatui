@@ -12,15 +12,19 @@ import '../../styles/index.css'
 import { AppearancePreference, ThemeValue } from './types'
 import { useAppearance } from '@tempots/ui'
 
-export const Theme: Provider<ThemeValue, object> = {
+export interface ThemeOptions {
+  defaultAppearance?: AppearancePreference
+}
+
+export const Theme: Provider<ThemeValue, ThemeOptions> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
-  create: (_options?: object) => {
+  create: ({ defaultAppearance = 'system' }: ThemeOptions = {}) => {
     const systemAppearance = useAppearance()
     const appearancePreference = localStorageProp<AppearancePreference>({
       key: 'beatui-appearance-preference',
-      defaultValue: 'system',
+      defaultValue: defaultAppearance,
     })
     const dispose = () => {
       systemAppearance.dispose()

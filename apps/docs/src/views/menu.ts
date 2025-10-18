@@ -91,6 +91,7 @@ export function Menu() {
           href: '/tags',
           content: 'Tags',
         }),
+        SidebarLink({ href: '/ribbon', content: 'Ribbon' }),
         SidebarLink({ href: '/markdown', content: 'Markdown' })
       ),
       // Docs

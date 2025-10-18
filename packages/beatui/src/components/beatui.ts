@@ -1,5 +1,5 @@
 import { Fragment, Provide, Task, TNode, WithProvider } from '@tempots/dom'
-import { Theme, ThemeAppearance } from './theme'
+import { AppearancePreference, Theme, ThemeAppearance } from './theme'
 import { Locale } from '@/components/i18n'
 import { Location, NavigationService } from '@tempots/ui'
 import { BeatUII18n } from '@/beatui-i18n'
@@ -7,17 +7,25 @@ import { LocaleDirection } from './i18n/locale-direction'
 
 export type BeatUIOptions = {
   includeAuthI18n?: boolean
+  enableAppearance?: boolean
+  defaultAppearance?: AppearancePreference
 }
 
 export function BeatUI(
-  { includeAuthI18n = false }: BeatUIOptions,
+  {
+    includeAuthI18n = false,
+    enableAppearance = true,
+    defaultAppearance = 'system',
+  }: BeatUIOptions,
   ...children: TNode[]
 ) {
   return WithProvider(({ set, use }) => {
     set(Location, {})
     set(Locale, {})
     set(BeatUII18n, {})
-    set(Theme, {})
+    if (enableAppearance) {
+      set(Theme, { defaultAppearance })
+    }
     NavigationService.attach(use(Location))
     const fragment = Fragment(ThemeAppearance(), LocaleDirection(), ...children)
     if (includeAuthI18n) {

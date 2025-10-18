@@ -1,0 +1,61 @@
+/* Ribbon component - diagonal label on the top-right corner */
+
+.bc-ribbon {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* decorative by default */
+  z-index: var(--z-index-tooltip, 50);
+  width: 100%;
+  height: 0;
+}
+
+/* The diagonal band */
+.bc-ribbon__band {
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* Tune how much the band shifts before rotation so its midline crosses the corner exactly */
+  transform-origin: top right;
+  /* Keep the band centerline on the corner regardless of width */
+  transform: rotate(45deg) translateX(calc(50% - var(--ribbon-inset, 0px)))
+    translateY(
+      calc(-0.5 * var(--ribbon-thickness, 28px) + var(--ribbon-offset, 0))
+    );
+
+  display: flex;
+  justify-content: center;
+
+  height: var(--ribbon-thickness, 28px);
+  line-height: var(--ribbon-thickness, 28px);
+
+  background: var(--ribbon-bg);
+  color: var(--ribbon-text);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-ribbon, var(--shadow-md));
+  text-shadow: var(--text-shadow-ribbon, var(--text-shadow-2xs));
+  font-weight: var(--text-weight-semibold);
+  font-size: var(--text-size-sm);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  min-width: var(--ribbon-min-width, 0);
+}
+
+/* Dark mode overrides */
+.b-dark .bc-ribbon__band {
+  background: var(--ribbon-bg-dark);
+  color: var(--ribbon-text-dark);
+}
+
+/* High contrast */
+@media (prefers-contrast: more) {
+  .bc-ribbon__band {
+    outline: 1px solid var(--border-border, var(--color-neutral-500));
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-ribbon__band {
+    transition: none;
+  }
+}

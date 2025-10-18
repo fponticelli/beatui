@@ -103,6 +103,8 @@ export const App = () => {
           Async(import('./pages/x-ui-usage'), ({ default: Page }) => Page()),
         '/notice': () =>
           Async(import('./pages/notice'), ({ default: Page }) => Page()),
+        '/ribbon': () =>
+          Async(import('./pages/ribbon'), ({ default: Page }) => Page()),
         '/*': () => html.div('Not Found'),
       }),
     })
