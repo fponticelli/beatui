@@ -31,6 +31,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   min-height: max-content;
+  flex-shrink: 0;
 }
 
 .bc-tabs__list::-webkit-scrollbar {
@@ -160,13 +161,10 @@
 
 /* Tab Panels Container */
 .bc-tabs__panels {
-  flex: 1;
-  position: relative;
   flex-grow: 1;
 }
 
 .bc-tabs--vertical .bc-tabs__panels {
-  flex: 1;
   min-height: 0;
 }
 
