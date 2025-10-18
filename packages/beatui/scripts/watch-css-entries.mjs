@@ -6,15 +6,7 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const pkgRoot = path.resolve(__dirname, '..')
 
-// CSS source files to watch
-const cssSourceFiles = [
-  'src/components/milkdown/milkdown.css',
-  'src/components/monaco/monaco-editor.css',
-  'src/markdown/styles.css',
-  'src/components/prosemirror/prosemirror-editor.css',
-  'src/styles/styles.css',
-  'src/styles/tailwind.css',
-]
+// Note: we rely on directory watching instead of enumerating files
 
 // Watch directories that contain CSS files
 const watchDirs = [
@@ -74,4 +66,3 @@ initialBuild.on('close', code => {
     process.exit(1)
   }
 })
-
