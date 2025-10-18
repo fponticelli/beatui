@@ -1,12 +1,5 @@
 import { html, attr, style } from '@tempots/dom'
-import {
-  Card,
-  Group,
-  Stack,
-  Ribbon,
-  Icon,
-  ScrollablePanel,
-} from '@tempots/beatui'
+import { Card, Stack, Ribbon, Icon, ScrollablePanel } from '@tempots/beatui'
 
 export default function RibbonPage() {
   return ScrollablePanel({
