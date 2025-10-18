@@ -111,12 +111,8 @@ export const ja: BeatUIMessages = {
     blockquote: '引用',
     codeBlock: 'コードブロック',
     horizontalRule: '水平線',
-    linkDialogTitle: 'リンクを編集',
     linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
-    linkDialogSave: '保存',
-    linkDialogCancel: 'キャンセル',
-    linkDialogRemoveLink: 'リンクを削除',
   },
 }
 

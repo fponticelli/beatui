@@ -110,12 +110,8 @@ const en = {
     blockquote: 'Blockquote',
     codeBlock: 'Code block',
     horizontalRule: 'Horizontal rule',
-    linkDialogTitle: 'Edit Link',
     linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
-    linkDialogSave: 'Save',
-    linkDialogCancel: 'Cancel',
-    linkDialogRemoveLink: 'Remove link',
   },
 }
 

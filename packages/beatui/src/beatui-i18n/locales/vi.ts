@@ -111,12 +111,8 @@ const vi: BeatUIMessages = {
     blockquote: 'Blockquote',
     codeBlock: 'Code Block',
     horizontalRule: 'Horizontal Rule',
-    linkDialogTitle: 'Edit Link',
     linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
-    linkDialogSave: 'Save',
-    linkDialogCancel: 'Cancel',
-    linkDialogRemoveLink: 'Remove link',
   },
 }
 

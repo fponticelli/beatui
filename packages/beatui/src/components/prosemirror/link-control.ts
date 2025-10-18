@@ -1,5 +1,6 @@
 import {
   Ensure,
+  Fragment,
   OnDispose,
   prop,
   signal,
@@ -9,7 +10,7 @@ import {
 } from '@tempots/dom'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
-import { ToolbarGroup } from '../navigation'
+import { ToolbarButton, ToolbarGroup } from '../navigation'
 import { TextInput } from '../form'
 import { getMarkByType, isMarkActive, makeActiveMarkSignal } from './utils'
 import { EToolbarButton } from './etoolbar-button'
@@ -21,10 +22,6 @@ export interface LinkDialogButtonProps {
   isReadOnly: Signal<boolean>
   label: Value<string>
   linkUrlPlaceholder: Value<string>
-  // linkDialogTitle: Value<string>
-  // linkDialogSave: Value<string>
-  // linkDialogCancel: Value<string>
-  // linkDialogRemoveLink: Value<string>
   size: Value<ControlSize>
 }
 
@@ -173,13 +170,27 @@ export function LinkControl({
       },
     }),
     Ensure(urlInput, value =>
-      TextInput({
-        value,
-        autofocus: true,
-        onInput: urlInput.set,
-        placeholder: linkUrlPlaceholder,
-        // size,
-      })
+      Fragment(
+        TextInput({
+          value,
+          autofocus: true,
+          onInput: urlInput.set,
+          placeholder: linkUrlPlaceholder,
+          // size,
+        }),
+        ToolbarButton(
+          {
+            variant: 'text',
+            onClick: () => {
+              // open urlInput.value in new tab
+              const url = urlInput.value
+              if (url) window.open(url, '_blank')
+            },
+            size,
+          },
+          'go'
+        )
+      )
     )
   )
 }
