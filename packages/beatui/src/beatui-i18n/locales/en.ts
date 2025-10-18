@@ -112,7 +112,7 @@ const en = {
     horizontalRule: 'Horizontal rule',
     linkDialogTitle: 'Edit Link',
     linkDialogUrl: 'URL',
-    linkDialogUrlPlaceholder: 'https://example.com',
+    linkUrlPlaceholder: 'https://example.com',
     linkDialogSave: 'Save',
     linkDialogCancel: 'Cancel',
     linkDialogRemoveLink: 'Remove link',

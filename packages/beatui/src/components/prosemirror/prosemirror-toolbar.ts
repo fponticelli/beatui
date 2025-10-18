@@ -2,27 +2,21 @@ import {
   TNode,
   Value,
   Use,
-  attr,
   When,
   Signal,
   signal,
   Repeat,
-  computedOf,
   Ensure,
 } from '@tempots/dom'
-import { Icon } from '@/components/data/icon'
-import {
-  Toolbar,
-  ToolbarButton,
-  ToolbarGroup,
-} from '@/components/navigation/toolbar/toolbar'
+import { Toolbar } from '@/components/navigation/toolbar/toolbar'
 import { BeatUII18n } from '@/beatui-i18n'
 import type { EditorView } from 'prosemirror-view'
 import type { MarkdownFeatures } from './prosemirror-markdown-input'
-import { LinkDialogButton } from './link-dialog-button'
-import { ButtonVariant, ControlSize } from '../theme'
-import { MarkType, NodeType } from 'prosemirror-model'
-import { EditorState } from 'prosemirror-state'
+import { LinkControl } from './link-control'
+import { ControlSize } from '../theme'
+import { makeActiveMarkSignal, makeActiveNodeSignal } from './utils'
+import { EToolbarGroup } from './etoolbar-group'
+import { EToolbarButton } from './etoolbar-button'
 
 export interface ProseMirrorToolbarOptions {
   /** The ProseMirror editor view */
@@ -35,160 +29,6 @@ export interface ProseMirrorToolbarOptions {
   size?: Value<ControlSize>
 }
 
-function EToolbarButton({
-  active,
-  display,
-  onClick,
-  disabled,
-  label,
-  icon,
-  size,
-}: {
-  active: Signal<boolean>
-  display: Signal<boolean>
-  onClick: () => void
-  disabled: Signal<boolean>
-  label: Value<string>
-  icon: Value<string>
-  size: Value<ControlSize>
-}) {
-  return When(display, () =>
-    ToolbarButton(
-      {
-        onClick,
-        disabled,
-        variant: active.map(v => (v ? 'filled' : 'light') as ButtonVariant),
-        size,
-      },
-      attr.title(label),
-      Icon({ icon, size })
-    )
-  )
-}
-
-function EToolbarGroup(
-  {
-    display,
-  }: {
-    display: Signal<boolean>[]
-  },
-  ...children: TNode[]
-) {
-  return When(
-    computedOf(...display)((...v) => v.some(Boolean)),
-    () => ToolbarGroup(...children)
-  )
-}
-
-function isMarkActive(state: EditorState, markType: MarkType) {
-  const { from, $from, to, empty } = state.selection
-  if (!markType) return false
-
-  if (empty) {
-    // Check storedMarks first (marks that will be applied to next typed character)
-    if (state.storedMarks) {
-      // Compare by mark type name instead of object identity
-      const hasStoredMark = state.storedMarks.some(
-        m => m.type.name === markType.name
-      )
-      if (hasStoredMark) return true
-    }
-
-    // Check marks at current position
-    const marksHere = $from.marks()
-    const hasMarkHere = marksHere.some(m => m.type.name === markType.name)
-    if (hasMarkHere) return true
-
-    // Also check the character after the cursor (nodeAfter)
-    // This handles the case where cursor is at the start of a marked range
-    const nodeAfter = $from.nodeAfter
-    if (nodeAfter && nodeAfter.marks) {
-      const hasMarkAfter = nodeAfter.marks.some(
-        m => m.type.name === markType.name
-      )
-      if (hasMarkAfter) return true
-    }
-
-    return false
-  }
-
-  // For non-empty selections, check if the range has the mark
-  // We need to manually check by name instead of using rangeHasMark
-  // which uses object identity comparison
-  let hasMark = false
-  state.doc.nodesBetween(from, to, node => {
-    if (hasMark) return false // Stop iteration if we found the mark
-    if (node.marks) {
-      const foundMark = node.marks.some(m => m.type.name === markType.name)
-      if (foundMark) {
-        hasMark = true
-        return false // Stop iteration
-      }
-    }
-  })
-  return hasMark
-}
-
-function makeActiveMarkSignal(
-  state: Signal<number>,
-  view: Signal<EditorView>,
-  markType: string
-) {
-  return state.map(() => {
-    const editorView = view.value
-    const mark = editorView.state.schema.marks[markType]
-    return isMarkActive(editorView.state, mark)
-  })
-}
-
-/**
- * Check if a node type is active at the current selection
- */
-function isNodeActive(
-  state: EditorState,
-  nodeType: NodeType,
-  attrs?: Record<string, unknown>
-) {
-  const { $from } = state.selection
-
-  // Check if the current selection is within a node of the given type
-  for (let d = $from.depth; d > 0; d--) {
-    const node = $from.node(d)
-    if (node.type.name === nodeType.name) {
-      // If attrs are specified, check if they match
-      if (attrs != null) {
-        return Object.keys(attrs).every(key => node.attrs[key] === attrs[key])
-      }
-      return true
-    }
-  }
-
-  // Also check the node at the selection
-  const node = state.doc.nodeAt($from.pos)
-  if (node && node.type.name === nodeType.name) {
-    if (attrs != null) {
-      return Object.keys(attrs).every(key => node.attrs[key] === attrs[key])
-    }
-    return true
-  }
-
-  return false
-}
-
-function makeActiveNodeSignal(
-  state: Signal<number>,
-  view: Signal<EditorView>,
-  nodeTypeName: string,
-  attrs?: Record<string, unknown>
-) {
-  return state.map(() => {
-    const editorView = view.value
-    const nodeType = editorView.state.schema.nodes[nodeTypeName]
-    if (!nodeType) return false
-    return isNodeActive(editorView.state, nodeType, attrs)
-  })
-}
-
 /**
  * Create a toolbar for the ProseMirror markdown editor
  */
@@ -197,7 +37,7 @@ export function ProseMirrorToolbar({
   stateUpdate,
   features,
   readOnly = signal(false),
-  size = 'md',
+  size = 'sm',
 }: ProseMirrorToolbarOptions): TNode {
   return Ensure(view, viewSignal =>
     Use(BeatUII18n, t => {
@@ -321,15 +161,17 @@ export function ProseMirrorToolbar({
         ),
 
         When(features.$.links, () =>
-          LinkDialogButton({
-            view: view.value,
+          LinkControl({
+            stateUpdate,
+            view,
             isReadOnly: readOnly,
             label: pmt.$.link,
-            linkDialogTitle: pmt.$.linkDialogTitle,
-            linkDialogUrlPlaceholder: pmt.$.linkDialogUrlPlaceholder,
-            linkDialogSave: pmt.$.linkDialogSave,
-            linkDialogCancel: pmt.$.linkDialogCancel,
-            linkDialogRemoveLink: pmt.$.linkDialogRemoveLink,
+            // linkDialogTitle: pmt.$.linkDialogTitle,
+            linkUrlPlaceholder: pmt.$.linkUrlPlaceholder,
+            // linkDialogSave: pmt.$.linkDialogSave,
+            // linkDialogCancel: pmt.$.linkDialogCancel,
+            // linkDialogRemoveLink: pmt.$.linkDialogRemoveLink,
+            size,
           })
         )
       )

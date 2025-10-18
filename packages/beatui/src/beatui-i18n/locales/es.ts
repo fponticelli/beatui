@@ -113,7 +113,7 @@ const es: BeatUIMessages = {
     horizontalRule: 'Línea horizontal',
     linkDialogTitle: 'Editar enlace',
     linkDialogUrl: 'URL',
-    linkDialogUrlPlaceholder: 'https://ejemplo.com',
+    linkUrlPlaceholder: 'https://ejemplo.com',
     linkDialogSave: 'Guardar',
     linkDialogCancel: 'Cancelar',
     linkDialogRemoveLink: 'Eliminar enlace',

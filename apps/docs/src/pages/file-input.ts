@@ -75,7 +75,6 @@ export default function FileInputPage() {
             value: basicFiles,
             disabled,
             onChange: files => {
-              console.log('Files changed:', files)
               basicFiles.set(files)
             },
           })
@@ -99,7 +98,6 @@ export default function FileInputPage() {
             maxFileSize: 2 * 1024 * 1024, // 2MB
             maxFiles: 3,
             onChange: files => {
-              console.log('Image files changed:', files)
               imageFiles.set(files)
             },
           })
@@ -145,7 +143,6 @@ export default function FileInputPage() {
                 variant: 'filled',
                 color: 'primary',
                 onClick: () => {
-                  console.log('Form submitted:', controller.value)
                   alert('Form submitted! Check console for details.')
                 },
               },

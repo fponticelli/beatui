@@ -113,7 +113,7 @@ export const pl: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkDialogTitle: 'Edit Link',
     linkDialogUrl: 'URL',
-    linkDialogUrlPlaceholder: 'https://example.com',
+    linkUrlPlaceholder: 'https://example.com',
     linkDialogSave: 'Save',
     linkDialogCancel: 'Cancel',
     linkDialogRemoveLink: 'Remove link',

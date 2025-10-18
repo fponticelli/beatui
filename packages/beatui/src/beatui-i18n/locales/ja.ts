@@ -113,7 +113,7 @@ export const ja: BeatUIMessages = {
     horizontalRule: '水平線',
     linkDialogTitle: 'リンクを編集',
     linkDialogUrl: 'URL',
-    linkDialogUrlPlaceholder: 'https://example.com',
+    linkUrlPlaceholder: 'https://example.com',
     linkDialogSave: '保存',
     linkDialogCancel: 'キャンセル',
     linkDialogRemoveLink: 'リンクを削除',
