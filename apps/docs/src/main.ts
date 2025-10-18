@@ -1,6 +1,5 @@
 import './styles/main.css'
 import '@tempots/beatui/markdown.css'
-import '@tempots/beatui/milkdown.css'
 import '@tempots/beatui/monaco.css'
 import '@tempots/beatui/prosemirror.css'
 import { render } from '@tempots/dom'

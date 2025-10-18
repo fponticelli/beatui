@@ -6,4 +6,3 @@ const cssHref = new URL(
 ).toString()
 
 export default cssHref
-

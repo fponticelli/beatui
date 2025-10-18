@@ -54,15 +54,6 @@ export function StringControl({
         toInput: v => (v == null ? null : new Date(v)),
         fromInput: (v: Date | null) => v?.toISOString() ?? null,
       })
-    case 'markdown': {
-      return Async(import('@/components/milkdown/milkdown-input'), {
-        then: ({ MilkdownInput }) =>
-          Control(MilkdownInput, {
-            ...options,
-            controller: transformEmptyStringToUndefined(controller),
-          }),
-      })
-    }
     case 'time':
       // TODO: Implement time input
       return Control(NullableTextInput, {

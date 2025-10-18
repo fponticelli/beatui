@@ -30,12 +30,6 @@
       "require": "./dist/monaco/index.cjs.js",
       "default": "./dist/monaco/index.es.js"
     },
-    "./milkdown": {
-      "types": "./dist/types/milkdown/index.d.ts",
-      "import": "./dist/milkdown/index.es.js",
-      "require": "./dist/milkdown/index.cjs.js",
-      "default": "./dist/milkdown/index.es.js"
-    },
     "./markdown": {
       "types": "./dist/types/markdown/index.d.ts",
       "import": "./dist/markdown/index.es.js",
@@ -48,7 +42,6 @@
       "require": "./dist/prosemirror/index.cjs.js",
       "default": "./dist/prosemirror/index.es.js"
     },
-    "./milkdown.css": "./dist/milkdown.css",
     "./monaco.css": "./dist/monaco.css",
     "./markdown.css": "./dist/markdown.css",
     "./prosemirror.css": "./dist/prosemirror.css",
@@ -185,8 +178,6 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
-    "@milkdown/crepe": "7.16.0",
-    "@milkdown/kit": "7.16.0",
     "@types/json-schema": "^7.0.15",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",

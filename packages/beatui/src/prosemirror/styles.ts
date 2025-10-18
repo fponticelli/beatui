@@ -4,4 +4,3 @@
 import css from '../components/prosemirror/prosemirror-editor.css?inline'
 
 export default css as string
-

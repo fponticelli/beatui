@@ -1,6 +1,9 @@
-import { attr, html, prop, style } from '@tempots/dom'
+import { attr, computedOf, html, prop, style } from '@tempots/dom'
 import { NativeSelect, ScrollablePanel, Stack, Switch } from '@tempots/beatui'
-import { ProseMirrorMarkdownInput } from '@tempots/beatui/prosemirror'
+import {
+  MarkdownFeatures,
+  ProseMirrorMarkdownInput,
+} from '@tempots/beatui/prosemirror'
 
 const samples = [
   {
@@ -62,45 +65,44 @@ export default function ProseMirrorEditorPage() {
   const codeBlock = prop(true)
   const horizontalRule = prop(true)
 
-  const features = prop({
-    headings: headings.value,
-    bold: bold.value,
-    italic: italic.value,
-    code: code.value,
-    links: links.value,
-    bulletList: bulletList.value,
-    orderedList: orderedList.value,
-    blockquote: blockquote.value,
-    codeBlock: codeBlock.value,
-    horizontalRule: horizontalRule.value,
-  })
-
-  // Update features when any toggle changes
-  const updateFeatures = () => {
-    features.set({
-      headings: headings.value,
-      bold: bold.value,
-      italic: italic.value,
-      code: code.value,
-      links: links.value,
-      bulletList: bulletList.value,
-      orderedList: orderedList.value,
-      blockquote: blockquote.value,
-      codeBlock: codeBlock.value,
-      horizontalRule: horizontalRule.value,
-    })
-  }
-
-  headings.on(updateFeatures)
-  bold.on(updateFeatures)
-  italic.on(updateFeatures)
-  code.on(updateFeatures)
-  links.on(updateFeatures)
-  bulletList.on(updateFeatures)
-  orderedList.on(updateFeatures)
-  blockquote.on(updateFeatures)
-  codeBlock.on(updateFeatures)
-  horizontalRule.on(updateFeatures)
+  const features = computedOf(
+    headings,
+    bold,
+    italic,
+    code,
+    links,
+    bulletList,
+    orderedList,
+    blockquote,
+    codeBlock,
+    horizontalRule
+  )(
+    (
+      headings,
+      bold,
+      italic,
+      code,
+      links,
+      bulletList,
+      orderedList,
+      blockquote,
+      codeBlock,
+      horizontalRule
+    ) =>
+      ({
+        headings,
+        bold,
+        italic,
+        code,
+        links,
+        bulletList,
+        orderedList,
+        blockquote,
+        codeBlock,
+        horizontalRule,
+        headerLevels: 3,
+      }) as MarkdownFeatures
+  )
 
   return ScrollablePanel({
     body: html.div(
@@ -224,4 +226,3 @@ export default function ProseMirrorEditorPage() {
     ),
   })
 }
-

@@ -85,10 +85,6 @@ export const App = () => {
           ),
         '/monaco-editor': () =>
           Async(import('./pages/monaco-editor'), ({ default: Page }) => Page()),
-        '/milkdown-editor': () =>
-          Async(import('./pages/milkdown-editor'), ({ default: Page }) =>
-            Page()
-          ),
         '/prosemirror-editor': () =>
           Async(import('./pages/prosemirror-editor'), ({ default: Page }) =>
             Page()

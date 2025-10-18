@@ -53,14 +53,6 @@ function writeOut(relOut, content) {
 function main() {
   const pkgRoot = process.cwd()
 
-  // Build Milkdown CSS bundle (with @imports inlined)
-  const milkdownSrc = path.resolve(
-    pkgRoot,
-    'src/components/milkdown/milkdown.css'
-  )
-  const milkdownCss = inlineCssImports(milkdownSrc)
-  writeOut('milkdown.css', milkdownCss)
-
   // Build Monaco CSS (simple copy)
   const monacoSrc = path.resolve(
     pkgRoot,

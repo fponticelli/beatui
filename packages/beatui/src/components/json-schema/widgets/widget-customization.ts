@@ -391,22 +391,6 @@ export function registerEnhancedWidgets(
     priority: 80,
   })
 
-  // Rich text editor widget
-  registry.register('rich-text', {
-    factory: ({ controller, options: _options }) => {
-      return Async(import('../../milkdown/milkdown-input'), {
-        then: ({ MilkdownInput }) =>
-          Control(MilkdownInput, {
-            controller,
-          }),
-      })
-    },
-    displayName: 'Rich Text Editor',
-    description: 'WYSIWYG text editor with formatting options',
-    supportedTypes: ['string'],
-    priority: 70,
-  })
-
   // Code editor widget
   registry.register('code-editor', {
     factory: ({ controller, options }) => {

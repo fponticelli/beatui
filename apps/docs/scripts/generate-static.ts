@@ -179,9 +179,6 @@ const main = async () => {
   const { default: MonacoEditorPage } = await import(
     '../src/pages/monaco-editor'
   )
-  const { default: MilkdownEditorPage } = await import(
-    '../src/pages/milkdown-editor'
-  )
   const { default: MaskInputPage } = await import('../src/pages/mask-input')
   const { default: ToolbarPage } = await import('../src/pages/toolbar')
   const { default: TemporalPage } = await import('../src/pages/temporal')
@@ -296,7 +293,6 @@ const main = async () => {
             '/nine-slice-scroll-view': NineSliceScrollViewPage,
             '/json-schema-form': JSONSchemaFormPage,
             '/monaco-editor': MonacoEditorPage,
-            '/milkdown-editor': MilkdownEditorPage,
             '/mask-input': MaskInputPage,
             '/toolbar': ToolbarPage,
             '/temporal': TemporalPage,
@@ -353,7 +349,6 @@ const main = async () => {
                 ),
                 html.a(attr.href('/json-schema-form'), 'JSON Schema Form'),
                 html.a(attr.href('/monaco-editor'), 'Monaco Editor'),
-                html.a(attr.href('/milkdown-editor'), 'Milkdown Editor'),
                 html.a(attr.href('/mask-input'), 'Mask Input'),
                 html.a(attr.href('/toolbar'), 'Toolbar'),
                 html.a(attr.href('/temporal'), 'Temporal'),

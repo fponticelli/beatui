@@ -15,7 +15,6 @@ export default defineConfig({
         auth: resolve(__dirname, 'src/auth/index.ts'),
         'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
-        milkdown: resolve(__dirname, 'src/milkdown/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
@@ -31,7 +30,6 @@ export default defineConfig({
           entryName === 'auth' ||
           entryName === 'json-schema' ||
           entryName === 'monaco' ||
-          entryName === 'milkdown' ||
           entryName === 'markdown' ||
           entryName === 'prosemirror' ||
           entryName === 'tailwind'

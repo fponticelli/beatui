@@ -46,7 +46,6 @@ export function Menu() {
         SidebarLink({ href: '/form', content: 'Form' }),
         SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' }),
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
-        SidebarLink({ href: '/milkdown-editor', content: 'Milkdown Editor' }),
         SidebarLink({
           href: '/prosemirror-editor',
           content: 'ProseMirror Editor',
