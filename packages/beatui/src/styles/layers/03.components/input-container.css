@@ -10,10 +10,13 @@
 
 .bc-input-container {
   width: 100%;
-  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 4);
-  border: 0;
+  /* Horizontal padding only; vertical padding comes from size classes */
+  padding-inline: calc(var(--spacing-base) * 4);
+  /* Add a transparent border to match button height math */
+  border: 1.5px solid transparent;
   border-radius: var(--radius-control, var(--radius-md));
   box-shadow: var(--shadow-surface, var(--shadow-sm));
+  line-height: 1;
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
@@ -225,8 +228,8 @@
 /* Responsive styles */
 @media (width >=var(--breakpoint-sm)) {
   .bc-input-container {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
+    /* Do not force font-size; sizing classes control this */
+    line-height: 1;
   }
 }
 

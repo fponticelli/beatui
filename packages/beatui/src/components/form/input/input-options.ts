@@ -1,4 +1,5 @@
 import { aria, attr, Fragment, TNode, Value } from '@tempots/dom'
+import { ControlSize } from '../../theme'
 import { Merge } from '@tempots/std'
 
 export type CommonInputOptions = {
@@ -11,6 +12,11 @@ export type CommonInputOptions = {
   placeholder?: Value<string>
   id?: Value<string>
   required?: Value<boolean>
+  /**
+   * Visual size of the control, aligned with Button sizes.
+   * Defaults to 'md' when omitted.
+   */
+  size?: Value<ControlSize>
 }
 
 export type InputOptions<V> = Merge<

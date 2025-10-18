@@ -147,49 +147,52 @@ export function LinkControl({
     }
   })
 
-  return ToolbarGroup(
+  return Fragment(
     OnDispose(urlInput.dispose, clear),
-    EToolbarButton({
-      display: signal(true),
-      active: makeActiveMarkSignal(stateUpdate, view, 'link'),
-      disabled: isReadOnly,
-      label,
-      icon: 'mdi:link-variant',
-      size,
-      onClick: () => {
-        const state = view.value.state
-        // Toggle link: if link is active, remove it; otherwise show input
-        if (isLinkActive(state)) {
-          removeLink(view.value)
-          urlInput.set(null)
-        } else {
-          const url = ''
-          applyLink(view.value, url)
-          urlInput.set(url)
-        }
-      },
-    }),
-    Ensure(urlInput, value =>
-      Fragment(
+    ToolbarGroup(
+      EToolbarButton({
+        display: signal(true),
+        active: makeActiveMarkSignal(stateUpdate, view, 'link'),
+        disabled: isReadOnly,
+        label,
+        icon: 'mdi:link-variant',
+        size,
+        onClick: () => {
+          const state = view.value.state
+          // Toggle link: if link is active, remove it; otherwise show input
+          if (isLinkActive(state)) {
+            removeLink(view.value)
+            urlInput.set(null)
+          } else {
+            const url = ''
+            applyLink(view.value, url)
+            urlInput.set(url)
+          }
+        },
+      }),
+      Ensure(urlInput, value =>
         TextInput({
           value,
           autofocus: true,
           onInput: urlInput.set,
           placeholder: linkUrlPlaceholder,
-          // size,
-        }),
-        ToolbarButton(
-          {
-            variant: 'text',
-            onClick: () => {
-              // open urlInput.value in new tab
-              const url = urlInput.value
-              if (url) window.open(url, '_blank')
-            },
-            size,
+          size,
+        })
+      )
+    ),
+    Ensure(urlInput, value =>
+      ToolbarButton(
+        {
+          disabled: value.map(v => v.trim() === ''),
+          variant: 'text',
+          onClick: () => {
+            // open urlInput.value in new tab
+            const url = urlInput.value
+            if (url) window.open(url, '_blank')
           },
-          'go'
-        )
+          size,
+        },
+        'go'
       )
     )
   )

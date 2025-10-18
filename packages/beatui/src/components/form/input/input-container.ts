@@ -7,11 +7,13 @@ import {
   Value,
   computedOf,
 } from '@tempots/dom'
+import { ControlSize } from '../../theme'
 
 function generateInputContainerClasses(
   baseContainer: boolean,
   disabled: boolean,
-  hasError: boolean
+  hasError: boolean,
+  size: ControlSize
 ): string {
   const classes = [
     baseContainer ? 'bc-base-input-container' : 'bc-input-container',
@@ -35,6 +37,12 @@ function generateInputContainerClasses(
     classes.push('bc-input-container--error')
   }
 
+  // Apply shared control sizing (only for regular containers)
+  if (!baseContainer) {
+    classes.push(`bc-control--padding-${size}`)
+    classes.push(`bc-control--text-size-${size}`)
+  }
+
   return classes.join(' ')
 }
 
@@ -48,6 +56,7 @@ export const InputContainer = (
     hasError,
     focusableSelector = 'input, select, textarea',
     growInput = true,
+    size,
   }: {
     disabled?: Value<boolean>
     input: TNode
@@ -57,6 +66,7 @@ export const InputContainer = (
     focusableSelector?: string
     growInput?: Value<boolean>
     baseContainer?: Value<boolean>
+    size?: Value<ControlSize>
   },
   ...children: TNode[]
 ) => {
@@ -77,12 +87,14 @@ export const InputContainer = (
       computedOf(
         baseContainer,
         isDisabled,
-        hasError ?? false
-      )((baseContainer, disabled, hasError) =>
+        hasError ?? false,
+        size ?? 'md'
+      )((baseContainer, disabled, hasError, size) =>
         generateInputContainerClasses(
           baseContainer ?? false,
           disabled ?? false,
-          hasError ?? false
+          hasError ?? false,
+          (size ?? 'md') as ControlSize
         )
       )
     ),

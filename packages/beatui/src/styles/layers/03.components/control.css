@@ -69,3 +69,24 @@
 .bc-control--rounded-full {
   border-radius: var(--radius-full);
 }
+
+/* Shared control font sizing to align heights across components */
+.bc-control--text-size-xs {
+  font-size: var(--font-size-xs);
+}
+
+.bc-control--text-size-sm {
+  font-size: var(--font-size-sm);
+}
+
+.bc-control--text-size-md {
+  font-size: var(--font-size-base);
+}
+
+.bc-control--text-size-lg {
+  font-size: var(--font-size-lg);
+}
+
+.bc-control--text-size-xl {
+  font-size: var(--font-size-xl);
+}

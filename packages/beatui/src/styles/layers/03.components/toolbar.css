@@ -46,11 +46,13 @@
 }
 
 .bc-toolbar__button--icon-only .bc-button {
-  padding: var(--spacing-2xs);
+  /* Keep button height consistent; only adjust horizontal padding */
+  padding-inline: var(--spacing-2xs);
 }
 
 .bc-toolbar .bc-input-container {
-  padding: calc(var(--spacing-base) * 1) calc(var(--spacing-base) * 3);
+  /* Reduce horizontal padding in toolbar but keep vertical from size */
+  padding-inline: calc(var(--spacing-base) * 3);
   outline-width: 1px;
   outline-offset: -1px;
   width: auto;
