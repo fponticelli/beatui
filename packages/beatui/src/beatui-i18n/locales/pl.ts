@@ -111,7 +111,6 @@ export const pl: BeatUIMessages = {
     blockquote: 'Blockquote',
     codeBlock: 'Code Block',
     horizontalRule: 'Horizontal Rule',
-    linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
   },
 }

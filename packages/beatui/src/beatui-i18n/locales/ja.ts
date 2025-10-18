@@ -111,7 +111,6 @@ export const ja: BeatUIMessages = {
     blockquote: '引用',
     codeBlock: 'コードブロック',
     horizontalRule: '水平線',
-    linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
   },
 }

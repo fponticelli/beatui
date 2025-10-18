@@ -112,7 +112,6 @@ const fr: BeatUIMessages = {
     blockquote: 'Citation',
     codeBlock: 'Bloc de code',
     horizontalRule: 'Ligne horizontale',
-    linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://exemple.com',
   },
 }

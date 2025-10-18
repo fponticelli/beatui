@@ -111,7 +111,6 @@ const ur: BeatUIMessages = {
     blockquote: 'Blockquote',
     codeBlock: 'Code Block',
     horizontalRule: 'Horizontal Rule',
-    linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://example.com',
   },
 }

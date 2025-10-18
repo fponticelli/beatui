@@ -111,7 +111,6 @@ const es: BeatUIMessages = {
     blockquote: 'Cita',
     codeBlock: 'Bloque de código',
     horizontalRule: 'Línea horizontal',
-    linkDialogUrl: 'URL',
     linkUrlPlaceholder: 'https://ejemplo.com',
   },
 }
