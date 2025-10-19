@@ -1,4 +1,4 @@
-import { html, attr, style } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 import { Card, Stack, Ribbon, Icon, ScrollablePanel } from '@tempots/beatui'
 
 export default function RibbonPage() {
@@ -7,59 +7,52 @@ export default function RibbonPage() {
       attr.class('gap-8 p-8 items-start justify-center'),
 
       // Basic ribbon on a card
-      html.div(
-        style.position('relative'),
-        Card(
-          {},
-          attr.class('w-80 h-40 p-4 flex items-center justify-center'),
-          html.div(
-            attr.class('text-center'),
-            html.h3(attr.class('text-lg font-semibold'), 'Basic Ribbon'),
-            html.p(attr.class('text-gray-500'), 'Top-right 45° band')
-          )
+      Card(
+        {},
+        attr.class(
+          'w-80 h-40 p-4 flex items-center justify-center relative overflow-hidden'
+        ),
+        html.div(
+          attr.class('text-center'),
+          html.h3(attr.class('text-lg font-semibold'), 'Basic Ribbon'),
+          html.p(attr.class('text-gray-500'), 'Top-right 45° band')
         ),
         Ribbon(
           {
-            minWidth: '120px',
-            offset: '40px',
+            width: 120,
+            offset: 40,
           },
           'Beta'
         )
       ),
 
       // Different color
-      html.div(
-        style.position('relative'),
-        Card(
-          {},
-          attr.class('w-80 h-40 p-4 flex items-center justify-center'),
-          html.div(
-            attr.class('text-center'),
-            html.h3(attr.class('text-lg font-semibold'), 'Accent Color'),
-            html.p(attr.class('text-gray-500'), 'Custom color background')
-          )
+      Card(
+        {},
+        attr.class('w-80 h-40 p-4 flex items-center justify-center relative'),
+        html.div(
+          attr.class('text-center'),
+          html.h3(attr.class('text-lg font-semibold'), 'Accent Color'),
+          html.p(attr.class('text-gray-500'), 'Custom color background')
         ),
-        Ribbon({ color: 'white', offset: '20px', minWidth: 60 }, 'New')
+        Ribbon({ color: 'white', offset: 20, width: 60 }, 'New')
       ),
 
       // Longer text and icon
-      html.div(
-        style.position('relative'),
-        Card(
-          {},
-          attr.class('w-80 h-40 p-4 flex items-center justify-center'),
-          html.div(
-            attr.class('text-center'),
-            html.h3(attr.class('text-lg font-semibold'), 'Rich Content'),
-            html.p(attr.class('text-gray-500'), 'Icon + long label')
-          )
+      Card(
+        {},
+        attr.class('w-80 h-40 p-4 flex items-center justify-center relative'),
+        html.div(
+          attr.class('text-center'),
+          html.h3(attr.class('text-lg font-semibold'), 'Rich Content'),
+          html.p(attr.class('text-gray-500'), 'Icon + long label')
         ),
         Ribbon(
           {
             color: 'success',
-            offset: '80px',
-            thickness: '48px',
-            minWidth: 200,
+            offset: 60,
+            thickness: 48,
+            width: 200,
           },
           html.div(
             attr.class(

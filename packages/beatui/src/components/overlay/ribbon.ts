@@ -14,7 +14,7 @@ export type RibbonOptions = {
   /** Fine vertical correction to align the band crossing (px if number). Default: -1px */
   offset?: Value<number | string>
   /** Minimum width of the band (px if number). Default: null */
-  minWidth?: Value<number | string>
+  width?: Value<number | string>
 }
 
 function generateRibbonCSSVariables(
@@ -22,7 +22,7 @@ function generateRibbonCSSVariables(
   thickness: number | string,
   inset: number | string,
   offset: number | string,
-  minWidth: number | string
+  width: number | string
 ): string {
   const baseLight = backgroundValue(color, 'solid', 'light')
   const baseDark = backgroundValue(color, 'solid', 'dark')
@@ -34,7 +34,7 @@ function generateRibbonCSSVariables(
     `--ribbon-thickness: ${toCssLength(thickness)}`,
     `--ribbon-inset: ${toCssLength(inset)}`,
     `--ribbon-offset: ${toCssLength(offset)}`,
-    `--ribbon-min-width: ${toCssLength(minWidth)}`,
+    `--ribbon-width: ${toCssLength(width)}`,
   ].join('; ')
 }
 
@@ -54,7 +54,7 @@ export function Ribbon(
     thickness,
     inset,
     offset,
-    minWidth,
+    width,
   }: RibbonOptions,
   ...children: TNode[]
 ): Renderable {
@@ -67,19 +67,19 @@ export function Ribbon(
         thickness,
         inset,
         offset,
-        minWidth
-      )((c, t, i, o, minWidth) =>
+        width
+      )((c, t, i, o, w) =>
         generateRibbonCSSVariables(
           (c ?? 'primary') as ExtendedColor,
           t ?? 28,
           i ?? 0,
           o ?? 40,
-          minWidth ?? 0
+          w ?? 100
         )
       )
     ),
     // Allow external classes
     attr.class(cls),
-    html.div(attr.class('bc-ribbon__band'), ...children)
+    ...children
   )
 }
