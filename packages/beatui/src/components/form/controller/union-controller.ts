@@ -37,7 +37,7 @@ export class UnionController<T> extends Controller<T> {
   constructor(
     path: Path,
     change: (value: T) => void,
-    value: Signal<T>,
+    signal: Signal<T>,
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
@@ -46,7 +46,7 @@ export class UnionController<T> extends Controller<T> {
     branches: UnionBranch[],
     equals: (a: T, b: T) => boolean = strictEqual
   ) {
-    super(path, change, value, status, parent, equals)
+    super(path, change, signal, status, parent, equals)
 
     this.branches = branches
 
@@ -62,7 +62,7 @@ export class UnionController<T> extends Controller<T> {
     }
 
     // Create active branch signal
-    this.activeBranch = value.map(detectActiveBranch, strictEqual)
+    this.activeBranch = signal.map(detectActiveBranch, strictEqual)
 
     // Create branch controllers lazily
     const getBranchController = (branchKey: string): Controller<unknown> => {
@@ -82,7 +82,7 @@ export class UnionController<T> extends Controller<T> {
           // When branch value changes, update the main value
           this.change(branchValue as T)
         },
-        value.map(
+        this.signal.map(
           (val: T) => {
             // Extract the value for this branch
             if (branch.detect(val)) {
@@ -148,7 +148,7 @@ export class UnionController<T> extends Controller<T> {
       (branchValue: unknown) => {
         this.change(branchValue as T)
       },
-      this.value.map(
+      this.signal.map(
         (val: T) => {
           if (branch.detect(val)) {
             return val as unknown
@@ -178,7 +178,7 @@ export class UnionController<T> extends Controller<T> {
       throw new Error(`Unknown branch: ${branchKey}`)
     }
 
-    const currentValue = Value.get(this.value)
+    const currentValue = Value.get(this.signal)
 
     // If already on this branch, do nothing
     if (branch.detect(currentValue)) {

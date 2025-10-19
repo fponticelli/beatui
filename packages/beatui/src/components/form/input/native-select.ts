@@ -139,7 +139,7 @@ export function BaseNativeSelectControl<T>(
   const { controller, onChange, onBlur, ...rest } = options
   return NativeSelect({
     ...rest,
-    value: controller.value,
+    value: controller.signal,
     onChange: makeOnChangeHandler(controller, onChange),
     onBlur: makeOnBlurHandler(controller, onBlur),
   })

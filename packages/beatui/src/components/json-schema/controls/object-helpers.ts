@@ -86,7 +86,7 @@ export function renderAdditionalEntry(
     if (!trimmed || trimmed === key) return
     if (
       Object.prototype.hasOwnProperty.call(
-        Value.get(controller.value) ?? {},
+        Value.get(controller.signal) ?? {},
         trimmed
       )
     )
@@ -97,7 +97,7 @@ export function renderAdditionalEntry(
       return
     }
     keyError.set(null)
-    const obj = { ...(Value.get(controller.value) ?? {}) }
+    const obj = { ...(Value.get(controller.signal) ?? {}) }
     const val = obj[key]
     delete (obj as Record<string, unknown>)[key]
     ;(obj as Record<string, unknown>)[trimmed] = val
@@ -109,12 +109,12 @@ export function renderAdditionalEntry(
       size: 'xs',
       label: t.$.removeItem,
       disabled: !canRemove(
-        Object.keys(Value.get(controller.value) ?? {}).length
+        Object.keys(Value.get(controller.signal) ?? {}).length
       ),
       onClick: () => {
-        const count = Object.keys(Value.get(controller.value) ?? {}).length
+        const count = Object.keys(Value.get(controller.signal) ?? {}).length
         if (!canRemove(count)) return
-        const obj = { ...(Value.get(controller.value) ?? {}) }
+        const obj = { ...(Value.get(controller.signal) ?? {}) }
         delete (obj as Record<string, unknown>)[key]
         controller.change(obj)
       },
@@ -122,7 +122,7 @@ export function renderAdditionalEntry(
   )
 
   const keyLocked = Value.map(
-    valueCtrl.value,
+    valueCtrl.signal,
     v => lockKeyAfterSet && v != null
   )
 
@@ -220,7 +220,7 @@ export function renderUnevaluatedEntry(
     if (!trimmed || trimmed === key) return
     if (
       Object.prototype.hasOwnProperty.call(
-        Value.get(controller.value) ?? {},
+        Value.get(controller.signal) ?? {},
         trimmed
       )
     )
@@ -231,7 +231,7 @@ export function renderUnevaluatedEntry(
       return
     }
     keyError.set(null)
-    const obj = { ...(Value.get(controller.value) ?? {}) }
+    const obj = { ...(Value.get(controller.signal) ?? {}) }
     const val = obj[key]
     delete (obj as Record<string, unknown>)[key]
     ;(obj as Record<string, unknown>)[trimmed] = val
@@ -243,12 +243,12 @@ export function renderUnevaluatedEntry(
       size: 'xs',
       label: t.$.removeItem,
       disabled: !canRemove(
-        Object.keys(Value.get(controller.value) ?? {}).length
+        Object.keys(Value.get(controller.signal) ?? {}).length
       ),
       onClick: () => {
-        const count = Object.keys(Value.get(controller.value) ?? {}).length
+        const count = Object.keys(Value.get(controller.signal) ?? {}).length
         if (!canRemove(count)) return
-        const obj = { ...(Value.get(controller.value) ?? {}) }
+        const obj = { ...(Value.get(controller.signal) ?? {}) }
         delete (obj as Record<string, unknown>)[key]
         controller.change(obj)
       },
@@ -256,7 +256,7 @@ export function renderUnevaluatedEntry(
   )
 
   const keyLocked = Value.map(
-    valueCtrl.value,
+    valueCtrl.signal,
     v => lockKeyAfterSet && v != null
   )
 

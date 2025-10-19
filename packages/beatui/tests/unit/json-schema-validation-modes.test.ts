@@ -110,7 +110,7 @@ describe('JSON Schema validation modes', () => {
 
     // Simulate submit: mark all touched and set status manually
     objSubmit.markAllTouched()
-    const v = controller.value.value
+    const v = controller.signal.value
     const res = validate(v)
     setStatus(
       res

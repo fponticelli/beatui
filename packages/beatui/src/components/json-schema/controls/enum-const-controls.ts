@@ -41,7 +41,7 @@ export function JSONSchemaConst({
   return Fragment(
     WithElement(() => {
       // Set const value on mount
-      if (Value.get(controller.value) !== def.const) {
+      if (Value.get(controller.signal) !== def.const) {
         controller.change(def.const)
       }
     }),

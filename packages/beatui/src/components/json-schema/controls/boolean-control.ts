@@ -40,7 +40,7 @@ export function JSONSchemaBoolean({
     ...baseOptions,
     controller: controller as unknown as Controller<boolean>,
     after: NullableResetAfter(
-      controller.value as unknown as Value<boolean | null>,
+      controller.signal as unknown as Value<boolean | null>,
       (controller as unknown as Controller<boolean | null>).disabled,
       v => (controller as unknown as Controller<boolean | null>).change(v)
     ),

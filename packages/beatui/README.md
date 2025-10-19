@@ -15,6 +15,15 @@ A modern TypeScript UI component library built with [@tempots/dom](https://tempo
 - Iconify integration for icons
 - Container queries for responsive components
 
+## Migration note (breaking)
+
+- Controller<T> property `value: Signal<T>` has been renamed to `signal: Signal<T>`.
+- Replace usages as follows:
+  - `controller.value.value` → `controller.signal.value`
+  - `controller.value.map(fn)` → `controller.signal.map(fn)`
+- Applies to all controller types (Controller, ObjectController, ArrayController, UnionController, ColorController, etc.).
+- Rationale: avoid confusion between the controller property `value` and the signal’s `.value`.
+
 ## Installation
 
 ```bash

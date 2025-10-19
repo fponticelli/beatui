@@ -72,17 +72,17 @@ describe('ColorController', () => {
       const controller = createTestColorController()
 
       controller.setColor('#f00')
-      expect(controller.value.value).toBe('#ff0000')
+      expect(controller.signal.value).toBe('#ff0000')
 
       controller.setColor('#ABCDEF')
-      expect(controller.value.value).toBe('#abcdef')
+      expect(controller.signal.value).toBe('#abcdef')
     })
 
     it('should set non-hex colors as-is', () => {
       const controller = createTestColorController()
 
       controller.setColor('rgb(255, 0, 0)')
-      expect(controller.value.value).toBe('rgb(255, 0, 0)')
+      expect(controller.signal.value).toBe('rgb(255, 0, 0)')
     })
   })
 
@@ -91,18 +91,18 @@ describe('ColorController', () => {
       const controller = createTestColorController()
 
       controller.setHex('#f00')
-      expect(controller.value.value).toBe('#ff0000')
+      expect(controller.signal.value).toBe('#ff0000')
 
       controller.setHex('ABCDEF')
-      expect(controller.value.value).toBe('#abcdef')
+      expect(controller.signal.value).toBe('#abcdef')
     })
 
     it('should ignore invalid hex colors', () => {
       const controller = createTestColorController('#ff0000')
-      const originalValue = controller.value.value
+      const originalValue = controller.signal.value
 
       controller.setHex('invalid')
-      expect(controller.value.value).toBe(originalValue)
+      expect(controller.signal.value).toBe(originalValue)
     })
   })
 
@@ -111,20 +111,20 @@ describe('ColorController', () => {
       const controller = createTestColorController()
 
       controller.setRgb(255, 0, 0)
-      expect(controller.value.value).toBe('#ff0000')
+      expect(controller.signal.value).toBe('#ff0000')
 
       controller.setRgb(0, 255, 0)
-      expect(controller.value.value).toBe('#00ff00')
+      expect(controller.signal.value).toBe('#00ff00')
 
       controller.setRgb(0, 0, 255)
-      expect(controller.value.value).toBe('#0000ff')
+      expect(controller.signal.value).toBe('#0000ff')
     })
 
     it('should clamp RGB values to valid range', () => {
       const controller = createTestColorController()
 
       controller.setRgb(300, -10, 128)
-      expect(controller.value.value).toBe('#ff0080')
+      expect(controller.signal.value).toBe('#ff0080')
     })
   })
 
@@ -151,14 +151,14 @@ describe('ColorController', () => {
       const controller = createTestColorController('#f00')
       const hexController = controller.withFormat('hex')
 
-      expect(hexController.value.value).toBe('#ff0000')
+      expect(hexController.signal.value).toBe('#ff0000')
     })
 
     it('should create a controller with RGB format transformation', () => {
       const controller = createTestColorController('#ff0000')
       const rgbController = controller.withFormat('rgb')
 
-      expect(rgbController.value.value).toBe('rgb(255, 0, 0)')
+      expect(rgbController.signal.value).toBe('rgb(255, 0, 0)')
     })
 
     it('should create a controller with HSL format transformation', () => {
@@ -166,7 +166,7 @@ describe('ColorController', () => {
       const hslController = controller.withFormat('hsl')
 
       // For now, HSL just returns the original value
-      expect(hslController.value.value).toBe('#ff0000')
+      expect(hslController.signal.value).toBe('#ff0000')
     })
   })
 })
@@ -188,7 +188,7 @@ describe('createColorController', () => {
     const colorController = createColorController(baseController)
 
     expect(colorController).toBeInstanceOf(ColorController)
-    expect(colorController.value.value).toBe('#ff0000')
+    expect(colorController.signal.value).toBe('#ff0000')
   })
 })
 

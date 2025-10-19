@@ -173,7 +173,7 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
     expect(host.children.length).toBeGreaterThan(0)
 
     // Verify initial data is correct (external refs resolved properly)
-    const currentData = formController!.value.value
+    const currentData = formController!.signal.value
     expect(currentData.person.firstName).toBe('John')
     expect(currentData.person.lastName).toBe('Doe')
     expect(currentData.contact.email).toBe('john.doe@example.com')
@@ -193,7 +193,7 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
     await nextTick()
 
     // Verify core functionality works (data is preserved, form validates)
-    const updatedData = formController!.value.value
+    const updatedData = formController!.signal.value
     expect(updatedData.person.firstName).toBe('John')
     expect(updatedData.person.lastName).toBe('Doe')
     expect(updatedData.contact.email).toBe('john.doe@example.com')
@@ -216,15 +216,15 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
     await nextTick()
 
     // Verify updates worked
-    expect(formController!.value.value.person.age).toBe(31)
-    expect(formController!.value.value.preferredContact.type).toBe('phone')
-    expect(formController!.value.value.preferredContact.value).toBe('555-0123')
+    expect(formController!.signal.value.person.age).toBe(31)
+    expect(formController!.signal.value.preferredContact.type).toBe('phone')
+    expect(formController!.signal.value.preferredContact.value).toBe('555-0123')
 
     // Test validation with invalid data
     formController!.change({
-      ...formController!.value.value,
+      ...formController!.signal.value,
       address: {
-        ...formController!.value.value.address,
+        ...formController!.signal.value.address,
         zipCode: 'invalid', // Should fail pattern validation
       },
     })
@@ -320,14 +320,14 @@ describe('JSON Schema Form - Comprehensive Integration', () => {
     // Verify form rendered and resolved external refs
     expect(formController).toBeTruthy()
     expect(formController!.status.value.type).toBe('valid')
-    expect(formController!.value.value.user.username).toBe('johndoe')
-    expect(formController!.value.value.settings.theme).toBe('dark')
+    expect(formController!.signal.value.user.username).toBe('johndoe')
+    expect(formController!.signal.value.settings.theme).toBe('dark')
 
     // Test validation with invalid enum value
     formController!.change({
-      ...formController!.value.value,
+      ...formController!.signal.value,
       user: {
-        ...formController!.value.value.user,
+        ...formController!.signal.value.user,
         role: 'invalid-role',
       },
     })

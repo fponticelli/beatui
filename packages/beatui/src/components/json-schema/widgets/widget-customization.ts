@@ -348,7 +348,7 @@ export function createCustomizedWidget<T = unknown>(
 
     // Apply customization
     const controller = props.controller
-    const currentValue = controller.value.value
+    const currentValue = controller.signal.value
 
     return applyWidgetCustomization(
       baseWidget,

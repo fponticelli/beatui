@@ -136,7 +136,7 @@ export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
             Stack(
               attr.class('bc-stack--align-center'),
               When(
-                controller.value.map(v => v.length > 1),
+                controller.signal.map(v => v.length > 1),
                 () => moveButtons
               ),
               removeButton
@@ -149,7 +149,7 @@ export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
             Group(
               attr.class('bc-group--gap-2 bc-group--justify-between'),
               When(
-                controller.value.map(v => v.length > 1),
+                controller.signal.map(v => v.length > 1),
                 () => moveButtons,
                 () => html.div()
               ),

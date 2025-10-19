@@ -102,7 +102,7 @@ function JSONSchemaOneOfLike<T>({
 
   // Auto-detect the active branch based on current value
   const autoDetectedBranch = computedOf(
-    controller.value,
+    controller.signal,
     ctx.ajv
   )((value, ajv) => {
     if (kind === 'oneOf') {

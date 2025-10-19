@@ -41,7 +41,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
     const app = JSONSchemaForm<{ a?: number; extra?: string }>(
       { schema, initialValue: initial, sanitizeAdditional: 'all' },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -91,7 +91,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
     }>(
       { schema, initialValue: initial, sanitizeAdditional: 'all' },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -132,7 +132,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
     const app = JSONSchemaForm<{ obj: Record<string, string> }>(
       { schema, initialValue: initial, sanitizeAdditional: 'all' },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -168,7 +168,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
     const app = JSONSchemaForm<{ a?: number; extra?: string }>(
       { schema, initialValue: initial, sanitizeAdditional: false },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -205,7 +205,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
     const app = JSONSchemaForm<{ a?: number; extra?: string }>(
       { schema, initialValue: initial, sanitizeAdditional: 'failing' },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -267,7 +267,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
         externalSchemas: [personSchema],
       },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )
@@ -355,7 +355,7 @@ describe('JSON Schema sanitization (removeAdditional)', () => {
         externalSchemas: [addressSchema],
       },
       ({ controller, Form }) => {
-        ctrl = { change: controller.change, get: () => controller.value.value }
+        ctrl = { change: controller.change, get: () => controller.signal.value }
         return Form
       }
     )

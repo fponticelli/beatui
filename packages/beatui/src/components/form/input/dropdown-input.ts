@@ -190,7 +190,7 @@ export const BaseDropdownControl = <T>(
   const { controller, onChange, onBlur, ...rest } = options
   return DropdownInput({
     ...rest,
-    value: controller.value,
+    value: controller.signal,
     onChange: makeOnChangeHandler(controller, onChange),
     onBlur: makeOnBlurHandler(controller, onBlur),
   })

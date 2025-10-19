@@ -181,9 +181,10 @@ describe('Composition controls integration with branch detection', () => {
     controller.change({ type: 'square', size: 10 } as any)
 
     // Verify the value changed
-    expect(controller.value.value.type).toBe('square')
+    expect(controller.signal.value.type).toBe('square')
     expect(
-      (controller.value.value as unknown as { type: string; size: number }).size
+      (controller.signal.value as unknown as { type: string; size: number })
+        .size
     ).toBe(10)
   })
 

@@ -10,7 +10,7 @@ export function EnsureControl<T>(
   otherwise?: () => TNode
 ) {
   return Ensure(
-    controller.value as Signal<T | null | undefined>,
+    controller.signal as Signal<T | null | undefined>,
     () => {
       const transformed = controller.transform(
         v => v!,

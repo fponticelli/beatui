@@ -249,7 +249,7 @@ export default function DropdownPage() {
           html.div(
             attr.class('text-sm text-gray-500'),
             'Controller value: ',
-            formController.value.map(v => v || 'None')
+            formController.signal.map(v => v || 'None')
           )
         )
       ),

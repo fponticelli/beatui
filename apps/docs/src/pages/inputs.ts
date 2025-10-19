@@ -721,7 +721,7 @@ export default function InputsPage() {
                   disabled,
                 })
               ),
-              html.div(listCtl.controller.value.map(v => String(v)))
+              html.div(listCtl.controller.signal.map(v => String(v)))
             ),
           }),
           When(

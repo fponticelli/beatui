@@ -124,7 +124,7 @@ export function connectStringInput(
 ) {
   return Fragment(
     connectCommonAttributes(value),
-    attr.value(value.value),
+    attr.value(value.signal),
     (triggerOn === 'input' ? on.input : on.change)(emitValue(value.change))
   )
 }
@@ -139,7 +139,7 @@ export function connectNumberInput(
 ) {
   return Fragment(
     connectCommonAttributes(value),
-    attr.valueAsNumber(value.value),
+    attr.valueAsNumber(value.signal),
     (triggerOn === 'input' ? on.input : on.change)(
       emitValueAsNumber(value.change)
     )
@@ -264,7 +264,7 @@ export function useForm<T extends object>({
     e?.preventDefault()
     controller.markAllTouched()
     if ((validationMode ?? 'touchedOrSubmit') === 'onSubmit') {
-      const v = controller.value.value
+      const v = controller.signal.value
       const result = standardSchemaResultToValidation(
         await schema['~standard'].validate(v)
       )
@@ -274,7 +274,7 @@ export function useForm<T extends object>({
         return
       }
     }
-    const result = await onSubmit(controller.value.value)
+    const result = await onSubmit(controller.signal.value)
     submitting.set(false)
     if (result.type === 'invalid') {
       setStatus(result)

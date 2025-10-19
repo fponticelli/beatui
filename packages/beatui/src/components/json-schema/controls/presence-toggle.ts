@@ -17,7 +17,7 @@ export function PresenceToggle<T>({
   controller: Controller<T>
   content: Renderable
 }): Renderable {
-  const isPresent = Value.map(controller.value, v => v !== undefined)
+  const isPresent = Value.map(controller.signal, v => v !== undefined)
   const label = ctx.widgetLabel ?? 'Property'
 
   const handleToggle = (checked: boolean) => {

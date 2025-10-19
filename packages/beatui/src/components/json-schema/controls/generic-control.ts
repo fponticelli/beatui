@@ -68,7 +68,7 @@ export function JSONSchemaGenericControl<T>({
   // Evaluate not violations against current controller value
   let notViolations = [...nextCtx.notViolations]
   if (resolvedDef?.not != null && typeof resolvedDef.not === 'object') {
-    const currentValue = Value.get(controller.value)
+    const currentValue = Value.get(controller.signal)
     const violation = evaluateNotViolation(
       resolvedDef.not,
       currentValue,

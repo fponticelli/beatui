@@ -35,7 +35,7 @@ export function JSONSchemaObject({
 }): Renderable {
   // Recompute effective object schema reactively based on current value to support
   // if/then/else, dependentRequired, dependentSchemas, and draft-07 dependencies.
-  return MapSignal(controller.value, current => {
+  return MapSignal(controller.signal, current => {
     const base = ctx.definition as JSONSchema
     const { effective, conflicts } = composeEffectiveObjectSchema(
       base,
@@ -202,7 +202,9 @@ export function JSONSchemaObject({
           disabled: !canAdd,
           onClick: () => {
             if (!canAdd) return
-            const keys = new Set(Object.keys(Value.get(controller.value) ?? {}))
+            const keys = new Set(
+              Object.keys(Value.get(controller.signal) ?? {})
+            )
             const newKey = nextAvailableKey('property', keys)
             const permitted = validatePropertyName(newKey)
             if (!permitted.ok) return
@@ -215,7 +217,7 @@ export function JSONSchemaObject({
 
             const val = makeDefaultFor(valueSchema)
             const next = {
-              ...(Value.get(controller.value) ?? {}),
+              ...(Value.get(controller.signal) ?? {}),
               [newKey]: val,
             }
             controller.change(next)

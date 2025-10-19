@@ -94,16 +94,16 @@ Outcome: Per-controller dirty computed against a baseline, with ability to mark 
 
 Tasks:
 1. In `Controller<T>`:
-   - Store a private `#baseline: T` initialized from the current `value.value` at construction time.
+   - Store a private `#baseline: T` initialized from the current `signal.value` at construction time.
    - Add a private `#equals: (a: T, b: T) => boolean` with default `strictEqual`.
-   - Add `dirty: Signal<boolean> = this.value.map(v => !this.#equals(v, this.#baseline))`.
-   - Add `markPristine(): void` to set `#baseline = this.value.value`.
+   - Add `dirty: Signal<boolean> = this.signal.map(v => !this.#equals(v, this.#baseline))`.
+   - Add `markPristine(): void` to set `#baseline = this.signal.value`.
    - Add `reset(): void` to call `this.change(this.#baseline)`.
    - Dispose `dirty` in `onDispose`.
    - Update the `Controller` constructor signature to accept an optional `equals` (default `strictEqual`), and thread it through when constructing sub-controllers.
 2. In `ObjectController` and `ArrayController`:
    - Update `super(...)` calls to pass the provided `equals` they already accept.
-   - Add `dirtyDeep: Signal<boolean>` aggregating children’s `dirty` OR structure changes (for arrays: length changes or item reorders). A simple approach is to compute `!equals(value.value, #baseline)` to include structure; if performance is a concern, fallback to child aggregation + length comparison.
+   - Add `dirtyDeep: Signal<boolean>` aggregating children’s `dirty` OR structure changes (for arrays: length changes or item reorders). A simple approach is to compute `!equals(this.signal.value, #baseline)` to include structure; if performance is a concern, fallback to child aggregation + length comparison.
    - Override `markPristine()` to set own baseline and cascade to children; override `reset()` to revert own value to baseline (which also resets children values).
 3. In `transform()` / `asyncTransform()`:
    - Accept `equals` for `Out` as already present. Pass it to the subcontroller constructor so `dirty` works in the transformed space.

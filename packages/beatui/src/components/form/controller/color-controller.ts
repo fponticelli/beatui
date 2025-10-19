@@ -15,29 +15,29 @@ export class ColorController extends Controller<string> {
   constructor(
     path: Path,
     change: (value: string) => void,
-    value: Signal<string>,
+    signal: Signal<string>,
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
     }
   ) {
-    super(path, change, value, status, parent)
+    super(path, change, signal, status, parent)
   }
 
   /**
    * Validates that the current value is a valid color
    */
-  readonly isValidColor = this.value.map(isValidColor)
+  readonly isValidColor = this.signal.map(isValidColor)
 
   /**
    * Validates that the current value is a valid hex color
    */
-  readonly isValidHex = this.value.map(isValidHexColor)
+  readonly isValidHex = this.signal.map(isValidHexColor)
 
   /**
    * Gets the normalized hex color (always 6 characters with # prefix)
    */
-  readonly normalizedHex = this.value.map(
+  readonly normalizedHex = this.signal.map(
     color => normalizeHexColor(color) ?? color
   )
 
@@ -92,7 +92,7 @@ export class ColorController extends Controller<string> {
    * @returns RGB values or null if not a valid hex color
    */
   readonly getRgb = () => {
-    const color = this.value.value
+    const color = this.signal.value
     const normalized = normalizeHexColor(color)
     if (!normalized) return null
 
@@ -148,7 +148,7 @@ export function createColorController(
   return new ColorController(
     controller.path,
     controller.change,
-    controller.value,
+    controller.signal,
     controller.status,
     { disabled: controller.disabled }
   )

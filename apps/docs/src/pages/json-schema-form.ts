@@ -171,7 +171,7 @@ export default function JSONSchemaFormPage() {
                       sanitizeAdditional,
                     },
                     ({ Form, controller }) => {
-                      controller.value.feedProp(data)
+                      controller.signal.feedProp(data)
                       // Feed validation status to the page-level signal
                       controller.status.feedProp(validation)
                       return Form

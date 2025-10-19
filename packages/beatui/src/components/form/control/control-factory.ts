@@ -39,7 +39,7 @@ export function BaseControl<T, O extends BaseControlOptions>(
   return InputComponent({
     id: controller.name,
     disabled: controller.disabled,
-    value: controller.value,
+    value: controller.signal,
     hasError: controller.errorVisible,
     ...rest,
     onChange: makeOnChangeHandler(controller, onChange),

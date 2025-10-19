@@ -137,7 +137,7 @@ export function SignUpForm({
         // Password strength indicator
         When(showPasswordStrength ?? false, () =>
           PasswordStrengthIndicator({
-            password: passwordController.value,
+            password: passwordController.signal,
             rules: passwordRules_,
             showLabel: true,
           })
@@ -161,7 +161,7 @@ export function SignUpForm({
             html.label(
               attr.class('bc-auth-form__checkbox-label'),
               CheckboxInput({
-                value: acceptTermsController.value.map(v => v ?? false),
+                value: acceptTermsController.signal.map(v => v ?? false),
                 onChange: checked => acceptTermsController.change(checked),
               }),
               html.span(

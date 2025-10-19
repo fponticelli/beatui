@@ -180,7 +180,7 @@ export default function FormPage() {
         Stack(
           html.pre(
             attr.class('whitespace-pre-wrap'),
-            controller.value.map(v => JSON.stringify(v, null, 2))
+            controller.signal.map(v => JSON.stringify(v, null, 2))
           ),
           html.pre(
             attr.class('whitespace-pre-wrap'),

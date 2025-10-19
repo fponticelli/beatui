@@ -19,7 +19,7 @@ describe('Controller dirty baseline, markPristine and reset', () => {
     controller.change('c')
     expect(controller.dirty.value).toBe(true)
     controller.reset()
-    expect(controller.value.value).toBe('b')
+    expect(controller.signal.value).toBe('b')
     expect(controller.dirty.value).toBe(false)
   })
 })

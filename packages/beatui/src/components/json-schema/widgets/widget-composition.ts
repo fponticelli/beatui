@@ -131,16 +131,16 @@ export class WidgetComposer {
     // Evaluate conditions first
     const effectiveComposition = this.evaluateConditions(
       composition,
-      controller.value.value,
-      controller.value.value // Simplified - would be full form data
+      controller.signal.value,
+      controller.signal.value // Simplified - would be full form data
     )
 
     // Filter visible widgets
     const visibleWidgets = effectiveComposition.widgets.filter(widget =>
       this.evaluateWidgetCondition(
         widget,
-        controller.value.value,
-        controller.value.value
+        controller.signal.value,
+        controller.signal.value
       )
     )
 

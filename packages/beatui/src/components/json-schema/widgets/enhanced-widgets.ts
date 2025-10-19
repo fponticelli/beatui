@@ -187,7 +187,7 @@ export function FileUploadWidget({
     ),
 
     // File preview/list
-    Ensure(controller.value, value => {
+    Ensure(controller.signal, value => {
       return html.div(
         attr.class('bc-file-upload__files'),
         ForEach(
@@ -202,7 +202,7 @@ export function FileUploadWidget({
                   variant: 'text',
                   size: 'sm',
                   onClick: () => {
-                    const value = controller.value.value
+                    const value = controller.signal.value
                     if (Array.isArray(value)) {
                       const newFiles = value.filter(f => f !== fileName.value)
                       controller.change(newFiles.length > 0 ? newFiles : null)
@@ -287,7 +287,7 @@ export function RichTextWidget({
         )
       ),
       attr.contenteditable('true'),
-      attr.innerHTML(controller.value.map(v => v || '')),
+      attr.innerHTML(controller.signal.map(v => v || '')),
       config.placeholder && attr.placeholder(config.placeholder),
 
       on.focus(() => isFocused.set(true)),
@@ -310,7 +310,7 @@ export function RichTextWidget({
     config.maxLength != null
       ? html.div(
           attr.class('bc-rich-text__counter'),
-          computedOf(controller.value)((value): string => {
+          computedOf(controller.signal)((value): string => {
             const length = value?.length || 0
             const remaining = config.maxLength! - length
             return `${length}/${config.maxLength} ${remaining < 0 ? '(exceeded)' : ''}`
@@ -366,7 +366,7 @@ export function CodeEditorWidget({
           attr.class('bc-code-editor__line-numbers'),
           html.div(
             attr.class('bc-code-editor__line-number'),
-            computedOf(controller.value)((value): string => {
+            computedOf(controller.signal)((value): string => {
               const lines = (value || '').split('\n').length
               return Array.from({ length: lines }, (_, i) =>
                 String(i + 1)
@@ -379,7 +379,7 @@ export function CodeEditorWidget({
     // Editor textarea
     html.textarea(
       attr.class('bc-code-editor__textarea'),
-      attr.value(controller.value.map(v => v || '')),
+      attr.value(controller.signal.map(v => v || '')),
       attr.spellcheck(false),
       attr.autocomplete('off'),
       // attr.autocorrect('off'),

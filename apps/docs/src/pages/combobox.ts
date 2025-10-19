@@ -152,7 +152,7 @@ export default function ComboboxPage() {
             attr.class('gap-2'),
             style.width('20rem'),
             ComboboxInput<Fruit | null>({
-              value: fruitController.value,
+              value: fruitController.signal,
               placeholder: 'Choose...',
               searchPlaceholder: 'Type to search...',
               loadOptions: loadFruitOptions,
@@ -165,7 +165,7 @@ export default function ComboboxPage() {
           html.div(
             attr.class('text-sm text-gray-500'),
             'Controller value: ',
-            fruitController.value.map(v => (v ? v.name : 'None'))
+            fruitController.signal.map(v => (v ? v.name : 'None'))
           )
         )
       )

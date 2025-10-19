@@ -68,7 +68,7 @@ export function SignInForm({
       emailController.change(email)
     }
   })
-  emailController.value.on(email => {
+  emailController.signal.on(email => {
     if (persistedEmail.value != null) {
       persistedEmail.value = email
     }
@@ -114,7 +114,7 @@ export function SignInForm({
                 ),
                 onChange: checked => {
                   if (checked) {
-                    persistedEmail.value = emailController.value.value ?? ''
+                    persistedEmail.value = emailController.signal.value ?? ''
                   } else {
                     persistedEmail.value = null
                   }

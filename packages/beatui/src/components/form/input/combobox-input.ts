@@ -262,7 +262,7 @@ export const BaseComboboxControl = <T>(
   const { controller, onChange, onBlur, ...rest } = options
   return ComboboxInput({
     ...rest,
-    value: controller.value,
+    value: controller.signal,
     onChange: makeOnChangeHandler(controller, onChange),
     onBlur: makeOnBlurHandler(controller, onBlur),
   })

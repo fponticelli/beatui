@@ -11,7 +11,7 @@ import { ValidationMode } from './union-controller'
 export class Controller<T> {
   readonly path: Path
   readonly change: (value: T) => void
-  readonly value: Signal<T>
+  readonly signal: Signal<T>
   readonly status: Signal<ControllerValidation>
   readonly error: Signal<undefined | string>
   readonly hasError: Signal<boolean>
@@ -40,7 +40,7 @@ export class Controller<T> {
   constructor(
     path: Path,
     change: (value: T) => void,
-    value: Signal<T>,
+    signal: Signal<T>,
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
@@ -50,10 +50,10 @@ export class Controller<T> {
   ) {
     this.path = path
     this.change = change
-    this.value = value
+    this.signal = signal
     this.status = status
     this.#equals = equals
-    this.#baseline.set(value.value)
+    this.#baseline.set(signal.value)
     this.error = status.map(s =>
       s?.type === 'invalid' ? s.error?.message : undefined
     )
@@ -77,7 +77,7 @@ export class Controller<T> {
       )((hasError, touched) => !!hasError && !!touched)
     }
     this.dirty = computedOf(
-      this.value,
+      this.signal,
       this.#baseline
     )((v, b) => !this.#equals(v, b))
     this.dependencyErrors = status.map(s =>
@@ -145,7 +145,7 @@ export class Controller<T> {
   }
 
   readonly markPristine = () => {
-    this.#baseline.set(this.value.value)
+    this.#baseline.set(this.signal.value)
   }
 
   readonly reset = () => {
@@ -158,7 +158,7 @@ export class Controller<T> {
       this.path,
       this.change,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.value as unknown as Signal<T extends any[] ? T : never>,
+      this.signal as unknown as Signal<T extends any[] ? T : never>,
       this.status,
       this.parent,
       equals
@@ -170,7 +170,7 @@ export class Controller<T> {
     return new ObjectController<T extends Record<string, any> ? T : never>(
       this.path,
       this.change,
-      this.value as unknown as Signal<
+      this.signal as unknown as Signal<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         T extends Record<string, any> ? T : never
       >,
@@ -189,7 +189,7 @@ export class Controller<T> {
     return new Controller(
       [...this.path, ...subpath],
       (value: Out) => this.change(untransform(value)),
-      this.value.map(transform, equals),
+      this.signal.map(transform, equals),
       this.status.map(makeMapValidation(subpath)),
       this.parent,
       equals
@@ -208,7 +208,7 @@ export class Controller<T> {
       (value: Out) => {
         untransform(value).then(v => this.change(v))
       },
-      this.value.mapAsync(transform, alt, undefined, equals),
+      this.signal.mapAsync(transform, alt, undefined, equals),
       this.status.map(makeMapValidation(subpath)),
       this.parent,
       equals
@@ -243,7 +243,7 @@ export class ObjectController<T extends object> extends Controller<T> {
   constructor(
     path: Path,
     change: (value: T) => void,
-    value: Signal<T>,
+    signal: Signal<T>,
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
@@ -253,7 +253,7 @@ export class ObjectController<T extends object> extends Controller<T> {
     super(
       path,
       change,
-      value.map(v => (v == null ? {} : v) as T, equals),
+      signal.map(v => (v == null ? {} : v) as T, equals),
       status,
       parent,
       equals
@@ -267,7 +267,7 @@ export class ObjectController<T extends object> extends Controller<T> {
       this.#recomputeDirtyDeep()
     })
     // Also recompute when value changes (covers structural changes and baseline compares)
-    const cancelValue = this.value.on(() => this.#recomputeDirtyDeep())
+    const cancelValue = this.signal.on(() => this.#recomputeDirtyDeep())
 
     // Register disposal of child controllers
     this.onDispose(() => {
@@ -295,14 +295,14 @@ export class ObjectController<T extends object> extends Controller<T> {
     }
     const onChange = async (value: T[K]) => {
       this.change({
-        ...this.value.value,
+        ...this.signal.value,
         [field]: value,
       })
     }
     const controller = new Controller(
       [...this.path, field],
       onChange,
-      this.value.map((v: T) => v[field] as T[K]),
+      this.signal.map((v: T) => v[field] as T[K]),
       this.status.map(makeMapValidation([field])),
       {
         disabled: this.disabled,
@@ -329,7 +329,7 @@ export class ObjectController<T extends object> extends Controller<T> {
   readonly markAllTouched = () => {
     this.markTouched()
     // Ensure all current fields are marked
-    const current = this.value.value
+    const current = this.signal.value
     for (const key of Object.keys(current as object) as (keyof T & string)[]) {
       this.field(key).markTouched()
     }
@@ -340,7 +340,7 @@ export class ObjectController<T extends object> extends Controller<T> {
 
   readonly markAllPristine = () => {
     this.markPristine()
-    const current = this.value.value
+    const current = this.signal.value
     for (const key of Object.keys(current as object) as (keyof T & string)[]) {
       this.field(key)['markPristine']?.()
     }
@@ -390,14 +390,14 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   constructor(
     path: Path,
     change: (value: T) => void,
-    value: Signal<T>,
+    signal: Signal<T>,
     status: Signal<ControllerValidation>,
     parent: {
       disabled: Signal<boolean>
     },
     equals: (a: T, b: T) => boolean
   ) {
-    const arr = value.map(v => (v == null ? [] : v) as T, equals)
+    const arr = signal.map(v => (v == null ? [] : v) as T, equals)
     super(path, change, arr, status, parent, equals)
     const cancel = arr.on(v => {
       const diff = this.#controllers.length - v.length
@@ -427,7 +427,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
     this.#parentDirtyCancel = this.dirty.on(() => {
       this.#recomputeDirtyDeep()
     })
-    const cancelValue = this.value.on(() => this.#recomputeDirtyDeep())
+    const cancelValue = this.signal.on(() => this.#recomputeDirtyDeep())
 
     // Register disposal of child controllers and resources
     this.onDispose(() => {
@@ -457,14 +457,14 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
       return this.#controllers[index] as Controller<T[number]>
     }
     const onChange = async (value: T[number]) => {
-      const copy = this.value.value.slice() as T
+      const copy = this.signal.value.slice() as T
       copy[index] = value
       this.change(copy)
     }
     const controller = new Controller(
       [...this.path, index],
       onChange,
-      this.value.map((v: T) => v[index] as T[number]),
+      this.signal.map((v: T) => v[index] as T[number]),
       this.status.map(makeMapValidation([index])),
       {
         disabled: this.disabled,
@@ -486,11 +486,11 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   }
 
   readonly push = (...value: T[number][]) => {
-    this.change([...this.value.value, ...value] as T)
+    this.change([...this.signal.value, ...value] as T)
   }
 
   readonly pop = () => {
-    this.splice(this.value.value.length - 1, 1)
+    this.splice(this.signal.value.length - 1, 1)
   }
 
   readonly shift = () => {
@@ -498,7 +498,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   }
 
   readonly unshift = (...value: T) => {
-    this.change([...value, ...this.value.value] as T)
+    this.change([...value, ...this.signal.value] as T)
   }
 
   readonly removeAt = (index: number) => {
@@ -506,7 +506,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   }
 
   readonly splice = (start: number, deleteCount?: number) => {
-    const copy = this.value.value.slice() as T
+    const copy = this.signal.value.slice() as T
     copy.splice(start, deleteCount)
     this.change(copy)
   }
@@ -514,7 +514,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
   readonly move = (from: number, to: number, length: number = 1) => {
     if (length < 1) return
     if (from === to) return
-    const copy = this.value.value.slice() as T
+    const copy = this.signal.value.slice() as T
     const items = copy.splice(from, length)
     copy.splice(to, 0, ...items)
     this.change(copy)
@@ -522,7 +522,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
 
   readonly markAllTouched = () => {
     this.markTouched()
-    const len = this.value.value.length
+    const len = this.signal.value.length
     for (let i = 0; i < len; i++) {
       this.item(i).markTouched()
     }
@@ -530,7 +530,7 @@ export class ArrayController<T extends unknown[]> extends Controller<T> {
 
   readonly markAllPristine = () => {
     this.markPristine()
-    const len = this.value.value.length
+    const len = this.signal.value.length
     for (let i = 0; i < len; i++) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(this.item(i) as any).markPristine?.()

@@ -201,7 +201,7 @@ export function JSONSchemaForm<T>(
         const shouldSanitize = sanitizeAdditional !== false
         let sanitizing = false
         const cancelSanitization = shouldSanitize
-          ? controller.value.on(v => {
+          ? controller.signal.on(v => {
               if (sanitizing) return
               const working = cloneJson(v)
               const ok = validate(working)
@@ -215,7 +215,7 @@ export function JSONSchemaForm<T>(
 
         // Set up conditional validation watching
         const cancelConditionalWatch = conditionalWatcher
-          ? controller.value.on((currentValue, previousValue) => {
+          ? controller.signal.on((currentValue, previousValue) => {
               // Check if any watched paths have changed
               if (previousValue != null) {
                 // Simple change detection - could be enhanced with deep path checking
@@ -235,7 +235,7 @@ export function JSONSchemaForm<T>(
         // Set up async validation triggers if needed
         const cancelAsyncWatch =
           asyncValidator && asyncRules.length > 0
-            ? controller.value.on(currentValue => {
+            ? controller.signal.on(currentValue => {
                 for (const rule of asyncRules) {
                   asyncValidator.validateField(rule, currentValue, currentValue)
                 }

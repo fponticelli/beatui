@@ -63,7 +63,7 @@ export function WithVisibility<T>({
   if (opts.clearOnHide) {
     // Watch visibility changes and clear value when hidden
     isVisible.on(visible => {
-      if (!visible && controller.value.value !== undefined) {
+      if (!visible && controller.signal.value !== undefined) {
         // Clear the value when field becomes hidden
         controller.change(undefined as T)
       }
@@ -105,7 +105,7 @@ function getRootFormData<T>(controller: Controller<T>): Signal<unknown> {
   // For now, just return the current controller's value
   // In a more sophisticated implementation, we would walk up the hierarchy
   // but the parent property is protected, so we'll use the current controller
-  return controller.value as Signal<unknown>
+  return controller.signal as Signal<unknown>
 }
 
 /**
@@ -147,7 +147,7 @@ export function WithVisibilityAndCSS<T>({
   // Handle value clearing when hidden
   if (opts.clearOnHide) {
     isVisible.on(visible => {
-      if (!visible && controller.value.value !== undefined) {
+      if (!visible && controller.signal.value !== undefined) {
         controller.change(undefined as T)
       }
     })

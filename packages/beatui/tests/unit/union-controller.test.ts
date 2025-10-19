@@ -76,8 +76,8 @@ describe('UnionController', () => {
 
     expect(stringController).toBeDefined()
     expect(numberController).toBeDefined()
-    expect(stringController.value.value).toBe('hello')
-    expect(numberController.value.value).toBe(0) // default value
+    expect(stringController.signal.value).toBe('hello')
+    expect(numberController.signal.value).toBe(0) // default value
 
     controller.dispose()
   })

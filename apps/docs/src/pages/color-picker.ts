@@ -60,12 +60,12 @@ export default function ColorPickerPage() {
   )
 
   // Computed values for preview
-  const contrastRatio = controller.value.map(values => {
+  const contrastRatio = controller.signal.map(values => {
     const ratio = getContrastRatio(values.textColor, values.backgroundColor)
     return ratio ? ratio.toFixed(2) : 'N/A'
   })
 
-  const rgbValues = primaryColorController.value.map(color => {
+  const rgbValues = primaryColorController.signal.map(color => {
     const rgb = hexToRgb(color)
     return rgb ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : 'Invalid'
   })
@@ -188,7 +188,7 @@ export default function ColorPickerPage() {
                     'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
-                    controller.value.map(v => v.primaryColor)
+                    controller.signal.map(v => v.primaryColor)
                   ),
                   style.color('#ffffff'),
                   'Primary'
@@ -198,7 +198,7 @@ export default function ColorPickerPage() {
                     'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
-                    controller.value.map(v => v.secondaryColor)
+                    controller.signal.map(v => v.secondaryColor)
                   ),
                   style.color('#ffffff'),
                   'Secondary'
@@ -208,9 +208,9 @@ export default function ColorPickerPage() {
                     'w-20 h-20 rounded-lg border flex items-center justify-center text-xs font-medium px-1'
                   ),
                   style.backgroundColor(
-                    controller.value.map(v => v.backgroundColor)
+                    controller.signal.map(v => v.backgroundColor)
                   ),
-                  style.color(controller.value.map(v => v.textColor)),
+                  style.color(controller.signal.map(v => v.textColor)),
                   'Background'
                 )
               ),
@@ -219,9 +219,9 @@ export default function ColorPickerPage() {
               html.div(
                 attr.class('p-6 rounded-lg border-2'),
                 style.backgroundColor(
-                  controller.value.map(v => v.backgroundColor)
+                  controller.signal.map(v => v.backgroundColor)
                 ),
-                style.color(controller.value.map(v => v.textColor)),
+                style.color(controller.signal.map(v => v.textColor)),
                 Stack(
                   attr.class('gap-4'),
                   html.h4(attr.class('text-lg font-semibold'), 'Sample UI'),
@@ -235,7 +235,7 @@ export default function ColorPickerPage() {
                         variant: 'filled',
                       },
                       style.backgroundColor(
-                        controller.value.map(v => v.primaryColor)
+                        controller.signal.map(v => v.primaryColor)
                       ),
                       'Primary Button'
                     ),
@@ -244,9 +244,9 @@ export default function ColorPickerPage() {
                         variant: 'outline',
                       },
                       style.borderColor(
-                        controller.value.map(v => v.secondaryColor)
+                        controller.signal.map(v => v.secondaryColor)
                       ),
-                      style.color(controller.value.map(v => v.secondaryColor)),
+                      style.color(controller.signal.map(v => v.secondaryColor)),
                       'Secondary Button'
                     )
                   )

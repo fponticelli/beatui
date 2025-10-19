@@ -76,7 +76,7 @@ export function JSONSchemaArray({
   const tupleInfo = detectTupleSchema(schema)
 
   // Determine if add button should be disabled based on constraints
-  const canAddItems = computedOf(controller.value)(value => {
+  const canAddItems = computedOf(controller.signal)(value => {
     const currentLength = value?.length ?? 0
 
     // Check maxItems constraint
@@ -96,13 +96,13 @@ export function JSONSchemaArray({
   })
 
   // Determine if remove button should be disabled based on minItems
-  const canRemoveItems = computedOf(controller.value)(value => {
+  const canRemoveItems = computedOf(controller.signal)(value => {
     const currentLength = value?.length ?? 0
     return schema.minItems == null || currentLength > schema.minItems
   })
 
   // Get duplicate indices for highlighting
-  const duplicateIndices = computedOf(controller.value)(value => {
+  const duplicateIndices = computedOf(controller.signal)(value => {
     if (!schema.uniqueItems || !value) return new Set<number>()
 
     const seen = new Map<string, number>()
@@ -121,7 +121,7 @@ export function JSONSchemaArray({
   })
 
   // Contains validation logic
-  const containsInfo = computedOf(controller.value)(value => {
+  const containsInfo = computedOf(controller.signal)(value => {
     if (!schema.contains || !value) {
       return { matchingIndices: new Set<number>(), count: 0, isValid: true }
     }
@@ -234,7 +234,7 @@ export function JSONSchemaArray({
   const listControl = ListControl({
     ...definitionToInputWrapperOptions({ ctx }),
     createItem: () => {
-      const currentLength = controller.value.value?.length ?? 0
+      const currentLength = controller.signal.value?.length ?? 0
 
       if (tupleInfo.isTuple && currentLength < tupleInfo.prefixItems.length) {
         // Creating item for tuple prefix position

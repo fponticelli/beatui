@@ -74,7 +74,7 @@ export function JSONSchemaUnion<T>({
   const unionController = new UnionController(
     controller.path,
     controller.change,
-    controller.value,
+    controller.signal,
     controller.status,
     { disabled: controller.disabled },
     branches
