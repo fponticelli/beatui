@@ -148,6 +148,7 @@ const main = async () => {
   const { default: IconPage } = await import('../src/pages/icon')
   const { default: LinkPage } = await import('../src/pages/link')
   const { default: ModalPage } = await import('../src/pages/modal')
+  const { default: LightboxPage } = await import('../src/pages/lightbox')
   const { default: DrawerPage } = await import('../src/pages/drawer')
   const { default: TooltipPage } = await import('../src/pages/tooltip')
   const { default: FlyoutPage } = await import('../src/pages/flyout')
@@ -275,6 +276,7 @@ const main = async () => {
             '/icon': IconPage,
             '/link': LinkPage,
             '/modal': ModalPage,
+            '/lightbox': LightboxPage,
             '/drawer': DrawerPage,
             '/tooltip': TooltipPage,
             '/flyout': FlyoutPage,
@@ -329,6 +331,7 @@ const main = async () => {
                 html.a(attr.href('/icon'), 'Icon'),
                 html.a(attr.href('/link'), 'Link'),
                 html.a(attr.href('/modal'), 'Modal'),
+                html.a(attr.href('/lightbox'), 'Lightbox'),
                 html.a(attr.href('/drawer'), 'Drawer'),
                 html.a(attr.href('/tooltip'), 'Tooltip'),
                 html.a(attr.href('/flyout'), 'Flyout'),

@@ -39,6 +39,8 @@ export const App = () => {
           Async(import('./pages/link'), ({ default: Page }) => Page()),
         '/modal': () =>
           Async(import('./pages/modal'), ({ default: Page }) => Page()),
+        '/lightbox': () =>
+          Async(import('./pages/lightbox'), ({ default: Page }) => Page()),
         '/drawer': () =>
           Async(import('./pages/drawer'), ({ default: Page }) => Page()),
         '/tooltip': () =>

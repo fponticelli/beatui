@@ -78,6 +78,7 @@ export function Menu() {
       SidebarGroup(
         { header: 'Overlays', rail: true },
         SidebarLink({ href: '/modal', content: 'Modal' }),
+        SidebarLink({ href: '/lightbox', content: 'Lightbox' }),
         SidebarLink({ href: '/drawer', content: 'Drawer' }),
         SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
         SidebarLink({ href: '/flyout', content: 'Flyout' })

@@ -1,0 +1,38 @@
+/* Lightbox component */
+
+.bc-lightbox {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.bc-lightbox__close {
+  position: absolute;
+  top: var(--spacing-2, 16px);
+  right: var(--spacing-2, 16px);
+  z-index: calc(var(--z-index-overlay, 1000) + 1);
+  border-radius: 100%;
+  padding: var(--spacing-base, 4px);
+  background-color: color-mix(in srgb, var(--color-gray-100) 80%, transparent);
+  color: var(--color-gray-900);
+}
+
+.bc-lightbox__viewport {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* The padding here is set inline by the component to sync with measurement */
+  box-sizing: border-box;
+}
+
+.bc-lightbox__content {
+  /* Capped to viewport; no transform scaling */
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  display: block;
+  box-shadow: var(--shadow-overlay, var(--shadow-xl));
+  border-radius: var(--radius-lg);
+}
