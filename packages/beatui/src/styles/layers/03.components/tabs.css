@@ -163,6 +163,7 @@
 /* Tab Panels Container */
 .bc-tabs__panels {
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .bc-tabs--vertical .bc-tabs__panels {
