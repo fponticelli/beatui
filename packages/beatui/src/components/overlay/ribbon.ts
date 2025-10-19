@@ -7,22 +7,22 @@ export type RibbonOptions = {
   color?: Value<ThemeColorName | ExtendedColor>
   /** Extra classes */
   class?: Value<string>
-  /** Band thickness (px if number). Default: 28px */
-  thickness?: Value<number | string>
   /** Horizontal nudge along the top edge before rotation (px if number). Default: 0px */
   inset?: Value<number | string>
   /** Fine vertical correction to align the band crossing (px if number). Default: -1px */
   offset?: Value<number | string>
   /** Minimum width of the band (px if number). Default: null */
   width?: Value<number | string>
+  /** Rotation angle in degrees. Default: 45 */
+  angle?: Value<number>
 }
 
 function generateRibbonCSSVariables(
   color: ExtendedColor,
-  thickness: number | string,
   inset: number | string,
   offset: number | string,
-  width: number | string
+  width: number | string,
+  angle: number
 ): string {
   const baseLight = backgroundValue(color, 'solid', 'light')
   const baseDark = backgroundValue(color, 'solid', 'dark')
@@ -31,10 +31,10 @@ function generateRibbonCSSVariables(
     `--ribbon-text: ${baseLight.textColor}`,
     `--ribbon-bg-dark: ${baseDark.backgroundColor}`,
     `--ribbon-text-dark: ${baseDark.textColor}`,
-    `--ribbon-thickness: ${toCssLength(thickness)}`,
     `--ribbon-inset: ${toCssLength(inset)}`,
     `--ribbon-offset: ${toCssLength(offset)}`,
     `--ribbon-width: ${toCssLength(width)}`,
+    `--ribbon-angle: ${angle}deg`,
   ].join('; ')
 }
 
@@ -51,10 +51,10 @@ export function Ribbon(
   {
     color = 'primary',
     class: cls,
-    thickness,
-    inset,
-    offset,
-    width,
+    inset = 0,
+    offset = 40,
+    width = 100,
+    angle = 45,
   }: RibbonOptions,
   ...children: TNode[]
 ): Renderable {
@@ -62,21 +62,7 @@ export function Ribbon(
     attr.class('bc-ribbon'),
     // Theme styles via CSS variables
     attr.style(
-      computedOf(
-        color,
-        thickness,
-        inset,
-        offset,
-        width
-      )((c, t, i, o, w) =>
-        generateRibbonCSSVariables(
-          (c ?? 'primary') as ExtendedColor,
-          t ?? 28,
-          i ?? 0,
-          o ?? 40,
-          w ?? 100
-        )
-      )
+      computedOf(color, inset, offset, width, angle)(generateRibbonCSSVariables)
     ),
     // Allow external classes
     attr.class(cls),

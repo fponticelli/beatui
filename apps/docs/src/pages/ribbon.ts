@@ -50,8 +50,9 @@ export default function RibbonPage() {
         Ribbon(
           {
             color: 'success',
-            offset: 60,
-            thickness: 48,
+            angle: 15,
+            inset: -75,
+            offset: 25,
             width: 200,
           },
           html.div(

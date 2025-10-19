@@ -13,17 +13,10 @@
   position: absolute;
   top: 0;
   left: 100%;
-  /* Tune how much the band shifts before rotation so its midline crosses the corner exactly */
-  transform-origin: origin;
   /* Keep the band centerline on the corner regardless of width */
-  transform: translate(-50%, -50%) rotate(45deg) translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
-
+  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg)) translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
   display: flex;
   justify-content: center;
-
-  height: var(--ribbon-thickness, 28px);
-  line-height: var(--ribbon-thickness, 28px);
-
   background: var(--ribbon-bg);
   color: var(--ribbon-text);
   border-radius: var(--radius-sm);
@@ -34,6 +27,7 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
   width: var(--ribbon-width, 0);
+  height: max-content;
 }
 
 /* Dark mode overrides */
