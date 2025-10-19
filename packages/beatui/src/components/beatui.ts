@@ -16,6 +16,7 @@ export type BeatUIOptions = {
   includeAuthI18n?: boolean
   enableAppearance?: boolean
   defaultAppearance?: AppearancePreference
+  appearancePreferenceKey?: string
 }
 
 export function BeatUI(
@@ -23,6 +24,7 @@ export function BeatUI(
     includeAuthI18n = false,
     enableAppearance = true,
     defaultAppearance = 'system',
+    appearancePreferenceKey = 'bui-appearance',
   }: BeatUIOptions,
   ...children: TNode[]
 ) {
@@ -32,6 +34,7 @@ export function BeatUI(
     set(BeatUII18n, {})
     set(Theme, {
       defaultAppearance: enableAppearance ? defaultAppearance : 'light',
+      appearancePreferenceKey,
     })
     NavigationService.attach(use(Location))
     const fragment = Fragment(

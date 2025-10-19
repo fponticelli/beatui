@@ -14,16 +14,20 @@ import { useAppearance } from '@tempots/ui'
 
 export interface ThemeOptions {
   defaultAppearance?: AppearancePreference
+  appearancePreferenceKey?: string
 }
 
 export const Theme: Provider<ThemeValue, ThemeOptions> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
-  create: ({ defaultAppearance = 'system' }: ThemeOptions = {}) => {
+  create: ({
+    defaultAppearance = 'system',
+    appearancePreferenceKey = 'bui-appearance',
+  }: ThemeOptions = {}) => {
     const systemAppearance = useAppearance()
     const appearancePreference = localStorageProp<AppearancePreference>({
-      key: 'beatui-appearance-preference',
+      key: appearancePreferenceKey,
       defaultValue: defaultAppearance,
     })
     const dispose = () => {
