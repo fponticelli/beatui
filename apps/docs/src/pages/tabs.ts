@@ -8,11 +8,20 @@ import {
   SegmentedInput,
   Switch,
   TabsDirection,
+  ButtonVariant,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
 import { ControlSizeSelector } from '../elements/control-size-selector'
+
+const allVariants: ButtonVariant[] = [
+  'filled',
+  'light',
+  'outline',
+  'default',
+  'text',
+]
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
@@ -160,6 +169,37 @@ export default function TabsPage() {
                   onChange: sizeActiveTab.set,
                   size: currentSize,
                   showContent: prop(false), // Hide content for size comparison
+                })
+              )
+            )
+          })
+        )
+      ),
+
+      // Variants
+      html.section(
+        html.h2(attr.class('text-xl font-bold mb-4'), 'Variants'),
+        html.p(
+          attr.class('text-gray-600-600 mb-4'),
+          'Tabs can be rendered with different visual variants.'
+        ),
+        html.div(
+          attr.class('space-y-6'),
+          ...allVariants.map(currentVariant => {
+            const variantActiveTab = prop<DemoTabKey>('overview')
+            return html.div(
+              html.h3(
+                attr.class('text-lg font-semibold mb-2'),
+                `Variant: ${currentVariant}`
+              ),
+              html.div(
+                attr.class('border rounded-lg overflow-hidden'),
+                Tabs({
+                  items: basicTabs.slice(0, 3),
+                  value: variantActiveTab,
+                  onChange: variantActiveTab.set,
+                  variant: currentVariant,
+                  showContent: prop(false),
                 })
               )
             )

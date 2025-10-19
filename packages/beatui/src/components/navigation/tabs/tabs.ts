@@ -13,7 +13,16 @@ import {
   Ensure,
   MapSignal,
 } from '@tempots/dom'
-import { ControlSize } from '../../theme'
+import { ControlSize, ButtonVariant } from '../../theme'
+import { ThemeColorName } from '@/tokens'
+import {
+  backgroundValue,
+  ExtendedColor,
+  hoverBackgroundValue,
+} from '../../theme/style-utils'
+
+import { getColorVar, type ColorShade } from '@/tokens/colors'
+
 import { sessionId } from '../../../utils/session-id'
 
 export interface TabItem<T extends string> {
@@ -40,6 +49,10 @@ export interface TabsOptions<T extends string> {
   onChange?: (key: T) => void
   /** Size of the tabs */
   size?: Value<ControlSize>
+  /** Visual variant */
+  variant?: Value<ButtonVariant>
+  /** Color used by certain variants (e.g., filled) */
+  color?: Value<ThemeColorName | 'black' | 'white'>
   /** Whether tabs are disabled */
   disabled?: Value<boolean>
   /** Orientation of the tabs */
@@ -53,15 +66,54 @@ export interface TabsOptions<T extends string> {
 function generateTabsClasses(
   size: ControlSize,
   orientation: 'horizontal' | 'vertical',
-  disabled: boolean
+  disabled: boolean,
+  variant?: ButtonVariant
 ): string {
   const classes = ['bc-tabs', `bc-tabs--${size}`, `bc-tabs--${orientation}`]
 
   if (disabled) {
     classes.push('bc-tabs--disabled')
   }
+  if (variant != null && variant !== 'default') {
+    classes.push(`bc-tabs--variant-${variant}`)
+  }
 
   return classes.join(' ')
+}
+
+function generateTabsStyles(
+  variant: ButtonVariant,
+  color: ExtendedColor
+): string {
+  if (variant !== 'filled') return ''
+  const styles = new Map<string, string>()
+  const baseLight = backgroundValue(color, 'solid', 'light')
+  const baseDark = backgroundValue(color, 'solid', 'dark')
+  styles.set('--tabs-filled-inactive-bg', baseLight.backgroundColor)
+  // For light mode inactive tabs, always use white text
+  styles.set('--tabs-filled-inactive-text', 'var(--color-white)')
+  const hoverLight = hoverBackgroundValue(color, 'solid', 'light')
+  styles.set('--tabs-filled-inactive-bg-hover', hoverLight.backgroundColor)
+  const hoverDark = hoverBackgroundValue(color, 'solid', 'dark')
+  styles.set('--tabs-filled-inactive-bg-dark-hover', hoverDark.backgroundColor)
+
+  styles.set('--tabs-filled-inactive-bg-dark', baseDark.backgroundColor)
+  styles.set('--tabs-filled-inactive-text-dark', baseDark.textColor)
+
+  // Active tab should be white in light mode and base-900 in dark mode
+  styles.set('--tabs-filled-active-bg', 'var(--color-white)')
+  // Light mode active tab text: neutral gray/base-800
+  styles.set('--tabs-filled-active-text', 'var(--color-base-800)')
+  styles.set('--tabs-filled-active-bg-dark', 'var(--color-base-900)')
+  const activeTextDark =
+    color === 'white' || color === 'black' || color === 'transparent'
+      ? 'var(--color-white)'
+      : getColorVar(color as ThemeColorName, 400 as ColorShade)
+  styles.set('--tabs-filled-active-text-dark', activeTextDark)
+
+  return Array.from(styles.entries())
+    .map(([k, v]) => `${k}: ${v}`)
+    .join('; ')
 }
 
 function generateTabClasses(
@@ -147,6 +199,8 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
     value,
     onChange,
     size = 'md',
+    variant = 'default',
+    color = 'primary',
     disabled = false,
     orientation = 'horizontal',
     showContent = true,
@@ -221,13 +275,23 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
       computedOf(
         size,
         orientation,
-        disabled
-      )((size, orientation, disabled) =>
+        disabled,
+        variant
+      )((size, orientation, disabled, variant) =>
         generateTabsClasses(
           size ?? 'md',
           orientation ?? 'horizontal',
-          disabled ?? false
+          disabled ?? false,
+          variant ?? 'default'
         )
+      )
+    ),
+    attr.style(
+      computedOf(
+        variant,
+        color
+      )((v, c) =>
+        generateTabsStyles(v ?? 'default', (c ?? 'primary') as ExtendedColor)
       )
     ),
 

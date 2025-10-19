@@ -108,7 +108,7 @@
 }
 
 /* Tab States */
-.bc-tab:hover:not(.bc-tab--disabled) {
+.bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active) {
   color: var(--color-base-800);
   background-color: var(--color-base-50);
 }
@@ -123,6 +123,7 @@
   color: var(--color-primary-600);
   background-color: var(--color-white);
   font-weight: var(--font-weight-semibold);
+  cursor: default;
 }
 
 .bc-tab--active::after {
@@ -215,7 +216,7 @@
   color: var(--color-base-300);
 }
 
-.b-dark .bc-tab:hover:not(.bc-tab--disabled) {
+.b-dark .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active) {
   color: var(--color-base-100);
   background-color: var(--color-base-700);
 }
@@ -259,3 +260,121 @@
     transition: none;
   }
 }
+
+/* Variants */
+/* Text variant: minimal, link-like tabs */
+.bc-tabs--variant-text .bc-tabs__list {
+  background-color: transparent;
+  border-bottom: none;
+}
+.bc-tabs--variant-text .bc-tab {
+  background: transparent;
+  color: var(--color-primary-600);
+  border-radius: 0;
+}
+.bc-tabs--variant-text .bc-tab:hover:not(.bc-tab--disabled) {
+  background: transparent;
+  text-decoration: underline;
+}
+.bc-tabs--variant-text .bc-tab--active {
+  background: transparent;
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-semibold);
+}
+.bc-tabs--variant-text .bc-tab--active::after {
+  display: none;
+}
+
+/* Filled variant: inverted - inactive tabs filled with color, active is white */
+.bc-tabs--variant-filled .bc-tabs__list {
+  background-color: transparent;
+  border-bottom: none;
+}
+.bc-tabs--variant-filled .bc-tab {
+  background-color: var(--tabs-filled-inactive-bg);
+  color: var(--tabs-filled-inactive-text);
+  border-radius: 0;
+}
+.bc-tabs--variant-filled .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
+.bc-tabs--variant-filled .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
+  background-color: var(--tabs-filled-inactive-bg-hover, var(--tabs-filled-inactive-bg));
+  color: var(--tabs-filled-inactive-text, var(--color-white));
+}
+.bc-tabs--variant-filled .bc-tab--active {
+  background-color: var(--tabs-filled-active-bg, var(--color-white));
+  color: var(--tabs-filled-active-text, var(--color-base-800));
+}
+.bc-tabs--variant-filled .bc-tab--active::after {
+  display: none;
+}
+/* Corner rounding rules */
+.bc-tabs--variant-filled.bc-tabs--horizontal .bc-tab:first-child {
+  border-top-left-radius: var(--radius-control-sm, var(--radius-sm));
+}
+.bc-tabs--variant-filled.bc-tabs--horizontal .bc-tab:last-child {
+  border-top-right-radius: var(--radius-control-sm, var(--radius-sm));
+}
+.bc-tabs--variant-filled.bc-tabs--vertical .bc-tab:first-child {
+  border-top-left-radius: var(--radius-control-sm, var(--radius-sm));
+}
+.bc-tabs--variant-filled.bc-tabs--vertical .bc-tab:last-child {
+  border-bottom-left-radius: var(--radius-control-sm, var(--radius-sm));
+}
+
+/* Outline variant: tabs look like segmented buttons */
+.bc-tabs--variant-outline .bc-tabs__list {
+  border-bottom: none;
+  gap: var(--spacing-2xs);
+}
+.bc-tabs--variant-outline .bc-tab {
+  background-color: var(--color-base-50);
+  border: 1px solid var(--color-base-300);
+  border-bottom: 1px solid var(--color-base-300);
+  border-radius: var(--radius-control-sm, var(--radius-sm)) var(--radius-control-sm, var(--radius-sm)) 0 0;
+}
+.bc-tabs--variant-outline .bc-tab--active {
+  background-color: var(--color-white);
+  border-color: var(--color-primary-400);
+  border-bottom-color: var(--color-white);
+}
+.bc-tabs--variant-outline .bc-tab--active::after {
+  display: none;
+}
+
+/* Dark mode adjustments for variants */
+.b-dark .bc-tabs--variant-text .bc-tabs__list {
+  background-color: transparent;
+  border-bottom: none;
+}
+.b-dark .bc-tabs--variant-text .bc-tab {
+  color: var(--color-primary-300);
+}
+.b-dark .bc-tabs--variant-text .bc-tab--active {
+  color: var(--color-primary-200);
+}
+
+.b-dark .bc-tabs--variant-filled .bc-tab {
+  background-color: var(--tabs-filled-inactive-bg-dark);
+  color: var(--tabs-filled-inactive-text-dark);
+}
+.b-dark .bc-tabs--variant-filled .bc-tab--active {
+  background-color: var(--tabs-filled-active-bg-dark, var(--color-white));
+  color: var(--tabs-filled-active-text-dark);
+}
+.b-dark .bc-tabs--variant-filled .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
+.b-dark .bc-tabs--variant-filled .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
+  background-color: var(--tabs-filled-inactive-bg-dark-hover, var(--tabs-filled-inactive-bg-dark));
+}
+
+
+
+.b-dark .bc-tabs--variant-outline .bc-tab {
+  background-color: var(--color-base-800);
+  border-color: var(--color-base-600);
+}
+.b-dark .bc-tabs--variant-outline .bc-tab--active {
+  background-color: var(--color-base-900);
+  border-color: var(--color-primary-600);
+  border-bottom-color: var(--color-base-900);
+}
+
