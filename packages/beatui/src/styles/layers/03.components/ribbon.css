@@ -14,7 +14,8 @@
   top: 0;
   left: 100%;
   /* Keep the band centerline on the corner regardless of width */
-  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg)) translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
+  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))
+    translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
   display: flex;
   justify-content: center;
   background: var(--ribbon-bg);

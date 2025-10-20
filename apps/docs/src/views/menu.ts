@@ -93,7 +93,8 @@ export function Menu() {
           content: 'Tags',
         }),
         SidebarLink({ href: '/ribbon', content: 'Ribbon' }),
-        SidebarLink({ href: '/markdown', content: 'Markdown' })
+        SidebarLink({ href: '/markdown', content: 'Markdown' }),
+        SidebarLink({ href: '/video-player', content: 'Video Player' })
       ),
       // Docs
       SidebarGroup(

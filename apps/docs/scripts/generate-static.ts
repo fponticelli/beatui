@@ -188,6 +188,8 @@ const main = async () => {
   const { default: NoticePage } = await import('../src/pages/notice')
   const { default: RibbonPage } = await import('../src/pages/ribbon')
 
+  const { default: VideoPlayerPage } = await import('../src/pages/video-player')
+
   // Load HTML template
   const htmlTemplate = (async () => {
     const htmlPath = path.resolve(process.cwd(), './dist/index.html')
@@ -301,6 +303,8 @@ const main = async () => {
             '/temporal': TemporalPage,
             '/inputs': InputsPage,
             '/markdown': MarkdownPage,
+            '/video-player': VideoPlayerPage,
+
             '/notice': NoticePage,
             '/ribbon': RibbonPage,
           }
@@ -357,6 +361,8 @@ const main = async () => {
                 html.a(attr.href('/mask-input'), 'Mask Input'),
                 html.a(attr.href('/toolbar'), 'Toolbar'),
                 html.a(attr.href('/temporal'), 'Temporal'),
+                html.a(attr.href('/video-player'), 'Video Player'),
+
                 html.a(attr.href('/inputs'), 'Inputs'),
                 html.a(attr.href('/markdown'), 'Markdown'),
                 html.a(attr.href('/notice'), 'Notice'),

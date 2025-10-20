@@ -1,0 +1,33 @@
+/* Minimal optional controls for VideoPlayer wrapper */
+
+.bc-video-player {
+  position: relative;
+  display: block;
+}
+
+.bc-video-player__controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2, 8px);
+  padding: var(--spacing-2, 8px);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.bc-video-player__button {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.bc-video-player__timeline,
+.bc-video-player__volume {
+  flex: 1 1 auto;
+}

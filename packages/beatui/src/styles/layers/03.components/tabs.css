@@ -296,9 +296,14 @@
   color: var(--tabs-filled-inactive-text);
   border-radius: 0;
 }
-.bc-tabs--variant-filled .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
-.bc-tabs--variant-filled .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
-  background-color: var(--tabs-filled-inactive-bg-hover, var(--tabs-filled-inactive-bg));
+.bc-tabs--variant-filled
+  .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
+.bc-tabs--variant-filled
+  .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
+  background-color: var(
+    --tabs-filled-inactive-bg-hover,
+    var(--tabs-filled-inactive-bg)
+  );
   color: var(--tabs-filled-inactive-text, var(--color-white));
 }
 .bc-tabs--variant-filled .bc-tab--active {
@@ -331,7 +336,8 @@
   background-color: var(--color-base-50);
   border: 1px solid var(--color-base-300);
   border-bottom: 1px solid var(--color-base-300);
-  border-radius: var(--radius-control-sm, var(--radius-sm)) var(--radius-control-sm, var(--radius-sm)) 0 0;
+  border-radius: var(--radius-control-sm, var(--radius-sm))
+    var(--radius-control-sm, var(--radius-sm)) 0 0;
 }
 .bc-tabs--variant-outline .bc-tab--active {
   background-color: var(--color-white);
@@ -362,12 +368,17 @@
   background-color: var(--tabs-filled-active-bg-dark, var(--color-white));
   color: var(--tabs-filled-active-text-dark);
 }
-.b-dark .bc-tabs--variant-filled .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
-.b-dark .bc-tabs--variant-filled .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
-  background-color: var(--tabs-filled-inactive-bg-dark-hover, var(--tabs-filled-inactive-bg-dark));
+.b-dark
+  .bc-tabs--variant-filled
+  .bc-tab:hover:not(.bc-tab--disabled):not(.bc-tab--active),
+.b-dark
+  .bc-tabs--variant-filled
+  .bc-tab:focus-visible:not(.bc-tab--disabled):not(.bc-tab--active) {
+  background-color: var(
+    --tabs-filled-inactive-bg-dark-hover,
+    var(--tabs-filled-inactive-bg-dark)
+  );
 }
-
-
 
 .b-dark .bc-tabs--variant-outline .bc-tab {
   background-color: var(--color-base-800);
@@ -378,4 +389,3 @@
   border-color: var(--color-primary-600);
   border-bottom-color: var(--color-base-900);
 }
-

@@ -716,7 +716,7 @@ export default function InputsPage() {
             content: Stack(
               ListInput(list, ({ item }) =>
                 TextInput({
-                  value: item.value,
+                  value: item.signal,
                   onChange: item.change,
                   disabled,
                 })
