@@ -1,10 +1,12 @@
 import { html, attr } from '@tempots/dom'
-import { Card, Stack, Ribbon, Icon, ScrollablePanel } from '@tempots/beatui'
+import { Card, Ribbon, Icon, ScrollablePanel } from '@tempots/beatui'
 
 export default function RibbonPage() {
   return ScrollablePanel({
-    body: Stack(
-      attr.class('gap-8 p-8 items-start justify-center'),
+    body: html.div(
+      attr.class(
+        'flex flex-row flex-wrap gap-12 p-12 items-start justify-center'
+      ),
 
       // Basic ribbon on a card
       Card(
@@ -63,6 +65,54 @@ export default function RibbonPage() {
             Icon({ icon: 'lucide:award', size: 'sm', color: 'white' }),
             html.span('Featured Release')
           )
+        )
+      ),
+
+      // Top-left corner
+      Card(
+        {},
+        attr.class(
+          'w-80 h-40 p-4 flex items-center justify-center relative overflow-hidden'
+        ),
+        html.div(
+          attr.class('text-center'),
+          html.h3(attr.class('text-lg font-semibold'), 'Top-Left'),
+          html.p(attr.class('text-gray-500'), 'Corner position')
+        ),
+        Ribbon(
+          {
+            corner: 'top-right',
+            color: 'info',
+            width: 120,
+            offset: 40,
+          },
+          'Do it!'
+        ),
+        Ribbon(
+          {
+            corner: 'top-left',
+            width: 120,
+            offset: 40,
+          },
+          'Sale'
+        ),
+        Ribbon(
+          {
+            corner: 'bottom-right',
+            color: 'warning',
+            width: 120,
+            offset: 40,
+          },
+          'Alert'
+        ),
+        Ribbon(
+          {
+            corner: 'bottom-left',
+            color: 'danger',
+            width: 120,
+            offset: 40,
+          },
+          'Hot'
         )
       )
     ),

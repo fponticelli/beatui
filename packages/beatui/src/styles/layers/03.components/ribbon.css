@@ -1,4 +1,4 @@
-/* Ribbon component - diagonal label on the top-right corner */
+/* Ribbon component - diagonal label at specified corner */
 
 .bc-ribbon {
   position: absolute;
@@ -8,14 +8,9 @@
   height: 0;
 }
 
-/* The diagonal band */
+/* The diagonal band - base styles */
 .bc-ribbon {
   position: absolute;
-  top: 0;
-  left: 100%;
-  /* Keep the band centerline on the corner regardless of width */
-  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))
-    translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
   display: flex;
   justify-content: center;
   background: var(--ribbon-bg);
@@ -29,6 +24,38 @@
   white-space: nowrap;
   width: var(--ribbon-width, 0);
   height: max-content;
+}
+
+/* Top-right corner (default) */
+.bc-ribbon {
+  top: 0;
+  left: 100%;
+  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))
+    translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
+}
+
+/* Top-left corner */
+.bc-ribbon[style*="--ribbon-corner: top-left"] {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
+    translate(calc(var(--ribbon-inset, 0px) * -1), var(--ribbon-offset, 0px));
+}
+
+/* Bottom-right corner */
+.bc-ribbon[style*="--ribbon-corner: bottom-right"] {
+  top: 100%;
+  left: 100%;
+  transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
+    translate(var(--ribbon-inset, 0px), calc(var(--ribbon-offset, 0px) * -1));
+}
+
+/* Bottom-left corner */
+.bc-ribbon[style*="--ribbon-corner: bottom-left"] {
+  top: 100%;
+  left: 0;
+  transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))
+    translate(calc(var(--ribbon-inset, 0px) * -1), calc(var(--ribbon-offset, 0px) * -1));
 }
 
 /* Dark mode overrides */

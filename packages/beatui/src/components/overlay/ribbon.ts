@@ -2,6 +2,12 @@ import { TNode, Value, attr, computedOf, html, Renderable } from '@tempots/dom'
 import type { ThemeColorName } from '@/tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 
+export type RibbonCorner =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+
 export type RibbonOptions = {
   /** Background/text color theme (defaults to 'primary') */
   color?: Value<ThemeColorName | ExtendedColor>
@@ -15,6 +21,8 @@ export type RibbonOptions = {
   width?: Value<number | string>
   /** Rotation angle in degrees. Default: 45 */
   angle?: Value<number>
+  /** Corner position. Default: 'top-right' */
+  corner?: Value<RibbonCorner>
 }
 
 function generateRibbonCSSVariables(
@@ -22,7 +30,8 @@ function generateRibbonCSSVariables(
   inset: number | string,
   offset: number | string,
   width: number | string,
-  angle: number
+  angle: number,
+  corner: RibbonCorner
 ): string {
   const baseLight = backgroundValue(color, 'solid', 'light')
   const baseDark = backgroundValue(color, 'solid', 'dark')
@@ -35,6 +44,7 @@ function generateRibbonCSSVariables(
     `--ribbon-offset: ${toCssLength(offset)}`,
     `--ribbon-width: ${toCssLength(width)}`,
     `--ribbon-angle: ${angle}deg`,
+    `--ribbon-corner: ${corner}`,
   ].join('; ')
 }
 
@@ -44,7 +54,7 @@ function toCssLength(v: number | string | null | undefined): string | null {
 }
 
 /**
- * Ribbon: renders diagonal content at the container's top-right corner.
+ * Ribbon: renders diagonal content at a specified corner.
  * Note: The parent container should be positioned (e.g., position: relative) for best results.
  */
 export function Ribbon(
@@ -55,6 +65,7 @@ export function Ribbon(
     offset = 40,
     width = 100,
     angle = 45,
+    corner = 'top-right',
   }: RibbonOptions,
   ...children: TNode[]
 ): Renderable {
@@ -62,7 +73,14 @@ export function Ribbon(
     attr.class('bc-ribbon'),
     // Theme styles via CSS variables
     attr.style(
-      computedOf(color, inset, offset, width, angle)(generateRibbonCSSVariables)
+      computedOf(
+        color,
+        inset,
+        offset,
+        width,
+        angle,
+        corner
+      )(generateRibbonCSSVariables)
     ),
     // Allow external classes
     attr.class(cls),
