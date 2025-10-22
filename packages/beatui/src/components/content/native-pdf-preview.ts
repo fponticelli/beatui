@@ -1,6 +1,25 @@
 import { Value, html, attr, computedOf, OnDispose } from '@tempots/dom'
 
-export function NativePdfPreview({ content }: { content: Value<Blob> }) {
+export interface NativePdfPreviewOptions {
+  /** PDF content blob */
+  content: Value<Blob>
+  /** Show/hide toolbar (Chrome only). Default: true */
+  toolbar?: Value<boolean>
+  /** Initial page number to display (Chrome, Firefox, Safari) */
+  page?: Value<number>
+  /** Zoom level in percentage (Chrome, Firefox). Example: 150 for 150% */
+  zoom?: Value<number>
+  /** Zoom fit mode (Chrome only). FitV=vertical, FitH=horizontal, Fit=both */
+  view?: Value<'FitV' | 'FitH' | 'Fit'>
+}
+
+export function NativePdfPreview({
+  content,
+  toolbar = true,
+  page,
+  zoom,
+  view,
+}: NativePdfPreviewOptions) {
   const blob = Value.toSignal(content)
   const fileUrl = computedOf(blob)(blob => blob.arrayBuffer()).mapAsync(
     async buffer => {
@@ -9,6 +28,43 @@ export function NativePdfPreview({ content }: { content: Value<Blob> }) {
     },
     null
   )
+
+  // Build URL with PDF viewer parameters
+  const urlWithParams = computedOf(
+    fileUrl,
+    toolbar,
+    page,
+    zoom,
+    view
+  )((url, tb, p, z, v) => {
+    if (url == null) return null
+
+    const params: string[] = []
+
+    // Add toolbar parameter (Chrome only)
+    if (tb === false) {
+      params.push('toolbar=0')
+    }
+
+    // Add page parameter (Chrome, Firefox, Safari)
+    if (p != null && p > 0) {
+      params.push(`page=${p}`)
+    }
+
+    // Add zoom parameter (Chrome, Firefox)
+    if (z != null && z > 0) {
+      params.push(`zoom=${z}`)
+    }
+
+    // Add view parameter (Chrome only)
+    if (v != null) {
+      params.push(`view=${v}`)
+    }
+
+    const fragment = params.join('&')
+    return fragment ? `${url}#${fragment}` : url
+  })
+
   return html.div(
     OnDispose(
       fileUrl.on((_, previous) => {
@@ -23,6 +79,6 @@ export function NativePdfPreview({ content }: { content: Value<Blob> }) {
     ),
     attr.class('h-full w-full'),
     // could also use embed or object. IFrame seems to work on Safari.
-    html.iframe(attr.class('h-full w-full'), attr.src(fileUrl))
+    html.iframe(attr.class('h-full w-full'), attr.src(urlWithParams))
   )
 }

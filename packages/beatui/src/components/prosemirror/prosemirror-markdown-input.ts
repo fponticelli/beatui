@@ -124,7 +124,8 @@ function stateWatcher(onChange: () => void) {
  *
  * ProseMirrorMarkdownInput({
  *   value: markdown,
- *   onChange: v => markdown.set(v),
+ *   onInput: v => markdown.set(v),  // Called on every document change
+ *   onChange: v => console.log('Saved:', v),  // Called when editor loses focus
  *   showToolbar: true,
  *   features: {
  *     headings: true,
@@ -140,6 +141,7 @@ export const ProseMirrorMarkdownInput = (
   const {
     value,
     onChange,
+    onInput,
     onBlur,
     class: cls,
     id,
@@ -255,12 +257,12 @@ export const ProseMirrorMarkdownInput = (
                   const newState = view.state.apply(transaction)
                   view.updateState(newState)
 
-                  // Emit onChange when document changes
-                  if (transaction.docChanged && onChange != null) {
+                  // Emit onInput when document changes
+                  if (transaction.docChanged && onInput != null) {
                     const markdown = defaultMarkdownSerializer.serialize(
                       newState.doc
                     )
-                    onChange(markdown)
+                    onInput(markdown)
                   }
                 },
               })
@@ -324,7 +326,21 @@ export const ProseMirrorMarkdownInput = (
                 })
               )
 
-              // Handle blur events
+              // Handle blur events - emit onChange when editor loses focus
+              if (onChange != null) {
+                const handleBlur = () => {
+                  const markdown = defaultMarkdownSerializer.serialize(
+                    view.state.doc
+                  )
+                  onChange(markdown)
+                }
+                container.addEventListener('blur', handleBlur, true)
+                disposers.push(() =>
+                  container.removeEventListener('blur', handleBlur, true)
+                )
+              }
+
+              // Handle legacy onBlur callback
               if (onBlur != null) {
                 const handleBlur = () => {
                   onBlur()

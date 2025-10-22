@@ -144,7 +144,7 @@ export default function ProseMirrorEditorPage() {
           style.minHeight('0'),
           ProseMirrorMarkdownInput({
             value: markdown,
-            onChange: v => markdown.set(v),
+            onInput: v => markdown.set(v),
             showToolbar,
             features,
             readOnly,
