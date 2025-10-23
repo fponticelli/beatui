@@ -15,7 +15,6 @@
   align-items: center;
   justify-content: center;
   border: 1.5px solid var(--badge-border);
-  font-weight: var(--font-weight-semibold);
   font-family: var(
     --default-ui-font-family,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
