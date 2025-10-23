@@ -43,7 +43,8 @@
 }
 
 /* Table header */
-.bc-table thead {
+.bc-table thead,
+.bc-table tfoot {
   background-color: var(--table-header-bg);
   color: var(--table-header-text);
   font-weight: var(--font-weight-semibold);
@@ -53,6 +54,14 @@
 .bc-table--sticky-header thead {
   position: sticky;
   top: 0;
+  z-index: var(--z-index-sticky, 10);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Sticky footer */
+.bc-table--sticky-header tfoot {
+  position: sticky;
+  bottom: 0;
   z-index: var(--z-index-sticky, 10);
   box-shadow: var(--shadow-sm);
 }
