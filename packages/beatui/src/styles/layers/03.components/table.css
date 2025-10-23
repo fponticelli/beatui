@@ -1,0 +1,179 @@
+/* Table Container */
+.bc-table-container {
+  --table-bg: var(--bg-background-light);
+  --table-text: var(--text-normal-light);
+  --table-border: var(--border-border-light);
+  --table-header-bg: var(--bg-surface-light);
+  --table-header-text: var(--text-normal-light);
+  --table-stripe-bg: var(--bg-surface-light);
+  --table-hover-bg: var(--interactive-hover-light);
+  --table-border-radius: var(--radius-surface, var(--radius-lg));
+
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: var(--table-border-radius);
+}
+
+/* Container for sticky header - needs to be scrollable */
+.bc-table-container--sticky {
+  max-height: 100%;
+  overflow: auto;
+}
+
+/* Full width container */
+.bc-table-container--full-width {
+  display: block;
+  width: 100%;
+}
+
+/* Table Component */
+.bc-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--table-bg);
+  color: var(--table-text);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  border: none;
+}
+
+/* Table header */
+.bc-table thead {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Sticky header */
+.bc-table--sticky-header thead {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-sticky, 10);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Table cells */
+.bc-table th,
+.bc-table td {
+  text-align: left;
+  vertical-align: middle;
+  padding: var(--spacing-md);
+  border: none;
+}
+
+.bc-table th {
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* With table border */
+.bc-table-container--with-table-border {
+  border: 1px solid var(--table-border);
+}
+
+/* With row borders */
+.bc-table--with-row-borders th,
+.bc-table--with-row-borders td {
+  border-bottom: 1px solid var(--table-border);
+}
+
+/* With column borders */
+.bc-table--with-column-borders th,
+.bc-table--with-column-borders td {
+  border-right: 1px solid var(--table-border);
+}
+
+.bc-table--with-column-borders th:last-child,
+.bc-table--with-column-borders td:last-child {
+  border-right: none;
+}
+
+/* With striped rows */
+.bc-table--with-striped-rows tbody tr:nth-child(even) {
+  background-color: var(--table-stripe-bg);
+}
+
+/* Hoverable striped rows - darker stripe on hover */
+.bc-table--hoverable.bc-table--with-striped-rows
+  tbody
+  tr:nth-child(even):hover {
+  background-color: var(--table-hover-bg);
+  filter: brightness(0.95);
+}
+
+/* Size variants */
+.bc-table--size-xs th,
+.bc-table--size-xs td {
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.bc-table--size-sm th,
+.bc-table--size-sm td {
+  padding: calc(var(--spacing-base) * 1.5);
+  font-size: var(--font-size-sm);
+}
+
+.bc-table--size-lg th,
+.bc-table--size-lg td {
+  padding: var(--spacing-lg);
+}
+
+.bc-table--size-xl th,
+.bc-table--size-xl td {
+  padding: calc(var(--spacing-base) * 5);
+  font-size: var(--font-size-lg);
+}
+
+/* Hoverable rows */
+.bc-table--hoverable tbody tr {
+  transition: background-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  cursor: pointer;
+}
+
+.bc-table--hoverable tbody tr:hover {
+  background-color: var(--table-hover-bg);
+}
+
+/* Footer */
+.bc-table__footer {
+  background-color: var(--table-header-bg);
+  font-weight: var(--font-weight-semibold);
+  border-top: 2px solid var(--table-border);
+}
+
+/* Dark mode styles */
+.b-dark .bc-table-container {
+  --table-bg: var(--bg-background-dark);
+  --table-text: var(--text-normal-dark);
+  --table-border: var(--border-border-dark);
+  --table-header-bg: var(--bg-surface-dark);
+  --table-header-text: var(--text-normal-dark);
+  --table-stripe-bg: var(--bg-surface-dark);
+  --table-hover-bg: var(--interactive-hover-dark);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .bc-table--hoverable tbody tr {
+    transition: none;
+  }
+}
+
+/* Responsive behavior - allow horizontal scroll on small screens */
+@media (width < 48rem) {
+  .bc-table-container {
+    overflow-x: auto;
+  }
+
+  .bc-table {
+    white-space: nowrap;
+  }
+}

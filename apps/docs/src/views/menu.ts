@@ -67,6 +67,7 @@ export function Menu() {
       // Layout
       SidebarGroup(
         { header: 'Layout', rail: true },
+        SidebarLink({ href: '/action-card', content: 'Action Card' }),
         SidebarLink({ href: '/collapse', content: 'Collapse' }),
         SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
         SidebarLink({
@@ -88,6 +89,7 @@ export function Menu() {
         { header: 'Data Display', rail: true },
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/notice', content: 'Notice' }),
+        SidebarLink({ href: '/table', content: 'Table' }),
         SidebarLink({
           href: '/tags',
           content: 'Tags',

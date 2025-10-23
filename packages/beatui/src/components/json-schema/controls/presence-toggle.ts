@@ -1,6 +1,6 @@
 import { attr, html, Renderable, Value, When } from '@tempots/dom'
 import { Stack } from '../../layout'
-import { Switch } from '../../form'
+import { InputWrapper, Switch } from '../../form'
 import type { Controller } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 
@@ -52,11 +52,14 @@ export function PresenceToggle<T>({
   return Stack(
     html.div(
       attr.class('bc-presence-toggle'),
-      Switch({
-        value: isPresent,
-        onChange: handleToggle,
+      InputWrapper({
+        horizontal: true,
         label: `Include ${label}`,
-        size: 'xs',
+        content: Switch({
+          value: isPresent,
+          onChange: handleToggle,
+          size: 'xs',
+        }),
       })
     ),
     When(isPresent, () => content)

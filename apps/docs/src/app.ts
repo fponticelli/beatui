@@ -14,6 +14,8 @@ export const App = () => {
         '/': () => Async(import('./pages/home'), ({ default: Page }) => Page()),
         '/about': () =>
           Async(import('./pages/about'), ({ default: Page }) => Page()),
+        '/action-card': () =>
+          Async(import('./pages/action-card'), ({ default: Page }) => Page()),
         '/authentication': () =>
           Async(import('./pages/authentication'), ({ default: Page }) =>
             Page()
@@ -66,6 +68,8 @@ export const App = () => {
           Async(import('./pages/sidebar'), ({ default: Page }) => Page()),
         '/tabs': () =>
           Async(import('./pages/tabs'), ({ default: Page }) => Page()),
+        '/table': () =>
+          Async(import('./pages/table'), ({ default: Page }) => Page()),
         '/tags': () =>
           Async(import('./pages/tags'), ({ default: Page }) => Page()),
         '/tags-input': () =>

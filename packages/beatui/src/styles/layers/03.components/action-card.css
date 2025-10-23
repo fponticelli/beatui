@@ -1,0 +1,173 @@
+@layer components {
+  .bc-action-card {
+    /* Default CSS variables - can be overridden by inline styles or hover states */
+    --action-card-bg: var(--bg-background-light);
+    --action-card-border: var(--border-divider-light);
+    --action-card-title-color: var(--text-normal-light);
+    --action-card-description-color: var(--text-muted-light);
+
+    /* Layout */
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+
+    /* Spacing */
+    padding: var(--spacing-md);
+
+    /* Border */
+    border: 2px solid var(--action-card-border);
+    border-radius: var(--radius-lg);
+
+    /* Background */
+    background-color: var(--action-card-bg);
+
+    /* Transitions */
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  /* Icon container */
+  .bc-action-card__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Content container */
+  .bc-action-card__content {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  /* Title */
+  .bc-action-card__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--action-card-title-color);
+    line-height: var(--line-height-tight);
+  }
+
+  /* Description */
+  .bc-action-card__description {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-normal);
+    color: var(--action-card-description-color);
+    line-height: var(--line-height-normal);
+  }
+
+  /* Clickable state */
+  .bc-action-card--clickable {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .bc-action-card--clickable:hover {
+    --action-card-bg: var(--bg-surface-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  .bc-action-card--clickable:active {
+    transform: translateY(1px);
+  }
+
+  /* Active state */
+  .bc-action-card--active {
+    --action-card-border: var(--color-primary-500);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .bc-action-card--active:hover {
+    --action-card-border: var(--color-primary-600);
+  }
+
+  .b-dark .bc-action-card--active {
+    --action-card-border: var(--color-primary-400);
+  }
+
+  .b-dark .bc-action-card--active:hover {
+    --action-card-border: var(--color-primary-300);
+  }
+
+  /* Disabled state */
+  .bc-action-card--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Size variants */
+  .bc-action-card--xs {
+    padding: var(--spacing-xs);
+    gap: var(--spacing-xs);
+  }
+
+  .bc-action-card--xs .bc-action-card__title {
+    font-size: var(--font-size-sm);
+  }
+
+  .bc-action-card--xs .bc-action-card__description {
+    font-size: var(--font-size-xs);
+  }
+
+  .bc-action-card--sm {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+
+  .bc-action-card--sm .bc-action-card__title {
+    font-size: var(--font-size-md);
+  }
+
+  .bc-action-card--sm .bc-action-card__description {
+    font-size: var(--font-size-sm);
+  }
+
+  .bc-action-card--lg {
+    padding: var(--spacing-xl);
+    gap: var(--spacing-lg);
+  }
+
+  .bc-action-card--lg .bc-action-card__title {
+    font-size: var(--font-size-xl);
+  }
+
+  .bc-action-card--lg .bc-action-card__description {
+    font-size: var(--font-size-lg);
+  }
+
+  .bc-action-card--xl {
+    padding: var(--spacing-2xl);
+    gap: var(--spacing-xl);
+  }
+
+  .bc-action-card--xl .bc-action-card__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .bc-action-card--xl .bc-action-card__description {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Focus styles for accessibility */
+  .bc-action-card--clickable:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-action-card {
+      transition: none;
+    }
+
+    .bc-action-card--clickable:active {
+      transform: none;
+    }
+  }
+}

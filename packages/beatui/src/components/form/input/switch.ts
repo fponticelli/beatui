@@ -11,7 +11,6 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
-import { Label } from '@/components/typography'
 import { sessionId } from '../../../utils/session-id'
 import { Locale } from '../../i18n/locale'
 import { ThemeColorName } from '@/tokens'
@@ -19,10 +18,11 @@ import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
 export type SwitchOptions = {
   value: Value<boolean>
-  onChange: (value: boolean) => void
+  onChange?: (value: boolean) => void
+  onInput?: (value: boolean) => void
+  onBlur?: () => void
   offLabel?: TNode
   onLabel?: TNode
-  label?: TNode
   disabled?: Value<boolean>
   size?: ControlSize
   id?: string
@@ -32,9 +32,10 @@ export type SwitchOptions = {
 export const Switch = ({
   value,
   onChange,
+  onInput,
+  onBlur,
   offLabel,
   onLabel,
-  label,
   disabled = false,
   size = 'md',
   id,
@@ -42,7 +43,6 @@ export const Switch = ({
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
   const switchId = id ?? sessionId('switch')
-  const labelId = `${switchId}-label`
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
     const classes = [
@@ -82,7 +82,8 @@ export const Switch = ({
   // Handle toggle action
   const handleToggle = () => {
     if (Value.get(disabled)) return
-    onChange(!Value.get(value))
+    onChange?.(!Value.get(value))
+    onInput?.(!Value.get(value))
   }
 
   // Handle keyboard events
@@ -117,18 +118,9 @@ export const Switch = ({
     ),
     aria.checked(value as Value<boolean | 'mixed'>),
     aria.disabled(disabled),
-    aria.labelledby(label != null ? labelId : undefined),
     on.click(handleToggle),
     on.keydown(handleKeyDown),
-    label != null
-      ? Label(
-          attr.id(labelId),
-          attr.class(
-            `bc-switch__label bc-switch__label--size-${size} bc-switch__label--nowrap`
-          ),
-          label
-        )
-      : null,
+    onBlur != null ? on.blur(onBlur) : null,
     html.div(
       attr.class('bc-switch__track'),
       attr.class(
