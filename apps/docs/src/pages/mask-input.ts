@@ -39,12 +39,21 @@ export default function MaskInputPage() {
         {},
         Group(
           attr.class('gap-4 items-center'),
-          Switch({
-            value: showGuide,
-            onChange: showGuide.set,
-            label: 'Show guide (no-op placeholder demo)',
+          InputWrapper({
+            label: 'Show guide',
+            description: 'No-op placeholder demo',
+            content: Switch({
+              value: showGuide,
+              onChange: showGuide.set,
+            }),
           }),
-          Switch({ value: disabled, onChange: disabled.set, label: 'Disabled' })
+          InputWrapper({
+            label: 'Disabled',
+            content: Switch({
+              value: disabled,
+              onChange: disabled.set,
+            }),
+          })
         )
       ),
 

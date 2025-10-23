@@ -1,5 +1,12 @@
 import { attr, html, prop } from '@tempots/dom'
-import { Card, Group, Stack, EditableText, Switch } from '@tempots/beatui'
+import {
+  Card,
+  Group,
+  Stack,
+  EditableText,
+  Switch,
+  InputWrapper,
+} from '@tempots/beatui'
 
 export default function EditableTextPage() {
   const text = prop('Click to edit me')
@@ -13,7 +20,13 @@ export default function EditableTextPage() {
         {},
         Group(
           attr.class('gap-4 items-center'),
-          Switch({ value: disabled, onChange: disabled.set, label: 'Disabled' })
+          InputWrapper({
+            label: 'Disabled',
+            content: Switch({
+              value: disabled,
+              onChange: disabled.set,
+            }),
+          })
         )
       ),
       Card(

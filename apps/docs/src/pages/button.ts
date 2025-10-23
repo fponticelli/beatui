@@ -10,6 +10,7 @@ import {
   Label,
   ScrollablePanel,
   Switch,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -84,7 +85,13 @@ export default function ButtonPage() {
       ),
       Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
       Stack(DisabledSelector({ disabled })),
-      Switch({ value: loading, onChange: loading.set, label: 'Loading' }),
+      InputWrapper({
+        label: 'Loading',
+        content: Switch({
+          value: loading,
+          onChange: loading.set,
+        }),
+      }),
       Stack(
         Label('Text'),
         html.div(

@@ -8,6 +8,7 @@ import {
   OverlayEffect,
   ScrollablePanel,
   Group,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop, style } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -51,15 +52,19 @@ export default function LightboxPage() {
           onChange: v => padding.set(v),
         })
       ),
-      Switch({
+      InputWrapper({
         label: 'Dismissable',
-        value: dismissable,
-        onChange: dismissable.set,
+        content: Switch({
+          value: dismissable,
+          onChange: dismissable.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Show Close Button',
-        value: showCloseButton,
-        onChange: showCloseButton.set,
+        content: Switch({
+          value: showCloseButton,
+          onChange: showCloseButton.set,
+        }),
       })
     ),
     body: Stack(

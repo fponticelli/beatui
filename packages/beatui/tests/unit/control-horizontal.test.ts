@@ -33,7 +33,7 @@ describe('Control Components Horizontal Layout', () => {
             controller,
             label: 'Test Input',
             description: 'This is a description',
-            horizontal: true,
+            layout: 'horizontal',
           })
         ),
         container
@@ -91,7 +91,12 @@ describe('Control Components Horizontal Layout', () => {
       const controller = new Controller([], () => {}, value, status, {
         disabled,
       })
-      const horizontal = prop(false)
+      const layout = prop<
+        | 'vertical'
+        | 'horizontal'
+        | 'horizontal-label-right'
+        | 'horizontal-fixed'
+      >('vertical')
 
       render(
         WithProviders(() =>
@@ -99,7 +104,7 @@ describe('Control Components Horizontal Layout', () => {
             controller,
             label: 'Test Input',
             description: 'This is a description',
-            horizontal,
+            layout,
           })
         ),
         container
@@ -112,7 +117,7 @@ describe('Control Components Horizontal Layout', () => {
       )
 
       // Change to horizontal
-      horizontal.set(true)
+      layout.set('horizontal')
       await new Promise(resolve => setTimeout(resolve, 10))
 
       wrapper = container.querySelector('.bc-input-wrapper')

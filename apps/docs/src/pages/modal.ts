@@ -11,6 +11,7 @@ import {
   Group,
   OverlayEffect,
   ScrollablePanel,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -83,15 +84,19 @@ export default function ModalPage() {
           onChange: position.set,
         })
       ),
-      Switch({
+      InputWrapper({
         label: 'Dismissable',
-        value: dismissable,
-        onChange: dismissable.set,
+        content: Switch({
+          value: dismissable,
+          onChange: dismissable.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Show Close Button',
-        value: showCloseButton,
-        onChange: showCloseButton.set,
+        content: Switch({
+          value: showCloseButton,
+          onChange: showCloseButton.set,
+        }),
       }),
       Stack(
         Label('Title'),

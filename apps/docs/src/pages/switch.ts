@@ -6,6 +6,7 @@ import {
   Stack,
   ScrollablePanel,
   ThemeColorName,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
@@ -24,12 +25,13 @@ export default function SwitchPage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Switch({
-        size: 'sm',
-        label: 'On/Off',
-        value,
-        onChange: value.set,
-        color,
+      InputWrapper({
+        label: 'Value',
+        content: Switch({
+          value,
+          onChange: value.set,
+          color,
+        }),
       }),
       html.div(
         Label('Label'),
@@ -78,15 +80,17 @@ export default function SwitchPage() {
                 const onChange = () => localValue.update(v => !v)
                 return html.td(
                   attr.class('px-1 py-2 border-b border-gray-300'),
-                  Switch({
-                    value: localValue,
-                    onChange,
-                    size,
-                    disabled,
+                  InputWrapper({
                     label,
-                    onLabel,
-                    offLabel,
-                    color,
+                    content: Switch({
+                      value: localValue,
+                      onChange,
+                      size,
+                      disabled,
+                      onLabel,
+                      offLabel,
+                      color,
+                    }),
                   })
                 )
               })

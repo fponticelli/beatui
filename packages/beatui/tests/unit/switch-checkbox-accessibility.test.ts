@@ -26,7 +26,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value,
             onChange,
-            label: 'Test Switch',
             id: 'test-switch',
           })
         ),
@@ -40,34 +39,6 @@ describe('Switch and Checkbox Accessibility', () => {
       expect(switchElement.getAttribute('tabindex')).toBe('0')
     })
 
-    it('should have proper label association', () => {
-      const value = prop(false)
-      const onChange = vi.fn()
-
-      render(
-        WithProviders(() =>
-          Switch({
-            value,
-            onChange,
-            label: 'Accessibility Switch',
-            id: 'accessibility-switch',
-          })
-        ),
-        container
-      )
-
-      const switchElement = container.querySelector('[role="switch"]')!
-      const labelElement = container.querySelector(
-        '#accessibility-switch-label'
-      )!
-
-      expect(labelElement).not.toBeNull()
-      expect(switchElement.getAttribute('aria-labelledby')).toBe(
-        'accessibility-switch-label'
-      )
-      expect(labelElement.textContent).toBe('Accessibility Switch')
-    })
-
     it('should update aria-checked when value changes', async () => {
       const value = prop(false)
       const onChange = vi.fn(newValue => value.set(newValue))
@@ -77,7 +48,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value,
             onChange,
-            label: 'Dynamic Switch',
           })
         ),
         container
@@ -104,7 +74,6 @@ describe('Switch and Checkbox Accessibility', () => {
             value,
             onChange,
             disabled,
-            label: 'Disabled Switch',
           })
         ),
         container
@@ -124,7 +93,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value,
             onChange,
-            label: 'Keyboard Switch',
           })
         ),
         container
@@ -164,7 +132,6 @@ describe('Switch and Checkbox Accessibility', () => {
             value,
             onChange,
             disabled,
-            label: 'Disabled Keyboard Switch',
           })
         ),
         container
@@ -189,7 +156,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value,
             onChange,
-            label: 'Labeled Switch',
             onLabel: 'ON',
             offLabel: 'OFF',
           })
@@ -214,7 +180,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value,
             onChange,
-            label: 'Large Switch',
             size: 'lg',
           })
         ),
@@ -344,7 +309,6 @@ describe('Switch and Checkbox Accessibility', () => {
           Switch({
             value: switchValue,
             onChange: () => {},
-            label: 'Switch control',
             id: 'test-switch',
           }),
           CheckboxInput({
@@ -363,40 +327,6 @@ describe('Switch and Checkbox Accessibility', () => {
       expect(switchElement.getAttribute('role')).toBe('switch')
       expect(checkboxElement.getAttribute('role')).toBe('checkbox')
       expect(checkboxElement.getAttribute('aria-checked')).toBeDefined() // Custom checkbox
-    })
-
-    it('should both support proper labeling patterns', () => {
-      const switchValue = prop(false)
-      const checkboxValue = prop(false)
-
-      render(
-        WithProviders(() => [
-          Switch({
-            value: switchValue,
-            onChange: () => {},
-            label: 'Enable notifications',
-            id: 'notifications-switch',
-          }),
-          CheckboxInput({
-            value: checkboxValue,
-            placeholder: 'Subscribe to newsletter',
-            onChange: () => {},
-            id: 'newsletter-checkbox',
-          }),
-        ]),
-        container
-      )
-
-      const switchElement = container.querySelector('#notifications-switch')!
-      const checkboxElement = container.querySelector('#newsletter-checkbox')!
-
-      // Both should have proper labeling
-      expect(switchElement.getAttribute('aria-labelledby')).toBe(
-        'notifications-switch-label'
-      )
-      expect(checkboxElement.getAttribute('aria-labelledby')).toBe(
-        'newsletter-checkbox-label'
-      )
     })
   })
 })

@@ -11,6 +11,7 @@ import {
   NumberInput,
   Switch,
   SelectOption,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop, computedOf, on, Fragment } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -79,15 +80,19 @@ export default function FlyoutPage() {
           onChange: hideDelay.set,
         })
       ),
-      Switch({
+      InputWrapper({
         label: 'Closable',
-        value: closable,
-        onChange: closable.set,
+        content: Switch({
+          value: closable,
+          onChange: closable.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Animations',
-        value: showAnimations,
-        onChange: showAnimations.set,
+        content: Switch({
+          value: showAnimations,
+          onChange: showAnimations.set,
+        }),
       })
     ),
 

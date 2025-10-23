@@ -24,7 +24,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Test Switch',
       })
     )
 
@@ -49,7 +48,6 @@ describe('Switch Keyboard Accessibility', () => {
         value,
         onChange,
         disabled,
-        label: 'Disabled Switch',
       })
     )
 
@@ -70,7 +68,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Test Switch',
       })
     )
 
@@ -101,7 +98,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Test Switch',
       })
     )
 
@@ -132,7 +128,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Test Switch',
       })
     )
 
@@ -165,7 +160,6 @@ describe('Switch Keyboard Accessibility', () => {
         value,
         onChange,
         disabled,
-        label: 'Disabled Switch',
       })
     )
 
@@ -195,7 +189,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Accessibility Switch',
         id: 'test-switch',
       })
     )
@@ -205,17 +198,9 @@ describe('Switch Keyboard Accessibility', () => {
     const switchElement = container.querySelector(
       '[role="switch"]'
     ) as HTMLElement
-    const labelElement = container.querySelector(
-      '#test-switch-label'
-    ) as HTMLElement
 
     expect(switchElement).toBeTruthy()
-    expect(labelElement).toBeTruthy()
     expect(switchElement.getAttribute('id')).toBe('test-switch')
-    expect(labelElement.getAttribute('id')).toBe('test-switch-label')
-    expect(switchElement.getAttribute('aria-labelledby')).toBe(
-      'test-switch-label'
-    )
     expect(switchElement.getAttribute('aria-checked')).toBe('true')
   })
 
@@ -227,7 +212,6 @@ describe('Switch Keyboard Accessibility', () => {
       Switch({
         value,
         onChange,
-        label: 'Dynamic Switch',
       })
     )
 

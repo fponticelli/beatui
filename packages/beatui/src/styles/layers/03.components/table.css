@@ -1,11 +1,11 @@
 /* Table Container */
 .bc-table-container {
-  --table-bg: var(--bg-background-light);
+  --table-bg: #fff;
   --table-text: var(--text-normal-light);
   --table-border: var(--border-border-light);
   --table-header-bg: var(--bg-surface-light);
   --table-header-text: var(--text-normal-light);
-  --table-stripe-bg: var(--bg-surface-light);
+  --table-stripe-bg: var(--bg-background-light);
   --table-hover-bg: var(--interactive-hover-light);
   --table-border-radius: var(--radius-surface, var(--radius-lg));
 

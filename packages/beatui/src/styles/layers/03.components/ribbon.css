@@ -35,7 +35,7 @@
 }
 
 /* Top-left corner */
-.bc-ribbon[style*="--ribbon-corner: top-left"] {
+.bc-ribbon[style*='--ribbon-corner: top-left'] {
   top: 0;
   left: 0;
   transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
@@ -43,7 +43,7 @@
 }
 
 /* Bottom-right corner */
-.bc-ribbon[style*="--ribbon-corner: bottom-right"] {
+.bc-ribbon[style*='--ribbon-corner: bottom-right'] {
   top: 100%;
   left: 100%;
   transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
@@ -51,11 +51,14 @@
 }
 
 /* Bottom-left corner */
-.bc-ribbon[style*="--ribbon-corner: bottom-left"] {
+.bc-ribbon[style*='--ribbon-corner: bottom-left'] {
   top: 100%;
   left: 0;
   transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))
-    translate(calc(var(--ribbon-inset, 0px) * -1), calc(var(--ribbon-offset, 0px) * -1));
+    translate(
+      calc(var(--ribbon-inset, 0px) * -1),
+      calc(var(--ribbon-offset, 0px) * -1)
+    );
 }
 
 /* Dark mode overrides */

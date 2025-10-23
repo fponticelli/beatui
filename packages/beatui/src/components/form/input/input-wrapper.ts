@@ -17,6 +17,12 @@ export const RequiredSymbol = html.span(
   ' *'
 )
 
+export type InputWrapperLayout =
+  | 'vertical'
+  | 'horizontal'
+  | 'horizontal-label-right'
+  | 'horizontal-fixed'
+
 export type InputWrapperOptions = {
   label?: TNode
   labelChildren?: TNode
@@ -28,14 +34,15 @@ export type InputWrapperOptions = {
   labelFor?: Value<string>
   hasError?: Value<boolean>
   disabled?: Value<boolean>
-  horizontal?: Value<boolean>
+  layout?: Value<InputWrapperLayout>
+  labelWidth?: Value<string> // CSS width value for horizontal-fixed layout
 }
 
-function generateInputWrapperClasses(horizontal: boolean): string {
+function generateInputWrapperClasses(layout: InputWrapperLayout): string {
   const classes = ['bc-input-wrapper']
 
-  if (horizontal) {
-    classes.push('bc-input-wrapper--horizontal')
+  if (layout !== 'vertical') {
+    classes.push(`bc-input-wrapper--${layout}`)
   }
 
   return classes.join(' ')
@@ -58,6 +65,16 @@ function generateInputWrapperLabelTextClasses(
   return classes.join(' ')
 }
 
+function generateInputWrapperStyles(
+  layout: InputWrapperLayout,
+  labelWidth?: string
+): string | undefined {
+  if (layout === 'horizontal-fixed' && labelWidth != null) {
+    return `--input-wrapper-label-width: ${labelWidth}`
+  }
+  return undefined
+}
+
 export const InputWrapper = (
   {
     required,
@@ -70,22 +87,40 @@ export const InputWrapper = (
     labelFor,
     hasError,
     disabled,
-    horizontal,
+    layout,
+    labelWidth,
   }: InputWrapperOptions,
   ...children: TNode[]
 ) => {
   const computedHasError = hasError ?? error != null
   const computedDisabled = disabled ?? false
-  const computedHorizontal = horizontal ?? false
+  const computedLayout = layout ?? 'vertical'
 
   // Generate unique IDs for accessibility
   const wrapperId = sessionId('input-wrapper')
   const descriptionId = description ? `${wrapperId}-description` : undefined
   const errorId = error != null ? `${wrapperId}-error` : undefined
 
+  // Check if layout is horizontal (any horizontal variant)
+  const isHorizontal = computedOf(computedLayout)(l => l !== 'vertical')
+
   return html.div(
-    attr.class(
-      Value.map(computedHorizontal, h => generateInputWrapperClasses(h))
+    attr.class(Value.map(computedLayout, l => generateInputWrapperClasses(l))),
+    When(
+      computedOf(
+        computedLayout,
+        labelWidth ?? undefined
+      )((l, w) => generateInputWrapperStyles(l, w) != null),
+      () =>
+        attr.style(
+          Value.map(
+            computedOf(
+              computedLayout,
+              labelWidth ?? undefined
+            )((l, w) => generateInputWrapperStyles(l, w)!),
+            s => s
+          )
+        )
     ),
     label != null || context != null
       ? html.div(
@@ -114,7 +149,7 @@ export const InputWrapper = (
             // Show description under label when horizontal
             When(
               computedOf(
-                computedHorizontal,
+                isHorizontal,
                 description
               )((h, desc) => h && desc != null),
               () =>
@@ -145,10 +180,7 @@ export const InputWrapper = (
     ),
     // Show description at bottom only when not horizontal
     When(
-      computedOf(
-        computedHorizontal,
-        description
-      )((h, desc) => !h && desc != null),
+      computedOf(isHorizontal, description)((h, desc) => !h && desc != null),
       () =>
         html.div(
           attr.class('bc-input-wrapper__description'),

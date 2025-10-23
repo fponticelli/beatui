@@ -10,6 +10,7 @@ import {
   Group,
   OverlayEffect,
   ScrollablePanel,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -83,15 +84,19 @@ export default function DrawerPage() {
         Label('Title'),
         TextInput({ value: title, placeholder: 'Enter drawer title' })
       ),
-      Switch({
+      InputWrapper({
         label: 'Dismissable',
-        value: dismissable,
-        onChange: dismissable.set,
+        content: Switch({
+          value: dismissable,
+          onChange: dismissable.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Show Close Button',
-        value: showCloseButton,
-        onChange: showCloseButton.set,
+        content: Switch({
+          value: showCloseButton,
+          onChange: showCloseButton.set,
+        }),
       })
     ),
     body: Stack(
@@ -282,20 +287,26 @@ export default function DrawerPage() {
                   ),
                   Group(
                     attr.class('flex flex-col gap-2'),
-                    Switch({
+                    InputWrapper({
                       label: 'Enable notifications',
-                      value: prop(true),
-                      onChange: () => {},
+                      content: Switch({
+                        value: prop(true),
+                        onChange: () => {},
+                      }),
                     }),
-                    Switch({
+                    InputWrapper({
                       label: 'Auto-save changes',
-                      value: prop(false),
-                      onChange: () => {},
+                      content: Switch({
+                        value: prop(false),
+                        onChange: () => {},
+                      }),
                     }),
-                    Switch({
+                    InputWrapper({
                       label: 'Show tooltips',
-                      value: prop(true),
-                      onChange: () => {},
+                      content: Switch({
+                        value: prop(true),
+                        onChange: () => {},
+                      }),
                     })
                   )
                 ),

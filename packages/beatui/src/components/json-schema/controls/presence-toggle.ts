@@ -53,7 +53,7 @@ export function PresenceToggle<T>({
     html.div(
       attr.class('bc-presence-toggle'),
       InputWrapper({
-        horizontal: true,
+        layout: 'horizontal',
         label: `Include ${label}`,
         content: Switch({
           value: isPresent,

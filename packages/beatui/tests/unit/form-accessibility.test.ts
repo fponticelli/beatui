@@ -252,14 +252,14 @@ describe('Form Input Accessibility', () => {
   })
 
   describe('Horizontal layout', () => {
-    it('should apply horizontal class when horizontal prop is true', async () => {
+    it('should apply horizontal class when layout is horizontal', async () => {
       const value = prop('')
 
       render(
         WithProviders(() =>
           InputWrapper({
             label: 'Horizontal Input',
-            horizontal: true,
+            layout: 'horizontal',
             content: TextInput({
               value,
               id: 'horizontal-input',
@@ -276,14 +276,14 @@ describe('Form Input Accessibility', () => {
       )
     })
 
-    it('should not apply horizontal class when horizontal prop is false', async () => {
+    it('should not apply horizontal class when layout is vertical', async () => {
       const value = prop('')
 
       render(
         WithProviders(() =>
           InputWrapper({
             label: 'Vertical Input',
-            horizontal: false,
+            layout: 'vertical',
             content: TextInput({
               value,
               id: 'vertical-input',
@@ -331,7 +331,7 @@ describe('Form Input Accessibility', () => {
           InputWrapper({
             label: 'Horizontal Input',
             description: 'This is a description',
-            horizontal: true,
+            layout: 'horizontal',
             content: TextInput({
               value,
               id: 'horizontal-input',
@@ -364,7 +364,7 @@ describe('Form Input Accessibility', () => {
           InputWrapper({
             label: 'Vertical Input',
             description: 'This is a description',
-            horizontal: false,
+            layout: 'vertical',
             content: TextInput({
               value,
               id: 'vertical-input',

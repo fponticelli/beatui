@@ -26,7 +26,7 @@ export function LocaleSelector({
   return Use(BeatUII18n, t =>
     Use(Locale, ({ locale, setLocale }) => {
       return InputWrapper({
-        horizontal: true,
+        layout: 'horizontal',
         content: Group(
           attr.class('bc-group--align-center bc-group--gap-2'),
           Icon({

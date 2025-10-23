@@ -1,4 +1,4 @@
-import { html, attr } from '@tempots/dom'
+import { html, attr, Fragment } from '@tempots/dom'
 import {
   Card,
   Table,
@@ -46,8 +46,7 @@ export default function TablePage() {
   const withRowBorders = controller.field('withRowBorders')
   const borderRadius = controller.field('borderRadius')
 
-  return Card(
-    {},
+  return Fragment(
     attr.class('m-4'),
     html.h2(attr.class('text-lg font-semibold'), 'Table Component'),
     html.div(
@@ -86,10 +85,14 @@ export default function TablePage() {
             html.tr(html.td('Power Adapter'), html.td('$29'), html.td('35')),
             html.tr(html.td('SD Card'), html.td('$10'), html.td('60')),
             html.tr(html.td('USB Flash Drive'), html.td('$15'), html.td('45'))
+          ),
+          html.tfoot(
+            html.tr(html.td('Total'), html.td('$1,500'), html.td('500'))
           )
         )
       ),
-      html.div(
+      Card(
+        {},
         attr.class('flex flex-col space-y-3'),
         ControlSizeSelector({
           size: size.signal,
@@ -97,37 +100,37 @@ export default function TablePage() {
           label: 'Size',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: hoverable,
           label: 'Hoverable',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: fullWidth,
           label: 'Full Width',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: stickyHeader,
           label: 'Sticky Header',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: withStripedRows,
           label: 'With Striped Rows',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: withTableBorder,
           label: 'With Table Border',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: withColumnBorders,
           label: 'With Column Borders',
         }),
         Control(Switch, {
-          horizontal: true,
+          layout: 'horizontal-label-right',
           controller: withRowBorders,
           label: 'With Row Borders',
         }),
@@ -135,6 +138,7 @@ export default function TablePage() {
           opts =>
             SegmentedInput({
               ...opts,
+              size: 'sm',
               options: {
                 none: 'None',
                 xs: 'XS',

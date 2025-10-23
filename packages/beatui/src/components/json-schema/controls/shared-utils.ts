@@ -42,7 +42,7 @@ export function definitionToInputWrapperOptions({
     label: ctx.suppressLabel ? undefined : ctx.widgetLabel,
     description,
     required: ctx.isPropertyRequired,
-    horizontal: ctx.horizontal,
+    layout: ctx.horizontal ? 'horizontal' : 'vertical',
   }
 }
 

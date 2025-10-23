@@ -72,10 +72,36 @@ export default function FormPage() {
         Stack(
           attr.class('gap-2'),
           style.width('24rem'),
+          html.h3(attr.class('text-lg font-semibold mt-4'), 'Layout Examples'),
+          html.p(
+            attr.class('text-sm text-gray-600 mb-2'),
+            'Demonstrating different InputWrapper layout options'
+          ),
           Control(TextInput, {
             controller: controller.field('name'),
-            label: 'Name',
+            label: 'Vertical Layout (default)',
+            description: 'Label above input',
           }),
+          Control(TextInput, {
+            controller: controller.field('name'),
+            label: 'Horizontal Layout',
+            layout: 'horizontal',
+            description: 'Label on left, flexible width',
+          }),
+          Control(TextInput, {
+            controller: controller.field('name'),
+            label: 'Label on Right',
+            layout: 'horizontal-label-right',
+            description: 'Label on right side',
+          }),
+          Control(TextInput, {
+            controller: controller.field('name'),
+            label: 'Fixed Width Label',
+            layout: 'horizontal-fixed',
+            labelWidth: '10rem',
+            description: 'Label has fixed width of 10rem',
+          }),
+          html.h3(attr.class('text-lg font-semibold mt-6'), 'Dropdown Example'),
           DropdownControl({
             controller: controller.field('favoriteColor'),
             label: 'Favorite Color',
@@ -144,7 +170,7 @@ export default function FormPage() {
                   Control(
                     TextInput,
                     {
-                      horizontal: true,
+                      layout: 'horizontal',
                       controller: group.field('title'),
                       label: 'Title',
                     },

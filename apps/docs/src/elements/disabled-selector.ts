@@ -1,10 +1,12 @@
-import { Switch } from '@tempots/beatui'
+import { InputWrapper, Switch } from '@tempots/beatui'
 import { Prop } from '@tempots/dom'
 
 export function DisabledSelector({ disabled }: { disabled: Prop<boolean> }) {
-  return Switch({
+  return InputWrapper({
     label: 'Disabled',
-    value: disabled,
-    onChange: disabled.set,
+    content: Switch({
+      value: disabled,
+      onChange: disabled.set,
+    }),
   })
 }

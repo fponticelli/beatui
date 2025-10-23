@@ -1,5 +1,5 @@
 import { html, attr, prop, merge, MapSignal } from '@tempots/dom'
-import { ScrollablePanel, Switch } from '@tempots/beatui'
+import { InputWrapper, ScrollablePanel, Switch } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
 export default function ScrollablePanelPage() {
@@ -34,20 +34,26 @@ export default function ScrollablePanelPage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Switch({
+      InputWrapper({
         label: 'Display Shadows',
-        value: displayShadows,
-        onChange: displayShadows.set,
+        content: Switch({
+          value: displayShadows,
+          onChange: displayShadows.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Display Header',
-        value: displayHeader,
-        onChange: displayHeader.set,
+        content: Switch({
+          value: displayHeader,
+          onChange: displayHeader.set,
+        }),
       }),
-      Switch({
+      InputWrapper({
         label: 'Display Footer',
-        value: displayFooter,
-        onChange: displayFooter.set,
+        content: Switch({
+          value: displayFooter,
+          onChange: displayFooter.set,
+        }),
       })
     ),
     body: MapSignal(

@@ -9,6 +9,7 @@ import {
   Switch,
   TabsDirection,
   ButtonVariant,
+  InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
@@ -114,10 +115,12 @@ export default function TabsPage() {
         })
       ),
       Stack(DisabledSelector({ disabled })),
-      Switch({
-        value: showContent,
-        onChange: showContent.set,
+      InputWrapper({
         label: 'Show Content',
+        content: Switch({
+          value: showContent,
+          onChange: showContent.set,
+        }),
       })
     ),
     body: Stack(
