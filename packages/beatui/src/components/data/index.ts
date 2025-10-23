@@ -1,3 +1,4 @@
+export * from './badge'
 export * from './icon'
 export * from './table'
 export * from './tag'

@@ -1,0 +1,131 @@
+/* Badge Component */
+.bc-badge {
+  --badge-bg: transparent;
+  --badge-bg-dark: transparent;
+  --badge-bg-hover: var(--badge-bg);
+  --badge-bg-hover-dark: var(--badge-bg-dark);
+  --badge-text: inherit;
+  --badge-text-dark: inherit;
+  --badge-text-hover: var(--badge-text);
+  --badge-text-hover-dark: var(--badge-text-dark);
+  --badge-border: transparent;
+  --badge-border-dark: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--badge-border);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  font-size: inherit;
+  line-height: 1;
+  border-radius: var(--radius-badge, var(--radius-control, var(--radius-md)));
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+}
+
+.bc-badge__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(
+    --badge-gap,
+    var(--spacing-stack-2xs, calc(var(--spacing-base) / 2))
+  );
+}
+
+/* Size variants */
+.bc-badge--size-xs {
+  font-size: var(--font-size-xs);
+  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base) * 1);
+  --badge-gap: calc(var(--spacing-base) * 0.25);
+}
+
+.bc-badge--size-sm {
+  font-size: var(--font-size-sm);
+  padding: calc(var(--spacing-base) * 0.75) calc(var(--spacing-base) * 1.5);
+  --badge-gap: calc(var(--spacing-base) * 0.5);
+}
+
+.bc-badge--size-md {
+  font-size: var(--font-size-base);
+  padding: var(--spacing-base) calc(var(--spacing-base) * 2);
+  --badge-gap: calc(var(--spacing-base) * 0.75);
+}
+
+.bc-badge--size-lg {
+  font-size: var(--font-size-lg);
+  padding: calc(var(--spacing-base) * 1.25) calc(var(--spacing-base) * 2.5);
+  --badge-gap: var(--spacing-base);
+}
+
+.bc-badge--size-xl {
+  font-size: var(--font-size-xl);
+  padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 3);
+  --badge-gap: calc(var(--spacing-base) * 1.25);
+}
+
+/* Circle variant - makes badge circular with equal width/height */
+.bc-badge--circle {
+  padding-left: 0;
+  padding-right: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.bc-badge--circle.bc-badge--size-xs {
+  min-width: calc(var(--font-size-xs) + var(--spacing-base) * 1 + 3px);
+}
+
+.bc-badge--circle.bc-badge--size-sm {
+  min-width: calc(var(--font-size-sm) + var(--spacing-base) * 1.5 + 3px);
+}
+
+.bc-badge--circle.bc-badge--size-md {
+  min-width: calc(var(--font-size-md) + var(--spacing-base) * 2 + 3px);
+}
+
+.bc-badge--circle.bc-badge--size-lg {
+  min-width: calc(var(--font-size-lg) * 1.2 + var(--spacing-base) * 2.5 + 3px);
+}
+
+.bc-badge--circle.bc-badge--size-xl {
+  min-width: calc(var(--font-size-xl) * 1.2 + var(--spacing-base) * 3 + 3px);
+}
+
+/* Full width variant */
+.bc-badge--full-width {
+  display: flex;
+  width: 100%;
+}
+
+/* Dark mode styles */
+.b-dark .bc-badge {
+  background-color: var(--badge-bg-dark);
+  color: var(--badge-text-dark);
+  border-color: var(--badge-border-dark);
+}
+
+.b-dark .bc-badge:hover {
+  background-color: var(--badge-bg-hover-dark);
+  color: var(--badge-text-hover-dark);
+}
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-badge {
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-badge {
+    transition: none;
+  }
+}

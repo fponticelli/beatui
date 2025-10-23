@@ -20,6 +20,8 @@ export const App = () => {
           Async(import('./pages/authentication'), ({ default: Page }) =>
             Page()
           ),
+        '/badge': () =>
+          Async(import('./pages/badge'), ({ default: Page }) => Page()),
         '/authentication/components': () =>
           Async(
             import('./pages/authentication-components'),
