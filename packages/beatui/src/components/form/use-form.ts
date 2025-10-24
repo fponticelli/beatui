@@ -20,7 +20,7 @@ import { convertStandardSchemaIssues } from './schema'
 import { Validation, strictEqual } from '@tempots/std'
 
 export interface UseFormOptions<T> {
-  schema: StandardSchemaV1<T, T>
+  schema?: StandardSchemaV1<T, T>
   initialValue?: Value<T>
   onSubmit?: (value: T) => Promise<ControllerValidation>
   validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
@@ -249,7 +249,7 @@ export function useForm<T extends object>({
     validationMode: validationMode ?? 'touchedOrSubmit',
     validateDebounceMs,
     validate:
-      (validationMode ?? 'touchedOrSubmit') === 'onSubmit'
+      (validationMode ?? 'touchedOrSubmit') === 'onSubmit' || schema == null
         ? undefined
         : async v =>
             standardSchemaResultToValidation(
@@ -265,9 +265,12 @@ export function useForm<T extends object>({
     controller.markAllTouched()
     if ((validationMode ?? 'touchedOrSubmit') === 'onSubmit') {
       const v = controller.signal.value
-      const result = standardSchemaResultToValidation(
-        await schema['~standard'].validate(v)
-      )
+      const validate = schema?.['~standard'].validate
+      if (validate == null) {
+        submitting.set(false)
+        return
+      }
+      const result = standardSchemaResultToValidation(await validate(v))
       setStatus(result)
       if (result.type === 'invalid') {
         submitting.set(false)

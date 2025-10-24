@@ -27,6 +27,7 @@
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   background-color: var(--badge-bg);
   color: var(--badge-text);
+  white-space: nowrap;
 }
 
 .bc-badge__content {
