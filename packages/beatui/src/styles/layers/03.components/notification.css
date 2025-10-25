@@ -1,0 +1,90 @@
+@layer components {
+  .bc-notification {
+    --notification-accent-color: var(--color-primary-500);
+    --notification-radius: var(--radius-lg);
+    --notification-bg: #fff;
+    --notification-border-color: var(--border-divider-light);
+    --notification-text-color: var(--text-normal-light);
+    --notification-muted-color: var(--text-muted-light);
+    --notification-accent-width: 6px;
+
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-md);
+    border-radius: var(--notification-radius);
+    background-color: var(--notification-bg);
+    color: var(--notification-text-color);
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-lg);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .bc-notification--bordered {
+    border-color: var(--notification-border-color);
+  }
+
+  .bc-notification__accent {
+    margin: 0 var(--spacing-md) 0 0;
+    min-width: var(--notification-accent-width);
+    min-height: 100%;
+    border-radius: var(--radius-pill, var(--radius-full));
+    background-color: var(--notification-accent-color);
+    align-self: stretch;
+  }
+
+  .bc-notification__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .bc-notification__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    margin: 0;
+    color: var(--notification-text-color);
+  }
+
+  .bc-notification__content {
+    font-size: var(--font-size-sm);
+    color: var(--notification-muted-color);
+    line-height: var(--line-height-normal);
+  }
+
+  .bc-notification__meta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-left: auto;
+  }
+
+  .bc-notification__loader,
+  .bc-notification__icon {
+    margin: 0 var(--spacing-md);
+    color: var(--notification-accent-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .b-dark .bc-notification {
+    --notification-bg: var(--bg-surface-dark);
+    --notification-border-color: var(--border-border-dark);
+    --notification-text-color: var(--text-normal-dark);
+    --notification-muted-color: var(--text-muted-dark);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bc-notification {
+      transition: none;
+    }
+  }
+}

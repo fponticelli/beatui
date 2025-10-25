@@ -110,6 +110,8 @@ export const App = () => {
           Async(import('./pages/inputs'), ({ default: Page }) => Page()),
         '/markdown': () =>
           Async(import('./pages/markdown'), ({ default: Page }) => Page()),
+        '/notification': () =>
+          Async(import('./pages/notification'), ({ default: Page }) => Page()),
         '/x-ui-usage': () =>
           Async(import('./pages/x-ui-usage'), ({ default: Page }) => Page()),
         '/notice': () =>

@@ -90,6 +90,7 @@ export function Menu() {
         SidebarLink({ href: '/badge', content: 'Badge' }),
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/notice', content: 'Notice' }),
+        SidebarLink({ href: '/notification', content: 'Notification' }),
         SidebarLink({ href: '/table', content: 'Table' }),
         SidebarLink({
           href: '/tags',
