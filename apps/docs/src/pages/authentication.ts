@@ -1,5 +1,5 @@
 import { html, attr, prop, When } from '@tempots/dom'
-import { Stack, Button, SegmentedInput } from '@tempots/beatui'
+import { Stack, Button, SegmentedInput, OpenGraph } from '@tempots/beatui'
 import {
   AuthContainer,
   AuthModal,
@@ -41,6 +41,14 @@ export default function AuthenticationPage() {
   }
 
   return Stack(
+    OpenGraph({
+      title: 'Authentication Components - BeatUI',
+      description:
+        'Complete authentication component suite with social login support. Includes sign-in, sign-up, password reset, and customizable auth flows.',
+      type: 'website',
+      url: 'https://beatui.dev/authentication',
+      siteName: 'BeatUI',
+    }),
     attr.class('items-center gap-8'),
 
     // Demo message

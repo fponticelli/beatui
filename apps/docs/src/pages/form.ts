@@ -16,6 +16,7 @@ import {
   TextInput,
   useForm,
   ValueOption,
+  OpenGraph,
 } from '@tempots/beatui'
 import { z } from 'zod'
 
@@ -66,6 +67,14 @@ export default function FormPage() {
   const list = controller.field('experience').array()
   return ScrollablePanel({
     body: Stack(
+      OpenGraph({
+        title: 'Forms - BeatUI',
+        description:
+          'Powerful form handling with validation and type safety. Built on Zod schemas with reactive controllers for complex form state management.',
+        type: 'website',
+        url: 'https://beatui.dev/form',
+        siteName: 'BeatUI',
+      }),
       attr.class('p-4'),
       Group(
         attr.class('items-start gap-2'),

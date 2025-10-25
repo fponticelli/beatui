@@ -1,8 +1,16 @@
 import { html, attr } from '@tempots/dom'
-import { Stack, Card } from '@tempots/beatui'
+import { Stack, Card, OpenGraph } from '@tempots/beatui'
 
 export default function AboutPage() {
   return html.div(
+    OpenGraph({
+      title: 'About BeatUI - Modern TypeScript UI Library',
+      description:
+        'BeatUI is a modern TypeScript UI component library built on Tempo-ts. It embraces layered CSS, design tokens, signals for reactivity, and pragmatic, type-safe APIs.',
+      type: 'website',
+      url: 'https://beatui.dev/about',
+      siteName: 'BeatUI',
+    }),
     attr.class('p-6'),
     Stack(
       attr.class('gap-4 max-w-280 mx-auto'),

@@ -123,7 +123,10 @@ function MetaName<T>(
   content: Value<T> | undefined
 ): Renderable | null {
   if (content == null) return null
-  return html.meta(attr.name(name), attr.content(Value.map(content, String)))
+  return html.meta(
+    attr.name(name),
+    attr.content(Value.map(content, v => String(v)))
+  )
 }
 
 function MetaProp<T>(
@@ -133,7 +136,7 @@ function MetaProp<T>(
   if (content == null) return null
   return html.meta(
     attr.property(name),
-    attr.content(Value.map(content, String))
+    attr.content(Value.map(content, v => String(v)))
   )
 }
 
