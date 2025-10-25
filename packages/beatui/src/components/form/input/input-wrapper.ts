@@ -24,6 +24,7 @@ export type InputWrapperLayout =
   | 'horizontal-fixed'
 
 export type InputWrapperOptions = {
+  fullWidth?: Value<boolean>
   label?: TNode
   labelChildren?: TNode
   context?: TNode
@@ -77,6 +78,7 @@ function generateInputWrapperStyles(
 
 export const InputWrapper = (
   {
+    fullWidth = false,
     required,
     label,
     labelChildren,
@@ -106,6 +108,11 @@ export const InputWrapper = (
 
   return html.div(
     attr.class(Value.map(computedLayout, l => generateInputWrapperClasses(l))),
+    attr.class(
+      Value.map(fullWidth, (v): string =>
+        v ? 'bc-input-wrapper--full-width' : ''
+      )
+    ),
     When(
       computedOf(
         computedLayout,
