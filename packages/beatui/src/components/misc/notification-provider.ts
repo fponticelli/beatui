@@ -1,11 +1,11 @@
 import {
   Empty,
+  OnDispose,
   Provider,
   Signal,
   TNode,
   Use,
   Value,
-  When,
   WithBrowserCtx,
   attr,
   html,
@@ -57,7 +57,7 @@ export type NotificationProviderValue = {
   show: NotificationShowFn
   clear: () => void
   position: NotificationViewportPosition
-  listenOnShow: (fn: (entry: NotificationEntry) => void) => void
+  listenOnShow: (fn: (entry: NotificationEntry) => void) => () => void
   activeNotifications: Signal<number>
 }
 
@@ -126,6 +126,7 @@ export const NotificationProvider: Provider<
       { dismissAfter, onClose, ...options },
       ...children
     ) => {
+      const localCleanup: Array<() => void> = []
       activeNotifications.update(n => n + 1)
       const { close, status, listenOnClosed, dispose } = useTimedToggle({
         initialStatus: 'opening',
@@ -134,13 +135,13 @@ export const NotificationProvider: Provider<
       listenOnClosed(() => {
         onClose?.()
         dispose()
-        cleanup.forEach(fn => fn())
+        localCleanup.forEach(fn => fn())
         activeNotifications.update(n => n - 1)
       })
 
       if (dismissAfter != null) {
         if (typeof dismissAfter === 'number') {
-          cleanup.push(delayed(close, dismissAfter * 1000))
+          localCleanup.push(delayed(close, dismissAfter * 1000))
         } else {
           dismissAfter.finally(close)
         }
@@ -162,7 +163,10 @@ export const NotificationProvider: Provider<
         status,
         children,
         close,
-        listenRequestClose: (fn: () => void) => cleanup.push(fn),
+        listenRequestClose: (fn: () => void) => {
+          localCleanup.push(fn)
+          cleanup.push(fn)
+        },
       }
 
       onShowListeners.forEach(fn => fn(entry))
@@ -193,42 +197,37 @@ export const NotificationProvider: Provider<
 }
 
 export function NotificationViewport() {
-  return Use(
-    NotificationProvider,
-    ({ listenOnShow, position, activeNotifications }) => {
-      return When(
-        activeNotifications.map(n => n > 0),
-        () =>
-          html.div(
-            attr.class('bc-notification-viewport'),
-            attr.class(`bc-notification-viewport--${position}`),
-            WithBrowserCtx(ctx => {
-              listenOnShow(entry => {
-                const cleanup: Array<() => void> = []
-                const onClose = () => {
-                  entry.close()
-                  cleanup.forEach(fn => fn())
-                }
-                entry.listenRequestClose(onClose)
-                const notification = Notification(
-                  {
-                    class: entry.class,
-                    loading: entry.loading,
-                    withCloseButton: entry.withCloseButton,
-                    withBorder: entry.withBorder,
-                    color: entry.color,
-                    radius: entry.radius,
-                    title: entry.title,
-                    icon: entry.icon,
-                    onClose,
-                  },
-                  ...entry.children
-                )
-                cleanup.push(renderWithContext(notification, ctx))
-              })
-            })
-          )
+  return Use(NotificationProvider, ({ listenOnShow, position }) => {
+    return html.div(
+      attr.class('bc-notification-viewport'),
+      attr.class(`bc-notification-viewport--${position}`),
+      WithBrowserCtx(ctx =>
+        OnDispose(
+          listenOnShow(entry => {
+            const cleanup: Array<() => void> = []
+            const onClose = () => {
+              entry.close()
+              cleanup.forEach(fn => fn())
+            }
+            entry.listenRequestClose(onClose)
+            const notification = Notification(
+              {
+                class: entry.class,
+                loading: entry.loading,
+                withCloseButton: entry.withCloseButton,
+                withBorder: entry.withBorder,
+                color: entry.color,
+                radius: entry.radius,
+                title: entry.title,
+                icon: entry.icon,
+                onClose,
+              },
+              ...entry.children
+            )
+            cleanup.push(renderWithContext(notification, ctx))
+          })
+        )
       )
-    }
-  )
+    )
+  })
 }
