@@ -315,16 +315,16 @@
 }
 /* Corner rounding rules */
 .bc-tabs--variant-filled.bc-tabs--horizontal .bc-tab:first-child {
-  border-top-left-radius: var(--radius-control-sm, var(--radius-sm));
+  border-top-start-radius: var(--radius-control-sm, var(--radius-sm));
 }
 .bc-tabs--variant-filled.bc-tabs--horizontal .bc-tab:last-child {
-  border-top-right-radius: var(--radius-control-sm, var(--radius-sm));
+  border-top-end-radius: var(--radius-control-sm, var(--radius-sm));
 }
 .bc-tabs--variant-filled.bc-tabs--vertical .bc-tab:first-child {
-  border-top-left-radius: var(--radius-control-sm, var(--radius-sm));
+  border-top-start-radius: var(--radius-control-sm, var(--radius-sm));
 }
 .bc-tabs--variant-filled.bc-tabs--vertical .bc-tab:last-child {
-  border-bottom-left-radius: var(--radius-control-sm, var(--radius-sm));
+  border-bottom-start-radius: var(--radius-control-sm, var(--radius-sm));
 }
 
 /* Outline variant: tabs look like segmented buttons */

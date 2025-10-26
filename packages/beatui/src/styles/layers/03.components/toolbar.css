@@ -81,13 +81,13 @@
 
 /* Toolbar group button blending */
 .bc-toolbar__group > :not(:last-child) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-end-radius: 0;
+  border-bottom-end-radius: 0;
   margin-left: -1px;
 }
 
 .bc-toolbar__group > :not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-start-radius: 0;
+  border-bottom-start-radius: 0;
   margin-left: -1px;
 }

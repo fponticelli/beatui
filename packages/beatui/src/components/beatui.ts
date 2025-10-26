@@ -14,6 +14,7 @@ import { LocaleDirection } from './i18n/locale-direction'
 import {
   NotificationProvider,
   NotificationViewport,
+  NotificationViewportPosition,
 } from './misc/notification-provider'
 
 export type BeatUIOptions = {
@@ -22,6 +23,7 @@ export type BeatUIOptions = {
   defaultAppearance?: AppearancePreference
   appearancePreferenceKey?: string
   includeNotifications?: boolean
+  notificationPosition?: NotificationViewportPosition
 }
 
 export function BeatUI(
@@ -31,6 +33,7 @@ export function BeatUI(
     defaultAppearance = 'system',
     appearancePreferenceKey = 'bui-appearance',
     includeNotifications = true,
+    notificationPosition = 'bottom-end',
   }: BeatUIOptions,
   ...children: TNode[]
 ) {
@@ -43,7 +46,7 @@ export function BeatUI(
       appearancePreferenceKey,
     })
     if (includeNotifications) {
-      set(NotificationProvider, {})
+      set(NotificationProvider, { position: notificationPosition })
     }
     NavigationService.attach(use(Location))
     const fragment = Fragment(

@@ -40,12 +40,15 @@ export function useAnimatedToggle({
   const toggle = () => {
     setOpen(!display.value)
   }
-  const onClosed = (fn: () => void) => {
-    return status.on(value => {
-      if (value === 'closed') {
-        fn()
-      }
-    })
+  const disposeOnClosedListeners: Array<() => void> = []
+  const listenOnClosed = (fn: () => void) => {
+    disposeOnClosedListeners.push(
+      status.on(value => {
+        if (value === 'closed') {
+          fn()
+        }
+      })
+    )
   }
   let clean = () => {}
   status.on(value => {
@@ -65,9 +68,15 @@ export function useAnimatedToggle({
       case 'closing':
         clean = closedAfter(() => status.set('closed'))
         break
+      case 'closed':
+        clean = () => {}
+        break
     }
   })
-  status.onDispose(() => clean())
+  status.onDispose(() => {
+    disposeOnClosedListeners.forEach(dispose => dispose())
+    clean()
+  })
 
   const isClosed = status.map(v => v === 'closed')
   const isStartOpening = status.map(v => v === 'start-opening')
@@ -90,7 +99,7 @@ export function useAnimatedToggle({
     isClosing,
     isStartClosing,
     dispose: () => status.dispose(),
-    onClosed,
+    listenOnClosed,
   }
 }
 
@@ -234,14 +243,20 @@ export type Animation =
   | 'flyout-left'
   | 'flyout-right'
 
-export function AnimatedToggleClass(
-  animation: Value<Animation>,
+export function AnimatedToggleClass({
+  animation = 'fade',
+  status,
+}: {
+  animation?: Value<Animation>
   status: Signal<ToggleStatus>
-) {
+}) {
   return attr.class(
     computedOf(
       animation,
       status
-    )((a, s) => `bc-toggle--animated bc-toggle--${a} bc-toggle--${s}`)
+    )(
+      (a, s) =>
+        `bc-animated-toggle bc-animated-toggle--${a} bc-animated-toggle--${s}`
+    )
   )
 }

@@ -693,16 +693,16 @@ export function AppShell({
                 })
               ),
               style.top(headerBottom.map(v => `${v}px`)),
-              AnimatedToggleClass(
-                'slide-right',
-                computedOf(
+              AnimatedToggleClass({
+                animation: 'slide-right',
+                status: computedOf(
                   displayMenuAs,
                   menuStatus.status
                 )((v, s): ToggleStatus => {
                   if (v === 'block') return 'opened'
                   return s
-                })
-              ),
+                }),
+              }),
               style.width(coalesce(options.menu?.width, template.$.menuWidth)),
               style.bottom('0'),
               options.menu?.content
@@ -785,16 +785,16 @@ export function AppShell({
                 })
               ),
               style.top(headerBottom.map(v => `${v}px`)),
-              AnimatedToggleClass(
-                'slide-left',
-                computedOf(
+              AnimatedToggleClass({
+                animation: 'slide-left',
+                status: computedOf(
                   displayAsideAs,
                   asideStatus.status
                 )((v, s): ToggleStatus => {
                   if (v === 'block') return 'opened'
                   return s
-                })
-              ),
+                }),
+              }),
               style.width(
                 coalesce(options.aside?.width, template.$.asideWidth)
               ),

@@ -32,6 +32,9 @@ export interface ButtonLinkOptions {
   color?: Value<ThemeColorName | 'black' | 'white'>
   roundedness?: Value<RadiusName>
   disabled?: Value<boolean>
+
+  fullWidth?: Value<boolean>
+  loading?: Value<boolean>
 }
 
 export function ButtonLink(
@@ -126,11 +129,13 @@ function ButtonLinkCore(
     replace,
     target,
     rel,
-    variant,
-    size,
-    color,
-    roundedness,
-    disabled,
+    variant = 'default',
+    size = 'md',
+    color = 'base',
+    roundedness = 'sm',
+    disabled = false,
+    fullWidth = false,
+    loading = false,
   }: Omit<ButtonLinkOptions, 'matchMode' | 'disableWhenActive'>,
   ...children: TNode[]
 ) {
@@ -141,14 +146,10 @@ function ButtonLinkCore(
         attr.class(
           computedOf(
             size,
-            roundedness
-          )((size, roundedness) =>
-            generateButtonClasses(
-              size ?? 'md',
-              roundedness ?? 'sm',
-              false // loading is always false for ButtonLink
-            )
-          )
+            roundedness,
+            loading,
+            fullWidth
+          )(generateButtonClasses)
         ),
         attr.style(
           computedOf(
@@ -179,14 +180,10 @@ function ButtonLinkCore(
         attr.class(
           computedOf(
             size,
-            roundedness
-          )((size, roundedness) =>
-            generateButtonClasses(
-              size ?? 'md',
-              roundedness ?? 'sm',
-              false // loading is always false for ButtonLink
-            )
-          )
+            roundedness,
+            loading,
+            fullWidth
+          )(generateButtonClasses)
         ),
         attr.style(
           computedOf(

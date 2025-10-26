@@ -204,10 +204,10 @@ export function Flyout(options: FlyoutOptions): Renderable {
             attr.class('bc-flyout'),
             attr.id(flyoutId),
             attr.tabindex(-1), // Make focusable for screen readers
-            AnimatedToggleClass(
-              Value.map(placement, placementToAnimation),
-              animatedToggle.status
-            ),
+            AnimatedToggleClass({
+              animation: Value.map(placement, placementToAnimation),
+              status: animatedToggle.status,
+            }),
             role ? attr.role(role) : attr.role('dialog'), // Default to dialog role
             content()
           )
@@ -307,7 +307,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
         animatedToggle.close()
 
         // Wait for animation to complete before closing PopOver
-        onClosedCleanup = animatedToggle.onClosed(() => {
+        animatedToggle.listenOnClosed(() => {
           close()
           cleanup()
         })

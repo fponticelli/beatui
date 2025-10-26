@@ -26,7 +26,7 @@
   height: max-content;
 }
 
-/* Top-right corner (default) */
+/* top-end corner (default) */
 .bc-ribbon {
   top: 0;
   left: 100%;
@@ -34,24 +34,24 @@
     translate(var(--ribbon-inset, 0px), var(--ribbon-offset, 0px));
 }
 
-/* Top-left corner */
-.bc-ribbon[style*='--ribbon-corner: top-left'] {
+/* top-start corner */
+.bc-ribbon[style*='--ribbon-corner: top-start'] {
   top: 0;
   left: 0;
   transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
     translate(calc(var(--ribbon-inset, 0px) * -1), var(--ribbon-offset, 0px));
 }
 
-/* Bottom-right corner */
-.bc-ribbon[style*='--ribbon-corner: bottom-right'] {
+/* bottom-end corner */
+.bc-ribbon[style*='--ribbon-corner: bottom-end'] {
   top: 100%;
   left: 100%;
   transform: translate(-50%, -50%) rotate(calc(var(--ribbon-angle, 45deg) * -1))
     translate(var(--ribbon-inset, 0px), calc(var(--ribbon-offset, 0px) * -1));
 }
 
-/* Bottom-left corner */
-.bc-ribbon[style*='--ribbon-corner: bottom-left'] {
+/* bottom-start corner */
+.bc-ribbon[style*='--ribbon-corner: bottom-start'] {
   top: 100%;
   left: 0;
   transform: translate(-50%, -50%) rotate(var(--ribbon-angle, 45deg))

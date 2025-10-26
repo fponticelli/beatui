@@ -113,9 +113,8 @@ export const App = () => {
         '/notification': () =>
           Async(import('./pages/notification'), ({ default: Page }) => Page()),
         '/notification-service': () =>
-          Async(
-            import('./pages/notification-service'),
-            ({ default: Page }) => Page()
+          Async(import('./pages/notification-service'), ({ default: Page }) =>
+            Page()
           ),
         '/x-ui-usage': () =>
           Async(import('./pages/x-ui-usage'), ({ default: Page }) => Page()),

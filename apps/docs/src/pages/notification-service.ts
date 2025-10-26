@@ -10,7 +10,7 @@ import {
   NotificationProvider,
   NotificationService,
 } from '@tempots/beatui'
-import { attr, html, prop, Use } from '@tempots/dom'
+import { attr, html, prop, Use, When } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { ColorSelector } from '../elements/color-selector'
 
@@ -21,11 +21,12 @@ export default function NotificationServicePage() {
   const withBorder = prop(true)
   const withCloseButton = prop(true)
   const loading = prop(false)
-  const dismissAfter = prop(5)
+  const dismissAfter = prop(3)
 
+  let conter = 0
   const resolvedTitle = () => {
     const value = title.value.trim()
-    return value.length > 0 ? value : undefined
+    return value.length > 0 ? `${value} #${++conter}` : undefined
   }
 
   const showAutoDismiss = () => {
@@ -36,8 +37,7 @@ export default function NotificationServicePage() {
         withBorder,
         withCloseButton,
         loading,
-        dismissAfter:
-          dismissAfter.value > 0 ? dismissAfter.value : undefined,
+        dismissAfter: dismissAfter.value > 0 ? dismissAfter.value : undefined,
       },
       html.span(message.value)
     )
@@ -50,11 +50,11 @@ export default function NotificationServicePage() {
 
     NotificationService.show(
       {
-        title: 'Syncing data',
-        color: 'info',
+        title: 'Syncing data #' + ++conter,
+        color,
         loading: true,
-        withBorder: true,
-        dismissWhen: operation,
+        withBorder,
+        dismissAfter: operation,
       },
       html.span(
         'This notification closes when the simulated async operation resolves.'
@@ -65,9 +65,9 @@ export default function NotificationServicePage() {
   const showPersistent = () => {
     NotificationService.show(
       {
-        title: 'Manual dismissal',
-        color: 'warning',
-        withBorder: true,
+        title: 'Manual dismissal #' + ++conter,
+        color,
+        withBorder,
         withCloseButton: true,
       },
       html.span('Use the close button or the Clear All action below.')
@@ -106,22 +106,25 @@ export default function NotificationServicePage() {
     ),
     body: Stack(
       attr.class('gap-4 p-4'),
-      Use(NotificationProvider, ({ notifications }) =>
+      Use(NotificationProvider, ({ activeNotifications }) =>
         html.p(
           attr.class('text-sm text-muted-foreground'),
-          notifications.map(items =>
-            items.length === 0
-              ? 'No active notifications'
-              : `${items.length} active notification${
-                  items.length === 1 ? '' : 's'
-                }`
+          When(
+            activeNotifications.map(n => n === 0),
+            () => 'No active notifications',
+            () =>
+              html.span(
+                activeNotifications.map(
+                  items => `${items} active notifications`
+                )
+              )
           )
         )
       ),
       html.section(
         html.h3(attr.class('text-lg font-semibold'), 'Playground'),
         Stack(
-          attr.class('gap-2'),
+          attr.class('gap-2 items-center'),
           Button({ variant: 'filled', onClick: showAutoDismiss }, 'Show'),
           Button(
             { variant: 'light', onClick: showPromiseNotification },
@@ -132,7 +135,11 @@ export default function NotificationServicePage() {
             'Show persistent notification'
           ),
           Button(
-            { variant: 'text', color: 'danger', onClick: () => NotificationService.clear() },
+            {
+              variant: 'text',
+              color: 'danger',
+              onClick: () => NotificationService.clear(),
+            },
             'Clear all'
           )
         )

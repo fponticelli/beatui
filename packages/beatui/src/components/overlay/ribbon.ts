@@ -3,10 +3,10 @@ import type { ThemeColorName } from '@/tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 
 export type RibbonCorner =
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom-end'
 
 export type RibbonOptions = {
   /** Background/text color theme (defaults to 'primary') */
@@ -21,7 +21,7 @@ export type RibbonOptions = {
   width?: Value<number | string>
   /** Rotation angle in degrees. Default: 45 */
   angle?: Value<number>
-  /** Corner position. Default: 'top-right' */
+  /** Corner position. Default: 'top-end' */
   corner?: Value<RibbonCorner>
 }
 
@@ -65,7 +65,7 @@ export function Ribbon(
     offset = 40,
     width = 100,
     angle = 45,
-    corner = 'top-right',
+    corner = 'top-end',
   }: RibbonOptions,
   ...children: TNode[]
 ): Renderable {

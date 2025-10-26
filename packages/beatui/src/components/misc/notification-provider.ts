@@ -1,40 +1,70 @@
 import {
   Empty,
-  ForEach,
   Provider,
   Signal,
   TNode,
   Use,
   Value,
   When,
+  WithBrowserCtx,
   attr,
   html,
   makeProviderMark,
   prop,
+  renderWithContext,
 } from '@tempots/dom'
 import { Notification, NotificationOptions } from './notification'
+import { RadiusName, ThemeColorName } from '@/tokens'
+import { ToggleStatus, useTimedToggle } from '@/utils'
+import { delayed } from '@tempots/std'
 
 type NotificationEntry = {
-  id: number
-  options: NotificationOptions
+  status: Signal<ToggleStatus>
   children: TNode[]
-  requestClose: () => void
-  finalize: () => void
-  open: Signal<boolean>
+  close: () => void
+  // options
+  loading: Signal<boolean>
+  withCloseButton: Signal<boolean>
+  withBorder: Signal<boolean>
+  color: Signal<ThemeColorName>
+  radius: Signal<RadiusName>
+  title: TNode
+  icon: Signal<string | undefined>
+  class: Signal<string | undefined>
+  listenRequestClose: (fn: () => void) => void
+}
+
+export type ShowNotificationOptions = NotificationOptions & {
+  dismissAfter?: number | Promise<void>
 }
 
 export type NotificationShowFn = (
-  options: NotificationOptions,
+  options: ShowNotificationOptions,
   ...children: TNode[]
 ) => () => void
 
-export type NotificationProviderValue = {
-  notifications: Signal<NotificationEntry[]>
-  show: NotificationShowFn
-  clear: () => void
+export type NotificationViewportPosition =
+  | 'top-start'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom-end'
+
+export type NotificationProviderOptions = {
+  position?: NotificationViewportPosition
 }
 
-type NotificationServiceHandle = Pick<NotificationProviderValue, 'show' | 'clear'>
+export type NotificationProviderValue = {
+  show: NotificationShowFn
+  clear: () => void
+  position: NotificationViewportPosition
+  listenOnShow: (fn: (entry: NotificationEntry) => void) => void
+  activeNotifications: Signal<number>
+}
+
+type NotificationServiceHandle = Pick<
+  NotificationProviderValue,
+  'show' | 'clear'
+>
 
 class NotificationServiceImpl {
   private handles: NotificationServiceHandle[] = []
@@ -62,7 +92,7 @@ class NotificationServiceImpl {
     return handle
   }
 
-  show(options: NotificationOptions, ...children: TNode[]) {
+  show(options: ShowNotificationOptions, ...children: TNode[]) {
     return this.current.show(options, ...children)
   }
 
@@ -75,141 +105,130 @@ export const NotificationService = new NotificationServiceImpl()
 
 export const NotificationProvider: Provider<
   NotificationProviderValue,
-  object
+  NotificationProviderOptions
 > = {
   mark: makeProviderMark<NotificationProviderValue>('NotificationProvider'),
-  create: () => {
-    const notifications = prop<NotificationEntry[]>([])
-    let counter = 0
-
-    const show: NotificationShowFn = (options, ...children) => {
-      const id = ++counter
-      const open = prop(true)
-      let finalized = false
-      let pendingFinalizeTimeout: ReturnType<typeof setTimeout> | null = null
-      const cleanup: Array<() => void> = []
-
-      const finalize = () => {
-        if (finalized) return
-        finalized = true
-        if (pendingFinalizeTimeout) {
-          clearTimeout(pendingFinalizeTimeout)
-          pendingFinalizeTimeout = null
+  create: ({ position = 'bottom-end' }: NotificationProviderOptions = {}) => {
+    const activeNotifications = prop(0)
+    const onShowListeners: Array<(entry: NotificationEntry) => void> = []
+    function listenOnShow(fn: (entry: NotificationEntry) => void) {
+      onShowListeners.push(fn)
+      return () => {
+        const index = onShowListeners.lastIndexOf(fn)
+        if (index >= 0) {
+          onShowListeners.splice(index, 1)
         }
-        cleanup.forEach(fn => {
-          try {
-            fn()
-          } catch {
-            /* ignore cleanup errors */
-          }
-        })
-        notifications.update(entries =>
-          entries.filter(entry => entry.id !== id)
-        )
-        options.onClose?.()
       }
+    }
 
-      const requestClose = () => {
-        if (!open.value) return
-        open.set(false)
-        if (!pendingFinalizeTimeout) {
-          pendingFinalizeTimeout = setTimeout(() => {
-            finalize()
-          }, 1000)
+    const cleanup: Array<() => void> = []
+    const show: NotificationShowFn = (
+      { dismissAfter, onClose, ...options },
+      ...children
+    ) => {
+      activeNotifications.update(n => n + 1)
+      const { close, status, listenOnClosed, dispose } = useTimedToggle({
+        initialStatus: 'opening',
+      })
+
+      listenOnClosed(() => {
+        onClose?.()
+        dispose()
+        cleanup.forEach(fn => fn())
+        activeNotifications.update(n => n - 1)
+      })
+
+      if (dismissAfter != null) {
+        if (typeof dismissAfter === 'number') {
+          cleanup.push(delayed(close, dismissAfter * 1000))
+        } else {
+          dismissAfter.finally(close)
         }
       }
 
       const entry: NotificationEntry = {
-        id,
-        options,
+        class: Value.toSignal(options.class),
+        loading: Value.toSignal(options.loading ?? false) as Signal<boolean>,
+        withCloseButton: Value.toSignal(
+          options.withCloseButton == null && dismissAfter == null
+            ? true
+            : (options.withCloseButton ?? true)
+        ),
+        withBorder: Value.toSignal(options.withBorder ?? false),
+        color: Value.toSignal(options.color ?? 'primary'),
+        radius: Value.toSignal(options.radius ?? 'md'),
+        title: options.title ?? Empty,
+        icon: Value.toSignal(options.icon),
+        status,
         children,
-        requestClose,
-        finalize,
-        open,
+        close,
+        listenRequestClose: (fn: () => void) => cleanup.push(fn),
       }
 
-      const resolvedDismissAfter =
-        options.dismissAfter != null
-          ? Value.get(options.dismissAfter)
-          : undefined
-      if (
-        resolvedDismissAfter != null &&
-        !Number.isNaN(resolvedDismissAfter) &&
-        resolvedDismissAfter > 0
-      ) {
-        const timeout = setTimeout(() => {
-          requestClose()
-        }, resolvedDismissAfter * 1000)
-        cleanup.push(() => clearTimeout(timeout))
-      }
-
-      if (options.dismissWhen) {
-        let active = true
-        options.dismissWhen
-          .then(() => {
-            if (!active) return
-            requestClose()
-          })
-          .catch(() => {
-            // Swallow promise errors; they shouldn't break notifications
-          })
-        cleanup.push(() => {
-          active = false
-        })
-      }
-
-      notifications.update(entries => [...entries, entry])
-      return requestClose
+      onShowListeners.forEach(fn => fn(entry))
+      return close
     }
 
     const clear = () => {
-      const snapshot = [...Value.get(notifications)]
-      snapshot.forEach(entry => entry.requestClose())
+      cleanup.forEach(fn => fn())
+      cleanup.length = 0
     }
 
     const detach = NotificationService.attach({ show, clear })
 
     return {
       value: {
-        notifications,
+        activeNotifications,
         show,
         clear,
+        position,
+        listenOnShow,
       },
       dispose: () => {
         detach()
         clear()
-        notifications.dispose()
       },
     }
   },
 }
 
 export function NotificationViewport() {
-  return Use(NotificationProvider, ({ notifications }) => {
-    const hasNotifications = notifications.map(entries => entries.length > 0)
-    return When(
-      hasNotifications,
-      () =>
-        html.div(
-          attr.class('bc-notification-viewport'),
-          ForEach(notifications, entrySignal => {
-            const entry = entrySignal.value
-            const normalized =
-              entry.options.withCloseButton === undefined
-                ? { ...entry.options, withCloseButton: true }
-                : entry.options
-            return Notification(
-              {
-                ...normalized,
-                open: entry.open,
-                onRequestClose: entry.requestClose,
-                onClose: entry.finalize,
-              },
-              ...entry.children
-            )
-          })
-        ),
-      () => Empty
-    )
-  })
+  return Use(
+    NotificationProvider,
+    ({ listenOnShow, position, activeNotifications }) => {
+      return When(
+        activeNotifications.map(n => n > 0),
+        () =>
+          html.div(
+            attr.class('bc-notification-viewport'),
+            attr.class(`bc-notification-viewport--${position}`),
+            WithBrowserCtx(ctx => {
+              listenOnShow(entry => {
+                const cleanup: Array<() => void> = []
+                const onClose = () => {
+                  entry.close()
+                  cleanup.forEach(fn => fn())
+                }
+                entry.listenRequestClose(onClose)
+                const notification = Notification(
+                  {
+                    class: entry.class,
+                    loading: entry.loading,
+                    withCloseButton: entry.withCloseButton,
+                    withBorder: entry.withBorder,
+                    color: entry.color,
+                    radius: entry.radius,
+                    title: entry.title,
+                    icon: entry.icon,
+                    onClose,
+                  },
+                  ...entry.children
+                )
+                cleanup.push(renderWithContext(notification, ctx))
+              })
+            })
+          )
+      )
+    }
+  )
 }

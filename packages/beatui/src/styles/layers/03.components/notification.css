@@ -68,10 +68,7 @@
 
   .bc-notification-viewport {
     position: fixed;
-    top: var(--spacing-xl);
-    right: var(--spacing-xl);
     display: flex;
-    flex-direction: column;
     gap: var(--spacing-md);
     width: min(420px, calc(100vw - var(--spacing-2xl)));
     z-index: var(--z-index-notification, 90);
@@ -82,24 +79,40 @@
     pointer-events: auto;
   }
 
+  .bc-notification-viewport--top-end {
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .bc-notification-viewport--top-start {
+    top: var(--spacing-xl);
+    left: var(--spacing-xl);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bc-notification-viewport--bottom-end {
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  .bc-notification-viewport--bottom-start {
+    bottom: var(--spacing-xl);
+    left: var(--spacing-xl);
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
   .b-dark .bc-notification {
     --notification-bg: var(--bg-surface-dark);
     --notification-border-color: var(--border-border-dark);
     --notification-text-color: var(--text-normal-dark);
     --notification-muted-color: var(--text-muted-dark);
     box-shadow: var(--shadow-lg);
-  }
-
-  .bc-notification--status-start-opening,
-  .bc-notification--status-opening {
-    opacity: 0;
-    transform: translateY(0.5rem);
-  }
-
-  .bc-notification--status-start-closing,
-  .bc-notification--status-closing {
-    opacity: 0;
-    transform: translateY(-0.5rem);
   }
 
   @media (max-width: 640px) {

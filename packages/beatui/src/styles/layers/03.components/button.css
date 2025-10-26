@@ -36,6 +36,10 @@
   text-shadow: var(--button-text-shadow, var(--text-shadow-none));
 }
 
+.bc-button--full-width {
+  width: 100%;
+}
+
 .bc-button > span {
   min-height: 10px;
 }

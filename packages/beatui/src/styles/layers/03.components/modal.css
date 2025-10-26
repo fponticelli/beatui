@@ -94,45 +94,45 @@
 }
 
 /* Modal positioning - Top Left */
-.bc-modal--position-top-left.bc-modal--container-body {
+.bc-modal--position-top-start.bc-modal--container-body {
   top: 2rem;
   left: 2rem;
 }
 
-.bc-modal--position-top-left.bc-modal--container-element {
+.bc-modal--position-top-start.bc-modal--container-element {
   top: 5%;
   left: 5%;
 }
 
 /* Modal positioning - Top Right */
-.bc-modal--position-top-right.bc-modal--container-body {
+.bc-modal--position-top-end.bc-modal--container-body {
   top: 2rem;
   right: 2rem;
 }
 
-.bc-modal--position-top-right.bc-modal--container-element {
+.bc-modal--position-top-end.bc-modal--container-element {
   top: 5%;
   right: 5%;
 }
 
 /* Modal positioning - Bottom Left */
-.bc-modal--position-bottom-left.bc-modal--container-body {
+.bc-modal--position-bottom-start.bc-modal--container-body {
   bottom: 2rem;
   left: 2rem;
 }
 
-.bc-modal--position-bottom-left.bc-modal--container-element {
+.bc-modal--position-bottom-start.bc-modal--container-element {
   bottom: 5%;
   left: 5%;
 }
 
 /* Modal positioning - Bottom Right */
-.bc-modal--position-bottom-right.bc-modal--container-body {
+.bc-modal--position-bottom-end.bc-modal--container-body {
   bottom: 2rem;
   right: 2rem;
 }
 
-.bc-modal--position-bottom-right.bc-modal--container-element {
+.bc-modal--position-bottom-end.bc-modal--container-element {
   bottom: 5%;
   right: 5%;
 }
@@ -330,26 +330,26 @@
 }
 
 /* Animation states - Corner positions */
-.bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
-.bc-overlay[data-status='closing'] .bc-modal--position-top-left,
-.bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
-.bc-overlay[data-status='closing'] .bc-modal--position-top-right,
-.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
-.bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
-.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
-.bc-overlay[data-status='closing'] .bc-modal--position-bottom-right {
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-start,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-start,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-top-end,
+.bc-overlay[data-status='closing'] .bc-modal--position-top-end,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-start,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-start,
+.bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-end,
+.bc-overlay[data-status='closing'] .bc-modal--position-bottom-end {
   opacity: 0;
   transform: scale(0.95);
 }
 
-.bc-overlay[data-status='opened'] .bc-modal--position-top-left,
-.bc-overlay[data-status='opening'] .bc-modal--position-top-left,
-.bc-overlay[data-status='opened'] .bc-modal--position-top-right,
-.bc-overlay[data-status='opening'] .bc-modal--position-top-right,
-.bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
-.bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
-.bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
-.bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+.bc-overlay[data-status='opened'] .bc-modal--position-top-start,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-start,
+.bc-overlay[data-status='opened'] .bc-modal--position-top-end,
+.bc-overlay[data-status='opening'] .bc-modal--position-top-end,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-start,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-start,
+.bc-overlay[data-status='opened'] .bc-modal--position-bottom-end,
+.bc-overlay[data-status='opening'] .bc-modal--position-bottom-end {
   opacity: 1;
   transform: scale(1);
 }
@@ -505,22 +505,22 @@
   }
 
   /* Corner positions */
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-left,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top-left,
-  .bc-overlay[data-status='opened'] .bc-modal--position-top-left,
-  .bc-overlay[data-status='opening'] .bc-modal--position-top-left,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='closing'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='opened'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='opening'] .bc-modal--position-top-right,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-left,
-  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-right,
-  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-right,
-  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-right,
-  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-right {
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-start,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-start,
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-start,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-start,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-top-end,
+  .bc-overlay[data-status='closing'] .bc-modal--position-top-end,
+  .bc-overlay[data-status='opened'] .bc-modal--position-top-end,
+  .bc-overlay[data-status='opening'] .bc-modal--position-top-end,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-start,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-start,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-start,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-start,
+  .bc-overlay[data-status='start-opening'] .bc-modal--position-bottom-end,
+  .bc-overlay[data-status='closing'] .bc-modal--position-bottom-end,
+  .bc-overlay[data-status='opened'] .bc-modal--position-bottom-end,
+  .bc-overlay[data-status='opening'] .bc-modal--position-bottom-end {
     transform: none;
   }
 }

@@ -13,6 +13,7 @@ import {
   aria,
   dataAttr,
   Use,
+  OnDispose,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
 import { CloseButton } from '../button'
@@ -98,13 +99,14 @@ export function Drawer(
           element,
         })
 
+        // Wait for animation to complete before actually closing overlay
+        animatedToggle.listenOnClosed(() => {
+          closeOverlay()
+        })
+
         // Create a close function that handles animation
         const closeWithAnimation = () => {
           animatedToggle.close()
-          // Wait for animation to complete before actually closing overlay
-          animatedToggle.onClosed(() => {
-            closeOverlay()
-          })
         }
 
         // Update the current close function
@@ -121,6 +123,7 @@ export function Drawer(
         const bodyId = `${drawerId}-body`
 
         return html.div(
+          OnDispose(animatedToggle.dispose),
           attr.class(
             computedOf(
               size,

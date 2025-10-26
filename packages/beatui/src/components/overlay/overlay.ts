@@ -42,7 +42,7 @@ export function Overlay(
         ctx = ctx.makePortal('body') as BrowserContext
       }
       const status = useAnimatedElementToggle()
-      status.onClosed(close)
+      status.listenOnClosed(close)
 
       // Event listener cleanup functions
       let escapeCleanup: () => void = () => {}
@@ -88,6 +88,7 @@ export function Overlay(
 
       // Cleanup event listeners when overlay is disposed
       disposables.push(() => {
+        status.dispose()
         escapeCleanup()
         clickOutsideCleanup()
       })

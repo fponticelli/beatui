@@ -30,10 +30,10 @@ export default function ModalPage() {
     | 'bottom'
     | 'left'
     | 'right'
-    | 'top-left'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-right'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom-start'
+    | 'bottom-end'
   >('center')
 
   return ScrollablePanel({
@@ -75,10 +75,10 @@ export default function ModalPage() {
             bottom: 'Bottom',
             left: 'Left',
             right: 'Right',
-            'top-left': 'Top-Left',
-            'top-right': 'Top-Right',
-            'bottom-left': 'Bottom-Left',
-            'bottom-right': 'Bottom-Right',
+            'top-start': 'top-start',
+            'top-end': 'top-end',
+            'bottom-start': 'bottom-start',
+            'bottom-end': 'bottom-end',
           },
           value: position,
           onChange: position.set,

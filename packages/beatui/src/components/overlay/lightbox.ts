@@ -17,7 +17,7 @@ import { BeatUII18n } from '@/beatui-i18n'
 export interface LightboxOptions {
   /** Whether clicking outside/Escape closes the lightbox (default: true) */
   dismissable?: Value<boolean>
-  /** Whether to show the close button in the top-right corner (default: true) */
+  /** Whether to show the close button in the top-end corner (default: true) */
   showCloseButton?: Value<boolean>
   /** Overlay effect (default: 'opaque') */
   overlayEffect?: Value<OverlayEffect>
@@ -70,7 +70,7 @@ export function Lightbox(
       const lightboxContent = html.div(
         attr.class('bc-lightbox'),
 
-        // Close button (top-right)
+        // Close button (top-end)
         When(
           showCloseButton as Value<boolean>,
           () =>

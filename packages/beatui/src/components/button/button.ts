@@ -36,12 +36,14 @@ export interface ButtonOptions {
   color?: Value<ThemeColorName | 'black' | 'white'>
   roundedness?: Value<RadiusName>
   onClick?: () => void
+  fullWidth?: Value<boolean>
 }
 
 export function generateButtonClasses(
   size: ControlSize,
   roundedness: RadiusName,
-  loading?: boolean
+  loading: boolean,
+  fullWidth: boolean
 ): string {
   const classes = [
     'bc-button',
@@ -54,13 +56,16 @@ export function generateButtonClasses(
     classes.push('bc-button--loading')
   }
 
+  if (fullWidth) {
+    classes.push('bc-button--full-width')
+  }
   return classes.join(' ')
 }
 
 export function generateButtonStyles(
   variant: ButtonVariant,
   color: ExtendedColor,
-  disabled?: boolean
+  disabled: boolean
 ): string {
   const styles = new Map<string, string>()
 
@@ -201,13 +206,14 @@ export function generateButtonStyles(
 export function Button(
   {
     type = 'button',
-    disabled,
-    loading,
+    disabled = false,
+    loading = false,
     variant = 'filled',
     size = 'md',
     color = 'base',
     roundedness = 'sm',
     onClick = () => {},
+    fullWidth = false,
   }: ButtonOptions,
   ...children: TNode[]
 ) {
@@ -225,27 +231,9 @@ export function Button(
       aria.busy(loading ?? false),
       When(loading ?? false, () => aria.label(t.$.loadingExtended)),
       attr.class(
-        computedOf(
-          size,
-          roundedness,
-          loading
-        )((size, roundedness, loading) =>
-          generateButtonClasses(size ?? 'md', roundedness ?? 'sm', loading)
-        )
+        computedOf(size, roundedness, loading, fullWidth)(generateButtonClasses)
       ),
-      attr.style(
-        computedOf(
-          variant,
-          color,
-          disabled
-        )((variant, color, disabled) =>
-          generateButtonStyles(
-            variant ?? 'filled',
-            (color ?? 'base') as ExtendedColor,
-            disabled
-          )
-        )
-      ),
+      attr.style(computedOf(variant, color, disabled)(generateButtonStyles)),
       When(
         loading ?? false,
         () =>

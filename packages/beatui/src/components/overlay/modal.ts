@@ -34,17 +34,17 @@ export interface ModalOptions {
   overlayEffect?: Value<OverlayEffect>
   /** Container for the overlay: 'body' (default) or 'element' (current element) */
   container?: 'body' | 'element'
-  /** Position of the modal: 'center' (default), 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right' */
+  /** Position of the modal: 'center' (default), 'top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start', 'bottom-end' */
   position?: Value<
     | 'center'
     | 'top'
     | 'bottom'
     | 'left'
     | 'right'
-    | 'top-left'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-right'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom-start'
+    | 'bottom-end'
   >
 }
 

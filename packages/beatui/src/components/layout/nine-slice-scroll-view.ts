@@ -30,14 +30,14 @@ export type NineSliceScrollViewOptions = {
   // Top row sections
   header?: TNode
   headerHeight?: Value<number>
-  topStart?: TNode // top-left in LTR, top-right in RTL
-  topEnd?: TNode // top-right in LTR, top-left in RTL
+  topStart?: TNode // top-start in LTR, top-end in RTL
+  topEnd?: TNode // top-end in LTR, top-start in RTL
 
   // Bottom row sections
   footer?: TNode
   footerHeight?: Value<number>
-  bottomStart?: TNode // bottom-left in LTR, bottom-right in RTL
-  bottomEnd?: TNode // bottom-right in LTR, bottom-left in RTL
+  bottomStart?: TNode // bottom-start in LTR, bottom-end in RTL
+  bottomEnd?: TNode // bottom-end in LTR, bottom-start in RTL
 
   // Side sections (start/end for RTL support)
   sidebarStart?: TNode // left in LTR, right in RTL

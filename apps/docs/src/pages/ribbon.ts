@@ -17,7 +17,7 @@ export default function RibbonPage() {
         html.div(
           attr.class('text-center'),
           html.h3(attr.class('text-lg font-semibold'), 'Basic Ribbon'),
-          html.p(attr.class('text-gray-500'), 'Top-right 45° band')
+          html.p(attr.class('text-gray-500'), 'top-end 45° band')
         ),
         Ribbon(
           {
@@ -68,7 +68,7 @@ export default function RibbonPage() {
         )
       ),
 
-      // Top-left corner
+      // top-start corner
       Card(
         {},
         attr.class(
@@ -76,12 +76,12 @@ export default function RibbonPage() {
         ),
         html.div(
           attr.class('text-center'),
-          html.h3(attr.class('text-lg font-semibold'), 'Top-Left'),
+          html.h3(attr.class('text-lg font-semibold'), 'top-start'),
           html.p(attr.class('text-gray-500'), 'Corner position')
         ),
         Ribbon(
           {
-            corner: 'top-right',
+            corner: 'top-end',
             color: 'info',
             width: 120,
             offset: 40,
@@ -90,7 +90,7 @@ export default function RibbonPage() {
         ),
         Ribbon(
           {
-            corner: 'top-left',
+            corner: 'top-start',
             width: 120,
             offset: 40,
           },
@@ -98,7 +98,7 @@ export default function RibbonPage() {
         ),
         Ribbon(
           {
-            corner: 'bottom-right',
+            corner: 'bottom-end',
             color: 'warning',
             width: 120,
             offset: 40,
@@ -107,7 +107,7 @@ export default function RibbonPage() {
         ),
         Ribbon(
           {
-            corner: 'bottom-left',
+            corner: 'bottom-start',
             color: 'danger',
             width: 120,
             offset: 40,
