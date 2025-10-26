@@ -18,9 +18,13 @@
     border: 1px solid transparent;
     box-shadow: var(--shadow-lg);
     transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
       background-color 0.2s ease,
       border-color 0.2s ease,
       box-shadow 0.2s ease;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .bc-notification--bordered {
@@ -48,11 +52,9 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
     margin: 0;
-    color: var(--notification-text-color);
   }
 
   .bc-notification__content {
-    font-size: var(--font-size-sm);
     color: var(--notification-muted-color);
     line-height: var(--line-height-normal);
   }
@@ -62,16 +64,22 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xs);
-    margin-left: auto;
   }
 
-  .bc-notification__loader,
-  .bc-notification__icon {
-    margin: 0 var(--spacing-md);
-    color: var(--notification-accent-color);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  .bc-notification-viewport {
+    position: fixed;
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    width: min(420px, calc(100vw - var(--spacing-2xl)));
+    z-index: var(--z-index-notification, 90);
+    pointer-events: none;
+  }
+
+  .bc-notification-viewport > * {
+    pointer-events: auto;
   }
 
   .b-dark .bc-notification {
@@ -79,7 +87,27 @@
     --notification-border-color: var(--border-border-dark);
     --notification-text-color: var(--text-normal-dark);
     --notification-muted-color: var(--text-muted-dark);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .bc-notification--status-start-opening,
+  .bc-notification--status-opening {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  .bc-notification--status-start-closing,
+  .bc-notification--status-closing {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+
+  @media (max-width: 640px) {
+    .bc-notification-viewport {
+      left: var(--spacing-md);
+      right: var(--spacing-md);
+      width: auto;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

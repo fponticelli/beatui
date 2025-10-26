@@ -11,12 +11,17 @@ import { Locale } from '@/components/i18n'
 import { Location, NavigationService } from '@tempots/ui'
 import { BeatUII18n } from '@/beatui-i18n'
 import { LocaleDirection } from './i18n/locale-direction'
+import {
+  NotificationProvider,
+  NotificationViewport,
+} from './misc/notification-provider'
 
 export type BeatUIOptions = {
   includeAuthI18n?: boolean
   enableAppearance?: boolean
   defaultAppearance?: AppearancePreference
   appearancePreferenceKey?: string
+  includeNotifications?: boolean
 }
 
 export function BeatUI(
@@ -25,6 +30,7 @@ export function BeatUI(
     enableAppearance = true,
     defaultAppearance = 'system',
     appearancePreferenceKey = 'bui-appearance',
+    includeNotifications = true,
   }: BeatUIOptions,
   ...children: TNode[]
 ) {
@@ -36,10 +42,14 @@ export function BeatUI(
       defaultAppearance: enableAppearance ? defaultAppearance : 'light',
       appearancePreferenceKey,
     })
+    if (includeNotifications) {
+      set(NotificationProvider, {})
+    }
     NavigationService.attach(use(Location))
     const fragment = Fragment(
       enableAppearance ? ThemeAppearance() : Empty,
       LocaleDirection(),
+      includeNotifications ? NotificationViewport() : Empty,
       ...children
     )
     if (includeAuthI18n) {

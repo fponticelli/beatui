@@ -91,6 +91,10 @@ export function Menu() {
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/notice', content: 'Notice' }),
         SidebarLink({ href: '/notification', content: 'Notification' }),
+        SidebarLink({
+          href: '/notification-service',
+          content: 'Notification Service',
+        }),
         SidebarLink({ href: '/table', content: 'Table' }),
         SidebarLink({
           href: '/tags',
