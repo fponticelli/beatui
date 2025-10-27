@@ -32,11 +32,17 @@ describe('NullableDurationInput', () => {
     const onChange = vi.fn()
     const el = NullableDurationInput({ value, onChange })
     render(BeatUI({}, el), container)
-    await sleep(10)
+
+    // Wait for Temporal polyfill to load and MaskInput to render
+    await sleep(100)
 
     const input = container.querySelector('input') as HTMLInputElement
     input.value = 'P2DT3H'
     input.dispatchEvent(new Event('change', { bubbles: true }))
+
+    // Wait for the change event to be processed
+    await sleep(10)
+
     expect(onChange).toHaveBeenCalled()
     const dur: Duration = onChange.mock.calls[0][0]
     expect(String(dur)).toBe('P2DT3H')
@@ -44,6 +50,10 @@ describe('NullableDurationInput', () => {
     onChange.mockClear()
     input.value = ''
     input.dispatchEvent(new Event('change', { bubbles: true }))
+
+    // Wait for the change event to be processed
+    await sleep(10)
+
     expect(onChange).toHaveBeenCalledWith(null)
   })
 })

@@ -272,7 +272,7 @@ describe('OpenGraph', () => {
     ).toBe('John Doe')
   })
 
-  it('should support reactive values', () => {
+  it('should support reactive values', async () => {
     const title = prop('Initial Title')
     const description = prop('Initial Description')
 
@@ -298,6 +298,9 @@ describe('OpenGraph', () => {
     // Update reactive values
     title.value = 'Updated Title'
     description.value = 'Updated Description'
+
+    // Wait for DOM updates
+    await new Promise(resolve => setTimeout(resolve, 0))
 
     expect(
       document
