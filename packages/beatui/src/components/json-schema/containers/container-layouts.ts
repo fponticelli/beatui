@@ -8,6 +8,7 @@ import {
   on,
   aria,
   Value,
+  OnDispose,
 } from '@tempots/dom'
 import { Stack } from '../../layout'
 import { Card } from '../../layout/card'
@@ -179,6 +180,7 @@ export function TabsContainer({
   const groupEntries = Object.entries(groups)
 
   return html.div(
+    OnDispose(activeTab),
     attr.class('bc-tabs'),
     // Tab headers
     html.div(
@@ -300,6 +302,7 @@ export function AccordionContainer({
   const openSections = prop(new Set([groupEntries[0]?.[0]].filter(Boolean)))
 
   return html.div(
+    OnDispose(openSections),
     attr.class('bc-accordion'),
     ...groupEntries.map(([groupName, propertyNames]) => {
       const isOpen = computedOf(openSections)(sections =>
@@ -307,6 +310,7 @@ export function AccordionContainer({
       )
 
       return html.div(
+        OnDispose(isOpen),
         attr.class('bc-accordion__item'),
         html.button(
           attr.type('button'),
@@ -380,6 +384,7 @@ function SimpleAccordionContainer({
   const isOpen = prop(true)
 
   return html.div(
+    OnDispose(isOpen),
     attr.class('bc-accordion'),
     html.div(
       attr.class('bc-accordion__item'),

@@ -88,16 +88,16 @@ function createFilePreview(file: Signal<File>): TNode {
       })
 
       return html.div(
+        OnDispose(thumbnailUrl, () => {
+          if (thumbnailUrl.value) {
+            URL.revokeObjectURL(thumbnailUrl.value)
+          }
+        }),
         attr.class('bc-file-input__thumbnail-container'),
         html.img(
           attr.src(thumbnailUrl),
           attr.alt(file.map(f => f.name)),
-          attr.class('bc-file-input__thumbnail'),
-          OnDispose(() => {
-            if (thumbnailUrl.value) {
-              URL.revokeObjectURL(thumbnailUrl.value)
-            }
-          })
+          attr.class('bc-file-input__thumbnail')
         )
       )
     },

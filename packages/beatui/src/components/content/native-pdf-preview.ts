@@ -67,6 +67,7 @@ export function NativePdfPreview({
 
   return html.div(
     OnDispose(
+      urlWithParams,
       fileUrl.on((_, previous) => {
         if (previous == null) return
         URL.revokeObjectURL(previous)

@@ -8,6 +8,7 @@ import {
   Use,
   Ensure,
   style,
+  OnDispose,
 } from '@tempots/dom'
 import {
   ObjectController,
@@ -128,6 +129,7 @@ export function renderAdditionalEntry(
 
   // Render key editor, hints/errors, and value control
   return html.div(
+    OnDispose(keySignal, keyError, () => Value.dispose(keyLocked)),
     attr.class('bc-object-helpers__row'),
     style.gridTemplateColumns('2fr 3fr min-content'),
     InputWrapper({
@@ -262,6 +264,7 @@ export function renderUnevaluatedEntry(
 
   // Render key editor with unevaluated property indicator
   return html.div(
+    OnDispose(keySignal, keyError, () => Value.dispose(keyLocked)),
     attr.class('bc-object-helpers__row'),
     style.gridTemplateColumns('2fr 3fr min-content'),
     InputWrapper({

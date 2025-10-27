@@ -233,49 +233,147 @@ export function useAnimatedElementToggle({
   }
 }
 
-export type ToggleAnimation =
-  | 'none'
-  | 'slide-right'
-  | 'slide-left'
-  | 'slide-up'
-  | 'slide-down'
-  | 'fade'
-  | 'fade-slide-right'
-  | 'fade-slide-left'
-  | 'fade-slide-up'
-  | 'fade-slide-down'
-  | 'scale'
-  | 'scale-fade'
-  | 'flyout-top'
-  | 'flyout-bottom'
-  | 'flyout-left'
-  | 'flyout-right'
+export type SlideDirection = 'up' | 'down' | 'left' | 'right'
+
+export type TransformOrigin =
+  | 'center'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+
+export type ComposableAnimation = {
+  // Visual effects
+  fade?: boolean
+  slide?: SlideDirection
+  scale?: boolean | number // true = 0.95, number = custom scale factor
+
+  // Transform settings
+  transformOrigin?: TransformOrigin
+
+  // Timing
+  duration?: number // milliseconds
+  easing?: string // CSS easing function
+}
+
+export type AnimationConfig =
+  | {
+      enter?: ComposableAnimation
+      exit?: ComposableAnimation
+    }
+  | ComposableAnimation // Same for both enter/exit
+
+// Helper to generate CSS classes from composable animation
+function animationToClasses(anim: ComposableAnimation | undefined): string {
+  if (anim == null) return ''
+
+  const classes: string[] = []
+
+  if (anim.fade) classes.push('fade')
+  if (anim.slide) classes.push(`slide-${anim.slide}`)
+  if (anim.scale != null) classes.push('scale')
+
+  return classes.length > 0 ? classes.join(' ') : 'none'
+}
+
+// Helper to generate inline styles from composable animation
+function animationToStyles(anim: ComposableAnimation | undefined): string {
+  if (anim == null) return ''
+
+  const styles: string[] = []
+
+  if (anim.scale != null && typeof anim.scale === 'number') {
+    styles.push(`--scale-factor: ${anim.scale}`)
+  }
+
+  if (anim.transformOrigin != null) {
+    styles.push(`--transform-origin: ${anim.transformOrigin}`)
+  }
+
+  if (anim.duration != null) {
+    styles.push(`--animation-duration: ${anim.duration}ms`)
+  }
+
+  if (anim.easing != null) {
+    styles.push(`--animation-easing: ${anim.easing}`)
+  }
+
+  return styles.join('; ')
+}
 
 export function AnimatedToggleClass({
-  animation = 'fade',
+  animation,
   status,
 }: {
-  animation?: Value<ToggleAnimation>
+  animation?: Value<AnimationConfig>
   status: Signal<ToggleStatus>
 }) {
-  return attr.class(
-    computedOf(
-      animation,
-      status
-    )(
-      (a, s) =>
-        `bc-animated-toggle bc-animated-toggle--${a} bc-animated-toggle--${s}`
-    )
+  const classes = computedOf(
+    animation,
+    status
+  )((animConfig, s) => {
+    if (animConfig == null) {
+      return `bc-animated-toggle bc-animated-toggle--${s}`
+    }
+
+    // Determine which animation to use based on status
+    const isEntering =
+      s === 'start-opening' || s === 'opening' || s === 'opened'
+
+    let currentAnim: ComposableAnimation | undefined
+    if ('enter' in animConfig || 'exit' in animConfig) {
+      // It's an enter/exit config
+      currentAnim = isEntering ? animConfig.enter : animConfig.exit
+    } else {
+      // It's a ComposableAnimation - use for both enter and exit
+      currentAnim = animConfig as ComposableAnimation
+    }
+
+    const animClasses = animationToClasses(currentAnim)
+
+    return `bc-animated-toggle bc-animated-toggle--${animClasses} bc-animated-toggle--${s}`
+  })
+
+  const styles = computedOf(
+    animation,
+    status
+  )((animConfig, s) => {
+    if (animConfig == null) return ''
+
+    // Determine which animation to use based on status
+    const isEntering =
+      s === 'start-opening' || s === 'opening' || s === 'opened'
+
+    let currentAnim: ComposableAnimation | undefined
+    if ('enter' in animConfig || 'exit' in animConfig) {
+      // It's an enter/exit config
+      currentAnim = isEntering ? animConfig.enter : animConfig.exit
+    } else {
+      // It's a ComposableAnimation - use for both enter and exit
+      currentAnim = animConfig as ComposableAnimation
+    }
+
+    return animationToStyles(currentAnim)
+  })
+
+  return Fragment(
+    OnDispose(classes, styles),
+    attr.class(classes),
+    attr.style(styles)
   )
 }
 
 export function AnimatedToggle(
   {
     initialStatus = 'closed',
-    animation = 'fade',
+    animation,
   }: {
     initialStatus?: ToggleStatus
-    animation?: Value<ToggleAnimation>
+    animation?: Value<AnimationConfig>
   },
   render: (options: {
     status: Signal<ToggleStatus>

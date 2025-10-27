@@ -1,4 +1,4 @@
-import { attr, html, Renderable, Value, When } from '@tempots/dom'
+import { attr, html, OnDispose, Renderable, Value, When } from '@tempots/dom'
 import { Stack } from '../../layout'
 import { InputWrapper, Switch } from '../../form'
 import type { Controller } from '../../form'
@@ -50,6 +50,7 @@ export function PresenceToggle<T>({
   }
 
   return Stack(
+    OnDispose(() => Value.dispose(isPresent)),
     html.div(
       attr.class('bc-presence-toggle'),
       InputWrapper({

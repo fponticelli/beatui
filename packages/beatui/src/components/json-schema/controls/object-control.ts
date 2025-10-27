@@ -55,6 +55,7 @@ export function JSONSchemaObject({
 
     const knownKeys = new Set(Object.keys(knownProps))
     const currentKeys = Object.keys(current ?? {})
+    // eslint-disable-next-line tempots/require-signal-disposal
     const additionalKeys = currentKeys.filter(k => !knownKeys.has(k))
 
     // Handle unevaluatedProperties (2019-09/2020-12)
@@ -67,7 +68,9 @@ export function JSONSchemaObject({
     )
 
     // Separate keys into evaluated and unevaluated for unevaluatedProperties handling
+    // eslint-disable-next-line tempots/require-signal-disposal
     const unevaluatedKeys = additionalKeys.filter(k => !evaluatedKeys.has(k))
+    // eslint-disable-next-line tempots/require-signal-disposal
     const evaluatedAdditionalKeys = additionalKeys.filter(k =>
       evaluatedKeys.has(k)
     )
@@ -235,6 +238,7 @@ export function JSONSchemaObject({
     const knownPropertyEntries = objectEntries(knownProps).filter(
       ([, definition]) => definition !== false
     )
+    // eslint-disable-next-line tempots/require-signal-disposal
     const knownPropertyNames = knownPropertyEntries.map(([k]) => k as string)
     const allPropertyNames = [
       ...knownPropertyNames,

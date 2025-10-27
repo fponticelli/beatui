@@ -10,6 +10,8 @@ import {
   Unless,
   Ensure,
   Renderable,
+  Fragment,
+  OnDispose,
 } from '@tempots/dom'
 import { Icon } from '../data'
 import type { ThemeColorName } from '@/tokens'
@@ -151,5 +153,16 @@ export function Notice(
     )
   )
 
-  return When(visible, () => body)
+  return Fragment(
+    OnDispose(
+      () => {
+        Value.dispose(isDismissible)
+        Value.dispose(currentVariant)
+        Value.dispose(currentTone)
+      },
+      ariaRole,
+      visible
+    ),
+    When(visible, () => body)
+  )
 }

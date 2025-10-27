@@ -9,6 +9,7 @@ import {
   on,
   style,
   OnDispose,
+  Fragment,
 } from '@tempots/dom'
 import { interval } from '@tempots/std'
 
@@ -614,7 +615,6 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
 
   // Dispose behavior
   const container = html.div(
-    OnDispose(...cleanups),
     attr.class('bc-base-video'),
     style.width(
       Value.map(width as Value<string | number | undefined>, cssSize)
@@ -629,7 +629,7 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     )
   )
 
-  return container
+  return Fragment(OnDispose(provider, ...cleanups), container)
 }
 
 function parseYouTubeId(url: string): string | null {

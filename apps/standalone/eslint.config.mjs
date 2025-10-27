@@ -1,5 +1,4 @@
 import tseslint from 'typescript-eslint'
-import eslintConfigPrettier from 'eslint-config-prettier'
 import tempots from '@tempots/eslint-plugin'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
@@ -8,7 +7,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default tseslint.config(
   ...tseslint.configs.recommended,
-  eslintConfigPrettier,
   {
     ignores: [
       '**/*.{d.ts,d.mts}',

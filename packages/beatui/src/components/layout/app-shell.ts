@@ -547,11 +547,7 @@ export function AppShell({
       )(displayAsidePanel)
 
       return html.div(
-        OnDispose(() => {
-          headerBottom.dispose()
-          menuStatus.dispose()
-          asideStatus.dispose()
-        }),
+        OnDispose(headerBottom, menuStatus, asideStatus, template),
         style.display('grid'),
         style.height('100%'),
         style.width('100%'),
@@ -694,7 +690,7 @@ export function AppShell({
               ),
               style.top(headerBottom.map(v => `${v}px`)),
               AnimatedToggleClass({
-                animation: 'slide-right',
+                animation: { slide: 'right' },
                 status: computedOf(
                   displayMenuAs,
                   menuStatus.status
@@ -786,7 +782,7 @@ export function AppShell({
               ),
               style.top(headerBottom.map(v => `${v}px`)),
               AnimatedToggleClass({
-                animation: 'slide-left',
+                animation: { slide: 'left' },
                 status: computedOf(
                   displayAsideAs,
                   asideStatus.status

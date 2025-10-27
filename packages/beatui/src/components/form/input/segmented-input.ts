@@ -65,6 +65,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
       arrEquality
     )
     return html.div(
+      OnDispose(rects),
       attr.class(
         computedOf(
           size,

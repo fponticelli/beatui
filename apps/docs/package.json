@@ -26,12 +26,13 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^14.2.0",
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "31.6.0",
+    "@tempots/dom": "31.6.1",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "10.7.0",
+    "@tempots/ui": "10.7.1",
     "zod": "4.1.12"
   },
   "devDependencies": {
+    "@tempots/eslint-plugin": "0.2.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/fs-extra": "^11.0.4",
     "@types/jsdom": "^21.1.7",

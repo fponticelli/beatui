@@ -13,6 +13,7 @@ import {
   Use,
   coalesce,
   Renderable,
+  OnDispose,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button, CloseButton } from '../button'
@@ -81,6 +82,7 @@ export function Modal(
     const open = (content: ModalContentOptions) => {
       currentClose = closeOverlay
       // Create a reactive mode signal based on dismissable
+      // eslint-disable-next-line tempots/require-signal-disposal
       const mode = prop<'capturing' | 'non-capturing'>('capturing')
 
       // Update mode when dismissable changes
@@ -88,6 +90,7 @@ export function Modal(
         mode.set(isDismissable ? 'capturing' : 'non-capturing')
       })
 
+      // eslint-disable-next-line tempots/require-signal-disposal
       const displayHeader = computedOf(
         content.header != null,
         showCloseButton
@@ -188,7 +191,7 @@ export function Modal(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: modalContent,
+        content: Fragment(OnDispose(mode, displayHeader), modalContent),
         onClickOutside: () => {
           onClose?.()
           closeOverlay()

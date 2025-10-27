@@ -8,6 +8,7 @@ import {
   Fragment,
   computedOf,
   Renderable,
+  OnDispose,
 } from '@tempots/dom'
 import { Merge } from '@tempots/std'
 import { InputContainer } from './input-container'
@@ -463,77 +464,82 @@ export const MaskInput = (options: MaskInputOptions): Renderable => {
     }
   }
 
-  return InputContainer({
-    ...options,
-    input: input.text(
-      CommonInputAttributes(options),
-      attr.value(conformExternal),
-      attr.class('bc-input'),
-      onBlur != null ? on.blur(onBlur) : Empty,
-      WithElement(el =>
-        el instanceof HTMLInputElement
-          ? Fragment(
-              on.input(() => applyAndEmit(el, 'input')),
-              on.change(() => applyAndEmit(el, 'change')),
-              on.keydown(ev => {
-                if (ev.key !== 'Backspace') return
-                const rubber = options.cursor
-                  ? (Value.get(options.cursor)?.backspaceRubberBand ?? true)
-                  : true
-                if (!rubber) return
-
-                const start = el.selectionStart ?? 0
-                const end = el.selectionEnd ?? start
-                if (start !== end) return // let browser delete selection
-                if (start <= 0) return
-
-                const current = el.value ?? ''
-
-                // Resolve effective mask and literals
-                const effMask = mask != null ? Value.get(mask) : null
-                if (!effMask) return // unmasked, default behavior
-                const effDefs =
-                  definitions != null ? Value.get(definitions) : undefined
-                const effUseDefaults =
-                  useDefaultDefinitions != null
-                    ? Value.get(useDefaultDefinitions)
+  return Fragment(
+    OnDispose(conformExternal),
+    InputContainer({
+      ...options,
+      input: input.text(
+        CommonInputAttributes(options),
+        attr.value(conformExternal),
+        attr.class('bc-input'),
+        onBlur != null ? on.blur(onBlur) : Empty,
+        WithElement(el =>
+          el instanceof HTMLInputElement
+            ? Fragment(
+                on.input(() => applyAndEmit(el, 'input')),
+                on.change(() => applyAndEmit(el, 'change')),
+                on.keydown(ev => {
+                  if (ev.key !== 'Backspace') return
+                  const rubber = options.cursor
+                    ? (Value.get(options.cursor)?.backspaceRubberBand ?? true)
                     : true
-                const effPrefix = prefix != null ? Value.get(prefix) : undefined
-                const effSuffix = suffix != null ? Value.get(suffix) : undefined
+                  if (!rubber) return
 
-                const tokens = toTokens(
-                  typeof effMask === 'function'
-                    ? effMask(current, {
-                        raw: current,
-                        previousConformed: current,
-                        cursor: start,
-                        completed: false,
-                      })
-                    : effMask,
-                  effDefs ?? {},
-                  effUseDefaults ?? true
-                )
-                const literalSet = new Set<string>()
-                for (const t of tokens)
-                  if (t.type === 'literal') literalSet.add(t.char)
-                if (effPrefix) for (const ch of effPrefix) literalSet.add(ch)
-                if (effSuffix) for (const ch of effSuffix) literalSet.add(ch)
+                  const start = el.selectionStart ?? 0
+                  const end = el.selectionEnd ?? start
+                  if (start !== end) return // let browser delete selection
+                  if (start <= 0) return
 
-                // If the char just before caret is a literal, delete previous non-literal
-                if (literalSet.has(current[start - 1]!)) {
-                  let i = start - 1
-                  while (i >= 0 && literalSet.has(current[i]!)) i--
-                  if (i >= 0) {
-                    ev.preventDefault()
-                    ev.stopPropagation()
-                    el.value = current.slice(0, i) + current.slice(i + 1)
-                    applyAndEmit(el, 'input')
+                  const current = el.value ?? ''
+
+                  // Resolve effective mask and literals
+                  const effMask = mask != null ? Value.get(mask) : null
+                  if (!effMask) return // unmasked, default behavior
+                  const effDefs =
+                    definitions != null ? Value.get(definitions) : undefined
+                  const effUseDefaults =
+                    useDefaultDefinitions != null
+                      ? Value.get(useDefaultDefinitions)
+                      : true
+                  const effPrefix =
+                    prefix != null ? Value.get(prefix) : undefined
+                  const effSuffix =
+                    suffix != null ? Value.get(suffix) : undefined
+
+                  const tokens = toTokens(
+                    typeof effMask === 'function'
+                      ? effMask(current, {
+                          raw: current,
+                          previousConformed: current,
+                          cursor: start,
+                          completed: false,
+                        })
+                      : effMask,
+                    effDefs ?? {},
+                    effUseDefaults ?? true
+                  )
+                  const literalSet = new Set<string>()
+                  for (const t of tokens)
+                    if (t.type === 'literal') literalSet.add(t.char)
+                  if (effPrefix) for (const ch of effPrefix) literalSet.add(ch)
+                  if (effSuffix) for (const ch of effSuffix) literalSet.add(ch)
+
+                  // If the char just before caret is a literal, delete previous non-literal
+                  if (literalSet.has(current[start - 1]!)) {
+                    let i = start - 1
+                    while (i >= 0 && literalSet.has(current[i]!)) i--
+                    if (i >= 0) {
+                      ev.preventDefault()
+                      ev.stopPropagation()
+                      el.value = current.slice(0, i) + current.slice(i + 1)
+                      applyAndEmit(el, 'input')
+                    }
                   }
-                }
-              })
-            )
-          : Empty
-      )
-    ),
-  })
+                })
+              )
+            : Empty
+        )
+      ),
+    })
+  )
 }

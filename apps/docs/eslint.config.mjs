@@ -1,5 +1,6 @@
 import tseslint from 'typescript-eslint'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import tempots from '@tempots/eslint-plugin'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
 
@@ -18,6 +19,9 @@ export default tseslint.config(
     ],
   },
   {
+    plugins: {
+      tempots,
+    },
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: __dirname,
@@ -32,6 +36,7 @@ export default tseslint.config(
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      'tempots/require-signal-disposal': 'warn',
     },
   }
 )

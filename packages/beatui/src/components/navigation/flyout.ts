@@ -18,7 +18,8 @@ import { delayedAnimationFrame } from '@tempots/std'
 import {
   useAnimatedElementToggle,
   AnimatedToggleClass,
-  ToggleAnimation,
+  AnimationConfig,
+  ComposableAnimation,
 } from '@/utils/use-animated-toggle'
 import { sessionId } from '../../utils/session-id'
 
@@ -69,12 +70,24 @@ export interface FlyoutOptions {
   hasPopup?: Value<boolean | 'dialog' | 'menu' | 'listbox' | 'tree' | 'grid'>
 }
 
-function placementToAnimation(placement: Placement): ToggleAnimation {
-  if (placement.startsWith('top')) return 'flyout-top'
-  if (placement.startsWith('bottom')) return 'flyout-bottom'
-  if (placement.startsWith('left')) return 'flyout-left'
-  if (placement.startsWith('right')) return 'flyout-right'
-  return 'scale-fade' // fallback
+function placementToAnimation(placement: Placement): AnimationConfig {
+  const anim: ComposableAnimation = { fade: true, scale: true }
+
+  if (placement.startsWith('top')) {
+    anim.slide = 'down'
+    anim.transformOrigin = 'bottom'
+  } else if (placement.startsWith('bottom')) {
+    anim.slide = 'up'
+    anim.transformOrigin = 'top'
+  } else if (placement.startsWith('left')) {
+    anim.slide = 'right'
+    anim.transformOrigin = 'right'
+  } else if (placement.startsWith('right')) {
+    anim.slide = 'left'
+    anim.transformOrigin = 'left'
+  }
+
+  return anim
 }
 
 /**
@@ -359,10 +372,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
       const triggerValue = showOn as Value<FlyoutTrigger>
       return Fragment(
         ariaAttributes,
-        OnDispose(() => {
-          // Dispose the animatedToggle when the entire Flyout is disposed
-          animatedToggle.dispose()
-        }),
+        OnDispose(triggerExpanded, animatedToggle),
         OneOfValue(triggerValue, {
           'hover-focus': () =>
             Fragment(

@@ -1,6 +1,16 @@
 import { defaultMessages } from '@/beatui-i18n'
 import { Icon } from '@/components/data/icon'
-import { aria, attr, html, on, TNode, Value, When } from '@tempots/dom'
+import {
+  aria,
+  attr,
+  Fragment,
+  html,
+  on,
+  OnDispose,
+  TNode,
+  Value,
+  When,
+} from '@tempots/dom'
 
 // Helper: small reset button shown in InputContainer after slot for nullable values
 export function NullableResetAfter<V>(
@@ -11,19 +21,22 @@ export function NullableResetAfter<V>(
   const hasValue = Value.map(value, v => v != null)
   const label = defaultMessages.clearValue
 
-  return When(hasValue, () =>
-    html.button(
-      attr.type('button'),
-      attr.class('bc-input-container__reset'),
-      aria.label(label),
-      attr.title(label),
-      attr.disabled(disabled ?? false),
-      Icon({ icon: 'mdi:close', size: 'sm' }),
-      on.click((e: Event) => {
-        e.preventDefault()
-        e.stopPropagation()
-        onChange?.(null)
-      })
+  return Fragment(
+    OnDispose(() => Value.dispose(hasValue)),
+    When(hasValue, () =>
+      html.button(
+        attr.type('button'),
+        attr.class('bc-input-container__reset'),
+        aria.label(label),
+        attr.title(label),
+        attr.disabled(disabled ?? false),
+        Icon({ icon: 'mdi:close', size: 'sm' }),
+        on.click((e: Event) => {
+          e.preventDefault()
+          e.stopPropagation()
+          onChange?.(null)
+        })
+      )
     )
   )
 }

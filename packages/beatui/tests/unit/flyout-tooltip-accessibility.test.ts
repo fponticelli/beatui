@@ -93,11 +93,15 @@ describe('Flyout and Tooltip Accessibility', () => {
       button.click()
       await new Promise(resolve => setTimeout(resolve, 300))
 
+      const flyoutContainer = document.querySelector('.bc-flyout-container')!
       const flyout = document.querySelector('.test-flyout')!
 
       expect(flyout.getAttribute('role')).toBe('dialog')
-      expect(flyout.getAttribute('id')).toMatch(/flyout-.*/)
-      expect(flyout.getAttribute('tabindex')).toBe('-1')
+      const flyoutId = flyoutContainer.getAttribute('id')
+      expect(flyoutId).toBeTruthy()
+      expect(typeof flyoutId).toBe('string')
+      expect(flyoutId).toContain('flyout-')
+      expect(flyoutContainer.getAttribute('tabindex')).toBe('-1')
     })
 
     it('should close on Escape key when closable', async () => {

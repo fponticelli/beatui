@@ -15,11 +15,11 @@ import {
 } from '@tempots/dom'
 import { Notification, NotificationOptions } from './notification'
 import { RadiusName, ThemeColorName } from '@/tokens'
-import { AnimatedToggle, ToggleAnimation } from '@/utils'
+import { AnimatedToggle, AnimationConfig } from '@/utils'
 import { sleep } from '@tempots/std'
 
 type NotificationEntry = {
-  animation: ToggleAnimation
+  animation: AnimationConfig
   children: TNode[]
   loading: Signal<boolean>
   withCloseButton: Signal<boolean>
@@ -34,7 +34,7 @@ type NotificationEntry = {
 }
 
 export type ShowNotificationOptions = NotificationOptions & {
-  animation?: ToggleAnimation
+  animation?: AnimationConfig
   dismissAfter?: number | Promise<void>
 }
 
@@ -123,7 +123,7 @@ export const NotificationProvider: Provider<
 
     const cleanup: Array<() => void> = []
     const show: NotificationShowFn = (
-      { dismissAfter, onClose, animation = 'fade', ...options },
+      { dismissAfter, onClose, animation = { fade: true }, ...options },
       ...children
     ) => {
       const localCleanup: Array<() => void> = []

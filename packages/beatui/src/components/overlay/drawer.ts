@@ -14,6 +14,7 @@ import {
   dataAttr,
   Use,
   OnDispose,
+  Fragment,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
 import { CloseButton } from '../button'
@@ -79,6 +80,7 @@ export function Drawer(
       currentClose = closeOverlay
 
       // Create a reactive mode signal based on dismissable
+      // eslint-disable-next-line tempots/require-signal-disposal
       const mode = prop<'capturing' | 'non-capturing'>('capturing')
 
       // Update mode when dismissable changes
@@ -86,6 +88,7 @@ export function Drawer(
         mode.set(isDismissable ? 'capturing' : 'non-capturing')
       })
 
+      // eslint-disable-next-line tempots/require-signal-disposal
       const displayHeader = computedOf(
         header != null,
         showCloseButton
@@ -123,7 +126,7 @@ export function Drawer(
         const bodyId = `${drawerId}-body`
 
         return html.div(
-          OnDispose(animatedToggle.dispose),
+          OnDispose(animatedToggle),
           attr.class(
             computedOf(
               size,
@@ -202,7 +205,7 @@ export function Drawer(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: drawerContent,
+        content: Fragment(OnDispose(mode, displayHeader), drawerContent),
         onClickOutside: () => {
           onClose?.()
           handleClose()

@@ -103,6 +103,7 @@ export function UnstyledDropZone({
     }
 
     return html.div(
+      OnDispose(() => Value.dispose(files), isDragOver),
       attr.role('button'),
       attr.tabindex(
         Value.map(enableClick, enabled => (enabled ? 0 : -1) as number)

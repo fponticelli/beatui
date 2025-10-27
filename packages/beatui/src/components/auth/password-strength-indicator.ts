@@ -1,7 +1,16 @@
 // Password Strength Indicator Component
 // Visual feedback component for password complexity and security requirements
 
-import { attr, computedOf, html, Renderable, Use, When } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  Fragment,
+  html,
+  OnDispose,
+  Renderable,
+  Use,
+  When,
+} from '@tempots/dom'
 import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
 import { AuthI18n } from '@/auth-i18n/translations'
@@ -49,6 +58,7 @@ export function PasswordStrengthIndicator({
   })
 
   return html.div(
+    OnDispose(strengthData, containerClasses),
     attr.class(containerClasses),
 
     // Strength bar
@@ -222,6 +232,7 @@ export function PasswordStrengthBar({
   })
 
   return html.div(
+    OnDispose(strengthData, containerClasses),
     attr.class(containerClasses),
     html.div(
       attr.class('bc-password-strength-bar__fill'),
@@ -255,26 +266,29 @@ export function PasswordStrengthText({
     return classes.join(' ')
   })
 
-  return Use(AuthI18n, t =>
-    html.span(
-      attr.class(containerClasses),
-      computedOf(
-        strength,
-        t
-      )((str, t) => {
-        switch (str) {
-          case 'weak':
-            return t.passwordStrengthWeak
-          case 'fair':
-            return t.passwordStrengthFair
-          case 'good':
-            return t.passwordStrengthGood
-          case 'strong':
-            return t.passwordStrengthStrong
-          default:
-            return t.passwordStrengthWeak
-        }
-      })
+  return Fragment(
+    OnDispose(strength, containerClasses),
+    Use(AuthI18n, t =>
+      html.span(
+        attr.class(containerClasses),
+        computedOf(
+          strength,
+          t
+        )((str, t) => {
+          switch (str) {
+            case 'weak':
+              return t.passwordStrengthWeak
+            case 'fair':
+              return t.passwordStrengthFair
+            case 'good':
+              return t.passwordStrengthGood
+            case 'strong':
+              return t.passwordStrengthStrong
+            default:
+              return t.passwordStrengthWeak
+          }
+        })
+      )
     )
   )
 }

@@ -1,4 +1,4 @@
-import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { attr, computedOf, html, OnDispose, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 
 export interface TableOptions {
@@ -136,6 +136,7 @@ export function Table(
   )
 
   return html.div(
+    OnDispose(tableClasses, containerClasses, containerStyles),
     attr.class(containerClasses),
     attr.style(containerStyles),
     html.table(attr.class(tableClasses), ...children)

@@ -8,6 +8,8 @@ import {
   computedOf,
   Use,
   When,
+  Fragment,
+  OnDispose,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { OverlayEffect } from '../theme'
@@ -53,6 +55,7 @@ export function Lightbox(
       currentClose = closeOverlay
 
       // mode reacts to dismissable
+      // eslint-disable-next-line tempots/require-signal-disposal
       const mode = prop<'capturing' | 'non-capturing'>(
         (typeof dismissable === 'boolean' ? dismissable : true)
           ? 'capturing'
@@ -109,7 +112,7 @@ export function Lightbox(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: lightboxContent,
+        content: Fragment(OnDispose(mode), lightboxContent),
         onClickOutside: () => {
           // only close if dismissable
           if (currentDismissable) {

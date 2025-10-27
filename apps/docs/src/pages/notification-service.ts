@@ -9,7 +9,7 @@ import {
   ThemeColorName,
   NotificationProvider,
   NotificationService,
-  ToggleAnimation,
+  AnimationConfig,
   InputWrapper,
   NativeSelect,
   Option,
@@ -19,6 +19,35 @@ import { attr, html, prop, Use, When } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 import { ColorSelector } from '../elements/color-selector'
 
+type AnimationPreset =
+  | 'none'
+  | 'fade'
+  | 'fade-slide-right'
+  | 'fade-slide-left'
+  | 'fade-slide-up'
+  | 'fade-slide-down'
+  | 'slide-right'
+  | 'slide-left'
+  | 'slide-up'
+  | 'slide-down'
+  | 'scale'
+  | 'scale-fade'
+
+const animationPresets: Record<AnimationPreset, AnimationConfig> = {
+  none: {},
+  fade: { fade: true },
+  'fade-slide-right': { fade: true, slide: 'right' },
+  'fade-slide-left': { fade: true, slide: 'left' },
+  'fade-slide-up': { fade: true, slide: 'up' },
+  'fade-slide-down': { fade: true, slide: 'down' },
+  'slide-right': { slide: 'right' },
+  'slide-left': { slide: 'left' },
+  'slide-up': { slide: 'up' },
+  'slide-down': { slide: 'down' },
+  scale: { scale: true },
+  'scale-fade': { fade: true, scale: true },
+}
+
 export default function NotificationServicePage() {
   const title = prop('Changes saved')
   const message = prop('We stored your latest updates.')
@@ -27,7 +56,8 @@ export default function NotificationServicePage() {
   const withCloseButton = prop(true)
   const loading = prop(false)
   const dismissAfter = prop(3)
-  const animation = prop<ToggleAnimation>('fade')
+  const animationPreset = prop<AnimationPreset>('fade')
+  const animation = animationPreset.map(preset => animationPresets[preset])
 
   let conter = 0
   const resolvedTitle = () => {
@@ -117,31 +147,9 @@ export default function NotificationServicePage() {
             Option.value('slide-down', 'Slide Down'),
             Option.value('scale', 'Scale'),
             Option.value('scale-fade', 'Scale Fade'),
-            Option.value('flyout-top', 'Flyout Top'),
-            Option.value('flyout-bottom', 'Flyout Bottom'),
-            Option.value('flyout-left', 'Flyout Left'),
-            Option.value('flyout-right', 'Flyout Right'),
-          ] as SelectOption<ToggleAnimation>[],
-          // {
-          //   none: 'None',
-          //   fade: 'Fade',
-          //   'fade-slide-right': 'Fade Slide Right',
-          //   'fade-slide-left': 'Fade Slide Left',
-          //   'fade-slide-up': 'Fade Slide Up',
-          //   'fade-slide-down': 'Fade Slide Down',
-          //   'slide-right': 'Slide Right',
-          //   'slide-left': 'Slide Left',
-          //   'slide-up': 'Slide Up',
-          //   'slide-down': 'Slide Down',
-          //   scale: 'Scale',
-          //   'scale-fade': 'Scale Fade',
-          //   'flyout-top': 'Flyout Top',
-          //   'flyout-bottom': 'Flyout Bottom',
-          //   'flyout-left': 'Flyout Left',
-          //   'flyout-right': 'Flyout Right',
-          // },
-          value: animation,
-          onChange: animation.set,
+          ] as SelectOption<AnimationPreset>[],
+          value: animationPreset,
+          onChange: animationPreset.set,
         }),
       }),
       Stack(

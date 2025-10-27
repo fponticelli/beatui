@@ -1,4 +1,12 @@
-import { Renderable, attr, computedOf, When, MapSignal } from '@tempots/dom'
+import {
+  Renderable,
+  attr,
+  computedOf,
+  When,
+  MapSignal,
+  Fragment,
+  OnDispose,
+} from '@tempots/dom'
 import { ListControl, type ArrayController, type Controller } from '../../form'
 import type {
   SchemaContext,
@@ -374,5 +382,8 @@ export function JSONSchemaArray({
     )
   }
 
-  return listControl
+  return Fragment(
+    OnDispose(canAddItems, canRemoveItems, duplicateIndices, containsInfo),
+    listControl
+  )
 }

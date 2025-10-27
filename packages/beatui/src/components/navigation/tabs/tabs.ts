@@ -12,6 +12,7 @@ import {
   When,
   Ensure,
   MapSignal,
+  OnDispose,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '@/tokens'
@@ -271,6 +272,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
   }
 
   return html.div(
+    OnDispose(currentTab, focusedTabIndex),
     attr.class(
       computedOf(
         size,
@@ -317,6 +319,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
         const panelId = `${tabListId}-panel-${item.key}`
 
         return html.button(
+          OnDispose(isActive, isTabDisabled),
           attr.type('button'),
           attr.class(
             computedOf(
@@ -374,6 +377,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
         const tabId = key.map(k => `${tabListId}-tab-${k}`)
         const panelId = key.map(k => `${tabListId}-panel-${k}`)
         return html.div(
+          OnDispose(key),
           attr.class('bc-tabs__panels'),
           html.div(
             attr.class('bc-tabs__panel'),

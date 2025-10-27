@@ -113,249 +113,257 @@ export function Menu(options: MenuOptions): Renderable {
   const menuItems = prop<HTMLElement[]>([])
   let previouslyFocusedElement: HTMLElement | null = null
 
-  return Flyout({
-    content: () => {
-      return WithElement(menuElement => {
-        // Store previously focused element for restoration
-        previouslyFocusedElement = document.activeElement as HTMLElement
-        // Helper function to find next focusable item (skipping disabled items)
-        const findNextFocusableItem = (
-          currentIndex: number,
-          items: HTMLElement[],
-          direction: number
-        ): number => {
-          if (items.length === 0) return -1
+  return Fragment(
+    OnDispose(focusedItemIndex, menuItems),
+    Flyout({
+      content: () => {
+        return WithElement(menuElement => {
+          // Store previously focused element for restoration
+          previouslyFocusedElement = document.activeElement as HTMLElement
+          // Helper function to find next focusable item (skipping disabled items)
+          const findNextFocusableItem = (
+            currentIndex: number,
+            items: HTMLElement[],
+            direction: number
+          ): number => {
+            if (items.length === 0) return -1
 
-          let nextIndex = currentIndex + direction
-          let attempts = 0
+            let nextIndex = currentIndex + direction
+            let attempts = 0
 
-          // Wrap around and search for non-disabled items
-          while (attempts < items.length) {
-            if (nextIndex >= items.length) nextIndex = 0
-            if (nextIndex < 0) nextIndex = items.length - 1
+            // Wrap around and search for non-disabled items
+            while (attempts < items.length) {
+              if (nextIndex >= items.length) nextIndex = 0
+              if (nextIndex < 0) nextIndex = items.length - 1
 
-            const item = items[nextIndex]
-            if (item && item.getAttribute('aria-disabled') !== 'true') {
-              return nextIndex
+              const item = items[nextIndex]
+              if (item && item.getAttribute('aria-disabled') !== 'true') {
+                return nextIndex
+              }
+
+              nextIndex += direction
+              attempts++
             }
 
-            nextIndex += direction
-            attempts++
+            return currentIndex // Return current if no focusable items found
           }
 
-          return currentIndex // Return current if no focusable items found
-        }
+          // Set up keyboard navigation
+          const handleKeyDown = (event: KeyboardEvent) => {
+            const items = menuItems.value
+            const currentIndex = focusedItemIndex.value
 
-        // Set up keyboard navigation
-        const handleKeyDown = (event: KeyboardEvent) => {
-          const items = menuItems.value
-          const currentIndex = focusedItemIndex.value
+            switch (event.key) {
+              case 'ArrowDown':
+                event.preventDefault()
+                event.stopPropagation()
+                const nextIndex = findNextFocusableItem(currentIndex, items, 1)
+                focusMenuItem(nextIndex, items)
+                break
 
-          switch (event.key) {
-            case 'ArrowDown':
-              event.preventDefault()
-              event.stopPropagation()
-              const nextIndex = findNextFocusableItem(currentIndex, items, 1)
-              focusMenuItem(nextIndex, items)
-              break
+              case 'ArrowUp':
+                event.preventDefault()
+                event.stopPropagation()
+                const prevIndex = findNextFocusableItem(currentIndex, items, -1)
+                focusMenuItem(prevIndex, items)
+                break
 
-            case 'ArrowUp':
-              event.preventDefault()
-              event.stopPropagation()
-              const prevIndex = findNextFocusableItem(currentIndex, items, -1)
-              focusMenuItem(prevIndex, items)
-              break
+              case 'Enter':
+              case ' ':
+                event.preventDefault()
+                event.stopPropagation()
+                if (currentIndex >= 0 && items[currentIndex]) {
+                  const menuItem = items[currentIndex]
+                  // Check if item is disabled
+                  if (menuItem.getAttribute('aria-disabled') === 'true') {
+                    return
+                  }
 
-            case 'Enter':
-            case ' ':
-              event.preventDefault()
-              event.stopPropagation()
-              if (currentIndex >= 0 && items[currentIndex]) {
-                const menuItem = items[currentIndex]
-                // Check if item is disabled
-                if (menuItem.getAttribute('aria-disabled') === 'true') {
-                  return
+                  const key = menuItem.getAttribute('data-key')
+                  if (key && onAction) {
+                    onAction(key)
+                  }
+                  menuItem.click()
+                  onClose?.() // Close menu after activation
                 }
+                break
 
+              case 'Escape':
+                // Call the Menu's onClose callback first
+                onClose?.()
+                // Let the event propagate to the Flyout so it can also handle Escape
+                // Don't prevent default or stop propagation
+                break
+
+              case 'Home':
+                event.preventDefault()
+                event.stopPropagation()
+                if (items.length > 0) {
+                  focusMenuItem(0, items)
+                }
+                break
+
+              case 'End':
+                event.preventDefault()
+                event.stopPropagation()
+                if (items.length > 0) {
+                  focusMenuItem(items.length - 1, items)
+                }
+                break
+
+              case 'ArrowRight':
+                event.preventDefault()
+                event.stopPropagation()
+                // Open submenu if current item has one
+                if (currentIndex >= 0 && items[currentIndex]) {
+                  const menuItem = items[currentIndex]
+                  const hasSubmenu = menuItem.classList.contains(
+                    'bc-menu-item--has-submenu'
+                  )
+                  if (hasSubmenu) {
+                    // Trigger submenu opening (implementation depends on submenu structure)
+                    menuItem.dispatchEvent(new Event('mouseenter'))
+                  }
+                }
+                break
+
+              case 'ArrowLeft':
+                event.preventDefault()
+                event.stopPropagation()
+                // Close current menu if it's a submenu (basic implementation)
+                // This would need to be enhanced for proper submenu hierarchy
+                onClose?.()
+                break
+            }
+          }
+
+          const focusMenuItem = (index: number, items: HTMLElement[]) => {
+            // Remove focus from current item
+            if (focusedItemIndex.value >= 0 && items[focusedItemIndex.value]) {
+              items[focusedItemIndex.value].classList.remove(
+                'bc-menu-item--focused'
+              )
+              items[focusedItemIndex.value].removeAttribute('aria-selected')
+            }
+
+            // Focus new item
+            if (index >= 0 && items[index]) {
+              items[index].classList.add('bc-menu-item--focused')
+              items[index].setAttribute('aria-selected', 'true')
+              focusedItemIndex.set(index)
+
+              // Scroll item into view if needed (check for method availability in test environments)
+              if (typeof items[index].scrollIntoView === 'function') {
+                items[index].scrollIntoView({ block: 'nearest' })
+              }
+            }
+          }
+
+          // Update menu items when content changes
+          const updateMenuItems = () => {
+            const itemElements = Array.from(
+              menuElement.querySelectorAll('[role="menuitem"]')
+            ) as HTMLElement[]
+            menuItems.set(itemElements)
+
+            // Set initial focus on first non-disabled item
+            if (itemElements.length > 0) {
+              const firstEnabledIndex = itemElements.findIndex(
+                item => item.getAttribute('aria-disabled') !== 'true'
+              )
+              if (firstEnabledIndex >= 0) {
+                focusMenuItem(firstEnabledIndex, itemElements)
+              }
+            }
+          }
+
+          // Set up mutation observer to track menu items
+          const observer = new MutationObserver(updateMenuItems)
+          observer.observe(menuElement, { childList: true, subtree: true })
+
+          // Initial setup
+          setTimeout(() => {
+            updateMenuItems()
+            // Focus the menu container for keyboard navigation
+            menuElement.focus()
+          }, 0)
+
+          // Add document-level keyboard listener
+          document.addEventListener('keydown', handleKeyDown, true)
+
+          return Fragment(
+            OnDispose(() => {
+              observer.disconnect()
+              document.removeEventListener('keydown', handleKeyDown, true)
+              // Restore focus when menu is disposed
+              if (previouslyFocusedElement) {
+                previouslyFocusedElement.focus()
+              }
+            }),
+            attr.class('bc-menu'),
+            attr.id(menuId),
+            attr.role('menu'),
+            attr.tabindex(-1),
+            aria.orientation('vertical'),
+            ariaLabel ? aria.label(ariaLabel) : Fragment(),
+            ariaLabelledBy ? aria.labelledby(ariaLabelledBy) : Fragment(),
+            aria.activedescendant(
+              focusedItemIndex.map(index => {
+                const items = menuItems.value
+                return index >= 0 && items[index]
+                  ? items[index].id || `${menuId}-item-${index}`
+                  : ''
+              })
+            ),
+            on.click((event: MouseEvent) => {
+              const target = event.target as HTMLElement
+              const menuItem = target.closest(
+                '[role="menuitem"]'
+              ) as HTMLElement
+              if (
+                menuItem &&
+                menuItem.getAttribute('aria-disabled') !== 'true'
+              ) {
                 const key = menuItem.getAttribute('data-key')
                 if (key && onAction) {
                   onAction(key)
                 }
-                menuItem.click()
-                onClose?.() // Close menu after activation
               }
-              break
+            }),
 
-            case 'Escape':
-              // Call the Menu's onClose callback first
-              onClose?.()
-              // Let the event propagate to the Flyout so it can also handle Escape
-              // Don't prevent default or stop propagation
-              break
-
-            case 'Home':
-              event.preventDefault()
-              event.stopPropagation()
-              if (items.length > 0) {
-                focusMenuItem(0, items)
-              }
-              break
-
-            case 'End':
-              event.preventDefault()
-              event.stopPropagation()
-              if (items.length > 0) {
-                focusMenuItem(items.length - 1, items)
-              }
-              break
-
-            case 'ArrowRight':
-              event.preventDefault()
-              event.stopPropagation()
-              // Open submenu if current item has one
-              if (currentIndex >= 0 && items[currentIndex]) {
-                const menuItem = items[currentIndex]
-                const hasSubmenu = menuItem.classList.contains(
-                  'bc-menu-item--has-submenu'
-                )
-                if (hasSubmenu) {
-                  // Trigger submenu opening (implementation depends on submenu structure)
-                  menuItem.dispatchEvent(new Event('mouseenter'))
+            // Live region for screen reader announcements
+            html.div(
+              attr.class('sr-only'),
+              aria.live('polite'),
+              aria.atomic(true),
+              focusedItemIndex.map(index => {
+                const items = menuItems.value
+                if (index >= 0 && items[index]) {
+                  const itemText = items[index].textContent || ''
+                  const isDisabled =
+                    items[index].getAttribute('aria-disabled') === 'true'
+                  return isDisabled
+                    ? `${itemText}, disabled`
+                    : `${itemText}, ${index + 1} of ${items.length}`
                 }
-              }
-              break
+                return ''
+              })
+            ),
 
-            case 'ArrowLeft':
-              event.preventDefault()
-              event.stopPropagation()
-              // Close current menu if it's a submenu (basic implementation)
-              // This would need to be enhanced for proper submenu hierarchy
-              onClose?.()
-              break
-          }
-        }
-
-        const focusMenuItem = (index: number, items: HTMLElement[]) => {
-          // Remove focus from current item
-          if (focusedItemIndex.value >= 0 && items[focusedItemIndex.value]) {
-            items[focusedItemIndex.value].classList.remove(
-              'bc-menu-item--focused'
-            )
-            items[focusedItemIndex.value].removeAttribute('aria-selected')
-          }
-
-          // Focus new item
-          if (index >= 0 && items[index]) {
-            items[index].classList.add('bc-menu-item--focused')
-            items[index].setAttribute('aria-selected', 'true')
-            focusedItemIndex.set(index)
-
-            // Scroll item into view if needed (check for method availability in test environments)
-            if (typeof items[index].scrollIntoView === 'function') {
-              items[index].scrollIntoView({ block: 'nearest' })
-            }
-          }
-        }
-
-        // Update menu items when content changes
-        const updateMenuItems = () => {
-          const itemElements = Array.from(
-            menuElement.querySelectorAll('[role="menuitem"]')
-          ) as HTMLElement[]
-          menuItems.set(itemElements)
-
-          // Set initial focus on first non-disabled item
-          if (itemElements.length > 0) {
-            const firstEnabledIndex = itemElements.findIndex(
-              item => item.getAttribute('aria-disabled') !== 'true'
-            )
-            if (firstEnabledIndex >= 0) {
-              focusMenuItem(firstEnabledIndex, itemElements)
-            }
-          }
-        }
-
-        // Set up mutation observer to track menu items
-        const observer = new MutationObserver(updateMenuItems)
-        observer.observe(menuElement, { childList: true, subtree: true })
-
-        // Initial setup
-        setTimeout(() => {
-          updateMenuItems()
-          // Focus the menu container for keyboard navigation
-          menuElement.focus()
-        }, 0)
-
-        // Add document-level keyboard listener
-        document.addEventListener('keydown', handleKeyDown, true)
-
-        return Fragment(
-          OnDispose(() => {
-            observer.disconnect()
-            document.removeEventListener('keydown', handleKeyDown, true)
-            // Restore focus when menu is disposed
-            if (previouslyFocusedElement) {
-              previouslyFocusedElement.focus()
-            }
-          }),
-          attr.class('bc-menu'),
-          attr.id(menuId),
-          attr.role('menu'),
-          attr.tabindex(-1),
-          aria.orientation('vertical'),
-          ariaLabel ? aria.label(ariaLabel) : Fragment(),
-          ariaLabelledBy ? aria.labelledby(ariaLabelledBy) : Fragment(),
-          aria.activedescendant(
-            focusedItemIndex.map(index => {
-              const items = menuItems.value
-              return index >= 0 && items[index]
-                ? items[index].id || `${menuId}-item-${index}`
-                : ''
-            })
-          ),
-          on.click((event: MouseEvent) => {
-            const target = event.target as HTMLElement
-            const menuItem = target.closest('[role="menuitem"]') as HTMLElement
-            if (menuItem && menuItem.getAttribute('aria-disabled') !== 'true') {
-              const key = menuItem.getAttribute('data-key')
-              if (key && onAction) {
-                onAction(key)
-              }
-            }
-          }),
-
-          // Live region for screen reader announcements
-          html.div(
-            attr.class('sr-only'),
-            aria.live('polite'),
-            aria.atomic(true),
-            focusedItemIndex.map(index => {
-              const items = menuItems.value
-              if (index >= 0 && items[index]) {
-                const itemText = items[index].textContent || ''
-                const isDisabled =
-                  items[index].getAttribute('aria-disabled') === 'true'
-                return isDisabled
-                  ? `${itemText}, disabled`
-                  : `${itemText}, ${index + 1} of ${items.length}`
-              }
-              return ''
-            })
-          ),
-
-          ...items()
-        )
-      })
-    },
-    placement,
-    showDelay,
-    hideDelay,
-    mainAxisOffset,
-    crossAxisOffset,
-    showOn,
-    closable,
-    role: 'menu',
-  })
+            ...items()
+          )
+        })
+      },
+      placement,
+      showDelay,
+      hideDelay,
+      mainAxisOffset,
+      crossAxisOffset,
+      showOn,
+      closable,
+      role: 'menu',
+    })
+  )
 }
 
 /**

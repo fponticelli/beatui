@@ -286,6 +286,17 @@ export function NineSliceScrollView({
 
       return Fragment(
         OnDispose(
+          needsHorizontalScroll,
+          needsVerticalScroll,
+          () => Value.dispose(shouldAnchorEndToBody),
+          viewportWidth,
+          viewportHeight,
+          visibleAreaWidth,
+          visibleAreaHeight,
+          scrollRatioHorizontal,
+          scrollRatioVertical,
+          endSideOffset,
+          bottomOffset,
           needsHorizontalScroll.on(need => {
             if (!need) horizontalScrollPosition.set(0n)
           }),
