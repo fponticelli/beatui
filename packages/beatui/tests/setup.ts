@@ -1,5 +1,16 @@
 import { beforeEach, afterEach } from 'vitest'
 
+// Speed up animations in tests by overriding CSS transition duration
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style')
+  style.textContent = `
+    .bc-animated-toggle {
+      transition-duration: 50ms !important;
+    }
+  `
+  document.head.appendChild(style)
+}
+
 // Mock Web Animations API for jsdom
 if (typeof Element !== 'undefined' && !Element.prototype.getAnimations) {
   Element.prototype.getAnimations = function () {

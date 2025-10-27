@@ -101,8 +101,8 @@ describe('Flyout Component', () => {
 
       // Test that Escape key closes the flyout
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      // Wait for hide delay (500ms) + animation time (500ms) + buffer
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Wait for hide delay (500ms) + animation time (50ms) + buffer
+      await new Promise(resolve => setTimeout(resolve, 600))
 
       // Flyout should be closed or in closing state
       const flyoutAfterEscape = document.querySelector('.closable-test')
@@ -400,7 +400,7 @@ describe('Flyout Component', () => {
 
       // Hide first flyout only
       buttons[0].dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Increased timeout for animation completion
+      await new Promise(resolve => setTimeout(resolve, 200)) // Wait for hide delay + animation
 
       // First should be gone or closing, second should still be visible
       const flyout1 = document.querySelector('.flyout-1')
@@ -413,7 +413,7 @@ describe('Flyout Component', () => {
 
       // Hide second flyout
       buttons[1].dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Increased timeout for animation completion
+      await new Promise(resolve => setTimeout(resolve, 200)) // Wait for hide delay + animation
 
       // Both should be gone or closing
       const flyout1Final = document.querySelector('.flyout-1')
@@ -873,7 +873,7 @@ describe('Flyout Component', () => {
 
       // Step 2: Leave and wait for COMPLETE disposal (including animations)
       button.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 1200)) // Wait for full hide delay (300ms) + animation (500ms) + buffer
+      await new Promise(resolve => setTimeout(resolve, 400)) // Wait for full hide delay (300ms) + animation (50ms) + buffer
 
       flyout = document.querySelector('.user-bug-test')
       if (flyout) {
