@@ -1,3 +1,7 @@
+.bc-flyout-container {
+  z-index: var(--z-index-popover);
+}
+
 .bc-flyout {
   /* Base flyout styles */
   background-color: var(--color-neutral-50);
@@ -5,7 +9,6 @@
   border-radius: var(--radius-popover, var(--radius-md));
   box-shadow: var(--shadow-popover, var(--shadow-lg));
   padding: var(--spacing-sm);
-  z-index: var(--z-index-popover);
 }
 
 /* Transform origins for placement-aware animations */

@@ -11,6 +11,7 @@ import {
   WithElement,
   prop,
   SplitNValue,
+  html,
 } from '@tempots/dom'
 import { PopOver, Placement } from '@tempots/ui'
 import { delayedAnimationFrame } from '@tempots/std'
@@ -201,15 +202,18 @@ export function Flyout(options: FlyoutOptions): Renderable {
               document.removeEventListener('keydown', handleKeyDown, true)
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
-            attr.class('bc-flyout'),
+            attr.class('bc-flyout-container'),
             attr.id(flyoutId),
             attr.tabindex(-1), // Make focusable for screen readers
-            AnimatedToggleClass({
-              animation: Value.map(placement, placementToAnimation),
-              status: animatedToggle.status,
-            }),
-            role ? attr.role(role) : attr.role('dialog'), // Default to dialog role
-            content()
+            html.div(
+              attr.class('bc-flyout'),
+              AnimatedToggleClass({
+                animation: Value.map(placement, placementToAnimation),
+                status: animatedToggle.status,
+              }),
+              role ? attr.role(role) : attr.role('dialog'), // Default to dialog role
+              content()
+            )
           )
         }),
       })

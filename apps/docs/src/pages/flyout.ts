@@ -112,7 +112,7 @@ export default function FlyoutPage() {
               Fragment(
                 attr.class(animationClass),
                 html.div(
-                  attr.class('p-4 max-w-24'),
+                  attr.class('p-4 max-w-48'),
                   html.h4(attr.class('font-semibold mb-2'), 'Flyout Content'),
                   html.p(
                     'This is a basic flyout with rich content and smooth animations!'
@@ -317,7 +317,7 @@ export default function FlyoutPage() {
               Fragment(
                 attr.class(animationClass),
                 html.div(
-                  attr.class('p-4 max-w-48'),
+                  attr.class('p-4 w-64'),
                   html.div(
                     attr.class('flex items-center gap-2 mb-3'),
                     Icon({
