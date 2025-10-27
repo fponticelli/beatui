@@ -9,6 +9,11 @@ import {
   ThemeColorName,
   NotificationProvider,
   NotificationService,
+  ToggleAnimation,
+  InputWrapper,
+  NativeSelect,
+  Option,
+  SelectOption,
 } from '@tempots/beatui'
 import { attr, html, prop, Use, When } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -22,6 +27,7 @@ export default function NotificationServicePage() {
   const withCloseButton = prop(true)
   const loading = prop(false)
   const dismissAfter = prop(3)
+  const animation = prop<ToggleAnimation>('fade')
 
   let conter = 0
   const resolvedTitle = () => {
@@ -33,6 +39,7 @@ export default function NotificationServicePage() {
     NotificationService.show(
       {
         title: resolvedTitle(),
+        animation: animation.value,
         color,
         withBorder,
         withCloseButton,
@@ -51,6 +58,7 @@ export default function NotificationServicePage() {
     NotificationService.show(
       {
         title: 'Syncing data #' + ++conter,
+        animation: animation.value,
         color,
         loading: true,
         withBorder,
@@ -66,6 +74,7 @@ export default function NotificationServicePage() {
     NotificationService.show(
       {
         title: 'Manual dismissal #' + ++conter,
+        animation: animation.value,
         color,
         withBorder,
         withCloseButton: true,
@@ -91,6 +100,50 @@ export default function NotificationServicePage() {
           onInput: dismissAfter.set,
         })
       ),
+      InputWrapper({
+        label: 'Animation',
+        content: NativeSelect({
+          size: 'sm',
+          options: [
+            Option.value('none', 'None'),
+            Option.value('fade', 'Fade'),
+            Option.value('fade-slide-right', 'Fade Slide Right'),
+            Option.value('fade-slide-left', 'Fade Slide Left'),
+            Option.value('fade-slide-up', 'Fade Slide Up'),
+            Option.value('fade-slide-down', 'Fade Slide Down'),
+            Option.value('slide-right', 'Slide Right'),
+            Option.value('slide-left', 'Slide Left'),
+            Option.value('slide-up', 'Slide Up'),
+            Option.value('slide-down', 'Slide Down'),
+            Option.value('scale', 'Scale'),
+            Option.value('scale-fade', 'Scale Fade'),
+            Option.value('flyout-top', 'Flyout Top'),
+            Option.value('flyout-bottom', 'Flyout Bottom'),
+            Option.value('flyout-left', 'Flyout Left'),
+            Option.value('flyout-right', 'Flyout Right'),
+          ] as SelectOption<ToggleAnimation>[],
+          // {
+          //   none: 'None',
+          //   fade: 'Fade',
+          //   'fade-slide-right': 'Fade Slide Right',
+          //   'fade-slide-left': 'Fade Slide Left',
+          //   'fade-slide-up': 'Fade Slide Up',
+          //   'fade-slide-down': 'Fade Slide Down',
+          //   'slide-right': 'Slide Right',
+          //   'slide-left': 'Slide Left',
+          //   'slide-up': 'Slide Up',
+          //   'slide-down': 'Slide Down',
+          //   scale: 'Scale',
+          //   'scale-fade': 'Scale Fade',
+          //   'flyout-top': 'Flyout Top',
+          //   'flyout-bottom': 'Flyout Bottom',
+          //   'flyout-left': 'Flyout Left',
+          //   'flyout-right': 'Flyout Right',
+          // },
+          value: animation,
+          onChange: animation.set,
+        }),
+      }),
       Stack(
         Label('Show loader'),
         Switch({ value: loading, onChange: loading.set })

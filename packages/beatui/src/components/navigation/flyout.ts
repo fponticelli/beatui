@@ -17,7 +17,7 @@ import { delayedAnimationFrame } from '@tempots/std'
 import {
   useAnimatedElementToggle,
   AnimatedToggleClass,
-  Animation,
+  ToggleAnimation,
 } from '@/utils/use-animated-toggle'
 import { sessionId } from '../../utils/session-id'
 
@@ -68,7 +68,7 @@ export interface FlyoutOptions {
   hasPopup?: Value<boolean | 'dialog' | 'menu' | 'listbox' | 'tree' | 'grid'>
 }
 
-function placementToAnimation(placement: Placement): Animation {
+function placementToAnimation(placement: Placement): ToggleAnimation {
   if (placement.startsWith('top')) return 'flyout-top'
   if (placement.startsWith('bottom')) return 'flyout-bottom'
   if (placement.startsWith('left')) return 'flyout-left'

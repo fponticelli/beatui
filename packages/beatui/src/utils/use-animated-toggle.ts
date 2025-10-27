@@ -1,4 +1,14 @@
-import { attr, computedOf, prop, Value, type Signal } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  Fragment,
+  OnDispose,
+  prop,
+  TNode,
+  Value,
+  WithElement,
+  type Signal,
+} from '@tempots/dom'
 import { delayed, delayedAnimationFrame } from '@tempots/std'
 
 export type ToggleStatus =
@@ -10,7 +20,7 @@ export type ToggleStatus =
   | 'start-closing'
 
 export type AnimatedToggleOptions = {
-  initialStatus?: Exclude<ToggleStatus, 'start-opening'>
+  initialStatus?: ToggleStatus
   openedAfter: (cb: () => void) => () => void
   closedAfter: (cb: () => void) => () => void
 }
@@ -104,7 +114,7 @@ export function useAnimatedToggle({
 }
 
 export type TimedToggleOptions = {
-  initialStatus?: Exclude<ToggleStatus, 'start-opening'>
+  initialStatus?: ToggleStatus
   openDuration?: number
   closeDuration?: number
   duration?: number
@@ -130,6 +140,8 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
   function complete() {
     if (completed) return
     completed = true
+    element.removeEventListener('transitionend', onTransitionEnd)
+    element.removeEventListener('animationend', onAnimationEnd)
     if (timeout) {
       clearTimeout(timeout)
       timeout = null
@@ -160,19 +172,15 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
       return
     }
 
+    // No Web Animations running, use transition events + timeout
+    element.addEventListener('transitionend', onTransitionEnd)
+    element.addEventListener('animationend', onAnimationEnd)
+
     // For CSS transitions, we rely on transitionend events + timeout fallback
     // For CSS animations, we check getAnimations() + animationend events
     if (element.getAnimations().length === 0) {
-      // No Web Animations running, use transition events + timeout
-      element.addEventListener('transitionend', onTransitionEnd, { once: true })
-      element.addEventListener('animationend', onAnimationEnd, { once: true })
-
       // Fallback timeout for CSS transitions (longer than typical transition duration)
       timeout = setTimeout(complete, 1000)
-    } else {
-      // Web Animations detected, use animation events
-      element.addEventListener('transitionend', onTransitionEnd, { once: true })
-      element.addEventListener('animationend', onAnimationEnd, { once: true })
     }
   }
 
@@ -190,7 +198,7 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
 }
 
 export type AnimatedElementToggleOptions = {
-  initialStatus?: Exclude<ToggleStatus, 'start-opening'>
+  initialStatus?: ToggleStatus
   element?: HTMLElement
 }
 
@@ -225,7 +233,7 @@ export function useAnimatedElementToggle({
   }
 }
 
-export type Animation =
+export type ToggleAnimation =
   | 'none'
   | 'slide-right'
   | 'slide-left'
@@ -247,7 +255,7 @@ export function AnimatedToggleClass({
   animation = 'fade',
   status,
 }: {
-  animation?: Value<Animation>
+  animation?: Value<ToggleAnimation>
   status: Signal<ToggleStatus>
 }) {
   return attr.class(
@@ -259,4 +267,42 @@ export function AnimatedToggleClass({
         `bc-animated-toggle bc-animated-toggle--${a} bc-animated-toggle--${s}`
     )
   )
+}
+
+export function AnimatedToggle(
+  {
+    initialStatus = 'closed',
+    animation = 'fade',
+  }: {
+    initialStatus?: ToggleStatus
+    animation?: Value<ToggleAnimation>
+  },
+  render: (options: {
+    status: Signal<ToggleStatus>
+    open: () => void
+    close: () => void
+    toggle: () => void
+    setOpen: (v: boolean) => void
+    display: Signal<boolean>
+    isClosed: Signal<boolean>
+    isStartOpening: Signal<boolean>
+    isOpening: Signal<boolean>
+    isOpened: Signal<boolean>
+    isClosing: Signal<boolean>
+    isStartClosing: Signal<boolean>
+    listenOnClosed: (fn: () => void) => void
+  }) => TNode
+) {
+  return WithElement(element => {
+    const { setElement, dispose, ...rest } = useAnimatedElementToggle({
+      initialStatus,
+      element,
+    })
+    setElement(element)
+    return Fragment(
+      AnimatedToggleClass({ status: rest.status, animation }),
+      OnDispose(dispose),
+      render(rest)
+    )
+  })
 }

@@ -17,14 +17,6 @@
     color: var(--notification-text-color);
     border: 1px solid transparent;
     box-shadow: var(--shadow-lg);
-    transition:
-      opacity 0.2s ease,
-      transform 0.2s ease,
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-    opacity: 1;
-    transform: translateY(0);
   }
 
   .bc-notification--bordered {

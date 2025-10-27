@@ -15,14 +15,12 @@ import {
 } from '@tempots/dom'
 import { Notification, NotificationOptions } from './notification'
 import { RadiusName, ThemeColorName } from '@/tokens'
-import { ToggleStatus, useTimedToggle } from '@/utils'
-import { delayed } from '@tempots/std'
+import { AnimatedToggle, ToggleAnimation } from '@/utils'
+import { sleep } from '@tempots/std'
 
 type NotificationEntry = {
-  status: Signal<ToggleStatus>
+  animation: ToggleAnimation
   children: TNode[]
-  close: () => void
-  // options
   loading: Signal<boolean>
   withCloseButton: Signal<boolean>
   withBorder: Signal<boolean>
@@ -32,16 +30,18 @@ type NotificationEntry = {
   icon: Signal<string | undefined>
   class: Signal<string | undefined>
   listenRequestClose: (fn: () => void) => void
+  delayedClose?: Promise<void>
 }
 
 export type ShowNotificationOptions = NotificationOptions & {
+  animation?: ToggleAnimation
   dismissAfter?: number | Promise<void>
 }
 
 export type NotificationShowFn = (
   options: ShowNotificationOptions,
   ...children: TNode[]
-) => () => void
+) => void
 
 export type NotificationViewportPosition =
   | 'top-start'
@@ -123,31 +123,21 @@ export const NotificationProvider: Provider<
 
     const cleanup: Array<() => void> = []
     const show: NotificationShowFn = (
-      { dismissAfter, onClose, ...options },
+      { dismissAfter, onClose, animation = 'fade', ...options },
       ...children
     ) => {
       const localCleanup: Array<() => void> = []
       activeNotifications.update(n => n + 1)
-      const { close, status, listenOnClosed, dispose } = useTimedToggle({
-        initialStatus: 'opening',
-      })
 
-      listenOnClosed(() => {
-        onClose?.()
-        dispose()
-        localCleanup.forEach(fn => fn())
-        activeNotifications.update(n => n - 1)
-      })
-
-      if (dismissAfter != null) {
-        if (typeof dismissAfter === 'number') {
-          localCleanup.push(delayed(close, dismissAfter * 1000))
-        } else {
-          dismissAfter.finally(close)
-        }
-      }
+      const delayedClose =
+        dismissAfter != null
+          ? typeof dismissAfter === 'number'
+            ? sleep(dismissAfter * 1000)
+            : dismissAfter
+          : undefined
 
       const entry: NotificationEntry = {
+        animation,
         class: Value.toSignal(options.class),
         loading: Value.toSignal(options.loading ?? false) as Signal<boolean>,
         withCloseButton: Value.toSignal(
@@ -160,17 +150,22 @@ export const NotificationProvider: Provider<
         radius: Value.toSignal(options.radius ?? 'md'),
         title: options.title ?? Empty,
         icon: Value.toSignal(options.icon),
-        status,
         children,
-        close,
         listenRequestClose: (fn: () => void) => {
           localCleanup.push(fn)
           cleanup.push(fn)
+          onClose?.()
+          return () => {
+            const index = localCleanup.lastIndexOf(fn)
+            if (index >= 0) {
+              localCleanup.splice(index, 1)
+            }
+          }
         },
+        delayedClose,
       }
 
       onShowListeners.forEach(fn => fn(entry))
-      return close
     }
 
     const clear = () => {
@@ -205,24 +200,33 @@ export function NotificationViewport() {
         OnDispose(
           listenOnShow(entry => {
             const cleanup: Array<() => void> = []
-            const onClose = () => {
-              entry.close()
-              cleanup.forEach(fn => fn())
-            }
-            entry.listenRequestClose(onClose)
-            const notification = Notification(
-              {
-                class: entry.class,
-                loading: entry.loading,
-                withCloseButton: entry.withCloseButton,
-                withBorder: entry.withBorder,
-                color: entry.color,
-                radius: entry.radius,
-                title: entry.title,
-                icon: entry.icon,
-                onClose,
-              },
-              ...entry.children
+            const notification = html.div(
+              AnimatedToggle(
+                {
+                  animation: entry.animation,
+                  initialStatus: 'start-opening',
+                },
+                ({ close, listenOnClosed }) => {
+                  entry.delayedClose?.finally(close)
+                  listenOnClosed(() => {
+                    cleanup.forEach(fn => fn())
+                  })
+                  return Notification(
+                    {
+                      class: entry.class,
+                      loading: entry.loading,
+                      withCloseButton: entry.withCloseButton,
+                      withBorder: entry.withBorder,
+                      color: entry.color,
+                      radius: entry.radius,
+                      title: entry.title,
+                      icon: entry.icon,
+                      onClose: close,
+                    },
+                    ...entry.children
+                  )
+                }
+              )
             )
             cleanup.push(renderWithContext(notification, ctx))
           })
