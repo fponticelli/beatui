@@ -11,7 +11,7 @@ import {
   Base64Input,
   Base64sInput,
   CheckboxInput,
-  ColorInput,
+  ColorSwatchInput,
   DateInput,
   DateTimeInput,
   EmailInput,
@@ -304,7 +304,7 @@ export default function InputsPage() {
           }),
           InputWrapper({
             label: 'Color Input',
-            content: ColorInput({
+            content: ColorSwatchInput({
               value: color,
               onChange: color.set,
               displayValue: true,

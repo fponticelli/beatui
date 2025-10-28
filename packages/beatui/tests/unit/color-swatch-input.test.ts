@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render } from '@tempots/dom'
 import { prop } from '@tempots/dom'
-import { ColorInput } from '../../src/components/form/input/color-input'
+import { ColorSwatchInput } from '../../src/components/form/input/color-swatch-input'
 
-describe('ColorInput Component', () => {
+describe('ColorSwatchInput Component', () => {
   let container: HTMLElement
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         id: 'test-color-input',
       }),
@@ -38,7 +38,7 @@ describe('ColorInput Component', () => {
     let changedValue: string | undefined
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         onChange: newValue => {
           changedValue = newValue
@@ -64,7 +64,7 @@ describe('ColorInput Component', () => {
     let inputValue: string | undefined
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         onInput: newValue => {
           inputValue = newValue
@@ -90,7 +90,7 @@ describe('ColorInput Component', () => {
     let blurred = false
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         onBlur: () => {
           blurred = true
@@ -114,7 +114,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         disabled: true,
         id: 'test-color-input',
@@ -132,7 +132,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         id: 'test-color-input',
       }),
@@ -143,14 +143,14 @@ describe('ColorInput Component', () => {
       'input[type="color"]'
     ) as HTMLInputElement
     expect(input.classList.contains('bc-input')).toBe(true)
-    expect(input.classList.contains('bc-color-input')).toBe(true)
+    expect(input.classList.contains('bc-color-swatch-input')).toBe(true)
   })
 
   it('should apply custom class', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         class: 'custom-class',
         id: 'test-color-input',
@@ -168,7 +168,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         name: 'color-field',
         id: 'test-color-input',
@@ -186,7 +186,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         id: 'test-color-input',
       }),
@@ -203,7 +203,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         id: 'test-color-input',
       }),
@@ -221,7 +221,7 @@ describe('ColorInput Component', () => {
     const value = prop('#ff0000')
 
     render(
-      ColorInput({
+      ColorSwatchInput({
         value,
         before: 'Before',
         after: 'After',

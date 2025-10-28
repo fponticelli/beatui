@@ -142,7 +142,7 @@ document.body.appendChild(card)
 - Button - Interactive buttons with multiple variants
 - Input - Text input fields with validation
 - Checkbox - Checkbox inputs with custom styling
-- Color Input - Color picker input with validation and format conversion
+- Color Swatch Input - Color picker input with validation and format conversion
 - Tags Input - Multi-tag input field
 
 ### Layout Components
@@ -270,18 +270,18 @@ If you prefer to handle git commits manually, use the `:no-commit` variants:
 
 These scripts will publish successfully but leave git operations to you.
 
-## Color Picker Component
+## Color Swatch Input Component
 
-The Color Picker component provides an intuitive interface for color selection with comprehensive validation and format conversion capabilities.
+The Color Swatch Input component provides an intuitive interface for color selection with comprehensive validation and format conversion capabilities.
 
 ### Basic Usage
 
 ```typescript
-import { ColorInput, prop } from '@tempots/beatui'
+import { ColorSwatchInput, prop } from '@tempots/beatui'
 
 const color = prop('#3b82f6')
 
-const colorPicker = ColorInput({
+const colorPicker = ColorSwatchInput({
   value: color,
   onChange: newColor => console.log('Color changed:', newColor),
   id: 'my-color-picker',
@@ -292,7 +292,7 @@ const colorPicker = ColorInput({
 
 ```typescript
 import {
-  ColorInput,
+  ColorSwatchInput,
   createColorController,
   colorInputOptionsFromController,
   useForm,
@@ -323,10 +323,10 @@ const secondaryColorController = createColorController(
 )
 
 // Use with input options
-const primaryColorInput = ColorInput(
+const primaryColorInput = ColorSwatchInput(
   colorInputOptionsFromController(primaryColorController)
 )
-const secondaryColorInput = ColorInput(
+const secondaryColorInput = ColorSwatchInput(
   colorInputOptionsFromController(secondaryColorController)
 )
 ```
@@ -405,15 +405,15 @@ getContrastRatio('#000000', '#ffffff') // 21 (maximum contrast)
 
 ### CSS Classes
 
-The Color Picker uses the following CSS classes:
+The Color Swatch Input uses the following CSS classes:
 
-- `.bc-color-input` - Main color input styling
+- `.bc-color-swatch-input` - Main color input styling
 - `.bc-input-container` - Container wrapper (inherited from InputContainer)
 - `.bc-input-container--error` - Error state styling
 
 ### Browser Support
 
-The Color Picker component uses the HTML5 `<input type="color">` element, which is supported in:
+The Color Swatch Input component uses the HTML5 `<input type="color">` element, which is supported in:
 
 - Chrome 20+
 - Firefox 29+

@@ -81,7 +81,7 @@ export const App = () => {
         '/file-input': () =>
           Async(import('./pages/file-input'), ({ default: Page }) => Page()),
         '/color-picker': () =>
-          Async(import('./pages/color-picker'), ({ default: Page }) => Page()),
+          Async(import('./pages/color-swatch'), ({ default: Page }) => Page()),
         '/editable-text': () =>
           Async(import('./pages/editable-text'), ({ default: Page }) => Page()),
         '/breakpoint': () =>

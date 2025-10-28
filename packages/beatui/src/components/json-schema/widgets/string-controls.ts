@@ -17,7 +17,7 @@ import {
   NullableTextInput,
   NullableUUIDInput,
   NullableDurationInput,
-  ColorInput,
+  ColorSwatchInput,
   NullableUrlInput,
 } from '@/components/form/input'
 import { NullableBase64Input } from '../../form/input/nullable-base64-input'
@@ -154,7 +154,7 @@ export function StringControl({
         })
       )
     case 'color':
-      return Control(ColorInput, {
+      return Control(ColorSwatchInput, {
         ...options,
         controller,
         displayValue: true,

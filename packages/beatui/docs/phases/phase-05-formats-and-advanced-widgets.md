@@ -4,7 +4,7 @@ Actionable TODOs to wire remaining JSON Schema formats, media handling, and anno
 
 - [x] Map common string formats to existing inputs
   - In `packages/beatui/src/components/json-schema/widgets/string-detection.ts`, add detection rules mapping `format` values to inputs: `email`, `uri`/`url`, `uri-reference`, `hostname`, `ipv4`, `ipv6`, `uuid`, `regex`, `date`, `date-time`, `time`, `duration`, `color`.
-  - Reuse existing components where available (e.g., `nullable-duration-input`, `ColorInput`); add new inputs if missing and wire them in `string-controls.ts`.
+  - Reuse existing components where available (e.g., `nullable-duration-input`, `ColorSwatchInput`); add new inputs if missing and wire them in `string-controls.ts`.
   - Use `x:ui.textAreaTriggers` and field name heuristics to switch to multiline for long text.
 
 - [x] Support binary/media content via `contentMediaType` + `contentEncoding`

@@ -157,7 +157,7 @@ export function createColorController(
 /**
  * Helper function to create color input options from a ColorController
  * @param controller - The ColorController instance
- * @returns Input options compatible with ColorInput component
+ * @returns Input options compatible with ColorSwatchInput component
  */
 export function colorInputOptionsFromController(controller: ColorController) {
   return {

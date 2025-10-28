@@ -2,7 +2,7 @@ import { attr, html, prop, style } from '@tempots/dom'
 import {
   Button,
   Card,
-  ColorInput,
+  ColorSwatchInput,
   createColorController,
   colorInputOptionsFromController,
   Group,
@@ -17,7 +17,7 @@ import {
 } from '@tempots/beatui'
 import { z } from 'zod'
 
-export default function ColorPickerPage() {
+export default function ColorSwatchPage() {
   // Simple color picker example
   const simpleColor = prop('#3b82f6')
 
@@ -98,7 +98,7 @@ export default function ColorPickerPage() {
             attr.class('items-center gap-4'),
             InputWrapper({
               label: 'Pick a Color',
-              content: ColorInput({
+              content: ColorSwatchInput({
                 value: simpleColor,
                 onChange: color => simpleColor.set(color),
                 id: 'simple-color',
@@ -136,28 +136,28 @@ export default function ColorPickerPage() {
               InputWrapper({
                 label: 'Primary Color',
                 description: 'Main brand color',
-                content: ColorInput(
+                content: ColorSwatchInput(
                   colorInputOptionsFromController(primaryColorController)
                 ),
               }),
               InputWrapper({
                 label: 'Secondary Color',
                 description: 'Accent color',
-                content: ColorInput(
+                content: ColorSwatchInput(
                   colorInputOptionsFromController(secondaryColorController)
                 ),
               }),
               InputWrapper({
                 label: 'Background Color',
                 description: 'Page background',
-                content: ColorInput(
+                content: ColorSwatchInput(
                   colorInputOptionsFromController(backgroundColorController)
                 ),
               }),
               InputWrapper({
                 label: 'Text Color',
                 description: 'Main text color',
-                content: ColorInput(
+                content: ColorSwatchInput(
                   colorInputOptionsFromController(textColorController)
                 ),
               }),

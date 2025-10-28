@@ -225,7 +225,7 @@ Below are actionable checklists for each area. No code included; this lists requ
 ### 4.5 Strings, Numbers, Booleans, Nulls
 
 - Strings
-  - Formats to map: `email`, `uri`/`url`, `uri-reference`, `hostname`, `ipv4`, `ipv6`, `uuid` (already), `regex` (editor with validation), `date`, `date-time`, `time`, `duration` (use existing `nullable-duration-input`), `color` (use `ColorInput`), and binary via `contentEncoding`/`contentMediaType`.
+  - Formats to map: `email`, `uri`/`url`, `uri-reference`, `hostname`, `ipv4`, `ipv6`, `uuid` (already), `regex` (editor with validation), `date`, `date-time`, `time`, `duration` (use existing `nullable-duration-input`), `color` (use `ColorSwatchInput`), and binary via `contentEncoding`/`contentMediaType`.
   - Heuristic: long fields → textarea; names matching `description|comment|notes|text` already used; expand keyword list via `x:ui.textAreaTriggers`.
   - Nullability: use non-nullable string inputs by default; only use a nullable wrapper when the schema is truly nullable (see Optionality & Nullability Strategy).
 - Numbers/Integers

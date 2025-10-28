@@ -14,7 +14,7 @@ import {
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 
-export type ColorInputOptions = InputOptions<string> & {
+export type ColorSwatchInputOptions = InputOptions<string> & {
   // When true, renders the RGB value next to the blob
   displayValue?: Value<boolean>
   // Size in pixels of the blob preview (square). Defaults to 32
@@ -395,7 +395,7 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
   return d
 }
 
-export const ColorInput = (options: ColorInputOptions) => {
+export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
   const { value, onBlur, onChange, onInput, displayValue, size, withAlpha } =
     options
 
@@ -443,10 +443,10 @@ export const ColorInput = (options: ColorInputOptions) => {
   )
 
   const Preview = html.div(
-    attr.class('bc-color-input__control'),
+    attr.class('bc-color-swatch-input__control'),
     attr.class(
       Value.map(alphaEnabled, (a): string =>
-        a ? 'bc-color-input__control--alpha' : ''
+        a ? 'bc-color-swatch-input__control--alpha' : ''
       )
     ),
     attr.style(
@@ -454,7 +454,7 @@ export const ColorInput = (options: ColorInputOptions) => {
     ),
     // The SVG blob preview
     svg.svg(
-      attr.class('bc-color-input__svg'),
+      attr.class('bc-color-swatch-input__svg'),
       svgAttr.viewBox(svgViewBox),
       svg.path(svgAttr.d(pathD), svgAttr.fill(fillColor))
     ),
@@ -464,7 +464,9 @@ export const ColorInput = (options: ColorInputOptions) => {
       CommonInputAttributes(options),
       // Native color input needs hex without alpha
       attr.value(Value.map(rgb, ([r, g, b]) => rgbToHex(r, g, b))),
-      attr.class('bc-input bc-color-input bc-color-input__native'),
+      attr.class(
+        'bc-input bc-color-swatch-input bc-color-swatch-input__native'
+      ),
       onBlur != null ? on.blur(onBlur) : Empty,
       onChange != null
         ? on.change(e => {
@@ -501,7 +503,7 @@ export const ColorInput = (options: ColorInputOptions) => {
   const AlphaSlider = When(alphaEnabled, () =>
     html.input(
       attr.type('range'),
-      attr.class('bc-color-input__alpha'),
+      attr.class('bc-color-swatch-input__alpha'),
       attr.min(0),
       attr.max(1),
       attr.step(0.01),
@@ -541,7 +543,7 @@ export const ColorInput = (options: ColorInputOptions) => {
     // If caller provided an `after`, append RGB before it
     after: Fragment(
       When(displayValue ?? false, () =>
-        html.span(attr.class('bc-color-input__rgb'), rgbText)
+        html.span(attr.class('bc-color-swatch-input__rgb'), rgbText)
       ),
       AlphaSlider,
       options.after

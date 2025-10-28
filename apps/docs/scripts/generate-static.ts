@@ -166,7 +166,7 @@ const main = async () => {
   const { default: TagsInputPage } = await import('../src/pages/tags-input')
   const { default: FormPage } = await import('../src/pages/form')
   const { default: FileInputPage } = await import('../src/pages/file-input')
-  const { default: ColorPickerPage } = await import('../src/pages/color-picker')
+  const { default: ColorPickerPage } = await import('../src/pages/color-swatch')
   const { default: EditableTextPage } = await import(
     '../src/pages/editable-text'
   )
