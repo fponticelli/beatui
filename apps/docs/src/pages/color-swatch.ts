@@ -18,10 +18,10 @@ import {
 import { z } from 'zod'
 
 export default function ColorSwatchPage() {
-  // Simple color picker example
+  // Simple color swatch example
   const simpleColor = prop('#3b82f6')
 
-  // Form with color picker
+  // Form with color swatch
   const { controller } = useForm({
     schema: z.object({
       primaryColor: z
@@ -77,10 +77,10 @@ export default function ColorSwatchPage() {
       // Page Header
       Stack(
         attr.class('gap-2'),
-        html.h1(attr.class('text-3xl font-bold'), 'Color Picker'),
+        html.h1(attr.class('text-3xl font-bold'), 'Color Swatch'),
         html.p(
           attr.class('text-gray-600-600'),
-          'Interactive color picker component with validation and format conversion.'
+          'Interactive color swatch component with validation and format conversion.'
         )
       ),
 
@@ -89,10 +89,10 @@ export default function ColorSwatchPage() {
         {},
         Stack(
           attr.class('gap-4'),
-          html.h2(attr.class('text-xl font-semibold'), 'Basic Color Picker'),
+          html.h2(attr.class('text-xl font-semibold'), 'Basic Color Swatch'),
           html.p(
             attr.class('text-sm text-gray-600-600'),
-            'A simple color picker that updates a preview box.'
+            'A simple color swatch that updates a preview box.'
           ),
           Group(
             attr.class('items-center gap-4'),

@@ -3,9 +3,8 @@ import { coalesce, Empty, Use } from '@tempots/dom'
 import { emitValue, on } from '@tempots/dom'
 import { input } from '@tempots/dom'
 import { attr } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { BeatUII18n } from '@/beatui-i18n'
-import { Icon } from '@/components/data'
 
 export const EmailInput = (options: InputOptions<string>) => {
   const updatedOptions = {
@@ -24,9 +23,9 @@ export const EmailInput = (options: InputOptions<string>) => {
   } = updatedOptions
   const before =
     beforeOption ??
-    Icon({
+    InputIcon({
       icon: 'line-md:email',
-      size: 'sm',
+      size: options.size,
       color: 'neutral',
     })
 

@@ -3,7 +3,7 @@ import {
   isValidColor,
   isValidHexColor,
   normalizeHexColor,
-} from '../../../utils/color-validation'
+} from '../../../utils/color'
 import { Signal } from '@tempots/dom'
 import { Path } from './path'
 import { ControllerValidation } from './controller-validation'

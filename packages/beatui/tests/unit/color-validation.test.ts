@@ -9,7 +9,7 @@ import {
   rgbToHex,
   hexToRgb,
   getContrastRatio,
-} from '../../src/utils/color-validation'
+} from '../../src/utils/color'
 
 describe('Color Validation Utilities', () => {
   describe('isValidHexColor', () => {

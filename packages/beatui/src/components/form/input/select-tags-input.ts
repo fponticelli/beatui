@@ -10,10 +10,9 @@ import {
   aria,
   NotEmpty,
 } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
 import { Tag } from '../../data/tag'
-import { Icon } from '@/components/data'
 import { DropdownOption } from './option'
 import { Menu, MenuSeparator } from '@/components/navigation/menu'
 import {
@@ -140,9 +139,11 @@ export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
 
   return InputContainer({
     ...options,
-    before: options.before ?? Icon({ icon: 'tabler:tags', color: 'neutral' }),
+    before:
+      options.before ?? InputIcon({ icon: 'tabler:tags', color: 'neutral' }),
     input: Fragment(
       attr.class('bc-input-container__tags'),
+      menu,
       Chips({
         values: value,
         placeholder,
@@ -150,17 +151,22 @@ export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
         equality,
         disabled: options.disabled,
         onRemove: removeOne,
-      }),
-      html.div(
-        attr.class('bc-input-container__tags-selector'),
-        Icon({
-          icon: 'line-md:plus',
-          color: 'neutral',
-          size: 'sm',
-        }),
-        menu
-      )
+      })
+      // html.div(
+      //   attr.class('bc-input-container__tags-selector'),
+      //   InputIcon({
+      //     icon: 'line-md:plus',
+      //     color: 'neutral',
+      //     size: 'sm',
+      //   }),
+      //   menu
+      // )
     ),
+    after: InputIcon({
+      icon: 'line-md:plus',
+      color: 'neutral',
+      size: 'sm',
+    }),
   })
 }
 

@@ -16,7 +16,7 @@ import {
   coalesce,
   Fragment,
 } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { emitOptionExpando, Expando } from '../../misc/expando'
 import { BeatUII18n } from '@/beatui-i18n'
@@ -90,7 +90,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     {
       ...options,
       after: Fragment(
-        Icon({
+        InputIcon({
           icon: 'ph:caret-down-bold',
           color: 'neutral',
           size: 'sm',

@@ -9,10 +9,9 @@ import {
   on,
   Value,
 } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Tag } from '../../data/tag'
-import { Icon } from '@/components/data'
 
 export const TagsInput = (options: InputOptions<string[]>) => {
   const { value, onChange, onBlur, before } = options
@@ -32,13 +31,13 @@ export const TagsInput = (options: InputOptions<string[]>) => {
 
   return InputContainer({
     ...options,
-    before: Fragment(
-      before,
-      Icon({
+    before:
+      before ??
+      InputIcon({
         icon: 'tabler:tag',
+        size: options.size,
         color: 'neutral',
-      })
-    ),
+      }),
     input: Fragment(
       attr.class('bc-input-container__tags'),
       ForEach(value, v =>

@@ -12,9 +12,8 @@ import {
   WithElement,
   OnDispose,
 } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
-import { Icon } from '@/components/data'
 import { DropdownOption } from './option'
 import { Menu, MenuSeparator } from '@/components/navigation/menu'
 import { BeatUII18n } from '@/beatui-i18n'
@@ -154,7 +153,8 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
 
   return InputContainer({
     ...options,
-    before: options.before ?? Icon({ icon: 'tabler:tags', color: 'neutral' }),
+    before:
+      options.before ?? InputIcon({ icon: 'tabler:tags', color: 'neutral' }),
     input: Fragment(
       attr.class('bc-input-container__tags'),
       Chips({

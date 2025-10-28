@@ -15,7 +15,7 @@ import {
   computedOf,
   bind,
 } from '@tempots/dom'
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
 import { UnstyledDropZone } from '../../data/unstyled-drop-zone'
 import { Icon } from '../../data/icon'
@@ -213,7 +213,7 @@ export const FilesInput = (
           () =>
             html.span(
               attr.class('bc-file-input__compact-placeholder'),
-              Icon({ icon: 'mdi:cloud-upload-outline', size: 'sm' }),
+              Icon({ icon: 'mdi:cloud-upload-outline', size: 'md' }),
               ' ',
               bind(t.$.filesInputInstructions)(
                 maxFiles as Signal<number | undefined>,
