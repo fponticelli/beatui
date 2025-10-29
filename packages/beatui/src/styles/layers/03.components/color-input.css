@@ -93,6 +93,11 @@
   margin-inline-start: calc(var(--spacing-base) * 2);
 }
 
+.bc-color-input input[type='text'] {
+  font-family: monospace;
+  width: 9ch;
+}
+
 /* Dark mode */
 .b-dark .bc-color-swatch-input__control:focus-within {
   outline: 2px solid var(--interactive-focus-dark);

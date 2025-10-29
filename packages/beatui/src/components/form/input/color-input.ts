@@ -54,12 +54,12 @@ export function ColorInput(options: ColorInputOptions): Renderable {
       input: input.text(
         CommonInputAttributes(options),
         attr.value(value),
-        attr.class('bc-input'),
         onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
         onChange != null ? on.change(emitValue(onChange)) : Empty,
         onInput != null ? on.input(emitValue(onInput)) : Empty
       ),
     },
+    attr.class('bc-color-input'),
     Swatch({ value, onChange: options.onChange, onInput: options.onInput })
   )
 }
