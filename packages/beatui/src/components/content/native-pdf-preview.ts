@@ -9,7 +9,7 @@ import {
 
 export interface NativePdfPreviewOptions {
   /** PDF content blob */
-  content: Value<Blob | string | ArrayBuffer | Uint8Array>
+  content: Value<Blob> | Value<string> | Value<ArrayBuffer> | Value<Uint8Array>
   /** Show/hide toolbar (Chrome only). Default: true */
   toolbar?: Value<boolean>
   /** Initial page number to display (Chrome, Firefox, Safari) */
@@ -58,7 +58,9 @@ export function NativePdfPreview({
   highlight,
   allowfullscreen = false,
 }: NativePdfPreviewOptions) {
-  const fileUrl = Value.toSignal(content).mapAsync(async payload => {
+  const fileUrl = Value.toSignal(
+    content as Value<Blob | string | ArrayBuffer | Uint8Array>
+  ).mapAsync(async payload => {
     if (payload instanceof Blob) {
       // Ensure the Blob has the correct content type for native PDF preview
       const buffer = await payload.arrayBuffer()

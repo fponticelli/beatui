@@ -149,7 +149,7 @@ export default function PDFPreviewPage() {
       OneOfValue(pdfEngine, {
         pdfjs: () =>
           PDFJSPreview({
-            content: pdfUrl as Value<Blob | Uint8Array | ArrayBuffer | string>,
+            content: pdfUrl,
             page,
             pagemode: pagemode as Value<
               'none' | 'thumbs' | 'bookmarks' | 'attachments'
@@ -160,7 +160,7 @@ export default function PDFPreviewPage() {
           }),
         native: () =>
           NativePdfPreview({
-            content: pdfUrl as Value<Blob | string | ArrayBuffer | Uint8Array>,
+            content: pdfUrl,
             page,
             toolbar,
             view,

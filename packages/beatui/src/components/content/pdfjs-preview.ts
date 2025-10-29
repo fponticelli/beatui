@@ -2,7 +2,7 @@ import { Value, html, attr, OnDispose, computedOf } from '@tempots/dom'
 
 export interface PDFJSPreviewOptions {
   /** PDF content as Blob, Uint8Array, ArrayBuffer, or URL string */
-  content: Value<Blob | Uint8Array | ArrayBuffer | string>
+  content: Value<Blob> | Value<string> | Value<ArrayBuffer> | Value<Uint8Array>
 
   // Navigation & Display Options
   /** Initial page number to display (1-based) */
@@ -57,7 +57,9 @@ export function PDFJSPreview({
   class: customClass = null,
 }: PDFJSPreviewOptions) {
   // Convert content to blob URL
-  const fileUrl = Value.toSignal(content).mapAsync(async payload => {
+  const fileUrl = Value.toSignal(
+    content as Value<Blob | string | ArrayBuffer | Uint8Array>
+  ).mapAsync(async payload => {
     if (payload instanceof Blob) {
       return URL.createObjectURL(payload)
     } else if (payload instanceof ArrayBuffer) {
