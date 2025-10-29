@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { useController } from '../../src/components/form'
-import { makeOnBlurHandler } from '../../src/components/form/control/control-factory'
+import { makeOnBlurHandler } from '../../src/components/form/control/control'
 import { Validation } from '@tempots/std'
 
 describe('Control factory blur handling', () => {

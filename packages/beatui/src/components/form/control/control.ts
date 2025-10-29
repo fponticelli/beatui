@@ -1,7 +1,8 @@
-import { Merge, TNode } from '@tempots/dom'
+import { Merge, TNode, Value } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
 import { Controller } from '../controller'
 import { InputWrapper, InputWrapperOptions } from '../input'
+import { sessionId } from '@/utils'
 
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,16 +32,25 @@ export type ControllerOptions<T, O extends BaseControlOptions> = Merge<
   Merge<Omit<O, 'value'>, { controller: Controller<T> }>
 >
 
+export type MappedControllerOptions<T, U, O extends BaseControlOptions> = Merge<
+  ControllerOptions<T, O>,
+  {
+    toInput: (value: T) => U
+    fromInput: (value: U) => T
+  }
+>
+
 export function BaseControl<T, O extends BaseControlOptions>(
   InputComponent: (options: O) => TNode,
   options: BaseControllerOptions<T, O>
 ) {
-  const { controller, onBlur, onChange, ...rest } = options
+  const { controller, onBlur, onChange, id, ...rest } = options
   return InputComponent({
-    id: controller.name,
+    id: id ?? controller.name,
     disabled: controller.disabled,
     value: controller.signal,
     hasError: controller.errorVisible,
+    name: controller.name,
     ...rest,
     onChange: makeOnChangeHandler(controller, onChange),
     onBlur: makeOnBlurHandler(controller, onBlur),
@@ -49,14 +59,18 @@ export function BaseControl<T, O extends BaseControlOptions>(
 
 export function Control<T, O extends BaseControlOptions>(
   InputComponent: (options: O) => TNode,
-  options: ControllerOptions<T, O>,
+  { id: idArg, labelFor: labelForArg, ...options }: ControllerOptions<T, O>,
   ...children: TNode[]
 ) {
+  const id: Value<string> =
+    idArg ?? options.controller.name ?? sessionId('control')
+  const labelFor: Value<string> = labelForArg ?? id
   return InputWrapper(
     {
       ...options,
+      labelFor,
       content: BaseControl(
-        InputComponent,
+        opts => InputComponent({ ...(opts as unknown as O), id }),
         options as BaseControllerOptions<T, O>
       ),
     },
@@ -66,13 +80,7 @@ export function Control<T, O extends BaseControlOptions>(
 
 export function BaseMappedControl<T, U, O extends BaseControlOptions>(
   InputComponent: (options: O) => TNode,
-  options: Merge<
-    BaseControllerOptions<T, O>,
-    {
-      toInput: (value: T) => U
-      fromInput: (value: U) => T
-    }
-  >
+  options: MappedControllerOptions<T, U, O>
 ) {
   const { toInput, fromInput, controller, ...rest } = options
   const mappedController = controller.transform(toInput, fromInput)
@@ -84,19 +92,25 @@ export function BaseMappedControl<T, U, O extends BaseControlOptions>(
 
 export function MappedControl<T, U, O extends BaseControlOptions>(
   InputComponent: (options: O) => TNode,
-  options: Merge<
-    BaseControllerOptions<T, O>,
-    {
-      toInput: (value: T) => U
-      fromInput: (value: U) => T
-    }
-  >,
+  {
+    id: idArg,
+    labelFor: labelForArg,
+    ...options
+  }: MappedControllerOptions<T, U, O>,
   ...children: TNode[]
 ) {
+  const id: Value<string> =
+    idArg ?? options.controller.name ?? sessionId('control')
+  const labelFor: Value<string> = labelForArg ?? id
+
   return InputWrapper(
     {
       ...options,
-      content: BaseMappedControl(InputComponent, options),
+      labelFor,
+      content: BaseMappedControl(InputComponent, {
+        ...options,
+        id,
+      } as MappedControllerOptions<T, U, O>),
     },
     ...children
   )
