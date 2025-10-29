@@ -4,27 +4,37 @@ export interface PDFJSPreviewOptions {
   /** PDF content as Blob, Uint8Array, ArrayBuffer, or URL string */
   content: Value<Blob | Uint8Array | ArrayBuffer | string>
 
+  // Navigation & Display Options
   /** Initial page number to display (1-based) */
   page?: Value<number>
-
   /** Zoom level: 'auto', 'page-fit', 'page-width', or a percentage number (e.g., 150 for 150%) */
   zoom?: Value<'auto' | 'page-fit' | 'page-width' | number>
-
   /** Page mode: 'none', 'thumbs', 'bookmarks', 'attachments' */
   pagemode?: Value<'none' | 'thumbs' | 'bookmarks' | 'attachments'>
-
   /** Named destination to navigate to */
   nameddest?: Value<string>
-
   /** Search term to highlight */
   search?: Value<string>
 
+  // Viewer Configuration Options
+  /** Text layer mode: 0=disable, 1=enable, 2=enable for accessibility. Default: 1 */
+  textLayerMode?: Value<0 | 1 | 2>
+  /** Sidebar view on load: -1=default, 0=none, 1=thumbs, 2=outline, 3=attachments, 4=layers */
+  sidebarViewOnLoad?: Value<-1 | 0 | 1 | 2 | 3 | 4>
+  /** Scroll mode: -1=default, 0=vertical, 1=horizontal, 2=wrapped */
+  scrollModeOnLoad?: Value<-1 | 0 | 1 | 2>
+  /** Spread mode: -1=default, 0=none, 1=odd, 2=even */
+  spreadModeOnLoad?: Value<-1 | 0 | 1 | 2>
+  /** Enable JavaScript execution in PDFs. Default: true (security consideration) */
+  enableScripting?: Value<boolean>
+  /** Enable printing. Default: true */
+  enablePrinting?: Value<boolean>
+
+  // Component Options
   /** Custom viewer URL. Default: Mozilla's hosted viewer */
   viewerUrl?: Value<string | null>
-
   /** Allow fullscreen. Default: true */
   allowfullscreen?: Value<boolean>
-
   /** Custom CSS class for container */
   class?: Value<string | null>
 }
@@ -36,6 +46,12 @@ export function PDFJSPreview({
   pagemode,
   nameddest,
   search,
+  textLayerMode,
+  sidebarViewOnLoad,
+  scrollModeOnLoad,
+  spreadModeOnLoad,
+  enableScripting,
+  enablePrinting,
   viewerUrl = null,
   allowfullscreen = true,
   class: customClass = null,
@@ -65,8 +81,14 @@ export function PDFJSPreview({
     zoom,
     pagemode,
     nameddest,
-    search
-  )((url, customViewer, p, z, pm, nd, s) => {
+    search,
+    textLayerMode,
+    sidebarViewOnLoad,
+    scrollModeOnLoad,
+    spreadModeOnLoad,
+    enableScripting,
+    enablePrinting
+  )((url, customViewer, p, z, pm, nd, s, tlm, svol, scmol, spmol, es, ep) => {
     if (url == null) return null
 
     // Base viewer URL - use Mozilla's hosted viewer
@@ -80,6 +102,7 @@ export function PDFJSPreview({
     // Build hash parameters for viewer options
     const hashParams: string[] = []
 
+    // Navigation parameters
     if (p != null && p > 0) {
       hashParams.push(`page=${p}`)
     }
@@ -102,6 +125,31 @@ export function PDFJSPreview({
 
     if (s != null) {
       hashParams.push(`search=${encodeURIComponent(s)}`)
+    }
+
+    // Viewer configuration parameters
+    if (tlm != null) {
+      hashParams.push(`textLayer=${tlm}`)
+    }
+
+    if (svol != null) {
+      hashParams.push(`sidebar=${svol}`)
+    }
+
+    if (scmol != null) {
+      hashParams.push(`scrollMode=${scmol}`)
+    }
+
+    if (spmol != null) {
+      hashParams.push(`spreadMode=${spmol}`)
+    }
+
+    if (es != null) {
+      hashParams.push(`enableScripting=${es ? '1' : '0'}`)
+    }
+
+    if (ep != null) {
+      hashParams.push(`enablePrinting=${ep ? '1' : '0'}`)
     }
 
     const hash = hashParams.length > 0 ? `#${hashParams.join('&')}` : ''

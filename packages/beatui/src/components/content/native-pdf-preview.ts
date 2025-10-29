@@ -1,4 +1,11 @@
-import { Value, html, attr, computedOf, OnDispose } from '@tempots/dom'
+import {
+  Value,
+  html,
+  attr,
+  computedOf,
+  OnDispose,
+  WithElement,
+} from '@tempots/dom'
 
 export interface NativePdfPreviewOptions {
   /** PDF content blob */
@@ -172,7 +179,32 @@ export function NativePdfPreview({
       attr.allowfullscreen(allowfullscreen),
       attr.title('PDF Preview'),
       attr.loading('lazy'),
-      attr.src(urlWithParams)
+      // Force iframe reload when URL changes (including fragment changes)
+      // by manually updating src instead of using attr.src
+      WithElement(iframe => {
+        const iframeEl = iframe as HTMLIFrameElement
+        let isInitial = true
+        // Update src whenever URL changes
+        return OnDispose(
+          urlWithParams.on(url => {
+            if (url == null) return
+
+            if (isInitial) {
+              // On initial load, just set the src
+              iframeEl.src = url
+              isInitial = false
+            } else {
+              // On subsequent changes, force reload by clearing and resetting src
+              // This ensures the iframe reloads even when only the fragment changes
+              iframeEl.src = 'about:blank'
+              // Use setTimeout to ensure the blank page loads before setting new URL
+              setTimeout(() => {
+                iframeEl.src = url
+              }, 50)
+            }
+          })
+        )
+      })
     )
   )
 }
