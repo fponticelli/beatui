@@ -70,7 +70,7 @@ export function backgroundValue(
 }
 
 const hoverSolid = {
-  light: { shade: 700 as ColorShade, textColor: 'var(--color-white)' },
+  light: { shade: 600 as ColorShade, textColor: 'var(--color-white)' },
   dark: { shade: 600 as ColorShade, textColor: 'var(--text-inverted-dark)' },
 } as const
 
