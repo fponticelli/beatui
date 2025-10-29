@@ -2,7 +2,7 @@ import { Value, html, attr, computedOf, OnDispose } from '@tempots/dom'
 
 export interface NativePdfPreviewOptions {
   /** PDF content blob */
-  content: Value<Blob>
+  content: Value<Blob | string | ArrayBuffer | Uint8Array>
   /** Show/hide toolbar (Chrome only). Default: true */
   toolbar?: Value<boolean>
   /** Initial page number to display (Chrome, Firefox, Safari) */
@@ -51,14 +51,28 @@ export function NativePdfPreview({
   highlight,
   allowfullscreen = false,
 }: NativePdfPreviewOptions) {
-  const blob = Value.toSignal(content)
-  const fileUrl = computedOf(blob)(blob => blob.arrayBuffer()).mapAsync(
-    async buffer => {
-      const blob = new Blob([await buffer], { type: 'application/pdf' })
+  const fileUrl = Value.toSignal(content).mapAsync(async payload => {
+    if (payload instanceof Blob) {
+      // Ensure the Blob has the correct content type for native PDF preview
+      const buffer = await payload.arrayBuffer()
+      const blob = new Blob([buffer], { type: 'application/pdf' })
       return URL.createObjectURL(blob)
-    },
-    null
-  )
+    } else if (payload instanceof ArrayBuffer) {
+      return URL.createObjectURL(
+        new Blob([payload], { type: 'application/pdf' })
+      )
+    } else if (payload instanceof Uint8Array) {
+      return URL.createObjectURL(
+        new Blob([new Uint8Array(payload)], { type: 'application/pdf' })
+      )
+    } else if (typeof payload === 'string') {
+      // Fetch the PDF and ensure it has the correct content type for inline rendering
+      const response = await fetch(payload)
+      const buffer = await response.arrayBuffer()
+      const blob = new Blob([buffer], { type: 'application/pdf' })
+      return URL.createObjectURL(blob)
+    }
+  }, null)
 
   // Build URL with PDF viewer parameters
   const urlWithParams = computedOf(

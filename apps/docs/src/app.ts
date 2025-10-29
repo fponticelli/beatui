@@ -47,6 +47,8 @@ export const App = () => {
           Async(import('./pages/lightbox'), ({ default: Page }) => Page()),
         '/video-player': () =>
           Async(import('./pages/video-player'), ({ default: Page }) => Page()),
+        '/pdf-preview': () =>
+          Async(import('./pages/pdf-preview'), ({ default: Page }) => Page()),
 
         '/drawer': () =>
           Async(import('./pages/drawer'), ({ default: Page }) => Page()),

@@ -189,6 +189,7 @@ const main = async () => {
   const { default: RibbonPage } = await import('../src/pages/ribbon')
 
   const { default: VideoPlayerPage } = await import('../src/pages/video-player')
+  const { default: PDFPreviewPage } = await import('../src/pages/pdf-preview')
 
   // Load HTML template
   const htmlTemplate = (async () => {
@@ -304,6 +305,7 @@ const main = async () => {
             '/inputs': InputsPage,
             '/markdown': MarkdownPage,
             '/video-player': VideoPlayerPage,
+            '/pdf-preview': PDFPreviewPage,
 
             '/notice': NoticePage,
             '/ribbon': RibbonPage,
