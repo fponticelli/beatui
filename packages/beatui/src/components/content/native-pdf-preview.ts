@@ -11,6 +11,29 @@ export interface NativePdfPreviewOptions {
   zoom?: Value<number>
   /** Zoom fit mode (Chrome only). FitV=vertical, FitH=horizontal, Fit=both */
   view?: Value<'FitV' | 'FitH' | 'Fit'>
+  /** Page mode (Chrome only). none=normal, thumbs=thumbnail, bookmarks=bookmarks */
+  pagemode?: Value<
+    | 'none'
+    | 'thumbs'
+    | 'bookmarks'
+    | 'attachments'
+    | 'full-screen'
+    | 'optionalcontent'
+  >
+  /** Show/hide scrollbar (Chrome only). Default: true */
+  scrollbar?: Value<boolean>
+  /** Show/hide navigation panes (Chrome only). Default: true */
+  navpanes?: Value<boolean>
+  /** Search term (Chrome only) */
+  search?: Value<string>
+  /** Named destination (Chrome only) */
+  nameddest?: Value<string>
+  /** View rectangle (Chrome only) */
+  viewrect?: Value<string>
+  /** Highlight search term (Chrome only) */
+  highlight?: Value<string>
+  /** Allow fullscreen (Chrome only). Default: true */
+  allowfullscreen?: Value<boolean>
 }
 
 export function NativePdfPreview({
@@ -19,6 +42,14 @@ export function NativePdfPreview({
   page,
   zoom,
   view,
+  pagemode,
+  scrollbar = true,
+  navpanes = true,
+  search,
+  nameddest,
+  viewrect,
+  highlight,
+  allowfullscreen = false,
 }: NativePdfPreviewOptions) {
   const blob = Value.toSignal(content)
   const fileUrl = computedOf(blob)(blob => blob.arrayBuffer()).mapAsync(
@@ -35,8 +66,15 @@ export function NativePdfPreview({
     toolbar,
     page,
     zoom,
-    view
-  )((url, tb, p, z, v) => {
+    view,
+    pagemode,
+    scrollbar,
+    navpanes,
+    search,
+    nameddest,
+    viewrect,
+    highlight
+  )((url, tb, p, z, v, pm, sb, np, s, nd, vr, hl) => {
     if (url == null) return null
 
     const params: string[] = []
@@ -61,6 +99,41 @@ export function NativePdfPreview({
       params.push(`view=${v}`)
     }
 
+    // Add pagemode parameter (Chrome only)
+    if (pm != null) {
+      params.push(`pagemode=${pm}`)
+    }
+
+    // Add scrollbar parameter (Chrome only)
+    if (sb === false) {
+      params.push('scrollbar=0')
+    }
+
+    // Add navpanes parameter (Chrome only)
+    if (np === false) {
+      params.push('navpanes=0')
+    }
+
+    // Add search parameter (Chrome only)
+    if (s != null) {
+      params.push(`search=${encodeURIComponent(s)}`)
+    }
+
+    // Add nameddest parameter (Chrome only)
+    if (nd != null) {
+      params.push(`nameddest=${encodeURIComponent(nd)}`)
+    }
+
+    // Add viewrect parameter (Chrome only)
+    if (vr != null) {
+      params.push(`viewrect=${encodeURIComponent(vr)}`)
+    }
+
+    // Add highlight parameter (Chrome only)
+    if (hl != null) {
+      params.push(`highlight=${encodeURIComponent(hl)}`)
+    }
+
     const fragment = params.join('&')
     return fragment ? `${url}#${fragment}` : url
   })
@@ -80,6 +153,12 @@ export function NativePdfPreview({
     ),
     attr.class('h-full w-full'),
     // could also use embed or object. IFrame seems to work on Safari.
-    html.iframe(attr.class('h-full w-full'), attr.src(urlWithParams))
+    html.iframe(
+      attr.class('h-full w-full'),
+      attr.allowfullscreen(allowfullscreen),
+      attr.title('PDF Preview'),
+      attr.loading('lazy'),
+      attr.src(urlWithParams)
+    )
   )
 }
