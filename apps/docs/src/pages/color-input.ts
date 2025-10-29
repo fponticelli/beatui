@@ -47,7 +47,7 @@ export default function ColorInputPage() {
             attr.class('items-center gap-4 w-full'),
             InputWrapper({
               label: 'Pick a Color',
-              fullWidth: true,
+              layout: 'horizontal-fixed',
               content: ColorInput({
                 value: simpleColor,
                 onChange: color => simpleColor.set(color),
