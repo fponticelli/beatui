@@ -28,21 +28,24 @@ function Swatch({
   onInput?: (value: string) => void
 }) {
   let inputEl: HTMLInputElement | null = null
-  return html.span(
-    attr.class('bc-color-input__swatch'),
-    on.click(() => inputEl?.showPicker()),
-    input.color(
-      WithElement(el => {
-        inputEl = el as HTMLInputElement
-        return Empty
-      }),
-      attr.value(value),
-      style.width('4px'),
-      style.height('4px'),
-      onChange != null ? on.change(emitValue(onChange)) : Empty,
-      onInput != null ? on.input(emitValue(onInput)) : Empty
-    ),
-    attr.style(Value.map(value, v => `background-color: ${v}`))
+  return html.div(
+    attr.class('bc-color-input__swatch-container'),
+    html.span(
+      attr.class('bc-color-input__swatch'),
+      on.click(() => inputEl?.showPicker()),
+      input.color(
+        WithElement(el => {
+          inputEl = el as HTMLInputElement
+          return Empty
+        }),
+        attr.value(value),
+        style.width('4px'),
+        style.height('4px'),
+        onChange != null ? on.change(emitValue(onChange)) : Empty,
+        onInput != null ? on.input(emitValue(onInput)) : Empty
+      ),
+      attr.style(Value.map(value, v => `background-color: ${v}`))
+    )
   )
 }
 

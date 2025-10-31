@@ -10,7 +10,8 @@ import {
 
 export default function ColorInputPage() {
   // Simple color swatch example
-  const simpleColor = prop('#3b82f6')
+  const colorA = prop('#3b82f6')
+  const colorB = prop('#ffffff')
 
   return ScrollablePanel({
     body: Stack(
@@ -29,18 +30,18 @@ export default function ColorInputPage() {
             InputWrapper({
               label: 'Pick a Color',
               content: ColorInput({
-                value: simpleColor,
-                onChange: color => simpleColor.set(color),
+                value: colorA,
+                onChange: color => colorA.set(color),
                 id: 'simple-color',
               }),
             }),
             html.div(
               attr.class('w-16 h-16 rounded-full border-2 border-gray-300'),
-              style.backgroundColor(simpleColor)
+              style.backgroundColor(colorA)
             ),
             Stack(
               attr.class('text-sm'),
-              html.div(html.strong('Selected: '), simpleColor)
+              html.div(html.strong('Selected: '), colorA)
             )
           ),
           Group(
@@ -49,8 +50,8 @@ export default function ColorInputPage() {
               label: 'Pick a Color',
               layout: 'horizontal-fixed',
               content: ColorInput({
-                value: simpleColor,
-                onChange: color => simpleColor.set(color),
+                value: colorB,
+                onChange: color => colorB.set(color),
                 id: 'simple-color2',
               }),
             })
