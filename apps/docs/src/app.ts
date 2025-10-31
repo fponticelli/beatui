@@ -82,6 +82,10 @@ export const App = () => {
           Async(import('./pages/form'), ({ default: Page }) => Page()),
         '/file-input': () =>
           Async(import('./pages/file-input'), ({ default: Page }) => Page()),
+        '/page-drop-zone': () =>
+          Async(import('./pages/page-drop-zone'), ({ default: Page }) =>
+            Page()
+          ),
         '/color-input': () =>
           Async(import('./pages/color-input'), ({ default: Page }) => Page()),
         '/color-swatch': () =>

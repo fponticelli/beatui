@@ -42,6 +42,7 @@ export function Menu() {
         SidebarLink({ href: '/color-input', content: 'Color Input' }),
         SidebarLink({ href: '/color-swatch', content: 'Color Swatch' }),
         SidebarLink({ href: '/file-input', content: 'File Input' }),
+        SidebarLink({ href: '/page-drop-zone', content: 'Page Drop Zone' }),
         SidebarLink({ href: '/mask-input', content: 'Mask Input' }),
         SidebarLink({ href: '/editable-text', content: 'Editable Text' }),
         SidebarLink({ href: '/form', content: 'Form' }),

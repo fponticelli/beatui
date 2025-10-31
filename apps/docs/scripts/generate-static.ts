@@ -166,6 +166,9 @@ const main = async () => {
   const { default: TagsInputPage } = await import('../src/pages/tags-input')
   const { default: FormPage } = await import('../src/pages/form')
   const { default: FileInputPage } = await import('../src/pages/file-input')
+  const { default: PageDropZonePage } = await import(
+    '../src/pages/page-drop-zone'
+  )
   const { default: ColorPickerPage } = await import('../src/pages/color-swatch')
   const { default: EditableTextPage } = await import(
     '../src/pages/editable-text'
@@ -293,6 +296,7 @@ const main = async () => {
             '/tags-input': TagsInputPage,
             '/form': FormPage,
             '/file-input': FileInputPage,
+            '/page-drop-zone': PageDropZonePage,
             '/color-picker': ColorPickerPage,
             '/editable-text': EditableTextPage,
             '/breakpoint': BreakpointPage,

@@ -1,5 +1,6 @@
 export * from './badge'
 export * from './icon'
+export * from './page-drop-zone'
 export * from './table'
 export * from './tag'
 export * from './unstyled-drop-zone'
