@@ -15,7 +15,7 @@ import {
   computedOf,
   bind,
 } from '@tempots/dom'
-import { InputContainer, InputIcon } from './input-container'
+import { InputContainer } from './input-container'
 import { InputOptions } from './input-options'
 import { UnstyledDropZone } from '../../data/unstyled-drop-zone'
 import { Icon } from '../../data/icon'

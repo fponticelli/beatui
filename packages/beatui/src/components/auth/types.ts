@@ -157,6 +157,8 @@ export interface SignUpFormLabels {
 }
 
 export interface SignUpFormOptions {
+  initialName?: string
+  initialEmail?: string
   passwordRules?: PasswordRules
   labels?: SignUpFormLabels
   onSignUp?: (data: SignUpData) => Promise<string | null>

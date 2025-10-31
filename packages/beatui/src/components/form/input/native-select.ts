@@ -27,7 +27,6 @@ import {
   makeOnChangeHandler,
 } from '../control'
 import { InputWrapper } from './input-wrapper'
-import { Icon } from '@/components/data'
 import { SelectOption } from './option'
 
 export type NativeSelectOptions<T> = InputOptions<T> & {
