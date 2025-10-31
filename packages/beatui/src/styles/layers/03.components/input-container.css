@@ -78,6 +78,8 @@
 .bc-input-container__after {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   z-index: var(--z-index-navigation);
 }
 
@@ -146,6 +148,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
 .bc-input-container__reset:hover {
