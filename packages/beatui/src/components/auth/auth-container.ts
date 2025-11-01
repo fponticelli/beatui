@@ -29,6 +29,8 @@ export function AuthContainer(
   {
     mode: initialMode,
     socialProviders,
+    initialName,
+    initialEmail,
     passwordRules,
     showRememberMe,
     showSocialDivider,
@@ -143,6 +145,8 @@ export function AuthContainer(
                 signUpButton: labels?.signUpButton,
                 hasAccountLink: labels?.hasAccountLink,
               },
+              initialEmail,
+              initialName,
               onSignUp,
               passwordRules,
               showPasswordStrength,

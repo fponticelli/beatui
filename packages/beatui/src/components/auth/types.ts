@@ -108,6 +108,8 @@ export interface AuthContainerOptions {
   mode?: Value<AuthMode>
   className?: Value<string>
   socialProviders?: AuthProviderInfo[]
+  initialName?: string
+  initialEmail?: string
   passwordRules?: PasswordRules
   showRememberMe?: Value<boolean>
   showSocialDivider?: Value<boolean>

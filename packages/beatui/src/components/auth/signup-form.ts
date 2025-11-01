@@ -37,6 +37,8 @@ import { Notice } from '../misc'
 export function SignUpForm({
   passwordRules,
   labels,
+  initialEmail,
+  initialName,
   showPasswordStrength,
   onSignUp,
   showNameField,
@@ -77,8 +79,8 @@ export function SignUpForm({
       },
     }),
     initialValue: {
-      name: '',
-      email: '',
+      name: initialName ?? '',
+      email: initialEmail ?? '',
       password: '',
       confirmPassword: '',
       acceptTerms: false,
