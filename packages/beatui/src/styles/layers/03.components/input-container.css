@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
   overflow: hidden;
 }
 
