@@ -24,7 +24,7 @@
 /* Default state */
 .bc-base-input-container--default,
 .bc-input-container--default {
-  color: var(--color-gray-900);
+  color: var(--color-neutral-900);
 }
 
 .bc-input-container--default {
@@ -33,26 +33,22 @@
   outline-offset: -1px;
 }
 
-.bc-base-input-container--default::placeholder
-  .bc-input-container--default::placeholder {
-  color: var(--color-gray-400);
+.bc-base-input-container ::placeholder,
+  .bc-input-container ::placeholder {
+  color: var(--color-neutral-400);
 }
 
 /* Disabled state */
 .bc-base-input-container--disabled,
 .bc-input-container--disabled {
-  color: var(--color-gray-500);
+  color: var(--color-neutral-500);
   cursor: not-allowed;
 }
 
 .bc-input-container--disabled {
-  background-color: var(--color-gray-200);
+  background-color: var(--color-neutral-200);
   outline: 2px solid var(--border-divider-light);
   outline-offset: -2px;
-}
-
-.bc-input-container--disabled::placeholder {
-  color: var(--color-gray-400);
 }
 
 /* Focus within state */
@@ -110,17 +106,10 @@
   color: inherit;
 }
 
-.bc-input-container input::placeholder,
-.bc-input-container textarea::placeholder,
-.bc-input::placeholder {
-  color: inherit;
-  opacity: 0.6;
-}
-
 /* Password toggle button */
 .bc-input-container__password-toggle {
   font-size: var(--font-size-sm);
-  fill: var(--color-gray-400);
+  fill: var(--color-neutral-400);
   border-radius: var(--radius-full);
   padding: var(--spacing-sm) var(--spacing-md);
   background: transparent;
@@ -133,13 +122,13 @@
 }
 
 .bc-input-container__password-toggle:hover {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-neutral-100);
 }
 
 /* Nullable reset button */
 .bc-input-container__reset {
   font-size: var(--font-size-sm);
-  fill: var(--color-gray-400);
+  fill: var(--color-neutral-400);
   border-radius: var(--radius-full);
   padding: var(--spacing-sm);
   background: transparent;
@@ -153,7 +142,7 @@
 }
 
 .bc-input-container__reset:hover {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-neutral-100);
 }
 
 /* Tags input wrapper */
@@ -193,8 +182,9 @@
   background-color: var(--bg-elevated-dark);
 }
 
-.b-dark .bc-input-container--default::placeholder {
-  color: var(--text-muted-dark);
+.b-dark .bc-input-container::placeholder,
+.b-dark .bc-base-input-container::placeholder {
+  color: var(--gray-500);
 }
 
 .b-dark .bc-input-container--disabled {
@@ -202,10 +192,6 @@
   color: var(--text-muted-dark);
   outline: 2px solid var(--border-divider-dark);
   opacity: 0.6;
-}
-
-.b-dark .bc-input-container--disabled::placeholder {
-  color: var(--text-muted-dark);
 }
 
 .b-dark .bc-input-container--error {
