@@ -15,7 +15,9 @@ export type PageDropZoneOptions = {
   content?: (options: {
     isDragging: Signal<boolean>
     files: Signal<File[]>
+    selectFiles: () => void
   }) => TNode
+  onInvalidSelection?: (files: File[]) => void
   disabled?: Value<boolean>
 }
 
@@ -43,6 +45,7 @@ export function PageDropZone({
   accept = '*/*',
   onDragContent,
   content,
+  onInvalidSelection,
   disabled = false,
 }: PageDropZoneOptions) {
   const isDragging = prop(false)
@@ -130,10 +133,16 @@ export function PageDropZone({
       const filteredFiles = droppedFiles.filter(file =>
         matchesAcceptFilter(file, acceptFilter)
       )
+      const invalidFiles = droppedFiles.filter(file =>
+        filteredFiles.includes(file)
+      )
 
       if (filteredFiles.length > 0) {
         files.value = filteredFiles
         onChange(filteredFiles)
+      }
+      if (invalidFiles.length > 0) {
+        onInvalidSelection?.(droppedFiles)
       }
     }
   }
@@ -158,12 +167,30 @@ export function PageDropZone({
     dragCounter = 0
   }
 
+  const selectFiles = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.multiple = true
+    input.accept = Value.get(accept)
+    input.style.display = 'none'
+    document.body.appendChild(input)
+    input.addEventListener('change', () => {
+      const selectedFiles = Array.from(input.files ?? [])
+      if (selectedFiles.length > 0) {
+        files.value = selectedFiles
+        onChange(selectedFiles)
+      }
+      document.body.removeChild(input)
+    })
+    input.click()
+  }
+
   return Fragment(
     OnDispose(cleanup, isDragging, files),
     // Render overlay content to body when dragging (if content is provided)
     onDragContent != null
       ? When(isDragging, () => onDragContent({ files }))
       : null,
-    content != null ? content({ isDragging, files }) : null
+    content != null ? content({ isDragging, files, selectFiles }) : null
   )
 }
