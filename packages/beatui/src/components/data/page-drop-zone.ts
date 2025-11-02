@@ -133,8 +133,8 @@ export function PageDropZone({
       const filteredFiles = droppedFiles.filter(file =>
         matchesAcceptFilter(file, acceptFilter)
       )
-      const invalidFiles = droppedFiles.filter(file =>
-        filteredFiles.includes(file)
+      const invalidFiles = droppedFiles.filter(
+        file => !filteredFiles.includes(file)
       )
 
       if (filteredFiles.length > 0) {
