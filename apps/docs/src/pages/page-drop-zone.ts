@@ -115,7 +115,7 @@ export default function PageDropZonePage() {
           console.log('Files dropped:', files)
           droppedFiles.set(files)
         },
-        content: () =>
+        onDragContent: () =>
           Portal(
             'body',
             html.div(

@@ -11,6 +11,7 @@ import {
 export type PageDropZoneOptions = {
   onChange: (files: File[]) => void
   accept?: Value<string>
+  onDragContent?: (options: { files: Signal<File[]> }) => TNode
   content?: (options: {
     isDragging: Signal<boolean>
     files: Signal<File[]>
@@ -40,6 +41,7 @@ export type PageDropZoneOptions = {
 export function PageDropZone({
   onChange,
   accept = '*/*',
+  onDragContent,
   content,
   disabled = false,
 }: PageDropZoneOptions) {
@@ -158,10 +160,10 @@ export function PageDropZone({
 
   return Fragment(
     OnDispose(cleanup, isDragging, files),
-
     // Render overlay content to body when dragging (if content is provided)
-    content != null
-      ? When(isDragging, () => content({ isDragging, files }))
-      : null
+    onDragContent != null
+      ? When(isDragging, () => onDragContent({ files }))
+      : null,
+    content != null ? content({ isDragging, files }) : null
   )
 }
