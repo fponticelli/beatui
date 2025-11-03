@@ -33,7 +33,7 @@
 }
 
 .bc-base-input-container ::placeholder,
-  .bc-input-container ::placeholder {
+.bc-input-container ::placeholder {
   color: var(--color-neutral-400);
 }
 

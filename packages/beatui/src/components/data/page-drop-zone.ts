@@ -6,6 +6,11 @@ import {
   OnDispose,
   Fragment,
   When,
+  html,
+  attr,
+  on,
+  style,
+  WithElement,
 } from '@tempots/dom'
 
 export type PageDropZoneOptions = {
@@ -50,6 +55,7 @@ export function PageDropZone({
 }: PageDropZoneOptions) {
   const isDragging = prop(false)
   const files = prop<File[]>([])
+  let input: HTMLInputElement | null = null
 
   // Counter to track nested drag enter/leave events
   let dragCounter = 0
@@ -168,25 +174,45 @@ export function PageDropZone({
   }
 
   const selectFiles = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.multiple = true
-    input.accept = Value.get(accept)
-    input.style.display = 'none'
-    document.body.appendChild(input)
-    input.addEventListener('change', () => {
-      const selectedFiles = Array.from(input.files ?? [])
-      if (selectedFiles.length > 0) {
-        files.value = selectedFiles
-        onChange(selectedFiles)
-      }
-      document.body.removeChild(input)
-    })
-    input.click()
+    if (input != null) {
+      input.click()
+    }
+  }
+
+  const handleFileInputChange = (e: Event) => {
+    const input = e.target as HTMLInputElement
+    const selectedFiles = Array.from(input.files ?? [])
+    if (selectedFiles.length > 0) {
+      files.value = selectedFiles
+      onChange(selectedFiles)
+    }
+    // Reset the input so the same file can be selected again
+    input.value = ''
   }
 
   return Fragment(
     OnDispose(cleanup, isDragging, files),
+    // Hidden file input for programmatic file selection
+    html.input(
+      attr.type('file'),
+      attr.name('bui-page-drop-zone'),
+      attr.multiple(true),
+      attr.accept(accept),
+      style.position('absolute'),
+      style.opacity('0'),
+      style.pointerEvents('none'),
+      style.width('0'),
+      style.height('0'),
+      on.change(handleFileInputChange),
+      WithElement(el => {
+        input = el as HTMLInputElement
+        return OnDispose(() => {
+          if (input != null) {
+            input.value = ''
+          }
+        })
+      })
+    ),
     // Render overlay content to body when dragging (if content is provided)
     onDragContent != null
       ? When(isDragging, () => onDragContent({ files }))
