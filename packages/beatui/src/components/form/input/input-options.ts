@@ -12,6 +12,7 @@ export type CommonInputOptions = {
   placeholder?: Value<string>
   id?: Value<string>
   required?: Value<boolean>
+  tabIndex?: Value<number>
   /**
    * Visual size of the control, aligned with Button sizes.
    * Defaults to 'md' when omitted.
@@ -40,6 +41,7 @@ export const CommonInputAttributes = ({
   placeholder,
   id,
   required,
+  tabIndex,
   hasError,
 }: CommonInputOptions) => {
   return Fragment(
@@ -51,6 +53,7 @@ export const CommonInputAttributes = ({
     attr.placeholder(placeholder),
     attr.id(id),
     aria.required(required),
+    attr.tabindex(tabIndex),
     hasError != null
       ? aria.invalid(
           (hasError ?? false) as Value<

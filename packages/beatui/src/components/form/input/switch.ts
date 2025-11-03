@@ -27,6 +27,7 @@ export type SwitchOptions = {
   size?: ControlSize
   id?: string
   color?: Value<ThemeColorName>
+  tabIndex?: Value<number>
 }
 
 export const Switch = ({
@@ -40,6 +41,7 @@ export const Switch = ({
   size = 'md',
   id,
   color = 'primary',
+  tabIndex = 0,
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
   const switchId = id ?? sessionId('switch')
@@ -114,7 +116,10 @@ export const Switch = ({
     attr.id(switchId),
     attr.role('switch'),
     attr.tabindex(
-      Value.map(disabled, (disabled): number => (disabled ? -1 : 0))
+      computedOf(
+        disabled ?? false,
+        tabIndex
+      )((disabled, tabIndex) => (disabled ? -1 : (tabIndex ?? 0)))
     ),
     aria.checked(value as Value<boolean | 'mixed'>),
     aria.disabled(disabled),
