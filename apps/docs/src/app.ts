@@ -45,6 +45,10 @@ export const App = () => {
           Async(import('./pages/modal'), ({ default: Page }) => Page()),
         '/lightbox': () =>
           Async(import('./pages/lightbox'), ({ default: Page }) => Page()),
+        '/announcement-bar': () =>
+          Async(import('./pages/announcement-bar'), ({ default: Page }) =>
+            Page()
+          ),
         '/video-player': () =>
           Async(import('./pages/video-player'), ({ default: Page }) => Page()),
         '/pdf-preview': () =>

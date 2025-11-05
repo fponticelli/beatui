@@ -190,6 +190,9 @@ const main = async () => {
   const { default: MarkdownPage } = await import('../src/pages/markdown')
   const { default: NoticePage } = await import('../src/pages/notice')
   const { default: RibbonPage } = await import('../src/pages/ribbon')
+  const { default: AnnouncementBarPage } = await import(
+    '../src/pages/announcement-bar'
+  )
 
   const { default: VideoPlayerPage } = await import('../src/pages/video-player')
   const { default: PDFPreviewPage } = await import('../src/pages/pdf-preview')
@@ -283,6 +286,7 @@ const main = async () => {
             '/link': LinkPage,
             '/modal': ModalPage,
             '/lightbox': LightboxPage,
+            '/announcement-bar': AnnouncementBarPage,
             '/drawer': DrawerPage,
             '/tooltip': TooltipPage,
             '/flyout': FlyoutPage,
@@ -342,6 +346,7 @@ const main = async () => {
                 html.a(attr.href('/link'), 'Link'),
                 html.a(attr.href('/modal'), 'Modal'),
                 html.a(attr.href('/lightbox'), 'Lightbox'),
+                html.a(attr.href('/announcement-bar'), 'Announcement Bar'),
                 html.a(attr.href('/drawer'), 'Drawer'),
                 html.a(attr.href('/tooltip'), 'Tooltip'),
                 html.a(attr.href('/flyout'), 'Flyout'),

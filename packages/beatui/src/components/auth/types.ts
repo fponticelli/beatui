@@ -51,11 +51,11 @@ export interface SignUpData {
   name?: string
   email: string
   password: string
+  acceptTerms: boolean
 }
 
 export interface SignUpFormData extends SignUpData {
   confirmPassword: string
-  acceptTerms: boolean
 }
 
 export interface ResetPasswordData {

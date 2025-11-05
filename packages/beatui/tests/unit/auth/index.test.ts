@@ -80,6 +80,7 @@ describe('Authentication Integration', () => {
       name: 'John Doe',
       email: 'john@example.com',
       password: 'password123',
+      acceptTerms: true,
     }
 
     const signUpFormData: AuthModule.SignUpFormData = {

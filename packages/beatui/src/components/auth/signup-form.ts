@@ -66,6 +66,7 @@ export function SignUpForm({
                 email: data.email,
                 password: data.password,
                 name: data.name,
+                acceptTerms: data.acceptTerms,
               })
           : undefined,
       message: 'Reset password failed',

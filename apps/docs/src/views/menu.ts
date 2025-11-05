@@ -84,7 +84,8 @@ export function Menu() {
         SidebarLink({ href: '/lightbox', content: 'Lightbox' }),
         SidebarLink({ href: '/drawer', content: 'Drawer' }),
         SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
-        SidebarLink({ href: '/flyout', content: 'Flyout' })
+        SidebarLink({ href: '/flyout', content: 'Flyout' }),
+        SidebarLink({ href: '/announcement-bar', content: 'Announcement Bar' })
       ),
       // Data Display
       SidebarGroup(
