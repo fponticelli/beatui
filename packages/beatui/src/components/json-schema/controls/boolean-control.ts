@@ -2,7 +2,11 @@ import { Fragment, Renderable, Value } from '@tempots/dom'
 import { Control, CheckboxInput, type Controller } from '../../form'
 import { NullableResetAfter } from '../../form/input/nullable-utils'
 import type { SchemaContext } from '../schema-context'
-import { definitionToInputWrapperOptions } from './shared-utils'
+import {
+  definitionToInputWrapperOptions,
+  shouldHideWriteOnly,
+  shouldDisableControl,
+} from './shared-utils'
 
 /**
  * Control for boolean schemas
@@ -15,14 +19,13 @@ export function JSONSchemaBoolean({
   controller: Controller<boolean | null>
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
-  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+  if (shouldHideWriteOnly(ctx)) {
     return Fragment()
   }
 
   const baseOptions = {
     ...definitionToInputWrapperOptions({ ctx }),
-    // Disable input if readOnly (unless overridden) or deprecated
-    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
+    disabled: shouldDisableControl(ctx),
   }
 
   // Use non-nullable boolean by default

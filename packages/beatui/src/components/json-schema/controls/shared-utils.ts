@@ -72,3 +72,21 @@ export function integerMultipleOf(multipleOf?: number) {
   if (multipleOf == null) return 1
   return Math.round(multipleOf)
 }
+
+/**
+ * Check if a writeOnly field should be hidden
+ */
+export function shouldHideWriteOnly(
+  ctx: import('../schema-context').SchemaContext
+): boolean {
+  return ctx.isWriteOnly && !ctx.shouldShowWriteOnly
+}
+
+/**
+ * Determine if a control should be disabled based on readOnly or deprecated status
+ */
+export function shouldDisableControl(
+  ctx: import('../schema-context').SchemaContext
+): boolean {
+  return (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated
+}

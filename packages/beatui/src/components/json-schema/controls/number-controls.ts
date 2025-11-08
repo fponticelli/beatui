@@ -17,6 +17,8 @@ import {
   definitionToInputWrapperOptions,
   makePlaceholder,
   integerMultipleOf,
+  shouldHideWriteOnly,
+  shouldDisableControl,
 } from './shared-utils'
 
 /**
@@ -69,7 +71,7 @@ export function JSONSchemaNumber({
   controller: Controller<number>
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
-  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+  if (shouldHideWriteOnly(ctx)) {
     return Fragment()
   }
 
@@ -82,8 +84,7 @@ export function JSONSchemaNumber({
     min: def.minimum,
     max: def.maximum,
     step: def.multipleOf,
-    // Disable input if readOnly (unless overridden) or deprecated
-    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
+    disabled: shouldDisableControl(ctx),
   }
 
   // Handle nullable cases first

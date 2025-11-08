@@ -15,6 +15,8 @@ import { resolveWidget } from '../widgets/utils'
 import {
   definitionToInputWrapperOptions,
   makePlaceholder,
+  shouldHideWriteOnly,
+  shouldDisableControl,
 } from './shared-utils'
 
 /**
@@ -28,15 +30,14 @@ export function JSONSchemaString({
   controller: Controller<string | undefined>
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
-  if (ctx.isWriteOnly && !ctx.shouldShowWriteOnly) {
+  if (shouldHideWriteOnly(ctx)) {
     return Fragment()
   }
 
   const options = {
     ...definitionToInputWrapperOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
-    // Disable input if readOnly (unless overridden) or deprecated
-    disabled: (ctx.isReadOnly && !ctx.shouldIgnoreReadOnly) || ctx.isDeprecated,
+    disabled: shouldDisableControl(ctx),
   }
 
   // For optional nullable primitives, use nullable controls instead of presence toggles
