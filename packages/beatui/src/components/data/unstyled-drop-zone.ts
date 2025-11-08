@@ -9,8 +9,8 @@ import {
   WithElement,
   Use,
   aria,
-  OnDispose,
   bind,
+  Empty,
 } from '@tempots/dom'
 import { BeatUII18n } from '@/beatui-i18n'
 
@@ -103,7 +103,6 @@ export function UnstyledDropZone({
     }
 
     return html.div(
-      OnDispose(() => Value.dispose(files), isDragOver),
       attr.role('button'),
       attr.tabindex(
         Value.map(enableClick, enabled => (enabled ? 0 : -1) as number)
@@ -127,22 +126,21 @@ export function UnstyledDropZone({
         on.change(handleFileInputChange),
         WithElement((el: HTMLInputElement) => {
           input = el
-          return OnDispose(
-            files.on(files => {
-              // In non-browser test environments DataTransfer may be undefined.
-              // Guard to avoid ReferenceError while still allowing normal behavior in browsers.
-              const DT = (
-                globalThis as unknown as {
-                  DataTransfer?: { new (): DataTransfer }
-                }
-              ).DataTransfer
-              if (DT != null) {
-                const dataTransfer = new DT()
-                files.forEach(file => dataTransfer.items.add(file))
-                el.files = dataTransfer.files
+          files.on(files => {
+            // In non-browser test environments DataTransfer may be undefined.
+            // Guard to avoid ReferenceError while still allowing normal behavior in browsers.
+            const DT = (
+              globalThis as unknown as {
+                DataTransfer?: { new (): DataTransfer }
               }
-            })
-          )
+            ).DataTransfer
+            if (DT != null) {
+              const dataTransfer = new DT()
+              files.forEach(file => dataTransfer.items.add(file))
+              el.files = dataTransfer.files
+            }
+          })
+          return Empty
         })
       ),
 

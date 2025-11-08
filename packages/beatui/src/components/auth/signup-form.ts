@@ -101,7 +101,6 @@ export function SignUpForm({
   return Use(AuthI18n, t =>
     // Registration form
     html.form(
-      OnDispose(controller.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
       on.submit(submit),
 

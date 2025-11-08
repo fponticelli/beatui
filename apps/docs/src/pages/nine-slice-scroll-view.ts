@@ -8,7 +8,6 @@ import {
   Repeat,
   style,
   Fragment,
-  OnDispose,
 } from '@tempots/dom'
 import {
   AnchorMode,
@@ -256,17 +255,6 @@ export default function NineSliceScrollViewPage() {
   const anchorMode = prop<AnchorMode>('container-edge')
 
   return Fragment(
-    OnDispose(
-      rows,
-      columns,
-      headerRows,
-      footerRows,
-      startColumns,
-      endColumns,
-      cellWidth,
-      cellHeight,
-      anchorMode
-    ),
     ScrollablePanel({
       header: ControlsHeader(
         Group(

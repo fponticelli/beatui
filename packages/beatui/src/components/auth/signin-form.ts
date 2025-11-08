@@ -7,7 +7,6 @@ import {
   Ensure,
   html,
   on,
-  OnDispose,
   prop,
   Renderable,
   Use,
@@ -77,7 +76,6 @@ export function SignInForm({
   return Use(AuthI18n, t =>
     // Email/Password form
     html.form(
-      OnDispose(controller.dispose, persistedEmail.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
       on.submit(submit),
 

@@ -6,7 +6,6 @@ import {
   prop,
   TNode,
   Value,
-  OnDispose,
   OneOfValue,
   Fragment,
   on,
@@ -89,7 +88,6 @@ export function AuthContainer(
       }),
       attr.class(currentMode.map(mode => `bc-auth-container--${mode}`)),
       attr.class('bc-auth-form'),
-      OnDispose(currentMode.dispose),
 
       OneOfValue(currentMode, {
         signin: () =>

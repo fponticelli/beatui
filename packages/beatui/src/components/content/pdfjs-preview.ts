@@ -158,16 +158,16 @@ export function PDFJSPreview({
     return `${baseUrl}?${params.toString()}${hash}`
   })
 
+  fileUrl.on((_, previous) => {
+    if (previous == null) return
+    // Only revoke if it's a blob URL (starts with 'blob:')
+    if (previous.startsWith('blob:')) {
+      URL.revokeObjectURL(previous)
+    }
+  })
+  
   return html.div(
     OnDispose(
-      viewerUrlWithParams,
-      fileUrl.on((_, previous) => {
-        if (previous == null) return
-        // Only revoke if it's a blob URL (starts with 'blob:')
-        if (previous.startsWith('blob:')) {
-          URL.revokeObjectURL(previous)
-        }
-      }),
       () => {
         const url = fileUrl.value
         if (url == null) return

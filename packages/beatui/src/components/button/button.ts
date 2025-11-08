@@ -4,7 +4,6 @@ import {
   Fragment,
   html,
   on,
-  OnDispose,
   prop,
   style,
   TNode,
@@ -12,6 +11,7 @@ import {
   When,
   aria,
   Use,
+  Empty,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '@/tokens'
@@ -261,14 +261,13 @@ export function Button(
         () => Fragment(on.click(onClick), ...children)
       ),
       When(loading != null, () =>
-        ElementRect(rect =>
-          OnDispose(
-            rect.on(r => {
-              if (Value.get(loading ?? false)) return
-              buttonSize.set(r)
-            })
-          )
-        )
+        ElementRect(rect => {
+          rect.on(r => {
+            if (Value.get(loading ?? false)) return
+            buttonSize.set(r)
+          })
+          return Empty
+        })
       )
     )
   )

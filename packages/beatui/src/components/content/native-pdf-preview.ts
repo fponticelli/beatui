@@ -5,6 +5,7 @@ import {
   computedOf,
   OnDispose,
   WithElement,
+  Empty,
 } from '@tempots/dom'
 
 export interface NativePdfPreviewOptions {
@@ -161,19 +162,17 @@ export function NativePdfPreview({
     return fragment ? `${url}#${fragment}` : url
   })
 
+  fileUrl.on((_, previous) => {
+    if (previous == null) return
+    URL.revokeObjectURL(previous)
+  })
+
   return html.div(
-    OnDispose(
-      urlWithParams,
-      fileUrl.on((_, previous) => {
-        if (previous == null) return
-        URL.revokeObjectURL(previous)
-      }),
-      () => {
-        const url = fileUrl.value
-        if (url == null) return
-        URL.revokeObjectURL(url)
-      }
-    ),
+    OnDispose(() => {
+      const url = fileUrl.value
+      if (url == null) return
+      URL.revokeObjectURL(url)
+    }),
     attr.class('h-full w-full'),
     // could also use embed or object. IFrame seems to work on Safari.
     html.iframe(
@@ -187,25 +186,24 @@ export function NativePdfPreview({
         const iframeEl = iframe as HTMLIFrameElement
         let isInitial = true
         // Update src whenever URL changes
-        return OnDispose(
-          urlWithParams.on(url => {
-            if (url == null) return
+        urlWithParams.on(url => {
+          if (url == null) return
 
-            if (isInitial) {
-              // On initial load, just set the src
+          if (isInitial) {
+            // On initial load, just set the src
+            iframeEl.src = url
+            isInitial = false
+          } else {
+            // On subsequent changes, force reload by clearing and resetting src
+            // This ensures the iframe reloads even when only the fragment changes
+            iframeEl.src = 'about:blank'
+            // Use setTimeout to ensure the blank page loads before setting new URL
+            setTimeout(() => {
               iframeEl.src = url
-              isInitial = false
-            } else {
-              // On subsequent changes, force reload by clearing and resetting src
-              // This ensures the iframe reloads even when only the fragment changes
-              iframeEl.src = 'about:blank'
-              // Use setTimeout to ensure the blank page loads before setting new URL
-              setTimeout(() => {
-                iframeEl.src = url
-              }, 50)
-            }
-          })
-        )
+            }, 50)
+          }
+        })
+        return Empty
       })
     )
   )

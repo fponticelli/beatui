@@ -7,7 +7,6 @@ import {
   Ensure,
   html,
   on,
-  OnDispose,
   prop,
   Renderable,
   Use,
@@ -69,7 +68,6 @@ export function ResetPasswordForm({
   return Use(AuthI18n, t =>
     // Reset password form
     html.form(
-      OnDispose(controller.dispose, persistedEmail.dispose, loading.dispose),
       attr.class('bc-auth-form__form'),
 
       Ensure(controller.error, error =>

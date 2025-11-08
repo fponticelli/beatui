@@ -191,7 +191,7 @@ export function PageDropZone({
   }
 
   return Fragment(
-    OnDispose(cleanup, isDragging, files),
+    OnDispose(cleanup),
     // Hidden file input for programmatic file selection
     html.input(
       attr.type('file'),

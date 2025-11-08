@@ -1,4 +1,4 @@
-import { attr, Fragment, html, OnDispose, prop, Value } from '@tempots/dom'
+import { attr, Fragment, html, prop, Value } from '@tempots/dom'
 import {
   Notice,
   ScrollablePanel,
@@ -25,7 +25,6 @@ export default function NoticePage() {
   const roleValue = role.map(r => (r === 'auto' ? undefined : r))
 
   return Fragment(
-    OnDispose(variant, tone, role, closable, title, iconMode, customIcon),
     ScrollablePanel({
       header: ControlsHeader(
         Stack(

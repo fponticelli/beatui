@@ -6,7 +6,6 @@ import {
   computedOf,
   Fragment,
   html,
-  OnDispose,
   Renderable,
   Use,
   When,
@@ -58,7 +57,6 @@ export function PasswordStrengthIndicator({
   })
 
   return html.div(
-    OnDispose(strengthData, containerClasses),
     attr.class(containerClasses),
 
     // Strength bar
@@ -232,7 +230,6 @@ export function PasswordStrengthBar({
   })
 
   return html.div(
-    OnDispose(strengthData, containerClasses),
     attr.class(containerClasses),
     html.div(
       attr.class('bc-password-strength-bar__fill'),
@@ -267,7 +264,6 @@ export function PasswordStrengthText({
   })
 
   return Fragment(
-    OnDispose(strength, containerClasses),
     Use(AuthI18n, t =>
       html.span(
         attr.class(containerClasses),

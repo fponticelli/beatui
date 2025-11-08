@@ -19,14 +19,6 @@ export function createESLintConfig(tsconfigRootDir, options = {}) {
   const config = [
     eslint.configs.recommended,
     ...tseslint.configs.recommended,
-    {
-      languageOptions: {
-        parserOptions: {
-          projectService: true,
-          tsconfigRootDir: import.meta.dirname,
-        },
-      },
-    },
     tempots.configs.recommended,
     eslintConfigPrettier,
     {
