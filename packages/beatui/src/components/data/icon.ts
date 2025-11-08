@@ -58,34 +58,32 @@ function openIconDB() {
 
 const dbPromise = isIndexedDBAvailable ? openIconDB() : null
 
-export function storeIconLocally(id: string, svgString: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (dbPromise) {
-        const db = await dbPromise
+export async function storeIconLocally(id: string, svgString: string) {
+  try {
+    if (dbPromise) {
+      const db = await dbPromise
+      return new Promise<void>((resolve, reject) => {
         const tx = db.transaction('icons', 'readwrite')
         const store = tx.objectStore('icons')
         store.put(svgString, id)
-        tx.oncomplete = resolve
+        tx.oncomplete = () => resolve()
         tx.onerror = reject
-      } else {
-        // Fallback to in-memory cache
-        memoryCache.set(id, svgString)
-        resolve(undefined)
-      }
-    } catch (_error) {
-      // If IndexedDB fails, fallback to memory cache
+      })
+    } else {
+      // Fallback to in-memory cache
       memoryCache.set(id, svgString)
-      resolve(undefined)
     }
-  })
+  } catch (_error) {
+    // If IndexedDB fails, fallback to memory cache
+    memoryCache.set(id, svgString)
+  }
 }
 
-export function getIconLocally(id: string) {
-  return new Promise<string | null>(async (resolve, reject) => {
-    try {
-      if (dbPromise) {
-        const db = await dbPromise
+export async function getIconLocally(id: string): Promise<string | null> {
+  try {
+    if (dbPromise) {
+      const db = await dbPromise
+      return new Promise<string | null>((resolve, reject) => {
         const tx = db.transaction('icons', 'readonly')
         const store = tx.objectStore('icons')
         const request = store.get(id)
@@ -93,15 +91,15 @@ export function getIconLocally(id: string) {
           resolve(request.result as string | null)
         }
         request.onerror = reject
-      } else {
-        // Fallback to in-memory cache
-        resolve(memoryCache.get(id) || null)
-      }
-    } catch (_error) {
-      // If IndexedDB fails, fallback to memory cache
-      resolve(memoryCache.get(id) || null)
+      })
+    } else {
+      // Fallback to in-memory cache
+      return memoryCache.get(id) || null
     }
-  })
+  } catch (_error) {
+    // If IndexedDB fails, fallback to memory cache
+    return memoryCache.get(id) || null
+  }
 }
 
 async function loadRemoteIconSvg(iconName: string): Promise<string> {

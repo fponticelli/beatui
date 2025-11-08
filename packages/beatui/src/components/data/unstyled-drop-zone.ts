@@ -15,7 +15,7 @@ import {
 import { BeatUII18n } from '@/beatui-i18n'
 
 export type DropZoneOptions = {
-  onChange: (files: File[]) => void
+  onChange: (files: File[], via: 'dragdrop' | 'click') => void
   value?: Value<File[]>
   accept?: Value<string>
   enableClick?: Value<boolean>
@@ -67,7 +67,7 @@ export function UnstyledDropZone({
       const droppedFiles = Array.from(e.dataTransfer?.files || [])
       if (droppedFiles.length > 0) {
         files.value = droppedFiles
-        onChange(droppedFiles)
+        onChange(droppedFiles, 'dragdrop')
       }
     }
 
@@ -89,7 +89,7 @@ export function UnstyledDropZone({
       const selectedFiles = Array.from(input.files ?? [])
       if (selectedFiles.length > 0) {
         files.value = selectedFiles
-        onChange(selectedFiles)
+        onChange(selectedFiles, 'click')
       }
       // Reset input value to allow selecting the same file again
       input.value = ''

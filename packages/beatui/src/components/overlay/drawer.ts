@@ -80,7 +80,6 @@ export function Drawer(
       currentClose = closeOverlay
 
       // Create a reactive mode signal based on dismissable
-      // eslint-disable-next-line tempots/require-signal-disposal
       const mode = prop<'capturing' | 'non-capturing'>('capturing')
 
       // Update mode when dismissable changes
@@ -88,7 +87,6 @@ export function Drawer(
         mode.set(isDismissable ? 'capturing' : 'non-capturing')
       })
 
-      // eslint-disable-next-line tempots/require-signal-disposal
       const displayHeader = computedOf(
         header != null,
         showCloseButton

@@ -125,7 +125,7 @@ export default function ModalPage() {
           position,
           onClose: () => console.log('Modal closed'),
         },
-        (open, _close) =>
+        open =>
           Button(
             {
               variant: 'filled',
@@ -161,7 +161,7 @@ export default function ModalPage() {
           position,
           onClose: () => console.log('Custom header modal closed'),
         },
-        (open, _close) =>
+        open =>
           Button(
             {
               variant: 'outline',
@@ -256,7 +256,7 @@ export default function ModalPage() {
           onCancel: () => console.log('Delete cancelled'),
           onClose: () => console.log('Confirmation modal closed'),
         },
-        (open, _close) =>
+        open =>
           Button(
             {
               variant: 'filled',

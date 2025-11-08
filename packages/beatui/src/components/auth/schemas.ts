@@ -58,7 +58,7 @@ export function createPasswordSchema(
   // Symbol validation
   if (rules.requireSymbols) {
     validator = validator.regex(
-      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+      /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
       'Password must contain at least one special character'
     )
   }
@@ -215,7 +215,7 @@ export function calculatePasswordStrength(
     uppercase: /[A-Z]/.test(password),
     lowercase: /[a-z]/.test(password),
     numbers: /[0-9]/.test(password),
-    symbols: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+    symbols: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password),
     custom: rules.customValidation
       ? rules.customValidation(password) === null
       : password.length > 0, // For consistency, fail if password is empty

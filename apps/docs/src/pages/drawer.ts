@@ -107,7 +107,7 @@ export default function DrawerPage() {
       html.p(
         'A slide-out panel that can be anchored to any side of the viewport or element.'
       ),
-      Drawer((open, _close) =>
+      Drawer(open =>
         Button(
           {
             variant: 'filled',
@@ -147,7 +147,7 @@ export default function DrawerPage() {
 
       Group(
         attr.class('gap-2'),
-        Drawer((open, _close) =>
+        Drawer(open =>
           Button(
             {
               variant: 'outline',
@@ -172,7 +172,7 @@ export default function DrawerPage() {
             'Open Inline Start'
           )
         ),
-        Drawer((open, _close) =>
+        Drawer(open =>
           Button(
             {
               variant: 'outline',
@@ -204,7 +204,7 @@ export default function DrawerPage() {
       html.p(
         'A common use case for drawers is navigation menus, especially on mobile devices.'
       ),
-      Drawer((open, _close) =>
+      Drawer(open =>
         Button(
           {
             variant: 'outline',
@@ -255,7 +255,7 @@ export default function DrawerPage() {
       html.p(
         'Drawers work well for settings panels and configuration options.'
       ),
-      Drawer((open, _close) =>
+      Drawer(open =>
         Button(
           {
             variant: 'outline',
@@ -332,7 +332,7 @@ export default function DrawerPage() {
       ),
       Group(
         attr.class('gap-2'),
-        Drawer((open, _close) =>
+        Drawer(open =>
           Button(
             {
               variant: 'outline',
@@ -371,7 +371,7 @@ export default function DrawerPage() {
             'Top Drawer'
           )
         ),
-        Drawer((open, _close) =>
+        Drawer(open =>
           Button(
             {
               variant: 'outline',

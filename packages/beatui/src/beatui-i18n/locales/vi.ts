@@ -89,11 +89,6 @@ const vi: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (maxFileSize && fileSizeUnits) {
-      const formattedSize = formatFileSize(maxFileSize, {
-        units: fileSizeUnits,
-      })
-      instruction += ` (tối đa ${formattedSize})`
     }
 
     return instruction

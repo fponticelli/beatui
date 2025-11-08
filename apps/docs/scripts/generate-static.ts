@@ -254,7 +254,7 @@ const main = async () => {
                 'utf-8'
               )
               return new Response(file, { status: 200 })
-            } catch (_error) {
+            } catch {
               console.warn(`⚠️  Asset not found: ${input}`)
               return new Response('Not found', { status: 404 })
             } finally {
@@ -518,6 +518,7 @@ const main = async () => {
 
   // Filter URLs to only include internal links
   const filterURLs = (urls: string[]): string[] => {
+    // eslint-disable-next-line tempots/require-async-signal-disposal
     return urls
       .filter(url => url.startsWith('/'))
       .filter(url => !url.startsWith('/assets/'))
@@ -586,6 +587,7 @@ const main = async () => {
       )
       const urls = filterURLs(extractedUrls)
       console.log(`🔍 Found ${urls.length} links`)
+      // eslint-disable-next-line tempots/require-async-signal-disposal
       const newUrls = urls.filter(url => !generated.has(url))
       toGenerate.push(...newUrls)
 

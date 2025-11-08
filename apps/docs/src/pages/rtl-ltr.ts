@@ -119,7 +119,7 @@ export default function RTLLTRPage() {
 
               Group(
                 attr.class('gap-4'),
-                Drawer((open, _close) =>
+                Drawer(open =>
                   Button(
                     {
                       onClick: () =>
@@ -140,7 +140,7 @@ export default function RTLLTRPage() {
                     'Open Drawer'
                   )
                 ),
-                Modal({ position: 'center' }, (open, _close) =>
+                Modal({ position: 'center' }, open =>
                   Button(
                     {
                       onClick: () =>

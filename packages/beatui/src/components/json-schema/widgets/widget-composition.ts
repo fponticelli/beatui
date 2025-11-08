@@ -145,7 +145,7 @@ export class WidgetComposer {
     )
 
     // Render widgets
-    // eslint-disable-next-line tempots/require-signal-disposal
+
     const renderedWidgets = visibleWidgets.map(widget =>
       this.renderWidget(widget, controller, ctx)
     )

@@ -75,24 +75,22 @@ export default function LightboxPage() {
       html.p(
         'Opens a large image capped by the viewport; overflow is clipped (no scaling).'
       ),
-      Lightbox(
-        { dismissable, showCloseButton, overlayEffect, padding },
-        (open, _close) =>
-          Button(
-            {
-              variant: 'filled',
-              onClick: () =>
-                open(
-                  html.img(
-                    attr.alt('Large image demo'),
-                    // Intentionally large image to demonstrate scaling
-                    attr.src('https://picsum.photos/2000/1400'),
-                    attr.class('block w-auto max-w-full max-height-full')
-                  )
-                ),
-            },
-            'Open Image Lightbox'
-          )
+      Lightbox({ dismissable, showCloseButton, overlayEffect, padding }, open =>
+        Button(
+          {
+            variant: 'filled',
+            onClick: () =>
+              open(
+                html.img(
+                  attr.alt('Large image demo'),
+                  // Intentionally large image to demonstrate scaling
+                  attr.src('https://picsum.photos/2000/1400'),
+                  attr.class('block w-auto max-w-full max-height-full')
+                )
+              ),
+          },
+          'Open Image Lightbox'
+        )
       ),
 
       // Arbitrary content example
@@ -155,48 +153,46 @@ export default function LightboxPage() {
       // Video example
       html.h3(attr.class('text-xl font-semibold pt-4'), 'Video Lightbox'),
       html.p('Supports videos as well (capped to viewport; overflow clipped).'),
-      Lightbox(
-        { dismissable, showCloseButton, overlayEffect, padding },
-        (open, _close) =>
-          Button(
-            {
-              variant: 'filled',
-              color: 'primary',
-              onClick: () =>
-                open(
-                  html.video(
-                    attr.controls('true'),
-                    attr.autoplay(false),
-                    attr.loop('false'),
-                    attr.class('rounded bg-black'),
-                    style.maxWidth('none'),
-                    html.source(
-                      attr.src(
+      Lightbox({ dismissable, showCloseButton, overlayEffect, padding }, open =>
+        Button(
+          {
+            variant: 'filled',
+            color: 'primary',
+            onClick: () =>
+              open(
+                html.video(
+                  attr.controls('true'),
+                  attr.autoplay(false),
+                  attr.loop('false'),
+                  attr.class('rounded bg-black'),
+                  style.maxWidth('none'),
+                  html.source(
+                    attr.src(
+                      'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm'
+                    ),
+                    attr.type('video/webm')
+                  ),
+                  html.source(
+                    attr.src(
+                      'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+                    ),
+                    attr.type('video/mp4')
+                  ),
+                  html.p(
+                    'Your browser does not support HTML5 video. Here is a ',
+                    html.a(
+                      attr.href(
                         'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm'
                       ),
-                      attr.type('video/webm')
+                      'link to the video'
                     ),
-                    html.source(
-                      attr.src(
-                        'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
-                      ),
-                      attr.type('video/mp4')
-                    ),
-                    html.p(
-                      'Your browser does not support HTML5 video. Here is a ',
-                      html.a(
-                        attr.href(
-                          'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm'
-                        ),
-                        'link to the video'
-                      ),
-                      '.'
-                    )
+                    '.'
                   )
-                ),
-            },
-            'Open Video Lightbox'
-          )
+                )
+              ),
+          },
+          'Open Video Lightbox'
+        )
       )
     ),
   })

@@ -14,7 +14,7 @@ function inlineCssImports(filePath, seen = new Set()) {
 
   // Replace @import statements with inlined content recursively, preserving layer(...) info
   css = css.replace(
-    /@import\s+(?:url\()?['"]([^'"\)]+)['"](?:\))?\s*(layer\([^;]+\))?\s*;?/g,
+    /@import\s+(?:url\()?['"]([^'")]+)['"](?:\))?\s*(layer\([^;]+\))?\s*;?/g,
     (match, spec, layerClause) => {
       let resolved
       try {

@@ -134,7 +134,7 @@ function evaluateJSONPath(path: string, data: unknown): unknown {
 
   const segments = path
     .slice(2)
-    .split(/[.\[\]]/)
+    .split(/[.[\]]/)
     .filter(Boolean)
   let current = data
 

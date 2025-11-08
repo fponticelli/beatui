@@ -89,11 +89,6 @@ export const pl: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join(', ')})`
       }
-    } else if (maxFileSize && fileSizeUnits) {
-      const formattedSize = formatFileSize(maxFileSize, {
-        units: fileSizeUnits,
-      })
-      instruction += ` (maks ${formattedSize})`
     }
 
     return instruction

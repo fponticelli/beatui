@@ -55,7 +55,6 @@ export function Lightbox(
       currentClose = closeOverlay
 
       // mode reacts to dismissable
-      // eslint-disable-next-line tempots/require-signal-disposal
       const mode = prop<'capturing' | 'non-capturing'>(
         (typeof dismissable === 'boolean' ? dismissable : true)
           ? 'capturing'

@@ -14,7 +14,7 @@ import {
 } from '@tempots/dom'
 
 export type PageDropZoneOptions = {
-  onChange: (files: File[]) => void
+  onChange: (files: File[], via: 'dragdrop' | 'click') => void
   accept?: Value<string>
   onDragContent?: (options: { files: Signal<File[]> }) => TNode
   content?: (options: {
@@ -145,7 +145,7 @@ export function PageDropZone({
 
       if (filteredFiles.length > 0) {
         files.value = filteredFiles
-        onChange(filteredFiles)
+        onChange(filteredFiles, 'dragdrop')
       }
       if (invalidFiles.length > 0) {
         onInvalidSelection?.(droppedFiles)
@@ -184,7 +184,7 @@ export function PageDropZone({
     const selectedFiles = Array.from(input.files ?? [])
     if (selectedFiles.length > 0) {
       files.value = selectedFiles
-      onChange(selectedFiles)
+      onChange(selectedFiles, 'click')
     }
     // Reset the input so the same file can be selected again
     input.value = ''

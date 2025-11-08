@@ -89,11 +89,6 @@ const zh: BeatUIMessages = {
       if (constraints.length > 0) {
         instruction += ` (${constraints.join('，')})`
       }
-    } else if (maxFileSize && fileSizeUnits) {
-      const formattedSize = formatFileSize(maxFileSize, {
-        units: fileSizeUnits,
-      })
-      instruction += ` (最大${formattedSize})`
     }
 
     return instruction

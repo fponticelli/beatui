@@ -2,6 +2,7 @@ import { attr, prop } from '@tempots/dom'
 import { Stack } from '@tempots/beatui'
 import { Markdown } from '@tempots/beatui/markdown'
 
+// eslint-disable-next-line tempots/no-module-level-signals
 const content = prop(`
 # Markdown Sample
 

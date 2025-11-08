@@ -1,3 +1,4 @@
+import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import tempots from '@tempots/eslint-plugin'
 import { fileURLToPath } from 'node:url'
@@ -5,8 +6,10 @@ import { dirname } from 'node:path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-export default tseslint.config(
+export default [
+  eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  tempots.configs.recommended,
   {
     ignores: [
       '**/*.{d.ts,d.mts}',
@@ -17,9 +20,6 @@ export default tseslint.config(
     ],
   },
   {
-    plugins: {
-      tempots,
-    },
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: __dirname,
@@ -34,7 +34,6 @@ export default tseslint.config(
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'tempots/require-signal-disposal': 'warn',
     },
-  }
-)
+  },
+]

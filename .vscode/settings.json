@@ -39,5 +39,25 @@
   // Ensure Prettier uses the project's configuration
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
-  "chatgpt.commentCodeLensEnabled": true
+  "chatgpt.commentCodeLensEnabled": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#f3fbef",
+    "activityBar.background": "#f3fbef",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#809fdf",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#f3fbef",
+    "statusBar.background": "#d3f1c6",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#b3e79d",
+    "statusBarItem.remoteBackground": "#d3f1c6",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#d3f1c6",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#d3f1c699",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#d3f1c6"
 }

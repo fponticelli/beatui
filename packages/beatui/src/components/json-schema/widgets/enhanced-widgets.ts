@@ -206,7 +206,6 @@ export function FileUploadWidget({
                   onClick: () => {
                     const value = controller.signal.value
                     if (Array.isArray(value)) {
-                      // eslint-disable-next-line tempots/require-signal-disposal
                       const newFiles = value.filter(f => f !== fileName.value)
                       controller.change(newFiles.length > 0 ? newFiles : null)
                     } else {

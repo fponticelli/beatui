@@ -192,7 +192,7 @@ export default function TabsPage() {
           ...allVariants.map(currentVariant => {
             const variantActiveTab = prop<DemoTabKey>('overview')
             return html.div(
-              OnDispose(variantActiveTab),
+              OnDispose(variantActiveTab.dispose),
               html.h3(
                 attr.class('text-lg font-semibold mb-2'),
                 `Variant: ${currentVariant}`

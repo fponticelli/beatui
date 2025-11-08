@@ -56,7 +56,7 @@ export function JSONSchemaUnion<T>({
 
   // If only primitives + null, hide null in selector and use nullable control
   const hasNull = types.includes('null')
-  // eslint-disable-next-line tempots/require-signal-disposal
+
   const primitives = types.filter(
     t =>
       t !== 'null' &&

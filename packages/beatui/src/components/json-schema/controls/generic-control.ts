@@ -51,7 +51,6 @@ export function JSONSchemaGenericControl<T>({
     )
     if (objectSchemas.length > 0) {
       // Resolve internal/external refs before merging
-      // eslint-disable-next-line tempots/require-signal-disposal
       const resolvedAllOf = objectSchemas.map(schema =>
         resolveAnyRef(schema, ctx.schema, ctx.ajv)
       )
@@ -167,7 +166,7 @@ export function JSONSchemaGenericControl<T>({
     const types = resolvedDef.type as unknown as Array<
       'null' | 'string' | 'number' | 'integer' | 'boolean' | 'object' | 'array'
     >
-    // eslint-disable-next-line tempots/require-signal-disposal
+
     const nonNull = types.filter(t => t !== 'null')
     if (
       nonNull.length === 1 &&

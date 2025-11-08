@@ -167,6 +167,7 @@ export default function InputsPage() {
     ]
     const comboboxVal = prop('apple')
     const loadFruits = async (q: string) =>
+      // eslint-disable-next-line tempots/require-async-signal-disposal
       comboboxFruits.filter(
         o =>
           o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())

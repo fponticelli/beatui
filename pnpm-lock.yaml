@@ -27,24 +27,27 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 31.6.1
-        version: 31.6.1
+        specifier: 33.0.0
+        version: 33.0.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 10.7.1
-        version: 10.7.1(@tempots/dom@31.6.1)(@tempots/std@0.24.0)
+        specifier: 12.0.0
+        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
       zod:
         specifier: 4.1.12
         version: 4.1.12
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@tailwindcss/vite':
         specifier: ^4.1.13
         version: 4.1.13(vite@7.1.9(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.6)(yaml@2.8.1))
       '@tempots/eslint-plugin':
-        specifier: 0.2.1
-        version: 0.2.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
+        specifier: 0.5.0
+        version: 0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -106,18 +109,21 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 31.6.1
-        version: 31.6.1
+        specifier: 33.0.0
+        version: 33.0.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 10.7.1
-        version: 10.7.1(@tempots/dom@31.6.1)(@tempots/std@0.24.0)
+        specifier: 12.0.0
+        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@tempots/eslint-plugin':
-        specifier: 0.2.1
-        version: 0.2.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
+        specifier: 0.5.0
+        version: 0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       '@types/node':
         specifier: 22.15.18
         version: 22.15.18
@@ -152,14 +158,14 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       '@tempots/dom':
-        specifier: 31.6.1
-        version: 31.6.1
+        specifier: 33.0.0
+        version: 33.0.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 10.7.1
-        version: 10.7.1(@tempots/dom@31.6.1)(@tempots/std@0.24.0)
+        specifier: 12.0.0
+        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -215,9 +221,12 @@ importers:
         specifier: ^1.41.3
         version: 1.41.3
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@tempots/eslint-plugin':
-        specifier: ^0.2.1
-        version: 0.2.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
+        specifier: 0.5.0
+        version: 0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       '@testing-library/dom':
         specifier: 10.4.0
         version: 10.4.0
@@ -496,6 +505,10 @@ packages:
 
   '@eslint/js@9.37.0':
     resolution: {integrity: sha512-jaS+NJ+hximswBG6pjNX0uEJZkrT0zwpVi3BA3vX22aFGjJjmgSTSmPpZCRKmoBL5VY/M6p0xsSJx7rk7sy5gg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.39.1':
+    resolution: {integrity: sha512-S26Stp4zCy88tH94QbBv3XCuzRQiZ9yXofEILmglYTh/Ug/a9/umqvgFtYBAo3Lp0nsI/5/qH1CCrbdK3AP1Tw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.6':
@@ -778,21 +791,21 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tempots/dom@31.6.1':
-    resolution: {integrity: sha512-06M+fKPt1jjIqBC8rbO6ca1mnC0bm8oRauzaaIHTo77SKOn201WoGlWkFtkai/E5Rni9Ru2P90VgbpFZXxUukg==}
+  '@tempots/dom@33.0.0':
+    resolution: {integrity: sha512-0Rleg+gA7phENPeUBJcm0/GtXA0raERN+w/Xph1F4pb1jJxBFQaDUObaWr2RlqcK6cOgLnVTMX88vYApQjGMiw==}
 
-  '@tempots/eslint-plugin@0.2.1':
-    resolution: {integrity: sha512-B+/91sIWX+W/yTPRW/eZy/VYLen5GF72hKZx22XfH5mLq1nsHRdJn6CubNL/8IvWmzAAfRsRX+XtP3QNQJw5nw==}
+  '@tempots/eslint-plugin@0.5.0':
+    resolution: {integrity: sha512-G+O/JIPQ1AbotFpzZ/gLq3T1+vikILTMY5NcnVHscZRT2zw+5JGc1N/emW2zpbunJgPBjzJ8kjwXMTTndrd3SA==}
     peerDependencies:
       eslint: ^8.0.0 || ^9.0.0
 
   '@tempots/std@0.24.0':
     resolution: {integrity: sha512-8YhRh41k0hVYp6hnoOAQ8Qw5ANUXlp4UZdArZwev9v4RIJ8hmYoKadqCOqfU42njO3qaR0Ks9sS/YdC4zXb2LA==}
 
-  '@tempots/ui@10.7.1':
-    resolution: {integrity: sha512-Rz0fVdeVeoae57zG27tXn8EqcM+vFSMNQyXkVIbgHAAQK3MSzHsDvHpadc3/l3STbfJFTJeG59E+vo28dRPL0g==}
+  '@tempots/ui@12.0.0':
+    resolution: {integrity: sha512-c3i8MKaXA/23EuSydzRqWyiioJz3ZmjoKo7eWTvXrXsrO+D7+2LBvGQOw+mrgubmaJU7nCeXL4ZuyWE1BckZWg==}
     peerDependencies:
-      '@tempots/dom': ^31.6.1
+      '@tempots/dom': ^33.0.0
       '@tempots/std': ^0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -2671,6 +2684,8 @@ snapshots:
 
   '@eslint/js@9.37.0': {}
 
+  '@eslint/js@9.39.1': {}
+
   '@eslint/object-schema@2.1.6': {}
 
   '@eslint/plugin-kit@0.4.0':
@@ -2882,9 +2897,9 @@ snapshots:
       tailwindcss: 4.1.13
       vite: 7.1.9(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.6)(yaml@2.8.1)
 
-  '@tempots/dom@31.6.1': {}
+  '@tempots/dom@33.0.0': {}
 
-  '@tempots/eslint-plugin@0.2.1(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)':
+  '@tempots/eslint-plugin@0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.46.2(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       eslint: 9.37.0(jiti@2.6.0)
@@ -2894,10 +2909,10 @@ snapshots:
 
   '@tempots/std@0.24.0': {}
 
-  '@tempots/ui@10.7.1(@tempots/dom@31.6.1)(@tempots/std@0.24.0)':
+  '@tempots/ui@12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)':
     dependencies:
       '@floating-ui/dom': 1.7.4
-      '@tempots/dom': 31.6.1
+      '@tempots/dom': 33.0.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
