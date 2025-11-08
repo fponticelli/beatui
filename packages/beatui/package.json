@@ -162,7 +162,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@tempots/eslint-plugin": "0.5.0",
+    "@tempots/eslint-plugin": "0.6.0",
     "@testing-library/dom": "10.4.0",
     "@types/node": "22.15.18",
     "@typescript-eslint/eslint-plugin": "8.46.0",

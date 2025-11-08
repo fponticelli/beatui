@@ -11,7 +11,7 @@ import {
   ButtonVariant,
   InputWrapper,
 } from '@tempots/beatui'
-import { html, attr, prop, OnDispose } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -160,7 +160,6 @@ export default function TabsPage() {
           ...allSizes.map(currentSize => {
             const sizeActiveTab = prop<DemoTabKey>('overview')
             return html.div(
-              OnDispose(sizeActiveTab),
               html.h3(
                 attr.class('text-lg font-semibold mb-2'),
                 `Size: ${currentSize}`
@@ -192,7 +191,6 @@ export default function TabsPage() {
           ...allVariants.map(currentVariant => {
             const variantActiveTab = prop<DemoTabKey>('overview')
             return html.div(
-              OnDispose(variantActiveTab.dispose),
               html.h3(
                 attr.class('text-lg font-semibold mb-2'),
                 `Variant: ${currentVariant}`
