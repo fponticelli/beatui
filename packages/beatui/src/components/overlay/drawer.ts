@@ -124,7 +124,6 @@ export function Drawer(
         const bodyId = `${drawerId}-body`
 
         return html.div(
-          OnDispose(animatedToggle),
           attr.class(
             computedOf(
               size,
@@ -203,7 +202,7 @@ export function Drawer(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: Fragment(OnDispose(mode, displayHeader), drawerContent),
+        content: drawerContent,
         onClickOutside: () => {
           onClose?.()
           handleClose()

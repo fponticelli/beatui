@@ -29,7 +29,6 @@ export function ListInput<T>(
 ) {
   const length = controller.length.map(v => v)
   return Fragment(
-    OnDispose(() => length.dispose()),
     Repeat(
       length,
       position => {
@@ -37,7 +36,6 @@ export function ListInput<T>(
         const disposables = [] as (() => void)[]
         return Fragment(
           OnDispose(() => {
-            item.dispose()
             disposables.forEach(dispose => dispose())
           }),
           element({

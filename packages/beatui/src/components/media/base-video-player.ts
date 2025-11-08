@@ -629,7 +629,7 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     )
   )
 
-  return Fragment(OnDispose(provider, ...cleanups), container)
+  return Fragment(OnDispose(...cleanups), container)
 }
 
 function parseYouTubeId(url: string): string | null {

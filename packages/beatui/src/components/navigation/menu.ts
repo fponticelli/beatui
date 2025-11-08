@@ -114,7 +114,6 @@ export function Menu(options: MenuOptions): Renderable {
   let previouslyFocusedElement: HTMLElement | null = null
 
   return Fragment(
-    OnDispose(focusedItemIndex, menuItems),
     Flyout({
       content: () => {
         return WithElement(menuElement => {

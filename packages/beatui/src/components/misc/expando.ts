@@ -5,6 +5,7 @@ const PREFIX = '$$tts-exp-'
 export const Expando = <T>(name: string, value: Value<T>): Renderable => {
   return WithElement(el => {
     const id = `${PREFIX}${name}`
+    // eslint-disable-next-line tempots/no-redundant-listener-disposal
     return OnDispose(Value.on(value, v => Reflect.set(el, id, v)))
   })
 }

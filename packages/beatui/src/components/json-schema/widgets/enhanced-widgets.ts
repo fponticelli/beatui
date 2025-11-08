@@ -10,7 +10,6 @@ import {
   Ensure,
   ForEach,
   WithElement,
-  OnDispose,
 } from '@tempots/dom'
 import { type Controller } from '../../form'
 import { Button } from '../../button'
@@ -114,13 +113,13 @@ export function FileUploadWidget({
       }
     } else {
       // Default behavior: store file names
+      // eslint-disable-next-line tempots/require-async-signal-disposal
       const fileNames = Array.from(files).map(f => f.name)
       controller.change(isMultiple ? fileNames : fileNames[0] || null)
     }
   }
 
   return html.div(
-    OnDispose(isDragging, isUploading, uploadProgress),
     attr.class('bc-file-upload'),
     attr.class(
       computedOf(isDragging)((dragging): string =>
@@ -243,7 +242,6 @@ export function RichTextWidget({
   }
 
   return html.div(
-    OnDispose(editorRef, isFocused),
     attr.class('bc-rich-text'),
 
     // Toolbar
@@ -359,7 +357,6 @@ export function CodeEditorWidget({
   }
 
   return html.div(
-    OnDispose(textareaRef),
     attr.class('bc-code-editor'),
     attr.class(`bc-code-editor--${config.theme || 'light'}`),
     config.language && attr.class(`bc-code-editor--${config.language}`),

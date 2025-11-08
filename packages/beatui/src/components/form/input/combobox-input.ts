@@ -9,7 +9,6 @@ import {
   Merge,
   on,
   OneOfType,
-  OnDispose,
   prop,
   Renderable,
   Signal,
@@ -75,8 +74,6 @@ const ComboboxOptionItem = <T>(
         )
 
         return html.div(
-          OnDispose(isSelected.dispose),
-          OnDispose(isFocused.dispose),
           attr.class('bc-dropdown__option'),
           attr.class(
             computedOf(

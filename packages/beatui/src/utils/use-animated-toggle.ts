@@ -360,11 +360,7 @@ export function AnimatedToggleClass({
     return animationToStyles(currentAnim)
   })
 
-  return Fragment(
-    OnDispose(classes, styles),
-    attr.class(classes),
-    attr.style(styles)
-  )
+  return Fragment(attr.class(classes), attr.style(styles))
 }
 
 export function AnimatedToggle(

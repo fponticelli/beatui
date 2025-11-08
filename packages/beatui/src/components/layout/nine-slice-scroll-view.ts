@@ -85,11 +85,6 @@ export function NineSliceScrollView({
   const scrollbarThickness = prop(16)
 
   return html.div(
-    OnDispose(
-      verticalScrollPosition.dispose,
-      horizontalScrollPosition.dispose,
-      scrollbarThickness.dispose
-    ),
     attr.class('bc-nine-slice-container'),
     ElementRect(rect => {
       const viewportWidth = computedOf(
@@ -284,33 +279,18 @@ export function NineSliceScrollView({
         wheelThrottleTimer = null
       }
 
+      needsHorizontalScroll.on(need => {
+        if (!need) horizontalScrollPosition.set(0n)
+      })
+      needsVerticalScroll.on(need => {
+        if (!need) verticalScrollPosition.set(0n)
+      })
       return Fragment(
-        OnDispose(
-          needsHorizontalScroll,
-          needsVerticalScroll,
-          () => Value.dispose(shouldAnchorEndToBody),
-          viewportWidth,
-          viewportHeight,
-          visibleAreaWidth,
-          visibleAreaHeight,
-          scrollRatioHorizontal,
-          scrollRatioVertical,
-          endSideOffset,
-          bottomOffset,
-          needsHorizontalScroll.on(need => {
-            if (!need) horizontalScrollPosition.set(0n)
-          }),
-          needsVerticalScroll.on(need => {
-            if (!need) verticalScrollPosition.set(0n)
-          }),
-          maxVerticalScroll.dispose,
-          maxHorizontalScroll.dispose,
-          () => {
-            if (wheelThrottleTimer) {
-              clearTimeout(wheelThrottleTimer)
-            }
+        OnDispose(() => {
+          if (wheelThrottleTimer) {
+            clearTimeout(wheelThrottleTimer)
           }
-        ),
+        }),
         on.wheel(event => {
           event.preventDefault()
           const { deltaX, deltaY } = event

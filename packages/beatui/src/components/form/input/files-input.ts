@@ -88,7 +88,7 @@ function createFilePreview(file: Signal<File>): TNode {
       })
 
       return html.div(
-        OnDispose(thumbnailUrl, () => {
+        OnDispose(() => {
           if (thumbnailUrl.value) {
             URL.revokeObjectURL(thumbnailUrl.value)
           }

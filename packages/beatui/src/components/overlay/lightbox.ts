@@ -111,7 +111,7 @@ export function Lightbox(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: Fragment(OnDispose(mode), lightboxContent),
+        content: lightboxContent,
         onClickOutside: () => {
           // only close if dismissable
           if (currentDismissable) {

@@ -75,7 +75,7 @@ export function Collapse({ open }: CollapseOption, ...children: TNode[]) {
       })
 
       return Fragment(
-        OnDispose(dispose, height, settableHeight),
+        OnDispose(dispose),
         attr.style(
           height.map(h => `--collapse-height: ${h != null ? `${h}px` : 'auto'}`)
         ),

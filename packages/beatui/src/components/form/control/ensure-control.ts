@@ -16,10 +16,7 @@ export function EnsureControl<T>(
         v => v!,
         v => v
       )
-      return Fragment(
-        OnDispose(() => transformed.dispose()),
-        then(transformed)
-      )
+      return then(transformed)
     },
     otherwise
   )

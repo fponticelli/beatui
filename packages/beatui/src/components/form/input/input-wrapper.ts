@@ -8,7 +8,6 @@ import {
   aria,
   dataAttr,
   When,
-  OnDispose,
 } from '@tempots/dom'
 import { Label } from '../../typography/label'
 import { sessionId } from '../../../utils/session-id'
@@ -108,7 +107,6 @@ export const InputWrapper = (
   const isHorizontal = computedOf(computedLayout)(l => l !== 'vertical')
 
   return html.div(
-    OnDispose(isHorizontal),
     attr.class(Value.map(computedLayout, l => generateInputWrapperClasses(l))),
     attr.class(
       Value.map(fullWidth, (v): string =>

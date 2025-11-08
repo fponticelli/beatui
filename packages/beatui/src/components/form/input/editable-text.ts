@@ -11,7 +11,6 @@ import {
   Renderable,
   Value,
   Use,
-  OnDispose,
 } from '@tempots/dom'
 import { AutoSelect } from '@tempots/ui'
 
@@ -35,7 +34,6 @@ export const EditableText = ({
   const isDisabled = Value.map(disabled ?? false, d => d)
 
   return html.div(
-    OnDispose(isEditing, escaped, () => Value.dispose(isDisabled)),
     attr.class('bc-editable-text'),
     attr.class(
       Value.map(isDisabled, d =>

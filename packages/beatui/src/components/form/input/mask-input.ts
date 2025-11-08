@@ -8,7 +8,6 @@ import {
   Fragment,
   computedOf,
   Renderable,
-  OnDispose,
 } from '@tempots/dom'
 import { Merge } from '@tempots/std'
 import { InputContainer } from './input-container'
@@ -465,7 +464,6 @@ export const MaskInput = (options: MaskInputOptions): Renderable => {
   }
 
   return Fragment(
-    OnDispose(conformExternal),
     InputContainer({
       ...options,
       input: input.text(

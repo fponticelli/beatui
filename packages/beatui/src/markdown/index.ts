@@ -8,7 +8,6 @@ import {
   MapSignal,
   Async,
   Renderable,
-  OnDispose,
 } from '@tempots/dom'
 import { micromark } from 'micromark'
 import { LinkPortal } from '@/components/misc/link-portal'
@@ -46,7 +45,6 @@ export function Markdown(
   })
 
   return html.div(
-    OnDispose(rendered),
     // Ensure styles are present declaratively via head portal
     (options.cssInjection ?? 'none') === 'none'
       ? null

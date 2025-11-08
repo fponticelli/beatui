@@ -372,7 +372,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
       const triggerValue = showOn as Value<FlyoutTrigger>
       return Fragment(
         ariaAttributes,
-        OnDispose(triggerExpanded, animatedToggle),
         OneOfValue(triggerValue, {
           'hover-focus': () =>
             Fragment(

@@ -10,8 +10,6 @@ import {
   Unless,
   Ensure,
   Renderable,
-  Fragment,
-  OnDispose,
 } from '@tempots/dom'
 import { Icon } from '../data'
 import type { ThemeColorName } from '@/tokens'
@@ -91,78 +89,71 @@ export function Notice(
   }: NoticeOptions,
   ...children: TNode[]
 ): Renderable {
-  const isDismissible = Value.map(
-    closable,
-    v => Boolean(v) || onDismiss != null
-  )
-  const currentVariant = Value.map(variant, v => v ?? 'info')
-  const currentTone = Value.map(tone, v => v ?? 'subtle')
-  // Default role: alert for error, status otherwise, unless overridden
-  const ariaRole = computedOf(
-    role,
-    currentVariant
-  )(
-    (r, v) => (r ?? (v === 'danger' ? 'alert' : 'status')) as 'status' | 'alert'
-  )
-
   // Manage local visibility when closable without external state
   const visible = prop(true)
 
-  const body = Use(BeatUII18n, t =>
-    html.div(
-      attr.class(
-        computedOf(
-          currentVariant,
-          currentTone,
-          isDismissible,
-          cls
-        )((v, tn, dism, extra) => generateNoticeClasses(v, tn, dism, extra))
-      ),
-      // Accessibility role mapping (always defined)
-      attr.role(Value.map(ariaRole, r => r as string)),
-      Unless(
-        Value.map(icon, ic => ic === false),
-        () =>
-          html.div(
-            attr.class('bc-notice__icon'),
-            Icon({
-              icon: computedOf(
-                icon,
-                currentVariant
-              )((ic, v) => (ic === undefined ? variantToIcon(v) : String(ic))),
-              size: 'md',
-              color: Value.map(currentVariant, variantToColor),
-            })
-          )
-      ),
+  return When(visible, () => {
+    const isDismissible = Value.map(
+      closable,
+      v => Boolean(v) || onDismiss != null
+    )
+    const currentVariant = Value.map(variant, v => v ?? 'info')
+    const currentTone = Value.map(tone, v => v ?? 'subtle')
+    // Default role: alert for error, status otherwise, unless overridden
+    const ariaRole = computedOf(
+      role,
+      currentVariant
+    )(
+      (r, v) =>
+        (r ?? (v === 'danger' ? 'alert' : 'status')) as 'status' | 'alert'
+    )
+    return Use(BeatUII18n, t =>
       html.div(
-        attr.class('bc-notice__body'),
-        Ensure(title, title => html.div(attr.class('bc-notice__title'), title)),
-        html.div(attr.class('bc-notice__content'), ...children)
-      ),
-      When(isDismissible, () =>
-        CloseButton({
-          size: 'xs',
-          label: t.$.closeModal,
-          onClick: () => {
-            visible.set(false)
-            onDismiss?.()
-          },
-        })
+        attr.class(
+          computedOf(
+            currentVariant,
+            currentTone,
+            isDismissible,
+            cls
+          )((v, tn, dism, extra) => generateNoticeClasses(v, tn, dism, extra))
+        ),
+        // Accessibility role mapping (always defined)
+        attr.role(Value.map(ariaRole, r => r as string)),
+        Unless(
+          Value.map(icon, ic => ic === false),
+          () =>
+            html.div(
+              attr.class('bc-notice__icon'),
+              Icon({
+                icon: computedOf(
+                  icon,
+                  currentVariant
+                )((ic, v) =>
+                  ic === undefined ? variantToIcon(v) : String(ic)
+                ),
+                size: 'md',
+                color: Value.map(currentVariant, variantToColor),
+              })
+            )
+        ),
+        html.div(
+          attr.class('bc-notice__body'),
+          Ensure(title, title =>
+            html.div(attr.class('bc-notice__title'), title)
+          ),
+          html.div(attr.class('bc-notice__content'), ...children)
+        ),
+        When(isDismissible, () =>
+          CloseButton({
+            size: 'xs',
+            label: t.$.closeModal,
+            onClick: () => {
+              visible.set(false)
+              onDismiss?.()
+            },
+          })
+        )
       )
     )
-  )
-
-  return Fragment(
-    OnDispose(
-      () => {
-        Value.dispose(isDismissible)
-        Value.dispose(currentVariant)
-        Value.dispose(currentTone)
-      },
-      ariaRole,
-      visible
-    ),
-    When(visible, () => body)
-  )
+  })
 }

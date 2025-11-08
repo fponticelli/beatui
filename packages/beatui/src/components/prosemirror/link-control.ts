@@ -148,7 +148,7 @@ export function LinkControl({
   })
 
   return Fragment(
-    OnDispose(urlInput.dispose, clear),
+    OnDispose(clear),
     ToolbarGroup(
       EToolbarButton({
         display: signal(true),

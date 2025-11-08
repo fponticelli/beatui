@@ -169,10 +169,9 @@ export const ProseMirrorMarkdownInput = (
   const editorStateNotifier = ticker()
 
   return Fragment(
-    OnDispose(resolvedFeatures),
     Use(Theme, ({ appearance }) =>
       html.div(
-        OnDispose(editorStateNotifier.dispose, editorView.dispose, () => {
+        OnDispose(() => {
           editorView.value?.destroy()
         }),
         (options.cssInjection ?? 'none') === 'none'

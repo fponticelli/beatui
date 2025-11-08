@@ -3,7 +3,6 @@ import {
   attr,
   computedOf,
   html,
-  OnDispose,
   Renderable,
   TNode,
   Value,
@@ -71,7 +70,6 @@ export function Notification(
   const hasIcon = Value.map(icon, value => value != null)
 
   return html.section(
-    OnDispose(() => Value.dispose(hasIcon)),
     attr.class(
       computedOf(
         withBorder,

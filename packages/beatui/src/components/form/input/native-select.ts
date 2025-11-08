@@ -50,7 +50,6 @@ const NativeSelectOption = <T>(
           return equality(v.value, currentValue as T)
         })
         return html.option(
-          OnDispose(isSelected.dispose),
           attr.selected(isSelected),
           Expando('value', v.$.value),
           v.$.label

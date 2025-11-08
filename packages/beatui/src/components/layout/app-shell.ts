@@ -5,7 +5,6 @@ import {
   computedOf,
   Fragment,
   html,
-  OnDispose,
   prop,
   style,
   TNode,
@@ -547,7 +546,6 @@ export function AppShell({
       )(displayAsidePanel)
 
       return html.div(
-        OnDispose(headerBottom, menuStatus, asideStatus, template),
         style.display('grid'),
         style.height('100%'),
         style.width('100%'),

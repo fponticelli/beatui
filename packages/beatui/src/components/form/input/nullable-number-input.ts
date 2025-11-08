@@ -9,7 +9,6 @@ import {
   aria,
   html,
   Fragment,
-  OnDispose,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -146,26 +145,8 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
     ...options,
     input: input.number(
       // min/max attributes and reactive watchers (no forced correction)
-      min != null
-        ? Fragment(
-            attr.min(min),
-            OnDispose(
-              Value.on(min, _ => {
-                // No-op: we avoid forcing changes here for null-friendly UX
-              })
-            )
-          )
-        : Empty,
-      max != null
-        ? Fragment(
-            attr.max(max),
-            OnDispose(
-              Value.on(max, _ => {
-                // No-op: we avoid forcing changes here for null-friendly UX
-              })
-            )
-          )
-        : Empty,
+      min != null ? attr.min(min) : Empty,
+      max != null ? attr.max(max) : Empty,
       CommonInputAttributes(options),
       // Represent null as empty string so the field can be cleared
       attr.value(Value.map(value, v => (v == null ? '' : String(v as number)))),

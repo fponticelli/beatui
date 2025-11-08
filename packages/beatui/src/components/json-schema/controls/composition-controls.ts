@@ -1,12 +1,4 @@
-import {
-  Renderable,
-  Value,
-  prop,
-  MapSignal,
-  computedOf,
-  Fragment,
-  OnDispose,
-} from '@tempots/dom'
+import { Renderable, Value, prop, MapSignal, computedOf } from '@tempots/dom'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { mergeAllOf } from '../schema-context'
 import { resolveAnyRef } from '../ref-utils'
@@ -177,13 +169,10 @@ function JSONSchemaOneOfLike<T>({
     })
   })
 
-  return Fragment(
-    OnDispose(autoDetectedBranch, sel),
-    WithSelectorLayout({
-      ctx,
-      showSelector: count > 1,
-      selector: Selector,
-      inner,
-    })
-  )
+  return WithSelectorLayout({
+    ctx,
+    showSelector: count > 1,
+    selector: Selector,
+    inner,
+  })
 }

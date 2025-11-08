@@ -189,7 +189,7 @@ export function Modal(
         mode,
         effect: (overlayEffect ?? 'opaque') as Value<OverlayEffect> | undefined,
         container,
-        content: Fragment(OnDispose(mode, displayHeader), modalContent),
+        content: modalContent,
         onClickOutside: () => {
           onClose?.()
           closeOverlay()

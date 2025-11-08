@@ -6,7 +6,6 @@ import {
   html,
   computedOf,
   on,
-  OnDispose,
   OneOfType,
   Renderable,
   Signal,
@@ -68,8 +67,6 @@ const DropdownOptionItem = <T>(
         })
 
         return html.div(
-          OnDispose(isSelected.dispose),
-          OnDispose(isFocused.dispose),
           attr.class('bc-dropdown__option'),
           attr.class(
             computedOf(

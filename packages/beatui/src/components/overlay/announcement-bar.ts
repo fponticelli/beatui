@@ -58,57 +58,51 @@ export function AnnouncementBar(
   }: AnnouncementBarOptions,
   ...children: TNode[]
 ): Renderable {
-  const isDismissible = Value.map(
-    closable,
-    v => Boolean(v) || onDismiss != null
-  )
   const visible = prop(true)
-
-  const body = html.div(
-    attr.class(
-      computedOf(
-        isDismissible,
-        cls
-      )((dism, extra) => generateAnnouncementBarClasses(dism, extra))
-    ),
-    attr.style(
-      Value.map(color, colorName => generateAnnouncementBarStyles(colorName))
-    ),
-    html.div(
-      attr.class('bc-announcement-bar__content'),
-      When(
-        Value.map(icon, ic => ic != null),
-        () =>
+  return When(visible, () => {
+    const isDismissible = Value.map(
+      closable,
+      v => Boolean(v) || onDismiss != null
+    )
+    return html.div(
+      attr.class(
+        computedOf(
+          isDismissible,
+          cls
+        )((dism, extra) => generateAnnouncementBarClasses(dism, extra))
+      ),
+      attr.style(
+        Value.map(color, colorName => generateAnnouncementBarStyles(colorName))
+      ),
+      html.div(
+        attr.class('bc-announcement-bar__content'),
+        When(
+          Value.map(icon, ic => ic != null),
+          () =>
+            html.div(
+              attr.class('bc-announcement-bar__icon'),
+              Icon({
+                icon: icon as Value<string>,
+                size: 'sm',
+                accessibility: 'decorative',
+              })
+            )
+        ),
+        html.div(attr.class('bc-announcement-bar__text'), ...children),
+        When(isDismissible, () =>
           html.div(
-            attr.class('bc-announcement-bar__icon'),
-            Icon({
-              icon: icon as Value<string>,
-              size: 'sm',
-              accessibility: 'decorative',
+            attr.class('bc-announcement-bar__close'),
+            CloseButton({
+              size: 'xs',
+              color: 'white',
+              onClick: () => {
+                visible.set(false)
+                onDismiss?.()
+              },
             })
           )
-      ),
-      html.div(attr.class('bc-announcement-bar__text'), ...children),
-      When(isDismissible, () =>
-        html.div(
-          attr.class('bc-announcement-bar__close'),
-          CloseButton({
-            size: 'xs',
-            color: 'white',
-            onClick: () => {
-              visible.set(false)
-              onDismiss?.()
-            },
-          })
         )
       )
     )
-  )
-
-  return Fragment(
-    OnDispose(() => {
-      Value.dispose(isDismissible)
-    }, visible),
-    When(visible, () => body)
-  )
+  })
 }

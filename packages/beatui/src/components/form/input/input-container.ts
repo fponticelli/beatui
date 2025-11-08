@@ -80,7 +80,6 @@ export const InputContainer = (
   const isDisabled = Value.map(disabled ?? false, d => d)
 
   return html.div(
-    OnDispose(() => Value.dispose(isDisabled)),
     WithElement(el => {
       const handler = () => {
         const focusable = el.querySelector(focusableSelector) as
