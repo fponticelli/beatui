@@ -1,28 +1,19 @@
-import { Fragment, Value } from '@tempots/dom'
-import { InputOptions } from './input-options'
+import { Value } from '@tempots/dom'
 import { Merge } from '@tempots/std'
-import { emptyToNull, nullToEmpty } from './nullable-text-input'
-import { TextArea } from './text-area'
-import { NullableResetAfter } from './nullable-utils'
+import { TextArea, TextAreaOptions } from './text-area'
+import { createNullableStringInput } from './create-nullable-string-input'
 
 export type NullableTextAreaOptions = Merge<
-  InputOptions<null | string>,
+  Omit<TextAreaOptions, 'value' | 'onChange' | 'onInput'>,
   {
-    rows?: Value<number>
+    value: Value<null | string>
+    onChange?: (value: null | string) => void
+    onInput?: (value: null | string) => void
   }
 >
 
-export const NullableTextArea = (options: NullableTextAreaOptions) => {
-  const { value, onBlur, onChange, onInput, after, disabled, ...rest } = options
-
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
-
-  return TextArea({
-    ...rest,
-    value: Value.map(value, nullToEmpty),
-    onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,
-    onInput: onInput != null ? v => onInput(emptyToNull(v)) : undefined,
-    onBlur,
-    after: after != null ? Fragment(resetAfter, after) : resetAfter,
-  })
-}
+export const NullableTextArea = createNullableStringInput(
+  TextArea
+) as unknown as (
+  options: NullableTextAreaOptions
+) => ReturnType<typeof TextArea>

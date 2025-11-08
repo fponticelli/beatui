@@ -1,24 +1,11 @@
-import { Fragment, Value } from '@tempots/dom'
-import { InputOptions } from './input-options'
 import { TextInput } from './text-input'
-import { NullableResetAfter } from './nullable-utils'
+import {
+  createNullableStringInput,
+  emptyToNull,
+  nullToEmpty,
+} from './create-nullable-string-input'
 
-export const emptyToNull = (value: string | null) =>
-  typeof value === 'string' && value.trim() === '' ? null : value
-export const nullToEmpty = (value: null | string) =>
-  value == null ? '' : value
+// Re-export utility functions for backward compatibility
+export { emptyToNull, nullToEmpty }
 
-export const NullableTextInput = (options: InputOptions<null | string>) => {
-  const { value, onBlur, onChange, onInput, after, disabled, ...rest } = options
-
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
-
-  return TextInput({
-    ...rest,
-    value: Value.map(value, nullToEmpty),
-    onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,
-    onInput: onInput != null ? v => onInput(emptyToNull(v)) : undefined,
-    onBlur,
-    after: after != null ? Fragment(resetAfter, after) : resetAfter,
-  })
-}
+export const NullableTextInput = createNullableStringInput(TextInput)
