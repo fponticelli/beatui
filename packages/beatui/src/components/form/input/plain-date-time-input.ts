@@ -1,24 +1,8 @@
-import { attr, emitValue, Empty, input, on, Value } from '@tempots/dom'
-import { InputContainer } from './input-container'
-import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
 import { PlainDateTime } from '@/temporal'
+import { createTemporalInput } from './create-temporal-input'
 
-export const PlainDateTimeInput = (options: InputOptions<PlainDateTime>) => {
-  const { value, onBlur, onChange } = options
-
-  return WithTemporal(T =>
-    InputContainer({
-      ...options,
-      input: input['datetime-local'](
-        CommonInputAttributes(options),
-        attr.value(Value.map(value, v => v.toJSON())),
-        attr.class('bc-input'),
-        onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
-        onChange != null
-          ? on.change(emitValue(v => onChange(T.PlainDateTime.from(v))))
-          : Empty
-      ),
-    })
-  )
-}
+export const PlainDateTimeInput = createTemporalInput<PlainDateTime>({
+  inputType: 'datetime-local',
+  valueToString: v => v.toJSON(),
+  parseValue: (T, v) => T.PlainDateTime.from(v),
+})
