@@ -296,7 +296,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
     ),
 
     // Tab list
-    ;(html.div(
+    html.div(
       attr.class('bc-tabs__list'),
       attr.role('tablist'),
       attr.id(tabListId),
@@ -367,24 +367,24 @@ export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
         )
       })
     ),
-      // Panel
-      When(showContent ?? true, () =>
-        Ensure(currentTab, tab => {
-          const key = tab.$.key
-          const tabId = key.map(k => `${tabListId}-tab-${k}`)
-          const panelId = key.map(k => `${tabListId}-panel-${k}`)
-          return html.div(
-            attr.class('bc-tabs__panels'),
-            html.div(
-              attr.class('bc-tabs__panel'),
-              attr.id(panelId),
-              attr.role('tabpanel'),
-              attr.tabindex(0),
-              aria.labelledby(tabId),
-              MapSignal(tab, t => t.content())
-            )
+    // Panel
+    When(showContent ?? true, () =>
+      Ensure(currentTab, tab => {
+        const key = tab.$.key
+        const tabId = key.map(k => `${tabListId}-tab-${k}`)
+        const panelId = key.map(k => `${tabListId}-panel-${k}`)
+        return html.div(
+          attr.class('bc-tabs__panels'),
+          html.div(
+            attr.class('bc-tabs__panel'),
+            attr.id(panelId),
+            attr.role('tabpanel'),
+            attr.tabindex(0),
+            aria.labelledby(tabId),
+            MapSignal(tab, t => t.content())
           )
-        })
-      ))
+        )
+      })
+    )
   )
 }
