@@ -125,4 +125,3 @@ export type SchemaContextOptions = {
   required: boolean
   ajv: Ajv | undefined
 }
-

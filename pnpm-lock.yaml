@@ -8,15 +8,30 @@ importers:
 
   .:
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
+      '@tempots/eslint-plugin':
+        specifier: 0.5.0
+        version: 0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
       chokidar:
         specifier: ^4.0.3
         version: 4.0.3
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
+      eslint:
+        specifier: 9.37.0
+        version: 9.37.0(jiti@2.6.0)
+      eslint-config-prettier:
+        specifier: 10.1.8
+        version: 10.1.8(eslint@9.37.0(jiti@2.6.0))
       turbo:
         specifier: 2.5.4
         version: 2.5.4
+      typescript-eslint:
+        specifier: 8.46.0
+        version: 8.46.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)
 
   apps/docs:
     dependencies:
@@ -27,14 +42,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 33.0.0
-        version: 33.0.0
+        specifier: 33.1.0
+        version: 33.1.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 12.0.0
-        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
+        specifier: 12.1.0
+        version: 12.1.0(@tempots/dom@33.1.0)(@tempots/std@0.24.0)
       zod:
         specifier: 4.1.12
         version: 4.1.12
@@ -109,14 +124,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: 33.0.0
-        version: 33.0.0
+        specifier: 33.1.0
+        version: 33.1.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 12.0.0
-        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
+        specifier: 12.1.0
+        version: 12.1.0(@tempots/dom@33.1.0)(@tempots/std@0.24.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -158,14 +173,14 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       '@tempots/dom':
-        specifier: 33.0.0
-        version: 33.0.0
+        specifier: 33.1.0
+        version: 33.1.0
       '@tempots/std':
         specifier: 0.24.0
         version: 0.24.0
       '@tempots/ui':
-        specifier: 12.0.0
-        version: 12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)
+        specifier: 12.1.0
+        version: 12.1.0(@tempots/dom@33.1.0)(@tempots/std@0.24.0)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -470,12 +485,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@eslint-community/eslint-utils@4.7.0':
-    resolution: {integrity: sha512-dyybb3AcajC7uha6CvhdVRJqaKyn7w2YKqKyAN37NKYgZT36w+iRb0Dymmc5qEJ549c/S31cMMSFd75bteCpCw==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
   '@eslint-community/eslint-utils@4.9.0':
     resolution: {integrity: sha512-ayVFHdtZ+hsq1t2Dy24wCmGXGe4q9Gu3smhLYALJrr473ZH27MsnSL+LKUlimp4BWJqMDMLmPpx/Q9R3OAlL4g==}
@@ -791,8 +800,8 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tempots/dom@33.0.0':
-    resolution: {integrity: sha512-0Rleg+gA7phENPeUBJcm0/GtXA0raERN+w/Xph1F4pb1jJxBFQaDUObaWr2RlqcK6cOgLnVTMX88vYApQjGMiw==}
+  '@tempots/dom@33.1.0':
+    resolution: {integrity: sha512-jEcDGX+h23xkprZYhnEK7bNNcfVquU0zTh/mAwbAJIC3wV6PtI1DPFM78oTDtgdEt6tDPtHRWhyOVRPNxP25rA==}
 
   '@tempots/eslint-plugin@0.5.0':
     resolution: {integrity: sha512-G+O/JIPQ1AbotFpzZ/gLq3T1+vikILTMY5NcnVHscZRT2zw+5JGc1N/emW2zpbunJgPBjzJ8kjwXMTTndrd3SA==}
@@ -802,10 +811,10 @@ packages:
   '@tempots/std@0.24.0':
     resolution: {integrity: sha512-8YhRh41k0hVYp6hnoOAQ8Qw5ANUXlp4UZdArZwev9v4RIJ8hmYoKadqCOqfU42njO3qaR0Ks9sS/YdC4zXb2LA==}
 
-  '@tempots/ui@12.0.0':
-    resolution: {integrity: sha512-c3i8MKaXA/23EuSydzRqWyiioJz3ZmjoKo7eWTvXrXsrO+D7+2LBvGQOw+mrgubmaJU7nCeXL4ZuyWE1BckZWg==}
+  '@tempots/ui@12.1.0':
+    resolution: {integrity: sha512-81J3eE5GtdM35877f7aySFpdKf7xOCff1OnJcBEQY/Egd/CegeWQSnsIxsxA8q/kcRw2Sf19VKUp2zbAGRXhUw==}
     peerDependencies:
-      '@tempots/dom': ^33.0.0
+      '@tempots/dom': ^33.1.0
       '@tempots/std': ^0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -2640,11 +2649,6 @@ snapshots:
   '@esbuild/win32-x64@0.25.5':
     optional: true
 
-  '@eslint-community/eslint-utils@4.7.0(eslint@9.37.0(jiti@2.6.0))':
-    dependencies:
-      eslint: 9.37.0(jiti@2.6.0)
-      eslint-visitor-keys: 3.4.3
-
   '@eslint-community/eslint-utils@4.9.0(eslint@9.37.0(jiti@2.6.0))':
     dependencies:
       eslint: 9.37.0(jiti@2.6.0)
@@ -2897,7 +2901,7 @@ snapshots:
       tailwindcss: 4.1.13
       vite: 7.1.9(@types/node@22.15.18)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.6)(yaml@2.8.1)
 
-  '@tempots/dom@33.0.0': {}
+  '@tempots/dom@33.1.0': {}
 
   '@tempots/eslint-plugin@0.5.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
@@ -2909,10 +2913,10 @@ snapshots:
 
   '@tempots/std@0.24.0': {}
 
-  '@tempots/ui@12.0.0(@tempots/dom@33.0.0)(@tempots/std@0.24.0)':
+  '@tempots/ui@12.1.0(@tempots/dom@33.1.0)(@tempots/std@0.24.0)':
     dependencies:
       '@floating-ui/dom': 1.7.4
-      '@tempots/dom': 33.0.0
+      '@tempots/dom': 33.1.0
       '@tempots/std': 0.24.0
 
   '@testing-library/dom@10.4.0':
@@ -3005,8 +3009,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.46.0(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.46.0(typescript@5.9.3)
-      '@typescript-eslint/types': 8.46.0
+      '@typescript-eslint/tsconfig-utils': 8.46.2(typescript@5.9.3)
+      '@typescript-eslint/types': 8.46.2
       debug: 4.4.1
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -3089,7 +3093,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.46.0(eslint@9.37.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.37.0(jiti@2.6.0))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.37.0(jiti@2.6.0))
       '@typescript-eslint/scope-manager': 8.46.0
       '@typescript-eslint/types': 8.46.0
       '@typescript-eslint/typescript-estree': 8.46.0(typescript@5.9.3)

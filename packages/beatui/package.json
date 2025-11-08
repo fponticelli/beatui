@@ -141,9 +141,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/dom": "33.0.0",
+    "@tempots/dom": "33.1.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "12.0.0",
+    "@tempots/ui": "12.1.0",
     "tailwindcss": "4.1.14"
   },
   "peerDependenciesMeta": {

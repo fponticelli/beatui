@@ -1,11 +1,7 @@
 import type Ajv from 'ajv'
 import { compileWithCache } from './ajv-utils'
 import { mergeAllOf } from './schema-merge'
-import type {
-  JSONSchema,
-  SchemaConflict,
-  NotViolation,
-} from './schema-types'
+import type { JSONSchema, SchemaConflict, NotViolation } from './schema-types'
 
 /**
  * Evaluate `not` subschema against the current value using AJV.
@@ -288,4 +284,3 @@ export function getEvaluatedProperties(
 
   return evaluated
 }
-
