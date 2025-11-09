@@ -172,7 +172,6 @@
 
 /* Individual Tab Panel */
 .bc-tabs__panel {
-  padding: var(--spacing-lg);
   background-color: var(--color-white);
   border-radius: 0 0 var(--radius-popover, var(--radius-md))
     var(--radius-popover, var(--radius-md));
@@ -200,10 +199,6 @@
   .bc-tab {
     min-width: 120px;
     flex-shrink: 0;
-  }
-
-  .bc-tabs__panel {
-    padding: var(--spacing-md);
   }
 }
 
