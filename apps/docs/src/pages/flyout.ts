@@ -310,7 +310,7 @@ export default function FlyoutPage() {
         attr.class('text-center space-y-4'),
         html.h3(attr.class('text-lg font-semibold'), 'Rich Content'),
         Button(
-          { variant: 'filled', color: 'accent' },
+          { variant: 'filled', color: 'primary' },
           'Rich Flyout',
           Flyout({
             content: () =>

@@ -1,4 +1,4 @@
-import { makeMessages } from '@/i18n'
+import { makeMessages } from '../../i18n'
 import { makeProviderMark, Provider, Signal } from '@tempots/dom'
 import { Locale } from './locale'
 

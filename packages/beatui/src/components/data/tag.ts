@@ -2,7 +2,7 @@ import { attr, Empty, html, Value, computedOf, Use } from '@tempots/dom'
 import { ThemeColorName } from '../../tokens'
 import { ControlSize } from '../theme'
 import { CloseButton } from '../button'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 import {
   backgroundValue,
   hoverBackgroundValue,

@@ -1,4 +1,4 @@
-import { PlainYearMonth } from '@/temporal'
+import { PlainYearMonth } from '../../../temporal'
 import { createNullableTemporalInput } from './create-temporal-input'
 
 export const NullablePlainYearMonthInput =

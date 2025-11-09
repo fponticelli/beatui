@@ -4,7 +4,7 @@ import { emitValue, on } from '@tempots/dom'
 import { input } from '@tempots/dom'
 import { attr } from '@tempots/dom'
 import { InputContainer, InputIcon } from './input-container'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 export const EmailInput = (options: InputOptions<string>) => {
   const updatedOptions = {

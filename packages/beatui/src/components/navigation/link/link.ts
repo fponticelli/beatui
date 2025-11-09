@@ -2,7 +2,7 @@ import { attr, computedOf, html, TNode, Value, When } from '@tempots/dom'
 import { Anchor } from '@tempots/ui'
 import type { NavigationOptions } from '@tempots/ui'
 import { buildNavigationOptions } from './navigation-options'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../../tokens'
 import { textColorValue } from '../../theme/style-utils'
 
 export type LinkVariant = 'default' | 'plain' | 'hover'

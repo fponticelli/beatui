@@ -1,4 +1,4 @@
-import { PlainDate } from '@/temporal'
+import { PlainDate } from '../../../temporal'
 import { createTemporalInput } from './create-temporal-input'
 
 export const PlainDateInput = createTemporalInput<PlainDate>({

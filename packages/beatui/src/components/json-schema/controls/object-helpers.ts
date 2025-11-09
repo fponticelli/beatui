@@ -16,7 +16,7 @@ import {
   type Controller,
 } from '../../form'
 import { CloseButton } from '../../button'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 import type {
   SchemaContext,
   JSONSchema,

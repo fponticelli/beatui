@@ -6,6 +6,7 @@ import {
   WithBeatUIBreakpoint,
   WithBeatUIElementBreakpoint,
   ScrollablePanel,
+  ThemeColorName,
 } from '@tempots/beatui'
 import { html, attr, style } from '@tempots/dom'
 
@@ -15,7 +16,7 @@ function SatisfiesBreakpoint(
 ) {
   const isSuccess = info.value.map(({ width }) => info.is(name, width))
   return Icon({
-    color: isSuccess.map((is): string => (is ? 'green' : 'red')),
+    color: isSuccess.map((is): ThemeColorName => (is ? 'green' : 'red')),
     icon: isSuccess.map((is): string =>
       is ? 'line-md:confirm-square' : 'line-md:minus-circle'
     ),

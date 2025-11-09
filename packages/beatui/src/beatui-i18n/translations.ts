@@ -1,5 +1,5 @@
 import { defaultLocale, defaultMessages, BeatUIMessages } from './default'
-import { makeI18nProvider } from '@/components/i18n'
+import { makeI18nProvider } from '../components/i18n'
 
 export const BeatUII18n = makeI18nProvider<BeatUIMessages>({
   defaultLocale,

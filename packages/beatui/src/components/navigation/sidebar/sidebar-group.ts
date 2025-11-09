@@ -1,4 +1,4 @@
-import { Stack } from '@/components/layout'
+import { Stack } from '../../layout'
 import { attr, html, TNode, Value } from '@tempots/dom'
 
 export type SidebarGroupOptions = {

@@ -165,17 +165,15 @@ export function PDFJSPreview({
       URL.revokeObjectURL(previous)
     }
   })
-  
+
   return html.div(
-    OnDispose(
-      () => {
-        const url = fileUrl.value
-        if (url == null) return
-        if (url.startsWith('blob:')) {
-          URL.revokeObjectURL(url)
-        }
+    OnDispose(() => {
+      const url = fileUrl.value
+      if (url == null) return
+      if (url.startsWith('blob:')) {
+        URL.revokeObjectURL(url)
       }
-    ),
+    }),
     attr.class('bc-pdfjs-preview h-full w-full'),
     attr.class(customClass),
     html.iframe(

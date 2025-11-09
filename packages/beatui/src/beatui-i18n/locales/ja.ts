@@ -1,4 +1,4 @@
-import { formatFileSize } from '@/utils'
+import { formatFileSize } from '../../utils'
 import { BeatUIMessages } from '../default'
 
 export const ja: BeatUIMessages = {

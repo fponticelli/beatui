@@ -9,8 +9,8 @@ import {
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
-import { Instant } from '@/temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
+import { Instant } from '../../../temporal'
 import { NullableResetAfter } from './nullable-utils'
 
 const toLocalString = (epochMs: number) => {

@@ -17,11 +17,11 @@ import {
   MoveDirection,
   MovableDirection,
 } from '../input/list-input'
-import { Button, CloseButton } from '@/components/button'
-import { Icon } from '@/components/data'
-import { Group } from '@/components/layout/group'
-import { Stack } from '@/components/layout/stack'
-import { BeatUII18n } from '@/beatui-i18n'
+import { Button, CloseButton } from '../../button'
+import { Icon } from '../../data'
+import { Group } from '../../layout/group'
+import { Stack } from '../../layout/stack'
+import { BeatUII18n } from '../../../beatui-i18n'
 import { InputWrapper, InputWrapperOptions } from '../input'
 
 export type ListControllerPayload<T> = ListInputPayload<T>

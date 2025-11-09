@@ -27,8 +27,8 @@ import {
   AnimatedToggleClass,
   ToggleStatus,
   useAnimatedElementToggle,
-} from '@/utils/use-animated-toggle'
-import { BeatUII18n } from '@/beatui-i18n'
+} from '../../utils/use-animated-toggle'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface AppShellBreakpointOptions {
   zero: number

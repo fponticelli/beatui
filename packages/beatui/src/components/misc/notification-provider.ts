@@ -14,8 +14,8 @@ import {
   renderWithContext,
 } from '@tempots/dom'
 import { Notification, NotificationOptions } from './notification'
-import { RadiusName, ThemeColorName } from '@/tokens'
-import { AnimatedToggle, AnimationConfig } from '@/utils'
+import { RadiusName, ThemeColorName } from '../../tokens'
+import { AnimatedToggle, AnimationConfig } from '../../utils'
 import { sleep } from '@tempots/std'
 
 type NotificationEntry = {

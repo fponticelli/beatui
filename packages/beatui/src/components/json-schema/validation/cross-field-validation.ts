@@ -2,7 +2,7 @@ import type { ErrorObject } from 'ajv'
 import type { JSONSchema } from '../schema-context'
 import { Validation } from '@tempots/std'
 import { ajvErrorsToControllerValidation } from '../ajv-utils'
-import { ControllerValidation } from '@/components/form'
+import { ControllerValidation } from '../../form'
 
 /**
  * Cross-field validation rule configuration

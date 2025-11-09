@@ -3,7 +3,7 @@ import { render, Provide, prop } from '@tempots/dom'
 import { NullableNumberInput } from '../../src/components/form/input/nullable-number-input'
 import { Theme } from '../../src/components/theme/theme'
 import { sleep } from '@tempots/std'
-import { BeatUI } from '@/index'
+import { BeatUI } from '../../src/index'
 
 describe('NullableNumberInput Component', () => {
   let container: HTMLElement

@@ -1,4 +1,4 @@
-import { BackgroundColorName, ThemeColorName } from '@/tokens'
+import { BackgroundColorName, ThemeColorName } from '../../tokens'
 import { Signal } from '@tempots/dom'
 import { AppearanceType } from '@tempots/ui'
 

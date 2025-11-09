@@ -20,7 +20,7 @@ import { SignUpForm } from './signup-form'
 import { ResetPasswordForm } from './reset-password-form'
 import { Modal, ModalContentOptions } from '../overlay'
 import { SocialProviders } from './social-providers'
-import { AuthI18n } from '@/auth-i18n'
+import { AuthI18n } from '../../auth-i18n'
 import { Stack } from '../layout'
 import { classes } from '@tempots/ui'
 

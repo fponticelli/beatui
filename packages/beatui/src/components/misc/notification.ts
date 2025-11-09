@@ -10,8 +10,8 @@ import {
 } from '@tempots/dom'
 import { Icon } from '../data'
 import { CloseButton } from '../button'
-import { ThemeColorName, getColorVar } from '@/tokens/colors'
-import { RadiusName, getRadiusVar } from '@/tokens/radius'
+import { ThemeColorName, getColorVar } from '../../tokens/colors'
+import { RadiusName, getRadiusVar } from '../../tokens/radius'
 
 export type NotificationOptions = {
   loading?: Value<boolean>
@@ -107,7 +107,7 @@ export function Notification(
           Icon({
             icon: 'line-md:loading-twotone-loop',
             size: 'lg',
-            color: color,
+            color: color as Value<ThemeColorName>,
             accessibility: 'decorative',
           })
         ),
@@ -117,7 +117,11 @@ export function Notification(
           () =>
             html.div(
               attr.class('bc-notification__visual bc-notification__icon'),
-              Icon({ icon: icon as Value<string>, size: 'lg', color })
+              Icon({
+                icon: icon as Value<string>,
+                size: 'lg',
+                color: color as Value<ThemeColorName>,
+              })
             ),
           () =>
             html.div(
@@ -138,7 +142,7 @@ export function Notification(
         attr.class('bc-notification__meta'),
         CloseButton({
           size: 'sm',
-          color: color as Value<ThemeColorName | 'black' | 'white'>,
+          color: color as Value<ThemeColorName>,
           onClick: onClose,
         })
       )

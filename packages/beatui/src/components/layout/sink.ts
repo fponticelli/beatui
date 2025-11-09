@@ -1,6 +1,6 @@
 import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
 import { SinkVariant, ControlSize } from '../theme'
-import { RadiusName } from '@/tokens/radius'
+import { RadiusName } from '../../tokens/radius'
 
 export interface SinkOptions {
   variant?: Value<SinkVariant>

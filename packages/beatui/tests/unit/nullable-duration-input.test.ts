@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import { NullableDurationInput } from '../../src/components/form/input/nullable-duration-input'
 import type { Duration } from '../../src/temporal/types'
-import { BeatUI } from '@/index'
+import { BeatUI } from '../../src/index'
 import { sleep } from '@tempots/std'
 
 describe('NullableDurationInput', () => {

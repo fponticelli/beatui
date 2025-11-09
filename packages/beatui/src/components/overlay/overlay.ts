@@ -11,7 +11,7 @@ import {
   WithElement,
 } from '@tempots/dom'
 import { OverlayEffect } from '../theme/types'
-import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
+import { useAnimatedElementToggle } from '../../utils/use-animated-toggle'
 import { delayedAnimationFrame } from '@tempots/std'
 
 export type OverlayOptions = {

@@ -3,7 +3,7 @@
 
 import { TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../tokens'
 import { AuthProviderInfo } from './social-login-button'
 
 // Core authentication types
@@ -192,7 +192,7 @@ export interface SocialLoginButtonOptions {
   flow?: Value<'redirect' | 'popup' | undefined>
   name: Value<string>
   icon: Value<string>
-  color: Value<ThemeColorName | 'black' | 'white'>
+  color: Value<ThemeColorName>
   labels?: {
     continueWithProvider?: Value<(provider: string) => string>
   }
@@ -209,5 +209,5 @@ export interface PasswordStrengthIndicatorOptions {
 export interface ProviderInfo {
   name: string
   icon: string
-  color: ThemeColorName | 'black' | 'white'
+  color: ThemeColorName
 }

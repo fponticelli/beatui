@@ -2,7 +2,7 @@ import { attr, Renderable, Value, MapSignal, Use } from '@tempots/dom'
 import { ObjectController, InputWrapper } from '../../form'
 import { Button } from '../../button'
 import { objectEntries } from '@tempots/std'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 import { renderAdditionalEntry, renderUnevaluatedEntry } from './object-helpers'
 import { JSONSchemaGenericControl } from './generic-control'
 import {

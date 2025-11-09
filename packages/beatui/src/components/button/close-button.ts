@@ -7,10 +7,10 @@ import {
   Use,
   Value,
 } from '@tempots/dom'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 import { ControlSize } from '../theme'
-import { ThemeColorName } from '@/tokens'
-import { RadiusName } from '@/tokens/radius'
+import { ThemeColorName } from '../../tokens'
+import { RadiusName } from '../../tokens/radius'
 import { Icon } from '../data/icon'
 import { Button } from './button'
 
@@ -19,7 +19,7 @@ export type CloseButtonOptions = {
   icon?: Value<string>
   disabled?: Value<boolean>
   roundedness?: Value<RadiusName>
-  color?: Value<ThemeColorName | 'black' | 'white'>
+  color?: Value<ThemeColorName>
   onClick?: () => void
   /** Optional localized label for screen readers; defaults to t.$.closeModal */
   label?: Value<string>

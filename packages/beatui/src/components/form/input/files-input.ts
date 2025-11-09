@@ -21,8 +21,8 @@ import { UnstyledDropZone } from '../../data/unstyled-drop-zone'
 import { Icon } from '../../data/icon'
 import { Merge } from '@tempots/std'
 import { formatFileSize } from '../../../utils'
-import { BeatUII18n } from '@/beatui-i18n'
-import { CloseButton } from '@/components/button'
+import { BeatUII18n } from '../../../beatui-i18n'
+import { CloseButton } from '../../button'
 
 export type FileInputMode = 'default' | 'compact'
 

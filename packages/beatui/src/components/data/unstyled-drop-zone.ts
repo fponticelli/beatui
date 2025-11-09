@@ -12,7 +12,7 @@ import {
   bind,
   Empty,
 } from '@tempots/dom'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export type DropZoneOptions = {
   onChange: (files: File[], via: 'dragdrop' | 'click') => void

@@ -2,7 +2,7 @@ import { Fragment, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { RatingInput } from './rating-input'
 import { NullableResetAfter } from './nullable-utils'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../../tokens'
 import { ControlSize } from '../../theme/types'
 
 export type NullableRatingInputOptions = InputOptions<number | null> & {

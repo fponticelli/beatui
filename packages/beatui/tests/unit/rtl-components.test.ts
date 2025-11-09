@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, Provide, Use, prop } from '@tempots/dom'
 import { Locale } from '../../src/components/i18n/locale'
 import { Switch } from '../../src/components/form/input/switch'
-import { DirectionPreference } from '@/i18n'
+import { DirectionPreference } from '../../src/i18n'
 
 describe('RTL Component Behavior', () => {
   let container: HTMLElement

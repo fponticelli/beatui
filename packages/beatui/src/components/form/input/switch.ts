@@ -13,7 +13,7 @@ import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
 import { sessionId } from '../../../utils/session-id'
 import { Locale } from '../../i18n/locale'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
 export type SwitchOptions = {

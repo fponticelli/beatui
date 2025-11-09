@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { html, render, prop } from '@tempots/dom'
-import { BaseVideoPlayer } from '@/components/media'
+import { BaseVideoPlayer } from '../../src/components/media'
 import { WithProviders } from '../helpers/test-providers'
 
 function setupRoot() {

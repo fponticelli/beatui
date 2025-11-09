@@ -9,8 +9,8 @@ import {
   on,
 } from '@tempots/dom'
 import { Merge } from '@tempots/std'
-import { BeatUII18n } from '@/beatui-i18n'
-import { Stack } from '@/components/layout'
+import { BeatUII18n } from '../../../beatui-i18n'
+import { Stack } from '../../layout'
 import { Icon } from '../../data/icon'
 import { MaskInput } from './mask-input'
 import { InputOptions } from './input-options'

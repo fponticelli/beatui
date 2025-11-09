@@ -3,8 +3,8 @@ import { Anchor, Location } from '@tempots/ui'
 import type { LocationHandle, NavigationOptions } from '@tempots/ui'
 import { buildNavigationOptions } from './navigation-options'
 import { ControlSize, ButtonVariant } from '../../theme'
-import { ThemeColorName } from '@/tokens'
-import { RadiusName } from '@/tokens/radius'
+import { ThemeColorName } from '../../../tokens'
+import { RadiusName } from '../../../tokens/radius'
 import {
   generateButtonClasses,
   generateButtonStyles,
@@ -29,7 +29,7 @@ export interface ButtonLinkOptions {
   // Button visual styling props (excluding loading and onClick)
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
-  color?: Value<ThemeColorName | 'black' | 'white'>
+  color?: Value<ThemeColorName>
   roundedness?: Value<RadiusName>
   disabled?: Value<boolean>
 

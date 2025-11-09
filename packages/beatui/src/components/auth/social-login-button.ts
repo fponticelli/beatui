@@ -17,8 +17,8 @@ import { Icon } from '../data/icon'
 import { SocialLoginButtonOptions, AuthProviderName } from './index'
 import { ControlSize } from '../theme'
 import { Stack } from '../layout'
-import { ThemeColorName } from '@/tokens'
-import { AuthI18n } from '@/auth-i18n/translations'
+import { ThemeColorName } from '../../tokens'
+import { AuthI18n } from '../../auth-i18n/translations'
 
 export function SocialLoginButton({
   provider,

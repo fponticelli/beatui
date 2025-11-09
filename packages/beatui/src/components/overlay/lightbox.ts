@@ -8,13 +8,11 @@ import {
   computedOf,
   Use,
   When,
-  Fragment,
-  OnDispose,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { OverlayEffect } from '../theme'
 import { CloseButton } from '../button'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface LightboxOptions {
   /** Whether clicking outside/Escape closes the lightbox (default: true) */

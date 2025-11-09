@@ -12,7 +12,7 @@ import {
 } from '@tempots/dom'
 import { ControlSize, IconSize } from '../theme'
 import { Icon } from '../data/icon'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../tokens'
 
 export interface ActionCardOptions {
   icon: Value<string>

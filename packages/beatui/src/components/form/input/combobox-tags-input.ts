@@ -15,8 +15,8 @@ import {
 import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
 import { DropdownOption } from './option'
-import { Menu, MenuSeparator } from '@/components/navigation/menu'
-import { BeatUII18n } from '@/beatui-i18n'
+import { Menu, MenuSeparator } from '../../navigation/menu'
+import { BeatUII18n } from '../../../beatui-i18n'
 import {
   BaseControllerOptions,
   ControllerOptions,

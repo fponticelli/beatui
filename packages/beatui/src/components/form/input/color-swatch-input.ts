@@ -21,7 +21,7 @@ import {
   resolveEffectiveFormat,
   rgbToHex,
   toRgbaString,
-} from '@/utils'
+} from '../../../utils'
 
 export type ColorSwatchInputOptions = InputOptions<string> & {
   // When true, renders the RGB value next to the blob

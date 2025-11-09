@@ -2,7 +2,7 @@
 // Simple divider component for separating social login from email/password forms
 
 import { attr, coalesce, html, Renderable, Use, Value } from '@tempots/dom'
-import { AuthI18n } from '@/auth-i18n/translations'
+import { AuthI18n } from '../../auth-i18n/translations'
 
 export interface AuthDividerOptions {
   labels?: { text?: () => string }

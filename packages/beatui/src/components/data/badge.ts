@@ -1,6 +1,6 @@
 import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../tokens'
 import {
   backgroundValue,
   borderColorValue,
@@ -8,12 +8,12 @@ import {
   textColorValue,
   ExtendedColor,
 } from '../theme/style-utils'
-import { RadiusName } from '@/tokens/radius'
+import { RadiusName } from '../../tokens/radius'
 
 export interface BadgeOptions {
   variant?: Value<ButtonVariant>
   size?: Value<ControlSize>
-  color?: Value<ThemeColorName | 'black' | 'white'>
+  color?: Value<ThemeColorName>
   roundedness?: Value<RadiusName>
   circle?: Value<boolean>
   fullWidth?: Value<boolean>

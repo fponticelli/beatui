@@ -20,7 +20,7 @@ import {
   AnimatedToggleClass,
   AnimationConfig,
   ComposableAnimation,
-} from '@/utils/use-animated-toggle'
+} from '../../utils/use-animated-toggle'
 import { sessionId } from '../../utils/session-id'
 
 export type FlyoutTrigger =

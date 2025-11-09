@@ -17,8 +17,8 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
 import { Icon } from '../../data/icon'
-import { BeatUII18n } from '@/beatui-i18n'
-import { Stack } from '@/components/layout'
+import { BeatUII18n } from '../../../beatui-i18n'
+import { Stack } from '../../layout'
 
 export type NumberInputOptions = Merge<
   InputOptions<number>,

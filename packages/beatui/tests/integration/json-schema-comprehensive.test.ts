@@ -5,7 +5,7 @@ import { WithProviders } from '../helpers/test-providers'
 import { JSONSchemaForm } from '../../src/components/json-schema'
 import { clearCaches } from '../../src/components/json-schema/ajv-utils'
 import { clearRefCaches } from '../../src/components/json-schema/ref-utils'
-import { Controller } from '@/index'
+import { Controller } from '../../src/index'
 
 function nextTick(): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, 0))

@@ -10,9 +10,9 @@ import {
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
 import { NullableResetAfter } from './nullable-utils'
-import type { BeatUITemporal } from '@/temporal'
+import type { BeatUITemporal } from '../../../temporal'
 
 /**
  * Configuration for creating a Temporal input component.

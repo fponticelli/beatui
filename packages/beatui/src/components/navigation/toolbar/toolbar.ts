@@ -7,7 +7,7 @@ import {
   WithElement,
   OnDispose,
 } from '@tempots/dom'
-import { Button, ButtonOptions } from '@/components/button/button'
+import { Button, ButtonOptions } from '../../button/button'
 
 // Focusable selector for roving tabindex inside the toolbar
 const FOCUSABLE_SELECTOR = [

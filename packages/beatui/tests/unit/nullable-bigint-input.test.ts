@@ -3,7 +3,7 @@ import { render, Provide, prop } from '@tempots/dom'
 import { NullableBigintInput } from '../../src/components/form/input/nullable-bigint-input'
 import { Theme } from '../../src/components/theme/theme'
 import { sleep } from '@tempots/std'
-import { BeatUI } from '@/index'
+import { BeatUI } from '../../src/index'
 
 describe('NullableBigintInput Component', () => {
   let container: HTMLElement

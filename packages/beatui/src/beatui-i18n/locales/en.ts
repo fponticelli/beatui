@@ -1,4 +1,4 @@
-import { formatFileSize } from '@/utils'
+import { formatFileSize } from '../../utils'
 
 const en = {
   loadingExtended: 'Loading, please wait',

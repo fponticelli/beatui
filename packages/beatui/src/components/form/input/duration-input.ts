@@ -1,8 +1,8 @@
 import { Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
 import { MaskInput } from './mask-input'
-import { Duration } from '@/temporal'
+import { Duration } from '../../../temporal'
 import { durationMaskConfig } from './duration-mask'
 
 // Simple ISO-8601 duration text input with mask

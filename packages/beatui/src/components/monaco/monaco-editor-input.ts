@@ -11,11 +11,11 @@ import {
 import type { InputOptions } from '../form/input/input-options'
 import { debounce, Merge } from '@tempots/std'
 import { Theme } from '../theme'
-import { MonacoEditorSpecificOptions } from '@/monaco/types'
-import { loadMonacoWithLanguage } from '@/monaco/lazy-loader'
+import { MonacoEditorSpecificOptions } from '../../monaco/types'
+import { loadMonacoWithLanguage } from '../../monaco/lazy-loader'
 import type * as Monaco from 'monaco-editor'
 import { Task } from '@tempots/dom'
-import { LinkPortal } from '@/components/misc/link-portal'
+import { LinkPortal } from '../misc/link-portal'
 
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
@@ -58,7 +58,7 @@ export const MonacoEditorInput = (
       (options.cssInjection ?? 'none') === 'none'
         ? null
         : Task(
-            () => import('@/monaco/styles-url'),
+            () => import('../../monaco/styles-url'),
             ({ default: href }) => LinkPortal({ id: 'beatui-monaco-css', href })
           ),
       attr.class('bc-monaco-editor-container'),

@@ -1,4 +1,4 @@
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, Value } from '@tempots/dom'
 import {
   AnnouncementBar,
   Card,
@@ -7,13 +7,12 @@ import {
   Switch,
   Group,
   InputWrapper,
+  ThemeColorName,
 } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
 export default function AnnouncementBarPage() {
-  const color = prop<'primary' | 'success' | 'warning' | 'danger' | 'info'>(
-    'primary'
-  )
+  const color = prop<ThemeColorName>('primary')
   const showIcon = prop(true)
   const closable = prop(true)
 
@@ -32,7 +31,9 @@ export default function AnnouncementBarPage() {
               danger: 'Danger',
               info: 'Info',
             },
-            value: color,
+            value: color as Value<
+              'primary' | 'success' | 'warning' | 'danger' | 'info'
+            >,
             onChange: color.set,
           }),
         }),

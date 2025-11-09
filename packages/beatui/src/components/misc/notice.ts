@@ -12,8 +12,8 @@ import {
   Renderable,
 } from '@tempots/dom'
 import { Icon } from '../data'
-import type { ThemeColorName } from '@/tokens'
-import { BeatUII18n } from '@/beatui-i18n'
+import type { ThemeColorName } from '../../tokens'
+import { BeatUII18n } from '../../beatui-i18n'
 
 import { CloseButton } from '../button'
 

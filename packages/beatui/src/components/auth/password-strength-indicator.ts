@@ -12,7 +12,7 @@ import {
 } from '@tempots/dom'
 import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
-import { AuthI18n } from '@/auth-i18n/translations'
+import { AuthI18n } from '../../auth-i18n/translations'
 
 export function PasswordStrengthIndicator({
   password,

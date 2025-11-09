@@ -7,7 +7,6 @@ import {
   Ensure,
   html,
   on,
-  OnDispose,
   prop,
   Renderable,
   Use,
@@ -30,7 +29,7 @@ import {
 } from './index'
 import { createSignUpSchema } from './schemas'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
-import { AuthI18n } from '@/auth-i18n/translations'
+import { AuthI18n } from '../../auth-i18n/translations'
 import { Control } from '../form'
 import { Notice } from '../misc'
 

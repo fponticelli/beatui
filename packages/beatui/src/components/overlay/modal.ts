@@ -13,14 +13,13 @@ import {
   Use,
   coalesce,
   Renderable,
-  OnDispose,
 } from '@tempots/dom'
 import { Overlay } from './overlay'
 import { Button, CloseButton } from '../button'
 import { OverlayEffect } from '../theme'
-import { FocusTrap } from '@/utils/focus-trap'
+import { FocusTrap } from '../../utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface ModalOptions {
   /** Size of the modal */

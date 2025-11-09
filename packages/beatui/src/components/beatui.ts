@@ -7,9 +7,9 @@ import {
   WithProvider,
 } from '@tempots/dom'
 import { AppearancePreference, Theme, ThemeAppearance } from './theme'
-import { Locale } from '@/components/i18n'
+import { Locale } from './i18n'
 import { Location, NavigationService } from '@tempots/ui'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../beatui-i18n'
 import { LocaleDirection } from './i18n/locale-direction'
 import {
   NotificationProvider,
@@ -57,7 +57,7 @@ export function BeatUI(
     )
     if (includeAuthI18n) {
       return Task(
-        () => import('@/auth-i18n/translations'),
+        () => import('../auth-i18n/translations'),
         ({ AuthI18n }) => {
           return Provide(AuthI18n, {}, () => fragment)
         }

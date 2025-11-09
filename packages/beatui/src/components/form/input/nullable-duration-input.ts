@@ -1,12 +1,12 @@
 import { attr, Empty, Fragment, Value, input, on } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
 import { MaskInput } from './mask-input'
 import { durationMaskConfig } from './duration-mask'
 import { NullableResetAfter } from './nullable-utils'
-import { ensureTemporal } from '@/temporal/runtime'
-import type { BeatUITemporal, Duration } from '@/temporal/types'
+import { ensureTemporal } from '../../../temporal/runtime'
+import type { BeatUITemporal, Duration } from '../../../temporal/types'
 
 const tryParseDuration = (
   temporal: BeatUITemporal | undefined,

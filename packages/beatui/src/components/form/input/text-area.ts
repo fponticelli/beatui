@@ -13,7 +13,7 @@ import {
 } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
-import { ControlSize } from '@/components/theme'
+import { ControlSize } from '../../theme'
 
 export type TextAreaOptions = Merge<
   InputOptions<string>,

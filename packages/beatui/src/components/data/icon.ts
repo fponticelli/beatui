@@ -13,8 +13,8 @@ import {
 } from '@tempots/dom'
 import { IconSize } from '../theme'
 import { Query, WhenInViewport } from '@tempots/ui'
-import { ThemeColorName } from '@/tokens'
-import { BeatUII18n } from '@/beatui-i18n'
+import { ThemeColorName } from '../../tokens'
+import { BeatUII18n } from '../../beatui-i18n'
 import { foregroundColorValue, ForegroundTone } from '../theme/style-utils'
 
 const dbName = 'bui-icons'

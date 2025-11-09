@@ -21,7 +21,7 @@ import {
   requestToControllerValidation,
 } from './index'
 import { resetPasswordSchema } from './schemas'
-import { AuthI18n } from '@/auth-i18n/translations'
+import { AuthI18n } from '../../auth-i18n/translations'
 import { useAuthEmailProp } from './auth-email-prop'
 import { Control } from '../form'
 import { Notice } from '../misc'

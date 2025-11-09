@@ -2,8 +2,8 @@ import { html, Signal, Use, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { NativeSelect } from './native-select'
 import { Query } from '@tempots/ui'
-import { BeatUII18n } from '@/beatui-i18n'
-import { Icon } from '@/components/data'
+import { BeatUII18n } from '../../../beatui-i18n'
+import { Icon } from '../../data'
 import { Option, SelectOption } from './option'
 
 export type LazyNativeSelectOptions<T, R> = InputOptions<T> & {

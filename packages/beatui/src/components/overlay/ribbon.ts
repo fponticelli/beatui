@@ -1,5 +1,5 @@
 import { TNode, Value, attr, computedOf, html, Renderable } from '@tempots/dom'
-import type { ThemeColorName } from '@/tokens'
+import type { ThemeColorName } from '../../tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 
 export type RibbonCorner =

@@ -8,8 +8,8 @@ import {
   computedOf,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
-import { Icon } from '@/components/data'
-import { ThemeColorName } from '@/tokens'
+import { Icon } from '../../data'
+import { ThemeColorName } from '../../../tokens'
 
 function generateInputContainerClasses(
   baseContainer: boolean,

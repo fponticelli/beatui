@@ -4,7 +4,7 @@ import {
   transformNullToUndefined,
   Control,
   MappedControl,
-} from '@/components/form'
+} from '../../form'
 import { SchemaContext } from '../schema-context'
 import { Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
@@ -19,9 +19,9 @@ import {
   NullableDurationInput,
   ColorSwatchInput,
   NullableUrlInput,
-} from '@/components/form/input'
+} from '../../form/input'
 import { NullableBase64Input } from '../../form/input/nullable-base64-input'
-import { WithTemporal } from '@/temporal'
+import { WithTemporal } from '../../../temporal'
 
 export function StringControl({
   ctx,

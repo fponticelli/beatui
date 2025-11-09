@@ -19,7 +19,7 @@ import {
 
 import { InputOptions } from './input-options'
 import { Expando } from '../../misc/expando'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 import {
   BaseControllerOptions,
   ControllerOptions,

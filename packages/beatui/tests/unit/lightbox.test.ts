@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { html, render, TNode } from '@tempots/dom'
-import { Lightbox } from '@/components/overlay'
+import { Lightbox } from '../../src/components/overlay'
 import { WithProviders } from '../helpers/test-providers'
 
 function setupRoot() {

@@ -14,7 +14,7 @@ import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
 import { Tag } from '../../data/tag'
 import { DropdownOption } from './option'
-import { Menu, MenuSeparator } from '@/components/navigation/menu'
+import { Menu, MenuSeparator } from '../../navigation/menu'
 import {
   BaseControllerOptions,
   ControllerOptions,

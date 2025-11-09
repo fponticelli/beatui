@@ -19,7 +19,7 @@ import {
 import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { emitOptionExpando, Expando } from '../../misc/expando'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 import {
   BaseControllerOptions,
   ControllerOptions,

@@ -1,8 +1,8 @@
 import { attr, emitValue, Empty, input, on, Value } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
-import { ZonedDateTime } from '@/temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
+import { ZonedDateTime } from '../../../temporal'
 
 export const ZonedDateTimeInput = (options: InputOptions<ZonedDateTime>) => {
   const { value, onBlur, onChange } = options

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, prop } from '@tempots/dom'
-import { OpenGraph } from '@/components/misc/opengraph'
+import { OpenGraph } from '../../src/components/misc/opengraph'
 
 describe('OpenGraph', () => {
   let container: HTMLDivElement

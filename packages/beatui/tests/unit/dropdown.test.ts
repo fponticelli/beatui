@@ -4,7 +4,7 @@ import { DropdownInput } from '../../src/components/form/input/dropdown-input'
 import { DropdownControl } from '../../src/components/form/input/dropdown-input'
 import { WithProviders } from '../helpers/test-providers'
 import { useController } from '../../src/components/form/use-form'
-import { DropdownOption, Option } from '@/index'
+import { DropdownOption, Option } from '../../src/index'
 
 describe('Dropdown', () => {
   let container: HTMLElement

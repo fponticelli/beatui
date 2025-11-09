@@ -1,5 +1,5 @@
-import { defaultMessages } from '@/beatui-i18n'
-import { Icon } from '@/components/data/icon'
+import { defaultMessages } from '../../../beatui-i18n'
+import { Icon } from '../../data/icon'
 import {
   aria,
   attr,

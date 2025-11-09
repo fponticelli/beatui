@@ -86,11 +86,6 @@ export default defineConfig({
       },
     },
   },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
-  },
   // Vitest configuration + harden defines for deps that expect Vue compile-time flags
   define: {
     'import.meta.vitest': 'undefined',

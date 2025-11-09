@@ -1,4 +1,4 @@
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 import { Icon } from '../../data/icon'
 import {
   aria,

@@ -10,8 +10,8 @@ import {
   Renderable,
 } from '@tempots/dom'
 import { micromark } from 'micromark'
-import { LinkPortal } from '@/components/misc/link-portal'
-import { resolveExtensions } from '@/markdown/extensions'
+import { LinkPortal } from '../components/misc/link-portal'
+import { resolveExtensions } from './extensions'
 
 export type MarkdownOptions = {
   content: Value<string>
@@ -49,7 +49,7 @@ export function Markdown(
     (options.cssInjection ?? 'none') === 'none'
       ? null
       : Task(
-          () => import('@/markdown/styles-url'),
+          () => import('./styles-url'),
           ({ default: href }) => LinkPortal({ id: 'beatui-markdown-css', href })
         ),
     attr.class('bc-markdown'),

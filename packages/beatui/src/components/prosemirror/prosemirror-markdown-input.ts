@@ -16,7 +16,7 @@ import type { InputOptions } from '../form/input/input-options'
 import { Merge } from '@tempots/std'
 import { Theme } from '../theme'
 import { ProseMirrorToolbar } from './prosemirror-toolbar'
-import { LinkPortal } from '@/components/misc/link-portal'
+import { LinkPortal } from '../misc/link-portal'
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { MarkSpec, NodeSpec, Schema } from 'prosemirror-model'
@@ -177,7 +177,7 @@ export const ProseMirrorMarkdownInput = (
         (options.cssInjection ?? 'none') === 'none'
           ? null
           : Task(
-              () => import('@/prosemirror/styles-url'),
+              () => import('../../prosemirror/styles-url'),
               ({ default: href }) =>
                 LinkPortal({ id: 'beatui-prosemirror-css', href })
             ),

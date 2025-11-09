@@ -29,7 +29,7 @@ export type SemanticColorName =
   | 'danger'
   | 'info'
 
-export type ThemeColorName = ColorName | SemanticColorName
+export type ThemeColorName = ColorName | SemanticColorName | 'black' | 'white'
 
 export const semanticColorNames = [
   'primary',
@@ -41,9 +41,11 @@ export const semanticColorNames = [
   'info',
 ] as const
 
-export const themeColorNames = [
+export const themeColorNames: ThemeColorName[] = [
   ...semanticColorNames,
   ...objectEntries(colors).map(([colorName]) => colorName),
+  'black',
+  'white',
 ]
 
 export const semanticColors = {
@@ -165,7 +167,12 @@ export function normalizeColorName(
 export function getColorVarName(
   color: ThemeColorName,
   shade: ColorShade
-): `--color-${ThemeColorName}-${ColorShade}` {
+):
+  | `--color-${ThemeColorName}-${ColorShade}`
+  | '--color-white'
+  | '--color-black' {
+  if (color === 'white') return '--color-white'
+  if (color === 'black') return '--color-black'
   return `--color-${color}-${shade}`
 }
 

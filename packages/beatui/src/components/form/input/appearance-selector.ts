@@ -1,6 +1,6 @@
-import { AppearancePreference, Theme } from '@/components/theme'
+import { AppearancePreference, Theme } from '../../theme'
 import { attr, html, TNode, Use, Value } from '@tempots/dom'
-import { Icon } from '@/components/data'
+import { Icon } from '../../data'
 import { SegmentedInput } from './segmented-input'
 
 export type AppearanceSelectorOptions = {

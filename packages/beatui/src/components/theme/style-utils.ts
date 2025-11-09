@@ -1,7 +1,11 @@
-import { backgroundConfig, getColorVar, ThemeColorName } from '@/tokens/colors'
-import type { ColorShade } from '@/tokens/colors'
+import {
+  backgroundConfig,
+  getColorVar,
+  ThemeColorName,
+} from '../../tokens/colors'
+import type { ColorShade } from '../../tokens/colors'
 
-export type ExtendedColor = ThemeColorName | 'white' | 'black' | 'transparent'
+export type ExtendedColor = ThemeColorName | 'transparent'
 export type Mode = 'light' | 'dark'
 export type BackgroundVariant = 'solid' | 'light' | 'soft' | 'lighter'
 export type ForegroundTone = 'solid' | 'soft'

@@ -130,13 +130,13 @@ export default function MonacoEditorPage() {
                 schema,
               },
             ]),
-            yamlSchemas: Value.map(personSchema, schema => [
-              {
-                uri: 'https://example.com/schemas/person.yaml',
-                fileMatch: ['*'],
-                schema,
-              },
-            ]),
+            // yamlSchemas: Value.map(personSchema, schema => [
+            //   {
+            //     uri: 'https://example.com/schemas/person.yaml',
+            //     fileMatch: ['*'],
+            //     schema,
+            //   },
+            // ]),
           }),
         },
         style.width('42rem')

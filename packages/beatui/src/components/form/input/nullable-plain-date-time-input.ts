@@ -1,4 +1,4 @@
-import { PlainDateTime } from '@/temporal'
+import { PlainDateTime } from '../../../temporal'
 import { createNullableTemporalInput } from './create-temporal-input'
 
 export const NullablePlainDateTimeInput =

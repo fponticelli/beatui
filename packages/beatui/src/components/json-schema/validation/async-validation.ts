@@ -1,7 +1,7 @@
 import type { JSONSchema } from '../schema-context'
 import { Validation } from '@tempots/std'
 import { Prop, prop } from '@tempots/dom'
-import { ControllerValidation } from '@/components/form'
+import { ControllerValidation } from '../../form'
 
 /**
  * Async validation rule configuration

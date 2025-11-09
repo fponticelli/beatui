@@ -6,7 +6,7 @@ import {
   TabsDirection,
 } from '../../src/components/navigation/tabs/tabs'
 import { WithProviders } from '../helpers/test-providers'
-import { ControlSize } from '@/index'
+import { ControlSize } from '../../src/index'
 
 describe('Tabs Component', () => {
   let container: HTMLElement

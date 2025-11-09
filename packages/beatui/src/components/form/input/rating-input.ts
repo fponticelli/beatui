@@ -12,8 +12,8 @@ import {
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { Icon } from '@/components/data'
-import { ThemeColorName } from '@/tokens'
+import { Icon } from '../../data'
+import { ThemeColorName } from '../../../tokens'
 import { ControlSize } from '../../theme/types'
 
 type RatingInputOptions = InputOptions<number> & {
@@ -103,7 +103,12 @@ export const RatingInput = (options: RatingInputOptions) => {
       attr.class('bc-rating-input__icon-container'),
       attr.class(iconSize),
       Icon(
-        { icon: emptyIcon, size, color: emptyColor, tone: 'soft' },
+        {
+          icon: emptyIcon,
+          size,
+          color: emptyColor as Value<ThemeColorName>,
+          tone: 'soft',
+        },
         attr.class('bc-rating-input__icon-empty')
       ),
       html.span(
@@ -118,7 +123,12 @@ export const RatingInput = (options: RatingInputOptions) => {
           })
         ),
         Icon(
-          { icon: fullIcon, size, color: fullColor, tone: 'soft' },
+          {
+            icon: fullIcon,
+            size,
+            color: fullColor as Value<ThemeColorName>,
+            tone: 'soft',
+          },
           attr.class('bc-rating-input__icon-full')
         )
       ),

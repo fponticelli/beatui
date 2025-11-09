@@ -1,4 +1,4 @@
-import { Icon } from '@/components/data'
+import { Icon } from '../../data'
 import {
   aria,
   attr,

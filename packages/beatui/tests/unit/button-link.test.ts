@@ -3,7 +3,7 @@ import { render, prop } from '@tempots/dom'
 import { ButtonLink } from '../../src/components/navigation/link/button-link'
 import { WithProviders, WithLocation } from '../helpers/test-providers'
 import { isUrlMatch } from '../../src/components/navigation/link/navigation-link'
-import { ButtonVariant } from '@/index'
+import { ButtonVariant } from '../../src/index'
 
 describe('ButtonLink Component', () => {
   let container: HTMLElement

@@ -8,8 +8,8 @@ import {
   Repeat,
   Ensure,
 } from '@tempots/dom'
-import { Toolbar } from '@/components/navigation/toolbar/toolbar'
-import { BeatUII18n } from '@/beatui-i18n'
+import { Toolbar } from '../navigation/toolbar/toolbar'
+import { BeatUII18n } from '../../beatui-i18n'
 import type { EditorView } from 'prosemirror-view'
 import type { MarkdownFeatures } from './prosemirror-markdown-input'
 import { LinkControl } from './link-control'

@@ -14,14 +14,14 @@ import {
   MapSignal,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../../theme'
-import { ThemeColorName } from '@/tokens'
+import { ThemeColorName } from '../../../tokens'
 import {
   backgroundValue,
   ExtendedColor,
   hoverBackgroundValue,
 } from '../../theme/style-utils'
 
-import { getColorVar, type ColorShade } from '@/tokens/colors'
+import { getColorVar, type ColorShade } from '../../../tokens/colors'
 
 import { sessionId } from '../../../utils/session-id'
 
@@ -52,7 +52,7 @@ export interface TabsOptions<T extends string> {
   /** Visual variant */
   variant?: Value<ButtonVariant>
   /** Color used by certain variants (e.g., filled) */
-  color?: Value<ThemeColorName | 'black' | 'white'>
+  color?: Value<ThemeColorName>
   /** Whether tabs are disabled */
   disabled?: Value<boolean>
   /** Orientation of the tabs */

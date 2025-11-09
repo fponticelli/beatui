@@ -13,18 +13,16 @@ import {
   aria,
   dataAttr,
   Use,
-  OnDispose,
-  Fragment,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
 import { CloseButton } from '../button'
 import { Overlay } from './overlay'
 import { OverlayEffect } from '../theme/types'
 import { ScrollablePanel } from '../layout'
-import { useAnimatedElementToggle } from '@/utils/use-animated-toggle'
-import { FocusTrap } from '@/utils/focus-trap'
+import { useAnimatedElementToggle } from '../../utils/use-animated-toggle'
+import { FocusTrap } from '../../utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface DrawerOptions {
   /** Size of the drawer */

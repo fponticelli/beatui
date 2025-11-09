@@ -1,8 +1,8 @@
 import { attr, emitValue, Empty, input, on, Value } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { WithTemporal } from '@/temporal/with-temporal'
-import { Instant } from '@/temporal'
+import { WithTemporal } from '../../../temporal/with-temporal'
+import { Instant } from '../../../temporal'
 
 const toLocalString = (epochMs: number) => {
   const d = new Date(epochMs)

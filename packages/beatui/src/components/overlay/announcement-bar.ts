@@ -6,14 +6,12 @@ import {
   computedOf,
   When,
   prop,
-  Fragment,
-  OnDispose,
   Renderable,
 } from '@tempots/dom'
 import { Icon } from '../data'
-import type { ThemeColorName } from '@/tokens'
+import type { ThemeColorName } from '../../tokens'
 import { CloseButton } from '../button'
-import { getColorVar } from '@/tokens/colors'
+import { getColorVar } from '../../tokens/colors'
 
 export type AnnouncementBarOptions = {
   color?: Value<ThemeColorName>

@@ -1,4 +1,4 @@
-import { Ensure, Fragment, OnDispose, Signal, TNode } from '@tempots/dom'
+import { Ensure, Signal, TNode } from '@tempots/dom'
 import { Controller } from '../controller/controller'
 
 export function EnsureControl<T>(

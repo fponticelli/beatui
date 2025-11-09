@@ -1,8 +1,8 @@
 import { attr, html, TNode, Value } from '@tempots/dom'
 import { SidebarGroup } from './sidebar-group'
-import { Collapse } from '@/components/layout'
+import { Collapse } from '../../layout'
 import { SidebarLink } from './sidebar-link'
-import { Icon } from '@/components/data'
+import { Icon } from '../../data'
 import { sessionId } from '../../../utils/session-id'
 
 export type CollapsibleSidebarGroupOptions = {

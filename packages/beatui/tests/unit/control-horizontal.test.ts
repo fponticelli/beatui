@@ -4,7 +4,7 @@ import { TextInput } from '../../src/components/form/input/text-input'
 import { WithProviders } from '../helpers/test-providers'
 import { Controller } from '../../src/components/form/controller/controller'
 import { ControllerValidation } from '../../src/components/form/controller/controller-validation'
-import { Control } from '@/index'
+import { Control } from '../../src/index'
 
 describe('Control Components Horizontal Layout', () => {
   let container: HTMLElement

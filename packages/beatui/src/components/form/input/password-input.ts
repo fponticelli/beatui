@@ -15,7 +15,7 @@ import {
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Icon } from '../../data/icon'
-import { BeatUII18n } from '@/beatui-i18n'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 export const PasswordInput = (options: InputOptions<string>) => {
   const {

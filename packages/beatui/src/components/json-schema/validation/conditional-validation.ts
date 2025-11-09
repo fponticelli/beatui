@@ -7,7 +7,7 @@ import {
   applyCrossFieldValidation,
   type CrossFieldValidationRule,
 } from './cross-field-validation'
-import type { ControllerValidation } from '@/components/form'
+import type { ControllerValidation } from '../../form'
 
 /**
  * Conditional validation configuration from x:ui

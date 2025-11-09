@@ -2,7 +2,7 @@ import { Merge, TNode, Value } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
 import { Controller } from '../controller'
 import { InputWrapper, InputWrapperOptions } from '../input'
-import { sessionId } from '@/utils'
+import { sessionId } from '../../../utils'
 
 export const makeOnBlurHandler =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
