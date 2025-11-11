@@ -47,15 +47,24 @@
   height: 100%;
 }
 
+/* Content wrapper - provides positioning context for layers */
+.bc-pdf-page-viewer__content {
+  position: relative;
+  display: inline-block;
+}
+
 .bc-pdf-page-viewer__canvas {
   display: block;
 }
 
 /* Text layer for text selection */
+/* Must be both absolutely positioned AND a positioning context for text spans */
 .bc-pdf-page-viewer__text-layer {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
   opacity: 0.2;
   line-height: 1;
@@ -134,6 +143,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .bc-pdf-page-viewer__annotation-layer section {

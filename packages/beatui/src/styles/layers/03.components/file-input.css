@@ -293,7 +293,7 @@
 
 .bc-file-input__compact-input {
   width: 100%;
-  min-height: 26px;
+  min-height: 19px;
   display: flex;
   align-items: center;
 }

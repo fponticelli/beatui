@@ -375,8 +375,6 @@ export function PdfPageViewer(
                 if (request.renderTextLayer && textLayerDiv != null) {
                   // Clear previous text layer content
                   textLayerDiv.innerHTML = ''
-                  textLayerDiv.style.width = `${baseViewport.width}px`
-                  textLayerDiv.style.height = `${baseViewport.height}px`
 
                   try {
                     const textContent = await pdfPage.getTextContent()
@@ -485,29 +483,33 @@ export function PdfPageViewer(
                     : `bc-pdf-page-viewer bc-pdf-page-viewer--fit-${fitMode}`
                 )
               ),
-              // Only set fixed dimensions when fit is 'none'
-              When(
-                Value.map(fit, fitMode => fitMode === 'none'),
-                () =>
-                  attr.style(
-                    value.$.canvasWidth.map(
-                      w =>
-                        `width: ${w}px; height: ${value.value.canvasHeight}px;`
-                    )
-                  ),
-                () => Fragment()
+              // Wrapper for canvas and layers (provides positioning context)
+              html.div(
+                attr.class('bc-pdf-page-viewer__content'),
+                // Only set fixed dimensions when fit is 'none'
+                When(
+                  Value.map(fit, fitMode => fitMode === 'none'),
+                  () =>
+                    attr.style(
+                      value.$.canvasWidth.map(
+                        w =>
+                          `width: ${w}px; height: ${value.value.canvasHeight}px;`
+                      )
+                    ),
+                  () => Fragment()
+                ),
+                // Canvas layer
+                html.canvas(
+                  attr.class('bc-pdf-page-viewer__canvas'),
+                  attr.width(value.$.canvasWidth.map(String)),
+                  attr.height(value.$.canvasHeight.map(String)),
+                  ...children
+                ),
+                // Text layer (for text selection)
+                html.div(attr.class('bc-pdf-page-viewer__text-layer')),
+                // Annotation layer (for links, forms, etc.)
+                html.div(attr.class('bc-pdf-page-viewer__annotation-layer'))
               ),
-              // Canvas layer (width/height attributes set to high-res for sharp rendering)
-              html.canvas(
-                attr.class('bc-pdf-page-viewer__canvas'),
-                attr.width(value.$.highResWidth.map(String)),
-                attr.height(value.$.highResHeight.map(String)),
-                ...children
-              ),
-              // Text layer (for text selection)
-              html.div(attr.class('bc-pdf-page-viewer__text-layer')),
-              // Annotation layer (for links, forms, etc.)
-              html.div(attr.class('bc-pdf-page-viewer__annotation-layer')),
               WithElement(container => {
                 const canvas = container.querySelector(
                   '.bc-pdf-page-viewer__canvas'

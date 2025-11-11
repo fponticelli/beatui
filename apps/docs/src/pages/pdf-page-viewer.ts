@@ -9,7 +9,6 @@ import {
   Button,
   NativeSelect,
   Switch,
-  ColorInput,
   Option,
   NotificationService,
 } from '@tempots/beatui'
