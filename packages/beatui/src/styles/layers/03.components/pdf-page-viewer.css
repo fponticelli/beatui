@@ -1,5 +1,5 @@
 /* PDF Page Viewer Component */
-.bc-pdf-page-viewer {
+/* .bc-pdf-page-viewer {
   --pdf-viewer-text: var(--text-normal-light);
   --pdf-viewer-text-dark: var(--text-normal-dark);
 
@@ -16,14 +16,13 @@
 .b-dark .bc-pdf-page-viewer {
   background-color: var(--pdf-viewer-bg-dark);
   color: var(--pdf-viewer-text-dark);
-}
+} */
 
-/* Canvas */
-.bc-pdf-page-viewer__canvas {
+.bc-pdf-page-viewer {
   display: block;
   max-width: 100%;
   max-height: 100%;
-  box-shadow: var(--shadow-md);
+  /* box-shadow: var(--shadow-md); */
 }
 
 /* Loading state */
