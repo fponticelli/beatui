@@ -108,6 +108,15 @@ const ko: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'PDF 로딩 중...',
+    loadFailed: 'PDF 로드 실패',
+    invalidPdf: '유효하지 않은 PDF 파일',
+    pageOutOfRange: (page: number, total: number) =>
+      `페이지 ${page}이(가) 범위를 벗어났습니다 (1-${total})`,
+    renderFailed: 'PDF 페이지 렌더링 실패',
+  },
 }
 
 export default ko

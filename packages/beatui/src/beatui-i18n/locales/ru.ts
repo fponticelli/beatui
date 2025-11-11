@@ -110,6 +110,15 @@ export const ru: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Загрузка PDF...',
+    loadFailed: 'Не удалось загрузить PDF',
+    invalidPdf: 'Недействительный файл PDF',
+    pageOutOfRange: (page: number, total: number) =>
+      `Страница ${page} вне диапазона (1-${total})`,
+    renderFailed: 'Не удалось отобразить страницу PDF',
+  },
 }
 
 export default ru

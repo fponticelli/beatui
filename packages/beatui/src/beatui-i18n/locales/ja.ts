@@ -108,6 +108,15 @@ export const ja: BeatUIMessages = {
     horizontalRule: '水平線',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'PDFを読み込み中...',
+    loadFailed: 'PDFの読み込みに失敗しました',
+    invalidPdf: '無効なPDFファイル',
+    pageOutOfRange: (page: number, total: number) =>
+      `ページ ${page} は範囲外です (1-${total})`,
+    renderFailed: 'PDFページのレンダリングに失敗しました',
+  },
 }
 
 export default ja

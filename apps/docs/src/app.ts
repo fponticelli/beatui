@@ -53,6 +53,10 @@ export const App = () => {
           Async(import('./pages/video-player'), ({ default: Page }) => Page()),
         '/pdf-preview': () =>
           Async(import('./pages/pdf-preview'), ({ default: Page }) => Page()),
+        '/pdf-page-viewer': () =>
+          Async(import('./pages/pdf-page-viewer'), ({ default: Page }) =>
+            Page()
+          ),
 
         '/drawer': () =>
           Async(import('./pages/drawer'), ({ default: Page }) => Page()),

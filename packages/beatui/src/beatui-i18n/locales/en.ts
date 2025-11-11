@@ -107,6 +107,15 @@ const en = {
     horizontalRule: 'Horizontal rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Loading PDF...',
+    loadFailed: 'Failed to load PDF',
+    invalidPdf: 'Invalid PDF file',
+    pageOutOfRange: (page: number, total: number) =>
+      `Page ${page} is out of range (1-${total})`,
+    renderFailed: 'Failed to render PDF page',
+  },
 }
 
 export default en

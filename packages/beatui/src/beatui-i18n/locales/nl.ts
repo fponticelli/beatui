@@ -108,6 +108,15 @@ export const nl: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'PDF laden...',
+    loadFailed: 'PDF laden mislukt',
+    invalidPdf: 'Ongeldig PDF-bestand',
+    pageOutOfRange: (page: number, total: number) =>
+      `Pagina ${page} valt buiten bereik (1-${total})`,
+    renderFailed: 'PDF-pagina weergeven mislukt',
+  },
 }
 
 export default nl

@@ -108,6 +108,15 @@ const vi: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Đang tải PDF...',
+    loadFailed: 'Không thể tải PDF',
+    invalidPdf: 'Tệp PDF không hợp lệ',
+    pageOutOfRange: (page: number, total: number) =>
+      `Trang ${page} nằm ngoài phạm vi (1-${total})`,
+    renderFailed: 'Không thể hiển thị trang PDF',
+  },
 }
 
 export default vi

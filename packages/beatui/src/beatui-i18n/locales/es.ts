@@ -108,6 +108,15 @@ const es: BeatUIMessages = {
     horizontalRule: 'Línea horizontal',
     linkUrlPlaceholder: 'https://ejemplo.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Cargando PDF...',
+    loadFailed: 'Error al cargar el PDF',
+    invalidPdf: 'Archivo PDF inválido',
+    pageOutOfRange: (page: number, total: number) =>
+      `La página ${page} está fuera de rango (1-${total})`,
+    renderFailed: 'Error al renderizar la página del PDF',
+  },
 }
 
 export default es

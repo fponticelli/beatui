@@ -108,6 +108,15 @@ const zh: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: '正在加载PDF...',
+    loadFailed: '加载PDF失败',
+    invalidPdf: '无效的PDF文件',
+    pageOutOfRange: (page: number, total: number) =>
+      `页面 ${page} 超出范围 (1-${total})`,
+    renderFailed: '渲染PDF页面失败',
+  },
 }
 
 export default zh

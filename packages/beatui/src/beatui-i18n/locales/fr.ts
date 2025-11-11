@@ -109,6 +109,15 @@ const fr: BeatUIMessages = {
     horizontalRule: 'Ligne horizontale',
     linkUrlPlaceholder: 'https://exemple.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Chargement du PDF...',
+    loadFailed: 'Échec du chargement du PDF',
+    invalidPdf: 'Fichier PDF invalide',
+    pageOutOfRange: (page: number, total: number) =>
+      `La page ${page} est hors limites (1-${total})`,
+    renderFailed: 'Échec du rendu de la page PDF',
+  },
 }
 
 export default fr

@@ -108,6 +108,15 @@ const pt: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'Carregando PDF...',
+    loadFailed: 'Falha ao carregar PDF',
+    invalidPdf: 'Arquivo PDF inválido',
+    pageOutOfRange: (page: number, total: number) =>
+      `A página ${page} está fora do intervalo (1-${total})`,
+    renderFailed: 'Falha ao renderizar página do PDF',
+  },
 }
 
 export default pt

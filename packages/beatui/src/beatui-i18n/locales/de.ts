@@ -108,6 +108,15 @@ const de: BeatUIMessages = {
     horizontalRule: 'Horizontale Linie',
     linkUrlPlaceholder: 'https://beispiel.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'PDF wird geladen...',
+    loadFailed: 'PDF konnte nicht geladen werden',
+    invalidPdf: 'Ungültige PDF-Datei',
+    pageOutOfRange: (page: number, total: number) =>
+      `Seite ${page} liegt außerhalb des Bereichs (1-${total})`,
+    renderFailed: 'PDF-Seite konnte nicht gerendert werden',
+  },
 }
 
 export default de

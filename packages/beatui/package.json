@@ -170,6 +170,7 @@
     "eslint": "9.37.0",
     "eslint-config-prettier": "10.1.8",
     "jsdom": "26.1.0",
+    "pdfjs-dist": "5.4.394",
     "prettier": "3.6.2",
     "tailwindcss": "4.1.14",
     "tsx": "4.20.6",

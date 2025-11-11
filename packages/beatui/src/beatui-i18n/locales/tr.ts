@@ -108,6 +108,15 @@ const tr: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // PDF Page Viewer
+  pdfPageViewer: {
+    loading: 'PDF yükleniyor...',
+    loadFailed: 'PDF yüklenemedi',
+    invalidPdf: 'Geçersiz PDF dosyası',
+    pageOutOfRange: (page: number, total: number) =>
+      `Sayfa ${page} aralık dışında (1-${total})`,
+    renderFailed: 'PDF sayfası oluşturulamadı',
+  },
 }
 
 export default tr

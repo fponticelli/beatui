@@ -106,7 +106,8 @@ export function Menu() {
         SidebarLink({ href: '/ribbon', content: 'Ribbon' }),
         SidebarLink({ href: '/markdown', content: 'Markdown' }),
         SidebarLink({ href: '/video-player', content: 'Video Player' }),
-        SidebarLink({ href: '/pdf-preview', content: 'PDF Preview' })
+        SidebarLink({ href: '/pdf-preview', content: 'PDF Preview' }),
+        SidebarLink({ href: '/pdf-page-viewer', content: 'PDF Page Viewer' })
       ),
       // Docs
       SidebarGroup(
