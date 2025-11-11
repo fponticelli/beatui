@@ -19,10 +19,323 @@
 } */
 
 .bc-pdf-page-viewer {
-  display: block;
+  position: relative;
+  display: inline-block;
   max-width: 100%;
   max-height: 100%;
-  /* box-shadow: var(--shadow-md); */
+}
+
+/* Fit modes */
+.bc-pdf-page-viewer--fit-width {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.bc-pdf-page-viewer--fit-height {
+  display: block;
+  height: 100%;
+  max-height: 100%;
+}
+
+.bc-pdf-page-viewer--fit-contain,
+.bc-pdf-page-viewer--fit-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.bc-pdf-page-viewer__canvas {
+  display: block;
+}
+
+/* Text layer for text selection */
+.bc-pdf-page-viewer__text-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  opacity: 0.2;
+  line-height: 1;
+  text-align: initial;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+}
+
+.bc-pdf-page-viewer__text-layer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.bc-pdf-page-viewer__text-layer span.markedContent {
+  top: 0;
+  height: 0;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight {
+  margin: -1px;
+  padding: 1px;
+  background-color: rgba(180, 0, 170, 1);
+  border-radius: 4px;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight.appended {
+  position: initial;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight.begin {
+  border-radius: 4px 0 0 4px;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight.end {
+  border-radius: 0 4px 4px 0;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight.middle {
+  border-radius: 0;
+}
+
+.bc-pdf-page-viewer__text-layer .highlight.selected {
+  background-color: rgba(0, 100, 0, 1);
+}
+
+.bc-pdf-page-viewer__text-layer ::selection {
+  background: rgba(0, 0, 255, 0.3);
+}
+
+.bc-pdf-page-viewer__text-layer br::selection {
+  background: transparent;
+}
+
+.bc-pdf-page-viewer__text-layer .endOfContent {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  cursor: default;
+  user-select: none;
+}
+
+.bc-pdf-page-viewer__text-layer .endOfContent.active {
+  top: 0;
+}
+
+/* Annotation layer for links, forms, etc. */
+.bc-pdf-page-viewer__annotation-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.bc-pdf-page-viewer__annotation-layer section {
+  position: absolute;
+  text-align: initial;
+  pointer-events: auto;
+}
+
+.bc-pdf-page-viewer__annotation-layer .linkAnnotation > a,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.pushButton > a {
+  position: absolute;
+  font-size: 1em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.pushButton > canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .linkAnnotation > a:hover,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.pushButton > a:hover {
+  opacity: 0.2;
+  background: rgba(255, 255, 0, 1);
+  box-shadow: 0 2px 10px rgba(255, 255, 0, 1);
+}
+
+.bc-pdf-page-viewer__annotation-layer .textAnnotation img {
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input,
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea,
+.bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input {
+  background-image: none;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font: calc(9px * var(--scale-factor)) sans-serif;
+  height: 100%;
+  margin: 0;
+  vertical-align: top;
+  width: 100%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select option {
+  padding: 0;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input {
+  border-radius: 50%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea {
+  resize: none;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input[disabled],
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea[disabled],
+.bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select[disabled],
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input[disabled],
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input[disabled] {
+  background: none;
+  border: 1px solid transparent;
+  cursor: not-allowed;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input:hover,
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea:hover,
+.bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select:hover,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input:hover,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input:hover {
+  border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input:focus,
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea:focus,
+.bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select:focus {
+  background: none;
+  border: 1px solid transparent;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox :is(input:checked:before, input:checked:after),
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input:checked:before {
+  background-color: CanvasText;
+  content: "";
+  display: block;
+  position: absolute;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input:checked:before,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input:checked:after {
+  height: 80%;
+  left: 45%;
+  width: 1px;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input:checked:before {
+  transform: rotate(45deg);
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input:checked:after {
+  transform: rotate(-45deg);
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input:checked:before {
+  border-radius: 50%;
+  height: 50%;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input.comb {
+  font-family: monospace;
+  padding-left: 2px;
+  padding-right: 0;
+}
+
+.bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input.comb:focus {
+  width: 103%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.checkBox input,
+.bc-pdf-page-viewer__annotation-layer .buttonWidgetAnnotation.radioButton input {
+  appearance: none;
+}
+
+.bc-pdf-page-viewer__annotation-layer .popupTriggerArea {
+  height: 100%;
+  width: 100%;
+}
+
+.bc-pdf-page-viewer__annotation-layer .popupWrapper {
+  position: absolute;
+  font-size: calc(9px * var(--scale-factor));
+  width: 100%;
+  min-width: calc(180px * var(--scale-factor));
+  pointer-events: none;
+}
+
+.bc-pdf-page-viewer__annotation-layer .popup {
+  position: absolute;
+  max-width: calc(180px * var(--scale-factor));
+  background-color: rgba(255, 255, 153, 1);
+  box-shadow: 0 calc(2px * var(--scale-factor)) calc(5px * var(--scale-factor)) rgba(136, 136, 136, 1);
+  border-radius: calc(2px * var(--scale-factor));
+  padding: calc(6px * var(--scale-factor));
+  margin-left: calc(5px * var(--scale-factor));
+  cursor: pointer;
+  font: message-box;
+  white-space: normal;
+  word-wrap: break-word;
+  pointer-events: auto;
+}
+
+.bc-pdf-page-viewer__annotation-layer .popup > * {
+  font-size: calc(9px * var(--scale-factor));
+}
+
+.bc-pdf-page-viewer__annotation-layer .popup h1 {
+  display: inline-block;
+}
+
+.bc-pdf-page-viewer__annotation-layer .popupDate {
+  display: inline-block;
+  margin-left: calc(5px * var(--scale-factor));
+}
+
+.bc-pdf-page-viewer__annotation-layer .popupContent {
+  border-top: 1px solid rgba(51, 51, 51, 1);
+  margin-top: calc(2px * var(--scale-factor));
+  padding-top: calc(2px * var(--scale-factor));
+}
+
+.bc-pdf-page-viewer__annotation-layer .richText > * {
+  white-space: pre-wrap;
+  font-size: calc(9px * var(--scale-factor));
+}
+
+.bc-pdf-page-viewer__annotation-layer .highlightAnnotation,
+.bc-pdf-page-viewer__annotation-layer .underlineAnnotation,
+.bc-pdf-page-viewer__annotation-layer .squigglyAnnotation,
+.bc-pdf-page-viewer__annotation-layer .strikeoutAnnotation,
+.bc-pdf-page-viewer__annotation-layer .freeTextAnnotation,
+.bc-pdf-page-viewer__annotation-layer .lineAnnotation svg line,
+.bc-pdf-page-viewer__annotation-layer .squareAnnotation svg rect,
+.bc-pdf-page-viewer__annotation-layer .circleAnnotation svg ellipse,
+.bc-pdf-page-viewer__annotation-layer .polylineAnnotation svg polyline,
+.bc-pdf-page-viewer__annotation-layer .polygonAnnotation svg polygon,
+.bc-pdf-page-viewer__annotation-layer .caretAnnotation,
+.bc-pdf-page-viewer__annotation-layer .inkAnnotation svg polyline,
+.bc-pdf-page-viewer__annotation-layer .stampAnnotation,
+.bc-pdf-page-viewer__annotation-layer .fileAttachmentAnnotation {
+  cursor: pointer;
 }
 
 /* Loading state */
