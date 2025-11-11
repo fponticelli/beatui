@@ -28,7 +28,6 @@ export default function PdfPageViewerPage() {
   const quality = prop(2)
   const renderTextLayer = prop(true)
   const renderAnnotationLayer = prop(false)
-  const backgroundColor = prop('transparent')
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -109,13 +108,6 @@ export default function PdfPageViewerPage() {
         }),
       }),
       InputWrapper({
-        label: 'Background Color',
-        content: ColorInput({
-          value: backgroundColor,
-          onChange: backgroundColor.set,
-        }),
-      }),
-      InputWrapper({
         label: 'Text Layer (Selection)',
         content: Switch({
           value: renderTextLayer,
@@ -161,7 +153,6 @@ export default function PdfPageViewerPage() {
             quality,
             renderTextLayer,
             renderAnnotationLayer,
-            backgroundColor,
             onPageChange: p => {
               page.set(p)
               NotificationService.show(

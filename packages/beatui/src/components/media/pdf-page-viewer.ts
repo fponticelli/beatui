@@ -142,12 +142,6 @@ export interface PdfPageViewerOptions {
   renderAnnotationLayer?: Value<boolean>
 
   /**
-   * Canvas background color
-   * Default: transparent
-   */
-  backgroundColor?: Value<string>
-
-  /**
    * Callback when page changes
    */
   onPageChange?: (page: number) => void
@@ -167,7 +161,6 @@ interface PdfRenderRequest {
   quality: number
   renderTextLayer: boolean
   renderAnnotationLayer: boolean
-  backgroundColor: string
   containerWidth: number
   containerHeight: number
 }
@@ -205,7 +198,6 @@ export function PdfPageViewer(
     quality = 2,
     renderTextLayer = true,
     renderAnnotationLayer = false,
-    backgroundColor = 'transparent',
     onPageChange,
     onLoadComplete,
   }: PdfPageViewerOptions,
@@ -237,34 +229,19 @@ export function PdfPageViewer(
             quality,
             renderTextLayer,
             renderAnnotationLayer,
-            backgroundColor,
             rect
-          )(
-            (
-              src,
-              pg,
-              fitMode,
-              sc,
-              rot,
-              qual,
-              textLayer,
-              annotLayer,
-              bgColor,
-              r
-            ) => ({
-              source: src,
-              page: pg,
-              fit: fitMode,
-              scale: sc,
-              rotation: rot,
-              quality: qual,
-              renderTextLayer: textLayer,
-              renderAnnotationLayer: annotLayer,
-              backgroundColor: bgColor,
-              containerWidth: r.width,
-              containerHeight: r.height,
-            })
-          ),
+          )((src, pg, fitMode, sc, rot, qual, textLayer, annotLayer, r) => ({
+            source: src,
+            page: pg,
+            fit: fitMode,
+            scale: sc,
+            rotation: rot,
+            quality: qual,
+            renderTextLayer: textLayer,
+            renderAnnotationLayer: annotLayer,
+            containerWidth: r.width,
+            containerHeight: r.height,
+          })),
           load: async ({ request }) => {
             // Load PDF.js library
             const pdfjsLib = (await loadPDFLib) as PDFJSLib
@@ -380,20 +357,9 @@ export function PdfPageViewer(
                 canvas.style.width = `${baseViewport.width}px`
                 canvas.style.height = `${baseViewport.height}px`
 
-                // Apply background color
-                if (request.backgroundColor !== 'transparent') {
-                  canvas.style.backgroundColor = request.backgroundColor
-                }
-
                 const context = canvas.getContext('2d')
                 if (!context) {
                   throw new Error('Failed to get canvas context')
-                }
-
-                // Clear canvas with background color if not transparent
-                if (request.backgroundColor !== 'transparent') {
-                  context.fillStyle = request.backgroundColor
-                  context.fillRect(0, 0, canvas.width, canvas.height)
                 }
 
                 // Render the page at high resolution
