@@ -17,6 +17,13 @@ export type MarkdownOptions = {
   content: Value<string>
   /** Escape HTML by default for safety. Set true to allow raw HTML passthrough. */
   allowHtml?: Value<boolean>
+  /**
+   * Allow potentially dangerous protocols in links and images (e.g., `data:`, `javascript:`).
+   * **WARNING: This is unsafe!** Enabling this opens you up to XSS attacks.
+   * Only enable if you completely trust the markdown source.
+   * @default false
+   */
+  allowDangerousProtocol?: Value<boolean>
   features?: Value<{
     gfm?: boolean
   }>
@@ -33,15 +40,26 @@ export function Markdown(
   options: MarkdownOptions,
   ...children: TNode[]
 ): Renderable {
-  const { content, allowHtml = false } = options
+  const { content, allowHtml = false, allowDangerousProtocol = false } = options
 
   const rendered = computedOf(
     content,
     allowHtml,
+    allowDangerousProtocol,
     options.features
-  )(async (md = '', allowDangerousHtml = false, features = {}) => {
+  )(async (
+    md = '',
+    allowDangerousHtml = false,
+    allowDangerousProtocol = false,
+    features = {}
+  ) => {
     const { extensions, htmlExtensions } = await resolveExtensions(features)
-    return micromark(md, { allowDangerousHtml, extensions, htmlExtensions })
+    return micromark(md, {
+      allowDangerousHtml,
+      allowDangerousProtocol,
+      extensions,
+      htmlExtensions,
+    })
   })
 
   return html.div(
