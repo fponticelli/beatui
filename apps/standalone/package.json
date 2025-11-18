@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "34.2.0",
+    "@tempots/dom": "35.0.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "13.2.0"
+    "@tempots/ui": "14.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
