@@ -32,10 +32,10 @@ function generateSegmentedInputClasses(
   size: ControlSize,
   disabled: boolean
 ): string {
-  const classes = ['bc-segmented-control', `bc-segmented-control--size-${size}`]
+  const classes = ['bc-segmented-input', `bc-segmented-input--size-${size}`]
 
   if (disabled) {
-    classes.push('bc-segmented-control--disabled')
+    classes.push('bc-segmented-input--disabled')
   }
 
   return classes.join(' ')
@@ -65,7 +65,6 @@ export function SegmentedInput<T extends Record<string, TNode>>(
       arrEquality
     )
     return html.div(
-      OnDispose(rects),
       attr.class(
         computedOf(
           size,
@@ -75,9 +74,9 @@ export function SegmentedInput<T extends Record<string, TNode>>(
         )
       ),
       html.div(
-        attr.class('bc-segmented-control__container'),
+        attr.class('bc-segmented-input__container'),
         html.div(
-          attr.class('bc-segmented-control__indicator'),
+          attr.class('bc-segmented-input__indicator'),
           style.width(
             computedOf(
               value,
@@ -109,12 +108,12 @@ export function SegmentedInput<T extends Record<string, TNode>>(
               }
             }),
             attr.disabled(disabled),
-            attr.class('bc-segmented-control__segment'),
+            attr.class('bc-segmented-input__segment'),
             attr.class(
               Value.map(value, (v): string => {
                 return v === key
-                  ? 'bc-segmented-control__segment--active'
-                  : 'bc-segmented-control__segment--inactive'
+                  ? 'bc-segmented-input__segment--active'
+                  : 'bc-segmented-input__segment--inactive'
               })
             ),
             ElementRect(rect => {

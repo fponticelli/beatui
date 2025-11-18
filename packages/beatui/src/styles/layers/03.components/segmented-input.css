@@ -1,5 +1,5 @@
 /* Segmented Control Component */
-.bc-segmented-control {
+.bc-segmented-input {
   background-color: var(--color-base-200);
   border-radius: var(--radius-pill, var(--radius-full));
   box-shadow: var(--shadow-surface, var(--shadow-sm));
@@ -9,48 +9,28 @@
   display: inline-block;
 }
 
-.bc-segmented-control__container {
+.bc-segmented-input__container {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-.bc-segmented-control--size-xs .bc-segmented-control__container {
-  gap: var(--spacing-stack-xs, var(--spacing-xs));
-}
-
-.bc-segmented-control--size-sm .bc-segmented-control__container {
-  gap: var(--spacing-stack-sm, var(--spacing-sm));
-}
-
-.bc-segmented-control--size-md .bc-segmented-control__container {
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
-}
-
-.bc-segmented-control--size-lg .bc-segmented-control__container {
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
-}
-
-.bc-segmented-control--size-xl .bc-segmented-control__container {
-  gap: var(--spacing-stack-xl, var(--spacing-xl));
+  gap: 2px;
 }
 
 /* Sliding indicator */
-.bc-segmented-control__indicator {
+.bc-segmented-input__indicator {
   position: absolute;
   height: 100%;
   background-color: var(--color-base-50);
-  transition: transform
+  transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  transform: translateX(0);
   border-radius: var(--radius-pill, var(--radius-full));
   box-shadow: var(--shadow-surface, var(--shadow-sm));
   z-index: 1;
 }
 
 /* Segment buttons */
-.bc-segmented-control__segment {
+.bc-segmented-input__segment {
   position: relative;
   /* padding: var(--spacing-sm) var(--spacing-md); */
   flex: 1;
@@ -73,68 +53,73 @@
   );
 }
 
-.bc-segmented-control--size-xs .bc-segmented-control__segment {
-  padding: var(--spacing-xs) var(--spacing-sm);
+.bc-segmented-input--size-xs .bc-segmented-input__segment {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
 }
 
-.bc-segmented-control--size-sm .bc-segmented-control__segment {
+.bc-segmented-input--size-sm .bc-segmented-input__segment {
   padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
 }
 
-.bc-segmented-control--size-md .bc-segmented-control__segment {
+.bc-segmented-input--size-md .bc-segmented-input__segment {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-base);
+}
+
+.bc-segmented-input--size-lg .bc-segmented-input__segment {
   padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-lg);
 }
 
-.bc-segmented-control--size-lg .bc-segmented-control__segment {
-  padding: var(--spacing-lg) var(--spacing-2xl);
+.bc-segmented-input--size-xl .bc-segmented-input__segment {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-xl);
 }
 
-.bc-segmented-control--size-xl .bc-segmented-control__segment {
-  padding: var(--spacing-xl) var(--spacing-3xl);
-}
-
-.bc-segmented-control__segment:hover {
+.bc-segmented-input__segment:hover {
   background-color: var(--color-white);
   color: var(--color-base-900);
 }
 
-.bc-segmented-control__segment--active {
+.bc-segmented-input__segment--active {
   color: var(--color-primary-800);
 }
 
-.bc-segmented-control__segment--inactive {
+.bc-segmented-input__segment--inactive {
   color: var(--color-base-600);
 }
 
 /* Disabled state */
-.bc-segmented-control--disabled {
+.bc-segmented-input--disabled {
   background-color: var(--color-base-300);
   border: 1px solid var(--color-base-300);
   cursor: not-allowed;
 }
 
-.bc-segmented-control--disabled .bc-segmented-control__segment {
+.bc-segmented-input--disabled .bc-segmented-input__segment {
   color: var(--text-muted-light);
   cursor: not-allowed;
 }
 
-.bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+.bc-segmented-input--disabled .bc-segmented-input__segment:hover {
   background-color: var(--color-base-300);
 }
 
-.bc-segmented-control--disabled .bc-segmented-control__segment--active,
-.bc-segmented-control--disabled .bc-segmented-control__segment--active:hover {
+.bc-segmented-input--disabled .bc-segmented-input__segment--active,
+.bc-segmented-input--disabled .bc-segmented-input__segment--active:hover {
   background-color: var(--color-base-200);
   color: var(--text-muted-light);
 }
 
 /* Dark mode styles */
-.b-dark .bc-segmented-control {
+.b-dark .bc-segmented-input {
   background-color: var(--bg-subtle-dark);
   border: 1px solid var(--border-border-dark);
 }
 
-.b-dark .bc-segmented-control__indicator {
+.b-dark .bc-segmented-input__indicator {
   background-color: var(--bg-elevated-dark);
   box-shadow: var(
     --shadow-segmented-control-indicator-dark,
@@ -143,7 +128,7 @@
   );
 }
 
-.b-dark .bc-segmented-control__segment {
+.b-dark .bc-segmented-input__segment {
   color: var(--text-muted-dark);
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
@@ -151,43 +136,43 @@
   border-radius: var(--radius-full);
 }
 
-.b-dark .bc-segmented-control__segment:hover {
+.b-dark .bc-segmented-input__segment:hover {
   color: var(--text-normal-dark);
   background-color: var(--interactive-hover-dark);
 }
 
-.b-dark .bc-segmented-control__segment--active,
-.b-dark .bc-segmented-control__segment--active:hover {
+.b-dark .bc-segmented-input__segment--active,
+.b-dark .bc-segmented-input__segment--active:hover {
   color: var(--text-normal-dark);
   background: transparent;
 }
 
-.b-dark .bc-segmented-control__segment--inactive {
+.b-dark .bc-segmented-input__segment--inactive {
   color: var(--text-muted-dark);
 }
 
-.b-dark .bc-segmented-control__segment--inactive:hover {
+.b-dark .bc-segmented-input__segment--inactive:hover {
   color: var(--text-normal-dark);
 }
 
 /* Disabled state (dark) */
-.b-dark .bc-segmented-control--disabled {
+.b-dark .bc-segmented-input--disabled {
   background-color: var(--bg-background-dark);
   border: 1px solid var(--border-divider-dark);
   opacity: 0.5;
 }
 
-.b-dark .bc-segmented-control--disabled .bc-segmented-control__indicator {
+.b-dark .bc-segmented-input--disabled .bc-segmented-input__indicator {
   background-color: var(--bg-subtle-dark);
   box-shadow: var(--shadow-none, none);
 }
 
-.b-dark .bc-segmented-control--disabled .bc-segmented-control__segment {
+.b-dark .bc-segmented-input--disabled .bc-segmented-input__segment {
   color: var(--text-muted-dark);
   cursor: not-allowed;
 }
 
-.b-dark .bc-segmented-control--disabled .bc-segmented-control__segment:hover {
+.b-dark .bc-segmented-input--disabled .bc-segmented-input__segment:hover {
   color: var(--text-muted-dark);
   background-color: transparent;
 }
