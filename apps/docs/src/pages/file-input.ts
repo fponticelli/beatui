@@ -104,6 +104,30 @@ export default function FileInputPage() {
         )
       ),
 
+      // Compact Mode
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-4'),
+          html.h2(attr.class('text-xl font-semibold'), 'Compact Mode'),
+          html.p(
+            attr.class('text-gray-600-600'),
+            'Compact mode renders the file list inside the drop area and reduces space when no files are selected.'
+          ),
+
+          FilesInput({
+            value: imageFiles,
+            accept: 'image/*',
+            maxFileSize: 2 * 1024 * 1024, // 2MB
+            maxFiles: 5,
+            mode: 'compact',
+            onChange: files => {
+              imageFiles.set(files)
+            },
+          })
+        )
+      ),
+
       // Form Integration
       Card(
         {},
@@ -123,14 +147,14 @@ export default function FileInputPage() {
               label: 'Name',
             }),
             Control(FileInput, {
-              mode: 'compact',
+              mode: 'input',
               controller: controller.field('avatar'),
               accept: 'image/*',
               maxFileSize: 1024 * 1024, // 1MB
               label: 'Avatars',
             }),
             Control(FilesInput, {
-              mode: 'compact',
+              mode: 'input',
               controller: controller.field('files'),
               accept: 'image/*',
               maxFileSize: 1024 * 1024, // 1MB

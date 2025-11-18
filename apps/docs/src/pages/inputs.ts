@@ -398,6 +398,16 @@ export default function InputsPage() {
               })
           ),
           InputWrapper({
+            label: 'File Input (input)',
+            content: FileInput({
+              value: file,
+              onChange: file.set,
+              mode: 'input',
+              disabled,
+            }),
+            description: description(file),
+          }),
+          InputWrapper({
             label: 'File Input (compact)',
             content: FileInput({
               value: file,
@@ -411,6 +421,16 @@ export default function InputsPage() {
             label: 'File Input',
             content: FileInput({ value: file, onChange: file.set, disabled }),
             description: description(file),
+          }),
+          InputWrapper({
+            label: 'Files Input (input)',
+            content: FilesInput({
+              value: files,
+              onChange: files.set,
+              mode: 'input',
+              disabled,
+            }),
+            description: description(files),
           }),
           InputWrapper({
             label: 'Files Input (compact)',

@@ -24,7 +24,7 @@ import { formatFileSize } from '../../../utils'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { CloseButton } from '../../button'
 
-export type FileInputMode = 'default' | 'compact'
+export type FileInputMode = 'default' | 'input' | 'compact'
 
 export type FilesInputOptions = Merge<
   InputOptions<File[]>,
@@ -124,7 +124,8 @@ export const FilesInput = (
   } = options
 
   const files = value as Signal<File[]>
-  const isCompact = Value.map(mode, m => m === 'compact')
+  const isInputMode = Value.map(mode, m => m === 'input')
+  const isCompactMode = Value.map(mode, m => m === 'compact')
 
   const handleFilesChange = (newFiles: File[]) => {
     let filteredFiles = newFiles
@@ -193,6 +194,79 @@ export const FilesInput = (
   }) => {
     return Use(BeatUII18n, t =>
       html.div(
+        attr.class('bc-file-input__compact-drop-zone'),
+        When(
+          files.map(f => f.length > 0),
+          () =>
+            html.div(
+              attr.class('bc-file-input__compact-file-list'),
+              ForEach(files, (file, position) => {
+                const index = position.index
+                return html.div(
+                  attr.class('bc-file-input__compact-file-item'),
+                  html.div(
+                    attr.class('bc-file-input__compact-file-icon'),
+                    createFilePreview(file)
+                  ),
+                  html.div(
+                    attr.class('bc-file-input__compact-file-info'),
+                    html.div(
+                      attr.class('bc-file-input__compact-file-name'),
+                      attr.title(file.$.name),
+                      file.$.name
+                    ),
+                    html.div(
+                      attr.class('bc-file-input__compact-file-meta'),
+                      computedOf(
+                        file.$.size,
+                        t.$.fileSizeUnits
+                      )((size, units) => formatFileSize(size, { units })),
+                      ' • ',
+                      computedOf(
+                        file.$.type,
+                        t.$.unknownType
+                      )((type, unknownType) => type || unknownType)
+                    )
+                  ),
+                  CloseButton(
+                    {
+                      size: 'sm',
+                      label: t.$.removeFile,
+                      disabled,
+                      onClick: () => removeFile(index),
+                    },
+                    attr.class('bc-file-input__compact-remove-button')
+                  )
+                )
+              })
+            ),
+          () =>
+            html.div(
+              attr.class('bc-file-input__compact-placeholder'),
+              Icon({ icon: 'mdi:cloud-upload-outline', size: 'lg' }),
+              html.div(
+                attr.class('bc-file-input__compact-placeholder-text'),
+                bind(t.$.filesInputInstructions)(
+                  maxFiles as Signal<number | undefined>,
+                  maxFileSize as Signal<number | undefined>,
+                  t.$.fileSizeUnits.value
+                )
+              )
+            )
+        )
+      )
+    )
+  }
+
+  const inputDropZoneContent = ({
+    files,
+  }: {
+    files: Signal<File[]>
+    clear: () => void
+    change: (files: File[]) => void
+  }) => {
+    return Use(BeatUII18n, t =>
+      html.div(
         attr.class('bc-file-input__compact-input'),
         When(
           files.map(f => f.length > 0),
@@ -229,10 +303,10 @@ export const FilesInput = (
   return Use(BeatUII18n, t =>
     InputContainer(
       {
-        baseContainer: Value.map(isCompact, c => !c),
+        baseContainer: Value.map(isInputMode, c => !c),
         disabled,
         hasError,
-        after: When(isCompact, () =>
+        after: When(isInputMode, () =>
           When(
             files.map(({ length }) => length > 0),
             () =>
@@ -249,10 +323,10 @@ export const FilesInput = (
         ),
         ...rest,
         input: When(
-          isCompact,
+          isInputMode,
           () =>
             html.div(
-              attr.class('bc-file-input bc-file-input--compact'),
+              attr.class('bc-file-input bc-file-input--input'),
               UnstyledDropZone({
                 value: files,
                 accept,
@@ -260,91 +334,108 @@ export const FilesInput = (
                 allowMultiple: Value.map(maxFiles ?? Infinity, m => m > 1),
                 disabled,
                 onChange: handleFilesChange,
-                content: compactDropZoneContent,
+                content: inputDropZoneContent,
               })
             ),
           () =>
-            html.div(
-              attr.class('bc-file-input'),
-              UnstyledDropZone({
-                value: files,
-                accept,
-                enableClick: true,
-                allowMultiple: Value.map(maxFiles ?? Infinity, m => m > 1),
-                disabled,
-                onChange: handleFilesChange,
-                content: dropZoneContent,
-              }),
-              When(showFileList, () =>
-                NotEmpty(files, () =>
-                  Fragment(
-                    html.div(
-                      attr.class('bc-file-input__file-list'),
-                      ForEach(files, (file, position) => {
-                        const index = position.index
-                        return html.div(
-                          attr.class('bc-file-input__file-item'),
-                          html.div(
-                            attr.class('bc-file-input__file-icon'),
-                            createFilePreview(file)
-                          ),
-                          html.div(
-                            attr.class('bc-file-input__file-info'),
-                            html.div(
-                              attr.class('bc-file-input__file-name'),
-                              attr.title(file.$.name),
-                              file.$.name
-                            ),
-                            html.div(
-                              attr.class('bc-file-input__file-meta'),
-                              computedOf(
-                                file.$.size,
-                                t.$.fileSizeUnits
-                              )((size, units) =>
-                                formatFileSize(size, { units })
-                              ),
-                              ' • ',
-                              computedOf(
-                                file.$.type,
-                                t.$.unknownType
-                              )((type, unknownType) => type || unknownType)
-                            )
-                          ),
-                          CloseButton(
-                            {
-                              size: 'sm',
-                              label: t.$.removeFile,
-                              disabled,
-                              onClick: () => removeFile(index),
-                            },
-                            attr.class('bc-file-input__remove-button')
-                          )
-                        )
-                      })
-                    ),
-                    When(
-                      files.map(({ length }) => length > 1),
-                      () =>
+            When(
+              isCompactMode,
+              () =>
+                html.div(
+                  attr.class('bc-file-input bc-file-input--compact'),
+                  UnstyledDropZone({
+                    value: files,
+                    accept,
+                    enableClick: true,
+                    allowMultiple: Value.map(maxFiles ?? Infinity, m => m > 1),
+                    disabled,
+                    onChange: handleFilesChange,
+                    content: compactDropZoneContent,
+                  })
+                ),
+              () =>
+                html.div(
+                  attr.class('bc-file-input'),
+                  UnstyledDropZone({
+                    value: files,
+                    accept,
+                    enableClick: true,
+                    allowMultiple: Value.map(maxFiles ?? Infinity, m => m > 1),
+                    disabled,
+                    onChange: handleFilesChange,
+                    content: dropZoneContent,
+                  }),
+                  When(showFileList, () =>
+                    NotEmpty(files, () =>
+                      Fragment(
                         html.div(
-                          attr.class(
-                            'bc-file-input__clear-all-button-container'
-                          ),
-                          html.button(
-                            attr.type('button'),
-                            attr.class('bc-file-input__clear-all-button'),
-                            attr.disabled(disabled),
-                            t.$.clearAllFiles,
-                            on.click((e: Event) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              clearAllFiles()
-                            })
-                          )
+                          attr.class('bc-file-input__file-list'),
+                          ForEach(files, (file, position) => {
+                            const index = position.index
+                            return html.div(
+                              attr.class('bc-file-input__file-item'),
+                              html.div(
+                                attr.class('bc-file-input__file-icon'),
+                                createFilePreview(file)
+                              ),
+                              html.div(
+                                attr.class('bc-file-input__file-info'),
+                                html.div(
+                                  attr.class('bc-file-input__file-name'),
+                                  attr.title(file.$.name),
+                                  file.$.name
+                                ),
+                                html.div(
+                                  attr.class('bc-file-input__file-meta'),
+                                  computedOf(
+                                    file.$.size,
+                                    t.$.fileSizeUnits
+                                  )((size, units) =>
+                                    formatFileSize(size, { units })
+                                  ),
+                                  ' • ',
+                                  computedOf(
+                                    file.$.type,
+                                    t.$.unknownType
+                                  )((type, unknownType) => type || unknownType)
+                                )
+                              ),
+                              CloseButton(
+                                {
+                                  size: 'sm',
+                                  label: t.$.removeFile,
+                                  disabled,
+                                  onClick: () => removeFile(index),
+                                },
+                                attr.class('bc-file-input__remove-button')
+                              )
+                            )
+                          })
+                        ),
+                        When(
+                          files.map(({ length }) => length > 1),
+                          () =>
+                            html.div(
+                              attr.class(
+                                'bc-file-input__clear-all-button-container'
+                              ),
+                              html.button(
+                                attr.type('button'),
+                                attr.class('bc-file-input__clear-all-button'),
+                                attr.disabled(disabled),
+                                t.$.clearAllFiles,
+                                on.click((e: Event) => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  clearAllFiles()
+                                })
+                              )
+                            )
                         )
+                      )
                     )
                   )
                 )
-              )
             )
         ),
       },

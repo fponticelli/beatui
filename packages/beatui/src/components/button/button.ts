@@ -258,7 +258,16 @@ export function Button(
               t.$.loadingExtended
             )
           ),
-        () => Fragment(on.click(onClick), ...children)
+        () =>
+          Fragment(
+            on.click(e => {
+              e.preventDefault()
+              e.stopImmediatePropagation()
+              e.stopPropagation()
+              onClick()
+            }),
+            ...children
+          )
       ),
       When(loading != null, () =>
         ElementRect(rect => {

@@ -86,7 +86,7 @@ export function StringControl({
         return Control(NullableBase64Input, {
           ...options,
           controller: transformNullToUndefined(controller),
-          mode: 'compact',
+          mode: 'input',
           accept: format.mediaType || '*/*',
           maxFileSize:
             (typeof xui?.maxBytes === 'number' ? xui.maxBytes : undefined) ||

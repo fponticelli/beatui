@@ -371,7 +371,7 @@ export function registerEnhancedWidgets(
       const accept = options?.accept as string | undefined
       const maxFiles = options?.maxFiles as number | undefined
       const maxFileSize = options?.maxFileSize as number | undefined
-      const mode = options?.mode as 'default' | 'compact' | undefined
+      const mode = options?.mode as 'default' | 'input' | 'compact' | undefined
 
       return Async(import('../../form/input/files-input'), {
         then: ({ FilesInput }) =>
