@@ -76,7 +76,7 @@ describe('Flyout Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Closable test',
             Flyout({
               content: () =>

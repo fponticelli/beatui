@@ -31,7 +31,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -70,7 +70,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -103,7 +103,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -137,7 +137,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -169,7 +169,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -205,7 +205,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -243,7 +243,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [MenuItem({ content: 'Edit', key: 'edit' })],
@@ -279,7 +279,7 @@ describe('Menu Component', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [MenuItem({ content: 'Edit' })],

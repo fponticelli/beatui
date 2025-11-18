@@ -37,6 +37,12 @@ export interface ButtonOptions {
   roundedness?: Value<RadiusName>
   onClick?: () => void
   fullWidth?: Value<boolean>
+  /**
+   * Whether to stop event propagation on click.
+   * When true (default), prevents the click event from bubbling up.
+   * Set to false if you need parent elements to receive click events (e.g., for Flyout triggers).
+   */
+  stopPropagation?: boolean
 }
 
 export function generateButtonClasses(
@@ -214,6 +220,7 @@ export function Button(
     roundedness = 'sm',
     onClick = () => {},
     fullWidth = false,
+    stopPropagation = true,
   }: ButtonOptions,
   ...children: TNode[]
 ) {
@@ -261,9 +268,15 @@ export function Button(
         () =>
           Fragment(
             on.click(e => {
-              e.preventDefault()
-              e.stopImmediatePropagation()
-              e.stopPropagation()
+              // Only prevent default for non-submit buttons
+              // Submit buttons need default behavior to trigger form submission
+              if (type !== 'submit') {
+                e.preventDefault()
+              }
+              if (stopPropagation) {
+                e.stopImmediatePropagation()
+                e.stopPropagation()
+              }
               onClick()
             }),
             ...children

@@ -27,7 +27,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -57,7 +57,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -99,7 +99,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -130,7 +130,7 @@ describe('Menu Accessibility', () => {
             attr.id('menu-label'),
             'Actions',
             Button(
-              { onClick: () => {} },
+              { onClick: () => {}, stopPropagation: false },
               'Menu',
               Menu({
                 items: () => [MenuItem({ content: 'Edit' })],
@@ -157,7 +157,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -187,7 +187,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -222,7 +222,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -251,7 +251,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [
@@ -285,7 +285,7 @@ describe('Menu Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Menu',
             Menu({
               items: () => [

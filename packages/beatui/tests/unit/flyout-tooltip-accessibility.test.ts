@@ -22,7 +22,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
@@ -45,7 +45,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
@@ -77,7 +77,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
@@ -108,7 +108,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
@@ -147,7 +147,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
@@ -186,7 +186,7 @@ describe('Flyout and Tooltip Accessibility', () => {
       render(
         WithProviders(() =>
           Button(
-            { onClick: () => {} },
+            { onClick: () => {}, stopPropagation: false },
             'Trigger Button',
             Flyout({
               content: () =>
