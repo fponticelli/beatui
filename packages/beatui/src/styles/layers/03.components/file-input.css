@@ -441,10 +441,9 @@
   padding: calc(var(--spacing-base) * 1.5);
   border-radius: var(--radius-sm);
   background-color: var(--color-gray-50);
-  transition:
-    background-color
-      var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-      var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: background-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .bc-file-input__compact-file-item:hover {
