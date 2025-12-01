@@ -1,6 +1,11 @@
-import type Ajv from 'ajv'
-import type { ErrorObject, KeywordDefinition, ValidateFunction } from 'ajv'
-import type { SchemaObject } from 'ajv'
+import Ajv, {
+  ErrorObject,
+  KeywordDefinition,
+  SchemaObject,
+  ValidateFunction,
+} from 'ajv'
+import Ajv2019 from 'ajv/dist/2019'
+import Ajv2020 from 'ajv/dist/2020'
 import { Validation } from '@tempots/std'
 import type {
   ControllerError,
@@ -189,19 +194,15 @@ async function createAjv(
   removeAdditional: 'all' | 'failing' | boolean,
   registerMeta: boolean
 ) {
-  const createAjv = (
-    await (() => {
-      switch (base) {
-        case '2020-12':
-          return import('ajv/dist/2020')
-        case '2019-09':
-          return import('ajv/dist/2019')
-        case 'draft-07':
-          return import('ajv')
-      }
-    })()
-  ).default
-  const ajv = new createAjv({
+  const factories = {
+    '2020-12': Ajv2020,
+    '2019-09': Ajv2019,
+    'draft-07': Ajv,
+  } as const
+
+  const AjvCtor = factories[base]
+
+  const ajv = new AjvCtor({
     meta: registerMeta,
     strictSchema: false, // Allow more flexible schema validation for tuple arrays
     allErrors: true,

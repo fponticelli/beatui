@@ -14,6 +14,7 @@ const beatuiPlugin = beatuiTailwindPlugin({
   semanticFonts: {
     heading: '"Alan Sans"',
   },
+  tailwindConfigPath: './tailwind.config.ts',
   darkClass: 'dark',
   rtlAttribute: 'dir',
   semanticColors: {

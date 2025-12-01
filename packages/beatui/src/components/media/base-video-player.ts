@@ -238,7 +238,7 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
       }
       if (typeof window === 'undefined') return
       try {
-        const mod = (await import('hls.js')) as unknown
+        const mod = (await import('hls.js/dist/hls.light.min.js')) as unknown
         const m = mod as { default?: unknown; Hls?: unknown } & Record<
           string,
           unknown

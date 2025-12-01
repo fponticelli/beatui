@@ -12,6 +12,12 @@ import { Toolbar } from '../navigation/toolbar/toolbar'
 import { BeatUII18n } from '../../beatui-i18n'
 import type { EditorView } from 'prosemirror-view'
 import type { MarkdownFeatures } from './prosemirror-markdown-input'
+import {
+  lift as pmLift,
+  setBlockType as pmSetBlockType,
+  toggleMark as pmToggleMark,
+  wrapIn as pmWrapIn,
+} from 'prosemirror-commands'
 import { LinkControl } from './link-control'
 import { ControlSize } from '../theme'
 import { makeActiveMarkSignal, makeActiveNodeSignal } from './utils'
@@ -182,11 +188,10 @@ export function ProseMirrorToolbar({
 /**
  * Toggle a mark (bold, italic, code)
  */
-async function toggleMark(view: EditorView, markType: string) {
-  const { toggleMark } = await import('prosemirror-commands')
+function toggleMark(view: EditorView, markType: string) {
   const mark = view.state.schema.marks[markType]
   if (mark != null) {
-    toggleMark(mark)(view.state, view.dispatch)
+    pmToggleMark(mark)(view.state, view.dispatch)
     view.focus()
   }
 }
@@ -194,11 +199,10 @@ async function toggleMark(view: EditorView, markType: string) {
 /**
  * Set heading level
  */
-async function setHeading(view: EditorView, level: number) {
-  const { setBlockType } = await import('prosemirror-commands')
+function setHeading(view: EditorView, level: number) {
   const headingType = view.state.schema.nodes.heading
   if (headingType != null) {
-    setBlockType(headingType, { level })(view.state, view.dispatch)
+    pmSetBlockType(headingType, { level })(view.state, view.dispatch)
     view.focus()
   }
 }
@@ -253,8 +257,7 @@ async function toggleList(view: EditorView, listType: string) {
  * If already in a blockquote, remove it
  * Otherwise, wrap in a blockquote
  */
-async function toggleBlockquote(view: EditorView) {
-  const { wrapIn, lift } = await import('prosemirror-commands')
+function toggleBlockquote(view: EditorView) {
   const blockquoteType = view.state.schema.nodes.blockquote
   if (blockquoteType == null) return
 
@@ -272,10 +275,10 @@ async function toggleBlockquote(view: EditorView) {
 
   if (inBlockquote) {
     // Remove the blockquote by lifting
-    lift(state, view.dispatch)
+    pmLift(state, view.dispatch)
   } else {
     // Wrap in blockquote
-    wrapIn(blockquoteType)(state, view.dispatch)
+    pmWrapIn(blockquoteType)(state, view.dispatch)
   }
 
   view.focus()
@@ -286,8 +289,7 @@ async function toggleBlockquote(view: EditorView) {
  * If already in a code block, convert to paragraph
  * Otherwise, convert to code block
  */
-async function toggleCodeBlock(view: EditorView) {
-  const { setBlockType } = await import('prosemirror-commands')
+function toggleCodeBlock(view: EditorView) {
   const codeBlockType = view.state.schema.nodes.code_block
   const paragraphType = view.state.schema.nodes.paragraph
   if (codeBlockType == null || paragraphType == null) return
@@ -306,10 +308,10 @@ async function toggleCodeBlock(view: EditorView) {
 
   if (inCodeBlock) {
     // Convert to paragraph
-    setBlockType(paragraphType)(state, view.dispatch)
+    pmSetBlockType(paragraphType)(state, view.dispatch)
   } else {
     // Convert to code block
-    setBlockType(codeBlockType)(state, view.dispatch)
+    pmSetBlockType(codeBlockType)(state, view.dispatch)
   }
 
   view.focus()

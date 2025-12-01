@@ -8,7 +8,8 @@ import { WithProviders } from '../helpers/test-providers'
 const g = globalThis as any
 
 g.__hlsCreated = 0
-vi.mock('hls.js', () => {
+
+function makeHlsMock() {
   class HlsMock {
     static isSupported() {
       return true
@@ -22,7 +23,10 @@ vi.mock('hls.js', () => {
     on() {}
   }
   return { default: HlsMock }
-})
+}
+
+vi.mock('hls.js', makeHlsMock)
+vi.mock('hls.js/dist/hls.light.min.js', makeHlsMock)
 
 function setupRoot() {
   const root = document.createElement('div')
@@ -34,6 +38,7 @@ function setupRoot() {
 beforeEach(() => {
   HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined)
   HTMLMediaElement.prototype.pause = vi.fn()
+  HTMLMediaElement.prototype.load = vi.fn()
 })
 
 describe('BaseVideoPlayer (HLS provider)', () => {

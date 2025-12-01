@@ -79,6 +79,7 @@ export default defineConfig({
         return undefined
       },
       output: {
+        exports: 'named',
         globals: {
           '@tempots/dom': 'TempoDom',
           '@tempots/ui': 'TempoUI',

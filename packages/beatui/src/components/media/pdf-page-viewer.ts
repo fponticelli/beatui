@@ -10,6 +10,7 @@ import {
   type TNode,
   Empty,
   When,
+  SplitValue,
 } from '@tempots/dom'
 import { Query, ElementRect } from '@tempots/ui'
 import { loadPDFJSCore } from '../../pdfjs/lazy-loader'
@@ -93,7 +94,7 @@ interface AnnotationStorage {
 
 export interface PdfPageViewerOptions {
   /** PDF source: URL string, Uint8Array, or ArrayBuffer */
-  source: Value<string | Uint8Array | ArrayBuffer>
+  source: SplitValue<string | Uint8Array | ArrayBuffer>
 
   /** Page number to display (1-based, default: 1) */
   page?: Value<number>
@@ -179,6 +180,67 @@ interface PdfRenderResult {
   ) => Promise<void>
 }
 
+function equal32(a: Uint8Array, b: Uint8Array) {
+  if (a.byteLength !== b.byteLength) return false
+
+  const len = a.byteLength
+  const dv1 = new DataView(a.buffer, a.byteOffset, len)
+  const dv2 = new DataView(b.buffer, b.byteOffset, len)
+
+  const words = len >>> 2 // divide by 4
+  const remainder = len & 3
+
+  for (let i = 0; i < words; i++) {
+    if (dv1.getUint32(i * 4) !== dv2.getUint32(i * 4)) return false
+  }
+
+  for (let i = len - remainder; i < len; i++) {
+    if (a[i] !== b[i]) return false
+  }
+
+  return true
+}
+
+function arrayBufferEquals(a: ArrayBuffer, b: ArrayBuffer) {
+  if (a.byteLength !== b.byteLength) return false
+
+  const len = a.byteLength
+
+  const wlen = len >>> 2
+  const w1 = new Uint32Array(a, 0, wlen)
+  const w2 = new Uint32Array(b, 0, wlen)
+
+  for (let i = 0; i < wlen; i++) {
+    if (w1[i] !== w2[i]) return false
+  }
+
+  const blen = len & 3
+  const b1 = new Uint8Array(a, wlen * 4, blen)
+  const b2 = new Uint8Array(b, wlen * 4, blen)
+
+  for (let i = 0; i < blen; i++) {
+    if (b1[i] !== b2[i]) return false
+  }
+
+  return true
+}
+
+function compareSources(
+  src1: string | Uint8Array | ArrayBuffer,
+  src2: string | Uint8Array | ArrayBuffer
+): boolean {
+  if (typeof src1 === 'string' && typeof src2 === 'string') {
+    return src1 === src2
+  }
+  if (src1 instanceof Uint8Array && src2 instanceof Uint8Array) {
+    return equal32(src1, src2)
+  }
+  if (src1 instanceof ArrayBuffer && src2 instanceof ArrayBuffer) {
+    return arrayBufferEquals(src1, src2)
+  }
+  return false
+}
+
 /**
  * PdfPageViewer component that displays a single PDF page as a canvas element.
  * Lazy loads pdf.js library only when mounted.
@@ -204,7 +266,7 @@ export function PdfPageViewer(
   ...children: TNode[]
 ) {
   const loadPDFLib = loadPDFJSCore()
-  let lastSource = Value.get(source)
+  let lastSource = Value.get(source as Value<string | Uint8Array | ArrayBuffer>)
   let pdfDoc: PDFDocumentProxy | null = null
   let lastPage = Value.get(page)
 
@@ -247,7 +309,7 @@ export function PdfPageViewer(
             const pdfjsLib = (await loadPDFLib) as PDFJSLib
 
             // Load or reuse PDF document
-            if (pdfDoc == null || lastSource !== request.source) {
+            if (pdfDoc == null || !compareSources(lastSource, request.source)) {
               // Destroy old document if it exists
               if (pdfDoc != null) {
                 pdfDoc.destroy()
