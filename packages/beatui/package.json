@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.60.0",
+  "version": "0.60.1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -144,7 +144,7 @@
     "@tempots/dom": "35.0.0",
     "@tempots/std": "0.24.0",
     "@tempots/ui": "14.0.0",
-    "tailwindcss": "4.1.14"
+    "tailwindcss": "4.1.17"
   },
   "peerDependenciesMeta": {
     "@tempots/dom": {
