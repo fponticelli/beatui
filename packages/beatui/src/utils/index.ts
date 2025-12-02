@@ -1,5 +1,6 @@
 export * from './color'
 export * from './delay-signal'
+export * from './download'
 export * from './focus-trap'
 export * from './format-file-size'
 export * from './session-id'

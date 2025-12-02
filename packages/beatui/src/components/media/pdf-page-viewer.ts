@@ -11,6 +11,8 @@ import {
   Empty,
   When,
   SplitValue,
+  Ensure,
+  delaySignal,
 } from '@tempots/dom'
 import { Query, ElementRect } from '@tempots/ui'
 import { loadPDFJSCore } from '../../pdfjs/lazy-loader'
@@ -230,16 +232,30 @@ function compareSources(
   src1: string | Uint8Array | ArrayBuffer,
   src2: string | Uint8Array | ArrayBuffer
 ): boolean {
-  if (typeof src1 === 'string' && typeof src2 === 'string') {
-    return src1 === src2
+  try {
+    if (typeof src1 === 'string' && typeof src2 === 'string') {
+      return src1 === src2
+    }
+    if (src1 instanceof Uint8Array && src2 instanceof Uint8Array) {
+      return equal32(src1, src2)
+    }
+    if (src1 instanceof ArrayBuffer && src2 instanceof ArrayBuffer) {
+      return arrayBufferEquals(src1, src2)
+    }
+    return false
+  } catch {
+    // Comparing a detached buffer will throw; treat as different
+    return false
   }
-  if (src1 instanceof Uint8Array && src2 instanceof Uint8Array) {
-    return equal32(src1, src2)
-  }
-  if (src1 instanceof ArrayBuffer && src2 instanceof ArrayBuffer) {
-    return arrayBufferEquals(src1, src2)
-  }
-  return false
+}
+
+function cloneSource(
+  src: string | Uint8Array | ArrayBuffer
+): string | Uint8Array | ArrayBuffer {
+  if (typeof src === 'string') return src
+  if (src instanceof Uint8Array) return src.slice()
+  if (src instanceof ArrayBuffer) return src.slice(0)
+  return src
 }
 
 /**
@@ -267,7 +283,9 @@ export function PdfPageViewer(
   ...children: TNode[]
 ) {
   const loadPDFLib = loadPDFJSCore()
-  let lastSource = Value.get(source as Value<string | Uint8Array | ArrayBuffer>)
+  let lastSource = cloneSource(
+    Value.get(source as Value<string | Uint8Array | ArrayBuffer>)
+  )
   let pdfDoc: PDFDocumentProxy | null = null
   let lastPage = Value.get(page)
 
@@ -281,341 +299,368 @@ export function PdfPageViewer(
         }
       }),
 
-      ElementRect(rect => {
-        return Query<PdfRenderRequest, PdfRenderResult, string>({
-          request: computedOf(
-            source,
-            page,
-            fit,
-            scale,
-            rotation,
-            quality,
-            renderTextLayer,
-            renderAnnotationLayer,
-            rect
-          )((src, pg, fitMode, sc, rot, qual, textLayer, annotLayer, r) => ({
-            source: src,
-            page: pg,
-            fit: fitMode,
-            scale: sc,
-            rotation: rot,
-            quality: qual,
-            renderTextLayer: textLayer,
-            renderAnnotationLayer: annotLayer,
-            containerWidth: r.width,
-            containerHeight: r.height,
-          })),
-          load: async ({ request }) => {
-            // Load PDF.js library
-            const pdfjsLib = (await loadPDFLib) as PDFJSLib
+      ElementRect(sourceRect => {
+        const rect = delaySignal(
+          sourceRect.map(
+            v => (v == null ? null : { width: v.width, height: v.height }),
+            (a, b) => {
+              return (
+                a != null &&
+                b != null &&
+                a.width === b.width &&
+                a.height === b.height
+              )
+            }
+          ),
+          100
+        )
+        return Ensure(rect, rect =>
+          Query<PdfRenderRequest, PdfRenderResult, string>({
+            request: computedOf(
+              source,
+              page,
+              fit,
+              scale,
+              rotation,
+              quality,
+              renderTextLayer,
+              renderAnnotationLayer,
+              rect
+            )((src, pg, fitMode, sc, rot, qual, textLayer, annotLayer, r) => ({
+              source: src,
+              page: pg,
+              fit: fitMode,
+              scale: sc,
+              rotation: rot,
+              quality: qual,
+              renderTextLayer: textLayer,
+              renderAnnotationLayer: annotLayer,
+              containerWidth: r.width,
+              containerHeight: r.height,
+            })),
+            load: async ({ request }) => {
+              // Load PDF.js library
+              const pdfjsLib = (await loadPDFLib) as PDFJSLib
+              const requestSource = request.source
+              const comparableSource = cloneSource(requestSource)
+              const loadableSource = cloneSource(requestSource)
 
-            // Load or reuse PDF document
-            if (pdfDoc == null || !compareSources(lastSource, request.source)) {
-              // Destroy old document if it exists
-              if (pdfDoc != null) {
-                pdfDoc.destroy()
-                pdfDoc = null
+              // Load or reuse PDF document
+              if (
+                pdfDoc == null ||
+                !compareSources(lastSource, comparableSource)
+              ) {
+                // Destroy old document if it exists
+                if (pdfDoc != null) {
+                  pdfDoc.destroy()
+                  pdfDoc = null
+                }
+
+                lastSource = comparableSource
+
+                // Load new PDF document
+                const loadingTask = pdfjsLib.getDocument(loadableSource)
+                pdfDoc = await loadingTask.promise
+
+                // Call onLoadComplete callback
+                if (onLoadComplete != null) {
+                  onLoadComplete({ numPages: pdfDoc.numPages })
+                }
               }
 
-              lastSource = request.source
+              // Validate page number
+              const pageNum =
+                request.page < 1 || request.page > pdfDoc.numPages
+                  ? 1
+                  : request.page
 
-              // Load new PDF document
-              const loadingTask = pdfjsLib.getDocument(request.source)
-              pdfDoc = await loadingTask.promise
-
-              // Call onLoadComplete callback
-              if (onLoadComplete != null) {
-                onLoadComplete({ numPages: pdfDoc.numPages })
+              // Call onPageChange callback if page changed
+              if (onPageChange != null && pageNum !== lastPage) {
+                lastPage = pageNum
+                onPageChange(pageNum)
               }
-            }
 
-            // Validate page number
-            const pageNum =
-              request.page < 1 || request.page > pdfDoc.numPages
-                ? 1
-                : request.page
+              // Get the page
+              const pdfPage = await pdfDoc.getPage(pageNum)
 
-            // Call onPageChange callback if page changed
-            if (onPageChange != null && pageNum !== lastPage) {
-              lastPage = pageNum
-              onPageChange(pageNum)
-            }
+              // Calculate scale based on fit mode
+              let actualScale: number
+              if (request.fit === 'none') {
+                // Use explicit scale value
+                actualScale = request.scale
+              } else {
+                // Get PDF page dimensions at scale 1 with rotation
+                const baseViewport = pdfPage.getViewport({
+                  scale: 1,
+                  rotation: request.rotation,
+                })
+                const pdfAspect = baseViewport.width / baseViewport.height
+                const containerAspect =
+                  request.containerWidth / request.containerHeight
 
-            // Get the page
-            const pdfPage = await pdfDoc.getPage(pageNum)
+                switch (request.fit) {
+                  case 'width':
+                    // Fit to container width while maintaining aspect ratio
+                    actualScale = request.containerWidth / baseViewport.width
+                    break
+                  case 'height':
+                    // Fit to container height while maintaining aspect ratio
+                    actualScale = request.containerHeight / baseViewport.height
+                    break
+                  case 'contain':
+                    // Fit entire page in container (use smaller scale)
+                    actualScale = Math.min(
+                      request.containerWidth / baseViewport.width,
+                      request.containerHeight / baseViewport.height
+                    )
+                    break
+                  case 'cover':
+                    // Fill container (may crop)
+                    if (pdfAspect > containerAspect) {
+                      // PDF is wider - scale to height
+                      actualScale =
+                        request.containerHeight / baseViewport.height
+                    } else {
+                      // PDF is taller - scale to width
+                      actualScale = request.containerWidth / baseViewport.width
+                    }
+                    break
+                }
+              }
 
-            // Calculate scale based on fit mode
-            let actualScale: number
-            if (request.fit === 'none') {
-              // Use explicit scale value
-              actualScale = request.scale
-            } else {
-              // Get PDF page dimensions at scale 1 with rotation
+              // Calculate base viewport (without quality multiplier)
               const baseViewport = pdfPage.getViewport({
-                scale: 1,
+                scale: actualScale,
                 rotation: request.rotation,
               })
-              const pdfAspect = baseViewport.width / baseViewport.height
-              const containerAspect =
-                request.containerWidth / request.containerHeight
 
-              switch (request.fit) {
-                case 'width':
-                  // Fit to container width while maintaining aspect ratio
-                  actualScale = request.containerWidth / baseViewport.width
-                  break
-                case 'height':
-                  // Fit to container height while maintaining aspect ratio
-                  actualScale = request.containerHeight / baseViewport.height
-                  break
-                case 'contain':
-                  // Fit entire page in container (use smaller scale)
-                  actualScale = Math.min(
-                    request.containerWidth / baseViewport.width,
-                    request.containerHeight / baseViewport.height
-                  )
-                  break
-                case 'cover':
-                  // Fill container (may crop)
-                  if (pdfAspect > containerAspect) {
-                    // PDF is wider - scale to height
-                    actualScale = request.containerHeight / baseViewport.height
-                  } else {
-                    // PDF is taller - scale to width
-                    actualScale = request.containerWidth / baseViewport.width
-                  }
-                  break
-              }
-            }
+              // Calculate high-res viewport (with quality multiplier for sharp rendering)
+              const highResViewport = pdfPage.getViewport({
+                scale: actualScale * request.quality,
+                rotation: request.rotation,
+              })
 
-            // Calculate base viewport (without quality multiplier)
-            const baseViewport = pdfPage.getViewport({
-              scale: actualScale,
-              rotation: request.rotation,
-            })
+              let activeRenderTask: RenderTask | null = null
 
-            // Calculate high-res viewport (with quality multiplier for sharp rendering)
-            const highResViewport = pdfPage.getViewport({
-              scale: actualScale * request.quality,
-              rotation: request.rotation,
-            })
-
-            let activeRenderTask: RenderTask | null = null
-
-            return {
-              pdfWidth: baseViewport.width,
-              pdfHeight: baseViewport.height,
-              canvasWidth: Math.floor(baseViewport.width),
-              canvasHeight: Math.floor(baseViewport.height),
-              highResWidth: Math.floor(highResViewport.width),
-              highResHeight: Math.floor(highResViewport.height),
-              render: async (
-                canvas: HTMLCanvasElement,
-                textLayerDiv?: HTMLElement,
-                annotationLayerDiv?: HTMLElement
-              ) => {
-                // Cancel any in-flight render on this page/canvas before starting a new one
-                if (activeRenderTask) {
-                  try {
-                    activeRenderTask.cancel()
-                    await activeRenderTask.promise.catch(() => {})
-                  } catch {
-                    // ignore cancellation errors
-                  }
-                }
-
-                // Set canvas internal resolution to high-res for sharp rendering
-                canvas.width = highResViewport.width
-                canvas.height = highResViewport.height
-
-                // Set canvas display size to base size via CSS
-                canvas.style.width = `${baseViewport.width}px`
-                canvas.style.height = `${baseViewport.height}px`
-
-                const context = canvas.getContext('2d')
-                if (!context) {
-                  throw new Error('Failed to get canvas context')
-                }
-
-                // Render the page at high resolution
-                const renderTask = pdfPage.render({
-                  canvasContext: context,
-                  canvas,
-                  viewport: highResViewport,
-                })
-                activeRenderTask = renderTask
-
-                try {
-                  await renderTask.promise
-                } catch (err) {
-                  // Ignore cancellations; rethrow genuine errors
-                  const name =
-                    err instanceof Error
-                      ? err.name
-                      : (err as { name?: string } | undefined)?.name
-                  if (name !== 'RenderingCancelledException') {
-                    throw err
-                  }
-                  return
-                } finally {
-                  if (activeRenderTask === renderTask) {
-                    activeRenderTask = null
-                  }
-                }
-
-                // Render text layer if enabled and container provided
-                // Text layer uses base viewport for correct positioning
-                if (request.renderTextLayer && textLayerDiv != null) {
-                  // Clear previous text layer content
-                  textLayerDiv.innerHTML = ''
-
-                  try {
-                    const textContent = await pdfPage.getTextContent()
-                    const TextLayer = pdfjsLib.TextLayer
-                    if (TextLayer != null) {
-                      const textLayer = new TextLayer({
-                        textContentSource: textContent,
-                        container: textLayerDiv,
-                        viewport: baseViewport,
-                      })
-                      await textLayer.render()
+              return {
+                pdfWidth: baseViewport.width,
+                pdfHeight: baseViewport.height,
+                canvasWidth: Math.floor(baseViewport.width),
+                canvasHeight: Math.floor(baseViewport.height),
+                highResWidth: Math.floor(highResViewport.width),
+                highResHeight: Math.floor(highResViewport.height),
+                render: async (
+                  canvas: HTMLCanvasElement,
+                  textLayerDiv?: HTMLElement,
+                  annotationLayerDiv?: HTMLElement
+                ) => {
+                  // Cancel any in-flight render on this page/canvas before starting a new one
+                  if (activeRenderTask) {
+                    try {
+                      activeRenderTask.cancel()
+                      await activeRenderTask.promise.catch(() => {})
+                    } catch {
+                      // ignore cancellation errors
                     }
-                  } catch (err) {
-                    console.warn('Failed to render text layer:', err)
                   }
-                }
 
-                // Render annotation layer if enabled and container provided
-                // Annotation layer uses base viewport for correct positioning
-                if (
-                  request.renderAnnotationLayer &&
-                  annotationLayerDiv != null
-                ) {
-                  // Clear previous annotation layer content
-                  annotationLayerDiv.innerHTML = ''
-                  annotationLayerDiv.style.width = `${baseViewport.width}px`
-                  annotationLayerDiv.style.height = `${baseViewport.height}px`
+                  // Set canvas internal resolution to high-res for sharp rendering
+                  canvas.width = highResViewport.width
+                  canvas.height = highResViewport.height
+
+                  // Set canvas display size to base size via CSS
+                  canvas.style.width = `${baseViewport.width}px`
+                  canvas.style.height = `${baseViewport.height}px`
+
+                  const context = canvas.getContext('2d')
+                  if (!context) {
+                    throw new Error('Failed to get canvas context')
+                  }
+
+                  // Render the page at high resolution
+                  const renderTask = pdfPage.render({
+                    canvasContext: context,
+                    canvas,
+                    viewport: highResViewport,
+                  })
+                  activeRenderTask = renderTask
 
                   try {
-                    const annotations = await pdfPage.getAnnotations()
-                    const AnnotationLayer = pdfjsLib.AnnotationLayer
-                    if (AnnotationLayer != null && annotations.length > 0) {
-                      const linkService: SimpleLinkService = {
-                        // Minimal link service for basic functionality
-                        getDestinationHash: () => '',
-                        getAnchorUrl: (hash: string) => hash,
-                        executeNamedAction: () => {},
-                        executeSetOCGState: () => {},
-                        cachePageRef: () => {},
+                    await renderTask.promise
+                  } catch (err) {
+                    // Ignore cancellations; rethrow genuine errors
+                    const name =
+                      err instanceof Error
+                        ? err.name
+                        : (err as { name?: string } | undefined)?.name
+                    if (name !== 'RenderingCancelledException') {
+                      throw err
+                    }
+                    return
+                  } finally {
+                    if (activeRenderTask === renderTask) {
+                      activeRenderTask = null
+                    }
+                  }
+
+                  // Render text layer if enabled and container provided
+                  // Text layer uses base viewport for correct positioning
+                  if (request.renderTextLayer && textLayerDiv != null) {
+                    // Clear previous text layer content
+                    textLayerDiv.innerHTML = ''
+
+                    try {
+                      const textContent = await pdfPage.getTextContent()
+                      const TextLayer = pdfjsLib.TextLayer
+                      if (TextLayer != null) {
+                        const textLayer = new TextLayer({
+                          textContentSource: textContent,
+                          container: textLayerDiv,
+                          viewport: baseViewport,
+                        })
+                        await textLayer.render()
                       }
-
-                      const annotationLayer = new AnnotationLayer({
-                        div: annotationLayerDiv,
-                        page: pdfPage,
-                        viewport: baseViewport,
-                        linkService,
-                        annotationStorage: null,
-                      })
-                      await annotationLayer.render({
-                        viewport: baseViewport,
-                        div: annotationLayerDiv,
-                        annotations: annotations as AnnotationData[],
-                        page: pdfPage,
-                        linkService,
-                        renderForms: true,
-                      })
+                    } catch (err) {
+                      console.warn('Failed to render text layer:', err)
                     }
-                  } catch (err) {
-                    console.warn('Failed to render annotation layer:', err)
                   }
-                }
-              },
-            }
-          },
-          convertError: err => {
-            if (err instanceof Error) {
-              return err.message
-            }
-            return JSON.stringify(err)
-          },
-          pending: () =>
-            html.div(
-              attr.class('bc-pdf-page-viewer__loading'),
-              Icon({
-                icon: 'line-md:loading-twotone-loop',
-                size: 'lg',
-              }),
-              html.span(
-                attr.class('bc-pdf-page-viewer__loading-text'),
-                t.map(t => t.pdfPageViewer.loading)
-              )
-            ),
-          failure: ({ error }) =>
-            html.div(
-              attr.class('bc-pdf-page-viewer__error'),
-              Icon({
-                icon: 'line-md:alert-circle',
-                size: 'lg',
-                color: 'danger',
-              }),
-              html.span(attr.class('bc-pdf-page-viewer__error-text'), error)
-            ),
-          success: ({ value }) =>
-            html.div(
-              attr.class(
-                Value.map(fit, fitMode =>
-                  fitMode === 'none'
-                    ? 'bc-pdf-page-viewer'
-                    : `bc-pdf-page-viewer bc-pdf-page-viewer--fit-${fitMode}`
+
+                  // Render annotation layer if enabled and container provided
+                  // Annotation layer uses base viewport for correct positioning
+                  if (
+                    request.renderAnnotationLayer &&
+                    annotationLayerDiv != null
+                  ) {
+                    // Clear previous annotation layer content
+                    annotationLayerDiv.innerHTML = ''
+                    annotationLayerDiv.style.width = `${baseViewport.width}px`
+                    annotationLayerDiv.style.height = `${baseViewport.height}px`
+
+                    try {
+                      const annotations = await pdfPage.getAnnotations()
+                      const AnnotationLayer = pdfjsLib.AnnotationLayer
+                      if (AnnotationLayer != null && annotations.length > 0) {
+                        const linkService: SimpleLinkService = {
+                          // Minimal link service for basic functionality
+                          getDestinationHash: () => '',
+                          getAnchorUrl: (hash: string) => hash,
+                          executeNamedAction: () => {},
+                          executeSetOCGState: () => {},
+                          cachePageRef: () => {},
+                        }
+
+                        const annotationLayer = new AnnotationLayer({
+                          div: annotationLayerDiv,
+                          page: pdfPage,
+                          viewport: baseViewport,
+                          linkService,
+                          annotationStorage: null,
+                        })
+                        await annotationLayer.render({
+                          viewport: baseViewport,
+                          div: annotationLayerDiv,
+                          annotations: annotations as AnnotationData[],
+                          page: pdfPage,
+                          linkService,
+                          renderForms: true,
+                        })
+                      }
+                    } catch (err) {
+                      console.warn('Failed to render annotation layer:', err)
+                    }
+                  }
+                },
+              }
+            },
+            convertError: err => {
+              if (err instanceof Error) {
+                return err.message
+              }
+              return JSON.stringify(err)
+            },
+            pending: () =>
+              html.div(
+                attr.class('bc-pdf-page-viewer__loading'),
+                Icon({
+                  icon: 'line-md:loading-twotone-loop',
+                  size: 'lg',
+                }),
+                html.span(
+                  attr.class('bc-pdf-page-viewer__loading-text'),
+                  t.map(t => t.pdfPageViewer.loading)
                 )
               ),
-              // Wrapper for canvas and layers (provides positioning context)
+            failure: ({ error }) =>
               html.div(
-                attr.class('bc-pdf-page-viewer__content'),
-                // Only set fixed dimensions when fit is 'none'
-                When(
-                  Value.map(fit, fitMode => fitMode === 'none'),
-                  () =>
-                    attr.style(
-                      value.$.canvasWidth.map(
-                        w =>
-                          `width: ${w}px; height: ${value.value.canvasHeight}px;`
-                      )
-                    ),
-                  () => Fragment()
-                ),
-                // Canvas layer
-                html.canvas(
-                  attr.class('bc-pdf-page-viewer__canvas'),
-                  attr.width(value.$.canvasWidth.map(String)),
-                  attr.height(value.$.canvasHeight.map(String)),
-                  ...children
-                ),
-                // Text layer (for text selection)
-                html.div(attr.class('bc-pdf-page-viewer__text-layer')),
-                // Annotation layer (for links, forms, etc.)
-                html.div(attr.class('bc-pdf-page-viewer__annotation-layer'))
+                attr.class('bc-pdf-page-viewer__error'),
+                Icon({
+                  icon: 'line-md:alert-circle',
+                  size: 'lg',
+                  color: 'danger',
+                }),
+                html.span(attr.class('bc-pdf-page-viewer__error-text'), error)
               ),
-              WithElement(container => {
-                const canvas = container.querySelector(
-                  '.bc-pdf-page-viewer__canvas'
-                ) as HTMLCanvasElement
-                const textLayerDiv = container.querySelector(
-                  '.bc-pdf-page-viewer__text-layer'
-                ) as HTMLElement
-                const annotationLayerDiv = container.querySelector(
-                  '.bc-pdf-page-viewer__annotation-layer'
-                ) as HTMLElement
+            success: ({ value }) =>
+              html.div(
+                attr.class(
+                  Value.map(fit, fitMode =>
+                    fitMode === 'none'
+                      ? 'bc-pdf-page-viewer'
+                      : `bc-pdf-page-viewer bc-pdf-page-viewer--fit-${fitMode}`
+                  )
+                ),
+                // Wrapper for canvas and layers (provides positioning context)
+                html.div(
+                  attr.class('bc-pdf-page-viewer__content'),
+                  // Only set fixed dimensions when fit is 'none'
+                  When(
+                    Value.map(fit, fitMode => fitMode === 'none'),
+                    () =>
+                      attr.style(
+                        value.$.canvasWidth.map(
+                          w =>
+                            `width: ${w}px; height: ${value.value.canvasHeight}px;`
+                        )
+                      ),
+                    () => Fragment()
+                  ),
+                  // Canvas layer
+                  html.canvas(
+                    attr.class('bc-pdf-page-viewer__canvas'),
+                    attr.width(value.$.canvasWidth.map(String)),
+                    attr.height(value.$.canvasHeight.map(String)),
+                    ...children
+                  ),
+                  // Text layer (for text selection)
+                  html.div(attr.class('bc-pdf-page-viewer__text-layer')),
+                  // Annotation layer (for links, forms, etc.)
+                  html.div(attr.class('bc-pdf-page-viewer__annotation-layer'))
+                ),
+                WithElement(container => {
+                  const canvas = container.querySelector(
+                    '.bc-pdf-page-viewer__canvas'
+                  ) as HTMLCanvasElement
+                  const textLayerDiv = container.querySelector(
+                    '.bc-pdf-page-viewer__text-layer'
+                  ) as HTMLElement
+                  const annotationLayerDiv = container.querySelector(
+                    '.bc-pdf-page-viewer__annotation-layer'
+                  ) as HTMLElement
 
-                // Render to canvas and layers when value changes
-                Value.on(value, async result => {
-                  await result.render(canvas, textLayerDiv, annotationLayerDiv)
+                  // Render to canvas and layers when value changes
+                  Value.on(value, async result => {
+                    await result.render(
+                      canvas,
+                      textLayerDiv,
+                      annotationLayerDiv
+                    )
+                  })
+
+                  return Empty
                 })
-
-                return Empty
-              })
-            ),
-        })
+              ),
+          })
+        )
       })
     )
   })
