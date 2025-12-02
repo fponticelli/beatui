@@ -21,6 +21,7 @@ import type {
   PDFPageProxy,
   TypedArray,
   TextContent,
+  RenderTask,
 } from 'pdfjs-dist/types/src/display/api'
 import type { PageViewport } from 'pdfjs-dist/types/src/display/display_utils'
 
@@ -399,6 +400,8 @@ export function PdfPageViewer(
               rotation: request.rotation,
             })
 
+            let activeRenderTask: RenderTask | null = null
+
             return {
               pdfWidth: baseViewport.width,
               pdfHeight: baseViewport.height,
@@ -411,6 +414,16 @@ export function PdfPageViewer(
                 textLayerDiv?: HTMLElement,
                 annotationLayerDiv?: HTMLElement
               ) => {
+                // Cancel any in-flight render on this page/canvas before starting a new one
+                if (activeRenderTask) {
+                  try {
+                    activeRenderTask.cancel()
+                    await activeRenderTask.promise.catch(() => {})
+                  } catch {
+                    // ignore cancellation errors
+                  }
+                }
+
                 // Set canvas internal resolution to high-res for sharp rendering
                 canvas.width = highResViewport.width
                 canvas.height = highResViewport.height
@@ -426,11 +439,29 @@ export function PdfPageViewer(
 
                 // Render the page at high resolution
                 const renderTask = pdfPage.render({
+                  canvasContext: context,
                   canvas,
                   viewport: highResViewport,
                 })
+                activeRenderTask = renderTask
 
-                await renderTask.promise
+                try {
+                  await renderTask.promise
+                } catch (err) {
+                  // Ignore cancellations; rethrow genuine errors
+                  const name =
+                    err instanceof Error
+                      ? err.name
+                      : (err as { name?: string } | undefined)?.name
+                  if (name !== 'RenderingCancelledException') {
+                    throw err
+                  }
+                  return
+                } finally {
+                  if (activeRenderTask === renderTask) {
+                    activeRenderTask = null
+                  }
+                }
 
                 // Render text layer if enabled and container provided
                 // Text layer uses base viewport for correct positioning
@@ -503,16 +534,9 @@ export function PdfPageViewer(
           },
           convertError: err => {
             if (err instanceof Error) {
-              const message = err.message
-              if (message.includes('Invalid PDF')) {
-                return Value.get(t).pdfPageViewer.invalidPdf
-              }
-              if (message.includes('page')) {
-                return message
-              }
-              return Value.get(t).pdfPageViewer.loadFailed
+              return err.message
             }
-            return Value.get(t).pdfPageViewer.loadFailed
+            return JSON.stringify(err)
           },
           pending: () =>
             html.div(
