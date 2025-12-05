@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.61.2",
+  "version": "0.61.3",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
