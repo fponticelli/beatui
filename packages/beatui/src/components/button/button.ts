@@ -274,7 +274,6 @@ export function Button(
                 e.preventDefault()
               }
               if (stopPropagation) {
-                e.stopImmediatePropagation()
                 e.stopPropagation()
               }
               onClick()
