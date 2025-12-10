@@ -142,6 +142,7 @@ export default function FileInputPage() {
           html.form(
             attr.class('space-y-4'),
             Control(TextInput, {
+              triggerOn: 'input',
               controller: controller.field('name'),
               placeholder: 'Enter your name',
               label: 'Name',

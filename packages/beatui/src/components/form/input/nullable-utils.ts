@@ -6,7 +6,6 @@ import {
   Fragment,
   html,
   on,
-  OnDispose,
   TNode,
   Value,
   When,
@@ -22,7 +21,6 @@ export function NullableResetAfter<V>(
   const label = defaultMessages.clearValue
 
   return Fragment(
-    OnDispose(() => Value.dispose(hasValue)),
     When(hasValue, () =>
       html.button(
         attr.type('button'),
@@ -32,7 +30,6 @@ export function NullableResetAfter<V>(
         attr.disabled(disabled ?? false),
         Icon({ icon: 'mdi:close', size: 'sm' }),
         on.click((e: Event) => {
-          e.preventDefault()
           e.stopPropagation()
           onChange?.(null)
         })

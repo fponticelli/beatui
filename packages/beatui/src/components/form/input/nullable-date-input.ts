@@ -12,9 +12,9 @@ import { CommonInputAttributes, InputOptions } from './input-options'
 import { NullableResetAfter } from './nullable-utils'
 
 export const NullableDateInput = (options: InputOptions<Date | null>) => {
-  const { value, onBlur, onChange, after, disabled } = options
+  const { value, onBlur, onChange, onInput, after, disabled } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return InputContainer({
     ...options,
@@ -23,7 +23,8 @@ export const NullableDateInput = (options: InputOptions<Date | null>) => {
       attr.valueAsDate(value),
       attr.class('bc-input'),
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
-      onChange != null ? on.change(emitValueAsNullableDate(onChange)) : Empty
+      onChange != null ? on.change(emitValueAsNullableDate(onChange)) : Empty,
+      onInput != null ? on.input(emitValueAsNullableDate(onInput)) : Empty
     ),
     after: after != null ? Fragment(resetAfter, after) : resetAfter,
   })

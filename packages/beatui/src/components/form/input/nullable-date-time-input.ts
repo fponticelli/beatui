@@ -24,10 +24,10 @@ const dateToString = (v: Date) => {
 }
 
 export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
-  const { value, onBlur, onChange, after, disabled } = options
+  const { value, onBlur, onChange, onInput, after, disabled } = options
   const date = Value.map(value, v => (v != null ? dateToString(v) : null))
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return InputContainer({
     ...options,
@@ -38,7 +38,8 @@ export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
       onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
       onChange != null
         ? on.change(emitValueAsNullableDateTime(onChange))
-        : Empty
+        : Empty,
+      onInput != null ? on.input(emitValueAsNullableDateTime(onInput)) : Empty
     ),
     after: after != null ? Fragment(resetAfter, after) : resetAfter,
   })

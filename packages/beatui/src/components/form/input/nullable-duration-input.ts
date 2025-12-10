@@ -23,18 +23,45 @@ const tryParseDuration = (
 export const NullableDurationInput = (
   options: InputOptions<Duration | null>
 ) => {
-  const { value, onChange, after, disabled, onBlur } = options
+  const { value, onChange, onInput, after, disabled, onBlur } = options
 
   const makeAfter = () => {
-    const reset = NullableResetAfter(value, disabled, onChange)
+    const reset = NullableResetAfter(value, disabled, onChange ?? onInput)
     return after != null ? Fragment(reset, after) : reset
   }
 
   const placeholderAttr =
     options.placeholder != null ? Empty : attr.placeholder('P0DT0H0M0S')
 
-  const pending = () =>
-    InputContainer({
+  const pending = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const makeHandler = (on: any | null) => (event: Event) => {
+      const target = event.currentTarget as HTMLInputElement | null
+      const next = target?.value ?? ''
+      if (next === '') {
+        on(null)
+        return
+      }
+      const existing = (
+        globalThis as {
+          Temporal?: BeatUITemporal
+        }
+      ).Temporal
+      const parsed = tryParseDuration(existing, next)
+      if (parsed != null) {
+        on(parsed)
+        return
+      }
+      ensureTemporal()
+        .then(temporal => {
+          const resolved = tryParseDuration(temporal, next)
+          if (resolved != null) on(resolved)
+        })
+        .catch(() => {
+          /* swallow parse errors until mask is available */
+        })
+    }
+    return InputContainer({
       ...options,
       input: input.text(
         CommonInputAttributes(options),
@@ -42,37 +69,12 @@ export const NullableDurationInput = (
         attr.class('bc-input'),
         placeholderAttr,
         onBlur != null ? on.blur(() => onBlur()) : Empty,
-        onChange != null
-          ? on.change(event => {
-              const target = event.currentTarget as HTMLInputElement | null
-              const next = target?.value ?? ''
-              if (next === '') {
-                onChange(null)
-                return
-              }
-              const existing = (
-                globalThis as {
-                  Temporal?: BeatUITemporal
-                }
-              ).Temporal
-              const parsed = tryParseDuration(existing, next)
-              if (parsed != null) {
-                onChange(parsed)
-                return
-              }
-              ensureTemporal()
-                .then(temporal => {
-                  const resolved = tryParseDuration(temporal, next)
-                  if (resolved != null) onChange(resolved)
-                })
-                .catch(() => {
-                  /* swallow parse errors until mask is available */
-                })
-            })
-          : Empty
+        onChange != null ? on.change(makeHandler(onChange)) : Empty,
+        onInput != null ? on.input(makeHandler(onInput)) : Empty
       ),
       after: makeAfter(),
     })
+  }
 
   return WithTemporal(
     temporal =>

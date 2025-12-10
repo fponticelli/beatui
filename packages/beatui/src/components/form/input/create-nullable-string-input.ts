@@ -34,7 +34,7 @@ export function createNullableStringInput(
     const { value, onBlur, onChange, onInput, after, disabled, ...rest } =
       options
 
-    const resetAfter = NullableResetAfter(value, disabled, onChange)
+    const ResetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
     return BaseInput({
       ...rest,
@@ -43,7 +43,7 @@ export function createNullableStringInput(
       onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,
       onInput: onInput != null ? v => onInput(emptyToNull(v)) : undefined,
       onBlur,
-      after: after != null ? Fragment(resetAfter, after) : resetAfter,
+      after: after != null ? Fragment(ResetAfter, after) : ResetAfter,
     })
   }
 }

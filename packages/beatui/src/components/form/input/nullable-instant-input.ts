@@ -24,9 +24,9 @@ const toLocalString = (epochMs: number) => {
 }
 
 export const NullableInstantInput = (options: InputOptions<Instant | null>) => {
-  const { value, onBlur, onChange, after, disabled } = options
+  const { value, onBlur, onChange, onInput, after, disabled } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return WithTemporal(T =>
     InputContainer({
@@ -46,6 +46,15 @@ export const NullableInstantInput = (options: InputOptions<Instant | null>) => {
                 v === ''
                   ? onChange(null)
                   : onChange(T.Instant.from(new Date(v).toISOString()))
+              )
+            )
+          : Empty,
+        onInput != null
+          ? on.input(
+              emitValue(v =>
+                v === ''
+                  ? onInput(null)
+                  : onInput(T.Instant.from(new Date(v).toISOString()))
               )
             )
           : Empty

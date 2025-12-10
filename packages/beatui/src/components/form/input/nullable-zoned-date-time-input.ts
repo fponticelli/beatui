@@ -16,9 +16,9 @@ import { NullableResetAfter } from './nullable-utils'
 export const NullableZonedDateTimeInput = (
   options: InputOptions<ZonedDateTime | null>
 ) => {
-  const { value, onBlur, onChange, after, disabled } = options
+  const { value, onBlur, onChange, onInput, after, disabled } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return WithTemporal(T =>
     InputContainer({
@@ -37,6 +37,18 @@ export const NullableZonedDateTimeInput = (
                   Value.get(options.placeholder as Value<string>) ??
                   Intl.DateTimeFormat().resolvedOptions().timeZone
                 return onChange(T.ZonedDateTime.from({ ...dt, timeZone: tz }))
+              })
+            )
+          : Empty,
+        onInput != null
+          ? on.input(
+              emitValue(v => {
+                if (v === '') return onInput(null)
+                const dt = T.PlainDateTime.from(v)
+                const tz =
+                  Value.get(options.placeholder as Value<string>) ??
+                  Intl.DateTimeFormat().resolvedOptions().timeZone
+                return onInput(T.ZonedDateTime.from({ ...dt, timeZone: tz }))
               })
             )
           : Empty

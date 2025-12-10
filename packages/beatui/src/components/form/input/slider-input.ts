@@ -65,9 +65,11 @@ export const NullableSliderInput = (options: NullableSliderInputOptions) => {
     return typeof minVal === 'number' ? minVal : 0
   })
 
-  const resetAfter = NullableResetAfter(value, options.disabled, v => {
-    onChange?.(v)
-  })
+  const resetAfter = NullableResetAfter(
+    value,
+    options.disabled,
+    onChange ?? onInput
+  )
 
   return InputContainer(
     {

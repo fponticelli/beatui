@@ -12,7 +12,7 @@ export type NullableMaskInputOptions = Merge<
 export const NullableMaskInput = (options: NullableMaskInputOptions) => {
   const { value, onBlur, onChange, onInput, after, disabled, ...rest } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return MaskInput({
     ...rest,

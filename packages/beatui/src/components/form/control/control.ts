@@ -18,18 +18,23 @@ export const makeOnChangeHandler =
     onChange?.(value)
   }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type BaseControlOptions = InputOptions<any>
+export type BaseControlOptions =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  InputOptions<any>
+
 export type ControlOptions = Merge<BaseControlOptions, InputWrapperOptions>
 
 export type BaseControllerOptions<T, O extends BaseControlOptions> = Merge<
   Omit<O, 'value'>,
-  { controller: Controller<T> }
+  { controller: Controller<T>; triggerOn?: 'input' | 'change' }
 >
 
 export type ControllerOptions<T, O extends BaseControlOptions> = Merge<
   Omit<InputWrapperOptions, 'content'>,
-  Merge<Omit<O, 'value'>, { controller: Controller<T> }>
+  Merge<
+    Omit<O, 'value'>,
+    { controller: Controller<T>; triggerOn?: 'input' | 'change' }
+  >
 >
 
 export type MappedControllerOptions<T, U, O extends BaseControlOptions> = Merge<
@@ -44,7 +49,7 @@ export function BaseControl<T, O extends BaseControlOptions>(
   InputComponent: (options: O) => TNode,
   options: BaseControllerOptions<T, O>
 ) {
-  const { controller, onBlur, onChange, id, ...rest } = options
+  const { controller, onBlur, onChange, id, triggerOn, ...rest } = options
   return InputComponent({
     id: id ?? controller.name,
     disabled: controller.disabled,
@@ -52,7 +57,14 @@ export function BaseControl<T, O extends BaseControlOptions>(
     hasError: controller.errorVisible,
     name: controller.name,
     ...rest,
-    onChange: makeOnChangeHandler(controller, onChange),
+    onInput:
+      triggerOn === 'input'
+        ? makeOnChangeHandler(controller, onChange)
+        : undefined,
+    onChange:
+      triggerOn !== 'input'
+        ? makeOnChangeHandler(controller, onChange)
+        : undefined,
     onBlur: makeOnBlurHandler(controller, onBlur),
   } as unknown as O)
 }

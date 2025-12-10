@@ -14,7 +14,7 @@ export type NullableBase64InputOptions = Omit<
 export const NullableBase64Input = (options: NullableBase64InputOptions) => {
   const { value, onBlur, onChange, onInput, after, disabled, ...rest } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return Base64Input({
     ...rest,

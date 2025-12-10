@@ -16,9 +16,9 @@ export type NullableRatingInputOptions = InputOptions<number | null> & {
 }
 
 export const NullableRatingInput = (options: NullableRatingInputOptions) => {
-  const { value, onChange, onBlur, after, disabled, ...rest } = options
+  const { value, onChange, onInput, onBlur, after, disabled, ...rest } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return RatingInput({
     ...rest,
@@ -26,6 +26,7 @@ export const NullableRatingInput = (options: NullableRatingInputOptions) => {
     value: Value.map(value, v => v ?? 0),
     // Pass through numeric changes; clear button will call onChange(null)
     onChange,
+    onInput,
     onBlur,
     after: after != null ? Fragment(resetAfter, after) : resetAfter,
   })

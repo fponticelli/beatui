@@ -8,9 +8,9 @@ import { NullableResetAfter } from './nullable-utils'
 export const NullablePlainMonthDayInput = (
   options: InputOptions<PlainMonthDay | null>
 ) => {
-  const { value, onChange, after, disabled } = options
+  const { value, onChange, onInput, after, disabled } = options
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange)
+  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
   return WithTemporal(T =>
     MaskInput({
@@ -21,7 +21,11 @@ export const NullablePlainMonthDayInput = (
           ? (v: string) =>
               onChange(v === '' ? null : T.PlainMonthDay.from(`--${v}`))
           : undefined,
-      onInput: undefined,
+      onInput:
+        onInput != null
+          ? (v: string) =>
+              onInput(v === '' ? null : T.PlainMonthDay.from(`--${v}`))
+          : undefined,
       mask: '99-99',
       placeholder: 'MM-DD',
       after: after != null ? Fragment(resetAfter, after) : resetAfter,

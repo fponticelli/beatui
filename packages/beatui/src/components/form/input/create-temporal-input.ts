@@ -93,9 +93,9 @@ export function createNullableTemporalInput<T>(
   config: TemporalInputConfig<T>
 ): (options: InputOptions<T | null>) => Renderable {
   return (options: InputOptions<T | null>) => {
-    const { value, onBlur, onChange, after, disabled } = options
+    const { value, onBlur, onChange, onInput, after, disabled } = options
 
-    const resetAfter = NullableResetAfter(value, disabled, onChange)
+    const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
 
     return WithTemporal(T =>
       InputContainer({
@@ -111,6 +111,13 @@ export function createNullableTemporalInput<T>(
             ? on.change(
                 emitValue(v =>
                   v === '' ? onChange(null) : onChange(config.parseValue(T, v))
+                )
+              )
+            : Empty,
+          onInput != null
+            ? on.input(
+                emitValue(v =>
+                  v === '' ? onInput(null) : onInput(config.parseValue(T, v))
                 )
               )
             : Empty

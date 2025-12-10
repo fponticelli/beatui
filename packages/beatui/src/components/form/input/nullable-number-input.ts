@@ -130,7 +130,11 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
     )
   })()
 
-  const resetAfter = NullableResetAfter(value, options.disabled, onChange)
+  const resetAfter = NullableResetAfter(
+    value,
+    options.disabled,
+    onChange ?? onInput
+  )
 
   const afterContent =
     after != null && stepperButtons != null
