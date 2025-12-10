@@ -47,6 +47,10 @@
   height: 100%;
 }
 
+.bc-pdf-page-viewer--fit-cover {
+  overflow: hidden;
+}
+
 /* Content wrapper - provides positioning context for layers */
 .bc-pdf-page-viewer__content {
   position: relative;

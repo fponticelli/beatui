@@ -20,6 +20,7 @@
 
 .bc-notice__content {
   color: var(--text-normal-light);
+  white-space: pre-line;
 }
 
 /* Tones */

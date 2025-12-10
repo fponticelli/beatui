@@ -288,11 +288,21 @@ export function PdfPageViewer(
   )
   let pdfDoc: PDFDocumentProxy | null = null
   let lastPage = Value.get(page)
+  let activeRenderTask: RenderTask | null = null
 
   return Use(BeatUII18n, t => {
     return Fragment(
       // Clean up PDF document when component unmounts
       OnDispose(() => {
+        if (activeRenderTask) {
+          try {
+            activeRenderTask.cancel()
+          } catch {
+            // ignore cancellation errors
+          }
+          activeRenderTask = null
+        }
+
         if (pdfDoc != null) {
           pdfDoc.destroy()
           pdfDoc = null
@@ -439,8 +449,6 @@ export function PdfPageViewer(
                 scale: actualScale * request.quality,
                 rotation: request.rotation,
               })
-
-              let activeRenderTask: RenderTask | null = null
 
               return {
                 pdfWidth: baseViewport.width,
