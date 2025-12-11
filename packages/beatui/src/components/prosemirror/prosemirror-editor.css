@@ -71,6 +71,10 @@
     color: var(--color-neutral-600);
   }
 
+  .bc-prosemirror-editor .ProseMirror {
+    white-space: pre-wrap;
+  }
+
   /* Headings */
   .bc-prosemirror-editor .ProseMirror h1 {
     margin-block: 1.25rem 0.75rem;
