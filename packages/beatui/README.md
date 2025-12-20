@@ -180,16 +180,16 @@ See the [monorepo README](../../README.md) for development instructions.
 The package includes convenient scripts for publishing different types of releases:
 
 ```bash
-# Patch release (0.0.1 → 0.0.2) - for bug fixes
+# Patch release (0.0.1 → 0.0.2) - for bug fixes (will verify npm login)
 pnpm run release:patch
 
-# Minor release (0.0.1 → 0.1.0) - for new features
+# Minor release (0.0.1 → 0.1.0) - for new features (will verify npm login)
 pnpm run release:minor
 
-# Major release (0.0.1 → 1.0.0) - for breaking changes
+# Major release (0.0.1 → 1.0.0) - for breaking changes (will verify npm login)
 pnpm run release:major
 
-# Prerelease (0.0.1 → 0.0.2-0) - for beta/alpha versions
+# Prerelease (0.0.1 → 0.0.2-0) - for beta/alpha versions (will verify npm login)
 pnpm run release:prerelease
 
 # Release without automatic git commit (manual git handling)
@@ -223,7 +223,7 @@ Each release script follows this workflow:
 
 1. **Prepare**: Clean previous builds, build package, run all tests
 2. **Version**: Update the version number in package.json and create git tag
-3. **Publish**: Publish to npm (bypassing git checks since version step creates changes)
+3. **Publish**: Verify npm login, then publish to npm (bypassing git checks since version step creates changes)
 4. **Commit**: Add package.json changes and commit with release message
 
 The workflow ensures that:

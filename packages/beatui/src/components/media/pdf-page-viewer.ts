@@ -27,6 +27,8 @@ import type {
 } from 'pdfjs-dist/types/src/display/api'
 import type { PageViewport } from 'pdfjs-dist/types/src/display/display_utils'
 
+export type PDFDocument = PDFDocumentProxy
+
 // PDF.js library interface (loaded from CDN)
 interface PDFJSLib {
   getDocument(src: string | TypedArray | ArrayBuffer): {
@@ -95,6 +97,10 @@ interface AnnotationStorage {
   [key: string]: unknown
 }
 
+interface LoadCompleteOptions {
+  pdfDoc: PDFDocument
+}
+
 export interface PdfPageViewerOptions {
   /** PDF source: URL string, Uint8Array, or ArrayBuffer */
   source: SplitValue<string | Uint8Array | ArrayBuffer>
@@ -153,7 +159,7 @@ export interface PdfPageViewerOptions {
   /**
    * Callback when PDF loads successfully
    */
-  onLoadComplete?: (info: { numPages: number }) => void
+  onLoadComplete?: (info: LoadCompleteOptions) => void
 }
 
 interface PdfRenderRequest {
@@ -374,7 +380,7 @@ export function PdfPageViewer(
 
                 // Call onLoadComplete callback
                 if (onLoadComplete != null) {
-                  onLoadComplete({ numPages: pdfDoc.numPages })
+                  onLoadComplete({ pdfDoc })
                 }
               }
 

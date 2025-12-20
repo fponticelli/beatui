@@ -124,6 +124,8 @@ export const App = () => {
           Async(import('./pages/temporal'), ({ default: Page }) => Page()),
         '/inputs': () =>
           Async(import('./pages/inputs'), ({ default: Page }) => Page()),
+        '/control': () =>
+          Async(import('./pages/control'), ({ default: Page }) => Page()),
         '/markdown': () =>
           Async(import('./pages/markdown'), ({ default: Page }) => Page()),
         '/notification': () =>

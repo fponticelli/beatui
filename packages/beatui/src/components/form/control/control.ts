@@ -1,4 +1,4 @@
-import { Merge, TNode, Value } from '@tempots/dom'
+import { Merge, TextNode, TNode, Value } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
 import { Controller } from '../controller'
 import { InputWrapper, InputWrapperOptions } from '../input'
@@ -80,6 +80,8 @@ export function Control<T, O extends BaseControlOptions>(
   return InputWrapper(
     {
       ...options,
+      hasError: options.controller.errorVisible,
+      error: TextNode(options.controller.error.map(v => v ?? '')),
       labelFor,
       content: BaseControl(
         opts => InputComponent({ ...(opts as unknown as O), id }),

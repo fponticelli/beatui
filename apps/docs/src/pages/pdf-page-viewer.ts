@@ -165,9 +165,8 @@ export default function PdfPageViewerPage() {
                 html.span(`Current page: ${p}`)
               )
             },
-            onLoadComplete: info => {
-              console.log('PDF loaded with', info.numPages, 'pages')
-              totalPages.set(info.numPages)
+            onLoadComplete: ({ pdfDoc }) => {
+              totalPages.set(pdfDoc.numPages)
             },
           },
           attr.class('shadow-md')

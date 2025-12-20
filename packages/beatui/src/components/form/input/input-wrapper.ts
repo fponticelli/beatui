@@ -94,7 +94,8 @@ export const InputWrapper = (
   }: InputWrapperOptions,
   ...children: TNode[]
 ) => {
-  const computedHasError = hasError ?? error != null
+  const computedHasError = hasError ?? false
+  console.log('computedHasError', hasError, computedHasError)
   const computedDisabled = disabled ?? false
   const computedLayout = layout ?? 'vertical'
 
@@ -195,17 +196,15 @@ export const InputWrapper = (
           description!
         )
     ),
-    error != null
-      ? When(computedHasError, () =>
-          html.div(
-            attr.class('bc-input-wrapper__error'),
-            attr.id(errorId!),
-            aria.live('polite'), // Announce errors to screen readers
-            attr.role('alert'), // Mark as alert for immediate attention
-            error
-          )
-        )
-      : null,
+    When(computedHasError, () =>
+      html.div(
+        attr.class('bc-input-wrapper__error'),
+        attr.id(errorId!),
+        aria.live('polite'), // Announce errors to screen readers
+        attr.role('alert'), // Mark as alert for immediate attention
+        error
+      )
+    ),
     ...children
   )
 }

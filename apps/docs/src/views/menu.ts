@@ -31,6 +31,7 @@ export function Menu() {
       SidebarGroup(
         { header: 'Form Controls', rail: true },
         SidebarLink({ href: '/inputs', content: 'Inputs' }),
+        SidebarLink({ href: '/control', content: 'Control' }),
         SidebarLink({ href: '/button', content: 'Button' }),
         SidebarLink({ href: '/switch', content: 'Switch' }),
         SidebarLink({
