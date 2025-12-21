@@ -13,8 +13,15 @@
 .bc-input-wrapper--horizontal-label-right,
 .bc-input-wrapper--horizontal-fixed {
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+}
+
+.bc-input-wrapper--horizontal > *,
+.bc-input-wrapper--horizontal-label-right > *,
+.bc-input-wrapper--horizontal-fixed > * {
+    min-width: min-content;
 }
 
 /* Horizontal with label on right */
@@ -94,15 +101,11 @@
   min-width: 0; /* Prevent overflow issues */
 }
 
-/* Error messages in horizontal mode should align with content */
+/* Error messages in horizontal mode should always appear on their own line */
 .bc-input-wrapper--horizontal .bc-input-wrapper__error,
+.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__error,
 .bc-input-wrapper--horizontal-fixed .bc-input-wrapper__error {
-  margin-left: calc(var(--spacing-base) * 4); /* Align with content */
-}
-
-/* Error messages in horizontal-label-right mode should align with content on the right */
-.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__error {
-  margin-right: calc(var(--spacing-base) * 4); /* Align with content */
+  flex-basis: 100%;
 }
 
 /* Description text */

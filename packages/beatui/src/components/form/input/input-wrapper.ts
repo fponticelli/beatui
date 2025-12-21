@@ -94,8 +94,7 @@ export const InputWrapper = (
   }: InputWrapperOptions,
   ...children: TNode[]
 ) => {
-  const computedHasError = hasError ?? false
-  console.log('computedHasError', hasError, computedHasError)
+  const computedHasError = hasError ?? error != null
   const computedDisabled = disabled ?? false
   const computedLayout = layout ?? 'vertical'
 
@@ -107,6 +106,11 @@ export const InputWrapper = (
   // Check if layout is horizontal (any horizontal variant)
   const isHorizontal = computedOf(computedLayout)(l => l !== 'vertical')
 
+  const styles = computedOf(
+    computedLayout,
+    labelWidth ?? undefined
+  )((l, w) => generateInputWrapperStyles(l, w))
+
   return html.div(
     attr.class(Value.map(computedLayout, l => generateInputWrapperClasses(l))),
     attr.class(
@@ -114,22 +118,7 @@ export const InputWrapper = (
         v ? 'bc-input-wrapper--full-width' : ''
       )
     ),
-    When(
-      computedOf(
-        computedLayout,
-        labelWidth ?? undefined
-      )((l, w) => generateInputWrapperStyles(l, w) != null),
-      () =>
-        attr.style(
-          Value.map(
-            computedOf(
-              computedLayout,
-              labelWidth ?? undefined
-            )((l, w) => generateInputWrapperStyles(l, w)!),
-            s => s
-          )
-        )
-    ),
+    attr.style(styles),
     label != null || context != null
       ? html.div(
           attr.class('bc-input-wrapper__header'),
