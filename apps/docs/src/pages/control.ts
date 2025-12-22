@@ -1,6 +1,7 @@
 import { attr, html } from '@tempots/dom'
 import {
   Card,
+  CheckboxInput,
   Control,
   Group,
   NumberInput,
@@ -16,6 +17,7 @@ export default function ControlPage() {
     name: z.string().min(1, 'Name is required'),
     email: z.string().email('Enter a valid email'),
     age: z.number().min(18, 'Must be at least 18'),
+    accept: z.literal(true, 'You must accept the terms and conditions'),
   })
 
   const validForm = useForm({
@@ -25,6 +27,7 @@ export default function ControlPage() {
       name: 'Taylor Otwell',
       email: 'taylor@example.com',
       age: 32,
+      accept: true,
     },
   })
 
@@ -35,16 +38,12 @@ export default function ControlPage() {
       name: '',
       email: 'not-an-email',
       age: 12,
+      accept: false,
     },
   })
 
   // Trigger validation once so the error state renders immediately.
   errorForm.controller.change(errorForm.controller.signal.value)
-
-  // const errorProps = <T,>(controller: Controller<T>) => ({
-  //   hasError: controller.errorVisible,
-  //   error: controller.error.map(err => err ?? ''),
-  // })
 
   const validName = validForm.controller.field('name')
   const validEmail = validForm.controller.field('email')
@@ -75,19 +74,21 @@ export default function ControlPage() {
               controller: validName,
               label: 'Name',
               description: 'Looks valid',
-              // ...errorProps(validName),
             }),
             Control(TextInput, {
               controller: validEmail,
               label: 'Email',
               description: 'Valid email address',
-              // ...errorProps(validEmail),
             }),
             Control(NumberInput, {
               controller: validAge,
               label: 'Age',
               description: 'At least 18',
-              // ...errorProps(validAge),
+            }),
+            Control(CheckboxInput, {
+              controller: validForm.controller.field('accept'),
+              label: 'Accept terms and conditions',
+              description: 'You must accept the terms and conditions',
             })
           )
         ),
@@ -100,20 +101,22 @@ export default function ControlPage() {
               controller: errorName,
               label: 'Name',
               description: 'Required field',
-              // error: 'ERROR',
-              // ...errorProps(errorName),
             }),
             Control(TextInput, {
               controller: errorEmail,
               label: 'Email',
               description: 'Must be a valid address',
-              // ...errorProps(errorEmail),
             }),
             Control(NumberInput, {
               controller: errorAge,
               label: 'Age',
               description: 'Must be 18+',
-              // ...errorProps(errorAge),
+            }),
+            Control(CheckboxInput, {
+              layout: 'horizontal',
+              controller: errorForm.controller.field('accept'),
+              label: 'Accept terms and conditions',
+              description: 'You must accept the terms and conditions',
             })
           )
         )

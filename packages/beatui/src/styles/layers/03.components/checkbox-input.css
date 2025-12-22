@@ -72,3 +72,12 @@
 .b-dark .bc-checkbox-input__label {
   color: var(--text-normal-dark);
 }
+
+/* Error state */
+.bc-input-container--error:has(*.bc-checkbox-input) {
+  outline: none;
+}
+
+.bc-input-container--error:focus-within:has(*.bc-checkbox-input) {
+  outline: none;
+}
