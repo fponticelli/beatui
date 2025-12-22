@@ -8,31 +8,32 @@
   width: 100%;
 }
 
-/* Horizontal layout variants */
+/* Horizontal layout variants - use grid for proper error positioning */
 .bc-input-wrapper--horizontal,
 .bc-input-wrapper--horizontal-label-right,
 .bc-input-wrapper--horizontal-fixed {
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
-}
-
-.bc-input-wrapper--horizontal > *,
-.bc-input-wrapper--horizontal-label-right > *,
-.bc-input-wrapper--horizontal-fixed > * {
-    min-width: min-content;
+  gap: var(--spacing-sm, calc(var(--spacing-base) * 4));
 }
 
 /* Horizontal with label on right */
 .bc-input-wrapper--horizontal-label-right {
-  flex-direction: row-reverse;
+  grid-template-columns: 1fr auto;
+}
+
+.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__header {
+  order: 2;
+}
+
+.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__content {
+  order: 1;
 }
 
 /* Horizontal with fixed-width label */
-.bc-input-wrapper--horizontal-fixed .bc-input-wrapper__header {
-  width: var(--input-wrapper-label-width, 12rem);
-  flex-shrink: 0;
+.bc-input-wrapper--horizontal-fixed {
+  grid-template-columns: var(--input-wrapper-label-width, 12rem) 1fr;
 }
 
 /* Label header container */
@@ -86,26 +87,15 @@
   vertical-align: top;
 }
 
-/* Horizontal layout adjustments (all variants) */
-.bc-input-wrapper--horizontal .bc-input-wrapper__header,
-.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__header {
-  flex-shrink: 0;
-  min-width: 0;
-  /* Allow text to wrap if needed */
-}
-
-.bc-input-wrapper--horizontal .bc-input-wrapper__content,
-.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__content,
-.bc-input-wrapper--horizontal-fixed .bc-input-wrapper__content {
-  flex: 1;
-  min-width: 0; /* Prevent overflow issues */
-}
-
-/* Error messages in horizontal mode should always appear on their own line */
+/* Error messages in horizontal mode span full width on their own row */
 .bc-input-wrapper--horizontal .bc-input-wrapper__error,
 .bc-input-wrapper--horizontal-label-right .bc-input-wrapper__error,
 .bc-input-wrapper--horizontal-fixed .bc-input-wrapper__error {
-  flex-basis: 100%;
+  grid-column: 1 / -1;
+}
+
+.bc-input-wrapper--horizontal-label-right .bc-input-wrapper__error {
+  order: 3;
 }
 
 /* Description text */

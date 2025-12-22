@@ -86,9 +86,9 @@ export default function ControlPage() {
               description: 'At least 18',
             }),
             Control(CheckboxInput, {
+              layout: 'horizontal-label-right',
               controller: validForm.controller.field('accept'),
               label: 'Accept terms and conditions',
-              description: 'You must accept the terms and conditions',
             })
           )
         ),
@@ -116,7 +116,6 @@ export default function ControlPage() {
               layout: 'horizontal',
               controller: errorForm.controller.field('accept'),
               label: 'Accept terms and conditions',
-              description: 'You must accept the terms and conditions',
             })
           )
         )
