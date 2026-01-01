@@ -150,6 +150,7 @@ export default function ProseMirrorEditorPage() {
             readOnly,
             placeholder: 'Start typing your markdown...',
             autofocus: true,
+            preserveLineBreaks: true,
           })
         )
       ),

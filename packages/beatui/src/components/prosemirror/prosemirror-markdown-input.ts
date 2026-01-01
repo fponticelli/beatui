@@ -19,16 +19,66 @@ import { ProseMirrorToolbar } from './prosemirror-toolbar'
 import { LinkPortal } from '../misc/link-portal'
 import { EditorState, Plugin } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { MarkSpec, NodeSpec, Schema } from 'prosemirror-model'
+import { MarkSpec, Node, NodeSpec, Schema } from 'prosemirror-model'
 import { schema as basicSchema } from 'prosemirror-schema-basic'
 import {
   defaultMarkdownParser,
   defaultMarkdownSerializer,
+  MarkdownParser,
 } from 'prosemirror-markdown'
+import markdownIt from 'markdown-it'
 import { history, undo, redo } from 'prosemirror-history'
 import { keymap } from 'prosemirror-keymap'
 import { baseKeymap, toggleMark } from 'prosemirror-commands'
 import { ticker } from '@tempots/ui'
+
+// Create markdown parsers - one that preserves line breaks, one that doesn't
+const preservingMarkdownParser = new MarkdownParser(
+  defaultMarkdownParser.schema,
+  markdownIt('commonmark', { breaks: true }),
+  defaultMarkdownParser.tokens
+)
+
+/**
+ * Pre-process markdown to preserve multiple consecutive newlines.
+ * Without this, markdown collapses multiple newlines into paragraph breaks.
+ * We use two trailing spaces before newlines which is the CommonMark way
+ * to create hard breaks, combined with a non-breaking space on "empty" lines
+ * to prevent paragraph collapsing.
+ */
+function preprocessForLineBreaks(text: string): string {
+  // First, ensure every line ends with two spaces before newline for hard breaks
+  // Then add NBSP to empty lines to prevent them from being treated as paragraph breaks
+  const NBSP = '\u00A0'
+
+  return text
+    .split('\n')
+    .map((line, index, arr) => {
+      // For empty lines (which would cause paragraph breaks), add a non-breaking space
+      // This keeps them as "content" so they stay in the same paragraph
+      if (line.trim() === '' && index < arr.length - 1) {
+        return NBSP
+      }
+      return line
+    })
+    .join('  \n') // Two spaces before newline = hard break in CommonMark
+}
+
+function parseMarkdown(
+  markdown: string | undefined | null,
+  preserveLineBreaks: boolean
+): Node {
+  const parser = preserveLineBreaks
+    ? preservingMarkdownParser
+    : defaultMarkdownParser
+
+  let text = markdown ?? ''
+  if (preserveLineBreaks) {
+    text = preprocessForLineBreaks(text)
+  }
+
+  return parser.parse(text)
+}
 
 /**
  * Markdown features that can be enabled/disabled in the editor
@@ -74,6 +124,8 @@ export type ProseMirrorMarkdownInputOptions = Merge<
     cssInjection?: 'link' | 'none'
     /** Read-only mode */
     readOnly?: Value<boolean>
+    /** Preserve line breaks in markdown (converts single newlines to hard breaks). Default: false */
+    preserveLineBreaks?: boolean
   }
 >
 
@@ -154,6 +206,7 @@ export const ProseMirrorMarkdownInput = (
     placeholder,
     showToolbar = false,
     features,
+    preserveLineBreaks = false,
   } = options
 
   const resolvedReadonly = Value.toSignal(readOnly)
@@ -171,9 +224,7 @@ export const ProseMirrorMarkdownInput = (
   return Fragment(
     Use(Theme, ({ appearance }) =>
       html.div(
-        OnDispose(() => {
-          editorView.value?.destroy()
-        }),
+        OnDispose(() => editorView.value?.destroy()),
         (options.cssInjection ?? 'none') === 'none'
           ? null
           : Task(
@@ -192,19 +243,17 @@ export const ProseMirrorMarkdownInput = (
         attr.name(name),
         // Optional toolbar
         When(
-          resolvedShowToolbar,
+          computedOf(
+            resolvedShowToolbar,
+            editorView
+          )((show, view) => show && view != null),
           () =>
-            When(
-              editorView.map(v => v != null),
-              () =>
-                ProseMirrorToolbar({
-                  view: editorView,
-                  stateUpdate: editorStateNotifier,
-                  features: resolvedFeatures,
-                  readOnly: resolvedReadonly,
-                })
-            ),
-          () => null
+            ProseMirrorToolbar({
+              view: editorView,
+              stateUpdate: editorStateNotifier,
+              features: resolvedFeatures,
+              readOnly: resolvedReadonly,
+            })
         ),
         // Editor mount point
         html.div(
@@ -229,8 +278,7 @@ export const ProseMirrorMarkdownInput = (
                 )
 
                 // Parse initial markdown
-                const doc =
-                  defaultMarkdownParser.parse(initialValue) ?? undefined
+                const doc = parseMarkdown(initialValue, preserveLineBreaks)
 
                 // Create keyboard shortcuts for formatting
                 const formatKeymap = createFormatKeymap(filteredSchema)
@@ -316,7 +364,7 @@ export const ProseMirrorMarkdownInput = (
                       view.state.doc
                     )
                     if (v !== currentMarkdown) {
-                      const newDoc = defaultMarkdownParser.parse(v ?? '')
+                      const newDoc = parseMarkdown(v, preserveLineBreaks)
                       if (newDoc != null) {
                         const newState = EditorState.create({
                           doc: newDoc,

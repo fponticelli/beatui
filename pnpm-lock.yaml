@@ -202,6 +202,9 @@ importers:
       katex:
         specifier: 0.16.23
         version: 0.16.23
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
       micromark:
         specifier: ^4.0.2
         version: 4.0.2
@@ -248,6 +251,9 @@ importers:
       '@testing-library/dom':
         specifier: 10.4.0
         version: 10.4.0
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
       '@types/node':
         specifier: 22.15.18
         version: 22.15.18
