@@ -66,8 +66,8 @@ export class Controller<T> {
         this.touched,
         parent.validationMode
       )((hasError, touched, mode) => {
-        if (mode === 'continuous') return !!hasError
-        // onSubmit and touchedOrSubmit gate on touched
+        if (mode === 'eager') return !!hasError
+        // onSubmit and onTouched gate on touched
         return !!hasError && !!touched
       })
     } else {

@@ -14,22 +14,22 @@ describe('Validation modes in useController', () => {
     expect(controller.status.value.type).toBe('valid')
   })
 
-  it('continuous: validates on change and shows errors immediately', async () => {
+  it('eager: validates on change and shows errors immediately', async () => {
     const { controller } = useController<string>({
       initialValue: '',
-      validationMode: 'continuous',
+      validationMode: 'eager',
       validate: () => Validation.invalid({ message: 'err' }),
     })
     await controller.change('x')
     expect(controller.status.value.type).toBe('invalid')
-    // errorVisible ignores touched in continuous mode
+    // errorVisible ignores touched in eager mode
     expect(controller.errorVisible.value).toBe(true)
   })
 
-  it('touchedOrSubmit: validates on change but shows only after touched', async () => {
+  it('onTouched: validates on change but shows only after touched', async () => {
     const { controller } = useController<string>({
       initialValue: '',
-      validationMode: 'touchedOrSubmit',
+      validationMode: 'onTouched',
       validate: () => Validation.invalid({ message: 'err' }),
     })
     await controller.change('x')
@@ -44,7 +44,7 @@ describe('Validation modes in useController', () => {
     let calls = 0
     const { controller } = useController<string>({
       initialValue: '',
-      validationMode: 'continuous',
+      validationMode: 'eager',
       validateDebounceMs: 50,
       validate: () => {
         calls++

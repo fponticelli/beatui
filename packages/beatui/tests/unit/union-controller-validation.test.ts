@@ -24,9 +24,7 @@ describe('UnionController validation and state', () => {
     const value = prop<string | number>('a')
     const status = prop<ControllerValidation>({ type: 'valid' })
     const disabled = prop(false)
-    const mode = prop<'onSubmit' | 'continuous' | 'touchedOrSubmit'>(
-      'continuous'
-    )
+    const mode = prop<'onSubmit' | 'eager' | 'onTouched'>('eager')
 
     const controller = new UnionController(
       [],
@@ -42,11 +40,11 @@ describe('UnionController validation and state', () => {
       Validation.invalid({ dependencies: { string: { message: 'err' } } })
     )
     const active = controller.getBranchController('string')
-    // In continuous mode, errorVisible should be true without touching
+    // In eager mode, errorVisible should be true without touching
     expect(active.errorVisible.value).toBe(true)
 
-    // Switch to touchedOrSubmit and verify gating kicks in
-    mode.set('touchedOrSubmit')
+    // Switch to onTouched and verify gating kicks in
+    mode.set('onTouched')
     expect(active.errorVisible.value).toBe(false)
     active.markTouched()
     expect(active.errorVisible.value).toBe(true)
@@ -65,9 +63,7 @@ describe('UnionController validation and state', () => {
       status,
       {
         disabled,
-        validationMode: prop<'onSubmit' | 'continuous' | 'touchedOrSubmit'>(
-          'touchedOrSubmit'
-        ),
+        validationMode: prop<'onSubmit' | 'eager' | 'onTouched'>('onTouched'),
       },
       branches
     )

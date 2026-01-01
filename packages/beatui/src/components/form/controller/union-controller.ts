@@ -23,7 +23,7 @@ export interface UnionBranch<T = unknown> {
   defaultValue: () => T
 }
 
-export type ValidationMode = 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+export type ValidationMode = 'onSubmit' | 'eager' | 'onTouched'
 
 /**
  * Controller for union types that manages multiple possible value types

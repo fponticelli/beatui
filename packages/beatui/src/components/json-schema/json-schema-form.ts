@@ -113,7 +113,7 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
   /** Reactive value containing the form data */
   initialValue: Value<T>
   /** Validation behavior */
-  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validationMode?: 'onSubmit' | 'eager' | 'onTouched'
   validateDebounceMs?: number
 }
 
@@ -155,7 +155,7 @@ export function JSONSchemaForm<T>(
         const asyncValidator =
           asyncRules.length > 0 ? new AsyncValidator() : null
 
-        const mode = validationMode ?? 'touchedOrSubmit'
+        const mode = validationMode ?? 'onTouched'
         const validateFn = (value: T): ControllerValidation => {
           // Apply base AJV validation
           const ok = validate(value)

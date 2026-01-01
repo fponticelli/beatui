@@ -351,7 +351,7 @@ describe('SignInForm', () => {
     expect(container.textContent).toContain('Custom Password')
   })
 
-  it('should handle form submission with empty fields', async () => {
+  it('should block form submission with empty fields due to schema validation', async () => {
     localStorageMock.getItem.mockImplementation((key: string) => {
       if (key === 'beatui-appearance-preference') return '"system"'
       return null
@@ -374,10 +374,7 @@ describe('SignInForm', () => {
 
     await new Promise(resolve => setTimeout(resolve, 0))
 
-    // Form allows submission with empty fields, validation happens in onSignIn
-    expect(onSignIn).toHaveBeenCalledWith({
-      email: '',
-      password: '',
-    })
+    // Schema validation runs on submit and blocks submission with empty fields
+    expect(onSignIn).not.toHaveBeenCalled()
   })
 })

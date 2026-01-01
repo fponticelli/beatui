@@ -26,14 +26,14 @@ describe('JSON Schema validation modes', () => {
     container.innerHTML = ''
   })
 
-  it('touchedOrSubmit: validates on change, shows only after touched', async () => {
+  it('onTouched: validates on change, shows only after touched', async () => {
     const ajv = await getAjvForSchema(schema)
     if (!ajv.ok) throw new Error(ajv.error)
     const validate = ajv.value.validate
 
     const { controller } = useController({
       initialValue: { name: '' },
-      validationMode: 'touchedOrSubmit',
+      validationMode: 'onTouched',
       validate: v =>
         validate(v)
           ? Validation.valid
@@ -57,14 +57,14 @@ describe('JSON Schema validation modes', () => {
     expect(nameCtl.errorVisible.value).toBe(true)
   })
 
-  it('continuous: shows errors immediately without touch', async () => {
+  it('eager: shows errors immediately without touch', async () => {
     const ajv = await getAjvForSchema(schema)
     if (!ajv.ok) throw new Error(ajv.error)
     const validate = ajv.value.validate
 
     const { controller } = useController({
       initialValue: { name: '' },
-      validationMode: 'continuous',
+      validationMode: 'eager',
       validate: v =>
         validate(v)
           ? Validation.valid

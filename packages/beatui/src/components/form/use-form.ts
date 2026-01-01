@@ -23,7 +23,7 @@ export interface UseFormOptions<T> {
   schema?: StandardSchemaV1<T, T>
   initialValue?: Value<T>
   onSubmit?: (value: T) => Promise<ControllerValidation>
-  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validationMode?: 'onSubmit' | 'eager' | 'onTouched'
   validateDebounceMs?: number
 }
 
@@ -32,7 +32,7 @@ export interface UseControllerOptions<T> {
   onChange?: (value: T) => void
   validate?: (value: T) => Promise<ControllerValidation> | ControllerValidation
   equals?: (a: T, b: T) => boolean
-  validationMode?: 'onSubmit' | 'continuous' | 'touchedOrSubmit'
+  validationMode?: 'onSubmit' | 'eager' | 'onTouched'
   validateDebounceMs?: number
 }
 
@@ -51,7 +51,7 @@ export function useController<T>({
   const value = Value.deriveProp(initialValue)
   const status = prop<ControllerValidation>(Validation.valid)
   const disabledSignal = prop(false)
-  const modeSignal = prop<ValidationMode>(validationMode ?? 'touchedOrSubmit')
+  const modeSignal = prop<ValidationMode>(validationMode ?? 'onTouched')
 
   const setStatus = (result: ControllerValidation) => {
     status.set(result)
@@ -246,10 +246,10 @@ export function useForm<T extends object>({
 }: UseFormOptions<T>): UseFormResult<T> {
   const { controller: baseController, setStatus } = useController({
     initialValue,
-    validationMode: validationMode ?? 'touchedOrSubmit',
+    validationMode: validationMode ?? 'onTouched',
     validateDebounceMs,
     validate:
-      (validationMode ?? 'touchedOrSubmit') === 'onSubmit' || schema == null
+      (validationMode ?? 'onTouched') === 'onSubmit' || schema == null
         ? undefined
         : async v =>
             standardSchemaResultToValidation(
@@ -263,14 +263,13 @@ export function useForm<T extends object>({
     submitting.set(true)
     e?.preventDefault()
     controller.markAllTouched()
-    if ((validationMode ?? 'touchedOrSubmit') === 'onSubmit') {
+    // Always validate on submit if there's a schema, regardless of validation mode.
+    // This ensures untouched fields are validated even in 'eager' or 'onTouched' modes.
+    if (schema != null) {
       const v = controller.signal.value
-      const validate = schema?.['~standard'].validate
-      if (validate == null) {
-        submitting.set(false)
-        return
-      }
-      const result = standardSchemaResultToValidation(await validate(v))
+      const result = standardSchemaResultToValidation(
+        await schema['~standard'].validate(v)
+      )
       setStatus(result)
       if (result.type === 'invalid') {
         submitting.set(false)
