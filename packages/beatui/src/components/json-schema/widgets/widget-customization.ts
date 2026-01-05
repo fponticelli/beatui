@@ -506,7 +506,9 @@ export function registerWidget<T = unknown>(
 export function forXUI<T = unknown>(
   widgetName: string,
   factory: WidgetFactory<T>,
-  options?: Partial<Omit<CustomWidgetRegistration<T>, 'name' | 'factory' | 'matcher'>>
+  options?: Partial<
+    Omit<CustomWidgetRegistration<T>, 'name' | 'factory' | 'matcher'>
+  >
 ): CustomWidgetRegistration<T> {
   return {
     name: widgetName,
@@ -536,7 +538,7 @@ export function forFormat<T = unknown>(
     factory,
     displayName: options?.displayName || `${format} widget`,
     priority: options?.priority ?? 75,
-    matcher: (ctx) => {
+    matcher: ctx => {
       const schema = ctx.definition as JSONSchema
       return schema.format === format
     },
@@ -564,7 +566,7 @@ export function forTypeAndFormat<T = unknown>(
     factory,
     displayName: options?.displayName || `${type}:${format} widget`,
     priority: options?.priority ?? 80,
-    matcher: (ctx) => {
+    matcher: ctx => {
       const schema = ctx.definition as JSONSchema
       return schema.type === type && schema.format === format
     },

@@ -126,7 +126,9 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
 /**
  * Create a form-scoped widget registry from custom widgets configuration
  */
-function createFormWidgetRegistry(customWidgets: CustomWidgets): WidgetRegistry {
+function createFormWidgetRegistry(
+  customWidgets: CustomWidgets
+): WidgetRegistry {
   const registry = new WidgetRegistry()
 
   for (const registration of customWidgets) {

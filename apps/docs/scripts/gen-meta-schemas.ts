@@ -12,6 +12,7 @@ function formatWithPrettier(filePath: string) {
       { stdio: 'inherit' }
     )
     if (res.status === 0) return
+    // eslint-disable-next-line no-empty
   } catch {}
   try {
     const res = spawnSync(
@@ -20,6 +21,7 @@ function formatWithPrettier(filePath: string) {
       { stdio: 'inherit' }
     )
     if (res.status === 0) return
+    // eslint-disable-next-line no-empty
   } catch {}
   try {
     spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
@@ -51,5 +53,6 @@ for (const t of targets) {
   await writeFile(outPath, body)
   try {
     formatWithPrettier(outPath)
+    // eslint-disable-next-line no-empty
   } catch {}
 }
