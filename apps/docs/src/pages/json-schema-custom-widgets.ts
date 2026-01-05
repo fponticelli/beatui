@@ -1,13 +1,4 @@
-import {
-  attr,
-  html,
-  prop,
-  style,
-  Ensure,
-  on,
-  Value,
-  MapSignal,
-} from '@tempots/dom'
+import { attr, html, prop, style, on, MapSignal } from '@tempots/dom'
 import {
   ScrollablePanel,
   Stack,
@@ -23,6 +14,7 @@ import {
   forFormat,
   forTypeAndFormat,
   type CustomWidgetRegistration,
+  type WidgetFactory,
 } from '@tempots/beatui/json-schema'
 import { Validation } from '@tempots/std'
 import type { ControllerValidation } from '@tempots/beatui'
@@ -128,7 +120,7 @@ function PercentageWidget({
   ctx: any
   options?: unknown
 }) {
-  const percentage = controller.signal as Value<number>
+  const percentage = controller.signal
 
   return html.div(
     attr.class('bc-control'),
@@ -250,21 +242,21 @@ export default function JSONSchemaCustomWidgetsPage() {
   const validation = prop<ControllerValidation>(Validation.valid)
 
   // Define custom widgets with different matching strategies
-  const customWidgets: CustomWidgetRegistration[] = [
+  const customWidgets: CustomWidgetRegistration<unknown>[] = [
     // 1. Explicit x:ui matching - highest priority
-    forXUI('fancy-email', FancyEmailWidget, {
+    forXUI('fancy-email', FancyEmailWidget as WidgetFactory<unknown>, {
       displayName: 'Fancy Email Widget',
       priority: 100,
     }),
 
     // 2. Format-based matching - matches ALL uuid format fields
-    forFormat('uuid', UuidWidget, {
+    forFormat('uuid', UuidWidget as WidgetFactory<unknown>, {
       displayName: 'UUID Widget',
       priority: 75,
     }),
 
     // 3. Type + Format matching
-    forTypeAndFormat('string', 'phone', PhoneWidget, {
+    forTypeAndFormat('string', 'phone', PhoneWidget as WidgetFactory<unknown>, {
       displayName: 'Phone Widget',
       priority: 80,
     }),
@@ -272,7 +264,7 @@ export default function JSONSchemaCustomWidgetsPage() {
     // 4. Custom matcher function - most flexible
     {
       name: 'percentage-slider',
-      factory: PercentageWidget,
+      factory: PercentageWidget as WidgetFactory<unknown>,
       displayName: 'Percentage Slider',
       description: 'Custom slider for percentage values (0-100)',
       priority: 85,
@@ -440,19 +432,17 @@ JSONSchemaForm({
             attr.class('text-lg font-semibold'),
             'Live Demo with Custom Widgets'
           ),
-          body: Ensure(data, data =>
-            JSONSchemaForm(
-              {
-                schema: customWidgetsSchema,
-                initialValue: data,
-                customWidgets,
-              },
-              ({ Form, controller }) => {
-                controller.signal.feedProp(data)
-                controller.status.feedProp(validation)
-                return Form
-              }
-            )
+          body: JSONSchemaForm(
+            {
+              schema: customWidgetsSchema,
+              initialValue: data,
+              customWidgets,
+            },
+            ({ Form, controller }) => {
+              controller.signal.feedProp(data)
+              controller.status.feedProp(validation)
+              return Form
+            }
           ),
         }),
 
