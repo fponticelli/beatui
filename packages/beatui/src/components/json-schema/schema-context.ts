@@ -6,6 +6,7 @@ import type {
   SchemaConflict,
   NotViolation,
 } from './schema-types'
+import type { WidgetRegistry } from './widgets/widget-customization'
 
 // Re-export types for backward compatibility
 export type {
@@ -36,6 +37,7 @@ export type SchemaContextOptions = {
   suppressLabel?: boolean
   schemaConflicts?: readonly SchemaConflict[]
   notViolations?: readonly NotViolation[]
+  widgetRegistry?: WidgetRegistry
 }
 
 export class SchemaContext {
@@ -48,6 +50,7 @@ export class SchemaContext {
   readonly suppressLabel: boolean
   readonly schemaConflicts: readonly SchemaConflict[]
   readonly notViolations: readonly NotViolation[]
+  readonly widgetRegistry: WidgetRegistry | undefined
   constructor(options: SchemaContextOptions) {
     const {
       schema,
@@ -59,6 +62,7 @@ export class SchemaContext {
       suppressLabel,
       schemaConflicts,
       notViolations,
+      widgetRegistry,
     } = options
     this.schema = schema
     this.definition = definition
@@ -69,6 +73,7 @@ export class SchemaContext {
     this.suppressLabel = suppressLabel ?? false
     this.schemaConflicts = schemaConflicts ?? []
     this.notViolations = notViolations ?? []
+    this.widgetRegistry = widgetRegistry
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -82,6 +87,7 @@ export class SchemaContext {
       suppressLabel: options.suppressLabel ?? this.suppressLabel,
       schemaConflicts: options.schemaConflicts ?? this.schemaConflicts,
       notViolations: options.notViolations ?? this.notViolations,
+      widgetRegistry: options.widgetRegistry ?? this.widgetRegistry,
     })
   }
 

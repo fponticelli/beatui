@@ -34,6 +34,8 @@ export interface WidgetRegistration<T = unknown> {
   priority?: number
   /** Whether this widget can be used as a fallback */
   canFallback?: boolean
+  /** Custom matcher function for widget selection */
+  matcher?: (ctx: SchemaContext) => boolean
 }
 
 /**
@@ -64,6 +66,31 @@ export interface WidgetCustomization {
     else?: WidgetCustomization
   }
 }
+
+/**
+ * Custom widget registration for form-scoped widgets
+ */
+export interface CustomWidgetRegistration<T = unknown> {
+  /** Widget name */
+  name: string
+  /** Widget factory function */
+  factory: WidgetFactory<T>
+  /** Widget display name */
+  displayName?: string
+  /** Widget description */
+  description?: string
+  /** Supported JSON Schema types */
+  supportedTypes?: string[]
+  /** Widget priority (higher = preferred, default: 50) */
+  priority?: number
+  /** Custom matcher function for widget selection */
+  matcher?: (ctx: SchemaContext) => boolean
+}
+
+/**
+ * Array of custom widget registrations for the customWidgets option
+ */
+export type CustomWidgets = CustomWidgetRegistration[]
 
 /**
  * Widget registry for managing custom widgets
@@ -162,6 +189,40 @@ export class WidgetRegistry {
       const registration = this.widgets.get(resolved.widget)
       if (registration) {
         return { name: resolved.widget, registration, resolved }
+      }
+    }
+
+    // Try matcher-based widgets (sorted by priority)
+    const matchedWidgets: Array<{
+      name: string
+      registration: WidgetRegistration<unknown>
+      priority: number
+    }> = []
+
+    for (const [name, registration] of this.widgets.entries()) {
+      if (registration.matcher) {
+        try {
+          if (registration.matcher(ctx)) {
+            matchedWidgets.push({
+              name,
+              registration,
+              priority: registration.priority ?? 0,
+            })
+          }
+        } catch (error) {
+          console.warn(`Error in matcher for widget "${name}":`, error)
+        }
+      }
+    }
+
+    // Sort by priority (highest first)
+    if (matchedWidgets.length > 0) {
+      matchedWidgets.sort((a, b) => b.priority - a.priority)
+      const best = matchedWidgets[0]
+      return {
+        name: best.name,
+        registration: best.registration,
+        resolved: { widget: best.name, source: 'heuristics' },
       }
     }
 
@@ -431,4 +492,82 @@ export function registerWidget<T = unknown>(
     displayName: options.displayName || name,
     ...options,
   })
+}
+
+/**
+ * Create a custom widget registration that matches by explicit x:ui widget name
+ *
+ * @example
+ * ```typescript
+ * forXUI('fancy-email', myEmailWidget)
+ * // Matches schema: { type: 'string', 'x:ui': 'fancy-email' }
+ * ```
+ */
+export function forXUI<T = unknown>(
+  widgetName: string,
+  factory: WidgetFactory<T>,
+  options?: Partial<Omit<CustomWidgetRegistration<T>, 'name' | 'factory' | 'matcher'>>
+): CustomWidgetRegistration<T> {
+  return {
+    name: widgetName,
+    factory,
+    displayName: options?.displayName || widgetName,
+    priority: options?.priority ?? 100, // High priority for explicit matches
+    ...options,
+  }
+}
+
+/**
+ * Create a custom widget registration that matches by schema format
+ *
+ * @example
+ * ```typescript
+ * forFormat('email', myEmailWidget)
+ * // Matches ANY schema with: { format: 'email' }
+ * ```
+ */
+export function forFormat<T = unknown>(
+  format: string,
+  factory: WidgetFactory<T>,
+  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
+): CustomWidgetRegistration<T> {
+  return {
+    name: options?.name || `custom-${format}`,
+    factory,
+    displayName: options?.displayName || `${format} widget`,
+    priority: options?.priority ?? 75,
+    matcher: (ctx) => {
+      const schema = ctx.definition as JSONSchema
+      return schema.format === format
+    },
+    ...options,
+  }
+}
+
+/**
+ * Create a custom widget registration that matches by type + format combination
+ *
+ * @example
+ * ```typescript
+ * forTypeAndFormat('string', 'uuid', myUuidWidget)
+ * // Matches schema: { type: 'string', format: 'uuid' }
+ * ```
+ */
+export function forTypeAndFormat<T = unknown>(
+  type: string,
+  format: string,
+  factory: WidgetFactory<T>,
+  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
+): CustomWidgetRegistration<T> {
+  return {
+    name: options?.name || `custom-${type}-${format}`,
+    factory,
+    displayName: options?.displayName || `${type}:${format} widget`,
+    priority: options?.priority ?? 80,
+    matcher: (ctx) => {
+      const schema = ctx.definition as JSONSchema
+      return schema.type === type && schema.format === format
+    },
+    ...options,
+  }
 }
