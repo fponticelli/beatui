@@ -225,6 +225,7 @@ const customWidgetsSchema = {
     },
   },
   required: ['email', 'userId'],
+  additionalProperties: false,
 }
 
 const customWidgetsData = {
