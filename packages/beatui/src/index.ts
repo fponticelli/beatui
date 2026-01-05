@@ -20,3 +20,13 @@ export * from './tokens'
 export * from './tailwind'
 export * from './utils'
 export * from './temporal'
+
+// JSON Schema custom widget types and utilities
+export {
+  type CustomWidgets,
+  type CustomWidgetRegistration,
+  type WidgetFactory,
+  forXUI,
+  forFormat,
+  forTypeAndFormat,
+} from './components/json-schema/widgets/widget-customization'

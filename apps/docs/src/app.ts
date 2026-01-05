@@ -110,6 +110,11 @@ export const App = () => {
           Async(import('./pages/json-schema-form'), ({ default: Page }) =>
             Page()
           ),
+        '/json-schema-custom-widgets': () =>
+          Async(
+            import('./pages/json-schema-custom-widgets'),
+            ({ default: Page }) => Page()
+          ),
         '/monaco-editor': () =>
           Async(import('./pages/monaco-editor'), ({ default: Page }) => Page()),
         '/prosemirror-editor': () =>

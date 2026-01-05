@@ -13,6 +13,7 @@ import {
 } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { resolveWidget } from '../widgets/utils'
+import { globalWidgetRegistry } from '../widgets/widget-customization'
 import {
   definitionToInputWrapperOptions,
   makePlaceholder,
@@ -77,6 +78,8 @@ export function JSONSchemaNumber({
 
   const def = ctx.definition as JSONSchema
   const widgetInfo = detectNumericWidget(ctx)
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const widget = resolved?.widget
 
   const baseOptions = {
     ...definitionToInputWrapperOptions({ ctx }),
@@ -85,6 +88,52 @@ export function JSONSchemaNumber({
     max: def.maximum,
     step: def.multipleOf,
     disabled: shouldDisableControl(ctx),
+  }
+
+  // Step 1: Check for explicit x:ui widget in custom registry
+  if (widget != null && ctx.widgetRegistry) {
+    const customWidgetReg = ctx.widgetRegistry.get(widget)
+    if (customWidgetReg) {
+      return customWidgetReg.factory({
+        controller: controller as unknown as Controller<unknown>,
+        ctx,
+        options: resolved?.options,
+      })
+    }
+  }
+
+  // Step 2: Check for explicit x:ui widget in global registry
+  if (widget != null) {
+    const globalWidgetReg = globalWidgetRegistry.get(widget)
+    if (globalWidgetReg) {
+      return globalWidgetReg.factory({
+        controller: controller as unknown as Controller<unknown>,
+        ctx,
+        options: resolved?.options,
+      })
+    }
+  }
+
+  // Step 3: Try matcher-based custom widgets (by priority)
+  if (ctx.widgetRegistry) {
+    const matchedWidget = ctx.widgetRegistry.findBestWidget(ctx)
+    if (matchedWidget) {
+      return matchedWidget.registration.factory({
+        controller: controller as unknown as Controller<unknown>,
+        ctx,
+        options: resolved?.options,
+      })
+    }
+  }
+
+  // Step 4: Check global registry with matchers
+  const globalMatched = globalWidgetRegistry.findBestWidget(ctx)
+  if (globalMatched) {
+    return globalMatched.registration.factory({
+      controller: controller as unknown as Controller<unknown>,
+      ctx,
+      options: resolved?.options,
+    })
   }
 
   // Handle nullable cases first

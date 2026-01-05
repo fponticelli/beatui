@@ -48,6 +48,10 @@ export function Menu() {
         SidebarLink({ href: '/editable-text', content: 'Editable Text' }),
         SidebarLink({ href: '/form', content: 'Form' }),
         SidebarLink({ href: '/json-schema-form', content: 'JSON Schema Form' }),
+        SidebarLink({
+          href: '/json-schema-custom-widgets',
+          content: 'JSON Schema Custom Widgets',
+        }),
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
         SidebarLink({
           href: '/prosemirror-editor',

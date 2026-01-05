@@ -21,6 +21,10 @@ import {
   getAsyncValidationRules,
   AsyncValidator,
 } from './validation/async-validation'
+import {
+  type CustomWidgets,
+  WidgetRegistry,
+} from './widgets/widget-customization'
 
 function cloneJson<T>(v: T): T {
   // Use structuredClone when available; fallback to JSON round-trip for plain data
@@ -115,6 +119,31 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
   /** Validation behavior */
   validationMode?: 'onSubmit' | 'eager' | 'onTouched'
   validateDebounceMs?: number
+  /** Custom widgets for form-scoped widget overrides */
+  customWidgets?: CustomWidgets
+}
+
+/**
+ * Create a form-scoped widget registry from custom widgets configuration
+ */
+function createFormWidgetRegistry(
+  customWidgets: CustomWidgets
+): WidgetRegistry {
+  const registry = new WidgetRegistry()
+
+  for (const registration of customWidgets) {
+    registry.register(registration.name, {
+      factory: registration.factory,
+      displayName: registration.displayName || registration.name,
+      description: registration.description,
+      supportedTypes: registration.supportedTypes,
+      priority: registration.priority ?? 50,
+      canFallback: true,
+      matcher: registration.matcher,
+    })
+  }
+
+  return registry
 }
 
 export function JSONSchemaForm<T>(
@@ -126,6 +155,7 @@ export function JSONSchemaForm<T>(
     sanitizeAdditional,
     validationMode,
     validateDebounceMs,
+    customWidgets,
   }: JSONSchemaFormProps<T>,
   fn: ({
     Form,
@@ -251,10 +281,20 @@ export function JSONSchemaForm<T>(
           controller.dispose()
         }
 
+        // Create form-scoped widget registry if custom widgets provided
+        const formWidgetRegistry = customWidgets
+          ? createFormWidgetRegistry(customWidgets)
+          : undefined
+
         // Pass AJV for conditional evaluation in combinators
         const Form = Fragment(
           OnDispose(cleanup),
-          JSONSchemaControl({ schema, controller, ajv })
+          JSONSchemaControl({
+            schema,
+            controller,
+            ajv,
+            widgetRegistry: formWidgetRegistry,
+          })
         )
         return fn({ Form, controller, setStatus })
       }

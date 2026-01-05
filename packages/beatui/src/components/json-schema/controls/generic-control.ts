@@ -362,10 +362,12 @@ export function JSONSchemaControl<T>({
   schema,
   controller,
   ajv,
+  widgetRegistry,
 }: {
   schema: JSONSchemaDefinition
   controller: Controller<T>
   ajv?: import('ajv').default
+  widgetRegistry?: import('../widgets/widget-customization').WidgetRegistry
 }): Renderable {
   const ctx = new SchemaContextClass({
     schema,
@@ -374,6 +376,7 @@ export function JSONSchemaControl<T>({
     isPropertyRequired: false,
     path: [],
     ajv,
+    widgetRegistry,
   })
   if (schema === true) {
     return JSONSchemaAny({ ctx, controller: controller as Controller<unknown> })
