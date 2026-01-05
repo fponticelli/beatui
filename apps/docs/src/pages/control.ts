@@ -22,7 +22,7 @@ export default function ControlPage() {
 
   const validForm = useForm({
     schema,
-    validationMode: 'continuous',
+    validationMode: 'eager',
     initialValue: {
       name: 'Taylor Otwell',
       email: 'taylor@example.com',
@@ -33,7 +33,7 @@ export default function ControlPage() {
 
   const errorForm = useForm({
     schema,
-    validationMode: 'continuous',
+    validationMode: 'eager',
     initialValue: {
       name: '',
       email: 'not-an-email',

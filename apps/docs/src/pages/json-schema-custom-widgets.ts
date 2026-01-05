@@ -60,7 +60,9 @@ function UuidWidget({
   options?: unknown
 }) {
   const isValid = controller.signal.map(
-    v => v != null && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
+    v =>
+      v != null &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
   )
 
   return Control(TextInput, {
