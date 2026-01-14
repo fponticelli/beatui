@@ -8,6 +8,31 @@ const __dirname = dirname(new URL(import.meta.url).pathname)
 // Create a merged configuration for Vite and Vitest
 export default defineConfig({
   plugins: [generateCSSVariablesPlugin()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'text-summary', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      include: ['src/**/*.ts'],
+      exclude: [
+        'src/**/*.d.ts',
+        'src/**/index.ts',
+        'src/tailwind/**',
+        'src/monaco/**',
+        'src/prosemirror/**',
+        'src/markdown/**',
+      ],
+      thresholds: {
+        // Set baseline thresholds - can be increased over time
+        lines: 50,
+        functions: 50,
+        branches: 50,
+        statements: 50,
+      },
+    },
+  },
   build: {
     lib: {
       entry: {
