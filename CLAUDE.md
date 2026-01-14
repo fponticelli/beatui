@@ -118,3 +118,10 @@ The package uses automated release scripts:
 
 ### Vite Configuration
 The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates CSS variables from design token TypeScript files at build time. Token definitions in `src/tokens/` are converted to CSS custom properties in `src/styles/base/`.
+
+## Active Technologies
+- TypeScript 5.9+ (ES2020 target) (001-json-structure-forms)
+- N/A (client-side form state only) (001-json-structure-forms)
+
+## Recent Changes
+- 001-json-structure-forms: Added TypeScript 5.9+ (ES2020 target)
