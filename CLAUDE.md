@@ -6,21 +6,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Development
 - `pnpm dev` - Run all development servers (beatui lib + docs)
+- `pnpm dev:docs` - Build library then watch+run docs (recommended for docs development)
 - `pnpm --filter @beatui/docs dev` - Run only docs site dev server
 
 ### Building
 - `pnpm build` - Build all packages using Turborepo
 - `pnpm --filter @tempots/beatui build` - Build only the main library
+- `pnpm --filter @tempots/beatui build:watch` - Watch mode for library builds
 
 ### Testing
 - `pnpm test` - Run all tests across packages
 - `pnpm test:watch` - Run tests in watch mode
 - `pnpm --filter @tempots/beatui test` - Run tests for main library only
 - `pnpm --filter @tempots/beatui test:watch` - Watch mode for library tests
+- `pnpm --filter @tempots/beatui test -- tests/path/to/file.test.ts` - Run a single test file
 
 ### Code Quality
 - `pnpm lint` - Lint all packages
 - `pnpm format` - Format all packages with Prettier
+- `pnpm typecheck` - Type check all packages
 
 ### Other
 - `pnpm clean` - Clean all build artifacts
@@ -34,15 +38,34 @@ This is a Turborepo-managed monorepo with pnpm workspaces:
 
 ### Core Dependencies
 BeatUI is built on the Tempo ecosystem:
-- `@tempots/dom` - Reactive DOM library (like Solid.js)
+- `@tempots/dom` - Reactive DOM library with fine-grained reactivity (like Solid.js)
 - `@tempots/ui` - UI utilities and helpers
 - `@tempots/std` - Standard utilities
 
-### CSS Architecture
-BeatUI uses a **layered CSS architecture** with strict ordering:
+Key Tempo primitives used throughout:
+- `Value<T>` - Reactive value (can be static or signal)
+- `prop<T>()` - Create a reactive property (signal)
+- `computedOf()` - Derive computed values from multiple signals
+- `html.*` - Element factories (html.div, html.button, etc.)
+- `attr.*`, `style.*`, `on.*` - Attribute, style, and event bindings
+- `When()`, `Fragment()`, `Empty` - Conditional and structural helpers
 
-1. `@layer base` - Reset + foundational styles and design tokens
-2. `@layer components` - Component styles and modifiers (prefixed with `bc-`)
+### Library Entry Points
+The library exports multiple entry points for optional features:
+- `@tempots/beatui` - Main components (buttons, forms, layout, etc.)
+- `@tempots/beatui/auth` - Authentication components
+- `@tempots/beatui/json-schema` - JSON Schema form generation
+- `@tempots/beatui/monaco` - Monaco editor integration
+- `@tempots/beatui/markdown` - Markdown rendering
+- `@tempots/beatui/prosemirror` - ProseMirror editor integration
+- `@tempots/beatui/tailwind` - Tailwind CSS preset and utilities
+
+### CSS Architecture
+BeatUI uses a **layered CSS architecture** with strict ordering in `src/styles/layers/`:
+
+1. `01.reset/` - CSS reset
+2. `02.base/` - Design tokens and foundational styles
+3. `03.components/` - Component styles (prefixed with `bc-`)
 
 ### Design Token System
 - Design tokens are defined in TypeScript files (`src/tokens/`)
@@ -53,9 +76,10 @@ BeatUI uses a **layered CSS architecture** with strict ordering:
 ### Component Structure
 Components follow this pattern:
 - TypeScript components using `@tempots/dom` reactive primitives
-- Exported from category folders (`button/`, `form/`, `layout/`, etc.)
-- Styles in corresponding CSS files using BEM-like naming (`bc-button`)
-- Each component exports both the component and any related types
+- Located in `src/components/` under category folders (`button/`, `form/`, `layout/`, etc.)
+- Styles in `src/styles/layers/03.components/` using BEM-like naming (`bc-button`)
+- Each component exports both the component function and any related types
+- Components accept options object + children: `Button({ size: 'md' }, 'Click me')`
 
 ### Form System
 Sophisticated form handling with:
@@ -74,11 +98,11 @@ Sophisticated form handling with:
 
 ### Component Development
 When creating new components:
-1. Create TypeScript component file in appropriate category folder
-2. Add corresponding CSS file in `styles/layers/03.components/`
-3. Use CSS custom properties for theming
+1. Create TypeScript component file in `src/components/<category>/`
+2. Add corresponding CSS file in `src/styles/layers/03.components/`
+3. Use CSS custom properties for theming (leverage design tokens)
 4. Export from category `index.ts` and main `src/index.ts`
-5. Follow existing naming conventions (`bc-` for component styles)
+5. Follow existing naming conventions (`bc-` prefix for component CSS classes)
 
 ### Testing
 - Tests use Vitest with jsdom environment
@@ -93,9 +117,4 @@ The package uses automated release scripts:
 - Scripts handle build, test, version bump, publish, and git commit
 
 ### Vite Configuration
-Custom Vite plugins generate:
-- CSS variables from design token TypeScript files
-- Background utility classes
-- Breakpoint utility classes
-
-All plugins are defined in `scripts/vite-plugins.ts`
+The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates CSS variables from design token TypeScript files at build time. Token definitions in `src/tokens/` are converted to CSS custom properties in `src/styles/base/`.
