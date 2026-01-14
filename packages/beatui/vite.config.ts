@@ -14,6 +14,7 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         auth: resolve(__dirname, 'src/auth/index.ts'),
         'json-schema': resolve(__dirname, 'src/json-schema/index.ts'),
+        'json-structure': resolve(__dirname, 'src/json-structure/index.ts'),
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
@@ -29,6 +30,7 @@ export default defineConfig({
         if (
           entryName === 'auth' ||
           entryName === 'json-schema' ||
+          entryName === 'json-structure' ||
           entryName === 'monaco' ||
           entryName === 'markdown' ||
           entryName === 'prosemirror' ||

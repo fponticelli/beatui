@@ -125,7 +125,12 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     on.click(() => {
       element?.focus()
       if (typeof element?.showPicker === 'function') {
-        element.showPicker()
+        try {
+          element.showPicker()
+        } catch {
+          // Ignore errors from showPicker - can throw NotSupportedError
+          // if element is not rendered or has been removed from DOM
+        }
       }
     })
   )

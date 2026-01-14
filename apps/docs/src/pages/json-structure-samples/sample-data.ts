@@ -1,0 +1,6 @@
+export default {
+  name: 'John Doe',
+  email: 'john@example.com',
+  age: 30,
+  subscribe: true,
+}

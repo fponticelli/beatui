@@ -115,6 +115,15 @@ export const App = () => {
             import('./pages/json-schema-custom-widgets'),
             ({ default: Page }) => Page()
           ),
+        '/json-structure-form': () =>
+          Async(import('./pages/json-structure-form'), ({ default: Page }) =>
+            Page()
+          ),
+        '/json-structure-custom-widgets': () =>
+          Async(
+            import('./pages/json-structure-custom-widgets'),
+            ({ default: Page }) => Page()
+          ),
         '/monaco-editor': () =>
           Async(import('./pages/monaco-editor'), ({ default: Page }) => Page()),
         '/prosemirror-editor': () =>

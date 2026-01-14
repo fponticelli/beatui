@@ -52,6 +52,14 @@ export function Menu() {
           href: '/json-schema-custom-widgets',
           content: 'JSON Schema Custom Widgets',
         }),
+        SidebarLink({
+          href: '/json-structure-form',
+          content: 'JSON Structure Form',
+        }),
+        SidebarLink({
+          href: '/json-structure-custom-widgets',
+          content: 'JSON Structure Custom Widgets',
+        }),
         SidebarLink({ href: '/monaco-editor', content: 'Monaco Editor' }),
         SidebarLink({
           href: '/prosemirror-editor',

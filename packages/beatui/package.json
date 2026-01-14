@@ -24,6 +24,12 @@
       "require": "./dist/json-schema/index.cjs.js",
       "default": "./dist/json-schema/index.es.js"
     },
+    "./json-structure": {
+      "types": "./dist/types/json-structure/index.d.ts",
+      "import": "./dist/json-structure/index.es.js",
+      "require": "./dist/json-structure/index.cjs.js",
+      "default": "./dist/json-structure/index.es.js"
+    },
     "./monaco": {
       "types": "./dist/types/monaco/index.d.ts",
       "import": "./dist/monaco/index.es.js",
