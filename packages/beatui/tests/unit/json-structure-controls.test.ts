@@ -402,7 +402,7 @@ describe('JSON Structure Controls', () => {
     })
 
     it('should handle int64 with bigint input', () => {
-      const controller = createController<number | bigint | null>(BigInt(9007199254740993))
+      const controller = createController<number | bigint | null>(9007199254740993n)
       const ctx = createContext({ type: 'int64' })
 
       render(
@@ -606,12 +606,9 @@ describe('JSON Structure Controls', () => {
  * Additional tests for JSON Structure generic control and routing
  */
 import { StructureGenericControl, StructureControl } from '../../src/components/json-structure/controls/generic-control'
-import { StructureArrayControl } from '../../src/components/json-structure/controls/array-control'
-import { StructureObjectControl } from '../../src/components/json-structure/controls/object-control'
 import { StructureUuidControl } from '../../src/components/json-structure/controls/uuid-control'
 import { StructureUriControl } from '../../src/components/json-structure/controls/uri-control'
 import { StructureEnumControl, StructureConstControl } from '../../src/components/json-structure/controls/enum-const-controls'
-import { ObjectController, ArrayController } from '../../src/components/form'
 
 describe('JSON Structure Generic Control Routing', () => {
   let container: HTMLElement

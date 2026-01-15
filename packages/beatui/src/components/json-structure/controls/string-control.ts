@@ -19,10 +19,13 @@ import { withDeprecationBadge } from './deprecation-utils'
  */
 function createInputOptions(ctx: StructureContext) {
   // Use first example as placeholder if available
-  const placeholder = ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
+  const placeholder =
+    ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
 
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,

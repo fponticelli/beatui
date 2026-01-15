@@ -63,7 +63,9 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
   // Generate empty value based on type
   if (!definition.type) return undefined
 
-  const type = Array.isArray(definition.type) ? definition.type[0] : definition.type
+  const type = Array.isArray(definition.type)
+    ? definition.type[0]
+    : definition.type
 
   if (typeof type === 'object' && '$ref' in type) {
     return undefined // Can't infer value for references
@@ -88,9 +90,17 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
     default:
       // Numeric types
       if (
-        type === 'int8' || type === 'int16' || type === 'int32' || type === 'int64' ||
-        type === 'uint8' || type === 'uint16' || type === 'uint32' || type === 'uint64' ||
-        type === 'float' || type === 'double' || type === 'decimal'
+        type === 'int8' ||
+        type === 'int16' ||
+        type === 'int32' ||
+        type === 'int64' ||
+        type === 'uint8' ||
+        type === 'uint16' ||
+        type === 'uint32' ||
+        type === 'uint64' ||
+        type === 'float' ||
+        type === 'double' ||
+        type === 'decimal'
       ) {
         return 0
       }
@@ -101,7 +111,10 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
 /**
  * Generate a unique property key that doesn't exist in the current object
  */
-function generateUniqueKey(existingKeys: Set<string>, baseName = 'property'): string {
+function generateUniqueKey(
+  existingKeys: Set<string>,
+  baseName = 'property'
+): string {
   if (!existingKeys.has(baseName)) return baseName
 
   let counter = 1
@@ -133,29 +146,37 @@ export function StructureObjectControl({
   return MapSignal(controller.signal, current => {
     const properties = definition.properties as Record<string, TypeDefinition>
     const required = definition.required as string[] | string[][] | undefined
-    const additionalProperties = definition.additionalProperties as boolean | TypeDefinition | undefined
+    const additionalProperties = definition.additionalProperties as
+      | boolean
+      | TypeDefinition
+      | undefined
 
     // Determine if additional properties are allowed
     const allowAdditional = additionalProperties !== false
     const additionalSchema: TypeDefinition =
       typeof additionalProperties === 'object' && additionalProperties !== null
         ? additionalProperties
-        : { type: 'any' } as TypeDefinition
+        : ({ type: 'any' } as TypeDefinition)
 
     // Get min/max properties constraints
-    const minProps = (definition as { minProperties?: number }).minProperties ?? 0
-    const maxProps = (definition as { maxProperties?: number }).maxProperties ?? Infinity
+    const minProps =
+      (definition as { minProperties?: number }).minProperties ?? 0
+    const maxProps =
+      (definition as { maxProperties?: number }).maxProperties ?? Infinity
 
     // Collect known property names
     const propertyEntries = objectEntries(properties)
-    const knownPropertyNames = new Set(propertyEntries.map(([key]) => key as string))
+    const knownPropertyNames = new Set(
+      propertyEntries.map(([key]) => key as string)
+    )
 
     // Get current additional property keys
     const currentKeys = Object.keys(current ?? {})
     const additionalKeys = currentKeys.filter(k => !knownPropertyNames.has(k))
 
     // Determine if we can add properties
-    const canAdd = allowAdditional && currentKeys.length < maxProps && !ctx.readOnly
+    const canAdd =
+      allowAdditional && currentKeys.length < maxProps && !ctx.readOnly
     const canRemove = currentKeys.length > minProps && !ctx.readOnly
 
     // Render known properties

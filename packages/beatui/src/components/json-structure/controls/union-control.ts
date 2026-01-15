@@ -35,9 +35,13 @@ function createInputOptions(ctx: StructureContext) {
 /**
  * Detect the type of a value against a union of types
  */
-function detectTypeInUnion(value: unknown, types: TypeKeyword[]): TypeKeyword | null {
+function detectTypeInUnion(
+  value: unknown,
+  types: TypeKeyword[]
+): TypeKeyword | null {
   if (value === null) return types.includes('null') ? 'null' : null
-  if (value === undefined) return types.includes('string') ? 'string' : types[0] ?? null
+  if (value === undefined)
+    return types.includes('string') ? 'string' : (types[0] ?? null)
 
   const jsType = typeof value
 
@@ -351,7 +355,8 @@ export function StructureUnionControl<T>({
   const nonNullTypes = getNonNullTypes(typeSpec)
 
   // Filter out null from the selector options if we have other types
-  const selectorTypes = hasNull && nonNullTypes.length > 0 ? nonNullTypes : types
+  const selectorTypes =
+    hasNull && nonNullTypes.length > 0 ? nonNullTypes : types
 
   // Create union branches for the types
   const branches = createUnionBranches(selectorTypes)

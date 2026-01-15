@@ -5,6 +5,7 @@
  */
 
 import { attr, html, Renderable } from '@tempots/dom'
+import { Temporal } from '@js-temporal/polyfill'
 import { ObjectController, ArrayController, type Controller } from '../../form'
 import type { StructureContext } from '../structure-context'
 import { createStructureContext } from '../structure-context'
@@ -47,7 +48,10 @@ import { StructureTupleControl } from './tuple-control'
 import { StructureChoiceControl } from './choice-control'
 
 // Enum and const control imports
-import { StructureEnumControl, StructureConstControl } from './enum-const-controls'
+import {
+  StructureEnumControl,
+  StructureConstControl,
+} from './enum-const-controls'
 
 // Union control import
 import { StructureUnionControl } from './union-control'
@@ -142,9 +146,12 @@ export function StructureGenericControl<T>({
 
   // Handle compound types
   if (isObjectTypeDefinition(resolvedCtx.definition)) {
-    const objController = controller instanceof ObjectController
-      ? controller
-      : (controller as unknown as Controller<Record<string, unknown>>).object()
+    const objController =
+      controller instanceof ObjectController
+        ? controller
+        : (
+            controller as unknown as Controller<Record<string, unknown>>
+          ).object()
     return StructureObjectControl({
       ctx: resolvedCtx,
       controller: objController as ObjectController<{ [key: string]: unknown }>,
@@ -152,9 +159,10 @@ export function StructureGenericControl<T>({
   }
 
   if (isArrayTypeDefinition(resolvedCtx.definition)) {
-    const arrController = controller instanceof ArrayController
-      ? controller
-      : (controller as unknown as Controller<unknown[]>).array()
+    const arrController =
+      controller instanceof ArrayController
+        ? controller
+        : (controller as unknown as Controller<unknown[]>).array()
     return StructureArrayControl({
       ctx: resolvedCtx,
       controller: arrController as ArrayController<unknown[]>,
@@ -162,9 +170,10 @@ export function StructureGenericControl<T>({
   }
 
   if (isSetTypeDefinition(resolvedCtx.definition)) {
-    const arrController = controller instanceof ArrayController
-      ? controller
-      : (controller as unknown as Controller<unknown[]>).array()
+    const arrController =
+      controller instanceof ArrayController
+        ? controller
+        : (controller as unknown as Controller<unknown[]>).array()
     return StructureSetControl({
       ctx: resolvedCtx,
       controller: arrController as ArrayController<unknown[]>,
@@ -172,9 +181,12 @@ export function StructureGenericControl<T>({
   }
 
   if (isMapTypeDefinition(resolvedCtx.definition)) {
-    const objController = controller instanceof ObjectController
-      ? controller
-      : (controller as unknown as Controller<Record<string, unknown>>).object()
+    const objController =
+      controller instanceof ObjectController
+        ? controller
+        : (
+            controller as unknown as Controller<Record<string, unknown>>
+          ).object()
     return StructureMapControl({
       ctx: resolvedCtx,
       controller: objController as ObjectController<{ [key: string]: unknown }>,
@@ -182,9 +194,10 @@ export function StructureGenericControl<T>({
   }
 
   if (isTupleTypeDefinition(resolvedCtx.definition)) {
-    const arrController = controller instanceof ArrayController
-      ? controller
-      : (controller as unknown as Controller<unknown[]>).array()
+    const arrController =
+      controller instanceof ArrayController
+        ? controller
+        : (controller as unknown as Controller<unknown[]>).array()
     return StructureTupleControl({
       ctx: resolvedCtx,
       controller: arrController as ArrayController<unknown[]>,
@@ -237,7 +250,9 @@ export function StructureGenericControl<T>({
       if (isIntegerType(primaryType)) {
         return StructureIntegerControl({
           ctx: resolvedCtx,
-          controller: controller as unknown as Controller<number | bigint | null>,
+          controller: controller as unknown as Controller<
+            number | bigint | null
+          >,
           intType: primaryType,
         })
       }
@@ -253,7 +268,13 @@ export function StructureGenericControl<T>({
       if (isTemporalType(primaryType)) {
         return StructureTemporalControl({
           ctx: resolvedCtx,
-          controller: controller as unknown as Controller<any>,
+          controller: controller as unknown as Controller<
+            | Temporal.PlainDate
+            | Temporal.PlainDateTime
+            | Temporal.PlainTime
+            | Temporal.Duration
+            | null
+          >,
           temporalType: primaryType,
         })
       }

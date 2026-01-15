@@ -43,18 +43,30 @@ function createInputOptions(ctx: StructureContext, floatType: FloatType) {
   }
 
   // Get min/max constraints
-  const minimum = def.minimum !== undefined
-    ? (typeof def.minimum === 'string' ? parseFloat(def.minimum) : def.minimum)
-    : undefined
-  const maximum = def.maximum !== undefined
-    ? (typeof def.maximum === 'string' ? parseFloat(def.maximum) : def.maximum)
-    : undefined
-  const exclusiveMinimum = def.exclusiveMinimum !== undefined
-    ? (typeof def.exclusiveMinimum === 'string' ? parseFloat(def.exclusiveMinimum) : def.exclusiveMinimum)
-    : undefined
-  const exclusiveMaximum = def.exclusiveMaximum !== undefined
-    ? (typeof def.exclusiveMaximum === 'string' ? parseFloat(def.exclusiveMaximum) : def.exclusiveMaximum)
-    : undefined
+  const minimum =
+    def.minimum !== undefined
+      ? typeof def.minimum === 'string'
+        ? parseFloat(def.minimum)
+        : def.minimum
+      : undefined
+  const maximum =
+    def.maximum !== undefined
+      ? typeof def.maximum === 'string'
+        ? parseFloat(def.maximum)
+        : def.maximum
+      : undefined
+  const exclusiveMinimum =
+    def.exclusiveMinimum !== undefined
+      ? typeof def.exclusiveMinimum === 'string'
+        ? parseFloat(def.exclusiveMinimum)
+        : def.exclusiveMinimum
+      : undefined
+  const exclusiveMaximum =
+    def.exclusiveMaximum !== undefined
+      ? typeof def.exclusiveMaximum === 'string'
+        ? parseFloat(def.exclusiveMaximum)
+        : def.exclusiveMaximum
+      : undefined
 
   // For exclusive bounds, we can't perfectly represent them in HTML5 number input
   // But we can document this in the description
@@ -72,10 +84,13 @@ function createInputOptions(ctx: StructureContext, floatType: FloatType) {
   }
 
   // Use first example as placeholder if available
-  const placeholder = ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
+  const placeholder =
+    ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
 
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,

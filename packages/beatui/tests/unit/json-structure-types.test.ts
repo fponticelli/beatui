@@ -33,8 +33,6 @@ import {
   INTEGER_BOUNDS,
   // Types
   type TypeDefinition,
-  type ObjectTypeDefinition,
-  type ArrayTypeDefinition,
   type ChoiceTypeDefinition,
 } from '../../src/components/json-structure/structure-types'
 

@@ -244,7 +244,7 @@ describe('JSON Structure Ref Utils', () => {
 
     it('should detect and warn about circular refs', () => {
       const resolver = new RefResolver(schema)
-      const result = resolver.resolve('#/definitions/Circular')
+      resolver.resolve('#/definitions/Circular')
       expect(consoleWarnSpy).toHaveBeenCalledWith(
         expect.stringContaining('Circular reference detected')
       )

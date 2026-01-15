@@ -1,3 +1,7 @@
 # Playwright
 playwright-report/
 test-results/
+
+# Visual baseline diffs (baselines themselves are tracked)
+e2e/visual-baselines/*-diff.png
+e2e/visual-baselines/*-actual.png

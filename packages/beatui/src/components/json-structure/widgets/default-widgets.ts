@@ -23,10 +23,14 @@ import { StructureSetControl } from '../controls/set-control'
 import { StructureMapControl } from '../controls/map-control'
 import { StructureTupleControl } from '../controls/tuple-control'
 import { StructureChoiceControl } from '../controls/choice-control'
-import { StructureEnumControl, StructureConstControl } from '../controls/enum-const-controls'
+import {
+  StructureEnumControl,
+  StructureConstControl,
+} from '../controls/enum-const-controls'
 
 import type { Controller, ObjectController, ArrayController } from '../../form'
 import type { IntegerType, FloatType, TemporalType } from '../structure-types'
+import { Temporal } from '@js-temporal/polyfill'
 
 /**
  * Register all default widgets for JSON Structure types
@@ -179,7 +183,13 @@ export function registerDefaultWidgets(
   const temporalFactory: WidgetFactory = ({ controller, ctx }) =>
     StructureTemporalControl({
       ctx,
-      controller: controller as Controller<any>,
+      controller: controller as Controller<
+        | Temporal.PlainDate
+        | Temporal.PlainDateTime
+        | Temporal.PlainTime
+        | Temporal.Duration
+        | null
+      >,
       temporalType: ctx.primaryType as TemporalType,
     })
 
@@ -199,7 +209,9 @@ export function registerDefaultWidgets(
     factory: ({ controller, ctx }) =>
       StructureObjectControl({
         ctx,
-        controller: controller as unknown as ObjectController<{ [key: string]: unknown }>,
+        controller: controller as unknown as ObjectController<{
+          [key: string]: unknown
+        }>,
       }),
     displayName: 'Object',
     description: 'Form for object values',
@@ -241,7 +253,9 @@ export function registerDefaultWidgets(
     factory: ({ controller, ctx }) =>
       StructureMapControl({
         ctx,
-        controller: controller as unknown as ObjectController<{ [key: string]: unknown }>,
+        controller: controller as unknown as ObjectController<{
+          [key: string]: unknown
+        }>,
       }),
     displayName: 'Map',
     description: 'Map control for key-value pairs',
@@ -317,7 +331,9 @@ export function hasDefaultWidgets(
   registry: WidgetRegistry = getGlobalWidgetRegistry()
 ): boolean {
   // Check for a few key widgets
-  return registry.has('string') && registry.has('object') && registry.has('array')
+  return (
+    registry.has('string') && registry.has('object') && registry.has('array')
+  )
 }
 
 /**

@@ -400,6 +400,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
         type: 'tuple',
         tuple: ['unknown'],
         properties: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Testing unknown type handling
           unknown: { type: 'customUnknownType' as any },
         },
       }

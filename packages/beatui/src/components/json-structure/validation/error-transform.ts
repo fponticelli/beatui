@@ -164,7 +164,9 @@ function getErrorMessage(
       return 'Invalid value'
 
     default:
-      return error.context?.message as string ?? `Validation error: ${error.type}`
+      return (
+        (error.context?.message as string) ?? `Validation error: ${error.type}`
+      )
   }
 }
 

@@ -39,7 +39,9 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
   // Generate empty value based on type
   if (!definition.type) return undefined
 
-  const type = Array.isArray(definition.type) ? definition.type[0] : definition.type
+  const type = Array.isArray(definition.type)
+    ? definition.type[0]
+    : definition.type
 
   if (typeof type === 'object' && '$ref' in type) {
     return undefined // Can't infer value for references
@@ -64,9 +66,18 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
     default:
       // Numeric types
       if (
-        type === 'int8' || type === 'int16' || type === 'int32' || type === 'int64' ||
-        type === 'int128' || type === 'uint8' || type === 'uint16' || type === 'uint32' ||
-        type === 'uint64' || type === 'uint128' || type === 'float' || type === 'double' ||
+        type === 'int8' ||
+        type === 'int16' ||
+        type === 'int32' ||
+        type === 'int64' ||
+        type === 'int128' ||
+        type === 'uint8' ||
+        type === 'uint16' ||
+        type === 'uint32' ||
+        type === 'uint64' ||
+        type === 'uint128' ||
+        type === 'float' ||
+        type === 'double' ||
         type === 'decimal'
       ) {
         return 0
@@ -91,7 +102,11 @@ export function StructureTupleControl({
   const definition = ctx.definition as TupleTypeDefinition
 
   // Type guard to ensure we have a tuple definition
-  if (definition.type !== 'tuple' || !('tuple' in definition) || !('properties' in definition)) {
+  if (
+    definition.type !== 'tuple' ||
+    !('tuple' in definition) ||
+    !('properties' in definition)
+  ) {
     console.warn('StructureTupleControl requires a TupleTypeDefinition')
     return html.div('Invalid tuple definition')
   }
@@ -101,7 +116,10 @@ export function StructureTupleControl({
 
   // Ensure the array is initialized with the correct length
   const currentValue = controller.signal.value
-  if (!Array.isArray(currentValue) || currentValue.length !== tupleOrder.length) {
+  if (
+    !Array.isArray(currentValue) ||
+    currentValue.length !== tupleOrder.length
+  ) {
     // Initialize array with default values in the correct order
     const initialValues = tupleOrder.map(key => {
       const propDef = properties[key]
@@ -116,15 +134,18 @@ export function StructureTupleControl({
     attr.class('bc-json-structure-tuple'),
 
     // Optional label and description
-    inputOptions.label && html.label(
-      attr.class('bc-json-structure-tuple-label'),
-      inputOptions.label,
-      inputOptions.required && html.span(attr.class('bc-required-indicator'), '*')
-    ),
-    inputOptions.description && html.div(
-      attr.class('bc-json-structure-tuple-description'),
-      inputOptions.description
-    ),
+    inputOptions.label &&
+      html.label(
+        attr.class('bc-json-structure-tuple-label'),
+        inputOptions.label,
+        inputOptions.required &&
+          html.span(attr.class('bc-required-indicator'), '*')
+      ),
+    inputOptions.description &&
+      html.div(
+        attr.class('bc-json-structure-tuple-description'),
+        inputOptions.description
+      ),
 
     // Render tuple elements
     html.div(
@@ -132,7 +153,9 @@ export function StructureTupleControl({
       ...tupleOrder.map((key, index) => {
         const propDef = properties[key]
         if (!propDef) {
-          console.warn(`Tuple element "${key}" at index ${index} not found in properties`)
+          console.warn(
+            `Tuple element "${key}" at index ${index} not found in properties`
+          )
           return html.div(
             attr.class('bc-json-structure-tuple-element'),
             html.span(`Missing definition for "${key}"`)

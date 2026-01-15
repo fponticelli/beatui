@@ -387,6 +387,7 @@ export function beatuiTailwindPlugin(
 
       if (googleFontRequests.length > 0) {
         const remoteCssUrls = Array.from(
+          // eslint-disable-next-line tempots/require-async-signal-disposal -- This is an array, not a Signal
           new Set(googleFontRequests.map(buildGoogleFontCssUrl))
         )
         const preparation = await prepareGoogleFonts({

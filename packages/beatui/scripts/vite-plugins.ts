@@ -15,7 +15,9 @@ function formatWithPrettier(filePath: string) {
       { stdio: 'inherit' }
     )
     if (res.status === 0) return
-  } catch {}
+  } catch {
+    // pnpm not available, try next method
+  }
   try {
     const res = spawnSync(
       'npx',
@@ -23,7 +25,9 @@ function formatWithPrettier(filePath: string) {
       { stdio: 'inherit' }
     )
     if (res.status === 0) return
-  } catch {}
+  } catch {
+    // npx not available, try next method
+  }
   try {
     spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
   } catch {
@@ -72,7 +76,9 @@ export function generateCSSVariablesPlugin() {
           fs.writeFileSync(outputPath, content, 'utf8')
           try {
             formatWithPrettier(outputPath)
-          } catch {}
+          } catch {
+            // Prettier formatting is optional - ignore failures
+          }
         }
 
         writeCss(coreOutput, buildCssFromVariables(generateCoreTokenVariables()))

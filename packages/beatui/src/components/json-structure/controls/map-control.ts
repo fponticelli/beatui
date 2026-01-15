@@ -39,7 +39,9 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
   // Generate empty value based on type
   if (!definition.type) return undefined
 
-  const type = Array.isArray(definition.type) ? definition.type[0] : definition.type
+  const type = Array.isArray(definition.type)
+    ? definition.type[0]
+    : definition.type
 
   if (typeof type === 'object' && '$ref' in type) {
     return undefined // Can't infer value for references
@@ -64,9 +66,18 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
     default:
       // Numeric types
       if (
-        type === 'int8' || type === 'int16' || type === 'int32' || type === 'int64' ||
-        type === 'int128' || type === 'uint8' || type === 'uint16' || type === 'uint32' ||
-        type === 'uint64' || type === 'uint128' || type === 'float' || type === 'double' ||
+        type === 'int8' ||
+        type === 'int16' ||
+        type === 'int32' ||
+        type === 'int64' ||
+        type === 'int128' ||
+        type === 'uint8' ||
+        type === 'uint16' ||
+        type === 'uint32' ||
+        type === 'uint64' ||
+        type === 'uint128' ||
+        type === 'float' ||
+        type === 'double' ||
         type === 'decimal'
       ) {
         return 0
@@ -78,7 +89,10 @@ function makeDefaultValue(definition: TypeDefinition): unknown {
 /**
  * Generate a unique key that doesn't exist in the current map
  */
-function generateUniqueKey(existingKeys: Set<string>, baseName = 'key'): string {
+function generateUniqueKey(
+  existingKeys: Set<string>,
+  baseName = 'key'
+): string {
   if (!existingKeys.has(baseName)) return baseName
 
   let counter = 1

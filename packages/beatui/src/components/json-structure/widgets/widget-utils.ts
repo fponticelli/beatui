@@ -58,7 +58,9 @@ export function resolveWidget(
  * @param ctx - Structure context
  * @returns Widget options if found
  */
-export function getWidgetOptions(ctx: StructureContext): WidgetOptions | undefined {
+export function getWidgetOptions(
+  ctx: StructureContext
+): WidgetOptions | undefined {
   const def = ctx.definition
   const options: WidgetOptions = {}
 
@@ -81,7 +83,10 @@ export function getWidgetOptions(ctx: StructureContext): WidgetOptions | undefin
   if (typeof def === 'object' && 'widget' in def) {
     const widget = def.widget
     if (typeof widget === 'object' && widget !== null) {
-      options.options = { ...(options.options ?? {}), ...(widget as Record<string, unknown>) }
+      options.options = {
+        ...(options.options ?? {}),
+        ...(widget as Record<string, unknown>),
+      }
     }
   }
 
@@ -98,7 +103,9 @@ export function getWidgetOptions(ctx: StructureContext): WidgetOptions | undefin
  * @param ctx - Structure context
  * @returns Explicit widget name or undefined
  */
-export function getExplicitWidgetName(ctx: StructureContext): string | undefined {
+export function getExplicitWidgetName(
+  ctx: StructureContext
+): string | undefined {
   const def = ctx.definition
 
   // Check x:ui.widget

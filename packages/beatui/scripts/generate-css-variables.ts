@@ -47,7 +47,9 @@ function writeCss(filePath: string, content: string) {
   fs.writeFileSync(filePath, content, 'utf8')
   try {
     formatWithPrettier(filePath)
-  } catch {}
+  } catch {
+    // Prettier formatting is optional - ignore failures
+  }
 }
 
 function main() {

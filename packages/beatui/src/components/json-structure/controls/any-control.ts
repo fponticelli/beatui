@@ -14,7 +14,9 @@ import { withDeprecationBadge } from './deprecation-utils'
  */
 function createInputOptions(ctx: StructureContext) {
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,
@@ -38,7 +40,7 @@ function createJsonController(
       }
       try {
         return JSON.parse(v)
-      } catch (e) {
+      } catch {
         // Invalid JSON - return as-is and let validation handle it
         return v as unknown
       }

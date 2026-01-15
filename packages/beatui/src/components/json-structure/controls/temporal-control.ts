@@ -27,7 +27,9 @@ import { withDeprecationBadge } from './deprecation-utils'
  */
 function createInputOptions(ctx: StructureContext) {
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,
@@ -43,7 +45,13 @@ export function StructureTemporalControl({
   temporalType,
 }: {
   ctx: StructureContext
-  controller: Controller<Temporal.PlainDate | Temporal.PlainDateTime | Temporal.PlainTime | Temporal.Duration | null>
+  controller: Controller<
+    | Temporal.PlainDate
+    | Temporal.PlainDateTime
+    | Temporal.PlainTime
+    | Temporal.Duration
+    | null
+  >
   temporalType: TemporalType
 }): Renderable {
   const options = createInputOptions(ctx)

@@ -16,7 +16,10 @@ import {
   Option,
   Button,
 } from '@tempots/beatui'
-import { JSONStructureForm } from '@tempots/beatui/json-structure'
+import {
+  JSONStructureForm,
+  type JSONStructureSchema,
+} from '@tempots/beatui/json-structure'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
 import { Validation } from '@tempots/std'
 import type { ControllerValidation } from '@tempots/beatui'
@@ -32,7 +35,9 @@ export default function JSONStructureFormPage() {
   }>(
     async name => {
       const files = await Promise.all([
-        import(`./json-structure-samples/${name}-schema.ts`).then(m => m.default),
+        import(`./json-structure-samples/${name}-schema.ts`).then(
+          m => m.default
+        ),
         import(`./json-structure-samples/${name}-data.ts`).then(m => m.default),
       ])
       return {
@@ -133,7 +138,7 @@ export default function JSONStructureFormPage() {
               MapSignal(schema, schema => {
                 return JSONStructureForm(
                   {
-                    schema,
+                    schema: schema as JSONStructureSchema,
                     initialValue: data,
                   },
                   ({ Form, controller }) => {

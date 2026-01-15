@@ -11,7 +11,6 @@ import {
   Use,
   html,
   Fragment,
-  OnDispose,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -154,25 +153,21 @@ export const NumberInput = (options: NumberInputOptions) => {
       min != null
         ? Fragment(
             attr.min(min),
-            OnDispose(
-              Value.on(min, v => {
-                if (v < Value.get(value)) {
-                  // onChange?.(v)
-                }
-              })
-            )
+            Value.on(min, v => {
+              if (v < Value.get(value)) {
+                // onChange?.(v)
+              }
+            })
           )
         : Empty,
       max != null
         ? Fragment(
             attr.max(max),
-            OnDispose(
-              Value.on(max, v => {
-                if (v > Value.get(value)) {
-                  // onChange?.(v)
-                }
-              })
-            )
+            Value.on(max, v => {
+              if (v > Value.get(value)) {
+                // onChange?.(v)
+              }
+            })
           )
         : Empty,
       CommonInputAttributes(options),

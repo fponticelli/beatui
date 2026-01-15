@@ -32,10 +32,13 @@ function createNumberInputOptions(ctx: StructureContext, intType: IntegerType) {
   const max = getMaximum(ctx, bounds.max)
 
   // Use first example as placeholder if available
-  const placeholder = ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
+  const placeholder =
+    ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
 
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,
@@ -56,10 +59,13 @@ function createBigintInputOptions(ctx: StructureContext, intType: IntegerType) {
   const max = getMaximum(ctx, bounds.max)
 
   // Use first example as placeholder if available
-  const placeholder = ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
+  const placeholder =
+    ctx.examples?.[0] != null ? String(ctx.examples[0]) : undefined
 
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,
@@ -74,10 +80,14 @@ function createBigintInputOptions(ctx: StructureContext, intType: IntegerType) {
  * Get minimum value respecting both type bounds and schema constraints
  */
 function getMinimum(ctx: StructureContext, typeBound: bigint): number | bigint {
-  const def = ctx.definition as { minimum?: number | string; exclusiveMinimum?: number | string }
+  const def = ctx.definition as {
+    minimum?: number | string
+    exclusiveMinimum?: number | string
+  }
 
   if (def.minimum !== undefined) {
-    const schemaMin = typeof def.minimum === 'string' ? BigInt(def.minimum) : def.minimum
+    const schemaMin =
+      typeof def.minimum === 'string' ? BigInt(def.minimum) : def.minimum
     // Return the larger of type bound and schema minimum
     if (typeof schemaMin === 'bigint') {
       return schemaMin > typeBound ? schemaMin : typeBound
@@ -86,8 +96,12 @@ function getMinimum(ctx: StructureContext, typeBound: bigint): number | bigint {
   }
 
   if (def.exclusiveMinimum !== undefined) {
-    const schemaMin = typeof def.exclusiveMinimum === 'string' ? BigInt(def.exclusiveMinimum) : def.exclusiveMinimum
-    const adjustedMin = typeof schemaMin === 'bigint' ? schemaMin + 1n : schemaMin + 1
+    const schemaMin =
+      typeof def.exclusiveMinimum === 'string'
+        ? BigInt(def.exclusiveMinimum)
+        : def.exclusiveMinimum
+    const adjustedMin =
+      typeof schemaMin === 'bigint' ? schemaMin + 1n : schemaMin + 1
     if (typeof adjustedMin === 'bigint') {
       return adjustedMin > typeBound ? adjustedMin : typeBound
     }
@@ -95,7 +109,10 @@ function getMinimum(ctx: StructureContext, typeBound: bigint): number | bigint {
   }
 
   // Convert bigint to number if it fits
-  if (typeBound >= BigInt(Number.MIN_SAFE_INTEGER) && typeBound <= BigInt(Number.MAX_SAFE_INTEGER)) {
+  if (
+    typeBound >= BigInt(Number.MIN_SAFE_INTEGER) &&
+    typeBound <= BigInt(Number.MAX_SAFE_INTEGER)
+  ) {
     return Number(typeBound)
   }
   return typeBound
@@ -105,10 +122,14 @@ function getMinimum(ctx: StructureContext, typeBound: bigint): number | bigint {
  * Get maximum value respecting both type bounds and schema constraints
  */
 function getMaximum(ctx: StructureContext, typeBound: bigint): number | bigint {
-  const def = ctx.definition as { maximum?: number | string; exclusiveMaximum?: number | string }
+  const def = ctx.definition as {
+    maximum?: number | string
+    exclusiveMaximum?: number | string
+  }
 
   if (def.maximum !== undefined) {
-    const schemaMax = typeof def.maximum === 'string' ? BigInt(def.maximum) : def.maximum
+    const schemaMax =
+      typeof def.maximum === 'string' ? BigInt(def.maximum) : def.maximum
     // Return the smaller of type bound and schema maximum
     if (typeof schemaMax === 'bigint') {
       return schemaMax < typeBound ? schemaMax : typeBound
@@ -117,8 +138,12 @@ function getMaximum(ctx: StructureContext, typeBound: bigint): number | bigint {
   }
 
   if (def.exclusiveMaximum !== undefined) {
-    const schemaMax = typeof def.exclusiveMaximum === 'string' ? BigInt(def.exclusiveMaximum) : def.exclusiveMaximum
-    const adjustedMax = typeof schemaMax === 'bigint' ? schemaMax - 1n : schemaMax - 1
+    const schemaMax =
+      typeof def.exclusiveMaximum === 'string'
+        ? BigInt(def.exclusiveMaximum)
+        : def.exclusiveMaximum
+    const adjustedMax =
+      typeof schemaMax === 'bigint' ? schemaMax - 1n : schemaMax - 1
     if (typeof adjustedMax === 'bigint') {
       return adjustedMax < typeBound ? adjustedMax : typeBound
     }
@@ -126,7 +151,10 @@ function getMaximum(ctx: StructureContext, typeBound: bigint): number | bigint {
   }
 
   // Convert bigint to number if it fits
-  if (typeBound >= BigInt(Number.MIN_SAFE_INTEGER) && typeBound <= BigInt(Number.MAX_SAFE_INTEGER)) {
+  if (
+    typeBound >= BigInt(Number.MIN_SAFE_INTEGER) &&
+    typeBound <= BigInt(Number.MAX_SAFE_INTEGER)
+  ) {
     return Number(typeBound)
   }
   return typeBound
