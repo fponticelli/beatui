@@ -9,22 +9,38 @@ export * from './structure-types'
 
 // Context
 export { StructureContext, createStructureContext } from './structure-context'
-export type { StructureContextOptions, StructureContextUpdates } from './structure-context'
+export type {
+  StructureContextOptions,
+  StructureContextUpdates,
+} from './structure-context'
 
 // $ref resolution utilities
-export { resolveRef, resolveTypeReference, parseRefPath, RefResolver, createRefResolver } from './ref-utils'
+export {
+  resolveRef,
+  resolveTypeReference,
+  parseRefPath,
+  RefResolver,
+  createRefResolver,
+} from './ref-utils'
 
 // $extends inheritance utilities
 export { resolveExtends, createExtendsResolver } from './extends-utils'
 export type { InheritanceResult, InheritanceError } from './extends-utils'
 
 // Controls
-export { StructureGenericControl, StructureControl } from './controls/generic-control'
+export {
+  StructureGenericControl,
+  StructureControl,
+} from './controls/generic-control'
 export type { GenericControlProps } from './controls/generic-control'
 
 // Validation
 export { createValidator, validate } from './validation/sdk-validator'
-export type { ValidationResult, ValidatorOptions, StructureValidator } from './validation/sdk-validator'
+export type {
+  ValidationResult,
+  ValidatorOptions,
+  StructureValidator,
+} from './validation/sdk-validator'
 export {
   formatValidationError,
   formatValidationErrors,
@@ -33,7 +49,10 @@ export {
   hasErrorsAtPath,
   getChildErrors,
 } from './validation/error-transform'
-export type { RawValidationError, FormattedValidationError } from './validation/error-transform'
+export type {
+  RawValidationError,
+  FormattedValidationError,
+} from './validation/error-transform'
 
 // Widget registry
 export {
@@ -75,4 +94,7 @@ export {
 
 // Main form component
 export { JSONStructureForm } from './json-structure-form'
-export type { JSONStructureFormProps, ValidationMode } from './json-structure-form'
+export type {
+  JSONStructureFormProps,
+  ValidationMode,
+} from './json-structure-form'

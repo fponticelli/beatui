@@ -14,7 +14,7 @@ vi.mock('../../src/components/data/icon.ts', async () => {
   })()
 
   function storeIconLocally(id: string, svgString: string) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
         if (isIndexedDBAvailable && indexedDB) {
           // In test environment, indexedDB is not available, so this won't execute
@@ -33,7 +33,7 @@ vi.mock('../../src/components/data/icon.ts', async () => {
   }
 
   function getIconLocally(id: string) {
-    return new Promise<string | null>(async (resolve, reject) => {
+    return new Promise<string | null>((resolve, reject) => {
       try {
         if (isIndexedDBAvailable && indexedDB) {
           // In test environment, indexedDB is not available, so this won't execute

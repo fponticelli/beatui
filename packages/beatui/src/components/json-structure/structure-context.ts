@@ -142,7 +142,10 @@ export class StructureContext {
     if (isTypeReference(typeSpec)) {
       const resolved = this.refResolver.resolve(typeSpec.$ref)
       if (resolved?.type) {
-        return getResolvedType(resolved.type) as TypeKeyword | TypeKeyword[] | null
+        return getResolvedType(resolved.type) as
+          | TypeKeyword
+          | TypeKeyword[]
+          | null
       }
       return null
     }
@@ -343,7 +346,9 @@ export class StructureContext {
  */
 export function createStructureContext(
   schema: JSONStructureSchema,
-  options?: Partial<Omit<StructureContextOptions, 'schema' | 'definition' | 'path'>>
+  options?: Partial<
+    Omit<StructureContextOptions, 'schema' | 'definition' | 'path'>
+  >
 ): StructureContext {
   // Determine the root definition
   // If $root is specified, resolve that definition

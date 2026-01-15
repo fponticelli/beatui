@@ -159,7 +159,11 @@ export class DefaultWidgetRegistry implements WidgetRegistry {
   }
 
   findBestWidget(ctx: StructureContext): ResolvedWidget | null {
-    const candidates: Array<{ name: string; registration: WidgetRegistration; score: number }> = []
+    const candidates: Array<{
+      name: string
+      registration: WidgetRegistration
+      score: number
+    }> = []
 
     // Check all registrations (including parent)
     for (const name of this.names()) {
@@ -189,7 +193,10 @@ export class DefaultWidgetRegistry implements WidgetRegistry {
   /**
    * Score how well a widget matches the context
    */
-  private scoreWidget(registration: WidgetRegistration, ctx: StructureContext): number {
+  private scoreWidget(
+    registration: WidgetRegistration,
+    ctx: StructureContext
+  ): number {
     let score = 0
 
     // Custom matcher has highest priority

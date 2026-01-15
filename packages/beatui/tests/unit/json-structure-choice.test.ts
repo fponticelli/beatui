@@ -7,7 +7,7 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { prop } from '@tempots/dom'
-import { StructureContext, createStructureContext } from '../../src/components/json-structure/structure-context'
+import { createStructureContext } from '../../src/components/json-structure/structure-context'
 import {
   isChoiceTypeDefinition,
   hasEnumValue,
@@ -67,7 +67,7 @@ describe('JSON Structure Choice Control', () => {
       )
 
       // Render the choice control
-      const renderable = StructureChoiceControl({ ctx, controller })
+      StructureChoiceControl({ ctx, controller })
 
       // Simulate switching variants by changing the value
       expect(() => {

@@ -14,12 +14,12 @@ export function DeprecationBadge(): TNode {
     attr.class('bc-json-structure-deprecated-badge'),
     attr.style(
       'font-size: var(--font-size-xs); ' +
-      'color: var(--color-warning-500, #d97706); ' +
-      'background: var(--color-warning-100, #fef3c7); ' +
-      'padding: 0.125em 0.5em; ' +
-      'border-radius: var(--radius-sm); ' +
-      'margin-inline-start: 0.5em; ' +
-      'font-weight: normal;'
+        'color: var(--color-warning-500, #d97706); ' +
+        'background: var(--color-warning-100, #fef3c7); ' +
+        'padding: 0.125em 0.5em; ' +
+        'border-radius: var(--radius-sm); ' +
+        'margin-inline-start: 0.5em; ' +
+        'font-weight: normal;'
     ),
     '(deprecated)'
   )
@@ -28,13 +28,13 @@ export function DeprecationBadge(): TNode {
 /**
  * Wrap label with deprecation indicator if field is deprecated
  */
-export function withDeprecationBadge(label: string | undefined, isDeprecated: boolean): TNode {
+export function withDeprecationBadge(
+  label: string | undefined,
+  isDeprecated: boolean
+): TNode {
   if (!label || !isDeprecated) {
     return label ?? ''
   }
 
-  return html.span(
-    label,
-    DeprecationBadge()
-  )
+  return html.span(label, DeprecationBadge())
 }

@@ -39,7 +39,12 @@ export default {
           type: 'object',
           name: 'Credit Card',
           properties: {
-            cardNumber: { type: 'string', name: 'Card Number', minLength: 16, maxLength: 19 },
+            cardNumber: {
+              type: 'string',
+              name: 'Card Number',
+              minLength: 16,
+              maxLength: 19,
+            },
             expiryDate: { type: 'string', name: 'Expiry Date', format: 'date' },
             cvv: { type: 'string', name: 'CVV', minLength: 3, maxLength: 4 },
           },
@@ -66,7 +71,11 @@ export default {
           type: 'object',
           name: 'PayPal',
           properties: {
-            paypalEmail: { type: 'string', name: 'PayPal Email', format: 'email' },
+            paypalEmail: {
+              type: 'string',
+              name: 'PayPal Email',
+              format: 'email',
+            },
           },
           additionalProperties: false,
           required: ['paypalEmail'],

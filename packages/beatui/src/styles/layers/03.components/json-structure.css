@@ -328,7 +328,10 @@
   background: var(--color-warning-100);
   padding: 0.125em 0.5em;
   border-radius: var(--radius-sm);
-  margin-inline-start: var(--spacing-inline-xs, calc(var(--spacing-base) * 0.5));
+  margin-inline-start: var(
+    --spacing-inline-xs,
+    calc(var(--spacing-base) * 0.5)
+  );
 }
 
 .bc-json-structure-required-indicator {
@@ -343,7 +346,8 @@
 .bc-json-structure-const {
   font-family: var(--font-family-mono);
   background: var(--color-base-100);
-  padding: var(--spacing-inline-xs, calc(var(--spacing-base) * 0.5)) var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
+  padding: var(--spacing-inline-xs, calc(var(--spacing-base) * 0.5))
+    var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
   border-radius: var(--radius-sm);
   color: var(--color-base-600);
 }

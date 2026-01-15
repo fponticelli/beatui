@@ -8,7 +8,15 @@
  * - Tagged union serialization: { choiceName: variantValue }
  */
 
-import { Renderable, Value, prop, MapSignal, computedOf, attr, html } from '@tempots/dom'
+import {
+  Renderable,
+  Value,
+  prop,
+  MapSignal,
+  computedOf,
+  attr,
+  html,
+} from '@tempots/dom'
 import type { StructureContext } from '../structure-context'
 import { NativeSelect, InputWrapper, type Controller } from '../../form'
 import { Controller as ControllerClass } from '../../form/controller/controller'
@@ -92,7 +100,10 @@ function detectActiveChoice(
   // Check for discriminator property
   if (selector && selector in valueObj) {
     const discriminatorValue = valueObj[selector]
-    if (typeof discriminatorValue === 'string' && discriminatorValue in choices) {
+    if (
+      typeof discriminatorValue === 'string' &&
+      discriminatorValue in choices
+    ) {
       return discriminatorValue
     }
   }
@@ -177,7 +188,9 @@ function getDefaultVariantValue(definition: TypeDefinition): unknown {
   }
 
   // Generate empty value based on type
-  const type = Array.isArray(definition.type) ? definition.type[0] : definition.type
+  const type = Array.isArray(definition.type)
+    ? definition.type[0]
+    : definition.type
 
   if (!type || typeof type === 'object') {
     return undefined

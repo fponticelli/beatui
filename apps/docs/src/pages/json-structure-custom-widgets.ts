@@ -10,12 +10,13 @@ import {
 } from '@tempots/beatui'
 import {
   JSONStructureForm,
-  forType,
+  createWidgetRegistry,
   forFormat,
   forTypeAndFormat,
   forMatcher,
-  type WidgetRegistration,
   type WidgetFactory,
+  type StructureContext,
+  type JSONStructureSchema,
 } from '@tempots/beatui/json-structure'
 import { Validation } from '@tempots/std'
 import type { ControllerValidation } from '@tempots/beatui'
@@ -245,56 +246,65 @@ export default function JSONStructureCustomWidgetsPage() {
   const data = prop(customWidgetsData)
   const validation = prop<ControllerValidation>(Validation.valid)
 
-  // Define custom widgets with different matching strategies
-  const customWidgets: WidgetRegistration<unknown>[] = [
-    // 1. Explicit x:ui matching - highest priority
-    {
-      name: 'fancy-email',
-      factory: FancyEmailWidget as WidgetFactory<unknown>,
-      displayName: 'Fancy Email Widget',
-      priority: 100,
-      matcher: ctx => {
-        const def = ctx.definition
-        return (
-          typeof def === 'object' &&
-          'x:ui' in def &&
-          def['x:ui'] === 'fancy-email'
-        )
-      },
+  // Create widget registry for custom widgets
+  const widgetRegistry = createWidgetRegistry()
+
+  // 1. Explicit x:ui matching - highest priority
+  widgetRegistry.register('fancy-email', {
+    factory: FancyEmailWidget as WidgetFactory,
+    displayName: 'Fancy Email Widget',
+    priority: 100,
+    matcher: (ctx: StructureContext) => {
+      const def = ctx.definition
+      return (
+        typeof def === 'object' &&
+        'x:ui' in def &&
+        def['x:ui'] === 'fancy-email'
+      )
     },
+  })
 
-    // 2. Format-based matching - matches ALL uuid format fields
-    forFormat('uuid', UuidWidget as WidgetFactory<unknown>, {
-      displayName: 'UUID Widget',
-      priority: 75,
-    }),
+  // 2. Format-based matching - matches ALL uuid format fields
+  const uuidWidget = forFormat('uuid', UuidWidget as WidgetFactory, {
+    displayName: 'UUID Widget',
+    priority: 75,
+  })
+  widgetRegistry.register(uuidWidget.name, uuidWidget.registration)
 
-    // 3. Type + Format matching
-    forTypeAndFormat('string', 'phone', PhoneWidget as WidgetFactory<unknown>, {
+  // 3. Type + Format matching
+  const phoneWidget = forTypeAndFormat(
+    'string',
+    'phone',
+    PhoneWidget as WidgetFactory,
+    {
       displayName: 'Phone Widget',
       priority: 80,
-    }),
+    }
+  )
+  widgetRegistry.register(phoneWidget.name, phoneWidget.registration)
 
-    // 4. Custom matcher function - most flexible
-    forMatcher(
-      ctx => {
-        const schema = ctx.definition
-        return (
-          typeof schema === 'object' &&
-          (schema.type === 'uint8' || schema.type === 'int8') &&
-          schema.minimum === 0 &&
-          schema.maximum === 100
-        )
-      },
-      PercentageWidget as WidgetFactory<unknown>,
-      {
-        name: 'percentage-slider',
-        displayName: 'Percentage Slider',
-        description: 'Custom slider for percentage values (0-100)',
-        priority: 85,
-      }
-    ),
-  ]
+  // 4. Custom matcher function - most flexible
+  const percentageWidget = forMatcher(
+    'percentage-slider',
+    (ctx: StructureContext) => {
+      const schema = ctx.definition
+      return (
+        typeof schema === 'object' &&
+        (schema.type === 'uint8' || schema.type === 'int8') &&
+        'minimum' in schema &&
+        'maximum' in schema &&
+        schema.minimum === 0 &&
+        schema.maximum === 100
+      )
+    },
+    PercentageWidget as WidgetFactory,
+    {
+      displayName: 'Percentage Slider',
+      description: 'Custom slider for percentage values (0-100)',
+      priority: 85,
+    }
+  )
+  widgetRegistry.register(percentageWidget.name, percentageWidget.registration)
 
   return ScrollablePanel({
     body: Group(
@@ -452,9 +462,9 @@ JSONStructureForm({
           ),
           body: JSONStructureForm(
             {
-              schema: customWidgetsSchema,
+              schema: customWidgetsSchema as unknown as JSONStructureSchema,
               initialValue: data,
-              customWidgets,
+              widgetRegistry,
             },
             ({ Form, controller }) => {
               controller.signal.feedProp(data)

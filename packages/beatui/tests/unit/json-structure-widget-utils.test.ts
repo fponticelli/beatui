@@ -4,7 +4,9 @@
  * Tests for resolving and configuring widgets based on structure context.
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+/* eslint-disable @typescript-eslint/no-explicit-any -- Test fixtures use x:ui extensions not in base types */
+
+import { describe, it, expect, vi } from 'vitest'
 import { StructureContext } from '../../src/components/json-structure/structure-context'
 import {
   resolveWidget,
@@ -14,7 +16,6 @@ import {
   resolveWidgetWithOverride,
   mergeWidgetOptions,
 } from '../../src/components/json-structure/widgets/widget-utils'
-import { getGlobalWidgetRegistry } from '../../src/components/json-structure/widgets/widget-registry'
 import type { TypeDefinition, JSONStructureSchema } from '../../src/components/json-structure/structure-types'
 
 describe('Widget Resolution Utilities', () => {
@@ -70,7 +71,7 @@ describe('Widget Resolution Utilities', () => {
         get: vi.fn(),
       }
 
-      const result = resolveWidget(ctx, mockRegistry as any)
+      resolveWidget(ctx, mockRegistry as any)
 
       expect(mockRegistry.findBestWidget).toHaveBeenCalledWith(ctx)
       // Result may or may not be null depending on global registry
@@ -322,7 +323,7 @@ describe('Widget Resolution Utilities', () => {
       // Suppress console.warn for this test
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const result = resolveWidgetWithOverride(ctx, mockRegistry as any)
+      resolveWidgetWithOverride(ctx, mockRegistry as any)
 
       expect(mockRegistry.get).toHaveBeenCalledWith('non-existent-widget')
       // Result will be from fallback automatic resolution
@@ -363,7 +364,7 @@ describe('Widget Resolution Utilities', () => {
 
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const result = resolveWidgetWithOverride(ctx, mockRegistry as any)
+      resolveWidgetWithOverride(ctx, mockRegistry as any)
 
       // Should call findBestWidget for fallback
       expect(mockRegistry.findBestWidget).toHaveBeenCalled()

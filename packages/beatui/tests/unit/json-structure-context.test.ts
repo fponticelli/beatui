@@ -9,7 +9,8 @@ import {
   StructureContext,
   createStructureContext,
 } from '../../src/components/json-structure/structure-context'
-import type { JSONStructureSchema, TypeDefinition } from '../../src/components/json-structure/structure-types'
+import type { JSONStructureSchema, TypeDefinition, ObjectTypeDefinition } from '../../src/components/json-structure/structure-types'
+import type { WidgetRegistry } from '../../src/components/json-structure/widgets/widget-registry'
 
 describe('JSON Structure Context', () => {
   describe('StructureContext', () => {
@@ -53,7 +54,7 @@ describe('JSON Structure Context', () => {
       })
 
       it('should create context with all options', () => {
-        const mockRegistry = {} as any
+        const mockRegistry = {} as WidgetRegistry
         const ctx = new StructureContext({
           schema: baseSchema,
           definition: { type: 'string' },
@@ -793,7 +794,7 @@ describe('JSON Structure Context', () => {
       const ctx = createStructureContext(schema)
 
       expect(ctx.definition.type).toBe('object')
-      expect((ctx.definition as any).properties.email).toBeDefined()
+      expect((ctx.definition as ObjectTypeDefinition).properties?.email).toBeDefined()
     })
 
     it('should warn and fallback for invalid $root', () => {
@@ -806,7 +807,7 @@ describe('JSON Structure Context', () => {
         definitions: {},
       } as JSONStructureSchema
 
-      const ctx = createStructureContext(schema)
+      createStructureContext(schema)
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
         expect.stringContaining('Failed to resolve $root')

@@ -8,7 +8,12 @@
  * becomes available, this should be updated to use the official validator.
  */
 
-import type { JSONStructureSchema, TypeDefinition, IntegerType, TypeKeyword } from '../structure-types'
+import type {
+  JSONStructureSchema,
+  TypeDefinition,
+  IntegerType,
+  TypeKeyword,
+} from '../structure-types'
 import {
   isIntegerType,
   isFloatType,
@@ -80,7 +85,12 @@ class BasicValidator implements StructureValidator {
 
   validate(value: unknown): ValidationResult {
     const errors: RawValidationError[] = []
-    this.validateValue(value, this.schema as unknown as TypeDefinition, '', errors)
+    this.validateValue(
+      value,
+      this.schema as unknown as TypeDefinition,
+      '',
+      errors
+    )
     return {
       isValid: errors.length === 0,
       errors,
@@ -153,8 +163,12 @@ class BasicValidator implements StructureValidator {
     // Handle type as array or single value, excluding TypeReference
     const typeArray = Array.isArray(typeSpec) ? typeSpec : [typeSpec]
     // Filter out TypeReference objects (which have $ref) - they need resolution first
-    const types = typeArray.filter((t): t is TypeKeyword => typeof t === 'string')
-    const validType = types.some(type => this.checkType(value, type, definition, path, errors))
+    const types = typeArray.filter(
+      (t): t is TypeKeyword => typeof t === 'string'
+    )
+    const validType = types.some(type =>
+      this.checkType(value, type, definition, path, errors)
+    )
 
     if (!validType && types.length > 0) {
       errors.push({
@@ -225,21 +239,41 @@ class BasicValidator implements StructureValidator {
   ): boolean {
     if (typeof value !== 'string') return false
 
-    const def = definition as { minLength?: number; maxLength?: number; pattern?: string; format?: string }
+    const def = definition as {
+      minLength?: number
+      maxLength?: number
+      pattern?: string
+      format?: string
+    }
 
     if (def.minLength !== undefined && value.length < def.minLength) {
-      errors.push({ path, type: 'minLength', expected: def.minLength, actual: value.length })
+      errors.push({
+        path,
+        type: 'minLength',
+        expected: def.minLength,
+        actual: value.length,
+      })
     }
 
     if (def.maxLength !== undefined && value.length > def.maxLength) {
-      errors.push({ path, type: 'maxLength', expected: def.maxLength, actual: value.length })
+      errors.push({
+        path,
+        type: 'maxLength',
+        expected: def.maxLength,
+        actual: value.length,
+      })
     }
 
     if (def.pattern !== undefined) {
       try {
         const regex = new RegExp(def.pattern)
         if (!regex.test(value)) {
-          errors.push({ path, type: 'pattern', expected: def.pattern, actual: value })
+          errors.push({
+            path,
+            type: 'pattern',
+            expected: def.pattern,
+            actual: value,
+          })
         }
       } catch {
         // Invalid regex pattern
@@ -268,7 +302,8 @@ class BasicValidator implements StructureValidator {
     // Check bounds for the specific integer type
     if (isIntegerType(type)) {
       const bounds = INTEGER_BOUNDS[type as IntegerType]
-      const bigValue = typeof value === 'bigint' ? value : BigInt(Math.round(value as number))
+      const bigValue =
+        typeof value === 'bigint' ? value : BigInt(Math.round(value as number))
 
       if (bigValue < bounds.min || bigValue > bounds.max) {
         errors.push({
@@ -317,36 +352,59 @@ class BasicValidator implements StructureValidator {
     const numValue = typeof value === 'bigint' ? Number(value) : value
 
     if (def.minimum !== undefined) {
-      const min = typeof def.minimum === 'string' ? Number(def.minimum) : def.minimum
+      const min =
+        typeof def.minimum === 'string' ? Number(def.minimum) : def.minimum
       if (numValue < min) {
         errors.push({ path, type: 'minimum', expected: min, actual: numValue })
       }
     }
 
     if (def.maximum !== undefined) {
-      const max = typeof def.maximum === 'string' ? Number(def.maximum) : def.maximum
+      const max =
+        typeof def.maximum === 'string' ? Number(def.maximum) : def.maximum
       if (numValue > max) {
         errors.push({ path, type: 'maximum', expected: max, actual: numValue })
       }
     }
 
     if (def.exclusiveMinimum !== undefined) {
-      const min = typeof def.exclusiveMinimum === 'string' ? Number(def.exclusiveMinimum) : def.exclusiveMinimum
+      const min =
+        typeof def.exclusiveMinimum === 'string'
+          ? Number(def.exclusiveMinimum)
+          : def.exclusiveMinimum
       if (numValue <= min) {
-        errors.push({ path, type: 'exclusiveMinimum', expected: min, actual: numValue })
+        errors.push({
+          path,
+          type: 'exclusiveMinimum',
+          expected: min,
+          actual: numValue,
+        })
       }
     }
 
     if (def.exclusiveMaximum !== undefined) {
-      const max = typeof def.exclusiveMaximum === 'string' ? Number(def.exclusiveMaximum) : def.exclusiveMaximum
+      const max =
+        typeof def.exclusiveMaximum === 'string'
+          ? Number(def.exclusiveMaximum)
+          : def.exclusiveMaximum
       if (numValue >= max) {
-        errors.push({ path, type: 'exclusiveMaximum', expected: max, actual: numValue })
+        errors.push({
+          path,
+          type: 'exclusiveMaximum',
+          expected: max,
+          actual: numValue,
+        })
       }
     }
 
     if (def.multipleOf !== undefined && typeof value === 'number') {
       if (value % def.multipleOf !== 0) {
-        errors.push({ path, type: 'multipleOf', expected: def.multipleOf, actual: value })
+        errors.push({
+          path,
+          type: 'multipleOf',
+          expected: def.multipleOf,
+          actual: value,
+        })
       }
     }
   }
@@ -362,7 +420,8 @@ class BasicValidator implements StructureValidator {
     // Basic ISO format validation
     const patterns: Record<string, RegExp> = {
       date: /^\d{4}-\d{2}-\d{2}$/,
-      datetime: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?$/,
+      datetime:
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?$/,
       time: /^\d{2}:\d{2}:\d{2}(\.\d+)?$/,
       duration: /^P(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?$/,
     }
@@ -376,10 +435,15 @@ class BasicValidator implements StructureValidator {
     return true
   }
 
-  private validateUuid(value: unknown, path: string, errors: RawValidationError[]): boolean {
+  private validateUuid(
+    value: unknown,
+    path: string,
+    errors: RawValidationError[]
+  ): boolean {
     if (typeof value !== 'string') return false
 
-    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    const uuidPattern =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
     if (!uuidPattern.test(value)) {
       errors.push({ path, type: 'format', expected: 'uuid', actual: value })
       return false
@@ -388,7 +452,11 @@ class BasicValidator implements StructureValidator {
     return true
   }
 
-  private validateUri(value: unknown, path: string, errors: RawValidationError[]): boolean {
+  private validateUri(
+    value: unknown,
+    path: string,
+    errors: RawValidationError[]
+  ): boolean {
     if (typeof value !== 'string') return false
 
     try {
@@ -400,7 +468,11 @@ class BasicValidator implements StructureValidator {
     }
   }
 
-  private validateBinary(value: unknown, path: string, errors: RawValidationError[]): boolean {
+  private validateBinary(
+    value: unknown,
+    path: string,
+    errors: RawValidationError[]
+  ): boolean {
     // Accept base64 string or Uint8Array
     if (value instanceof Uint8Array) return true
     if (typeof value !== 'string') return false
@@ -461,7 +533,12 @@ class BasicValidator implements StructureValidator {
         })
       } else if (typeof definition.additionalProperties === 'object') {
         const propPath = path ? `${path}/${key}` : `/${key}`
-        this.validateValue(propValue, definition.additionalProperties, propPath, errors)
+        this.validateValue(
+          propValue,
+          definition.additionalProperties,
+          propPath,
+          errors
+        )
       }
     }
 
@@ -486,11 +563,21 @@ class BasicValidator implements StructureValidator {
     }
 
     if (def.minItems !== undefined && value.length < def.minItems) {
-      errors.push({ path, type: 'minItems', expected: def.minItems, actual: value.length })
+      errors.push({
+        path,
+        type: 'minItems',
+        expected: def.minItems,
+        actual: value.length,
+      })
     }
 
     if (def.maxItems !== undefined && value.length > def.maxItems) {
-      errors.push({ path, type: 'maxItems', expected: def.maxItems, actual: value.length })
+      errors.push({
+        path,
+        type: 'maxItems',
+        expected: def.maxItems,
+        actual: value.length,
+      })
     }
 
     // Validate each item
@@ -617,7 +704,12 @@ class BasicValidator implements StructureValidator {
     // Validate the chosen variant
     const choiceDef = definition.choices[choiceKey]
     if (choiceDef) {
-      this.validateValue(obj[choiceKey], choiceDef, `${path}/${choiceKey}`, errors)
+      this.validateValue(
+        obj[choiceKey],
+        choiceDef,
+        `${path}/${choiceKey}`,
+        errors
+      )
     }
 
     return true

@@ -10,7 +10,11 @@ import type {
   Namespace,
   TypeReference,
 } from './structure-types'
-import { isTypeReference, isNamespace, isTypeDefinition } from './structure-types'
+import {
+  isTypeReference,
+  isNamespace,
+  isTypeDefinition,
+} from './structure-types'
 
 /**
  * Parse a $ref path into segments

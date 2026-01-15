@@ -50,14 +50,24 @@ export type BigIntType = 'int64' | 'int128' | 'uint64' | 'uint128'
 
 /** Check if a type requires BigInt handling */
 export function isBigIntType(type: string): type is BigIntType {
-  return type === 'int64' || type === 'int128' || type === 'uint64' || type === 'uint128'
+  return (
+    type === 'int64' ||
+    type === 'int128' ||
+    type === 'uint64' ||
+    type === 'uint128'
+  )
 }
 
 /** All signed integer types */
 export type SignedIntegerType = 'int8' | 'int16' | 'int32' | 'int64' | 'int128'
 
 /** All unsigned integer types */
-export type UnsignedIntegerType = 'uint8' | 'uint16' | 'uint32' | 'uint64' | 'uint128'
+export type UnsignedIntegerType =
+  | 'uint8'
+  | 'uint16'
+  | 'uint32'
+  | 'uint64'
+  | 'uint128'
 
 /** All integer types */
 export type IntegerType = SignedIntegerType | UnsignedIntegerType
@@ -99,7 +109,12 @@ export type TemporalType = 'date' | 'datetime' | 'time' | 'duration'
 
 /** Check if a type is temporal */
 export function isTemporalType(type: string): type is TemporalType {
-  return type === 'date' || type === 'datetime' || type === 'time' || type === 'duration'
+  return (
+    type === 'date' ||
+    type === 'datetime' ||
+    type === 'time' ||
+    type === 'duration'
+  )
 }
 
 /** Check if a type is primitive */
@@ -210,14 +225,18 @@ export interface BaseTypeDefinition extends TypeMetadata {
   const?: unknown
 }
 
-export interface ObjectTypeDefinition extends BaseTypeDefinition, ObjectValidation {
+export interface ObjectTypeDefinition
+  extends BaseTypeDefinition,
+    ObjectValidation {
   type: 'object'
   properties: Record<string, TypeDefinition>
   required?: string[] | string[][]
   additionalProperties?: boolean | TypeDefinition
 }
 
-export interface ArrayTypeDefinition extends BaseTypeDefinition, ArrayValidation {
+export interface ArrayTypeDefinition
+  extends BaseTypeDefinition,
+    ArrayValidation {
   type: 'array'
   items: TypeDefinition
 }
@@ -227,7 +246,9 @@ export interface SetTypeDefinition extends BaseTypeDefinition, ArrayValidation {
   items: TypeDefinition
 }
 
-export interface MapTypeDefinition extends BaseTypeDefinition, ObjectValidation {
+export interface MapTypeDefinition
+  extends BaseTypeDefinition,
+    ObjectValidation {
   type: 'map'
   values: TypeDefinition
 }
@@ -244,21 +265,29 @@ export interface ChoiceTypeDefinition extends BaseTypeDefinition {
   selector?: string
 }
 
-export interface DecimalTypeDefinition extends BaseTypeDefinition, NumericValidation {
+export interface DecimalTypeDefinition
+  extends BaseTypeDefinition,
+    NumericValidation {
   type: 'decimal'
   precision?: number
   scale?: number
 }
 
-export interface StringTypeDefinition extends BaseTypeDefinition, StringValidation {
+export interface StringTypeDefinition
+  extends BaseTypeDefinition,
+    StringValidation {
   type: 'string'
 }
 
-export interface IntegerTypeDefinition extends BaseTypeDefinition, NumericValidation {
+export interface IntegerTypeDefinition
+  extends BaseTypeDefinition,
+    NumericValidation {
   type: IntegerType
 }
 
-export interface FloatTypeDefinition extends BaseTypeDefinition, NumericValidation {
+export interface FloatTypeDefinition
+  extends BaseTypeDefinition,
+    NumericValidation {
   type: 'float' | 'double'
 }
 
@@ -279,7 +308,9 @@ export type TypeDefinition =
 // Schema Document
 // =============================================================================
 
-export interface JSONStructureSchema extends BaseTypeDefinition, ObjectValidation {
+export interface JSONStructureSchema
+  extends BaseTypeDefinition,
+    ObjectValidation {
   $schema: string
   $id: string
   name: string
@@ -324,35 +355,51 @@ export function isTypeDefinition(value: unknown): value is TypeDefinition {
 // Type Guards for Specific Definitions
 // =============================================================================
 
-export function isObjectTypeDefinition(def: TypeDefinition): def is ObjectTypeDefinition {
+export function isObjectTypeDefinition(
+  def: TypeDefinition
+): def is ObjectTypeDefinition {
   return def.type === 'object' && 'properties' in def
 }
 
-export function isArrayTypeDefinition(def: TypeDefinition): def is ArrayTypeDefinition {
+export function isArrayTypeDefinition(
+  def: TypeDefinition
+): def is ArrayTypeDefinition {
   return def.type === 'array' && 'items' in def
 }
 
-export function isSetTypeDefinition(def: TypeDefinition): def is SetTypeDefinition {
+export function isSetTypeDefinition(
+  def: TypeDefinition
+): def is SetTypeDefinition {
   return def.type === 'set' && 'items' in def
 }
 
-export function isMapTypeDefinition(def: TypeDefinition): def is MapTypeDefinition {
+export function isMapTypeDefinition(
+  def: TypeDefinition
+): def is MapTypeDefinition {
   return def.type === 'map' && 'values' in def
 }
 
-export function isTupleTypeDefinition(def: TypeDefinition): def is TupleTypeDefinition {
+export function isTupleTypeDefinition(
+  def: TypeDefinition
+): def is TupleTypeDefinition {
   return def.type === 'tuple' && 'tuple' in def
 }
 
-export function isChoiceTypeDefinition(def: TypeDefinition): def is ChoiceTypeDefinition {
+export function isChoiceTypeDefinition(
+  def: TypeDefinition
+): def is ChoiceTypeDefinition {
   return def.type === 'choice' && 'choices' in def
 }
 
-export function hasEnumValue(def: TypeDefinition): def is TypeDefinition & { enum: unknown[] } {
+export function hasEnumValue(
+  def: TypeDefinition
+): def is TypeDefinition & { enum: unknown[] } {
   return 'enum' in def && Array.isArray(def.enum)
 }
 
-export function hasConstValue(def: TypeDefinition): def is TypeDefinition & { const: unknown } {
+export function hasConstValue(
+  def: TypeDefinition
+): def is TypeDefinition & { const: unknown } {
   return 'const' in def
 }
 
@@ -361,7 +408,9 @@ export function hasConstValue(def: TypeDefinition): def is TypeDefinition & { co
 // =============================================================================
 
 /** Get the resolved type from a type specifier, handling arrays and references */
-export function getResolvedType(specifier: TypeSpecifier | undefined): string | string[] | null {
+export function getResolvedType(
+  specifier: TypeSpecifier | undefined
+): string | string[] | null {
   if (specifier === undefined) return null
   if (typeof specifier === 'string') return specifier
   if (Array.isArray(specifier)) return specifier
@@ -379,24 +428,27 @@ export function isNullableType(specifier: TypeSpecifier | undefined): boolean {
 
 /** Get non-null types from a type specifier array */
 export function getNonNullTypes(specifier: TypeSpecifier): TypeKeyword[] {
-  if (typeof specifier === 'string') return specifier === 'null' ? [] : [specifier]
-  if (Array.isArray(specifier)) return specifier.filter((t): t is TypeKeyword => t !== 'null')
+  if (typeof specifier === 'string')
+    return specifier === 'null' ? [] : [specifier]
+  if (Array.isArray(specifier))
+    return specifier.filter((t): t is TypeKeyword => t !== 'null')
   return []
 }
 
 /** Integer type bounds */
-export const INTEGER_BOUNDS: Record<IntegerType, { min: bigint; max: bigint }> = {
-  int8: { min: -128n, max: 127n },
-  int16: { min: -32768n, max: 32767n },
-  int32: { min: -2147483648n, max: 2147483647n },
-  int64: { min: -9223372036854775808n, max: 9223372036854775807n },
-  int128: {
-    min: -170141183460469231731687303715884105728n,
-    max: 170141183460469231731687303715884105727n,
-  },
-  uint8: { min: 0n, max: 255n },
-  uint16: { min: 0n, max: 65535n },
-  uint32: { min: 0n, max: 4294967295n },
-  uint64: { min: 0n, max: 18446744073709551615n },
-  uint128: { min: 0n, max: 340282366920938463463374607431768211455n },
-}
+export const INTEGER_BOUNDS: Record<IntegerType, { min: bigint; max: bigint }> =
+  {
+    int8: { min: -128n, max: 127n },
+    int16: { min: -32768n, max: 32767n },
+    int32: { min: -2147483648n, max: 2147483647n },
+    int64: { min: -9223372036854775808n, max: 9223372036854775807n },
+    int128: {
+      min: -170141183460469231731687303715884105728n,
+      max: 170141183460469231731687303715884105727n,
+    },
+    uint8: { min: 0n, max: 255n },
+    uint16: { min: 0n, max: 65535n },
+    uint32: { min: 0n, max: 4294967295n },
+    uint64: { min: 0n, max: 18446744073709551615n },
+    uint128: { min: 0n, max: 340282366920938463463374607431768211455n },
+  }

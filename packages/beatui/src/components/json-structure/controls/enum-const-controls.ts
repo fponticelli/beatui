@@ -16,7 +16,9 @@ import { withDeprecationBadge } from './deprecation-utils'
  */
 function createInputOptions(ctx: StructureContext) {
   return {
-    label: ctx.suppressLabel ? undefined : withDeprecationBadge(ctx.label, ctx.isDeprecated),
+    label: ctx.suppressLabel
+      ? undefined
+      : withDeprecationBadge(ctx.label, ctx.isDeprecated),
     description: ctx.description,
     required: ctx.isRequired,
     disabled: ctx.readOnly || ctx.isDeprecated,

@@ -59,10 +59,7 @@ export function resolveExtends(
   const visited = new Set<string>()
 
   // Recursively collect all base definitions
-  const collectBases = (
-    refs: string[],
-    depth = 0
-  ): TypeDefinition[] => {
+  const collectBases = (refs: string[], depth = 0): TypeDefinition[] => {
     if (depth > 100) {
       errors.push({
         path: refs.join(' -> '),
@@ -144,7 +141,6 @@ function mergeBases(
   merged = mergeTwo(merged, derived)
 
   // Remove $extends from the result since it's been resolved
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { $extends: _extends, ...rest } = merged
   return rest as TypeDefinition
 }
@@ -152,7 +148,10 @@ function mergeBases(
 /**
  * Merge two type definitions
  */
-function mergeTwo(base: TypeDefinition, derived: TypeDefinition): TypeDefinition {
+function mergeTwo(
+  base: TypeDefinition,
+  derived: TypeDefinition
+): TypeDefinition {
   // Handle object types specially to merge properties
   if (isObjectTypeDefinition(base) && isObjectTypeDefinition(derived)) {
     return mergeObjectTypes(base, derived)

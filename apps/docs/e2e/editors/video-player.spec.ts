@@ -3,8 +3,9 @@ import { test, expect } from '@playwright/test'
 test.describe('Video Player Component', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/video-player')
-    await page.waitForLoadState('networkidle')
-    await page.locator('main').waitFor({ state: 'visible', timeout: 5000 })
+    await page.waitForLoadState('domcontentloaded')
+    // Video player page may load slowly due to media content
+    await page.locator('main').waitFor({ state: 'visible', timeout: 10000 })
   })
 
   test('should render the video player page', async ({ page }) => {

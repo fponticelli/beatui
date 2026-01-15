@@ -21,6 +21,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm --filter @tempots/beatui test:watch` - Watch mode for library tests
 - `pnpm --filter @tempots/beatui test -- tests/path/to/file.test.ts` - Run a single test file
 
+### E2E Testing
+- `pnpm test:e2e` - Run all e2e tests (Chromium only)
+- `pnpm test:e2e:all` - Run e2e tests on all browsers
+- `pnpm test:e2e:smoke` - Run smoke tests only (@smoke tag)
+- `pnpm test:e2e:a11y` - Run accessibility tests only (@a11y tag)
+- `pnpm test:e2e:visual` - Run visual regression tests (@visual tag)
+- `pnpm test:e2e:ui` - Open Playwright UI mode for debugging
+- `pnpm test:e2e:update-snapshots` - Update visual baselines
+
 ### Code Quality
 - `pnpm lint` - Lint all packages
 - `pnpm format` - Format all packages with Prettier
@@ -122,6 +131,8 @@ The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates C
 ## Active Technologies
 - TypeScript 5.9+ (ES2020 target) (001-json-structure-forms)
 - N/A (client-side form state only) (001-json-structure-forms)
+- TypeScript 5.x (matching existing codebase) + @playwright/test ^1.57.0, @axe-core/playwright ^4.x (002-e2e-best-practices)
+- File-based (visual baselines in repository, test artifacts in CI) (002-e2e-best-practices)
 
 ## Recent Changes
 - 001-json-structure-forms: Added TypeScript 5.9+ (ES2020 target)
