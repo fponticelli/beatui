@@ -116,8 +116,18 @@ export interface JSONSchemaFormExternalOptions {
 export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
   /** The root JSON Schema to render as a form */
   schema: SchemaObject
-  /** Reactive value containing the form data */
-  initialValue: Value<T>
+  /**
+   * Initial value for the form data.
+   *
+   * When omitted, the form will be auto-populated from schema defaults:
+   * - `default` property values (highest priority)
+   * - First item from `examples` array (fallback)
+   * - Empty object for object schemas (last resort)
+   *
+   * When provided, schema defaults are merged with the provided value
+   * (provided values take precedence) unless `applySchemaDefaults` is false.
+   */
+  initialValue?: Value<T>
   /** Validation behavior */
   validationMode?: 'onSubmit' | 'eager' | 'onTouched'
   validateDebounceMs?: number
@@ -182,12 +192,27 @@ export function JSONSchemaForm<T>(
   // Compute effective initial value with schema defaults merged in.
   // IMPORTANT: We read the initial value once and merge defaults non-reactively
   // to avoid feedback loops when the controller feeds changes back to initialValue.
-  const effectiveInitialValue: Value<T> = applySchemaDefaults
-    ? (deepMergeDefaults(
-        extractSchemaDefaults(schema),
-        Value.get(initialValue)
-      ) as T)
-    : initialValue
+  const providedValue =
+    initialValue !== undefined ? Value.get(initialValue) : undefined
+  const schemaDefaults = extractSchemaDefaults(schema)
+
+  // When initialValue is not provided, use schema defaults as the base
+  // When provided but applySchemaDefaults is true, merge defaults with provided value
+  // When provided and applySchemaDefaults is false, use provided value as-is
+  let effectiveInitialValue: T
+  if (initialValue === undefined) {
+    // No initial value provided - use schema defaults, fall back to empty object
+    effectiveInitialValue = (schemaDefaults ?? {}) as T
+  } else if (applySchemaDefaults) {
+    // Merge schema defaults with provided value
+    effectiveInitialValue = deepMergeDefaults(
+      schemaDefaults,
+      providedValue
+    ) as T
+  } else {
+    // Use provided value as-is
+    effectiveInitialValue = providedValue as T
+  }
 
   return Async(
     getAjvForSchema(schema, {

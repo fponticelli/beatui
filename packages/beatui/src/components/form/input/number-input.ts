@@ -150,26 +150,8 @@ export const NumberInput = (options: NumberInputOptions) => {
   return InputContainer({
     ...options,
     input: input.number(
-      min != null
-        ? Fragment(
-            attr.min(min),
-            Value.on(min, v => {
-              if (v < Value.get(value)) {
-                // onChange?.(v)
-              }
-            })
-          )
-        : Empty,
-      max != null
-        ? Fragment(
-            attr.max(max),
-            Value.on(max, v => {
-              if (v > Value.get(value)) {
-                // onChange?.(v)
-              }
-            })
-          )
-        : Empty,
+      min != null ? attr.min(min) : Empty,
+      max != null ? attr.max(max) : Empty,
       CommonInputAttributes(options),
       attr.valueAsNumber(value),
       attr.step(step),
