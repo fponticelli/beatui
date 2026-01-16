@@ -24,7 +24,7 @@ import { MonacoEditorInput } from '@tempots/beatui/monaco'
 import { Validation } from '@tempots/std'
 import type { ControllerValidation } from '@tempots/beatui'
 
-const sampleNames = ['sample', 'contact-form', 'user-profile']
+const sampleNames = ['sample', 'defaults-demo', 'contact-form', 'user-profile']
 
 // Edit the JSON Structure schema (via Monaco) and see the form update live
 export default function JSONStructureFormPage() {

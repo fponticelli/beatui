@@ -25,6 +25,8 @@ import {
   type CustomWidgets,
   WidgetRegistry,
 } from './widgets/widget-customization'
+import { extractSchemaDefaults } from './schema-defaults'
+import { deepMergeDefaults } from '../form/utils/deep-merge'
 
 function cloneJson<T>(v: T): T {
   // Use structuredClone when available; fallback to JSON round-trip for plain data
@@ -121,6 +123,15 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
   validateDebounceMs?: number
   /** Custom widgets for form-scoped widget overrides */
   customWidgets?: CustomWidgets
+  /**
+   * Whether to automatically populate form values from schema defaults.
+   * When true, extracts `default` values (with `examples[0]` as fallback)
+   * from the schema and merges them with the provided initialValue.
+   * Provided values take precedence over schema defaults.
+   *
+   * @default true
+   */
+  applySchemaDefaults?: boolean
 }
 
 /**
@@ -156,6 +167,7 @@ export function JSONSchemaForm<T>(
     validationMode,
     validateDebounceMs,
     customWidgets,
+    applySchemaDefaults = true,
   }: JSONSchemaFormProps<T>,
   fn: ({
     Form,
@@ -167,6 +179,13 @@ export function JSONSchemaForm<T>(
     setStatus: (result: ControllerValidation) => void
   }) => Renderable
 ): Renderable {
+  // Compute effective initial value with schema defaults merged in.
+  // IMPORTANT: We read the initial value once and merge defaults non-reactively
+  // to avoid feedback loops when the controller feeds changes back to initialValue.
+  const effectiveInitialValue: Value<T> = applySchemaDefaults
+    ? (deepMergeDefaults(extractSchemaDefaults(schema), Value.get(initialValue)) as T)
+    : initialValue
+
   return Async(
     getAjvForSchema(schema, {
       externalSchemas,
@@ -212,7 +231,7 @@ export function JSONSchemaForm<T>(
         }
 
         const { controller, setStatus } = useController({
-          initialValue,
+          initialValue: effectiveInitialValue,
           validationMode: mode,
           validateDebounceMs,
           validate: mode === 'onSubmit' ? undefined : validateFn,

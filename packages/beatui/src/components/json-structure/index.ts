@@ -92,6 +92,9 @@ export {
   ensureDefaultWidgets,
 } from './widgets/default-widgets'
 
+// Default extraction utility
+export { extractStructureDefaults } from './structure-defaults'
+
 // Main form component
 export { JSONStructureForm } from './json-structure-form'
 export type {

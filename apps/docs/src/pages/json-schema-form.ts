@@ -23,6 +23,7 @@ import type { ControllerValidation } from '@tempots/beatui'
 
 const sampleNames = [
   'sample',
+  'schema-defaults-demo',
   'unions-conditions',
   'arrays-tuples',
   'additional-pattern-props',

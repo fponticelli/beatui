@@ -23,8 +23,9 @@ export class JSONSchemaFormPage extends BasePage {
     this.schemaEditor = page.locator('.monaco-editor').first()
     this.monacoEditor = page.locator('.monaco-editor')
     this.form = page.locator('form, .bc-form, .bc-json-schema-form')
-    this.sampleSelect = page.locator('select').first()
-    this.sanitizeModeSelect = page.locator('select').last()
+    // Sample select is in main area, not header - use more specific locator
+    this.sampleSelect = page.locator('main select').first()
+    this.sanitizeModeSelect = page.locator('main select').last()
     this.resetButton = page.locator('button:has-text("Reset")')
     this.dataPreview = page.locator('pre').last()
     this.errorPanel = page.locator('h3:has-text("AJV Validation Errors")').locator('..')
@@ -51,6 +52,15 @@ export class JSONSchemaFormPage extends BasePage {
 
   async getDataPreviewContent(): Promise<string> {
     return (await this.dataPreview.textContent()) ?? ''
+  }
+
+  async getDataPreviewAsJson(): Promise<unknown> {
+    const content = await this.getDataPreviewContent()
+    try {
+      return JSON.parse(content)
+    } catch {
+      return null
+    }
   }
 
   async hasValidationErrors(): Promise<boolean> {

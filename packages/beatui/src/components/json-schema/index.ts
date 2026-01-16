@@ -3,6 +3,7 @@ export * from './schema-context'
 export * from './controls'
 export * from './json-schema-form'
 export * from './validator'
+export * from './schema-defaults'
 
 // Export custom widget utilities
 export {
