@@ -56,7 +56,10 @@ describe('JSON Structure Compound Controls', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test',
+      name: 'TestSchema',
+      $root: 'Root',
+      definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
@@ -569,7 +572,7 @@ describe('JSON Structure Special Controls', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,

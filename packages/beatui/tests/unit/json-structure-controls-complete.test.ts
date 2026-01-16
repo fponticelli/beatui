@@ -60,7 +60,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
@@ -110,7 +110,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
       // Create context with isPropertyRequired to test the label path fully
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: definition,
+        $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
       }
       const ctx = new StructureContext({
         schema,
@@ -323,12 +323,17 @@ describe('JSON Structure Controls - Complete Coverage', () => {
       // Set up parent schema with required field
       const parentSchema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: {
-          type: 'object',
-          properties: {
-            tuple: definition,
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: {
+          Root: {
+            type: 'object',
+            properties: {
+              tuple: definition,
+            },
+            required: ['tuple'],
           },
-          required: ['tuple'],
         },
       }
 
@@ -1229,7 +1234,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
       // Create root-level context
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: definition,
+        $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
       }
       const ctx = new StructureContext({
         schema,
@@ -1668,7 +1673,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
 
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: definition,
+        $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
       }
       const ctx = new StructureContext({
         schema,

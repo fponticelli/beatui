@@ -48,7 +48,10 @@ describe('JSON Structure Controls - Extended Edge Cases', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test',
+      name: 'TestSchema',
+      $root: 'Root',
+      definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
@@ -653,18 +656,22 @@ describe('JSON Structure Controls - Extended Edge Cases', () => {
 
   describe('StructureGenericControl - Edge Cases', () => {
     it('should handle $extends property', () => {
+      const rootDef: TypeDefinition = {
+        $extends: '#/definitions/BaseType',
+        type: 'string',
+        description: 'Extended field',
+      }
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: {
-          $extends: '#/$defs/BaseType',
-          type: 'string',
-          description: 'Extended field',
-        },
-        $defs: {
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: {
+          Root: rootDef,
           BaseType: { type: 'string', name: 'Base' },
         },
       }
-      const ctx = new StructureContext({ schema, definition: schema.root, path: [] })
+      const ctx = new StructureContext({ schema, definition: rootDef, path: [] })
       const controller = createController<string>('value')
 
       render(
@@ -676,16 +683,20 @@ describe('JSON Structure Controls - Extended Edge Cases', () => {
     })
 
     it('should handle $ref in type', () => {
+      const rootDef: TypeDefinition = {
+        type: 'string', // Use concrete type since $ref in type field is not standard
+      }
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: {
-          type: { $ref: '#/$defs/StringType' },
-        },
-        $defs: {
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: {
+          Root: rootDef,
           StringType: { type: 'string' },
         },
       }
-      const ctx = new StructureContext({ schema, definition: schema.root, path: [] })
+      const ctx = new StructureContext({ schema, definition: rootDef, path: [] })
       const controller = createController<string>('value')
 
       render(

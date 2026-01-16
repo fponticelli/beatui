@@ -24,7 +24,7 @@
       "outputs": []
     },
     "typecheck": {
-      "dependsOn": []
+      "dependsOn": ["^build"]
     },
     "check": {
       "dependsOn": ["build", "lint", "format", "typecheck", "test"]

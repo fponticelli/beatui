@@ -199,7 +199,10 @@ export function JSONStructureForm<T>(
   // IMPORTANT: We read the initial value once and merge defaults non-reactively
   // to avoid feedback loops when the controller feeds changes back to initialValue.
   const effectiveInitialValue: Value<T> = applySchemaDefaults
-    ? (deepMergeDefaults(extractStructureDefaults(schema), Value.get(initialValue)) as T)
+    ? (deepMergeDefaults(
+        extractStructureDefaults(schema),
+        Value.get(initialValue)
+      ) as T)
     : initialValue
 
   // Create validator

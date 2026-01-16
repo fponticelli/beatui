@@ -5,14 +5,8 @@
  * Priority: `default` property -> first item of `examples` array -> undefined
  */
 
-import type {
-  JSONStructureSchema,
-  TypeDefinition,
-} from './structure-types'
-import {
-  isObjectTypeDefinition,
-  isTypeReference,
-} from './structure-types'
+import type { JSONStructureSchema, TypeDefinition } from './structure-types'
+import { isObjectTypeDefinition, isTypeReference } from './structure-types'
 import { resolveRef } from './ref-utils'
 
 /**
@@ -47,9 +41,7 @@ import { resolveRef } from './ref-utils'
  * // { name: 'John', settings: { theme: 'dark', notifications: true } }
  * ```
  */
-export function extractStructureDefaults(
-  schema: JSONStructureSchema
-): unknown {
+export function extractStructureDefaults(schema: JSONStructureSchema): unknown {
   // Get the root definition - either the schema itself or a referenced $root
   let rootDefinition: TypeDefinition = schema
 
@@ -168,9 +160,15 @@ function extractFromDefinition(
   }
 
   // Handle tuple types
-  if (definition.type === 'tuple' && 'properties' in definition && 'tuple' in definition) {
+  if (
+    definition.type === 'tuple' &&
+    'properties' in definition &&
+    'tuple' in definition
+  ) {
     const tupleOrder = (definition as { tuple: string[] }).tuple
-    const properties = (definition as { properties: Record<string, TypeDefinition> }).properties
+    const properties = (
+      definition as { properties: Record<string, TypeDefinition> }
+    ).properties
     const result: Record<string, unknown> = {}
     let hasDefaults = false
 

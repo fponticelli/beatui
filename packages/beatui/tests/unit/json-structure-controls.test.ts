@@ -56,7 +56,10 @@ describe('JSON Structure Controls', () => {
     // Create a minimal schema
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test',
+      name: 'TestSchema',
+      $root: 'Root',
+      definitions: { Root: definition },
     }
 
     // Create the context with the definition and optional path for name
@@ -646,7 +649,7 @@ describe('JSON Structure Generic Control Routing', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     const path = overrides.name ? [overrides.name] : []
 
@@ -788,7 +791,10 @@ describe('JSON Structure Generic Control Routing', () => {
       const controller = createController<string>('test value')
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: { type: 'string', name: 'Test Field' },
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: { Root: { type: 'string', name: 'Test Field' } },
       }
 
       render(
@@ -804,7 +810,10 @@ describe('JSON Structure Generic Control Routing', () => {
       const controller = createController<string>('test')
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: { type: 'string' },
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: { Root: { type: 'string' } },
       }
 
       // Should not throw when creating with readOnly
@@ -823,7 +832,10 @@ describe('JSON Structure Generic Control Routing', () => {
       const controller = createController<string>('test')
       const schema: JSONStructureSchema = {
         $schema: 'https://json-structure.org/schema',
-        root: { type: 'string' },
+        $id: 'https://test.example/test',
+        name: 'TestSchema',
+        $root: 'Root',
+        definitions: { Root: { type: 'string' } },
       }
 
       // Should not throw when creating with locale
@@ -859,7 +871,7 @@ describe('JSON Structure UUID Control', () => {
   function createContext(definition: TypeDefinition, options: { name?: string; readOnly?: boolean } = {}): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
@@ -919,7 +931,7 @@ describe('JSON Structure URI Control', () => {
   function createContext(definition: TypeDefinition, options: { name?: string; readOnly?: boolean } = {}): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
@@ -979,7 +991,7 @@ describe('JSON Structure Enum and Const Controls', () => {
   function createContext(definition: TypeDefinition, options: { name?: string } = {}): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,

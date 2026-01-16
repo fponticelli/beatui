@@ -26,7 +26,8 @@ export default {
     nickname: {
       type: 'string',
       title: 'Nickname',
-      description: 'No default, but has examples - will use first example: "CoolUser123"',
+      description:
+        'No default, but has examples - will use first example: "CoolUser123"',
       examples: ['CoolUser123', 'AwesomePerson', 'TestNick'],
     },
 

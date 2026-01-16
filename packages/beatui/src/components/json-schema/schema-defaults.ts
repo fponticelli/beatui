@@ -36,9 +36,7 @@ import type { JSONSchema, JSONSchemaDefinition } from './schema-types'
  * // { name: 'John', settings: { theme: 'dark', notifications: true } }
  * ```
  */
-export function extractSchemaDefaults(
-  schema: JSONSchemaDefinition
-): unknown {
+export function extractSchemaDefaults(schema: JSONSchemaDefinition): unknown {
   // Handle boolean schemas
   if (typeof schema === 'boolean') {
     return undefined
@@ -85,7 +83,11 @@ function extractFromSchema(schema: JSONSchema): unknown {
 
     for (const subSchema of schema.allOf) {
       const subDefaults = extractSchemaDefaults(subSchema)
-      if (subDefaults !== undefined && typeof subDefaults === 'object' && subDefaults !== null) {
+      if (
+        subDefaults !== undefined &&
+        typeof subDefaults === 'object' &&
+        subDefaults !== null
+      ) {
         Object.assign(merged, subDefaults)
         hasDefaults = true
       }

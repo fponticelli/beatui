@@ -183,7 +183,10 @@ export function JSONSchemaForm<T>(
   // IMPORTANT: We read the initial value once and merge defaults non-reactively
   // to avoid feedback loops when the controller feeds changes back to initialValue.
   const effectiveInitialValue: Value<T> = applySchemaDefaults
-    ? (deepMergeDefaults(extractSchemaDefaults(schema), Value.get(initialValue)) as T)
+    ? (deepMergeDefaults(
+        extractSchemaDefaults(schema),
+        Value.get(initialValue)
+      ) as T)
     : initialValue
 
   return Async(

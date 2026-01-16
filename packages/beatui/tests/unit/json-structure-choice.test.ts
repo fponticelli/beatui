@@ -6,7 +6,8 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { prop } from '@tempots/dom'
+import { prop, Signal } from '@tempots/dom'
+import { Validation } from '@tempots/std'
 import { createStructureContext } from '../../src/components/json-structure/structure-context'
 import {
   isChoiceTypeDefinition,
@@ -20,6 +21,22 @@ import { StructureChoiceControl } from '../../src/components/json-structure/cont
 import { StructureObjectControl } from '../../src/components/json-structure/controls/object-control'
 import { StructureGenericControl } from '../../src/components/json-structure/controls/generic-control'
 import { Controller } from '../../src/components/form/controller/controller'
+import type { ControllerValidation } from '../../src/components/form/controller/controller-validation'
+
+/** Helper to create a test schema with required fields */
+function testSchema(
+  definition: TypeDefinition
+): JSONStructureSchema {
+  return {
+    $schema: 'https://json-structure.org/draft/2025-01/schema',
+    $id: 'https://test.example/test',
+    name: 'TestSchema',
+    $root: 'Root',
+    definitions: {
+      Root: definition,
+    },
+  }
+}
 
 describe('JSON Structure Choice Control', () => {
   let container: HTMLElement
@@ -35,7 +52,7 @@ describe('JSON Structure Choice Control', () => {
 
   describe('Choice Variant Switching', () => {
     it('should not throw when switching choice variants', async () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'choice',
         selector: 'type',
         choices: {
@@ -54,16 +71,17 @@ describe('JSON Structure Choice Control', () => {
             additionalProperties: false,
           },
         },
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({ type: 'text', value: 'hello' })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // Render the choice control
@@ -81,23 +99,24 @@ describe('JSON Structure Choice Control', () => {
     })
 
     it('should handle rapid variant switches without errors', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'choice',
         choices: {
           optA: { type: 'string' },
           optB: { type: 'int32' },
           optC: { type: 'boolean' },
         },
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({ optA: 'test' })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // Render
@@ -198,7 +217,7 @@ describe('JSON Structure Choice Control', () => {
       // In production code, TypeScript ensures we pass valid TypeDefinition
       // But we want to verify the runtime doesn't crash
       expect(() => {
-        // @ts-expect-error - Testing runtime behavior with invalid type
+        // Testing runtime behavior with invalid type - we check before calling
         if (typeof falseDef === 'object' && falseDef !== null) {
           hasEnumValue(falseDef)
         }
@@ -208,22 +227,23 @@ describe('JSON Structure Choice Control', () => {
 
   describe('Object Control with additionalProperties: false', () => {
     it('should handle additionalProperties: false without errors', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'object',
         properties: {
           name: { type: 'string' },
         },
         additionalProperties: false,
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<Record<string, unknown>>({ name: 'test' })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v as Record<string, unknown>),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // This should not throw "Cannot use 'in' operator to search for 'enum' in false"
@@ -234,7 +254,7 @@ describe('JSON Structure Choice Control', () => {
     })
 
     it('should handle nested objects with additionalProperties: false', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'object',
         properties: {
           user: {
@@ -247,18 +267,19 @@ describe('JSON Structure Choice Control', () => {
           },
         },
         additionalProperties: false,
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<Record<string, unknown>>({
         user: { name: 'John', age: 30 },
       })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v as Record<string, unknown>),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       expect(() => {
@@ -270,7 +291,7 @@ describe('JSON Structure Choice Control', () => {
 
   describe('Choice Control with Object Variants', () => {
     it('should handle choice variants with additionalProperties: false', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'choice',
         selector: 'method',
         choices: {
@@ -290,7 +311,7 @@ describe('JSON Structure Choice Control', () => {
             additionalProperties: false,
           },
         },
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({
@@ -298,12 +319,13 @@ describe('JSON Structure Choice Control', () => {
         cardNumber: '1234',
         cvv: '123',
       })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // This should not throw any errors
@@ -313,23 +335,24 @@ describe('JSON Structure Choice Control', () => {
     })
 
     it('should handle tagged union format (without selector)', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'choice',
         choices: {
           text: { type: 'string' },
           number: { type: 'int32' },
           flag: { type: 'boolean' },
         },
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({ text: 'hello' })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       expect(() => {
@@ -340,22 +363,23 @@ describe('JSON Structure Choice Control', () => {
 
   describe('Generic Control Dispatch', () => {
     it('should dispatch choice type to StructureChoiceControl', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'choice',
         choices: {
           optA: { type: 'string' },
           optB: { type: 'int32' },
         },
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({ optA: 'test' })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // Generic control should handle choice without errors
@@ -365,7 +389,7 @@ describe('JSON Structure Choice Control', () => {
     })
 
     it('should handle complex nested schema with choice and additionalProperties: false', () => {
-      const schema: JSONStructureSchema = {
+      const schema = testSchema({
         type: 'object',
         properties: {
           username: { type: 'string' },
@@ -405,7 +429,7 @@ describe('JSON Structure Choice Control', () => {
         },
         additionalProperties: false,
         required: ['username'],
-      }
+      })
 
       const ctx = createStructureContext(schema)
       const signal = prop<unknown>({
@@ -417,12 +441,13 @@ describe('JSON Structure Choice Control', () => {
           cvv: '123',
         },
       })
+      const status = prop<ControllerValidation>(Validation.valid)
       const controller = new Controller(
         [],
         (v: unknown) => signal.set(v),
         signal,
-        prop({ valid: true, messages: [] }),
-        {}
+        status as Signal<ControllerValidation>,
+        { disabled: prop(false) }
       )
 
       // This complex schema should render without errors

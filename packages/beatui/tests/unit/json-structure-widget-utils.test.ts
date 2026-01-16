@@ -32,7 +32,7 @@ describe('Widget Resolution Utilities', () => {
   ): StructureContext {
     const schema: JSONStructureSchema = {
       $schema: 'https://json-structure.org/schema',
-      root: definition,
+      $id: 'https://test.example/test', name: 'TestSchema', $root: 'Root', definitions: { Root: definition },
     }
     return new StructureContext({
       schema,
