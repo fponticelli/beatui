@@ -71,20 +71,18 @@ export interface WidgetCustomization {
  * Custom widget registration for form-scoped widgets
  */
 export interface CustomWidgetRegistration<T = unknown> {
-  /** Widget name */
-  name: string
   /** Widget factory function */
   factory: WidgetFactory<T>
-  /** Widget display name */
+  /** Custom matcher function for widget selection (required) */
+  matcher: (ctx: SchemaContext) => boolean
+  /** Widget priority (higher = preferred, default: 50) */
+  priority?: number
+  /** Widget display name (for debugging) */
   displayName?: string
   /** Widget description */
   description?: string
   /** Supported JSON Schema types */
   supportedTypes?: string[]
-  /** Widget priority (higher = preferred, default: 50) */
-  priority?: number
-  /** Custom matcher function for widget selection */
-  matcher?: (ctx: SchemaContext) => boolean
 }
 
 /**
@@ -506,14 +504,21 @@ export function registerWidget<T = unknown>(
 export function forXUI<T = unknown>(
   widgetName: string,
   factory: WidgetFactory<T>,
-  options?: Partial<
-    Omit<CustomWidgetRegistration<T>, 'name' | 'factory' | 'matcher'>
-  >
+  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
 ): CustomWidgetRegistration<T> {
   return {
-    name: widgetName,
     factory,
-    displayName: options?.displayName || widgetName,
+    matcher: ctx => {
+      const schema = ctx.definition as JSONSchema
+      const xui = schema['x:ui']
+      return (
+        xui === widgetName ||
+        (typeof xui === 'object' &&
+          xui !== null &&
+          (xui as Record<string, unknown>).widget === widgetName)
+      )
+    },
+    displayName: options?.displayName ?? widgetName,
     priority: options?.priority ?? 100, // High priority for explicit matches
     ...options,
   }
@@ -534,14 +539,13 @@ export function forFormat<T = unknown>(
   options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
 ): CustomWidgetRegistration<T> {
   return {
-    name: options?.name || `custom-${format}`,
     factory,
-    displayName: options?.displayName || `${format} widget`,
-    priority: options?.priority ?? 75,
     matcher: ctx => {
       const schema = ctx.definition as JSONSchema
       return schema.format === format
     },
+    displayName: options?.displayName ?? `${format} widget`,
+    priority: options?.priority ?? 75,
     ...options,
   }
 }
@@ -562,14 +566,13 @@ export function forTypeAndFormat<T = unknown>(
   options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
 ): CustomWidgetRegistration<T> {
   return {
-    name: options?.name || `custom-${type}-${format}`,
     factory,
-    displayName: options?.displayName || `${type}:${format} widget`,
-    priority: options?.priority ?? 80,
     matcher: ctx => {
       const schema = ctx.definition as JSONSchema
       return schema.type === type && schema.format === format
     },
+    displayName: options?.displayName ?? `${type}:${format} widget`,
+    priority: options?.priority ?? 80,
     ...options,
   }
 }
@@ -615,7 +618,6 @@ export function createDiagnosticWidget<T = unknown>(options?: {
   const filterFn = options?.filterFn ?? (() => true)
 
   return {
-    name: '__diagnostic-widget__',
     factory: () => null as unknown as Renderable,
     displayName: 'Diagnostic Widget (never matches)',
     priority: -1000, // Very low priority, should never actually match

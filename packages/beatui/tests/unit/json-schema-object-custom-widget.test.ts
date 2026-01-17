@@ -166,7 +166,6 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          name: 'custom-schema-widget',
           factory: ({ ctx }: { ctx: SchemaContext }) => {
             factoryCalls.push(ctx.name ?? 'undefined')
             return html.div(
@@ -175,12 +174,12 @@ describe('JSON Schema custom widgets for object types', () => {
               `Custom widget for: ${ctx.name}`
             )
           },
-          displayName: 'Custom Schema Widget',
-          priority: 100,
           matcher: (ctx: SchemaContext) => {
             matcherCalls.push(ctx.name ?? 'undefined')
             return ctx.name?.toLowerCase().includes('schema') ?? false
           },
+          displayName: 'Custom Schema Widget',
+          priority: 100,
         },
       ]
 
@@ -249,10 +248,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          name: 'logging-widget',
           factory: () => null as any,
-          displayName: 'Logging Widget',
-          priority: 1, // Low priority so it doesn't actually match
           matcher: (ctx: SchemaContext) => {
             const def = ctx.definition as any
             matcherCallsWithTypes.push({
@@ -261,6 +257,8 @@ describe('JSON Schema custom widgets for object types', () => {
             })
             return false // Never match, just log
           },
+          displayName: 'Logging Widget',
+          priority: 1, // Low priority so it doesn't actually match
         },
       ]
 
@@ -349,10 +347,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          name: 'logging-widget',
           factory: () => null as any,
-          displayName: 'Logging Widget',
-          priority: 1,
           matcher: (ctx: SchemaContext) => {
             const def = ctx.definition as any
             matcherCallsWithInfo.push({
@@ -362,6 +357,8 @@ describe('JSON Schema custom widgets for object types', () => {
             })
             return false
           },
+          displayName: 'Logging Widget',
+          priority: 1,
         },
       ]
 
@@ -446,10 +443,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          name: 'registry-checker',
           factory: () => null as any,
-          displayName: 'Registry Checker',
-          priority: 1,
           matcher: (ctx: SchemaContext) => {
             contextInfo.push({
               name: ctx.name ?? 'ROOT',
@@ -458,6 +452,8 @@ describe('JSON Schema custom widgets for object types', () => {
             })
             return false
           },
+          displayName: 'Registry Checker',
+          priority: 1,
         },
       ]
 

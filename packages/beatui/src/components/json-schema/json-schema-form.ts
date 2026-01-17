@@ -152,10 +152,12 @@ function createFormWidgetRegistry(
 ): WidgetRegistry {
   const registry = new WidgetRegistry()
 
-  for (const registration of customWidgets) {
-    registry.register(registration.name, {
+  for (let i = 0; i < customWidgets.length; i++) {
+    const registration = customWidgets[i]
+    const key = registration.displayName ?? `custom-widget-${i}`
+    registry.register(key, {
       factory: registration.factory,
-      displayName: registration.displayName || registration.name,
+      displayName: registration.displayName ?? `Custom Widget ${i + 1}`,
       description: registration.description,
       supportedTypes: registration.supportedTypes,
       priority: registration.priority ?? 50,
