@@ -72,6 +72,8 @@ import '@tempots/beatui/css'
 
 If your project already ships Tailwind v4, pull in the slimmer Tailwind bundle and preset so the design tokens come from Tailwind instead of the standalone reset.
 
+> **Tailwind Compatibility:** The BeatUI preset and Vite plugin are tested with Tailwind CSS 4.x (developed against 4.1.x). Any 4.x version should work—there's no strict peer dependency enforced.
+
 ```css
 /* apps/main.css */
 @import '@tempots/beatui/tailwind.css';

@@ -151,22 +151,7 @@
   "peerDependencies": {
     "@tempots/dom": "35.0.0",
     "@tempots/std": "0.24.0",
-    "@tempots/ui": "14.0.0",
-    "tailwindcss": "4.1.17"
-  },
-  "peerDependenciesMeta": {
-    "@tempots/dom": {
-      "optional": false
-    },
-    "@tempots/std": {
-      "optional": false
-    },
-    "@tempots/ui": {
-      "optional": false
-    },
-    "tailwindcss": {
-      "optional": true
-    }
+    "@tempots/ui": "14.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
