@@ -19,7 +19,9 @@ import {
 import {
   definitionToInputWrapperOptions,
   integerMultipleOf,
+  tryResolveCustomWidget,
 } from './shared-utils'
+import { resolveWidget } from '../widgets/utils'
 import { JSONSchemaString } from './string-control'
 import { JSONSchemaNumber, JSONSchemaInteger } from './number-controls'
 import { JSONSchemaBoolean } from './boolean-control'
@@ -50,6 +52,17 @@ export function JSONSchemaUnion<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller: controller as unknown as Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const def = ctx.definition as JSONSchema
   let types = (def.type as JSONTypeName[]) ?? []
   const xui = getXUI(def)

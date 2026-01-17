@@ -3,7 +3,11 @@ import { Group } from '../../layout'
 import { NativeSelectControl, type Controller } from '../../form'
 import { Label, MutedLabel } from '../../typography'
 import type { SchemaContext, JSONSchema } from '../schema-context'
-import { definitionToInputWrapperOptions } from './shared-utils'
+import {
+  definitionToInputWrapperOptions,
+  tryResolveCustomWidget,
+} from './shared-utils'
+import { resolveWidget } from '../widgets/utils'
 
 /**
  * Control for enum schemas
@@ -15,6 +19,17 @@ export function JSONSchemaEnum({
   ctx: SchemaContext
   controller: Controller<unknown>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const def = ctx.definition as JSONSchema
   return NativeSelectControl({
     ...definitionToInputWrapperOptions({ ctx }),
@@ -37,6 +52,17 @@ export function JSONSchemaConst({
   ctx: SchemaContext
   controller: Controller<unknown>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const def = ctx.definition as JSONSchema
   return Fragment(
     WithElement(() => {

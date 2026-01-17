@@ -13,6 +13,8 @@ import {
 } from '../discriminator/discriminator-utils'
 import { ChoiceSelector, WithSelectorLayout } from './composition-shared'
 import type { Controller } from '../../form'
+import { tryResolveCustomWidget } from './shared-utils'
+import { resolveWidget } from '../widgets/utils'
 
 /**
  * Control for anyOf schemas
@@ -24,6 +26,17 @@ export function JSONSchemaAnyOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller: controller as unknown as Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const variants = (ctx.definition as JSONSchema).anyOf as JSONSchema[]
   return JSONSchemaOneOfLike({ ctx, controller, kind: 'anyOf', variants })
 }
@@ -38,6 +51,17 @@ export function JSONSchemaOneOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller: controller as unknown as Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const variants = (ctx.definition as JSONSchema).oneOf as JSONSchema[]
   return JSONSchemaOneOfLike({ ctx, controller, kind: 'oneOf', variants })
 }
@@ -52,6 +76,17 @@ export function JSONSchemaAllOf<T>({
   ctx: SchemaContext
   controller: Controller<T>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller: controller as unknown as Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const variants = (ctx.definition as JSONSchema).allOf as JSONSchema[]
 
   // Resolve $ref (internal/external) in allOf branches before merging

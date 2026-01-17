@@ -8,7 +8,9 @@ import { JSONSchemaGenericControl } from './generic-control'
 import {
   makePlaceholder,
   definitionToInputWrapperOptions,
+  tryResolveCustomWidget,
 } from './shared-utils'
+import { resolveWidget } from '../widgets/utils'
 import type {
   SchemaContext,
   JSONSchema,
@@ -33,6 +35,18 @@ export function JSONSchemaObject({
   ctx: SchemaContext
   controller: ObjectController<{ [key: string]: unknown }>
 }): Renderable {
+  // Try to resolve a custom widget first
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller:
+      controller as unknown as import('../../form').Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   // Recompute effective object schema reactively based on current value to support
   // if/then/else, dependentRequired, dependentSchemas, and draft-07 dependencies.
   return MapSignal(controller.signal, current => {
