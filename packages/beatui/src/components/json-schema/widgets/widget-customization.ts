@@ -573,3 +573,74 @@ export function forTypeAndFormat<T = unknown>(
     ...options,
   }
 }
+
+/**
+ * Create a diagnostic custom widget registration for debugging custom widget matching.
+ *
+ * This utility helps diagnose issues where custom widgets aren't being matched as expected.
+ * It logs detailed information about each property that's being processed, including:
+ * - Property name and path
+ * - Schema type
+ * - Whether the widgetRegistry is available
+ * - Custom matcher results
+ *
+ * @example
+ * ```typescript
+ * const customWidgets = [
+ *   // Add the diagnostic widget first to trace all properties
+ *   createDiagnosticWidget({
+ *     logPrefix: 'CUSTOM_WIDGET_DEBUG',
+ *     filterFn: (ctx) => true, // Log all properties
+ *   }),
+ *   // Then add your actual custom widgets
+ *   myCustomWidget,
+ * ]
+ * ```
+ */
+export function createDiagnosticWidget<T = unknown>(options?: {
+  /** Prefix for log messages (default: 'WIDGET_DIAG') */
+  logPrefix?: string
+  /** Filter function to control which properties are logged */
+  filterFn?: (ctx: SchemaContext) => boolean
+  /** Callback function called for each processed property */
+  onProcess?: (info: {
+    name: string | undefined
+    path: string[]
+    type: string | undefined
+    hasRegistry: boolean
+    definition: unknown
+  }) => void
+}): CustomWidgetRegistration<T> {
+  const prefix = options?.logPrefix ?? 'WIDGET_DIAG'
+  const filterFn = options?.filterFn ?? (() => true)
+
+  return {
+    name: '__diagnostic-widget__',
+    factory: () => null as unknown as Renderable,
+    displayName: 'Diagnostic Widget (never matches)',
+    priority: -1000, // Very low priority, should never actually match
+    matcher: ctx => {
+      if (!filterFn(ctx)) return false
+
+      const def = ctx.definition as JSONSchema | undefined
+      const info = {
+        name: ctx.name,
+        path: ctx.path.map(String),
+        type: def?.type as string | undefined,
+        hasRegistry: ctx.widgetRegistry !== undefined,
+        definition: def,
+      }
+
+      // Log to console for debugging
+      console.log(
+        `[${prefix}] name="${info.name ?? 'ROOT'}" path=[${info.path.join(', ')}] type="${info.type ?? 'unknown'}" hasRegistry=${info.hasRegistry}`
+      )
+
+      // Call the optional callback
+      options?.onProcess?.(info)
+
+      // Always return false - this is for diagnostics only
+      return false
+    },
+  }
+}

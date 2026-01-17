@@ -67,6 +67,14 @@ export function JSONSchemaObject({
       JSONSchemaDefinition
     >
 
+    // DEBUG: Log the effective schema properties
+    console.log(
+      '[OBJECT_CONTROL_DEBUG] ctx.path:',
+      ctx.path,
+      'effective.properties keys:',
+      Object.keys(effective.properties ?? {})
+    )
+
     const knownKeys = new Set(Object.keys(knownProps))
     const currentKeys = Object.keys(current ?? {})
     const additionalKeys = currentKeys.filter(k => !knownKeys.has(k))
@@ -250,6 +258,14 @@ export function JSONSchemaObject({
     // Collect property names and children in order
     const knownPropertyEntries = objectEntries(knownProps).filter(
       ([, definition]) => definition !== false
+    )
+
+    // DEBUG: Log which properties are being iterated
+    console.log(
+      '[OBJECT_CONTROL_DEBUG] knownProps keys:',
+      Object.keys(knownProps),
+      'filtered entries:',
+      knownPropertyEntries.map(([k]) => k)
     )
 
     const knownPropertyNames = knownPropertyEntries.map(([k]) => k as string)

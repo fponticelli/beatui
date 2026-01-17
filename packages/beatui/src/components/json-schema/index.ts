@@ -13,4 +13,5 @@ export {
   forXUI,
   forFormat,
   forTypeAndFormat,
+  createDiagnosticWidget,
 } from './widgets/widget-customization'
