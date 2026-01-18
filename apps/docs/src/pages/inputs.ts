@@ -50,7 +50,7 @@ import {
   DurationInput,
   NullableDurationInput,
   NullableRatingInput,
-  // Added inputs that require extra minimal props
+  // Added inputs that require extra minimal options
   DropdownInput,
   NativeSelect,
   LazyNativeSelect,
@@ -125,7 +125,7 @@ export default function InputsPage() {
     const nullableTextAreaVal = prop<string | null>(null)
     const nullableTextVal = prop<string | null>(null)
 
-    // Inputs that need minimal extra props beyond value
+    // Inputs that need minimal extra options beyond value
     const dropdownValue = prop('apple')
     const dropdownOptions = prop<DropdownOption<string>[]>([
       Option.value('apple', 'Apple'),
@@ -654,7 +654,7 @@ export default function InputsPage() {
           'With options'
         ),
         Columns(
-          // Inputs that need minimal extra props beyond value
+          // Inputs that need minimal extra options beyond value
           InputWrapper({
             label: 'Dropdown Input',
             content: DropdownInput({

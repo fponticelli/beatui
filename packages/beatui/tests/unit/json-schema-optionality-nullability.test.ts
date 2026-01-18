@@ -1,6 +1,24 @@
 import { describe, it, expect } from 'vitest'
+import { render } from '@tempots/dom'
 import { SchemaContext } from '../../src/components/json-schema/schema-context'
 import type { JSONSchema } from '../../src/components/json-schema/schema-context'
+import { JSONSchemaForm } from '../../src/components/json-schema/json-schema-form'
+import { WithProviders } from '../helpers/test-providers'
+
+function waitFor(cond: () => boolean, timeoutMs = 500): Promise<void> {
+  const start = Date.now()
+  return new Promise((resolve, reject) => {
+    const tick = () => {
+      if (cond()) return resolve()
+      if (Date.now() - start >= timeoutMs) {
+        reject(new Error('Timeout waiting for condition'))
+        return
+      }
+      setTimeout(tick, 10)
+    }
+    tick()
+  })
+}
 
 describe('JSON Schema Optionality and Nullability', () => {
   describe('SchemaContext optionality detection', () => {
@@ -338,6 +356,160 @@ describe('JSON Schema Optionality and Nullability', () => {
       expect(ctx.isNullable).toBe(false)
       expect(ctx.isPrimitive).toBe(false) // Object is not primitive
       expect(ctx.shouldShowPresenceToggle).toBe(true) // Should show presence toggle for non-primitive
+    })
+  })
+
+  describe('Optional primitive field rendering', () => {
+    it('should render nullable controls for optional integer fields', async () => {
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+      let formRendered = false
+
+      try {
+        const schema = {
+          type: 'object' as const,
+          required: ['requiredCount'],
+          properties: {
+            requiredCount: {
+              type: 'integer' as const,
+              description: 'Required integer field',
+            },
+            optionalCount: {
+              type: 'integer' as const,
+              description: 'Optional integer field',
+            },
+          },
+        }
+
+        const dispose = render(
+          WithProviders(() =>
+            JSONSchemaForm(
+              {
+                schema,
+                initialValue: { requiredCount: 5, optionalCount: 10 },
+              },
+              ({ Form }) => {
+                formRendered = true
+                return Form
+              }
+            )
+          ),
+          container
+        )
+
+        await waitFor(() => formRendered)
+
+        // Look for nullable reset buttons (bc-input-container__reset class)
+        const resetButtons = container.querySelectorAll('.bc-input-container__reset')
+
+        // Optional fields should have reset buttons
+        // At minimum, optionalCount should have a reset button
+        expect(resetButtons.length).toBeGreaterThan(0)
+
+        dispose()
+      } finally {
+        document.body.removeChild(container)
+      }
+    })
+
+    it('should render nullable controls for optional string fields', async () => {
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+      let formRendered = false
+
+      try {
+        const schema = {
+          type: 'object' as const,
+          required: ['requiredName'],
+          properties: {
+            requiredName: {
+              type: 'string' as const,
+              description: 'Required string field',
+            },
+            optionalName: {
+              type: 'string' as const,
+              description: 'Optional string field',
+            },
+          },
+        }
+
+        const dispose = render(
+          WithProviders(() =>
+            JSONSchemaForm(
+              {
+                schema,
+                initialValue: { requiredName: 'test', optionalName: 'optional' },
+              },
+              ({ Form }) => {
+                formRendered = true
+                return Form
+              }
+            )
+          ),
+          container
+        )
+
+        await waitFor(() => formRendered)
+
+        // Look for nullable reset buttons (bc-input-container__reset class)
+        const resetButtons = container.querySelectorAll('.bc-input-container__reset')
+
+        // Optional string field should render with reset button
+        expect(resetButtons.length).toBeGreaterThan(0)
+
+        dispose()
+      } finally {
+        document.body.removeChild(container)
+      }
+    })
+
+    it('should NOT render nullable controls for required primitive fields', async () => {
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+      let formRendered = false
+
+      try {
+        // Schema with ALL required fields
+        const schema = {
+          type: 'object' as const,
+          required: ['count', 'name'],
+          properties: {
+            count: {
+              type: 'integer' as const,
+            },
+            name: {
+              type: 'string' as const,
+            },
+          },
+        }
+
+        const dispose = render(
+          WithProviders(() =>
+            JSONSchemaForm(
+              {
+                schema,
+                initialValue: { count: 5, name: 'test' },
+              },
+              ({ Form }) => {
+                formRendered = true
+                return Form
+              }
+            )
+          ),
+          container
+        )
+
+        await waitFor(() => formRendered)
+
+        // Look for nullable reset buttons - there should be none for required fields
+        const resetButtons = container.querySelectorAll('.bc-input-container__reset')
+
+        expect(resetButtons.length).toBe(0)
+
+        dispose()
+      } finally {
+        document.body.removeChild(container)
+      }
     })
   })
 })

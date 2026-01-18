@@ -99,9 +99,11 @@ export function JSONSchemaNumber({
     disabled: shouldDisableControl(ctx),
   }
 
-  // Handle nullable cases first
+  // Handle nullable/optional cases - use nullable controls for:
+  // 1. Explicitly nullable schemas (nullable: true, type includes null, etc.)
+  // 2. Optional primitive fields that don't show presence toggles
   const isNullable =
-    ctx.isNullable && (ctx.isOptional || !ctx.shouldShowPresenceToggle)
+    (ctx.isNullable || ctx.isOptional) && !ctx.shouldShowPresenceToggle
 
   // Select appropriate widget based on detection
   switch (widgetInfo.widget) {

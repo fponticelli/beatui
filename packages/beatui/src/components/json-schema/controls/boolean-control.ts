@@ -48,8 +48,11 @@ export function JSONSchemaBoolean({
     controller: controller as unknown as Controller<boolean>,
   })
 
-  // For optional nullable primitives, use nullable controls instead of presence toggles
-  if (!ctx.isNullable || (ctx.isOptional && !ctx.shouldShowPresenceToggle))
+  // Use nullable controls (with reset button) for:
+  // 1. Explicitly nullable schemas, OR
+  // 2. Optional primitive fields that don't show presence toggles
+  // Return base (non-nullable) only when NOT nullable AND (required OR has presence toggle)
+  if (!ctx.isNullable && (!ctx.isOptional || ctx.shouldShowPresenceToggle))
     return base
 
   // Nullable boolean: add a small clear button that sets the value to null

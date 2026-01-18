@@ -363,11 +363,23 @@ export function JSONSchemaControl<T>({
   controller,
   ajv,
   widgetRegistry,
+  setStatus,
+  formValue,
+  validationMode,
+  submitting,
 }: {
   schema: JSONSchemaDefinition
   controller: Controller<T>
   ajv?: import('ajv').default
   widgetRegistry?: import('../widgets/widget-customization').WidgetRegistry
+  /** Function to set the form's validation status, available to custom widgets */
+  setStatus?: (status: import('../../form').ControllerValidation) => void
+  /** Signal containing the entire form's current value */
+  formValue?: import('@tempots/dom').Signal<unknown>
+  /** Current validation mode */
+  validationMode?: import('../../form').ValidationMode
+  /** Signal indicating whether the form is currently submitting */
+  submitting?: import('@tempots/dom').Signal<boolean>
 }): Renderable {
   const ctx = new SchemaContextClass({
     schema,
@@ -377,6 +389,10 @@ export function JSONSchemaControl<T>({
     path: [],
     ajv,
     widgetRegistry,
+    setStatus,
+    formValue,
+    validationMode,
+    submitting,
   })
   if (schema === true) {
     return JSONSchemaAny({ ctx, controller: controller as Controller<unknown> })

@@ -114,15 +114,22 @@ export function tryResolveCustomWidget({
 }): Renderable | null {
   const widget = resolved?.widget
 
+  // Common props to pass to all widget factories
+  const factoryProps = {
+    controller,
+    ctx,
+    options: resolved?.options,
+    setStatus: ctx.setStatus,
+    formValue: ctx.formValue,
+    validationMode: ctx.validationMode,
+    submitting: ctx.submitting,
+  }
+
   // Step 1: Check for explicit x:ui widget in custom registry
   if (widget != null && ctx.widgetRegistry) {
     const customWidgetReg = ctx.widgetRegistry.get(widget)
     if (customWidgetReg) {
-      return customWidgetReg.factory({
-        controller,
-        ctx,
-        options: resolved?.options,
-      })
+      return customWidgetReg.factory(factoryProps)
     }
   }
 
@@ -130,11 +137,7 @@ export function tryResolveCustomWidget({
   if (widget != null) {
     const globalWidgetReg = globalWidgetRegistry.get(widget)
     if (globalWidgetReg) {
-      return globalWidgetReg.factory({
-        controller,
-        ctx,
-        options: resolved?.options,
-      })
+      return globalWidgetReg.factory(factoryProps)
     }
   }
 
@@ -142,22 +145,14 @@ export function tryResolveCustomWidget({
   if (ctx.widgetRegistry) {
     const matchedWidget = ctx.widgetRegistry.findBestWidget(ctx)
     if (matchedWidget) {
-      return matchedWidget.registration.factory({
-        controller,
-        ctx,
-        options: resolved?.options,
-      })
+      return matchedWidget.registration.factory(factoryProps)
     }
   }
 
   // Step 4: Check global registry with matchers
   const globalMatched = globalWidgetRegistry.findBestWidget(ctx)
   if (globalMatched) {
-    return globalMatched.registration.factory({
-      controller,
-      ctx,
-      options: resolved?.options,
-    })
+    return globalMatched.registration.factory(factoryProps)
   }
 
   // No custom widget found

@@ -7,6 +7,7 @@ import {
   Fragment,
   OnDispose,
   Async,
+  Signal,
 } from '@tempots/dom'
 import { Validation } from '@tempots/std'
 import { Controller, ControllerValidation, useController } from '../form'
@@ -142,6 +143,12 @@ export interface JSONSchemaFormProps<T> extends JSONSchemaFormExternalOptions {
    * @default true
    */
   applySchemaDefaults?: boolean
+  /**
+   * Optional signal indicating whether the form is currently submitting.
+   * When provided, custom widgets can disable themselves during submission.
+   * This is passed through to custom widgets via ctx.submitting.
+   */
+  submitting?: Signal<boolean>
 }
 
 /**
@@ -180,6 +187,7 @@ export function JSONSchemaForm<T>(
     validateDebounceMs,
     customWidgets,
     applySchemaDefaults = true,
+    submitting,
   }: JSONSchemaFormProps<T>,
   fn: ({
     Form,
@@ -336,6 +344,7 @@ export function JSONSchemaForm<T>(
           : undefined
 
         // Pass AJV for conditional evaluation in combinators
+        // Pass setStatus, formValue, validationMode, and submitting for custom widgets
         const Form = Fragment(
           OnDispose(cleanup),
           JSONSchemaControl({
@@ -343,6 +352,10 @@ export function JSONSchemaForm<T>(
             controller,
             ajv,
             widgetRegistry: formWidgetRegistry,
+            setStatus,
+            formValue: controller.signal as Signal<unknown>,
+            validationMode: mode,
+            submitting,
           })
         )
         return fn({ Form, controller, setStatus })

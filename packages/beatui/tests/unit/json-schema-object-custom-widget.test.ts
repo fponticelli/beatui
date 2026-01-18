@@ -1,6 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
-import { html, render, attr } from '@tempots/dom'
-import { SchemaContext } from '../../src/components/json-schema/schema-context'
+import { html, render, attr, type Renderable, Empty } from '@tempots/dom'
+import {
+  SchemaContext,
+  type JSONSchema,
+} from '../../src/components/json-schema/schema-context'
 import { WidgetRegistry } from '../../src/components/json-schema/widgets/widget-customization'
 import { tryResolveCustomWidget } from '../../src/components/json-schema/controls/shared-utils'
 import { JSONSchemaForm } from '../../src/components/json-schema/json-schema-form'
@@ -53,7 +56,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
     const registry = new WidgetRegistry()
     registry.register('schema-widget', {
-      factory: () => null as any,
+      factory: () => Empty,
       displayName: 'Schema Widget',
       priority: 100,
       matcher: matcherFn,
@@ -79,7 +82,7 @@ describe('JSON Schema custom widgets for object types', () => {
   })
 
   it('should call tryResolveCustomWidget for object type', () => {
-    const factoryFn = vi.fn(() => 'custom-widget-output' as any)
+    const factoryFn = vi.fn(() => 'custom-widget-output' as Renderable)
 
     const registry = new WidgetRegistry()
     registry.register('schema-widget', {
@@ -114,7 +117,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
     const registry = new WidgetRegistry()
     registry.register('schema-widget', {
-      factory: () => null as any,
+      factory: () => Empty,
       displayName: 'Schema Widget',
       priority: 100,
       matcher: matcherFn,
@@ -248,12 +251,12 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          factory: () => null as any,
+          factory: () => Empty,
           matcher: (ctx: SchemaContext) => {
-            const def = ctx.definition as any
+            const def = ctx.definition as JSONSchema
             matcherCallsWithTypes.push({
               name: ctx.name ?? 'ROOT',
-              type: def?.type ?? 'unknown',
+              type: (def?.type as string) ?? 'unknown',
             })
             return false // Never match, just log
           },
@@ -347,12 +350,12 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          factory: () => null as any,
+          factory: () => Empty,
           matcher: (ctx: SchemaContext) => {
-            const def = ctx.definition as any
+            const def = ctx.definition as JSONSchema
             matcherCallsWithInfo.push({
               name: ctx.name ?? 'ROOT',
-              type: def?.type ?? 'unknown',
+              type: (def?.type as string) ?? 'unknown',
               path: ctx.path.map(String),
             })
             return false
@@ -443,7 +446,7 @@ describe('JSON Schema custom widgets for object types', () => {
 
       const customWidgets = [
         {
-          factory: () => null as any,
+          factory: () => Empty,
           matcher: (ctx: SchemaContext) => {
             contextInfo.push({
               name: ctx.name ?? 'ROOT',

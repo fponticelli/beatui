@@ -1,5 +1,6 @@
 import { humanize, upperCaseFirst } from '@tempots/std'
 import type Ajv from 'ajv'
+import type { Signal } from '@tempots/dom'
 import type {
   JSONSchemaDefinition,
   JSONSchemaType,
@@ -7,6 +8,8 @@ import type {
   NotViolation,
 } from './schema-types'
 import type { WidgetRegistry } from './widgets/widget-customization'
+import type { ControllerValidation } from '../form/controller/controller-validation'
+import type { ValidationMode } from '../form/controller/union-controller'
 
 // Re-export types for backward compatibility
 export type {
@@ -38,6 +41,26 @@ export type SchemaContextOptions = {
   schemaConflicts?: readonly SchemaConflict[]
   notViolations?: readonly NotViolation[]
   widgetRegistry?: WidgetRegistry
+  /**
+   * Function to set the form's validation status.
+   * Available for custom widgets that need to perform their own validation.
+   */
+  setStatus?: (status: ControllerValidation) => void
+  /**
+   * Signal containing the entire form's current value.
+   * Useful for cross-field validation or conditional rendering.
+   */
+  formValue?: Signal<unknown>
+  /**
+   * Current validation mode ('eager', 'onTouched', 'onSubmit').
+   * Custom widgets may want to behave differently based on this.
+   */
+  validationMode?: ValidationMode
+  /**
+   * Signal indicating whether the form is currently submitting.
+   * Widgets should typically disable during submission.
+   */
+  submitting?: Signal<boolean>
 }
 
 export class SchemaContext {
@@ -51,6 +74,27 @@ export class SchemaContext {
   readonly schemaConflicts: readonly SchemaConflict[]
   readonly notViolations: readonly NotViolation[]
   readonly widgetRegistry: WidgetRegistry | undefined
+  /**
+   * Function to set the form's validation status.
+   * Available for custom widgets that need to perform their own validation.
+   */
+  readonly setStatus: ((status: ControllerValidation) => void) | undefined
+  /**
+   * Signal containing the entire form's current value.
+   * Useful for cross-field validation or conditional rendering.
+   */
+  readonly formValue: Signal<unknown> | undefined
+  /**
+   * Current validation mode ('eager', 'onTouched', 'onSubmit').
+   * Custom widgets may want to behave differently based on this.
+   */
+  readonly validationMode: ValidationMode | undefined
+  /**
+   * Signal indicating whether the form is currently submitting.
+   * Widgets should typically disable during submission.
+   */
+  readonly submitting: Signal<boolean> | undefined
+
   constructor(options: SchemaContextOptions) {
     const {
       schema,
@@ -63,6 +107,10 @@ export class SchemaContext {
       schemaConflicts,
       notViolations,
       widgetRegistry,
+      setStatus,
+      formValue,
+      validationMode,
+      submitting,
     } = options
     this.schema = schema
     this.definition = definition
@@ -74,6 +122,10 @@ export class SchemaContext {
     this.schemaConflicts = schemaConflicts ?? []
     this.notViolations = notViolations ?? []
     this.widgetRegistry = widgetRegistry
+    this.setStatus = setStatus
+    this.formValue = formValue
+    this.validationMode = validationMode
+    this.submitting = submitting
   }
 
   readonly with = (options: Partial<SchemaContextOptions>) => {
@@ -88,6 +140,10 @@ export class SchemaContext {
       schemaConflicts: options.schemaConflicts ?? this.schemaConflicts,
       notViolations: options.notViolations ?? this.notViolations,
       widgetRegistry: options.widgetRegistry ?? this.widgetRegistry,
+      setStatus: options.setStatus ?? this.setStatus,
+      formValue: options.formValue ?? this.formValue,
+      validationMode: options.validationMode ?? this.validationMode,
+      submitting: options.submitting ?? this.submitting,
     })
   }
 

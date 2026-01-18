@@ -1,9 +1,10 @@
-import type { Renderable } from '@tempots/dom'
+import type { Renderable, Signal } from '@tempots/dom'
 import { html, attr, Async } from '@tempots/dom'
-import type { Controller } from '../../form'
+import type { Controller, ControllerValidation } from '../../form'
 import { Control } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { resolveWidget, type ResolvedWidget } from './utils'
+import type { ValidationMode } from '../../form/controller/union-controller'
 
 /**
  * Widget factory function signature
@@ -12,6 +13,28 @@ export type WidgetFactory<T = unknown> = (props: {
   controller: Controller<T>
   ctx: SchemaContext
   options?: Record<string, unknown>
+  /**
+   * Function to set the form's validation status.
+   * Use this for advanced widgets that need custom validation.
+   * Also available via `ctx.setStatus`.
+   */
+  setStatus?: (status: ControllerValidation) => void
+  /**
+   * Signal containing the entire form's current value.
+   * Useful for cross-field validation or conditional rendering.
+   * Also available via `ctx.formValue`.
+   */
+  formValue?: Signal<unknown>
+  /**
+   * Current validation mode ('eager', 'onTouched', 'onSubmit').
+   * Also available via `ctx.validationMode`.
+   */
+  validationMode?: ValidationMode
+  /**
+   * Signal indicating whether the form is currently submitting.
+   * Also available via `ctx.submitting`.
+   */
+  submitting?: Signal<boolean>
 }) => Renderable
 
 /**

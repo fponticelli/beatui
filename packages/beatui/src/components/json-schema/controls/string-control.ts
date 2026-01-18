@@ -41,8 +41,9 @@ export function JSONSchemaString({
     disabled: shouldDisableControl(ctx),
   }
 
-  // For optional nullable primitives, use nullable controls instead of presence toggles
-  if (ctx.isNullable && (ctx.isOptional || !ctx.shouldShowPresenceToggle)) {
+  // For optional/nullable primitives, use nullable controls instead of presence toggles
+  // This includes optional fields that aren't explicitly nullable in the schema
+  if ((ctx.isNullable || ctx.isOptional) && !ctx.shouldShowPresenceToggle) {
     return StringControl({ ctx, options, controller })
   }
 
