@@ -35,6 +35,20 @@ export function JSONSchemaString({
     return Fragment()
   }
 
+  // Use new widget resolver with precedence rules
+  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
+  const widget = resolved?.widget
+
+  // Try to resolve a custom widget first (before any other logic)
+  const customWidget = tryResolveCustomWidget({
+    ctx,
+    controller: controller as unknown as Controller<unknown>,
+    resolved,
+  })
+  if (customWidget) {
+    return customWidget
+  }
+
   const options = {
     ...definitionToInputWrapperOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
@@ -45,20 +59,6 @@ export function JSONSchemaString({
   // This includes optional fields that aren't explicitly nullable in the schema
   if ((ctx.isNullable || ctx.isOptional) && !ctx.shouldShowPresenceToggle) {
     return StringControl({ ctx, options, controller })
-  }
-
-  // Use new widget resolver with precedence rules
-  const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
-  const widget = resolved?.widget
-
-  // Try to resolve a custom widget first
-  const customWidget = tryResolveCustomWidget({
-    ctx,
-    controller: controller as unknown as Controller<unknown>,
-    resolved,
-  })
-  if (customWidget) {
-    return customWidget
   }
 
   // For complex widgets that need specialized rendering, delegate to StringControl

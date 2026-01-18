@@ -266,7 +266,6 @@ export default function JSONSchemaCustomWidgetsPage() {
 
     // 4. Custom matcher function - most flexible
     {
-      name: 'percentage-slider',
       factory: PercentageWidget as WidgetFactory<unknown>,
       displayName: 'Percentage Slider',
       description: 'Custom slider for percentage values (0-100)',
