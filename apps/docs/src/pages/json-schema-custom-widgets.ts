@@ -15,6 +15,7 @@ import {
   forTypeAndFormat,
   type CustomWidgetRegistration,
   type WidgetFactory,
+  type SchemaContext,
 } from '@tempots/beatui/json-schema'
 import { Validation } from '@tempots/std'
 import type { ControllerValidation } from '@tempots/beatui'
@@ -245,7 +246,7 @@ export default function JSONSchemaCustomWidgetsPage() {
   const validation = prop<ControllerValidation>(Validation.valid)
 
   // Define custom widgets with different matching strategies
-  const customWidgets: CustomWidgetRegistration<unknown>[] = [
+  const customWidgets: CustomWidgetRegistration[] = [
     // 1. Explicit x:ui matching - highest priority
     forXUI('fancy-email', FancyEmailWidget as WidgetFactory<unknown>, {
       displayName: 'Fancy Email Widget',
@@ -270,7 +271,7 @@ export default function JSONSchemaCustomWidgetsPage() {
       displayName: 'Percentage Slider',
       description: 'Custom slider for percentage values (0-100)',
       priority: 85,
-      matcher: ctx => {
+      matcher: (ctx: SchemaContext) => {
         const schema = ctx.definition
         return (
           typeof schema === 'object' &&

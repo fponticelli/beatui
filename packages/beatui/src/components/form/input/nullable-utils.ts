@@ -10,7 +10,10 @@ export function NullableResetAfter<V>(
 ): TNode {
   const hasValue = Value.map(value, v => v != null)
   // Button is disabled when there's no value to clear, or when the input itself is disabled
-  const isDisabled = computedOf(hasValue, disabled ?? false)((has, dis) => !has || dis)
+  const isDisabled = computedOf(
+    hasValue,
+    disabled ?? false
+  )((has, dis) => !has || dis)
   const label = defaultMessages.clearValue
 
   return html.button(

@@ -93,9 +93,9 @@ export interface WidgetCustomization {
 /**
  * Custom widget registration for form-scoped widgets
  */
-export interface CustomWidgetRegistration<T = unknown> {
+export interface CustomWidgetRegistration {
   /** Widget factory function */
-  factory: WidgetFactory<T>
+  factory: WidgetFactory
   /** Custom matcher function for widget selection (required) */
   matcher: (ctx: SchemaContext) => boolean
   /** Widget priority (higher = preferred, default: 50) */
@@ -524,11 +524,11 @@ export function registerWidget<T = unknown>(
  * // Matches schema: { type: 'string', 'x:ui': 'fancy-email' }
  * ```
  */
-export function forXUI<T = unknown>(
+export function forXUI(
   widgetName: string,
-  factory: WidgetFactory<T>,
-  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
-): CustomWidgetRegistration<T> {
+  factory: WidgetFactory,
+  options?: Partial<Omit<CustomWidgetRegistration, 'factory' | 'matcher'>>
+): CustomWidgetRegistration {
   return {
     factory,
     matcher: ctx => {
@@ -556,11 +556,11 @@ export function forXUI<T = unknown>(
  * // Matches ANY schema with: { format: 'email' }
  * ```
  */
-export function forFormat<T = unknown>(
+export function forFormat(
   format: string,
-  factory: WidgetFactory<T>,
-  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
-): CustomWidgetRegistration<T> {
+  factory: WidgetFactory,
+  options?: Partial<Omit<CustomWidgetRegistration, 'factory' | 'matcher'>>
+): CustomWidgetRegistration {
   return {
     factory,
     matcher: ctx => {
@@ -582,12 +582,12 @@ export function forFormat<T = unknown>(
  * // Matches schema: { type: 'string', format: 'uuid' }
  * ```
  */
-export function forTypeAndFormat<T = unknown>(
+export function forTypeAndFormat(
   type: string,
   format: string,
-  factory: WidgetFactory<T>,
-  options?: Partial<Omit<CustomWidgetRegistration<T>, 'factory' | 'matcher'>>
-): CustomWidgetRegistration<T> {
+  factory: WidgetFactory,
+  options?: Partial<Omit<CustomWidgetRegistration, 'factory' | 'matcher'>>
+): CustomWidgetRegistration {
   return {
     factory,
     matcher: ctx => {
@@ -623,7 +623,7 @@ export function forTypeAndFormat<T = unknown>(
  * ]
  * ```
  */
-export function createDiagnosticWidget<T = unknown>(options?: {
+export function createDiagnosticWidget(options?: {
   /** Prefix for log messages (default: 'WIDGET_DIAG') */
   logPrefix?: string
   /** Filter function to control which properties are logged */
@@ -636,7 +636,7 @@ export function createDiagnosticWidget<T = unknown>(options?: {
     hasRegistry: boolean
     definition: unknown
   }) => void
-}): CustomWidgetRegistration<T> {
+}): CustomWidgetRegistration {
   const prefix = options?.logPrefix ?? 'WIDGET_DIAG'
   const filterFn = options?.filterFn ?? (() => true)
 
