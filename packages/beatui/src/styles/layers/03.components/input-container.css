@@ -140,8 +140,13 @@
   height: 1.8rem;
 }
 
-.bc-input-container__reset:hover {
+.bc-input-container__reset:hover:not(:disabled) {
   background-color: var(--color-neutral-100);
+}
+
+.bc-input-container__reset:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
 /* Tags input wrapper */
@@ -217,9 +222,13 @@
   fill: var(--text-muted-dark);
 }
 
-.b-dark .bc-input-container__reset:hover {
+.b-dark .bc-input-container__reset:hover:not(:disabled) {
   background-color: var(--interactive-hover-dark);
   fill: var(--text-normal-dark);
+}
+
+.b-dark .bc-input-container__reset:disabled {
+  opacity: 0.3;
 }
 
 /* Responsive styles */

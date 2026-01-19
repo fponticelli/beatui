@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, Provide, prop } from '@tempots/dom'
+import { render, prop } from '@tempots/dom'
 import { NullableBigintInput } from '../../src/components/form/input/nullable-bigint-input'
-import { Theme } from '../../src/components/theme/theme'
 import { sleep } from '@tempots/std'
 import { BeatUI } from '../../src/index'
 
@@ -20,10 +19,7 @@ describe('NullableBigintInput Component', () => {
   it('renders empty when value is null', () => {
     const value = prop<bigint | null>(null)
     const el = NullableBigintInput({ value, onChange: vi.fn() })
-    render(
-      Provide(Theme, {}, () => el),
-      container
-    )
+    render(BeatUI({}, el), container)
 
     const input = container.querySelector(
       'input.bc-number-input'

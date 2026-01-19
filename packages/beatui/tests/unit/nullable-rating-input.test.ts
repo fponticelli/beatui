@@ -16,7 +16,7 @@ describe('NullableRatingInput Component', () => {
     document.body.removeChild(container)
   })
 
-  it('renders with empty state when value is null and shows reset button only when has value', async () => {
+  it('renders with empty state when value is null and reset button is disabled, enabled when has value', async () => {
     const value = prop<number | null>(null)
     const onChange = vi.fn((v: number | null) => value.set(v))
 
@@ -30,11 +30,12 @@ describe('NullableRatingInput Component', () => {
     // aria-valuenow should be 0 when null is mapped for display
     expect(slider.getAttribute('aria-valuenow')).toBe('0')
 
-    // No reset button when null
+    // Reset button is always visible but disabled when value is null
     let reset = container.querySelector(
       '.bc-input-container__reset'
     ) as HTMLButtonElement | null
-    expect(reset).toBeNull()
+    expect(reset).not.toBeNull()
+    expect(reset!.disabled).toBe(true)
 
     // Simulate clicking the first star to set a non-null value
     const firstIcon = container.querySelector(
@@ -56,11 +57,12 @@ describe('NullableRatingInput Component', () => {
     // Give the reactive system a tick to update after onChange
     await sleep(0)
 
-    // After a value is set, reset button should appear
+    // After a value is set, reset button should be enabled
     reset = container.querySelector(
       '.bc-input-container__reset'
     ) as HTMLButtonElement | null
     expect(reset).not.toBeNull()
+    expect(reset!.disabled).toBe(false)
 
     // Clicking reset should call onChange(null)
     onChange.mockClear()
