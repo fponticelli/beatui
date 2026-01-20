@@ -149,13 +149,16 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/dom": "35.0.0",
-    "@tempots/std": "0.24.0",
-    "@tempots/ui": "14.0.0"
+    "@tempots/dom": "^35.0.1",
+    "@tempots/std": "~0.25.2",
+    "@tempots/ui": "^14.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@tempots/dom": "^35.0.1",
     "@tempots/eslint-plugin": "0.6.0",
+    "@tempots/std": "~0.25.2",
+    "@tempots/ui": "^14.0.1",
     "@testing-library/dom": "10.4.0",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "22.15.18",
