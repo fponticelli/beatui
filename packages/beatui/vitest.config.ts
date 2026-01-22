@@ -16,7 +16,13 @@ export default defineConfig({
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.ts'],
     exclude: ['**/e2e/**', '**/node_modules/**', '**/dist/**'],
-    // Prefer a single thread to avoid tinypool termination issues in sandbox
-    pool: 'vmThreads',
+    // Use forks pool for better test isolation (vmThreads can cause mock leakage)
+    pool: 'forks',
+    server: {
+      deps: {
+        // Inline ES Module packages that are shipped in CommonJS format
+        inline: ['@exodus/bytes'],
+      },
+    },
   },
 })

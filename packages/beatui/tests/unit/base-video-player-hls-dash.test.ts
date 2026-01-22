@@ -57,8 +57,8 @@ describe('BaseVideoPlayer (HLS provider)', () => {
     )
 
     // Give dynamic import time to resolve in jsdom/Vitest
-    await Promise.resolve()
-    await new Promise(r => setTimeout(r, 0))
+    // The dynamic import goes through multiple event loop ticks
+    await new Promise(r => setTimeout(r, 50))
 
     expect(g.__hlsCreated).toBeGreaterThan(0)
 

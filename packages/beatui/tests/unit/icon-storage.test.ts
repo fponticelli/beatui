@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // Mock the icon module to test the storage fallback
-vi.mock('../../src/components/data/icon.ts', async () => {
+vi.mock('../../src/components/data/icon.ts', async importOriginal => {
+  const original = (await importOriginal()) as object
+
   // Re-implement the icon storage logic for testing
   const memoryCache = new Map<string, string>()
 
@@ -50,6 +52,7 @@ vi.mock('../../src/components/data/icon.ts', async () => {
   }
 
   return {
+    ...original,
     storeIconLocally,
     getIconLocally,
     memoryCache,

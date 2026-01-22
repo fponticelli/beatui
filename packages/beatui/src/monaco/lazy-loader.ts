@@ -1,6 +1,6 @@
 import type * as MonacoTypes from 'monaco-editor'
 // AMD + CDN loader (no bundler config required)
-const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/'
+const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/'
 
 type WindowWithRequire = Window & {
   require?: {
@@ -158,11 +158,11 @@ export async function loadLanguageFeatures(language: string): Promise<void> {
       case 'javascript': {
         // TypeScript/JavaScript support is included in core
         // Just configure the compiler options if needed
-        monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+        monaco.typescript.javascriptDefaults.setDiagnosticsOptions({
           noSemanticValidation: false,
           noSyntaxValidation: false,
         })
-        monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+        monaco.typescript.typescriptDefaults.setDiagnosticsOptions({
           noSemanticValidation: false,
           noSyntaxValidation: false,
         })
@@ -172,7 +172,7 @@ export async function loadLanguageFeatures(language: string): Promise<void> {
       case 'json': {
         // JSON support is included in core
         // Just enable validation
-        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        monaco.json.jsonDefaults.setDiagnosticsOptions({
           validate: true,
           schemas: [],
           enableSchemaRequest: true,
@@ -184,7 +184,7 @@ export async function loadLanguageFeatures(language: string): Promise<void> {
       case 'scss':
       case 'less': {
         // CSS support is included in core
-        monaco.languages.css.cssDefaults.setOptions({
+        monaco.css.cssDefaults.setOptions({
           validate: true,
         })
         break

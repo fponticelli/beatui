@@ -108,16 +108,14 @@ export const MonacoEditorInput = (
 
                 if (lang === 'json') {
                   const hasSchemas = !!(schemasJson && schemasJson.length)
-                  const options: Monaco.languages.json.DiagnosticsOptions = {
+                  const options: Monaco.json.DiagnosticsOptions = {
                     validate: true,
                     enableSchemaRequest: true,
                     schemas: hasSchemas ? schemasJson : [],
                   }
                   // Important: Do not pass functions (e.g. schemaRequestService) here,
                   // they are not structured-cloneable and will break postMessage to the worker.
-                  monaco.languages.json.jsonDefaults.setDiagnosticsOptions(
-                    options
-                  )
+                  monaco.json.jsonDefaults.setDiagnosticsOptions(options)
                 }
 
                 const model = editor.getModel()
