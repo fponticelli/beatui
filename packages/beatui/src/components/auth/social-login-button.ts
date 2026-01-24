@@ -189,7 +189,7 @@ export const socialProviderInfo: Record<
   },
   snapchat: {
     name: 'Snapchat',
-    icon: 'streamline-logos:snapchat-logo-solid',
+    icon: 'simple-icons:snapchat',
     color: 'yellow',
   },
   reddit: {
@@ -216,17 +216,17 @@ export const socialProviderInfo: Record<
   },
   epic: {
     name: 'Epic Games',
-    icon: 'streamline-logos:epic-games-logo-solid',
+    icon: 'simple-icons:epicgames',
     color: 'neutral',
   },
   playstation: {
     name: 'PlayStation',
-    icon: 'streamline-logos:playstation-logo-solid',
+    icon: 'simple-icons:playstation',
     color: 'violet',
   },
   xbox: {
     name: 'Xbox',
-    icon: 'streamline-logos:xbox-live-logo-solid',
+    icon: 'simple-icons:xbox',
     color: 'green',
   },
 
@@ -238,14 +238,14 @@ export const socialProviderInfo: Record<
   },
   wechat: {
     name: 'WeChat',
-    icon: 'streamline-logos:wechat-logo',
+    icon: 'simple-icons:wechat',
     color: 'lime',
   },
 
   // Other Identity
   amazon: {
     name: 'Amazon',
-    icon: 'streamline-logos:amazon-logo-solid',
+    icon: 'simple-icons:amazon',
     color: 'red', // distinct warm tone (not used elsewhere here)
   },
   yahoo: {

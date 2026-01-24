@@ -22,7 +22,7 @@
   justify-content: center;
   background-color: var(--color-white);
   border-radius: var(--radius-full);
-  padding: calc(var(--spacing-base) * 2);
+  padding: calc(var(--spacing-base) * 1);
 }
 
 .b-dark .bc-social-login-button__icon {
@@ -46,22 +46,142 @@
   padding-inline: calc(var(--spacing-base) * 4);
 }
 
+/* Provider-specific icon backgrounds and colors */
+
+/* Google - colorful logo needs white background */
 .bc-social-login-button--google .bc-social-login-button__icon {
   background-color: var(--color-white);
 }
 
+/* GitHub - black icon needs contrasting background */
 .bc-social-login-button--github .bc-social-login-button__icon {
-  background-color: var(--color-black);
+  background-color: var(--color-white);
 }
 
-.bc-social-login-button--github .bc-social-login-button__icon-inner {
-  color: var(--color-white);
-}
-
+/* Apple - black icon needs contrasting background */
 .bc-social-login-button--apple .bc-social-login-button__icon {
-  background-color: var(--color-black);
+  background-color: var(--color-white);
 }
 
-.bc-social-login-button--apple .bc-social-login-button__icon-inner {
-  color: var(--color-white);
+/* X (Twitter rebrand) - black icon needs contrasting background */
+.bc-social-login-button--x .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Microsoft - colorful logo needs white background */
+.bc-social-login-button--microsoft .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Steam - dark icon needs contrasting background */
+.bc-social-login-button--steam .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Epic Games - simple-icons, dark icon on white background */
+.bc-social-login-button--epic .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+.bc-social-login-button--epic .bc-social-login-button__icon-inner {
+  color: var(--color-black);
+}
+
+/* PlayStation - simple-icons, blue icon on white background */
+.bc-social-login-button--playstation .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+.bc-social-login-button--playstation .bc-social-login-button__icon-inner {
+  color: #003791;
+}
+
+/* Xbox - simple-icons, green icon on white background */
+.bc-social-login-button--xbox .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+.bc-social-login-button--xbox .bc-social-login-button__icon-inner {
+  color: #107c10;
+}
+
+/* TikTok - has dark elements that need contrasting background */
+.bc-social-login-button--tiktok .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Snapchat - simple-icons, yellow icon on black background */
+.bc-social-login-button--snapchat .bc-social-login-button__icon {
+  background-color: var(--color-black);
+}
+.bc-social-login-button--snapchat .bc-social-login-button__icon-inner {
+  color: #fffc00;
+}
+
+/* Amazon - simple-icons, orange icon on white background */
+.bc-social-login-button--amazon .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+.bc-social-login-button--amazon .bc-social-login-button__icon-inner {
+  color: #ff9900;
+}
+
+/* WeChat - simple-icons, green icon on white background */
+.bc-social-login-button--wechat .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+.bc-social-login-button--wechat .bc-social-login-button__icon-inner {
+  color: #07c160;
+}
+
+/* Yahoo - purple icon needs white background for visibility */
+.bc-social-login-button--yahoo .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* PayPal - blue icon needs white background */
+.bc-social-login-button--paypal .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Facebook - blue logo needs white background */
+.bc-social-login-button--facebook .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Twitter - blue bird needs white background */
+.bc-social-login-button--twitter .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Discord - purple icon works on white background */
+.bc-social-login-button--discord .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* LinkedIn - blue icon needs white background */
+.bc-social-login-button--linkedin .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Instagram - gradient icon needs white background */
+.bc-social-login-button--instagram .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Reddit - orange icon needs white background */
+.bc-social-login-button--reddit .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Pinterest - red icon needs white background */
+.bc-social-login-button--pinterest .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* Twitch - purple icon needs white background */
+.bc-social-login-button--twitch .bc-social-login-button__icon {
+  background-color: var(--color-white);
+}
+
+/* WhatsApp - green icon needs white background */
+.bc-social-login-button--whatsapp .bc-social-login-button__icon {
+  background-color: var(--color-white);
 }
