@@ -10,6 +10,7 @@ export const pl: BeatUIMessages = {
   failedToLoadIcon: 'Nie udało się załadować ikony',
   editLabel: 'Edytuj',
   selectOne: 'Wybierz jeden',
+  selectNone: 'Brak',
   selectMany: 'Wybierz wiele',
   noResults: 'Brak wyników',
   passwordPlaceholderText: 'Tajne hasło',

@@ -10,6 +10,7 @@ export const ja: BeatUIMessages = {
   failedToLoadIcon: 'アイコンの読み込みに失敗しました',
   editLabel: '編集',
   selectOne: '一つ選択',
+  selectNone: 'なし',
   selectMany: '複数選択',
   noResults: '結果なし',
   passwordPlaceholderText: 'パスワード',

@@ -10,6 +10,7 @@ const zh: BeatUIMessages = {
   failedToLoadIcon: '图标加载失败',
   editLabel: '编辑',
   selectOne: '选择一个',
+  selectNone: '无',
   selectMany: '选择多个',
   noResults: '无结果',
   passwordPlaceholderText: '密码',

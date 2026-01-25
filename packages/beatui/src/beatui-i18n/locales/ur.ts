@@ -10,6 +10,7 @@ const ur: BeatUIMessages = {
   failedToLoadIcon: 'آئیکن لوڈ کرنے میں ناکام',
   editLabel: 'ترمیم',
   selectOne: 'ایک منتخب کریں',
+  selectNone: 'کوئی نہیں',
   selectMany: 'متعدد منتخب کریں',
   noResults: 'کوئی نتیجہ نہیں',
   passwordPlaceholderText: 'خفیہ پاس ورڈ',

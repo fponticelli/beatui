@@ -10,6 +10,7 @@ const hi: BeatUIMessages = {
   failedToLoadIcon: 'आइकन लोड करने में विफल',
   editLabel: 'संपादित करें',
   selectOne: 'एक चुनें',
+  selectNone: 'कोई नहीं',
   selectMany: 'बहुत चुनें',
   noResults: 'कोई परिणाम नहीं',
   passwordPlaceholderText: 'गुप्त पासवर्ड',

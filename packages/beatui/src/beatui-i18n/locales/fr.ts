@@ -10,6 +10,7 @@ const fr: BeatUIMessages = {
   failedToLoadIcon: "Échec du chargement de l'icône",
   editLabel: 'Modifier',
   selectOne: 'Sélectionner un',
+  selectNone: 'Aucun',
   selectMany: 'Sélectionner plusieurs',
   noResults: 'Aucun résultat',
   passwordPlaceholderText: 'Mot de passe secret',

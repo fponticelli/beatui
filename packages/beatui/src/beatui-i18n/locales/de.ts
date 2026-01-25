@@ -10,6 +10,7 @@ const de: BeatUIMessages = {
   failedToLoadIcon: 'Symbol konnte nicht geladen werden',
   editLabel: 'Bearbeiten',
   selectOne: 'Eines auswählen',
+  selectNone: 'Keines',
   selectMany: 'Mehrere auswählen',
   noResults: 'Keine Ergebnisse',
   passwordPlaceholderText: 'Geheimes Passwort',

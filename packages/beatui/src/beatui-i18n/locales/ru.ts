@@ -10,6 +10,7 @@ export const ru: BeatUIMessages = {
   failedToLoadIcon: 'Не удалось загрузить иконку',
   editLabel: 'Редактировать',
   selectOne: 'Выберите один',
+  selectNone: 'Ничего',
   selectMany: 'Выберите несколько',
   noResults: 'Нет результатов',
   passwordPlaceholderText: 'Секретный пароль',
