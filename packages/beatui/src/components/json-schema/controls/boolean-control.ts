@@ -55,14 +55,21 @@ export function JSONSchemaBoolean({
   if (!ctx.isNullable && (!ctx.isOptional || ctx.shouldShowPresenceToggle))
     return base
 
-  // Nullable boolean: add a small clear button that sets the value to null
+  // Use undefined (not null) as the cleared value for optional-only properties
+  // that aren't explicitly nullable in the schema
+  const useUndefinedForClear = !ctx.isNullable
+
+  // Nullable/optional boolean: add a small clear button that sets the value to null/undefined
   return Control(CheckboxInput, {
     ...baseOptions,
     controller: controller as unknown as Controller<boolean>,
     after: NullableResetAfter(
       controller.signal as unknown as Value<boolean | null>,
       (controller as unknown as Controller<boolean | null>).disabled,
-      v => (controller as unknown as Controller<boolean | null>).change(v)
+      () =>
+        (
+          controller as unknown as Controller<boolean | null | undefined>
+        ).change(useUndefinedForClear ? undefined : null)
     ),
   })
 }

@@ -8,6 +8,7 @@ import {
   MaskInput,
   SliderInput,
   NullableSliderInput,
+  transformNullToUndefined,
   type Controller,
   type NumberInputOptions,
 } from '../../form'
@@ -102,8 +103,11 @@ export function JSONSchemaNumber({
   // Handle nullable/optional cases - use nullable controls for:
   // 1. Explicitly nullable schemas (nullable: true, type includes null, etc.)
   // 2. Optional primitive fields that don't show presence toggles
-  const isNullable =
+  const useNullableControl =
     (ctx.isNullable || ctx.isOptional) && !ctx.shouldShowPresenceToggle
+  // Use undefined (not null) as the cleared value for optional-only properties
+  // that aren't explicitly nullable in the schema
+  const useUndefinedForClear = useNullableControl && !ctx.isNullable
 
   // Select appropriate widget based on detection
   switch (widgetInfo.widget) {
@@ -112,11 +116,15 @@ export function JSONSchemaNumber({
         (typeof widgetInfo.options?.max === 'number'
           ? widgetInfo.options.max
           : def.maximum) || 5
-      if (isNullable) {
+      if (useNullableControl) {
         return Control(NullableRatingInput, {
           ...baseOptions,
           max: maxRating,
-          controller: controller as unknown as Controller<number | null>,
+          controller: useUndefinedForClear
+            ? transformNullToUndefined(
+                controller as unknown as Controller<number | undefined>
+              )
+            : (controller as unknown as Controller<number | null>),
         })
       }
       return Control(RatingInput, {
@@ -126,10 +134,14 @@ export function JSONSchemaNumber({
       })
 
     case 'slider':
-      if (isNullable) {
+      if (useNullableControl) {
         return Control(NullableSliderInput, {
           ...baseOptions,
-          controller: controller as unknown as Controller<number | null>,
+          controller: useUndefinedForClear
+            ? transformNullToUndefined(
+                controller as unknown as Controller<number | undefined>
+              )
+            : (controller as unknown as Controller<number | null>),
         })
       }
       return Control(SliderInput, {
@@ -142,7 +154,7 @@ export function JSONSchemaNumber({
         typeof widgetInfo.options?.currency === 'string'
           ? widgetInfo.options.currency
           : 'USD'
-      if (isNullable) {
+      if (useNullableControl) {
         return Control(MaskInput, {
           ...baseOptions,
           mask: createCurrencyMask(currency),
@@ -156,7 +168,7 @@ export function JSONSchemaNumber({
       })
 
     case 'percent':
-      if (isNullable) {
+      if (useNullableControl) {
         return Control(MaskInput, {
           ...baseOptions,
           mask: createPercentMask(),
@@ -171,10 +183,14 @@ export function JSONSchemaNumber({
 
     default:
       // Standard number input
-      if (isNullable) {
+      if (useNullableControl) {
         return Control(NullableNumberInput, {
           ...baseOptions,
-          controller: controller as unknown as Controller<number | null>,
+          controller: useUndefinedForClear
+            ? transformNullToUndefined(
+                controller as unknown as Controller<number | undefined>
+              )
+            : (controller as unknown as Controller<number | null>),
         })
       }
       return Control<number, NumberInputOptions>(NumberInput, {
