@@ -4,6 +4,29 @@ import { mergeAllOf } from './schema-merge'
 import type { JSONSchema, SchemaConflict, NotViolation } from './schema-types'
 
 /**
+ * Check if a JSON schema uses any conditional features that require
+ * re-evaluating the effective schema when the value changes.
+ *
+ * These features include:
+ * - `if`/`then`/`else` (conditional subschemas)
+ * - `dependentRequired` (2020-12)
+ * - `dependentSchemas` (2019-09/2020-12)
+ * - `dependencies` (draft-07)
+ */
+export function hasConditionalFeatures(schema: JSONSchema | null | undefined): boolean {
+  if (!schema || typeof schema !== 'object') return false
+
+  const schemaAny = schema as unknown as Record<string, unknown>
+
+  return !!(
+    schema.if ||
+    schemaAny.dependentRequired ||
+    schemaAny.dependentSchemas ||
+    schema.dependencies
+  )
+}
+
+/**
  * Evaluate `not` subschema against the current value using AJV.
  * Returns a NotViolation if the value matches the disallowed schema.
  */

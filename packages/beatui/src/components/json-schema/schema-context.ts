@@ -28,6 +28,7 @@ export {
   composeEffectiveObjectSchema,
   evaluateIfThenElseOverlay,
   getEvaluatedProperties,
+  hasConditionalFeatures,
 } from './schema-conditionals'
 
 export type SchemaContextOptions = {

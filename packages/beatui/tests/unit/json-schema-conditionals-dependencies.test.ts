@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import Ajv from 'ajv'
 import {
   composeEffectiveObjectSchema,
+  hasConditionalFeatures,
   JSONSchema,
 } from '../../src/components/json-schema/schema-context'
 
@@ -115,6 +116,91 @@ describe('composeEffectiveObjectSchema', () => {
     const withMode = composeEffectiveObjectSchema(base, { mode: 'on' }, ajv)
     expect(withMode.effective.properties).toHaveProperty('extra')
     expect(withMode.effective.required).toContain('mode')
+  })
+})
+
+describe('hasConditionalFeatures', () => {
+  it('returns false for null/undefined schemas', () => {
+    expect(hasConditionalFeatures(null)).toBe(false)
+    expect(hasConditionalFeatures(undefined)).toBe(false)
+  })
+
+  it('returns false for simple object schemas without conditionals', () => {
+    const schema: JSONSchema = {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        age: { type: 'number' },
+      },
+      required: ['name'],
+    }
+    expect(hasConditionalFeatures(schema)).toBe(false)
+  })
+
+  it('returns true for schemas with if/then/else', () => {
+    const schema: JSONSchema = {
+      type: 'object',
+      properties: {
+        type: { type: 'string' },
+      },
+      if: { properties: { type: { const: 'A' } } },
+      then: { properties: { aField: { type: 'string' } } },
+    }
+    expect(hasConditionalFeatures(schema)).toBe(true)
+  })
+
+  it('returns true for schemas with dependentRequired', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        feature: { type: 'boolean' },
+        details: { type: 'string' },
+      },
+      dependentRequired: {
+        feature: ['details'],
+      },
+    } as JSONSchema
+    expect(hasConditionalFeatures(schema)).toBe(true)
+  })
+
+  it('returns true for schemas with dependentSchemas', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        feature: { type: 'boolean' },
+      },
+      dependentSchemas: {
+        feature: {
+          properties: { extra: { type: 'string' } },
+        },
+      },
+    } as JSONSchema
+    expect(hasConditionalFeatures(schema)).toBe(true)
+  })
+
+  it('returns true for schemas with draft-07 dependencies', () => {
+    const schema: JSONSchema = {
+      type: 'object',
+      properties: {
+        flag: { type: 'boolean' },
+        x: { type: 'string' },
+      },
+      dependencies: {
+        flag: ['x'],
+      },
+    }
+    expect(hasConditionalFeatures(schema)).toBe(true)
+  })
+
+  it('returns false for schemas with only allOf/oneOf/anyOf (no conditionals)', () => {
+    const schema: JSONSchema = {
+      type: 'object',
+      allOf: [
+        { properties: { a: { type: 'string' } } },
+        { properties: { b: { type: 'number' } } },
+      ],
+    }
+    expect(hasConditionalFeatures(schema)).toBe(false)
   })
 })
 

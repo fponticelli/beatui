@@ -42,14 +42,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/beatui
       '@tempots/dom':
-        specifier: ^35.0.3
-        version: 35.0.3
+        specifier: ^35.1.0
+        version: 35.1.0
       '@tempots/std':
         specifier: ~0.25.2
         version: 0.25.2
       '@tempots/ui':
-        specifier: ^14.0.3
-        version: 14.0.3(@tempots/dom@35.0.3)(@tempots/std@0.25.2)
+        specifier: ^14.1.0
+        version: 14.1.0(@tempots/dom@35.1.0)(@tempots/std@0.25.2)
       zod:
         specifier: 4.1.12
         version: 4.1.12
@@ -243,8 +243,8 @@ importers:
         specifier: ^9.39.1
         version: 9.39.2
       '@tempots/dom':
-        specifier: ^35.0.3
-        version: 35.0.3
+        specifier: ^35.1.0
+        version: 35.1.0
       '@tempots/eslint-plugin':
         specifier: 0.8.1
         version: 0.8.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
@@ -252,8 +252,8 @@ importers:
         specifier: ~0.25.2
         version: 0.25.2
       '@tempots/ui':
-        specifier: ^14.0.3
-        version: 14.0.3(@tempots/dom@35.0.3)(@tempots/std@0.25.2)
+        specifier: ^14.1.0
+        version: 14.1.0(@tempots/dom@35.1.0)(@tempots/std@0.25.2)
       '@testing-library/dom':
         specifier: 10.4.0
         version: 10.4.0
@@ -1029,11 +1029,11 @@ packages:
   '@tempots/core@2.0.4':
     resolution: {integrity: sha512-2082Rd+McyQbTaXtJux5y2rL8gbp8cEFxvNsJEJbt1N+M5XEj093OyuPVsanQVPuK4qjWsbi15kl0+t8Hu+oSQ==}
 
-  '@tempots/dom@35.0.3':
-    resolution: {integrity: sha512-W/Mvx7U+btZVCB/zd/PDUWgT9Komvtu++lpBQohVK1K1/+fnashQK1Q2dP01sRVwr7WuYk/Mq81ZUDn8MGuxwg==}
-
   '@tempots/dom@35.0.4':
     resolution: {integrity: sha512-8sWCgHzX398uirORuYFllx6pQ2YbOZ7b8q7hd8RRMFPggNR16bkuzx2YkzAJbR5vHH8kMTeekez4OPWrZSnz3Q==}
+
+  '@tempots/dom@35.1.0':
+    resolution: {integrity: sha512-9YEbpJ9III/NAYHl4AEHfLU6beXrSmszluTk8AePmf4aH3qg3UVzsx9rwyV7sX0451yF/lHJ/BKLy+L/2n+Jrw==}
 
   '@tempots/eslint-plugin@0.8.1':
     resolution: {integrity: sha512-6v7FkVWxzf+Ui8sSyYIjm46j3Snw0gJ2D+xH5zpeDn3ln6MQ6HQWPwycNu3iCRvUsbw2EiTysatS39jahxa6Ow==}
@@ -1043,16 +1043,16 @@ packages:
   '@tempots/std@0.25.2':
     resolution: {integrity: sha512-prY8FPjSs+QcCstougDET1+xXvRkuqrNJ2NDt5E+1d+ZAgk5gPGslpB04pb99wHt+YyEv5nPaRBZDS10UjafHA==}
 
-  '@tempots/ui@14.0.3':
-    resolution: {integrity: sha512-fvFxcAFNdqfYn0ISK7GAlsTDWg9924sXQneKl2Numgwg6rB/cyIBM2tT0Asx3GNPdDfkxA+hl2SWC+N+0ji5Rg==}
-    peerDependencies:
-      '@tempots/dom': ^35.0.3
-      '@tempots/std': ^0.25.2
-
   '@tempots/ui@14.0.5':
     resolution: {integrity: sha512-7YxDT4ekKjGJqUQdeU6Svbgy+xkMLHDo87gfWJnvgLo9hAQ29/QeRilJAqeZrFedK72iR81H8mmLeMHNWstHmA==}
     peerDependencies:
       '@tempots/dom': ^35.0.4
+      '@tempots/std': ^0.25.2
+
+  '@tempots/ui@14.1.0':
+    resolution: {integrity: sha512-IJQUZVHd6dYfxedI89tEu0XN+TQJNoNTSB3uQi0y/roJZOBlBUmMyJHttQr3yBsoGuM5b600/Y7375UiTo5WLA==}
+    peerDependencies:
+      '@tempots/dom': ^35.1.0
       '@tempots/std': ^0.25.2
 
   '@testing-library/dom@10.4.0':
@@ -3308,9 +3308,11 @@ snapshots:
 
   '@tempots/core@2.0.4': {}
 
-  '@tempots/dom@35.0.3': {}
-
   '@tempots/dom@35.0.4':
+    dependencies:
+      '@tempots/core': 2.0.4
+
+  '@tempots/dom@35.1.0':
     dependencies:
       '@tempots/core': 2.0.4
 
@@ -3324,16 +3326,16 @@ snapshots:
 
   '@tempots/std@0.25.2': {}
 
-  '@tempots/ui@14.0.3(@tempots/dom@35.0.3)(@tempots/std@0.25.2)':
-    dependencies:
-      '@floating-ui/dom': 1.7.4
-      '@tempots/dom': 35.0.3
-      '@tempots/std': 0.25.2
-
   '@tempots/ui@14.0.5(@tempots/dom@35.0.4)(@tempots/std@0.25.2)':
     dependencies:
       '@floating-ui/dom': 1.7.4
       '@tempots/dom': 35.0.4
+      '@tempots/std': 0.25.2
+
+  '@tempots/ui@14.1.0(@tempots/dom@35.1.0)(@tempots/std@0.25.2)':
+    dependencies:
+      '@floating-ui/dom': 1.7.4
+      '@tempots/dom': 35.1.0
       '@tempots/std': 0.25.2
 
   '@testing-library/dom@10.4.0':
