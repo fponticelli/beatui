@@ -24,6 +24,12 @@
       "require": "./dist/json-schema/index.cjs.js",
       "default": "./dist/json-schema/index.es.js"
     },
+    "./json-schema-display": {
+      "types": "./dist/types/json-schema-display/index.d.ts",
+      "import": "./dist/json-schema-display/index.es.js",
+      "require": "./dist/json-schema-display/index.cjs.js",
+      "default": "./dist/json-schema-display/index.es.js"
+    },
     "./json-structure": {
       "types": "./dist/types/json-structure/index.d.ts",
       "import": "./dist/json-structure/index.es.js",

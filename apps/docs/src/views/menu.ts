@@ -53,6 +53,10 @@ export function Menu() {
           content: 'JSON Schema Custom Widgets',
         }),
         SidebarLink({
+          href: '/json-schema-display',
+          content: 'JSON Schema Display',
+        }),
+        SidebarLink({
           href: '/json-structure-form',
           content: 'JSON Structure Form',
         }),

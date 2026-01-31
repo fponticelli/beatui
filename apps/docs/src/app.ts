@@ -115,6 +115,10 @@ export const App = () => {
             import('./pages/json-schema-custom-widgets'),
             ({ default: Page }) => Page()
           ),
+        '/json-schema-display': () =>
+          Async(import('./pages/json-schema-display'), ({ default: Page }) =>
+            Page()
+          ),
         '/json-structure-form': () =>
           Async(import('./pages/json-structure-form'), ({ default: Page }) =>
             Page()
