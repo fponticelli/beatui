@@ -1,11 +1,8 @@
-import {
-  html,
-  attr,
-  Renderable,
-  Value,
-  MapSignal,
-} from '@tempots/dom'
-import type { SchemaContext, JSONSchema } from '../../json-schema/schema-context'
+import { html, attr, Renderable, Value, MapSignal } from '@tempots/dom'
+import type {
+  SchemaContext,
+  JSONSchema,
+} from '../../json-schema/schema-context'
 import type { Mismatch } from '../mismatch'
 import { DisplayWrapper } from '../display-wrapper'
 import { GenericDisplay } from './generic-display'
@@ -68,10 +65,7 @@ export function ArrayDisplay({
           '\u2014'
         )
       }
-      return html.span(
-        attr.class('bc-json-schema-display__value'),
-        String(v)
-      )
+      return html.span(attr.class('bc-json-schema-display__value'), String(v))
     }
 
     if (v.length === 0) {

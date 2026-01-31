@@ -13,7 +13,9 @@ import type { JSONSchema, SchemaConflict, NotViolation } from './schema-types'
  * - `dependentSchemas` (2019-09/2020-12)
  * - `dependencies` (draft-07)
  */
-export function hasConditionalFeatures(schema: JSONSchema | null | undefined): boolean {
+export function hasConditionalFeatures(
+  schema: JSONSchema | null | undefined
+): boolean {
   if (!schema || typeof schema !== 'object') return false
 
   const schemaAny = schema as unknown as Record<string, unknown>

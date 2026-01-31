@@ -70,10 +70,7 @@ export function DisplayWrapper({
             ? html.span(attr.class('bc-json-schema-display__label'), label)
             : null,
           isRequired
-            ? html.span(
-                attr.class('bc-json-schema-display__required'),
-                '*'
-              )
+            ? html.span(attr.class('bc-json-schema-display__required'), '*')
             : null,
           isDeprecated
             ? html.span(
@@ -87,10 +84,7 @@ export function DisplayWrapper({
     children,
     // Description
     description
-      ? html.div(
-          attr.class('bc-json-schema-display__description'),
-          description
-        )
+      ? html.div(attr.class('bc-json-schema-display__description'), description)
       : null,
     // Mismatch indicators
     MismatchIndicators(fieldMismatches)

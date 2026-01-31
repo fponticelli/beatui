@@ -1,5 +1,8 @@
 import { html, attr, Renderable, Value, MapSignal } from '@tempots/dom'
-import type { SchemaContext, JSONSchema } from '../../json-schema/schema-context'
+import type {
+  SchemaContext,
+  JSONSchema,
+} from '../../json-schema/schema-context'
 import type { Mismatch } from '../mismatch'
 import { DisplayWrapper } from '../display-wrapper'
 import { resolveWidget } from '../../json-schema/widgets/utils'

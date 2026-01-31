@@ -430,11 +430,9 @@ function renderStaticObject({
 
   // For static rendering, we need to handle layout differently
   // Known properties are static, dynamic properties are reactive
-  const allChildren = [
-    ...knownChildren,
-    dynamicProperties,
-    addButton,
-  ].filter(Boolean)
+  const allChildren = [...knownChildren, dynamicProperties, addButton].filter(
+    Boolean
+  )
 
   const content = applyContainerLayout(
     containerLayout,

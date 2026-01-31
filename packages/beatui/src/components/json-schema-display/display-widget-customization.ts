@@ -2,7 +2,10 @@ import type { Renderable } from '@tempots/dom'
 import type { Value } from '@tempots/dom'
 import type { SchemaContext, JSONSchema } from '../json-schema/schema-context'
 import type { Mismatch } from './mismatch'
-import { resolveWidget, type ResolvedWidget } from '../json-schema/widgets/utils'
+import {
+  resolveWidget,
+  type ResolvedWidget,
+} from '../json-schema/widgets/utils'
 
 /**
  * Display widget factory function signature.
@@ -45,9 +48,7 @@ export class DisplayWidgetRegistry {
   register(registration: DisplayWidgetRegistration): void {
     this.widgets.push(registration)
     // Keep sorted by priority descending
-    this.widgets.sort(
-      (a, b) => (b.priority ?? 50) - (a.priority ?? 50)
-    )
+    this.widgets.sort((a, b) => (b.priority ?? 50) - (a.priority ?? 50))
   }
 
   /**
@@ -61,9 +62,7 @@ export class DisplayWidgetRegistry {
     const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)
     if (resolved?.widget) {
       const byName = this.widgets.find(
-        w =>
-          w.displayName === resolved.widget &&
-          w.matcher(ctx)
+        w => w.displayName === resolved.widget && w.matcher(ctx)
       )
       if (byName) {
         return { factory: byName.factory, resolved }
@@ -94,9 +93,7 @@ export class DisplayWidgetRegistry {
 export function forDisplayXUI(
   widgetName: string,
   factory: DisplayWidgetFactory,
-  options?: Partial<
-    Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>
-  >
+  options?: Partial<Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>>
 ): DisplayWidgetRegistration {
   return {
     factory,
@@ -122,9 +119,7 @@ export function forDisplayXUI(
 export function forDisplayFormat(
   format: string,
   factory: DisplayWidgetFactory,
-  options?: Partial<
-    Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>
-  >
+  options?: Partial<Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>>
 ): DisplayWidgetRegistration {
   return {
     factory,
@@ -145,9 +140,7 @@ export function forDisplayTypeAndFormat(
   type: string,
   format: string,
   factory: DisplayWidgetFactory,
-  options?: Partial<
-    Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>
-  >
+  options?: Partial<Omit<DisplayWidgetRegistration, 'factory' | 'matcher'>>
 ): DisplayWidgetRegistration {
   return {
     factory,

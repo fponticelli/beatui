@@ -12,7 +12,7 @@ function booleanClass(v: unknown): string {
 
 function booleanText(v: unknown): string {
   if (v == null) return '\u2014'
-  return Boolean(v) ? 'true' : 'false'
+  return v ? 'true' : 'false'
 }
 
 /**

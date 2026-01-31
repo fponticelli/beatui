@@ -155,10 +155,7 @@ export function GenericDisplay({
   })
 }
 
-function routeByType(
-  type: string,
-  props: GenericDisplayProps
-): Renderable {
+function routeByType(type: string, props: GenericDisplayProps): Renderable {
   switch (type) {
     case 'string':
       return StringDisplay(props)

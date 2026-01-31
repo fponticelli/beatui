@@ -234,10 +234,7 @@ export function detectMismatches(
           p => new RegExp(p)
         )
         for (const key of keys) {
-          if (
-            !allowedKeys.has(key) &&
-            !patterns.some(re => re.test(key))
-          ) {
+          if (!allowedKeys.has(key) && !patterns.some(re => re.test(key))) {
             mismatches.push({
               kind: 'extra-property',
               path: [...path, key],

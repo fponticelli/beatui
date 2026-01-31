@@ -1,5 +1,6 @@
 import { Renderable, Value, MapSignal } from '@tempots/dom'
 import type { JSONSchema } from '../json-schema/schema-context'
+export type { JSONSchema } from '../json-schema/schema-context'
 import { SchemaContext } from '../json-schema/schema-context'
 import { GenericDisplay } from './displays/generic-display'
 import { detectMismatches, type Mismatch } from './mismatch'

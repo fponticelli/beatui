@@ -1,5 +1,8 @@
 import { html, attr, Renderable, Value, MapSignal } from '@tempots/dom'
-import type { SchemaContext, JSONSchema } from '../../json-schema/schema-context'
+import type {
+  SchemaContext,
+  JSONSchema,
+} from '../../json-schema/schema-context'
 import type { Mismatch } from '../mismatch'
 import { DisplayWrapper } from '../display-wrapper'
 import type { DisplayWidgetRegistry } from '../display-widget-customization'
@@ -33,9 +36,7 @@ export function EnumConstDisplay({
     // Check if value is in enum / matches const
     let isValid = true
     if (def.enum != null) {
-      isValid = def.enum.some(
-        e => JSON.stringify(e) === JSON.stringify(v)
-      )
+      isValid = def.enum.some(e => JSON.stringify(e) === JSON.stringify(v))
     } else if (def.const !== undefined) {
       isValid = JSON.stringify(def.const) === JSON.stringify(v)
     }

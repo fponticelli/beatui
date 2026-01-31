@@ -1,11 +1,4 @@
-import {
-  html,
-  attr,
-  Renderable,
-  Value,
-  Empty,
-  MapSignal,
-} from '@tempots/dom'
+import { html, attr, Renderable, Value, Empty, MapSignal } from '@tempots/dom'
 import type {
   SchemaContext,
   JSONSchema,
@@ -174,10 +167,7 @@ export function ObjectDisplay({
             ctx.widgetLabel
           ),
           ctx.isPropertyRequired
-            ? html.span(
-                attr.class('bc-json-schema-display__required'),
-                '*'
-              )
+            ? html.span(attr.class('bc-json-schema-display__required'), '*')
             : null,
           ctx.isDeprecated
             ? html.span(

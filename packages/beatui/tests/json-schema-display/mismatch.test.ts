@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { detectMismatches, type Mismatch } from '../../src/components/json-schema-display/mismatch'
+import { detectMismatches } from '../../src/components/json-schema-display/mismatch'
 
 describe('detectMismatches', () => {
   // Type mismatch

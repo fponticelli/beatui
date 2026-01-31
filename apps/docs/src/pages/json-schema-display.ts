@@ -16,7 +16,10 @@ import {
   Option,
   Switch,
 } from '@tempots/beatui'
-import { JSONSchemaDisplay } from '@tempots/beatui/json-schema-display'
+import {
+  JSONSchemaDisplay,
+  type JSONSchema,
+} from '@tempots/beatui/json-schema-display'
 import { MonacoEditorInput } from '@tempots/beatui/monaco'
 
 const sampleNames = [
@@ -41,7 +44,7 @@ export default function JSONSchemaDisplayPage() {
   const showMismatches = prop(true)
 
   const sample = selectedSample.mapAsync<{
-    schema: object | null
+    schema: JSONSchema | null
     data: unknown
   }>(
     async name => {
@@ -50,8 +53,8 @@ export default function JSONSchemaDisplayPage() {
         import(`./json-samples/${name}-data.ts`).then(m => m.default),
       ])
       return {
-        schema: files[0] as object,
-        data: files[1] as object,
+        schema: files[0] as JSONSchema,
+        data: files[1] as unknown,
       }
     },
     { schema: null, data: {} }
@@ -87,10 +90,7 @@ export default function JSONSchemaDisplayPage() {
       ScrollablePanel(
         {
           header: html.div(
-            html.h3(
-              attr.class('text-lg font-semibold'),
-              'Edit JSON Value'
-            ),
+            html.h3(attr.class('text-lg font-semibold'), 'Edit JSON Value'),
             Group(
               attr.class('gap-2 items-center'),
               NativeSelect({
@@ -157,17 +157,13 @@ export default function JSONSchemaDisplayPage() {
                     dataError.map(String)
                   )
               ),
-            () =>
-              html.div(attr.class('text-neutral-500'), 'Loading schema...')
+            () => html.div(attr.class('text-neutral-500'), 'Loading schema...')
           ),
         }),
         // Schema panel
         ScrollablePanel(
           {
-            header: html.h3(
-              attr.class('text-lg font-semibold'),
-              'Schema'
-            ),
+            header: html.h3(attr.class('text-lg font-semibold'), 'Schema'),
             body: html.pre(
               attr.class('whitespace-pre-wrap text-sm font-mono'),
               schema.map(s => (s != null ? JSON.stringify(s, null, 2) : ''))

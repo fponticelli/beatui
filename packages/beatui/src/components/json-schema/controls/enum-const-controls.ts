@@ -65,11 +65,12 @@ export function JSONSchemaEnum({
 
     // Transform controller if needed for optional-only fields
     // For optional-only fields, we need to convert null (our sentinel) to undefined
-    const effectiveController = canClear && useUndefinedForClear
-      ? (transformNullToUndefined(
-          controller as Controller<NonNullable<unknown> | undefined>
-        ) as unknown as Controller<unknown>)
-      : controller
+    const effectiveController =
+      canClear && useUndefinedForClear
+        ? (transformNullToUndefined(
+            controller as Controller<NonNullable<unknown> | undefined>
+          ) as unknown as Controller<unknown>)
+        : controller
 
     return NativeSelectControl({
       ...definitionToInputWrapperOptions({ ctx }),
