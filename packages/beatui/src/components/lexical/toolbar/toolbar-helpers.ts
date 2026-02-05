@@ -12,7 +12,7 @@ import {
 import { $isListNode } from '@lexical/list'
 import { $setBlocksType } from '@lexical/selection'
 import { TOGGLE_LINK_COMMAND } from '@lexical/link'
-import { LexicalToolbarButton } from './toolbar-button'
+import { EditorToolbarButton } from '../../editor-toolbar'
 import { ControlSize } from '../../theme'
 
 /**
@@ -170,7 +170,7 @@ export function createButtonFactory(
       label: string
       icon: string
     }) =>
-      LexicalToolbarButton({
+      EditorToolbarButton({
         ...opts,
         display,
         disabled: readOnly,

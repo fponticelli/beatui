@@ -21,8 +21,7 @@ import {
 import { LinkControl } from './link-control'
 import { ControlSize } from '../theme'
 import { makeActiveMarkSignal, makeActiveNodeSignal } from './utils'
-import { EToolbarGroup } from './etoolbar-group'
-import { EToolbarButton } from './etoolbar-button'
+import { EditorToolbarGroup, EditorToolbarButton } from '../editor-toolbar'
 
 export interface ProseMirrorToolbarOptions {
   /** The ProseMirror editor view */
@@ -51,9 +50,9 @@ export function ProseMirrorToolbar({
       const view = viewSignal as unknown as Signal<EditorView>
       return Toolbar(
         // Text formatting group
-        EToolbarGroup(
+        EditorToolbarGroup(
           { display: [features.$.bold, features.$.italic, features.$.code] },
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveMarkSignal(stateUpdate, view, 'strong'),
             display: features.$.bold,
             onClick: () => toggleMark(view.value, 'strong'),
@@ -62,7 +61,7 @@ export function ProseMirrorToolbar({
             icon: 'mdi:format-bold',
             size,
           }),
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveMarkSignal(stateUpdate, view, 'em'),
             display: features.$.italic,
             onClick: () => toggleMark(view.value, 'em'),
@@ -71,7 +70,7 @@ export function ProseMirrorToolbar({
             icon: 'mdi:format-italic',
             size,
           }),
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveMarkSignal(stateUpdate, view, 'code'),
             display: features.$.code,
             onClick: () => toggleMark(view.value, 'code'),
@@ -83,14 +82,14 @@ export function ProseMirrorToolbar({
         ),
 
         // Headings group
-        EToolbarGroup(
+        EditorToolbarGroup(
           { display: [features.$.headings] },
           Repeat(
             features.$.headerLevels.map(level =>
               Math.min(Math.max(level, 1), 6)
             ),
             ({ counter: level }) => {
-              return EToolbarButton({
+              return EditorToolbarButton({
                 active: makeActiveNodeSignal(stateUpdate, view, 'heading', {
                   level,
                 }),
@@ -106,9 +105,9 @@ export function ProseMirrorToolbar({
         ),
 
         // Lists group
-        EToolbarGroup(
+        EditorToolbarGroup(
           { display: [features.$.bulletList, features.$.orderedList] },
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveNodeSignal(stateUpdate, view, 'bullet_list'),
             display: features.$.bulletList,
             onClick: () => toggleList(view.value, 'bullet_list'),
@@ -117,7 +116,7 @@ export function ProseMirrorToolbar({
             icon: 'mdi:format-list-bulleted',
             size,
           }),
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveNodeSignal(stateUpdate, view, 'ordered_list'),
             display: features.$.orderedList,
             onClick: () => toggleList(view.value, 'ordered_list'),
@@ -129,7 +128,7 @@ export function ProseMirrorToolbar({
         ),
 
         // Block formatting group
-        EToolbarGroup(
+        EditorToolbarGroup(
           {
             display: [
               features.$.blockquote,
@@ -137,7 +136,7 @@ export function ProseMirrorToolbar({
               features.$.horizontalRule,
             ],
           },
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveNodeSignal(stateUpdate, view, 'blockquote'),
             display: features.$.blockquote,
             onClick: () => toggleBlockquote(view.value),
@@ -146,7 +145,7 @@ export function ProseMirrorToolbar({
             icon: 'mdi:format-quote-close',
             size,
           }),
-          EToolbarButton({
+          EditorToolbarButton({
             active: makeActiveNodeSignal(stateUpdate, view, 'code_block'),
             display: features.$.codeBlock,
             onClick: () => toggleCodeBlock(view.value),
@@ -155,7 +154,7 @@ export function ProseMirrorToolbar({
             icon: 'mdi:code-braces',
             size,
           }),
-          EToolbarButton({
+          EditorToolbarButton({
             active: signal(false),
             display: features.$.horizontalRule,
             onClick: () => insertHorizontalRule(view.value),

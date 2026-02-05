@@ -13,7 +13,7 @@ import { EditorState } from 'prosemirror-state'
 import { ToolbarButton, ToolbarGroup } from '../navigation'
 import { TextInput } from '../form'
 import { getMarkByType, isMarkActive, makeActiveMarkSignal } from './utils'
-import { EToolbarButton } from './etoolbar-button'
+import { EditorToolbarButton } from '../editor-toolbar'
 import { ControlSize } from '../theme'
 
 export interface LinkDialogButtonProps {
@@ -150,7 +150,7 @@ export function LinkControl({
   return Fragment(
     OnDispose(clear),
     ToolbarGroup(
-      EToolbarButton({
+      EditorToolbarButton({
         display: signal(true),
         active: makeActiveMarkSignal(stateUpdate, view, 'link'),
         disabled: isReadOnly,
