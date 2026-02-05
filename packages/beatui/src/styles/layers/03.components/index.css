@@ -27,6 +27,11 @@
 @import './json-schema-display.css';
 @import './json-structure.css';
 @import './label.css';
+@import './_lexical-editor.css';
+@import './_lexical-toolbar.css';
+@import './_lexical-floating.css';
+@import './_lexical-table.css';
+@import './_lexical-code.css';
 @import './link.css';
 @import './menu.css';
 @import './modal.css';

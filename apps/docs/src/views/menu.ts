@@ -70,6 +70,10 @@ export function Menu() {
           content: 'ProseMirror Editor',
         }),
         SidebarLink({
+          href: '/lexical-editor',
+          content: 'Lexical Editor',
+        }),
+        SidebarLink({
           href: '/tags-input',
           content: 'Tags Input',
         })

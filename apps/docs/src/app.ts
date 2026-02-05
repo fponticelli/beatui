@@ -134,6 +134,10 @@ export const App = () => {
           Async(import('./pages/prosemirror-editor'), ({ default: Page }) =>
             Page()
           ),
+        '/lexical-editor': () =>
+          Async(import('./pages/lexical-editor'), ({ default: Page }) =>
+            Page()
+          ),
         '/mask-input': () =>
           Async(import('./pages/mask-input'), ({ default: Page }) => Page()),
         '/toolbar': () =>

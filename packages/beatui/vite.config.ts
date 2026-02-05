@@ -22,6 +22,7 @@ export default defineConfig({
         'src/tailwind/**',
         'src/monaco/**',
         'src/prosemirror/**',
+        'src/lexical/**',
         'src/markdown/**',
       ],
       thresholds: {
@@ -47,6 +48,7 @@ export default defineConfig({
         monaco: resolve(__dirname, 'src/monaco/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
+        lexical: resolve(__dirname, 'src/lexical/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
         'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
         'tailwind/vite-plugin': resolve(
@@ -64,6 +66,7 @@ export default defineConfig({
           entryName === 'monaco' ||
           entryName === 'markdown' ||
           entryName === 'prosemirror' ||
+          entryName === 'lexical' ||
           entryName === 'tailwind'
         ) {
           return `${entryName}/index.${format}.js`
@@ -103,6 +106,12 @@ export default defineConfig({
         // Bundle ProseMirror packages into the prosemirror entry
         // (don't externalize them)
         if (id.startsWith('prosemirror-')) {
+          return false
+        }
+
+        // Bundle Lexical packages into the lexical entry
+        // (don't externalize them)
+        if (id === 'lexical' || id.startsWith('@lexical/')) {
           return false
         }
 

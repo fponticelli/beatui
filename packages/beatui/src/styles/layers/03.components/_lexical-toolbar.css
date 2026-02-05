@@ -1,0 +1,115 @@
+@layer components {
+  /* Lexical Editor Toolbar */
+
+  /* Toolbar positioned at top of editor container */
+  .bc-lexical-toolbar {
+    border-bottom: 1px solid var(--color-neutral-200);
+    border-radius: 0;
+    border: none;
+    background-color: var(--color-neutral-50);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+
+  .b-dark .bc-lexical-toolbar {
+    background-color: var(--color-neutral-800);
+  }
+
+  /* When toolbar is inside the editor container, add bottom border */
+  .bc-lexical-editor-container > .bc-lexical-toolbar {
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+
+  .b-dark .bc-lexical-editor-container > .bc-lexical-toolbar {
+    border-bottom-color: var(--color-neutral-700);
+  }
+
+  /* Bottom position variant */
+  .bc-lexical-toolbar--bottom {
+    border-bottom: none;
+    border-top: 1px solid var(--color-neutral-200);
+  }
+
+  .b-dark .bc-lexical-toolbar--bottom {
+    border-top-color: var(--color-neutral-700);
+  }
+
+  /* Hidden state for readOnly mode */
+  .bc-lexical-toolbar--hidden {
+    display: none;
+  }
+
+  /* Toolbar selects (font family/size) */
+  .bc-lexical-toolbar-select {
+    height: 28px;
+    padding: 0 var(--spacing-xs);
+    border: 1px solid var(--color-neutral-300);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-neutral-900);
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .b-dark .bc-lexical-toolbar-select {
+    border-color: var(--color-neutral-600);
+    background-color: var(--color-neutral-700);
+    color: var(--color-neutral-100);
+  }
+
+  /* Color picker labels */
+  .bc-lexical-toolbar-color {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+  }
+
+  .bc-lexical-toolbar-color:hover {
+    background-color: var(--color-neutral-200);
+  }
+
+  .b-dark .bc-lexical-toolbar-color:hover {
+    background-color: var(--color-neutral-600);
+  }
+
+  .bc-lexical-toolbar-color input[type='color'] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .bc-lexical-toolbar-color-icon {
+    font-size: 0.875rem;
+    font-weight: 700;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .bc-lexical-toolbar-color-icon--highlight {
+    background-color: #ffff00;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  .bc-lexical-toolbar-color-icon--bg {
+    font-size: 1rem;
+  }
+
+  /* Responsive: compact toolbar on small containers */
+  @container (max-width: 400px) {
+    .bc-lexical-toolbar {
+      padding: var(--spacing-2xs) var(--spacing-xs);
+      gap: var(--spacing-2xs);
+    }
+  }
+}

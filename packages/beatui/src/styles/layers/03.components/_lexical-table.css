@@ -1,0 +1,126 @@
+@layer components {
+  /* Lexical Table Component */
+
+  /* Table structure */
+  .bc-lexical-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin: 1rem 0;
+    overflow: hidden;
+    table-layout: fixed;
+  }
+
+  .bc-lexical-table-row {
+    border-bottom: 1px solid var(--color-neutral-200);
+  }
+
+  .bc-lexical-table-cell,
+  .bc-lexical-table-cell-header {
+    border: 1px solid var(--color-neutral-200);
+    padding: 0.5rem 0.75rem;
+    position: relative;
+    vertical-align: top;
+    min-width: 75px;
+  }
+
+  .bc-lexical-table-cell-header {
+    background-color: var(--color-neutral-50);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  /* Selected cell highlight */
+  .bc-lexical-table-cell--selected {
+    background-color: var(--color-primary-50);
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: -2px;
+  }
+
+  /* Table context menu */
+  .bc-table-context-menu {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bc-table-menu-button {
+    font-family: inherit;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .bc-table-menu-button:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+  }
+
+  .bc-table-menu-button:active:not(:disabled) {
+    background-color: var(--color-neutral-200);
+  }
+
+  .bc-table-menu-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .bc-table-menu-separator {
+    /* Separator styling defined inline in component */
+  }
+
+  /* Dark mode styles */
+  .b-dark .bc-lexical-table-cell,
+  .b-dark .bc-lexical-table-cell-header {
+    border-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-lexical-table-row {
+    border-bottom-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-lexical-table-cell-header {
+    background-color: var(--color-neutral-800);
+  }
+
+  .b-dark .bc-lexical-table-cell--selected {
+    background-color: var(--color-primary-900);
+    outline-color: var(--color-primary-400);
+  }
+
+  .b-dark .bc-table-context-menu {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-table-menu-button {
+    color: var(--color-neutral-100);
+  }
+
+  .b-dark .bc-table-menu-button:hover:not(:disabled) {
+    background-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-table-menu-button:active:not(:disabled) {
+    background-color: var(--color-neutral-600);
+  }
+
+  .b-dark .bc-table-menu-separator {
+    background-color: var(--color-neutral-700);
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-table-menu-button {
+      transition: none;
+    }
+  }
+
+  @media (prefers-contrast: high) {
+    .bc-lexical-table-cell,
+    .bc-lexical-table-cell-header {
+      border-width: 2px;
+    }
+
+    .bc-lexical-table-cell--selected {
+      outline-width: 3px;
+    }
+  }
+}

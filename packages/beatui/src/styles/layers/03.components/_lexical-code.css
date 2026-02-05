@@ -1,0 +1,226 @@
+@layer components {
+  /* Lexical Code Block Component */
+
+  /* Code block structure */
+  .bc-lexical-code-block {
+    position: relative;
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: var(--color-neutral-50);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    font-family:
+      'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* Language selector */
+  .bc-code-language-selector {
+    /* Positioning handled inline */
+  }
+
+  .bc-code-language-button:hover:not(:disabled) {
+    background-color: var(--color-neutral-200);
+    border-color: var(--color-neutral-400);
+  }
+
+  .bc-code-language-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .bc-code-language-dropdown {
+    /* Dropdown styling handled inline */
+  }
+
+  .bc-code-language-option:hover {
+    background-color: var(--color-neutral-100);
+  }
+
+  .bc-code-language-option:active {
+    background-color: var(--color-neutral-200);
+  }
+
+  /* Syntax highlighting token colors (light theme) */
+  .bc-lexical-code-block .token.comment,
+  .bc-lexical-code-block .token.prolog,
+  .bc-lexical-code-block .token.doctype,
+  .bc-lexical-code-block .token.cdata {
+    color: #6a737d;
+    font-style: italic;
+  }
+
+  .bc-lexical-code-block .token.punctuation {
+    color: #24292e;
+  }
+
+  .bc-lexical-code-block .token.property,
+  .bc-lexical-code-block .token.tag,
+  .bc-lexical-code-block .token.boolean,
+  .bc-lexical-code-block .token.number,
+  .bc-lexical-code-block .token.constant,
+  .bc-lexical-code-block .token.symbol,
+  .bc-lexical-code-block .token.deleted {
+    color: #005cc5;
+  }
+
+  .bc-lexical-code-block .token.selector,
+  .bc-lexical-code-block .token.attr-name,
+  .bc-lexical-code-block .token.string,
+  .bc-lexical-code-block .token.char,
+  .bc-lexical-code-block .token.builtin,
+  .bc-lexical-code-block .token.inserted {
+    color: #032f62;
+  }
+
+  .bc-lexical-code-block .token.operator,
+  .bc-lexical-code-block .token.entity,
+  .bc-lexical-code-block .token.url,
+  .bc-lexical-code-block .language-css .token.string,
+  .bc-lexical-code-block .style .token.string {
+    color: #d73a49;
+  }
+
+  .bc-lexical-code-block .token.atrule,
+  .bc-lexical-code-block .token.attr-value,
+  .bc-lexical-code-block .token.keyword {
+    color: #d73a49;
+  }
+
+  .bc-lexical-code-block .token.function,
+  .bc-lexical-code-block .token.class-name {
+    color: #6f42c1;
+  }
+
+  .bc-lexical-code-block .token.regex,
+  .bc-lexical-code-block .token.important,
+  .bc-lexical-code-block .token.variable {
+    color: #e36209;
+  }
+
+  /* Line numbers (optional) */
+  .bc-lexical-code-block--with-line-numbers {
+    padding-left: 3.5rem;
+  }
+
+  .bc-lexical-code-block .line-number {
+    position: absolute;
+    left: 0;
+    width: 3rem;
+    text-align: right;
+    color: var(--color-neutral-400);
+    user-select: none;
+    padding-right: 1rem;
+  }
+
+  /* Dark mode styles */
+  .b-dark .bc-lexical-code-block {
+    background-color: var(--color-neutral-900);
+    border-color: var(--color-neutral-700);
+    color: var(--color-neutral-100);
+  }
+
+  .b-dark .bc-code-language-button {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-600);
+    color: var(--color-neutral-200);
+  }
+
+  .b-dark .bc-code-language-button:hover:not(:disabled) {
+    background-color: var(--color-neutral-700);
+    border-color: var(--color-neutral-500);
+  }
+
+  .b-dark .bc-code-language-dropdown {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-code-language-option {
+    color: var(--color-neutral-100);
+  }
+
+  .b-dark .bc-code-language-option:hover {
+    background-color: var(--color-neutral-700);
+  }
+
+  .b-dark .bc-code-language-option:active {
+    background-color: var(--color-neutral-600);
+  }
+
+  /* Syntax highlighting token colors (dark theme) */
+  .b-dark .bc-lexical-code-block .token.comment,
+  .b-dark .bc-lexical-code-block .token.prolog,
+  .b-dark .bc-lexical-code-block .token.doctype,
+  .b-dark .bc-lexical-code-block .token.cdata {
+    color: #8b949e;
+  }
+
+  .b-dark .bc-lexical-code-block .token.punctuation {
+    color: #c9d1d9;
+  }
+
+  .b-dark .bc-lexical-code-block .token.property,
+  .b-dark .bc-lexical-code-block .token.tag,
+  .b-dark .bc-lexical-code-block .token.boolean,
+  .b-dark .bc-lexical-code-block .token.number,
+  .b-dark .bc-lexical-code-block .token.constant,
+  .b-dark .bc-lexical-code-block .token.symbol,
+  .b-dark .bc-lexical-code-block .token.deleted {
+    color: #79c0ff;
+  }
+
+  .b-dark .bc-lexical-code-block .token.selector,
+  .b-dark .bc-lexical-code-block .token.attr-name,
+  .b-dark .bc-lexical-code-block .token.string,
+  .b-dark .bc-lexical-code-block .token.char,
+  .b-dark .bc-lexical-code-block .token.builtin,
+  .b-dark .bc-lexical-code-block .token.inserted {
+    color: #a5d6ff;
+  }
+
+  .b-dark .bc-lexical-code-block .token.operator,
+  .b-dark .bc-lexical-code-block .token.entity,
+  .b-dark .bc-lexical-code-block .token.url,
+  .b-dark .bc-lexical-code-block .language-css .token.string,
+  .b-dark .bc-lexical-code-block .style .token.string {
+    color: #ff7b72;
+  }
+
+  .b-dark .bc-lexical-code-block .token.atrule,
+  .b-dark .bc-lexical-code-block .token.attr-value,
+  .b-dark .bc-lexical-code-block .token.keyword {
+    color: #ff7b72;
+  }
+
+  .b-dark .bc-lexical-code-block .token.function,
+  .b-dark .bc-lexical-code-block .token.class-name {
+    color: #d2a8ff;
+  }
+
+  .b-dark .bc-lexical-code-block .token.regex,
+  .b-dark .bc-lexical-code-block .token.important,
+  .b-dark .bc-lexical-code-block .token.variable {
+    color: #ffa657;
+  }
+
+  .b-dark .bc-lexical-code-block .line-number {
+    color: var(--color-neutral-600);
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .bc-code-language-button,
+    .bc-code-language-option {
+      transition: none;
+    }
+  }
+
+  @media (prefers-contrast: high) {
+    .bc-lexical-code-block {
+      border-width: 2px;
+    }
+  }
+}

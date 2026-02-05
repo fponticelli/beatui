@@ -133,6 +133,8 @@ The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates C
 - N/A (client-side form state only) (001-json-structure-forms)
 - TypeScript 5.x (matching existing codebase) + @playwright/test ^1.57.0, @axe-core/playwright ^4.x (002-e2e-best-practices)
 - File-based (visual baselines in repository, test artifacts in CI) (002-e2e-best-practices)
+- TypeScript 5.9+ (ES2020 target) + `lexical` v0.40+, `@lexical/*` packages, `@tempots/dom` ^35.1.0, `@tempots/ui` ^14.1.0, `@tempots/std` ~0.25.2 (003-lexical-editor-integration)
+- N/A (client-side editor state only) (003-lexical-editor-integration)
 
 ## Recent Changes
 - 001-json-structure-forms: Added TypeScript 5.9+ (ES2020 target)

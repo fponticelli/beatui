@@ -181,6 +181,69 @@ importers:
       '@js-temporal/polyfill':
         specifier: ^0.5.1
         version: 0.5.1
+      '@lexical/clipboard':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/code':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/dragon':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/file':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/hashtag':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/headless':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/history':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/html':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/link':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/list':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/mark':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/markdown':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/offset':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/overflow':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/plain-text':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/rich-text':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/selection':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/table':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/text':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/utils':
+        specifier: ^0.40.0
+        version: 0.40.0
+      '@lexical/yjs':
+        specifier: ^0.40.0
+        version: 0.40.0(yjs@13.6.29)
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -199,6 +262,9 @@ importers:
       katex:
         specifier: 0.16.23
         version: 0.16.23
+      lexical:
+        specifier: ^0.40.0
+        version: 0.40.0
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -271,7 +337,7 @@ importers:
         version: 8.46.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/coverage-v8':
         specifier: ^4.0.17
-        version: 4.0.17(vitest@4.0.17(@types/node@24.10.9)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6))
+        version: 4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.5.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6))
       eslint:
         specifier: 9.37.0
         version: 9.37.0(jiti@2.6.1)
@@ -304,7 +370,7 @@ importers:
         version: 7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)
       vitest:
         specifier: 4.0.17
-        version: 4.0.17(@types/node@24.10.9)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6)
+        version: 4.0.17(@types/node@24.10.9)(happy-dom@20.5.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6)
 
 packages:
 
@@ -652,6 +718,74 @@ packages:
     resolution: {integrity: sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ==}
     engines: {node: '>=12'}
 
+  '@lexical/clipboard@0.40.0':
+    resolution: {integrity: sha512-FWyAKwbGbmwLbG6biyxB/MQkELzcbd6E89Xufarbx/1VZ2pX/BMaeVD4J7ojHgIZ4omTNI6nKH26K4wWySCIGQ==}
+
+  '@lexical/code@0.40.0':
+    resolution: {integrity: sha512-xbo3lW3OC7sz0UnoME0tXQcgnekmuvsGAb1HZpFHAF0ZUCquB6/yK0+9QzknrTBH9y3Urqx0vM54xAqNQISOtg==}
+
+  '@lexical/dragon@0.40.0':
+    resolution: {integrity: sha512-QWBZw89CAkw2b3Fl942DxJ7M8/XxFFvVubw9Z7Ac6wgUkGgtF2wrK9F0H8cPZ3pzbUqL1v1EtwW1/XhlLfmQqw==}
+
+  '@lexical/extension@0.40.0':
+    resolution: {integrity: sha512-kipdm0f+xe8ctxHt9S3NPZazMX3ILqIk5xMWxX2svdsRc7qIeMkl+5SLWnBqQA+e5ztLJqa7GSA4WMqu/dBZDQ==}
+
+  '@lexical/file@0.40.0':
+    resolution: {integrity: sha512-7UUT0G+0S2j4Ot3w3Q2Df4rvgOibrxWtsSyRePQFfxDDARcZqUNAcFGOpOjkbA60dcX6rPX/GSfZ6ZIC37xXgg==}
+
+  '@lexical/hashtag@0.40.0':
+    resolution: {integrity: sha512-k4PKWa8xyMHnnh+ewUboeFr8wKemk1GoMZ6LKN4qnqNKGCHANyJKeHRVUzyLjbiSwcXTrBqtUTV4ZrJXGRIkEw==}
+
+  '@lexical/headless@0.40.0':
+    resolution: {integrity: sha512-mjYJTRq6DfY1qdT/OJVGqpTX3m4DryZVldVjuELqVWGS/uZ+pgQDVXM97tveU9TpqVHYH7YrQev/Sex9SdGb9A==}
+
+  '@lexical/history@0.40.0':
+    resolution: {integrity: sha512-Jo/9Z1fPlv+IpBkUaVstyKminXWjM1A1yR9UPZv4a3B3e8Rn0gqa+EaY5CXSvscnmh2EHSD8I4s59D4rirUy8Q==}
+
+  '@lexical/html@0.40.0':
+    resolution: {integrity: sha512-5EZeHbp9Q3Op2KRoVfFvX4QyMizYW5SJkrWkGG6h6g/Z9EDNjb3C7Wjqx7ZosCHcFze6Pgic/0yEaCc2fSUcEg==}
+
+  '@lexical/link@0.40.0':
+    resolution: {integrity: sha512-4EVMJQ6tKJR+1+YAJ2mhVsRR6Edk6b81hWKjnMZITKhEOKjylxO7bwuXYVYPEckBzL2mXkEhYX5aFnig5+HkMQ==}
+
+  '@lexical/list@0.40.0':
+    resolution: {integrity: sha512-YHStiN56DOc6tDu/3LwalPtHH8/1R+peiDF+/ePpla9aSDJclAqhxRBYsqSZhO6Hu5QhAEIi2Me7Gi+uZdmCTw==}
+
+  '@lexical/mark@0.40.0':
+    resolution: {integrity: sha512-9XJ0PQmeq5tDSgathAQs1ePMM5zaCBCbD4ShMXJf3fW1udI7e/Swn0Loxw9/VnER9fnVkyejGMC2oMWDQ80FVw==}
+
+  '@lexical/markdown@0.40.0':
+    resolution: {integrity: sha512-J0vO4jSPZaazBgFafJhLYaJPBxSMk1nhGnNiu6+TojqOe3tx/0vukCafowNxBDruZFns+r7HsSs+vkmGJtGsrA==}
+
+  '@lexical/offset@0.40.0':
+    resolution: {integrity: sha512-USytxiqB/mU6tKy2nXs4jhgCES90l8N5lCYxVbho2L/cVXAzBCp1epG///B6Vgm+twSj+jQjhGZioktILnG+FQ==}
+
+  '@lexical/overflow@0.40.0':
+    resolution: {integrity: sha512-T1LE8R7LloV9t8m+5IQ7Djkqcbd4mOoX85Jh8cKQ58TFHbkwi8nSe+FJUi3fucOI2atDq9QZCJnpRUCHw4eEwQ==}
+
+  '@lexical/plain-text@0.40.0':
+    resolution: {integrity: sha512-mr6J1Fu34MwUNOPkzn3l/fZBpD91HLAxs6RBAQ6mfSW7jLXBVDlvhiB4ez9ud/jZ0bgLaY8EG7ooT7htdlkBUQ==}
+
+  '@lexical/rich-text@0.40.0':
+    resolution: {integrity: sha512-aHW9gSYGzEfZNxx14j2xJhihrnKaWA1aoudteP4r7TkNlbfJ3xG9dxp7ItwrAKJlfvI0gkMc1/aZOUIqESbAkw==}
+
+  '@lexical/selection@0.40.0':
+    resolution: {integrity: sha512-iFwZufMlIx9fZ+K3NQip9oxoHzuP+V9rVdkLnfUWC7aO4HNxVPSryEfUnbAs+F5xlOzyVHsu7Xa+CMHfIL8/gQ==}
+
+  '@lexical/table@0.40.0':
+    resolution: {integrity: sha512-pn5T7Uc80dH8LR2d/sepKc8SjiKKir40AF+5hW0MJAOYfoizd10x72AxPcM6iBYvI0rdW7rD7Lhko1qLmZ0pOw==}
+
+  '@lexical/text@0.40.0':
+    resolution: {integrity: sha512-cTMBrHPzlIRQUkopIUhPwSzcqQDGsCEdjpStylJficwMav9vG+/sJNSG4PFO+4ss5BZ/x7AoM3KH/P2SOzqdbw==}
+
+  '@lexical/utils@0.40.0':
+    resolution: {integrity: sha512-3wkzgQxeb137GtaGWZI23XYB+omGjfYlrvAPJOqcb5z8yS7iAiuHwWULdmi1/jPBClS7z9N8pkNzq06BP8QlZA==}
+
+  '@lexical/yjs@0.40.0':
+    resolution: {integrity: sha512-wpasbrlfzBnHhyuUunxZcGwOH+bqfxUuavGgwxDlTTlHJMnyF5bUG7ADcuqd3gFLB+dpABL0lWo6VxdSOo7fdg==}
+    peerDependencies:
+      yjs: '>=13.5.22'
+
   '@napi-rs/canvas-android-arm64@0.1.88':
     resolution: {integrity: sha512-KEaClPnZuVxJ8smUWjV1wWFkByBO/D+vy4lN+Dm5DFH514oqwukxKGeck9xcKJhaWJGjfruGmYGiwRe//+/zQQ==}
     engines: {node: '>= 10'}
@@ -742,6 +876,9 @@ packages:
     resolution: {integrity: sha512-6TyEnHgd6SArQO8UO2OMTxshln3QMWBtPGrOCgs3wVEmQmwyuNtB10IZMfmYDE0riwNR1cu4q+pPcxMVtaG3TA==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@preact/signals-core@1.12.2':
+    resolution: {integrity: sha512-5Yf8h1Ke3SMHr15xl630KtwPTW4sYDFkkxS0vQ8UiQLWwZQnrF9IKaVG1mN5VcJz52EcWs2acsc/Npjha/7ysA==}
 
   '@rollup/rollup-android-arm-eabi@4.55.2':
     resolution: {integrity: sha512-21J6xzayjy3O6NdnlO6aXi/urvSRjm6nCI6+nF6ra2YofKruGixN9kfT+dt55HVNwfDmpDHJcaS3JuP/boNnlA==}
@@ -1109,6 +1246,12 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@typescript-eslint/eslint-plugin@8.46.0':
     resolution: {integrity: sha512-hA8gxBq4ukonVXPy0OKhiaUh/68D0E88GSmtC1iAEnGaieuDi38LhS7jdCHRLi6ErJBNDGCzvh5EnzdPwUc0DA==}
@@ -1740,6 +1883,10 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  happy-dom@20.5.0:
+    resolution: {integrity: sha512-VQe+Q5CYiGOgcCERXhcfNsbnrN92FDEKciMH/x6LppU9dd0j4aTjCTlqONFOIMcAm/5JxS3+utowbXV1OoFr+g==}
+    engines: {node: '>=20.0.0'}
+
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
@@ -1849,6 +1996,9 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
+  isomorphic.js@0.2.5:
+    resolution: {integrity: sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw==}
+
   istanbul-lib-coverage@3.2.2:
     resolution: {integrity: sha512-O8dpsF+r0WV/8MNRKfnmrtCWhuKjxrq2w+jpzBL5UZKTi2LeVWnWOmWRxFlesJONmc+wLAGvKQZEOanko0LFTg==}
     engines: {node: '>=8'}
@@ -1912,6 +2062,14 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  lexical@0.40.0:
+    resolution: {integrity: sha512-wNvd/AY13h/QJYvx565M/FSdRjy0l99W5/MFA2x+mbK3KnKa5BifZbHZ1J4/YssCkdyZhSlLwFkyDaYi7l2Dsw==}
+
+  lib0@0.2.117:
+    resolution: {integrity: sha512-DeXj9X5xDCjgKLU/7RR+/HQEVzuuEUiwldwOGsHK/sfAfELGWEyTcf0x+uOvCvK3O2zPmZePXWL85vtia6GyZw==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   lie@3.1.1:
     resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
@@ -2285,6 +2443,10 @@ packages:
   pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+
+  prismjs@1.30.0:
+    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
+    engines: {node: '>=6'}
 
   prosemirror-commands@1.7.1:
     resolution: {integrity: sha512-rT7qZnQtx5c0/y/KlYaGvtG411S97UaL6gdp6RIZ23DLHanMYLyfGBV5DtSnZdthQql7W+lEVbpSfwtO8T+L2w==}
@@ -2719,6 +2881,10 @@ packages:
     engines: {node: '>=18'}
     deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
+  whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
+
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
     engines: {node: '>=18'}
@@ -2787,6 +2953,10 @@ packages:
   yargs@17.7.2:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
+
+  yjs@13.6.29:
+    resolution: {integrity: sha512-kHqDPdltoXH+X4w1lVmMtddE3Oeqq48nM40FD5ojTd8xYhQpzIDcfE2keMSU5bAgRPJBe225WTUdyUgj1DtbiQ==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -3051,6 +3221,140 @@ snapshots:
     dependencies:
       jsbi: 4.3.2
 
+  '@lexical/clipboard@0.40.0':
+    dependencies:
+      '@lexical/html': 0.40.0
+      '@lexical/list': 0.40.0
+      '@lexical/selection': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/code@0.40.0':
+    dependencies:
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+      prismjs: 1.30.0
+
+  '@lexical/dragon@0.40.0':
+    dependencies:
+      '@lexical/extension': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/extension@0.40.0':
+    dependencies:
+      '@lexical/utils': 0.40.0
+      '@preact/signals-core': 1.12.2
+      lexical: 0.40.0
+
+  '@lexical/file@0.40.0':
+    dependencies:
+      lexical: 0.40.0
+
+  '@lexical/hashtag@0.40.0':
+    dependencies:
+      '@lexical/text': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/headless@0.40.0':
+    dependencies:
+      happy-dom: 20.5.0
+      lexical: 0.40.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@lexical/history@0.40.0':
+    dependencies:
+      '@lexical/extension': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/html@0.40.0':
+    dependencies:
+      '@lexical/selection': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/link@0.40.0':
+    dependencies:
+      '@lexical/extension': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/list@0.40.0':
+    dependencies:
+      '@lexical/extension': 0.40.0
+      '@lexical/selection': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/mark@0.40.0':
+    dependencies:
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/markdown@0.40.0':
+    dependencies:
+      '@lexical/code': 0.40.0
+      '@lexical/link': 0.40.0
+      '@lexical/list': 0.40.0
+      '@lexical/rich-text': 0.40.0
+      '@lexical/text': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/offset@0.40.0':
+    dependencies:
+      lexical: 0.40.0
+
+  '@lexical/overflow@0.40.0':
+    dependencies:
+      lexical: 0.40.0
+
+  '@lexical/plain-text@0.40.0':
+    dependencies:
+      '@lexical/clipboard': 0.40.0
+      '@lexical/dragon': 0.40.0
+      '@lexical/selection': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/rich-text@0.40.0':
+    dependencies:
+      '@lexical/clipboard': 0.40.0
+      '@lexical/dragon': 0.40.0
+      '@lexical/selection': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/selection@0.40.0':
+    dependencies:
+      lexical: 0.40.0
+
+  '@lexical/table@0.40.0':
+    dependencies:
+      '@lexical/clipboard': 0.40.0
+      '@lexical/extension': 0.40.0
+      '@lexical/utils': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/text@0.40.0':
+    dependencies:
+      lexical: 0.40.0
+
+  '@lexical/utils@0.40.0':
+    dependencies:
+      '@lexical/selection': 0.40.0
+      lexical: 0.40.0
+
+  '@lexical/yjs@0.40.0(yjs@13.6.29)':
+    dependencies:
+      '@lexical/offset': 0.40.0
+      '@lexical/selection': 0.40.0
+      lexical: 0.40.0
+      yjs: 13.6.29
+
   '@napi-rs/canvas-android-arm64@0.1.88':
     optional: true
 
@@ -3116,6 +3420,8 @@ snapshots:
   '@playwright/test@1.57.0':
     dependencies:
       playwright: 1.57.0
+
+  '@preact/signals-core@1.12.2': {}
 
   '@rollup/rollup-android-arm-eabi@4.55.2':
     optional: true
@@ -3411,6 +3717,12 @@ snapshots:
   '@types/trusted-types@2.0.7':
     optional: true
 
+  '@types/whatwg-mimetype@3.0.2': {}
+
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 24.10.9
+
   '@typescript-eslint/eslint-plugin@8.46.0(@typescript-eslint/parser@8.46.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
@@ -3555,7 +3867,7 @@ snapshots:
       '@typescript-eslint/types': 8.53.1
       eslint-visitor-keys: 4.2.1
 
-  '@vitest/coverage-v8@4.0.17(vitest@4.0.17(@types/node@24.10.9)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6))':
+  '@vitest/coverage-v8@4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.5.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6))':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/utils': 4.0.17
@@ -3567,7 +3879,7 @@ snapshots:
       obug: 2.1.1
       std-env: 3.10.0
       tinyrainbow: 3.0.3
-      vitest: 4.0.17(@types/node@24.10.9)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6)
+      vitest: 4.0.17(@types/node@24.10.9)(happy-dom@20.5.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6)
 
   '@vitest/expect@4.0.17':
     dependencies:
@@ -4168,6 +4480,18 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  happy-dom@20.5.0:
+    dependencies:
+      '@types/node': 24.10.9
+      '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.1
+      entities: 4.5.0
+      whatwg-mimetype: 3.0.0
+      ws: 8.19.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   has-flag@4.0.0: {}
 
   hls.js@1.6.15: {}
@@ -4261,6 +4585,8 @@ snapshots:
 
   isexe@2.0.0: {}
 
+  isomorphic.js@0.2.5: {}
+
   istanbul-lib-coverage@3.2.2: {}
 
   istanbul-lib-report@3.0.1:
@@ -4340,6 +4666,12 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  lexical@0.40.0: {}
+
+  lib0@0.2.117:
+    dependencies:
+      isomorphic.js: 0.2.5
 
   lie@3.1.1:
     dependencies:
@@ -4775,6 +5107,8 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 17.0.2
 
+  prismjs@1.30.0: {}
+
   prosemirror-commands@1.7.1:
     dependencies:
       prosemirror-model: 1.25.4
@@ -5155,7 +5489,7 @@ snapshots:
       lightningcss: 1.30.2
       tsx: 4.20.6
 
-  vitest@4.0.17(@types/node@24.10.9)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6):
+  vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.5.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(tsx@4.20.6):
     dependencies:
       '@vitest/expect': 4.0.17
       '@vitest/mocker': 4.0.17(vite@7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))
@@ -5179,6 +5513,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.9
+      happy-dom: 20.5.0
       jsdom: 27.4.0
     transitivePeerDependencies:
       - jiti
@@ -5204,6 +5539,8 @@ snapshots:
   whatwg-encoding@3.1.1:
     dependencies:
       iconv-lite: 0.6.3
+
+  whatwg-mimetype@3.0.0: {}
 
   whatwg-mimetype@4.0.0: {}
 
@@ -5260,6 +5597,10 @@ snapshots:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
+
+  yjs@13.6.29:
+    dependencies:
+      lib0: 0.2.117
 
   yocto-queue@0.1.0: {}
 

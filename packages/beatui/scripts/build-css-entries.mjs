@@ -74,6 +74,29 @@ function main() {
   const prosemirrorCss = readFileSync(prosemirrorSrc, 'utf8')
   writeOut('prosemirror.css', prosemirrorCss)
 
+  // Build Lexical CSS (concatenate all lexical CSS files)
+  const lexicalCssDir = path.resolve(
+    pkgRoot,
+    'src/styles/layers/03.components'
+  )
+  const lexicalCssFiles = [
+    '_lexical-editor.css',
+    '_lexical-toolbar.css',
+    '_lexical-floating.css',
+    '_lexical-table.css',
+    '_lexical-code.css',
+  ]
+  let lexicalCss = ''
+  for (const file of lexicalCssFiles) {
+    const filePath = path.resolve(lexicalCssDir, file)
+    if (existsSync(filePath)) {
+      lexicalCss += readFileSync(filePath, 'utf8') + '\n'
+    }
+  }
+  if (lexicalCss) {
+    writeOut('lexical.css', lexicalCss)
+  }
+
   // Build BeatUI CSS bundles
   const standaloneSrc = path.resolve(pkgRoot, 'src/styles/styles.css')
   const standaloneCss = inlineCssImports(standaloneSrc)
