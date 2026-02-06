@@ -117,7 +117,7 @@ export function FloatingToolbar({
     }
 
     // Watch for Lexical state updates (keyboard-driven selection changes)
-    stateUpdate.onChange(updatePosition)
+    const disposeStateUpdate = stateUpdate.onChange(updatePosition)
 
     // Listen for native selectionchange on the document.
     // This catches double-click word selection, triple-click line selection,
@@ -169,6 +169,7 @@ export function FloatingToolbar({
         document.addEventListener('mousedown', handleClickOutside)
 
         return OnDispose(() => {
+          disposeStateUpdate()
           document.removeEventListener('keydown', handleEscape)
           document.removeEventListener('mousedown', handleClickOutside)
           document.removeEventListener('selectionchange', handleSelectionChange)

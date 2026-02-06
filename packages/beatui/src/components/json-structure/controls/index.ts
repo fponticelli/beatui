@@ -2,6 +2,7 @@
  * Controls module exports
  */
 
+export * from './control-utils'
 export * from './generic-control'
 
 // Primitive type controls

@@ -23,6 +23,7 @@ import { Controller as ControllerClass } from '../../form/controller/controller'
 import { Stack } from '../../layout'
 import type { ChoiceTypeDefinition, TypeDefinition } from '../structure-types'
 import { StructureGenericControl } from './generic-control'
+import { makeDefaultValue } from './control-utils'
 
 /**
  * Selector UI for choosing between choice variants
@@ -176,46 +177,6 @@ function serializeChoiceValue(
 }
 
 /**
- * Get default value for a choice variant
- */
-function getDefaultVariantValue(definition: TypeDefinition): unknown {
-  if (definition.default !== undefined) {
-    return definition.default
-  }
-
-  if (definition.examples && definition.examples.length > 0) {
-    return definition.examples[0]
-  }
-
-  // Generate empty value based on type
-  const type = Array.isArray(definition.type)
-    ? definition.type[0]
-    : definition.type
-
-  if (!type || typeof type === 'object') {
-    return undefined
-  }
-
-  switch (type) {
-    case 'string':
-      return ''
-    case 'boolean':
-      return false
-    case 'null':
-      return null
-    case 'object':
-      return {}
-    case 'array':
-    case 'set':
-      return []
-    case 'map':
-      return {}
-    default:
-      return undefined
-  }
-}
-
-/**
  * Control for choice type (tagged unions)
  */
 export function StructureChoiceControl({
@@ -281,7 +242,7 @@ export function StructureChoiceControl({
     // When switching choices, initialize with default value for new variant
     const choiceDef = choices[choiceName]
     if (choiceDef) {
-      const defaultValue = getDefaultVariantValue(choiceDef)
+      const defaultValue = makeDefaultValue(choiceDef)
       const newValue = serializeChoiceValue(defaultValue, choiceName, selector)
       controller.change(newValue)
     }

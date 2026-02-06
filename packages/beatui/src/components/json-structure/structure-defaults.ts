@@ -79,22 +79,23 @@ function extractFromDefinition(
     }
 
     visited.add(refPath)
-    const resolved = resolveRef(refPath, schema)
+    try {
+      const resolved = resolveRef(refPath, schema)
 
-    if (resolved) {
-      // Merge resolved definition with local overrides (local takes precedence)
-      const mergedDef: TypeDefinition = {
-        ...resolved,
-        ...definition,
-        type: resolved.type, // Use resolved type, not the ref
+      if (resolved) {
+        // Merge resolved definition with local overrides (local takes precedence)
+        const mergedDef: TypeDefinition = {
+          ...resolved,
+          ...definition,
+          type: resolved.type, // Use resolved type, not the ref
+        }
+        return extractFromDefinition(mergedDef, schema, visited)
       }
-      const result = extractFromDefinition(mergedDef, schema, visited)
-      visited.delete(refPath)
-      return result
-    }
 
-    visited.delete(refPath)
-    return undefined
+      return undefined
+    } finally {
+      visited.delete(refPath)
+    }
   }
 
   // Priority 1: Use explicit default if defined
@@ -268,21 +269,23 @@ function generateObjectDefault(
       }
 
       visited.add(refPath)
-      const resolved = resolveRef(refPath, schema)
+      try {
+        const resolved = resolveRef(refPath, schema)
 
-      if (resolved) {
-        const resolvedProp: TypeDefinition = {
-          ...resolved,
-          ...propDef,
-          type: resolved.type,
+        if (resolved) {
+          const resolvedProp: TypeDefinition = {
+            ...resolved,
+            ...propDef,
+            type: resolved.type,
+          }
+          const value = extractFromDefinition(resolvedProp, schema, visited)
+          if (value !== undefined) {
+            result[key] = value
+          }
         }
-        const value = extractFromDefinition(resolvedProp, schema, visited)
-        if (value !== undefined) {
-          result[key] = value
-        }
+      } finally {
+        visited.delete(refPath)
       }
-
-      visited.delete(refPath)
     } else {
       // Non-ref property - process directly
       const value = extractFromDefinition(propDef, schema, visited)

@@ -258,10 +258,11 @@ export function BlockHandle({
     }
 
     // Track cursor movement
-    stateUpdate.onChange(updateFromCursor)
+    const disposeStateUpdate = stateUpdate.onChange(updateFromCursor)
 
     // Cleanup
     const cleanup = OnDispose(() => {
+      disposeStateUpdate()
       cancelHide()
       const editor = ed.value
       if (editor) {

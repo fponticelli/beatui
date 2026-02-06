@@ -74,6 +74,9 @@ export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
     let isActive = active
     let previouslyFocusedElement: HTMLElement | null = null
     let focusableElements: HTMLElement[] = []
+    let activationTimeoutId: ReturnType<typeof setTimeout> | null = null
+    let focusTimeoutId: ReturnType<typeof setTimeout> | null = null
+    let restoreFocusTimeoutId: ReturnType<typeof setTimeout> | null = null
 
     // Store the previously focused element
     if (typeof document !== 'undefined') {
@@ -150,7 +153,8 @@ export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
 
       if (elementToFocus) {
         // Use setTimeout to ensure the element is rendered and focusable
-        setTimeout(() => {
+        focusTimeoutId = setTimeout(() => {
+          focusTimeoutId = null
           elementToFocus?.focus()
         }, 50)
       }
@@ -181,17 +185,25 @@ export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
       }
 
       if (elementToFocus && document.body.contains(elementToFocus)) {
-        setTimeout(() => {
+        restoreFocusTimeoutId = setTimeout(() => {
+          restoreFocusTimeoutId = null
           elementToFocus?.focus()
         }, 0)
       }
     }
 
     // Activate the focus trap with a small delay to ensure DOM is ready
-    setTimeout(() => activate(), 0)
+    activationTimeoutId = setTimeout(() => {
+      activationTimeoutId = null
+      activate()
+    }, 0)
 
     // Return cleanup function
     return OnDispose(() => {
+      // Clear any pending timeouts
+      if (activationTimeoutId != null) clearTimeout(activationTimeoutId)
+      if (focusTimeoutId != null) clearTimeout(focusTimeoutId)
+      if (restoreFocusTimeoutId != null) clearTimeout(restoreFocusTimeoutId)
       deactivate()
     })
   })
