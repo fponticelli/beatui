@@ -118,7 +118,7 @@ export interface AuthContainerOptions {
   onSignUp?: (data: SignUpData) => Promise<string | null>
   onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
   onModeChange?: (mode: AuthMode) => void
-  // onSocialLogin?: (provider: AuthProviderName) => Promise<void>
+  onSocialLogin?: (provider: AuthProviderName) => Promise<void>
   showPasswordStrength?: Value<boolean>
   showAlreadyHaveAccountLink?: boolean
   showNameField?: boolean
@@ -130,6 +130,7 @@ export interface AuthContainerOptions {
 
 export interface SocialProvidersOptions {
   providers: AuthProviderInfo[]
+  onSocialLogin?: (provider: AuthProviderName) => Promise<void>
 }
 
 export interface SignInFormLabels {

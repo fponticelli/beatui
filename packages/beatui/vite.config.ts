@@ -23,6 +23,7 @@ export default defineConfig({
         'src/monaco/**',
         'src/prosemirror/**',
         'src/lexical/**',
+        'src/better-auth/**',
         'src/markdown/**',
       ],
       thresholds: {
@@ -49,6 +50,7 @@ export default defineConfig({
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
         lexical: resolve(__dirname, 'src/lexical/index.ts'),
+        'better-auth': resolve(__dirname, 'src/better-auth/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
         'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
         'tailwind/vite-plugin': resolve(
@@ -67,6 +69,7 @@ export default defineConfig({
           entryName === 'markdown' ||
           entryName === 'prosemirror' ||
           entryName === 'lexical' ||
+          entryName === 'better-auth' ||
           entryName === 'tailwind'
         ) {
           return `${entryName}/index.${format}.js`
@@ -107,6 +110,14 @@ export default defineConfig({
         // (don't externalize them)
         if (id.startsWith('prosemirror-')) {
           return false
+        }
+
+        // Externalize better-auth packages
+        if (id === 'better-auth' || id.startsWith('better-auth/')) {
+          return true
+        }
+        if (id.startsWith('@better-auth/')) {
+          return true
         }
 
         // Bundle Lexical packages into the lexical entry

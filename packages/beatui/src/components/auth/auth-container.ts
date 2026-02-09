@@ -39,7 +39,7 @@ export function AuthContainer(
     onSignUp,
     onResetPassword,
     onModeChange,
-    // onSocialLogin,
+    onSocialLogin,
     showContainer,
   }: AuthContainerOptions,
   ...children: TNode[]
@@ -98,7 +98,7 @@ export function AuthContainer(
             ),
             socialProviders != null
               ? Fragment(
-                  SocialProviders({ providers: socialProviders }),
+                  SocialProviders({ providers: socialProviders, onSocialLogin }),
                   When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,
@@ -129,7 +129,7 @@ export function AuthContainer(
             ),
             socialProviders != null
               ? Fragment(
-                  SocialProviders({ providers: socialProviders }),
+                  SocialProviders({ providers: socialProviders, onSocialLogin }),
                   When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,

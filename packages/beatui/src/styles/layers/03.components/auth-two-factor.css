@@ -1,0 +1,135 @@
+/* Two-Factor Authentication Component */
+.bc-two-factor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-xl, var(--spacing-xl));
+  width: 100%;
+}
+
+.bc-two-factor__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-xl, var(--spacing-xl));
+}
+
+/* Method selector */
+.bc-two-factor__methods {
+  display: flex;
+  gap: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-neutral-200);
+  padding-bottom: var(--spacing-sm);
+}
+
+.b-dark .bc-two-factor__methods {
+  border-bottom-color: var(--color-neutral-700);
+}
+
+.bc-two-factor__method-button {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted-light);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.bc-two-factor__method-button:hover {
+  color: var(--text-normal-light);
+  background-color: var(--color-neutral-100);
+}
+
+.bc-two-factor__method-button--active {
+  color: var(--color-primary-600);
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 2px solid var(--color-primary-600);
+}
+
+.b-dark .bc-two-factor__method-button {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-two-factor__method-button:hover {
+  color: var(--text-normal-dark);
+  background-color: var(--color-neutral-800);
+}
+
+.b-dark .bc-two-factor__method-button--active {
+  color: var(--color-primary-400);
+  border-bottom-color: var(--color-primary-400);
+}
+
+/* TOTP URI display */
+.bc-two-factor__totp-uri {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.bc-two-factor__code-display {
+  display: block;
+  padding: var(--spacing-md);
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  word-break: break-all;
+  text-align: center;
+}
+
+.b-dark .bc-two-factor__code-display {
+  background-color: var(--color-neutral-800);
+}
+
+/* Backup codes */
+.bc-two-factor__backup-codes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.bc-two-factor__backup-codes ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xs);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bc-two-factor__backup-codes li {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-neutral-100);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.b-dark .bc-two-factor__backup-codes li {
+  background-color: var(--color-neutral-800);
+}
+
+/* Complete state */
+.bc-two-factor__complete {
+  text-align: center;
+}
+
+/* Code input */
+.bc-two-factor__code-input {
+  text-align: center;
+  letter-spacing: 0.5em;
+  font-size: var(--font-size-xl);
+  font-family: var(--font-mono);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .bc-two-factor__method-button {
+    transition: none;
+  }
+}

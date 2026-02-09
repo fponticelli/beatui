@@ -4,6 +4,8 @@
 @import './auth-divider.css';
 @import './auth-form.css';
 @import './auth-social-login.css';
+@import './auth-two-factor.css';
+@import './auth-passkey.css';
 @import './badge.css';
 @import './button.css';
 @import './card.css';

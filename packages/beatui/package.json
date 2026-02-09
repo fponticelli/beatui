@@ -60,6 +60,12 @@
       "require": "./dist/lexical/index.cjs.js",
       "default": "./dist/lexical/index.es.js"
     },
+    "./better-auth": {
+      "types": "./dist/types/better-auth/index.d.ts",
+      "import": "./dist/better-auth/index.es.js",
+      "require": "./dist/better-auth/index.cjs.js",
+      "default": "./dist/better-auth/index.es.js"
+    },
     "./monaco.css": "./dist/monaco.css",
     "./markdown.css": "./dist/markdown.css",
     "./prosemirror.css": "./dist/prosemirror.css",
@@ -167,7 +173,13 @@
   "peerDependencies": {
     "@tempots/dom": "^35.1.0",
     "@tempots/std": "~0.25.2",
-    "@tempots/ui": "^14.1.0"
+    "@tempots/ui": "^14.1.0",
+    "better-auth": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "better-auth": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -181,6 +193,7 @@
     "@typescript-eslint/eslint-plugin": "8.46.0",
     "@typescript-eslint/parser": "8.46.0",
     "@vitest/coverage-v8": "^4.0.17",
+    "better-auth": "^1.4.18",
     "eslint": "9.37.0",
     "eslint-config-prettier": "10.1.8",
     "jsdom": "27.4.0",

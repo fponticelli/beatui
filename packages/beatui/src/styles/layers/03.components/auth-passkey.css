@@ -1,0 +1,86 @@
+/* Passkey Components */
+
+/* Passkey management */
+.bc-passkey-management {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  width: 100%;
+}
+
+/* Passkey list */
+.bc-passkey-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.bc-passkey-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.b-dark .bc-passkey-item {
+  background-color: var(--color-neutral-900);
+  border-color: var(--color-neutral-700);
+}
+
+.bc-passkey-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+  min-width: 0;
+}
+
+.bc-passkey-item__name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-normal-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.b-dark .bc-passkey-item__name {
+  color: var(--text-normal-dark);
+}
+
+.bc-passkey-item__date {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted-light);
+}
+
+.b-dark .bc-passkey-item__date {
+  color: var(--text-muted-dark);
+}
+
+.bc-passkey-item__edit {
+  flex: 1;
+  min-width: 0;
+}
+
+.bc-passkey-item__actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+/* Add passkey */
+.bc-passkey-add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Sign-in button */
+.bc-passkey-signin {
+  width: 100%;
+  justify-content: center;
+}
