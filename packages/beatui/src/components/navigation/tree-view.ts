@@ -193,24 +193,28 @@ function renderTreeItem(
       )
     ),
 
-    // Children (collapsible)
+    // Children (collapsible) — Collapse uses WithElement which modifies its
+    // parent element, so it must be wrapped in its own div to avoid hiding
+    // the entire tree item row when collapsed.
     When(
       hasChildren,
       () =>
-        Collapse(
-          { open: isExpanded },
-          html.div(
-            attr.class('bc-tree-item__children'),
-            attr.role('group'),
-            ForEach(children, childSignal =>
-              renderTreeItem(
-                childSignal,
-                depth + 1,
-                selectedId,
-                expandedIds,
-                onSelect,
-                onItemToggle,
-                size
+        html.div(
+          Collapse(
+            { open: isExpanded },
+            html.div(
+              attr.class('bc-tree-item__children'),
+              attr.role('group'),
+              ForEach(children, childSignal =>
+                renderTreeItem(
+                  childSignal,
+                  depth + 1,
+                  selectedId,
+                  expandedIds,
+                  onSelect,
+                  onItemToggle,
+                  size
+                )
               )
             )
           )

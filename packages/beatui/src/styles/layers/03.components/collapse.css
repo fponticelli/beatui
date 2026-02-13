@@ -13,7 +13,13 @@
 }
 
 .bc-collapse--opening,
-.bc-collapse--opened,
 .bc-collapse--start-closing {
   height: var(--collapse-height);
+}
+
+/* Once fully opened, switch to auto so nested collapses can grow the parent.
+   --collapse-height is still tracked by ElementRect for the close transition. */
+.bc-collapse--opened {
+  height: auto;
+  overflow: visible;
 }
