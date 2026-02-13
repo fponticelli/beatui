@@ -25,12 +25,14 @@ export default function CommandPalettePage() {
             attr.class('text-sm text-gray-600'),
             'A searchable command menu for quick access to actions and navigation.'
           ),
-          CommandPalette({ placeholder: 'Search commands...' }, (open, close) =>
-            Button(
-              { variant: 'filled', color: 'primary' },
-              attr.id('open-basic-palette'),
-              'Open Command Palette'
-            )
+          CommandPalette(
+            { placeholder: 'Search commands...' },
+            (_open, _close) =>
+              Button(
+                { variant: 'filled', color: 'primary' },
+                attr.id('open-basic-palette'),
+                'Open Command Palette'
+              )
           )
         )
       ),
@@ -45,11 +47,13 @@ export default function CommandPalettePage() {
             attr.class('text-sm text-gray-600'),
             'Organize commands into sections with icons for better discoverability.'
           ),
-          CommandPalette({ placeholder: 'Type a command...' }, (open, close) =>
-            Button(
-              { variant: 'outline', color: 'primary' },
-              html.span('Open Navigation Menu')
-            )
+          CommandPalette(
+            { placeholder: 'Type a command...' },
+            (_open, _close) =>
+              Button(
+                { variant: 'outline', color: 'primary' },
+                html.span('Open Navigation Menu')
+              )
           )
         )
       ),
@@ -67,11 +71,13 @@ export default function CommandPalettePage() {
             attr.class('text-sm text-gray-600'),
             'Display keyboard shortcuts alongside commands.'
           ),
-          CommandPalette({ placeholder: 'Search actions...' }, (open, close) =>
-            Button(
-              { variant: 'light', color: 'primary' },
-              html.span('Open Actions Menu')
-            )
+          CommandPalette(
+            { placeholder: 'Search actions...' },
+            (_open, _close) =>
+              Button(
+                { variant: 'light', color: 'primary' },
+                html.span('Open Actions Menu')
+              )
           )
         )
       ),
@@ -91,7 +97,7 @@ export default function CommandPalettePage() {
             html.div(
               attr.class('space-y-2'),
               html.p(attr.class('text-sm font-medium'), 'Navigation commands'),
-              CommandPalette({ size: 'md' }, (open, close) =>
+              CommandPalette({ size: 'md' }, (_open, _close) =>
                 Button(
                   { variant: 'default', size: 'sm' },
                   html.span('Navigation')
@@ -103,7 +109,7 @@ export default function CommandPalettePage() {
               html.p(attr.class('text-sm font-medium'), 'File operations'),
               CommandPalette(
                 { placeholder: 'Search files...' },
-                (open, close) =>
+                (_open, _close) =>
                   Button(
                     { variant: 'default', size: 'sm' },
                     html.span('File Operations')
@@ -118,7 +124,7 @@ export default function CommandPalettePage() {
               ),
               CommandPalette(
                 { placeholder: 'Search settings...' },
-                (open, close) =>
+                (_open, _close) =>
                   Button(
                     { variant: 'default', size: 'sm' },
                     html.span('Settings')
@@ -147,7 +153,7 @@ export default function CommandPalettePage() {
               attr.class('whitespace-pre-wrap'),
               `CommandPalette(
   { placeholder: 'Search...' },
-  (open, close) =>
+  (_open, _close) =>
     Button({}, 'Open', on.click(() =>
       open([
         {

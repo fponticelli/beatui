@@ -72,12 +72,14 @@ export const test = base.extend<{
       const results = await builder.analyze()
 
       return {
+        // eslint-disable-next-line tempots/require-async-signal-disposal
         violations: results.violations.map((v) => ({
           id: v.id,
           impact: v.impact ?? 'unknown',
           description: v.description,
           help: v.help,
           helpUrl: v.helpUrl,
+          // eslint-disable-next-line tempots/require-async-signal-disposal
           nodes: v.nodes.map((n) => ({
             target: n.target as string[],
             html: n.html,
@@ -95,6 +97,7 @@ export const test = base.extend<{
     const capture = async (name: string, options: ScreenshotOptions = {}) => {
       const { maxDiffPixels = 100, threshold = 0.2, mask = [], fullPage = false } = options
 
+      // eslint-disable-next-line tempots/require-async-signal-disposal
       const maskLocators = mask.map((m) => page.locator(m.selector))
 
       await expect(page.locator('main')).toHaveScreenshot(name, {

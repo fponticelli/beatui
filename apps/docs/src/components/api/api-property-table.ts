@@ -1,4 +1,4 @@
-import { html, attr, Fragment, TNode } from '@tempots/dom'
+import { html, attr, Empty, TNode } from '@tempots/dom'
 import type { ApiReflection } from '../../api/typedoc-types'
 import { renderType } from './api-type-renderer'
 
@@ -7,7 +7,7 @@ export function renderPropertyTable(
   properties: ApiReflection[],
   moduleSlug: string
 ): TNode {
-  if (!properties.length) return Fragment()
+  if (!properties.length) return Empty
 
   return html.table(
     attr.class('api-table api-table--properties'),
@@ -21,13 +21,13 @@ export function renderPropertyTable(
             html.code(p.name),
             p.flags?.isOptional
               ? html.span(attr.class('api-optional'), '?')
-              : Fragment(),
+              : Empty,
             p.flags?.isReadonly
               ? html.span(
                   attr.class('api-badge api-badge--readonly'),
                   'readonly'
                 )
-              : Fragment()
+              : Empty
           ),
           html.td(
             attr.class('api-table__type-cell'),
@@ -38,7 +38,7 @@ export function renderPropertyTable(
               ? html.span(...p.comment.summary.map(s => html.span(s.text)))
               : p.defaultValue
                 ? html.span('Default: ', html.code(p.defaultValue))
-                : Fragment()
+                : Empty
           )
         )
       )

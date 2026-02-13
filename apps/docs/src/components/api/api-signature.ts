@@ -1,4 +1,4 @@
-import { html, attr, Fragment, TNode } from '@tempots/dom'
+import { html, attr, Fragment, Empty, TNode } from '@tempots/dom'
 import type { ApiSignature, ApiTypeParameter } from '../../api/typedoc-types'
 import { renderType } from './api-type-renderer'
 import { renderComment } from './api-comment'
@@ -17,11 +17,11 @@ export function renderSignature(sig: ApiSignature, moduleSlug: string): TNode {
         '(',
         renderParamsList(sig, moduleSlug),
         ')',
-        sig.type ? Fragment(': ', renderType(sig.type, moduleSlug)) : Fragment()
+        sig.type ? Fragment(': ', renderType(sig.type, moduleSlug)) : Empty
       )
     ),
     // Comment
-    sig.comment ? renderComment(sig.comment) : Fragment(),
+    sig.comment ? renderComment(sig.comment) : Empty,
     // Parameters table
     sig.parameters?.length
       ? html.div(
@@ -41,7 +41,7 @@ export function renderSignature(sig: ApiSignature, moduleSlug: string): TNode {
                     ),
                     p.flags?.isOptional
                       ? html.span(attr.class('api-optional'), '?')
-                      : Fragment()
+                      : Empty
                   ),
                   html.td(
                     attr.class('api-table__type-cell'),
@@ -52,14 +52,14 @@ export function renderSignature(sig: ApiSignature, moduleSlug: string): TNode {
                       ? html.span(
                           ...p.comment.summary.map(s => html.span(s.text))
                         )
-                      : Fragment()
+                      : Empty
                   )
                 )
               )
             )
           )
         )
-      : Fragment(),
+      : Empty,
     // Return type
     sig.type
       ? html.div(
@@ -67,12 +67,12 @@ export function renderSignature(sig: ApiSignature, moduleSlug: string): TNode {
           html.h4(attr.class('api-signature__returns-title'), 'Returns'),
           html.code(renderType(sig.type, moduleSlug))
         )
-      : Fragment()
+      : Empty
   )
 }
 
 function renderParamsList(sig: ApiSignature, moduleSlug: string): TNode {
-  if (!sig.parameters?.length) return Fragment()
+  if (!sig.parameters?.length) return Empty
   return Fragment(
     ...sig.parameters.flatMap((p, i) => {
       const name = p.name === '__namedParameters' ? 'options' : p.name
@@ -88,7 +88,7 @@ function renderParamsList(sig: ApiSignature, moduleSlug: string): TNode {
 }
 
 function renderTypeParams(params: ApiTypeParameter[] | undefined): TNode {
-  if (!params?.length) return Fragment()
+  if (!params?.length) return Empty
   return Fragment(
     '<',
     ...params.flatMap((p, i) => {

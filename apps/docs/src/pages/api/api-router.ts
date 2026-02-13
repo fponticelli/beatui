@@ -1,4 +1,4 @@
-import { html, attr, MapSignal, Task, Fragment, TNode } from '@tempots/dom'
+import { html, attr, MapSignal, Task, Empty, TNode } from '@tempots/dom'
 import { ChildRouter, Anchor } from '@tempots/ui'
 import { Stack } from '@tempots/beatui'
 import { ApiLanding } from './api-landing'
@@ -129,7 +129,7 @@ function renderSection(
   items: ApiReflection[],
   moduleSlug: string
 ): TNode {
-  if (!items.length) return Fragment()
+  if (!items.length) return Empty
   return html.div(
     attr.class('api-section mb-8'),
     html.h2(attr.class('text-xl font-semibold mb-3 pb-2 border-b'), title),

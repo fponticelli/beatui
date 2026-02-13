@@ -218,10 +218,7 @@ export default function ProseMirrorEditorPage() {
         Stack(
           attr.class('flex-1 gap-2 p-4 border rounded overflow-auto'),
           html.h4(attr.class('font-semibold'), 'Current Markdown'),
-          html.pre(
-            attr.class('text-sm overflow-auto'),
-            markdown.map(v => String(v))
-          )
+          html.pre(attr.class('text-sm overflow-auto'), markdown)
         )
       )
     ),

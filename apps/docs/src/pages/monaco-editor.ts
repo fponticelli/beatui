@@ -144,10 +144,7 @@ export default function MonacoEditorPage() {
       Stack(
         attr.class('gap-2 flex-1'),
         html.h3(attr.class('text-lg font-semibold'), 'Current Value'),
-        html.pre(
-          attr.class('whitespace-pre-wrap'),
-          code.map(v => String(v))
-        )
+        html.pre(attr.class('whitespace-pre-wrap'), code)
       )
     ),
   })

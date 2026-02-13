@@ -1,4 +1,4 @@
-import { html, attr, Fragment, TNode } from '@tempots/dom'
+import { html, attr, Empty, TNode } from '@tempots/dom'
 import type {
   ApiComment,
   ApiCommentPart,
@@ -7,7 +7,7 @@ import type {
 
 /** Renders a TypeDoc comment (summary + block tags) */
 export function renderComment(comment: ApiComment | undefined): TNode {
-  if (!comment) return Fragment()
+  if (!comment) return Empty
 
   const parts: TNode[] = []
 
@@ -29,7 +29,7 @@ export function renderComment(comment: ApiComment | undefined): TNode {
 
 /** Renders a single summary line (first sentence) for compact listings */
 export function renderSummaryLine(comment: ApiComment | undefined): TNode {
-  if (!comment?.summary?.length) return Fragment()
+  if (!comment?.summary?.length) return Empty
   return html.span(
     attr.class('api-comment__summary-line'),
     ...comment.summary.map(renderPart)

@@ -64,12 +64,14 @@ export abstract class BasePage {
 
     const results = await builder.analyze()
 
+    // eslint-disable-next-line tempots/require-async-signal-disposal
     return results.violations.map((v) => ({
       id: v.id,
       impact: v.impact as AccessibilityViolation['impact'],
       description: v.description,
       help: v.help,
       helpUrl: v.helpUrl,
+      // eslint-disable-next-line tempots/require-async-signal-disposal
       nodes: v.nodes.map((n) => ({
         target: n.target as string[],
         html: n.html,

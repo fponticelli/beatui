@@ -1,4 +1,4 @@
-import { html, attr, Fragment, TNode } from '@tempots/dom'
+import { html, attr, Fragment, Empty, TNode } from '@tempots/dom'
 import type { ApiReflection } from '../../api/typedoc-types'
 import { kindLabel, ReflectionKind } from '../../api/typedoc-types'
 import { renderComment } from './api-comment'
@@ -36,7 +36,7 @@ export function ApiSymbolCard(
 
 function renderSourceLink(reflection: ApiReflection): TNode {
   const source = reflection.sources?.[0]
-  if (!source?.url) return Fragment()
+  if (!source?.url) return Empty
   return html.a(
     attr.href(source.url),
     attr.target('_blank'),
@@ -62,12 +62,12 @@ function renderBody(reflection: ApiReflection, moduleSlug: string): TNode {
     case ReflectionKind.Enum:
       return renderEnumBody(reflection, moduleSlug)
     default:
-      return Fragment()
+      return Empty
   }
 }
 
 function renderFunctionBody(r: ApiReflection, moduleSlug: string): TNode {
-  if (!r.signatures?.length) return Fragment()
+  if (!r.signatures?.length) return Empty
   return html.div(
     attr.class('api-symbol-card__body'),
     ...r.signatures.map(sig => renderSignature(sig, moduleSlug))
@@ -98,18 +98,18 @@ function renderInterfaceBody(r: ApiReflection, moduleSlug: string): TNode {
                       ' extends ',
                       html.code(renderType(tp.type, moduleSlug))
                     )
-                  : Fragment(),
+                  : Empty,
                 tp.default
                   ? Fragment(
                       ' = ',
                       html.code(renderType(tp.default, moduleSlug))
                     )
-                  : Fragment()
+                  : Empty
               )
             )
           )
         )
-      : Fragment(),
+      : Empty,
     // Properties
     properties.length
       ? html.div(
@@ -117,12 +117,13 @@ function renderInterfaceBody(r: ApiReflection, moduleSlug: string): TNode {
           html.h3('Properties'),
           renderPropertyTable(properties, moduleSlug)
         )
-      : Fragment(),
+      : Empty,
     // Methods
     methods.length
       ? html.div(
           attr.class('api-symbol-card__section'),
           html.h3('Methods'),
+          // eslint-disable-next-line tempots/no-renderable-signal-map
           ...methods.map(m =>
             html.div(
               attr.class('api-symbol-card__method'),
@@ -133,7 +134,7 @@ function renderInterfaceBody(r: ApiReflection, moduleSlug: string): TNode {
             )
           )
         )
-      : Fragment()
+      : Empty
   )
 }
 
@@ -151,7 +152,7 @@ function renderClassBody(r: ApiReflection, moduleSlug: string): TNode {
               : [html.code(renderType(t, moduleSlug))]
           )
         )
-      : Fragment(),
+      : Empty,
     r.implementedTypes?.length
       ? html.div(
           attr.class('api-symbol-card__implements'),
@@ -162,7 +163,7 @@ function renderClassBody(r: ApiReflection, moduleSlug: string): TNode {
               : [html.code(renderType(t, moduleSlug))]
           )
         )
-      : Fragment(),
+      : Empty,
     renderInterfaceBody(r, moduleSlug)
   )
 }
@@ -184,18 +185,18 @@ function renderTypeAliasBody(r: ApiReflection, moduleSlug: string): TNode {
                       ' extends ',
                       html.code(renderType(tp.type, moduleSlug))
                     )
-                  : Fragment(),
+                  : Empty,
                 tp.default
                   ? Fragment(
                       ' = ',
                       html.code(renderType(tp.default, moduleSlug))
                     )
-                  : Fragment()
+                  : Empty
               )
             )
           )
         )
-      : Fragment(),
+      : Empty,
     // Type definition
     html.div(
       attr.class('api-symbol-card__type-def'),
@@ -220,7 +221,7 @@ function renderVariableBody(r: ApiReflection, moduleSlug: string): TNode {
             html.code(renderType(r.type, moduleSlug))
           )
         )
-      : Fragment(),
+      : Empty,
     r.defaultValue
       ? html.div(
           attr.class('api-symbol-card__default'),
@@ -230,7 +231,7 @@ function renderVariableBody(r: ApiReflection, moduleSlug: string): TNode {
             html.code(r.defaultValue)
           )
         )
-      : Fragment()
+      : Empty
   )
 }
 
@@ -238,7 +239,7 @@ function renderEnumBody(r: ApiReflection, moduleSlug: string): TNode {
   const members = (r.children ?? []).filter(
     c => c.kind === ReflectionKind.EnumMember
   )
-  if (!members.length) return Fragment()
+  if (!members.length) return Empty
 
   return html.div(
     attr.class('api-symbol-card__body'),
@@ -249,16 +250,15 @@ function renderEnumBody(r: ApiReflection, moduleSlug: string): TNode {
         html.tr(html.th('Member'), html.th('Value'), html.th('Description'))
       ),
       html.tbody(
+        // eslint-disable-next-line tempots/no-renderable-signal-map
         ...members.map(m =>
           html.tr(
             html.td(html.code(m.name)),
-            html.td(
-              m.type ? html.code(renderType(m.type, moduleSlug)) : Fragment()
-            ),
+            html.td(m.type ? html.code(renderType(m.type, moduleSlug)) : Empty),
             html.td(
               m.comment?.summary
                 ? html.span(...m.comment.summary.map(s => html.span(s.text)))
-                : Fragment()
+                : Empty
             )
           )
         )

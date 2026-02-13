@@ -60,23 +60,19 @@ export default function PDFPreviewPage() {
       }),
       OneOfValue(pdfEngine, {
         pdfjs: () =>
-          Fragment(
-            InputWrapper({
-              label: 'Zoom',
-              content: NativeSelect({
-                options: [
-                  Option.value('auto', 'Auto'),
-                  Option.value('page-fit', 'Page Fit'),
-                  Option.value('page-width', 'Page Width'),
-                  Option.value(100, '100%'),
-                ] as SelectOption<
-                  'auto' | 'page-fit' | 'page-width' | number
-                >[],
-                value: zoom,
-                onChange: zoom.set,
-              }),
-            })
-          ),
+          InputWrapper({
+            label: 'Zoom',
+            content: NativeSelect({
+              options: [
+                Option.value('auto', 'Auto'),
+                Option.value('page-fit', 'Page Fit'),
+                Option.value('page-width', 'Page Width'),
+                Option.value(100, '100%'),
+              ] as SelectOption<'auto' | 'page-fit' | 'page-width' | number>[],
+              value: zoom,
+              onChange: zoom.set,
+            }),
+          }),
         native: () =>
           Fragment(
             InputWrapper({

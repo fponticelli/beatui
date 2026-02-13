@@ -7,7 +7,6 @@ import {
   signal,
   Repeat,
   style,
-  Fragment,
 } from '@tempots/dom'
 import {
   AnchorMode,
@@ -254,104 +253,102 @@ export default function NineSliceScrollViewPage() {
   })
   const anchorMode = prop<AnchorMode>('container-edge')
 
-  return Fragment(
-    ScrollablePanel({
-      header: ControlsHeader(
-        Group(
-          InputWrapper({
-            label: 'Columns',
-            content: NumberInput({
-              value: columns,
-              onChange: columns.set,
-              step: 1,
-              min: 1,
-            }),
+  return ScrollablePanel({
+    header: ControlsHeader(
+      Group(
+        InputWrapper({
+          label: 'Columns',
+          content: NumberInput({
+            value: columns,
+            onChange: columns.set,
+            step: 1,
+            min: 1,
           }),
-          InputWrapper({
-            label: 'Rows',
-            content: NumberInput({
-              value: rows,
-              onChange: rows.set,
-              step: 1,
-              min: 1,
-            }),
+        }),
+        InputWrapper({
+          label: 'Rows',
+          content: NumberInput({
+            value: rows,
+            onChange: rows.set,
+            step: 1,
+            min: 1,
           }),
-          InputWrapper({
-            label: 'Start Columns',
-            content: NumberInput({
-              value: startColumns,
-              onChange: startColumns.set,
-              step: 1,
-              min: 0,
-              max: columns,
-            }),
+        }),
+        InputWrapper({
+          label: 'Start Columns',
+          content: NumberInput({
+            value: startColumns,
+            onChange: startColumns.set,
+            step: 1,
+            min: 0,
+            max: columns,
           }),
-          InputWrapper({
-            label: 'End Columns',
-            content: NumberInput({
-              value: endColumns,
-              onChange: endColumns.set,
-              step: 1,
-              min: 0,
-              max: columns,
-            }),
+        }),
+        InputWrapper({
+          label: 'End Columns',
+          content: NumberInput({
+            value: endColumns,
+            onChange: endColumns.set,
+            step: 1,
+            min: 0,
+            max: columns,
           }),
-          InputWrapper({
-            label: 'Header Rows',
-            content: NumberInput({
-              value: headerRows,
-              onChange: headerRows.set,
-              step: 1,
-              min: 0,
-              max: rows,
-            }),
+        }),
+        InputWrapper({
+          label: 'Header Rows',
+          content: NumberInput({
+            value: headerRows,
+            onChange: headerRows.set,
+            step: 1,
+            min: 0,
+            max: rows,
           }),
-          InputWrapper({
-            label: 'Footer Rows',
-            content: NumberInput({
-              value: footerRows,
-              onChange: footerRows.set,
-              step: 1,
-              min: 0,
-              max: rows,
-            }),
+        }),
+        InputWrapper({
+          label: 'Footer Rows',
+          content: NumberInput({
+            value: footerRows,
+            onChange: footerRows.set,
+            step: 1,
+            min: 0,
+            max: rows,
           }),
-          InputWrapper({
-            label: 'Anchor Mode',
-            content: NativeSelect({
-              options: [
-                Option.value('container-edge', 'Container Edge'),
-                Option.value('body-end', 'Body End'),
-                Option.value('body-bottom', 'Body Bottom'),
-                Option.value('body-end-bottom', 'Body End & Bottom'),
-              ] as SelectOption<AnchorMode>[],
-              value: anchorMode,
-              onChange: anchorMode.set,
-            }),
-          })
-        )
-      ),
-      body: Stack(
-        attr.class('items-start gap-1 p-4 h-full'),
-        NineSliceScrollView({
-          anchorMode,
-          body,
-          contentWidth,
-          contentHeight,
-          headerHeight,
-          footerHeight,
-          sidebarStartWidth,
-          sidebarEndWidth,
-          header,
-          footer,
-          sidebarStart,
-          sidebarEnd,
-          topStart,
-          bottomStart,
-          topEnd,
-          bottomEnd,
+        }),
+        InputWrapper({
+          label: 'Anchor Mode',
+          content: NativeSelect({
+            options: [
+              Option.value('container-edge', 'Container Edge'),
+              Option.value('body-end', 'Body End'),
+              Option.value('body-bottom', 'Body Bottom'),
+              Option.value('body-end-bottom', 'Body End & Bottom'),
+            ] as SelectOption<AnchorMode>[],
+            value: anchorMode,
+            onChange: anchorMode.set,
+          }),
         })
-      ),
-    })
-  )
+      )
+    ),
+    body: Stack(
+      attr.class('items-start gap-1 p-4 h-full'),
+      NineSliceScrollView({
+        anchorMode,
+        body,
+        contentWidth,
+        contentHeight,
+        headerHeight,
+        footerHeight,
+        sidebarStartWidth,
+        sidebarEndWidth,
+        header,
+        footer,
+        sidebarStart,
+        sidebarEnd,
+        topStart,
+        bottomStart,
+        topEnd,
+        bottomEnd,
+      })
+    ),
+  })
 }

@@ -40,7 +40,7 @@ export default function EditableTextPage() {
         Group(
           attr.class('gap-2 items-baseline'),
           html.div('Current value:'),
-          html.pre(text.map(v => String(v)))
+          html.pre(text)
         )
       )
     )

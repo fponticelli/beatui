@@ -1,4 +1,4 @@
-import { html, attr, Fragment, TNode } from '@tempots/dom'
+import { html, attr, Fragment, Empty, TNode } from '@tempots/dom'
 import { Anchor } from '@tempots/ui'
 import type { ApiReflection } from '../../api/typedoc-types'
 import { kindLabel, ReflectionKind } from '../../api/typedoc-types'
@@ -48,7 +48,7 @@ function renderBriefSignature(r: ApiReflection, moduleSlug: string): TNode {
           return i > 0 ? [', ', name + optional] : [name + optional]
         }),
         ')',
-        sig.type ? Fragment(': ', renderType(sig.type, moduleSlug)) : Fragment()
+        sig.type ? Fragment(': ', renderType(sig.type, moduleSlug)) : Empty
       )
     )
   }
@@ -65,5 +65,5 @@ function renderBriefSignature(r: ApiReflection, moduleSlug: string): TNode {
     }
   }
 
-  return Fragment()
+  return Empty
 }
