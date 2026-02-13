@@ -9,6 +9,12 @@
   );
 }
 
+/* Justify — distribute items across full width */
+.bc-pagination--justify {
+  justify-content: space-between;
+  width: 100%;
+}
+
 /* Pagination Item (Button) */
 .bc-pagination__item {
   display: inline-flex;

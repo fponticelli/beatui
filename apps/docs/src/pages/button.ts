@@ -23,6 +23,7 @@ const allVariants: ButtonVariant[] = [
   'outline',
   'default',
   'text',
+  'dashed',
 ]
 
 const allColors: ThemeColorName[] = [

@@ -1,11 +1,192 @@
-import { html, attr } from '@tempots/dom'
+import { html, attr, on } from '@tempots/dom'
 import {
   ScrollablePanel,
   Stack,
   Card,
   CommandPalette,
+  CommandPaletteItem,
   Button,
 } from '@tempots/beatui'
+
+const basicItems: CommandPaletteItem[] = [
+  {
+    id: 'new-file',
+    label: 'New File',
+    icon: 'mdi:file-plus',
+    shortcut: ['Ctrl', 'N'],
+    onSelect: () => console.log('New File'),
+  },
+  {
+    id: 'open-file',
+    label: 'Open File',
+    icon: 'mdi:folder-open',
+    shortcut: ['Ctrl', 'O'],
+    onSelect: () => console.log('Open File'),
+  },
+  {
+    id: 'save',
+    label: 'Save',
+    icon: 'mdi:content-save',
+    shortcut: ['Ctrl', 'S'],
+    onSelect: () => console.log('Save'),
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    icon: 'mdi:cog',
+    shortcut: ['Ctrl', ','],
+    onSelect: () => console.log('Settings'),
+  },
+]
+
+const sectionItems: CommandPaletteItem[] = [
+  {
+    id: 'home',
+    label: 'Home',
+    icon: 'mdi:home',
+    section: 'Navigation',
+    onSelect: () => console.log('Home'),
+  },
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    icon: 'mdi:view-dashboard',
+    section: 'Navigation',
+    onSelect: () => console.log('Dashboard'),
+  },
+  {
+    id: 'projects',
+    label: 'Projects',
+    icon: 'mdi:folder-multiple',
+    section: 'Navigation',
+    onSelect: () => console.log('Projects'),
+  },
+  {
+    id: 'new-project',
+    label: 'New Project',
+    icon: 'mdi:plus',
+    section: 'Actions',
+    onSelect: () => console.log('New Project'),
+  },
+  {
+    id: 'import',
+    label: 'Import',
+    icon: 'mdi:import',
+    section: 'Actions',
+    onSelect: () => console.log('Import'),
+  },
+  {
+    id: 'export',
+    label: 'Export',
+    icon: 'mdi:export',
+    section: 'Actions',
+    onSelect: () => console.log('Export'),
+  },
+]
+
+const shortcutItems: CommandPaletteItem[] = [
+  {
+    id: 'cut',
+    label: 'Cut',
+    icon: 'mdi:content-cut',
+    shortcut: ['Ctrl', 'X'],
+    onSelect: () => console.log('Cut'),
+  },
+  {
+    id: 'copy',
+    label: 'Copy',
+    icon: 'mdi:content-copy',
+    shortcut: ['Ctrl', 'C'],
+    onSelect: () => console.log('Copy'),
+  },
+  {
+    id: 'paste',
+    label: 'Paste',
+    icon: 'mdi:content-paste',
+    shortcut: ['Ctrl', 'V'],
+    onSelect: () => console.log('Paste'),
+  },
+  {
+    id: 'undo',
+    label: 'Undo',
+    icon: 'mdi:undo',
+    shortcut: ['Ctrl', 'Z'],
+    onSelect: () => console.log('Undo'),
+  },
+  {
+    id: 'redo',
+    label: 'Redo',
+    icon: 'mdi:redo',
+    shortcut: ['Ctrl', 'Shift', 'Z'],
+    onSelect: () => console.log('Redo'),
+  },
+]
+
+const navItems: CommandPaletteItem[] = [
+  {
+    id: 'go-home',
+    label: 'Go to Home',
+    icon: 'mdi:home',
+    onSelect: () => console.log('Go to Home'),
+  },
+  {
+    id: 'go-dashboard',
+    label: 'Go to Dashboard',
+    icon: 'mdi:view-dashboard',
+    onSelect: () => console.log('Go to Dashboard'),
+  },
+  {
+    id: 'go-settings',
+    label: 'Go to Settings',
+    icon: 'mdi:cog',
+    onSelect: () => console.log('Go to Settings'),
+  },
+]
+
+const fileItems: CommandPaletteItem[] = [
+  {
+    id: 'f-new',
+    label: 'New File',
+    icon: 'mdi:file-plus',
+    onSelect: () => console.log('New File'),
+  },
+  {
+    id: 'f-open',
+    label: 'Open File',
+    icon: 'mdi:folder-open',
+    onSelect: () => console.log('Open File'),
+  },
+  {
+    id: 'f-save',
+    label: 'Save File',
+    icon: 'mdi:content-save',
+    onSelect: () => console.log('Save File'),
+  },
+]
+
+const settingsItems: CommandPaletteItem[] = [
+  {
+    id: 's-theme',
+    label: 'Theme',
+    icon: 'mdi:palette',
+    description: 'Change the application theme',
+    onSelect: () => console.log('Theme'),
+  },
+  {
+    id: 's-language',
+    label: 'Language',
+    icon: 'mdi:translate',
+    description: 'Change the display language',
+    onSelect: () => console.log('Language'),
+  },
+  {
+    id: 's-notifications',
+    label: 'Notifications',
+    icon: 'mdi:bell',
+    description: 'Configure notification preferences',
+    onSelect: () => console.log('Notifications'),
+  },
+]
 
 export default function CommandPalettePage() {
   return ScrollablePanel({
@@ -27,10 +208,11 @@ export default function CommandPalettePage() {
           ),
           CommandPalette(
             { placeholder: 'Search commands...' },
-            (_open, _close) =>
+            (open, _close) =>
               Button(
                 { variant: 'filled', color: 'primary' },
                 attr.id('open-basic-palette'),
+                on.click(() => open(basicItems)),
                 'Open Command Palette'
               )
           )
@@ -47,13 +229,12 @@ export default function CommandPalettePage() {
             attr.class('text-sm text-gray-600'),
             'Organize commands into sections with icons for better discoverability.'
           ),
-          CommandPalette(
-            { placeholder: 'Type a command...' },
-            (_open, _close) =>
-              Button(
-                { variant: 'outline', color: 'primary' },
-                html.span('Open Navigation Menu')
-              )
+          CommandPalette({ placeholder: 'Type a command...' }, (open, _close) =>
+            Button(
+              { variant: 'outline', color: 'primary' },
+              on.click(() => open(sectionItems)),
+              html.span('Open Navigation Menu')
+            )
           )
         )
       ),
@@ -71,13 +252,12 @@ export default function CommandPalettePage() {
             attr.class('text-sm text-gray-600'),
             'Display keyboard shortcuts alongside commands.'
           ),
-          CommandPalette(
-            { placeholder: 'Search actions...' },
-            (_open, _close) =>
-              Button(
-                { variant: 'light', color: 'primary' },
-                html.span('Open Actions Menu')
-              )
+          CommandPalette({ placeholder: 'Search actions...' }, (open, _close) =>
+            Button(
+              { variant: 'light', color: 'primary' },
+              on.click(() => open(shortcutItems)),
+              html.span('Open Actions Menu')
+            )
           )
         )
       ),
@@ -97,9 +277,10 @@ export default function CommandPalettePage() {
             html.div(
               attr.class('space-y-2'),
               html.p(attr.class('text-sm font-medium'), 'Navigation commands'),
-              CommandPalette({ size: 'md' }, (_open, _close) =>
+              CommandPalette({ size: 'md' }, (open, _close) =>
                 Button(
                   { variant: 'default', size: 'sm' },
+                  on.click(() => open(navItems)),
                   html.span('Navigation')
                 )
               )
@@ -109,9 +290,10 @@ export default function CommandPalettePage() {
               html.p(attr.class('text-sm font-medium'), 'File operations'),
               CommandPalette(
                 { placeholder: 'Search files...' },
-                (_open, _close) =>
+                (open, _close) =>
                   Button(
                     { variant: 'default', size: 'sm' },
+                    on.click(() => open(fileItems)),
                     html.span('File Operations')
                   )
               )
@@ -124,9 +306,10 @@ export default function CommandPalettePage() {
               ),
               CommandPalette(
                 { placeholder: 'Search settings...' },
-                (_open, _close) =>
+                (open, _close) =>
                   Button(
                     { variant: 'default', size: 'sm' },
+                    on.click(() => open(settingsItems)),
                     html.span('Settings')
                   )
               )
@@ -153,20 +336,24 @@ export default function CommandPalettePage() {
               attr.class('whitespace-pre-wrap'),
               `CommandPalette(
   { placeholder: 'Search...' },
-  (_open, _close) =>
-    Button({}, 'Open', on.click(() =>
-      open([
-        {
-          id: 'new',
-          label: 'New File',
-          icon: 'mdi:file-plus',
-          section: 'File',
-          shortcut: ['Ctrl', 'N'],
-          onSelect: () => console.log('New file')
-        },
-        // ... more items
-      ])
-    ))
+  (open, _close) =>
+    Button(
+      {},
+      on.click(() =>
+        open([
+          {
+            id: 'new',
+            label: 'New File',
+            icon: 'mdi:file-plus',
+            section: 'File',
+            shortcut: ['Ctrl', 'N'],
+            onSelect: () => console.log('New file')
+          },
+          // ... more items
+        ])
+      ),
+      'Open'
+    )
 )`
             )
           )

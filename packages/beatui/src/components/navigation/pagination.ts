@@ -2,11 +2,13 @@ import {
   attr,
   aria,
   html,
+  OnDispose,
   Value,
   computedOf,
   ForEach,
   on,
   When,
+  WithElement,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
 
@@ -28,6 +30,8 @@ export interface PaginationOptions {
   showFirstLast?: Value<boolean>
   /** Size affecting button dimensions and font size. @default 'md' */
   size?: Value<ControlSize>
+  /** Whether to distribute items across the full available width. @default false */
+  justify?: Value<boolean>
 }
 
 /**
@@ -119,9 +123,19 @@ export function Pagination({
   showPrevNext = true,
   showFirstLast = false,
   size = 'md',
+  justify = false,
 }: PaginationOptions) {
   return html.nav(
-    attr.class(Value.map(size, s => `bc-pagination bc-pagination--size-${s}`)),
+    attr.class(
+      computedOf(
+        size,
+        justify
+      )((s, j) => {
+        const classes = ['bc-pagination', `bc-pagination--size-${s}`]
+        if (j) classes.push('bc-pagination--justify')
+        return classes.join(' ')
+      })
+    ),
     aria.label('Pagination'),
 
     // First page button
@@ -196,7 +210,17 @@ export function Pagination({
                     : 'bc-pagination__item'
                 )
               ),
-              When(isActive, () => aria.current('page')),
+              WithElement(el => {
+                return OnDispose(
+                  Value.on(isActive, active => {
+                    if (active) {
+                      el.setAttribute('aria-current', 'page')
+                    } else {
+                      el.removeAttribute('aria-current')
+                    }
+                  })
+                )
+              }),
               on.click(e => {
                 e.preventDefault()
                 const item = Value.get(itemSignal)

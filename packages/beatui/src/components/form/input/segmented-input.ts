@@ -37,13 +37,24 @@ export interface SegmentedInputOptions<
   size?: Value<ControlSize>
   /** Whether the segmented control is disabled. @default false */
   disabled?: Value<boolean>
+  /**
+   * Shape variant. `'pill'` uses fully rounded corners, `'squared'` uses control-like
+   * border-radius and taller padding to match the height of regular inputs like TextInput.
+   * @default 'pill'
+   */
+  variant?: Value<'pill' | 'squared'>
 }
 
 function generateSegmentedInputClasses(
   size: ControlSize,
-  disabled: boolean
+  disabled: boolean,
+  variant: 'pill' | 'squared'
 ): string {
   const classes = ['bc-segmented-input', `bc-segmented-input--size-${size}`]
+
+  if (variant === 'squared') {
+    classes.push('bc-segmented-input--squared')
+  }
 
   if (disabled) {
     classes.push('bc-segmented-input--disabled')
@@ -105,6 +116,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
     onChange,
     size = 'md',
     disabled = false,
+    variant = 'pill',
   }: SegmentedInputOptions<T, keyof T>,
   ...children: TNode[]
 ) {
@@ -125,9 +137,14 @@ export function SegmentedInput<T extends Record<string, TNode>>(
       attr.class(
         computedOf(
           size,
-          disabled
-        )((size, disabled) =>
-          generateSegmentedInputClasses(size ?? 'md', disabled ?? false)
+          disabled,
+          variant
+        )((size, disabled, variant) =>
+          generateSegmentedInputClasses(
+            size ?? 'md',
+            disabled ?? false,
+            variant ?? 'pill'
+          )
         )
       ),
       html.div(

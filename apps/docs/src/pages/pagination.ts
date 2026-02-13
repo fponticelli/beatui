@@ -125,6 +125,41 @@ export default function PaginationPage() {
         )
       ),
 
+      // Justified layout
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Justified Layout'),
+          html.p(
+            attr.class('text-sm text-gray-600'),
+            'Distribute pagination items across the full available width.'
+          ),
+          (() => {
+            const currentPage = prop(5)
+            return html.div(
+              attr.class('space-y-3'),
+              Pagination({
+                currentPage,
+                totalPages: prop(15),
+                onPageChange: currentPage.set,
+                showFirstLast: true,
+                justify: true,
+              }),
+              html.p(
+                attr.class('text-sm text-gray-600 text-center'),
+                'Page ',
+                html.span(
+                  attr.class('font-medium'),
+                  Value.map(currentPage, p => String(p))
+                ),
+                ' of 15'
+              )
+            )
+          })()
+        )
+      ),
+
       // Different scenarios
       Card(
         {},

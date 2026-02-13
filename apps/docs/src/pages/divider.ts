@@ -142,6 +142,85 @@ export default function DividerPage() {
             html.span('Right')
           )
         )
+      ),
+
+      // Vertical dividers with labels
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-3'),
+          html.h2(
+            attr.class('text-lg font-semibold'),
+            'Vertical Dividers with Labels'
+          ),
+          html.p(
+            attr.class('text-sm text-gray-600'),
+            'Vertical dividers can include text labels with different alignments.'
+          ),
+          html.div(
+            attr.class('flex items-stretch gap-6 h-48'),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Left Panel')
+            ),
+            Divider({
+              orientation: 'vertical',
+              label: 'OR',
+              labelAlign: 'center',
+            }),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Center Panel')
+            ),
+            Divider({
+              orientation: 'vertical',
+              label: 'AND',
+              labelAlign: 'left',
+            }),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Right Panel')
+            )
+          ),
+          html.div(
+            attr.class('flex items-stretch gap-6 h-48 mt-4'),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Section A')
+            ),
+            Divider({
+              orientation: 'vertical',
+              label: 'vs',
+              variant: 'dashed',
+            }),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Section B')
+            ),
+            Divider({
+              orientation: 'vertical',
+              label: 'or',
+              variant: 'dotted',
+              tone: 'strong',
+            }),
+            html.div(
+              attr.class(
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              ),
+              html.span('Section C')
+            )
+          )
+        )
       )
     ),
   })
