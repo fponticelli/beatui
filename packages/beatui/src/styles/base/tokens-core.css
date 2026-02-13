@@ -249,10 +249,14 @@
   --spacing-base: 0.25rem;
   --spacing-xs: calc(var(--spacing-base) / 2);
   --spacing-sm: var(--spacing-base);
+  --spacing-smh: calc(var(--spacing-base) * 1.5);
   --spacing-md: calc(var(--spacing-base) * 2);
+  --spacing-mdh: calc(var(--spacing-base) * 3);
   --spacing-lg: calc(var(--spacing-base) * 4);
+  --spacing-lgh: calc(var(--spacing-base) * 5);
   --spacing-xl: calc(var(--spacing-base) * 6);
   --spacing-2xl: calc(var(--spacing-base) * 8);
+  --spacing-2xlh: calc(var(--spacing-base) * 10);
   --spacing-3xl: calc(var(--spacing-base) * 12);
   --spacing-4xl: calc(var(--spacing-base) * 16);
   --spacing-full: 2000px;

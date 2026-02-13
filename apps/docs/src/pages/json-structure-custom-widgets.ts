@@ -1,4 +1,4 @@
-import { attr, html, prop, style, on, MapSignal } from '@tempots/dom'
+import { attr, html, prop, style, on, When } from '@tempots/dom'
 import {
   ScrollablePanel,
   Stack,
@@ -77,12 +77,20 @@ function UuidWidget({
       style.fontSize('1.2rem'),
       '🔑'
     ),
-    after: MapSignal(isValid, valid =>
-      html.span(
-        attr.class(valid ? 'text-green-600' : 'text-orange-600'),
-        style.fontSize('0.75rem'),
-        valid ? '✓ Valid UUID' : '⚠ Invalid format'
-      )
+    after: When(
+      isValid,
+      () =>
+        html.span(
+          attr.class('text-green-600'),
+          style.fontSize('0.75rem'),
+          '✓ Valid UUID'
+        ),
+      () =>
+        html.span(
+          attr.class('text-orange-600'),
+          style.fontSize('0.75rem'),
+          '⚠ Invalid format'
+        )
     ),
   })
 }

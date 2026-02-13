@@ -171,6 +171,30 @@ export function generateBadgeStyles(
       )
       break
     }
+    case 'dashed': {
+      const textLight = textColorValue(color, 'light')
+      const textDark = textColorValue(color, 'dark')
+      const borderLight = borderColorValue(color, 'light')
+      const borderDark = borderColorValue(color, 'dark')
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+
+      styles.set('--badge-bg', 'transparent')
+      styles.set('--badge-text', textLight)
+      styles.set('--badge-bg-dark', 'transparent')
+      styles.set('--badge-text-dark', textDark)
+      styles.set('--badge-border', borderLight)
+      styles.set('--badge-border-dark', borderDark)
+      styles.set('--badge-border-style', 'dashed')
+
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
     case 'text': {
       const textLight = textColorValue(color, 'light')
       const textDark = textColorValue(color, 'dark')

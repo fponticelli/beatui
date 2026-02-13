@@ -2,7 +2,6 @@ import {
   attr,
   computedOf,
   html,
-  MapSignal,
   on,
   prop,
   TNode,
@@ -221,9 +220,10 @@ export function Drawer(
           on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking drawer content
 
           // Drawer content container
-          MapSignal(displayHeader, display => {
-            if (display) {
-              return ScrollablePanel({
+          When(
+            displayHeader,
+            () =>
+              ScrollablePanel({
                 header: html.div(
                   attr.class('bc-drawer__header'),
                   html.div(attr.id(headerContentId!), header),
@@ -244,9 +244,9 @@ export function Drawer(
                 ),
                 footer:
                   footer && html.div(attr.class('bc-drawer__footer'), footer),
-              })
-            } else {
-              return ScrollablePanel({
+              }),
+            () =>
+              ScrollablePanel({
                 body: html.div(
                   attr.class('bc-drawer__body'),
                   attr.id(bodyId),
@@ -255,8 +255,7 @@ export function Drawer(
                 footer:
                   footer && html.div(attr.class('bc-drawer__footer'), footer),
               })
-            }
-          })
+          )
         )
       })
 

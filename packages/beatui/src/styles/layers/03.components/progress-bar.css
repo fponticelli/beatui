@@ -1,0 +1,124 @@
+/* ProgressBar Component - Progress indicator with determinate and indeterminate states */
+
+.bc-progress-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-base) * 1);
+  width: 100%;
+}
+
+.bc-progress-bar {
+  --progress-fill: var(--color-primary-500);
+  --progress-fill-dark: var(--color-primary-600);
+  --progress-track: oklch(0.9 0 0);
+  --progress-track-dark: oklch(0.3 0 0);
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-control, var(--radius-full));
+}
+
+.bc-progress-bar__track {
+  width: 100%;
+  height: 100%;
+  background-color: var(--progress-track);
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.bc-progress-bar__fill {
+  height: 100%;
+  background-color: var(--progress-fill);
+  border-radius: inherit;
+  transition: width
+    var(--motion-transition-normal, var(--motion-duration-normal, 0.3s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  will-change: width;
+}
+
+/* Size variants */
+.bc-progress-bar--size-sm {
+  height: 4px;
+}
+
+.bc-progress-bar--size-md {
+  height: 8px;
+}
+
+.bc-progress-bar--size-lg {
+  height: 12px;
+}
+
+/* Indeterminate state - animated sliding bar */
+.bc-progress-bar--indeterminate .bc-progress-bar__fill {
+  width: 40%;
+  position: absolute;
+  animation: bc-progress-indeterminate 1.5s cubic-bezier(0.4, 0, 0.6, 1)
+    infinite;
+}
+
+@keyframes bc-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Label text */
+.bc-progress-bar__label {
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary-light);
+  text-align: right;
+  line-height: 1;
+}
+
+/* Dark mode styles */
+.b-dark .bc-progress-bar__track {
+  background-color: var(--progress-track-dark);
+}
+
+.b-dark .bc-progress-bar__fill {
+  background-color: var(--progress-fill-dark);
+}
+
+.b-dark .bc-progress-bar__label {
+  color: var(--text-secondary-dark);
+}
+
+/* Accessibility: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .bc-progress-bar__fill {
+    transition: none;
+  }
+
+  .bc-progress-bar--indeterminate .bc-progress-bar__fill {
+    animation: none;
+    /* Show static partial fill instead of animation */
+    width: 40%;
+    transform: translateX(0);
+  }
+}
+
+/* High contrast mode: add borders for better visibility */
+@media (prefers-contrast: high) {
+  .bc-progress-bar__track {
+    outline: 1px solid currentColor;
+    outline-offset: -1px;
+  }
+
+  .bc-progress-bar__fill {
+    outline: 1px solid var(--progress-fill);
+    outline-offset: -1px;
+  }
+}

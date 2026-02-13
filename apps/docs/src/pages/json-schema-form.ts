@@ -6,6 +6,7 @@ import {
   Ensure,
   Computed,
   MapSignal,
+  computedOf,
   ForEach,
 } from '@tempots/dom'
 import {
@@ -69,7 +70,7 @@ export default function JSONSchemaFormPage() {
   // Sanitization mode for additional properties in the form
   const sanitizeMode = prop<'all' | 'failing' | 'off'>('all')
   const sanitizeAdditional = sanitizeMode.map(mode =>
-    mode === 'off' ? false : mode
+    mode === 'off' ? (false as const) : mode
   )
 
   // Helpers to render error list
@@ -162,24 +163,27 @@ export default function JSONSchemaFormPage() {
         ScrollablePanel({
           body: Ensure(
             schemaDef,
-            schema =>
-              MapSignal(sanitizeAdditional, sanitizeAdditional =>
-                MapSignal(schema, schema => {
-                  return JSONSchemaForm(
-                    {
-                      schema,
-                      initialValue: data,
-                      sanitizeAdditional,
-                    },
-                    ({ Form, controller }) => {
-                      controller.signal.feedProp(data)
-                      // Feed validation status to the page-level signal
-                      controller.status.feedProp(validation)
-                      return Form
-                    }
-                  )
-                })
-              ),
+            schema => {
+              const formConfig = computedOf(
+                schema,
+                sanitizeAdditional
+              )((s, sa) => ({ schema: s, sanitizeAdditional: sa }))
+              return MapSignal(formConfig, ({ schema, sanitizeAdditional }) =>
+                JSONSchemaForm(
+                  {
+                    schema,
+                    initialValue: data,
+                    sanitizeAdditional,
+                  },
+                  ({ Form, controller }) => {
+                    controller.signal.feedProp(data)
+                    // Feed validation status to the page-level signal
+                    controller.status.feedProp(validation)
+                    return Form
+                  }
+                )
+              )
+            },
             () =>
               html.div(
                 attr.class('text-red-600'),

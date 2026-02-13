@@ -29,10 +29,14 @@ export const baseSpacing = '0.25rem'
  * | base | 0.25rem                          | 4px    |
  * | xs   | base / 2                         | 2px    |
  * | sm   | base                             | 4px    |
+ * | smh  | base * 1.5                       | 6px    |
  * | md   | base * 2                         | 8px    |
+ * | mdh  | base * 3                         | 12px   |
  * | lg   | base * 4                         | 16px   |
+ * | lgh  | base * 5                         | 20px   |
  * | xl   | base * 6                         | 24px   |
  * | 2xl  | base * 8                         | 32px   |
+ * | 2xlh | base * 10                        | 40px   |
  * | 3xl  | base * 12                        | 48px   |
  * | 4xl  | base * 16                        | 64px   |
  * | full | 2000px                           | 2000px |
@@ -43,10 +47,14 @@ export const spacing = {
   base: baseSpacing,
   xs: 'calc(var(--spacing-base) / 2)',
   sm: 'var(--spacing-base)',
+  smh: 'calc(var(--spacing-base) * 1.5)',
   md: 'calc(var(--spacing-base) * 2)',
+  mdh: 'calc(var(--spacing-base) * 3)',
   lg: 'calc(var(--spacing-base) * 4)',
+  lgh: 'calc(var(--spacing-base) * 5)',
   xl: 'calc(var(--spacing-base) * 6)',
   '2xl': 'calc(var(--spacing-base) * 8)',
+  '2xlh': 'calc(var(--spacing-base) * 10)',
   '3xl': 'calc(var(--spacing-base) * 12)',
   '4xl': 'calc(var(--spacing-base) * 16)',
   full: '2000px',

@@ -1,4 +1,4 @@
-import { html, attr, prop, merge, MapSignal } from '@tempots/dom'
+import { html, attr, prop, When } from '@tempots/dom'
 import { InputWrapper, ScrollablePanel, Switch } from '@tempots/beatui'
 import { ControlsHeader } from '../elements/controls-header'
 
@@ -56,35 +56,40 @@ export default function ScrollablePanelPage() {
         }),
       })
     ),
-    body: MapSignal(
-      merge({ displayHeader, displayFooter }),
-      ({ displayHeader, displayFooter }) => {
-        if (displayHeader && displayFooter) {
-          return ScrollablePanel({
-            shadowOnScroll: displayShadows,
-            header,
-            body,
-            footer,
-          })
-        } else if (displayHeader) {
-          return ScrollablePanel({
-            shadowOnScroll: displayShadows,
-            header,
-            body,
-          })
-        } else if (displayFooter) {
-          return ScrollablePanel({
-            shadowOnScroll: displayShadows,
-            body,
-            footer,
-          })
-        } else {
-          return ScrollablePanel({
-            shadowOnScroll: displayShadows,
-            body,
-          })
-        }
-      }
+    body: When(
+      displayHeader,
+      () =>
+        When(
+          displayFooter,
+          () =>
+            ScrollablePanel({
+              shadowOnScroll: displayShadows,
+              header,
+              body,
+              footer,
+            }),
+          () =>
+            ScrollablePanel({
+              shadowOnScroll: displayShadows,
+              header,
+              body,
+            })
+        ),
+      () =>
+        When(
+          displayFooter,
+          () =>
+            ScrollablePanel({
+              shadowOnScroll: displayShadows,
+              body,
+              footer,
+            }),
+          () =>
+            ScrollablePanel({
+              shadowOnScroll: displayShadows,
+              body,
+            })
+        )
     ),
   })
 }

@@ -1,0 +1,90 @@
+/* Skeleton Component - Loading placeholders with shimmer animation */
+
+.bc-skeleton {
+  --skeleton-bg: oklch(0.92 0 0);
+  --skeleton-shimmer: oklch(0.96 0 0);
+
+  display: block;
+  background-color: var(--skeleton-bg);
+  border-radius: var(--radius-control, var(--radius-sm));
+  overflow: hidden;
+  position: relative;
+}
+
+/* Shimmer animation */
+.bc-skeleton--animate {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-bg) 0%,
+    var(--skeleton-shimmer) 50%,
+    var(--skeleton-bg) 100%
+  );
+  background-size: 200% 100%;
+  animation: bc-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes bc-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Variant: Text (default) */
+.bc-skeleton--text {
+  height: 1em;
+  width: 100%;
+}
+
+/* Variant: Rectangle */
+.bc-skeleton--rect {
+  width: 100%;
+  min-height: 2rem;
+}
+
+/* Variant: Circle */
+.bc-skeleton--circle {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+/* Multi-line text skeleton */
+.bc-skeleton__lines-container {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-base) * 1.5);
+  width: 100%;
+}
+
+.bc-skeleton__line {
+  height: 1em;
+  width: 100%;
+}
+
+.bc-skeleton__line:last-child {
+  width: 80%;
+}
+
+/* Dark mode styles */
+.b-dark .bc-skeleton {
+  --skeleton-bg: oklch(0.25 0 0);
+  --skeleton-shimmer: oklch(0.3 0 0);
+}
+
+/* Accessibility: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .bc-skeleton--animate {
+    animation: none;
+    background: var(--skeleton-bg);
+  }
+}
+
+/* High contrast mode: add subtle border */
+@media (prefers-contrast: high) {
+  .bc-skeleton {
+    outline: 1px solid currentColor;
+    outline-offset: -1px;
+  }
+}

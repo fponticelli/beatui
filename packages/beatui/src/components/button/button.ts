@@ -194,6 +194,26 @@ export function generateButtonStyles(
       break
     }
 
+    case 'dashed': {
+      styles.set('--button-bg', 'transparent')
+      styles.set('--button-bg-dark', 'transparent')
+      styles.set('--button-border', borderColorValue(color, 'light'))
+      styles.set('--button-border-dark', borderColorValue(color, 'dark'))
+      styles.set('--button-border-style', 'dashed')
+      styles.set('--button-text', textColorValue(color, 'light'))
+      styles.set('--button-text-dark', textColorValue(color, 'dark'))
+
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
+
     case 'default': {
       const baseLight = backgroundValue('neutral', 'light', 'light')
       const baseDark = backgroundValue('neutral', 'light', 'dark')

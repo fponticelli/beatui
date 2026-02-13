@@ -1,0 +1,211 @@
+/* Divider Component */
+.bc-divider {
+  border: none;
+  border-top: 1px solid var(--border-border-light);
+  margin: 0;
+  width: 100%;
+  transition: border-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+/* Vertical orientation */
+.bc-divider--vertical {
+  border-top: none;
+  border-left: 1px solid var(--border-border-light);
+  width: auto;
+  height: auto;
+  align-self: stretch;
+  min-height: 1rem;
+}
+
+/* Tone variants */
+.bc-divider--tone-subtle {
+  border-color: var(--border-subtle-light);
+}
+
+.bc-divider--tone-strong {
+  border-color: var(--text-muted-light);
+}
+
+/* Line style variants */
+.bc-divider--dashed {
+  border-style: dashed;
+}
+
+.bc-divider--dotted {
+  border-style: dotted;
+}
+
+.bc-divider--vertical.bc-divider--dashed {
+  border-top-style: solid;
+  border-left-style: dashed;
+}
+
+.bc-divider--vertical.bc-divider--dotted {
+  border-top-style: solid;
+  border-left-style: dotted;
+}
+
+/* Labeled divider */
+.bc-divider--labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
+  border: none;
+}
+
+.bc-divider--labeled.bc-divider--vertical {
+  flex-direction: column;
+  gap: var(--spacing-base);
+}
+
+.bc-divider__line {
+  flex: 1;
+  border: none;
+  border-top: 1px solid var(--border-border-light);
+  margin: 0;
+  transition: border-color
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.bc-divider--vertical .bc-divider__line {
+  border-top: none;
+  border-left: 1px solid var(--border-border-light);
+  width: auto;
+  align-self: stretch;
+  min-height: 1rem;
+}
+
+.bc-divider__label {
+  flex-shrink: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted-light);
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Label alignment */
+.bc-divider--labeled-left .bc-divider__line:first-child {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.bc-divider--labeled-right .bc-divider__line:last-child {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.bc-divider--vertical.bc-divider--labeled-left .bc-divider__line:first-child {
+  flex: 0 1 auto;
+  min-height: 0;
+  min-width: initial;
+}
+
+.bc-divider--vertical.bc-divider--labeled-right .bc-divider__line:last-child {
+  flex: 0 1 auto;
+  min-height: 0;
+  min-width: initial;
+}
+
+/* Tone variants for labeled dividers */
+.bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
+  border-color: var(--border-subtle-light);
+}
+
+.bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
+  border-color: var(--text-muted-light);
+}
+
+.bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
+  color: var(--text-subtle-light);
+}
+
+.bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
+  color: var(--text-normal-light);
+}
+
+/* Line style variants for labeled dividers */
+.bc-divider--labeled.bc-divider--dashed .bc-divider__line {
+  border-style: dashed;
+}
+
+.bc-divider--labeled.bc-divider--dotted .bc-divider__line {
+  border-style: dotted;
+}
+
+.bc-divider--labeled.bc-divider--vertical.bc-divider--dashed .bc-divider__line {
+  border-top-style: solid;
+  border-left-style: dashed;
+}
+
+.bc-divider--labeled.bc-divider--vertical.bc-divider--dotted .bc-divider__line {
+  border-top-style: solid;
+  border-left-style: dotted;
+}
+
+/* Dark mode styles */
+.b-dark .bc-divider {
+  border-color: var(--border-border-dark);
+}
+
+.b-dark .bc-divider--vertical {
+  border-left-color: var(--border-border-dark);
+}
+
+.b-dark .bc-divider--tone-subtle {
+  border-color: var(--border-subtle-dark);
+}
+
+.b-dark .bc-divider--tone-strong {
+  border-color: var(--text-muted-dark);
+}
+
+.b-dark .bc-divider__line {
+  border-color: var(--border-border-dark);
+}
+
+.b-dark .bc-divider--vertical .bc-divider__line {
+  border-left-color: var(--border-border-dark);
+}
+
+.b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
+  border-color: var(--border-subtle-dark);
+}
+
+.b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
+  border-color: var(--text-muted-dark);
+}
+
+.b-dark .bc-divider__label {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
+  color: var(--text-subtle-dark);
+}
+
+.b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
+  color: var(--text-normal-dark);
+}
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-divider,
+  .bc-divider__line {
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-divider,
+  .bc-divider__line {
+    transition: none;
+  }
+}

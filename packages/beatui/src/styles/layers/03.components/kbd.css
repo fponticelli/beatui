@@ -1,0 +1,66 @@
+/* Kbd (Keyboard Key) Component */
+.bc-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  border-radius: var(--radius-sm, 0.25rem);
+  background-color: var(--bg-subtle-light);
+  color: var(--text-normal-light);
+  border: 1px solid var(--border-border-light);
+  box-shadow:
+    0 1px 0 0 var(--border-border-light),
+    0 2px 2px 0 rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  vertical-align: baseline;
+  transition:
+    background-color
+      var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+      var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+      var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+/* Size variants */
+.bc-kbd--size-xs {
+  font-size: var(--font-size-xs);
+  padding: calc(var(--spacing-base) * 0.25) calc(var(--spacing-base) * 0.5);
+  min-width: calc(var(--font-size-xs) + var(--spacing-base) * 1);
+}
+
+.bc-kbd--size-sm {
+  font-size: var(--font-size-sm);
+  padding: calc(var(--spacing-base) * 0.375) calc(var(--spacing-base) * 0.75);
+  min-width: calc(var(--font-size-sm) + var(--spacing-base) * 1.5);
+}
+
+.bc-kbd--size-md {
+  font-size: var(--font-size-md);
+  padding: calc(var(--spacing-base) * 0.5) var(--spacing-base);
+  min-width: calc(var(--font-size-md) + var(--spacing-base) * 2);
+}
+
+/* Dark mode styles */
+.b-dark .bc-kbd {
+  background-color: var(--bg-subtle-dark);
+  color: var(--text-normal-dark);
+  border-color: var(--border-border-dark);
+  box-shadow:
+    0 1px 0 0 var(--border-border-dark),
+    0 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-kbd {
+    border-width: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-kbd {
+    transition: none;
+  }
+}

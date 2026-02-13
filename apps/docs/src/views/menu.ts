@@ -76,7 +76,8 @@ export function Menu() {
         SidebarLink({
           href: '/tags-input',
           content: 'Tags Input',
-        })
+        }),
+        SidebarLink({ href: '/radio-group', content: 'Radio Group' })
       ),
       // Navigation
       SidebarGroup(
@@ -85,13 +86,17 @@ export function Menu() {
         SidebarLink({ href: '/menu', content: 'Menu' }),
         SidebarLink({ href: '/sidebar', content: 'Sidebar' }),
         SidebarLink({ href: '/tabs', content: 'Tabs' }),
-        SidebarLink({ href: '/toolbar', content: 'Toolbar' })
+        SidebarLink({ href: '/toolbar', content: 'Toolbar' }),
+        SidebarLink({ href: '/breadcrumbs', content: 'Breadcrumbs' }),
+        SidebarLink({ href: '/pagination', content: 'Pagination' }),
+        SidebarLink({ href: '/tree-view', content: 'Tree View' })
       ),
       // Layout
       SidebarGroup(
         { header: 'Layout', rail: true },
         SidebarLink({ href: '/action-card', content: 'Action Card' }),
         SidebarLink({ href: '/collapse', content: 'Collapse' }),
+        SidebarLink({ href: '/divider', content: 'Divider' }),
         SidebarLink({ href: '/scrollable-panel', content: 'Scrollable Panel' }),
         SidebarLink({
           href: '/nine-slice-scroll-view',
@@ -106,11 +111,13 @@ export function Menu() {
         SidebarLink({ href: '/drawer', content: 'Drawer' }),
         SidebarLink({ href: '/tooltip', content: 'Tooltip' }),
         SidebarLink({ href: '/flyout', content: 'Flyout' }),
-        SidebarLink({ href: '/announcement-bar', content: 'Announcement Bar' })
+        SidebarLink({ href: '/announcement-bar', content: 'Announcement Bar' }),
+        SidebarLink({ href: '/command-palette', content: 'Command Palette' })
       ),
       // Data Display
       SidebarGroup(
         { header: 'Data Display', rail: true },
+        SidebarLink({ href: '/avatar', content: 'Avatar' }),
         SidebarLink({ href: '/badge', content: 'Badge' }),
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/notice', content: 'Notice' }),
@@ -124,7 +131,11 @@ export function Menu() {
           href: '/tags',
           content: 'Tags',
         }),
+        SidebarLink({ href: '/empty-state', content: 'Empty State' }),
+        SidebarLink({ href: '/kbd', content: 'Kbd' }),
+        SidebarLink({ href: '/progress-bar', content: 'Progress Bar' }),
         SidebarLink({ href: '/ribbon', content: 'Ribbon' }),
+        SidebarLink({ href: '/skeleton', content: 'Skeleton' }),
         SidebarLink({ href: '/markdown', content: 'Markdown' }),
         SidebarLink({ href: '/video-player', content: 'Video Player' }),
         SidebarLink({ href: '/pdf-preview', content: 'PDF Preview' }),

@@ -10,7 +10,13 @@ import { AppearanceType } from '@tempots/ui'
  * - `'default'`: Default subtle styling
  * - `'text'`: No background, text-only styling
  */
-export type ButtonVariant = 'filled' | 'light' | 'outline' | 'default' | 'text'
+export type ButtonVariant =
+  | 'filled'
+  | 'light'
+  | 'outline'
+  | 'dashed'
+  | 'default'
+  | 'text'
 
 /**
  * Size options for form controls and interactive elements.

@@ -9,15 +9,7 @@
  * @module
  */
 
-import {
-  Value,
-  Use,
-  When,
-  Signal,
-  signal,
-  Repeat,
-  Ensure,
-} from '@tempots/dom'
+import { Value, Use, When, Signal, signal, Repeat, Ensure } from '@tempots/dom'
 import { Toolbar } from '../navigation/toolbar/toolbar'
 import { BeatUII18n } from '../../beatui-i18n'
 import type { EditorView } from 'prosemirror-view'

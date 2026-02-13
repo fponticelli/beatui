@@ -10,6 +10,7 @@
   --button-text-hover-dark: var(--button-text-dark);
   --button-border: transparent;
   --button-border-dark: transparent;
+  --button-border-style: solid;
   --button-hover-decoration: none;
   --button-text-shadow: var(--text-shadow-none);
   --button-text-shadow-dark: var(--text-shadow-none);
@@ -18,7 +19,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-stack-2xs, calc(var(--spacing-base) / 2));
-  border: 1.5px solid var(--button-border);
+  border: 1.5px var(--button-border-style) var(--button-border);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
   font-family: var(

@@ -162,6 +162,30 @@ export const App = () => {
           Async(import('./pages/notice'), ({ default: Page }) => Page()),
         '/ribbon': () =>
           Async(import('./pages/ribbon'), ({ default: Page }) => Page()),
+        '/avatar': () =>
+          Async(import('./pages/avatar'), ({ default: Page }) => Page()),
+        '/breadcrumbs': () =>
+          Async(import('./pages/breadcrumbs'), ({ default: Page }) => Page()),
+        '/command-palette': () =>
+          Async(import('./pages/command-palette'), ({ default: Page }) =>
+            Page()
+          ),
+        '/divider': () =>
+          Async(import('./pages/divider'), ({ default: Page }) => Page()),
+        '/empty-state': () =>
+          Async(import('./pages/empty-state'), ({ default: Page }) => Page()),
+        '/kbd': () =>
+          Async(import('./pages/kbd'), ({ default: Page }) => Page()),
+        '/pagination': () =>
+          Async(import('./pages/pagination'), ({ default: Page }) => Page()),
+        '/progress-bar': () =>
+          Async(import('./pages/progress-bar'), ({ default: Page }) => Page()),
+        '/radio-group': () =>
+          Async(import('./pages/radio-group'), ({ default: Page }) => Page()),
+        '/skeleton': () =>
+          Async(import('./pages/skeleton'), ({ default: Page }) => Page()),
+        '/tree-view': () =>
+          Async(import('./pages/tree-view'), ({ default: Page }) => Page()),
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
             ApiRouter()
