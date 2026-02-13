@@ -20,7 +20,8 @@
     "typecheck": "turbo typecheck",
     "check": "turbo check",
     "clean": "turbo clean",
-    "dev:docs": "pnpm --filter @tempots/beatui build && concurrently \"pnpm --filter @tempots/beatui build:watch\" \"pnpm --filter @beatui/docs dev\""
+    "dev:docs": "pnpm --filter @tempots/beatui build && concurrently \"pnpm --filter @tempots/beatui build:watch\" \"pnpm --filter @beatui/docs dev\"",
+    "showcase": "pnpm --filter @beatui/showcase dev"
   },
   "keywords": [],
   "author": "Franco Ponticelli",

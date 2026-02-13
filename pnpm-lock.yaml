@@ -130,6 +130,55 @@ importers:
         specifier: 7.1.9
         version: 7.1.9(@types/node@22.15.18)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2)
 
+  apps/showcase:
+    dependencies:
+      '@tempots/beatui':
+        specifier: workspace:*
+        version: link:../../packages/beatui
+      '@tempots/dom':
+        specifier: ^35.1.0
+        version: 35.1.0
+      '@tempots/std':
+        specifier: ~0.25.2
+        version: 0.25.2
+      '@tempots/ui':
+        specifier: ^14.1.0
+        version: 14.1.0(@tempots/dom@35.1.0)(@tempots/std@0.25.2)
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.17
+        version: 4.1.18(vite@7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2))
+      '@tempots/eslint-plugin':
+        specifier: 0.8.1
+        version: 0.8.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/eslint-plugin':
+        specifier: 8.46.0
+        version: 8.46.0(@typescript-eslint/parser@8.46.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/parser':
+        specifier: 8.46.0
+        version: 8.46.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+      eslint:
+        specifier: 9.37.0
+        version: 9.37.0(jiti@2.6.1)
+      eslint-config-prettier:
+        specifier: 10.1.8
+        version: 10.1.8(eslint@9.37.0(jiti@2.6.1))
+      eslint-plugin-prettier:
+        specifier: 5.5.4
+        version: 5.5.4(eslint-config-prettier@10.1.8(eslint@9.37.0(jiti@2.6.1)))(eslint@9.37.0(jiti@2.6.1))(prettier@3.6.2)
+      prettier:
+        specifier: 3.6.2
+        version: 3.6.2
+      tailwindcss:
+        specifier: 4.1.17
+        version: 4.1.17
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      vite:
+        specifier: 7.1.9
+        version: 7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2)
+
   apps/standalone:
     dependencies:
       '@tempots/beatui':
@@ -3839,6 +3888,13 @@ snapshots:
       '@tailwindcss/oxide': 4.1.18
       tailwindcss: 4.1.18
       vite: 7.1.9(@types/node@22.15.18)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2)
+
+  '@tailwindcss/vite@4.1.18(vite@7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2))':
+    dependencies:
+      '@tailwindcss/node': 4.1.18
+      '@tailwindcss/oxide': 4.1.18
+      tailwindcss: 4.1.18
+      vite: 7.1.9(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6)(yaml@2.8.2)
 
   '@tempots/core@2.0.4': {}
 

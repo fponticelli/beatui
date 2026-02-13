@@ -78,9 +78,10 @@
   font-size: var(--font-size-xl);
 }
 
-/* Squared variant — matches TextInput border-radius and height */
+/* Squared variant — matches TextInput border-radius and approximate height */
 .bc-segmented-input--squared {
   border-radius: var(--radius-control, var(--radius-md));
+  padding: var(--spacing-xs);
 }
 
 .bc-segmented-input--squared .bc-segmented-input__indicator {
@@ -89,31 +90,6 @@
 
 .bc-segmented-input--squared .bc-segmented-input__segment {
   border-radius: var(--radius-control-sm, var(--radius-sm));
-}
-
-.bc-segmented-input--squared.bc-segmented-input--size-xs
-  .bc-segmented-input__segment {
-  padding: var(--spacing-sm) var(--spacing-md);
-}
-
-.bc-segmented-input--squared.bc-segmented-input--size-sm
-  .bc-segmented-input__segment {
-  padding: var(--spacing-md) var(--spacing-md);
-}
-
-.bc-segmented-input--squared.bc-segmented-input--size-md
-  .bc-segmented-input__segment {
-  padding: var(--spacing-md) var(--spacing-lg);
-}
-
-.bc-segmented-input--squared.bc-segmented-input--size-lg
-  .bc-segmented-input__segment {
-  padding: var(--spacing-lg) var(--spacing-lg);
-}
-
-.bc-segmented-input--squared.bc-segmented-input--size-xl
-  .bc-segmented-input__segment {
-  padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .bc-segmented-input__segment:hover {

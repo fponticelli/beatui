@@ -1,0 +1,38 @@
+{
+  "name": "@beatui/showcase",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "BeatUI Widget Showcase - Visual Component Comparison Tool",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.{ts,js,json,css,html,md}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["showcase", "beatui", "vite"],
+  "author": "Franco Ponticelli",
+  "license": "MIT",
+  "dependencies": {
+    "@tempots/beatui": "workspace:*",
+    "@tempots/dom": "^35.1.0",
+    "@tempots/std": "~0.25.2",
+    "@tempots/ui": "^14.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.17",
+    "@tempots/eslint-plugin": "0.8.1",
+    "@typescript-eslint/eslint-plugin": "8.46.0",
+    "@typescript-eslint/parser": "8.46.0",
+    "eslint": "9.37.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "prettier": "3.6.2",
+    "tailwindcss": "4.1.17",
+    "typescript": "5.9.3",
+    "vite": "7.1.9"
+  },
+  "packageManager": "pnpm@10.21.0"
+}
