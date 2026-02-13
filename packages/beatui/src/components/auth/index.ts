@@ -1,3 +1,13 @@
+/**
+ * Authentication Components
+ *
+ * Re-exports all auth-related UI components, types, schemas, and utilities.
+ * These components are UI-only and use callbacks for all authentication actions,
+ * making them decoupled from any specific auth library.
+ *
+ * @module auth
+ */
+
 export * from './auth-container'
 export * from './auth-divider'
 export * from './auth-email-prop'

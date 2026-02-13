@@ -4,6 +4,26 @@ import { CommonInputAttributes, InputOptions } from './input-options'
 import { WithTemporal } from '../../../temporal/with-temporal'
 import { ZonedDateTime } from '../../../temporal'
 
+/**
+ * An input component for `Temporal.ZonedDateTime` values.
+ *
+ * Renders a `datetime-local` HTML input. The time zone is inferred from
+ * the `placeholder` option or defaults to the user's local time zone via
+ * `Intl.DateTimeFormat`. Requires the Temporal polyfill.
+ *
+ * @param options - Standard input options for a `ZonedDateTime` value.
+ *   The `placeholder` option can be used to specify a time zone string.
+ * @returns A renderable zoned date-time input component.
+ *
+ * @example
+ * ```ts
+ * ZonedDateTimeInput({
+ *   value: prop(Temporal.Now.zonedDateTimeISO()),
+ *   placeholder: 'America/New_York',
+ *   onChange: zdt => console.log('ZonedDateTime:', zdt.toString()),
+ * })
+ * ```
+ */
 export const ZonedDateTimeInput = (options: InputOptions<ZonedDateTime>) => {
   const { value, onBlur, onChange } = options
 

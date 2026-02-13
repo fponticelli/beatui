@@ -1,3 +1,13 @@
+/**
+ * ProseMirror link editing control for the editor toolbar.
+ *
+ * Renders a toolbar button that toggles link marks on/off, along with an
+ * inline URL text input and a "go" button that opens the entered URL in a
+ * new tab.
+ *
+ * @module
+ */
+
 import {
   Ensure,
   Fragment,
@@ -5,7 +15,6 @@ import {
   prop,
   signal,
   Signal,
-  TNode,
   Value,
 } from '@tempots/dom'
 import { EditorView } from 'prosemirror-view'
@@ -16,17 +25,29 @@ import { getMarkByType, isMarkActive, makeActiveMarkSignal } from './utils'
 import { EditorToolbarButton } from '../editor-toolbar'
 import { ControlSize } from '../theme'
 
+/**
+ * Configuration properties for the {@link LinkControl} component.
+ */
 export interface LinkDialogButtonProps {
+  /** Ticker signal that increments on every ProseMirror state change. */
   stateUpdate: Signal<number>
+  /** Signal holding the current ProseMirror `EditorView`. */
   view: Signal<EditorView>
+  /** Signal indicating whether the editor is in read-only mode. */
   isReadOnly: Signal<boolean>
+  /** Accessible label for the link toolbar button. */
   label: Value<string>
+  /** Placeholder text shown in the URL input field. */
   linkUrlPlaceholder: Value<string>
+  /** Size of the toolbar button and input controls. */
   size: Value<ControlSize>
 }
 
 /**
- * Apply a link to the current selection
+ * Applies a link mark with the given `href` to the current text selection.
+ *
+ * @param view - The ProseMirror editor view.
+ * @param href - The URL to use for the link mark.
  */
 function applyLink(view: EditorView, href: string) {
   const linkMark = view.state.schema.marks.link
@@ -42,6 +63,13 @@ function applyLink(view: EditorView, href: string) {
   view.focus()
 }
 
+/**
+ * Finds the start and end positions of the link mark surrounding the current
+ * selection by walking backwards and forwards through the document.
+ *
+ * @param view - The ProseMirror editor view.
+ * @returns An object with `start` and `end` positions, or `null` if no link is active.
+ */
 function findLinkRange(view: EditorView) {
   const { state } = view
   const { $from, $to } = state.selection
@@ -74,6 +102,14 @@ function findLinkRange(view: EditorView) {
   return { start, end }
 }
 
+/**
+ * Updates the `href` attribute of the link mark surrounding the current
+ * selection. Removes the old link mark and applies a new one with the
+ * updated URL.
+ *
+ * @param view - The ProseMirror editor view.
+ * @param href - The new URL to set on the link mark.
+ */
 function updateLink(view: EditorView, href: string) {
   const linkMark = view.state.schema.marks.link
   if (linkMark == null) return
@@ -91,7 +127,10 @@ function updateLink(view: EditorView, href: string) {
 }
 
 /**
- * Remove link from the current selection
+ * Removes the link mark from the text surrounding the current selection.
+ * After removal, focus is returned to the editor.
+ *
+ * @param view - The ProseMirror editor view.
  */
 function removeLink(view: EditorView) {
   const linkMark = view.state.schema.marks.link
@@ -107,12 +146,38 @@ function removeLink(view: EditorView) {
 }
 
 /**
- * Check if the current selection has a link mark
+ * Checks whether the current selection contains a link mark.
+ *
+ * @param state - The current ProseMirror editor state.
+ * @returns `true` if a link mark is active.
  */
 function isLinkActive(state: EditorState): boolean {
   return isMarkActive(state, state.schema.marks.link)
 }
 
+/**
+ * A toolbar control for editing hyperlinks in a ProseMirror editor.
+ *
+ * Renders a link toggle button that creates or removes link marks on the
+ * current selection. When a link is active, an inline `TextInput` appears
+ * allowing the user to edit the URL, along with a "go" button to open the
+ * URL in a new browser tab.
+ *
+ * @param props - Configuration for the link control (view, state, labels, etc.).
+ * @returns A `TNode` renderable for inclusion in a ProseMirror toolbar.
+ *
+ * @example
+ * ```ts
+ * LinkControl({
+ *   stateUpdate: editorStateNotifier,
+ *   view: editorViewSignal,
+ *   isReadOnly: signal(false),
+ *   label: 'Link',
+ *   linkUrlPlaceholder: 'Enter URL...',
+ *   size: 'sm',
+ * })
+ * ```
+ */
 export function LinkControl({
   stateUpdate,
   view,
@@ -124,7 +189,7 @@ export function LinkControl({
   // linkDialogCancel,
   // linkDialogRemoveLink,
   size,
-}: LinkDialogButtonProps): TNode {
+}: LinkDialogButtonProps) {
   const urlInput = prop(null as string | null)
 
   urlInput.on(v => {

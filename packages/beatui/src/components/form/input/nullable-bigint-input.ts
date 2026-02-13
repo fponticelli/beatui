@@ -16,11 +16,18 @@ import { MaskInput } from './mask-input'
 import { InputOptions } from './input-options'
 import { NullableResetAfter } from './nullable-utils'
 
+/**
+ * Options for the {@link NullableBigintInput} component.
+ * Extends standard `InputOptions` for `bigint | null` values with stepper and range constraints.
+ */
 export type NullableBigintInputOptions = Merge<
   InputOptions<bigint | null>,
   {
+    /** Step value for increment/decrement buttons. If provided, stepper buttons are shown. */
     step?: Value<bigint>
+    /** Minimum allowed value. Values below this are clamped. */
     min?: Value<bigint>
+    /** Maximum allowed value. Values above this are clamped. */
     max?: Value<bigint>
   }
 >
@@ -34,6 +41,25 @@ const strToBigintOrNull = (v: string): bigint | null => {
   }
 }
 
+/**
+ * A nullable variant of {@link BigintInput} for `bigint | null` values.
+ *
+ * Empty input strings are converted to `null`. Supports optional stepper
+ * buttons, min/max clamping, and a reset button to clear the value to `null`.
+ *
+ * @param options - Configuration options for the nullable bigint input.
+ * @returns A renderable nullable bigint input component.
+ *
+ * @example
+ * ```ts
+ * NullableBigintInput({
+ *   value: prop<bigint | null>(null),
+ *   step: 1n,
+ *   min: 0n,
+ *   onChange: v => console.log('Value:', v), // null or bigint
+ * })
+ * ```
+ */
 export const NullableBigintInput = (options: NullableBigintInputOptions) => {
   const { value, step, min, max, onChange, onInput, after } = options
 

@@ -24,15 +24,36 @@ import { formatFileSize } from '../../../utils'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { CloseButton } from '../../button'
 
+/**
+ * Display mode for file input components.
+ * - `'default'` - Full drop zone with file list below.
+ * - `'input'` - Inline input-style with compact file chips.
+ * - `'compact'` - Compact drop zone with inline file previews.
+ */
 export type FileInputMode = 'default' | 'input' | 'compact'
 
+/**
+ * Options for the {@link FilesInput} component.
+ * Extends standard `InputOptions` for a `File[]` value with file-specific settings.
+ */
 export type FilesInputOptions = Merge<
   InputOptions<File[]>,
   {
+    /** Comma-separated list of accepted MIME types or file extensions (e.g., `'image/*,.pdf'`). */
     accept?: Value<string>
+    /** Maximum number of files that can be selected. */
     maxFiles?: Value<number>
-    maxFileSize?: Value<number> // in bytes
+    /** Maximum allowed file size in bytes. Files exceeding this size are filtered out. */
+    maxFileSize?: Value<number>
+    /**
+     * Display mode for the file input.
+     * @default 'default'
+     */
     mode?: Value<FileInputMode>
+    /**
+     * Whether to show the selected files in a list below the drop zone.
+     * @default true
+     */
     showFileList?: Value<boolean>
   }
 >
@@ -72,7 +93,7 @@ function getFileIcon(file: File): string {
   return 'vscode-icons:file-type-binary'
 }
 
-function createFilePreview(file: Signal<File>): TNode {
+function createFilePreview(file: Signal<File>) {
   return When(
     file.map(canRenderThumbnail),
     () => {
@@ -105,6 +126,29 @@ function createFilePreview(file: Signal<File>): TNode {
   )
 }
 
+/**
+ * A multi-file input component with drag-and-drop support.
+ *
+ * Supports multiple display modes (`default`, `input`, `compact`), file type
+ * filtering, file size limits, thumbnail previews for images, and per-file
+ * removal. Integrates with the i18n system for localized messages.
+ *
+ * @param options - Configuration options for the multi-file input.
+ * @param children - Additional child nodes to render inside the container.
+ * @returns A renderable file input component.
+ *
+ * @example
+ * ```ts
+ * FilesInput({
+ *   value: prop<File[]>([]),
+ *   accept: 'image/*,.pdf',
+ *   maxFiles: 5,
+ *   maxFileSize: 10 * 1024 * 1024, // 10 MB
+ *   mode: 'default',
+ *   onChange: files => console.log('Files:', files.length),
+ * })
+ * ```
+ */
 export const FilesInput = (
   options: FilesInputOptions,
   ...children: TNode[]

@@ -4,12 +4,12 @@
  * Helper functions for displaying deprecation indicators on deprecated fields
  */
 
-import { html, attr, type TNode } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 
 /**
  * Create a deprecation indicator badge
  */
-export function DeprecationBadge(): TNode {
+export function DeprecationBadge() {
   return html.span(
     attr.class('bc-json-structure-deprecated-badge'),
     attr.style(
@@ -31,7 +31,7 @@ export function DeprecationBadge(): TNode {
 export function withDeprecationBadge(
   label: string | undefined,
   isDeprecated: boolean
-): TNode {
+) {
   if (!label || !isDeprecated) {
     return label ?? ''
   }

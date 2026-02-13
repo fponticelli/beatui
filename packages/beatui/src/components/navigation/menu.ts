@@ -17,77 +17,166 @@ import { Placement } from '@tempots/ui'
 import { Flyout, FlyoutTrigger, FlyoutTriggerFunction } from './flyout'
 import { sessionId } from '../../utils/session-id'
 
+/**
+ * Trigger mode for the {@link Menu} component.
+ * Alias for {@link FlyoutTrigger} -- controls how the menu is shown (e.g., `'click'`, `'hover'`).
+ */
 export type MenuTrigger = FlyoutTrigger
 
+/**
+ * Configuration options for the {@link Menu} component.
+ */
 export interface MenuOptions {
-  /** The menu items to display */
+  /**
+   * Factory function returning the array of menu items (created via {@link MenuItem},
+   * {@link MenuSeparator}, or custom nodes with `role="menuitem"`).
+   */
   items: () => TNode[]
-  /** Placement of the menu relative to the trigger element */
+  /**
+   * Placement of the menu relative to the trigger element.
+   * @default 'bottom-start'
+   */
   placement?: Value<Placement>
-  /** Delay in milliseconds before showing the menu on hover */
+  /**
+   * Delay in milliseconds before showing the menu after trigger activation.
+   * @default 0
+   */
   showDelay?: Value<number>
-  /** Delay in milliseconds before hiding the menu after mouse leave */
+  /**
+   * Delay in milliseconds before hiding the menu after trigger deactivation.
+   * @default 100
+   */
   hideDelay?: Value<number>
-  /** Offset in pixels from the main axis */
+  /**
+   * Offset in pixels from the main axis.
+   * @default 4
+   */
   mainAxisOffset?: Value<number>
-  /** Offset in pixels from the cross axis */
+  /**
+   * Offset in pixels from the cross axis.
+   * @default 0
+   */
   crossAxisOffset?: Value<number>
-  /** How to show the menu (accepts Flyout trigger or a custom trigger function) */
+  /**
+   * How the menu is triggered to show and hide.
+   * Accepts a built-in {@link MenuTrigger} string or a custom {@link FlyoutTriggerFunction}.
+   * @default 'click'
+   */
   showOn?: Value<MenuTrigger> | FlyoutTriggerFunction
-  /** Whether the menu can be closed with Escape key */
+  /**
+   * Whether the menu can be closed with the Escape key or by clicking outside.
+   * @default true
+   */
   closable?: Value<boolean>
-  /** Callback when menu is closed */
+  /**
+   * Callback invoked when the menu is closed (via Escape, click outside, or after item activation).
+   */
   onClose?: () => void
-  /** Callback when a menu item is selected */
+  /**
+   * Callback invoked when a menu item with a `key` is activated (via click or keyboard).
+   * Receives the menu item's `key` as an argument.
+   */
   onAction?: (key: string) => void
-  /** Accessible label for the menu */
+  /**
+   * Accessible label for the menu container (`aria-label`).
+   */
   ariaLabel?: Value<string>
-  /** ID of element that labels the menu */
+  /**
+   * ID of the element that labels the menu (`aria-labelledby`).
+   */
   ariaLabelledBy?: Value<string>
 }
 
+/**
+ * Configuration options for the {@link MenuItem} component.
+ */
 export interface MenuItemOptions {
-  /** Unique identifier for the menu item */
+  /**
+   * Unique identifier for the menu item. Used by the `onAction` callback in {@link MenuOptions}.
+   * When not provided, a unique session ID is generated automatically.
+   */
   key?: Value<string>
-  /** The text content of the menu item */
+  /**
+   * Primary text or node content displayed as the menu item label.
+   */
   content: TNode
-  /** Content to display at the start of the menu item (icons, indicators) */
+  /**
+   * Optional content displayed at the start (left side) of the menu item,
+   * typically used for icons or selection indicators.
+   */
   startContent?: TNode
-  /** Content to display at the end of the menu item (shortcuts, badges) */
+  /**
+   * Optional content displayed at the end (right side) of the menu item,
+   * typically used for keyboard shortcuts or badges.
+   */
   endContent?: TNode
-  /** Whether the menu item is disabled */
+  /**
+   * Whether the menu item is disabled. Disabled items are skipped by keyboard
+   * navigation and cannot be activated.
+   * @default false
+   */
   disabled?: Value<boolean>
-  /** Callback when the menu item is clicked */
+  /**
+   * Callback invoked when the menu item is clicked or activated via keyboard.
+   */
   onClick?: () => void
-  /** ARIA label for accessibility */
+  /**
+   * Accessible label for the menu item (`aria-label`).
+   */
   ariaLabel?: Value<string>
-  /** Submenu items for nested menus */
+  /**
+   * Factory function returning submenu items for nested menus.
+   * When provided, the menu item gains a hover-triggered submenu.
+   */
   submenu?: () => TNode[]
-  /** Placement of submenu relative to parent item */
+  /**
+   * Placement of the submenu relative to the parent menu item.
+   * @default 'right-start'
+   */
   submenuPlacement?: Value<Placement>
 }
 
+/**
+ * Configuration options for the {@link MenuSeparator} component.
+ */
 export interface MenuSeparatorOptions {
-  /** Optional label for the separator */
+  /**
+   * Optional label displayed alongside the separator line,
+   * useful for grouping related menu items under a heading.
+   */
   label?: TNode
 }
 
 /**
- * Menu component that provides a list of actions or options.
- * Built on top of the Flyout component for positioning and overlay behavior.
+ * Dropdown menu component that provides a list of actions or options.
  *
- * Follows WAI-ARIA menu pattern with proper keyboard navigation and accessibility.
+ * Built on top of the {@link Flyout} component for positioning and overlay behavior.
+ * Follows the WAI-ARIA menu pattern with full keyboard navigation support:
+ * - Arrow Up/Down to navigate items
+ * - Home/End to jump to first/last item
+ * - Enter/Space to activate the focused item
+ * - Escape to close
+ * - Arrow Right to open submenus, Arrow Left to close them
+ *
+ * Focus is restored to the trigger element when the menu closes.
+ *
+ * @param options - Configuration options for menu behavior, positioning, and accessibility
+ * @returns A renderable node to be placed inside the trigger element
  *
  * @example
  * ```typescript
  * Button(
- *   { onClick: () => {} },
+ *   { variant: 'outline' },
  *   'Actions',
  *   Menu({
  *     items: () => [
- *       MenuItem({ content: 'Edit', onClick: () => console.log('edit') }),
- *       MenuItem({ content: 'Delete', onClick: () => console.log('delete') }),
- *     ]
+ *       MenuItem({ content: 'Edit', key: 'edit', onClick: () => console.log('edit') }),
+ *       MenuItem({ content: 'Duplicate', key: 'dup' }),
+ *       MenuSeparator(),
+ *       MenuItem({ content: 'Delete', key: 'delete', disabled: true }),
+ *     ],
+ *     onAction: (key) => console.log('Selected:', key),
+ *     placement: 'bottom-start',
  *   })
  * )
  * ```
@@ -366,15 +455,35 @@ export function Menu(options: MenuOptions): Renderable {
 }
 
 /**
- * MenuItem component for individual menu items.
+ * Individual menu item component with optional start/end content and submenu support.
+ *
+ * Renders a `role="menuitem"` element with proper ARIA attributes for disabled state,
+ * selection state, and submenu expansion. Disabled items prevent click propagation
+ * and are skipped by keyboard navigation.
+ *
+ * @param options - Configuration options for the menu item's content, behavior, and accessibility
+ * @returns A renderable node
  *
  * @example
  * ```typescript
  * MenuItem({
+ *   key: 'edit',
  *   content: 'Edit',
- *   startContent: Icon({ icon: 'edit' }),
- *   endContent: html.span('⌘E'),
- *   onClick: () => console.log('edit clicked')
+ *   startContent: Icon({ icon: 'edit', size: 'sm' }),
+ *   endContent: html.span(attr.class('shortcut'), 'Ctrl+E'),
+ *   onClick: () => console.log('edit clicked'),
+ * })
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Menu item with a submenu
+ * MenuItem({
+ *   content: 'Export as...',
+ *   submenu: () => [
+ *     MenuItem({ content: 'PDF', onClick: () => exportAs('pdf') }),
+ *     MenuItem({ content: 'CSV', onClick: () => exportAs('csv') }),
+ *   ],
  * })
  * ```
  */
@@ -451,8 +560,13 @@ export function MenuItem(options: MenuItemOptions): Renderable {
 }
 
 /**
- * MenuSeparator component for visual grouping of menu items.
- * Creates a visual divider between groups of menu items.
+ * Visual separator for grouping related menu items within a {@link Menu}.
+ *
+ * Renders a `role="separator"` element with horizontal orientation. An optional label
+ * can be provided to act as a section heading for the items below.
+ *
+ * @param options - Optional configuration with a label for the separator
+ * @returns A renderable node
  *
  * @example
  * ```typescript
@@ -464,6 +578,12 @@ export function MenuItem(options: MenuItemOptions): Renderable {
  *     MenuItem({ content: 'Paste' }),
  *   ]
  * })
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // With a labeled section
+ * MenuSeparator({ label: 'Advanced' })
  * ```
  */
 export function MenuSeparator(options: MenuSeparatorOptions = {}): Renderable {

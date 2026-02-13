@@ -23,20 +23,35 @@ import {
   toRgbaString,
 } from '../../../utils'
 
+/**
+ * Configuration options for the {@link ColorSwatchInput} component.
+ *
+ * Extends {@link InputOptions} for string color values with properties to control
+ * the blob preview size, alpha channel support, value display, and output color format.
+ */
 export type ColorSwatchInputOptions = InputOptions<string> & {
-  // When true, renders the RGB value next to the blob
+  /** When true, renders the formatted color value text next to the blob preview. @default false */
   displayValue?: Value<boolean>
-  // Size in pixels of the blob preview (square). Defaults to 32
+  /** Size in pixels of the blob preview (square). @default 32 */
   size?: Value<number>
-  // Enable alpha channel support with a small opacity slider. Defaults to false
+  /** Enable alpha channel support with a small opacity slider. @default false */
   withAlpha?: Value<boolean>
-  // Which color space to display in the text label when visible
-  // Defaults to 'rgb' for backward compatibility.
+  /** Color space format for the displayed text label and emitted value. @default 'rgb' for display, 'hex' for emitted values */
   colorTextFormat?: Value<'hex' | 'rgb' | 'hsl' | 'hwb' | 'oklch'>
 }
 
-// Generate a smooth closed blob path using quadratic curves.
-// The profile is deterministic based on the provided rgb values.
+/**
+ * Generates a smooth closed SVG blob path using quadratic Bezier curves.
+ *
+ * The blob shape is deterministic based on the provided RGB values -- the same color
+ * always produces the same organic shape. This creates a unique visual identity for
+ * each color. The blob uses random vertex counts (6-10) and radius variations (~18%)
+ * seeded from the RGB values.
+ *
+ * @param rgb - RGB color values as a tuple of [red, green, blue] (0-255)
+ * @param r - Base radius of the blob in pixels
+ * @returns An SVG path `d` attribute string defining the blob shape
+ */
 function generateBlobPath(rgb: [number, number, number], r: number): string {
   const [rr, gg, bb] = rgb
   const seed = (rr << 16) ^ (gg << 8) ^ bb
@@ -72,6 +87,49 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
   return d
 }
 
+/**
+ * A visually rich color input component displaying a unique SVG blob swatch for each color.
+ *
+ * Renders an organic blob-shaped color preview (deterministic per RGB value) with a hidden
+ * native color picker overlay, wrapped in an {@link InputContainer}. The blob shape changes
+ * dynamically as the color changes, providing a unique visual identity for each color.
+ * Supports optional alpha channel control via a range slider and displays the formatted
+ * color value as text when `displayValue` is enabled.
+ *
+ * The component accepts colors in any CSS format and can emit values in hex, rgb, hsl,
+ * hwb, or oklch format based on the `colorTextFormat` option. The alpha slider preserves
+ * its state across color changes.
+ *
+ * @param options - Configuration options for the color swatch input
+ * @returns A styled color swatch input with blob preview, optional alpha slider, and value display
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { ColorSwatchInput } from '@tempots/beatui'
+ *
+ * const color = prop('#3498db')
+ * ColorSwatchInput({
+ *   value: color,
+ *   onChange: color.set,
+ *   displayValue: true,
+ *   size: 40,
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With alpha channel and HSL format
+ * ColorSwatchInput({
+ *   value: prop('hsl(200, 70%, 50%)'),
+ *   onChange: (v) => console.log('Color:', v),
+ *   withAlpha: true,
+ *   displayValue: true,
+ *   colorTextFormat: 'hsl',
+ *   size: 48,
+ * })
+ * ```
+ */
 export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
   const { value, onBlur, onChange, onInput, displayValue, size, withAlpha } =
     options

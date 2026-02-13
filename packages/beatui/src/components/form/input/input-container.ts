@@ -11,6 +11,14 @@ import { ControlSize } from '../../theme'
 import { Icon } from '../../data'
 import { ThemeColorName } from '../../../tokens'
 
+/**
+ * Generates CSS class names for the input container based on state.
+ *
+ * @param baseContainer - Whether to use base container styles (minimal styling)
+ * @param disabled - Whether the input is disabled
+ * @param hasError - Whether the input has a validation error
+ * @returns Space-separated string of CSS class names
+ */
 function generateInputContainerClasses(
   baseContainer: boolean,
   disabled: boolean,
@@ -41,6 +49,13 @@ function generateInputContainerClasses(
   return classes.join(' ')
 }
 
+/**
+ * Generates CSS class names for the input element wrapper based on size and container type.
+ *
+ * @param baseContainer - Whether to use base container styles (skips padding/text size)
+ * @param size - The control size ('xs' | 'sm' | 'md' | 'lg' | 'xl')
+ * @returns Space-separated string of CSS class names
+ */
 export function generateInputContainerInputClasses(
   baseContainer: boolean,
   size: ControlSize
@@ -53,6 +68,43 @@ export function generateInputContainerInputClasses(
   return classes.join(' ')
 }
 
+/**
+ * Wraps an input element with the standard BeatUI input container styling.
+ *
+ * This component provides:
+ * - Consistent border, background, and focus styles via `bc-input-container`
+ * - Error state styling when `hasError` is true
+ * - Optional `before` and `after` slots for icons, buttons, or other decorations
+ * - Click-to-focus behavior (clicking the container focuses the input)
+ * - Responsive sizing based on the `size` prop
+ *
+ * Used by most form inputs (TextInput, NumberInput, DateInput, etc.) to ensure
+ * visual consistency across the component library.
+ *
+ * @param options - Container configuration options
+ * @param options.input - The actual input element (or custom control) to wrap
+ * @param options.disabled - Whether the input is disabled
+ * @param options.hasError - Whether to apply error styling
+ * @param options.before - Node to render before the input (e.g., icon)
+ * @param options.after - Node to render after the input (e.g., clear button)
+ * @param options.baseContainer - Use minimal "base" container styles instead of full styling
+ * @param options.focusableSelector - CSS selector to find the focusable element (default: 'input, select, textarea')
+ * @param options.growInput - Whether the input should grow to fill available space (default: true)
+ * @param options.size - Visual size of the control (default: 'md')
+ * @param children - Additional child nodes to append to the container
+ * @returns A div element with the input container structure
+ *
+ * @example
+ * ```ts
+ * InputContainer({
+ *   input: html.input(attr.type('text')),
+ *   before: InputIcon({ icon: 'search' }),
+ *   after: html.button('Clear'),
+ *   hasError: prop(false),
+ *   size: 'md'
+ * })
+ * ```
+ */
 export const InputContainer = (
   {
     baseContainer,
@@ -135,6 +187,27 @@ export const InputContainer = (
   )
 }
 
+/**
+ * Renders an icon with proper styling for use within an input container.
+ *
+ * This is a convenience component that wraps the `Icon` component with
+ * the `bc-input-container__icon` class, which provides appropriate spacing
+ * and sizing when placed in the `before` or `after` slots of `InputContainer`.
+ *
+ * @param options - Icon configuration
+ * @param options.icon - Icon name or reactive signal
+ * @param options.size - Size of the icon, aligned with input size (default: 'md')
+ * @param options.color - Theme color for the icon (default: 'neutral')
+ * @returns A span element containing the styled icon
+ *
+ * @example
+ * ```ts
+ * InputContainer({
+ *   input: html.input(),
+ *   before: InputIcon({ icon: 'search', color: 'primary' })
+ * })
+ * ```
+ */
 export function InputIcon({
   icon,
   size = 'md',

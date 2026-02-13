@@ -10,15 +10,31 @@ import {
 } from '../theme/style-utils'
 import { RadiusName } from '../../tokens/radius'
 
+/** Configuration options for the {@link Badge} component. */
 export interface BadgeOptions {
+  /** Visual style variant matching button variants. @default 'filled' */
   variant?: Value<ButtonVariant>
+  /** Size of the badge affecting padding and font. @default 'md' */
   size?: Value<ControlSize>
+  /** Theme color for the badge background and text. @default 'base' */
   color?: Value<ThemeColorName>
+  /** Border radius of the badge. @default 'full' */
   roundedness?: Value<RadiusName>
+  /** Whether to render as a circle (equal width and height). @default false */
   circle?: Value<boolean>
+  /** Whether the badge takes the full width of its container. @default false */
   fullWidth?: Value<boolean>
 }
 
+/**
+ * Generates CSS class names for the badge based on size, roundedness, and shape.
+ *
+ * @param size - Control size for padding and text
+ * @param roundedness - Border radius preset
+ * @param circle - Whether to force a circular shape
+ * @param fullWidth - Whether to stretch to full container width
+ * @returns Space-separated CSS class string
+ */
 export function generateBadgeClasses(
   size: ControlSize,
   roundedness: RadiusName,
@@ -42,6 +58,14 @@ export function generateBadgeClasses(
   return classes.join(' ')
 }
 
+/**
+ * Generates inline CSS custom properties for badge theming based on variant and color.
+ * Sets background, text, border, and hover colors for both light and dark modes.
+ *
+ * @param variant - The visual style variant
+ * @param color - The theme color
+ * @returns Semicolon-separated CSS custom property declarations
+ */
 export function generateBadgeStyles(
   variant: ButtonVariant,
   color: ExtendedColor
@@ -175,6 +199,26 @@ export function generateBadgeStyles(
     .join('; ')
 }
 
+/**
+ * A small status indicator or label component with theme-aware colors.
+ * Supports all button variants (filled, light, outline, default, text) and
+ * can be rendered as a pill, circle, or full-width element.
+ *
+ * @param options - Configuration for variant, size, color, and shape
+ * @param children - Content to display inside the badge (text, number, icon)
+ * @returns A styled span element
+ *
+ * @example
+ * ```typescript
+ * Badge({ variant: 'filled', color: 'success', size: 'sm' }, '3')
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Circle badge for notification counts
+ * Badge({ circle: true, color: 'danger', size: 'xs' }, '9+')
+ * ```
+ */
 export function Badge(
   {
     variant = 'filled',

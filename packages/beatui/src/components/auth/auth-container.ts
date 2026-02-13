@@ -1,5 +1,12 @@
-// Auth Container Component
-// Main container that switches between signin/signup/reset modes
+/**
+ * Auth Container Component
+ *
+ * The main authentication UI container that switches between sign-in,
+ * sign-up, and reset-password modes. Coordinates social login buttons,
+ * form fields, mode navigation links, and i18n labels.
+ *
+ * @module auth/auth-container
+ */
 
 import {
   attr,
@@ -24,6 +31,40 @@ import { AuthI18n } from '../../auth-i18n'
 import { Stack } from '../layout'
 import { classes } from '@tempots/ui'
 
+/**
+ * Renders the main authentication container that switches between sign-in,
+ * sign-up, and reset-password modes.
+ *
+ * The container manages mode state, renders the appropriate form for the
+ * current mode, displays optional social login buttons with a divider,
+ * and provides navigation links to switch between modes.
+ *
+ * @param options - Configuration options for the auth container.
+ * @param children - Additional child nodes to render inside the container.
+ * @returns A `TNode` representing the complete auth container UI.
+ *
+ * @example
+ * ```ts
+ * AuthContainer({
+ *   mode: 'signin',
+ *   socialProviders: [{ provider: 'google' }, { provider: 'github' }],
+ *   onSignIn: async (data) => {
+ *     const error = await api.signIn(data)
+ *     return error ?? null
+ *   },
+ *   onSignUp: async (data) => {
+ *     const error = await api.signUp(data)
+ *     return error ?? null
+ *   },
+ *   onResetPassword: async (data) => {
+ *     const error = await api.resetPassword(data)
+ *     return error ?? null
+ *   },
+ *   showRememberMe: true,
+ *   showSocialDivider: true,
+ * })
+ * ```
+ */
 export function AuthContainer(
   {
     mode: initialMode,
@@ -43,7 +84,7 @@ export function AuthContainer(
     showContainer,
   }: AuthContainerOptions,
   ...children: TNode[]
-): TNode {
+) {
   // Current mode state
   const currentMode =
     initialMode != null
@@ -98,7 +139,10 @@ export function AuthContainer(
             ),
             socialProviders != null
               ? Fragment(
-                  SocialProviders({ providers: socialProviders, onSocialLogin }),
+                  SocialProviders({
+                    providers: socialProviders,
+                    onSocialLogin,
+                  }),
                   When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,
@@ -129,7 +173,10 @@ export function AuthContainer(
             ),
             socialProviders != null
               ? Fragment(
-                  SocialProviders({ providers: socialProviders, onSocialLogin }),
+                  SocialProviders({
+                    providers: socialProviders,
+                    onSocialLogin,
+                  }),
                   When(showSocialDivider ?? false, AuthDivider)
                 )
               : null,
@@ -174,7 +221,24 @@ export function AuthContainer(
   })
 }
 
-// Convenience function to create auth container with modal
+/**
+ * Creates an authentication container displayed inside a modal dialog.
+ *
+ * Provides a callback-based API where the consumer receives an `open` function
+ * that triggers the modal with auth container content. The modal is small-sized,
+ * dismissable, and includes a close button.
+ *
+ * @param fn - A function that receives an `open` callback and returns the trigger `TNode`.
+ *   The `open` callback accepts {@link AuthContainerOptions} plus an optional `modalTitle`.
+ * @returns A `TNode` that includes both the trigger element and the modal.
+ *
+ * @example
+ * ```ts
+ * AuthModal((open) =>
+ *   Button({ onClick: () => open({ onSignIn: handleSignIn }) }, 'Sign In')
+ * )
+ * ```
+ */
 export function AuthModal(
   fn: (
     open: (
@@ -183,7 +247,7 @@ export function AuthModal(
       }
     ) => void
   ) => TNode
-): TNode {
+) {
   return Modal(
     {
       size: 'sm',

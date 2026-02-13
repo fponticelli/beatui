@@ -23,6 +23,25 @@ const toLocalString = (epochMs: number) => {
   return `${y}-${m}-${day}T${h}:${min}`
 }
 
+/**
+ * A nullable variant of {@link InstantInput} for `Instant | null` values.
+ *
+ * Renders a `datetime-local` HTML input that can be cleared to `null`.
+ * Converts `Instant` to local date-time for display and parses input back
+ * via ISO string conversion. Includes a reset button to clear the value.
+ * Requires the Temporal polyfill.
+ *
+ * @param options - Standard input options for an `Instant | null` value.
+ * @returns A renderable nullable instant input component.
+ *
+ * @example
+ * ```ts
+ * NullableInstantInput({
+ *   value: prop<Instant | null>(null),
+ *   onChange: instant => console.log('Instant:', instant?.toString() ?? 'null'),
+ * })
+ * ```
+ */
 export const NullableInstantInput = (options: InputOptions<Instant | null>) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
 

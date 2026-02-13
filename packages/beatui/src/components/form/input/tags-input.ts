@@ -13,6 +13,24 @@ import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Tag } from '../../data/tag'
 
+/**
+ * A free-form tags input component that allows users to add and remove string tags.
+ *
+ * Users type a tag into a text field and press Enter/change to add it. Tags are
+ * displayed as removable chips. Duplicate tags are prevented.
+ *
+ * @param options - Standard input options for a `string[]` value.
+ * @returns A renderable tags input component.
+ *
+ * @example
+ * ```ts
+ * TagsInput({
+ *   value: prop<string[]>(['react', 'typescript']),
+ *   onChange: tags => console.log('Tags:', tags),
+ *   placeholder: 'Add a tag...',
+ * })
+ * ```
+ */
 export const TagsInput = (options: InputOptions<string[]>) => {
   const { value, onChange, onBlur, before } = options
   const currentValue = prop('')

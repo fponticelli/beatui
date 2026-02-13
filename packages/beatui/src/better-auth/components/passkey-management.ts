@@ -109,10 +109,7 @@ export function PasskeyManagement({
                   item.$.name?.map(n => n ?? t.$.passkeyUnnamed.value) ??
                     t.$.passkeyUnnamed
                 ),
-                html.span(
-                  attr.class('bc-passkey-item__date'),
-                  item.$.createdAt
-                )
+                html.span(attr.class('bc-passkey-item__date'), item.$.createdAt)
               )
             ),
             When(editing, () =>
@@ -160,10 +157,7 @@ export function PasskeyManagement({
                       variant: 'text',
                       size: 'sm',
                       onClick: async () => {
-                        await handleRename(
-                          item.$.id.value,
-                          editName.value
-                        )
+                        await handleRename(item.$.id.value, editName.value)
                         editing.set(false)
                       },
                     },

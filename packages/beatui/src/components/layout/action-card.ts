@@ -5,7 +5,6 @@ import {
   Fragment,
   html,
   on,
-  TNode,
   Unless,
   Value,
   When,
@@ -14,20 +13,65 @@ import { ControlSize, IconSize } from '../theme'
 import { Icon } from '../data/icon'
 import { ThemeColorName } from '../../tokens'
 
+/**
+ * Configuration options for the {@link ActionCard} component.
+ */
 export interface ActionCardOptions {
+  /** Iconify icon identifier displayed on the left side of the card. */
   icon: Value<string>
+  /** Primary title text displayed prominently in the card. */
   title: Value<string>
+  /** Secondary description text displayed below the title. */
   description: Value<string>
+  /**
+   * Whether the card is in an active/selected state, adding a visual highlight.
+   * @default false
+   */
   active?: Value<boolean>
+  /**
+   * Whether the card is disabled. Disabled cards cannot be clicked and appear dimmed.
+   * @default false
+   */
   disabled?: Value<boolean>
+  /**
+   * Click handler. When provided, the card becomes interactive with `role="button"`,
+   * keyboard support, and hover styles.
+   */
   onClick?: () => void
+  /**
+   * Size variant controlling the card's padding and text sizing.
+   * @default 'md'
+   */
   size?: Value<ControlSize>
+  /**
+   * Theme color for the icon.
+   * @default 'primary'
+   */
   iconColor?: Value<ThemeColorName>
+  /**
+   * Size of the icon.
+   * @default 'md'
+   */
   iconSize?: Value<IconSize>
-  // CSS variable overrides
+  /**
+   * CSS variable override for the card background color.
+   * Sets `--action-card-bg`.
+   */
   backgroundColor?: Value<string>
+  /**
+   * CSS variable override for the card border color.
+   * Sets `--action-card-border`.
+   */
   borderColor?: Value<string>
+  /**
+   * CSS variable override for the title text color.
+   * Sets `--action-card-title-color`.
+   */
   titleColor?: Value<string>
+  /**
+   * CSS variable override for the description text color.
+   * Sets `--action-card-description-color`.
+   */
   descriptionColor?: Value<string>
 }
 
@@ -90,6 +134,48 @@ function generateActionCardStyles(
     .join('; ')
 }
 
+/**
+ * Renders an interactive card with an icon, title, and description. Commonly
+ * used for selection grids, feature highlights, or navigation tiles.
+ *
+ * When an `onClick` handler is provided, the card becomes clickable with
+ * `role="button"`, keyboard activation (Enter/Space), and focus management.
+ * The card supports active and disabled states, and allows CSS variable
+ * overrides for custom theming.
+ *
+ * @param options - Configuration options for the action card.
+ * @returns A renderable card element.
+ *
+ * @example
+ * ```typescript
+ * // Basic clickable action card
+ * ActionCard({
+ *   icon: 'material-symbols:upload',
+ *   title: 'Upload File',
+ *   description: 'Select a file from your computer',
+ *   onClick: () => openFilePicker(),
+ * })
+ *
+ * // Active card in a selection grid
+ * const selected = prop('option-a')
+ * ActionCard({
+ *   icon: 'material-symbols:check-circle',
+ *   title: 'Option A',
+ *   description: 'The recommended choice',
+ *   active: selected.map(v => v === 'option-a'),
+ *   onClick: () => selected.set('option-a'),
+ * })
+ *
+ * // Disabled card with custom colors
+ * ActionCard({
+ *   icon: 'material-symbols:lock',
+ *   title: 'Premium Feature',
+ *   description: 'Upgrade to unlock',
+ *   disabled: true,
+ *   iconColor: 'warning',
+ * })
+ * ```
+ */
 export function ActionCard({
   icon,
   title,
@@ -104,7 +190,7 @@ export function ActionCard({
   borderColor,
   titleColor,
   descriptionColor,
-}: ActionCardOptions): TNode {
+}: ActionCardOptions) {
   const clickable = onClick != null
 
   return html.div(

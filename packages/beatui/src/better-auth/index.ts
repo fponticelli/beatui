@@ -1,5 +1,16 @@
-// Better Auth Bridge
-// Integration layer between better-auth client and BeatUI auth components
+/**
+ * Better Auth integration bridge for `@tempots/beatui/better-auth`.
+ *
+ * Connects a `better-auth` client to the BeatUI auth UI components, with
+ * support for session management, passkeys, two-factor authentication,
+ * magic links, and social provider mapping.
+ *
+ * ```ts
+ * import { createBetterAuthBridge, BetterAuth } from '@tempots/beatui/better-auth'
+ * ```
+ *
+ * @module
+ */
 
 export type {
   BetterAuthClient,

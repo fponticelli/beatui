@@ -14,38 +14,102 @@ import {
 import { ElementRect } from '@tempots/ui'
 import { biMax, biMin } from '@tempots/std'
 
+/**
+ * Controls how the end sidebar and footer regions are anchored relative
+ * to the body content or the container edge.
+ *
+ * - `'container-edge'` - Anchors to the container edge (fixed position)
+ * - `'body-end'` - Anchors the end sidebar to the body content's right edge
+ * - `'body-bottom'` - Anchors the footer to the body content's bottom edge
+ * - `'body-end-bottom'` - Anchors both end sidebar and footer to the body content edges
+ */
 export type AnchorMode =
-  | 'container-edge' // Current behavior: anchor to container edge
-  | 'body-end' // Anchor end sidebar to body end
-  | 'body-bottom' // Anchor footer to body bottom
-  | 'body-end-bottom' // Anchor both end sidebar and footer to body
+  | 'container-edge'
+  | 'body-end'
+  | 'body-bottom'
+  | 'body-end-bottom'
 
+/**
+ * Configuration options for the {@link NineSliceScrollView} component.
+ *
+ * The nine-slice layout divides the view into nine regions arranged in a 3x3 grid:
+ * ```
+ * +------------+----------+----------+
+ * | topStart   | header   | topEnd   |
+ * +------------+----------+----------+
+ * | sideStart  |   body   | sideEnd  |
+ * +------------+----------+----------+
+ * | bottomStart| footer   | bottomEnd|
+ * +------------+----------+----------+
+ * ```
+ *
+ * The body region scrolls while surrounding regions remain fixed. Header and
+ * footer translate horizontally with the body, while sidebars translate vertically.
+ * Corner regions remain completely fixed.
+ */
 export type NineSliceScrollViewOptions = {
-  // Main content area
+  /** The main scrollable content area (center cell of the nine-slice grid). */
   body: TNode
-  // Content dimensions (actual size of scrollable content)
+  /** Total width of the scrollable content in the body, as a bigint in pixels. */
   contentWidth: Value<bigint>
+  /** Total height of the scrollable content in the body, as a bigint in pixels. */
   contentHeight: Value<bigint>
 
-  // Top row sections
+  /**
+   * Content for the top-center header region. Scrolls horizontally with the body
+   * but remains fixed vertically.
+   */
   header?: TNode
+  /**
+   * Fixed pixel height of the header region.
+   * @default 0
+   */
   headerHeight?: Value<number>
-  topStart?: TNode // top-start in LTR, top-end in RTL
-  topEnd?: TNode // top-end in LTR, top-start in RTL
+  /** Content for the top-start corner (top-left in LTR, top-right in RTL). */
+  topStart?: TNode
+  /** Content for the top-end corner (top-right in LTR, top-left in RTL). */
+  topEnd?: TNode
 
-  // Bottom row sections
+  /**
+   * Content for the bottom-center footer region. Scrolls horizontally with the body
+   * but remains fixed vertically.
+   */
   footer?: TNode
+  /**
+   * Fixed pixel height of the footer region.
+   * @default 0
+   */
   footerHeight?: Value<number>
-  bottomStart?: TNode // bottom-start in LTR, bottom-end in RTL
-  bottomEnd?: TNode // bottom-end in LTR, bottom-start in RTL
+  /** Content for the bottom-start corner (bottom-left in LTR, bottom-right in RTL). */
+  bottomStart?: TNode
+  /** Content for the bottom-end corner (bottom-right in LTR, bottom-left in RTL). */
+  bottomEnd?: TNode
 
-  // Side sections (start/end for RTL support)
-  sidebarStart?: TNode // left in LTR, right in RTL
+  /**
+   * Content for the start sidebar (left in LTR, right in RTL). Scrolls vertically
+   * with the body but remains fixed horizontally.
+   */
+  sidebarStart?: TNode
+  /**
+   * Fixed pixel width of the start sidebar.
+   * @default 0
+   */
   sidebarStartWidth?: Value<number>
-  sidebarEnd?: TNode // right in LTR, left in RTL
+  /**
+   * Content for the end sidebar (right in LTR, left in RTL). Scrolls vertically
+   * with the body but remains fixed horizontally.
+   */
+  sidebarEnd?: TNode
+  /**
+   * Fixed pixel width of the end sidebar.
+   * @default 0
+   */
   sidebarEndWidth?: Value<number>
 
-  // Anchoring behavior for end sidebar and footer
+  /**
+   * Controls how the end sidebar and footer anchor relative to the body content.
+   * @default 'container-edge'
+   */
   anchorMode?: Value<AnchorMode>
 }
 
@@ -57,6 +121,41 @@ function valueToPx(v: Value<number>) {
   return Value.map(v, toPx)
 }
 
+/**
+ * Renders a nine-slice scrolling layout where the central body region scrolls
+ * in both axes while surrounding regions (header, footer, sidebars, and corners)
+ * remain fixed or scroll in only one axis. This is ideal for spreadsheet-like
+ * UIs, data grids with frozen rows/columns, or any layout requiring synchronized
+ * scrolling with fixed periphery.
+ *
+ * The component manages its own scroll state via wheel event throttling and
+ * custom scrollbars, providing consistent cross-browser behavior. Content
+ * dimensions must be provided explicitly since the body content is translated
+ * rather than natively scrolled.
+ *
+ * @param options - Configuration options for the nine-slice scroll view.
+ * @returns A renderable nine-slice container element.
+ *
+ * @example
+ * ```typescript
+ * const contentW = prop(5000n)
+ * const contentH = prop(10000n)
+ *
+ * NineSliceScrollView({
+ *   body: html.div(
+ *     // Large scrollable content
+ *     ...cells
+ *   ),
+ *   contentWidth: contentW,
+ *   contentHeight: contentH,
+ *   header: html.div('Column Headers'),
+ *   headerHeight: 40,
+ *   sidebarStart: html.div('Row Labels'),
+ *   sidebarStartWidth: 200,
+ *   topStart: html.div('Corner'),
+ * })
+ * ```
+ */
 export function NineSliceScrollView({
   body,
   contentWidth,

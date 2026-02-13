@@ -38,6 +38,40 @@ function generateTagStyles(color: ExtendedColor): string {
   ].join('; ')
 }
 
+/**
+ * A small label component for categorization, filtering, or displaying metadata.
+ * Supports optional close button for removable tags and theme-aware color styling.
+ *
+ * When an `onClose` callback is provided, a close button is rendered alongside the tag text.
+ * The tag automatically adapts to light and dark themes using CSS custom properties.
+ *
+ * @param options - Tag configuration
+ * @param options.value - Reactive string displayed as the tag label
+ * @param options.color - Theme color for the tag background and text (default: 'base')
+ * @param options.onClose - Callback when the close button is clicked; receives the current tag value
+ * @param options.size - Size of the tag (default: 'md')
+ * @param options.class - Additional CSS class(es) to apply
+ * @param options.disabled - Whether the tag and its close button are disabled
+ * @returns A styled span element representing the tag
+ *
+ * @example
+ * ```typescript
+ * Tag({ value: 'TypeScript', color: 'primary' })
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Removable tag
+ * const tags = prop(['React', 'Vue', 'Solid'])
+ * ForEach(tags, tag =>
+ *   Tag({
+ *     value: tag,
+ *     color: 'info',
+ *     onClose: (v) => tags.set(tags.value.filter(t => t !== v))
+ *   })
+ * )
+ * ```
+ */
 export const Tag = ({
   value,
   color = 'base',
@@ -46,11 +80,17 @@ export const Tag = ({
   class: cls,
   disabled,
 }: {
+  /** Reactive string displayed as the tag label. */
   value: Value<string>
+  /** Theme color for the tag background and text. @default 'base' */
   color?: Value<ThemeColorName>
+  /** Callback when the close button is clicked; receives the current tag value. */
   onClose?: (value: string) => void
+  /** Size of the tag. @default 'md' */
   size?: Value<ControlSize>
+  /** Additional CSS class(es) to apply. */
   class?: Value<string>
+  /** Whether the tag and its close button are disabled. */
   disabled?: Value<boolean>
 }) => {
   return html.span(

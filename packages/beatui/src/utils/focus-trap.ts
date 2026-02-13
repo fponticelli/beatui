@@ -1,7 +1,20 @@
+/**
+ * Focus trap utilities for BeatUI.
+ *
+ * Provides a focus trap implementation that constrains keyboard focus within
+ * a container element. Supports Tab/Shift+Tab cycling, Escape key handling,
+ * click-outside detection, initial focus targeting, and focus restoration
+ * on deactivation. Integrates with the `@tempots/dom` reactive rendering system.
+ *
+ * @module
+ */
+
 import { OnDispose, WithElement, Renderable } from '@tempots/dom'
 
 /**
- * Selector for focusable elements
+ * CSS selector string matching all natively focusable HTML elements,
+ * including links, buttons, inputs, selects, textareas, elements with
+ * tabindex, contenteditable elements, media controls, and details summaries.
  */
 const FOCUSABLE_SELECTOR = [
   'a[href]',
@@ -18,7 +31,12 @@ const FOCUSABLE_SELECTOR = [
 ].join(', ')
 
 /**
- * Get all focusable elements within a container
+ * Returns all visible, interactive, focusable elements within a container.
+ * Filters out elements that are hidden (zero dimensions), have the `inert`
+ * attribute, or have `visibility: hidden`.
+ *
+ * @param container - The DOM element to search within
+ * @returns An array of focusable `HTMLElement` instances
  */
 function getFocusableElements(container: Element): HTMLElement[] {
   return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
@@ -36,28 +54,62 @@ function getFocusableElements(container: Element): HTMLElement[] {
 }
 
 /**
- * Focus trap options
+ * Configuration options for the focus trap behavior.
  */
 export interface FocusTrapOptions {
-  /** Whether the focus trap is active */
+  /**
+   * Whether the focus trap is active.
+   * @default true
+   */
   active?: boolean
-  /** Whether to handle escape key */
+  /**
+   * Whether pressing Escape deactivates the focus trap.
+   * @default true
+   */
   escapeDeactivates?: boolean
-  /** Callback when escape key is pressed */
+  /** Callback invoked when the Escape key is pressed (if `escapeDeactivates` is true). */
   onEscape?: () => void
-  /** Element to focus initially (if not provided, focuses first focusable element) */
+  /**
+   * Element to receive initial focus when the trap activates.
+   * Can be an `HTMLElement` or a function returning one.
+   * If not provided, the first focusable element in the container is focused.
+   */
   initialFocus?: HTMLElement | (() => HTMLElement | null)
-  /** Element to return focus to when trap is deactivated */
+  /**
+   * Element to return focus to when the trap is deactivated.
+   * Can be an `HTMLElement` or a function returning one.
+   * If not provided, focus returns to the element that was focused before activation.
+   */
   returnFocus?: HTMLElement | (() => HTMLElement | null)
-  /** Whether to prevent outside clicks */
+  /**
+   * Whether clicking outside the container triggers deactivation.
+   * @default false
+   */
   clickOutsideDeactivates?: boolean
-  /** Callback when clicking outside */
+  /** Callback invoked when a click occurs outside the container (if `clickOutsideDeactivates` is true). */
   onClickOutside?: () => void
 }
 
 /**
- * Creates a focus trap within an element
- * Returns a TNode that should be added to the container element
+ * Creates a focus trap `Renderable` that constrains keyboard focus within
+ * the parent container element. When added to a container, it intercepts
+ * Tab/Shift+Tab navigation to cycle through focusable children, optionally
+ * handles Escape key, and restores focus on disposal.
+ *
+ * @param options - Configuration for the focus trap behavior
+ * @returns A `Renderable` that should be included as a child of the container element
+ *
+ * @example
+ * ```ts
+ * html.div(
+ *   FocusTrap({
+ *     escapeDeactivates: true,
+ *     onEscape: () => closeDialog(),
+ *   }),
+ *   html.button('Close'),
+ *   html.input({ type: 'text' }),
+ * )
+ * ```
  */
 export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
   const {
@@ -210,7 +262,19 @@ export function FocusTrap(options: FocusTrapOptions = {}): Renderable {
 }
 
 /**
- * Hook for managing focus trap state
+ * Creates a focus trap controller with `activate` and `deactivate` methods.
+ * Each call to `activate()` or `deactivate()` returns a new `Renderable`
+ * configured with the provided options.
+ *
+ * @param options - Configuration for the focus trap behavior
+ * @returns An object with `activate` and `deactivate` methods that return `Renderable` instances
+ *
+ * @example
+ * ```ts
+ * const trap = useFocusTrap({ onEscape: () => console.log('escaped') })
+ * // trap.activate() returns a Renderable with active=true
+ * // trap.deactivate() returns a Renderable with active=false
+ * ```
  */
 export function useFocusTrap(options: FocusTrapOptions = {}) {
   return {

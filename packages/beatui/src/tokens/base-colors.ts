@@ -1,3 +1,24 @@
+/**
+ * Base color palette for BeatUI.
+ *
+ * Defines the complete set of raw color values used as the foundation for the
+ * design token color system. Colors are specified in OKLCH color space for
+ * perceptual uniformity and wide gamut support.
+ *
+ * Each color includes 11 shades from 50 (lightest) to 950 (darkest), following
+ * the same shade scale as Tailwind CSS. The palette includes warm colors (red
+ * through yellow), cool colors (lime through blue), purples (indigo through
+ * rose), and neutrals (slate, gray, zinc, neutral, stone).
+ *
+ * These values are consumed by the color token system in `colors.ts` and
+ * converted to CSS custom properties at build time.
+ *
+ * @example
+ * ```ts
+ * import { colors } from './base-colors'
+ * colors.blue[500] // 'oklch(0.623 0.214 259.815)'
+ * ```
+ */
 export const colors = {
   red: {
     50: 'oklch(0.971 0.013 17.38)',

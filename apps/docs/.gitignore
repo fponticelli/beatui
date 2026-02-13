@@ -5,3 +5,6 @@ test-results/
 # Visual baseline diffs (baselines themselves are tracked)
 e2e/visual-baselines/*-diff.png
 e2e/visual-baselines/*-actual.png
+
+# Generated API docs
+public/api.json

@@ -20,6 +20,25 @@ const tryParseDuration = (
   }
 }
 
+/**
+ * A nullable variant of {@link DurationInput} for `Duration | null` values.
+ *
+ * Accepts ISO-8601 duration strings (e.g., `P1DT2H30M`). Empty input is
+ * converted to `null`. Includes a reset button to clear the value. Shows a
+ * fallback plain text input while the Temporal polyfill is loading, then
+ * upgrades to the full masked input.
+ *
+ * @param options - Standard input options for a `Duration | null` value.
+ * @returns A renderable nullable duration input component.
+ *
+ * @example
+ * ```ts
+ * NullableDurationInput({
+ *   value: prop<Duration | null>(null),
+ *   onChange: d => console.log('Duration:', d?.toString() ?? 'null'),
+ * })
+ * ```
+ */
 export const NullableDurationInput = (
   options: InputOptions<Duration | null>
 ) => {

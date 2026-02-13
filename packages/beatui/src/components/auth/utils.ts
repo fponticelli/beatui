@@ -1,11 +1,29 @@
-// Authentication Utility Functions
-// Helper functions for authentication components
+/**
+ * Authentication Utility Functions
+ *
+ * Helper functions and constants for authentication components, including
+ * provider display metadata, URL construction, popup handling, error formatting,
+ * and form validation utilities.
+ *
+ * @module auth/utils
+ */
 
 import { AuthProviderName, PasswordRules } from './types'
 import { taskToValidation } from '../form'
 import { Validation } from '@tempots/std'
 
-// Provider information and utilities
+/**
+ * Mapping of every supported social provider name to its display metadata.
+ *
+ * Contains the human-readable name, Iconify icon identifier, and hex brand color
+ * for each {@link AuthProviderName}.
+ *
+ * @example
+ * ```ts
+ * const info = providerInfo['google']
+ * // { name: 'Google', icon: 'logos:google-icon', color: '#4285f4' }
+ * ```
+ */
 export const providerInfo: Record<
   AuthProviderName,
   { name: string; icon: string; color: string }
@@ -56,22 +74,64 @@ export const providerInfo: Record<
   x: { name: 'X', icon: 'simple-icons:x', color: '#000' },
 }
 
-// Format provider name for display
+/**
+ * Returns the human-readable display name for a social provider.
+ *
+ * @param provider - The provider identifier.
+ * @returns The formatted provider name (e.g., `'Google'`), or the raw identifier if not found.
+ *
+ * @example
+ * ```ts
+ * formatProviderName('github') // 'GitHub'
+ * ```
+ */
 export function formatProviderName(provider: AuthProviderName): string {
   return providerInfo[provider]?.name || provider
 }
 
-// Get provider icon
+/**
+ * Returns the Iconify icon identifier for a social provider.
+ *
+ * @param provider - The provider identifier.
+ * @returns The icon string (e.g., `'logos:google-icon'`), or `'mdi:account'` as a fallback.
+ *
+ * @example
+ * ```ts
+ * getProviderIcon('github') // 'logos:github-icon'
+ * ```
+ */
 export function getProviderIcon(provider: AuthProviderName): string {
   return providerInfo[provider]?.icon || 'mdi:account'
 }
 
-// Get provider color
+/**
+ * Returns the brand hex color for a social provider.
+ *
+ * @param provider - The provider identifier.
+ * @returns The hex color string (e.g., `'#4285f4'`), or `'#666'` as a fallback.
+ *
+ * @example
+ * ```ts
+ * getProviderColor('google') // '#4285f4'
+ * ```
+ */
 export function getProviderColor(provider: AuthProviderName): string {
   return providerInfo[provider]?.color || '#666'
 }
 
-// Format social login text with provider name
+/**
+ * Formats a social login button label by replacing `{provider}` in a template string.
+ *
+ * @param provider - The provider identifier.
+ * @param template - The template string containing `{provider}` placeholder. @default 'Continue with {provider}'
+ * @returns The formatted string with the provider name substituted.
+ *
+ * @example
+ * ```ts
+ * formatSocialLoginText('google') // 'Continue with Google'
+ * formatSocialLoginText('github', 'Sign in via {provider}') // 'Sign in via GitHub'
+ * ```
+ */
 export function formatSocialLoginText(
   provider: AuthProviderName,
   template: string = 'Continue with {provider}'
@@ -79,7 +139,12 @@ export function formatSocialLoginText(
   return template.replace('{provider}', formatProviderName(provider))
 }
 
-// Default password rules for validation
+/**
+ * Default password validation rules used across auth components.
+ *
+ * Requires at least 8 characters, one uppercase letter, one lowercase letter,
+ * and one number. Special characters are not required by default.
+ */
 export const defaultPasswordRules: PasswordRules = {
   minLength: 8,
   requireUppercase: true,
@@ -88,13 +153,40 @@ export const defaultPasswordRules: PasswordRules = {
   requireSymbols: false,
 }
 
-// Validate email format (simple client-side check)
+/**
+ * Checks whether a string matches a basic email format.
+ *
+ * Uses a simple regex for client-side validation. This is not a comprehensive
+ * RFC 5322 check but covers common email patterns.
+ *
+ * @param email - The string to test.
+ * @returns `true` if the string looks like a valid email address.
+ *
+ * @example
+ * ```ts
+ * isValidEmail('user@example.com') // true
+ * isValidEmail('not-an-email')     // false
+ * ```
+ */
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email)
 }
 
-// Generate secure random string for state parameters
+/**
+ * Generates a random alphanumeric string, typically used for OAuth state parameters.
+ *
+ * Note: Uses `Math.random()`, which is not cryptographically secure. For
+ * production OAuth flows, consider using `crypto.getRandomValues()` instead.
+ *
+ * @param length - The length of the generated string. @default 32
+ * @returns A random alphanumeric string of the specified length.
+ *
+ * @example
+ * ```ts
+ * const state = generateRandomString(16) // e.g., 'aB3kPm7xNq2wLz9R'
+ * ```
+ */
 export function generateRandomString(length: number = 32): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let result = ''
@@ -106,7 +198,29 @@ export function generateRandomString(length: number = 32): string {
   return result
 }
 
-// Create social login URL (basic implementation - should be customized per provider)
+/**
+ * Constructs an OAuth authorization URL for a social login provider.
+ *
+ * Builds a URL with query parameters for `client_id`, `redirect_uri`, `scope`,
+ * `state`, and `response_type`. Provider-specific base URLs and default scopes
+ * are built in. Custom scopes and additional query parameters can be provided.
+ *
+ * This is a basic implementation. For production use, consider using your
+ * auth library's built-in OAuth URL construction.
+ *
+ * @param provider - The social provider to generate the URL for.
+ * @param clientId - The OAuth client ID.
+ * @param redirectUri - The URI to redirect to after authentication.
+ * @param scopes - OAuth scopes to request. Defaults to provider-specific defaults if empty.
+ * @param customParams - Additional query parameters to include in the URL.
+ * @returns The fully constructed OAuth authorization URL.
+ * @throws {Error} If the provider is not supported.
+ *
+ * @example
+ * ```ts
+ * const url = createSocialLoginUrl('google', 'my-client-id', 'https://myapp.com/callback')
+ * ```
+ */
 export function createSocialLoginUrl(
   provider: AuthProviderName,
   clientId: string,
@@ -189,7 +303,29 @@ export function createSocialLoginUrl(
   return `${baseUrl}?${params.toString()}`
 }
 
-// Handle social login popup
+/**
+ * Opens a popup window for social login and listens for the result via `postMessage`.
+ *
+ * The popup is monitored for closure (user cancellation) and for messages from
+ * the popup window. Expected message types are `SOCIAL_LOGIN_SUCCESS` and
+ * `SOCIAL_LOGIN_ERROR`, sent from the OAuth callback page.
+ *
+ * @typeParam T - The type of the success result data.
+ * @param url - The OAuth authorization URL to open in the popup.
+ * @param provider - The social provider name (used for the popup window name).
+ * @param onSuccess - Callback invoked with the result data on successful login.
+ * @param onError - Callback invoked with an error on failure or cancellation.
+ *
+ * @example
+ * ```ts
+ * openSocialLoginPopup<{ token: string }>(
+ *   authUrl,
+ *   'google',
+ *   (result) => console.log('Token:', result.token),
+ *   (error) => console.error('Failed:', error.message)
+ * )
+ * ```
+ */
 export function openSocialLoginPopup<T>(
   url: string,
   provider: AuthProviderName,
@@ -237,7 +373,22 @@ export function openSocialLoginPopup<T>(
   window.addEventListener('message', messageListener)
 }
 
-// Format error messages for display
+/**
+ * Formats an unknown error value into a human-readable error message string.
+ *
+ * Handles `Error` instances, plain strings, objects with a `message` property,
+ * and falls back to a generic error message.
+ *
+ * @param error - The error value to format.
+ * @returns A human-readable error message string.
+ *
+ * @example
+ * ```ts
+ * formatAuthError(new Error('Invalid credentials')) // 'Invalid credentials'
+ * formatAuthError('Something went wrong')           // 'Something went wrong'
+ * formatAuthError(42)                               // 'An unexpected error occurred'
+ * ```
+ */
 export function formatAuthError(error: unknown): string {
   if (error instanceof Error) {
     return error.message
@@ -254,11 +405,44 @@ export function formatAuthError(error: unknown): string {
   return 'An unexpected error occurred'
 }
 
-// Check if running in browser environment
+/**
+ * Checks whether the code is running in a browser environment.
+ *
+ * @returns `true` if `window` and `document` are available, `false` otherwise.
+ */
 export function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined'
 }
 
+/**
+ * Wraps an async form submission task into a form controller validation function.
+ *
+ * Creates a function that can be passed to `useForm`'s `onSubmit` option. It
+ * handles loading state (via `onStart`/`onEnd` callbacks), invokes the task,
+ * and converts the result into a `Validation` value compatible with the form
+ * controller system.
+ *
+ * @typeParam T - The form data type.
+ * @param options - Configuration for the validation wrapper.
+ * @param options.task - The async function to call with the form value. Returns an error message or `null`.
+ * @param options.message - A fallback error message used if the task throws.
+ * @param options.onStart - Called before the task begins (e.g., to set loading state).
+ * @param options.onEnd - Called after the task completes (e.g., to clear loading state).
+ * @returns An async function that accepts a value of type `T` and returns a `Validation`.
+ *
+ * @example
+ * ```ts
+ * const onSubmit = requestToControllerValidation({
+ *   task: async (data) => {
+ *     const error = await api.signIn(data)
+ *     return error ?? null
+ *   },
+ *   message: 'Sign in failed',
+ *   onStart: () => loading.set(true),
+ *   onEnd: () => loading.set(false),
+ * })
+ * ```
+ */
 export function requestToControllerValidation<T>({
   task,
   message,

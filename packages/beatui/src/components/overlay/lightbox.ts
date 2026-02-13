@@ -14,25 +14,68 @@ import { OverlayEffect } from '../theme'
 import { CloseButton } from '../button'
 import { BeatUII18n } from '../../beatui-i18n'
 
+/**
+ * Configuration options for the {@link Lightbox} component.
+ */
 export interface LightboxOptions {
-  /** Whether clicking outside/Escape closes the lightbox (default: true) */
+  /**
+   * Whether the lightbox can be closed by clicking outside or pressing the Escape key.
+   * When `false`, the overlay ignores dismiss gestures.
+   * @default true
+   */
   dismissable?: Value<boolean>
-  /** Whether to show the close button in the top-end corner (default: true) */
+  /**
+   * Whether to show a close button in the top-end corner of the lightbox.
+   * @default true
+   */
   showCloseButton?: Value<boolean>
-  /** Overlay effect (default: 'opaque') */
+  /**
+   * Visual effect applied to the overlay backdrop behind the lightbox.
+   * @default 'opaque'
+   */
   overlayEffect?: Value<OverlayEffect>
-  /** Container for the overlay: 'body' (default) or 'element' */
+  /**
+   * Where to attach the overlay in the DOM.
+   * - `'body'` - Renders via a portal to the document body.
+   * - `'element'` - Renders as a child of the current element context.
+   * @default 'body'
+   */
   container?: 'body' | 'element'
-  /** Padding (in px) kept around content; content is capped by viewport minus padding (default: 32) */
+  /**
+   * Padding in pixels kept around the content. The content is constrained to the
+   * viewport dimensions minus this padding on each side.
+   * @default 32
+   */
   padding?: Value<number>
 }
 
 /**
- * Lightbox overlay for displaying arbitrary content maximized and centered.
- * - Attaches via Portal to body by default
- * - Dark background via Overlay effect
- * - Fades in/out using the overlay's animated toggle
- * - Caps content to viewport (minus padding) and clips overflow; no transform scaling
+ * Lightbox overlay for displaying arbitrary content maximized and centered over a dark backdrop.
+ *
+ * The lightbox attaches via a portal to the document body by default, fades in/out using
+ * the overlay's animated toggle, and constrains content to the viewport dimensions minus
+ * configurable padding. Overflow is clipped without transform scaling.
+ *
+ * Built on top of {@link Overlay}.
+ *
+ * @param options - Configuration options controlling dismissability, close button, overlay effect, and padding
+ * @param fn - A render function that receives `open` and `close` callbacks and returns the trigger content.
+ *   Call `open(content)` with a `TNode` to display the lightbox content.
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * Lightbox(
+ *   { dismissable: true, padding: 48 },
+ *   (open, close) => html.img(
+ *     attr.src('/thumb.jpg'),
+ *     attr.alt('Thumbnail'),
+ *     on.click(() => open(
+ *       html.img(attr.src('/full-size.jpg'), attr.alt('Full size image'))
+ *     ))
+ *   )
+ * )
+ * ```
  */
 export function Lightbox(
   options: LightboxOptions,

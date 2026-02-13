@@ -1,5 +1,12 @@
-// Sign In Form Component
-// Main sign-in form with email/password fields and social login options
+/**
+ * Sign In Form Component
+ *
+ * Renders the email/password sign-in form with optional "remember me" checkbox.
+ * Includes form validation, loading state management, and email persistence
+ * via `localStorage`.
+ *
+ * @module auth/signin-form
+ */
 
 import {
   attr,
@@ -23,6 +30,30 @@ import { useAuthEmailProp } from './auth-email-prop'
 import { Control } from '../form'
 import { Notice } from '../misc'
 
+/**
+ * Renders the sign-in form with email and password fields.
+ *
+ * Features include:
+ * - Schema-based validation with configurable password rules
+ * - "Remember me" checkbox that persists the email to `localStorage`
+ * - Loading state and form disabling during submission
+ * - Error display via a notice component
+ * - i18n support for all labels and button text
+ *
+ * @param options - Configuration options for the sign-in form.
+ * @returns A `Renderable` form element.
+ *
+ * @example
+ * ```ts
+ * SignInForm({
+ *   onSignIn: async (data) => {
+ *     const error = await api.signIn(data.email, data.password)
+ *     return error ?? null
+ *   },
+ *   showRememberMe: true,
+ * })
+ * ```
+ */
 export function SignInForm({
   onSignIn,
   passwordRules,

@@ -532,6 +532,7 @@ const main = async () => {
       .filter(url => !url.endsWith('.css'))
       .filter(url => !url.endsWith('.js'))
       .filter(url => !url.endsWith('.json'))
+      .filter(url => !url.startsWith('/api')) // API pages are SPA-only
   }
 
   // Convert URL to file path

@@ -60,7 +60,7 @@ export function AppLayout({ children }: { children: TNode }) {
       ),
     },
     main: {
-      content: html.div(attr.class('h-full overflow-hidden'), children),
+      content: html.div(attr.class('h-full overflow-auto'), children),
     },
   })
 }

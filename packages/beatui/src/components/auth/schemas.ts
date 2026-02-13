@@ -1,5 +1,13 @@
-// Authentication Validation Schemas
-// Custom validation schemas for validating authentication form data
+/**
+ * Authentication Validation Schemas
+ *
+ * Custom validation schemas for validating authentication form data.
+ * Provides schema factories for sign-in, sign-up, and reset password forms,
+ * as well as utility functions for email and password validation and
+ * password strength calculation.
+ *
+ * @module auth/schemas
+ */
 
 import {
   string,
@@ -17,7 +25,21 @@ import {
 } from './types'
 import { defaultPasswordRules } from './utils'
 
-// Helper function to create password validation based on rules
+/**
+ * Creates a password validation schema based on the provided rules.
+ *
+ * Builds a `StringValidator` that enforces minimum length, character class
+ * requirements, and optional custom validation logic.
+ *
+ * @param rules - The password validation rules to enforce. Defaults to {@link defaultPasswordRules}.
+ * @returns A `StringValidator` that validates passwords against the given rules.
+ *
+ * @example
+ * ```ts
+ * const schema = createPasswordSchema({ minLength: 10, requireNumbers: true })
+ * const result = schema.validate('hello123')
+ * ```
+ */
 export function createPasswordSchema(
   rules: PasswordRules = defaultPasswordRules
 ): StringValidator {
@@ -71,12 +93,31 @@ export function createPasswordSchema(
   return validator
 }
 
-// Base email schema
+/**
+ * Base email validation schema.
+ *
+ * Validates that the value is a non-empty string with a valid email format.
+ */
 export const emailSchema = string()
   .min(1, 'Email is required')
   .email('Please enter a valid email address')
 
-// Sign in form schema
+/**
+ * Creates a validation schema for the sign-in form.
+ *
+ * Validates email (required, valid format) and password fields.
+ * When `passwordRules` is provided, the password field is validated
+ * against those rules; otherwise, only a non-empty check is applied.
+ *
+ * @param passwordRules - Optional password validation rules. If omitted, only a "required" check is used.
+ * @returns A `StandardSchemaV1<SignInFormData>` with a `safeParse` method.
+ *
+ * @example
+ * ```ts
+ * const schema = createSignInSchema({ minLength: 8, requireNumbers: true })
+ * const result = schema.safeParse({ email: 'user@test.com', password: 'pass1234' })
+ * ```
+ */
 export function createSignInSchema(
   passwordRules?: PasswordRules
 ): StandardSchemaV1<SignInFormData> & {
@@ -95,7 +136,31 @@ export function createSignInSchema(
   }).schema()
 }
 
-// Sign up form schema
+/**
+ * Creates a validation schema for the sign-up form.
+ *
+ * Validates name (optional), email, password, confirm password, and
+ * terms acceptance fields. Password confirmation matching is enforced
+ * when `showConfirmPassword` is enabled.
+ *
+ * @param passwordRules - Password validation rules. Defaults to {@link defaultPasswordRules}.
+ * @param options - Optional flags controlling which fields are shown and required.
+ * @param options.showNameField - Whether the name field is shown. @default true
+ * @param options.showConfirmPassword - Whether the confirm password field is shown. @default true
+ * @param options.showAcceptTermsAndConditions - Whether the terms checkbox is shown. @default true
+ * @returns A `StandardSchemaV1<SignUpFormData>` with a `safeParse` method.
+ *
+ * @example
+ * ```ts
+ * const schema = createSignUpSchema(undefined, { showNameField: false })
+ * const result = schema.safeParse({
+ *   email: 'user@test.com',
+ *   password: 'Pass1234',
+ *   confirmPassword: 'Pass1234',
+ *   acceptTerms: true,
+ * })
+ * ```
+ */
 export function createSignUpSchema(
   passwordRules: PasswordRules = defaultPasswordRules,
   options?: {
@@ -150,28 +215,65 @@ export function createSignUpSchema(
   return schema.schema()
 }
 
-// Reset password form schema
+/**
+ * Validation schema for the reset password form.
+ *
+ * Validates that the email field is present and in a valid format.
+ */
 export const resetPasswordSchema: StandardSchemaV1<ResetPasswordData> & {
   safeParse: (value: unknown) => SafeParseResult<ResetPasswordData>
 } = object({
   email: emailSchema,
 }).schema()
 
-// Default schemas with standard password rules
+/**
+ * Pre-built sign-in schema using default password rules.
+ *
+ * Convenience constant equivalent to `createSignInSchema()`.
+ */
 export const defaultSignInSchema = createSignInSchema()
+
+/**
+ * Pre-built sign-up schema using default password rules.
+ *
+ * Convenience constant equivalent to `createSignUpSchema()`.
+ */
 export const defaultSignUpSchema = createSignUpSchema()
 
-// Type inference helpers
+/**
+ * Alias for {@link ResetPasswordData}, used as the form data type for the reset password form.
+ */
 export type ResetPasswordFormData = ResetPasswordData
 
-// Schema factory functions for dynamic configuration
+/**
+ * Collection of schema factory functions for dynamic configuration.
+ *
+ * Provides convenient access to all auth schema creators.
+ *
+ * @example
+ * ```ts
+ * const signInSchema = authSchemas.signIn({ minLength: 12 })
+ * const resetSchema = authSchemas.resetPassword()
+ * ```
+ */
 export const authSchemas = {
   signIn: createSignInSchema,
   signUp: createSignUpSchema,
   resetPassword: () => resetPasswordSchema,
 }
 
-// Validation utilities
+/**
+ * Validates an email address against the email schema.
+ *
+ * @param email - The email address to validate.
+ * @returns An error message string if invalid, or `null` if valid.
+ *
+ * @example
+ * ```ts
+ * validateEmail('user@test.com') // null
+ * validateEmail('invalid')       // 'Please enter a valid email address'
+ * ```
+ */
 export function validateEmail(email: string): string | null {
   const result = emailSchema.validate(email)
   if (result.success) {
@@ -181,6 +283,19 @@ export function validateEmail(email: string): string | null {
   }
 }
 
+/**
+ * Validates a password against the provided rules.
+ *
+ * @param password - The password to validate.
+ * @param rules - The password validation rules to check against. Defaults to {@link defaultPasswordRules}.
+ * @returns An error message string if invalid, or `null` if valid.
+ *
+ * @example
+ * ```ts
+ * validatePassword('weak', { minLength: 8 }) // 'Password must be at least 8 characters'
+ * validatePassword('StrongPass1', { minLength: 8, requireUppercase: true, requireNumbers: true }) // null
+ * ```
+ */
 export function validatePassword(
   password: string,
   rules: PasswordRules = defaultPasswordRules
@@ -194,7 +309,30 @@ export function validatePassword(
   }
 }
 
-// Password strength calculation
+/**
+ * Calculates the strength of a password based on the provided rules.
+ *
+ * Evaluates each enabled rule and produces a strength level, a numerical
+ * score (0-100), and a detailed breakdown of which checks passed.
+ *
+ * @param password - The password to evaluate.
+ * @param rules - The password rules to evaluate against. Defaults to {@link defaultPasswordRules}.
+ * @returns An object containing:
+ *   - `strength` - The qualitative strength level: `'weak'`, `'fair'`, `'good'`, or `'strong'`.
+ *   - `score` - A numerical score from 0 to 100.
+ *   - `checks` - An object indicating which individual checks passed.
+ *
+ * @example
+ * ```ts
+ * const result = calculatePasswordStrength('Hello123', {
+ *   minLength: 8,
+ *   requireUppercase: true,
+ *   requireNumbers: true,
+ * })
+ * // result.strength === 'good'
+ * // result.score === 67
+ * ```
+ */
 export function calculatePasswordStrength(
   password: string,
   rules: PasswordRules = defaultPasswordRules

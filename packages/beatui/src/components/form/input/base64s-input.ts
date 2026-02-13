@@ -4,17 +4,44 @@ import { FilesInput } from './files-input'
 import { decodeBase64 } from '@tempots/std'
 import { InputOptions } from './input-options'
 
+/**
+ * Options for the {@link Base64sInput} component.
+ * Extends standard `InputOptions` for multiple base64-encoded file strings.
+ */
 export type Base64sInputOptions = Merge<
   InputOptions<string[]>,
   {
+    /** Comma-separated list of accepted MIME types or file extensions. */
     accept?: Value<string>
+    /** Maximum number of files that can be selected. */
     maxFiles?: Value<number>
-    maxFileSize?: Value<number> // in bytes
+    /** Maximum allowed file size in bytes per file. */
+    maxFileSize?: Value<number>
+    /**
+     * Display mode for the file input.
+     * @default 'default'
+     */
     mode?: Value<FileInputMode>
+    /**
+     * Whether to show the selected files in a list below the drop zone.
+     * @default true
+     */
     showFileList?: Value<boolean>
   }
 >
 
+/**
+ * Converts a `File` object to a base64-encoded string (without the data URL prefix).
+ *
+ * @param file - The file to convert.
+ * @returns A promise that resolves with the base64-encoded string content.
+ *
+ * @example
+ * ```ts
+ * const base64 = await fileToBase64(myFile)
+ * console.log(base64) // 'iVBORw0KGgoAAAANSUhEUg...'
+ * ```
+ */
 export async function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -83,6 +110,26 @@ function base64ToBytes(b64: string): Uint8Array {
   return bytes
 }
 
+/**
+ * A multi-file input component that produces an array of base64-encoded strings.
+ *
+ * Wraps {@link FilesInput}, converting selected files to base64 and reconstructing
+ * `File` objects from base64 strings for display. Automatically detects MIME types
+ * from file magic bytes for proper thumbnail rendering.
+ *
+ * @param options - Configuration options for the multi-file base64 input.
+ * @returns A renderable multi-file base64 input component.
+ *
+ * @example
+ * ```ts
+ * Base64sInput({
+ *   value: prop<string[]>([]),
+ *   accept: 'image/*',
+ *   maxFiles: 3,
+ *   onChange: base64s => console.log('Files:', base64s.length),
+ * })
+ * ```
+ */
 export function Base64sInput(options: Base64sInputOptions) {
   const {
     value: base64Values,

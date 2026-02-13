@@ -8,7 +8,6 @@ import {
   OnDispose,
   WithElement,
   Ensure,
-  TNode,
   signal,
 } from '@tempots/dom'
 import type { LexicalEditor } from 'lexical'
@@ -34,7 +33,7 @@ export function FloatingToolbar({
   groups = ['text-formatting'],
   readOnly = signal(false),
   size = 'sm',
-}: FloatingToolbarOptions): TNode {
+}: FloatingToolbarOptions) {
   const isVisible = prop(false)
   const top = prop(0)
   const left = prop(0)

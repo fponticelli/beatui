@@ -5,9 +5,24 @@ import { MaskInput } from './mask-input'
 import { Duration } from '../../../temporal'
 import { durationMaskConfig } from './duration-mask'
 
-// Simple ISO-8601 duration text input with mask
-// Format: PnYnMnDTnHnMnS (we'll provide a lenient mask and parse via Temporal.Duration.from)
-
+/**
+ * An ISO-8601 duration input component with mask validation.
+ *
+ * Accepts duration strings in the format `PnYnMnDTnHnMnS` (e.g., `P1DT2H30M`).
+ * Uses a custom mask that allows only valid duration characters and validates
+ * the input via `Temporal.Duration.from()`. Requires the Temporal polyfill.
+ *
+ * @param options - Standard input options for a `Duration` value.
+ * @returns A renderable duration input component.
+ *
+ * @example
+ * ```ts
+ * DurationInput({
+ *   value: prop(Temporal.Duration.from('PT1H30M')),
+ *   onChange: d => console.log('Duration:', d.toString()),
+ * })
+ * ```
+ */
 export const DurationInput = (options: InputOptions<Duration>) => {
   const { value, onChange } = options
 

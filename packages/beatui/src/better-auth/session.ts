@@ -1,9 +1,5 @@
 import { prop, Signal, computedOf } from '@tempots/dom'
-import {
-  BetterAuthClient,
-  BetterAuthSession,
-  BetterAuthUser,
-} from './types'
+import { BetterAuthClient, BetterAuthSession, BetterAuthUser } from './types'
 
 export interface SessionManager {
   session: Signal<BetterAuthSession | null>

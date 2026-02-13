@@ -24,25 +24,74 @@ import { Group } from '../../layout'
 import { DropdownOption, Option } from './option'
 import { ElementRect } from '@tempots/ui'
 
+/**
+ * Options for the {@link DropdownBase} component.
+ * Provides a reusable foundation for building dropdown and combobox inputs
+ * with full keyboard navigation, flyout positioning, and ARIA attributes.
+ *
+ * @typeParam T - The type of option values.
+ */
 export type DropdownBaseOptions<T> = InputOptions<T> & {
+  /** ARIA role for the dropdown trigger (`'combobox'` or `'dropdown'`). */
   role: 'combobox' | 'dropdown'
+  /** The display content shown in the trigger area (e.g., the selected label). */
   display: TNode
+  /** The list of available dropdown options. */
   optionsSource: Value<DropdownOption<T>[]>
+  /**
+   * Whether pressing the spacebar toggles the dropdown open/closed.
+   * @default false
+   */
   allowSpaceToggle?: Value<boolean>
-  // Called before opening (e.g., to kick off loading)
+  /** Callback invoked before the dropdown opens (e.g., to kick off loading). */
   onBeforeOpen?: () => void
-  // Called right after opening (e.g., focus search input)
+  /** Callback invoked right after the dropdown opens (e.g., to focus search input). */
   onAfterOpen?: () => void
-  // Build the listbox content (inside the container)
+  /**
+   * Function that builds the listbox content inside the dropdown flyout.
+   * Receives context with IDs, focused value signal, keyboard handler, and selection callback.
+   */
   buildListboxContent: (ctx: {
+    /** Unique ID for the dropdown trigger element. */
     dropdownId: string
+    /** Unique ID for the listbox element. */
     listboxId: string
+    /** Signal tracking the currently focused option value. */
     focusedValue: Signal<T | null>
+    /** Keyboard event handler for arrow navigation and selection. */
     handleKeyDown: (ev: KeyboardEvent) => void
+    /** Callback to invoke when an option is selected. */
     onSelect: (value: T) => void
   }) => TNode
 }
 
+/**
+ * A reusable base component for building dropdown and combobox inputs.
+ *
+ * Provides full keyboard navigation (ArrowUp/Down, Enter, Escape, Space),
+ * flyout positioning, ARIA attributes for accessibility, and click-to-toggle
+ * behavior. The listbox content is delegated to the `buildListboxContent` option,
+ * making this a flexible foundation for both `DropdownInput` and `ComboboxInput`.
+ *
+ * @typeParam T - The type of option values.
+ * @param options - Configuration options for the dropdown base.
+ * @returns A renderable dropdown base component.
+ *
+ * @example
+ * ```ts
+ * DropdownBase({
+ *   value: prop(''),
+ *   role: 'dropdown',
+ *   display: html.span('Select...'),
+ *   optionsSource: myOptions,
+ *   onChange: v => console.log('Selected:', v),
+ *   buildListboxContent: ({ onSelect, focusedValue }) =>
+ *     html.div(
+ *       // render option items here
+ *     ),
+ * })
+ * ```
+ */
 export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
   const {
     onChange,

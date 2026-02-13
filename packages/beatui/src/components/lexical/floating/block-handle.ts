@@ -7,7 +7,6 @@ import {
   When,
   OnDispose,
   WithElement,
-  TNode,
   signal,
   Ensure,
   on,
@@ -162,7 +161,7 @@ export function BlockHandle({
   stateUpdate,
   readOnly = signal(false),
   commands = DEFAULT_BLOCK_COMMANDS,
-}: BlockHandleOptions): TNode {
+}: BlockHandleOptions) {
   const isHandleVisible = prop(false)
   const isMenuOpen = prop(false)
   const handleTop = prop(0)

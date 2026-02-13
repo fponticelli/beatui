@@ -1,5 +1,12 @@
-// Password Strength Indicator Component
-// Visual feedback component for password complexity and security requirements
+/**
+ * Password Strength Indicator Component
+ *
+ * Visual feedback components for password complexity and security requirements.
+ * Includes a full indicator with bar, label, and requirements checklist, as well
+ * as simplified bar-only and text-only variants.
+ *
+ * @module auth/password-strength-indicator
+ */
 
 import {
   attr,
@@ -14,6 +21,26 @@ import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
 import { AuthI18n } from '../../auth-i18n/translations'
 
+/**
+ * Renders a full password strength indicator with a progress bar,
+ * an optional strength label, and a checklist of password requirements.
+ *
+ * Reactively updates as the password value changes. Each requirement
+ * shows a check mark when satisfied.
+ *
+ * @param options - Configuration options for the indicator.
+ * @returns A `Renderable` DOM element representing the password strength indicator.
+ *
+ * @example
+ * ```ts
+ * const password = prop('')
+ * PasswordStrengthIndicator({
+ *   password,
+ *   rules: { minLength: 8, requireUppercase: true, requireNumbers: true },
+ *   showLabel: true,
+ * })
+ * ```
+ */
 export function PasswordStrengthIndicator({
   password,
   rules = defaultPasswordRules,
@@ -201,7 +228,21 @@ export function PasswordStrengthIndicator({
   )
 }
 
-// Simplified password strength indicator (just the bar)
+/**
+ * Renders a simplified password strength indicator showing only the progress bar.
+ *
+ * A lightweight alternative to {@link PasswordStrengthIndicator} that omits
+ * the label and requirements checklist.
+ *
+ * @param options - Configuration options (same as `PasswordStrengthIndicatorOptions` minus `showLabel`).
+ * @returns A `Renderable` DOM element representing the strength bar.
+ *
+ * @example
+ * ```ts
+ * const password = prop('')
+ * PasswordStrengthBar({ password, rules: { minLength: 8 } })
+ * ```
+ */
 export function PasswordStrengthBar({
   password,
   rules = defaultPasswordRules,
@@ -238,7 +279,20 @@ export function PasswordStrengthBar({
   )
 }
 
-// Password strength text indicator
+/**
+ * Renders a text-only password strength indicator (e.g., "Weak", "Strong").
+ *
+ * Displays only the localized strength label without any visual bar or checklist.
+ *
+ * @param options - Configuration options (same as `PasswordStrengthIndicatorOptions` minus `showLabel`).
+ * @returns A `Renderable` DOM element containing the strength text.
+ *
+ * @example
+ * ```ts
+ * const password = prop('')
+ * PasswordStrengthText({ password })
+ * ```
+ */
 export function PasswordStrengthText({
   password,
   rules = defaultPasswordRules,

@@ -11,10 +11,38 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 
+/** Configuration options for the {@link Collapse} component. */
 export type CollapseOption = {
+  /** Reactive boolean controlling whether the content is expanded or collapsed. */
   open: Value<boolean>
 }
 
+/**
+ * Animated collapsible container that smoothly expands and contracts its content.
+ * Measures the natural content height and uses CSS transitions for smooth animation.
+ *
+ * The component manages four animation states internally: `closed`, `start-opening`,
+ * `opened`, and `start-closing`, applying corresponding CSS classes for each.
+ *
+ * @param options - Configuration with the `open` signal controlling visibility
+ * @param children - Content to show/hide with animation
+ * @returns A container element with animated collapse behavior
+ *
+ * @example
+ * ```typescript
+ * import { prop } from '@tempots/dom'
+ *
+ * const isOpen = prop(false)
+ *
+ * Stack(
+ *   Button({ onClick: () => isOpen.set(!isOpen.value) }, 'Toggle'),
+ *   Collapse(
+ *     { open: isOpen },
+ *     html.p('This content is collapsible.')
+ *   )
+ * )
+ * ```
+ */
 export function Collapse({ open }: CollapseOption, ...children: TNode[]) {
   return WithElement(element => {
     const { status, setOpen, dispose } = useAnimatedElementToggle({

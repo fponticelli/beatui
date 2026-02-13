@@ -162,6 +162,10 @@ export const App = () => {
           Async(import('./pages/notice'), ({ default: Page }) => Page()),
         '/ribbon': () =>
           Async(import('./pages/ribbon'), ({ default: Page }) => Page()),
+        '/api/*': () =>
+          Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
+            ApiRouter()
+          ),
         '/*': () => html.div('Not Found'),
       }),
     })

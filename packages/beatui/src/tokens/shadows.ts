@@ -1,8 +1,22 @@
-// Radius Design Tokens
-// TypeScript-defined radius values that generate CSS variables and media queries at build time
+/**
+ * Box shadow design tokens for BeatUI.
+ *
+ * Defines a scale of box-shadow values from subtle to dramatic, including both
+ * bottom-facing and top-facing shadow variants. Also includes semantic shadow
+ * roles for common UI surfaces.
+ *
+ * @module
+ */
 
 import { objectEntries } from '@tempots/std'
 
+/**
+ * Box shadow scale definitions mapping size names to CSS `box-shadow` values.
+ * Includes standard (bottom-facing) and `top-*` (top-facing) variants.
+ *
+ * Standard shadows project downward; `top-*` shadows project upward
+ * and are useful for bottom-anchored elements like bottom sheets.
+ */
 export const shadows = {
   none: 'none',
   '2xs': '0 1px rgb(0 0 0 / 0.05)',
@@ -23,18 +37,52 @@ export const shadows = {
   'top-2xl': '0 -25px 50px -12px rgb(0 0 0 / 0.25)',
 } as const
 
+/**
+ * Union type of all available shadow size names.
+ */
 export type ShadowSize = keyof typeof shadows
 
-// Helper functions
+/**
+ * Returns the CSS custom property name for a shadow size.
+ *
+ * @param size - The shadow size name
+ * @returns The CSS variable name (e.g., `'--shadow-md'`)
+ *
+ * @example
+ * ```ts
+ * getShadowVarName('md') // '--shadow-md'
+ * ```
+ */
 export function getShadowVarName(size: ShadowSize): string {
   return `--shadow-${size}`
 }
 
+/**
+ * Returns a CSS `var()` expression referencing the shadow custom property.
+ *
+ * @param size - The shadow size name
+ * @returns A CSS `var()` string (e.g., `'var(--shadow-md)'`)
+ *
+ * @example
+ * ```ts
+ * getShadowVar('md') // 'var(--shadow-md)'
+ * ```
+ */
 export function getShadowVar(size: ShadowSize): string {
   return `var(${getShadowVarName(size)})`
 }
 
-// Generate CSS variables from radius tokens
+/**
+ * Generates CSS custom property declarations for all shadow tokens.
+ *
+ * @returns A record mapping CSS variable names to their shadow values
+ *
+ * @example
+ * ```ts
+ * const vars = generateShadowVariables()
+ * // vars['--shadow-md'] === '0 4px 6px -1px rgb(0 0 0 / 0.1), ...'
+ * ```
+ */
 export function generateShadowVariables(): Record<string, string> {
   const variables: Record<string, string> = {}
 
@@ -45,6 +93,9 @@ export function generateShadowVariables(): Record<string, string> {
   return variables
 }
 
+/**
+ * Tuple of all semantic shadow role names.
+ */
 export const semanticShadowNames = [
   'surface',
   'surface-elevated',
@@ -53,12 +104,21 @@ export const semanticShadowNames = [
   'button',
 ] as const
 
+/**
+ * Union type of all semantic shadow role names.
+ */
 export type SemanticShadowName = (typeof semanticShadowNames)[number]
 
+/**
+ * Partial record for overriding default semantic shadow assignments.
+ */
 export type SemanticShadowOverrides = Partial<
   Record<SemanticShadowName, string>
 >
 
+/**
+ * Default semantic shadow values mapping roles to primitive shadow variables.
+ */
 const defaultSemanticShadows: Record<SemanticShadowName, string> = {
   surface: getShadowVar('sm'),
   'surface-elevated': getShadowVar('md'),
@@ -67,10 +127,34 @@ const defaultSemanticShadows: Record<SemanticShadowName, string> = {
   button: getShadowVar('xs'),
 }
 
+/**
+ * Returns the CSS custom property name for a semantic shadow role.
+ *
+ * @param name - The semantic shadow name
+ * @returns The CSS variable name (e.g., `'--shadow-popover'`)
+ *
+ * @example
+ * ```ts
+ * getSemanticShadowVarName('popover') // '--shadow-popover'
+ * ```
+ */
 export function getSemanticShadowVarName(name: SemanticShadowName): string {
   return `--shadow-${name}`
 }
 
+/**
+ * Generates CSS custom property declarations for semantic shadow tokens,
+ * merging defaults with any provided overrides.
+ *
+ * @param overrides - Optional overrides for semantic shadow values
+ * @returns A record mapping CSS variable names to their values
+ *
+ * @example
+ * ```ts
+ * const vars = generateSemanticShadowVariables({ popover: 'var(--shadow-xl)' })
+ * // vars['--shadow-popover'] === 'var(--shadow-xl)'
+ * ```
+ */
 export function generateSemanticShadowVariables(
   overrides?: SemanticShadowOverrides
 ): Record<string, string> {

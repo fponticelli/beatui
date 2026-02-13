@@ -193,7 +193,7 @@ function findNextEnabledTab<T extends string>(
  * })
  * ```
  */
-export function Tabs<T extends string>(options: TabsOptions<T>): TNode {
+export function Tabs<T extends string>(options: TabsOptions<T>) {
   const {
     items,
     value,

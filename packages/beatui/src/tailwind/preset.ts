@@ -1,3 +1,13 @@
+/**
+ * BeatUI Tailwind CSS preset.
+ *
+ * Generates a Tailwind preset that registers BeatUI's design-token CSS
+ * custom properties (colors, spacing, typography, motion, etc.) as base
+ * styles and extends Tailwind's color palette with semantic aliases.
+ *
+ * @module
+ */
+
 import {
   generateCoreTokenVariables,
   generateSemanticTokenVariables,
@@ -18,6 +28,21 @@ import type { SemanticMotionOverrides } from '../tokens/motion'
 import type { SemanticSpacingOverrides } from '../tokens/spacing'
 import type { SemanticTextShadowOverrides } from '../tokens/text-shadows'
 
+/**
+ * Options for customising the BeatUI Tailwind preset.
+ *
+ * Allows overriding semantic design tokens (colors, fonts, radii, shadows,
+ * motion, spacing, text-shadows) and controlling which token layers are
+ * included.
+ *
+ * @example
+ * ```ts
+ * const preset = createBeatuiPreset({
+ *   semanticColors: { primary: 'emerald' },
+ *   extendTheme: true,
+ * })
+ * ```
+ */
 export interface BeatuiPresetOptions {
   /**
    * Override the semantic color mapping BeatUI uses (e.g. map `primary` to `emerald`).
@@ -65,6 +90,12 @@ export interface BeatuiPresetOptions {
   extendTheme?: boolean
 }
 
+/**
+ * Builds a Tailwind color theme object mapping each semantic color name to
+ * its CSS variable shades (e.g. `primary.500` -> `var(--color-primary-500)`).
+ *
+ * @returns An object suitable for `theme.extend.colors`.
+ */
 function buildSemanticColorTheme() {
   return Object.fromEntries(
     semanticColorNames.map(semanticName => [
@@ -79,6 +110,13 @@ function buildSemanticColorTheme() {
   )
 }
 
+/**
+ * Builds the `:root` CSS variable declarations for BeatUI's core and
+ * semantic tokens, including any user-provided overrides.
+ *
+ * @param options - Preset options controlling which tokens to generate.
+ * @returns An object mapping CSS selectors to variable declarations.
+ */
 function buildBaseDeclarations(options: BeatuiPresetOptions) {
   const { includeCoreTokens = true, includeSemanticTokens = true } = options
   const base: Record<string, Record<string, string>> = {}
@@ -114,24 +152,45 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
   return base
 }
 
+/**
+ * Subset of the Tailwind plugin API used by the BeatUI preset to register
+ * base styles and custom variants.
+ */
 interface TailwindPluginApi {
+  /** Register base CSS declarations (injected into `@layer base`). */
   addBase: (base: Record<string, Record<string, string>>) => void
+  /** Register a custom variant selector (e.g. `beatui-dark`). */
   addVariant: (name: string, variant: string | string[]) => void
 }
 
+/**
+ * Shape of a Tailwind CSS preset object returned by {@link createBeatuiPreset}.
+ */
 interface TailwindPreset {
+  /** Dark mode strategy (always `'class'` for BeatUI). */
   darkMode: string
+  /** Theme extensions (semantic color aliases). */
   theme: {
     extend: Record<string, unknown>
   }
+  /** Array of Tailwind plugins registered by this preset. */
   plugins: TailwindPluginConfig[]
 }
 
+/**
+ * Configuration shape for a single Tailwind plugin (handler + optional config).
+ */
 interface TailwindPluginConfig {
+  /** The plugin handler function that receives the Tailwind plugin API. */
   handler: (api: TailwindPluginApi) => void
+  /** Optional static configuration merged into Tailwind's config. */
   config?: Record<string, unknown>
 }
 
+/**
+ * Minimal factory type that emulates `tailwindcss/plugin` for creating
+ * plugin configs without importing the full Tailwind package at build time.
+ */
 type TailwindPluginFactory = {
   (
     handler: TailwindPluginConfig['handler'],
@@ -170,6 +229,29 @@ const tailwindPluginFactory: TailwindPluginFactory = Object.assign(
   }
 )
 
+/**
+ * Creates a Tailwind CSS preset configured with BeatUI's design tokens.
+ *
+ * The returned preset:
+ * - Sets `darkMode: 'class'` so BeatUI's theme provider can toggle themes.
+ * - Registers core and semantic CSS custom properties as base styles.
+ * - Extends Tailwind's color palette with semantic aliases (e.g. `bg-primary-500`).
+ * - Adds convenience variants: `beatui-dark`, `beatui-light`, `beatui-rtl`, `beatui-ltr`.
+ *
+ * @param options - Optional overrides for semantic tokens and feature flags.
+ * @returns A Tailwind preset object to include in `tailwind.config.ts`.
+ *
+ * @example
+ * ```ts
+ * // tailwind.config.ts
+ * import { createBeatuiPreset } from '@tempots/beatui/tailwind'
+ *
+ * export default {
+ *   presets: [createBeatuiPreset({ semanticColors: { primary: 'emerald' } })],
+ *   content: ['./src/** /*.tsx'],
+ * }
+ * ```
+ */
 export function createBeatuiPreset(
   options: BeatuiPresetOptions = {}
 ): TailwindPreset {
@@ -204,6 +286,23 @@ export function createBeatuiPreset(
   return preset
 }
 
+/**
+ * A ready-to-use BeatUI Tailwind preset with all default options.
+ *
+ * @example
+ * ```ts
+ * // tailwind.config.ts
+ * import { beatuiPreset } from '@tempots/beatui/tailwind'
+ *
+ * export default {
+ *   presets: [beatuiPreset],
+ *   content: ['./src/** /*.tsx'],
+ * }
+ * ```
+ */
 export const beatuiPreset = createBeatuiPreset()
 
+/**
+ * Re-exported type alias for semantic color override configuration.
+ */
 export type { SemanticColorOverrides as BeatuiSemanticColorOverrides }

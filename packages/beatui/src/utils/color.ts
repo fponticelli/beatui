@@ -1,11 +1,25 @@
 /**
- * Color validation utilities for BeatUI color inputs
+ * Color validation, conversion, and formatting utilities for BeatUI.
+ *
+ * Provides comprehensive color handling including validation for multiple color
+ * formats (hex, RGB, RGBA, HSL), conversion between color spaces (RGB, HSL, HWB,
+ * OKLCH), contrast ratio calculation, and color string formatting.
+ *
+ * @module
  */
 
 /**
- * Validates if a string is a valid hex color
+ * Validates if a string is a valid hex color (3 or 6 character format, with or without `#`).
+ *
  * @param color - The color string to validate
- * @returns true if valid hex color, false otherwise
+ * @returns `true` if valid hex color, `false` otherwise
+ *
+ * @example
+ * ```ts
+ * isValidHexColor('#ff0000') // true
+ * isValidHexColor('abc')     // true
+ * isValidHexColor('#gggggg') // false
+ * ```
  */
 export function isValidHexColor(color: string): boolean {
   if (typeof color !== 'string') return false
@@ -18,9 +32,17 @@ export function isValidHexColor(color: string): boolean {
 }
 
 /**
- * Validates if a string is a valid RGB color
- * @param color - The color string to validate (e.g., "rgb(255, 0, 0)")
- * @returns true if valid RGB color, false otherwise
+ * Validates if a string is a valid CSS `rgb()` color with values in range 0-255.
+ *
+ * @param color - The color string to validate (e.g., `"rgb(255, 0, 0)"`)
+ * @returns `true` if valid RGB color, `false` otherwise
+ *
+ * @example
+ * ```ts
+ * isValidRgbColor('rgb(255, 0, 0)')   // true
+ * isValidRgbColor('rgb(300, 0, 0)')   // false (out of range)
+ * isValidRgbColor('rgba(0, 0, 0, 1)') // false (use isValidRgbaColor)
+ * ```
  */
 export function isValidRgbColor(color: string): boolean {
   if (typeof color !== 'string') return false
@@ -46,9 +68,17 @@ export function isValidRgbColor(color: string): boolean {
 }
 
 /**
- * Validates if a string is a valid RGBA color
- * @param color - The color string to validate (e.g., "rgba(255, 0, 0, 0.5)")
- * @returns true if valid RGBA color, false otherwise
+ * Validates if a string is a valid CSS `rgba()` color with values in range
+ * 0-255 for RGB and 0-1 for alpha.
+ *
+ * @param color - The color string to validate (e.g., `"rgba(255, 0, 0, 0.5)"`)
+ * @returns `true` if valid RGBA color, `false` otherwise
+ *
+ * @example
+ * ```ts
+ * isValidRgbaColor('rgba(255, 0, 0, 0.5)') // true
+ * isValidRgbaColor('rgba(255, 0, 0, 2)')   // false (alpha out of range)
+ * ```
  */
 export function isValidRgbaColor(color: string): boolean {
   if (typeof color !== 'string') return false
@@ -78,9 +108,17 @@ export function isValidRgbaColor(color: string): boolean {
 }
 
 /**
- * Validates if a string is a valid HSL color
- * @param color - The color string to validate (e.g., "hsl(120, 100%, 50%)")
- * @returns true if valid HSL color, false otherwise
+ * Validates if a string is a valid CSS `hsl()` color with hue 0-360 and
+ * saturation/lightness 0-100%.
+ *
+ * @param color - The color string to validate (e.g., `"hsl(120, 100%, 50%)"`)
+ * @returns `true` if valid HSL color, `false` otherwise
+ *
+ * @example
+ * ```ts
+ * isValidHslColor('hsl(120, 100%, 50%)') // true
+ * isValidHslColor('hsl(400, 100%, 50%)') // false (hue out of range)
+ * ```
  */
 export function isValidHslColor(color: string): boolean {
   if (typeof color !== 'string') return false
@@ -106,9 +144,18 @@ export function isValidHslColor(color: string): boolean {
 }
 
 /**
- * Validates if a string is any valid color format
+ * Validates if a string is a valid color in any supported format
+ * (hex, RGB, RGBA, or HSL).
+ *
  * @param color - The color string to validate
- * @returns true if valid color in any supported format, false otherwise
+ * @returns `true` if valid color in any supported format, `false` otherwise
+ *
+ * @example
+ * ```ts
+ * isValidColor('#ff0000')            // true
+ * isValidColor('rgb(255, 0, 0)')     // true
+ * isValidColor('not-a-color')        // false
+ * ```
  */
 export function isValidColor(color: string): boolean {
   return (
@@ -120,9 +167,18 @@ export function isValidColor(color: string): boolean {
 }
 
 /**
- * Normalizes a hex color to always include the # prefix and be 6 characters
+ * Normalizes a hex color to always include the `#` prefix and be 6 characters
+ * (lowercase). Expands 3-character shorthand to full 6-character form.
+ *
  * @param color - The hex color to normalize
- * @returns normalized hex color or null if invalid
+ * @returns Normalized hex color string (e.g., `'#ff0000'`) or `null` if invalid
+ *
+ * @example
+ * ```ts
+ * normalizeHexColor('abc')     // '#aabbcc'
+ * normalizeHexColor('#FF0000') // '#ff0000'
+ * normalizeHexColor('invalid') // null
+ * ```
  */
 export function normalizeHexColor(color: string): string | null {
   if (!isValidHexColor(color)) return null
@@ -141,11 +197,18 @@ export function normalizeHexColor(color: string): string | null {
 }
 
 /**
- * Converts RGB values to hex color
- * @param r - Red value (0-255)
- * @param g - Green value (0-255)
- * @param b - Blue value (0-255)
- * @returns hex color string
+ * Converts RGB channel values to a hex color string. Values are clamped to 0-255.
+ *
+ * @param r - Red channel value (0-255)
+ * @param g - Green channel value (0-255)
+ * @param b - Blue channel value (0-255)
+ * @returns Hex color string with `#` prefix (e.g., `'#ff0000'`)
+ *
+ * @example
+ * ```ts
+ * rgbToHex(255, 0, 0)   // '#ff0000'
+ * rgbToHex(0, 128, 255)  // '#0080ff'
+ * ```
  */
 export function rgbToHex(r: number, g: number, b: number): string {
   const toHex = (n: number) => {
@@ -157,9 +220,18 @@ export function rgbToHex(r: number, g: number, b: number): string {
 }
 
 /**
- * Converts hex color to RGB values
- * @param hex - Hex color string (with or without #)
- * @returns RGB values object or null if invalid
+ * Converts a hex color string to RGB channel values. Handles both 3-character
+ * and 6-character hex values, with or without the `#` prefix.
+ *
+ * @param hex - Hex color string (with or without `#`)
+ * @returns Object with `r`, `g`, `b` properties (0-255 each) or `null` if invalid
+ *
+ * @example
+ * ```ts
+ * hexToRgb('#ff0000') // { r: 255, g: 0, b: 0 }
+ * hexToRgb('abc')     // { r: 170, g: 187, b: 204 }
+ * hexToRgb('invalid') // null
+ * ```
  */
 export function hexToRgb(
   hex: string
@@ -178,10 +250,19 @@ export function hexToRgb(
 }
 
 /**
- * Gets the contrast ratio between two colors
- * @param color1 - First color (hex format)
- * @param color2 - Second color (hex format)
- * @returns contrast ratio or null if invalid colors
+ * Calculates the WCAG 2.0 contrast ratio between two hex colors.
+ * The ratio ranges from 1:1 (identical) to 21:1 (black on white).
+ * A ratio of at least 4.5 is required for WCAG AA text compliance.
+ *
+ * @param color1 - First color in hex format
+ * @param color2 - Second color in hex format
+ * @returns The contrast ratio as a number, or `null` if either color is invalid
+ *
+ * @example
+ * ```ts
+ * getContrastRatio('#000000', '#ffffff') // 21
+ * getContrastRatio('#ff0000', '#00ff00') // ~2.91
+ * ```
  */
 export function getContrastRatio(
   color1: string,
@@ -209,6 +290,28 @@ export function getContrastRatio(
   return (brightest + 0.05) / (darkest + 0.05)
 }
 
+/**
+ * Parses any supported CSS color string into an `[r, g, b, a]` tuple.
+ *
+ * Supported formats:
+ * - Hex: `#RGB`, `#RGBA`, `#RRGGBB`, `#RRGGBBAA` (with or without `#`)
+ * - RGB: `rgb(r, g, b)`
+ * - RGBA: `rgba(r, g, b, a)`
+ * - HSL/HSLA: `hsl(h, s%, l%)`, `hsla(h, s%, l%, a)`, and modern syntax
+ * - HWB: `hwb(h w% b% / a)`
+ * - OKLCH: `oklch(L C h / a)`
+ *
+ * @param v - The color string to parse
+ * @returns A tuple of `[red, green, blue, alpha]` where RGB are 0-255 and alpha is 0-1.
+ *   Returns `[0, 0, 0, 1]` for empty or unparseable input.
+ *
+ * @example
+ * ```ts
+ * parseAnyColor('#ff0000')             // [255, 0, 0, 1]
+ * parseAnyColor('rgba(0, 128, 255, 0.5)') // [0, 128, 255, 0.5]
+ * parseAnyColor('oklch(0.623 0.214 259.815)') // [approximately 59, 130, 246, 1]
+ * ```
+ */
 export function parseAnyColor(v: string): [number, number, number, number] {
   if (!v) return [0, 0, 0, 1]
   // #RRGGBBAA, #RRGGBB, #RGBA, #RGB (with or without #)
@@ -311,6 +414,21 @@ export function parseAnyColor(v: string): [number, number, number, number] {
   return [0, 0, 0, 1]
 }
 
+/**
+ * Formats RGBA values into a CSS `rgba()` string. Alpha is clamped to 0-1
+ * and rounded to 2 decimal places; RGB values are rounded to integers.
+ *
+ * @param r - Red channel (0-255)
+ * @param g - Green channel (0-255)
+ * @param b - Blue channel (0-255)
+ * @param a - Alpha channel (0-1)
+ * @returns A CSS `rgba()` string (e.g., `'rgba(255, 0, 0, 0.5)'`)
+ *
+ * @example
+ * ```ts
+ * toRgbaString(255, 0, 0, 0.5) // 'rgba(255, 0, 0, 0.5)'
+ * ```
+ */
 export function toRgbaString(r: number, g: number, b: number, a: number) {
   return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${Math.max(
     0,
@@ -318,7 +436,20 @@ export function toRgbaString(r: number, g: number, b: number, a: number) {
   )})`
 }
 
-// Simple seeded PRNG (Mulberry32)
+/**
+ * Creates a seeded pseudo-random number generator using the Mulberry32 algorithm.
+ * Useful for generating deterministic "random" values (e.g., for color hashing).
+ *
+ * @param seed - The integer seed value
+ * @returns A function that returns the next pseudo-random number in the range [0, 1)
+ *
+ * @example
+ * ```ts
+ * const random = mulberry32(42)
+ * random() // 0.6011037519201636 (deterministic)
+ * random() // 0.4321023514959961
+ * ```
+ */
 export function mulberry32(seed: number) {
   let t = seed + 0x6d2b79f5
   return function () {
@@ -328,7 +459,20 @@ export function mulberry32(seed: number) {
   }
 }
 
-// Convert HSL (0..360, 0..1, 0..1) to RGB (0..255)
+/**
+ * Converts HSL color values to RGB. Hue is wrapped to 0-360 range.
+ *
+ * @param h - Hue in degrees (0-360)
+ * @param s - Saturation as a fraction (0-1)
+ * @param l - Lightness as a fraction (0-1)
+ * @returns A tuple of `[red, green, blue]` with values 0-255
+ *
+ * @example
+ * ```ts
+ * hslToRgb(0, 1, 0.5)   // [255, 0, 0] (red)
+ * hslToRgb(120, 1, 0.5)  // [0, 255, 0] (green)
+ * ```
+ */
 export function hslToRgb(
   h: number,
   s: number,
@@ -354,7 +498,21 @@ export function hslToRgb(
   ]
 }
 
-// Convert HWB (h degrees, w 0..1, b 0..1) to RGB (0..255)
+/**
+ * Converts HWB (Hue-Whiteness-Blackness) color values to RGB.
+ * If whiteness + blackness exceeds 1, they are scaled proportionally.
+ *
+ * @param h - Hue in degrees (0-360)
+ * @param w - Whiteness as a fraction (0-1)
+ * @param bl - Blackness as a fraction (0-1)
+ * @returns A tuple of `[red, green, blue]` with values 0-255
+ *
+ * @example
+ * ```ts
+ * hwbToRgb(0, 0, 0)     // [255, 0, 0] (pure red)
+ * hwbToRgb(0, 0.5, 0.5) // [128, 128, 128] (gray)
+ * ```
+ */
 export function hwbToRgb(
   h: number,
   w: number,
@@ -380,7 +538,21 @@ export function hwbToRgb(
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)]
 }
 
-// Convert RGB (0..255) to HSL (h 0..360, s 0..100, l 0..100)
+/**
+ * Converts RGB color values to HSL. Returns rounded integer values.
+ *
+ * @param r - Red channel (0-255)
+ * @param g - Green channel (0-255)
+ * @param b - Blue channel (0-255)
+ * @returns A tuple of `[hue, saturation, lightness]` where hue is 0-360 and
+ *   saturation/lightness are 0-100 (percentage)
+ *
+ * @example
+ * ```ts
+ * rgbToHsl(255, 0, 0)   // [0, 100, 50]
+ * rgbToHsl(0, 128, 255)  // [210, 100, 50]
+ * ```
+ */
 export function rgbToHsl(
   r: number,
   g: number,
@@ -412,6 +584,21 @@ export function rgbToHsl(
   return [Math.round(h), Math.round(s * 100), Math.round(l * 100)]
 }
 
+/**
+ * Converts RGB color values to HWB (Hue-Whiteness-Blackness).
+ *
+ * @param r - Red channel (0-255)
+ * @param g - Green channel (0-255)
+ * @param b - Blue channel (0-255)
+ * @returns A tuple of `[hue, whiteness, blackness]` where hue is 0-360 and
+ *   whiteness/blackness are 0-100 (percentage)
+ *
+ * @example
+ * ```ts
+ * rgbToHwb(255, 0, 0)   // [0, 0, 0]
+ * rgbToHwb(128, 128, 128) // [0, 50, 50]
+ * ```
+ */
 export function rgbToHwb(
   r: number,
   g: number,
@@ -426,17 +613,44 @@ export function rgbToHwb(
   return [h, Math.round(w * 100), Math.round(bl * 100)]
 }
 
-// OKLCH/OKLab conversion helpers
+/**
+ * Converts an sRGB channel value (0-255) to linear RGB (0-1).
+ * Applies the standard sRGB gamma decompression curve.
+ *
+ * @param u - sRGB channel value (0-255)
+ * @returns Linear RGB value (0-1)
+ */
 export function srgbToLinear(u: number): number {
   const v = u / 255
   return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
 }
 
+/**
+ * Converts a linear RGB value (0-1) to an sRGB channel value (0-255).
+ * Applies the standard sRGB gamma compression curve, clamping and rounding the result.
+ *
+ * @param u - Linear RGB value (0-1)
+ * @returns sRGB channel value (0-255)
+ */
 export function linearToSrgb(u: number): number {
   const v = u <= 0.0031308 ? 12.92 * u : 1.055 * Math.pow(u, 1 / 2.4) - 0.055
   return Math.round(Math.max(0, Math.min(1, v)) * 255)
 }
 
+/**
+ * Converts OKLCH color values to sRGB. Uses the OKLab intermediate color space
+ * with matrix transforms to linear sRGB.
+ *
+ * @param L - Lightness (0-1)
+ * @param C - Chroma (0 to approximately 0.4)
+ * @param hDeg - Hue angle in degrees (0-360)
+ * @returns A tuple of `[red, green, blue]` with values 0-255
+ *
+ * @example
+ * ```ts
+ * oklchToRgb(0.623, 0.214, 259.815) // approximately [59, 130, 246] (blue-500)
+ * ```
+ */
 export function oklchToRgb(
   L: number,
   C: number,
@@ -461,6 +675,20 @@ export function oklchToRgb(
   return [linearToSrgb(rLin), linearToSrgb(gLin), linearToSrgb(bLin)]
 }
 
+/**
+ * Converts sRGB color values to OKLCH color space.
+ *
+ * @param r - Red channel (0-255)
+ * @param g - Green channel (0-255)
+ * @param b - Blue channel (0-255)
+ * @returns A tuple of `[lightness, chroma, hue]` where lightness is 0-1,
+ *   chroma is 0 to ~0.4, and hue is 0-360 degrees
+ *
+ * @example
+ * ```ts
+ * rgbToOklch(59, 130, 246) // approximately [0.623, 0.214, 259.815]
+ * ```
+ */
 export function rgbToOklch(
   r: number,
   g: number,
@@ -488,6 +716,25 @@ export function rgbToOklch(
   return [L, C, h]
 }
 
+/**
+ * Formats RGBA color values into a CSS color string in the specified format.
+ *
+ * @param r - Red channel (0-255)
+ * @param g - Green channel (0-255)
+ * @param b - Blue channel (0-255)
+ * @param a - Alpha channel (0-1)
+ * @param fmt - The output format: `'hex'`, `'rgb'`, `'rgba'`, `'hsl'`, `'hsla'`, `'hwb'`, or `'oklch'`
+ * @param alphaEnabled - Whether to include alpha in formats that support it (hex, oklch)
+ * @returns A CSS color string in the requested format
+ *
+ * @example
+ * ```ts
+ * formatColor(255, 0, 0, 1, 'hex')           // '#ff0000'
+ * formatColor(255, 0, 0, 0.5, 'hex', true)   // '#ff000080'
+ * formatColor(255, 0, 0, 1, 'hsl')           // 'hsl(0, 100%, 50%)'
+ * formatColor(255, 0, 0, 1, 'oklch')         // 'oklch(0.628 0.258 29.2)'
+ * ```
+ */
 export function formatColor(
   r: number,
   g: number,
@@ -535,6 +782,23 @@ export function formatColor(
   }
 }
 
+/**
+ * Resolves the effective color format based on whether alpha is enabled.
+ * When alpha is enabled, `'rgb'` becomes `'rgba'` and `'hsl'` becomes `'hsla'`.
+ * When alpha is disabled, `'rgba'` becomes `'rgb'` and `'hsla'` becomes `'hsl'`.
+ * Other formats (hex, hwb, oklch) are returned unchanged.
+ *
+ * @param fmt - The requested color format
+ * @param alphaEnabled - Whether alpha channel is enabled
+ * @returns The resolved effective color format
+ *
+ * @example
+ * ```ts
+ * resolveEffectiveFormat('rgb', true)   // 'rgba'
+ * resolveEffectiveFormat('rgba', false) // 'rgb'
+ * resolveEffectiveFormat('hex', true)   // 'hex'
+ * ```
+ */
 export function resolveEffectiveFormat(
   fmt: 'hex' | 'rgb' | 'rgba' | 'hsl' | 'hsla' | 'hwb' | 'oklch',
   alphaEnabled: boolean

@@ -1,5 +1,15 @@
+/**
+ * Toolbar component for the ProseMirror markdown editor.
+ *
+ * Renders formatting buttons (bold, italic, code), heading level selectors,
+ * list toggles (bullet/ordered), block formatting (blockquote, code block,
+ * horizontal rule), and an inline link editor -- all driven by the
+ * {@link MarkdownFeatures} configuration.
+ *
+ * @module
+ */
+
 import {
-  TNode,
   Value,
   Use,
   When,
@@ -23,19 +33,49 @@ import { ControlSize } from '../theme'
 import { makeActiveMarkSignal, makeActiveNodeSignal } from './utils'
 import { EditorToolbarGroup, EditorToolbarButton } from '../editor-toolbar'
 
+/**
+ * Options for configuring the ProseMirror markdown toolbar.
+ */
 export interface ProseMirrorToolbarOptions {
-  /** The ProseMirror editor view */
+  /** Signal holding the ProseMirror editor view, or `null` before initialization. */
   view: Signal<EditorView | null>
+  /** Ticker signal that increments on every ProseMirror state change. */
   stateUpdate: Signal<number>
-  /** Enabled markdown features */
+  /** Signal of enabled markdown features controlling which toolbar buttons are visible. */
   features: Signal<MarkdownFeatures>
-  /** Whether the editor is readonly */
+  /**
+   * Signal indicating whether the editor is in read-only mode.
+   * Toolbar buttons are disabled when `true`.
+   * @default signal(false)
+   */
   readOnly?: Signal<boolean>
+  /**
+   * Size of the toolbar buttons.
+   * @default 'sm'
+   */
   size?: Value<ControlSize>
 }
 
 /**
- * Create a toolbar for the ProseMirror markdown editor
+ * Creates a formatting toolbar for the ProseMirror markdown editor.
+ *
+ * The toolbar adapts dynamically to the enabled {@link MarkdownFeatures},
+ * showing only the relevant button groups. It integrates with BeatUI's
+ * i18n system for localised button labels and tooltips.
+ *
+ * @param options - Toolbar configuration including the editor view, features, and size.
+ * @returns A `TNode` renderable containing the complete toolbar.
+ *
+ * @example
+ * ```ts
+ * ProseMirrorToolbar({
+ *   view: editorViewSignal,
+ *   stateUpdate: editorStateNotifier,
+ *   features: signal(DEFAULT_FEATURES),
+ *   readOnly: signal(false),
+ *   size: 'sm',
+ * })
+ * ```
  */
 export function ProseMirrorToolbar({
   view,
@@ -43,7 +83,7 @@ export function ProseMirrorToolbar({
   features,
   readOnly = signal(false),
   size = 'sm',
-}: ProseMirrorToolbarOptions): TNode {
+}: ProseMirrorToolbarOptions) {
   return Ensure(view, viewSignal =>
     Use(BeatUII18n, t => {
       const pmt = t.$.prosemirror
@@ -185,7 +225,11 @@ export function ProseMirrorToolbar({
 }
 
 /**
- * Toggle a mark (bold, italic, code)
+ * Toggles an inline mark (e.g. bold, italic, code) on the current selection
+ * and returns focus to the editor.
+ *
+ * @param view - The ProseMirror editor view.
+ * @param markType - The name of the mark type in the schema to toggle.
  */
 function toggleMark(view: EditorView, markType: string) {
   const mark = view.state.schema.marks[markType]
@@ -196,7 +240,10 @@ function toggleMark(view: EditorView, markType: string) {
 }
 
 /**
- * Set heading level
+ * Sets the current block to a heading of the specified level.
+ *
+ * @param view - The ProseMirror editor view.
+ * @param level - The heading level (1-6).
  */
 function setHeading(view: EditorView, level: number) {
   const headingType = view.state.schema.nodes.heading
@@ -207,10 +254,18 @@ function setHeading(view: EditorView, level: number) {
 }
 
 /**
- * Toggle list (bullet or ordered)
- * If already in the same list type, remove the list
- * If in a different list type, convert to the new type
- * Otherwise, wrap in the list
+ * Toggles a list type (bullet or ordered) on the current selection.
+ *
+ * Behaviour:
+ * - If already in the same list type, removes the list.
+ * - If in a different list type, converts to the new type.
+ * - Otherwise, wraps the selection in the specified list.
+ *
+ * The `prosemirror-schema-list` package is lazily imported to avoid bundling
+ * it when lists are disabled.
+ *
+ * @param view - The ProseMirror editor view.
+ * @param listType - The node type name of the list (`'bullet_list'` or `'ordered_list'`).
  */
 async function toggleList(view: EditorView, listType: string) {
   const { wrapInList, liftListItem } = await import('prosemirror-schema-list')
@@ -252,9 +307,12 @@ async function toggleList(view: EditorView, listType: string) {
 }
 
 /**
- * Toggle blockquote
- * If already in a blockquote, remove it
- * Otherwise, wrap in a blockquote
+ * Toggles a blockquote on the current selection.
+ *
+ * If the cursor is already inside a blockquote the block is lifted out;
+ * otherwise the selection is wrapped in a new blockquote.
+ *
+ * @param view - The ProseMirror editor view.
  */
 function toggleBlockquote(view: EditorView) {
   const blockquoteType = view.state.schema.nodes.blockquote
@@ -284,9 +342,12 @@ function toggleBlockquote(view: EditorView) {
 }
 
 /**
- * Toggle code block
- * If already in a code block, convert to paragraph
- * Otherwise, convert to code block
+ * Toggles a code block on the current selection.
+ *
+ * If the cursor is inside a code block it is converted back to a paragraph;
+ * otherwise the current block is converted to a code block.
+ *
+ * @param view - The ProseMirror editor view.
  */
 function toggleCodeBlock(view: EditorView) {
   const codeBlockType = view.state.schema.nodes.code_block
@@ -317,7 +378,10 @@ function toggleCodeBlock(view: EditorView) {
 }
 
 /**
- * Insert horizontal rule
+ * Inserts a horizontal rule (`<hr>`) at the current selection position
+ * and returns focus to the editor.
+ *
+ * @param view - The ProseMirror editor view.
  */
 function insertHorizontalRule(view: EditorView) {
   const hrType = view.state.schema.nodes.horizontal_rule

@@ -141,6 +141,28 @@ export function Menu() {
         SidebarLink({ href: '/breakpoint', content: 'Breakpoint' }),
         SidebarLink({ href: '/temporal', content: 'Temporal' }),
         SidebarLink({ href: '/rtl-ltr', content: 'RTL/LTR Support' })
+      ),
+      // API Reference
+      SidebarGroup(
+        { header: 'API Reference', rail: true },
+        SidebarLink({ href: '/api', content: 'Overview' }),
+        SidebarLink({ href: '/api/main', content: 'Main' }),
+        SidebarLink({ href: '/api/auth', content: 'Auth' }),
+        SidebarLink({ href: '/api/better-auth', content: 'Better Auth' }),
+        SidebarLink({ href: '/api/json-schema', content: 'JSON Schema' }),
+        SidebarLink({
+          href: '/api/json-schema-display',
+          content: 'JSON Schema Display',
+        }),
+        SidebarLink({
+          href: '/api/json-structure',
+          content: 'JSON Structure',
+        }),
+        SidebarLink({ href: '/api/monaco', content: 'Monaco' }),
+        SidebarLink({ href: '/api/markdown', content: 'Markdown' }),
+        SidebarLink({ href: '/api/prosemirror', content: 'ProseMirror' }),
+        SidebarLink({ href: '/api/lexical', content: 'Lexical' }),
+        SidebarLink({ href: '/api/tailwind', content: 'Tailwind' })
       )
     )
   )

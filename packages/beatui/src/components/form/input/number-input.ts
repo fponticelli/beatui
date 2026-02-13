@@ -19,15 +19,64 @@ import { Icon } from '../../data/icon'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { Stack } from '../../layout'
 
+/**
+ * Configuration options for the {@link NumberInput} component.
+ *
+ * Extends {@link InputOptions} for numeric values with additional properties for
+ * step increment, minimum and maximum bounds. When `step` is provided, stepper
+ * buttons and mouse wheel support are automatically enabled.
+ */
 export type NumberInputOptions = Merge<
   InputOptions<number>,
   {
+    /** Step increment for stepper buttons and wheel interactions. When set, enables +/- buttons and scroll-to-step. Hold Shift for 10x multiplier. */
     step?: Value<number>
+    /** Minimum allowed value. Disables decrement when reached. */
     min?: Value<number>
+    /** Maximum allowed value. Disables increment when reached. */
     max?: Value<number>
   }
 >
 
+/**
+ * A numeric input component wrapping a native `<input type="number">` with optional stepper buttons.
+ *
+ * Renders a styled number field inside an {@link InputContainer} with support for
+ * reactive values, min/max constraints, and an optional step increment. When `step`
+ * is provided, increment/decrement buttons appear alongside the input, and mouse
+ * wheel scrolling adjusts the value. Holding Shift while clicking steppers or
+ * scrolling applies a 10x multiplier to the step value.
+ *
+ * @param options - Configuration options for the number input
+ * @returns A styled number input element with optional stepper buttons, wrapped in an InputContainer
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { NumberInput } from '@tempots/beatui'
+ *
+ * const quantity = prop(1)
+ * NumberInput({
+ *   value: quantity,
+ *   onChange: quantity.set,
+ *   min: 0,
+ *   max: 100,
+ *   step: 1,
+ *   placeholder: 'Quantity',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Without stepper buttons (no step provided)
+ * NumberInput({
+ *   value: prop(0),
+ *   onChange: (v) => console.log('Value:', v),
+ *   min: -10,
+ *   max: 10,
+ * })
+ * ```
+ */
 export const NumberInput = (options: NumberInputOptions) => {
   const { value, step, min, max, onBlur, onChange, onInput, after } = options
 

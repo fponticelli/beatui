@@ -8,7 +8,6 @@ import {
   When,
   OnDispose,
   WithElement,
-  TNode,
   signal,
 } from '@tempots/dom'
 import type { LexicalEditor } from 'lexical'
@@ -66,7 +65,7 @@ export function LanguageSelector({
   stateUpdate,
   readOnly = signal(false),
   languages = DEFAULT_LANGUAGES,
-}: LanguageSelectorOptions): TNode {
+}: LanguageSelectorOptions) {
   const isVisible = prop(false)
   const currentLanguage = prop<string | null>(null)
   const isDropdownOpen = prop(false)

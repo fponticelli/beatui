@@ -15,11 +15,18 @@ import { Icon } from '../../data/icon'
 import { MaskInput } from './mask-input'
 import { InputOptions } from './input-options'
 
+/**
+ * Options for the {@link BigintInput} component.
+ * Extends standard `InputOptions` for `bigint` values with stepper and range constraints.
+ */
 export type BigintInputOptions = Merge<
   InputOptions<bigint>,
   {
+    /** Step value for increment/decrement buttons. If provided, stepper buttons are shown. */
     step?: Value<bigint>
+    /** Minimum allowed value. Values below this are clamped. */
     min?: Value<bigint>
+    /** Maximum allowed value. Values above this are clamped. */
     max?: Value<bigint>
   }
 >
@@ -32,6 +39,26 @@ const toBigint = (v: string): bigint | null => {
   }
 }
 
+/**
+ * A numeric input component for `bigint` values with optional stepper buttons.
+ *
+ * Uses a masked input that only allows digit characters. Supports min/max
+ * clamping and increment/decrement buttons (with Shift+click for 10x step).
+ *
+ * @param options - Configuration options for the bigint input.
+ * @returns A renderable bigint input component.
+ *
+ * @example
+ * ```ts
+ * BigintInput({
+ *   value: prop(0n),
+ *   step: 1n,
+ *   min: 0n,
+ *   max: 1000n,
+ *   onChange: v => console.log('Value:', v),
+ * })
+ * ```
+ */
 export const BigintInput = (options: BigintInputOptions) => {
   const { value, step, min, max, onChange, onInput, after } = options
 

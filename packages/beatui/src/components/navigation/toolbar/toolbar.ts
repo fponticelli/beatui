@@ -20,10 +20,47 @@ const FOCUSABLE_SELECTOR = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(', ')
 
+/**
+ * Configuration options for the {@link Toolbar} component.
+ */
 export interface ToolbarOptions {
+  /**
+   * Accessible label for the toolbar (`aria-label`).
+   * Provides a descriptive label for screen readers.
+   */
   ariaLabel?: Value<string>
 }
 
+/**
+ * Horizontal toolbar component with roving tabindex keyboard navigation.
+ *
+ * Renders a `role="toolbar"` container with `aria-orientation="horizontal"`.
+ * Implements the WAI-ARIA toolbar pattern:
+ * - Arrow Left/Right to move focus between focusable children
+ * - Home/End to jump to first/last focusable item
+ * - Roving tabindex ensures only one item is tabbable at a time
+ *
+ * @param children - Toolbar items, typically {@link ToolbarButton}, {@link ToolbarGroup},
+ *   {@link ToolbarDivider}, and {@link ToolbarSpacer} components
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * Toolbar(
+ *   ToolbarGroup(
+ *     ToolbarButton({ onClick: () => bold() }, Icon({ icon: 'bold' })),
+ *     ToolbarButton({ onClick: () => italic() }, Icon({ icon: 'italic' })),
+ *   ),
+ *   ToolbarDivider(),
+ *   ToolbarGroup(
+ *     ToolbarButton({ onClick: () => alignLeft() }, Icon({ icon: 'align-left' })),
+ *     ToolbarButton({ onClick: () => alignCenter() }, Icon({ icon: 'align-center' })),
+ *   ),
+ *   ToolbarSpacer(),
+ *   ToolbarButton({ onClick: () => save() }, 'Save'),
+ * )
+ * ```
+ */
 export function Toolbar(...children: TNode[]) {
   return html.div(
     attr.class('bc-toolbar'),
@@ -115,11 +152,41 @@ export function Toolbar(...children: TNode[]) {
   )
 }
 
+/**
+ * Configuration options for the {@link ToolbarButton} component.
+ * Extends {@link ButtonOptions} with toolbar-specific properties.
+ */
 export interface ToolbarButtonOptions extends ButtonOptions {
+  /**
+   * Whether the button displays only an icon without text.
+   * When `true`, ensure `ariaLabel` is provided for accessibility.
+   */
   iconOnly?: Value<boolean>
+  /**
+   * Accessible label for the button (`aria-label`).
+   * Required when `iconOnly` is `true` to provide a text alternative.
+   */
   ariaLabel?: Value<string>
 }
 
+/**
+ * Button component pre-configured for use inside a {@link Toolbar}.
+ *
+ * Applies default toolbar styling (neutral color, light variant, medium roundedness)
+ * that can be overridden via the options object.
+ *
+ * @param options - Button configuration options. Defaults are overridden with toolbar-appropriate values.
+ * @param children - Child content for the button (text, icons, or both)
+ * @returns A renderable button node
+ *
+ * @example
+ * ```typescript
+ * ToolbarButton(
+ *   { onClick: () => toggleBold() },
+ *   Icon({ icon: 'bold', size: 'sm' })
+ * )
+ * ```
+ */
 export function ToolbarButton(options: ButtonOptions, ...children: TNode[]) {
   return Button(
     {
@@ -133,10 +200,35 @@ export function ToolbarButton(options: ButtonOptions, ...children: TNode[]) {
   )
 }
 
+/**
+ * Configuration options for the {@link ToolbarGroup} component.
+ */
 export interface ToolbarGroupOptions {
+  /**
+   * Accessible label for the toolbar group (`aria-label`).
+   * Provides a descriptive label for screen readers.
+   */
   ariaLabel?: Value<string>
 }
 
+/**
+ * Groups related toolbar items together within a {@link Toolbar}.
+ *
+ * Renders a `role="group"` container that visually and semantically groups
+ * related buttons or controls.
+ *
+ * @param children - Toolbar items to group (e.g., {@link ToolbarButton} components)
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * ToolbarGroup(
+ *   ToolbarButton({ onClick: () => bold() }, Icon({ icon: 'bold' })),
+ *   ToolbarButton({ onClick: () => italic() }, Icon({ icon: 'italic' })),
+ *   ToolbarButton({ onClick: () => underline() }, Icon({ icon: 'underline' })),
+ * )
+ * ```
+ */
 export function ToolbarGroup(...children: TNode[]) {
   return html.div(
     attr.class('bc-toolbar__group'),
@@ -145,6 +237,22 @@ export function ToolbarGroup(...children: TNode[]) {
   )
 }
 
+/**
+ * Visual divider for separating groups of items within a {@link Toolbar}.
+ *
+ * Renders a `role="separator"` element with vertical orientation.
+ *
+ * @returns A renderable divider node
+ *
+ * @example
+ * ```typescript
+ * Toolbar(
+ *   ToolbarGroup(boldBtn, italicBtn),
+ *   ToolbarDivider(),
+ *   ToolbarGroup(alignLeftBtn, alignCenterBtn),
+ * )
+ * ```
+ */
 export function ToolbarDivider() {
   return html.div(
     attr.class('bc-toolbar__divider'),
@@ -153,6 +261,23 @@ export function ToolbarDivider() {
   )
 }
 
+/**
+ * Flexible spacer that pushes toolbar items apart within a {@link Toolbar}.
+ *
+ * Uses CSS flex to fill available space, creating a gap between the items
+ * before and after it.
+ *
+ * @returns A renderable spacer node
+ *
+ * @example
+ * ```typescript
+ * Toolbar(
+ *   ToolbarGroup(editBtns),
+ *   ToolbarSpacer(),
+ *   ToolbarButton({ onClick: save }, 'Save'),
+ * )
+ * ```
+ */
 export function ToolbarSpacer() {
   return html.div(attr.class('bc-toolbar__spacer'))
 }

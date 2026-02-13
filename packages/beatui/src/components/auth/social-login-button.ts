@@ -1,5 +1,12 @@
-// Social Login Button Component
-// Reusable button component for social authentication providers
+/**
+ * Social Login Button Component
+ *
+ * Reusable button components for social authentication providers. Includes
+ * a generic `SocialLoginButton`, a multi-button `SocialLoginButtons` container,
+ * and pre-configured convenience variants for each supported provider.
+ *
+ * @module auth/social-login-button
+ */
 
 import {
   attr,
@@ -20,6 +27,26 @@ import { Stack } from '../layout'
 import { ThemeColorName } from '../../tokens'
 import { AuthI18n } from '../../auth-i18n/translations'
 
+/**
+ * Renders a branded social login button for a specific authentication provider.
+ *
+ * Displays the provider's icon and a localized "Continue with {provider}" label.
+ * Handles both redirect and popup OAuth flows via the `onClick` handler.
+ *
+ * @param options - Configuration options for the social login button.
+ * @returns A `Renderable` button element styled for the specified provider.
+ *
+ * @example
+ * ```ts
+ * SocialLoginButton({
+ *   provider: 'google',
+ *   name: 'Google',
+ *   icon: 'logos:google-icon',
+ *   color: 'red',
+ *   onClick: async () => { await authClient.signIn.social({ provider: 'google' }) },
+ * })
+ * ```
+ */
 export function SocialLoginButton({
   provider,
   onClick,
@@ -81,12 +108,39 @@ export function SocialLoginButton({
   )
 }
 
+/**
+ * Minimal provider configuration passed to social login components.
+ *
+ * Contains the provider name and optional OAuth flow type.
+ */
 export type AuthProviderInfo = {
+  /** The social provider identifier. */
   provider: AuthProviderName
+  /** The OAuth flow type. @default 'redirect' */
   flow?: 'redirect' | 'popup'
 }
 
-// Convenience function to create multiple social login buttons
+/**
+ * Renders a vertical stack of social login buttons for multiple providers.
+ *
+ * Iterates over the provided list of providers and renders a {@link SocialLoginButton}
+ * for each, using the provider metadata from {@link socialProviderInfo}.
+ *
+ * @param options - Configuration for the button group.
+ * @param options.providers - Reactive array of provider configurations.
+ * @param options.onProviderClick - Callback invoked when any provider button is clicked.
+ * @param options.size - The size of all buttons. @default 'md'
+ * @param options.className - Additional CSS class names for the container.
+ * @returns A `Renderable` stack of social login buttons.
+ *
+ * @example
+ * ```ts
+ * SocialLoginButtons({
+ *   providers: [{ provider: 'google' }, { provider: 'github' }],
+ *   onProviderClick: async (provider) => { await handleSocialLogin(provider) },
+ * })
+ * ```
+ */
 export function SocialLoginButtons({
   providers,
   onProviderClick,
@@ -125,6 +179,12 @@ export function SocialLoginButtons({
   )
 }
 
+/**
+ * Mapping of all supported social provider names to their display metadata.
+ *
+ * Contains the human-readable name, Iconify icon identifier, and BeatUI theme
+ * color name for each provider. Used internally by social login button components.
+ */
 export const socialProviderInfo: Record<
   AuthProviderName,
   { name: string; icon: string; color: ThemeColorName | 'black' }
@@ -260,12 +320,23 @@ export const socialProviderInfo: Record<
   },
 }
 
+/**
+ * Options type for specialized social login button variants.
+ *
+ * Same as {@link SocialLoginButtonOptions} but with `provider`, `name`, `icon`, and `color`
+ * pre-configured for the specific provider.
+ */
 export type SpecialSocialLoginButtonOptions = Omit<
   SocialLoginButtonOptions,
   'provider' | 'name' | 'icon' | 'color'
 >
 
-// Specialized social login button variants
+/**
+ * Pre-configured Google social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Google-branded login button.
+ */
 export const GoogleLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -273,6 +344,12 @@ export const GoogleLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'google',
   })
 
+/**
+ * Pre-configured GitHub social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` GitHub-branded login button.
+ */
 export const GitHubLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -280,6 +357,12 @@ export const GitHubLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'github',
   })
 
+/**
+ * Pre-configured Apple social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Apple-branded login button.
+ */
 export const AppleLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -287,6 +370,12 @@ export const AppleLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'apple',
   })
 
+/**
+ * Pre-configured Facebook social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Facebook-branded login button.
+ */
 export const FacebookLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -294,6 +383,12 @@ export const FacebookLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'facebook',
   })
 
+/**
+ * Pre-configured X (formerly Twitter) social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` X-branded login button.
+ */
 export const XLoginButtin = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -301,6 +396,12 @@ export const XLoginButtin = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'x',
   })
 
+/**
+ * Pre-configured Twitter social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Twitter-branded login button.
+ */
 export const TwitterLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -308,6 +409,12 @@ export const TwitterLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'twitter',
   })
 
+/**
+ * Pre-configured Microsoft social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Microsoft-branded login button.
+ */
 export const MicrosoftLoginButton = (
   options: SpecialSocialLoginButtonOptions
 ) =>
@@ -317,6 +424,12 @@ export const MicrosoftLoginButton = (
     provider: 'microsoft',
   })
 
+/**
+ * Pre-configured Discord social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Discord-branded login button.
+ */
 export const DiscordLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -324,6 +437,12 @@ export const DiscordLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'discord',
   })
 
+/**
+ * Pre-configured LinkedIn social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` LinkedIn-branded login button.
+ */
 export const LinkedInLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -331,6 +450,12 @@ export const LinkedInLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'linkedin',
   })
 
+/**
+ * Pre-configured Instagram social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Instagram-branded login button.
+ */
 export const InstagramLoginButton = (
   options: SpecialSocialLoginButtonOptions
 ) =>
@@ -340,6 +465,12 @@ export const InstagramLoginButton = (
     provider: 'instagram',
   })
 
+/**
+ * Pre-configured TikTok social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` TikTok-branded login button.
+ */
 export const TiktokLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -347,6 +478,12 @@ export const TiktokLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'tiktok',
   })
 
+/**
+ * Pre-configured Snapchat social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Snapchat-branded login button.
+ */
 export const SnapchatLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -354,6 +491,12 @@ export const SnapchatLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'snapchat',
   })
 
+/**
+ * Pre-configured Reddit social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Reddit-branded login button.
+ */
 export const RedditLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -361,6 +504,12 @@ export const RedditLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'reddit',
   })
 
+/**
+ * Pre-configured Pinterest social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Pinterest-branded login button.
+ */
 export const PinterestLoginButton = (
   options: SpecialSocialLoginButtonOptions
 ) =>
@@ -370,6 +519,12 @@ export const PinterestLoginButton = (
     provider: 'pinterest',
   })
 
+/**
+ * Pre-configured Twitch social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Twitch-branded login button.
+ */
 export const TwitchLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -377,6 +532,12 @@ export const TwitchLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'twitch',
   })
 
+/**
+ * Pre-configured Steam social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Steam-branded login button.
+ */
 export const SteamLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -384,6 +545,12 @@ export const SteamLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'steam',
   })
 
+/**
+ * Pre-configured Epic Games social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Epic Games-branded login button.
+ */
 export const EpicLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -391,6 +558,12 @@ export const EpicLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'epic',
   })
 
+/**
+ * Pre-configured PlayStation social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` PlayStation-branded login button.
+ */
 export const PlayStationLoginButton = (
   options: SpecialSocialLoginButtonOptions
 ) =>
@@ -400,6 +573,12 @@ export const PlayStationLoginButton = (
     provider: 'playstation',
   })
 
+/**
+ * Pre-configured Xbox social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Xbox-branded login button.
+ */
 export const XboxLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -407,6 +586,12 @@ export const XboxLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'xbox',
   })
 
+/**
+ * Pre-configured WhatsApp social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` WhatsApp-branded login button.
+ */
 export const WhatsAppLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -414,6 +599,12 @@ export const WhatsAppLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'whatsapp',
   })
 
+/**
+ * Pre-configured WeChat social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` WeChat-branded login button.
+ */
 export const WeChatLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -421,6 +612,12 @@ export const WeChatLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'wechat',
   })
 
+/**
+ * Pre-configured Amazon social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Amazon-branded login button.
+ */
 export const AmazonLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -428,6 +625,12 @@ export const AmazonLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'amazon',
   })
 
+/**
+ * Pre-configured Yahoo social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` Yahoo-branded login button.
+ */
 export const YahooLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,
@@ -435,6 +638,12 @@ export const YahooLoginButton = (options: SpecialSocialLoginButtonOptions) =>
     provider: 'yahoo',
   })
 
+/**
+ * Pre-configured PayPal social login button.
+ *
+ * @param options - Button options (provider, name, icon, and color are pre-filled).
+ * @returns A `Renderable` PayPal-branded login button.
+ */
 export const PayPalLoginButton = (options: SpecialSocialLoginButtonOptions) =>
   SocialLoginButton({
     ...options,

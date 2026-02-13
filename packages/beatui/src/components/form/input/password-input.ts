@@ -17,6 +17,45 @@ import { CommonInputAttributes, InputOptions } from './input-options'
 import { Icon } from '../../data/icon'
 import { BeatUII18n } from '../../../beatui-i18n'
 
+/**
+ * A password input component with a built-in visibility toggle button.
+ *
+ * Renders a styled password field inside an {@link InputContainer} that switches
+ * between `type="password"` and `type="text"` when the user clicks the eye icon
+ * toggle. The placeholder automatically shows bullet characters when the password
+ * is hidden. Autocomplete defaults to `'current-password'` when hidden and `'off'`
+ * when visible.
+ *
+ * The component uses the BeatUI i18n system for localized placeholder text and
+ * toggle button aria labels.
+ *
+ * @param options - Configuration options following the {@link InputOptions} pattern for string values
+ * @returns A styled password input element with visibility toggle, wrapped in an InputContainer
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { PasswordInput } from '@tempots/beatui'
+ *
+ * const password = prop('')
+ * PasswordInput({
+ *   value: password,
+ *   onChange: password.set,
+ *   placeholder: 'Enter password',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With custom before icon and additional after content
+ * PasswordInput({
+ *   value: prop(''),
+ *   onChange: (v) => console.log('Password:', v),
+ *   before: Icon({ icon: 'line-md:lock' }),
+ *   after: html.span('Strength: weak'),
+ * })
+ * ```
+ */
 export const PasswordInput = (options: InputOptions<string>) => {
   const {
     value,

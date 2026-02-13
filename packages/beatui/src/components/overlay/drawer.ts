@@ -24,34 +24,98 @@ import { FocusTrap } from '../../utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
 import { BeatUII18n } from '../../beatui-i18n'
 
+/**
+ * Configuration options for the {@link Drawer} component, defining its content layout
+ * and behavioral properties.
+ */
 export interface DrawerOptions {
-  /** Size of the drawer */
+  /**
+   * Size preset controlling the width (for left/right drawers) or height (for top/bottom drawers).
+   * @default 'md'
+   */
   size?: Value<'sm' | 'md' | 'lg' | 'xl'>
-  /** Side of the viewport/element to anchor the drawer to */
+  /**
+   * Side of the viewport or container element to anchor the drawer to.
+   * Logical values `'inline-start'` and `'inline-end'` respect the document's writing direction.
+   * @default 'right'
+   */
   side?: Value<
     'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end'
   >
-  /** Whether the drawer can be closed by clicking outside or pressing escape */
+  /**
+   * Whether the drawer can be closed by clicking outside or pressing the Escape key.
+   * When `false`, the overlay enters non-capturing mode and ignores dismiss gestures.
+   * @default true
+   */
   dismissable?: Value<boolean>
-  /** Whether to show the close button in header (only applies if header is provided) */
+  /**
+   * Whether to show the close button in the drawer header.
+   * Only rendered when header content is provided.
+   * @default true
+   */
   showCloseButton?: Value<boolean>
-  /** Callback when drawer is closed */
+  /**
+   * Callback invoked when the drawer is closed via dismiss gestures (click outside or Escape).
+   */
   onClose?: () => void
-  /** Overlay effect */
+  /**
+   * Visual effect applied to the overlay backdrop behind the drawer.
+   * @default 'opaque'
+   */
   overlayEffect?: Value<OverlayEffect>
-  /** Container for the overlay: 'body' (default) or 'element' (current element) */
+  /**
+   * Where to attach the overlay in the DOM.
+   * - `'body'` - Renders via a portal to the document body.
+   * - `'element'` - Renders as a child of the current element context.
+   * @default 'body'
+   */
   container?: 'body' | 'element'
-  /** Header content for the drawer */
+  /**
+   * Optional header content displayed at the top of the drawer panel.
+   * When provided alongside `showCloseButton`, a close button is rendered in the header.
+   */
   header?: TNode
-  /** Body content for the drawer */
+  /**
+   * Main body content of the drawer. Rendered inside a scrollable panel.
+   */
   body: TNode
-  /** Footer content for the drawer */
+  /**
+   * Optional footer content, typically used for action buttons at the bottom of the drawer.
+   */
   footer?: TNode
 }
 
 /**
- * Drawer component that provides a slide-out panel anchored to any side
- * Built on top of the overlay component
+ * Slide-out panel component that anchors to any side of the viewport or container.
+ *
+ * Built on top of {@link Overlay}, the Drawer provides animated open/close transitions,
+ * focus trapping, keyboard and click-outside dismissal, and proper ARIA attributes
+ * (`role="dialog"`, `aria-modal`). The body content is rendered inside a
+ * {@link ScrollablePanel} for built-in scrolling behavior.
+ *
+ * @param fn - A render function that receives `open` and `close` callbacks and returns the trigger content.
+ *   Call `open(options)` with a {@link DrawerOptions} object to display the drawer.
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * Drawer((open, close) =>
+ *   Button(
+ *     { onClick: () => open({
+ *       side: 'right',
+ *       size: 'md',
+ *       header: html.h3('Settings'),
+ *       body: html.div(
+ *         html.p('Drawer body content here'),
+ *         FormField({ label: 'Name' }, TextInput({ value: prop('') }))
+ *       ),
+ *       footer: Button({ variant: 'filled', onClick: close }, 'Save'),
+ *       onClose: () => console.log('Drawer closed'),
+ *     })},
+ *     'Open Drawer'
+ *   )
+ * )
+ * ```
  */
 export function Drawer(
   fn: (open: (options: DrawerOptions) => void, close: () => void) => TNode

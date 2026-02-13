@@ -1,24 +1,28 @@
 import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 
+/**
+ * Configuration options for the {@link Table} component.
+ * Controls visual presentation including size, borders, hover effects, and sticky headers.
+ */
 export interface TableOptions {
-  /** Size of the table (affects padding and spacing) */
+  /** Size of the table affecting cell padding and font size. @default 'md' */
   size?: Value<ControlSize>
-  /** Enable hover effect on rows */
+  /** Enable background color change on row hover. @default false */
   hoverable?: Value<boolean>
-  /** Make the header sticky when scrolling */
+  /** Make the header row sticky when scrolling vertically. @default false */
   stickyHeader?: Value<boolean>
-  /** Table takes full width of container */
+  /** Whether the table takes the full width of its container. @default false */
   fullWidth?: Value<boolean>
-  /** Stripe rows for better readability */
+  /** Alternate row background colors for improved readability. @default false */
   withStripedRows?: Value<boolean>
-  /** Show outer table border */
+  /** Show a border around the entire table container. @default true */
   withTableBorder?: Value<boolean>
-  /** Show vertical borders between columns */
+  /** Show vertical borders between columns. @default false */
   withColumnBorders?: Value<boolean>
-  /** Show horizontal borders between rows */
+  /** Show horizontal borders between rows. @default true */
   withRowBorders?: Value<boolean>
-  /** Custom border radius (CSS value) */
+  /** Border radius of the table container. @default undefined */
   borderRadius?: Value<'none' | 'sm' | 'md' | 'lg' | 'xl'>
 }
 
@@ -70,8 +74,31 @@ function generateTableStyles(borderRadius?: string): string | undefined {
 }
 
 /**
- * Table component with styling variants
- * Focused on presentation, not data management
+ * A styled table component focused on presentation with configurable borders,
+ * hover effects, sticky headers, and striped rows. Wraps a standard HTML table
+ * in a container that handles overflow scrolling and border radius.
+ *
+ * This component provides styling only — data management and row rendering
+ * are handled by the caller using standard `html.thead`, `html.tbody`, `html.tr`,
+ * `html.th`, and `html.td` elements.
+ *
+ * @param options - Visual configuration for the table
+ * @param children - Table content (thead, tbody, tfoot elements)
+ * @returns A container div wrapping a styled table element
+ *
+ * @example
+ * ```typescript
+ * Table(
+ *   { hoverable: true, withStripedRows: true, fullWidth: true },
+ *   html.thead(
+ *     html.tr(html.th('Name'), html.th('Email'), html.th('Role'))
+ *   ),
+ *   html.tbody(
+ *     html.tr(html.td('Alice'), html.td('alice@example.com'), html.td('Admin')),
+ *     html.tr(html.td('Bob'), html.td('bob@example.com'), html.td('User'))
+ *   )
+ * )
+ * ```
  */
 export function Table(
   {

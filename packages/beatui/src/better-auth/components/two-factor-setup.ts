@@ -130,11 +130,7 @@ export function TwoFactorSetup({
               html.div(
                 attr.class('bc-two-factor__backup-codes'),
                 html.p(t.$.twoFactorBackupCodesDescription),
-                html.ul(
-                  ForEach(backupCodes, code =>
-                    html.li(code)
-                  )
-                )
+                html.ul(ForEach(backupCodes, code => html.li(code)))
               )
             ),
 

@@ -16,20 +16,76 @@ import { Icon } from '../../data'
 import { ThemeColorName } from '../../../tokens'
 import { ControlSize } from '../../theme/types'
 
+/**
+ * Configuration options for the {@link RatingInput} component.
+ *
+ * Extends {@link InputOptions} for numeric values with properties to control the
+ * maximum rating, icon appearance, theme colors, and rounding precision.
+ */
 type RatingInputOptions = InputOptions<number> & {
+  /** Maximum number of rating icons (stars). @default 5 */
   max?: Value<number>
+  /** Theme color for filled (active) icons. @default 'yellow' */
   fullColor?: Value<ThemeColorName>
+  /** Theme color for empty (inactive) icons. @default 'neutral' */
   emptyColor?: Value<ThemeColorName>
+  /** Icon name for filled (active) rating icons. @default 'line-md:star-alt-filled' */
   fullIcon?: Value<string>
+  /** Icon name for empty (inactive) rating icons. @default 'line-md:star-alt' */
   emptyIcon?: Value<string>
+  /** Visual size of the rating icons. @default 'md' */
   size?: Value<ControlSize>
-  // Step size for rounding for keyboard interactions (e.g., 0.25 -> quarter steps)
+  /** Step size for rounding during keyboard interactions (e.g., 0.25 for quarter steps). @default 1 */
   rounding?: Value<number>
 }
 
 const DEFAULT_FULL_ICON = 'line-md:star-alt-filled'
 const DEFAULT_EMPTY_ICON = 'line-md:star-alt'
 
+/**
+ * A star rating input component with fractional precision support and ARIA slider semantics.
+ *
+ * Renders a row of rating icons (stars by default) inside an {@link InputContainer} that
+ * supports click-based fractional rating (the click position within each icon determines
+ * the fractional value) and full keyboard navigation via arrow keys, Home, and End.
+ * Each icon uses a CSS clip mask to show the precise fill level, enabling half-star or
+ * quarter-star precision based on the `rounding` option.
+ *
+ * Uses ARIA `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`,
+ * and `aria-valuetext` for accessibility.
+ *
+ * @param options - Configuration options for the rating input
+ * @returns A styled rating input element with interactive icons, wrapped in an InputContainer
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { RatingInput } from '@tempots/beatui'
+ *
+ * const rating = prop(3.5)
+ * RatingInput({
+ *   value: rating,
+ *   onChange: rating.set,
+ *   max: 5,
+ *   rounding: 0.5,
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Custom heart icons with quarter-step precision
+ * RatingInput({
+ *   value: prop(0),
+ *   onChange: (v) => console.log('Rating:', v),
+ *   max: 10,
+ *   fullIcon: 'mdi:heart',
+ *   emptyIcon: 'mdi:heart-outline',
+ *   fullColor: 'red',
+ *   rounding: 0.25,
+ *   size: 'lg',
+ * })
+ * ```
+ */
 export const RatingInput = (options: RatingInputOptions) => {
   const {
     value,

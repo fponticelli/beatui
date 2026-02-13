@@ -1,5 +1,12 @@
-// Sign Up Form Component
-// Registration form with validation and password strength indicator
+/**
+ * Sign Up Form Component
+ *
+ * Renders the registration form with name, email, password, confirm password,
+ * and terms acceptance fields. Includes password strength indicator,
+ * schema-based validation, and loading state management.
+ *
+ * @module auth/signup-form
+ */
 
 import {
   attr,
@@ -33,6 +40,33 @@ import { AuthI18n } from '../../auth-i18n/translations'
 import { Control } from '../form'
 import { Notice } from '../misc'
 
+/**
+ * Renders the sign-up (registration) form.
+ *
+ * Features include:
+ * - Configurable fields: name, email, password, confirm password, terms checkbox
+ * - Schema-based validation with configurable password rules
+ * - Optional password strength indicator
+ * - Loading state and form disabling during submission
+ * - Error display via a notice component
+ * - i18n support for all labels and button text
+ *
+ * @param options - Configuration options for the sign-up form.
+ * @returns A `Renderable` form element.
+ *
+ * @example
+ * ```ts
+ * SignUpForm({
+ *   onSignUp: async (data) => {
+ *     const error = await api.signUp(data)
+ *     return error ?? null
+ *   },
+ *   showPasswordStrength: true,
+ *   showConfirmPassword: true,
+ *   showAcceptTermsAndConditions: true,
+ * })
+ * ```
+ */
 export function SignUpForm({
   passwordRules,
   labels,

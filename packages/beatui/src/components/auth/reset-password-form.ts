@@ -1,5 +1,12 @@
-// Reset Password Form Component
-// Simple form for password reset flow with email input
+/**
+ * Reset Password Form Component
+ *
+ * Renders a simple form for initiating the password reset flow. Contains
+ * a description, email input, and submit button with validation and
+ * loading state management.
+ *
+ * @module auth/reset-password-form
+ */
 
 import {
   attr,
@@ -26,6 +33,30 @@ import { useAuthEmailProp } from './auth-email-prop'
 import { Control } from '../form'
 import { Notice } from '../misc'
 
+/**
+ * Renders the reset password form with an email input field.
+ *
+ * Features include:
+ * - Schema-based email validation
+ * - Pre-population from persisted email (if "remember me" was used)
+ * - Loading state and form disabling during submission
+ * - Error display via a notice component
+ * - Descriptive text explaining the reset flow
+ * - i18n support for all labels and button text
+ *
+ * @param options - Configuration options for the reset password form.
+ * @returns A `Renderable` form element.
+ *
+ * @example
+ * ```ts
+ * ResetPasswordForm({
+ *   onResetPassword: async (data) => {
+ *     const error = await api.requestPasswordReset(data.email)
+ *     return error ?? null
+ *   },
+ * })
+ * ```
+ */
 export function ResetPasswordForm({
   onResetPassword,
   labels = {},

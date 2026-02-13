@@ -6,9 +6,6 @@ export function BetterAuthContainer(
   auth: BetterAuthBridge,
   overrides?: Partial<AuthContainerOptions>,
   ...children: TNode[]
-): TNode {
-  return AuthContainer(
-    { ...auth.containerOptions, ...overrides },
-    ...children
-  )
+) {
+  return AuthContainer({ ...auth.containerOptions, ...overrides }, ...children)
 }

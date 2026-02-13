@@ -86,8 +86,7 @@ export function createBetterAuthBridge(
     onResetPassword,
     onSocialLogin,
     socialProviders: socialProviders.length > 0 ? socialProviders : undefined,
-    showSocialDivider:
-      socialProviders.length > 0 ? true : false,
+    showSocialDivider: socialProviders.length > 0 ? true : false,
     passwordRules: options.passwordRules,
     showRememberMe: options.showRememberMe,
     showPasswordStrength: options.showPasswordStrength,

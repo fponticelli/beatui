@@ -1,10 +1,26 @@
+/**
+ * Google Fonts download and caching utilities for the BeatUI Tailwind Vite plugin.
+ *
+ * Downloads Google Font CSS and font files at build time, rewrites URLs to
+ * local placeholders, and caches everything under `node_modules/.beatui/`
+ * so that fonts can be self-hosted in production builds.
+ *
+ * @module
+ */
+
 import fs from 'node:fs'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
 
+/**
+ * Font style values supported by Google Fonts.
+ */
 export type GoogleFontStyle = 'normal' | 'italic'
 
+/**
+ * CSS `font-display` strategy values supported by Google Fonts.
+ */
 export type GoogleFontDisplay =
   | 'auto'
   | 'block'

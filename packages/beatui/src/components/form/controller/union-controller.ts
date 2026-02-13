@@ -8,32 +8,105 @@ import {
 import { strictEqual } from '@tempots/std'
 
 /**
- * Union type definition for the controller
+ * Defines a single branch (variant) within a union type for use with {@link UnionController}.
+ *
+ * Each branch has a unique key, a display label, a detection predicate, an optional
+ * conversion function for migrating values between branches, and a factory for default values.
+ *
+ * @typeParam T - The value type produced by this branch
+ *
+ * @example
+ * ```typescript
+ * const stringBranch: UnionBranch<string> = {
+ *   key: 'string',
+ *   label: 'Text',
+ *   detect: (v) => typeof v === 'string',
+ *   defaultValue: () => '',
+ * }
+ *
+ * const numberBranch: UnionBranch<number> = {
+ *   key: 'number',
+ *   label: 'Number',
+ *   detect: (v) => typeof v === 'number',
+ *   convert: (v) => {
+ *     const n = Number(v)
+ *     return isNaN(n) ? { ok: false } : { ok: true, value: n }
+ *   },
+ *   defaultValue: () => 0,
+ * }
+ * ```
  */
 export interface UnionBranch<T = unknown> {
-  /** Unique identifier for this branch */
+  /** Unique identifier for this branch (used as path segment and lookup key) */
   key: string
-  /** Display label for this branch */
+  /** Human-readable display label for this branch, shown in UI selectors */
   label: string
-  /** Type guard function to detect if a value belongs to this branch */
+  /** Type guard function that returns `true` if a value belongs to this branch */
   detect: (value: unknown) => boolean
-  /** Function to convert a value to this branch type */
+  /** Optional function to convert a value from another branch to this branch's type. Returns `{ ok: true, value }` on success or `{ ok: false }` on failure. */
   convert?: (value: unknown) => { ok: true; value: T } | { ok: false }
-  /** Default value for this branch when switching to it */
+  /** Factory function that produces the default value when switching to this branch */
   defaultValue: () => T
 }
 
+/**
+ * Determines when validation errors are displayed.
+ *
+ * - `'onSubmit'` - Errors shown only after form submission
+ * - `'eager'` - Errors shown immediately as values change
+ * - `'onTouched'` - Errors shown after the field has been touched/blurred
+ */
 export type ValidationMode = 'onSubmit' | 'eager' | 'onTouched'
 
 /**
- * Controller for union types that manages multiple possible value types
+ * Controller for union/discriminated types that manages multiple possible value branches.
+ *
+ * Extends `Controller<T>` to support values that can be one of several types.
+ * Automatically detects which branch is active based on the current value,
+ * creates per-branch sub-controllers lazily, and supports switching between branches
+ * with optional value conversion.
+ *
+ * @typeParam T - The union type representing all possible value shapes
+ *
+ * @example
+ * ```typescript
+ * import { UnionController, UnionBranch } from '@tempots/beatui'
+ *
+ * type Value = string | number
+ *
+ * const branches: UnionBranch[] = [
+ *   { key: 'string', label: 'Text', detect: v => typeof v === 'string', defaultValue: () => '' },
+ *   { key: 'number', label: 'Number', detect: v => typeof v === 'number', defaultValue: () => 0 },
+ * ]
+ *
+ * // The active branch is automatically detected from the current value
+ * console.log(unionCtrl.activeBranch.value) // 'string' or 'number'
+ *
+ * // Switch to a different branch
+ * unionCtrl.switchToBranch('number')
+ * ```
  */
 export class UnionController<T> extends Controller<T> {
+  /** The immutable list of branch definitions for this union */
   readonly branches: readonly UnionBranch[]
+  /** Reactive signal containing the key of the currently active branch */
   readonly activeBranch: Signal<string>
+  /** @internal Reactive signal containing the controller for the active branch */
   readonly #activeBranchController: Signal<Controller<unknown>>
+  /** @internal Cache of lazily-created branch controllers */
   readonly #branchControllers = new Map<string, Controller<unknown>>()
 
+  /**
+   * Creates a new UnionController.
+   *
+   * @param path - The path segments identifying this controller in the form tree
+   * @param change - Callback to propagate value changes to the parent
+   * @param signal - Reactive signal holding the current union value
+   * @param status - Reactive signal holding the current validation status
+   * @param parent - Parent context providing disabled state and optional validation mode
+   * @param branches - Array of branch definitions describing the possible value types
+   * @param equals - Optional equality function for comparing values. Defaults to `strictEqual`.
+   */
   constructor(
     path: Path,
     change: (value: T) => void,
@@ -123,14 +196,25 @@ export class UnionController<T> extends Controller<T> {
   }
 
   /**
-   * Get the controller for the currently active branch
+   * Gets the controller for the currently active branch.
+   *
+   * The returned controller's value and type correspond to the branch that
+   * matches the current union value.
+   *
+   * @returns The `Controller<unknown>` for the active branch
    */
   get activeController(): Controller<unknown> {
     return Value.get(this.#activeBranchController)
   }
 
   /**
-   * Get a controller for a specific branch
+   * Gets or creates a controller for a specific branch by key.
+   *
+   * Controllers are created lazily and cached for subsequent calls.
+   *
+   * @param branchKey - The unique key of the branch to get a controller for
+   * @returns The `Controller<unknown>` for the specified branch
+   * @throws Error if the branch key is not found in the branches array
    */
   getBranchController(branchKey: string): Controller<unknown> {
     const branch = this.branches.find(b => b.key === branchKey)
@@ -170,7 +254,18 @@ export class UnionController<T> extends Controller<T> {
   }
 
   /**
-   * Switch to a different branch
+   * Switches the union value to a different branch.
+   *
+   * Attempts the following in order:
+   * 1. If already on the target branch, returns `true` immediately
+   * 2. If the branch has a `convert` function, tries to convert the current value
+   * 3. If conversion fails and `confirmChange` is true, prompts the user with `window.confirm`
+   * 4. Sets the value to the branch's default value
+   *
+   * @param branchKey - The key of the branch to switch to
+   * @param confirmChange - If true, prompts the user before losing the current value when conversion fails
+   * @returns `true` if the switch was successful, `false` if the user cancelled
+   * @throws Error if the branch key is not found in the branches array
    */
   switchToBranch(branchKey: string, confirmChange = false): boolean {
     const branch = this.branches.find(b => b.key === branchKey)
@@ -211,7 +306,9 @@ export class UnionController<T> extends Controller<T> {
   }
 
   /**
-   * Get the current active branch definition
+   * Gets the {@link UnionBranch} definition for the currently active branch.
+   *
+   * @returns The active branch definition, or `undefined` if no branch matches
    */
   get activeBranchDefinition(): UnionBranch | undefined {
     const activeBranchKey = Value.get(this.activeBranch)

@@ -1,16 +1,9 @@
-import {
-  defaultLocale,
-  defaultMessages,
-  BetterAuthMessages,
-} from './default'
+import { defaultLocale, defaultMessages, BetterAuthMessages } from './default'
 import { makeI18nProvider } from '../../components/i18n/make-i18nprovider'
 
-const localeLoaders = import.meta.glob(
-  ['./locales/*.ts', '!./locales/en.ts'],
-  {
-    import: 'default',
-  }
-) as Record<string, () => Promise<BetterAuthMessages>>
+const localeLoaders = import.meta.glob(['./locales/*.ts', '!./locales/en.ts'], {
+  import: 'default',
+}) as Record<string, () => Promise<BetterAuthMessages>>
 
 export const BetterAuthI18n = makeI18nProvider<BetterAuthMessages>({
   defaultLocale,

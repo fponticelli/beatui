@@ -23,6 +23,25 @@ const dateToString = (v: Date) => {
   return converted
 }
 
+/**
+ * A nullable date-time input component for `Date | null` values.
+ *
+ * Renders a native HTML `datetime-local` input that can be cleared to `null`.
+ * Converts `Date` objects to the `YYYY-MM-DDTHH:MM:SS` format for display
+ * and parses input back to `Date` objects. Includes a reset button to clear
+ * the value.
+ *
+ * @param options - Standard input options for a `Date | null` value.
+ * @returns A renderable nullable date-time input component.
+ *
+ * @example
+ * ```ts
+ * NullableDateTimeInput({
+ *   value: prop<Date | null>(new Date()),
+ *   onChange: date => console.log('DateTime:', date),
+ * })
+ * ```
+ */
 export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
   const date = Value.map(value, v => (v != null ? dateToString(v) : null))

@@ -6,12 +6,58 @@ import { sessionId } from '../../../utils/session-id'
 import { Icon } from '../../data/icon'
 import { IconSize } from '../../theme'
 
+/**
+ * Configuration options for the {@link CheckboxInput} component.
+ *
+ * Extends {@link InputOptions} for boolean values with additional properties to
+ * customize the checked/unchecked icons and their size.
+ */
 export type CheckboxInputOptions = InputOptions<boolean> & {
+  /** Icon name to display when the checkbox is checked. @default 'akar-icons/check-box-fill' */
   checkedIcon?: Value<string | undefined>
+  /** Icon name to display when the checkbox is unchecked. @default 'akar-icons/box' */
   uncheckedIcon?: Value<string | undefined>
+  /** Size of the checkbox icon. @default 'lg' */
   iconSize?: Value<IconSize>
 }
 
+/**
+ * A custom checkbox input component with icon-based checked/unchecked states.
+ *
+ * Renders a styled checkbox using icons rather than the native checkbox element,
+ * wrapped in an {@link InputContainer}. Supports full keyboard interaction (Space
+ * and Enter to toggle), ARIA `role="checkbox"` semantics, and an optional text
+ * label rendered from the `placeholder` property. When `placeholder` is set,
+ * clicking the label also toggles the checkbox.
+ *
+ * @param options - Configuration options for the checkbox, including custom icons and icon size
+ * @returns A styled checkbox element with optional label, wrapped in an InputContainer
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { CheckboxInput } from '@tempots/beatui'
+ *
+ * const agreed = prop(false)
+ * CheckboxInput({
+ *   value: agreed,
+ *   onChange: agreed.set,
+ *   placeholder: 'I agree to the terms and conditions',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With custom icons and size
+ * CheckboxInput({
+ *   value: prop(true),
+ *   onChange: (v) => console.log('Checked:', v),
+ *   checkedIcon: 'mdi:checkbox-marked',
+ *   uncheckedIcon: 'mdi:checkbox-blank-outline',
+ *   iconSize: 'xl',
+ * })
+ * ```
+ */
 export const CheckboxInput = (options: CheckboxInputOptions) => {
   const {
     value,

@@ -14,14 +14,47 @@ import {
 } from '@tempots/dom'
 import { AutoSelect } from '@tempots/ui'
 
+/**
+ * Options for the {@link EditableText} component.
+ */
 export type EditableTextOptions = {
+  /** The current text value to display and edit. */
   value: Value<string>
+  /** Callback invoked with the new text value when editing completes. */
   onChange: (value: string) => void
+  /** Placeholder text shown when the value is empty. */
   placeholder?: Value<string>
+  /**
+   * Whether the component should start in editing mode.
+   * @default false
+   */
   startEditing?: Value<boolean>
+  /**
+   * Whether the component is disabled and cannot be edited.
+   * @default false
+   */
   disabled?: Value<boolean>
 }
 
+/**
+ * An inline editable text component that toggles between display and edit modes.
+ *
+ * In display mode, shows the text with a pencil icon button. Clicking the text
+ * or button switches to edit mode with an auto-selected input field. Press Enter
+ * to confirm, Escape to cancel, or blur to confirm the change.
+ *
+ * @param options - Configuration options for the editable text.
+ * @returns A renderable editable text component.
+ *
+ * @example
+ * ```ts
+ * EditableText({
+ *   value: prop('Click to edit'),
+ *   onChange: newValue => console.log('Changed to:', newValue),
+ *   placeholder: 'Enter text...',
+ * })
+ * ```
+ */
 export const EditableText = ({
   startEditing,
   value,

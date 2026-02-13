@@ -13,14 +13,37 @@ import type { ThemeColorName } from '../../tokens'
 import { CloseButton } from '../button'
 import { getColorVar } from '../../tokens/colors'
 
+/**
+ * Configuration options for the {@link AnnouncementBar} component.
+ */
 export type AnnouncementBarOptions = {
+  /**
+   * Theme color applied to the announcement bar background.
+   * @default 'primary'
+   */
   color?: Value<ThemeColorName>
+  /**
+   * Optional icon identifier displayed at the start of the announcement bar.
+   * When `undefined` or not provided, no icon is rendered.
+   */
   icon?: Value<string | undefined>
+  /**
+   * Whether the announcement bar can be dismissed by the user via a close button.
+   * @default false
+   */
   closable?: Value<boolean>
+  /**
+   * Callback invoked when the user dismisses the announcement bar.
+   * When provided and `closable` is not explicitly set, the bar is implicitly made dismissible.
+   */
   onDismiss?: () => void
+  /**
+   * Additional CSS class names to apply to the announcement bar element.
+   */
   class?: Value<string>
 }
 
+/** @internal Builds the CSS class string for the announcement bar based on its state. */
 function generateAnnouncementBarClasses(
   dismissible: boolean,
   extra?: string
@@ -31,18 +54,36 @@ function generateAnnouncementBarClasses(
   return classes.join(' ')
 }
 
+/** @internal Generates the inline style string with CSS custom properties for the announcement bar color. */
 function generateAnnouncementBarStyles(color: ThemeColorName): string {
   return `--announcement-bar-bg-color: ${getColorVar(color, 600)}`
 }
 
 /**
- * AnnouncementBar component - displays a colored announcement bar at the top center of its container
+ * Displays a colored announcement bar, typically at the top of a page or container.
+ *
+ * Supports an optional leading icon, user-dismissible close button, and theme color
+ * customization. When dismissed, the bar is removed from the DOM and the `onDismiss`
+ * callback is invoked.
+ *
+ * @param options - Configuration options controlling color, icon, closability, and styling
+ * @param children - Text or node content displayed inside the announcement bar
+ * @returns A renderable node that is conditionally visible based on dismiss state
  *
  * @example
  * ```typescript
  * AnnouncementBar(
- *   { color: 'warning', closable: true },
+ *   { color: 'warning', closable: true, onDismiss: () => console.log('dismissed') },
  *   "You're on our launch Free plan with unlimited resumes and redaction!"
+ * )
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // With an icon
+ * AnnouncementBar(
+ *   { color: 'info', icon: 'info-circle', closable: true },
+ *   'System maintenance scheduled for tonight at 10 PM.'
  * )
  * ```
  */

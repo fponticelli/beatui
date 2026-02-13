@@ -30,48 +30,87 @@ import {
 } from '../../utils/use-animated-toggle'
 import { BeatUII18n } from '../../beatui-i18n'
 
+/**
+ * Per-breakpoint dimension values (in pixels) for AppShell sections.
+ * Each property corresponds to a standard BeatUI breakpoint.
+ */
 export interface AppShellBreakpointOptions {
+  /** Width/height at the zero (smallest) breakpoint in pixels. */
   zero: number
+  /** Width/height at the xs breakpoint in pixels. */
   xs: number
+  /** Width/height at the sm breakpoint in pixels. */
   sm: number
+  /** Width/height at the md breakpoint in pixels. */
   md: number
+  /** Width/height at the lg breakpoint in pixels. */
   lg: number
+  /** Width/height at the xl breakpoint in pixels. */
   xl: number
 }
 
+/** Partial version of {@link AppShellBreakpointOptions} where all breakpoints are optional. */
 export type AppShellBreakpointOptionalOptions =
   Partial<AppShellBreakpointOptions>
 
+/** Options for horizontal AppShell sections (banner, header, footer, mainHeader, mainFooter). */
 export interface AppShellHorizontalOptions {
+  /** Content to render inside this section. */
   content: TNode
+  /** Section height in pixels, or per-breakpoint heights. */
   height?: number | AppShellBreakpointOptionalOptions
+  /** Background color of the panel. @default 'white' */
   color?: PanelColor
+  /** Shadow depth of the panel edge. @default 'none' */
   shadow?: PanelShadow
 }
 
+/** Options for vertical AppShell sections (menu, aside). */
 export interface AppShellVerticalOptions {
+  /** Content to render inside this section. */
   content: TNode
+  /** Section width in pixels, or per-breakpoint widths. */
   width?: number | AppShellBreakpointOptionalOptions
+  /** Background color of the panel. @default 'white' */
   color?: PanelColor
+  /** Shadow depth of the panel edge. @default 'none' */
   shadow?: PanelShadow
 }
 
+/** Options for the main content area of the AppShell. */
 export interface AppShellMainOptions {
+  /** Content to render in the main area. */
   content: TNode
+  /** Background color of the panel. @default 'white' */
   color?: PanelColor
+  /** Shadow depth of the panel edge. @default 'none' */
   shadow?: PanelShadow
 }
 
+/**
+ * Configuration options for the {@link AppShell} component.
+ * Each section (banner, header, menu, main, aside, footer) is optional except `main`.
+ */
 export interface AppShellOptions {
+  /** Top banner section spanning full width above the header. */
   banner?: AppShellHorizontalOptions
+  /** Header section with optional hamburger/aside toggle buttons. */
   header?: AppShellHorizontalOptions
+  /** Bottom footer section spanning full width. */
   footer?: AppShellHorizontalOptions
+  /** Left navigation menu panel; collapses to hamburger on small screens. */
   menu?: AppShellVerticalOptions
+  /** Right sidebar panel; collapses to toggle button on medium screens. */
   aside?: AppShellVerticalOptions
+  /** Main content area (required). */
   main: AppShellMainOptions
+  /** Secondary header within the main content area. */
   mainHeader?: AppShellHorizontalOptions
+  /** Secondary footer within the main content area. */
   mainFooter?: AppShellHorizontalOptions
+  /** Breakpoint at which menu/aside collapse to float panels. @default 'md' */
   mediumBreakpoint?: BeatUIBreakpoint
+  /** Breakpoint at which all panels collapse to hamburger menu. @default 'sm' */
   smallBreakpoint?: BeatUIBreakpoint
 }
 
@@ -82,7 +121,7 @@ function generatePanelClasses(side: Side, shadow: PanelShadow): string {
   return `bc-panel ${sideStr} bc-panel--shadow-${shadow}`
 }
 
-function PanelStyles(color: Value<PanelColor>): TNode {
+function PanelStyles(color: Value<PanelColor>) {
   const baseLight = Value.toSignal(color).map(c =>
     backgroundValue(c as ExtendedColor, 'lighter', 'light')
   )
@@ -474,6 +513,43 @@ function displayAsidePanel(
   return 'none'
 }
 
+/**
+ * A responsive application layout shell with CSS Grid that provides structured
+ * sections for banner, header, menu, main content, aside, and footer.
+ *
+ * The layout adapts to three responsive tiers:
+ * - **Large** (above `mediumBreakpoint`): All panels visible in a three-column grid
+ * - **Medium** (between `smallBreakpoint` and `mediumBreakpoint`): Menu pinned, aside collapses
+ * - **Small** (at or below `smallBreakpoint`): All panels collapse, header shows hamburger buttons
+ *
+ * Collapsed panels animate in as floating overlays with proper ARIA landmarks
+ * (`navigation`, `complementary`) and toggle buttons.
+ *
+ * @param options - Layout configuration with content for each section
+ * @returns A responsive CSS Grid layout element
+ *
+ * @example
+ * ```typescript
+ * AppShell({
+ *   header: {
+ *     content: html.div('My App'),
+ *     height: 60,
+ *     shadow: 'sm'
+ *   },
+ *   menu: {
+ *     content: SidebarNavigation(),
+ *     width: { md: 240, lg: 280 }
+ *   },
+ *   main: {
+ *     content: RouterOutlet()
+ *   },
+ *   footer: {
+ *     content: html.div('Footer'),
+ *     height: 48
+ *   }
+ * })
+ * ```
+ */
 export function AppShell({
   smallBreakpoint = 'sm',
   mediumBreakpoint = 'md',

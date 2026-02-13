@@ -58,6 +58,12 @@ function openIconDB() {
 
 const dbPromise = isIndexedDBAvailable ? openIconDB() : null
 
+/**
+ * Stores an icon SVG string in the local cache (IndexedDB or in-memory fallback).
+ *
+ * @param id - The icon identifier (e.g., `'mdi/home'`)
+ * @param svgString - The raw SVG markup to cache
+ */
 export async function storeIconLocally(id: string, svgString: string) {
   try {
     if (dbPromise) {
@@ -79,6 +85,12 @@ export async function storeIconLocally(id: string, svgString: string) {
   }
 }
 
+/**
+ * Retrieves a cached icon SVG string from local storage (IndexedDB or in-memory fallback).
+ *
+ * @param id - The icon identifier (e.g., `'mdi/home'`)
+ * @returns The cached SVG string, or `null` if not found
+ */
 export async function getIconLocally(id: string): Promise<string | null> {
   try {
     if (dbPromise) {
@@ -123,19 +135,27 @@ async function loadIconSvg(iconName: string): Promise<string> {
   return svg
 }
 
+/**
+ * Configuration options for the {@link Icon} component.
+ */
 export interface IconOptions {
+  /** Icon name in Iconify format (e.g., `'mdi:home'`, `'line-md:loading-twotone-loop'`). */
   icon: Value<string>
+  /** Size of the icon. @default 'md' */
   size?: Value<IconSize>
+  /** Theme color applied to the icon. Uses foreground color values. */
   color?: Value<ThemeColorName>
+  /** Accessible title for informative icons. Also sets the tooltip. */
   title?: Value<string | undefined>
   /**
-   * Whether this icon is decorative (hidden from screen readers) or informative.
-   * - 'decorative': Icon is purely visual, hidden from screen readers with aria-hidden="true"
-   * - 'informative': Icon conveys meaning, gets aria-label and role="img"
-   * - 'auto': Automatically determined based on presence of title prop
+   * Accessibility mode for the icon.
+   * - `'decorative'`: Hidden from screen readers with `aria-hidden="true"`
+   * - `'informative'`: Gets `aria-label` and `role="img"` for screen readers
+   * - `'auto'`: Determined by the presence of a `title` prop
    * @default 'auto'
    */
   accessibility?: Value<'decorative' | 'informative' | 'auto'>
+  /** Foreground color tone: `'solid'` for vibrant or `'soft'` for muted. @default 'solid' */
   tone?: Value<ForegroundTone>
 }
 
@@ -153,6 +173,37 @@ function generateIconStyles(
   return `--icon-color: ${light}; --icon-color-dark: ${dark}`
 }
 
+/**
+ * Renders an SVG icon from the Iconify icon library with lazy-loading and caching.
+ *
+ * Icons are fetched from the Iconify API on first use and cached in IndexedDB
+ * (with an in-memory fallback) for subsequent loads. The icon is only loaded when
+ * it enters the viewport (`WhenInViewport`), preventing unnecessary network requests.
+ *
+ * The component handles three states: pending (spinning placeholder), success (rendered SVG),
+ * and failure (error indicator). Accessibility is configurable: decorative icons are hidden
+ * from screen readers, while informative icons receive proper ARIA attributes.
+ *
+ * @param options - Configuration for icon name, size, color, and accessibility
+ * @param children - Additional child nodes appended to the icon container
+ * @returns A span element containing the rendered icon
+ *
+ * @example
+ * ```typescript
+ * Icon({ icon: 'mdi:home', size: 'lg', color: 'primary' })
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Informative icon with accessible label
+ * Icon({
+ *   icon: 'mdi:alert',
+ *   color: 'warning',
+ *   title: 'Warning: unsaved changes',
+ *   accessibility: 'informative'
+ * })
+ * ```
+ */
 export function Icon(
   {
     icon,

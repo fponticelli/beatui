@@ -1,3 +1,18 @@
+/**
+ * Main entry point for the `@tempots/beatui` component library.
+ *
+ * Exports all core UI components (buttons, forms, layout, overlays, navigation,
+ * typography, data display), the theme system, design tokens, i18n utilities,
+ * and helper functions. For optional modules (editors, auth, JSON schema), use
+ * the dedicated subpath imports.
+ *
+ * ```ts
+ * import { Button, TextInput, Modal, Theme } from '@tempots/beatui'
+ * ```
+ *
+ * @module
+ */
+
 // Re-export commonly used functions from @tempots/dom
 export { Use } from '@tempots/dom'
 

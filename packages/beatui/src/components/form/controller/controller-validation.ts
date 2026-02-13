@@ -1,11 +1,20 @@
 import { Validation } from '@tempots/std'
 import { PathSegment } from './path'
 
+/**
+ * Represents a validation error for a form controller with support for nested field errors.
+ */
 export type ControllerError = {
+  /** The error message for this field. */
   message?: string
+  /** Nested errors for child fields, keyed by field name or array index. */
   dependencies?: Record<PathSegment, ControllerError>
 }
 
+/**
+ * Validation state for a controller, which can be valid, pending, or invalid with a ControllerError.
+ * This is an alias for `Validation<ControllerError>` from @tempots/std.
+ */
 export type ControllerValidation = Validation<ControllerError>
 
 /**
@@ -65,6 +74,28 @@ export const ControllerValidation = {
   },
 } as const
 
+/**
+ * Creates a function that extracts validation state for a specific subpath from a parent validation.
+ * Used internally to propagate validation errors to child controllers.
+ *
+ * @param fields - Path segments to traverse to find the relevant error
+ * @returns A function that maps parent validation state to child validation state
+ *
+ * @example
+ * ```typescript
+ * const mapEmail = makeMapValidation(['user', 'email'])
+ * const parentStatus = Validation.invalid({
+ *   dependencies: {
+ *     user: {
+ *       dependencies: {
+ *         email: { message: 'Invalid email' }
+ *       }
+ *     }
+ *   }
+ * })
+ * const emailStatus = mapEmail(parentStatus) // Validation.invalid({ message: 'Invalid email' })
+ * ```
+ */
 export function makeMapValidation(fields: PathSegment[]) {
   return function mapValidation(
     status: ControllerValidation

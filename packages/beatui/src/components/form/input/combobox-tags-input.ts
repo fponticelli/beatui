@@ -32,14 +32,54 @@ import {
 import { Chips } from './select-tags-input'
 // AutoFocus not needed since search is always visible
 
+/**
+ * Options for the {@link ComboboxTagsInput} component.
+ * Combines tag selection with a searchable dropdown.
+ *
+ * @typeParam T - The type of tag values.
+ */
 export type ComboboxTagsOptions<T> = {
+  /** The available dropdown options to choose from. */
   options: Value<DropdownOption<T>[]>
+  /**
+   * Custom equality function for comparing option values.
+   * @default (a, b) => a === b
+   */
   equality?: (a: T, b: T) => boolean
+  /** Placeholder text shown when no tags are selected. */
   placeholder?: Value<string>
+  /** Placeholder text for the search input field. */
   searchPlaceholder?: Value<string>
+  /** Custom filter function for matching options against the search query. */
   filter?: (q: string, opt: { label: string }) => boolean
 } & InputOptions<T[]>
 
+/**
+ * A multi-select tag input with an integrated searchable dropdown.
+ *
+ * Selected values are displayed as removable chips. An always-visible search
+ * input filters the dropdown options. Clicking a dropdown item toggles
+ * its selection. Supports grouped options and custom filtering.
+ *
+ * @typeParam T - The type of tag values.
+ * @param options - Configuration options for the combobox tags input.
+ * @returns A renderable combobox tags input component.
+ *
+ * @example
+ * ```ts
+ * ComboboxTagsInput({
+ *   value: prop<string[]>([]),
+ *   options: [
+ *     { type: 'value', value: 'react', label: 'React' },
+ *     { type: 'value', value: 'vue', label: 'Vue' },
+ *     { type: 'value', value: 'angular', label: 'Angular' },
+ *   ],
+ *   placeholder: 'Select frameworks...',
+ *   searchPlaceholder: 'Search...',
+ *   onChange: tags => console.log('Selected:', tags),
+ * })
+ * ```
+ */
 export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
   const {
     value,
@@ -200,12 +240,26 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
   })
 }
 
+/**
+ * A base form control wrapper for {@link ComboboxTagsInput} using a raw controller.
+ *
+ * @typeParam T - The type of tag values.
+ * @param options - Base controller options for the combobox tags control.
+ * @returns A renderable form control component.
+ */
 export function BaseComboboxTagsControl<T>(
   options: BaseControllerOptions<T[], ComboboxTagsOptions<T>>
 ) {
   return BaseControl(ComboboxTagsInput<T>, options)
 }
 
+/**
+ * A full form control wrapper for {@link ComboboxTagsInput} with label, error, and description support.
+ *
+ * @typeParam T - The type of tag values.
+ * @param options - Controller options for the combobox tags control.
+ * @returns A renderable form control component with wrapper.
+ */
 export function ComboboxTagsControl<T>(
   options: ControllerOptions<T[], ComboboxTagsOptions<T>>
 ) {

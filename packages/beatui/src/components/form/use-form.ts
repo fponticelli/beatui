@@ -19,26 +19,78 @@ import {
 import { convertStandardSchemaIssues } from './schema'
 import { Validation, strictEqual } from '@tempots/std'
 
+/**
+ * Configuration options for creating a form with useForm.
+ *
+ * @template T - The form data type (must be an object)
+ */
 export interface UseFormOptions<T> {
+  /** Optional schema for validation (supports Standard Schema v1, including Zod schemas). */
   schema?: StandardSchemaV1<T, T>
+  /** Initial form values (can be a static value or a reactive Signal). */
   initialValue?: Value<T>
+  /** Optional async submit handler that can return validation errors. */
   onSubmit?: (value: T) => Promise<ControllerValidation>
+  /** When to show validation errors: 'onSubmit' (default), 'eager' (immediately), or 'onTouched' (after blur). */
   validationMode?: 'onSubmit' | 'eager' | 'onTouched'
-  validateDebounceMs?: number
-}
-
-export interface UseControllerOptions<T> {
-  initialValue: Value<T>
-  onChange?: (value: T) => void
-  validate?: (value: T) => Promise<ControllerValidation> | ControllerValidation
-  equals?: (a: T, b: T) => boolean
-  validationMode?: 'onSubmit' | 'eager' | 'onTouched'
+  /** Debounce delay in milliseconds for validation (useful for 'eager' mode). */
   validateDebounceMs?: number
 }
 
 /**
- * Creates a Controller instance with automatic resource cleanup.
- * The controller will be automatically disposed when the component unmounts.
+ * Configuration options for creating a standalone controller with useController.
+ *
+ * @template T - The controller value type
+ */
+export interface UseControllerOptions<T> {
+  /** Initial controller value (can be a static value or a reactive Signal). */
+  initialValue: Value<T>
+  /** Optional callback invoked when the value changes. */
+  onChange?: (value: T) => void
+  /** Optional validation function (sync or async). */
+  validate?: (value: T) => Promise<ControllerValidation> | ControllerValidation
+  /** Equality function for dirty tracking (defaults to strictEqual). */
+  equals?: (a: T, b: T) => boolean
+  /** When to show validation errors: 'onSubmit', 'eager', or 'onTouched' (default). */
+  validationMode?: 'onSubmit' | 'eager' | 'onTouched'
+  /** Debounce delay in milliseconds for validation. */
+  validateDebounceMs?: number
+}
+
+/**
+ * Creates a standalone reactive controller for managing a single form field or value.
+ * Provides reactive state management, validation, and touched/dirty tracking.
+ *
+ * @template T - The value type managed by the controller
+ * @param options - Controller configuration options
+ * @returns An object with the controller instance and a setStatus function for manual validation updates
+ *
+ * @example
+ * ```typescript
+ * import { useController, Control, TextInput } from '@tempots/beatui'
+ * import { html } from '@tempots/dom'
+ * import { z } from 'zod'
+ * import { Validation } from '@tempots/std'
+ *
+ * const emailSchema = z.string().email()
+ *
+ * const { controller } = useController({
+ *   initialValue: '',
+ *   validate: async (value) => {
+ *     const result = emailSchema.safeParse(value)
+ *     return result.success
+ *       ? Validation.valid
+ *       : Validation.invalid({ message: result.error.errors[0].message })
+ *   },
+ *   validationMode: 'onTouched',
+ * })
+ *
+ * const emailInput = Control(TextInput, {
+ *   controller,
+ *   label: 'Email',
+ *   placeholder: 'you@example.com',
+ * })
+ * ```
  */
 export function useController<T>({
   initialValue,
@@ -110,10 +162,26 @@ export function useController<T>({
   return { controller, setStatus }
 }
 
+/**
+ * Connects common HTML attributes (disabled, name) from a controller to a DOM element.
+ * This is a lower-level utility; most users should use Control/BaseControl instead.
+ *
+ * @template T - The controller value type
+ * @param value - The controller to connect
+ * @returns A Fragment with attribute bindings
+ */
 export function connectCommonAttributes<T>(value: Controller<T>) {
   return Fragment(attr.disabled(value.disabled), attr.name(value.name))
 }
 
+/**
+ * Connects a string controller to a text input element with value binding and event handlers.
+ * This is a lower-level utility; most users should use Control/BaseControl instead.
+ *
+ * @param value - The string controller to connect
+ * @param options - Configuration for when to trigger updates
+ * @returns A Fragment with attribute and event bindings
+ */
 export function connectStringInput(
   value: Controller<string>,
   {
@@ -129,6 +197,14 @@ export function connectStringInput(
   )
 }
 
+/**
+ * Connects a number controller to a number input element with value binding and event handlers.
+ * This is a lower-level utility; most users should use Control/BaseControl instead.
+ *
+ * @param value - The number controller to connect
+ * @param options - Configuration for when to trigger updates
+ * @returns A Fragment with attribute and event bindings
+ */
 export function connectNumberInput(
   value: Controller<number>,
   {
@@ -146,6 +222,14 @@ export function connectNumberInput(
   )
 }
 
+/**
+ * Converts a Standard Schema v1 validation result into a ControllerValidation.
+ * Used internally to integrate Standard Schema validators (including Zod) with the form system.
+ *
+ * @template Out - The validated output type
+ * @param result - The Standard Schema validation result
+ * @returns A ControllerValidation representing the result
+ */
 export function standardSchemaResultToValidation<Out>(
   result: StandardSchemaV1.Result<Out>
 ): ControllerValidation {
@@ -210,7 +294,12 @@ export async function taskToValidation<T>({
 }
 
 /**
- * Helper function to create nested dependencies structure for field paths
+ * Helper function to create nested dependencies structure for field paths.
+ * Used internally by taskToValidation to construct proper error hierarchies.
+ *
+ * @param path - Array of field names representing the error path
+ * @param message - The error message to attach at the leaf
+ * @returns A nested Record structure with ControllerErrors
  */
 function createNestedDependencies(
   path: string[],
@@ -230,13 +319,73 @@ function createNestedDependencies(
   }
 }
 
+/**
+ * The result returned by useForm, providing form state management and submission handling.
+ *
+ * @template T - The form data type
+ */
 export type UseFormResult<T extends object> = {
+  /** The root ObjectController for accessing form fields via controller.field(). */
   controller: ObjectController<T>
+  /** Manually set the form's validation status (useful for server-side errors). */
   setStatus: (result: ControllerValidation) => void
+  /** Submit handler to attach to form onSubmit event. */
   submit: (e?: Event) => Promise<void>
+  /** Reactive signal indicating whether the form is currently submitting. */
   submitting: Signal<boolean>
 }
 
+/**
+ * Creates a complete form with validation, submission handling, and reactive state management.
+ * Returns an ObjectController that provides field-level access and form-wide operations.
+ *
+ * @template T - The form data type (must be an object)
+ * @param options - Form configuration options
+ * @returns An object with controller, setStatus, submit handler, and submitting signal
+ *
+ * @example
+ * ```typescript
+ * import { useForm, Control, TextInput, Button } from '@tempots/beatui'
+ * import { html, on } from '@tempots/dom'
+ * import { z } from 'zod'
+ *
+ * const loginSchema = z.object({
+ *   email: z.string().email('Invalid email address'),
+ *   password: z.string().min(8, 'Password must be at least 8 characters'),
+ * })
+ *
+ * const { controller, submit, submitting } = useForm({
+ *   initialValue: { email: '', password: '' },
+ *   schema: loginSchema,
+ *   validationMode: 'onTouched',
+ *   onSubmit: async (data) => {
+ *     const response = await fetch('/api/login', {
+ *       method: 'POST',
+ *       body: JSON.stringify(data),
+ *     })
+ *     if (!response.ok) {
+ *       return Validation.invalid({ message: 'Login failed' })
+ *     }
+ *     return Validation.valid
+ *   },
+ * })
+ *
+ * const loginForm = html.form(
+ *   on.submit(submit),
+ *   Control(TextInput, {
+ *     controller: controller.field('email'),
+ *     label: 'Email',
+ *     type: 'email',
+ *   }),
+ *   Control(TextInput, {
+ *     controller: controller.field('password'),
+ *     label: 'Password',
+ *     type: 'password',
+ *   }),
+ *   Button({ type: 'submit', disabled: submitting }, 'Sign In')
+ * )
+ * ```
+ */
 export function useForm<T extends object>({
   initialValue = {} as Value<T>,
   schema,

@@ -33,22 +33,51 @@ import { InputWrapper } from './input-wrapper'
 import { DropdownOption } from './option'
 import { DropdownBase } from './dropdown-base'
 
+/**
+ * Configuration options for the {@link ComboboxInput} component.
+ *
+ * Extends {@link InputOptions} with combobox-specific properties including an
+ * asynchronous option loader, custom renderers for options and the selected value,
+ * and debounce timing for search queries.
+ *
+ * @template T - The type of the selectable option values
+ */
 export type ComboboxOptions<T> = Merge<
   InputOptions<T>,
   {
-    // Fetch options dynamically based on current search text
+    /** Async function to fetch options dynamically based on the current search text */
     loadOptions: (search: string) => Promise<DropdownOption<T>[]>
-    // Renderers for displaying values
+    /** Render function for displaying each option in the dropdown list */
     renderOption: (value: Signal<T>) => TNode
+    /** Optional render function for displaying the selected value in the closed trigger. Falls back to `renderOption`. */
     renderValue?: (value: Signal<T>) => TNode
-    // Behavior
+    /** Custom equality function for comparing option values. @default strict equality (===) */
     equality?: (a: T, b: T) => boolean
+    /** Placeholder text displayed when no option is selected */
     placeholder?: Value<string>
+    /** Placeholder text for the search input inside the dropdown. @default 'Search' */
     searchPlaceholder?: Value<string>
+    /** Debounce delay in milliseconds for the search query. @default 150 */
     debounceMs?: number
   }
 >
 
+/**
+ * Internal component for rendering individual combobox option items.
+ *
+ * Handles value options, group options, and break separators using discriminated
+ * union pattern matching. Uses the provided `renderOption` function for custom
+ * rendering of the option content.
+ *
+ * @template T - The type of the option value
+ * @param option - Reactive signal wrapping the dropdown option to render
+ * @param equality - Equality function for comparing option values
+ * @param currentValue - Signal tracking the currently selected value
+ * @param onSelect - Callback invoked when an option is selected
+ * @param focusedValue - Signal tracking which option currently has keyboard focus
+ * @param renderOption - Custom render function for the option's main content
+ * @returns A renderable option item element
+ */
 const ComboboxOptionItem = <T>(
   option: Signal<DropdownOption<T>>,
   equality: (a: T, b: T) => boolean,
@@ -137,6 +166,42 @@ const ComboboxOptionItem = <T>(
   )
 }
 
+/**
+ * A searchable combobox input component with asynchronous option loading and custom rendering.
+ *
+ * Renders a styled dropdown trigger inside an {@link InputContainer} that opens a
+ * floating listbox with a search input at the top. Options are loaded asynchronously
+ * via the `loadOptions` callback, which is debounced and triggered whenever the search
+ * text changes. Each option is rendered using the custom `renderOption` function, while
+ * the closed trigger shows the selected value via `renderValue` (or `renderOption` as
+ * fallback). A loading spinner appears while options are being fetched.
+ *
+ * Keyboard navigation supports Arrow Up/Down, Enter to select, and Escape to close.
+ * The search input receives focus automatically when the dropdown opens.
+ *
+ * @template T - The type of the selectable option values
+ * @param options - Configuration options for the combobox
+ * @returns A styled combobox input element with search and async option loading
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { ComboboxInput, Option } from '@tempots/beatui'
+ *
+ * const user = prop<User | null>(null)
+ * ComboboxInput({
+ *   value: user,
+ *   onChange: user.set,
+ *   loadOptions: async (search) => {
+ *     const users = await fetchUsers(search)
+ *     return users.map(u => Option.value(u, u.name))
+ *   },
+ *   renderOption: (userSignal) => html.span(userSignal.$.name),
+ *   placeholder: 'Search for a user...',
+ *   debounceMs: 300,
+ * })
+ * ```
+ */
 export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   const {
     value,
@@ -253,6 +318,17 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
   })
 }
 
+/**
+ * A combobox input wired to a form controller for managed form state.
+ *
+ * Connects a {@link ComboboxInput} to a form {@link Controller}, automatically
+ * mapping the controller's signal to the combobox value and routing change/blur
+ * events through the controller's validation pipeline.
+ *
+ * @template T - The type of the selectable option values
+ * @param options - Controller options including the form controller and combobox configuration
+ * @returns A controller-bound combobox input
+ */
 export const BaseComboboxControl = <T>(
   options: BaseControllerOptions<T, ComboboxOptions<T>>
 ) => {
@@ -265,6 +341,16 @@ export const BaseComboboxControl = <T>(
   })
 }
 
+/**
+ * A complete combobox form control with label, description, error message, and validation.
+ *
+ * Combines {@link BaseComboboxControl} with an {@link InputWrapper} to provide a
+ * full-featured form field with label, optional description, and validation error display.
+ *
+ * @template T - The type of the selectable option values
+ * @param options - Controller options including wrapper label/description and combobox configuration
+ * @returns A combobox input wrapped in a form field with label and error display
+ */
 export const ComboboxControl = <T>(
   options: ControllerOptions<T, ComboboxOptions<T>>
 ) => {

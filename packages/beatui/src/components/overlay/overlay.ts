@@ -14,15 +14,76 @@ import { OverlayEffect } from '../theme/types'
 import { useAnimatedElementToggle } from '../../utils/use-animated-toggle'
 import { delayedAnimationFrame } from '@tempots/std'
 
+/**
+ * Configuration options for the Overlay component.
+ */
 export type OverlayOptions = {
+  /**
+   * Visual effect applied to the overlay backdrop.
+   * @default 'opaque'
+   */
   effect?: Value<OverlayEffect>
+  /**
+   * Interaction mode for the overlay.
+   * - `'capturing'` - Listens for Escape key presses and click-outside events to close the overlay.
+   * - `'non-capturing'` - Does not register any close event listeners, making the overlay non-dismissable via user interaction.
+   * @default 'capturing'
+   */
   mode?: Value<'capturing' | 'non-capturing'>
+  /**
+   * Callback invoked when the user clicks outside the overlay content area.
+   * Only fires when `mode` is `'capturing'`.
+   */
   onClickOutside?: () => void
+  /**
+   * Callback invoked when the user presses the Escape key.
+   * Only fires when `mode` is `'capturing'`.
+   */
   onEscape?: () => void
+  /**
+   * Content to render inside the overlay.
+   */
   content?: TNode
+  /**
+   * Where to attach the overlay in the DOM.
+   * - `'body'` - Renders via a portal to the document body.
+   * - `'element'` - Renders as a child of the current element context.
+   * @default 'body'
+   */
   container?: 'body' | 'element'
 }
 
+/**
+ * Low-level overlay primitive that manages a full-screen backdrop with animated open/close transitions.
+ *
+ * The overlay handles event delegation (Escape key, click-outside), inerts sibling elements
+ * for accessibility, and supports portal rendering to the document body.
+ *
+ * Higher-level components such as {@link Modal}, {@link Drawer}, and {@link Lightbox} are built
+ * on top of this primitive.
+ *
+ * @param fn - A render function that receives `open` and `close` callbacks and returns the trigger content.
+ *   Call `open(options)` to display the overlay and `close()` to dismiss it.
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * Overlay((open, close) => {
+ *   return Button(
+ *     { onClick: () => open({
+ *       effect: 'opaque',
+ *       content: html.div(
+ *         html.p('Overlay content'),
+ *         Button({ onClick: close }, 'Close')
+ *       ),
+ *       onEscape: close,
+ *       onClickOutside: close,
+ *     })},
+ *     'Open Overlay'
+ *   )
+ * })
+ * ```
+ */
 export function Overlay(
   fn: (open: (options: OverlayOptions) => void, close: () => void) => TNode
 ) {

@@ -11,6 +11,24 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { NullableResetAfter } from './nullable-utils'
 
+/**
+ * A nullable date input component for `Date | null` values.
+ *
+ * Renders a native HTML `date` input that can be cleared to `null`.
+ * Includes a reset button to clear the value. Uses `valueAsDate` for
+ * direct `Date` object binding.
+ *
+ * @param options - Standard input options for a `Date | null` value.
+ * @returns A renderable nullable date input component.
+ *
+ * @example
+ * ```ts
+ * NullableDateInput({
+ *   value: prop<Date | null>(null),
+ *   onChange: date => console.log('Date:', date),
+ * })
+ * ```
+ */
 export const NullableDateInput = (options: InputOptions<Date | null>) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
 

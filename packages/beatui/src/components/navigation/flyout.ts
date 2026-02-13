@@ -23,6 +23,15 @@ import {
 } from '../../utils/use-animated-toggle'
 import { sessionId } from '../../utils/session-id'
 
+/**
+ * Built-in trigger modes that control how the {@link Flyout} is shown.
+ *
+ * - `'hover'` - Shows on mouse enter, hides on mouse leave.
+ * - `'focus'` - Shows on focus, hides on blur.
+ * - `'hover-focus'` - Combines both hover and focus triggers.
+ * - `'click'` - Shows on click, hides on clicking outside.
+ * - `'never'` - Never shows automatically; must be controlled programmatically via a custom trigger function.
+ */
 export type FlyoutTrigger =
   | 'hover'
   | 'focus'
@@ -30,46 +39,106 @@ export type FlyoutTrigger =
   | 'click'
   | 'never'
 
+/**
+ * Custom trigger function for the {@link Flyout} component.
+ * Receives `show` and `hide` callbacks and returns trigger content that controls
+ * when the flyout appears and disappears.
+ *
+ * @param show - Call to show the flyout
+ * @param hide - Call to hide the flyout
+ * @returns A renderable node containing the trigger logic
+ */
 export type FlyoutTriggerFunction = (
   show: () => void,
   hide: () => void
 ) => TNode
 
+/**
+ * Positioning data for a popover arrow element, provided by the PopOver positioning engine.
+ */
 export interface PopOverArrowOptions {
+  /** The computed placement of the popover (e.g., `'top'`, `'bottom-start'`). */
   placement: string
+  /** Horizontal offset of the arrow in pixels relative to the popover container. */
   x?: number
+  /** Vertical offset of the arrow in pixels relative to the popover container. */
   y?: number
+  /** Offset from the center of the reference element, used for arrow alignment. */
   centerOffset: number
+  /** Width of the popover container in pixels. */
   containerWidth: number
+  /** Height of the popover container in pixels. */
   containerHeight: number
 }
 
+/**
+ * Configuration options for the {@link Flyout} component.
+ */
 export interface FlyoutOptions {
-  /** The flyout content to display */
+  /**
+   * Factory function that returns the flyout content to display.
+   * Called lazily when the flyout opens.
+   */
   content: () => TNode
-  /** Placement of the flyout relative to the trigger element */
+  /**
+   * Placement of the flyout relative to the trigger element.
+   * Uses the Floating UI placement model (e.g., `'top'`, `'bottom-start'`, `'right-end'`).
+   * @default 'top'
+   */
   placement?: Value<Placement>
-  /** Delay in milliseconds before showing the flyout on hover */
+  /**
+   * Delay in milliseconds before showing the flyout after trigger activation.
+   * @default 250
+   */
   showDelay?: Value<number>
-  /** Delay in milliseconds before hiding the flyout after mouse leave */
+  /**
+   * Delay in milliseconds before hiding the flyout after trigger deactivation.
+   * @default 500
+   */
   hideDelay?: Value<number>
-  /** Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right) */
+  /**
+   * Offset in pixels from the main axis (vertical for top/bottom placements,
+   * horizontal for left/right placements).
+   * @default 8
+   */
   mainAxisOffset?: Value<number>
-  /** Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right) */
+  /**
+   * Offset in pixels from the cross axis (horizontal for top/bottom placements,
+   * vertical for left/right placements).
+   * @default 0
+   */
   crossAxisOffset?: Value<number>
-  /** How to show the flyout */
+  /**
+   * How the flyout is triggered to show and hide. Accepts a built-in {@link FlyoutTrigger}
+   * string or a custom {@link FlyoutTriggerFunction} for programmatic control.
+   * @default 'hover-focus'
+   */
   showOn?: Value<FlyoutTrigger> | FlyoutTriggerFunction
-  /** Whether the flyout can be closed with Escape key or clicking outside */
+  /**
+   * Whether the flyout can be closed with the Escape key or by clicking outside.
+   * @default true
+   */
   closable?: Value<boolean>
-  /** Optional arrow configuration - receives a signal with PopOver positioning data */
+  /**
+   * Optional arrow renderer. Receives a signal with {@link PopOverArrowOptions} positioning
+   * data and returns a TNode to render as the arrow element.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   arrow?: (signal: any) => TNode
-  /** Additional role attribute for accessibility */
+  /**
+   * ARIA role attribute applied to the flyout container.
+   * @default 'dialog'
+   */
   role?: Value<string>
-  /** Optional aria-haspopup value for the trigger element */
+  /**
+   * Value for the `aria-haspopup` attribute on the trigger element.
+   * Indicates the type of popup that the trigger controls.
+   * @default 'dialog'
+   */
   hasPopup?: Value<boolean | 'dialog' | 'menu' | 'listbox' | 'tree' | 'grid'>
 }
 
+/** @internal Maps a PopOver placement to its corresponding animation configuration (slide direction + transform origin). */
 function placementToAnimation(placement: Placement): AnimationConfig {
   const anim: ComposableAnimation = { fade: true, scale: true }
 
@@ -91,13 +160,47 @@ function placementToAnimation(placement: Placement): AnimationConfig {
 }
 
 /**
- * Flyout component that provides a flexible popover with various trigger options.
- * This is the base component that powers Tooltip and other overlay components.
+ * Flexible popover component with configurable trigger modes, animated transitions,
+ * and accessibility support.
  *
- * Unlike other flyout libraries, this component is designed to be a child of the element
- * it provides a flyout for, rather than wrapping it.
+ * Unlike wrapper-based flyout libraries, this component is designed to be rendered as a
+ * **child** of the trigger element. It attaches event listeners to the parent element
+ * and manages the popover lifecycle (show/hide with delays, animation, keyboard dismissal).
  *
- * Uses @tempo-ts/ui PopOver for positioning.
+ * This is the base component that powers {@link Tooltip}, {@link Menu}, and other
+ * positioned overlay components.
+ *
+ * Uses `@tempots/ui` PopOver for Floating UI-based positioning.
+ *
+ * @param options - Configuration options controlling content, placement, triggers, delays, and accessibility
+ * @returns A renderable node to be placed inside the trigger element
+ *
+ * @example
+ * ```typescript
+ * // Hover-triggered flyout
+ * html.button(
+ *   'Hover me',
+ *   Flyout({
+ *     content: () => html.div('Flyout content'),
+ *     placement: 'bottom',
+ *     showOn: 'hover',
+ *     showDelay: 200,
+ *     hideDelay: 300,
+ *   })
+ * )
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Click-triggered flyout with custom trigger function
+ * html.button(
+ *   'Click me',
+ *   Flyout({
+ *     content: () => html.div('Custom content'),
+ *     showOn: (show, hide) => on.click(() => show()),
+ *   })
+ * )
+ * ```
  */
 export function Flyout(options: FlyoutOptions): Renderable {
   const {

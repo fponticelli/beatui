@@ -13,7 +13,13 @@ import { Merge } from '@tempots/std'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 
-// Masking types (as requested)
+/**
+ * Represents a single token in a parsed mask definition.
+ *
+ * - `'literal'` tokens represent fixed characters that are inserted automatically.
+ * - `'pattern'` tokens match user input against a regular expression.
+ * - `'any'` tokens accept any single character.
+ */
 export type MaskToken =
   | { type: 'literal'; char: string }
   | {
@@ -25,71 +31,189 @@ export type MaskToken =
     }
   | { type: 'any'; optional?: boolean; transform?: (char: string) => string }
 
+/**
+ * A mask definition that can be a string pattern (e.g., `'999-999'`), an array
+ * of strings, RegExp patterns, or MaskToken objects, or `null` to disable masking.
+ */
 export type Mask = string | Array<string | RegExp | MaskToken> | null
 
+/**
+ * Metadata passed to pipe functions during mask conforming.
+ */
 export interface PipeMeta {
+  /** The raw (unmasked) input string. */
   raw: string
+  /** The previously conformed (masked) value. */
   previousConformed: string
+  /** The current cursor position. */
   cursor: number
+  /** Whether all required mask slots have been filled. */
   completed: boolean
 }
 
+/**
+ * The return type of a pipe function. Can be:
+ * - A `string` to replace the conformed value.
+ * - An object `{ value, cursor? }` to set both the value and cursor position.
+ * - `false` to reject the input and revert to the previous conformed value.
+ */
 export type PipeResult = string | { value: string; cursor?: number } | false
 
+/**
+ * Options for unmasking a conformed value back to raw form.
+ */
 export interface UnmaskOptions {
+  /**
+   * The unmasking strategy.
+   * - `'none'` - Return the conformed value as-is.
+   * - `'strip'` - Remove all non-alphanumeric characters.
+   * - `'custom'` - Use the provided `unmask` function.
+   * @default 'none'
+   */
   strategy?: 'none' | 'strip' | 'custom'
+  /** Custom unmask function used when `strategy` is `'custom'`. */
   unmask?: (conformed: string) => string
 }
 
+/**
+ * Options for determining when a masked input value is considered complete.
+ */
 export interface CompletionOptions {
+  /**
+   * The completion detection mode.
+   * - `'mask'` - Complete when all required mask slots are filled.
+   * - `'min'` - Complete when at least `minChars` slots are filled.
+   * - `'custom'` - Use the provided `isComplete` function.
+   * @default 'mask'
+   */
   mode?: 'mask' | 'min' | 'custom'
+  /** Minimum number of filled characters for `'min'` mode. */
   minChars?: number
+  /** Custom completion predicate for `'custom'` mode. */
   isComplete?: (conformed: string) => boolean
 }
 
+/**
+ * Options controlling cursor positioning behavior within the masked input.
+ */
 export interface CursorBehavior {
+  /**
+   * Cursor placement policy after conforming.
+   * - `'smart'` - Cursor skips past trailing literals after the last filled slot.
+   * - `'sticky'` - Cursor stays immediately after the last filled slot.
+   * @default 'smart'
+   */
   policy?: 'smart' | 'sticky'
+  /**
+   * When `true`, backspace skips over literal characters to delete the
+   * preceding user-entered character.
+   * @default true
+   */
   backspaceRubberBand?: boolean
 }
 
+/**
+ * Options for placeholder display within the masked input.
+ */
 export interface PlaceholderOptions {
+  /** Whether to show a guide mask in the input when empty. */
   guide?: boolean
+  /**
+   * The character used to represent unfilled mask slots.
+   * @default '_'
+   */
   placeholderChar?: string
+  /** Whether to keep character positions when editing in the middle of the value. */
   keepCharPositions?: boolean
 }
 
+/**
+ * A dictionary mapping mask symbol characters to their pattern definitions.
+ * Used to define custom mask tokens (e.g., `'9'` for digits, `'A'` for letters).
+ *
+ * @example
+ * ```ts
+ * const defs: MaskDictionary = {
+ *   '9': { pattern: /^[0-9]$/ },
+ *   'A': { pattern: /^[A-Za-z]$/, transform: c => c.toUpperCase() },
+ * }
+ * ```
+ */
 export interface MaskDictionary {
   [symbol: string]: {
+    /** RegExp pattern that a single character must match. */
     pattern: RegExp
+    /** Whether this token is optional (not required for completion). */
     optional?: boolean
+    /** Transform function applied to accepted characters. */
     transform?: (char: string) => string
   }
 }
 
+/**
+ * A function that dynamically generates a mask based on the current raw input
+ * and metadata. Useful for inputs where the mask structure depends on what has
+ * been typed so far (e.g., phone numbers with varying formats).
+ */
 export type DynamicMask = (raw: string, meta: PipeMeta) => Mask
 
+/**
+ * Low-level configuration options for the masked input engine.
+ * These options control how raw input is conformed to a mask pattern.
+ */
 export interface MaskedInputOptions {
+  /** The current input value. */
   value?: string
+  /** Default value used when no value is provided. */
   defaultValue?: string
+  /** The mask pattern or dynamic mask function. */
   mask: Value<Mask | DynamicMask>
+  /** Custom mask symbol definitions. */
   definitions?: Value<MaskDictionary>
+  /**
+   * Whether to include the default definitions (`9`, `A`, `*`).
+   * @default true
+   */
   useDefaultDefinitions?: Value<boolean>
+  /** Placeholder text displayed when the input is empty. */
   placeholder?: Value<string>
+  /** Options for placeholder guide display. */
   placeholderOptions?: Value<PlaceholderOptions>
+  /** Extra literal characters to strip from raw input before conforming. */
   extraLiterals?: Value<string[]>
+  /** A string prepended to the conformed value. */
   prefix?: Value<string>
+  /** A string appended to the conformed value. */
   suffix?: Value<string>
+  /**
+   * Auto-fix mode for out-of-range values.
+   * @default 'none'
+   */
   autofix?: Value<'none' | 'pad' | 'truncate'>
+  /** Whether to clear the input when incomplete on blur. */
   autoclear?: Value<boolean>
+  /** Cursor positioning behavior configuration. */
   cursor?: Value<CursorBehavior>
+  /** Post-processing pipe function applied after conforming. */
   pipe?: (conformed: string, meta: PipeMeta) => PipeResult
+  /** Completion detection configuration. */
   completion?: Value<CompletionOptions>
+  /** Unmasking configuration for extracting raw values. */
   unmask?: Value<UnmaskOptions>
+  /**
+   * Character filtering mode.
+   * @default 'all'
+   */
   allowMode?: Value<'all' | 'digits' | 'letters' | 'alphanumeric' | 'custom'>
+  /** Custom character filter function used with `allowMode: 'custom'`. */
   allow?: (char: string) => boolean
+  /** Hard maximum character length. */
   maxLengthHard?: Value<number>
+  /** Debounce delay in milliseconds for change events. */
   debounceMs?: Value<number>
+  /** Whether to handle IME composition events safely. */
   compositionSafe?: Value<boolean>
+  /** Callback invoked on every accepted input change. */
   onAccept?: (next: {
     raw: string
     conformed: string
@@ -97,6 +221,7 @@ export interface MaskedInputOptions {
     cursor: number
     numericParsed?: number
   }) => void
+  /** Callback invoked when the mask value is fully completed. */
   onComplete?: (finalValue: {
     raw: string
     conformed: string
@@ -104,6 +229,11 @@ export interface MaskedInputOptions {
   }) => void
 }
 
+/**
+ * Options for the {@link MaskInput} component, merging standard `InputOptions<string>`
+ * with masked input configuration. The `value`, `defaultValue`, `onAccept`, and `onComplete`
+ * fields from `MaskedInputOptions` are controlled by `InputOptions` lifecycle.
+ */
 export type MaskInputOptions = Merge<
   InputOptions<string>,
   Omit<
@@ -320,8 +450,33 @@ function unmaskValue(conformed: string, opts?: UnmaskOptions): string {
   return conformed
 }
 
-// --- Numeric formatting helpers ---
-
+/**
+ * A text input component with configurable input masking.
+ *
+ * Supports static and dynamic masks, custom token definitions, cursor behavior
+ * policies, completion detection, pipes for post-processing, and unmask strategies.
+ *
+ * @param options - Configuration options for the masked input.
+ * @returns A renderable masked input component.
+ *
+ * @example
+ * ```ts
+ * // Phone number mask
+ * MaskInput({
+ *   value: prop(''),
+ *   mask: '(999) 999-9999',
+ *   placeholder: '(___) ___-____',
+ *   onChange: v => console.log(v),
+ * })
+ *
+ * // Custom mask with definitions
+ * MaskInput({
+ *   value: prop(''),
+ *   mask: 'AA-9999',
+ *   onChange: v => console.log(v),
+ * })
+ * ```
+ */
 export const MaskInput = (options: MaskInputOptions): Renderable => {
   const {
     value,

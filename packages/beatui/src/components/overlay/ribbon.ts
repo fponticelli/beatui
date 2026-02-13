@@ -2,29 +2,59 @@ import { TNode, Value, attr, computedOf, html, Renderable } from '@tempots/dom'
 import type { ThemeColorName } from '../../tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 
+/**
+ * Corner position for the {@link Ribbon} component.
+ * Determines which corner of the parent container the ribbon is placed at.
+ */
 export type RibbonCorner =
   | 'top-start'
   | 'top-end'
   | 'bottom-start'
   | 'bottom-end'
 
+/**
+ * Configuration options for the {@link Ribbon} component.
+ */
 export type RibbonOptions = {
-  /** Background/text color theme (defaults to 'primary') */
+  /**
+   * Theme color applied to the ribbon background and text.
+   * Accepts any named theme color or an extended color value.
+   * @default 'primary'
+   */
   color?: Value<ThemeColorName | ExtendedColor>
-  /** Extra classes */
+  /**
+   * Additional CSS class names to apply to the ribbon element.
+   */
   class?: Value<string>
-  /** Horizontal nudge along the top edge before rotation (px if number). Default: 0px */
+  /**
+   * Horizontal nudge along the edge before rotation. Accepts a pixel number or CSS length string.
+   * @default 0
+   */
   inset?: Value<number | string>
-  /** Fine vertical correction to align the band crossing (px if number). Default: -1px */
+  /**
+   * Vertical offset correction to fine-tune the band crossing position.
+   * Accepts a pixel number or CSS length string.
+   * @default 40
+   */
   offset?: Value<number | string>
-  /** Minimum width of the band (px if number). Default: null */
+  /**
+   * Minimum width of the ribbon band. Accepts a pixel number or CSS length string.
+   * @default 100
+   */
   width?: Value<number | string>
-  /** Rotation angle in degrees. Default: 45 */
+  /**
+   * Rotation angle of the ribbon in degrees.
+   * @default 45
+   */
   angle?: Value<number>
-  /** Corner position. Default: 'top-end' */
+  /**
+   * Corner of the parent container where the ribbon is positioned.
+   * @default 'top-end'
+   */
   corner?: Value<RibbonCorner>
 }
 
+/** @internal Generates the inline style string with CSS custom properties for ribbon theming. */
 function generateRibbonCSSVariables(
   color: ExtendedColor,
   inset: number | string,
@@ -48,14 +78,35 @@ function generateRibbonCSSVariables(
   ].join('; ')
 }
 
+/** @internal Converts a numeric or string value to a CSS length string, appending `px` to numbers. */
 function toCssLength(v: number | string | null | undefined): string | null {
   if (v == null) return null
   return typeof v === 'number' ? `${v}px` : v
 }
 
 /**
- * Ribbon: renders diagonal content at a specified corner.
- * Note: The parent container should be positioned (e.g., position: relative) for best results.
+ * Renders a diagonal ribbon badge at a specified corner of its parent container.
+ *
+ * The ribbon is positioned absolutely, so the parent container should use
+ * `position: relative` (or another positioning context) for correct placement.
+ * Theme-aware colors are applied via CSS custom properties, supporting both
+ * light and dark modes.
+ *
+ * @param options - Configuration options controlling color, position, size, and rotation
+ * @param children - Content to display inside the ribbon (typically short text like "New" or "Sale")
+ * @returns A renderable node
+ *
+ * @example
+ * ```typescript
+ * html.div(
+ *   attr.style('position: relative'),
+ *   Ribbon(
+ *     { color: 'danger', corner: 'top-end', angle: 45 },
+ *     'Sale'
+ *   ),
+ *   html.p('Product card content')
+ * )
+ * ```
  */
 export function Ribbon(
   {

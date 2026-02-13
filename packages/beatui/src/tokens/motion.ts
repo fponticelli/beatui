@@ -1,8 +1,26 @@
-// Motion Design Tokens
-// Defines motion durations and easing curves exposed as CSS variables
+/**
+ * Motion (animation) design tokens for BeatUI.
+ *
+ * Defines animation duration and easing curve values that are exposed as CSS
+ * custom properties. Includes both primitive duration/easing tokens and semantic
+ * motion roles for transitions and animations throughout the UI.
+ *
+ * @module
+ */
 
 import { objectEntries } from '@tempots/std'
 
+/**
+ * Motion duration scale mapping names to CSS time values.
+ *
+ * | Name    | Value  |
+ * |---------|--------|
+ * | instant | 0s     |
+ * | fast    | 120ms  |
+ * | base    | 200ms  |
+ * | slow    | 320ms  |
+ * | relaxed | 480ms  |
+ */
 export const motionDurations = {
   instant: '0s',
   fast: '120ms',
@@ -11,6 +29,16 @@ export const motionDurations = {
   relaxed: '480ms',
 } as const
 
+/**
+ * Motion easing curve definitions mapping names to CSS `cubic-bezier()` values.
+ *
+ * | Name       | Curve                          | Use case                |
+ * |------------|--------------------------------|-------------------------|
+ * | standard   | cubic-bezier(0.2, 0, 0, 1)    | General transitions     |
+ * | emphasized | cubic-bezier(0.33, 1, 0.68, 1) | Attention-drawing motion |
+ * | entrance   | cubic-bezier(0, 0, 0.2, 1)    | Elements appearing      |
+ * | exit       | cubic-bezier(0.8, 0, 0.6, 1)  | Elements disappearing   |
+ */
 export const motionEasings = {
   standard: 'cubic-bezier(0.2, 0, 0, 1)',
   emphasized: 'cubic-bezier(0.33, 1, 0.68, 1)',
@@ -18,25 +46,79 @@ export const motionEasings = {
   exit: 'cubic-bezier(0.8, 0, 0.6, 1)',
 } as const
 
+/**
+ * Union type of all available motion duration names.
+ */
 export type MotionDurationName = keyof typeof motionDurations
+
+/**
+ * Union type of all available motion easing names.
+ */
 export type MotionEasingName = keyof typeof motionEasings
 
+/**
+ * Returns the CSS custom property name for a motion duration.
+ *
+ * @param name - The motion duration name
+ * @returns The CSS variable name (e.g., `'--motion-duration-fast'`)
+ *
+ * @example
+ * ```ts
+ * getMotionDurationVarName('fast') // '--motion-duration-fast'
+ * ```
+ */
 export function getMotionDurationVarName(name: MotionDurationName): string {
   return `--motion-duration-${name}`
 }
 
+/**
+ * Returns a CSS `var()` expression referencing the motion duration custom property.
+ *
+ * @param name - The motion duration name
+ * @returns A CSS `var()` string (e.g., `'var(--motion-duration-fast)'`)
+ */
 export function getMotionDurationVar(name: MotionDurationName): string {
   return `var(${getMotionDurationVarName(name)})`
 }
 
+/**
+ * Returns the CSS custom property name for a motion easing curve.
+ *
+ * @param name - The motion easing name
+ * @returns The CSS variable name (e.g., `'--motion-easing-standard'`)
+ *
+ * @example
+ * ```ts
+ * getMotionEasingVarName('standard') // '--motion-easing-standard'
+ * ```
+ */
 export function getMotionEasingVarName(name: MotionEasingName): string {
   return `--motion-easing-${name}`
 }
 
+/**
+ * Returns a CSS `var()` expression referencing the motion easing custom property.
+ *
+ * @param name - The motion easing name
+ * @returns A CSS `var()` string (e.g., `'var(--motion-easing-standard)'`)
+ */
 export function getMotionEasingVar(name: MotionEasingName): string {
   return `var(${getMotionEasingVarName(name)})`
 }
 
+/**
+ * Generates CSS custom property declarations for all motion tokens,
+ * including both durations and easing curves.
+ *
+ * @returns A record mapping CSS variable names to their values
+ *
+ * @example
+ * ```ts
+ * const vars = generateMotionVariables()
+ * // vars['--motion-duration-fast'] === '120ms'
+ * // vars['--motion-easing-standard'] === 'cubic-bezier(0.2, 0, 0, 1)'
+ * ```
+ */
 export function generateMotionVariables(): Record<string, string> {
   const variables: Record<string, string> = {}
 
@@ -51,6 +133,10 @@ export function generateMotionVariables(): Record<string, string> {
   return variables
 }
 
+/**
+ * Tuple of all semantic motion role names, covering both transition
+ * durations and easing curves.
+ */
 export const semanticMotionNames = [
   'transition-fast',
   'transition-medium',
@@ -63,12 +149,21 @@ export const semanticMotionNames = [
   'easing-exit',
 ] as const
 
+/**
+ * Union type of all semantic motion role names.
+ */
 export type SemanticMotionName = (typeof semanticMotionNames)[number]
 
+/**
+ * Partial record for overriding default semantic motion assignments.
+ */
 export type SemanticMotionOverrides = Partial<
   Record<SemanticMotionName, string>
 >
 
+/**
+ * Default semantic motion values mapping roles to primitive motion variables.
+ */
 const defaultSemanticMotion: Record<SemanticMotionName, string> = {
   'transition-fast': getMotionDurationVar('fast'),
   'transition-medium': getMotionDurationVar('base'),
@@ -81,10 +176,34 @@ const defaultSemanticMotion: Record<SemanticMotionName, string> = {
   'easing-exit': getMotionEasingVar('exit'),
 }
 
+/**
+ * Returns the CSS custom property name for a semantic motion role.
+ *
+ * @param name - The semantic motion name
+ * @returns The CSS variable name (e.g., `'--motion-transition-fast'`)
+ *
+ * @example
+ * ```ts
+ * getSemanticMotionVarName('transition-fast') // '--motion-transition-fast'
+ * ```
+ */
 export function getSemanticMotionVarName(name: SemanticMotionName): string {
   return `--motion-${name}`
 }
 
+/**
+ * Generates CSS custom property declarations for semantic motion tokens,
+ * merging defaults with any provided overrides.
+ *
+ * @param overrides - Optional overrides for semantic motion values
+ * @returns A record mapping CSS variable names to their values
+ *
+ * @example
+ * ```ts
+ * const vars = generateSemanticMotionVariables({ 'transition-fast': '80ms' })
+ * // vars['--motion-transition-fast'] === '80ms'
+ * ```
+ */
 export function generateSemanticMotionVariables(
   overrides?: SemanticMotionOverrides
 ): Record<string, string> {

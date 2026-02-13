@@ -8,7 +8,6 @@ import {
   When,
   OnDispose,
   WithElement,
-  TNode,
   signal,
 } from '@tempots/dom'
 import type { LexicalEditor, LexicalNode } from 'lexical'
@@ -37,7 +36,7 @@ export function TableControls({
   editor,
   stateUpdate,
   readOnly = signal(false),
-}: TableControlsOptions): TNode {
+}: TableControlsOptions) {
   const isVisible = prop(false)
   const top = prop(0)
   const left = prop(0)
@@ -240,7 +239,7 @@ function menuButton(
   onClick: () => void,
   disabled: Signal<boolean>,
   variant: 'default' | 'danger' = 'default'
-): TNode {
+) {
   return html.button(
     attr.class('bc-table-menu-button'),
     attr.type('button'),

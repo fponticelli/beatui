@@ -87,13 +87,19 @@ export function TwoFactorVerify({
 
   return Use(BetterAuthI18n, t => {
     // Derive description and placeholder reactively from both currentMethod and i18n
-    const description = computedOf(currentMethod, t)((method, messages) => {
+    const description = computedOf(
+      currentMethod,
+      t
+    )((method, messages) => {
       if (method === 'totp') return messages.twoFactorTotpDescription
       if (method === 'otp') return messages.twoFactorOtpDescription
       return messages.twoFactorBackupDescription
     })
 
-    const placeholder = computedOf(currentMethod, t)((method, messages) => {
+    const placeholder = computedOf(
+      currentMethod,
+      t
+    )((method, messages) => {
       if (method === 'backup') return messages.twoFactorBackupCodePlaceholder
       return messages.twoFactorCodePlaceholder
     })
@@ -118,9 +124,7 @@ export function TwoFactorVerify({
               attr.class('bc-two-factor__method-button'),
               attr.class(
                 currentMethod.map(m =>
-                  m === method
-                    ? 'bc-two-factor__method-button--active'
-                    : ''
+                  m === method ? 'bc-two-factor__method-button--active' : ''
                 )
               ),
               on.click(() => {
@@ -138,10 +142,7 @@ export function TwoFactorVerify({
         attr.class('bc-two-factor__form'),
         on.submit(handleSubmit),
         Stack(
-          html.p(
-            attr.class('bc-auth-form__description'),
-            description
-          ),
+          html.p(attr.class('bc-auth-form__description'), description),
 
           // Send OTP button (only for OTP method)
           When(

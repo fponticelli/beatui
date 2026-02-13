@@ -177,7 +177,7 @@ export function SlashCommandPalette({
   position,
   onSelect,
   onDismiss,
-}: SlashCommandPaletteOptions): TNode {
+}: SlashCommandPaletteOptions) {
   // Active command index for keyboard navigation
   const activeIndex = prop(0)
 

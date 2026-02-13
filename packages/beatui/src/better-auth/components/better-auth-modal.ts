@@ -4,13 +4,9 @@ import { BetterAuthBridge } from '../types'
 
 export function BetterAuthModal(
   auth: BetterAuthBridge,
-  fn: (
-    open: (overrides?: Partial<AuthContainerOptions>) => void
-  ) => TNode
-): TNode {
+  fn: (open: (overrides?: Partial<AuthContainerOptions>) => void) => TNode
+) {
   return AuthModal(open =>
-    fn((overrides) =>
-      open({ ...auth.containerOptions, ...overrides })
-    )
+    fn(overrides => open({ ...auth.containerOptions, ...overrides }))
   )
 }

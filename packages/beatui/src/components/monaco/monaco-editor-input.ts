@@ -1,3 +1,13 @@
+/**
+ * Monaco Editor integration component for BeatUI forms.
+ *
+ * Provides a rich code editor powered by Monaco Editor (VS Code's editor)
+ * that integrates with BeatUI's reactive form system, theming, and
+ * CSS injection strategy.
+ *
+ * @module
+ */
+
 import {
   Renderable,
   Value,
@@ -17,14 +27,64 @@ import type * as Monaco from 'monaco-editor'
 import { Task } from '@tempots/dom'
 import { LinkPortal } from '../misc/link-portal'
 
+/**
+ * Options for the {@link MonacoEditorInput} component.
+ *
+ * Merges standard BeatUI {@link InputOptions} with Monaco-specific settings
+ * such as `language`, `editorOptions`, and `jsonSchemas`.
+ *
+ * @example
+ * ```ts
+ * const options: MonacoEditorInputOptions = {
+ *   value: prop('{}'),
+ *   onChange: v => console.log(v),
+ *   language: 'json',
+ *   editorOptions: { minimap: { enabled: false } },
+ *   cssInjection: 'link',
+ * }
+ * ```
+ */
 export type MonacoEditorInputOptions = Merge<
   InputOptions<string>,
-  MonacoEditorSpecificOptions & { cssInjection?: 'link' | 'none' }
+  MonacoEditorSpecificOptions & {
+    /**
+     * CSS injection strategy for the Monaco editor stylesheet.
+     * - `'link'`: Lazily inject a `<link>` element pointing to the CSS asset.
+     * - `'none'`: Do not inject any CSS (the consumer manages styles).
+     * @default 'none'
+     */
+    cssInjection?: 'link' | 'none'
+  }
 >
 
 /**
- * MonacoEditorInput mounts a Monaco editor in an InputContainer and wires its value to BeatUI inputs.
- * Note: This component dynamically imports 'monaco-editor' at runtime and does not include it in the main bundle.
+ * Mounts a Monaco (VS Code) editor inside a BeatUI form input container and
+ * wires its value to the reactive `InputOptions` interface.
+ *
+ * Monaco Editor is loaded lazily via CDN at runtime, so it is **not** included
+ * in the main library bundle. Language-specific features (validation, schemas)
+ * are also loaded on demand based on the `language` option.
+ *
+ * The component reacts to:
+ * - External `value` changes (syncs content into the editor)
+ * - `readOnly` / `disabled` changes
+ * - `language` and `jsonSchemas` changes (reconfigures validation)
+ * - Theme `appearance` changes (switches between VS light/dark themes)
+ *
+ * @param options - Configuration merging standard BeatUI input options with Monaco-specific settings.
+ * @returns A `Renderable` containing the Monaco editor.
+ *
+ * @example
+ * ```ts
+ * const code = prop('console.log("hello")')
+ *
+ * MonacoEditorInput({
+ *   value: code,
+ *   onChange: v => code.set(v),
+ *   language: 'javascript',
+ *   readOnly: false,
+ * })
+ * ```
  */
 export const MonacoEditorInput = (
   options: MonacoEditorInputOptions

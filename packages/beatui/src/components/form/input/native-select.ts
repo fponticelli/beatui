@@ -29,9 +29,21 @@ import {
 import { InputWrapper } from './input-wrapper'
 import { SelectOption } from './option'
 
+/**
+ * Options for the {@link NativeSelect} component.
+ * Extends standard `InputOptions` with native `<select>` element configuration.
+ *
+ * @typeParam T - The type of option values.
+ */
 export type NativeSelectOptions<T> = InputOptions<T> & {
+  /** The list of selectable options. Supports value, group, and break types. */
   options: Value<SelectOption<T>[]>
+  /** Label for the initial unselected/placeholder option. Defaults to the i18n "Select one" message. */
   unselectedLabel?: Value<string>
+  /**
+   * Custom equality function for comparing option values.
+   * @default (a, b) => a === b
+   */
   equality?: (a: T, b: T) => boolean
 }
 
@@ -71,6 +83,30 @@ const NativeSelectOption = <T>(
   )
 }
 
+/**
+ * A native HTML `<select>` dropdown input component.
+ *
+ * Renders a styled native select element with support for grouped options,
+ * custom equality, and an initial unselected placeholder. The select opens
+ * the browser's native picker on click. Values are tracked via DOM expandos
+ * to support non-string option types.
+ *
+ * @typeParam T - The type of option values.
+ * @param options - Configuration options for the native select.
+ * @returns A renderable native select component.
+ *
+ * @example
+ * ```ts
+ * NativeSelect({
+ *   value: prop('us'),
+ *   options: [
+ *     { type: 'value', value: 'us', label: 'United States' },
+ *     { type: 'value', value: 'uk', label: 'United Kingdom' },
+ *   ],
+ *   onChange: country => console.log('Selected:', country),
+ * })
+ * ```
+ */
 export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
   const {
     value,
@@ -136,6 +172,13 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
   )
 }
 
+/**
+ * A base form control wrapper for {@link NativeSelect} using a raw controller.
+ *
+ * @typeParam T - The type of option values.
+ * @param options - Base controller options for the native select control.
+ * @returns A renderable form control component.
+ */
 export function BaseNativeSelectControl<T>(
   options: BaseControllerOptions<T, NativeSelectOptions<T>>
 ) {
@@ -148,6 +191,13 @@ export function BaseNativeSelectControl<T>(
   })
 }
 
+/**
+ * A full form control wrapper for {@link NativeSelect} with label, error, and description support.
+ *
+ * @typeParam T - The type of option values.
+ * @param options - Controller options for the native select control.
+ * @returns A renderable form control component with wrapper.
+ */
 export function NativeSelectControl<T>(
   options: ControllerOptions<T, NativeSelectOptions<T>>
 ) {

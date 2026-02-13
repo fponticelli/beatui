@@ -17,14 +17,25 @@ function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
 
+/**
+ * Configuration options for the {@link SegmentedInput} component.
+ *
+ * @template T - A record type mapping segment keys to their display labels (as TNode)
+ * @template K - The key type of the record (defaults to keyof T)
+ */
 export interface SegmentedInputOptions<
   T extends Record<string, TNode>,
   K extends keyof T = keyof T,
 > {
+  /** A record mapping segment identifiers to their display content (text, icons, or any TNode) */
   options: T
+  /** The currently selected segment key */
   value: Value<K>
+  /** Callback invoked when a different segment is selected */
   onChange?: (value: K) => void
+  /** Visual size of the segmented control. @default 'md' */
   size?: Value<ControlSize>
+  /** Whether the segmented control is disabled. @default false */
   disabled?: Value<boolean>
 }
 
@@ -41,6 +52,52 @@ function generateSegmentedInputClasses(
   return classes.join(' ')
 }
 
+/**
+ * A segmented control input that allows selecting one of several mutually exclusive options.
+ *
+ * Renders a horizontal row of clickable segments with a sliding indicator that animates
+ * to highlight the currently selected segment. Each segment is defined by a key-value pair
+ * in the `options` record, where keys serve as identifiers and values are rendered as
+ * segment labels (text, icons, or any TNode). The sliding indicator width and position
+ * are dynamically measured from the DOM using {@link ElementRect} and updated via
+ * `requestAnimationFrame`.
+ *
+ * @template T - A record type mapping segment keys to their display labels
+ * @param options - Configuration options for the segmented control
+ * @param children - Additional child nodes to render after the segmented control
+ * @returns A styled segmented control element with animated indicator
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { SegmentedInput } from '@tempots/beatui'
+ *
+ * const view = prop<'list' | 'grid' | 'table'>('list')
+ * SegmentedInput({
+ *   options: {
+ *     list: 'List',
+ *     grid: 'Grid',
+ *     table: 'Table',
+ *   },
+ *   value: view,
+ *   onChange: view.set,
+ *   size: 'md',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With icon labels
+ * SegmentedInput({
+ *   options: {
+ *     light: Icon({ icon: 'line-md:sun' }),
+ *     dark: Icon({ icon: 'line-md:moon' }),
+ *   },
+ *   value: prop<'light' | 'dark'>('light'),
+ *   onChange: (v) => console.log('Theme:', v),
+ * })
+ * ```
+ */
 export function SegmentedInput<T extends Record<string, TNode>>(
   {
     options,

@@ -1,7 +1,22 @@
+/**
+ * Lazy loader for Monaco Editor via CDN (no bundler configuration required).
+ *
+ * Uses the AMD/RequireJS loader shipped with Monaco to load the editor and
+ * language-specific features on demand. The loaded instance is cached so
+ * subsequent calls return immediately.
+ *
+ * @module
+ */
+
 import type * as MonacoTypes from 'monaco-editor'
-// AMD + CDN loader (no bundler config required)
+
+/** Base URL for the Monaco Editor CDN assets. */
 const MONACO_CDN_BASE = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/'
 
+/**
+ * Extended `Window` type that includes the AMD `require` function injected
+ * by the Monaco loader script and the optional `monaco` global.
+ */
 type WindowWithRequire = Window & {
   require?: {
     (
@@ -14,12 +29,21 @@ type WindowWithRequire = Window & {
   monaco?: unknown
 }
 
+/**
+ * Type guard that checks whether an object looks like a minimal Monaco API
+ * (has `editor.create` function and `languages` namespace).
+ */
 const isMinimalMonaco = (m: unknown): boolean => {
   if (!m || typeof m !== 'object') return false
   const o = m as { editor?: { create?: unknown }; languages?: unknown }
   return !!(o.editor && typeof o.editor.create === 'function' && o.languages)
 }
 
+/**
+ * Sets up the `MonacoEnvironment.getWorkerUrl` global so that Monaco web
+ * workers are loaded from the CDN. This is a no-op if the consumer has
+ * already configured the environment.
+ */
 function setupMonacoEnvironment() {
   if (typeof self === 'undefined') return
   const env = (self as unknown as { MonacoEnvironment?: unknown })
@@ -54,6 +78,13 @@ function setupMonacoEnvironment() {
   }
 }
 
+/**
+ * Loads a `<script>` tag asynchronously and returns a promise that resolves
+ * when the script is loaded. Reuses existing script elements if already present.
+ *
+ * @param src - The script URL to load.
+ * @returns A promise that resolves when the script has loaded.
+ */
 const loadScript = (src: string): Promise<void> =>
   new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[src="${src}"]`)
@@ -71,6 +102,12 @@ const loadScript = (src: string): Promise<void> =>
     document.head.appendChild(s)
   })
 
+/**
+ * Ensures the AMD/RequireJS loader from the Monaco CDN is available on the
+ * global `window.require`. Loads `vs/loader.js` if not already present.
+ *
+ * @returns The AMD `require` function configured with Monaco's CDN base.
+ */
 const ensureAmdLoader = async () => {
   const w = window as unknown as WindowWithRequire
   if (!w.require || !w.require.config) {
@@ -82,6 +119,13 @@ const ensureAmdLoader = async () => {
   return w.require!
 }
 
+/**
+ * Loads the Monaco Editor API via the AMD loader. Sets up the worker
+ * environment first, then requires `vs/editor/editor.main`. Times out
+ * after 30 seconds.
+ *
+ * @returns The Monaco global object.
+ */
 const requireMonacoApi = async (): Promise<unknown> => {
   const w = window as unknown as WindowWithRequire
   if (w.monaco && isMinimalMonaco(w.monaco)) return w.monaco
@@ -114,16 +158,30 @@ const requireMonacoApi = async (): Promise<unknown> => {
   return w.monaco
 }
 
-// Cache for loaded Monaco instance
+/** Cached Monaco instance (set after first successful load). */
 let monacoCache: typeof MonacoTypes | null = null
 
-// Language loader cache
+/** Cache of in-flight or completed language feature loading promises. */
 const languageLoadersCache = new Map<string, Promise<void>>()
 
-// Track if workers are configured
+/** Whether the Monaco worker environment has already been configured. */
 let workersConfigured = false
 
-// Core Monaco loader
+/**
+ * Loads the core Monaco Editor API from CDN and returns the fully
+ * initialised `monaco` namespace. The result is cached so subsequent
+ * calls resolve immediately.
+ *
+ * Workers are configured automatically before the first load.
+ *
+ * @returns The Monaco Editor API namespace.
+ *
+ * @example
+ * ```ts
+ * const monaco = await loadMonacoCore()
+ * const editor = monaco.editor.create(container, { language: 'typescript' })
+ * ```
+ */
 export async function loadMonacoCore(): Promise<typeof MonacoTypes> {
   if (monacoCache) {
     return monacoCache
@@ -142,7 +200,20 @@ export async function loadMonacoCore(): Promise<typeof MonacoTypes> {
   return monacoGlobal
 }
 
-// Language-specific loaders
+/**
+ * Loads and configures language-specific features (validation, diagnostics,
+ * schemas) for the given language in Monaco.
+ *
+ * The core Monaco API is loaded first if not already available. Language
+ * loading promises are cached so each language is configured at most once.
+ *
+ * @param language - The Monaco language identifier (e.g. `'json'`, `'typescript'`, `'yaml'`).
+ *
+ * @example
+ * ```ts
+ * await loadLanguageFeatures('json')
+ * ```
+ */
 export async function loadLanguageFeatures(language: string): Promise<void> {
   // Check cache first
   if (languageLoadersCache.has(language)) {
@@ -256,7 +327,23 @@ export async function loadLanguageFeatures(language: string): Promise<void> {
   return loaderPromise
 }
 
-// Combined loader that loads Monaco and language features
+/**
+ * Loads the Monaco Editor API **and** the language-specific features for the
+ * given language in parallel, returning the fully initialised `monaco`
+ * namespace.
+ *
+ * This is the recommended loader for most use cases since it ensures both
+ * the core editor and language support are ready before the editor is created.
+ *
+ * @param language - The Monaco language identifier (e.g. `'json'`, `'typescript'`).
+ * @returns The Monaco Editor API namespace.
+ *
+ * @example
+ * ```ts
+ * const monaco = await loadMonacoWithLanguage('json')
+ * const editor = monaco.editor.create(el, { value: '{}', language: 'json' })
+ * ```
+ */
 export async function loadMonacoWithLanguage(
   language: string
 ): Promise<typeof MonacoTypes> {
@@ -267,7 +354,30 @@ export async function loadMonacoWithLanguage(
   return monaco
 }
 
-// Helper to configure Monaco environment (for consumers who want custom workers)
+/**
+ * Configures the Monaco worker environment.
+ *
+ * Call this before creating any editor instances if you need custom web
+ * workers (e.g. bundled workers instead of CDN workers). When called without
+ * arguments, the default CDN-based worker environment is set up.
+ *
+ * This function is a no-op in non-browser environments (SSR).
+ *
+ * @param getWorkerFn - Optional factory that returns a `Worker` for a given
+ *   `workerId` and `label`. When omitted, the default AMD/CDN worker setup
+ *   is used.
+ *
+ * @example
+ * ```ts
+ * // Use default CDN workers
+ * configureMonacoEnvironment()
+ *
+ * // Use custom bundled workers
+ * configureMonacoEnvironment((workerId, label) => {
+ *   return new Worker(new URL('./my-worker.js', import.meta.url))
+ * })
+ * ```
+ */
 export function configureMonacoEnvironment(
   getWorkerFn?: (workerId: string, label: string) => Worker
 ): void {

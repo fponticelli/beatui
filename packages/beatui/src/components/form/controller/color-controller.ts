@@ -9,9 +9,37 @@ import { Path } from './path'
 import { ControllerValidation } from './controller-validation'
 
 /**
- * Specialized controller for color values with validation and transformation utilities
+ * Specialized controller for color values with validation and transformation utilities.
+ *
+ * Extends the base `Controller<string>` with color-specific functionality including
+ * hex color validation, normalization, RGB conversion, and format transformation.
+ * Values are internally stored as normalized hex strings (e.g., `'#ff0000'`).
+ *
+ * @example
+ * ```typescript
+ * import { createColorController } from '@tempots/beatui'
+ *
+ * const colorCtrl = createColorController(stringController)
+ *
+ * // Validate and set colors
+ * colorCtrl.setColor('#f00')     // Normalizes to '#ff0000'
+ * colorCtrl.setRgb(255, 128, 0)  // Sets to '#ff8000'
+ *
+ * // Read reactive values
+ * colorCtrl.isValidHex    // Signal<boolean>
+ * colorCtrl.normalizedHex // Signal<string>
+ * ```
  */
 export class ColorController extends Controller<string> {
+  /**
+   * Creates a new ColorController instance.
+   *
+   * @param path - The path segments identifying this controller in the form tree
+   * @param change - Callback to propagate value changes to the parent
+   * @param signal - Reactive signal holding the current color string
+   * @param status - Reactive signal holding the current validation status
+   * @param parent - Parent context providing the disabled state
+   */
   constructor(
     path: Path,
     change: (value: string) => void,

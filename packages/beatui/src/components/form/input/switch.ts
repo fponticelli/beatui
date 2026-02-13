@@ -16,20 +16,76 @@ import { Locale } from '../../i18n/locale'
 import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
+/**
+ * Configuration options for the {@link Switch} component.
+ *
+ * Defines the properties for a toggle switch including its value, event callbacks,
+ * optional on/off labels, visual size, theme color, and accessibility attributes.
+ */
 export type SwitchOptions = {
+  /** The current boolean state of the switch (on/off) */
   value: Value<boolean>
+  /** Callback invoked when the switch value changes (typically on click or keyboard toggle) */
   onChange?: (value: boolean) => void
+  /** Callback invoked on every input event (fires alongside onChange) */
   onInput?: (value: boolean) => void
+  /** Callback invoked when the switch loses focus */
   onBlur?: () => void
+  /** Optional label displayed when the switch is in the off state */
   offLabel?: TNode
+  /** Optional label displayed when the switch is in the on state */
   onLabel?: TNode
+  /** Whether the switch is disabled and cannot be toggled. @default false */
   disabled?: Value<boolean>
+  /** Visual size of the switch. @default 'md' */
   size?: ControlSize
+  /** Unique HTML id attribute for the switch element */
   id?: string
+  /** Theme color for the switch track when on. @default 'primary' */
   color?: Value<ThemeColorName>
+  /** Tab index for keyboard navigation order. @default 0 */
   tabIndex?: Value<number>
 }
 
+/**
+ * A toggle switch component for boolean on/off states with animated thumb transition.
+ *
+ * Renders a custom switch control with ARIA `role="switch"` semantics, full keyboard
+ * support (Space and Enter to toggle), and a sliding thumb animation. The switch track
+ * color is theme-aware and configurable via the `color` property. Optional on/off labels
+ * appear inside the track and cross-fade based on the current state. The thumb position
+ * is calculated dynamically based on the track width and adapts to RTL layout direction.
+ *
+ * @param options - Configuration options for the switch
+ * @returns A styled switch element with animated thumb and optional labels
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { Switch } from '@tempots/beatui'
+ *
+ * const enabled = prop(false)
+ * Switch({
+ *   value: enabled,
+ *   onChange: enabled.set,
+ *   size: 'md',
+ *   color: 'primary',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With on/off labels
+ * Switch({
+ *   value: prop(true),
+ *   onChange: (v) => console.log('Toggled:', v),
+ *   onLabel: 'ON',
+ *   offLabel: 'OFF',
+ *   color: 'green',
+ *   size: 'lg',
+ * })
+ * ```
+ */
 export const Switch = ({
   value,
   onChange,

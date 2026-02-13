@@ -18,11 +18,18 @@ import { defaultMessages } from '../../../beatui-i18n'
 import { Stack } from '../../layout'
 import { NullableResetAfter } from './nullable-utils'
 
+/**
+ * Options for the {@link NullableNumberInput} component.
+ * Extends standard `InputOptions` for `number | null` values with stepper and range constraints.
+ */
 export type NullableNumberInputOptions = Merge<
   InputOptions<number | null>,
   {
+    /** Step value for increment/decrement buttons and mouse wheel. If provided, stepper buttons are shown. */
     step?: Value<number>
+    /** Minimum allowed value. Values below this are clamped. */
     min?: Value<number>
+    /** Maximum allowed value. Values above this are clamped. */
     max?: Value<number>
   }
 >
@@ -33,6 +40,28 @@ const strToNumberOrNull = (v: string): number | null => {
   return Number.isNaN(n) ? null : n
 }
 
+/**
+ * A nullable number input component for `number | null` values.
+ *
+ * Renders a native HTML `number` input that can be cleared to `null`.
+ * Supports optional stepper buttons, min/max clamping, mouse wheel
+ * increment/decrement (with Shift for 10x), and a reset button to
+ * clear the value to `null`.
+ *
+ * @param options - Configuration options for the nullable number input.
+ * @returns A renderable nullable number input component.
+ *
+ * @example
+ * ```ts
+ * NullableNumberInput({
+ *   value: prop<number | null>(null),
+ *   step: 1,
+ *   min: 0,
+ *   max: 100,
+ *   onChange: v => console.log('Value:', v), // null or number
+ * })
+ * ```
+ */
 export const NullableNumberInput = (options: NullableNumberInputOptions) => {
   const { value, step, min, max, onBlur, onChange, onInput, after } = options
 

@@ -14,6 +14,24 @@ const toLocalString = (epochMs: number) => {
   return `${y}-${m}-${day}T${h}:${min}`
 }
 
+/**
+ * An input component for `Temporal.Instant` values.
+ *
+ * Renders a `datetime-local` HTML input. Converts the instant to a local
+ * date-time string for display and parses the input back to an `Instant`
+ * via ISO string conversion. Requires the Temporal polyfill.
+ *
+ * @param options - Standard input options for an `Instant` value.
+ * @returns A renderable instant input component.
+ *
+ * @example
+ * ```ts
+ * InstantInput({
+ *   value: prop(Temporal.Now.instant()),
+ *   onChange: instant => console.log('Instant:', instant.toString()),
+ * })
+ * ```
+ */
 export const InstantInput = (options: InputOptions<Instant>) => {
   const { value, onBlur, onChange } = options
 

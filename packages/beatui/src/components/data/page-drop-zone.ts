@@ -13,35 +13,88 @@ import {
   WithElement,
 } from '@tempots/dom'
 
+/**
+ * Configuration options for the {@link PageDropZone} component.
+ */
 export type PageDropZoneOptions = {
+  /**
+   * Callback invoked when valid files are dropped or selected via the file picker.
+   * The `via` parameter indicates whether files came from drag-and-drop or the
+   * click-triggered file dialog.
+   */
   onChange: (files: File[], via: 'dragdrop' | 'click') => void
+  /**
+   * MIME type filter for accepted files (e.g., `'image/*'`, `'application/pdf'`).
+   * Files that do not match are filtered out and reported via `onInvalidSelection`.
+   * @default '*\/*'
+   */
   accept?: Value<string>
+  /**
+   * Render function for overlay content shown while files are being dragged
+   * over the page. Receives the reactive file signal. Only rendered when
+   * `isDragging` is `true`.
+   */
   onDragContent?: (options: { files: Signal<File[]> }) => TNode
+  /**
+   * Render function for persistent content. Receives reactive drag state,
+   * file list, and a function to programmatically open the file picker.
+   */
   content?: (options: {
+    /** Reactive signal that is `true` while files are being dragged over the page. */
     isDragging: Signal<boolean>
+    /** Reactive signal containing the current file list. */
     files: Signal<File[]>
+    /** Opens the native file picker dialog programmatically. */
     selectFiles: () => void
   }) => TNode
+  /**
+   * Callback invoked when dropped files do not match the `accept` filter.
+   * Receives the full list of dropped files (including invalid ones).
+   */
   onInvalidSelection?: (files: File[]) => void
+  /**
+   * Whether the drop zone is disabled. Disabled zones ignore all drag events.
+   * @default false
+   */
   disabled?: Value<boolean>
 }
 
 /**
  * Detects filesystem drag-and-drop events at the page/document level.
  *
- * This component listens for drag events at the document level and provides
- * reactive state about drag operations. It can optionally render an overlay
- * when files are being dragged over the page.
+ * Unlike {@link UnstyledDropZone} which scopes drag events to a specific element,
+ * `PageDropZone` listens for drag events on the entire `document`, making it
+ * ideal for full-page drop targets. It uses a drag counter to correctly track
+ * nested `dragenter`/`dragleave` events, and automatically filters dropped
+ * files against the `accept` MIME type pattern.
+ *
+ * The component provides two render slots:
+ * - `onDragContent` - Overlay shown only while files are being dragged over the page
+ * - `content` - Persistent content with reactive drag state and file selection utilities
+ *
+ * Document event listeners are automatically cleaned up when the component is disposed.
+ *
+ * @param options - Configuration options for the page drop zone.
+ * @returns A renderable fragment containing the hidden file input, optional drag
+ *   overlay, and persistent content.
  *
  * @example
  * ```typescript
+ * // Full-page drop zone with overlay and content
  * PageDropZone({
- *   onChange: (files) => console.log('Files dropped:', files),
- *   content: ({ isDragging }) =>
+ *   accept: 'image/*',
+ *   onChange: (files, via) => console.log('Files:', files, 'via:', via),
+ *   onInvalidSelection: (files) => console.warn('Invalid files:', files),
+ *   onDragContent: () =>
  *     html.div(
- *       attr.class('fixed inset-0 bg-black/50 flex items-center justify-center'),
- *       html.div('Drop files here')
- *     )
+ *       attr.class('overlay'),
+ *       'Drop images here'
+ *     ),
+ *   content: ({ isDragging, files, selectFiles }) =>
+ *     html.div(
+ *       html.button(on.click(selectFiles), 'Browse files'),
+ *       files.map(f => html.div(`${f.length} file(s) selected`))
+ *     ),
  * })
  * ```
  */

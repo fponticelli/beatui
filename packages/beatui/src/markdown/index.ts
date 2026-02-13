@@ -1,3 +1,17 @@
+/**
+ * Markdown rendering for `@tempots/beatui/markdown`.
+ *
+ * Renders Markdown content to styled HTML using micromark with optional
+ * GFM (GitHub Flavored Markdown) support. HTML is escaped by default
+ * for safety.
+ *
+ * ```ts
+ * import { Markdown } from '@tempots/beatui/markdown'
+ * ```
+ *
+ * @module
+ */
+
 import {
   TNode,
   Value,

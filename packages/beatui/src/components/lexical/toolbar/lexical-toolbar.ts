@@ -2,7 +2,6 @@ import {
   Signal,
   signal,
   Value,
-  TNode,
   Ensure,
   attr,
   html,
@@ -82,7 +81,7 @@ export function LexicalToolbar({
   toolbar = {},
   readOnly = signal(false),
   size = 'sm',
-}: LexicalToolbarOptions): TNode {
+}: LexicalToolbarOptions) {
   const { visibleGroups, hiddenGroups, maxHeadingLevel = 3 } = toolbar
 
   // Helper to determine if a group should be visible

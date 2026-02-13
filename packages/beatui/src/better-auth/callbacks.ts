@@ -1,5 +1,9 @@
 import { SignInData, SignUpData, ResetPasswordData } from '../components/auth'
-import { BetterAuthClient, BetterAuthBridgeOptions, BetterAuthResult } from './types'
+import {
+  BetterAuthClient,
+  BetterAuthBridgeOptions,
+  BetterAuthResult,
+} from './types'
 
 function handleResult(
   result: BetterAuthResult<unknown>,
