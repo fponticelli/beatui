@@ -5,7 +5,7 @@
   box-shadow: var(--shadow-surface, var(--shadow-sm));
   position: relative;
   border: 1px solid var(--color-base-300);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-xs);
   display: inline-block;
 }
 
@@ -20,7 +20,7 @@
 .bc-segmented-input__indicator {
   position: absolute;
   height: 100%;
-  background-color: var(--color-base-50);
+  background-color: var(--si-indicator-bg, var(--color-base-50));
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
@@ -81,7 +81,6 @@
 /* Squared variant — matches TextInput border-radius and approximate height */
 .bc-segmented-input--squared {
   border-radius: var(--radius-control, var(--radius-md));
-  padding: var(--spacing-xs);
 }
 
 .bc-segmented-input--squared .bc-segmented-input__indicator {
@@ -98,7 +97,7 @@
 }
 
 .bc-segmented-input__segment--active {
-  color: var(--color-primary-800);
+  color: var(--si-active-text, var(--color-primary-800));
 }
 
 .bc-segmented-input__segment--inactive {
@@ -134,7 +133,7 @@
 }
 
 .b-dark .bc-segmented-input__indicator {
-  background-color: var(--bg-elevated);
+  background-color: var(--si-indicator-bg-dark, var(--bg-elevated));
   box-shadow: var(
     --shadow-segmented-control-indicator-dark,
     0 1px 3px var(--shadow-color-dark),
@@ -160,7 +159,7 @@
 
 .b-dark .bc-segmented-input__segment--active,
 .b-dark .bc-segmented-input__segment--active:hover {
-  color: var(--text-normal);
+  color: var(--si-active-text-dark, var(--text-normal));
   background: transparent;
 }
 
