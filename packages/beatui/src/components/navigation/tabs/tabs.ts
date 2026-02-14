@@ -25,6 +25,8 @@ import { getColorVar, type ColorShade } from '../../../tokens/colors'
 
 import { sessionId } from '../../../utils/session-id'
 
+export type TabsVariant = ButtonVariant | 'underline' | 'pill'
+
 export interface TabItem<T extends string> {
   /** Unique identifier for the tab */
   key: T
@@ -50,7 +52,7 @@ export interface TabsOptions<T extends string> {
   /** Size of the tabs */
   size?: Value<ControlSize>
   /** Visual variant */
-  variant?: Value<ButtonVariant>
+  variant?: Value<TabsVariant>
   /** Color used by certain variants (e.g., filled) */
   color?: Value<ThemeColorName>
   /** Whether tabs are disabled */
@@ -67,7 +69,7 @@ function generateTabsClasses(
   size: ControlSize,
   orientation: 'horizontal' | 'vertical',
   disabled: boolean,
-  variant?: ButtonVariant
+  variant?: TabsVariant
 ): string {
   const classes = ['bc-tabs', `bc-tabs--${size}`, `bc-tabs--${orientation}`]
 
@@ -82,9 +84,10 @@ function generateTabsClasses(
 }
 
 function generateTabsStyles(
-  variant: ButtonVariant,
+  variant: TabsVariant,
   color: ExtendedColor
 ): string {
+  // Only filled variant needs color-based styles
   if (variant !== 'filled') return ''
   const styles = new Map<string, string>()
   const baseLight = backgroundValue(color, 'solid', 'light')

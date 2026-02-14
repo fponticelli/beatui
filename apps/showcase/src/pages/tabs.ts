@@ -1,10 +1,12 @@
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, Fragment, Empty } from '@tempots/dom'
 import {
   Tabs,
   TabItem,
   TabsDirection,
+  TabsVariant,
   ControlSize,
   ButtonVariant,
+  Icon,
 } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
 import { ControlsHeader } from '../views/controls-header'
@@ -62,6 +64,83 @@ export default function TabsPage() {
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
+
+      SectionBlock(
+        'Underline Tabs',
+        (() => {
+          const tab = prop<DemoTab>('overview')
+          return Tabs({
+            items: demoTabs,
+            value: tab,
+            onChange: tab.set,
+            variant: 'underline' as TabsVariant,
+            showContent: prop(false),
+          })
+        })()
+      ),
+
+      SectionBlock(
+        'Pill Tabs',
+        (() => {
+          const tab = prop<DemoTab>('overview')
+          return Tabs({
+            items: demoTabs,
+            value: tab,
+            onChange: tab.set,
+            variant: 'pill' as TabsVariant,
+            showContent: prop(false),
+          })
+        })()
+      ),
+
+      SectionBlock(
+        'Icon Tabs',
+        (() => {
+          const iconTabs: TabItem<string>[] = [
+            {
+              key: 'table',
+              label: Fragment(
+                Icon({ icon: 'lucide:table', size: 'xs' }),
+                ' Table'
+              ),
+              content: () => Empty,
+            },
+            {
+              key: 'board',
+              label: Fragment(
+                Icon({ icon: 'lucide:kanban', size: 'xs' }),
+                ' Board'
+              ),
+              content: () => Empty,
+            },
+            {
+              key: 'calendar',
+              label: Fragment(
+                Icon({ icon: 'lucide:calendar', size: 'xs' }),
+                ' Calendar'
+              ),
+              content: () => Empty,
+            },
+            {
+              key: 'gallery',
+              label: Fragment(
+                Icon({ icon: 'lucide:layout-grid', size: 'xs' }),
+                ' Gallery'
+              ),
+              content: () => Empty,
+            },
+          ]
+          const tab = prop('table')
+          return Tabs({
+            items: iconTabs,
+            value: tab,
+            onChange: tab.set,
+            variant: 'outline',
+            showContent: prop(false),
+            size: 'sm',
+          })
+        })()
+      ),
 
       SectionBlock(
         'Basic Tabs',

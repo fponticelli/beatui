@@ -1,4 +1,4 @@
-import { html, attr, prop, When, Value } from '@tempots/dom'
+import { html, attr, prop, When, Value, on } from '@tempots/dom'
 import {
   ProgressBar,
   Skeleton,
@@ -21,28 +21,27 @@ export default function ProgressLoadingPage() {
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
 
-      // Progress values
+      // Progress values with range slider
       SectionStack(
         'Progress Bar',
         html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), '25%'),
-          ProgressBar({ value: 25 })
+          attr.style(
+            'display: flex; align-items: center; gap: 10px; margin-bottom: 8px'
+          ),
+          html.input(
+            attr.type('range'),
+            attr.min('0'),
+            attr.max('100'),
+            attr.value(progress.map(String)),
+            attr.style('width: 100%; accent-color: var(--color-primary-500)'),
+            on.input((e: Event) =>
+              progress.set(Number((e.target as HTMLInputElement).value))
+            )
+          )
         ),
         html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), '50%'),
-          ProgressBar({ value: 50 })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), '75%'),
-          ProgressBar({ value: 75 })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), '100%'),
-          ProgressBar({ value: 100 })
+          attr.style('max-width: 400px'),
+          ProgressBar({ value: progress, showLabel: true })
         )
       ),
 
@@ -57,19 +56,26 @@ export default function ProgressLoadingPage() {
       // Colors
       SectionStack(
         'Colors',
-        ...(
-          [
-            'primary',
-            'success',
-            'warning',
-            'danger',
-            'info',
-          ] as ThemeColorName[]
-        ).map(color =>
+        ...[
+          { label: 'Accent', color: 'primary' as ThemeColorName },
+          { label: 'Success', color: 'success' as ThemeColorName },
+          { label: 'Warning', color: 'warning' as ThemeColorName },
+          { label: 'Error', color: 'danger' as ThemeColorName },
+        ].map(s =>
           html.div(
-            attr.class('space-y-1'),
-            html.span(attr.class('text-sm capitalize'), color),
-            ProgressBar({ value: 70, color })
+            attr.style(
+              'display: flex; align-items: center; gap: 10px; margin-bottom: 8px; max-width: 400px'
+            ),
+            html.span(
+              attr.style(
+                'width: 52px; font-size: 11px; color: var(--color-base-400)'
+              ),
+              s.label
+            ),
+            html.div(
+              attr.style('flex: 1'),
+              ProgressBar({ value: progress, color: s.color })
+            )
           )
         )
       ),
@@ -77,20 +83,26 @@ export default function ProgressLoadingPage() {
       // Sizes
       SectionStack(
         'Sizes',
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Small'),
-          ProgressBar({ value: 60, size: 'sm' })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Medium'),
-          ProgressBar({ value: 60, size: 'md' })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Large'),
-          ProgressBar({ value: 60, size: 'lg' })
+        ...[
+          { label: 'Thin', height: 'sm' as const },
+          { label: 'Default', height: 'md' as const },
+          { label: 'Thick', height: 'lg' as const },
+        ].map(s =>
+          html.div(
+            attr.style(
+              'display: flex; align-items: center; gap: 10px; margin-bottom: 8px; max-width: 400px'
+            ),
+            html.span(
+              attr.style(
+                'width: 52px; font-size: 11px; color: var(--color-base-400)'
+              ),
+              s.label
+            ),
+            html.div(
+              attr.style('flex: 1'),
+              ProgressBar({ value: progress, size: s.height })
+            )
+          )
         )
       ),
 

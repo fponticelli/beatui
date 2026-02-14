@@ -45,6 +45,22 @@ export const App = () => {
           Async(import('./pages/empty-states'), ({ default: Page }) => Page()),
         '/pagination': () =>
           Async(import('./pages/pagination'), ({ default: Page }) => Page()),
+        '/presence-overlay': () =>
+          Async(import('./pages/presence-overlay'), ({ default: Page }) =>
+            Page()
+          ),
+        '/floating-toolbar': () =>
+          Async(import('./pages/floating-toolbar'), ({ default: Page }) =>
+            Page()
+          ),
+        '/command-palette': () =>
+          Async(import('./pages/command-palette'), ({ default: Page }) =>
+            Page()
+          ),
+        '/block-command-palette': () =>
+          Async(import('./pages/block-command-palette'), ({ default: Page }) =>
+            Page()
+          ),
         '/*': () => html.div('Not Found'),
       }),
     })

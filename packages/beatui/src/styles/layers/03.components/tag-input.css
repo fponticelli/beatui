@@ -1,0 +1,138 @@
+/* Tag Input Component */
+.bc-tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-md, 5px);
+  background: var(--color-white);
+  min-height: 34px;
+  cursor: text;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.bc-tag-input:focus-within {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.bc-tag-input--error {
+  border-color: var(--color-danger-500);
+}
+
+.bc-tag-input--error:focus-within {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.12);
+}
+
+.bc-tag-input--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-base-50);
+}
+
+/* Size variants */
+.bc-tag-input--xs {
+  min-height: 24px;
+  padding: 2px 4px;
+  font-size: var(--font-size-xs);
+}
+.bc-tag-input--sm {
+  min-height: 28px;
+  padding: 3px 6px;
+  font-size: var(--font-size-xs);
+}
+.bc-tag-input--md {
+  min-height: 34px;
+  padding: 4px 8px;
+  font-size: var(--font-size-sm);
+}
+.bc-tag-input--lg {
+  min-height: 38px;
+  padding: 5px 10px;
+  font-size: var(--font-size-base);
+}
+.bc-tag-input--xl {
+  min-height: 44px;
+  padding: 6px 12px;
+  font-size: var(--font-size-md);
+}
+
+/* Individual tag */
+.bc-tag-input__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--color-base-100);
+  border-radius: var(--radius-sm, 3px);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-700);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.bc-tag-input__tag-text {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bc-tag-input__tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 2px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-base-400);
+  opacity: 0.5;
+  transition: opacity 120ms ease;
+}
+
+.bc-tag-input__tag-remove:hover {
+  opacity: 1;
+}
+
+/* Inline input */
+.bc-tag-input__input {
+  flex: 1;
+  min-width: 60px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+.bc-tag-input__input::placeholder {
+  color: var(--color-base-400);
+}
+
+/* Dark mode */
+.b-dark .bc-tag-input {
+  background: var(--color-base-800);
+  border-color: var(--color-base-600);
+}
+
+.b-dark .bc-tag-input__tag {
+  background: var(--color-base-700);
+  color: var(--color-base-200);
+}
+
+.b-dark .bc-tag-input__tag-remove {
+  color: var(--color-base-400);
+}
+
+.b-dark .bc-tag-input__input {
+  color: var(--color-base-100);
+}

@@ -13,46 +13,85 @@ export default function DividersPage() {
 
       SectionBlock(
         'Basic',
-        html.p('Content above'),
-        Divider(),
-        html.p('Content below')
+        html.div(
+          attr.style(
+            'padding: 16px; border: 1px solid var(--color-base-200); border-radius: 5px'
+          ),
+          html.p('Content above'),
+          Divider(),
+          html.p('Content below')
+        )
       ),
 
       SectionBlock(
         'Variants',
         html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Solid'),
-          Divider({ variant: 'solid' })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Dashed'),
-          Divider({ variant: 'dashed' })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Dotted'),
-          Divider({ variant: 'dotted' })
+          attr.style(
+            'padding: 16px; border: 1px solid var(--color-base-200); border-radius: 5px'
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Solid'),
+            Divider({ variant: 'solid' })
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Dashed'),
+            Divider({ variant: 'dashed' })
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Dotted'),
+            Divider({ variant: 'dotted' })
+          )
         )
       ),
 
       SectionBlock(
         'Tones',
         html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Subtle'),
-          Divider({ tone: 'subtle' })
-        ),
+          attr.style(
+            'padding: 16px; border: 1px solid var(--color-base-200); border-radius: 5px'
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Subtle'),
+            Divider({ tone: 'subtle' })
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Default'),
+            Divider({ tone: 'default' })
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Strong'),
+            Divider({ tone: 'strong' })
+          )
+        )
+      ),
+
+      SectionBlock(
+        'Spacing Scale',
         html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Default'),
-          Divider({ tone: 'default' })
-        ),
-        html.div(
-          attr.class('space-y-1'),
-          html.span(attr.class('text-sm'), 'Strong'),
-          Divider({ tone: 'strong' })
+          attr.style(
+            'padding: 16px; border: 1px solid var(--color-base-200); border-radius: 5px'
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Small spacing'),
+            html.div(attr.style('margin: 8px 0'), Divider())
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Medium spacing'),
+            html.div(attr.style('margin: 16px 0'), Divider())
+          ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Large spacing'),
+            html.div(attr.style('margin: 24px 0'), Divider())
+          )
         )
       ),
 

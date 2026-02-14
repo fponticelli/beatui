@@ -16,6 +16,91 @@ export default function BadgesTagsPage() {
       attr.style('display: flex; flex-direction: column; gap: 4px'),
 
       Section(
+        'Status Badges',
+        Badge({ variant: 'light', color: 'base', size: 'sm' }, 'Not Started'),
+        Badge(
+          { variant: 'light', color: 'primary', size: 'sm' },
+          'In Progress'
+        ),
+        Badge({ variant: 'light', color: 'success', size: 'sm' }, 'Done'),
+        Badge({ variant: 'light', color: 'danger', size: 'sm' }, 'Blocked')
+      ),
+
+      Section(
+        'Priority Badges',
+        Badge({ variant: 'light', color: 'danger', size: 'sm' }, 'Critical'),
+        Badge({ variant: 'light', color: 'warning', size: 'sm' }, 'High'),
+        Badge({ variant: 'light', color: 'warning', size: 'sm' }, 'Medium'),
+        Badge({ variant: 'light', color: 'base', size: 'sm' }, 'Low')
+      ),
+
+      Section(
+        'Dot Indicators',
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
+          ),
+          Badge({ dot: true, color: 'success', size: 'sm' }),
+          'Online'
+        ),
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
+          ),
+          Badge({ dot: true, color: 'warning', size: 'sm' }),
+          'Away'
+        ),
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
+          ),
+          Badge({ dot: true, color: 'danger', size: 'sm' }),
+          'Busy'
+        ),
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
+          ),
+          Badge({ dot: true, color: 'base', size: 'sm' }),
+          'Offline'
+        )
+      ),
+
+      Section(
+        'Count Badges',
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-base-600)'
+          ),
+          'Notifications',
+          Badge({ color: 'primary', size: 'xs', circle: true }, '5')
+        ),
+        html.span(
+          attr.style(
+            'display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-base-600)'
+          ),
+          'Issues',
+          Badge({ color: 'danger', size: 'xs', circle: true }, '12')
+        )
+      ),
+
+      Section(
+        'Percent Change',
+        Badge(
+          { variant: 'light', color: 'success', size: 'sm', roundedness: 'sm' },
+          '+12.5%'
+        ),
+        Badge(
+          { variant: 'light', color: 'danger', size: 'sm', roundedness: 'sm' },
+          '-3.2%'
+        ),
+        Badge(
+          { variant: 'light', color: 'base', size: 'sm', roundedness: 'sm' },
+          '0.0%'
+        )
+      ),
+
+      Section(
         'Badge Variants',
         Badge({ variant: 'filled', color: 'primary' }, 'Filled'),
         Badge({ variant: 'light', color: 'primary' }, 'Light'),

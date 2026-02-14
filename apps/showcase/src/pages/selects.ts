@@ -1,8 +1,9 @@
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, TNode } from '@tempots/dom'
 import {
   DropdownInput,
   NativeSelect,
   ComboboxInput,
+  TagInput,
   InputWrapper,
   Option,
   DropdownOption,
@@ -30,6 +31,21 @@ const countries: SelectOption<string>[] = [
   Option.value('jp', 'Japan'),
 ]
 
+function InputRow(label: string, ...children: TNode[]): TNode {
+  return html.div(
+    attr.style(
+      'display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px'
+    ),
+    html.span(
+      attr.style(
+        'width: 100px; flex-shrink: 0; font-size: 11px; color: var(--color-base-400); padding-top: 8px; text-align: right'
+      ),
+      label
+    ),
+    html.div(attr.style('flex: 1'), ...children)
+  )
+}
+
 export default function SelectsPage() {
   const size = prop<ControlSize>('md')
   const disabled = prop(false)
@@ -37,6 +53,7 @@ export default function SelectsPage() {
   const dropdown = prop('apple')
   const native = prop('us')
   const combobox = prop('apple')
+  const tags = prop(['frontend', 'urgent'])
 
   const loadOptions = async (q: string) =>
     fruits.filter(
@@ -63,48 +80,52 @@ export default function SelectsPage() {
       SectionBlock(
         'Dropdown & Select',
         html.div(
-          attr.class('grid grid-cols-1 md:grid-cols-2 gap-4'),
-          InputWrapper({
-            label: 'Dropdown Input',
-            content: DropdownInput({
+          attr.style('max-width: 480px'),
+
+          InputRow(
+            'Dropdown',
+            DropdownInput({
               value: dropdown,
               options: prop(fruits),
               onChange: dropdown.set,
               size,
               disabled,
-            }),
-            description: dropdown,
-          }),
-          InputWrapper({
-            label: 'Native Select',
-            content: NativeSelect({
+            })
+          ),
+
+          InputRow(
+            'Native',
+            NativeSelect({
               value: native,
               options: prop(countries),
               onChange: native.set,
               size,
               disabled,
-            }),
-            description: native,
-          })
-        )
-      ),
+            })
+          ),
 
-      SectionBlock(
-        'Combobox',
-        html.div(
-          attr.class('max-w-md'),
-          InputWrapper({
-            label: 'Combobox Input',
-            description: 'Type to search fruits...',
-            content: ComboboxInput<string>({
+          InputRow(
+            'Combobox',
+            ComboboxInput<string>({
               value: combobox,
               onChange: combobox.set,
               loadOptions,
               renderOption: v => v,
               size,
               disabled,
-            }),
-          })
+            })
+          ),
+
+          InputRow(
+            'Multi-value',
+            TagInput({
+              values: tags,
+              onChange: tags.set,
+              placeholder: 'Add...',
+              size,
+              disabled,
+            })
+          )
         )
       )
     ),

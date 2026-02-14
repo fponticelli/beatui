@@ -3,29 +3,40 @@
     --notification-accent-color: var(--color-primary-500);
     --notification-radius: var(--radius-lg);
     --notification-bg: #fff;
-    --notification-border-color: var(--border-divider-light);
+    --notification-border-color: var(--color-base-200);
     --notification-text-color: var(--text-normal-light);
     --notification-muted-color: var(--text-muted-light);
-    --notification-accent-width: 6px;
 
     display: flex;
     gap: var(--spacing-md);
-    align-items: center;
+    align-items: flex-start;
     padding: var(--spacing-md);
     border-radius: var(--notification-radius);
     background-color: var(--notification-bg);
     color: var(--notification-text-color);
-    border: 1px solid transparent;
-    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--notification-border-color);
+    box-shadow: var(--shadow-md);
   }
 
   .bc-notification--bordered {
     border-color: var(--notification-border-color);
   }
 
+  .bc-notification__icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--notification-accent-color);
+    color: white;
+  }
+
   .bc-notification__accent {
     margin: 0 var(--spacing-md) 0 0;
-    min-width: var(--notification-accent-width);
+    min-width: 4px;
     min-height: 100%;
     border-radius: var(--radius-pill, var(--radius-full));
     background-color: var(--notification-accent-color);
@@ -40,13 +51,15 @@
   }
 
   .bc-notification__title {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
     margin: 0;
+    color: var(--notification-text-color);
   }
 
   .bc-notification__content {
+    font-size: var(--font-size-sm);
     color: var(--notification-muted-color);
     line-height: var(--line-height-normal);
   }
@@ -56,6 +69,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xs);
+    margin-left: auto;
   }
 
   .bc-notification-viewport {
@@ -101,10 +115,10 @@
 
   .b-dark .bc-notification {
     --notification-bg: var(--bg-surface-dark);
-    --notification-border-color: var(--border-border-dark);
+    --notification-border-color: var(--color-base-700);
     --notification-text-color: var(--text-normal-dark);
     --notification-muted-color: var(--text-muted-dark);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
   @media (max-width: 640px) {

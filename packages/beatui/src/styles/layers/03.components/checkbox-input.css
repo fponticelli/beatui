@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm);
 }
 
 .bc-checkbox-input__checkbox {
@@ -15,9 +15,7 @@
   height: calc(var(--spacing-base) * 7);
   color: var(--color-base-400);
   cursor: pointer;
-  transition: color
-    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: color var(--motion-transition-fast) var(--motion-easing-standard);
   flex-shrink: 0;
   line-height: 0;
 }

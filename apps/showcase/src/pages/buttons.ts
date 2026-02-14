@@ -122,6 +122,46 @@ export default function ButtonsPage() {
       ),
 
       Section(
+        'Icon Only',
+        ...[
+          'lucide:x',
+          'lucide:plus',
+          'lucide:search',
+          'lucide:settings',
+          'lucide:trash-2',
+          'lucide:pencil',
+        ].map(icon =>
+          Button(
+            { variant: 'outline', size, roundedness, disabled },
+            Icon({ icon, size: 'sm' })
+          )
+        )
+      ),
+
+      Section(
+        'Sizes',
+        ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(sz =>
+          Button(
+            { variant: 'filled', size: sz, roundedness, disabled, loading },
+            sz.toUpperCase()
+          )
+        )
+      ),
+
+      Section(
+        'States',
+        Button({ variant: 'filled', size, roundedness }, 'Default'),
+        Button(
+          { variant: 'filled', size, roundedness, disabled: true },
+          'Disabled'
+        ),
+        Button(
+          { variant: 'filled', size, roundedness, loading: true },
+          'Loading'
+        )
+      ),
+
+      Section(
         'Close Button',
         CloseButton({ size: 'sm' }),
         CloseButton({ size: 'md' }),

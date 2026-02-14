@@ -1,44 +1,69 @@
 /* Input Adornment Component */
 .bc-input-adornment {
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
   color: var(--color-neutral-500);
   white-space: nowrap;
   user-select: none;
   line-height: 1;
+  align-self: stretch;
 }
 
-/* Size variants */
+/* Square spacer: occupies height×height, ensuring min-width >= height */
+.bc-input-adornment::before {
+  content: '';
+  grid-row: 1;
+  grid-column: 1;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+/* Content overlaps the spacer on the same grid cell */
+.bc-input-adornment__content {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/* Size variants — padding on __content so the square spacer isn't offset */
 .bc-input-adornment--size-xs {
-  padding-inline: var(--spacing-xs);
   font-size: var(--font-size-xs);
+}
+.bc-input-adornment--size-xs > .bc-input-adornment__content {
+  padding-inline: var(--spacing-xs);
 }
 
 .bc-input-adornment--size-sm {
-  padding-inline: var(--spacing-sm);
   font-size: var(--font-size-sm);
+}
+.bc-input-adornment--size-sm > .bc-input-adornment__content {
+  padding-inline: var(--spacing-sm);
 }
 
 .bc-input-adornment--size-md {
-  padding-inline: var(--spacing-md);
   font-size: var(--font-size-md);
+}
+.bc-input-adornment--size-md > .bc-input-adornment__content {
+  padding-inline: var(--spacing-md);
 }
 
 .bc-input-adornment--size-lg {
-  padding-inline: var(--spacing-lg);
   font-size: var(--font-size-lg);
+}
+.bc-input-adornment--size-lg > .bc-input-adornment__content {
+  padding-inline: var(--spacing-lg);
 }
 
 .bc-input-adornment--size-xl {
-  padding-inline: var(--spacing-xl);
   font-size: var(--font-size-xl);
+}
+.bc-input-adornment--size-xl > .bc-input-adornment__content {
+  padding-inline: var(--spacing-xl);
 }
 
 /* Filled variant */
 .bc-input-adornment--filled {
   background-color: var(--color-neutral-100);
-  align-self: stretch;
 }
 
 /* Dark mode */

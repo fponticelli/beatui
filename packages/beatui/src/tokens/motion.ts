@@ -11,22 +11,32 @@
 import { objectEntries } from '@tempots/std'
 
 /**
- * Motion duration scale mapping names to CSS time values.
+ * The base motion duration used as the foundation for the duration scale.
  *
- * | Name    | Value  |
- * |---------|--------|
- * | instant | 0s     |
- * | fast    | 120ms  |
- * | base    | 200ms  |
- * | slow    | 320ms  |
- * | relaxed | 480ms  |
+ * @default '200ms'
+ */
+export const baseMotionDuration = '200ms'
+
+/**
+ * Motion duration scale mapping names to CSS time values.
+ * All values (except `instant`) are derived from `--motion-duration-base`
+ * via `calc()`, allowing the entire timing scale to be adjusted by changing
+ * a single variable.
+ *
+ * | Name    | Multiplier | Default |
+ * |---------|------------|---------|
+ * | instant | —          | 0s      |
+ * | fast    | 0.6        | 120ms   |
+ * | base    | 1          | 200ms   |
+ * | slow    | 1.6        | 320ms   |
+ * | relaxed | 2.4        | 480ms   |
  */
 export const motionDurations = {
   instant: '0s',
-  fast: '120ms',
-  base: '200ms',
-  slow: '320ms',
-  relaxed: '480ms',
+  fast: 'calc(var(--motion-duration-base) * 0.6)',
+  base: baseMotionDuration,
+  slow: 'calc(var(--motion-duration-base) * 1.6)',
+  relaxed: 'calc(var(--motion-duration-base) * 2.4)',
 } as const
 
 /**
@@ -82,6 +92,24 @@ export function getMotionDurationVar(name: MotionDurationName): string {
 }
 
 /**
+ * Returns the CSS custom property name for the base motion duration.
+ *
+ * @returns The CSS variable name `'--motion-duration-base'`
+ */
+export function getBaseMotionDurationVarName(): string {
+  return '--motion-duration-base'
+}
+
+/**
+ * Returns a CSS `var()` expression referencing the base motion duration custom property.
+ *
+ * @returns A CSS `var()` string `'var(--motion-duration-base)'`
+ */
+export function getBaseMotionDurationVar(): string {
+  return `var(${getBaseMotionDurationVarName()})`
+}
+
+/**
  * Returns the CSS custom property name for a motion easing curve.
  *
  * @param name - The motion easing name
@@ -115,7 +143,8 @@ export function getMotionEasingVar(name: MotionEasingName): string {
  * @example
  * ```ts
  * const vars = generateMotionVariables()
- * // vars['--motion-duration-fast'] === '120ms'
+ * // vars['--motion-duration-base'] === '200ms'
+ * // vars['--motion-duration-fast'] === 'calc(var(--motion-duration-base) * 0.6)'
  * // vars['--motion-easing-standard'] === 'cubic-bezier(0.2, 0, 0, 1)'
  * ```
  */

@@ -1,6 +1,7 @@
 import { html, attr, prop } from '@tempots/dom'
 import {
   Tooltip,
+  Popover,
   Button,
   Stack,
   Group,
@@ -144,6 +145,46 @@ export default function TooltipsPage() {
               placement: 'top',
               showOn,
             })
+          )
+        )
+      ),
+
+      SectionBlock(
+        'Popovers',
+        html.div(
+          attr.style('display: flex; gap: 12px; align-items: center'),
+          html.div(
+            Button(
+              { variant: 'outline', size: 'sm' },
+              'Click me',
+              Popover({
+                content: html.div(
+                  attr.style('padding: 12px; font-size: 13px'),
+                  html.div(
+                    attr.style('font-weight: 600; margin-bottom: 4px'),
+                    'Popover Title'
+                  ),
+                  html.div(
+                    attr.style('color: var(--color-base-500)'),
+                    'This is popover content that appears on click.'
+                  )
+                ),
+                placement: 'bottom-start',
+              })
+            )
+          ),
+          html.div(
+            Button(
+              { variant: 'outline', size: 'sm' },
+              'Right popover',
+              Popover({
+                content: html.div(
+                  attr.style('padding: 12px; font-size: 13px'),
+                  'Positioned to the right'
+                ),
+                placement: 'right',
+              })
+            )
           )
         )
       )

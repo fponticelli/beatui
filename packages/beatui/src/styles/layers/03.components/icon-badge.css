@@ -1,0 +1,11 @@
+.bc-icon-badge {
+  position: relative;
+  display: inline-flex;
+}
+
+.bc-icon-badge__indicator {
+  position: absolute;
+  top: calc(var(--spacing-base) * -1);
+  right: calc(var(--spacing-base) * -1);
+  pointer-events: none;
+}

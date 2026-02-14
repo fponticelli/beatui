@@ -4,6 +4,7 @@ import {
   Tabs,
   TabItem,
   TabsDirection,
+  TabsVariant,
 } from '../../src/components/navigation/tabs/tabs'
 import { WithProviders } from '../helpers/test-providers'
 import { ControlSize } from '../../src/index'
@@ -466,6 +467,48 @@ describe('Tabs Component', () => {
         expect(tab.hasAttribute('disabled')).toBe(true)
         expect(tab.getAttribute('aria-disabled')).toBe('true')
       })
+    })
+
+    it('should apply underline variant', () => {
+      const { value, onChange, items } = createBasicTabs()
+
+      render(
+        WithProviders(() =>
+          Tabs({ items, value, onChange, variant: prop<TabsVariant>('underline') })
+        ),
+        container
+      )
+
+      const tabsContainer = container.querySelector('.bc-tabs')
+      expect(tabsContainer!.className).toContain('bc-tabs--variant-underline')
+    })
+
+    it('should apply pill variant', () => {
+      const { value, onChange, items } = createBasicTabs()
+
+      render(
+        WithProviders(() =>
+          Tabs({ items, value, onChange, variant: prop<TabsVariant>('pill') })
+        ),
+        container
+      )
+
+      const tabsContainer = container.querySelector('.bc-tabs')
+      expect(tabsContainer!.className).toContain('bc-tabs--variant-pill')
+    })
+
+    it('should apply other button variants', () => {
+      const { value, onChange, items } = createBasicTabs()
+
+      render(
+        WithProviders(() =>
+          Tabs({ items, value, onChange, variant: prop<TabsVariant>('filled') })
+        ),
+        container
+      )
+
+      const tabsContainer = container.querySelector('.bc-tabs')
+      expect(tabsContainer!.className).toContain('bc-tabs--variant-filled')
     })
   })
 

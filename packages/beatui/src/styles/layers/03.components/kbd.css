@@ -6,7 +6,7 @@
   font-family: var(--font-family-mono);
   font-weight: var(--font-weight-medium);
   line-height: 1;
-  border-radius: var(--radius-xs, 3px);
+  border-radius: var(--radius-xs);
   background-color: var(--bg-subtle-light);
   color: var(--text-muted-light);
   border: 1px solid var(--border-border-light);
@@ -16,30 +16,27 @@
   white-space: nowrap;
   vertical-align: baseline;
   transition:
-    background-color
-      var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-      var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
-    box-shadow var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-      var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+    background-color var(--motion-transition-fast) var(--motion-easing-standard),
+    box-shadow var(--motion-transition-fast) var(--motion-easing-standard);
 }
 
 /* Size variants */
 .bc-kbd--size-xs {
   font-size: var(--font-size-xs);
-  padding: 1px 4px;
-  min-width: calc(var(--font-size-xs) + 6px);
+  padding: calc(var(--spacing-base) * 0.25) var(--spacing-base);
+  min-width: calc(var(--font-size-xs) + var(--spacing-base) * 1.5);
 }
 
 .bc-kbd--size-sm {
   font-size: var(--font-size-sm);
-  padding: 2px 6px;
-  min-width: calc(var(--font-size-sm) + 8px);
+  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base) * 1.5);
+  min-width: calc(var(--font-size-sm) + var(--spacing-base) * 2);
 }
 
 .bc-kbd--size-md {
   font-size: var(--font-size-md);
-  padding: 2px 8px;
-  min-width: calc(var(--font-size-md) + 10px);
+  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base) * 2);
+  min-width: calc(var(--font-size-md) + var(--spacing-base) * 2.5);
 }
 
 /* Dark mode styles */

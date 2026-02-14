@@ -89,6 +89,9 @@ import type { BeatuiPresetOptions } from './preset'
 import {
   generateSemanticTokenVariables,
   generateFontFamilyOverrideVariables,
+  getBaseFontSizeVarName,
+  getSpacingVarName,
+  getMotionDurationVarName,
 } from '../tokens'
 import {
   prepareGoogleFonts,
@@ -301,6 +304,9 @@ export function beatuiTailwindPlugin(
     semanticSpacing: options.semanticSpacing,
     semanticTextShadows: options.semanticTextShadows,
     fontFamilies: options.fontFamilies,
+    baseSpacing: options.baseSpacing,
+    baseFontSize: options.baseFontSize,
+    baseMotionDuration: options.baseMotionDuration,
     includeCoreTokens: options.includeCoreTokens,
     includeSemanticTokens: options.includeSemanticTokens,
     extendTheme: options.extendTheme,
@@ -332,6 +338,18 @@ export function beatuiTailwindPlugin(
         generateFontFamilyOverrideVariables(options.fontFamilies)
       )
     : ''
+  const baseTokenOverrides: Record<string, string> = {}
+  if (options.baseSpacing) {
+    baseTokenOverrides[getSpacingVarName('base')] = options.baseSpacing
+  }
+  if (options.baseFontSize) {
+    baseTokenOverrides[getBaseFontSizeVarName()] = options.baseFontSize
+  }
+  if (options.baseMotionDuration) {
+    baseTokenOverrides[getMotionDurationVarName('base')] =
+      options.baseMotionDuration
+  }
+  const baseTokenOverrideCss = buildCssFromVariables(baseTokenOverrides)
   const googleFontRequests = normalizeGoogleFontOptions(options.googleFonts)
   let googleFontCssRaw = ''
   let googleFontAssets: GoogleFontAsset[] = []
@@ -345,7 +363,11 @@ export function beatuiTailwindPlugin(
   let isBuildCommand = false
 
   const buildOverrideCss = (mode: 'dev' | 'raw'): string => {
-    const fragments = [semanticOverrideCss, fontOverrideCss]
+    const fragments = [
+      baseTokenOverrideCss,
+      semanticOverrideCss,
+      fontOverrideCss,
+    ]
     if (googleFontCssRaw) {
       if (mode === 'dev') {
         fragments.push(

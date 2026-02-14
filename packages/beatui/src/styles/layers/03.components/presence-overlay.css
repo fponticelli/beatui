@@ -1,0 +1,75 @@
+/* Presence Overlay - Collaborative editing cursors and selections */
+
+.bc-presence-selection {
+  position: relative;
+  display: inline;
+}
+
+/* Highlight */
+.bc-presence-highlight {
+  background-color: color-mix(
+    in srgb,
+    var(--presence-color, #2563eb) 12%,
+    transparent
+  );
+  border-radius: 1px;
+}
+
+/* Cursor */
+.bc-presence-cursor {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 1em;
+  vertical-align: text-top;
+}
+
+.bc-presence-cursor__bar {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 2px;
+  height: calc(1em + 4px);
+  background: var(--presence-color, #2563eb);
+  border-radius: 1px;
+}
+
+.bc-presence-cursor__label {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: -1px;
+  padding: 1px 6px;
+  background: var(--presence-color, #2563eb);
+  color: #fff;
+  font-size: 9px;
+  font-weight: var(--font-weight-medium, 500);
+  white-space: nowrap;
+  border-radius: 3px 3px 3px 0;
+  line-height: 1.4;
+  pointer-events: none;
+  font-family: var(
+    --default-ui-font-family,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+}
+
+/* Animation for cursor blink */
+@keyframes presence-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.bc-presence-cursor__bar {
+  animation: presence-blink 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-presence-cursor__bar {
+    animation: none;
+  }
+}

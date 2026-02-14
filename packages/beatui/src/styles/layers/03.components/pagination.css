@@ -20,8 +20,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  height: 32px;
+  min-width: calc(var(--spacing-base) * 8);
+  height: calc(var(--spacing-base) * 8);
   padding: 0;
   cursor: pointer;
   border: 1px solid transparent;
@@ -31,9 +31,7 @@
   font-family: inherit;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  transition: all
-    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   user-select: none;
 }
 
@@ -78,8 +76,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  height: 32px;
+  min-width: calc(var(--spacing-base) * 8);
+  height: calc(var(--spacing-base) * 8);
   color: var(--color-base-500);
   font-size: var(--font-size-base);
   user-select: none;
@@ -88,36 +86,36 @@
 /* Size Variants */
 .bc-pagination--size-xs .bc-pagination__item,
 .bc-pagination--size-xs .bc-pagination__dots {
-  min-width: 24px;
-  height: 24px;
+  min-width: calc(var(--spacing-base) * 6);
+  height: calc(var(--spacing-base) * 6);
   font-size: var(--font-size-xs);
 }
 
 .bc-pagination--size-sm .bc-pagination__item,
 .bc-pagination--size-sm .bc-pagination__dots {
-  min-width: 28px;
-  height: 28px;
+  min-width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
   font-size: var(--font-size-sm);
 }
 
 .bc-pagination--size-md .bc-pagination__item,
 .bc-pagination--size-md .bc-pagination__dots {
-  min-width: 32px;
-  height: 32px;
+  min-width: calc(var(--spacing-base) * 8);
+  height: calc(var(--spacing-base) * 8);
   font-size: var(--font-size-base);
 }
 
 .bc-pagination--size-lg .bc-pagination__item,
 .bc-pagination--size-lg .bc-pagination__dots {
-  min-width: 36px;
-  height: 36px;
+  min-width: calc(var(--spacing-base) * 9);
+  height: calc(var(--spacing-base) * 9);
   font-size: var(--font-size-lg);
 }
 
 .bc-pagination--size-xl .bc-pagination__item,
 .bc-pagination--size-xl .bc-pagination__dots {
-  min-width: 40px;
-  height: 40px;
+  min-width: calc(var(--spacing-base) * 10);
+  height: calc(var(--spacing-base) * 10);
   font-size: var(--font-size-xl);
 }
 

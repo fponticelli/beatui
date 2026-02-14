@@ -9,6 +9,8 @@ export const categories = [
   'Foundation',
   'Navigation',
   'Data Display',
+  'Editing',
+  'Dialogs',
   'Feedback',
 ] as const
 
@@ -88,6 +90,34 @@ export const widgets: WidgetMeta[] = [
     label: 'Empty States',
     category: 'Data Display',
     route: '/empty-states',
+  },
+  {
+    id: 'presence-overlay',
+    label: 'Presence Overlay',
+    category: 'Data Display',
+    route: '/presence-overlay',
+  },
+
+  // Editing
+  {
+    id: 'floating-toolbar',
+    label: 'Floating Toolbar',
+    category: 'Editing',
+    route: '/floating-toolbar',
+  },
+  {
+    id: 'block-command-palette',
+    label: 'Block Command Palette',
+    category: 'Editing',
+    route: '/block-command-palette',
+  },
+
+  // Dialogs
+  {
+    id: 'command-palette',
+    label: 'Command Palette',
+    category: 'Dialogs',
+    route: '/command-palette',
   },
 
   // Feedback

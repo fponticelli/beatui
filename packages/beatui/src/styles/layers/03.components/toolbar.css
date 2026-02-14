@@ -2,7 +2,7 @@
 .bc-toolbar {
   display: flex;
   align-items: center;
-  gap: var(--spacing-stack-sm, var(--spacing-sm));
+  gap: var(--spacing-stack-sm);
   padding: var(--spacing-sm);
   border: 1px solid var(--color-neutral-200);
   border-radius: var(--radius-control, var(--radius-md));
@@ -23,7 +23,7 @@
 
 .bc-toolbar__divider {
   width: 1px;
-  height: 1.5rem;
+  height: calc(var(--spacing-base) * 6);
   background-color: var(--color-neutral-300);
   margin: 0 var(--spacing-xs);
 }
@@ -67,7 +67,7 @@
   }
 
   .bc-toolbar__divider {
-    height: 1rem;
+    height: calc(var(--spacing-base) * 4);
     margin: 0 var(--spacing-2xs);
   }
 
@@ -90,4 +90,77 @@
   border-top-start-radius: 0;
   border-bottom-start-radius: 0;
   margin-left: -1px;
+}
+
+/* Floating toolbar variant */
+.bc-toolbar--floating {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  padding: calc(var(--spacing-base) * 0.75);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-base-200);
+  width: auto;
+}
+
+.bc-toolbar--floating .bc-toolbar__button .bc-button {
+  width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
+  min-width: calc(var(--spacing-base) * 7);
+  min-height: calc(var(--spacing-base) * 7);
+  padding: 0;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-600);
+  transition: background-color var(--motion-transition-fast)
+    var(--motion-easing-standard);
+}
+
+.bc-toolbar--floating .bc-toolbar__button .bc-button:hover {
+  background: var(--color-base-100);
+}
+
+.bc-toolbar--floating .bc-toolbar__button .bc-button[aria-pressed='true'],
+.bc-toolbar--floating .bc-toolbar__button .bc-button.bc-button--active {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+
+.bc-toolbar--floating .bc-toolbar__divider {
+  width: 1px;
+  height: calc(var(--spacing-base) * 5);
+  background: var(--color-base-200);
+  margin: 0 calc(var(--spacing-base) * 0.5);
+  flex-shrink: 0;
+}
+
+/* Dark mode for floating toolbar */
+.b-dark .bc-toolbar--floating {
+  background: var(--color-base-800);
+  border-color: var(--color-base-700);
+}
+
+.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button {
+  color: var(--color-base-300);
+}
+
+.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button:hover {
+  background: var(--color-base-700);
+}
+
+.b-dark
+  .bc-toolbar--floating
+  .bc-toolbar__button
+  .bc-button[aria-pressed='true'],
+.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button.bc-button--active {
+  background: var(--color-primary-900);
+  color: var(--color-primary-300);
+}
+
+.b-dark .bc-toolbar--floating .bc-toolbar__divider {
+  background: var(--color-base-700);
 }

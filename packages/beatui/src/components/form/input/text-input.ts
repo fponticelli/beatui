@@ -1,15 +1,33 @@
-import { attr, emitValue, Empty, input, on } from '@tempots/dom'
+import { attr, emitValue, Empty, html, on, Value } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
+import { Merge } from '@tempots/std'
 
 /**
- * A single-line text input component wrapping a native `<input type="text">` element.
+ * Configuration options for {@link TextInput}.
+ *
+ * Extends {@link InputOptions} with an optional `type` attribute to support
+ * different HTML input types (e.g., 'text', 'email', 'url', 'tel', 'password').
+ */
+export type TextInputOptions = Merge<
+  InputOptions<string>,
+  {
+    /**
+     * HTML input type attribute.
+     * @default 'text'
+     */
+    type?: Value<string>
+  }
+>
+
+/**
+ * A single-line text input component wrapping a native `<input>` element.
  *
  * Renders a styled text field inside an {@link InputContainer} with support for
  * reactive values, placeholder text, disabled state, and all standard
  * {@link InputOptions} properties.
  *
- * @param options - Configuration options following the {@link InputOptions} pattern for string values
+ * @param options - Configuration options following the {@link TextInputOptions} pattern
  * @returns A styled text input element wrapped in an InputContainer
  *
  * @example
@@ -28,21 +46,34 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  *
  * @example
  * ```ts
- * // With before/after decorations
+ * // With prefix/suffix using InputAdornment
  * TextInput({
  *   value: prop(''),
  *   onInput: (v) => console.log('Typing:', v),
- *   before: Icon({ icon: 'line-md:search' }),
+ *   before: InputAdornment({ filled: true }, 'https://'),
+ *   placeholder: 'example.com',
+ *   type: 'url',
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // With icon decoration
+ * TextInput({
+ *   value: prop(''),
+ *   onInput: (v) => console.log('Typing:', v),
+ *   before: InputIcon({ icon: 'line-md:search' }),
  *   placeholder: 'Search...',
  * })
  * ```
  */
-export const TextInput = (options: InputOptions<string>) => {
-  const { value, onBlur, onChange, onInput } = options
+export const TextInput = (options: TextInputOptions) => {
+  const { value, onBlur, onChange, onInput, type } = options
 
   return InputContainer({
     ...options,
-    input: input.text(
+    input: html.input(
+      attr.type(type ?? 'text'),
       CommonInputAttributes(options),
       attr.value(value),
       attr.class('bc-input'),

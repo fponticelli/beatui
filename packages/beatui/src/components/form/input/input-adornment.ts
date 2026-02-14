@@ -48,6 +48,6 @@ export function InputAdornment(
     attr.class(
       Value.map(filled, (f): string => (f ? 'bc-input-adornment--filled' : ''))
     ),
-    ...children
+    html.span(attr.class('bc-input-adornment__content'), ...children)
   )
 }

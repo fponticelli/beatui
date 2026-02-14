@@ -17,6 +17,17 @@ const beatuiPlugin = beatuiTailwindPlugin({
     primary: 'sky',
     secondary: 'cyan',
   },
+  baseFontSize: '14px',
+  baseSpacing: '3px',
+  // --spacing-base
+  // semanticSpacing: {
+  //   'stack-2xs': '0.25rem',
+  //   'stack-xs': '0.5rem',
+  //   'stack-sm': '0.75rem',
+  //   'stack-md': '1rem',
+  //   'stack-lg': '1.5rem',
+  //   'stack-xl': '2rem',
+  // },
 }) as PluginOption
 
 export default defineConfig({

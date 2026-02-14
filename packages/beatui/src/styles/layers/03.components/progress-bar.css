@@ -32,23 +32,22 @@
   height: 100%;
   background-color: var(--progress-fill);
   border-radius: inherit;
-  transition: width
-    var(--motion-transition-normal, var(--motion-duration-normal, 0.3s))
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: width var(--motion-transition-medium)
+    var(--motion-easing-standard);
   will-change: width;
 }
 
 /* Size variants */
 .bc-progress-bar--size-sm {
-  height: 4px;
+  height: var(--spacing-base);
 }
 
 .bc-progress-bar--size-md {
-  height: 8px;
+  height: calc(var(--spacing-base) * 2);
 }
 
 .bc-progress-bar--size-lg {
-  height: 12px;
+  height: calc(var(--spacing-base) * 3);
 }
 
 /* Indeterminate state - animated sliding bar */

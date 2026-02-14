@@ -22,9 +22,7 @@
   font-size: inherit;
   line-height: 1;
   border-radius: var(--radius-badge, var(--radius-control, var(--radius-md)));
-  transition: all
-    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   background-color: var(--badge-bg);
   color: var(--badge-text);
   white-space: nowrap;
@@ -103,6 +101,51 @@
 .bc-badge--full-width {
   display: flex;
   width: 100%;
+}
+
+/* Dot variant - small colored circle indicator */
+.bc-badge--dot {
+  width: calc(var(--spacing-base) * 2);
+  height: calc(var(--spacing-base) * 2);
+  min-width: calc(var(--spacing-base) * 2);
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+}
+
+.bc-badge--dot .bc-badge__content {
+  display: none;
+}
+
+/* Dot variant size adjustments */
+.bc-badge--dot.bc-badge--size-xs {
+  width: calc(var(--spacing-base) * 1.5);
+  height: calc(var(--spacing-base) * 1.5);
+  min-width: calc(var(--spacing-base) * 1.5);
+}
+
+.bc-badge--dot.bc-badge--size-sm {
+  width: calc(var(--spacing-base) * 2);
+  height: calc(var(--spacing-base) * 2);
+  min-width: calc(var(--spacing-base) * 2);
+}
+
+.bc-badge--dot.bc-badge--size-md {
+  width: calc(var(--spacing-base) * 2.5);
+  height: calc(var(--spacing-base) * 2.5);
+  min-width: calc(var(--spacing-base) * 2.5);
+}
+
+.bc-badge--dot.bc-badge--size-lg {
+  width: calc(var(--spacing-base) * 3);
+  height: calc(var(--spacing-base) * 3);
+  min-width: calc(var(--spacing-base) * 3);
+}
+
+.bc-badge--dot.bc-badge--size-xl {
+  width: calc(var(--spacing-base) * 3.5);
+  height: calc(var(--spacing-base) * 3.5);
+  min-width: calc(var(--spacing-base) * 3.5);
 }
 
 /* Dark mode styles */

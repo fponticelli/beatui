@@ -14,9 +14,7 @@
   border-radius: var(--radius-control, var(--radius-md));
   box-shadow: var(--shadow-surface, var(--shadow-sm));
   line-height: 1;
-  transition: all
-    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   align-items: stretch;
 }
 
@@ -108,7 +106,7 @@
 /* Normalize native element heights for consistent input container sizing */
 .bc-input-container input,
 .bc-input-container select {
-  height: 1em;
+  min-height: 19px;
   padding: 0;
   padding-block: 1.5px;
   line-height: 1;
@@ -145,8 +143,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
 }
 
 .bc-input-container__reset:hover:not(:disabled) {
@@ -163,7 +161,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm);
   align-items: center;
 }
 

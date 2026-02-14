@@ -38,21 +38,20 @@
 
 /* Custom radio indicator */
 .bc-radio-group__indicator {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  min-height: 18px;
+  width: calc(var(--spacing-base) * 4.5);
+  height: calc(var(--spacing-base) * 4.5);
+  min-width: calc(var(--spacing-base) * 4.5);
+  min-height: calc(var(--spacing-base) * 4.5);
   border-radius: 50%;
-  border: 2px solid var(--border-default-light);
+  border: 1px solid var(--color-base-300);
   background-color: var(--bg-surface-light);
   flex-shrink: 0;
   position: relative;
-  transition: all var(--motion-duration-fast, 0.2s)
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: all var(--motion-duration-fast) var(--motion-easing-standard);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2px;
+  margin-top: var(--spacing-xs);
 }
 
 /* Checked state - border color */
@@ -64,12 +63,11 @@
 .bc-radio-group__input:checked + .bc-radio-group__indicator::after {
   content: '';
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: calc(var(--spacing-base) * 2);
+  height: calc(var(--spacing-base) * 2);
   border-radius: 50%;
   background-color: var(--color-primary-500);
-  transition: all var(--motion-duration-fast, 0.2s)
-    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: all var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 /* Focus state */
@@ -100,7 +98,7 @@
 .bc-radio-group__label {
   font-size: var(--font-size-sm);
   color: var(--text-normal-light);
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
   user-select: none;
 }
 
@@ -108,23 +106,23 @@
 .bc-radio-group__description {
   font-size: var(--font-size-xs);
   color: var(--text-muted-light);
-  line-height: 1.4;
+  line-height: var(--line-height-snug);
   user-select: none;
 }
 
 /* Size variants */
 .bc-radio-group__item--size-xs .bc-radio-group__indicator {
-  width: 14px;
-  height: 14px;
-  min-width: 14px;
-  min-height: 14px;
+  width: calc(var(--spacing-base) * 3.5);
+  height: calc(var(--spacing-base) * 3.5);
+  min-width: calc(var(--spacing-base) * 3.5);
+  min-height: calc(var(--spacing-base) * 3.5);
 }
 
 .bc-radio-group__item--size-xs
   .bc-radio-group__input:checked
   + .bc-radio-group__indicator::after {
-  width: 6px;
-  height: 6px;
+  width: calc(var(--spacing-base) * 1.5);
+  height: calc(var(--spacing-base) * 1.5);
 }
 
 .bc-radio-group__item--size-xs .bc-radio-group__label {
@@ -132,21 +130,21 @@
 }
 
 .bc-radio-group__item--size-xs .bc-radio-group__description {
-  font-size: var(--font-size-2xs, 0.625rem);
+  font-size: var(--font-size-2xs);
 }
 
 .bc-radio-group__item--size-sm .bc-radio-group__indicator {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  min-height: 16px;
+  width: calc(var(--spacing-base) * 4);
+  height: calc(var(--spacing-base) * 4);
+  min-width: calc(var(--spacing-base) * 4);
+  min-height: calc(var(--spacing-base) * 4);
 }
 
 .bc-radio-group__item--size-sm
   .bc-radio-group__input:checked
   + .bc-radio-group__indicator::after {
-  width: 7px;
-  height: 7px;
+  width: calc(var(--spacing-base) * 1.75);
+  height: calc(var(--spacing-base) * 1.75);
 }
 
 .bc-radio-group__item--size-sm .bc-radio-group__label {
@@ -154,23 +152,23 @@
 }
 
 .bc-radio-group__item--size-sm .bc-radio-group__description {
-  font-size: var(--font-size-2xs, 0.625rem);
+  font-size: var(--font-size-2xs);
 }
 
 /* md is default */
 
 .bc-radio-group__item--size-lg .bc-radio-group__indicator {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: calc(var(--spacing-base) * 5);
+  height: calc(var(--spacing-base) * 5);
+  min-width: calc(var(--spacing-base) * 5);
+  min-height: calc(var(--spacing-base) * 5);
 }
 
 .bc-radio-group__item--size-lg
   .bc-radio-group__input:checked
   + .bc-radio-group__indicator::after {
-  width: 10px;
-  height: 10px;
+  width: calc(var(--spacing-base) * 2.5);
+  height: calc(var(--spacing-base) * 2.5);
 }
 
 .bc-radio-group__item--size-lg .bc-radio-group__label {
@@ -182,17 +180,17 @@
 }
 
 .bc-radio-group__item--size-xl .bc-radio-group__indicator {
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  min-height: 22px;
+  width: calc(var(--spacing-base) * 5.5);
+  height: calc(var(--spacing-base) * 5.5);
+  min-width: calc(var(--spacing-base) * 5.5);
+  min-height: calc(var(--spacing-base) * 5.5);
 }
 
 .bc-radio-group__item--size-xl
   .bc-radio-group__input:checked
   + .bc-radio-group__indicator::after {
-  width: 11px;
-  height: 11px;
+  width: calc(var(--spacing-base) * 2.75);
+  height: calc(var(--spacing-base) * 2.75);
 }
 
 .bc-radio-group__item--size-xl .bc-radio-group__label {

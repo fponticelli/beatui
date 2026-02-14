@@ -22,6 +22,9 @@ import type {
   FontFamilyOverrides,
   SemanticFontOverrides,
 } from '../tokens/typography'
+import { getBaseFontSizeVarName } from '../tokens/typography'
+import { getSpacingVarName } from '../tokens/spacing'
+import { getMotionDurationVarName } from '../tokens/motion'
 import type { SemanticRadiusOverrides } from '../tokens/radius'
 import type { SemanticShadowOverrides } from '../tokens/shadows'
 import type { SemanticMotionOverrides } from '../tokens/motion'
@@ -77,6 +80,36 @@ export interface BeatuiPresetOptions {
    */
   fontFamilies?: FontFamilyOverrides
   /**
+   * Override the base spacing unit (`--spacing-base`). All spacing scale values
+   * are computed from this variable. Defaults to `'0.25rem'`.
+   *
+   * @example
+   * ```ts
+   * { baseSpacing: '0.3rem' }
+   * ```
+   */
+  baseSpacing?: string
+  /**
+   * Override the base font size (`--base-font-size`). All font size and per-size
+   * line height values are computed from this variable. Defaults to `'1rem'`.
+   *
+   * @example
+   * ```ts
+   * { baseFontSize: '1.125rem' }
+   * ```
+   */
+  baseFontSize?: string
+  /**
+   * Override the base motion duration (`--motion-duration-base`). All duration
+   * values are computed from this variable. Defaults to `'200ms'`.
+   *
+   * @example
+   * ```ts
+   * { baseMotionDuration: '150ms' }
+   * ```
+   */
+  baseMotionDuration?: string
+  /**
    * When false, skip registering core token variables (spacing, typography, etc.).
    */
   includeCoreTokens?: boolean
@@ -122,9 +155,17 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
   const base: Record<string, Record<string, string>> = {}
 
   if (includeCoreTokens) {
-    base[':root'] = {
-      ...generateCoreTokenVariables(),
+    const coreVars = generateCoreTokenVariables()
+    if (options.baseSpacing) {
+      coreVars[getSpacingVarName('base')] = options.baseSpacing
     }
+    if (options.baseFontSize) {
+      coreVars[getBaseFontSizeVarName()] = options.baseFontSize
+    }
+    if (options.baseMotionDuration) {
+      coreVars[getMotionDurationVarName('base')] = options.baseMotionDuration
+    }
+    base[':root'] = coreVars
   }
 
   if (includeSemanticTokens) {

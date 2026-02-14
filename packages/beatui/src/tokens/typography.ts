@@ -9,38 +9,77 @@
  */
 
 /**
- * Font size scale mapping size names to `[fontSize, { lineHeight }]` tuples.
- * Each entry provides a rem-based font size and its recommended line height.
+ * The base font size unit used as the foundation for the font size scale.
  *
- * | Name | Size    | Line Height | Pixels |
- * |------|---------|-------------|--------|
- * | 3xs  | 0.5rem  | 0.75rem     | 8px    |
- * | 2xs  | 0.625rem| 0.75rem     | 10px   |
- * | xs   | 0.75rem | 1rem        | 12px   |
- * | sm   | 0.875rem| 1.25rem     | 14px   |
- * | md   | 1rem    | 1.5rem      | 16px   |
- * | lg   | 1.125rem| 1.75rem     | 18px   |
- * | xl   | 1.25rem | 1.75rem     | 20px   |
- * | 2xl  | 1.5rem  | 2rem        | 24px   |
- * | ...  | ...     | ...         | ...    |
- * | 9xl  | 8rem    | 1           | 128px  |
+ * @default '1rem'
+ */
+export const baseFontSize = '1rem'
+
+/**
+ * Font size scale mapping size names to `[fontSize, { lineHeight }]` tuples.
+ * Each entry provides a font size derived from `--base-font-size` via `calc()`
+ * and its recommended line height. When `--base-font-size` is `1rem` (default),
+ * computed values match the pixel sizes shown.
+ *
+ * | Name | Multiplier | Line Height      | Pixels (at 1rem base) |
+ * |------|------------|------------------|-----------------------|
+ * | 3xs  | 0.5        | base * 0.75      | 8px                   |
+ * | 2xs  | 0.625      | base * 0.75      | 10px                  |
+ * | xs   | 0.75       | base             | 12px                  |
+ * | sm   | 0.875      | base * 1.25      | 14px                  |
+ * | md   | 1          | base * 1.5       | 16px                  |
+ * | lg   | 1.125      | base * 1.75      | 18px                  |
+ * | xl   | 1.25       | base * 1.75      | 20px                  |
+ * | 2xl  | 1.5        | base * 2         | 24px                  |
+ * | ...  | ...        | ...              | ...                   |
+ * | 9xl  | 8          | 1 (unitless)     | 128px                 |
  */
 export const fontSize = {
-  '3xs': ['0.5rem', { lineHeight: '0.75rem' }], // 8px
-  '2xs': ['0.625rem', { lineHeight: '0.75rem' }], // 10px
-  xs: ['0.75rem', { lineHeight: '1rem' }], // 12px
-  sm: ['0.875rem', { lineHeight: '1.25rem' }], // 14px
-  md: ['1rem', { lineHeight: '1.5rem' }], // 16px
-  lg: ['1.125rem', { lineHeight: '1.75rem' }], // 18px
-  xl: ['1.25rem', { lineHeight: '1.75rem' }], // 20px
-  '2xl': ['1.5rem', { lineHeight: '2rem' }], // 24px
-  '3xl': ['1.875rem', { lineHeight: '2.25rem' }], // 30px
-  '4xl': ['2.25rem', { lineHeight: '2.5rem' }], // 36px
-  '5xl': ['3rem', { lineHeight: '1' }], // 48px
-  '6xl': ['3.75rem', { lineHeight: '1' }], // 60px
-  '7xl': ['4.5rem', { lineHeight: '1' }], // 72px
-  '8xl': ['6rem', { lineHeight: '1' }], // 96px
-  '9xl': ['8rem', { lineHeight: '1' }], // 128px
+  '3xs': [
+    'calc(var(--base-font-size) * 0.5)',
+    { lineHeight: 'calc(var(--base-font-size) * 0.75)' },
+  ], // 8px
+  '2xs': [
+    'calc(var(--base-font-size) * 0.625)',
+    { lineHeight: 'calc(var(--base-font-size) * 0.75)' },
+  ], // 10px
+  xs: [
+    'calc(var(--base-font-size) * 0.75)',
+    { lineHeight: 'var(--base-font-size)' },
+  ], // 12px
+  sm: [
+    'calc(var(--base-font-size) * 0.875)',
+    { lineHeight: 'calc(var(--base-font-size) * 1.25)' },
+  ], // 14px
+  md: [
+    'var(--base-font-size)',
+    { lineHeight: 'calc(var(--base-font-size) * 1.5)' },
+  ], // 16px
+  lg: [
+    'calc(var(--base-font-size) * 1.125)',
+    { lineHeight: 'calc(var(--base-font-size) * 1.75)' },
+  ], // 18px
+  xl: [
+    'calc(var(--base-font-size) * 1.25)',
+    { lineHeight: 'calc(var(--base-font-size) * 1.75)' },
+  ], // 20px
+  '2xl': [
+    'calc(var(--base-font-size) * 1.5)',
+    { lineHeight: 'calc(var(--base-font-size) * 2)' },
+  ], // 24px
+  '3xl': [
+    'calc(var(--base-font-size) * 1.875)',
+    { lineHeight: 'calc(var(--base-font-size) * 2.25)' },
+  ], // 30px
+  '4xl': [
+    'calc(var(--base-font-size) * 2.25)',
+    { lineHeight: 'calc(var(--base-font-size) * 2.5)' },
+  ], // 36px
+  '5xl': ['calc(var(--base-font-size) * 3)', { lineHeight: '1' }], // 48px
+  '6xl': ['calc(var(--base-font-size) * 3.75)', { lineHeight: '1' }], // 60px
+  '7xl': ['calc(var(--base-font-size) * 4.5)', { lineHeight: '1' }], // 72px
+  '8xl': ['calc(var(--base-font-size) * 6)', { lineHeight: '1' }], // 96px
+  '9xl': ['calc(var(--base-font-size) * 8)', { lineHeight: '1' }], // 128px
 } as const
 
 /**
@@ -292,6 +331,44 @@ export function getFontSizeVar(size: FontSize): string {
 }
 
 /**
+ * Returns the CSS custom property name for the base font size.
+ *
+ * @returns The CSS variable name `'--base-font-size'`
+ */
+export function getBaseFontSizeVarName(): string {
+  return '--base-font-size'
+}
+
+/**
+ * Returns a CSS `var()` expression referencing the base font size custom property.
+ *
+ * @returns A CSS `var()` string `'var(--base-font-size)'`
+ */
+export function getBaseFontSizeVar(): string {
+  return `var(${getBaseFontSizeVarName()})`
+}
+
+/**
+ * Returns the CSS custom property name for a font size's paired line height.
+ *
+ * @param size - The font size name
+ * @returns The CSS variable name (e.g., `'--font-size-md-lh'`)
+ */
+export function getFontSizeLineHeightVarName(size: FontSize): string {
+  return `--font-size-${size}-lh`
+}
+
+/**
+ * Returns a CSS `var()` expression referencing the font size line height custom property.
+ *
+ * @param size - The font size name
+ * @returns A CSS `var()` string (e.g., `'var(--font-size-md-lh)'`)
+ */
+export function getFontSizeLineHeightVar(size: FontSize): string {
+  return `var(${getFontSizeLineHeightVarName(size)})`
+}
+
+/**
  * Returns the CSS custom property name for a font weight.
  *
  * @param weight - The font weight name
@@ -393,24 +470,35 @@ export function getSemanticFontVar(name: SemanticFontName): string {
 
 /**
  * Generates CSS custom property declarations for all typography tokens, including
- * font sizes, font weights, line heights, letter spacing, and font families.
+ * the base font size, font sizes, per-size line heights, font weights, semantic
+ * line heights, letter spacing, and font families.
  *
  * @returns A record mapping CSS variable names to their values
  *
  * @example
  * ```ts
  * const vars = generateTypographyVariables()
- * // vars['--font-size-md'] === '1rem'
+ * // vars['--base-font-size'] === '1rem'
+ * // vars['--font-size-md'] === 'var(--base-font-size)'
+ * // vars['--font-size-md-lh'] === 'calc(var(--base-font-size) * 1.5)'
  * // vars['--font-weight-bold'] === '700'
  * ```
  */
 export function generateTypographyVariables(): Record<string, string> {
   const variables: Record<string, string> = {}
 
-  // Font sizes
+  // Base font size
+  variables[getBaseFontSizeVarName()] = baseFontSize
+
+  // Font sizes and their paired line heights
   Object.entries(fontSize).forEach(([key, value]) => {
-    const [size] = Array.isArray(value) ? value : [value]
+    const [size, opts] = Array.isArray(value) ? value : [value, undefined]
     variables[getFontSizeVarName(key as FontSize)] = size as string
+    if (opts && typeof opts === 'object' && 'lineHeight' in opts) {
+      variables[getFontSizeLineHeightVarName(key as FontSize)] = (
+        opts as { lineHeight: string }
+      ).lineHeight
+    }
   })
 
   // Font weights

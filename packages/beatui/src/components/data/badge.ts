@@ -24,6 +24,8 @@ export interface BadgeOptions {
   circle?: Value<boolean>
   /** Whether the badge takes the full width of its container. @default false */
   fullWidth?: Value<boolean>
+  /** Whether to render as a small colored dot indicator (8px by default). @default false */
+  dot?: Value<boolean>
 }
 
 /**
@@ -33,13 +35,15 @@ export interface BadgeOptions {
  * @param roundedness - Border radius preset
  * @param circle - Whether to force a circular shape
  * @param fullWidth - Whether to stretch to full container width
+ * @param dot - Whether to render as a small dot indicator
  * @returns Space-separated CSS class string
  */
 export function generateBadgeClasses(
   size: ControlSize,
   roundedness: RadiusName,
   circle: boolean,
-  fullWidth: boolean
+  fullWidth: boolean,
+  dot: boolean
 ): string {
   const classes = [
     'bc-badge',
@@ -53,6 +57,10 @@ export function generateBadgeClasses(
 
   if (fullWidth) {
     classes.push('bc-badge--full-width')
+  }
+
+  if (dot) {
+    classes.push('bc-badge--dot')
   }
 
   return classes.join(' ')
@@ -251,6 +259,7 @@ export function Badge(
     roundedness = 'full',
     circle = false,
     fullWidth = false,
+    dot = false,
   }: BadgeOptions,
   ...children: TNode[]
 ) {
@@ -260,13 +269,15 @@ export function Badge(
         size,
         roundedness,
         circle,
-        fullWidth
-      )((size, roundedness, circle, fullWidth) =>
+        fullWidth,
+        dot
+      )((size, roundedness, circle, fullWidth, dot) =>
         generateBadgeClasses(
           size ?? 'md',
           roundedness ?? 'sm',
           circle ?? false,
-          fullWidth ?? false
+          fullWidth ?? false,
+          dot ?? false
         )
       )
     ),
