@@ -56,7 +56,7 @@
 }
 
 .bc-color-swatch-input__control:focus-within {
-  outline: 2px solid var(--interactive-focus-light);
+  outline: 2px solid var(--interactive-focus);
   outline-offset: 2px;
 }
 
@@ -109,10 +109,6 @@
 }
 
 /* Dark mode */
-.b-dark .bc-color-swatch-input__control:focus-within {
-  outline: 2px solid var(--interactive-focus-dark);
-}
-
 .b-dark
   .bc-input-container--error
   .bc-color-swatch-input__control:focus-within {

@@ -45,7 +45,7 @@
     padding: 0 var(--spacing-xs);
     border: 1px solid var(--color-neutral-300);
     border-radius: var(--radius-sm);
-    background-color: var(--color-surface);
+    background-color: var(--bg-surface);
     color: var(--color-neutral-900);
     font-size: 0.75rem;
     cursor: pointer;
@@ -108,8 +108,8 @@
   /* Responsive: compact toolbar on small containers */
   @container (max-width: 400px) {
     .bc-lexical-toolbar {
-      padding: var(--spacing-2xs) var(--spacing-xs);
-      gap: var(--spacing-2xs);
+      padding: var(--spacing-xs) var(--spacing-xs);
+      gap: var(--spacing-xs);
     }
   }
 }

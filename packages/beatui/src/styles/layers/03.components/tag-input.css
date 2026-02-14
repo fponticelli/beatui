@@ -53,7 +53,7 @@
 .bc-tag-input--lg {
   min-height: 38px;
   padding: 5px 10px;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 .bc-tag-input--xl {
   min-height: 44px;

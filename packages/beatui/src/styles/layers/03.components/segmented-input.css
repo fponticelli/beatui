@@ -65,7 +65,7 @@
 
 .bc-segmented-input--size-md .bc-segmented-input__segment {
   padding: var(--spacing-sm) var(--spacing-lg);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 .bc-segmented-input--size-lg .bc-segmented-input__segment {
@@ -113,7 +113,7 @@
 }
 
 .bc-segmented-input--disabled .bc-segmented-input__segment {
-  color: var(--text-muted-light);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
@@ -124,17 +124,17 @@
 .bc-segmented-input--disabled .bc-segmented-input__segment--active,
 .bc-segmented-input--disabled .bc-segmented-input__segment--active:hover {
   background-color: var(--color-base-200);
-  color: var(--text-muted-light);
+  color: var(--text-muted);
 }
 
 /* Dark mode styles */
 .b-dark .bc-segmented-input {
-  background-color: var(--bg-subtle-dark);
-  border: 1px solid var(--border-border-dark);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-default);
 }
 
 .b-dark .bc-segmented-input__indicator {
-  background-color: var(--bg-elevated-dark);
+  background-color: var(--bg-elevated);
   box-shadow: var(
     --shadow-segmented-control-indicator-dark,
     0 1px 3px var(--shadow-color-dark),
@@ -143,7 +143,6 @@
 }
 
 .b-dark .bc-segmented-input__segment {
-  color: var(--text-muted-dark);
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
@@ -155,42 +154,36 @@
 }
 
 .b-dark .bc-segmented-input__segment:hover {
-  color: var(--text-normal-dark);
-  background-color: var(--interactive-hover-dark);
+  color: var(--text-normal);
+  background-color: var(--interactive-hover);
 }
 
 .b-dark .bc-segmented-input__segment--active,
 .b-dark .bc-segmented-input__segment--active:hover {
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
   background: transparent;
 }
 
-.b-dark .bc-segmented-input__segment--inactive {
-  color: var(--text-muted-dark);
-}
-
 .b-dark .bc-segmented-input__segment--inactive:hover {
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
 }
 
 /* Disabled state (dark) */
 .b-dark .bc-segmented-input--disabled {
-  background-color: var(--bg-background-dark);
-  border: 1px solid var(--border-divider-dark);
+  background-color: var(--bg-background);
+  border: 1px solid var(--border-divider);
   opacity: 0.5;
 }
 
 .b-dark .bc-segmented-input--disabled .bc-segmented-input__indicator {
-  background-color: var(--bg-subtle-dark);
+  background-color: var(--bg-subtle);
   box-shadow: var(--shadow-none, none);
 }
 
 .b-dark .bc-segmented-input--disabled .bc-segmented-input__segment {
-  color: var(--text-muted-dark);
   cursor: not-allowed;
 }
 
 .b-dark .bc-segmented-input--disabled .bc-segmented-input__segment:hover {
-  color: var(--text-muted-dark);
   background-color: transparent;
 }

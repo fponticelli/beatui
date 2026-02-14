@@ -83,10 +83,10 @@
 
 /* Dark mode styles */
 .b-dark .bc-sink {
-  background-color: var(--bg-background-dark);
-  border: 1px solid var(--border-border-dark);
+  background-color: var(--bg-background);
+  border: 1px solid var(--border-default);
   box-shadow: var(--shadow-sink-dark, inset 0 2px 4px var(--shadow-color-dark));
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
 }
 
 .b-dark .bc-sink--deep {
@@ -105,6 +105,6 @@
 
 .b-dark .bc-sink--flat {
   box-shadow: var(--shadow-sink-dark-flat, none);
-  border: 1px solid var(--border-divider-dark);
-  background-color: var(--bg-subtle-dark);
+  border: 1px solid var(--border-divider);
+  background-color: var(--bg-subtle);
 }

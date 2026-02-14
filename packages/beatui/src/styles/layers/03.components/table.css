@@ -1,12 +1,12 @@
 /* Table Container */
 .bc-table-container {
   --table-bg: var(--color-white);
-  --table-text: var(--text-normal-light);
-  --table-border: var(--border-border-light);
-  --table-header-bg: var(--bg-surface-light);
-  --table-header-text: var(--text-normal-light);
-  --table-stripe-bg: var(--bg-background-light);
-  --table-hover-bg: var(--interactive-hover-light);
+  --table-text: var(--text-normal);
+  --table-border: var(--border-default);
+  --table-header-bg: var(--bg-surface);
+  --table-header-text: var(--text-normal);
+  --table-stripe-bg: var(--bg-background);
+  --table-hover-bg: var(--interactive-hover);
   --table-border-radius: var(--radius-surface, var(--radius-lg));
 
   display: inline-block;
@@ -37,7 +37,7 @@
     --default-ui-font-family,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   line-height: var(--line-height-normal);
   border: none;
 }
@@ -54,7 +54,7 @@
 .bc-table--sticky-header > thead {
   position: sticky;
   top: 0;
-  z-index: var(--z-index-sticky, 10);
+  z-index: var(--z-index-raised, 10);
   box-shadow: var(--shadow-sm);
 }
 
@@ -62,7 +62,7 @@
 .bc-table--sticky-header > tfoot {
   position: sticky;
   bottom: 0;
-  z-index: var(--z-index-sticky, 10);
+  z-index: var(--z-index-raised, 10);
   box-shadow: var(--shadow-sm);
 }
 
@@ -193,13 +193,8 @@
 
 /* Dark mode styles */
 .b-dark .bc-table-container {
-  --table-bg: var(--bg-background-dark);
-  --table-text: var(--text-normal-dark);
-  --table-border: var(--border-border-dark);
-  --table-header-bg: var(--bg-surface-dark);
-  --table-header-text: var(--text-normal-dark);
-  --table-stripe-bg: var(--bg-surface-dark);
-  --table-hover-bg: var(--interactive-hover-dark);
+  --table-bg: var(--bg-background);
+  --table-stripe-bg: var(--bg-surface);
 }
 
 /* Accessibility */

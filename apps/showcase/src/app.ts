@@ -61,6 +61,20 @@ export const App = () => {
           Async(import('./pages/block-command-palette'), ({ default: Page }) =>
             Page()
           ),
+        '/notification-panel': () =>
+          Async(import('./pages/notification-panel'), ({ default: Page }) =>
+            Page()
+          ),
+        '/confirmation-dialogs': () =>
+          Async(import('./pages/confirmation-dialogs'), ({ default: Page }) =>
+            Page()
+          ),
+        '/history-view': () =>
+          Async(import('./pages/history-view'), ({ default: Page }) => Page()),
+        '/notification-toast': () =>
+          Async(import('./pages/notification-toast'), ({ default: Page }) =>
+            Page()
+          ),
         '/*': () => html.div('Not Found'),
       }),
     })

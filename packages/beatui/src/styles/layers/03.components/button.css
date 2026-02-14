@@ -74,7 +74,7 @@
 }
 
 .bc-button--size-md {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 .bc-button--size-lg {
@@ -99,10 +99,6 @@
 .b-dark .bc-button:hover:not(:disabled) {
   background-color: var(--button-bg-hover-dark);
   color: var(--button-text-hover-dark);
-}
-
-.b-dark .bc-button:disabled {
-  color: var(--text-muted-dark);
 }
 
 /* Accessibility adjustments */

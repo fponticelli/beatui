@@ -119,11 +119,7 @@
 
 /* Dark mode styles */
 .b-dark .bc-input-wrapper__label-text--default {
-  color: var(--text-normal-dark);
-}
-
-.b-dark .bc-input-wrapper__label-text--disabled {
-  color: var(--text-muted-dark);
+  color: var(--text-normal);
 }
 
 .b-dark .bc-input-wrapper__label-text--error {
@@ -132,10 +128,6 @@
 
 .b-dark .bc-input-wrapper__required {
   color: var(--color-danger-400);
-}
-
-.b-dark .bc-input-wrapper__description {
-  color: var(--text-muted-dark);
 }
 
 .b-dark .bc-input-wrapper__error {

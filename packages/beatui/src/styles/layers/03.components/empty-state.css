@@ -14,20 +14,20 @@
   opacity: 0.5;
   margin-bottom: var(--spacing-md);
   line-height: 0;
-  color: var(--text-muted-light);
+  color: var(--text-muted);
 }
 
 .bc-empty-state__title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold, 600);
-  color: var(--text-emphasis-light);
+  color: var(--text-normal);
   margin: 0;
   margin-bottom: var(--spacing-sm);
 }
 
 .bc-empty-state__description {
   font-size: var(--font-size-sm);
-  color: var(--text-muted-light);
+  color: var(--text-muted);
   margin: 0;
   margin-bottom: var(--spacing-md);
   line-height: 1.5;
@@ -82,17 +82,4 @@
 
 .bc-empty-state--size-lg .bc-empty-state__action {
   margin-top: var(--spacing-lg);
-}
-
-/* Dark mode */
-.b-dark .bc-empty-state__icon {
-  color: var(--text-muted-dark);
-}
-
-.b-dark .bc-empty-state__title {
-  color: var(--text-emphasis-dark);
-}
-
-.b-dark .bc-empty-state__description {
-  color: var(--text-muted-dark);
 }

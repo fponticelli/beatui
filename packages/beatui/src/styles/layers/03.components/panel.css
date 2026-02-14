@@ -1,8 +1,8 @@
 .bc-panel {
-  --panel-bg: var(--bg-surface-light);
-  --panel-bg-dark: var(--bg-surface-dark);
-  --panel-text: var(--text-normal-light);
-  --panel-text-dark: var(--text-normal-dark);
+  --panel-bg: var(--bg-surface);
+  --panel-bg-dark: var(--bg-surface);
+  --panel-text: var(--text-normal);
+  --panel-text-dark: var(--text-normal);
   background-color: var(--panel-bg);
   color: var(--panel-text);
   height: 100%;
@@ -19,32 +19,32 @@
 }
 
 .bc-panel--side-all {
-  border: 1px solid var(--border-border-light);
+  border: 1px solid var(--border-default);
 }
 
 .bc-panel--side-top {
-  border-top: 1px solid var(--border-border-light);
+  border-top: 1px solid var(--border-default);
 }
 
 .bc-panel--side-bottom {
-  border-bottom: 1px solid var(--border-border-light);
+  border-bottom: 1px solid var(--border-default);
 }
 
 .bc-panel--side-left {
-  border-left: 1px solid var(--border-border-light);
+  border-left: 1px solid var(--border-default);
 }
 
 .bc-panel--side-right {
-  border-right: 1px solid var(--border-border-light);
+  border-right: 1px solid var(--border-default);
 }
 
 /* Direction-aware panel borders */
 .bc-panel--side-inline-start {
-  border-inline-start: 1px solid var(--border-border-light);
+  border-inline-start: 1px solid var(--border-default);
 }
 
 .bc-panel--side-inline-end {
-  border-inline-end: 1px solid var(--border-border-light);
+  border-inline-end: 1px solid var(--border-default);
 }
 
 .bc-panel--shadow-sm {
@@ -57,25 +57,4 @@
 
 .bc-panel--shadow-lg {
   box-shadow: var(--shadow-overlay, var(--shadow-lg));
-}
-
-/* Dark mode styles */
-.b-dark .bc-panel--side-all {
-  border: 1px solid var(--border-border-dark);
-}
-
-.b-dark .bc-panel--side-top {
-  border-top: 1px solid var(--border-border-dark);
-}
-
-.b-dark .bc-panel--side-bottom {
-  border-bottom: 1px solid var(--border-border-dark);
-}
-
-.b-dark .bc-panel--side-left {
-  border-left: 1px solid var(--border-border-dark);
-}
-
-.b-dark .bc-panel--side-right {
-  border-right: 1px solid var(--border-border-dark);
 }

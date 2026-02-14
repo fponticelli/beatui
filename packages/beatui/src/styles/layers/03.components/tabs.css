@@ -89,7 +89,7 @@
 
 .bc-tab--md {
   padding: var(--spacing-md) var(--spacing-xl);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   min-height: var(--spacing-3xl);
 }
 
@@ -102,7 +102,7 @@
 .bc-tab--xl {
   padding: var(--spacing-xl) var(--spacing-3xl);
   font-size: var(--font-size-xl);
-  min-height: var(--spacing-5xl);
+  min-height: calc(var(--spacing-base) * 20);
 }
 
 /* Tab States */
@@ -321,7 +321,7 @@
 /* Outline variant: tabs look like segmented buttons */
 .bc-tabs--variant-outline .bc-tabs__list {
   border-bottom: none;
-  gap: var(--spacing-2xs);
+  gap: var(--spacing-xs);
 }
 .bc-tabs--variant-outline .bc-tab {
   background-color: var(--color-base-50);
@@ -411,7 +411,7 @@
 }
 
 .bc-tabs--variant-underline .bc-tab--xs {
-  padding: var(--spacing-2xs) var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
 }
 
 .bc-tabs--variant-underline

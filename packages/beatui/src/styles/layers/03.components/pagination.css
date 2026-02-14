@@ -29,7 +29,7 @@
   background: transparent;
   color: var(--color-base-700);
   font-family: inherit;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   user-select: none;
@@ -79,7 +79,7 @@
   min-width: calc(var(--spacing-base) * 8);
   height: calc(var(--spacing-base) * 8);
   color: var(--color-base-500);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   user-select: none;
 }
 
@@ -102,7 +102,7 @@
 .bc-pagination--size-md .bc-pagination__dots {
   min-width: calc(var(--spacing-base) * 8);
   height: calc(var(--spacing-base) * 8);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 .bc-pagination--size-lg .bc-pagination__item,

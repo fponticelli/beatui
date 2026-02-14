@@ -62,7 +62,7 @@
 .bc-avatar--size-md {
   width: calc(var(--spacing-base) * 10);
   height: calc(var(--spacing-base) * 10);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 .bc-avatar--size-lg {

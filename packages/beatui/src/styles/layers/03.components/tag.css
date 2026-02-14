@@ -1,9 +1,9 @@
 /* Tag Component */
 .bc-tag {
-  --tag-bg: var(--bg-subtle-light);
-  --tag-bg-dark: var(--bg-elevated-dark);
-  --tag-text: var(--text-normal-light);
-  --tag-text-dark: var(--text-normal-dark);
+  --tag-bg: var(--bg-subtle);
+  --tag-bg-dark: var(--bg-elevated);
+  --tag-text: var(--text-normal);
+  --tag-text-dark: var(--text-normal);
   --tag-bg-hover: var(--tag-bg);
   --tag-bg-hover-dark: var(--tag-bg-dark);
   --tag-text-hover: var(--tag-text);
@@ -20,7 +20,7 @@
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   padding: 0 calc(var(--spacing-base) * 2);
   gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
   background-color: var(--tag-bg);
@@ -113,13 +113,9 @@
   color: var(--tag-text-hover-dark);
 }
 
-.b-dark .bc-tag__close {
-  color: var(--text-muted-dark);
-}
-
 .b-dark .bc-tag__close:hover:not(:disabled) {
-  color: var(--text-normal-dark);
-  border-color: var(--border-border-dark);
+  color: var(--text-normal);
+  border-color: var(--border-default);
 }
 
 .bc-input-container__tags-selector {

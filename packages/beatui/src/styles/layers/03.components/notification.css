@@ -4,8 +4,8 @@
     --notification-radius: var(--radius-lg);
     --notification-bg: #fff;
     --notification-border-color: var(--color-base-200);
-    --notification-text-color: var(--text-normal-light);
-    --notification-muted-color: var(--text-muted-light);
+    --notification-text-color: var(--text-normal);
+    --notification-muted-color: var(--text-muted);
 
     display: flex;
     gap: var(--spacing-md);
@@ -30,6 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     background-color: var(--notification-accent-color);
     color: white;
   }
@@ -114,11 +115,8 @@
   }
 
   .b-dark .bc-notification {
-    --notification-bg: var(--bg-surface-dark);
+    --notification-bg: var(--bg-surface);
     --notification-border-color: var(--color-base-700);
-    --notification-text-color: var(--text-normal-dark);
-    --notification-muted-color: var(--text-muted-dark);
-    box-shadow: var(--shadow-md);
   }
 
   @media (max-width: 640px) {

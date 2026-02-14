@@ -10,7 +10,6 @@ const beatuiPlugin = beatuiTailwindPlugin({
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
   },
-  tailwindConfigPath: './tailwind.config.ts',
   darkClass: 'dark',
   rtlAttribute: 'dir',
   semanticColors: {

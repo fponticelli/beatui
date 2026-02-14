@@ -6,7 +6,7 @@
   max-width: 400px;
   margin: 0 auto;
   padding: var(--spacing-2xl);
-  --auth-container-bg: var(--bg-background-light);
+  --auth-container-bg: var(--bg-background);
   background-color: var(--auth-container-bg);
   border-radius: var(--radius-surface, var(--radius-lg));
   box-shadow: var(--shadow-surface, var(--shadow-md));
@@ -17,7 +17,7 @@
 
 /* Dark mode */
 .b-dark .bc-auth-container--styled {
-  background-color: var(--bg-surface-dark);
+  background-color: var(--bg-surface);
 }
 
 /* Mode-specific styling */
@@ -49,10 +49,10 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bc-auth-container--styled {
-    border: 2px solid var(--border-border-light);
+    border: 2px solid var(--border-default);
   }
 
   .b-dark .bc-auth-container--styled {
-    border-color: var(--border-border-dark);
+    border-color: var(--border-default);
   }
 }

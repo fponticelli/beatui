@@ -2,10 +2,11 @@
   background-color: var(--color-neutral-900);
   color: var(--color-neutral-50);
   padding: var(--spacing-xs) var(--spacing-md);
+  border: none;
   border-radius: var(--radius-sm);
-  font-size: var(--text-size-sm);
-  line-height: var(--text-line-height-sm);
-  font-weight: var(--text-weight-medium);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-size-sm-lh);
+  font-weight: var(--font-weight-medium);
   max-width: 200px;
   word-wrap: break-word;
   z-index: var(--z-index-tooltip);
@@ -80,9 +81,9 @@
 
 /* Dark theme adjustments */
 .b-dark .bc-tooltip {
-  background-color: var(--bg-elevated-dark);
-  color: var(--text-normal-dark);
-  border: 1px solid var(--border-border-dark);
+  background-color: var(--bg-elevated);
+  color: var(--text-normal);
+  border: 1px solid var(--border-default);
   box-shadow: var(
     --shadow-tooltip-dark,
     0 10px 15px -3px var(--shadow-color-dark),
@@ -91,8 +92,8 @@
 }
 
 .b-dark .bc-tooltip__arrow svg path {
-  fill: var(--bg-elevated-dark);
-  stroke: var(--border-border-dark);
+  fill: var(--bg-elevated);
+  stroke: var(--border-default);
   stroke-width: 1;
 }
 

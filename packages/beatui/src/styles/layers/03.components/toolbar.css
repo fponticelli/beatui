@@ -42,12 +42,12 @@
 }
 
 .bc-toolbar__button .bc-button {
-  gap: var(--spacing-2xs);
+  gap: var(--spacing-xs);
 }
 
 .bc-toolbar__button--icon-only .bc-button {
   /* Keep button height consistent; only adjust horizontal padding */
-  padding-inline: var(--spacing-2xs);
+  padding-inline: var(--spacing-xs);
 }
 
 .bc-toolbar .bc-input-container {
@@ -68,7 +68,7 @@
 
   .bc-toolbar__divider {
     height: calc(var(--spacing-base) * 4);
-    margin: 0 var(--spacing-2xs);
+    margin: 0 var(--spacing-xs);
   }
 
   /* Hide only text labels at narrow widths; keep icons visible */

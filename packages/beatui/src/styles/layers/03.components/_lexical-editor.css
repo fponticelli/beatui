@@ -328,8 +328,8 @@
   }
 
   .b-dark .bc-lexical-editor {
-    background-color: var(--bg-surface-dark);
-    color: var(--text-normal-dark);
+    background-color: var(--bg-surface);
+    color: var(--text-normal);
   }
 
   .b-dark .bc-lexical-editor-container:focus-within {
@@ -348,7 +348,6 @@
 
   .b-dark .bc-lexical-editor--readonly {
     background-color: var(--color-neutral-900);
-    color: var(--text-muted-dark);
   }
 
   .b-dark .bc-lexical-editor [data-lexical-placeholder] {
@@ -357,7 +356,6 @@
 
   .b-dark .bc-lexical-editor blockquote {
     border-left-color: var(--color-neutral-600);
-    color: var(--text-muted-dark);
   }
 
   .b-dark .bc-lexical-editor code {

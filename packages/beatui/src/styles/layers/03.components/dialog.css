@@ -1,0 +1,98 @@
+/* Dialog Components (ConfirmationDialog, AlertDialog, PromptDialog) */
+
+.bc-dialog__header-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-base) * 2.5);
+}
+
+.bc-dialog__icon {
+  width: calc(var(--spacing-base) * 9);
+  height: calc(var(--spacing-base) * 9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bc-dialog__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-normal);
+}
+
+.bc-dialog__body {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.bc-dialog__description {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.bc-dialog__consequences {
+  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+  margin: calc(var(--spacing-base) * 3) 0 0;
+  list-style: none;
+}
+
+.bc-dialog__consequences li {
+  display: flex;
+  gap: calc(var(--spacing-base) * 1.5);
+}
+
+.bc-dialog__consequences li::before {
+  content: '\2022';
+  color: var(--color-base-400);
+  flex-shrink: 0;
+}
+
+.bc-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: calc(var(--spacing-base) * 2);
+  width: 100%;
+}
+
+.bc-dialog__input {
+  display: block;
+  width: 100%;
+  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3);
+  margin-top: calc(var(--spacing-base) * 3);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  background: var(--bg-background);
+  color: var(--text-normal);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.bc-dialog__input::placeholder {
+  color: var(--text-muted);
+}
+
+.bc-dialog__input:focus {
+  border-color: var(--interactive-focus);
+  box-shadow: 0 0 0 2px
+    color-mix(in oklch, var(--interactive-focus), transparent 75%);
+}
+
+/* Dark mode */
+.b-dark .bc-dialog__consequences li::before {
+  color: var(--color-base-600);
+}
+
+.b-dark .bc-dialog__icon {
+  /* In dark mode, use shade 900 for bg and 400 for fg — applied via inline styles */
+}

@@ -45,7 +45,7 @@
   padding-top: 4px;
   padding-bottom: 4px;
   padding-right: 8px;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
   min-height: 32px;
 }
 

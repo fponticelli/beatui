@@ -1,8 +1,8 @@
 /* Card Component */
 .bc-card {
-  --card-bg: var(--bg-background-light);
-  --card-text: var(--text-normal-light);
-  --card-border: var(--border-border-light);
+  --card-bg: var(--bg-background);
+  --card-text: var(--text-normal);
+  --card-border: var(--border-default);
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-surface, var(--radius-lg));
@@ -23,12 +23,12 @@
 
 .bc-card--flat {
   box-shadow: var(--shadow-none, none);
-  --card-border: var(--border-divider-light);
+  --card-border: var(--border-divider);
 }
 
 .bc-card--outlined {
   box-shadow: var(--shadow-none, none);
-  --card-border: var(--border-border-light);
+  --card-border: var(--border-default);
 }
 
 /* Card sizes */
@@ -78,22 +78,6 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-card {
-  --card-bg: var(--bg-background-dark);
-  --card-border: var(--border-border-dark);
-  --card-text: var(--text-normal-dark);
-}
-
 .b-dark .bc-card--elevated {
-  --card-bg: var(--bg-elevated-dark);
-}
-
-.b-dark .bc-card--flat {
-  --card-border: var(--border-divider-dark);
-  box-shadow: var(--shadow-none, none);
-}
-
-.b-dark .bc-card--outlined {
-  --card-border: var(--border-border-dark);
-  box-shadow: var(--shadow-none, none);
+  --card-bg: var(--bg-elevated);
 }

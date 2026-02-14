@@ -62,10 +62,7 @@ export default function FloatingToolbarPage() {
               ),
               ToolbarButton(
                 {},
-                html.span(
-                  attr.style('color: var(--color-primary-600)'),
-                  '@'
-                )
+                html.span(attr.style('color: var(--color-primary-600)'), '@')
               )
             )
           )

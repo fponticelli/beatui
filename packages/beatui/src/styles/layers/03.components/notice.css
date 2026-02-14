@@ -19,18 +19,18 @@
 }
 
 .bc-notice__content {
-  color: var(--text-normal-light);
+  color: var(--text-normal);
   white-space: pre-line;
 }
 
 /* Tones */
 .bc-notice--tone-subtle {
-  border: 1px solid var(--border-border-light);
-  background-color: var(--bg-surface-light);
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
 }
 
 .bc-notice--tone-prominent {
-  border: 1px solid var(--border-border-light);
+  border: 1px solid var(--border-default);
 }
 
 /* Variants base color variables per tone */
@@ -59,22 +59,22 @@
 }
 
 .bc-notice--info.bc-notice--tone-subtle {
-  background-color: var(--bg-surface-light);
+  background-color: var(--bg-surface);
   color: var(--color-info-800);
 }
 
 .bc-notice--success.bc-notice--tone-subtle {
-  background-color: var(--bg-surface-light);
+  background-color: var(--bg-surface);
   color: var(--color-success-800);
 }
 
 .bc-notice--warning.bc-notice--tone-subtle {
-  background-color: var(--bg-surface-light);
+  background-color: var(--bg-surface);
   color: var(--color-warning-800);
 }
 
 .bc-notice--danger.bc-notice--tone-subtle {
-  background-color: var(--bg-surface-light);
+  background-color: var(--bg-surface);
   color: var(--color-danger-800);
 }
 

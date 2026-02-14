@@ -42,13 +42,9 @@
 
 /* Draw the focus on the display container similar to other inputs via focus-within */
 .bc-editable-text:focus-within {
-  outline: 2px solid var(--interactive-focus-light);
+  outline: 2px solid var(--interactive-focus);
   outline-offset: -2px;
   border-radius: var(--radius-sm);
-}
-
-.b-dark .bc-editable-text:focus-within {
-  outline-color: var(--interactive-focus-dark);
 }
 
 /* Display state */
@@ -110,12 +106,8 @@
 
 /* Dark mode styles */
 .b-dark .bc-editable-text {
-  border-bottom-color: var(--border-border-dark);
-  color: var(--text-normal-dark);
-}
-
-.b-dark .bc-editable-text__placeholder {
-  color: var(--text-muted-dark);
+  border-bottom-color: var(--border-default);
+  color: var(--text-normal);
 }
 
 .b-dark .bc-editable-text__edit-button {
@@ -123,10 +115,10 @@
 }
 
 .b-dark .bc-editable-text__edit-button:hover {
-  background-color: var(--interactive-hover-dark);
+  background-color: var(--interactive-hover);
   color: var(--color-yellow-300);
 }
 
 .b-dark .bc-editable-text__edit-button:active {
-  background-color: var(--interactive-active-dark);
+  background-color: var(--interactive-active);
 }

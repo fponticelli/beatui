@@ -18,8 +18,8 @@
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-ribbon, var(--shadow-md));
   text-shadow: var(--text-shadow-ribbon, var(--text-shadow-2xs));
-  font-weight: var(--text-weight-semibold);
-  font-size: var(--text-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
   letter-spacing: 0.02em;
   white-space: nowrap;
   width: var(--ribbon-width, 0);
@@ -70,7 +70,7 @@
 /* High contrast */
 @media (prefers-contrast: more) {
   .bc-ribbon {
-    outline: 1px solid var(--border-border, var(--color-neutral-500));
+    outline: 1px solid var(--border-border-light, var(--color-neutral-500));
   }
 }
 

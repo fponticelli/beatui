@@ -27,11 +27,7 @@
 
 /* Dark mode styles */
 .b-dark .bc-label {
-  color: var(--text-normal-dark);
-}
-
-.b-dark .bc-label--muted {
-  color: var(--text-muted-dark);
+  color: var(--text-normal);
 }
 
 .b-dark .bc-label--danger {

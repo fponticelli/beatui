@@ -108,18 +108,18 @@
 
 /* Dark mode styles */
 .b-dark .bc-scrollable-panel__body::-webkit-scrollbar-track {
-  background: var(--bg-subtle-dark);
+  background: var(--bg-subtle);
 }
 
 .b-dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb {
-  background: var(--bg-raised-dark);
+  background: var(--bg-raised);
   border-radius: var(--radius-sm);
 }
 
 .b-dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-overlay-dark);
+  background: var(--bg-overlay);
 }
 
 .b-dark .bc-scrollable-panel__body {
-  scrollbar-color: var(--bg-raised-dark) var(--bg-subtle-dark);
+  scrollbar-color: var(--bg-raised) var(--bg-subtle);
 }

@@ -7,7 +7,7 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: var(--z-index-sticky, 50);
+    z-index: var(--z-index-raised, 10);
 
     display: flex;
     align-items: center;

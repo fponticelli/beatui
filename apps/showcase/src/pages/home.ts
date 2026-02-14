@@ -1,15 +1,7 @@
 import { html, attr } from '@tempots/dom'
-import { Icon } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
 import { categories, getWidgetsByCategory } from '../data/widget-registry'
 import { Section } from '../views/section'
-
-const categoryIcons: Record<string, string> = {
-  Foundation: 'lucide:box',
-  Navigation: 'lucide:compass',
-  'Data Display': 'lucide:bar-chart-3',
-  Feedback: 'lucide:message-circle',
-}
 
 export default function HomePage() {
   return html.div(

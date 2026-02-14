@@ -1,10 +1,10 @@
 @layer components {
   .bc-action-card {
     /* Default CSS variables - can be overridden by inline styles or hover states */
-    --action-card-bg: var(--bg-background-light);
-    --action-card-border: var(--border-divider-light);
-    --action-card-title-color: var(--text-normal-light);
-    --action-card-description-color: var(--text-muted-light);
+    --action-card-bg: var(--bg-background);
+    --action-card-border: var(--border-divider);
+    --action-card-title-color: var(--text-normal);
+    --action-card-description-color: var(--text-muted);
 
     /* Layout */
     display: flex;
@@ -68,7 +68,7 @@
   }
 
   .bc-action-card--clickable:hover {
-    --action-card-bg: var(--bg-surface-light);
+    --action-card-bg: var(--bg-surface);
     box-shadow: var(--shadow-md);
   }
 

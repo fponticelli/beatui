@@ -1,11 +1,8 @@
 import { html, attr, prop, TNode } from '@tempots/dom'
 import {
   TextInput,
-  PasswordInput,
-  EmailInput,
   NumberInput,
   TextArea,
-  InputWrapper,
   ControlSize,
   InputAdornment,
   InputIcon,
@@ -13,7 +10,7 @@ import {
 import { WidgetPage } from '../views/widget-page'
 import { ControlsHeader } from '../views/controls-header'
 import { ControlSegmented, ControlSwitch } from '../views/control-helpers'
-import { SectionBlock, SectionStack } from '../views/section'
+import { SectionBlock } from '../views/section'
 
 function InputRow(label: string, ...children: TNode[]): TNode {
   return html.div(

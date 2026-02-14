@@ -1,13 +1,6 @@
-import { html, attr, prop } from '@tempots/dom'
-import {
-  CommandPalette,
-  CommandPaletteItem,
-  Icon,
-  Button,
-} from '@tempots/beatui'
+import { html, attr } from '@tempots/dom'
+import { CommandPalette, CommandPaletteItem, Button } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
-import { ControlsHeader } from '../views/controls-header'
-import { ControlSwitch } from '../views/control-helpers'
 import { SectionBlock } from '../views/section'
 
 const sampleCommands: CommandPaletteItem[] = [
@@ -96,8 +89,11 @@ export default function CommandPalettePage() {
         'Default',
         html.div(
           attr.style('padding: 20px 0; display: flex; justify-content: center'),
-          CommandPalette({ size: 'md' }, (open, close) =>
-            Button({ variant: 'filled', onClick: () => open(sampleCommands) }, 'Open Command Palette')
+          CommandPalette({ size: 'md' }, (open, _close) =>
+            Button(
+              { variant: 'filled', onClick: () => open(sampleCommands) },
+              'Open Command Palette'
+            )
           )
         )
       )

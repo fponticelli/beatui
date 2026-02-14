@@ -119,6 +119,24 @@ export const widgets: WidgetMeta[] = [
     category: 'Dialogs',
     route: '/command-palette',
   },
+  {
+    id: 'notification-panel',
+    label: 'Notification Panel',
+    category: 'Dialogs',
+    route: '/notification-panel',
+  },
+  {
+    id: 'confirmation-dialogs',
+    label: 'Confirmation Dialogs',
+    category: 'Dialogs',
+    route: '/confirmation-dialogs',
+  },
+  {
+    id: 'history-view',
+    label: 'History View',
+    category: 'Dialogs',
+    route: '/history-view',
+  },
 
   // Feedback
   {
@@ -126,6 +144,12 @@ export const widgets: WidgetMeta[] = [
     label: 'Tooltips',
     category: 'Feedback',
     route: '/tooltips',
+  },
+  {
+    id: 'notification-toast',
+    label: 'Notification Toast',
+    category: 'Feedback',
+    route: '/notification-toast',
   },
 ]
 

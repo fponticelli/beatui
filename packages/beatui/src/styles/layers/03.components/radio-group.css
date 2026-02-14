@@ -38,13 +38,13 @@
 
 /* Custom radio indicator */
 .bc-radio-group__indicator {
-  width: calc(var(--spacing-base) * 4.5);
-  height: calc(var(--spacing-base) * 4.5);
-  min-width: calc(var(--spacing-base) * 4.5);
-  min-height: calc(var(--spacing-base) * 4.5);
+  width: calc(var(--spacing-base) * 5);
+  height: calc(var(--spacing-base) * 5);
+  min-width: calc(var(--spacing-base) * 5);
+  min-height: calc(var(--spacing-base) * 5);
   border-radius: 50%;
-  border: 1px solid var(--color-base-300);
-  background-color: var(--bg-surface-light);
+  border: 1px solid var(--color-base-400);
+  background-color: --color-white;
   flex-shrink: 0;
   position: relative;
   transition: all var(--motion-duration-fast) var(--motion-easing-standard);
@@ -72,19 +72,19 @@
 
 /* Focus state */
 .bc-radio-group__input:focus-visible + .bc-radio-group__indicator {
-  outline: 2px solid var(--interactive-focus-light);
+  outline: 2px solid var(--interactive-focus);
   outline-offset: 2px;
 }
 
 /* Disabled state */
 .bc-radio-group__input:disabled + .bc-radio-group__indicator {
-  border-color: var(--border-border-light);
-  background-color: var(--bg-disabled-light);
+  border-color: var(--color-base-400);
+  background-color: var(--color-base-400);
   cursor: not-allowed;
 }
 
 .bc-radio-group__input:disabled:checked + .bc-radio-group__indicator::after {
-  background-color: var(--text-muted-light);
+  background-color: var(--text-muted);
 }
 
 /* Label container */
@@ -97,7 +97,7 @@
 /* Label text */
 .bc-radio-group__label {
   font-size: var(--font-size-sm);
-  color: var(--text-normal-light);
+  color: var(--text-normal);
   line-height: var(--line-height-normal);
   user-select: none;
 }
@@ -105,7 +105,7 @@
 /* Description text */
 .bc-radio-group__description {
   font-size: var(--font-size-xs);
-  color: var(--text-muted-light);
+  color: var(--text-muted);
   line-height: var(--line-height-snug);
   user-select: none;
 }
@@ -203,8 +203,8 @@
 
 /* Dark mode */
 .b-dark .bc-radio-group__indicator {
-  border-color: var(--border-default-dark);
-  background-color: var(--bg-surface-dark);
+  border-color: var(--border-default);
+  background-color: var(--bg-surface);
 }
 
 .b-dark .bc-radio-group__input:checked + .bc-radio-group__indicator {
@@ -216,24 +216,16 @@
 }
 
 .b-dark .bc-radio-group__input:focus-visible + .bc-radio-group__indicator {
-  outline-color: var(--interactive-focus-dark);
+  outline-color: var(--interactive-focus);
 }
 
 .b-dark .bc-radio-group__input:disabled + .bc-radio-group__indicator {
-  border-color: var(--border-border-dark);
-  background-color: var(--bg-disabled-dark);
+  border-color: var(--border-default);
+  background-color: var(--bg-subtle);
 }
 
 .b-dark
   .bc-radio-group__input:disabled:checked
   + .bc-radio-group__indicator::after {
-  background-color: var(--text-muted-dark);
-}
-
-.b-dark .bc-radio-group__label {
-  color: var(--text-normal-dark);
-}
-
-.b-dark .bc-radio-group__description {
-  color: var(--text-muted-dark);
+  background-color: var(--text-muted);
 }

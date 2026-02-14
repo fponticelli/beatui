@@ -2,6 +2,13 @@
   z-index: var(--z-index-popover);
 }
 
+/* Override bc-animated-toggle--closed display:none so floating-ui can position the element */
+.bc-flyout-container.bc-animated-toggle--closed {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .bc-flyout {
   /* Base flyout styles */
   background-color: var(--color-neutral-50);
@@ -11,50 +18,14 @@
   padding: var(--spacing-sm);
 }
 
-/* Transform origins for placement-aware animations */
-.bc-flyout.bc-toggle--flyout-top {
-  transform-origin: bottom center;
-}
-
-.bc-flyout.bc-toggle--flyout-bottom {
-  transform-origin: top center;
-}
-
-.bc-flyout.bc-toggle--flyout-left {
-  transform-origin: right center;
-}
-
-.bc-flyout.bc-toggle--flyout-right {
-  transform-origin: left center;
-}
-
 /* Pointer events management */
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--closed,
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--start-opening,
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--closing,
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--start-closing,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--closed,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--start-opening,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--closing,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--start-closing,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--closed,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--start-opening,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--closing,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--start-closing,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--closed,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--start-opening,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--closing,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--start-closing {
+.bc-flyout-container.bc-animated-toggle--start-opening,
+.bc-flyout-container.bc-animated-toggle--closing,
+.bc-flyout-container.bc-animated-toggle--start-closing {
   pointer-events: none;
 }
 
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--opening,
-.bc-flyout.bc-toggle--flyout-top.bc-toggle--opened,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--opening,
-.bc-flyout.bc-toggle--flyout-bottom.bc-toggle--opened,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--opening,
-.bc-flyout.bc-toggle--flyout-left.bc-toggle--opened,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--opening,
-.bc-flyout.bc-toggle--flyout-right.bc-toggle--opened {
+.bc-flyout-container.bc-animated-toggle--opening,
+.bc-flyout-container.bc-animated-toggle--opened {
   pointer-events: auto;
 }

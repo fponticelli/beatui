@@ -26,7 +26,7 @@
 
 .bc-input-container--default {
   background-color: var(--color-white);
-  outline: 1px solid var(--border-divider-light);
+  outline: 1px solid var(--border-divider);
   outline-offset: -1px;
 }
 
@@ -44,14 +44,14 @@
 
 .bc-input-container--disabled {
   background-color: var(--color-neutral-200);
-  outline: 2px solid var(--border-divider-light);
+  outline: 2px solid var(--border-divider);
   outline-offset: -2px;
 }
 
 /* Focus within state */
 .bc-input-container:focus-within {
   z-index: var(--z-index-navigation);
-  outline: 2px solid var(--interactive-focus-light);
+  outline: 2px solid var(--interactive-focus);
   outline-offset: -2px;
 }
 
@@ -183,25 +183,24 @@
 
 /* Dark mode styles */
 .b-dark .bc-input-container--default {
-  background-color: var(--bg-surface-dark);
-  color: var(--text-normal-dark);
-  outline: 2px solid var(--border-border-dark);
+  background-color: var(--bg-surface);
+  color: var(--text-normal);
+  outline: 2px solid var(--border-default);
 }
 
 .b-dark .bc-input-container--default:focus-within {
-  outline: 2px solid var(--interactive-focus-dark);
-  background-color: var(--bg-elevated-dark);
+  outline: 2px solid var(--interactive-focus);
+  background-color: var(--bg-elevated);
 }
 
 .b-dark .bc-input-container::placeholder,
 .b-dark .bc-base-input-container::placeholder {
-  color: var(--gray-500);
+  color: var(--color-gray-500);
 }
 
 .b-dark .bc-input-container--disabled {
-  background-color: var(--bg-subtle-dark);
-  color: var(--text-muted-dark);
-  outline: 2px solid var(--border-divider-dark);
+  background-color: var(--bg-subtle);
+  outline: 2px solid var(--border-divider);
   opacity: 0.6;
 }
 
@@ -216,22 +215,22 @@
 }
 
 .b-dark .bc-input-container__password-toggle {
-  fill: var(--text-muted-dark);
+  fill: var(--text-muted);
 }
 
 .b-dark .bc-input-container__password-toggle:hover {
-  background-color: var(--interactive-hover-dark);
-  fill: var(--text-normal-dark);
+  background-color: var(--interactive-hover);
+  fill: var(--text-normal);
 }
 
 /* Dark mode for nullable reset */
 .b-dark .bc-input-container__reset {
-  fill: var(--text-muted-dark);
+  fill: var(--text-muted);
 }
 
 .b-dark .bc-input-container__reset:hover:not(:disabled) {
-  background-color: var(--interactive-hover-dark);
-  fill: var(--text-normal-dark);
+  background-color: var(--interactive-hover);
+  fill: var(--text-normal);
 }
 
 .b-dark .bc-input-container__reset:disabled {

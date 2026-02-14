@@ -26,7 +26,7 @@
 }
 
 .b-dark .bc-social-login-button__icon {
-  background-color: var(--bg-elevated-dark);
+  background-color: var(--bg-elevated);
 }
 
 .bc-social-login-button__icon-inner {
@@ -34,7 +34,7 @@
 }
 
 .b-dark .bc-social-login-button__icon-inner {
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
 }
 
 .bc-social-login-button__label {

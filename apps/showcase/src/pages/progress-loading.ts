@@ -117,7 +117,7 @@ export default function ProgressLoadingPage() {
       SectionStack(
         'Interactive',
         Group(
-          { gap: 'sm' },
+          attr.class('gap-2'),
           Button(
             { onClick: () => progress.set(Math.max(0, progress.value - 10)) },
             Icon({ icon: 'lucide:minus' })
@@ -160,7 +160,7 @@ export default function ProgressLoadingPage() {
       SectionStack(
         'Loading Patterns',
         Group(
-          { gap: 'sm' },
+          attr.class('gap-2'),
           Button(
             { onClick: () => isLoading.update(v => !v) },
             Value.map(isLoading, v => (v ? 'Show Content' : 'Show Loading'))

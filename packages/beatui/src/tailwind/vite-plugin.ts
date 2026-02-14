@@ -1,24 +1,37 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { createRequire } from 'node:module'
-import { pathToFileURL } from 'node:url'
-import type { HtmlTagDescriptor, Plugin, UserConfig, ViteDevServer } from 'vite'
+import type { HtmlTagDescriptor, Plugin, ViteDevServer } from 'vite'
 
-type PostcssPluginFactory = (...args: unknown[]) => unknown
-type PostcssNamedPlugin = {
-  name?: string
-  postcssPlugin?: string
-} & Record<string, unknown>
+import {
+  generateSemanticTokenVariables,
+  generateFontFamilyOverrideVariables,
+  getBaseFontSizeVarName,
+  getSpacingVarName,
+  getMotionDurationVarName,
+} from '../tokens'
+import type { SemanticColorOverrides } from '../tokens/colors'
+import type {
+  FontFamilyOverrides,
+  SemanticFontOverrides,
+} from '../tokens/typography'
+import type { SemanticRadiusOverrides } from '../tokens/radius'
+import type { SemanticShadowOverrides } from '../tokens/shadows'
+import type { SemanticMotionOverrides } from '../tokens/motion'
+import type { SemanticSpacingOverrides } from '../tokens/spacing'
+import type { SemanticTextShadowOverrides } from '../tokens/text-shadows'
+import {
+  prepareGoogleFonts,
+  buildGoogleFontCssUrl,
+  type GoogleFontRequest,
+  type GoogleFontAsset,
+} from './google-fonts'
 
-type PostcssPluginEntry = string | PostcssNamedPlugin | PostcssPluginFactory
-
-type PostcssConfig = Record<string, unknown> & {
-  plugins?: PostcssPluginEntry | PostcssPluginEntry[]
-}
-
-type MutableCSSOptions = Record<string, unknown> & {
-  postcss?: PostcssConfig | string
-}
+type PluginResolveFn = (
+  this: unknown,
+  id: string,
+  importer?: string,
+  options?: { skipSelf?: boolean }
+) => Promise<{ id: string } | string | null>
 
 function fileUrlToPath(input: string | URL): string {
   const url = typeof input === 'string' ? new URL(input) : input
@@ -44,62 +57,6 @@ function fileUrlToPath(input: string | URL): string {
   return !isLocalHost && host ? `//${host}${decodedPath}` : decodedPath
 }
 
-interface ViteUserConfig {
-  define?: Record<string, string>
-  css?: MutableCSSOptions
-}
-
-type PluginResolveFn = (
-  this: unknown,
-  id: string,
-  importer?: string,
-  options?: { skipSelf?: boolean }
-) => Promise<{ id: string } | string | null>
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
-
-function getPluginName(plugin: PostcssPluginEntry): string | undefined {
-  if (typeof plugin === 'string') {
-    return plugin
-  }
-
-  if (typeof plugin === 'function') {
-    return plugin.name
-  }
-
-  if (isRecord(plugin)) {
-    const maybeName = plugin['name']
-    if (typeof maybeName === 'string') {
-      return maybeName
-    }
-
-    const maybePostcssName = plugin['postcssPlugin']
-    if (typeof maybePostcssName === 'string') {
-      return maybePostcssName
-    }
-  }
-
-  return undefined
-}
-
-import { createBeatuiPreset } from './preset'
-import type { BeatuiPresetOptions } from './preset'
-import {
-  generateSemanticTokenVariables,
-  generateFontFamilyOverrideVariables,
-  getBaseFontSizeVarName,
-  getSpacingVarName,
-  getMotionDurationVarName,
-} from '../tokens'
-import {
-  prepareGoogleFonts,
-  buildGoogleFontCssUrl,
-  type GoogleFontRequest,
-  type GoogleFontAsset,
-} from './google-fonts'
-
 const CSS_MODULE_ID = '@tempots/beatui/tailwind.css'
 const CSS_ASSET_FILENAME = 'beatui.tailwind.css'
 const MODULE_DIR = path.dirname(fileUrlToPath(import.meta.url))
@@ -117,11 +74,40 @@ function buildCssFromVariables(variables: Record<string, string>): string {
   return css
 }
 
-export interface BeatuiTailwindPluginOptions extends BeatuiPresetOptions {
+export interface BeatuiTailwindPluginOptions {
+  /** Override the semantic color mapping BeatUI uses (e.g. map `primary` to `emerald`). */
+  semanticColors?: SemanticColorOverrides
+  /** Override semantic font aliases (e.g. map `heading` to `var(--font-family-serif)`). */
+  semanticFonts?: SemanticFontOverrides
+  /** Override semantic radius aliases for controls, surfaces, etc. */
+  semanticRadii?: SemanticRadiusOverrides
+  /** Override semantic shadow aliases (elevation levels for surfaces, overlays, etc.). */
+  semanticShadows?: SemanticShadowOverrides
+  /** Override semantic motion tokens (transition durations/easing). */
+  semanticMotion?: SemanticMotionOverrides
+  /** Override spacing stack aliases for layout stacks. */
+  semanticSpacing?: SemanticSpacingOverrides
+  /** Override semantic text shadow aliases (e.g. button emphasis shadows). */
+  semanticTextShadows?: SemanticTextShadowOverrides
+  /** Override the default font family tokens (e.g. set `sans` to a custom stack). */
+  fontFamilies?: FontFamilyOverrides
+  /**
+   * Override the base spacing unit (`--spacing-base`). All spacing scale values
+   * are computed from this variable. Defaults to `'0.25rem'`.
+   */
+  baseSpacing?: string
+  /**
+   * Override the base font size (`--base-font-size`). All font size and per-size
+   * line height values are computed from this variable. Defaults to `'1rem'`.
+   */
+  baseFontSize?: string
+  /**
+   * Override the base motion duration (`--motion-duration-base`). All duration
+   * values are computed from this variable. Defaults to `'200ms'`.
+   */
+  baseMotionDuration?: string
   /** Automatically import the BeatUI Tailwind CSS bundle into the application entry. */
   injectCss?: boolean
-  /** File name of the Tailwind config if it lives in a non-standard location. */
-  tailwindConfigPath?: string
   /** Tailwind class that denotes dark mode. Defaults to 'dark'. */
   darkClass?: string
   /** Attribute inspected for RTL mode. Defaults to `dir="rtl"`. */
@@ -131,15 +117,6 @@ export interface BeatuiTailwindPluginOptions extends BeatuiPresetOptions {
   /** Request Google Fonts for local hosting. */
   googleFonts?: GoogleFontRequest | GoogleFontRequest[]
 }
-
-const DEFAULT_CONFIG_FILES = [
-  'tailwind.config.ts',
-  'tailwind.config.js',
-  'tailwind.config.mjs',
-  'tailwind.config.cjs',
-  'tailwind.config.mts',
-  'tailwind.config.cts',
-]
 
 function findPackageRoot(startDir: string): string | null {
   let current = startDir
@@ -157,42 +134,6 @@ function findPackageRoot(startDir: string): string | null {
       }
     }
     current = path.dirname(current)
-  }
-  return null
-}
-
-const projectRequireCache = new Map<string, NodeJS.Require>()
-
-function getProjectRequire(projectRoot: string): NodeJS.Require {
-  const key = path.resolve(projectRoot)
-  const cached = projectRequireCache.get(key)
-  if (cached) return cached
-  const pkgPath = path.join(key, 'package.json')
-  const requireFromProject = createRequire(
-    fs.existsSync(pkgPath) ? pkgPath : key
-  )
-  projectRequireCache.set(key, requireFromProject)
-  return requireFromProject
-}
-
-async function importFromProject<T = unknown>(
-  specifier: string,
-  projectRoot: string
-): Promise<T> {
-  const requireFromProject = getProjectRequire(projectRoot)
-  const resolvedPath = requireFromProject.resolve(specifier)
-  return (await import(pathToFileURL(resolvedPath).href)) as T
-}
-
-function findTailwindConfig(root: string, override?: string) {
-  const candidates = override
-    ? [override, ...DEFAULT_CONFIG_FILES]
-    : DEFAULT_CONFIG_FILES
-  for (const candidate of candidates) {
-    const full = path.resolve(root, candidate)
-    if (fs.existsSync(full)) {
-      return full
-    }
   }
   return null
 }
@@ -288,29 +229,11 @@ export function beatuiTailwindPlugin(
   options: BeatuiTailwindPluginOptions = {}
 ): Plugin {
   let projectRoot = process.cwd()
-  let resolvedConfigPath: string | null =
-    findTailwindConfig(projectRoot, options.tailwindConfigPath) ?? null
   const injectCss = options.injectCss !== false
   const darkClass = options.darkClass ?? 'dark'
   const rtlAttribute = options.rtlAttribute ?? 'dir'
   const rtlValue = options.rtlValue ?? 'rtl'
   let publicBasePath = '/'
-  const presetOptions: BeatuiPresetOptions = {
-    semanticColors: options.semanticColors,
-    semanticFonts: options.semanticFonts,
-    semanticRadii: options.semanticRadii,
-    semanticShadows: options.semanticShadows,
-    semanticMotion: options.semanticMotion,
-    semanticSpacing: options.semanticSpacing,
-    semanticTextShadows: options.semanticTextShadows,
-    fontFamilies: options.fontFamilies,
-    baseSpacing: options.baseSpacing,
-    baseFontSize: options.baseFontSize,
-    baseMotionDuration: options.baseMotionDuration,
-    includeCoreTokens: options.includeCoreTokens,
-    includeSemanticTokens: options.includeSemanticTokens,
-    extendTheme: options.extendTheme,
-  }
   const hasSemanticOverrides =
     options.semanticColors != null ||
     options.semanticFonts != null ||
@@ -388,9 +311,6 @@ export function beatuiTailwindPlugin(
     async configResolved(resolved) {
       projectRoot = resolved.root
       isBuildCommand = resolved.command === 'build'
-      resolvedConfigPath =
-        findTailwindConfig(projectRoot, options.tailwindConfigPath) ??
-        resolvedConfigPath
       publicBasePath =
         resolved.base && resolved.base !== '/'
           ? resolved.base.endsWith('/')
@@ -434,12 +354,6 @@ export function beatuiTailwindPlugin(
         }
       } else {
         googleFontFallbackUrls.length = 0
-      }
-      if (!resolvedConfigPath) {
-        this.warn(
-          '[BeatUI] Tailwind config file not found. BeatUI preset will not be auto-registered. ' +
-            'Specify tailwindConfigPath if your config lives elsewhere.'
-        )
       }
       if (injectCss && !tailwindCssPath) {
         this.warn(
@@ -544,113 +458,6 @@ export function beatuiTailwindPlugin(
           }
         }
       }
-    },
-    async config(userConfig) {
-      const beatuiPreset = createBeatuiPreset(presetOptions)
-      const cssInput = (userConfig as ViteUserConfig).css
-      const nextCss: MutableCSSOptions = {}
-      if (typeof cssInput === 'object' && cssInput !== null) {
-        Object.assign(nextCss, cssInput)
-      }
-      const postcssInput = nextCss.postcss
-
-      let postcss: PostcssConfig = {}
-      if (typeof postcssInput === 'object' && postcssInput !== null) {
-        postcss = { ...postcssInput }
-      }
-
-      const existingPlugins = postcss.plugins
-      let pluginList: PostcssPluginEntry[] = []
-
-      if (Array.isArray(existingPlugins)) {
-        pluginList = [...existingPlugins]
-      } else if (existingPlugins) {
-        pluginList = [existingPlugins]
-      }
-
-      if (!resolvedConfigPath) {
-        resolvedConfigPath =
-          findTailwindConfig(projectRoot, options.tailwindConfigPath) ?? null
-      }
-
-      let tailwindFactory: unknown
-
-      try {
-        const postcssNamespace = await importFromProject(
-          '@tailwindcss/postcss',
-          projectRoot
-        )
-        tailwindFactory =
-          (postcssNamespace as { default?: unknown }).default ??
-          postcssNamespace
-      } catch {
-        // ignore and fall back to tailwindcss package
-      }
-
-      if (typeof tailwindFactory !== 'function') {
-        try {
-          const tailwindNamespace = await importFromProject(
-            'tailwindcss',
-            projectRoot
-          )
-          tailwindFactory =
-            (tailwindNamespace as { default?: unknown }).default ??
-            tailwindNamespace
-        } catch (error) {
-          const reason =
-            error instanceof Error && error.message ? ` (${error.message})` : ''
-          this.warn(
-            `[BeatUI] Unable to load Tailwind CSS automatically. Install \`@tailwindcss/postcss\` (Tailwind v4) or \`tailwindcss\` (legacy) in your project.${reason}`
-          )
-        }
-      }
-
-      const isTailwindFactory = typeof tailwindFactory === 'function'
-      if (isTailwindFactory) {
-        const pluginAlreadyPresent = pluginList.some(
-          plugin => getPluginName(plugin) === 'tailwindcss'
-        )
-        if (!pluginAlreadyPresent) {
-          try {
-            const tailwindPlugin = (
-              tailwindFactory as (config: unknown) => PostcssPluginEntry
-            )({
-              config: resolvedConfigPath ?? {
-                presets: [beatuiPreset],
-              },
-            })
-            pluginList.push(tailwindPlugin)
-          } catch (error) {
-            const reason =
-              error instanceof Error && error.message
-                ? ` (${error.message})`
-                : ''
-            this.warn(
-              `[BeatUI] Failed to initialize Tailwind automatically. Install \`@tailwindcss/postcss\` (Tailwind v4) or register Tailwind manually.${reason}`
-            )
-          }
-        }
-      } else if (tailwindFactory != null) {
-        this.warn(
-          '[BeatUI] Unable to load Tailwind CSS automatically. Received unexpected module shape.'
-        )
-      }
-
-      const updatedConfig: ViteUserConfig = {
-        define: {
-          'import.meta.env.BEATUI_TAILWIND_PRESET':
-            JSON.stringify(beatuiPreset),
-        },
-        css: {
-          ...nextCss,
-          postcss: {
-            ...postcss,
-            plugins: pluginList,
-          },
-        },
-      }
-
-      return updatedConfig as unknown as UserConfig
     },
     generateBundle(_, bundle) {
       if (!isBuildCommand) {

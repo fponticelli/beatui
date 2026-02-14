@@ -212,8 +212,7 @@ export function Notification(
               attr.class('bc-notification__visual bc-notification__icon'),
               Icon({
                 icon: icon as Value<string>,
-                size: 'lg',
-                color: color as Value<ThemeColorName>,
+                size: 'md',
               })
             ),
           () =>

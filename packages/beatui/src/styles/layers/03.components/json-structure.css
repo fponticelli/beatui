@@ -122,7 +122,7 @@
 
 /* Set error indicator */
 .bc-json-structure-set-error {
-  color: var(--color-error-500, #dc2626);
+  color: var(--color-danger-500);
   font-size: var(--font-size-sm);
   margin-top: var(--spacing-stack-xs, var(--spacing-base));
 }
@@ -279,13 +279,13 @@
    ============================================================================= */
 
 .bc-json-structure-error {
-  color: var(--color-error-500, #dc2626);
+  color: var(--color-danger-500);
   font-size: var(--font-size-sm);
   margin-top: var(--spacing-stack-xs, var(--spacing-base));
 }
 
 .bc-json-structure-field--invalid {
-  --field-border-color: var(--color-error-500, #dc2626);
+  --field-border-color: var(--color-danger-500);
 }
 
 .bc-json-structure-field--valid {
@@ -335,7 +335,7 @@
 }
 
 .bc-json-structure-required-indicator {
-  color: var(--color-error-500, #dc2626);
+  color: var(--color-danger-500);
   margin-inline-start: 0.25em;
 }
 

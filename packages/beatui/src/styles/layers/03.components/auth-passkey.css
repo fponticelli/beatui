@@ -42,23 +42,15 @@
 .bc-passkey-item__name {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--text-normal-light);
+  color: var(--text-normal);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.b-dark .bc-passkey-item__name {
-  color: var(--text-normal-dark);
-}
-
 .bc-passkey-item__date {
   font-size: var(--font-size-xs);
-  color: var(--text-muted-light);
-}
-
-.b-dark .bc-passkey-item__date {
-  color: var(--text-muted-dark);
+  color: var(--text-muted);
 }
 
 .bc-passkey-item__edit {

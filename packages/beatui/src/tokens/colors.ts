@@ -205,7 +205,7 @@ export type TextColorName = 'normal' | 'muted' | 'inverted'
 export const textColors = {
   light: {
     normal: ['base', 900],
-    muted: ['base', 600],
+    muted: ['base', 500],
     inverted: ['base', 100],
   },
   dark: {
@@ -221,7 +221,14 @@ export const textColors = {
 /**
  * Union type of border color role names used in the theme system.
  */
-export type BorderColorName = 'border' | 'divider' | 'inverted'
+export type BorderColorName =
+  | 'subtle'
+  | 'muted'
+  | 'border'
+  | 'divider'
+  | 'input'
+  | 'strong'
+  | 'inverted'
 
 /**
  * Border color definitions for light and dark theme modes.
@@ -229,13 +236,21 @@ export type BorderColorName = 'border' | 'divider' | 'inverted'
  */
 export const borderColors = {
   light: {
+    subtle: ['base', 100],
+    muted: ['base', 200],
     border: ['base', 200],
     divider: ['base', 300],
+    input: ['base', 300],
+    strong: ['base', 400],
     inverted: ['base', 100],
   },
   dark: {
+    subtle: ['base', 800],
+    muted: ['base', 700],
     border: ['base', 700],
     divider: ['base', 600],
+    input: ['base', 600],
+    strong: ['base', 500],
     inverted: ['base', 900],
   },
 } as {

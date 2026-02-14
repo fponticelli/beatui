@@ -1,22 +1,4 @@
 /* PDF Page Viewer Component */
-/* .bc-pdf-page-viewer {
-  --pdf-viewer-text: var(--text-normal-light);
-  --pdf-viewer-text-dark: var(--text-normal-dark);
-
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: var(--pdf-viewer-text);
-  overflow: auto;
-}
-
-.b-dark .bc-pdf-page-viewer {
-  background-color: var(--pdf-viewer-bg-dark);
-  color: var(--pdf-viewer-text-dark);
-} */
 
 .bc-pdf-page-viewer {
   position: relative;
@@ -398,11 +380,7 @@
 
 .bc-pdf-page-viewer__loading-text {
   font-size: var(--font-size-md);
-  color: var(--text-muted-light);
-}
-
-.b-dark .bc-pdf-page-viewer__loading-text {
-  color: var(--text-muted-dark);
+  color: var(--text-muted);
 }
 
 /* Error state */

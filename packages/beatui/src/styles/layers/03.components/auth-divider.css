@@ -8,11 +8,7 @@
 .bc-auth-divider__line {
   flex: 1;
   height: 1px;
-  background-color: var(--border-divider-light);
-}
-
-.b-dark .bc-auth-divider__line {
-  background-color: var(--border-divider-dark);
+  background-color: var(--border-divider);
 }
 
 .bc-auth-divider__text {
@@ -22,13 +18,12 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: var(--spacing-sm);
-  background-color: var(--border-divider-light);
+  background-color: var(--border-divider);
   border-radius: var(--radius-full);
 }
 
 .b-dark .bc-auth-divider__text {
   color: var(--color-white);
-  background-color: var(--border-divider-dark);
 }
 
 /* High contrast mode support */

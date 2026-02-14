@@ -142,7 +142,8 @@ export function Menu() {
           href: '/announcement-bar',
           content: 'Announcement Bar',
         }),
-        SidebarLink({ href: '/command-palette', content: 'Command Palette' })
+        SidebarLink({ href: '/command-palette', content: 'Command Palette' }),
+        SidebarLink({ href: '/dialogs', content: 'Dialogs' })
       ),
 
       // ── Data Display ──

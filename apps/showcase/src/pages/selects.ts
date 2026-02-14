@@ -4,7 +4,6 @@ import {
   NativeSelect,
   ComboboxInput,
   TagInput,
-  InputWrapper,
   Option,
   DropdownOption,
   SelectOption,
@@ -56,6 +55,7 @@ export default function SelectsPage() {
   const tags = prop(['frontend', 'urgent'])
 
   const loadOptions = async (q: string) =>
+    // eslint-disable-next-line tempots/require-async-signal-disposal
     fruits.filter(
       o => o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())
     )

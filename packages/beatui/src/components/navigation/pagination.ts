@@ -9,6 +9,7 @@ import {
   on,
   When,
   WithElement,
+  prop,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
 
@@ -32,6 +33,8 @@ export interface PaginationOptions {
   size?: Value<ControlSize>
   /** Whether to distribute items across the full available width. @default false */
   justify?: Value<boolean>
+  /** Whether to dynamically adjust the number of visible page numbers to fit available space. @default false */
+  responsive?: Value<boolean>
 }
 
 /**
@@ -124,7 +127,17 @@ export function Pagination({
   showFirstLast = false,
   size = 'md',
   justify = false,
+  responsive = false,
 }: PaginationOptions) {
+  const responsiveSiblings = prop(Value.get(siblings))
+
+  // When responsive, use measured siblings; otherwise use user-provided value
+  const effectiveSiblings = computedOf(
+    responsive,
+    responsiveSiblings,
+    siblings
+  )((isResponsive, rSibs, userSibs) => (isResponsive ? rSibs : userSibs))
+
   return html.nav(
     attr.class(
       computedOf(
@@ -137,6 +150,48 @@ export function Pagination({
       })
     ),
     aria.label('Pagination'),
+
+    // Responsive ResizeObserver setup
+    When(responsive, () =>
+      WithElement(navEl => {
+        const updateSiblings = () => {
+          const containerWidth = navEl.clientWidth
+          if (containerWidth === 0) return
+
+          // Measure actual item dimensions from the DOM
+          const firstItem = navEl.querySelector(
+            '.bc-pagination__item'
+          ) as HTMLElement
+          if (!firstItem) return
+          const itemWidth = firstItem.offsetWidth
+          const computedGap = parseFloat(getComputedStyle(navEl).gap) || 0
+          const slotWidth = itemWidth + computedGap
+          const totalSlots = Math.floor(
+            (containerWidth + computedGap) / slotWidth
+          )
+
+          // Calculate nav button count
+          const navButtons =
+            (Value.get(showPrevNext) ? 2 : 0) +
+            (Value.get(showFirstLast) ? 2 : 0)
+
+          // Range items = 2*siblings + 5 (current + first + last + 2 dots max)
+          // But cap to total pages available
+          const total = Value.get(totalPages)
+          const availableSlots = totalSlots - navButtons
+          const maxSiblings = Math.max(0, Math.floor((availableSlots - 5) / 2))
+          // Don't exceed what's needed for the total pages
+          const needed = Math.floor((total - 3) / 2)
+          responsiveSiblings.set(Math.min(maxSiblings, Math.max(0, needed)))
+        }
+
+        const observer = new ResizeObserver(updateSiblings)
+        observer.observe(navEl)
+        requestAnimationFrame(updateSiblings)
+
+        return OnDispose(() => observer.disconnect())
+      })
+    ),
 
     // First page button
     When(showFirstLast, () =>
@@ -187,7 +242,7 @@ export function Pagination({
       computedOf(
         currentPage,
         totalPages,
-        siblings
+        effectiveSiblings
       )((current, total, sibs) =>
         generatePaginationRange(current, total, sibs)
       ),

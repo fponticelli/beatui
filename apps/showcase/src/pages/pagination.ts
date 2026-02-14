@@ -124,6 +124,35 @@ export default function PaginationPage() {
       ),
 
       SectionBlock(
+        'Responsive',
+        (() => {
+          const page = prop(5)
+          return html.div(
+            attr.class('space-y-2'),
+            html.p(
+              attr.class('text-sm text-base-600 dark:text-base-400'),
+              'Dynamically adjusts visible page numbers to fit available space. Resize the browser to see the effect.'
+            ),
+            Pagination({
+              currentPage: page,
+              totalPages: prop(50),
+              onPageChange: page.set,
+              responsive: true,
+            }),
+            html.p(
+              attr.class('text-sm text-gray-500 text-center'),
+              'Page ',
+              html.span(
+                attr.class('font-medium'),
+                Value.map(page, p => String(p))
+              ),
+              ' of 50'
+            )
+          )
+        })()
+      ),
+
+      SectionBlock(
         'Scenarios',
         html.div(
           attr.class('space-y-3'),

@@ -178,8 +178,8 @@ export function Divider({
       )
     ),
     attr.role('separator'),
-    html.hr(attr.class('bc-divider__line')),
+    html.span(attr.class('bc-divider__line')),
     html.span(attr.class('bc-divider__label'), label),
-    html.hr(attr.class('bc-divider__line'))
+    html.span(attr.class('bc-divider__line'))
   )
 }

@@ -7,14 +7,15 @@
   font-weight: var(--font-weight-medium);
   line-height: 1;
   border-radius: var(--radius-xs);
-  background-color: var(--bg-subtle-light);
-  color: var(--text-muted-light);
-  border: 1px solid var(--border-border-light);
-  box-shadow:
-    0 1px 0 0 var(--border-border-light),
-    0 2px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-muted);
+  /* box-shadow:
+    0 1px 0 0 var(--border-default),
+    0 2px 3px 0 rgba(0, 0, 0, 0.08),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06); */
   white-space: nowrap;
-  vertical-align: baseline;
+  vertical-align: middle;
   transition:
     background-color var(--motion-transition-fast) var(--motion-easing-standard),
     box-shadow var(--motion-transition-fast) var(--motion-easing-standard);
@@ -41,12 +42,11 @@
 
 /* Dark mode styles */
 .b-dark .bc-kbd {
-  background-color: var(--bg-subtle-dark);
-  color: var(--text-muted-dark);
-  border-color: var(--border-border-dark);
+  border-color: var(--border-default);
   box-shadow:
-    0 1px 0 0 var(--border-border-dark),
-    0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    0 1px 0 0 var(--border-default),
+    0 2px 3px 0 rgba(0, 0, 0, 0.35),
+    0 1px 2px 0 rgba(0, 0, 0, 0.25);
 }
 
 /* Accessibility adjustments */

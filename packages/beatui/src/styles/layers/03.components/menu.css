@@ -34,7 +34,7 @@
   transition: background-color
     var(--motion-transition-fast, var(--motion-duration-fast, 0.15s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  color: var(--text-normal-light);
+  color: var(--text-normal);
   font-size: var(--font-size-md);
   line-height: var(--line-height-normal);
   position: relative;
@@ -45,7 +45,7 @@
 /* Menu item hover state */
 .bc-menu-item:hover:not(.bc-menu-item--disabled) {
   background-color: var(--color-neutral-100);
-  color: var(--text-normal-light);
+  color: var(--text-normal);
 }
 
 /* Menu item focused state */
@@ -58,7 +58,7 @@
 .bc-menu-item--disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  color: var(--text-muted-light);
+  color: var(--text-muted);
 }
 
 .bc-menu-item--disabled:hover {
@@ -78,22 +78,13 @@
 }
 
 /* Dark mode menu item styles */
-.b-dark .bc-menu-item {
-  color: var(--text-normal-dark);
-}
-
 .b-dark .bc-menu-item:hover:not(.bc-menu-item--disabled) {
   background-color: var(--color-neutral-700);
-  color: var(--text-normal-dark);
 }
 
 .b-dark .bc-menu-item--focused {
   background-color: var(--color-primary-800);
   color: var(--color-primary-200);
-}
-
-.b-dark .bc-menu-item--disabled {
-  color: var(--text-muted-dark);
 }
 
 /* Menu Item Content Areas */
@@ -131,7 +122,7 @@
   background-color: var(--color-neutral-50);
   padding: 0 var(--spacing-xs);
   font-size: var(--font-size-xs);
-  color: var(--text-muted-light);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -143,18 +134,13 @@
 
 .b-dark .bc-menu-separator__label {
   background-color: var(--color-neutral-800);
-  color: var(--text-muted-dark);
 }
 
 /* Focus styles for accessibility */
 .bc-menu-item:focus-visible {
-  outline: 2px solid var(--interactive-focus-light);
+  outline: 2px solid var(--interactive-focus);
   outline-offset: -2px;
   border-radius: var(--radius-sm);
-}
-
-.b-dark .bc-menu-item:focus-visible {
-  outline-color: var(--interactive-focus-dark);
 }
 
 /* High contrast mode support */
@@ -183,11 +169,11 @@
 /* Menu size variants */
 .bc-menu--size-sm {
   min-width: 8rem;
-  padding: var(--spacing-2xs);
+  padding: var(--spacing-xs);
 }
 
 .bc-menu--size-sm .bc-menu-item {
-  padding: var(--spacing-2xs) var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-xs);
   font-size: var(--font-size-xs);
 }
 
@@ -198,7 +184,7 @@
 
 .bc-menu--size-lg .bc-menu-item {
   padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 /* Menu item icon sizing */
@@ -238,7 +224,7 @@
 
   .bc-menu-item {
     padding: var(--spacing-md) var(--spacing-lg);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-md);
     min-height: 44px; /* Touch target size */
   }
 

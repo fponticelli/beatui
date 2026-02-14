@@ -170,6 +170,8 @@ export const App = () => {
           Async(import('./pages/command-palette'), ({ default: Page }) =>
             Page()
           ),
+        '/dialogs': () =>
+          Async(import('./pages/dialogs'), ({ default: Page }) => Page()),
         '/divider': () =>
           Async(import('./pages/divider'), ({ default: Page }) => Page()),
         '/empty-state': () =>

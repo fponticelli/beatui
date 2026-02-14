@@ -1,8 +1,10 @@
 /* Divider Component */
 .bc-divider {
   border: none;
-  border-top: 1px solid var(--border-border-light);
+  border-top: 1px solid var(--border-default);
   margin: 0;
+  height: 0;
+  background: transparent;
   width: 100%;
   transition: border-color
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
@@ -13,7 +15,7 @@
 .bc-divider--vertical {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-border-light);
+  border-left: 1px solid var(--border-default);
   width: auto;
   height: auto;
   align-self: stretch;
@@ -22,11 +24,11 @@
 
 /* Tone variants */
 .bc-divider--tone-subtle {
-  border-color: var(--border-inverted-light);
+  border-color: var(--border-inverted);
 }
 
 .bc-divider--tone-strong {
-  border-color: var(--border-divider-light);
+  border-color: var(--border-divider);
 }
 
 /* Line style variants */
@@ -52,6 +54,7 @@
   align-items: center;
   gap: var(--spacing-base);
   border: none;
+  height: auto;
 }
 
 .bc-divider--labeled.bc-divider--vertical {
@@ -65,7 +68,9 @@
 .bc-divider__line {
   flex: 1;
   border: none;
-  border-top: 1px solid var(--border-border-light);
+  border-top: 1px solid var(--border-subtle);
+  height: 0;
+  background: transparent;
   margin: 0;
   transition: border-color
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
@@ -75,7 +80,7 @@
 .bc-divider--vertical .bc-divider__line {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-border-light);
+  border-left: 1px solid var(--border-default);
   width: 0;
   flex: 1;
   min-height: 1rem;
@@ -85,7 +90,7 @@
   flex-shrink: 0;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--text-muted-light);
+  color: var(--text-muted);
   font-family: var(
     --default-ui-font-family,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
@@ -119,11 +124,11 @@
 
 /* Tone variants for labeled dividers */
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
-  border-color: var(--border-inverted-light);
+  border-color: var(--border-inverted);
 }
 
 .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
-  border-color: var(--border-divider-light);
+  border-color: var(--border-divider);
 }
 
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
@@ -131,7 +136,7 @@
 }
 
 .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
-  color: var(--text-muted-light);
+  color: var(--text-muted);
 }
 
 /* Line style variants for labeled dividers */
@@ -152,48 +157,12 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-divider {
-  border-color: var(--border-border-dark);
-}
-
-.b-dark .bc-divider--vertical {
-  border-left-color: var(--border-border-dark);
-}
-
-.b-dark .bc-divider--tone-subtle {
-  border-color: var(--border-inverted-dark);
-}
-
-.b-dark .bc-divider--tone-strong {
-  border-color: var(--border-divider-dark);
-}
-
-.b-dark .bc-divider__line {
-  border-color: var(--border-border-dark);
-}
-
-.b-dark .bc-divider--vertical .bc-divider__line {
-  border-left-color: var(--border-border-dark);
-}
-
-.b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
-  border-color: var(--border-inverted-dark);
-}
-
-.b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
-  border-color: var(--border-divider-dark);
-}
-
-.b-dark .bc-divider__label {
-  color: var(--text-muted-dark);
-}
-
 .b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
   color: var(--color-base-500);
 }
 
 .b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
 }
 
 /* Accessibility adjustments */

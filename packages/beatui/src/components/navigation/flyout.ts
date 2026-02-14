@@ -319,14 +319,14 @@ export function Flyout(options: FlyoutOptions): Renderable {
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
             attr.class('bc-flyout-container'),
+            AnimatedToggleClass({
+              animation: Value.map(placement, placementToAnimation),
+              status: animatedToggle.status,
+            }),
             attr.id(flyoutId),
             attr.tabindex(-1), // Make focusable for screen readers
             html.div(
               attr.class('bc-flyout'),
-              AnimatedToggleClass({
-                animation: Value.map(placement, placementToAnimation),
-                status: animatedToggle.status,
-              }),
               role ? attr.role(role) : attr.role('dialog'), // Default to dialog role
               content()
             )

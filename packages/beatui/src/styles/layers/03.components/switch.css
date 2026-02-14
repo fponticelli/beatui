@@ -8,7 +8,7 @@
   --switch-track-on-bg: var(--color-primary-500);
   --switch-track-on-label: var(--color-gray-100);
   --switch-track-on-bg-dark: var(--color-primary-600);
-  --switch-track-on-label-dark: var(--text-normal-dark);
+  --switch-track-on-label-dark: var(--text-normal);
   --switch-track-on-border-dark: var(--color-primary-500);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .bc-switch--size-md .bc-switch__label {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-md);
 }
 
 .bc-switch--size-lg .bc-switch__label {
@@ -246,12 +246,12 @@
 
 /* Dark mode styles */
 .b-dark .bc-switch__label {
-  color: var(--text-normal-dark);
+  color: var(--text-normal);
 }
 
 .b-dark .bc-switch__track--off {
-  background-color: var(--bg-subtle-dark);
-  border: 1px solid var(--border-border-dark);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-default);
 }
 
 .b-dark .bc-switch__track--on {
@@ -259,15 +259,11 @@
   border: 1px solid var(--switch-track-on-border-dark, var(--color-primary-500));
 }
 
-.b-dark .bc-switch__track-label--off {
-  color: var(--text-muted-dark);
-}
-
 .b-dark .bc-switch__track-label--on {
-  color: var(--switch-track-on-label-dark, var(--text-normal-dark));
+  color: var(--switch-track-on-label-dark, var(--text-normal));
 }
 
 .b-dark .bc-switch__thumb {
-  background-color: var(--text-normal-dark);
+  background-color: var(--text-normal);
   box-shadow: var(--shadow-switch-thumb-dark, var(--shadow-md));
 }

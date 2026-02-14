@@ -1,5 +1,4 @@
 import { html, attr, TNode } from '@tempots/dom'
-import { StandaloneAppearanceSelector } from '@tempots/beatui'
 import { SidebarMenu } from './views/sidebar-menu'
 
 export function AppLayout({ children }: { children: TNode }) {
