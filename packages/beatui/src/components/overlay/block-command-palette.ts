@@ -7,10 +7,12 @@ import {
   prop,
   computedOf,
   ForEach,
+  Use,
   When,
   Empty,
 } from '@tempots/dom'
 import { Icon } from '../data'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface BlockCommandItem {
   /** Icon name for the command */
@@ -106,96 +108,98 @@ export function BlockCommandPalette(
       )
     : undefined
 
-  return html.div(
-    attr.class('bc-block-command-palette'),
-    positionStyle ? attr.style(positionStyle) : Empty,
-    on.keydown(handleKeyDown),
-
-    // Search header
+  return Use(BeatUII18n, t =>
     html.div(
-      attr.class('bc-block-command-palette__search'),
-      html.span(attr.class('bc-block-command-palette__search-prefix'), '/'),
-      html.input(
-        attr.class('bc-block-command-palette__search-input'),
-        attr.type('text'),
-        attr.placeholder('Type a command...'),
-        attr.autofocus(true),
-        attr.value(searchText),
-        on.input((e: Event) => {
-          searchText.set((e.target as HTMLInputElement).value)
-          selectedIndex.set(0)
-        })
-      )
-    ),
+      attr.class('bc-block-command-palette'),
+      positionStyle ? attr.style(positionStyle) : Empty,
+      on.keydown(handleKeyDown),
 
-    // Command list
-    html.div(
-      attr.class('bc-block-command-palette__list'),
-      ForEach(displayEntries, entrySignal => {
-        const isSelected = computedOf(
-          selectedIndex,
-          entrySignal
-        )((idx, e) => idx === e.index)
+      // Search header
+      html.div(
+        attr.class('bc-block-command-palette__search'),
+        html.span(attr.class('bc-block-command-palette__search-prefix'), '/'),
+        html.input(
+          attr.class('bc-block-command-palette__search-input'),
+          attr.type('text'),
+          attr.placeholder(t.$.typeACommand),
+          attr.autofocus(true),
+          attr.value(searchText),
+          on.input((e: Event) => {
+            searchText.set((e.target as HTMLInputElement).value)
+            selectedIndex.set(0)
+          })
+        )
+      ),
 
-        return html.div(
-          attr.class(
-            Value.map(
-              isSelected,
-              sel =>
-                `bc-block-command-palette__item${sel ? ' bc-block-command-palette__item--selected' : ''}`
-            )
-          ),
-          on.click(() => {
-            const entry = Value.get(entrySignal)
-            entry.item.onSelect()
-            onClose()
-          }),
-          on.mouseenter(() => {
-            selectedIndex.set(Value.get(entrySignal).index)
-          }),
-          html.span(
-            attr.class('bc-block-command-palette__item-icon'),
-            Icon({
-              icon: entrySignal.map(e => e.item.icon),
-              size: 'sm',
-              accessibility: 'decorative',
-            })
-          ),
-          html.div(
-            attr.class('bc-block-command-palette__item-content'),
+      // Command list
+      html.div(
+        attr.class('bc-block-command-palette__list'),
+        ForEach(displayEntries, entrySignal => {
+          const isSelected = computedOf(
+            selectedIndex,
+            entrySignal
+          )((idx, e) => idx === e.index)
+
+          return html.div(
+            attr.class(
+              Value.map(
+                isSelected,
+                sel =>
+                  `bc-block-command-palette__item${sel ? ' bc-block-command-palette__item--selected' : ''}`
+              )
+            ),
+            on.click(() => {
+              const entry = Value.get(entrySignal)
+              entry.item.onSelect()
+              onClose()
+            }),
+            on.mouseenter(() => {
+              selectedIndex.set(Value.get(entrySignal).index)
+            }),
             html.span(
-              attr.class('bc-block-command-palette__item-label'),
-              entrySignal.map(e => e.item.label)
+              attr.class('bc-block-command-palette__item-icon'),
+              Icon({
+                icon: entrySignal.map(e => e.item.icon),
+                size: 'sm',
+                accessibility: 'decorative',
+              })
+            ),
+            html.div(
+              attr.class('bc-block-command-palette__item-content'),
+              html.span(
+                attr.class('bc-block-command-palette__item-label'),
+                entrySignal.map(e => e.item.label)
+              ),
+              When(
+                entrySignal.map(e => e.item.description != null),
+                () =>
+                  html.span(
+                    attr.class('bc-block-command-palette__item-desc'),
+                    entrySignal.map(e => e.item.description ?? '')
+                  )
+              )
             ),
             When(
-              entrySignal.map(e => e.item.description != null),
+              entrySignal.map(e => e.item.shortcut != null),
               () =>
                 html.span(
-                  attr.class('bc-block-command-palette__item-desc'),
-                  entrySignal.map(e => e.item.description ?? '')
+                  attr.class('bc-block-command-palette__item-shortcut'),
+                  entrySignal.map(e => e.item.shortcut ?? '')
                 )
             )
-          ),
-          When(
-            entrySignal.map(e => e.item.shortcut != null),
-            () =>
-              html.span(
-                attr.class('bc-block-command-palette__item-shortcut'),
-                entrySignal.map(e => e.item.shortcut ?? '')
-              )
           )
-        )
-      })
-    ),
+        })
+      ),
 
-    // Empty state
-    When(
-      computedOf(displayEntries)(entries => entries.length === 0),
-      () =>
-        html.div(
-          attr.class('bc-block-command-palette__empty'),
-          'No matching commands'
-        )
+      // Empty state
+      When(
+        computedOf(displayEntries)(entries => entries.length === 0),
+        () =>
+          html.div(
+            attr.class('bc-block-command-palette__empty'),
+            t.$.noMatchingCommands
+          )
+      )
     )
   )
 }

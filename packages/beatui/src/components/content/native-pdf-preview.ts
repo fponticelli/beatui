@@ -4,9 +4,11 @@ import {
   attr,
   computedOf,
   OnDispose,
+  Use,
   WithElement,
   Empty,
 } from '@tempots/dom'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface NativePdfPreviewOptions {
   /** PDF content blob */
@@ -167,44 +169,46 @@ export function NativePdfPreview({
     URL.revokeObjectURL(previous)
   })
 
-  return html.div(
-    OnDispose(() => {
-      const url = fileUrl.value
-      if (url == null) return
-      URL.revokeObjectURL(url)
-    }),
-    attr.class('h-full w-full'),
-    // could also use embed or object. IFrame seems to work on Safari.
-    html.iframe(
+  return Use(BeatUII18n, t =>
+    html.div(
+      OnDispose(() => {
+        const url = fileUrl.value
+        if (url == null) return
+        URL.revokeObjectURL(url)
+      }),
       attr.class('h-full w-full'),
-      attr.allowfullscreen(allowfullscreen),
-      attr.title('PDF Preview'),
-      attr.loading('lazy'),
-      // Force iframe reload when URL changes (including fragment changes)
-      // by manually updating src instead of using attr.src
-      WithElement(iframe => {
-        const iframeEl = iframe as HTMLIFrameElement
-        let isInitial = true
-        // Update src whenever URL changes
-        urlWithParams.on(url => {
-          if (url == null) return
+      // could also use embed or object. IFrame seems to work on Safari.
+      html.iframe(
+        attr.class('h-full w-full'),
+        attr.allowfullscreen(allowfullscreen),
+        attr.title(t.$.pdfPreview),
+        attr.loading('lazy'),
+        // Force iframe reload when URL changes (including fragment changes)
+        // by manually updating src instead of using attr.src
+        WithElement(iframe => {
+          const iframeEl = iframe as HTMLIFrameElement
+          let isInitial = true
+          // Update src whenever URL changes
+          urlWithParams.on(url => {
+            if (url == null) return
 
-          if (isInitial) {
-            // On initial load, just set the src
-            iframeEl.src = url
-            isInitial = false
-          } else {
-            // On subsequent changes, force reload by clearing and resetting src
-            // This ensures the iframe reloads even when only the fragment changes
-            iframeEl.src = 'about:blank'
-            // Use setTimeout to ensure the blank page loads before setting new URL
-            setTimeout(() => {
+            if (isInitial) {
+              // On initial load, just set the src
               iframeEl.src = url
-            }, 50)
-          }
+              isInitial = false
+            } else {
+              // On subsequent changes, force reload by clearing and resetting src
+              // This ensures the iframe reloads even when only the fragment changes
+              iframeEl.src = 'about:blank'
+              // Use setTimeout to ensure the blank page loads before setting new URL
+              setTimeout(() => {
+                iframeEl.src = url
+              }, 50)
+            }
+          })
+          return Empty
         })
-        return Empty
-      })
+      )
     )
   )
 }

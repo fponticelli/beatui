@@ -94,6 +94,81 @@ const tr: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Sayfalama',
+  firstPage: 'İlk sayfa',
+  previousPage: 'Önceki sayfa',
+  nextPage: 'Sonraki sayfa',
+  lastPage: 'Son sayfa',
+  // Breadcrumbs
+  breadcrumbs: 'İçerik haritası',
+  // Command palette
+  commandPalette: 'Komut paleti',
+  typeACommand: 'Bir komut yazın...',
+  noResultsFound: 'Sonuç bulunamadı',
+  noMatchingCommands: 'Eşleşen komut yok',
+  // Appearance
+  appearanceSystem: 'Sistem',
+  appearanceLight: 'Açık',
+  appearanceDark: 'Koyu',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF Önizleme',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Yazı Tipi',
+    fontSize: 'Yazı Boyutu',
+    fontColor: 'Yazı Rengi',
+    highlightColor: 'Vurgu Rengi',
+    backgroundColor: 'Arka Plan Rengi',
+    bold: 'Kalın',
+    italic: 'İtalik',
+    underline: 'Altı Çizili',
+    strikethrough: 'Üstü Çizili',
+    code: 'Kod',
+    clearFormatting: 'Biçimlendirmeyi Temizle',
+    normal: 'Normal',
+    heading: (level: number) => `Başlık ${level}`,
+    bulletList: 'Madde İşaretli Liste',
+    orderedList: 'Numaralı Liste',
+    checkList: 'Kontrol Listesi',
+    indent: 'Girintiyi Artır',
+    outdent: 'Girintiyi Azalt',
+    blockquote: 'Alıntı',
+    codeBlock: 'Kod Bloğu',
+    horizontalRule: 'Yatay Çizgi',
+    insertTable: 'Tablo Ekle',
+    link: 'Bağlantı',
+    undo: 'Geri Al',
+    redo: 'Yinele',
+    cut: 'Kes',
+    copy: 'Kopyala',
+    paste: 'Yapıştır',
+    defaultOption: 'Varsayılan',
+    slashCommands: 'Eğik çizgi komutları',
+    noCommandsFound: 'Komut bulunamadı',
+    changeBlockType: 'Blok türünü değiştir',
+    blockTypes: 'Blok türleri',
+    enterUrl: 'URL girin:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

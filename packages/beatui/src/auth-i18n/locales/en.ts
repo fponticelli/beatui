@@ -38,6 +38,26 @@ const en = {
 
   // Modal
   authenticationTitle: 'Authentication',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `Password must be at least ${min} characters`,
+  passwordRequireUppercase:
+    'Password must contain at least one uppercase letter',
+  passwordRequireLowercase:
+    'Password must contain at least one lowercase letter',
+  passwordRequireNumber: 'Password must contain at least one number',
+  passwordRequireSpecialChar:
+    'Password must contain at least one special character',
+  emailRequired: 'Email is required',
+  invalidEmail: 'Please enter a valid email address',
+  passwordRequired: 'Password is required',
+  nameRequired: 'Name is required',
+  confirmPasswordRequired: 'Please confirm your password',
+  acceptTermsRequired: 'You must accept the terms and conditions',
+  passwordsDoNotMatch: "Passwords don't match",
+  invalidPassword: 'Invalid password',
+  invalidEmailAddress: 'Invalid email',
 }
 
 export default en

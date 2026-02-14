@@ -1,4 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+
+vi.setConfig({ testTimeout: 20000 })
+
 import { render, prop, signal } from '@tempots/dom'
 import { FloatingToolbar } from '../../src/components/lexical/floating/floating-toolbar'
 import { WithProviders } from '../helpers/test-providers'

@@ -94,6 +94,81 @@ const de: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Seitennavigation',
+  firstPage: 'Erste Seite',
+  previousPage: 'Vorherige Seite',
+  nextPage: 'Nächste Seite',
+  lastPage: 'Letzte Seite',
+  // Breadcrumbs
+  breadcrumbs: 'Brotkrümelnavigation',
+  // Command palette
+  commandPalette: 'Befehlspalette',
+  typeACommand: 'Befehl eingeben...',
+  noResultsFound: 'Keine Ergebnisse gefunden',
+  noMatchingCommands: 'Keine passenden Befehle',
+  // Appearance
+  appearanceSystem: 'System',
+  appearanceLight: 'Hell',
+  appearanceDark: 'Dunkel',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF-Vorschau',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Schriftart',
+    fontSize: 'Schriftgröße',
+    fontColor: 'Schriftfarbe',
+    highlightColor: 'Hervorhebungsfarbe',
+    backgroundColor: 'Hintergrundfarbe',
+    bold: 'Fett',
+    italic: 'Kursiv',
+    underline: 'Unterstrichen',
+    strikethrough: 'Durchgestrichen',
+    code: 'Code',
+    clearFormatting: 'Formatierung löschen',
+    normal: 'Normal',
+    heading: (level: number) => `Überschrift ${level}`,
+    bulletList: 'Aufzählung',
+    orderedList: 'Nummerierte Liste',
+    checkList: 'Checkliste',
+    indent: 'Einzug vergrößern',
+    outdent: 'Einzug verkleinern',
+    blockquote: 'Zitat',
+    codeBlock: 'Code-Block',
+    horizontalRule: 'Horizontale Linie',
+    insertTable: 'Tabelle einfügen',
+    link: 'Link',
+    undo: 'Rückgängig',
+    redo: 'Wiederholen',
+    cut: 'Ausschneiden',
+    copy: 'Kopieren',
+    paste: 'Einfügen',
+    defaultOption: 'Standard',
+    slashCommands: 'Schrägstrich-Befehle',
+    noCommandsFound: 'Keine Befehle gefunden',
+    changeBlockType: 'Blocktyp ändern',
+    blockTypes: 'Blocktypen',
+    enterUrl: 'URL eingeben:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Fett',

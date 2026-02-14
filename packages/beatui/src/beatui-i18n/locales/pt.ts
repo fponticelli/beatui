@@ -94,6 +94,81 @@ const pt: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Paginacao',
+  firstPage: 'Primeira pagina',
+  previousPage: 'Pagina anterior',
+  nextPage: 'Proxima pagina',
+  lastPage: 'Ultima pagina',
+  // Breadcrumbs
+  breadcrumbs: 'Breadcrumbs',
+  // Command palette
+  commandPalette: 'Paleta de comandos',
+  typeACommand: 'Digite um comando...',
+  noResultsFound: 'Nenhum resultado encontrado',
+  noMatchingCommands: 'Nenhum comando correspondente',
+  // Appearance
+  appearanceSystem: 'Sistema',
+  appearanceLight: 'Claro',
+  appearanceDark: 'Escuro',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'Visualizacao do PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Familia da fonte',
+    fontSize: 'Tamanho da fonte',
+    fontColor: 'Cor da fonte',
+    highlightColor: 'Cor de destaque',
+    backgroundColor: 'Cor de fundo',
+    bold: 'Negrito',
+    italic: 'Italico',
+    underline: 'Sublinhado',
+    strikethrough: 'Tachado',
+    code: 'Codigo',
+    clearFormatting: 'Limpar formatacao',
+    normal: 'Normal',
+    heading: (level: number) => `Titulo ${level}`,
+    bulletList: 'Lista com marcadores',
+    orderedList: 'Lista numerada',
+    checkList: 'Lista de verificacao',
+    indent: 'Aumentar recuo',
+    outdent: 'Diminuir recuo',
+    blockquote: 'Citacao',
+    codeBlock: 'Bloco de codigo',
+    horizontalRule: 'Linha horizontal',
+    insertTable: 'Inserir tabela',
+    link: 'Link',
+    undo: 'Desfazer',
+    redo: 'Refazer',
+    cut: 'Recortar',
+    copy: 'Copiar',
+    paste: 'Colar',
+    defaultOption: 'Padrao',
+    slashCommands: 'Comandos de barra',
+    noCommandsFound: 'Nenhum comando encontrado',
+    changeBlockType: 'Alterar tipo de bloco',
+    blockTypes: 'Tipos de bloco',
+    enterUrl: 'Digite a URL:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

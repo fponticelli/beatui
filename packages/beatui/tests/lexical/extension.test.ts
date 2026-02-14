@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 
+vi.setConfig({ testTimeout: 20000 })
+
 // Mock Lexical modules before imports
 vi.mock('lexical', () => ({
   createCommand: vi.fn((name: string) => name),

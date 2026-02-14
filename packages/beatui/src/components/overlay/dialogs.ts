@@ -283,42 +283,44 @@ export function AlertDialog(
     onClose: onOk,
   }
 
-  return Modal(modalOptions, (openModal, close) => {
-    const handleOk = () => {
-      onOk?.()
-      close()
-    }
+  return Use(BeatUII18n, t =>
+    Modal(modalOptions, (openModal, close) => {
+      const handleOk = () => {
+        onOk?.()
+        close()
+      }
 
-    const open = () => {
-      openModal({
-        header: html.div(
-          attr.class('bc-dialog__header-row'),
-          html.div(
-            attr.class('bc-dialog__icon'),
-            style.backgroundColor(getColorVar(resolvedColor, 100)),
-            style.color(getColorVar(resolvedColor, 600)),
-            Icon({ icon: resolvedIcon, size: 'sm' })
+      const open = () => {
+        openModal({
+          header: html.div(
+            attr.class('bc-dialog__header-row'),
+            html.div(
+              attr.class('bc-dialog__icon'),
+              style.backgroundColor(getColorVar(resolvedColor, 100)),
+              style.color(getColorVar(resolvedColor, 600)),
+              Icon({ icon: resolvedIcon, size: 'sm' })
+            ),
+            html.span(attr.class('bc-dialog__title'), title)
           ),
-          html.span(attr.class('bc-dialog__title'), title)
-        ),
-        body: html.div(attr.class('bc-dialog__body'), body),
-        footer: Fragment(
-          attr.class('bc-dialog__actions'),
-          Button(
-            {
-              color: resolvedColor,
-              variant: 'filled',
-              size: 'sm',
-              onClick: handleOk,
-            },
-            coalesce(okText, 'OK')
-          )
-        ),
-      })
-    }
+          body: html.div(attr.class('bc-dialog__body'), body),
+          footer: Fragment(
+            attr.class('bc-dialog__actions'),
+            Button(
+              {
+                color: resolvedColor,
+                variant: 'filled',
+                size: 'sm',
+                onClick: handleOk,
+              },
+              coalesce(okText, t.$.ok)
+            )
+          ),
+        })
+      }
 
-    return fn(open, close)
-  })
+      return fn(open, close)
+    })
+  )
 }
 
 // --- PromptDialog ---

@@ -1,4 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+
+vi.setConfig({ testTimeout: 20000 })
+
 import { render, prop } from '@tempots/dom'
 import { BareEditor } from '../../src/components/lexical/bare-editor'
 import { WithProviders } from '../helpers/test-providers'

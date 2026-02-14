@@ -96,6 +96,81 @@ export const ru: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Пагинация',
+  firstPage: 'Первая страница',
+  previousPage: 'Предыдущая страница',
+  nextPage: 'Следующая страница',
+  lastPage: 'Последняя страница',
+  // Breadcrumbs
+  breadcrumbs: 'Хлебные крошки',
+  // Command palette
+  commandPalette: 'Палитра команд',
+  typeACommand: 'Введите команду...',
+  noResultsFound: 'Результаты не найдены',
+  noMatchingCommands: 'Нет подходящих команд',
+  // Appearance
+  appearanceSystem: 'Системная',
+  appearanceLight: 'Светлая',
+  appearanceDark: 'Тёмная',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'Предпросмотр PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Шрифт',
+    fontSize: 'Размер шрифта',
+    fontColor: 'Цвет шрифта',
+    highlightColor: 'Цвет выделения',
+    backgroundColor: 'Цвет фона',
+    bold: 'Полужирный',
+    italic: 'Курсив',
+    underline: 'Подчёркнутый',
+    strikethrough: 'Зачёркнутый',
+    code: 'Код',
+    clearFormatting: 'Очистить форматирование',
+    normal: 'Обычный',
+    heading: (level: number) => `Заголовок ${level}`,
+    bulletList: 'Маркированный список',
+    orderedList: 'Нумерованный список',
+    checkList: 'Список задач',
+    indent: 'Увеличить отступ',
+    outdent: 'Уменьшить отступ',
+    blockquote: 'Цитата',
+    codeBlock: 'Блок кода',
+    horizontalRule: 'Горизонтальная линия',
+    insertTable: 'Вставить таблицу',
+    link: 'Ссылка',
+    undo: 'Отменить',
+    redo: 'Повторить',
+    cut: 'Вырезать',
+    copy: 'Копировать',
+    paste: 'Вставить',
+    defaultOption: 'По умолчанию',
+    slashCommands: 'Слеш-команды',
+    noCommandsFound: 'Команды не найдены',
+    changeBlockType: 'Изменить тип блока',
+    blockTypes: 'Типы блоков',
+    enterUrl: 'Введите URL:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

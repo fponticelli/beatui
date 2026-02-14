@@ -21,7 +21,8 @@ import { ControlSize } from '../../theme'
  */
 export function createToolbarHelpers(
   ed: Signal<LexicalEditor>,
-  stateUpdate: Signal<number>
+  stateUpdate: Signal<number>,
+  options?: { enterUrlMessage?: () => string }
 ) {
   // State helpers
 
@@ -130,7 +131,7 @@ export function createToolbarHelpers(
         if (isLink) {
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null)
         } else {
-          const url = prompt('Enter URL:')
+          const url = prompt(options?.enterUrlMessage?.() ?? 'Enter URL:')
           if (url) {
             editor.dispatchCommand(TOGGLE_LINK_COMMAND, url)
           }
@@ -167,7 +168,7 @@ export function createButtonFactory(
     (opts: {
       active: Signal<boolean>
       onClick: () => void
-      label: string
+      label: Value<string>
       icon: string
     }) =>
       EditorToolbarButton({

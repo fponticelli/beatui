@@ -24,6 +24,30 @@ import {
   SignUpFormData,
 } from './types'
 import { defaultPasswordRules } from './utils'
+import { defaultMessages as defaultAuthMessages } from '../../auth-i18n'
+
+/**
+ * Localizable validation messages for authentication schemas.
+ *
+ * Pass this to schema factory functions to override the default English messages.
+ * Obtain localized values from `AuthI18n` provider messages.
+ */
+export interface AuthValidationMessages {
+  passwordMinLength?: (min: number) => string
+  passwordRequireUppercase?: string
+  passwordRequireLowercase?: string
+  passwordRequireNumber?: string
+  passwordRequireSpecialChar?: string
+  emailRequired?: string
+  invalidEmail?: string
+  passwordRequired?: string
+  nameRequired?: string
+  confirmPasswordRequired?: string
+  acceptTermsRequired?: string
+  passwordsDoNotMatch?: string
+  invalidPassword?: string
+  invalidEmailAddress?: string
+}
 
 /**
  * Creates a password validation schema based on the provided rules.
@@ -41,15 +65,19 @@ import { defaultPasswordRules } from './utils'
  * ```
  */
 export function createPasswordSchema(
-  rules: PasswordRules = defaultPasswordRules
+  rules: PasswordRules = defaultPasswordRules,
+  messages?: AuthValidationMessages
 ): StringValidator {
+  const m = messages ?? defaultAuthMessages
   let validator = string()
 
   // Minimum length validation
   if (rules.minLength) {
     validator = validator.min(
       rules.minLength,
-      `Password must be at least ${rules.minLength} characters`
+      (m.passwordMinLength ?? defaultAuthMessages.passwordMinLength)(
+        rules.minLength
+      )
     )
   }
 
@@ -57,7 +85,7 @@ export function createPasswordSchema(
   if (rules.requireUppercase) {
     validator = validator.regex(
       /[A-Z]/,
-      'Password must contain at least one uppercase letter'
+      m.passwordRequireUppercase ?? defaultAuthMessages.passwordRequireUppercase
     )
   }
 
@@ -65,7 +93,7 @@ export function createPasswordSchema(
   if (rules.requireLowercase) {
     validator = validator.regex(
       /[a-z]/,
-      'Password must contain at least one lowercase letter'
+      m.passwordRequireLowercase ?? defaultAuthMessages.passwordRequireLowercase
     )
   }
 
@@ -73,7 +101,7 @@ export function createPasswordSchema(
   if (rules.requireNumbers) {
     validator = validator.regex(
       /[0-9]/,
-      'Password must contain at least one number'
+      m.passwordRequireNumber ?? defaultAuthMessages.passwordRequireNumber
     )
   }
 
@@ -81,7 +109,8 @@ export function createPasswordSchema(
   if (rules.requireSymbols) {
     validator = validator.regex(
       /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
-      'Password must contain at least one special character'
+      m.passwordRequireSpecialChar ??
+        defaultAuthMessages.passwordRequireSpecialChar
     )
   }
 
@@ -94,13 +123,26 @@ export function createPasswordSchema(
 }
 
 /**
+ * Creates an email validation schema with optional localized messages.
+ *
+ * @param messages - Optional localized validation messages
+ * @returns A `StringValidator` that validates email addresses
+ */
+export function createEmailSchema(
+  messages?: AuthValidationMessages
+): StringValidator {
+  const m = messages ?? defaultAuthMessages
+  return string()
+    .min(1, m.emailRequired ?? defaultAuthMessages.emailRequired)
+    .email(m.invalidEmail ?? defaultAuthMessages.invalidEmail)
+}
+
+/**
  * Base email validation schema.
  *
  * Validates that the value is a non-empty string with a valid email format.
  */
-export const emailSchema = string()
-  .min(1, 'Email is required')
-  .email('Please enter a valid email address')
+export const emailSchema = createEmailSchema()
 
 /**
  * Creates a validation schema for the sign-in form.
@@ -119,18 +161,22 @@ export const emailSchema = string()
  * ```
  */
 export function createSignInSchema(
-  passwordRules?: PasswordRules
+  passwordRules?: PasswordRules,
+  messages?: AuthValidationMessages
 ): StandardSchemaV1<SignInFormData> & {
   safeParse: (value: unknown) => SafeParseResult<SignInFormData>
 } {
+  const m = messages ?? defaultAuthMessages
   const passwordSchema = passwordRules
-    ? createPasswordSchema(passwordRules)
+    ? createPasswordSchema(passwordRules, messages)
     : string().refine(value =>
-        value.length > 0 ? null : 'Password is required'
+        value.length > 0
+          ? null
+          : (m.passwordRequired ?? defaultAuthMessages.passwordRequired)
       )
 
   return object({
-    email: emailSchema,
+    email: createEmailSchema(messages),
     password: passwordSchema,
     rememberMe: boolean().default(false),
   }).schema()
@@ -167,11 +213,13 @@ export function createSignUpSchema(
     showNameField?: boolean
     showConfirmPassword?: boolean
     showAcceptTermsAndConditions?: boolean
-  }
+  },
+  messages?: AuthValidationMessages
 ): StandardSchemaV1<SignUpFormData> & {
   safeParse: (value: unknown) => SafeParseResult<SignUpFormData>
 } {
-  const passwordSchema = createPasswordSchema(passwordRules)
+  const m = messages ?? defaultAuthMessages
+  const passwordSchema = createPasswordSchema(passwordRules, messages)
   const showNameField = options?.showNameField !== false
   const showConfirmPassword = options?.showConfirmPassword !== false
   const showAcceptTermsAndConditions =
@@ -180,19 +228,25 @@ export function createSignUpSchema(
   // Create base schema with proper types
   const baseSchema = {
     name: showNameField
-      ? string().min(1, 'Name is required').optional()
+      ? string()
+          .min(1, m.nameRequired ?? defaultAuthMessages.nameRequired)
+          .optional()
       : string().optional(),
-    email: emailSchema,
+    email: createEmailSchema(messages),
     password: passwordSchema,
     // Always require confirmPassword as string to match SignUpData interface
     // When not shown, it should accept any value (including empty string)
     confirmPassword: showConfirmPassword
-      ? string().min(1, 'Please confirm your password')
+      ? string().min(
+          1,
+          m.confirmPasswordRequired ??
+            defaultAuthMessages.confirmPasswordRequired
+        )
       : string(), // Accept any string value when not shown
     acceptTerms: showAcceptTermsAndConditions
       ? boolean().refine(
           (val: boolean) => val === true,
-          'You must accept the terms and conditions'
+          m.acceptTermsRequired ?? defaultAuthMessages.acceptTermsRequired
         )
       : boolean().default(true), // Default to true when not shown
   }
@@ -206,7 +260,8 @@ export function createSignUpSchema(
         data =>
           data.password === data.confirmPassword
             ? null
-            : "Passwords don't match",
+            : (m.passwordsDoNotMatch ??
+              defaultAuthMessages.passwordsDoNotMatch),
         { path: ['confirmPassword'] }
       )
       .schema()
@@ -274,12 +329,20 @@ export const authSchemas = {
  * validateEmail('invalid')       // 'Please enter a valid email address'
  * ```
  */
-export function validateEmail(email: string): string | null {
-  const result = emailSchema.validate(email)
+export function validateEmail(
+  email: string,
+  messages?: AuthValidationMessages
+): string | null {
+  const m = messages ?? defaultAuthMessages
+  const schema = messages ? createEmailSchema(messages) : emailSchema
+  const result = schema.validate(email)
   if (result.success) {
     return null
   } else {
-    return result.errors[0]?.message || 'Invalid email'
+    return (
+      result.errors[0]?.message ||
+      (m.invalidEmailAddress ?? defaultAuthMessages.invalidEmailAddress)
+    )
   }
 }
 
@@ -298,14 +361,19 @@ export function validateEmail(email: string): string | null {
  */
 export function validatePassword(
   password: string,
-  rules: PasswordRules = defaultPasswordRules
+  rules: PasswordRules = defaultPasswordRules,
+  messages?: AuthValidationMessages
 ): string | null {
-  const schema = createPasswordSchema(rules)
+  const m = messages ?? defaultAuthMessages
+  const schema = createPasswordSchema(rules, messages)
   const result = schema.validate(password)
   if (result.success) {
     return null
   } else {
-    return result.errors[0]?.message || 'Invalid password'
+    return (
+      result.errors[0]?.message ||
+      (m.invalidPassword ?? defaultAuthMessages.invalidPassword)
+    )
   }
 }
 

@@ -94,6 +94,81 @@ const ur: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'صفحہ بندی',
+  firstPage: 'پہلا صفحہ',
+  previousPage: 'پچھلا صفحہ',
+  nextPage: 'اگلا صفحہ',
+  lastPage: 'آخری صفحہ',
+  // Breadcrumbs
+  breadcrumbs: 'بریڈ کرمبز',
+  // Command palette
+  commandPalette: 'کمانڈ پیلیٹ',
+  typeACommand: 'کمانڈ ٹائپ کریں...',
+  noResultsFound: 'کوئی نتیجہ نہیں ملا',
+  noMatchingCommands: 'کوئی مماثل کمانڈ نہیں ملی',
+  // Appearance
+  appearanceSystem: 'سسٹم',
+  appearanceLight: 'ہلکا',
+  appearanceDark: 'گہرا',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF پیش نظارہ',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'فونٹ فیملی',
+    fontSize: 'فونٹ سائز',
+    fontColor: 'فونٹ رنگ',
+    highlightColor: 'ہائی لائٹ رنگ',
+    backgroundColor: 'پس منظر رنگ',
+    bold: 'بولڈ',
+    italic: 'ترچھا',
+    underline: 'خط کشیدہ',
+    strikethrough: 'کٹا ہوا',
+    code: 'کوڈ',
+    clearFormatting: 'فارمیٹنگ صاف کریں',
+    normal: 'عام',
+    heading: (level: number) => `سرخی ${level}`,
+    bulletList: 'بلٹ فہرست',
+    orderedList: 'نمبر شدہ فہرست',
+    checkList: 'چیک فہرست',
+    indent: 'اندر کریں',
+    outdent: 'باہر کریں',
+    blockquote: 'اقتباس',
+    codeBlock: 'کوڈ بلاک',
+    horizontalRule: 'افقی لکیر',
+    insertTable: 'ٹیبل داخل کریں',
+    link: 'لنک',
+    undo: 'واپس',
+    redo: 'دوبارہ',
+    cut: 'کاٹیں',
+    copy: 'نقل',
+    paste: 'چسپاں',
+    defaultOption: 'پہلے سے طے شدہ',
+    slashCommands: 'سلیش کمانڈز',
+    noCommandsFound: 'کوئی کمانڈ نہیں ملی',
+    changeBlockType: 'بلاک کی قسم تبدیل کریں',
+    blockTypes: 'بلاک کی اقسام',
+    enterUrl: 'URL درج کریں:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

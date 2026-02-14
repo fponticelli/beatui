@@ -94,6 +94,81 @@ export const nl: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Paginering',
+  firstPage: 'Eerste pagina',
+  previousPage: 'Vorige pagina',
+  nextPage: 'Volgende pagina',
+  lastPage: 'Laatste pagina',
+  // Breadcrumbs
+  breadcrumbs: 'Kruimelpad',
+  // Command palette
+  commandPalette: 'Opdrachtenpalet',
+  typeACommand: 'Typ een opdracht...',
+  noResultsFound: 'Geen resultaten gevonden',
+  noMatchingCommands: 'Geen overeenkomende opdrachten',
+  // Appearance
+  appearanceSystem: 'Systeem',
+  appearanceLight: 'Licht',
+  appearanceDark: 'Donker',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF-voorbeeld',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Lettertype',
+    fontSize: 'Lettergrootte',
+    fontColor: 'Letterkleur',
+    highlightColor: 'Markeringskleur',
+    backgroundColor: 'Achtergrondkleur',
+    bold: 'Vet',
+    italic: 'Cursief',
+    underline: 'Onderstrepen',
+    strikethrough: 'Doorhalen',
+    code: 'Code',
+    clearFormatting: 'Opmaak wissen',
+    normal: 'Normaal',
+    heading: (level: number) => `Kop ${level}`,
+    bulletList: 'Opsommingstekens',
+    orderedList: 'Genummerde lijst',
+    checkList: 'Controlelijst',
+    indent: 'Inspringen',
+    outdent: 'Uitspringen',
+    blockquote: 'Citaat',
+    codeBlock: 'Codeblok',
+    horizontalRule: 'Horizontale lijn',
+    insertTable: 'Tabel invoegen',
+    link: 'Link',
+    undo: 'Ongedaan maken',
+    redo: 'Opnieuw',
+    cut: 'Knippen',
+    copy: 'Kopiëren',
+    paste: 'Plakken',
+    defaultOption: 'Standaard',
+    slashCommands: 'Schuine-streepopdrachten',
+    noCommandsFound: 'Geen opdrachten gevonden',
+    changeBlockType: 'Bloktype wijzigen',
+    blockTypes: 'Bloktypen',
+    enterUrl: 'Voer URL in:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

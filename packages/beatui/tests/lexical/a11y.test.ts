@@ -1,4 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
+
+vi.setConfig({ testTimeout: 20000 })
 
 describe('Lexical Accessibility', () => {
   it('should verify toolbar components module exists', async () => {

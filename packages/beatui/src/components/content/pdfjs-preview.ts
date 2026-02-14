@@ -1,4 +1,5 @@
-import { Value, html, attr, OnDispose, computedOf } from '@tempots/dom'
+import { Value, html, attr, OnDispose, Use, computedOf } from '@tempots/dom'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export interface PDFJSPreviewOptions {
   /** PDF content as Blob, Uint8Array, ArrayBuffer, or URL string */
@@ -166,22 +167,24 @@ export function PDFJSPreview({
     }
   })
 
-  return html.div(
-    OnDispose(() => {
-      const url = fileUrl.value
-      if (url == null) return
-      if (url.startsWith('blob:')) {
-        URL.revokeObjectURL(url)
-      }
-    }),
-    attr.class('bc-pdfjs-preview h-full w-full'),
-    attr.class(customClass),
-    html.iframe(
-      attr.class('h-full w-full'),
-      attr.allowfullscreen(allowfullscreen),
-      attr.title('PDF Preview'),
-      attr.loading('lazy'),
-      attr.src(viewerUrlWithParams)
+  return Use(BeatUII18n, t =>
+    html.div(
+      OnDispose(() => {
+        const url = fileUrl.value
+        if (url == null) return
+        if (url.startsWith('blob:')) {
+          URL.revokeObjectURL(url)
+        }
+      }),
+      attr.class('bc-pdfjs-preview h-full w-full'),
+      attr.class(customClass),
+      html.iframe(
+        attr.class('h-full w-full'),
+        attr.allowfullscreen(allowfullscreen),
+        attr.title(t.$.pdfPreview),
+        attr.loading('lazy'),
+        attr.src(viewerUrlWithParams)
+      )
     )
   )
 }

@@ -94,6 +94,81 @@ const hi: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'पृष्ठांकन',
+  firstPage: 'पहला पृष्ठ',
+  previousPage: 'पिछला पृष्ठ',
+  nextPage: 'अगला पृष्ठ',
+  lastPage: 'अंतिम पृष्ठ',
+  // Breadcrumbs
+  breadcrumbs: 'ब्रेडक्रम्ब',
+  // Command palette
+  commandPalette: 'कमांड पैलेट',
+  typeACommand: 'कमांड टाइप करें...',
+  noResultsFound: 'कोई परिणाम नहीं मिला',
+  noMatchingCommands: 'कोई मेल खाने वाला कमांड नहीं',
+  // Appearance
+  appearanceSystem: 'सिस्टम',
+  appearanceLight: 'लाइट',
+  appearanceDark: 'डार्क',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF पूर्वावलोकन',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'फ़ॉन्ट परिवार',
+    fontSize: 'फ़ॉन्ट आकार',
+    fontColor: 'फ़ॉन्ट रंग',
+    highlightColor: 'हाइलाइट रंग',
+    backgroundColor: 'पृष्ठभूमि रंग',
+    bold: 'बोल्ड',
+    italic: 'इटैलिक',
+    underline: 'रेखांकित',
+    strikethrough: 'स्ट्राइकथ्रू',
+    code: 'कोड',
+    clearFormatting: 'फ़ॉर्मेटिंग साफ़ करें',
+    normal: 'सामान्य',
+    heading: (level: number) => `शीर्षक ${level}`,
+    bulletList: 'बुलेट सूची',
+    orderedList: 'क्रमांकित सूची',
+    checkList: 'चेक सूची',
+    indent: 'इंडेंट',
+    outdent: 'आउटडेंट',
+    blockquote: 'उद्धरण',
+    codeBlock: 'कोड ब्लॉक',
+    horizontalRule: 'क्षैतिज रेखा',
+    insertTable: 'तालिका डालें',
+    link: 'लिंक',
+    undo: 'पूर्ववत करें',
+    redo: 'फिर से करें',
+    cut: 'काटें',
+    copy: 'कॉपी करें',
+    paste: 'चिपकाएं',
+    defaultOption: 'डिफ़ॉल्ट',
+    slashCommands: 'स्लैश कमांड',
+    noCommandsFound: 'कोई कमांड नहीं मिला',
+    changeBlockType: 'ब्लॉक प्रकार बदलें',
+    blockTypes: 'ब्लॉक प्रकार',
+    enterUrl: 'URL दर्ज करें:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

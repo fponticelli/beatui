@@ -6,11 +6,13 @@ import {
   html,
   on,
   TNode,
+  Use,
   Value,
   When,
 } from '@tempots/dom'
 import { ControlSize } from '../theme/types'
 import { Icon } from '../data/icon'
+import { BeatUII18n } from '../../beatui-i18n'
 
 /**
  * Represents a single item in the breadcrumb navigation trail.
@@ -156,105 +158,108 @@ export function Breadcrumbs({
     return items
   })
 
-  return html.nav(
-    attr.class(Value.map(size, s => generateBreadcrumbsClasses(s ?? 'md'))),
-    aria.label('Breadcrumbs'),
-    html.ol(
-      attr.class('bc-breadcrumbs__list'),
-      ForEach(
-        displayItems,
-        itemSignal => {
-          const isEllipsis = itemSignal.map(
-            item => 'isEllipsis' in item && item.isEllipsis === true
-          )
-          const isCurrent = itemSignal.map(
-            item => !('isEllipsis' in item) && item.current === true
-          )
+  return Use(BeatUII18n, t =>
+    html.nav(
+      attr.class(Value.map(size, s => generateBreadcrumbsClasses(s ?? 'md'))),
+      aria.label(t.$.breadcrumbs),
+      html.ol(
+        attr.class('bc-breadcrumbs__list'),
+        ForEach(
+          displayItems,
+          itemSignal => {
+            const isEllipsis = itemSignal.map(
+              item => 'isEllipsis' in item && item.isEllipsis === true
+            )
+            const isCurrent = itemSignal.map(
+              item => !('isEllipsis' in item) && item.current === true
+            )
 
-          return When(
-            isEllipsis,
-            () =>
-              html.li(
-                attr.class('bc-breadcrumbs__item bc-breadcrumbs__ellipsis'),
-                aria.hidden(true),
-                '...'
-              ),
-            () => {
-              const hasHref = itemSignal.map(
-                i => !('isEllipsis' in i) && i.href != null
-              )
-              const hasOnClick = itemSignal.map(
-                i => !('isEllipsis' in i) && i.href == null && i.onClick != null
-              )
-              const hasIcon = itemSignal.map(
-                i => !('isEllipsis' in i) && i.icon != null
-              )
-
-              const iconAndLabel = (cls: string) => [
-                attr.class(cls),
-                When(hasIcon, () =>
-                  Icon({
-                    icon: itemSignal.map(i =>
-                      'isEllipsis' in i ? '' : (i.icon ?? '')
-                    ),
-                    size,
-                    accessibility: 'decorative',
-                  })
+            return When(
+              isEllipsis,
+              () =>
+                html.li(
+                  attr.class('bc-breadcrumbs__item bc-breadcrumbs__ellipsis'),
+                  aria.hidden(true),
+                  '...'
                 ),
-                html.span(
-                  itemSignal.map(i => ('isEllipsis' in i ? '' : i.label))
-                ),
-              ]
-
-              return html.li(
-                attr.class(
-                  Value.map(isCurrent, current =>
-                    current
-                      ? 'bc-breadcrumbs__item bc-breadcrumbs__item--current'
-                      : 'bc-breadcrumbs__item'
-                  )
-                ),
-                When(isCurrent, () => aria.current('page')),
-                // Render as link, button, or span based on item properties
-                When(
-                  hasHref,
-                  () =>
-                    html.a(
-                      attr.href(
-                        itemSignal.map(i =>
-                          'isEllipsis' in i ? '' : (i.href ?? '')
-                        )
-                      ),
-                      ...iconAndLabel('bc-breadcrumbs__link')
-                    ),
-                  () =>
-                    When(
-                      hasOnClick,
-                      () =>
-                        html.button(
-                          attr.type('button'),
-                          on.click(() => {
-                            const item = Value.get(itemSignal)
-                            if (!('isEllipsis' in item)) {
-                              item.onClick?.()
-                            }
-                          }),
-                          ...iconAndLabel('bc-breadcrumbs__button')
-                        ),
-                      () => html.span(...iconAndLabel('bc-breadcrumbs__text'))
-                    )
+              () => {
+                const hasHref = itemSignal.map(
+                  i => !('isEllipsis' in i) && i.href != null
                 )
-              )
-            }
-          )
-        },
-        // Native separator between items
-        () =>
-          html.li(
-            attr.class('bc-breadcrumbs__separator'),
-            aria.hidden(true),
-            separator
-          )
+                const hasOnClick = itemSignal.map(
+                  i =>
+                    !('isEllipsis' in i) && i.href == null && i.onClick != null
+                )
+                const hasIcon = itemSignal.map(
+                  i => !('isEllipsis' in i) && i.icon != null
+                )
+
+                const iconAndLabel = (cls: string) => [
+                  attr.class(cls),
+                  When(hasIcon, () =>
+                    Icon({
+                      icon: itemSignal.map(i =>
+                        'isEllipsis' in i ? '' : (i.icon ?? '')
+                      ),
+                      size,
+                      accessibility: 'decorative',
+                    })
+                  ),
+                  html.span(
+                    itemSignal.map(i => ('isEllipsis' in i ? '' : i.label))
+                  ),
+                ]
+
+                return html.li(
+                  attr.class(
+                    Value.map(isCurrent, current =>
+                      current
+                        ? 'bc-breadcrumbs__item bc-breadcrumbs__item--current'
+                        : 'bc-breadcrumbs__item'
+                    )
+                  ),
+                  When(isCurrent, () => aria.current('page')),
+                  // Render as link, button, or span based on item properties
+                  When(
+                    hasHref,
+                    () =>
+                      html.a(
+                        attr.href(
+                          itemSignal.map(i =>
+                            'isEllipsis' in i ? '' : (i.href ?? '')
+                          )
+                        ),
+                        ...iconAndLabel('bc-breadcrumbs__link')
+                      ),
+                    () =>
+                      When(
+                        hasOnClick,
+                        () =>
+                          html.button(
+                            attr.type('button'),
+                            on.click(() => {
+                              const item = Value.get(itemSignal)
+                              if (!('isEllipsis' in item)) {
+                                item.onClick?.()
+                              }
+                            }),
+                            ...iconAndLabel('bc-breadcrumbs__button')
+                          ),
+                        () => html.span(...iconAndLabel('bc-breadcrumbs__text'))
+                      )
+                  )
+                )
+              }
+            )
+          },
+          // Native separator between items
+          () =>
+            html.li(
+              attr.class('bc-breadcrumbs__separator'),
+              aria.hidden(true),
+              separator
+            )
+        )
       )
     )
   )

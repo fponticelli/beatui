@@ -94,6 +94,81 @@ const fa: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'صفحه‌بندی',
+  firstPage: 'صفحه اول',
+  previousPage: 'صفحه قبلی',
+  nextPage: 'صفحه بعدی',
+  lastPage: 'صفحه آخر',
+  // Breadcrumbs
+  breadcrumbs: 'مسیر ناوبری',
+  // Command palette
+  commandPalette: 'پالت فرمان',
+  typeACommand: 'یک فرمان تایپ کنید...',
+  noResultsFound: 'نتیجه‌ای یافت نشد',
+  noMatchingCommands: 'فرمان منطبقی یافت نشد',
+  // Appearance
+  appearanceSystem: 'سیستم',
+  appearanceLight: 'روشن',
+  appearanceDark: 'تاریک',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'پیش‌نمایش PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'خانواده فونت',
+    fontSize: 'اندازه فونت',
+    fontColor: 'رنگ فونت',
+    highlightColor: 'رنگ هایلایت',
+    backgroundColor: 'رنگ پس‌زمینه',
+    bold: 'درشت',
+    italic: 'کج',
+    underline: 'زیرخط',
+    strikethrough: 'خط‌خورده',
+    code: 'کد',
+    clearFormatting: 'پاک کردن قالب‌بندی',
+    normal: 'عادی',
+    heading: (level: number) => `سرتیتر ${level}`,
+    bulletList: 'فهرست نقطه‌ای',
+    orderedList: 'فهرست شماره‌دار',
+    checkList: 'فهرست چک‌باکس',
+    indent: 'تورفتگی',
+    outdent: 'کاهش تورفتگی',
+    blockquote: 'نقل‌قول',
+    codeBlock: 'بلوک کد',
+    horizontalRule: 'خط افقی',
+    insertTable: 'درج جدول',
+    link: 'پیوند',
+    undo: 'واگرد',
+    redo: 'ازنو',
+    cut: 'برش',
+    copy: 'کپی',
+    paste: 'چسباندن',
+    defaultOption: 'پیش‌فرض',
+    slashCommands: 'فرمان‌های اسلش',
+    noCommandsFound: 'فرمانی یافت نشد',
+    changeBlockType: 'تغییر نوع بلوک',
+    blockTypes: 'انواع بلوک',
+    enterUrl: 'آدرس URL را وارد کنید:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

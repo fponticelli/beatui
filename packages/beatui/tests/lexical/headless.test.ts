@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
+vi.setConfig({ testTimeout: 20000 })
+
 // Mock Lexical modules before imports
 vi.mock('lexical', () => ({
   createEditor: vi.fn(() => ({

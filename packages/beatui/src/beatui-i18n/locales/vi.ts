@@ -94,6 +94,81 @@ const vi: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Phân trang',
+  firstPage: 'Trang đầu',
+  previousPage: 'Trang trước',
+  nextPage: 'Trang tiếp',
+  lastPage: 'Trang cuối',
+  // Breadcrumbs
+  breadcrumbs: 'Thanh điều hướng',
+  // Command palette
+  commandPalette: 'Bảng lệnh',
+  typeACommand: 'Nhập lệnh...',
+  noResultsFound: 'Không tìm thấy kết quả',
+  noMatchingCommands: 'Không có lệnh phù hợp',
+  // Appearance
+  appearanceSystem: 'Hệ thống',
+  appearanceLight: 'Sáng',
+  appearanceDark: 'Tối',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'Xem trước PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Phông chữ',
+    fontSize: 'Cỡ chữ',
+    fontColor: 'Màu chữ',
+    highlightColor: 'Màu đánh dấu',
+    backgroundColor: 'Màu nền',
+    bold: 'Đậm',
+    italic: 'Nghiêng',
+    underline: 'Gạch chân',
+    strikethrough: 'Gạch ngang',
+    code: 'Mã',
+    clearFormatting: 'Xóa định dạng',
+    normal: 'Bình thường',
+    heading: (level: number) => `Tiêu đề ${level}`,
+    bulletList: 'Danh sách dấu đầu dòng',
+    orderedList: 'Danh sách đánh số',
+    checkList: 'Danh sách kiểm tra',
+    indent: 'Thụt lề',
+    outdent: 'Giảm thụt lề',
+    blockquote: 'Trích dẫn',
+    codeBlock: 'Khối mã',
+    horizontalRule: 'Đường kẻ ngang',
+    insertTable: 'Chèn bảng',
+    link: 'Liên kết',
+    undo: 'Hoàn tác',
+    redo: 'Làm lại',
+    cut: 'Cắt',
+    copy: 'Sao chép',
+    paste: 'Dán',
+    defaultOption: 'Mặc định',
+    slashCommands: 'Lệnh gạch chéo',
+    noCommandsFound: 'Không tìm thấy lệnh',
+    changeBlockType: 'Đổi loại khối',
+    blockTypes: 'Loại khối',
+    enterUrl: 'Nhập URL:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

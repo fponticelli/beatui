@@ -2,6 +2,7 @@ import { AppearancePreference, Theme } from '../../theme'
 import { attr, html, TNode, Use, Value } from '@tempots/dom'
 import { Icon } from '../../data'
 import { SegmentedInput } from './segmented-input'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 /**
  * Options for the {@link AppearanceSelector} component.
@@ -40,30 +41,32 @@ export function AppearanceSelector({
   onChange,
   disabled,
 }: AppearanceSelectorOptions) {
-  return SegmentedInput<Record<AppearancePreference, TNode>>({
-    size: 'sm',
-    variant: 'squared',
-    value,
-    disabled,
-    options: {
-      system: html.span(
-        attr.title('System'),
-        Icon({ icon: 'line-md:laptop', color: 'gray' })
-      ),
-      light: html.span(
-        attr.title('Light'),
-        Icon({ icon: 'line-md:sunny-twotone-loop', color: 'yellow' })
-      ),
-      dark: html.span(
-        attr.title('Dark'),
-        Icon({
-          icon: 'line-md:sunny-outline-to-moon-alt-loop-transition',
-          color: 'blue',
-        })
-      ),
-    },
-    onChange,
-  })
+  return Use(BeatUII18n, t =>
+    SegmentedInput<Record<AppearancePreference, TNode>>({
+      size: 'sm',
+      variant: 'squared',
+      value,
+      disabled,
+      options: {
+        system: html.span(
+          attr.title(t.$.appearanceSystem),
+          Icon({ icon: 'line-md:laptop', color: 'gray' })
+        ),
+        light: html.span(
+          attr.title(t.$.appearanceLight),
+          Icon({ icon: 'line-md:sunny-twotone-loop', color: 'yellow' })
+        ),
+        dark: html.span(
+          attr.title(t.$.appearanceDark),
+          Icon({
+            icon: 'line-md:sunny-outline-to-moon-alt-loop-transition',
+            color: 'blue',
+          })
+        ),
+      },
+      onChange,
+    })
+  )
 }
 
 /**

@@ -10,11 +10,13 @@ import {
   Ensure,
   ForEach,
   WithElement,
+  Use,
 } from '@tempots/dom'
 import { type Controller } from '../../form'
 import { Button } from '../../button'
 import { Icon } from '../../data'
 import { Stack } from '../../layout'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 /**
  * File upload widget configuration
@@ -119,105 +121,110 @@ export function FileUploadWidget({
     }
   }
 
-  return html.div(
-    attr.class('bc-file-upload'),
-    attr.class(
-      computedOf(isDragging)((dragging): string =>
-        dragging ? 'bc-file-upload--dragging' : ''
-      )
-    ),
-
-    // Hidden file input
-    html.input(
-      attr.type('file'),
-      attr.accept(acceptString),
-      attr.multiple(isMultiple),
-      attr.class('bc-file-upload__input'),
-      on.change(e => {
-        const input = e.target as HTMLInputElement
-        handleFileSelect(input.files)
-      })
-    ),
-
-    // Drop zone
+  return Use(BeatUII18n, t =>
     html.div(
-      attr.class('bc-file-upload__dropzone'),
-      on.dragover(e => {
-        e.preventDefault()
-        isDragging.set(true)
-      }),
-      on.dragleave(() => isDragging.set(false)),
-      on.drop(e => {
-        e.preventDefault()
-        isDragging.set(false)
-        handleFileSelect(e.dataTransfer?.files || null)
-      }),
-      on.click(e => {
-        const input = (e.currentTarget as HTMLElement).querySelector(
-          'input[type="file"]'
-        ) as HTMLInputElement
-        input?.click()
-      }),
-
-      Stack(
-        attr.class('bc-group--gap-2 bc-group--align-center'),
-        Icon({ icon: 'upload', size: 'lg' }),
-        html.div(
-          attr.class('bc-file-upload__text'),
-          computedOf(isUploading)((uploading): string =>
-            uploading ? 'Uploading...' : 'Drop files here or click to browse'
-          )
-        ),
-        config.accept &&
-          html.div(
-            attr.class('bc-file-upload__hint'),
-            `Accepted types: ${config.accept.join(', ')}`
-          )
-      )
-    ),
-
-    // Upload progress
-    When(isUploading, () =>
-      html.div(
-        attr.class('bc-file-upload__progress'),
-        html.div(
-          attr.class('bc-file-upload__progress-bar'),
-          style.width(computedOf(uploadProgress)(progress => `${progress}%`))
+      attr.class('bc-file-upload'),
+      attr.class(
+        computedOf(isDragging)((dragging): string =>
+          dragging ? 'bc-file-upload--dragging' : ''
         )
-      )
-    ),
+      ),
 
-    // File preview/list
-    Ensure(controller.signal, value => {
-      return html.div(
-        attr.class('bc-file-upload__files'),
-        ForEach(
-          value.map(v => (Array.isArray(v) ? v : [v])),
-          fileName =>
+      // Hidden file input
+      html.input(
+        attr.type('file'),
+        attr.accept(acceptString),
+        attr.multiple(isMultiple),
+        attr.class('bc-file-upload__input'),
+        on.change(e => {
+          const input = e.target as HTMLInputElement
+          handleFileSelect(input.files)
+        })
+      ),
+
+      // Drop zone
+      html.div(
+        attr.class('bc-file-upload__dropzone'),
+        on.dragover(e => {
+          e.preventDefault()
+          isDragging.set(true)
+        }),
+        on.dragleave(() => isDragging.set(false)),
+        on.drop(e => {
+          e.preventDefault()
+          isDragging.set(false)
+          handleFileSelect(e.dataTransfer?.files || null)
+        }),
+        on.click(e => {
+          const input = (e.currentTarget as HTMLElement).querySelector(
+            'input[type="file"]'
+          ) as HTMLInputElement
+          input?.click()
+        }),
+
+        Stack(
+          attr.class('bc-group--gap-2 bc-group--align-center'),
+          Icon({ icon: 'upload', size: 'lg' }),
+          html.div(
+            attr.class('bc-file-upload__text'),
+            computedOf(
+              isUploading,
+              t.$
+            )((uploading, msgs): string =>
+              uploading ? msgs.uploading : msgs.dropFilesOrBrowse
+            )
+          ),
+          config.accept &&
             html.div(
-              attr.class('bc-file-upload__file'),
-              Icon({ icon: 'file', size: 'sm' }),
-              html.span(fileName),
-              Button(
-                {
-                  variant: 'text',
-                  size: 'sm',
-                  onClick: () => {
-                    const value = controller.signal.value
-                    if (Array.isArray(value)) {
-                      const newFiles = value.filter(f => f !== fileName.value)
-                      controller.change(newFiles.length > 0 ? newFiles : null)
-                    } else {
-                      controller.change(null)
-                    }
-                  },
-                },
-                Icon({ icon: 'x', size: 'xs' })
-              )
+              attr.class('bc-file-upload__hint'),
+              t.$.map(msgs => msgs.acceptedTypes(config.accept!.join(', ')))
             )
         )
-      )
-    })
+      ),
+
+      // Upload progress
+      When(isUploading, () =>
+        html.div(
+          attr.class('bc-file-upload__progress'),
+          html.div(
+            attr.class('bc-file-upload__progress-bar'),
+            style.width(computedOf(uploadProgress)(progress => `${progress}%`))
+          )
+        )
+      ),
+
+      // File preview/list
+      Ensure(controller.signal, value => {
+        return html.div(
+          attr.class('bc-file-upload__files'),
+          ForEach(
+            value.map(v => (Array.isArray(v) ? v : [v])),
+            fileName =>
+              html.div(
+                attr.class('bc-file-upload__file'),
+                Icon({ icon: 'file', size: 'sm' }),
+                html.span(fileName),
+                Button(
+                  {
+                    variant: 'text',
+                    size: 'sm',
+                    onClick: () => {
+                      const value = controller.signal.value
+                      if (Array.isArray(value)) {
+                        const newFiles = value.filter(f => f !== fileName.value)
+                        controller.change(newFiles.length > 0 ? newFiles : null)
+                      } else {
+                        controller.change(null)
+                      }
+                    },
+                  },
+                  Icon({ icon: 'x', size: 'xs' })
+                )
+              )
+          )
+        )
+      })
+    )
   )
 }
 
@@ -241,83 +248,85 @@ export function RichTextWidget({
     editorRef.value?.focus()
   }
 
-  return html.div(
-    attr.class('bc-rich-text'),
-
-    // Toolbar
+  return Use(BeatUII18n, t =>
     html.div(
-      attr.class('bc-rich-text__toolbar'),
-      ...toolbar.map(tool => {
-        const toolConfig = {
-          bold: { icon: 'bold', command: 'bold' },
-          italic: { icon: 'italic', command: 'italic' },
-          underline: { icon: 'underline', command: 'underline' },
-          link: { icon: 'link', command: 'createLink' },
-          list: { icon: 'list', command: 'insertUnorderedList' },
-          heading: { icon: 'heading', command: 'formatBlock' },
-        }[tool]
+      attr.class('bc-rich-text'),
 
-        if (!toolConfig) return null
+      // Toolbar
+      html.div(
+        attr.class('bc-rich-text__toolbar'),
+        ...toolbar.map(tool => {
+          const toolConfig = {
+            bold: { icon: 'bold', command: 'bold' },
+            italic: { icon: 'italic', command: 'italic' },
+            underline: { icon: 'underline', command: 'underline' },
+            link: { icon: 'link', command: 'createLink' },
+            list: { icon: 'list', command: 'insertUnorderedList' },
+            heading: { icon: 'heading', command: 'formatBlock' },
+          }[tool]
 
-        return Button(
-          {
-            variant: 'text',
-            size: 'sm',
-            onClick: () => {
-              if (tool === 'link') {
-                const url = prompt('Enter URL:')
-                if (url) execCommand(toolConfig.command, url)
-              } else if (tool === 'heading') {
-                execCommand(toolConfig.command, '<h3>')
-              } else {
-                execCommand(toolConfig.command)
-              }
+          if (!toolConfig) return null
+
+          return Button(
+            {
+              variant: 'text',
+              size: 'sm',
+              onClick: () => {
+                if (tool === 'link') {
+                  const url = prompt(t.value.enterUrlPrompt)
+                  if (url) execCommand(toolConfig.command, url)
+                } else if (tool === 'heading') {
+                  execCommand(toolConfig.command, '<h3>')
+                } else {
+                  execCommand(toolConfig.command)
+                }
+              },
             },
-          },
-          Icon({ icon: toolConfig.icon, size: 'sm' })
-        )
-      })
-    ),
-
-    // Editor
-    html.div(
-      attr.class('bc-rich-text__editor'),
-      attr.class(
-        computedOf(isFocused)((focused): string =>
-          focused ? 'bc-rich-text__editor--focused' : ''
-        )
+            Icon({ icon: toolConfig.icon, size: 'sm' })
+          )
+        })
       ),
-      attr.contenteditable('true'),
-      attr.innerHTML(controller.signal.map(v => v || '')),
-      config.placeholder && attr.placeholder(config.placeholder),
 
-      on.focus(() => isFocused.set(true)),
-      on.blur(() => isFocused.set(false)),
-      on.input(e => {
-        const target = e.target as HTMLDivElement
-        const content =
-          config.format === 'text' ? target.textContent : target.innerHTML
-        controller.change(content || null)
-      }),
+      // Editor
+      html.div(
+        attr.class('bc-rich-text__editor'),
+        attr.class(
+          computedOf(isFocused)((focused): string =>
+            focused ? 'bc-rich-text__editor--focused' : ''
+          )
+        ),
+        attr.contenteditable('true'),
+        attr.innerHTML(controller.signal.map(v => v || '')),
+        config.placeholder && attr.placeholder(config.placeholder),
 
-      // Store reference
-      WithElement((element: HTMLDivElement) => {
-        editorRef.set(element)
-        return null
-      })
-    ),
+        on.focus(() => isFocused.set(true)),
+        on.blur(() => isFocused.set(false)),
+        on.input(e => {
+          const target = e.target as HTMLDivElement
+          const content =
+            config.format === 'text' ? target.textContent : target.innerHTML
+          controller.change(content || null)
+        }),
 
-    // Character count
-    config.maxLength != null
-      ? html.div(
-          attr.class('bc-rich-text__counter'),
-          computedOf(controller.signal)((value): string => {
-            const length = value?.length || 0
-            const remaining = config.maxLength! - length
-            return `${length}/${config.maxLength} ${remaining < 0 ? '(exceeded)' : ''}`
-          })
-        )
-      : null
+        // Store reference
+        WithElement((element: HTMLDivElement) => {
+          editorRef.set(element)
+          return null
+        })
+      ),
+
+      // Character count
+      config.maxLength != null
+        ? html.div(
+            attr.class('bc-rich-text__counter'),
+            computedOf(controller.signal, t.$)((value, msgs): string => {
+              const length = value?.length || 0
+              const remaining = config.maxLength! - length
+              return `${length}/${config.maxLength} ${remaining < 0 ? msgs.exceeded : ''}`
+            })
+          )
+        : null
+    )
   )
 }
 

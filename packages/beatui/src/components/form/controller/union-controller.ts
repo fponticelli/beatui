@@ -6,6 +6,7 @@ import {
   ControllerValidation,
 } from './controller-validation'
 import { strictEqual } from '@tempots/std'
+import { defaultMessages } from '../../../beatui-i18n'
 
 /**
  * Defines a single branch (variant) within a union type for use with {@link UnionController}.
@@ -293,7 +294,7 @@ export class UnionController<T> extends Controller<T> {
     if (confirmChange) {
       if (typeof window === 'object' && typeof window.confirm === 'function') {
         const ok = window.confirm(
-          'Changing type will clear the current value. Continue?'
+          defaultMessages.changeTypeConfirmation
         )
         if (!ok) return false
       }

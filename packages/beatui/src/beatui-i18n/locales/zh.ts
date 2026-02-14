@@ -94,6 +94,81 @@ const zh: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: '分页',
+  firstPage: '第一页',
+  previousPage: '上一页',
+  nextPage: '下一页',
+  lastPage: '最后一页',
+  // Breadcrumbs
+  breadcrumbs: '面包屑导航',
+  // Command palette
+  commandPalette: '命令面板',
+  typeACommand: '输入命令...',
+  noResultsFound: '未找到结果',
+  noMatchingCommands: '没有匹配的命令',
+  // Appearance
+  appearanceSystem: '跟随系统',
+  appearanceLight: '浅色',
+  appearanceDark: '深色',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF 预览',
+  // Lexical editor
+  lexical: {
+    fontFamily: '字体',
+    fontSize: '字号',
+    fontColor: '字体颜色',
+    highlightColor: '高亮颜色',
+    backgroundColor: '背景颜色',
+    bold: '粗体',
+    italic: '斜体',
+    underline: '下划线',
+    strikethrough: '删除线',
+    code: '代码',
+    clearFormatting: '清除格式',
+    normal: '正文',
+    heading: (level: number) => `标题 ${level}`,
+    bulletList: '无序列表',
+    orderedList: '有序列表',
+    checkList: '任务列表',
+    indent: '增加缩进',
+    outdent: '减少缩进',
+    blockquote: '引用',
+    codeBlock: '代码块',
+    horizontalRule: '水平分割线',
+    insertTable: '插入表格',
+    link: '链接',
+    undo: '撤销',
+    redo: '重做',
+    cut: '剪切',
+    copy: '复制',
+    paste: '粘贴',
+    defaultOption: '默认',
+    slashCommands: '斜杠命令',
+    noCommandsFound: '未找到命令',
+    changeBlockType: '更改块类型',
+    blockTypes: '块类型',
+    enterUrl: '输入网址：',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

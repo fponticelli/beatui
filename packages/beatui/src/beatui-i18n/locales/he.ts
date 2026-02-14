@@ -94,6 +94,81 @@ const he: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'עימוד',
+  firstPage: 'עמוד ראשון',
+  previousPage: 'עמוד קודם',
+  nextPage: 'עמוד הבא',
+  lastPage: 'עמוד אחרון',
+  // Breadcrumbs
+  breadcrumbs: 'שבילי ניווט',
+  // Command palette
+  commandPalette: 'לוח פקודות',
+  typeACommand: 'הקלד פקודה...',
+  noResultsFound: 'לא נמצאו תוצאות',
+  noMatchingCommands: 'לא נמצאו פקודות תואמות',
+  // Appearance
+  appearanceSystem: 'מערכת',
+  appearanceLight: 'בהיר',
+  appearanceDark: 'כהה',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'תצוגה מקדימה של PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'משפחת גופן',
+    fontSize: 'גודל גופן',
+    fontColor: 'צבע גופן',
+    highlightColor: 'צבע הדגשה',
+    backgroundColor: 'צבע רקע',
+    bold: 'מודגש',
+    italic: 'נטוי',
+    underline: 'קו תחתון',
+    strikethrough: 'קו חוצה',
+    code: 'קוד',
+    clearFormatting: 'נקה עיצוב',
+    normal: 'רגיל',
+    heading: (level: number) => `כותרת ${level}`,
+    bulletList: 'רשימת תבליטים',
+    orderedList: 'רשימה ממוספרת',
+    checkList: 'רשימת סימון',
+    indent: 'הגדל כניסה',
+    outdent: 'הקטן כניסה',
+    blockquote: 'ציטוט',
+    codeBlock: 'בלוק קוד',
+    horizontalRule: 'קו אופקי',
+    insertTable: 'הוסף טבלה',
+    link: 'קישור',
+    undo: 'בטל',
+    redo: 'בצע שוב',
+    cut: 'גזור',
+    copy: 'העתק',
+    paste: 'הדבק',
+    defaultOption: 'ברירת מחדל',
+    slashCommands: 'פקודות סלאש',
+    noCommandsFound: 'לא נמצאו פקודות',
+    changeBlockType: 'שנה סוג בלוק',
+    blockTypes: 'סוגי בלוקים',
+    enterUrl: 'הכנס כתובת URL:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

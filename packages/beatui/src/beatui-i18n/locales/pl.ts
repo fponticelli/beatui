@@ -94,6 +94,81 @@ export const pl: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Paginacja',
+  firstPage: 'Pierwsza strona',
+  previousPage: 'Poprzednia strona',
+  nextPage: 'Następna strona',
+  lastPage: 'Ostatnia strona',
+  // Breadcrumbs
+  breadcrumbs: 'Nawigacja okruszkowa',
+  // Command palette
+  commandPalette: 'Paleta poleceń',
+  typeACommand: 'Wpisz polecenie...',
+  noResultsFound: 'Nie znaleziono wyników',
+  noMatchingCommands: 'Brak pasujących poleceń',
+  // Appearance
+  appearanceSystem: 'Systemowy',
+  appearanceLight: 'Jasny',
+  appearanceDark: 'Ciemny',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'Podgląd PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Krój czcionki',
+    fontSize: 'Rozmiar czcionki',
+    fontColor: 'Kolor czcionki',
+    highlightColor: 'Kolor wyróżnienia',
+    backgroundColor: 'Kolor tła',
+    bold: 'Pogrubienie',
+    italic: 'Kursywa',
+    underline: 'Podkreślenie',
+    strikethrough: 'Przekreślenie',
+    code: 'Kod',
+    clearFormatting: 'Wyczyść formatowanie',
+    normal: 'Normalny',
+    heading: (level: number) => `Nagłówek ${level}`,
+    bulletList: 'Lista punktowana',
+    orderedList: 'Lista numerowana',
+    checkList: 'Lista kontrolna',
+    indent: 'Zwiększ wcięcie',
+    outdent: 'Zmniejsz wcięcie',
+    blockquote: 'Cytat blokowy',
+    codeBlock: 'Blok kodu',
+    horizontalRule: 'Linia pozioma',
+    insertTable: 'Wstaw tabelę',
+    link: 'Link',
+    undo: 'Cofnij',
+    redo: 'Ponów',
+    cut: 'Wytnij',
+    copy: 'Kopiuj',
+    paste: 'Wklej',
+    defaultOption: 'Domyślny',
+    slashCommands: 'Polecenia ukośnikowe',
+    noCommandsFound: 'Nie znaleziono poleceń',
+    changeBlockType: 'Zmień typ bloku',
+    blockTypes: 'Typy bloków',
+    enterUrl: 'Wprowadź URL:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

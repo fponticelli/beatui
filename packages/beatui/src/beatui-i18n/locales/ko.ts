@@ -94,6 +94,81 @@ const ko: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: '페이지네이션',
+  firstPage: '첫 페이지',
+  previousPage: '이전 페이지',
+  nextPage: '다음 페이지',
+  lastPage: '마지막 페이지',
+  // Breadcrumbs
+  breadcrumbs: '탐색 경로',
+  // Command palette
+  commandPalette: '명령 팔레트',
+  typeACommand: '명령어를 입력하세요...',
+  noResultsFound: '결과를 찾을 수 없음',
+  noMatchingCommands: '일치하는 명령어 없음',
+  // Appearance
+  appearanceSystem: '시스템',
+  appearanceLight: '라이트',
+  appearanceDark: '다크',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF 미리보기',
+  // Lexical editor
+  lexical: {
+    fontFamily: '글꼴',
+    fontSize: '글꼴 크기',
+    fontColor: '글꼴 색상',
+    highlightColor: '강조 색상',
+    backgroundColor: '배경 색상',
+    bold: '굵게',
+    italic: '기울임꼴',
+    underline: '밑줄',
+    strikethrough: '취소선',
+    code: '코드',
+    clearFormatting: '서식 지우기',
+    normal: '본문',
+    heading: (level: number) => `제목 ${level}`,
+    bulletList: '글머리 기호 목록',
+    orderedList: '번호 매기기 목록',
+    checkList: '체크리스트',
+    indent: '들여쓰기',
+    outdent: '내어쓰기',
+    blockquote: '인용문',
+    codeBlock: '코드 블록',
+    horizontalRule: '가로줄',
+    insertTable: '표 삽입',
+    link: '링크',
+    undo: '실행 취소',
+    redo: '다시 실행',
+    cut: '잘라내기',
+    copy: '복사',
+    paste: '붙여넣기',
+    defaultOption: '기본값',
+    slashCommands: '슬래시 명령어',
+    noCommandsFound: '명령어를 찾을 수 없음',
+    changeBlockType: '블록 유형 변경',
+    blockTypes: '블록 유형',
+    enterUrl: 'URL 입력:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

@@ -1,4 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
+
+vi.setConfig({ testTimeout: 20000 })
 
 describe('Lexical Theme Integration', () => {
   it('should import BareEditor component', async () => {

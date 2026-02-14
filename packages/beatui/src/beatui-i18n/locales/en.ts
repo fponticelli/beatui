@@ -93,6 +93,81 @@ const en = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'Pagination',
+  firstPage: 'First page',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  lastPage: 'Last page',
+  // Breadcrumbs
+  breadcrumbs: 'Breadcrumbs',
+  // Command palette
+  commandPalette: 'Command palette',
+  typeACommand: 'Type a command...',
+  noResultsFound: 'No results found',
+  noMatchingCommands: 'No matching commands',
+  // Appearance
+  appearanceSystem: 'System',
+  appearanceLight: 'Light',
+  appearanceDark: 'Dark',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDF Preview',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'Font Family',
+    fontSize: 'Font Size',
+    fontColor: 'Font Color',
+    highlightColor: 'Highlight Color',
+    backgroundColor: 'Background Color',
+    bold: 'Bold',
+    italic: 'Italic',
+    underline: 'Underline',
+    strikethrough: 'Strikethrough',
+    code: 'Code',
+    clearFormatting: 'Clear Formatting',
+    normal: 'Normal',
+    heading: (level: number) => `Heading ${level}`,
+    bulletList: 'Bullet List',
+    orderedList: 'Ordered List',
+    checkList: 'Check List',
+    indent: 'Indent',
+    outdent: 'Outdent',
+    blockquote: 'Blockquote',
+    codeBlock: 'Code Block',
+    horizontalRule: 'Horizontal Rule',
+    insertTable: 'Insert Table',
+    link: 'Link',
+    undo: 'Undo',
+    redo: 'Redo',
+    cut: 'Cut',
+    copy: 'Copy',
+    paste: 'Paste',
+    defaultOption: 'Default',
+    slashCommands: 'Slash commands',
+    noCommandsFound: 'No commands found',
+    changeBlockType: 'Change block type',
+    blockTypes: 'Block types',
+    enterUrl: 'Enter URL:',
+  },
   // ProseMirror editor
   prosemirror: {
     bold: 'Bold',

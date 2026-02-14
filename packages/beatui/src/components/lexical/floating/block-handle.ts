@@ -6,6 +6,7 @@ import {
   style,
   When,
   OnDispose,
+  Use,
   WithElement,
   signal,
   Ensure,
@@ -24,6 +25,7 @@ import {
 } from '../../../lexical/commands'
 import { Icon } from '../../data'
 import { Menu, MenuItem } from '../../navigation/menu'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 export interface BlockCommand {
   id: string
@@ -167,196 +169,198 @@ export function BlockHandle({
   const handleTop = prop(0)
   const handleLeft = prop(0)
 
-  return Ensure(editor, editorSignal => {
-    const ed = editorSignal as unknown as Signal<LexicalEditor>
-    let activeBlockElement: HTMLElement | null = null
-    let rootListenersAttached = false
-    let hideTimeout: ReturnType<typeof setTimeout> | null = null
-    let menuHideFn: (() => void) | null = null
+  return Use(BeatUII18n, t =>
+    Ensure(editor, editorSignal => {
+      const ed = editorSignal as unknown as Signal<LexicalEditor>
+      let activeBlockElement: HTMLElement | null = null
+      let rootListenersAttached = false
+      let hideTimeout: ReturnType<typeof setTimeout> | null = null
+      let menuHideFn: (() => void) | null = null
 
-    const HANDLE_SIZE = 24
-    const HANDLE_GAP = 4
-    const HIDE_DELAY = 200
+      const HANDLE_SIZE = 24
+      const HANDLE_GAP = 4
+      const HIDE_DELAY = 200
 
-    const updateHandleForElement = (el: HTMLElement) => {
-      if (el === activeBlockElement && isHandleVisible.value) return
-      activeBlockElement = el
-      const rect = el.getBoundingClientRect()
-      handleTop.value = rect.top
-      handleLeft.value = rect.left - HANDLE_SIZE - HANDLE_GAP
-      isHandleVisible.value = true
-    }
-
-    const cancelHide = () => {
-      if (hideTimeout != null) {
-        clearTimeout(hideTimeout)
-        hideTimeout = null
+      const updateHandleForElement = (el: HTMLElement) => {
+        if (el === activeBlockElement && isHandleVisible.value) return
+        activeBlockElement = el
+        const rect = el.getBoundingClientRect()
+        handleTop.value = rect.top
+        handleLeft.value = rect.left - HANDLE_SIZE - HANDLE_GAP
+        isHandleVisible.value = true
       }
-    }
 
-    const scheduleHide = () => {
-      if (isMenuOpen.value) return
-      cancelHide()
-      hideTimeout = setTimeout(() => {
-        hideTimeout = null
-        if (!isMenuOpen.value) {
-          isHandleVisible.value = false
-          activeBlockElement = null
+      const cancelHide = () => {
+        if (hideTimeout != null) {
+          clearTimeout(hideTimeout)
+          hideTimeout = null
         }
-      }, HIDE_DELAY)
-    }
+      }
 
-    const updateFromCursor = () => {
-      const editor = ed.value
-      if (!editor) return
-      const rootElement = editor.getRootElement()
-      if (!rootElement) return
+      const scheduleHide = () => {
+        if (isMenuOpen.value) return
+        cancelHide()
+        hideTimeout = setTimeout(() => {
+          hideTimeout = null
+          if (!isMenuOpen.value) {
+            isHandleVisible.value = false
+            activeBlockElement = null
+          }
+        }, HIDE_DELAY)
+      }
 
-      attachRootListeners(rootElement)
+      const updateFromCursor = () => {
+        const editor = ed.value
+        if (!editor) return
+        const rootElement = editor.getRootElement()
+        if (!rootElement) return
 
-      editor.getEditorState().read(() => {
-        const selection = $getSelection()
-        if (!$isRangeSelection(selection)) return
-        try {
-          const anchorNode = selection.anchor.getNode()
-          const topLevel = anchorNode.getTopLevelElementOrThrow()
-          const dom = editor.getElementByKey(topLevel.getKey())
-          if (dom) updateHandleForElement(dom)
-        } catch {
-          /* ignore — e.g. selection at root level */
+        attachRootListeners(rootElement)
+
+        editor.getEditorState().read(() => {
+          const selection = $getSelection()
+          if (!$isRangeSelection(selection)) return
+          try {
+            const anchorNode = selection.anchor.getNode()
+            const topLevel = anchorNode.getTopLevelElementOrThrow()
+            const dom = editor.getElementByKey(topLevel.getKey())
+            if (dom) updateHandleForElement(dom)
+          } catch {
+            /* ignore — e.g. selection at root level */
+          }
+        })
+      }
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (isMenuOpen.value) return
+        const editor = ed.value
+        if (!editor) return
+        const rootElement = editor.getRootElement()
+        if (!rootElement) return
+
+        for (const child of Array.from(rootElement.children)) {
+          const rect = (child as HTMLElement).getBoundingClientRect()
+          if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+            cancelHide()
+            updateHandleForElement(child as HTMLElement)
+            return
+          }
+        }
+      }
+
+      const handleMouseLeave = () => {
+        scheduleHide()
+      }
+
+      const attachRootListeners = (rootElement: HTMLElement) => {
+        if (rootListenersAttached) return
+        rootListenersAttached = true
+        rootElement.addEventListener('mousemove', handleMouseMove)
+        rootElement.addEventListener('mouseleave', handleMouseLeave)
+      }
+
+      // Track cursor movement
+      const disposeStateUpdate = stateUpdate.onChange(updateFromCursor)
+
+      // Cleanup
+      const cleanup = OnDispose(() => {
+        disposeStateUpdate()
+        cancelHide()
+        const editor = ed.value
+        if (editor) {
+          const rootElement = editor.getRootElement()
+          if (rootElement && rootListenersAttached) {
+            rootElement.removeEventListener('mousemove', handleMouseMove)
+            rootElement.removeEventListener('mouseleave', handleMouseLeave)
+          }
         }
       })
-    }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isMenuOpen.value) return
-      const editor = ed.value
-      if (!editor) return
-      const rootElement = editor.getRootElement()
-      if (!rootElement) return
+      return [
+        cleanup,
+        When(isHandleVisible, () =>
+          html.div(
+            attr.class('bc-block-handle'),
+            style.position('fixed'),
+            style.top(handleTop.map(v => `${v}px`)),
+            style.left(handleLeft.map(v => `${v}px`)),
 
-      for (const child of Array.from(rootElement.children)) {
-        const rect = (child as HTMLElement).getBoundingClientRect()
-        if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
-          cancelHide()
-          updateHandleForElement(child as HTMLElement)
-          return
-        }
-      }
-    }
+            // Cancel hide when mouse enters handle area
+            on.mouseenter(cancelHide),
+            // Schedule hide when mouse leaves handle (unless menu is open)
+            on.mouseleave(() => scheduleHide()),
 
-    const handleMouseLeave = () => {
-      scheduleHide()
-    }
-
-    const attachRootListeners = (rootElement: HTMLElement) => {
-      if (rootListenersAttached) return
-      rootListenersAttached = true
-      rootElement.addEventListener('mousemove', handleMouseMove)
-      rootElement.addEventListener('mouseleave', handleMouseLeave)
-    }
-
-    // Track cursor movement
-    const disposeStateUpdate = stateUpdate.onChange(updateFromCursor)
-
-    // Cleanup
-    const cleanup = OnDispose(() => {
-      disposeStateUpdate()
-      cancelHide()
-      const editor = ed.value
-      if (editor) {
-        const rootElement = editor.getRootElement()
-        if (rootElement && rootListenersAttached) {
-          rootElement.removeEventListener('mousemove', handleMouseMove)
-          rootElement.removeEventListener('mouseleave', handleMouseLeave)
-        }
-      }
-    })
-
-    return [
-      cleanup,
-      When(isHandleVisible, () =>
-        html.div(
-          attr.class('bc-block-handle'),
-          style.position('fixed'),
-          style.top(handleTop.map(v => `${v}px`)),
-          style.left(handleLeft.map(v => `${v}px`)),
-
-          // Cancel hide when mouse enters handle area
-          on.mouseenter(cancelHide),
-          // Schedule hide when mouse leaves handle (unless menu is open)
-          on.mouseleave(() => scheduleHide()),
-
-          // Prevent mousedown from stealing focus from editor
-          WithElement(el => {
-            el.addEventListener('mousedown', (e: MouseEvent) => {
-              e.preventDefault()
-            })
-          }),
-
-          html.button(
-            attr.class('bc-block-handle__button'),
-            attr.type('button'),
-            attr.title('Change block type'),
-            attr.disabled(readOnly),
-            Icon({ icon: 'mdi:drag-horizontal-variant', size: 'sm' }),
-
-            // Track menu open state via aria-expanded (set by Flyout)
-            WithElement(buttonEl => {
-              const observer = new MutationObserver(() => {
-                const expanded =
-                  buttonEl.getAttribute('aria-expanded') === 'true'
-                isMenuOpen.value = expanded
+            // Prevent mousedown from stealing focus from editor
+            WithElement(el => {
+              el.addEventListener('mousedown', (e: MouseEvent) => {
+                e.preventDefault()
               })
-              observer.observe(buttonEl, {
-                attributes: true,
-                attributeFilter: ['aria-expanded'],
-              })
-              return OnDispose(() => observer.disconnect())
             }),
 
-            // Block type menu (uses BeatUI Menu + MenuItem)
-            Menu({
-              items: () =>
-                commands.map(cmd =>
-                  MenuItem({
-                    key: cmd.id,
-                    content: cmd.label,
-                    startContent: Icon({ icon: cmd.icon, size: 'sm' }),
-                    onClick: () => {
-                      const editor = ed.value
-                      if (!editor) return
-                      cmd.handler(editor)
-                      menuHideFn?.()
-                      editor.focus()
-                    },
-                  })
-                ),
-              placement: 'bottom-start',
-              showOn: (show, hide) => {
-                menuHideFn = hide
-                return on.click(() => {
-                  if (isMenuOpen.value) {
-                    hide()
-                  } else {
-                    show()
-                    // Set immediately for hover protection
-                    isMenuOpen.value = true
-                  }
+            html.button(
+              attr.class('bc-block-handle__button'),
+              attr.type('button'),
+              attr.title(t.$.lexical.map(l => l.changeBlockType)),
+              attr.disabled(readOnly),
+              Icon({ icon: 'mdi:drag-horizontal-variant', size: 'sm' }),
+
+              // Track menu open state via aria-expanded (set by Flyout)
+              WithElement(buttonEl => {
+                const observer = new MutationObserver(() => {
+                  const expanded =
+                    buttonEl.getAttribute('aria-expanded') === 'true'
+                  isMenuOpen.value = expanded
                 })
-              },
-              showDelay: 0,
-              hideDelay: 0,
-              mainAxisOffset: 4,
-              onClose: () => {
-                const editor = ed.value
-                if (editor) editor.focus()
-              },
-              ariaLabel: 'Block types',
-            })
+                observer.observe(buttonEl, {
+                  attributes: true,
+                  attributeFilter: ['aria-expanded'],
+                })
+                return OnDispose(() => observer.disconnect())
+              }),
+
+              // Block type menu (uses BeatUI Menu + MenuItem)
+              Menu({
+                items: () =>
+                  commands.map(cmd =>
+                    MenuItem({
+                      key: cmd.id,
+                      content: cmd.label,
+                      startContent: Icon({ icon: cmd.icon, size: 'sm' }),
+                      onClick: () => {
+                        const editor = ed.value
+                        if (!editor) return
+                        cmd.handler(editor)
+                        menuHideFn?.()
+                        editor.focus()
+                      },
+                    })
+                  ),
+                placement: 'bottom-start',
+                showOn: (show, hide) => {
+                  menuHideFn = hide
+                  return on.click(() => {
+                    if (isMenuOpen.value) {
+                      hide()
+                    } else {
+                      show()
+                      // Set immediately for hover protection
+                      isMenuOpen.value = true
+                    }
+                  })
+                },
+                showDelay: 0,
+                hideDelay: 0,
+                mainAxisOffset: 4,
+                onClose: () => {
+                  const editor = ed.value
+                  if (editor) editor.focus()
+                },
+                ariaLabel: t.value.lexical.blockTypes,
+              })
+            )
           )
-        )
-      ),
-    ]
-  })
+        ),
+      ]
+    })
+  )
 }

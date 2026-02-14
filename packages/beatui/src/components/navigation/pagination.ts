@@ -10,8 +10,10 @@ import {
   When,
   WithElement,
   prop,
+  Use,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
+import { BeatUII18n } from '../../beatui-i18n'
 
 /**
  * Configuration options for the {@link Pagination} component.
@@ -138,199 +140,204 @@ export function Pagination({
     siblings
   )((isResponsive, rSibs, userSibs) => (isResponsive ? rSibs : userSibs))
 
-  return html.nav(
-    attr.class(
-      computedOf(
-        size,
-        justify
-      )((s, j) => {
-        const classes = ['bc-pagination', `bc-pagination--size-${s}`]
-        if (j) classes.push('bc-pagination--justify')
-        return classes.join(' ')
-      })
-    ),
-    aria.label('Pagination'),
-
-    // Responsive ResizeObserver setup
-    When(responsive, () =>
-      WithElement(navEl => {
-        const updateSiblings = () => {
-          const containerWidth = navEl.clientWidth
-          if (containerWidth === 0) return
-
-          // Measure actual item dimensions from the DOM
-          const firstItem = navEl.querySelector(
-            '.bc-pagination__item'
-          ) as HTMLElement
-          if (!firstItem) return
-          const itemWidth = firstItem.offsetWidth
-          const computedGap = parseFloat(getComputedStyle(navEl).gap) || 0
-          const slotWidth = itemWidth + computedGap
-          const totalSlots = Math.floor(
-            (containerWidth + computedGap) / slotWidth
-          )
-
-          // Calculate nav button count
-          const navButtons =
-            (Value.get(showPrevNext) ? 2 : 0) +
-            (Value.get(showFirstLast) ? 2 : 0)
-
-          // Range items = 2*siblings + 5 (current + first + last + 2 dots max)
-          // But cap to total pages available
-          const total = Value.get(totalPages)
-          const availableSlots = totalSlots - navButtons
-          const maxSiblings = Math.max(0, Math.floor((availableSlots - 5) / 2))
-          // Don't exceed what's needed for the total pages
-          const needed = Math.floor((total - 3) / 2)
-          responsiveSiblings.set(Math.min(maxSiblings, Math.max(0, needed)))
-        }
-
-        const observer = new ResizeObserver(updateSiblings)
-        observer.observe(navEl)
-        requestAnimationFrame(updateSiblings)
-
-        return OnDispose(() => observer.disconnect())
-      })
-    ),
-
-    // First page button
-    When(showFirstLast, () =>
-      html.button(
-        attr.class('bc-pagination__item'),
-        attr.disabled(
-          computedOf(
-            currentPage,
-            totalPages
-          )((current, total) => current <= 1 || total <= 1)
-        ),
-        aria.label('First page'),
-        on.click(e => {
-          e.preventDefault()
-          const total = Value.get(totalPages)
-          if (total > 1) {
-            onPageChange(1)
-          }
-        }),
-        '\u00AB' // «
-      )
-    ),
-
-    // Previous page button
-    When(showPrevNext, () =>
-      html.button(
-        attr.class('bc-pagination__item'),
-        attr.disabled(
-          computedOf(
-            currentPage,
-            totalPages
-          )((current, total) => current <= 1 || total <= 1)
-        ),
-        aria.label('Previous page'),
-        on.click(e => {
-          e.preventDefault()
-          const current = Value.get(currentPage)
-          if (current > 1) {
-            onPageChange(current - 1)
-          }
-        }),
-        '\u2039' // ‹
-      )
-    ),
-
-    // Page numbers and ellipsis
-    ForEach(
-      computedOf(
-        currentPage,
-        totalPages,
-        effectiveSiblings
-      )((current, total, sibs) =>
-        generatePaginationRange(current, total, sibs)
+  return Use(BeatUII18n, t =>
+    html.nav(
+      attr.class(
+        computedOf(
+          size,
+          justify
+        )((s, j) => {
+          const classes = ['bc-pagination', `bc-pagination--size-${s}`]
+          if (j) classes.push('bc-pagination--justify')
+          return classes.join(' ')
+        })
       ),
-      itemSignal => {
-        const isDots = itemSignal.map(item => item === 'dots')
-        const isActive = computedOf(
-          itemSignal,
-          currentPage
-        )((item, current) => item === current)
+      aria.label(t.$.paginationLabel),
 
-        return When(
-          isDots,
-          () => html.span(attr.class('bc-pagination__dots'), '\u2026'),
-          () =>
-            html.button(
-              attr.class(
-                Value.map(isActive, active =>
-                  active
-                    ? 'bc-pagination__item bc-pagination__item--active'
-                    : 'bc-pagination__item'
-                )
-              ),
-              WithElement(el => {
-                return OnDispose(
-                  Value.on(isActive, active => {
-                    if (active) {
-                      el.setAttribute('aria-current', 'page')
-                    } else {
-                      el.removeAttribute('aria-current')
-                    }
-                  })
-                )
-              }),
-              on.click(e => {
-                e.preventDefault()
-                const item = Value.get(itemSignal)
-                if (item !== 'dots' && item !== Value.get(currentPage)) {
-                  onPageChange(item)
-                }
-              }),
-              itemSignal.map(item => String(item))
+      // Responsive ResizeObserver setup
+      When(responsive, () =>
+        WithElement(navEl => {
+          const updateSiblings = () => {
+            const containerWidth = navEl.clientWidth
+            if (containerWidth === 0) return
+
+            // Measure actual item dimensions from the DOM
+            const firstItem = navEl.querySelector(
+              '.bc-pagination__item'
+            ) as HTMLElement
+            if (!firstItem) return
+            const itemWidth = firstItem.offsetWidth
+            const computedGap = parseFloat(getComputedStyle(navEl).gap) || 0
+            const slotWidth = itemWidth + computedGap
+            const totalSlots = Math.floor(
+              (containerWidth + computedGap) / slotWidth
             )
+
+            // Calculate nav button count
+            const navButtons =
+              (Value.get(showPrevNext) ? 2 : 0) +
+              (Value.get(showFirstLast) ? 2 : 0)
+
+            // Range items = 2*siblings + 5 (current + first + last + 2 dots max)
+            // But cap to total pages available
+            const total = Value.get(totalPages)
+            const availableSlots = totalSlots - navButtons
+            const maxSiblings = Math.max(
+              0,
+              Math.floor((availableSlots - 5) / 2)
+            )
+            // Don't exceed what's needed for the total pages
+            const needed = Math.floor((total - 3) / 2)
+            responsiveSiblings.set(Math.min(maxSiblings, Math.max(0, needed)))
+          }
+
+          const observer = new ResizeObserver(updateSiblings)
+          observer.observe(navEl)
+          requestAnimationFrame(updateSiblings)
+
+          return OnDispose(() => observer.disconnect())
+        })
+      ),
+
+      // First page button
+      When(showFirstLast, () =>
+        html.button(
+          attr.class('bc-pagination__item'),
+          attr.disabled(
+            computedOf(
+              currentPage,
+              totalPages
+            )((current, total) => current <= 1 || total <= 1)
+          ),
+          aria.label(t.$.firstPage),
+          on.click(e => {
+            e.preventDefault()
+            const total = Value.get(totalPages)
+            if (total > 1) {
+              onPageChange(1)
+            }
+          }),
+          '\u00AB' // «
         )
-      }
-    ),
+      ),
 
-    // Next page button
-    When(showPrevNext, () =>
-      html.button(
-        attr.class('bc-pagination__item'),
-        attr.disabled(
-          computedOf(
-            currentPage,
-            totalPages
-          )((current, total) => current >= total || total <= 1)
-        ),
-        aria.label('Next page'),
-        on.click(e => {
-          e.preventDefault()
-          const current = Value.get(currentPage)
-          const total = Value.get(totalPages)
-          if (current < total) {
-            onPageChange(current + 1)
-          }
-        }),
-        '\u203A' // ›
-      )
-    ),
+      // Previous page button
+      When(showPrevNext, () =>
+        html.button(
+          attr.class('bc-pagination__item'),
+          attr.disabled(
+            computedOf(
+              currentPage,
+              totalPages
+            )((current, total) => current <= 1 || total <= 1)
+          ),
+          aria.label(t.$.previousPage),
+          on.click(e => {
+            e.preventDefault()
+            const current = Value.get(currentPage)
+            if (current > 1) {
+              onPageChange(current - 1)
+            }
+          }),
+          '\u2039' // ‹
+        )
+      ),
 
-    // Last page button
-    When(showFirstLast, () =>
-      html.button(
-        attr.class('bc-pagination__item'),
-        attr.disabled(
-          computedOf(
-            currentPage,
-            totalPages
-          )((current, total) => current >= total || total <= 1)
+      // Page numbers and ellipsis
+      ForEach(
+        computedOf(
+          currentPage,
+          totalPages,
+          effectiveSiblings
+        )((current, total, sibs) =>
+          generatePaginationRange(current, total, sibs)
         ),
-        aria.label('Last page'),
-        on.click(e => {
-          e.preventDefault()
-          const total = Value.get(totalPages)
-          if (total > 1) {
-            onPageChange(total)
-          }
-        }),
-        '\u00BB' // »
+        itemSignal => {
+          const isDots = itemSignal.map(item => item === 'dots')
+          const isActive = computedOf(
+            itemSignal,
+            currentPage
+          )((item, current) => item === current)
+
+          return When(
+            isDots,
+            () => html.span(attr.class('bc-pagination__dots'), '\u2026'),
+            () =>
+              html.button(
+                attr.class(
+                  Value.map(isActive, active =>
+                    active
+                      ? 'bc-pagination__item bc-pagination__item--active'
+                      : 'bc-pagination__item'
+                  )
+                ),
+                WithElement(el => {
+                  return OnDispose(
+                    Value.on(isActive, active => {
+                      if (active) {
+                        el.setAttribute('aria-current', 'page')
+                      } else {
+                        el.removeAttribute('aria-current')
+                      }
+                    })
+                  )
+                }),
+                on.click(e => {
+                  e.preventDefault()
+                  const item = Value.get(itemSignal)
+                  if (item !== 'dots' && item !== Value.get(currentPage)) {
+                    onPageChange(item)
+                  }
+                }),
+                itemSignal.map(item => String(item))
+              )
+          )
+        }
+      ),
+
+      // Next page button
+      When(showPrevNext, () =>
+        html.button(
+          attr.class('bc-pagination__item'),
+          attr.disabled(
+            computedOf(
+              currentPage,
+              totalPages
+            )((current, total) => current >= total || total <= 1)
+          ),
+          aria.label(t.$.nextPage),
+          on.click(e => {
+            e.preventDefault()
+            const current = Value.get(currentPage)
+            const total = Value.get(totalPages)
+            if (current < total) {
+              onPageChange(current + 1)
+            }
+          }),
+          '\u203A' // ›
+        )
+      ),
+
+      // Last page button
+      When(showFirstLast, () =>
+        html.button(
+          attr.class('bc-pagination__item'),
+          attr.disabled(
+            computedOf(
+              currentPage,
+              totalPages
+            )((current, total) => current >= total || total <= 1)
+          ),
+          aria.label(t.$.lastPage),
+          on.click(e => {
+            e.preventDefault()
+            const total = Value.get(totalPages)
+            if (total > 1) {
+              onPageChange(total)
+            }
+          }),
+          '\u00BB' // »
+        )
       )
     )
   )

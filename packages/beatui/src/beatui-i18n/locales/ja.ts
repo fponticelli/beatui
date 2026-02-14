@@ -94,6 +94,81 @@ export const ja: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'ページネーション',
+  firstPage: '最初のページ',
+  previousPage: '前のページ',
+  nextPage: '次のページ',
+  lastPage: '最後のページ',
+  // Breadcrumbs
+  breadcrumbs: 'パンくずリスト',
+  // Command palette
+  commandPalette: 'コマンドパレット',
+  typeACommand: 'コマンドを入力...',
+  noResultsFound: '結果が見つかりません',
+  noMatchingCommands: '一致するコマンドがありません',
+  // Appearance
+  appearanceSystem: 'システム',
+  appearanceLight: 'ライト',
+  appearanceDark: 'ダーク',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'PDFプレビュー',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'フォントファミリー',
+    fontSize: 'フォントサイズ',
+    fontColor: 'フォントの色',
+    highlightColor: 'ハイライトの色',
+    backgroundColor: '背景色',
+    bold: '太字',
+    italic: '斜体',
+    underline: '下線',
+    strikethrough: '取り消し線',
+    code: 'コード',
+    clearFormatting: '書式をクリア',
+    normal: '標準',
+    heading: (level: number) => `見出し ${level}`,
+    bulletList: '箇条書き',
+    orderedList: '番号付きリスト',
+    checkList: 'チェックリスト',
+    indent: 'インデントを増やす',
+    outdent: 'インデントを減らす',
+    blockquote: '引用',
+    codeBlock: 'コードブロック',
+    horizontalRule: '水平線',
+    insertTable: '表を挿入',
+    link: 'リンク',
+    undo: '元に戻す',
+    redo: 'やり直し',
+    cut: '切り取り',
+    copy: 'コピー',
+    paste: '貼り付け',
+    defaultOption: 'デフォルト',
+    slashCommands: 'スラッシュコマンド',
+    noCommandsFound: 'コマンドが見つかりません',
+    changeBlockType: 'ブロックタイプを変更',
+    blockTypes: 'ブロックタイプ',
+    enterUrl: 'URLを入力:',
+  },
   // prosemirror
   prosemirror: {
     bold: '太字',

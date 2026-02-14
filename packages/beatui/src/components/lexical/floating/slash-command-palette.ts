@@ -7,6 +7,7 @@ import {
   style,
   When,
   OnDispose,
+  Use,
   WithElement,
   aria,
   TNode,
@@ -25,6 +26,7 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
 } from '../../../lexical/commands'
 import { Icon } from '../../data'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 export interface SlashCommandPaletteOptions {
   editor: Signal<LexicalEditor | null>
@@ -301,36 +303,38 @@ export function SlashCommandPalette({
   }
 
   // Build the command palette
-  const paletteContent = html.div(
-    attr.class('bc-slash-command-palette'),
-    attr.role('listbox'),
-    aria.label('Slash commands'),
-    style.position('absolute'),
-    style.top(position.map(p => `${p.top}px`)),
-    style.left(position.map(p => `${p.left}px`)),
+  const paletteContent = Use(BeatUII18n, t =>
+    html.div(
+      attr.class('bc-slash-command-palette'),
+      attr.role('listbox'),
+      aria.label(t.$.lexical.map(l => l.slashCommands)),
+      style.position('absolute'),
+      style.top(position.map(p => `${p.top}px`)),
+      style.left(position.map(p => `${p.left}px`)),
 
-    WithElement(() => {
-      document.addEventListener('keydown', handleKeyDown)
-      return OnDispose(() => {
-        document.removeEventListener('keydown', handleKeyDown)
+      WithElement(() => {
+        document.addEventListener('keydown', handleKeyDown)
+        return OnDispose(() => {
+          document.removeEventListener('keydown', handleKeyDown)
+        })
+      }),
+
+      // Empty state
+      When(
+        filteredCommands.map(cmds => cmds.length === 0),
+        () =>
+          html.div(
+            attr.class('bc-slash-command-palette__empty'),
+            t.$.lexical.map(l => l.noCommandsFound)
+          )
+      ),
+
+      // Command list using ForEach for proper Tempo dynamic list rendering
+      ForEach(filteredCommands, (cmdSignal, position) => {
+        const cmd = cmdSignal.value
+        return renderCommandItem(cmd, position.index)
       })
-    }),
-
-    // Empty state
-    When(
-      filteredCommands.map(cmds => cmds.length === 0),
-      () =>
-        html.div(
-          attr.class('bc-slash-command-palette__empty'),
-          'No commands found'
-        )
-    ),
-
-    // Command list using ForEach for proper Tempo dynamic list rendering
-    ForEach(filteredCommands, (cmdSignal, position) => {
-      const cmd = cmdSignal.value
-      return renderCommandItem(cmd, position.index)
-    })
+    )
   )
 
   return When(isVisible, () => paletteContent)

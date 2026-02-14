@@ -94,6 +94,81 @@ const ar: BeatUIMessages = {
 
     return instruction
   },
+  // Pagination
+  paginationLabel: 'ترقيم الصفحات',
+  firstPage: 'الصفحة الأولى',
+  previousPage: 'الصفحة السابقة',
+  nextPage: 'الصفحة التالية',
+  lastPage: 'الصفحة الأخيرة',
+  // Breadcrumbs
+  breadcrumbs: 'مسار التنقل',
+  // Command palette
+  commandPalette: 'لوحة الأوامر',
+  typeACommand: 'اكتب أمراً...',
+  noResultsFound: 'لم يتم العثور على نتائج',
+  noMatchingCommands: 'لا توجد أوامر مطابقة',
+  // Appearance
+  appearanceSystem: 'النظام',
+  appearanceLight: 'فاتح',
+  appearanceDark: 'داكن',
+  // Dialogs
+  ok: 'OK',
+  changeTypeConfirmation:
+    'Changing type will clear the current value. Continue?',
+  // Notifications
+  notifications: 'Notifications',
+  markAllAsRead: 'Mark all as read',
+  noNotifications: 'No notifications',
+  // JSON Schema
+  schemaConflictsDetected: 'Schema Conflicts Detected',
+  schemaViolationsDetected: 'Schema Violations Detected',
+  properties: 'Properties',
+  // File upload
+  uploading: 'Uploading...',
+  dropFilesOrBrowse: 'Drop files here or click to browse',
+  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  // Rich text
+  enterUrlPrompt: 'Enter URL:',
+  exceeded: '(exceeded)',
+  // PDF
+  pdfPreview: 'معاينة PDF',
+  // Lexical editor
+  lexical: {
+    fontFamily: 'نوع الخط',
+    fontSize: 'حجم الخط',
+    fontColor: 'لون الخط',
+    highlightColor: 'لون التمييز',
+    backgroundColor: 'لون الخلفية',
+    bold: 'غامق',
+    italic: 'مائل',
+    underline: 'تسطير',
+    strikethrough: 'يتوسطه خط',
+    code: 'رمز',
+    clearFormatting: 'مسح التنسيق',
+    normal: 'عادي',
+    heading: (level: number) => `عنوان ${level}`,
+    bulletList: 'قائمة نقطية',
+    orderedList: 'قائمة مرقمة',
+    checkList: 'قائمة مهام',
+    indent: 'مسافة بادئة',
+    outdent: 'إزالة المسافة البادئة',
+    blockquote: 'اقتباس',
+    codeBlock: 'كتلة رمز',
+    horizontalRule: 'خط أفقي',
+    insertTable: 'إدراج جدول',
+    link: 'رابط',
+    undo: 'تراجع',
+    redo: 'إعادة',
+    cut: 'قص',
+    copy: 'نسخ',
+    paste: 'لصق',
+    defaultOption: 'افتراضي',
+    slashCommands: 'أوامر الشرطة المائلة',
+    noCommandsFound: 'لم يتم العثور على أوامر',
+    changeBlockType: 'تغيير نوع الكتلة',
+    blockTypes: 'أنواع الكتل',
+    enterUrl: 'أدخل الرابط:',
+  },
   // prosemirror
   prosemirror: {
     bold: 'Bold',

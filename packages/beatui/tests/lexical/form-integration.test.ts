@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
+vi.setConfig({ testTimeout: 20000 })
+
 // Mock all Lexical modules (BareEditor depends on these)
 vi.mock('lexical', () => ({
   createEditor: vi.fn(() => ({

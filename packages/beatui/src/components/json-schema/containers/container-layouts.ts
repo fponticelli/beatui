@@ -15,6 +15,7 @@ import { Label } from '../../typography'
 import { Icon } from '../../data'
 import type { SchemaContext } from '../schema-context'
 import { getXUIConfig } from '../widgets/utils'
+import { defaultMessages } from '../../../beatui-i18n'
 
 /**
  * Container layout configuration from x:ui
@@ -172,7 +173,7 @@ export function TabsContainer({
 }): Renderable {
   if (!groups || Object.keys(groups).length === 0) {
     // No groups defined, render as simple tabs with all children in one tab
-    return SimpleTabsContainer({ title: 'Properties', children })
+    return SimpleTabsContainer({ title: defaultMessages.properties, children })
   }
 
   const activeTab = prop(Object.keys(groups)[0])
@@ -293,7 +294,10 @@ export function AccordionContainer({
 }): Renderable {
   if (!groups || Object.keys(groups).length === 0) {
     // No groups defined, render as simple accordion with all children in one section
-    return SimpleAccordionContainer({ title: 'Properties', children })
+    return SimpleAccordionContainer({
+      title: defaultMessages.properties,
+      children,
+    })
   }
 
   const groupEntries = Object.entries(groups)

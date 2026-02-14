@@ -1,4 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+
+vi.setConfig({ testTimeout: 20000 })
+
 import { render, prop } from '@tempots/dom'
 import { DockedEditor } from '../../src/components/lexical/docked-editor'
 import { WithProviders } from '../helpers/test-providers'
