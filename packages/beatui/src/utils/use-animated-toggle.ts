@@ -268,8 +268,8 @@ export type AnimationConfig =
   | ComposableAnimation // Same for both enter/exit
 
 // Helper to generate CSS classes from composable animation
-function animationToClasses(anim: ComposableAnimation | undefined): string {
-  if (anim == null) return ''
+function animationToClasses(anim: ComposableAnimation | undefined): string[] {
+  if (anim == null) return []
 
   const classes: string[] = []
 
@@ -277,32 +277,52 @@ function animationToClasses(anim: ComposableAnimation | undefined): string {
   if (anim.slide) classes.push(`slide-${anim.slide}`)
   if (anim.scale != null) classes.push('scale')
 
-  return classes.length > 0 ? classes.join(' ') : 'none'
+  return classes.length > 0 ? classes : ['none']
 }
 
-// Helper to generate inline styles from composable animation
-function animationToStyles(anim: ComposableAnimation | undefined): string {
-  if (anim == null) return ''
+// Helper to generate inline style properties from composable animation
+// Returns key-value pairs to be set individually via element.style.setProperty()
+function animationToStyleProperties(
+  anim: ComposableAnimation | undefined
+): Array<[string, string]> {
+  if (anim == null) return []
 
-  const styles: string[] = []
+  const props: Array<[string, string]> = []
 
   if (anim.scale != null && typeof anim.scale === 'number') {
-    styles.push(`--scale-factor: ${anim.scale}`)
+    props.push(['--scale-factor', String(anim.scale)])
   }
 
   if (anim.transformOrigin != null) {
-    styles.push(`--transform-origin: ${anim.transformOrigin}`)
+    props.push(['--transform-origin', anim.transformOrigin])
   }
 
   if (anim.duration != null) {
-    styles.push(`--animation-duration: ${anim.duration}ms`)
+    props.push(['--animation-duration', `${anim.duration}ms`])
   }
 
   if (anim.easing != null) {
-    styles.push(`--animation-easing: ${anim.easing}`)
+    props.push(['--animation-easing', anim.easing])
   }
 
-  return styles.join('; ')
+  return props
+}
+
+/** @internal Resolves the current animation from config based on toggle status. */
+function resolveCurrentAnimation(
+  animConfig: AnimationConfig | undefined,
+  status: ToggleStatus
+): ComposableAnimation | undefined {
+  if (animConfig == null) return undefined
+
+  const isEntering =
+    status === 'start-opening' || status === 'opening' || status === 'opened'
+
+  if ('enter' in animConfig || 'exit' in animConfig) {
+    return isEntering ? animConfig.enter : animConfig.exit
+  }
+
+  return animConfig as ComposableAnimation
 }
 
 export function AnimatedToggleClass({
@@ -316,51 +336,59 @@ export function AnimatedToggleClass({
     animation,
     status
   )((animConfig, s) => {
-    if (animConfig == null) {
-      return `bc-animated-toggle bc-animated-toggle--${s}`
-    }
-
-    // Determine which animation to use based on status
-    const isEntering =
-      s === 'start-opening' || s === 'opening' || s === 'opened'
-
-    let currentAnim: ComposableAnimation | undefined
-    if ('enter' in animConfig || 'exit' in animConfig) {
-      // It's an enter/exit config
-      currentAnim = isEntering ? animConfig.enter : animConfig.exit
-    } else {
-      // It's a ComposableAnimation - use for both enter and exit
-      currentAnim = animConfig as ComposableAnimation
-    }
-
+    const currentAnim = resolveCurrentAnimation(animConfig, s)
     const animClasses = animationToClasses(currentAnim)
+    const prefixed = animClasses
+      .map(c => `bc-animated-toggle--${c}`)
+      .join(' ')
 
-    return `bc-animated-toggle bc-animated-toggle--${animClasses} bc-animated-toggle--${s}`
+    return prefixed
+      ? `bc-animated-toggle ${prefixed} bc-animated-toggle--${s}`
+      : `bc-animated-toggle bc-animated-toggle--${s}`
   })
 
-  const styles = computedOf(
-    animation,
-    status
-  )((animConfig, s) => {
-    if (animConfig == null) return ''
+  // Use WithElement + setProperty() to set CSS custom properties individually,
+  // avoiding attr.style() which overwrites the entire inline style attribute
+  // and destroys PopOver's position:absolute positioning.
+  return Fragment(
+    attr.class(classes),
+    WithElement(el => {
+      let prevKeys: string[] = []
 
-    // Determine which animation to use based on status
-    const isEntering =
-      s === 'start-opening' || s === 'opening' || s === 'opened'
+      function applyStyleProperties(
+        props: Array<[string, string]>
+      ) {
+        for (const key of prevKeys) {
+          el.style.removeProperty(key)
+        }
+        prevKeys = props.map(([k]) => k)
+        for (const [key, value] of props) {
+          el.style.setProperty(key, value)
+        }
+      }
 
-    let currentAnim: ComposableAnimation | undefined
-    if ('enter' in animConfig || 'exit' in animConfig) {
-      // It's an enter/exit config
-      currentAnim = isEntering ? animConfig.enter : animConfig.exit
-    } else {
-      // It's a ComposableAnimation - use for both enter and exit
-      currentAnim = animConfig as ComposableAnimation
-    }
+      const styleSignal = computedOf(
+        animation,
+        status
+      )((animConfig, s) => {
+        const currentAnim = resolveCurrentAnimation(animConfig, s)
+        return animationToStyleProperties(currentAnim)
+      })
 
-    return animationToStyles(currentAnim)
-  })
+      // Apply initial value
+      applyStyleProperties(Value.get(styleSignal))
 
-  return Fragment(attr.class(classes), attr.style(styles))
+      // React to changes
+      const dispose = Value.on(styleSignal, applyStyleProperties)
+
+      return OnDispose(() => {
+        dispose()
+        for (const key of prevKeys) {
+          el.style.removeProperty(key)
+        }
+      })
+    })
+  )
 }
 
 export function AnimatedToggle(

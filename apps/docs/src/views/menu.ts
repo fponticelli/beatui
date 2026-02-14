@@ -45,6 +45,10 @@ export function Menu() {
         SidebarLink({ href: '/control', content: 'Control' }),
         SidebarLink({ href: '/button', content: 'Button' }),
         SidebarLink({ href: '/toggle-button', content: 'Toggle Button' }),
+        SidebarLink({
+          href: '/toggle-button-group',
+          content: 'Toggle Button Group',
+        }),
         SidebarLink({ href: '/switch', content: 'Switch' }),
         SidebarLink({
           href: '/segmented-control',
