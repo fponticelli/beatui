@@ -41,7 +41,6 @@ export default function ModalPage() {
       Stack(
         Label('Size'),
         SegmentedInput({
-          size: 'sm',
           options: {
             sm: 'SM',
             md: 'MD',
@@ -55,7 +54,6 @@ export default function ModalPage() {
       Stack(
         Label('Overlay Effect'),
         SegmentedInput({
-          size: 'sm',
           options: {
             opaque: 'Opaque',
             transparent: 'Transparent',
@@ -68,7 +66,6 @@ export default function ModalPage() {
       Stack(
         Label('Position'),
         SegmentedInput({
-          size: 'sm',
           options: {
             center: 'Center',
             top: 'Top',

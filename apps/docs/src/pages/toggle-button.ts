@@ -41,7 +41,6 @@ export default function ToggleButtonPage() {
       InputWrapper({
         label: 'Size',
         content: SegmentedInput({
-          size: 'sm',
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
           onChange: size.set,
@@ -50,7 +49,6 @@ export default function ToggleButtonPage() {
       InputWrapper({
         label: 'Variant (unpressed)',
         content: SegmentedInput({
-          size: 'sm',
           options: {
             outline: 'Outline',
             filled: 'Filled',

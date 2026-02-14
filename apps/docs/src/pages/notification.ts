@@ -48,7 +48,6 @@ export default function NotificationPage() {
       InputWrapper({
         label: 'Radius',
         content: SegmentedInput({
-          size: 'sm',
           options: radiusOptions,
           value: radius,
           onChange: radius.set,

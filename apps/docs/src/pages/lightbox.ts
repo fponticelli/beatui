@@ -26,7 +26,6 @@ export default function LightboxPage() {
       Stack(
         Label('Overlay Effect'),
         SegmentedInput({
-          size: 'sm',
           options: {
             opaque: 'Opaque',
             transparent: 'Transparent',
@@ -39,7 +38,6 @@ export default function LightboxPage() {
       Stack(
         Label('Padding'),
         SegmentedInput({
-          size: 'sm',
           options: {
             0: '0',
             16: '16',

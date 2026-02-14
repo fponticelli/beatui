@@ -200,6 +200,10 @@ export const App = () => {
           Async(import('./pages/otp-input'), ({ default: Page }) => Page()),
         '/toggle-button': () =>
           Async(import('./pages/toggle-button'), ({ default: Page }) => Page()),
+        '/toggle-button-group': () =>
+          Async(import('./pages/toggle-button-group'), ({ default: Page }) =>
+            Page()
+          ),
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
             ApiRouter()

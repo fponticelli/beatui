@@ -22,7 +22,6 @@ export default function OTPInputPage() {
       InputWrapper({
         label: 'Size',
         content: SegmentedInput({
-          size: 'sm',
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
           onChange: size.set,

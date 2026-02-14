@@ -105,7 +105,6 @@ export default function TabsPage() {
       Stack(
         Label('Orientation'),
         SegmentedInput({
-          size: 'sm',
           options: {
             horizontal: 'Horizontal',
             vertical: 'Vertical',

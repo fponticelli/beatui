@@ -32,7 +32,6 @@ export default function ToggleButtonGroupPage() {
       InputWrapper({
         label: 'Size',
         content: SegmentedInput({
-          size: 'sm',
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
           onChange: size.set,
@@ -41,7 +40,6 @@ export default function ToggleButtonGroupPage() {
       InputWrapper({
         label: 'Variant (unpressed)',
         content: SegmentedInput({
-          size: 'sm',
           options: {
             outline: 'Outline',
             filled: 'Filled',
@@ -76,10 +74,22 @@ export default function ToggleButtonGroupPage() {
         return [
           ToggleButtonGroup({
             items: [
-              { key: 'left', label: Icon({ icon: 'lucide:align-left', size: size.value }) },
-              { key: 'center', label: Icon({ icon: 'lucide:align-center', size: size.value }) },
-              { key: 'right', label: Icon({ icon: 'lucide:align-right', size: size.value }) },
-              { key: 'justify', label: Icon({ icon: 'lucide:align-justify', size: size.value }) },
+              {
+                key: 'left',
+                label: Icon({ icon: 'lucide:align-left', size: size.value }),
+              },
+              {
+                key: 'center',
+                label: Icon({ icon: 'lucide:align-center', size: size.value }),
+              },
+              {
+                key: 'right',
+                label: Icon({ icon: 'lucide:align-right', size: size.value }),
+              },
+              {
+                key: 'justify',
+                label: Icon({ icon: 'lucide:align-justify', size: size.value }),
+              },
             ],
             value: alignment,
             onChange: alignment.set,
@@ -90,7 +100,7 @@ export default function ToggleButtonGroupPage() {
           html.p(
             attr.class('text-xs text-gray-500'),
             'Selected: ',
-            alignment.map(v => v.length ? v.join(', ') : '(none)')
+            alignment.map(v => (v.length ? v.join(', ') : '(none)'))
           ),
         ]
       })(),
@@ -108,8 +118,14 @@ export default function ToggleButtonGroupPage() {
             items: [
               { key: 'bold', label: html.strong('B') },
               { key: 'italic', label: html.em('I') },
-              { key: 'underline', label: html.span(attr.class('underline'), 'U') },
-              { key: 'strikethrough', label: html.span(attr.class('line-through'), 'S') },
+              {
+                key: 'underline',
+                label: html.span(attr.class('underline'), 'U'),
+              },
+              {
+                key: 'strikethrough',
+                label: html.span(attr.class('line-through'), 'S'),
+              },
             ],
             value: formats,
             onChange: formats.set,
@@ -121,7 +137,7 @@ export default function ToggleButtonGroupPage() {
           html.p(
             attr.class('text-xs text-gray-500'),
             'Selected: ',
-            formats.map(v => v.length ? v.join(', ') : '(none)')
+            formats.map(v => (v.length ? v.join(', ') : '(none)'))
           ),
         ]
       })(),
@@ -137,9 +153,30 @@ export default function ToggleButtonGroupPage() {
         return [
           ToggleButtonGroup({
             items: [
-              { key: 'list', label: Group(attr.class('gap-1'), Icon({ icon: 'lucide:list', size: size.value }), 'List') },
-              { key: 'grid', label: Group(attr.class('gap-1'), Icon({ icon: 'lucide:layout-grid', size: size.value }), 'Grid') },
-              { key: 'kanban', label: Group(attr.class('gap-1'), Icon({ icon: 'lucide:columns-3', size: size.value }), 'Kanban') },
+              {
+                key: 'list',
+                label: Group(
+                  attr.class('gap-1'),
+                  Icon({ icon: 'lucide:list', size: size.value }),
+                  'List'
+                ),
+              },
+              {
+                key: 'grid',
+                label: Group(
+                  attr.class('gap-1'),
+                  Icon({ icon: 'lucide:layout-grid', size: size.value }),
+                  'Grid'
+                ),
+              },
+              {
+                key: 'kanban',
+                label: Group(
+                  attr.class('gap-1'),
+                  Icon({ icon: 'lucide:columns-3', size: size.value }),
+                  'Kanban'
+                ),
+              },
             ],
             value: view,
             onChange: view.set,
@@ -212,7 +249,10 @@ export default function ToggleButtonGroupPage() {
       ),
 
       // Disabled items
-      html.h3(attr.class('text-lg font-semibold mt-4'), 'Individual Disabled Items'),
+      html.h3(
+        attr.class('text-lg font-semibold mt-4'),
+        'Individual Disabled Items'
+      ),
       html.p(
         attr.class('text-sm text-gray-600'),
         'Specific items within the group can be disabled independently.'
@@ -232,7 +272,7 @@ export default function ToggleButtonGroupPage() {
             size,
           }),
         ]
-      })(),
+      })()
     ),
   })
 }

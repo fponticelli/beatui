@@ -23,7 +23,6 @@ export default function AnnouncementBarPage() {
         InputWrapper({
           label: 'Color',
           content: SegmentedInput({
-            size: 'sm',
             options: {
               primary: 'Primary',
               success: 'Success',
