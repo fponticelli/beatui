@@ -6,7 +6,6 @@ import {
   EditableText,
   Switch,
   InputWrapper,
-  Divider,
 } from '@tempots/beatui'
 
 export default function EditableTextPage() {
