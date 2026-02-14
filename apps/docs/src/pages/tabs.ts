@@ -124,7 +124,7 @@ export default function TabsPage() {
       })
     ),
     body: Stack(
-      attr.class('gap-8 overflow-hidden'),
+      attr.class('gap-8 overflow-hidden p-4'),
 
       // Basic Example
       html.section(
@@ -134,7 +134,7 @@ export default function TabsPage() {
           'A simple tabs component with different content panels.'
         ),
         html.div(
-          attr.class('border rounded-lg overflow-hidden'),
+          attr.class('border border-gray-300 rounded-lg overflow-hidden'),
           Tabs({
             items: basicTabs,
             value: activeTab,
@@ -165,7 +165,7 @@ export default function TabsPage() {
                 `Size: ${currentSize}`
               ),
               html.div(
-                attr.class('border rounded-lg overflow-hidden'),
+                attr.class('border border-gray-300 rounded-lg overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3), // Only show first 3 tabs for size demo
                   value: sizeActiveTab,
@@ -196,7 +196,7 @@ export default function TabsPage() {
                 `Variant: ${currentVariant}`
               ),
               html.div(
-                attr.class('border rounded-lg overflow-hidden'),
+                attr.class('border border-gray-300 rounded-lg overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3),
                   value: variantActiveTab,
@@ -218,7 +218,7 @@ export default function TabsPage() {
           'Tabs can be displayed vertically for sidebar-style navigation.'
         ),
         html.div(
-          attr.class('border rounded-lg overflow-hidden h-96'),
+          attr.class('border border-gray-300 rounded-lg overflow-hidden h-96'),
           (() => {
             const verticalActiveTab = prop<DemoTabKey>('overview')
             return Tabs({

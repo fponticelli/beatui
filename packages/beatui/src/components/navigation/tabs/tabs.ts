@@ -9,8 +9,6 @@ import {
   aria,
   dataAttr,
   When,
-  Ensure,
-  MapSignal,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
@@ -211,8 +209,17 @@ export function Tabs<T extends string>(options: TabsOptions<T>) {
 
   const tabListId = sessionId('tablist')
   const focusedTabIndex = prop(-1)
-  const currentTab = computedOf(value)(key => {
-    return items.find(item => item.key === key)
+
+  // Pre-compute per-item derived state (shared between tab buttons and panels)
+  const itemStates = items.map((item, index) => {
+    const isActive = computedOf(value)(activeKey => activeKey === item.key)
+    const isTabDisabled = computedOf(
+      disabled,
+      item.disabled
+    )((globalDisabled, itemDisabled) => globalDisabled || itemDisabled)
+    const tabId = `${tabListId}-tab-${item.key}`
+    const panelId = `${tabListId}-panel-${item.key}`
+    return { item, index, isActive, isTabDisabled, tabId, panelId }
   })
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -308,85 +315,76 @@ export function Tabs<T extends string>(options: TabsOptions<T>) {
       aria.label(ariaLabel),
       on.keydown(handleKeyDown),
 
-      ...items.map((item, index) => {
-        const isActive = computedOf(value)(activeKey => activeKey === item.key)
-        const isTabDisabled = computedOf(
-          disabled,
-          item.disabled
-        )((globalDisabled, itemDisabled) => globalDisabled || itemDisabled)
-
-        const tabId = `${tabListId}-tab-${item.key}`
-        const panelId = `${tabListId}-panel-${item.key}`
-
-        return html.button(
-          attr.type('button'),
-          attr.class(
-            computedOf(
-              size,
-              isActive,
-              isTabDisabled
-            )((size, active, disabled) =>
-              generateTabClasses(
-                size ?? 'md',
-                active ?? false,
-                disabled ?? false
+      ...itemStates.map(
+        ({ item, index, isActive, isTabDisabled, tabId, panelId }) =>
+          html.button(
+            attr.type('button'),
+            attr.class(
+              computedOf(
+                size,
+                isActive,
+                isTabDisabled
+              )((size, active, disabled) =>
+                generateTabClasses(
+                  size ?? 'md',
+                  active ?? false,
+                  disabled ?? false
+                )
               )
-            )
-          ),
-          attr.id(tabId),
-          attr.role('tab'),
-          attr.tabindex(
-            computedOf(
-              isActive,
-              focusedTabIndex
-            )((active, focusedIndex): number => {
-              // Active tab or focused tab should be focusable
-              return active || focusedIndex === index ? 0 : -1
-            })
-          ),
-          aria.selected(isActive as Value<boolean | 'undefined'>),
-          aria.controls(panelId),
-          aria.disabled(isTabDisabled),
-          attr.disabled(isTabDisabled),
-          dataAttr['tab-index'](String(index)),
-          aria.label(item.ariaLabel),
+            ),
+            attr.id(tabId),
+            attr.role('tab'),
+            attr.tabindex(
+              computedOf(
+                isActive,
+                focusedTabIndex
+              )((active, focusedIndex): number => {
+                // Active tab or focused tab should be focusable
+                return active || focusedIndex === index ? 0 : -1
+              })
+            ),
+            aria.selected(isActive as Value<boolean | 'undefined'>),
+            aria.controls(panelId),
+            aria.disabled(isTabDisabled),
+            attr.disabled(isTabDisabled),
+            dataAttr['tab-index'](String(index)),
+            aria.label(item.ariaLabel),
 
-          on.click(event => {
-            event.preventDefault()
-            const isTabDisabled =
-              Value.get(item.disabled ?? false) || Value.get(disabled)
-            if (!isTabDisabled) {
-              onChange?.(item.key)
+            on.click(event => {
+              event.preventDefault()
+              const isTabDisabled =
+                Value.get(item.disabled ?? false) || Value.get(disabled)
+              if (!isTabDisabled) {
+                onChange?.(item.key)
+                focusedTabIndex.set(index)
+              }
+            }),
+
+            on.focus(() => {
               focusedTabIndex.set(index)
-            }
-          }),
+            }),
 
-          on.focus(() => {
-            focusedTabIndex.set(index)
-          }),
-
-          item.label
-        )
-      })
+            item.label
+          )
+      )
     ),
-    // Panel
+    // Panels
     When(showContent ?? true, () =>
-      Ensure(currentTab, tab => {
-        const key = tab.$.key
-        const tabId = key.map(k => `${tabListId}-tab-${k}`)
-        const panelId = key.map(k => `${tabListId}-panel-${k}`)
-        return html.div(
-          attr.class('bc-tabs__panels'),
-          html.div(
-            attr.class('bc-tabs__panel'),
-            attr.id(panelId),
-            attr.role('tabpanel'),
-            attr.tabindex(0),
-            aria.labelledby(tabId),
-            MapSignal(tab, t => t.content())
+      html.div(
+        attr.class('bc-tabs__panels'),
+        ...itemStates.map(({ item, isActive, tabId, panelId }) =>
+          When(isActive, () =>
+            html.div(
+              attr.class('bc-tabs__panel'),
+              attr.id(panelId),
+              attr.role('tabpanel'),
+              attr.tabindex(0),
+              aria.labelledby(tabId),
+              item.content()
+            )
           )
         )
-      })
+      )
     )
   )
 }
