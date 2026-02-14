@@ -38,6 +38,22 @@ const zh = {
 
   // Modal
   authenticationTitle: '认证',
+
+  // Validation messages
+  passwordMinLength: (min: number) => `密码至少需要${min}个字符`,
+  passwordRequireUppercase: '密码必须包含至少一个大写字母',
+  passwordRequireLowercase: '密码必须包含至少一个小写字母',
+  passwordRequireNumber: '密码必须包含至少一个数字',
+  passwordRequireSpecialChar: '密码必须包含至少一个特殊字符',
+  emailRequired: '邮箱为必填项',
+  invalidEmail: '请输入有效的邮箱地址',
+  passwordRequired: '密码为必填项',
+  nameRequired: '姓名为必填项',
+  confirmPasswordRequired: '请确认您的密码',
+  acceptTermsRequired: '您必须接受条款和条件',
+  passwordsDoNotMatch: '两次输入的密码不一致',
+  invalidPassword: '密码无效',
+  invalidEmailAddress: '邮箱无效',
 }
 
 export default zh

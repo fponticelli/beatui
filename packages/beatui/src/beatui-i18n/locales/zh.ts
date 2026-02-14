@@ -113,23 +113,22 @@ const zh: BeatUIMessages = {
   appearanceDark: '深色',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: '更改类型将清除当前值。是否继续？',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: '通知',
+  markAllAsRead: '全部标为已读',
+  noNotifications: '没有通知',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: '检测到架构冲突',
+  schemaViolationsDetected: '检测到架构违规',
+  properties: '属性',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: '上传中...',
+  dropFilesOrBrowse: '将文件拖放到此处或点击浏览',
+  acceptedTypes: (types: string) => `支持的类型：${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: '请输入网址：',
+  exceeded: '(已超出)',
   // PDF
   pdfPreview: 'PDF 预览',
   // Lexical editor

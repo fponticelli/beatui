@@ -38,6 +38,22 @@ const tr = {
 
   // Modal
   authenticationTitle: 'Kimlik Doğrulama',
+
+  // Validation messages
+  passwordMinLength: (min: number) => `Şifre en az ${min} karakter olmalıdır`,
+  passwordRequireUppercase: 'Şifre en az bir büyük harf içermelidir',
+  passwordRequireLowercase: 'Şifre en az bir küçük harf içermelidir',
+  passwordRequireNumber: 'Şifre en az bir rakam içermelidir',
+  passwordRequireSpecialChar: 'Şifre en az bir özel karakter içermelidir',
+  emailRequired: 'E-posta gereklidir',
+  invalidEmail: 'Lütfen geçerli bir e-posta adresi girin',
+  passwordRequired: 'Şifre gereklidir',
+  nameRequired: 'İsim gereklidir',
+  confirmPasswordRequired: 'Lütfen şifrenizi onaylayın',
+  acceptTermsRequired: 'Şartları ve koşulları kabul etmelisiniz',
+  passwordsDoNotMatch: 'Şifreler eşleşmiyor',
+  invalidPassword: 'Geçersiz şifre',
+  invalidEmailAddress: 'Geçersiz e-posta',
 }
 
 export default tr

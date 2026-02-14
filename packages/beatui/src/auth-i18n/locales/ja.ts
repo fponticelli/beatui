@@ -38,6 +38,23 @@ const ja = {
 
   // Modal
   authenticationTitle: '認証',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `パスワードは${min}文字以上で入力してください`,
+  passwordRequireUppercase: 'パスワードには大文字を1文字以上含めてください',
+  passwordRequireLowercase: 'パスワードには小文字を1文字以上含めてください',
+  passwordRequireNumber: 'パスワードには数字を1文字以上含めてください',
+  passwordRequireSpecialChar: 'パスワードには特殊文字を1文字以上含めてください',
+  emailRequired: 'メールアドレスは必須です',
+  invalidEmail: '有効なメールアドレスを入力してください',
+  passwordRequired: 'パスワードは必須です',
+  nameRequired: '名前は必須です',
+  confirmPasswordRequired: 'パスワードの確認を入力してください',
+  acceptTermsRequired: '利用規約に同意する必要があります',
+  passwordsDoNotMatch: 'パスワードが一致しません',
+  invalidPassword: '無効なパスワードです',
+  invalidEmailAddress: '無効なメールアドレスです',
 }
 
 export default ja

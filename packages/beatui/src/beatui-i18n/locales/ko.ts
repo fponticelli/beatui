@@ -114,22 +114,22 @@ const ko: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    '유형을 변경하면 현재 값이 지워집니다. 계속하시겠습니까?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: '알림',
+  markAllAsRead: '모두 읽음으로 표시',
+  noNotifications: '알림 없음',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: '스키마 충돌 감지됨',
+  schemaViolationsDetected: '스키마 위반 감지됨',
+  properties: '속성',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: '업로드 중...',
+  dropFilesOrBrowse: '파일을 여기에 놓거나 클릭하여 찾아보기',
+  acceptedTypes: (types: string) => `허용 형식: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'URL 입력:',
+  exceeded: '(초과)',
   // PDF
   pdfPreview: 'PDF 미리보기',
   // Lexical editor

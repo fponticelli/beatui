@@ -38,6 +38,25 @@ const pl = {
 
   // Modal
   authenticationTitle: 'Uwierzytelnienie',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `Hasło musi mieć co najmniej ${min} znaków`,
+  passwordRequireUppercase:
+    'Hasło musi zawierać co najmniej jedną wielką literę',
+  passwordRequireLowercase: 'Hasło musi zawierać co najmniej jedną małą literę',
+  passwordRequireNumber: 'Hasło musi zawierać co najmniej jedną cyfrę',
+  passwordRequireSpecialChar:
+    'Hasło musi zawierać co najmniej jeden znak specjalny',
+  emailRequired: 'E-mail jest wymagany',
+  invalidEmail: 'Wprowadź prawidłowy adres e-mail',
+  passwordRequired: 'Hasło jest wymagane',
+  nameRequired: 'Imię jest wymagane',
+  confirmPasswordRequired: 'Potwierdź swoje hasło',
+  acceptTermsRequired: 'Musisz zaakceptować regulamin',
+  passwordsDoNotMatch: 'Hasła nie są zgodne',
+  invalidPassword: 'Nieprawidłowe hasło',
+  invalidEmailAddress: 'Nieprawidłowy e-mail',
 }
 
 export default pl

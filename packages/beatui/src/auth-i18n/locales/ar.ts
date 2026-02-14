@@ -38,6 +38,26 @@ const ar = {
 
   // Modal
   authenticationTitle: 'المصادقة',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `يجب أن تتكون كلمة المرور من ${min} أحرف على الأقل`,
+  passwordRequireUppercase:
+    'يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل',
+  passwordRequireLowercase:
+    'يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل',
+  passwordRequireNumber: 'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل',
+  passwordRequireSpecialChar:
+    'يجب أن تحتوي كلمة المرور على حرف خاص واحد على الأقل',
+  emailRequired: 'البريد الإلكتروني مطلوب',
+  invalidEmail: 'يرجى إدخال عنوان بريد إلكتروني صالح',
+  passwordRequired: 'كلمة المرور مطلوبة',
+  nameRequired: 'الاسم مطلوب',
+  confirmPasswordRequired: 'يرجى تأكيد كلمة المرور',
+  acceptTermsRequired: 'يجب الموافقة على الشروط والأحكام',
+  passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
+  invalidPassword: 'كلمة مرور غير صالحة',
+  invalidEmailAddress: 'بريد إلكتروني غير صالح',
 }
 
 export default ar

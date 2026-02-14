@@ -39,6 +39,25 @@ const nl = {
 
   // Modal
   authenticationTitle: 'Authenticatie',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `Wachtwoord moet minimaal ${min} tekens bevatten`,
+  passwordRequireUppercase: 'Wachtwoord moet minimaal één hoofdletter bevatten',
+  passwordRequireLowercase:
+    'Wachtwoord moet minimaal één kleine letter bevatten',
+  passwordRequireNumber: 'Wachtwoord moet minimaal één cijfer bevatten',
+  passwordRequireSpecialChar:
+    'Wachtwoord moet minimaal één speciaal teken bevatten',
+  emailRequired: 'E-mail is verplicht',
+  invalidEmail: 'Voer een geldig e-mailadres in',
+  passwordRequired: 'Wachtwoord is verplicht',
+  nameRequired: 'Naam is verplicht',
+  confirmPasswordRequired: 'Bevestig je wachtwoord',
+  acceptTermsRequired: 'Je moet de voorwaarden accepteren',
+  passwordsDoNotMatch: 'Wachtwoorden komen niet overeen',
+  invalidPassword: 'Ongeldig wachtwoord',
+  invalidEmailAddress: 'Ongeldig e-mailadres',
 }
 
 export default nl

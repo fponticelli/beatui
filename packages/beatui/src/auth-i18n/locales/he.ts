@@ -38,6 +38,22 @@ const he = {
 
   // Modal
   authenticationTitle: 'אימות',
+
+  // Validation messages
+  passwordMinLength: (min: number) => `הסיסמה חייבת להכיל לפחות ${min} תווים`,
+  passwordRequireUppercase: 'הסיסמה חייבת להכיל לפחות אות גדולה אחת',
+  passwordRequireLowercase: 'הסיסמה חייבת להכיל לפחות אות קטנה אחת',
+  passwordRequireNumber: 'הסיסמה חייבת להכיל לפחות ספרה אחת',
+  passwordRequireSpecialChar: 'הסיסמה חייבת להכיל לפחות תו מיוחד אחד',
+  emailRequired: 'אימייל נדרש',
+  invalidEmail: 'נא להזין כתובת אימייל תקינה',
+  passwordRequired: 'סיסמה נדרשת',
+  nameRequired: 'שם נדרש',
+  confirmPasswordRequired: 'נא לאשר את הסיסמה',
+  acceptTermsRequired: 'עליך לאשר את התנאים וההתניות',
+  passwordsDoNotMatch: 'הסיסמאות אינן תואמות',
+  invalidPassword: 'סיסמה לא תקינה',
+  invalidEmailAddress: 'אימייל לא תקין',
 }
 
 export default he

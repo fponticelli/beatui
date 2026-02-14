@@ -293,9 +293,7 @@ export class UnionController<T> extends Controller<T> {
     // If conversion failed, ask for confirmation if required
     if (confirmChange) {
       if (typeof window === 'object' && typeof window.confirm === 'function') {
-        const ok = window.confirm(
-          defaultMessages.changeTypeConfirmation
-        )
+        const ok = window.confirm(defaultMessages.changeTypeConfirmation)
         if (!ok) return false
       }
     }

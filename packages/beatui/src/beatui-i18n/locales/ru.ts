@@ -116,22 +116,22 @@ export const ru: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    'Изменение типа очистит текущее значение. Продолжить?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'Уведомления',
+  markAllAsRead: 'Отметить все как прочитанные',
+  noNotifications: 'Нет уведомлений',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'Обнаружены конфликты схемы',
+  schemaViolationsDetected: 'Обнаружены нарушения схемы',
+  properties: 'Свойства',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'Загрузка...',
+  dropFilesOrBrowse: 'Перетащите файлы сюда или нажмите для выбора',
+  acceptedTypes: (types: string) => `Допустимые типы: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'Введите URL:',
+  exceeded: '(превышено)',
   // PDF
   pdfPreview: 'Предпросмотр PDF',
   // Lexical editor

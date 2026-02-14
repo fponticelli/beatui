@@ -114,22 +114,22 @@ const ur: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    'قسم تبدیل کرنے سے موجودہ قدر صاف ہو جائے گی۔ جاری رکھیں؟',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'اطلاعات',
+  markAllAsRead: 'سب کو پڑھا ہوا نشان زد کریں',
+  noNotifications: 'کوئی اطلاع نہیں',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'اسکیما تنازعات کا پتا چلا',
+  schemaViolationsDetected: 'اسکیما خلاف ورزیوں کا پتا چلا',
+  properties: 'خصوصیات',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'اپ لوڈ ہو رہا ہے...',
+  dropFilesOrBrowse: 'فائلیں یہاں چھوڑیں یا براؤز کرنے کے لیے کلک کریں',
+  acceptedTypes: (types: string) => `قابل قبول اقسام: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'URL درج کریں:',
+  exceeded: '(حد سے تجاوز)',
   // PDF
   pdfPreview: 'PDF پیش نظارہ',
   // Lexical editor

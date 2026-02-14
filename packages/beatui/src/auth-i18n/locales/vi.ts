@@ -38,6 +38,23 @@ const vi = {
 
   // Modal
   authenticationTitle: 'Xác thực',
+
+  // Validation messages
+  passwordMinLength: (min: number) => `Mật khẩu phải có ít nhất ${min} ký tự`,
+  passwordRequireUppercase: 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa',
+  passwordRequireLowercase:
+    'Mật khẩu phải chứa ít nhất một chữ cái viết thường',
+  passwordRequireNumber: 'Mật khẩu phải chứa ít nhất một chữ số',
+  passwordRequireSpecialChar: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt',
+  emailRequired: 'Email là bắt buộc',
+  invalidEmail: 'Vui lòng nhập địa chỉ email hợp lệ',
+  passwordRequired: 'Mật khẩu là bắt buộc',
+  nameRequired: 'Tên là bắt buộc',
+  confirmPasswordRequired: 'Vui lòng xác nhận mật khẩu của bạn',
+  acceptTermsRequired: 'Bạn phải chấp nhận các điều khoản và điều kiện',
+  passwordsDoNotMatch: 'Mật khẩu không khớp',
+  invalidPassword: 'Mật khẩu không hợp lệ',
+  invalidEmailAddress: 'Email không hợp lệ',
 }
 
 export default vi

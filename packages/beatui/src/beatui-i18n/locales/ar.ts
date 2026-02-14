@@ -114,22 +114,22 @@ const ar: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    'سيؤدي تغيير النوع إلى مسح القيمة الحالية. هل تريد المتابعة؟',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'الإشعارات',
+  markAllAsRead: 'تحديد الكل كمقروء',
+  noNotifications: 'لا توجد إشعارات',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'تم اكتشاف تعارضات في المخطط',
+  schemaViolationsDetected: 'تم اكتشاف انتهاكات في المخطط',
+  properties: 'الخصائص',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'جاري الرفع...',
+  dropFilesOrBrowse: 'أسقط الملفات هنا أو انقر للتصفح',
+  acceptedTypes: (types: string) => `الأنواع المقبولة: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'أدخل الرابط:',
+  exceeded: '(تم التجاوز)',
   // PDF
   pdfPreview: 'معاينة PDF',
   // Lexical editor

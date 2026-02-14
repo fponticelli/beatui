@@ -114,22 +114,22 @@ export const nl: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    'Het wijzigen van het type wist de huidige waarde. Doorgaan?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'Meldingen',
+  markAllAsRead: 'Alles als gelezen markeren',
+  noNotifications: 'Geen meldingen',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'Schemaconflicten gedetecteerd',
+  schemaViolationsDetected: 'Schemaschendingen gedetecteerd',
+  properties: 'Eigenschappen',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'Uploaden...',
+  dropFilesOrBrowse: 'Sleep bestanden hierheen of klik om te bladeren',
+  acceptedTypes: (types: string) => `Toegestane typen: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'Voer URL in:',
+  exceeded: '(overschreden)',
   // PDF
   pdfPreview: 'PDF-voorbeeld',
   // Lexical editor

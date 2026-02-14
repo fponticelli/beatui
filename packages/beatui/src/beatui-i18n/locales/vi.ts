@@ -113,23 +113,22 @@ const vi: BeatUIMessages = {
   appearanceDark: 'Tối',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: 'Thay đổi loại sẽ xóa giá trị hiện tại. Tiếp tục?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'Thông báo',
+  markAllAsRead: 'Đánh dấu tất cả đã đọc',
+  noNotifications: 'Không có thông báo',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'Phát hiện xung đột lược đồ',
+  schemaViolationsDetected: 'Phát hiện vi phạm lược đồ',
+  properties: 'Thuộc tính',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'Đang tải lên...',
+  dropFilesOrBrowse: 'Kéo thả tệp vào đây hoặc nhấp để duyệt',
+  acceptedTypes: (types: string) => `Loại tệp được chấp nhận: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'Nhập URL:',
+  exceeded: '(vượt quá)',
   // PDF
   pdfPreview: 'Xem trước PDF',
   // Lexical editor

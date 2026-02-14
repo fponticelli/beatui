@@ -39,6 +39,27 @@ const es = {
 
   // Modal
   authenticationTitle: 'Autenticación',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `La contraseña debe tener al menos ${min} caracteres`,
+  passwordRequireUppercase:
+    'La contraseña debe contener al menos una letra mayúscula',
+  passwordRequireLowercase:
+    'La contraseña debe contener al menos una letra minúscula',
+  passwordRequireNumber: 'La contraseña debe contener al menos un número',
+  passwordRequireSpecialChar:
+    'La contraseña debe contener al menos un carácter especial',
+  emailRequired: 'El correo electrónico es obligatorio',
+  invalidEmail:
+    'Por favor, introduce una dirección de correo electrónico válida',
+  passwordRequired: 'La contraseña es obligatoria',
+  nameRequired: 'El nombre es obligatorio',
+  confirmPasswordRequired: 'Por favor, confirma tu contraseña',
+  acceptTermsRequired: 'Debes aceptar los términos y condiciones',
+  passwordsDoNotMatch: 'Las contraseñas no coinciden',
+  invalidPassword: 'Contraseña inválida',
+  invalidEmailAddress: 'Correo electrónico inválido',
 }
 
 export default es

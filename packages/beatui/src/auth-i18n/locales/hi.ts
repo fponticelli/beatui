@@ -39,6 +39,23 @@ const hi = {
 
   // Modal
   authenticationTitle: 'प्रमाणीकरण',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `पासवर्ड कम से कम ${min} अक्षरों का होना चाहिए`,
+  passwordRequireUppercase: 'पासवर्ड में कम से कम एक बड़ा अक्षर होना चाहिए',
+  passwordRequireLowercase: 'पासवर्ड में कम से कम एक छोटा अक्षर होना चाहिए',
+  passwordRequireNumber: 'पासवर्ड में कम से कम एक अंक होना चाहिए',
+  passwordRequireSpecialChar: 'पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए',
+  emailRequired: 'ईमेल आवश्यक है',
+  invalidEmail: 'कृपया एक मान्य ईमेल पता दर्ज करें',
+  passwordRequired: 'पासवर्ड आवश्यक है',
+  nameRequired: 'नाम आवश्यक है',
+  confirmPasswordRequired: 'कृपया अपने पासवर्ड की पुष्टि करें',
+  acceptTermsRequired: 'आपको नियम और शर्तों को स्वीकार करना होगा',
+  passwordsDoNotMatch: 'पासवर्ड मेल नहीं खाते',
+  invalidPassword: 'अमान्य पासवर्ड',
+  invalidEmailAddress: 'अमान्य ईमेल',
 }
 
 export default hi

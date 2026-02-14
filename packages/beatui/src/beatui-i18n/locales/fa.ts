@@ -113,23 +113,22 @@ const fa: BeatUIMessages = {
   appearanceDark: 'تاریک',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: 'تغییر نوع مقدار فعلی را پاک می‌کند. ادامه می‌دهید؟',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'اعلان‌ها',
+  markAllAsRead: 'علامت‌گذاری همه به عنوان خوانده‌شده',
+  noNotifications: 'اعلانی وجود ندارد',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'تعارض‌های طرحواره شناسایی شد',
+  schemaViolationsDetected: 'نقض‌های طرحواره شناسایی شد',
+  properties: 'ویژگی‌ها',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'در حال بارگذاری...',
+  dropFilesOrBrowse: 'فایل‌ها را اینجا رها کنید یا برای مرور کلیک کنید',
+  acceptedTypes: (types: string) => `انواع مجاز: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'آدرس URL را وارد کنید:',
+  exceeded: '(بیش از حد)',
   // PDF
   pdfPreview: 'پیش‌نمایش PDF',
   // Lexical editor

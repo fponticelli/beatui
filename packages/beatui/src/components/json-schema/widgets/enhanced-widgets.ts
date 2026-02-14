@@ -169,7 +169,7 @@ export function FileUploadWidget({
             attr.class('bc-file-upload__text'),
             computedOf(
               isUploading,
-              t.$
+              t
             )((uploading, msgs): string =>
               uploading ? msgs.uploading : msgs.dropFilesOrBrowse
             )
@@ -177,7 +177,7 @@ export function FileUploadWidget({
           config.accept &&
             html.div(
               attr.class('bc-file-upload__hint'),
-              t.$.map(msgs => msgs.acceptedTypes(config.accept!.join(', ')))
+              t.map(msgs => msgs.acceptedTypes(config.accept!.join(', ')))
             )
         )
       ),
@@ -319,7 +319,10 @@ export function RichTextWidget({
       config.maxLength != null
         ? html.div(
             attr.class('bc-rich-text__counter'),
-            computedOf(controller.signal, t.$)((value, msgs): string => {
+            computedOf(
+              controller.signal,
+              t
+            )((value, msgs): string => {
               const length = value?.length || 0
               const remaining = config.maxLength! - length
               return `${length}/${config.maxLength} ${remaining < 0 ? msgs.exceeded : ''}`

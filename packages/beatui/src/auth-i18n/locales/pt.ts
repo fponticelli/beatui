@@ -38,6 +38,26 @@ const pt = {
 
   // Modal
   authenticationTitle: 'Autenticação',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `A senha deve ter pelo menos ${min} caracteres`,
+  passwordRequireUppercase:
+    'A senha deve conter pelo menos uma letra maiúscula',
+  passwordRequireLowercase:
+    'A senha deve conter pelo menos uma letra minúscula',
+  passwordRequireNumber: 'A senha deve conter pelo menos um número',
+  passwordRequireSpecialChar:
+    'A senha deve conter pelo menos um caractere especial',
+  emailRequired: 'O email é obrigatório',
+  invalidEmail: 'Por favor, insira um endereço de email válido',
+  passwordRequired: 'A senha é obrigatória',
+  nameRequired: 'O nome é obrigatório',
+  confirmPasswordRequired: 'Por favor, confirme sua senha',
+  acceptTermsRequired: 'Você deve aceitar os termos e condições',
+  passwordsDoNotMatch: 'As senhas não coincidem',
+  invalidPassword: 'Senha inválida',
+  invalidEmailAddress: 'Email inválido',
 }
 
 export default pt

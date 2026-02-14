@@ -114,22 +114,22 @@ const tr: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    'Tür değiştirmek mevcut değeri silecektir. Devam edilsin mi?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'Bildirimler',
+  markAllAsRead: 'Tümünü okundu olarak işaretle',
+  noNotifications: 'Bildirim yok',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'Şema Çakışmaları Tespit Edildi',
+  schemaViolationsDetected: 'Şema İhlalleri Tespit Edildi',
+  properties: 'Özellikler',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'Yükleniyor...',
+  dropFilesOrBrowse: 'Dosyaları buraya bırakın veya göz atmak için tıklayın',
+  acceptedTypes: (types: string) => `Kabul edilen türler: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'URL girin:',
+  exceeded: '(aşıldı)',
   // PDF
   pdfPreview: 'PDF Önizleme',
   // Lexical editor

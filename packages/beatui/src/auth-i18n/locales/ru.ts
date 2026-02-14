@@ -38,6 +38,26 @@ const ru = {
 
   // Modal
   authenticationTitle: 'Аутентификация',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `Пароль должен содержать не менее ${min} символов`,
+  passwordRequireUppercase:
+    'Пароль должен содержать хотя бы одну заглавную букву',
+  passwordRequireLowercase:
+    'Пароль должен содержать хотя бы одну строчную букву',
+  passwordRequireNumber: 'Пароль должен содержать хотя бы одну цифру',
+  passwordRequireSpecialChar:
+    'Пароль должен содержать хотя бы один специальный символ',
+  emailRequired: 'Email обязателен для заполнения',
+  invalidEmail: 'Пожалуйста, введите корректный email',
+  passwordRequired: 'Пароль обязателен для заполнения',
+  nameRequired: 'Имя обязательно для заполнения',
+  confirmPasswordRequired: 'Пожалуйста, подтвердите пароль',
+  acceptTermsRequired: 'Необходимо принять условия использования',
+  passwordsDoNotMatch: 'Пароли не совпадают',
+  invalidPassword: 'Неверный пароль',
+  invalidEmailAddress: 'Неверный email',
 }
 
 export default ru

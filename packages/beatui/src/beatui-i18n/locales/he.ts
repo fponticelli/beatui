@@ -113,23 +113,22 @@ const he: BeatUIMessages = {
   appearanceDark: 'כהה',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: 'שינוי הסוג ימחק את הערך הנוכחי. להמשיך?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'התראות',
+  markAllAsRead: 'סמן הכל כנקרא',
+  noNotifications: 'אין התראות',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'זוהו התנגשויות בסכמה',
+  schemaViolationsDetected: 'זוהו הפרות סכמה',
+  properties: 'מאפיינים',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'מעלה...',
+  dropFilesOrBrowse: 'גרור קבצים לכאן או לחץ לעיון',
+  acceptedTypes: (types: string) => `סוגים מותרים: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'הכנס כתובת URL:',
+  exceeded: '(חורג)',
   // PDF
   pdfPreview: 'תצוגה מקדימה של PDF',
   // Lexical editor

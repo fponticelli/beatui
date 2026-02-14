@@ -38,6 +38,22 @@ const fa = {
 
   // Modal
   authenticationTitle: 'احراز هویت',
+
+  // Validation messages
+  passwordMinLength: (min: number) => `رمز عبور باید حداقل ${min} کاراکتر باشد`,
+  passwordRequireUppercase: 'رمز عبور باید حداقل یک حرف بزرگ داشته باشد',
+  passwordRequireLowercase: 'رمز عبور باید حداقل یک حرف کوچک داشته باشد',
+  passwordRequireNumber: 'رمز عبور باید حداقل یک عدد داشته باشد',
+  passwordRequireSpecialChar: 'رمز عبور باید حداقل یک کاراکتر خاص داشته باشد',
+  emailRequired: 'ایمیل الزامی است',
+  invalidEmail: 'لطفاً یک آدرس ایمیل معتبر وارد کنید',
+  passwordRequired: 'رمز عبور الزامی است',
+  nameRequired: 'نام الزامی است',
+  confirmPasswordRequired: 'لطفاً رمز عبور را تأیید کنید',
+  acceptTermsRequired: 'باید شرایط و قوانین را بپذیرید',
+  passwordsDoNotMatch: 'رمزهای عبور مطابقت ندارند',
+  invalidPassword: 'رمز عبور نامعتبر',
+  invalidEmailAddress: 'ایمیل نامعتبر',
 }
 
 export default fa

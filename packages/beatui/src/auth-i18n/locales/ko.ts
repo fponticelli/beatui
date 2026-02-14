@@ -38,6 +38,24 @@ const ko = {
 
   // Modal
   authenticationTitle: '인증',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `비밀번호는 최소 ${min}자 이상이어야 합니다`,
+  passwordRequireUppercase: '비밀번호에 대문자가 최소 1개 포함되어야 합니다',
+  passwordRequireLowercase: '비밀번호에 소문자가 최소 1개 포함되어야 합니다',
+  passwordRequireNumber: '비밀번호에 숫자가 최소 1개 포함되어야 합니다',
+  passwordRequireSpecialChar:
+    '비밀번호에 특수문자가 최소 1개 포함되어야 합니다',
+  emailRequired: '이메일은 필수 항목입니다',
+  invalidEmail: '유효한 이메일 주소를 입력해 주세요',
+  passwordRequired: '비밀번호는 필수 항목입니다',
+  nameRequired: '이름은 필수 항목입니다',
+  confirmPasswordRequired: '비밀번호를 확인해 주세요',
+  acceptTermsRequired: '이용약관에 동의해야 합니다',
+  passwordsDoNotMatch: '비밀번호가 일치하지 않습니다',
+  invalidPassword: '유효하지 않은 비밀번호입니다',
+  invalidEmailAddress: '유효하지 않은 이메일입니다',
 }
 
 export default ko

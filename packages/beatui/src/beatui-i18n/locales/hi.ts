@@ -113,23 +113,22 @@ const hi: BeatUIMessages = {
   appearanceDark: 'डार्क',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: 'प्रकार बदलने से वर्तमान मान मिट जाएगा। जारी रखें?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'सूचनाएं',
+  markAllAsRead: 'सभी को पढ़ा हुआ चिह्नित करें',
+  noNotifications: 'कोई सूचना नहीं',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'स्कीमा विरोध पाए गए',
+  schemaViolationsDetected: 'स्कीमा उल्लंघन पाए गए',
+  properties: 'गुण',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'अपलोड हो रहा है...',
+  dropFilesOrBrowse: 'फ़ाइलें यहाँ छोड़ें या ब्राउज़ करने के लिए क्लिक करें',
+  acceptedTypes: (types: string) => `स्वीकृत प्रकार: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'URL दर्ज करें:',
+  exceeded: '(सीमा पार)',
   // PDF
   pdfPreview: 'PDF पूर्वावलोकन',
   // Lexical editor

@@ -113,23 +113,22 @@ const pt: BeatUIMessages = {
   appearanceDark: 'Escuro',
   // Dialogs
   ok: 'OK',
-  changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+  changeTypeConfirmation: 'Alterar o tipo apagará o valor atual. Continuar?',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: 'Notificações',
+  markAllAsRead: 'Marcar tudo como lido',
+  noNotifications: 'Nenhuma notificação',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'Conflitos de esquema detectados',
+  schemaViolationsDetected: 'Violações de esquema detectadas',
+  properties: 'Propriedades',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'Enviando...',
+  dropFilesOrBrowse: 'Arraste arquivos aqui ou clique para navegar',
+  acceptedTypes: (types: string) => `Tipos aceitos: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'Digite a URL:',
+  exceeded: '(excedido)',
   // PDF
   pdfPreview: 'Visualizacao do PDF',
   // Lexical editor

@@ -114,22 +114,22 @@ export const ja: BeatUIMessages = {
   // Dialogs
   ok: 'OK',
   changeTypeConfirmation:
-    'Changing type will clear the current value. Continue?',
+    '型を変更すると現在の値がクリアされます。続行しますか？',
   // Notifications
-  notifications: 'Notifications',
-  markAllAsRead: 'Mark all as read',
-  noNotifications: 'No notifications',
+  notifications: '通知',
+  markAllAsRead: 'すべて既読にする',
+  noNotifications: '通知はありません',
   // JSON Schema
-  schemaConflictsDetected: 'Schema Conflicts Detected',
-  schemaViolationsDetected: 'Schema Violations Detected',
-  properties: 'Properties',
+  schemaConflictsDetected: 'スキーマの競合が検出されました',
+  schemaViolationsDetected: 'スキーマ違反が検出されました',
+  properties: 'プロパティ',
   // File upload
-  uploading: 'Uploading...',
-  dropFilesOrBrowse: 'Drop files here or click to browse',
-  acceptedTypes: (types: string) => `Accepted types: ${types}`,
+  uploading: 'アップロード中...',
+  dropFilesOrBrowse: 'ファイルをここにドロップするか、クリックして参照',
+  acceptedTypes: (types: string) => `対応形式: ${types}`,
   // Rich text
-  enterUrlPrompt: 'Enter URL:',
-  exceeded: '(exceeded)',
+  enterUrlPrompt: 'URLを入力:',
+  exceeded: '(超過)',
   // PDF
   pdfPreview: 'PDFプレビュー',
   // Lexical editor

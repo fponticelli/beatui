@@ -39,6 +39,23 @@ const ur = {
 
   // Modal
   authenticationTitle: 'تصدیق',
+
+  // Validation messages
+  passwordMinLength: (min: number) =>
+    `پاس ورڈ کم از کم ${min} حروف کا ہونا چاہیے`,
+  passwordRequireUppercase: 'پاس ورڈ میں کم از کم ایک بڑا حرف ہونا چاہیے',
+  passwordRequireLowercase: 'پاس ورڈ میں کم از کم ایک چھوٹا حرف ہونا چاہیے',
+  passwordRequireNumber: 'پاس ورڈ میں کم از کم ایک نمبر ہونا چاہیے',
+  passwordRequireSpecialChar: 'پاس ورڈ میں کم از کم ایک خاص حرف ہونا چاہیے',
+  emailRequired: 'ای میل ضروری ہے',
+  invalidEmail: 'براہ کرم ایک درست ای میل پتہ درج کریں',
+  passwordRequired: 'پاس ورڈ ضروری ہے',
+  nameRequired: 'نام ضروری ہے',
+  confirmPasswordRequired: 'براہ کرم پاس ورڈ کی تصدیق کریں',
+  acceptTermsRequired: 'آپ کو شرائط و ضوابط قبول کرنا ضروری ہے',
+  passwordsDoNotMatch: 'پاس ورڈ مماثل نہیں ہیں',
+  invalidPassword: 'غلط پاس ورڈ',
+  invalidEmailAddress: 'غلط ای میل',
 }
 
 export default ur
