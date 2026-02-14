@@ -114,7 +114,6 @@ export const Tag = ({
             {
               size: 'xs',
               label: t.$.removeItem,
-              color: 'white',
               disabled,
               onClick: () => onClose?.(Value.get(value)),
             },
