@@ -37,11 +37,11 @@ test.describe('TreeView Component', () => {
     // Should now be expanded
     await expect(documentsRow).toHaveAttribute('aria-expanded', 'true')
 
-    // Children should be visible
+    // Children should be visible (not direct child due to Collapse wrapper div)
     const children = firstTree
       .locator('.bc-tree-item', { hasText: 'Documents' })
       .first()
-      .locator('> .bc-tree-item__children')
+      .locator('.bc-tree-item__children')
     await expect(children).toBeVisible()
   })
 
