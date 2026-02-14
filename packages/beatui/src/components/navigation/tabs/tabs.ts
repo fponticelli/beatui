@@ -6,7 +6,6 @@ import {
   on,
   prop,
   computedOf,
-  Fragment,
   aria,
   dataAttr,
   When,
@@ -306,7 +305,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>) {
       aria.orientation(
         (orientation ?? 'horizontal') as 'horizontal' | 'vertical'
       ),
-      ariaLabel ? aria.label(ariaLabel) : Fragment(),
+      aria.label(ariaLabel),
       on.keydown(handleKeyDown),
 
       ...items.map((item, index) => {
@@ -350,7 +349,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>) {
           aria.disabled(isTabDisabled),
           attr.disabled(isTabDisabled),
           dataAttr['tab-index'](String(index)),
-          item.ariaLabel ? aria.label(item.ariaLabel) : Fragment(),
+          aria.label(item.ariaLabel),
 
           on.click(event => {
             event.preventDefault()

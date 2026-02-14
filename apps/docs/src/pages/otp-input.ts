@@ -6,7 +6,6 @@ import {
   Stack,
   InputWrapper,
   Switch,
-  Group,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'

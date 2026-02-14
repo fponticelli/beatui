@@ -41,7 +41,8 @@
 }
 
 .bc-toggle-button--pressed {
-  box-shadow: inset 0 1px 3px color-mix(in srgb, var(--color-black) 10%, transparent);
+  box-shadow: inset 0 1px 3px
+    color-mix(in srgb, var(--color-black) 10%, transparent);
 }
 
 /* Size variants */

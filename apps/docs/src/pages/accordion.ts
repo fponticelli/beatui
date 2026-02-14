@@ -6,7 +6,6 @@ import {
   Stack,
   InputWrapper,
   Switch,
-  Group,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
@@ -56,7 +55,7 @@ export default function AccordionPage() {
         ),
         html.pre(
           attr.class('mt-2 p-2 bg-gray-100 rounded text-sm'),
-          'import { Button } from \'@tempots/beatui\'\n\nButton({ variant: \'filled\' }, \'Click me\')'
+          "import { Button } from '@tempots/beatui'\n\nButton({ variant: 'filled' }, 'Click me')"
         )
       ),
     },
@@ -107,12 +106,15 @@ export default function AccordionPage() {
           items,
           size,
           variant,
-          multiple: multiple.value,
+          multiple,
         })
       ),
 
       // With default open
-      html.h3(attr.class('text-lg font-semibold mt-4'), 'With Default Open Item'),
+      html.h3(
+        attr.class('text-lg font-semibold mt-4'),
+        'With Default Open Item'
+      ),
       html.div(
         attr.class('w-full max-w-xl'),
         Accordion({

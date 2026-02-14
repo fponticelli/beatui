@@ -1,12 +1,4 @@
-import {
-  attr,
-  computedOf,
-  html,
-  on,
-  TNode,
-  Value,
-  aria,
-} from '@tempots/dom'
+import { attr, computedOf, html, on, TNode, Value, aria } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '../../tokens'
 import {
@@ -256,12 +248,7 @@ export function ToggleButton(
       )(generateToggleButtonClasses)
     ),
     attr.style(
-      computedOf(
-        variant,
-        color,
-        pressed,
-        disabled
-      )(generateToggleButtonStyles)
+      computedOf(variant, color, pressed, disabled)(generateToggleButtonStyles)
     ),
     on.click(e => {
       e.preventDefault()

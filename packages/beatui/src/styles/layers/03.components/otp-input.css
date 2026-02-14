@@ -26,7 +26,8 @@
   border-radius: var(--radius-md);
   outline: none;
   caret-color: var(--otp-focus-color);
-  transition: border-color var(--motion-transition-fast) var(--motion-easing-standard),
+  transition:
+    border-color var(--motion-transition-fast) var(--motion-easing-standard),
     box-shadow var(--motion-transition-fast) var(--motion-easing-standard);
 }
 
@@ -38,7 +39,8 @@
 .bc-otp-input__cell:focus,
 .bc-otp-input__cell--focused {
   border-color: var(--otp-focus-border);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--otp-focus-color) 20%, transparent);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--otp-focus-color) 20%, transparent);
 }
 
 .bc-otp-input__cell:disabled {
@@ -101,7 +103,8 @@
 .b-dark .bc-otp-input__cell:focus,
 .b-dark .bc-otp-input__cell--focused {
   border-color: var(--otp-focus-border-dark);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--otp-focus-color-dark) 25%, transparent);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--otp-focus-color-dark) 25%, transparent);
 }
 
 .b-dark .bc-otp-input__cell::placeholder {

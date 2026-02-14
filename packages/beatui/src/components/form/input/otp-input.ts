@@ -5,7 +5,7 @@ import {
   on,
   prop,
   Value,
-  Fragment,
+  Empty,
   aria,
   WithElement,
 } from '@tempots/dom'
@@ -50,10 +50,7 @@ export interface OTPInputOptions {
   autoFocus?: boolean
 }
 
-function generateOTPClasses(
-  size: ControlSize,
-  disabled: boolean
-): string {
+function generateOTPClasses(size: ControlSize, disabled: boolean): string {
   const classes = ['bc-otp-input', `bc-otp-input--size-${size}`]
   if (disabled) classes.push('bc-otp-input--disabled')
   return classes.join(' ')
@@ -167,9 +164,7 @@ export function OTPInput({
     if (Value.get(disabled)) return
 
     // Handle paste of multiple chars
-    const chars = inputValue
-      .split('')
-      .filter(c => isValidChar(c, type))
+    const chars = inputValue.split('').filter(c => isValidChar(c, type))
 
     if (chars.length > 1) {
       // Paste mode: fill from current index
@@ -249,14 +244,8 @@ export function OTPInput({
   }
 
   return html.div(
-    attr.class(
-      computedOf(size, disabled)((s, d) =>
-        generateOTPClasses(s ?? 'md', d ?? false)
-      )
-    ),
-    attr.style(
-      computedOf(color)(c => generateOTPStyles((c as ThemeColorName) ?? 'primary'))
-    ),
+    attr.class(computedOf(size, disabled)(generateOTPClasses)),
+    attr.style(Value.map(color, generateOTPStyles)),
     attr.role('group'),
     aria.label('One-time password input'),
 
@@ -270,7 +259,7 @@ export function OTPInput({
           if (autoFocus && i === 0) {
             requestAnimationFrame(() => (el as HTMLInputElement).focus())
           }
-          return Fragment()
+          return Empty
         }),
         attr.id(cellId),
         attr.type(mask ? 'password' : 'text'),

@@ -6,7 +6,7 @@ import {
   prop,
   TNode,
   Value,
-  Fragment,
+  Empty,
   aria,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
@@ -43,7 +43,7 @@ export interface AccordionOptions {
    * When false, opening an item closes all others.
    * @default false
    */
-  multiple?: boolean
+  multiple?: Value<boolean>
   /** Visual size of the accordion. @default 'md' */
   size?: Value<ControlSize>
   /**
@@ -119,7 +119,7 @@ export function Accordion({
     const state = openStates.get(key)
     if (state == null) return
 
-    if (!multiple) {
+    if (!Value.get(multiple)) {
       // Close all other items
       for (const [k, s] of openStates) {
         if (k !== key) {
@@ -131,11 +131,7 @@ export function Accordion({
   }
 
   return html.div(
-    attr.class(
-      computedOf(size, variant)((s, v) =>
-        generateAccordionClasses(s ?? 'md', v ?? 'default')
-      )
-    ),
+    attr.class(computedOf(size, variant)(generateAccordionClasses)),
     attr.role('presentation'),
     ...items.map((item, index) => {
       const open = openStates.get(item.key)!
@@ -149,9 +145,7 @@ export function Accordion({
             v ? 'bc-accordion__item--open' : 'bc-accordion__item--closed'
           )
         ),
-        item.disabled
-          ? attr.class('bc-accordion__item--disabled')
-          : Fragment(),
+        item.disabled ? attr.class('bc-accordion__item--disabled') : Empty,
         // Header / trigger
         html.button(
           attr.type('button'),
@@ -185,9 +179,11 @@ export function Accordion({
           attr.id(panelId),
           attr.role('region'),
           aria.labelledby(headerId),
-          Collapse(
-            { open },
-            html.div(attr.class('bc-accordion__body'), item.body)
+          html.div(
+            Collapse(
+              { open },
+              html.div(attr.class('bc-accordion__body'), item.body)
+            )
           )
         )
       )

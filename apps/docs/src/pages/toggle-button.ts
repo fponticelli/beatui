@@ -170,7 +170,10 @@ export default function ToggleButtonPage() {
       ),
 
       // Color x Variant table
-      html.h3(attr.class('text-lg font-semibold mt-4'), 'Color / Variant Matrix'),
+      html.h3(
+        attr.class('text-lg font-semibold mt-4'),
+        'Color / Variant Matrix'
+      ),
       html.div(
         attr.class('overflow-x-auto w-full'),
         html.table(

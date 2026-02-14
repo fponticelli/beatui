@@ -6,6 +6,7 @@ import {
   prop,
   style,
   Value,
+  Empty,
   Fragment,
   aria,
   WithElement,
@@ -101,14 +102,8 @@ function pctOf(value: number, min: number, max: number): number {
   return ((value - min) / (max - min)) * 100
 }
 
-function generateSliderClasses(
-  size: ControlSize,
-  disabled: boolean
-): string {
-  const classes = [
-    'bc-advanced-slider',
-    `bc-advanced-slider--size-${size}`,
-  ]
+function generateSliderClasses(size: ControlSize, disabled: boolean): string {
+  const classes = ['bc-advanced-slider', `bc-advanced-slider--size-${size}`]
   if (disabled) classes.push('bc-advanced-slider--disabled')
   return classes.join(' ')
 }
@@ -202,11 +197,7 @@ export function AdvancedSlider({
 
   // Determine thumb count at creation time
   const thumbCount =
-    mode === 'multi'
-      ? Value.get(points!).length
-      : mode === 'range'
-        ? 2
-        : 1
+    mode === 'multi' ? Value.get(points!).length : mode === 'range' ? 2 : 1
 
   // Build tick marks
   const tickMarks: SliderTick[] = []
@@ -287,7 +278,10 @@ export function AdvancedSlider({
   // Build thumb elements statically based on thumbCount
   function createThumb(index: number) {
     const thumbVal = thumbValueAt(index)
-    const thumbPct = Value.map(thumbVal, (v: number) => `${pctOf(v, min, max)}%`)
+    const thumbPct = Value.map(
+      thumbVal,
+      (v: number) => `${pctOf(v, min, max)}%`
+    )
 
     return html.div(
       attr.class('bc-advanced-slider__thumb-container'),
@@ -299,7 +293,7 @@ export function AdvancedSlider({
             attr.class('bc-advanced-slider__value-label'),
             Value.map(thumbVal, (v: number) => formatValue(v))
           )
-        : Fragment(),
+        : Empty,
 
       html.div(
         attr.class('bc-advanced-slider__thumb'),
@@ -396,14 +390,8 @@ export function AdvancedSlider({
     )
 
     return Fragment(
-      attr.class(
-        computedOf(size, disabled)((s: ControlSize, d: boolean) =>
-          generateSliderClasses(s ?? 'md', d ?? false)
-        )
-      ),
-      attr.style(
-        computedOf(color)((c: ThemeColorName) => generateSliderStyles(c ?? 'primary'))
-      ),
+      attr.class(computedOf(size, disabled)(generateSliderClasses)),
+      attr.style(Value.map(color, generateSliderStyles)),
       attr.role('group'),
       aria.label('Slider'),
       on.pointerdown(onPointerDown),
@@ -431,11 +419,11 @@ export function AdvancedSlider({
                         attr.class('bc-advanced-slider__tick-label'),
                         tick.label
                       )
-                    : Fragment()
+                    : Empty
                 )
               })
             )
-          : Fragment(),
+          : Empty,
 
         // Thumbs (statically rendered, reactively positioned)
         ...thumbElements

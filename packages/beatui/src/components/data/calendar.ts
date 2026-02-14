@@ -6,8 +6,14 @@ import {
   prop,
   Value,
   aria,
+  ForEach,
+  OneOfValue,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
+import { ThemeColorName } from '../../tokens'
+import { backgroundValue } from '../theme/style-utils'
+
+const YEARS_PER_PAGE = 20
 
 /**
  * Configuration options for the {@link Calendar} component.
@@ -17,10 +23,13 @@ export interface CalendarOptions {
   value?: Value<Date | null>
   /** Callback invoked when a date is selected. */
   onSelect?: (date: Date) => void
-  /** Minimum selectable date. */
-  min?: Date
-  /** Maximum selectable date. */
-  max?: Date
+  /**
+   * Predicate that returns `true` if the given date should be disabled (unselectable).
+   * Replaces min/max — use e.g. `d => d < minDate || d > maxDate` for range constraints.
+   */
+  isDateDisabled?: (date: Date) => boolean
+  /** Theme color for selected and today highlights. @default 'primary' */
+  color?: Value<ThemeColorName>
   /** Visual size of the calendar. @default 'md' */
   size?: Value<ControlSize>
   /** Whether the calendar is disabled. @default false */
@@ -51,12 +60,6 @@ function isSameDay(a: Date, b: Date): boolean {
   )
 }
 
-function isDateInRange(date: Date, min?: Date, max?: Date): boolean {
-  if (min != null && date < min) return false
-  if (max != null && date > max) return false
-  return true
-}
-
 const MONTH_NAMES = [
   'January',
   'February',
@@ -72,24 +75,55 @@ const MONTH_NAMES = [
   'December',
 ]
 
+const SHORT_MONTH_NAMES = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
+
 const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-function generateCalendarClasses(
-  size: ControlSize,
-  disabled: boolean
-): string {
+type CalendarView = 'days' | 'months' | 'years'
+
+function generateCalendarClasses(size: ControlSize, disabled: boolean): string {
   const classes = ['bc-calendar', `bc-calendar--size-${size}`]
   if (disabled) classes.push('bc-calendar--disabled')
   return classes.join(' ')
+}
+
+function generateCalendarStyles(color: ThemeColorName): string {
+  const light = backgroundValue(color, 'solid', 'light')
+  const dark = backgroundValue(color, 'solid', 'dark')
+  const lightSubtle = backgroundValue(color, 'light', 'light')
+  const darkSubtle = backgroundValue(color, 'light', 'dark')
+  return [
+    `--cal-selected-bg: ${light.backgroundColor}`,
+    `--cal-selected-text: ${light.textColor}`,
+    `--cal-selected-bg-dark: ${dark.backgroundColor}`,
+    `--cal-selected-text-dark: ${dark.textColor}`,
+    `--cal-today-bg: ${lightSubtle.backgroundColor}`,
+    `--cal-today-text: ${lightSubtle.textColor}`,
+    `--cal-today-bg-dark: ${darkSubtle.backgroundColor}`,
+    `--cal-today-text-dark: ${darkSubtle.textColor}`,
+  ].join('; ')
 }
 
 /**
  * A calendar component for date selection with month/year navigation.
  *
  * Renders a full month grid with day-of-week headers, previous/next month
- * navigation, and support for date range constraints (min/max). The calendar
- * highlights the currently selected date and today's date. Navigation buttons
- * allow moving between months and years.
+ * navigation, and a flexible `isDateDisabled` predicate for controlling which
+ * dates are selectable. The calendar highlights the currently selected date
+ * and today's date. Navigation buttons allow moving between months and years.
  *
  * @param options - Configuration for the calendar
  * @returns A calendar element with date selection capability
@@ -109,11 +143,12 @@ function generateCalendarClasses(
  * @example
  * ```ts
  * // With date range constraints
+ * const min = new Date(2024, 0, 1)
+ * const max = new Date(2024, 11, 31)
  * Calendar({
  *   value: prop(null),
  *   onSelect: (d) => console.log('Selected:', d),
- *   min: new Date(2024, 0, 1),
- *   max: new Date(2024, 11, 31),
+ *   isDateDisabled: d => d < min || d > max,
  *   weekStartsOn: 1, // Monday
  * })
  * ```
@@ -121,18 +156,27 @@ function generateCalendarClasses(
 export function Calendar({
   value = null,
   onSelect,
-  min,
-  max,
+  isDateDisabled,
+  color = 'primary',
   size = 'md',
   disabled = false,
   weekStartsOn = 0,
 }: CalendarOptions = {}) {
   const today = new Date()
   const currentYear = prop(
-    value != null ? Value.get(value)?.getFullYear() ?? today.getFullYear() : today.getFullYear()
+    value != null
+      ? (Value.get(value)?.getFullYear() ?? today.getFullYear())
+      : today.getFullYear()
   )
   const currentMonth = prop(
-    value != null ? Value.get(value)?.getMonth() ?? today.getMonth() : today.getMonth()
+    value != null
+      ? (Value.get(value)?.getMonth() ?? today.getMonth())
+      : today.getMonth()
+  )
+
+  const view = prop<CalendarView>('days')
+  const yearPageStart = prop(
+    Math.floor(currentYear.value / YEARS_PER_PAGE) * YEARS_PER_PAGE
   )
 
   const prevMonth = () => {
@@ -167,6 +211,41 @@ export function Calendar({
   const nextYear = () => {
     if (Value.get(disabled)) return
     currentYear.update(y => y + 1)
+  }
+
+  const prevYearPage = () => {
+    if (Value.get(disabled)) return
+    yearPageStart.update(y => y - YEARS_PER_PAGE)
+  }
+
+  const nextYearPage = () => {
+    if (Value.get(disabled)) return
+    yearPageStart.update(y => y + YEARS_PER_PAGE)
+  }
+
+  const switchToMonthsView = () => {
+    if (Value.get(disabled)) return
+    view.set('months')
+  }
+
+  const switchToYearsView = () => {
+    if (Value.get(disabled)) return
+    // Update yearPageStart to center around currentYear
+    const yr = currentYear.value
+    yearPageStart.set(Math.floor(yr / YEARS_PER_PAGE) * YEARS_PER_PAGE)
+    view.set('years')
+  }
+
+  const selectMonth = (monthIndex: number) => {
+    if (Value.get(disabled)) return
+    currentMonth.set(monthIndex)
+    view.set('days')
+  }
+
+  const selectYear = (year: number) => {
+    if (Value.get(disabled)) return
+    currentYear.set(year)
+    view.set('months')
   }
 
   // Shifted day names based on weekStartsOn
@@ -214,7 +293,7 @@ export function Calendar({
         inMonth: false,
         isToday: isSameDay(date, today),
         isSelected: selectedDate != null && isSameDay(date, selectedDate),
-        isDisabled: !isDateInRange(date, min, max),
+        isDisabled: isDateDisabled?.(date) ?? false,
       })
     }
 
@@ -227,7 +306,7 @@ export function Calendar({
         inMonth: true,
         isToday: isSameDay(date, today),
         isSelected: selectedDate != null && isSameDay(date, selectedDate),
-        isDisabled: !isDateInRange(date, min, max),
+        isDisabled: isDateDisabled?.(date) ?? false,
       })
     }
 
@@ -246,7 +325,7 @@ export function Calendar({
           inMonth: false,
           isToday: isSameDay(date, today),
           isSelected: selectedDate != null && isSameDay(date, selectedDate),
-          isDisabled: !isDateInRange(date, min, max),
+          isDisabled: isDateDisabled?.(date) ?? false,
         })
       }
     }
@@ -255,107 +334,279 @@ export function Calendar({
   })
 
   return html.div(
-    attr.class(
-      computedOf(size, disabled)((s, d) =>
-        generateCalendarClasses(s ?? 'md', d ?? false)
-      )
-    ),
+    attr.class(computedOf(size, disabled)(generateCalendarClasses)),
+    attr.style(Value.map(color, generateCalendarStyles)),
     attr.role('grid'),
     aria.label('Calendar'),
 
     // Navigation header
-    html.div(
-      attr.class('bc-calendar__nav'),
-      html.button(
-        attr.type('button'),
-        attr.class('bc-calendar__nav-btn'),
-        attr.disabled(disabled),
-        aria.label('Previous year'),
-        on.click(e => {
-          e.preventDefault()
-          prevYear()
-        }),
-        '\u00AB' // «
-      ),
-      html.button(
-        attr.type('button'),
-        attr.class('bc-calendar__nav-btn'),
-        attr.disabled(disabled),
-        aria.label('Previous month'),
-        on.click(e => {
-          e.preventDefault()
-          prevMonth()
-        }),
-        '\u2039' // ‹
-      ),
-      html.span(
-        attr.class('bc-calendar__title'),
-        computedOf(
-          currentYear,
-          currentMonth
-        )((y, m) => `${MONTH_NAMES[m]} ${y}`)
-      ),
-      html.button(
-        attr.type('button'),
-        attr.class('bc-calendar__nav-btn'),
-        attr.disabled(disabled),
-        aria.label('Next month'),
-        on.click(e => {
-          e.preventDefault()
-          nextMonth()
-        }),
-        '\u203A' // ›
-      ),
-      html.button(
-        attr.type('button'),
-        attr.class('bc-calendar__nav-btn'),
-        attr.disabled(disabled),
-        aria.label('Next year'),
-        on.click(e => {
-          e.preventDefault()
-          nextYear()
-        }),
-        '\u00BB' // »
-      )
-    ),
-
-    // Day-of-week headers
-    html.div(
-      attr.class('bc-calendar__weekdays'),
-      ...shiftedDayNames.map(name =>
+    OneOfValue(view, {
+      days: () =>
         html.div(
-          attr.class('bc-calendar__weekday'),
-          aria.label(name),
-          name
-        )
-      )
-    ),
-
-    // Day grid
-    html.div(
-      attr.class('bc-calendar__grid'),
-      gridCells.map(cells =>
-        cells.map(cell => {
-          const classes = ['bc-calendar__day']
-          if (!cell.inMonth) classes.push('bc-calendar__day--outside')
-          if (cell.isToday) classes.push('bc-calendar__day--today')
-          if (cell.isSelected) classes.push('bc-calendar__day--selected')
-          if (cell.isDisabled) classes.push('bc-calendar__day--disabled')
-
-          return html.button(
+          attr.class('bc-calendar__nav'),
+          html.button(
             attr.type('button'),
-            attr.class(classes.join(' ')),
-            attr.disabled(cell.isDisabled || Value.get(disabled)),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Previous year'),
             on.click(e => {
               e.preventDefault()
-              if (!cell.isDisabled && !Value.get(disabled)) {
-                onSelect?.(cell.date)
-              }
+              prevYear()
             }),
-            String(cell.day)
+            '\u00AB' // «
+          ),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Previous month'),
+            on.click(e => {
+              e.preventDefault()
+              prevMonth()
+            }),
+            '\u2039' // ‹
+          ),
+          html.div(
+            attr.class('bc-calendar__title'),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-calendar__title-btn'),
+              attr.disabled(disabled),
+              aria.label('Select month'),
+              on.click(e => {
+                e.preventDefault()
+                switchToMonthsView()
+              }),
+              Value.map(currentMonth, m => MONTH_NAMES[m]!)
+            ),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-calendar__title-btn'),
+              attr.disabled(disabled),
+              aria.label('Select year'),
+              on.click(e => {
+                e.preventDefault()
+                switchToYearsView()
+              }),
+              Value.map(currentYear, String)
+            )
+          ),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Next month'),
+            on.click(e => {
+              e.preventDefault()
+              nextMonth()
+            }),
+            '\u203A' // ›
+          ),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Next year'),
+            on.click(e => {
+              e.preventDefault()
+              nextYear()
+            }),
+            '\u00BB' // »
           )
-        })
-      )
-    )
+        ),
+      months: () =>
+        html.div(
+          attr.class('bc-calendar__nav'),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Previous year'),
+            on.click(e => {
+              e.preventDefault()
+              prevYear()
+            }),
+            '\u00AB' // «
+          ),
+          html.span(
+            attr.class('bc-calendar__title'),
+            Value.map(currentYear, String)
+          ),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label('Next year'),
+            on.click(e => {
+              e.preventDefault()
+              nextYear()
+            }),
+            '\u00BB' // »
+          )
+        ),
+      years: () =>
+        html.div(
+          attr.class('bc-calendar__nav'),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label(`Previous ${YEARS_PER_PAGE} years`),
+            on.click(e => {
+              e.preventDefault()
+              prevYearPage()
+            }),
+            '\u00AB' // «
+          ),
+          html.span(
+            attr.class('bc-calendar__title'),
+            Value.map(
+              yearPageStart,
+              start => `${start} \u2013 ${start + YEARS_PER_PAGE - 1}`
+            )
+          ),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-calendar__nav-btn'),
+            attr.disabled(disabled),
+            aria.label(`Next ${YEARS_PER_PAGE} years`),
+            on.click(e => {
+              e.preventDefault()
+              nextYearPage()
+            }),
+            '\u00BB' // »
+          )
+        ),
+    }),
+
+    // Content area (view-specific)
+    OneOfValue(view, {
+      days: () =>
+        html.div(
+          attr.class('bc-calendar__days-view'),
+          // Day-of-week headers
+          html.div(
+            attr.class('bc-calendar__weekdays'),
+            ...shiftedDayNames.map(name =>
+              html.div(
+                attr.class('bc-calendar__weekday'),
+                aria.label(name),
+                name
+              )
+            )
+          ),
+
+          // Day grid
+          html.div(
+            attr.class('bc-calendar__grid'),
+            ForEach(gridCells, cellSignal => {
+              const classes = cellSignal.map(cell => {
+                const cls = ['bc-calendar__day']
+                if (!cell.inMonth) cls.push('bc-calendar__day--outside')
+                if (cell.isToday) cls.push('bc-calendar__day--today')
+                if (cell.isSelected) cls.push('bc-calendar__day--selected')
+                if (cell.isDisabled) cls.push('bc-calendar__day--disabled')
+                return cls.join(' ')
+              })
+
+              const isDisabled = cellSignal.map(cell => cell.isDisabled)
+              const day = cellSignal.map(cell => String(cell.day))
+
+              return html.button(
+                attr.type('button'),
+                attr.class(classes),
+                attr.disabled(
+                  computedOf(
+                    isDisabled,
+                    disabled
+                  )((cDisabled, gDisabled) => cDisabled || gDisabled)
+                ),
+                on.click(e => {
+                  e.preventDefault()
+                  const cell = Value.get(cellSignal)
+                  if (!cell.isDisabled && !Value.get(disabled)) {
+                    if (!cell.inMonth) {
+                      currentYear.set(cell.date.getFullYear())
+                      currentMonth.set(cell.date.getMonth())
+                    }
+                    onSelect?.(cell.date)
+                  }
+                }),
+                day
+              )
+            })
+          )
+        ),
+      months: () =>
+        html.div(
+          attr.class(
+            'bc-calendar__picker-grid bc-calendar__picker-grid--months'
+          ),
+          ...SHORT_MONTH_NAMES.map((monthName, monthIndex) =>
+            html.button(
+              attr.type('button'),
+              attr.class(
+                computedOf(
+                  currentMonth,
+                  currentYear
+                )((m, y) => {
+                  const cls = ['bc-calendar__month-cell']
+                  if (m === monthIndex)
+                    cls.push('bc-calendar__month-cell--current')
+                  if (
+                    today.getMonth() === monthIndex &&
+                    today.getFullYear() === y
+                  )
+                    cls.push('bc-calendar__month-cell--active')
+                  return cls.join(' ')
+                })
+              ),
+              attr.disabled(disabled),
+              on.click(e => {
+                e.preventDefault()
+                selectMonth(monthIndex)
+              }),
+              monthName
+            )
+          )
+        ),
+      years: () =>
+        html.div(
+          attr.class(
+            'bc-calendar__picker-grid bc-calendar__picker-grid--years'
+          ),
+          ForEach(
+            Value.map(yearPageStart, start => {
+              const years: number[] = []
+              for (let i = 0; i < YEARS_PER_PAGE; i++) {
+                years.push(start + i)
+              }
+              return years
+            }),
+            yearSignal =>
+              html.button(
+                attr.type('button'),
+                attr.class(
+                  computedOf(
+                    currentYear,
+                    yearSignal
+                  )((cy, year) => {
+                    const cls = ['bc-calendar__year-cell']
+                    if (cy === year) cls.push('bc-calendar__year-cell--current')
+                    if (today.getFullYear() === year)
+                      cls.push('bc-calendar__year-cell--active')
+                    return cls.join(' ')
+                  })
+                ),
+                attr.disabled(disabled),
+                on.click(e => {
+                  e.preventDefault()
+                  selectYear(Value.get(yearSignal))
+                }),
+                Value.map(yearSignal, String)
+              )
+          )
+        ),
+    })
   )
 }

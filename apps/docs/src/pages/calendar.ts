@@ -43,9 +43,7 @@ export default function CalendarPage() {
       html.p(
         attr.class('text-sm text-gray-600'),
         'Selected: ',
-        selectedDate.map(d =>
-          d != null ? d.toLocaleDateString() : 'None'
-        )
+        selectedDate.map(d => (d != null ? d.toLocaleDateString() : 'None'))
       ),
       Calendar({
         value: selectedDate,
@@ -55,48 +53,84 @@ export default function CalendarPage() {
       }),
 
       // With date range
-      html.h3(attr.class('text-lg font-semibold mt-4'), 'With Date Constraints'),
+      html.h3(
+        attr.class('text-lg font-semibold mt-4'),
+        'With Date Constraints'
+      ),
       html.p(
         attr.class('text-sm text-gray-600'),
         'Only dates in the current month are selectable.'
       ),
-      Calendar({
-        value: prop(null),
-        onSelect: (d: Date) => console.log('Selected:', d),
-        min: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-        max: new Date(
+      (() => {
+        const constrainedDate = prop<Date | null>(null)
+        const monthStart = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        )
+        const monthEnd = new Date(
           new Date().getFullYear(),
           new Date().getMonth() + 1,
           0
-        ),
-        size,
-        disabled,
-      }),
+        )
+        return Calendar({
+          value: constrainedDate,
+          onSelect: constrainedDate.set,
+          isDateDisabled: d => d < monthStart || d > monthEnd,
+          size,
+          disabled,
+        })
+      })(),
 
       // Monday start
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Week Starting Monday'),
-      Calendar({
-        value: prop(null),
-        onSelect: (d: Date) => console.log('Selected:', d),
-        weekStartsOn: 1,
-        size,
-        disabled,
-      }),
+      (() => {
+        const mondayDate = prop<Date | null>(null)
+        return Calendar({
+          value: mondayDate,
+          onSelect: mondayDate.set,
+          weekStartsOn: 1,
+          size,
+          disabled,
+        })
+      })(),
+
+      // Color variants
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'Color Variants'),
+      Group(
+        attr.class('flex-wrap gap-4'),
+        ...(
+          ['primary', 'red', 'green', 'blue', 'orange', 'violet'] as const
+        ).map(color => {
+          const colorDate = prop<Date | null>(new Date())
+          return Stack(
+            html.p(attr.class('text-sm text-gray-500 mb-1'), color),
+            Calendar({
+              value: colorDate,
+              onSelect: colorDate.set,
+              color,
+              size,
+              disabled,
+            })
+          )
+        })
+      ),
 
       // Size comparison
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Size Comparison'),
       Group(
         attr.class('flex-wrap gap-4'),
-        ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s =>
-          Stack(
+        ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s => {
+          const sizeDate = prop<Date | null>(null)
+          return Stack(
             html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
             Calendar({
-              value: prop(null),
-              onSelect: () => {},
+              value: sizeDate,
+              onSelect: sizeDate.set,
               size: s,
             })
           )
-        )
+        })
       )
     ),
   })
