@@ -10,6 +10,8 @@ import {
   Fragment,
   aria,
   WithElement,
+  MapSignal,
+  TNode,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
@@ -87,6 +89,26 @@ export interface AdvancedSliderOptions {
    * @default (v) => String(v)
    */
   formatValue?: (value: number) => string
+
+  /**
+   * Colors for individual segments between consecutive thumbs in multi-point mode.
+   * Each entry corresponds to the segment between thumb[i] and thumb[i+1].
+   * If fewer colors than segments are provided, remaining segments use the default color.
+   * If not provided, a single fill spanning all thumbs is used (existing behavior).
+   */
+  segmentColors?: ThemeColorName[]
+
+  /**
+   * Custom renderer for the thumb element. When provided, replaces the default
+   * circular thumb with your custom content. The rendered content is placed
+   * inside the thumb container that handles positioning, ARIA attributes,
+   * keyboard navigation, and pointer events.
+   *
+   * @param index - The zero-based index of the thumb
+   * @param value - A reactive value holding the current thumb position
+   * @returns A TNode to render as the thumb
+   */
+  renderThumb?: (index: number, value: Value<number>) => TNode
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -190,6 +212,8 @@ export function AdvancedSlider({
   ticks,
   showValue = false,
   formatValue = (v: number) => String(v),
+  segmentColors,
+  renderThumb,
 }: AdvancedSliderOptions) {
   // Determine mode and number of thumbs
   const mode: 'single' | 'range' | 'multi' =
@@ -276,7 +300,7 @@ export function AdvancedSlider({
   }
 
   // Build thumb elements statically based on thumbCount
-  function createThumb(index: number) {
+  function createThumb(index: number, trackEl: HTMLElement) {
     const thumbVal = thumbValueAt(index)
     const thumbPct = Value.map(
       thumbVal,
@@ -296,7 +320,11 @@ export function AdvancedSlider({
         : Empty,
 
       html.div(
-        attr.class('bc-advanced-slider__thumb'),
+        attr.class(
+          renderThumb
+            ? 'bc-advanced-slider__thumb-custom'
+            : 'bc-advanced-slider__thumb'
+        ),
         attr.role('slider'),
         attr.tabindex(0),
         aria.valuemin(min),
@@ -338,9 +366,24 @@ export function AdvancedSlider({
         }),
         on.pointerdown((e: PointerEvent) => {
           e.stopPropagation()
+          e.preventDefault()
           if (Value.get(disabled)) return
           activeThumb.set(index)
-        })
+
+          const onPointerMove = (moveEvt: PointerEvent) => {
+            handlePointerAction(trackEl, moveEvt.clientX, index)
+          }
+
+          const onPointerUp = () => {
+            activeThumb.set(null)
+            window.removeEventListener('pointermove', onPointerMove)
+            window.removeEventListener('pointerup', onPointerUp)
+          }
+
+          window.addEventListener('pointermove', onPointerMove)
+          window.addEventListener('pointerup', onPointerUp)
+        }),
+        renderThumb ? renderThumb(index, thumbVal) : Empty
       )
     )
   }
@@ -366,27 +409,31 @@ export function AdvancedSlider({
       window.addEventListener('pointerup', onPointerUp)
     }
 
-    // Compute filled track style
-    const filledStyle = computedOf(thumbValues)((vals: number[]) => {
-      if (mode === 'range' && vals.length === 2) {
-        const lo = pctOf(Math.min(vals[0]!, vals[1]!), min, max)
-        const hi = pctOf(Math.max(vals[0]!, vals[1]!), min, max)
-        return `left: ${lo}%; width: ${hi - lo}%`
-      }
-      if (mode === 'multi' && vals.length >= 2) {
-        const sorted = [...vals].sort((a, b) => a - b)
-        const lo = pctOf(sorted[0]!, min, max)
-        const hi = pctOf(sorted[sorted.length - 1]!, min, max)
-        return `left: ${lo}%; width: ${hi - lo}%`
-      }
-      // Single: fill from left
-      const pct = pctOf(vals[0] ?? min, min, max)
-      return `left: 0%; width: ${pct}%`
-    })
+    // Compute filled track style or segments
+    const useSegments = segmentColors != null && (mode === 'range' || mode === 'multi')
+
+    const filledStyle = useSegments
+      ? ''
+      : computedOf(thumbValues)((vals: number[]) => {
+          if (mode === 'range' && vals.length === 2) {
+            const lo = pctOf(Math.min(vals[0]!, vals[1]!), min, max)
+            const hi = pctOf(Math.max(vals[0]!, vals[1]!), min, max)
+            return `left: ${lo}%; width: ${hi - lo}%`
+          }
+          if (mode === 'multi' && vals.length >= 2) {
+            const sorted = [...vals].sort((a, b) => a - b)
+            const lo = pctOf(sorted[0]!, min, max)
+            const hi = pctOf(sorted[sorted.length - 1]!, min, max)
+            return `left: ${lo}%; width: ${hi - lo}%`
+          }
+          // Single: fill from left
+          const pct = pctOf(vals[0] ?? min, min, max)
+          return `left: 0%; width: ${pct}%`
+        })
 
     // Build thumb elements
     const thumbElements = Array.from({ length: thumbCount }, (_, i) =>
-      createThumb(i)
+      createThumb(i, trackEl)
     )
 
     return Fragment(
@@ -399,11 +446,48 @@ export function AdvancedSlider({
       // Track
       html.div(
         attr.class('bc-advanced-slider__track'),
-        // Filled portion
-        html.div(
-          attr.class('bc-advanced-slider__fill'),
-          attr.style(filledStyle)
-        ),
+        // Filled portion - either single fill or multiple segments
+        useSegments
+          ? MapSignal(thumbValues, (vals: number[]) => {
+              const sorted = [...vals].sort((a, b) => a - b)
+              const segments: {
+                left: number
+                width: number
+                color: ThemeColorName
+              }[] = []
+
+              for (let i = 0; i < sorted.length - 1; i++) {
+                const leftVal = sorted[i]!
+                const rightVal = sorted[i + 1]!
+                const leftPct = pctOf(leftVal, min, max)
+                const rightPct = pctOf(rightVal, min, max)
+                const segmentColor =
+                  segmentColors![i] ?? Value.get(color) ?? 'primary'
+
+                segments.push({
+                  left: leftPct,
+                  width: rightPct - leftPct,
+                  color: segmentColor,
+                })
+              }
+
+              return Fragment(
+                ...segments.map(seg => {
+                  const light = backgroundValue(seg.color, 'solid', 'light')
+                  const dark = backgroundValue(seg.color, 'solid', 'dark')
+                  const segmentStyle = `left: ${seg.left}%; width: ${seg.width}%; --slider-color: ${light.backgroundColor}; --slider-color-dark: ${dark.backgroundColor}`
+
+                  return html.div(
+                    attr.class('bc-advanced-slider__fill'),
+                    attr.style(segmentStyle)
+                  )
+                })
+              )
+            })
+          : html.div(
+              attr.class('bc-advanced-slider__fill'),
+              attr.style(filledStyle)
+            ),
 
         // Tick marks
         tickMarks.length > 0

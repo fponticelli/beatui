@@ -9,6 +9,7 @@
   width: 100%;
   touch-action: none;
   cursor: pointer;
+  user-select: none;
 }
 
 .bc-advanced-slider--disabled {
@@ -69,6 +70,24 @@
 }
 
 .bc-advanced-slider__thumb:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Custom thumb wrapper — no default visual styling */
+.bc-advanced-slider__thumb-custom {
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.bc-advanced-slider__thumb-custom:active {
+  cursor: grabbing;
+}
+
+.bc-advanced-slider__thumb-custom:focus-visible {
   outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
 }

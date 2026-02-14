@@ -7,7 +7,7 @@ import {
   InputWrapper,
   Switch,
 } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, style, Value } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
 export default function AdvancedSliderPage() {
@@ -23,6 +23,20 @@ export default function AdvancedSliderPage() {
 
   // Multi-point values
   const multiPoints = prop([10, 40, 70, 90])
+
+  // With ticks
+  const ticksValue = prop(50)
+
+  // Custom tick labels
+  const customTicksValue = prop(25)
+
+  // Color variants
+  const primaryColorValue = prop(60)
+  const redColorValue = prop(60)
+  const greenColorValue = prop(60)
+  const blueColorValue = prop(60)
+  const orangeColorValue = prop(60)
+  const violetColorValue = prop(60)
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -76,11 +90,16 @@ export default function AdvancedSliderPage() {
 
       // With tick marks
       html.h3(attr.class('text-lg font-semibold mt-4'), 'With Automatic Ticks'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Value: ',
+        ticksValue.map(v => String(v))
+      ),
       html.div(
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
-          value: prop(50),
-          onChange: () => {},
+          value: ticksValue,
+          onChange: ticksValue.set,
           min: 0,
           max: 100,
           step: 10,
@@ -93,11 +112,16 @@ export default function AdvancedSliderPage() {
 
       // With custom tick labels
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Custom Tick Labels'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Value: ',
+        customTicksValue.map(v => `${v}%`)
+      ),
       html.div(
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
-          value: prop(25),
-          onChange: () => {},
+          value: customTicksValue,
+          onChange: customTicksValue.set,
           min: 0,
           max: 100,
           step: 25,
@@ -165,24 +189,152 @@ export default function AdvancedSliderPage() {
         })
       ),
 
+      // Multi-point slider with segment colors
+      html.h3(
+        attr.class('text-lg font-semibold mt-4'),
+        'Multi-Point Slider with Segment Colors'
+      ),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Points: ',
+        multiPoints.map(pts => pts.join(', '))
+      ),
+      html.div(
+        attr.class('w-full max-w-lg'),
+        AdvancedSlider({
+          points: multiPoints,
+          onPointsChange: multiPoints.set,
+          min: 0,
+          max: 100,
+          step: 1,
+          showValue: showValue.value,
+          size,
+          disabled,
+          segmentColors: ['red', 'green', 'blue'],
+        })
+      ),
+
+      // Custom thumb
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'Custom Thumb'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Value: ',
+        singleValue.map(v => String(v))
+      ),
+      html.div(
+        attr.class('w-full max-w-lg'),
+        AdvancedSlider({
+          value: singleValue,
+          onChange: singleValue.set,
+          min: 0,
+          max: 100,
+          step: 1,
+          size,
+          disabled,
+          color: 'violet',
+          renderThumb: (_index: number, val: Value<number>) =>
+            html.div(
+              style.width('28px'),
+              style.height('28px'),
+              style.borderRadius('6px'),
+              style.backgroundColor('var(--slider-color)'),
+              style.color('white'),
+              style.display('flex'),
+              style.alignItems('center'),
+              style.justifyContent('center'),
+              style.fontSize('11px'),
+              style.fontWeight('700'),
+              style.lineHeight('1'),
+              Value.map(val, v => String(v))
+            ),
+        })
+      ),
+
       // Color variants
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Color Variants'),
-      ...(['primary', 'red', 'green', 'blue', 'orange', 'violet'] as const).map(
-        color =>
-          html.div(
-            attr.class('w-full max-w-lg mb-3'),
-            html.p(attr.class('text-sm text-gray-500 mb-1'), color),
-            AdvancedSlider({
-              value: prop(60),
-              onChange: () => {},
-              min: 0,
-              max: 100,
-              showValue: showValue.value,
-              size,
-              disabled,
-              color,
-            })
-          )
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'primary'),
+        AdvancedSlider({
+          value: primaryColorValue,
+          onChange: primaryColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'primary',
+        })
+      ),
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'red'),
+        AdvancedSlider({
+          value: redColorValue,
+          onChange: redColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'red',
+        })
+      ),
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'green'),
+        AdvancedSlider({
+          value: greenColorValue,
+          onChange: greenColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'green',
+        })
+      ),
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'blue'),
+        AdvancedSlider({
+          value: blueColorValue,
+          onChange: blueColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'blue',
+        })
+      ),
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'orange'),
+        AdvancedSlider({
+          value: orangeColorValue,
+          onChange: orangeColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'orange',
+        })
+      ),
+      html.div(
+        attr.class('w-full max-w-lg mb-3'),
+        html.p(attr.class('text-sm text-gray-500 mb-1'), 'violet'),
+        AdvancedSlider({
+          value: violetColorValue,
+          onChange: violetColorValue.set,
+          min: 0,
+          max: 100,
+          showValue: showValue.value,
+          size,
+          disabled,
+          color: 'violet',
+        })
       )
     ),
   })
