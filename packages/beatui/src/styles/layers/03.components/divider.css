@@ -22,11 +22,11 @@
 
 /* Tone variants */
 .bc-divider--tone-subtle {
-  border-color: var(--border-subtle-light);
+  border-color: var(--border-inverted-light);
 }
 
 .bc-divider--tone-strong {
-  border-color: var(--text-muted-light);
+  border-color: var(--border-divider-light);
 }
 
 /* Line style variants */
@@ -56,7 +56,10 @@
 
 .bc-divider--labeled.bc-divider--vertical {
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--spacing-base);
+  height: 100%;
 }
 
 .bc-divider__line {
@@ -73,8 +76,8 @@
   border-top: none;
   border-top-width: 0;
   border-left: 1px solid var(--border-border-light);
-  width: auto;
-  align-self: stretch;
+  width: 0;
+  flex: 1;
   min-height: 1rem;
 }
 
@@ -116,19 +119,19 @@
 
 /* Tone variants for labeled dividers */
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
-  border-color: var(--border-subtle-light);
+  border-color: var(--border-inverted-light);
 }
 
 .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
-  border-color: var(--text-muted-light);
+  border-color: var(--border-divider-light);
 }
 
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
-  color: var(--text-subtle-light);
+  color: var(--color-base-400);
 }
 
 .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
-  color: var(--text-normal-light);
+  color: var(--text-muted-light);
 }
 
 /* Line style variants for labeled dividers */
@@ -158,11 +161,11 @@
 }
 
 .b-dark .bc-divider--tone-subtle {
-  border-color: var(--border-subtle-dark);
+  border-color: var(--border-inverted-dark);
 }
 
 .b-dark .bc-divider--tone-strong {
-  border-color: var(--text-muted-dark);
+  border-color: var(--border-divider-dark);
 }
 
 .b-dark .bc-divider__line {
@@ -174,11 +177,11 @@
 }
 
 .b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
-  border-color: var(--border-subtle-dark);
+  border-color: var(--border-inverted-dark);
 }
 
 .b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
-  border-color: var(--text-muted-dark);
+  border-color: var(--border-divider-dark);
 }
 
 .b-dark .bc-divider__label {
@@ -186,7 +189,7 @@
 }
 
 .b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
-  color: var(--text-subtle-dark);
+  color: var(--color-base-500);
 }
 
 .b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {

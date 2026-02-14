@@ -14,8 +14,22 @@ import { ControlsHeader } from '../views/controls-header'
 import { ControlSwitch, ControlSegmented } from '../views/control-helpers'
 import { Section, SectionBlock } from '../views/section'
 
-const allVariants: ButtonVariant[] = ['filled', 'light', 'outline', 'default', 'text', 'dashed']
-const allColors: ThemeColorName[] = ['primary', 'secondary', 'success', 'warning', 'danger', 'info']
+const allVariants: ButtonVariant[] = [
+  'filled',
+  'light',
+  'outline',
+  'default',
+  'text',
+  'dashed',
+]
+const allColors: ThemeColorName[] = [
+  'primary',
+  'secondary',
+  'success',
+  'warning',
+  'danger',
+  'info',
+]
 
 export default function ButtonsPage() {
   const size = prop<ControlSize>('md')
@@ -28,10 +42,24 @@ export default function ButtonsPage() {
     title: 'Buttons',
     description: 'Button variants, sizes, colors, and states.',
     controls: ControlsHeader(
-      ControlSegmented('Size', size, { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' } as Record<ControlSize, string>),
-      ControlSegmented('Radius', roundedness, { none: 'None', xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL', full: 'Full' } as Record<RadiusName, string>),
+      ControlSegmented('Size', size, {
+        xs: 'XS',
+        sm: 'SM',
+        md: 'MD',
+        lg: 'LG',
+        xl: 'XL',
+      } as Record<ControlSize, string>),
+      ControlSegmented('Radius', roundedness, {
+        none: 'None',
+        xs: 'XS',
+        sm: 'SM',
+        md: 'MD',
+        lg: 'LG',
+        xl: 'XL',
+        full: 'Full',
+      } as Record<RadiusName, string>),
       ControlSwitch('Disabled', disabled),
-      ControlSwitch('Loading', loading),
+      ControlSwitch('Loading', loading)
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -62,7 +90,10 @@ export default function ButtonsPage() {
                 ...allVariants.map(variant =>
                   html.td(
                     attr.class('px-2 py-1'),
-                    Button({ variant, color, size, roundedness, disabled, loading }, color)
+                    Button(
+                      { variant, color, size, roundedness, disabled, loading },
+                      color
+                    )
                   )
                 )
               )
@@ -95,7 +126,7 @@ export default function ButtonsPage() {
         CloseButton({ size: 'sm' }),
         CloseButton({ size: 'md' }),
         CloseButton({ size: 'lg' })
-      ),
+      )
     ),
   })
 }

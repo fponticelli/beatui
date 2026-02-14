@@ -36,7 +36,7 @@ export default function TooltipsPage() {
           ] as SelectOption<Placement>[],
           value: placement,
           onChange: placement.set,
-        }),
+        })
       ),
       Stack(
         Label('Trigger'),
@@ -49,8 +49,8 @@ export default function TooltipsPage() {
           ] as SelectOption<TooltipTrigger>[],
           value: showOn,
           onChange: showOn.set,
-        }),
-      ),
+        })
+      )
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -62,9 +62,9 @@ export default function TooltipsPage() {
           Button(
             { variant: 'filled', color: 'primary' },
             'Hover me',
-            Tooltip({ content: 'This is a basic tooltip!', placement, showOn }),
-          ),
-        ),
+            Tooltip({ content: 'This is a basic tooltip!', placement, showOn })
+          )
+        )
       ),
 
       SectionBlock(
@@ -75,21 +75,21 @@ export default function TooltipsPage() {
             { variant: 'outline' },
             Icon({ icon: 'lucide:save', size: 'sm' }),
             'Save',
-            Tooltip({ content: 'Save your work', placement: 'top', showOn }),
+            Tooltip({ content: 'Save your work', placement: 'top', showOn })
           ),
           Button(
             { variant: 'outline' },
             Icon({ icon: 'lucide:pencil', size: 'sm' }),
             'Edit',
-            Tooltip({ content: 'Edit selected item', placement: 'top', showOn }),
+            Tooltip({ content: 'Edit selected item', placement: 'top', showOn })
           ),
           Button(
             { variant: 'outline', color: 'danger' },
             Icon({ icon: 'lucide:trash-2', size: 'sm' }),
             'Delete',
-            Tooltip({ content: 'Permanently delete', placement: 'top', showOn }),
-          ),
-        ),
+            Tooltip({ content: 'Permanently delete', placement: 'top', showOn })
+          )
+        )
       ),
 
       SectionBlock(
@@ -97,15 +97,31 @@ export default function TooltipsPage() {
         html.div(
           attr.class('grid grid-cols-3 gap-4 max-w-sm mx-auto py-4'),
           html.div(),
-          Button({ variant: 'light', size: 'sm' }, 'Top', Tooltip({ content: 'Top tooltip', placement: 'top', showOn })),
+          Button(
+            { variant: 'light', size: 'sm' },
+            'Top',
+            Tooltip({ content: 'Top tooltip', placement: 'top', showOn })
+          ),
           html.div(),
-          Button({ variant: 'light', size: 'sm' }, 'Left', Tooltip({ content: 'Left tooltip', placement: 'left', showOn })),
+          Button(
+            { variant: 'light', size: 'sm' },
+            'Left',
+            Tooltip({ content: 'Left tooltip', placement: 'left', showOn })
+          ),
           html.div(),
-          Button({ variant: 'light', size: 'sm' }, 'Right', Tooltip({ content: 'Right tooltip', placement: 'right', showOn })),
+          Button(
+            { variant: 'light', size: 'sm' },
+            'Right',
+            Tooltip({ content: 'Right tooltip', placement: 'right', showOn })
+          ),
           html.div(),
-          Button({ variant: 'light', size: 'sm' }, 'Bottom', Tooltip({ content: 'Bottom tooltip', placement: 'bottom', showOn })),
-          html.div(),
-        ),
+          Button(
+            { variant: 'light', size: 'sm' },
+            'Bottom',
+            Tooltip({ content: 'Bottom tooltip', placement: 'bottom', showOn })
+          ),
+          html.div()
+        )
       ),
 
       SectionBlock(
@@ -120,14 +136,17 @@ export default function TooltipsPage() {
                 attr.class('space-y-2 p-1'),
                 html.div(attr.class('font-semibold'), 'Rich Tooltip'),
                 html.div('Custom HTML content with formatting.'),
-                html.div(attr.class('text-xs opacity-75'), 'Keyboard shortcut: Ctrl+K'),
+                html.div(
+                  attr.class('text-xs opacity-75'),
+                  'Keyboard shortcut: Ctrl+K'
+                )
               ),
               placement: 'top',
               showOn,
-            }),
-          ),
-        ),
-      ),
+            })
+          )
+        )
+      )
     ),
   })
 }

@@ -48,8 +48,14 @@ export default function SelectsPage() {
     title: 'Selects',
     description: 'Dropdown, native select, and combobox inputs.',
     controls: ControlsHeader(
-      ControlSegmented('Size', size, { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' } as Record<ControlSize, string>),
-      ControlSwitch('Disabled', disabled),
+      ControlSegmented('Size', size, {
+        xs: 'XS',
+        sm: 'SM',
+        md: 'MD',
+        lg: 'LG',
+        xl: 'XL',
+      } as Record<ControlSize, string>),
+      ControlSwitch('Disabled', disabled)
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -79,7 +85,7 @@ export default function SelectsPage() {
               disabled,
             }),
             description: native,
-          }),
+          })
         )
       ),
 
@@ -100,7 +106,7 @@ export default function SelectsPage() {
             }),
           })
         )
-      ),
+      )
     ),
   })
 }

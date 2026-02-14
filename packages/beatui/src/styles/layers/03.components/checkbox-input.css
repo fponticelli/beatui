@@ -1,5 +1,6 @@
 /* Checkbox Input Component */
 .bc-checkbox-input {
+  --checkbox-checked-color: var(--color-primary-500);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -22,7 +23,7 @@
 }
 
 .bc-checkbox-input__checkbox--checked {
-  color: var(--color-primary-600);
+  color: var(--checkbox-checked-color);
 }
 
 .bc-checkbox-input__checkbox--unchecked {

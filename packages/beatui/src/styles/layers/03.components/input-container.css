@@ -105,6 +105,15 @@
   color: inherit;
 }
 
+/* Normalize native element heights for consistent input container sizing */
+.bc-input-container input,
+.bc-input-container select {
+  height: 1em;
+  padding: 0;
+  padding-block: 1.5px;
+  line-height: 1;
+}
+
 /* Password toggle button */
 .bc-input-container__password-toggle {
   font-size: var(--font-size-sm);

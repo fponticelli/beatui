@@ -18,16 +18,14 @@ export const App = () => {
         '/selects': () =>
           Async(import('./pages/selects'), ({ default: Page }) => Page()),
         '/checkboxes-toggles': () =>
-          Async(
-            import('./pages/checkboxes-toggles'),
-            ({ default: Page }) => Page()
+          Async(import('./pages/checkboxes-toggles'), ({ default: Page }) =>
+            Page()
           ),
         '/radio-groups': () =>
           Async(import('./pages/radio-groups'), ({ default: Page }) => Page()),
         '/progress-loading': () =>
-          Async(
-            import('./pages/progress-loading'),
-            ({ default: Page }) => Page()
+          Async(import('./pages/progress-loading'), ({ default: Page }) =>
+            Page()
           ),
         '/dividers': () =>
           Async(import('./pages/dividers'), ({ default: Page }) => Page()),
@@ -40,9 +38,8 @@ export const App = () => {
         '/tabs': () =>
           Async(import('./pages/tabs'), ({ default: Page }) => Page()),
         '/keyboard-shortcuts': () =>
-          Async(
-            import('./pages/keyboard-shortcuts'),
-            ({ default: Page }) => Page()
+          Async(import('./pages/keyboard-shortcuts'), ({ default: Page }) =>
+            Page()
           ),
         '/empty-states': () =>
           Async(import('./pages/empty-states'), ({ default: Page }) => Page()),

@@ -17,17 +17,32 @@ const demoTabs: TabItem<DemoTab>[] = [
   {
     key: 'overview',
     label: 'Overview',
-    content: () => html.div(attr.class('p-4'), html.h3(attr.class('font-semibold mb-2'), 'Overview'), html.p('General introduction to the topic.')),
+    content: () =>
+      html.div(
+        attr.class('p-4'),
+        html.h3(attr.class('font-semibold mb-2'), 'Overview'),
+        html.p('General introduction to the topic.')
+      ),
   },
   {
     key: 'details',
     label: 'Details',
-    content: () => html.div(attr.class('p-4'), html.h3(attr.class('font-semibold mb-2'), 'Details'), html.p('Detailed information about features.')),
+    content: () =>
+      html.div(
+        attr.class('p-4'),
+        html.h3(attr.class('font-semibold mb-2'), 'Details'),
+        html.p('Detailed information about features.')
+      ),
   },
   {
     key: 'settings',
     label: 'Settings',
-    content: () => html.div(attr.class('p-4'), html.h3(attr.class('font-semibold mb-2'), 'Settings'), html.p('Configure preferences here.')),
+    content: () =>
+      html.div(
+        attr.class('p-4'),
+        html.h3(attr.class('font-semibold mb-2'), 'Settings'),
+        html.p('Configure preferences here.')
+      ),
   },
 ]
 
@@ -43,7 +58,7 @@ export default function TabsPage() {
     description: 'Tab navigation with content panels.',
     controls: ControlsHeader(
       ControlSwitch('Disabled', disabled),
-      ControlSwitch('Show Content', showContent),
+      ControlSwitch('Show Content', showContent)
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -59,8 +74,8 @@ export default function TabsPage() {
             disabled,
             showContent,
             ariaLabel: 'Demo tabs',
-          }),
-        ),
+          })
+        )
       ),
 
       SectionBlock(
@@ -72,25 +87,45 @@ export default function TabsPage() {
             return html.div(
               attr.class('space-y-1'),
               html.span(attr.class('text-sm font-medium'), sz.toUpperCase()),
-              html.div(attr.class('border rounded-lg overflow-hidden'), Tabs({ items: demoTabs, value: tab, onChange: tab.set, size: sz, showContent: prop(false) })),
+              html.div(
+                attr.class('border rounded-lg overflow-hidden'),
+                Tabs({
+                  items: demoTabs,
+                  value: tab,
+                  onChange: tab.set,
+                  size: sz,
+                  showContent: prop(false),
+                })
+              )
             )
-          }),
-        ),
+          })
+        )
       ),
 
       SectionBlock(
         'Variants',
         html.div(
           attr.class('space-y-4'),
-          ...(['filled', 'light', 'outline', 'default', 'text'] as ButtonVariant[]).map(v => {
+          ...(
+            ['filled', 'light', 'outline', 'default', 'text'] as ButtonVariant[]
+          ).map(v => {
             const tab = prop<DemoTab>('overview')
             return html.div(
               attr.class('space-y-1'),
               html.span(attr.class('text-sm font-medium capitalize'), v),
-              html.div(attr.class('border rounded-lg overflow-hidden'), Tabs({ items: demoTabs, value: tab, onChange: tab.set, variant: v, showContent: prop(false) })),
+              html.div(
+                attr.class('border rounded-lg overflow-hidden'),
+                Tabs({
+                  items: demoTabs,
+                  value: tab,
+                  onChange: tab.set,
+                  variant: v,
+                  showContent: prop(false),
+                })
+              )
             )
-          }),
-        ),
+          })
+        )
       ),
 
       SectionBlock(
@@ -99,10 +134,15 @@ export default function TabsPage() {
           attr.class('border rounded-lg overflow-hidden h-64'),
           (() => {
             const tab = prop<DemoTab>('overview')
-            return Tabs({ items: demoTabs, value: tab, onChange: tab.set, orientation: prop<TabsDirection>('vertical') })
-          })(),
-        ),
-      ),
+            return Tabs({
+              items: demoTabs,
+              value: tab,
+              onChange: tab.set,
+              orientation: prop<TabsDirection>('vertical'),
+            })
+          })()
+        )
+      )
     ),
   })
 }

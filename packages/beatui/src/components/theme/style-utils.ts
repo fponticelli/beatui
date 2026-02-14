@@ -128,13 +128,13 @@ export function backgroundValue(
 
 /** Hover state configuration for solid variant buttons. */
 const hoverSolid = {
-  light: { shade: 600 as ColorShade, textColor: 'var(--color-white)' },
-  dark: { shade: 600 as ColorShade, textColor: 'var(--text-inverted-dark)' },
+  light: { shade: 700 as ColorShade, textColor: 'var(--color-white)' },
+  dark: { shade: 500 as ColorShade, textColor: 'var(--text-inverted-dark)' },
 } as const
 
 /** Hover state configuration for light variant buttons. */
 const hoverLight = {
-  light: { shade: 300 as ColorShade, textColor: 'var(--text-normal-light)' },
+  light: { shade: 200 as ColorShade, textColor: 'var(--text-normal-light)' },
   dark: { shade: 700 as ColorShade, textColor: 'var(--text-normal-dark)' },
 } as const
 

@@ -31,7 +31,7 @@ describe('ProgressBar Component', () => {
     expect(progressBar!.getAttribute('aria-valuetext')).toBe('50%')
   })
 
-  it('should omit aria-valuenow in indeterminate state', () => {
+  it('should apply indeterminate class and keep ARIA attributes', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     render(
@@ -41,9 +41,9 @@ describe('ProgressBar Component', () => {
 
     const progressBar = container.querySelector('.bc-progress-bar')
     expect(progressBar).not.toBeNull()
-    expect(progressBar!.hasAttribute('aria-valuenow')).toBe(false)
-    expect(progressBar!.hasAttribute('aria-valuetext')).toBe(false)
     expect(progressBar!.className).toContain('bc-progress-bar--indeterminate')
+    expect(progressBar!.hasAttribute('aria-valuenow')).toBe(true)
+    expect(progressBar!.hasAttribute('aria-valuetext')).toBe(true)
   })
 
   it('should calculate percentage correctly', () => {
@@ -169,7 +169,7 @@ describe('ProgressBar Component', () => {
 
     progressBar = container.querySelector('.bc-progress-bar')
     expect(progressBar!.className).toContain('bc-progress-bar--indeterminate')
-    expect(progressBar!.hasAttribute('aria-valuenow')).toBe(false)
+    expect(progressBar!.hasAttribute('aria-valuenow')).toBe(true)
   })
 
   it('should handle zero max value gracefully', () => {

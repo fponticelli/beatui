@@ -3,6 +3,9 @@ import {
   Stack,
   ScrollablePanel,
   InputWrapper,
+  InputAdornment,
+  InputContainer,
+  ListItemControls,
   WithTemporal,
   WithBeatUIElementBreakpoint,
   RatingInput,
@@ -187,6 +190,11 @@ export default function InputsPage() {
     const switchVal = prop(false)
 
     const listInitial = prop(['a', 'b'])
+
+    // Adornment demo values
+    const priceVal = prop('')
+    const domainVal = prop('')
+    const weightVal = prop('')
 
     // Temporal values
     const plainDate = prop(T.PlainDate.from('2023-01-01'))
@@ -735,12 +743,22 @@ export default function InputsPage() {
           InputWrapper({
             label: 'List Input',
             content: Stack(
-              ListInput(list, ({ item }) =>
-                TextInput({
-                  value: item.signal,
-                  onChange: item.change,
-                  disabled,
-                })
+              ListInput(list, payload =>
+                ListItemControls(
+                  {
+                    onMove: payload.move,
+                    cannotMoveUp: payload.cannotMove('up'),
+                    cannotMoveDown: payload.cannotMove('down'),
+                    onRemove: payload.remove,
+                    showMoveButtons: list.signal.map(v => v.length > 1),
+                    layout: 'aside',
+                  },
+                  TextInput({
+                    value: payload.item.signal,
+                    onChange: payload.item.change,
+                    disabled,
+                  })
+                )
               ),
               html.div(listCtl.controller.signal.map(v => String(v)))
             ),
@@ -814,6 +832,67 @@ export default function InputsPage() {
               disabled,
             }),
             description: description(comboboxTagsVal),
+          })
+        ),
+        html.h2(
+          attr.style(
+            'margin: 1rem 0 0.5rem 0; font-size: 1rem; font-weight: 600;'
+          ),
+          'Input Adornments'
+        ),
+        Columns(
+          InputWrapper({
+            label: 'Price (filled before)',
+            content: TextInput({
+              value: priceVal,
+              onChange: priceVal.set,
+              before: InputAdornment({ filled: true }, '$'),
+              disabled,
+            }),
+            description: description(priceVal),
+          }),
+          InputWrapper({
+            label: 'Domain (filled after)',
+            content: TextInput({
+              value: domainVal,
+              onChange: domainVal.set,
+              after: InputAdornment({ filled: true }, '.com'),
+              disabled,
+            }),
+            description: description(domainVal),
+          }),
+          InputWrapper({
+            label: 'Weight (unfilled after)',
+            content: TextInput({
+              value: weightVal,
+              onChange: weightVal.set,
+              after: InputAdornment({}, 'kg'),
+              disabled,
+            }),
+            description: description(weightVal),
+          }),
+          InputWrapper({
+            label: 'Both adornments',
+            content: TextInput({
+              value: priceVal,
+              onChange: priceVal.set,
+              before: InputAdornment({ filled: true, size: 'sm' }, '$'),
+              after: InputAdornment({ size: 'sm' }, '.00'),
+              size: 'sm',
+              disabled,
+            }),
+            description: description(priceVal),
+          }),
+          InputWrapper({
+            label: 'Bare InputContainer + adornments',
+            content: InputContainer({
+              input: html.span(
+                attr.style('padding: 0.5rem;'),
+                'Custom content'
+              ),
+              before: InputAdornment({ filled: true }, 'Label'),
+              after: InputAdornment({}, 'Suffix'),
+            }),
           })
         ),
         html.h2(

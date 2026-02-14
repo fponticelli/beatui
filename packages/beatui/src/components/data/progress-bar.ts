@@ -2,7 +2,6 @@ import {
   aria,
   attr,
   computedOf,
-  Fragment,
   html,
   style,
   TNode,
@@ -168,11 +167,8 @@ export function ProgressBar({
       attr.role('progressbar'),
       aria.valuemin(0),
       aria.valuemax(max),
-      // Conditionally render valuenow/valuetext — removed in indeterminate state per ARIA spec
-      When(
-        Value.map(indeterminate, i => !(i ?? false)),
-        () => Fragment(aria.valuenow(value), aria.valuetext(percentageText))
-      ),
+      aria.valuenow(value),
+      aria.valuetext(percentageText),
 
       html.div(
         attr.class('bc-progress-bar__track'),

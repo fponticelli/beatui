@@ -66,7 +66,7 @@ export function ControlNumber(
       attr.value(value.map(String)),
       attr.min(String(opts.min ?? 0)),
       attr.max(String(opts.max ?? 100)),
-      attr.step(String(opts.step ?? 1)),
+      attr.step(String(opts.step ?? 1))
       // Using standard DOM event since we don't have a NumberInput for quick inline
     ),
   })

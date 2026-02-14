@@ -6,9 +6,9 @@
   font-family: var(--font-family-mono);
   font-weight: var(--font-weight-medium);
   line-height: 1;
-  border-radius: var(--radius-sm, 0.25rem);
+  border-radius: var(--radius-xs, 3px);
   background-color: var(--bg-subtle-light);
-  color: var(--text-normal-light);
+  color: var(--text-muted-light);
   border: 1px solid var(--border-border-light);
   box-shadow:
     0 1px 0 0 var(--border-border-light),
@@ -26,26 +26,26 @@
 /* Size variants */
 .bc-kbd--size-xs {
   font-size: var(--font-size-xs);
-  padding: calc(var(--spacing-base) * 0.25) calc(var(--spacing-base) * 0.5);
-  min-width: calc(var(--font-size-xs) + var(--spacing-base) * 1);
+  padding: 1px 4px;
+  min-width: calc(var(--font-size-xs) + 6px);
 }
 
 .bc-kbd--size-sm {
   font-size: var(--font-size-sm);
-  padding: calc(var(--spacing-base) * 0.375) calc(var(--spacing-base) * 0.75);
-  min-width: calc(var(--font-size-sm) + var(--spacing-base) * 1.5);
+  padding: 2px 6px;
+  min-width: calc(var(--font-size-sm) + 8px);
 }
 
 .bc-kbd--size-md {
   font-size: var(--font-size-md);
-  padding: calc(var(--spacing-base) * 0.5) var(--spacing-base);
-  min-width: calc(var(--font-size-md) + var(--spacing-base) * 2);
+  padding: 2px 8px;
+  min-width: calc(var(--font-size-md) + 10px);
 }
 
 /* Dark mode styles */
 .b-dark .bc-kbd {
   background-color: var(--bg-subtle-dark);
-  color: var(--text-normal-dark);
+  color: var(--text-muted-dark);
   border-color: var(--border-border-dark);
   box-shadow:
     0 1px 0 0 var(--border-border-dark),

@@ -1,0 +1,51 @@
+/* Input Adornment Component */
+.bc-input-adornment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1;
+}
+
+/* Size variants */
+.bc-input-adornment--size-xs {
+  padding-inline: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+
+.bc-input-adornment--size-sm {
+  padding-inline: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.bc-input-adornment--size-md {
+  padding-inline: var(--spacing-md);
+  font-size: var(--font-size-md);
+}
+
+.bc-input-adornment--size-lg {
+  padding-inline: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+.bc-input-adornment--size-xl {
+  padding-inline: var(--spacing-xl);
+  font-size: var(--font-size-xl);
+}
+
+/* Filled variant */
+.bc-input-adornment--filled {
+  background-color: var(--color-neutral-100);
+  align-self: stretch;
+}
+
+/* Dark mode */
+.b-dark .bc-input-adornment {
+  color: var(--text-muted-dark);
+}
+
+.b-dark .bc-input-adornment--filled {
+  background-color: var(--bg-subtle-dark);
+}

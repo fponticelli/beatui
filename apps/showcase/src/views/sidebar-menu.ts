@@ -1,7 +1,11 @@
 import { html, attr, on, prop, When } from '@tempots/dom'
 import { StandaloneAppearanceSelector } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
-import { categories, getWidgetsByCategory, widgets } from '../data/widget-registry'
+import {
+  categories,
+  getWidgetsByCategory,
+  widgets,
+} from '../data/widget-registry'
 
 export function SidebarMenu() {
   const search = prop('')
@@ -26,7 +30,10 @@ export function SidebarMenu() {
           attr.style('font-size: 12px; font-weight: 600'),
           'Widget Showcase'
         ),
-        html.div(attr.style('margin-left: auto'), StandaloneAppearanceSelector())
+        html.div(
+          attr.style('margin-left: auto'),
+          StandaloneAppearanceSelector()
+        )
       ),
       html.input(
         attr.type('text'),

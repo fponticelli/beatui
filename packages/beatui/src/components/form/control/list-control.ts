@@ -3,7 +3,6 @@ import {
   ElementPosition,
   attr,
   When,
-  html,
   Use,
   Value,
   computedOf,
@@ -17,12 +16,12 @@ import {
   MoveDirection,
   MovableDirection,
 } from '../input/list-input'
-import { Button, CloseButton } from '../../button'
+import { Button } from '../../button'
 import { Icon } from '../../data'
 import { Group } from '../../layout/group'
-import { Stack } from '../../layout/stack'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { InputWrapper, InputWrapperOptions } from '../input'
+import { ListItemControls, ListControlsLayout } from './list-item-controls'
 
 /**
  * Payload provided to each list item element renderer, re-exported from {@link ListInputPayload}.
@@ -31,14 +30,6 @@ import { InputWrapper, InputWrapperOptions } from '../input'
  */
 export type ListControllerPayload<T> = ListInputPayload<T>
 export type { MoveDirection, MovableDirection }
-
-/**
- * Layout mode for list item controls (move/remove buttons).
- *
- * - `'aside'` - Controls are rendered in a column to the right of each item
- * - `'below'` - Controls are rendered in a row below each item
- */
-export type ListControlsLayout = 'below' | 'aside'
 
 /**
  * Base configuration options for {@link BaseListControl} (without InputWrapper).
@@ -140,100 +131,6 @@ export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
     addDisabled,
   } = options
 
-  const isAside = Value.toSignal(controlsLayout).map(l => l === 'aside')
-
-  const renderControls = (payload: ListInputPayload<T>) => {
-    const moveButtons = When(showMove ?? false, () =>
-      html.div(
-        attr.class('bc-group--align-center'),
-        attr.class(
-          isAside.map((v): string =>
-            v
-              ? 'bc-group--direction-column bc-group--gap-1'
-              : 'bc-group--direction-row bc-group--gap-1'
-          )
-        ),
-        Button(
-          {
-            size: 'xs',
-            roundedness: 'full',
-            variant: 'text',
-            onClick: () => payload.move('up'),
-            disabled: payload.cannotMove('up'),
-          },
-          Use(BeatUII18n, t =>
-            Icon({
-              size: 'xs',
-              icon: 'line-md:arrow-up',
-              title: t.$.incrementValue as Value<string | undefined>,
-            })
-          )
-        ),
-        Button(
-          {
-            size: 'xs',
-            roundedness: 'full',
-            variant: 'text',
-            onClick: () => payload.move('down'),
-            disabled: payload.cannotMove('down'),
-          },
-          Use(BeatUII18n, t =>
-            Icon({
-              size: 'xs',
-              icon: 'line-md:arrow-down',
-              title: t.$.decrementValue as Value<string | undefined>,
-            })
-          )
-        )
-      )
-    )
-
-    const removeButton = When(showRemove, () =>
-      Use(BeatUII18n, t =>
-        CloseButton({
-          size: 'xs',
-          // Use a lowercase label to satisfy tests that query with [aria-label*="remove"]
-          label: Value.map(t.$.removeItem, s => s.toLowerCase()),
-          color: 'danger',
-          disabled: removeDisabled,
-          onClick: payload.remove,
-        })
-      )
-    )
-
-    return (content: TNode) =>
-      When(
-        isAside,
-        () =>
-          Group(
-            attr.class('bc-group--gap-1 bc-group--align-center'),
-            Stack(attr.class('bc-stack--grow'), content),
-            Stack(
-              attr.class('bc-stack--align-center'),
-              When(
-                controller.signal.map(v => v.length > 1),
-                () => moveButtons
-              ),
-              removeButton
-            )
-          ),
-        () =>
-          Stack(
-            attr.class('bc-stack--gap-2'),
-            content,
-            Group(
-              attr.class('bc-group--gap-2 bc-group--justify-between'),
-              When(
-                controller.signal.map(v => v.length > 1),
-                () => moveButtons,
-                () => html.div()
-              ),
-              removeButton
-            )
-          )
-      )
-  }
-
   const AddToolbar = When(
     computedOf(showAdd, createItem)((show, create) => show && create != null),
     () =>
@@ -268,10 +165,21 @@ export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
   return Fragment(
     ListInput(
       controller,
-      payload => {
-        const wrap = renderControls(payload)
-        return wrap(element(payload))
-      },
+      payload =>
+        ListItemControls(
+          {
+            onMove: payload.move,
+            cannotMoveUp: payload.cannotMove('up'),
+            cannotMoveDown: payload.cannotMove('down'),
+            onRemove: payload.remove,
+            showMove,
+            showRemove,
+            removeDisabled,
+            showMoveButtons: controller.signal.map(v => v.length > 1),
+            layout: controlsLayout,
+          },
+          element(payload)
+        ),
       separator
     ),
     AddToolbar

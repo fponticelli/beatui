@@ -9,7 +9,9 @@ export function AppLayout({ children }: { children: TNode }) {
     SidebarMenu(),
     // Main content area
     html.div(
-      attr.style('flex: 1; overflow: auto; display: flex; flex-direction: column'),
+      attr.style(
+        'flex: 1; overflow: auto; display: flex; flex-direction: column'
+      ),
       children
     )
   )

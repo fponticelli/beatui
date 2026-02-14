@@ -27,7 +27,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-stack-2xs, calc(var(--spacing-base) / 2));
-  color: var(--color-primary-600);
+  color: var(--text-muted-light);
   text-decoration: none;
   cursor: pointer;
   transition: color
@@ -45,7 +45,7 @@
 
 .bc-breadcrumbs__link:hover,
 .bc-breadcrumbs__button:hover {
-  color: var(--color-primary-700);
+  color: var(--text-normal-light);
   text-decoration: underline;
 }
 
@@ -57,12 +57,12 @@
 
 .b-dark .bc-breadcrumbs__link,
 .b-dark .bc-breadcrumbs__button {
-  color: var(--color-primary-400);
+  color: var(--text-muted-dark);
 }
 
 .b-dark .bc-breadcrumbs__link:hover,
 .b-dark .bc-breadcrumbs__button:hover {
-  color: var(--color-primary-300);
+  color: var(--text-normal-dark);
 }
 
 .b-dark .bc-breadcrumbs__link:focus-visible,

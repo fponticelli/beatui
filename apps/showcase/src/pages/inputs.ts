@@ -28,8 +28,14 @@ export default function InputsPage() {
     title: 'Inputs',
     description: 'Text, email, password, number, and textarea inputs.',
     controls: ControlsHeader(
-      ControlSegmented('Size', size, { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' } as Record<ControlSize, string>),
-      ControlSwitch('Disabled', disabled),
+      ControlSegmented('Size', size, {
+        xs: 'XS',
+        sm: 'SM',
+        md: 'MD',
+        lg: 'LG',
+        xl: 'XL',
+      } as Record<ControlSize, string>),
+      ControlSwitch('Disabled', disabled)
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -47,7 +53,7 @@ export default function InputsPage() {
               size,
               disabled,
             }),
-            description: text.map(v => v ? `"${v}"` : 'empty'),
+            description: text.map(v => (v ? `"${v}"` : 'empty')),
           }),
           InputWrapper({
             label: 'Email Input',
@@ -58,7 +64,7 @@ export default function InputsPage() {
               size,
               disabled,
             }),
-            description: email.map(v => v ? `"${v}"` : 'empty'),
+            description: email.map(v => (v ? `"${v}"` : 'empty')),
           }),
           InputWrapper({
             label: 'Password Input',
@@ -80,7 +86,7 @@ export default function InputsPage() {
               disabled,
             }),
             description: number.map(v => String(v)),
-          }),
+          })
         )
       ),
 
@@ -94,9 +100,9 @@ export default function InputsPage() {
             placeholder: 'Write something...',
             disabled,
           }),
-          description: textarea.map(v => v ? `${v.length} chars` : 'empty'),
+          description: textarea.map(v => (v ? `${v.length} chars` : 'empty')),
         })
-      ),
+      )
     ),
   })
 }

@@ -1,6 +1,4 @@
 .bc-native-select {
-  /* Match input height; container handles padding */
-  height: 19px;
   width: 100%;
   /* Reset native styling so BeatUI theme applies (Safari, Chrome, Firefox) */
   -webkit-appearance: none;

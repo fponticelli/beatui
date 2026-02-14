@@ -20,10 +20,9 @@ export default function RadioGroupsPage() {
   return WidgetPage({
     id: 'radio-groups',
     title: 'Radio Groups',
-    description: 'Radio groups and segmented inputs for single-choice selection.',
-    controls: ControlsHeader(
-      ControlSwitch('Disabled', disabled),
-    ),
+    description:
+      'Radio groups and segmented inputs for single-choice selection.',
+    controls: ControlsHeader(ControlSwitch('Disabled', disabled)),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
 
@@ -43,8 +42,11 @@ export default function RadioGroupsPage() {
         html.p(
           attr.class('text-sm text-gray-500'),
           'Selected: ',
-          html.span(attr.class('font-medium'), Value.map(basic, v => v))
-        ),
+          html.span(
+            attr.class('font-medium'),
+            Value.map(basic, v => v)
+          )
+        )
       ),
 
       // With descriptions
@@ -52,14 +54,26 @@ export default function RadioGroupsPage() {
         'With Descriptions',
         RadioGroup({
           options: [
-            { value: 'basic', label: 'Basic Plan', description: '$10/month — Essential features' },
-            { value: 'pro', label: 'Pro Plan', description: '$30/month — Advanced features' },
-            { value: 'enterprise', label: 'Enterprise', description: 'Custom pricing — Full suite' },
+            {
+              value: 'basic',
+              label: 'Basic Plan',
+              description: '$10/month — Essential features',
+            },
+            {
+              value: 'pro',
+              label: 'Pro Plan',
+              description: '$30/month — Advanced features',
+            },
+            {
+              value: 'enterprise',
+              label: 'Enterprise',
+              description: 'Custom pricing — Full suite',
+            },
           ],
           value: plan,
           onChange: plan.set,
           disabled,
-        }),
+        })
       ),
 
       // Orientation
@@ -75,7 +89,7 @@ export default function RadioGroupsPage() {
           onChange: alignment.set,
           orientation: 'horizontal',
           disabled,
-        }),
+        })
       ),
 
       // Sizes
@@ -96,7 +110,7 @@ export default function RadioGroupsPage() {
                 size: sz,
                 orientation: 'horizontal',
                 disabled,
-              }),
+              })
             )
           )
         )
@@ -105,7 +119,10 @@ export default function RadioGroupsPage() {
       // Segmented input
       SectionBlock(
         'Segmented Input',
-        html.p(attr.class('text-sm text-gray-500'), 'An alternative to radio groups for compact selections.'),
+        html.p(
+          attr.class('text-sm text-gray-500'),
+          'An alternative to radio groups for compact selections.'
+        ),
         html.div(
           attr.class('space-y-4'),
           (() => {
@@ -113,7 +130,11 @@ export default function RadioGroupsPage() {
             return InputWrapper({
               label: 'Frequency',
               content: SegmentedInput({
-                options: { daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly' },
+                options: {
+                  daily: 'Daily',
+                  weekly: 'Weekly',
+                  monthly: 'Monthly',
+                },
                 value: seg,
                 onChange: seg.set,
                 disabled,
@@ -134,7 +155,7 @@ export default function RadioGroupsPage() {
               }),
               description: view,
             })
-          })(),
+          })()
         )
       ),
 
@@ -148,8 +169,8 @@ export default function RadioGroupsPage() {
             { value: 'unavailable', label: 'Not Available', disabled: true },
           ],
           value: prop('available'),
-        }),
-      ),
+        })
+      )
     ),
   })
 }

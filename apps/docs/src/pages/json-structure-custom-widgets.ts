@@ -72,11 +72,7 @@ function UuidWidget({
     label: 'UUID',
     description: 'Format-based custom widget for UUIDs',
     placeholder: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-    before: html.span(
-      attr.class('text-purple-500'),
-      style.fontSize('1.2rem'),
-      '🔑'
-    ),
+    before: '🔑',
     after: When(
       isValid,
       () =>

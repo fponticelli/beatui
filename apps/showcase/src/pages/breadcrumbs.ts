@@ -20,7 +20,7 @@ export default function BreadcrumbsPage() {
             { label: 'Electronics', href: '/products/electronics' },
             { label: 'Laptops', current: true },
           ],
-        }),
+        })
       ),
 
       SectionBlock(
@@ -31,12 +31,13 @@ export default function BreadcrumbsPage() {
             { label: 'Documents', icon: 'mdi:folder', href: '/documents' },
             { label: 'Reports', icon: 'mdi:file-document', current: true },
           ],
-        }),
+        })
       ),
 
       SectionBlock(
         'Custom Separators',
-        html.div(attr.class('space-y-3'),
+        html.div(
+          attr.class('space-y-3'),
           Breadcrumbs({
             items: [
               { label: 'Home', href: '/' },
@@ -52,13 +53,15 @@ export default function BreadcrumbsPage() {
               { label: 'Article', current: true },
             ],
             separator: '•',
-          }),
-        ),
+          })
+        )
       ),
 
       SectionBlock(
         'Max Items (Collapsed)',
-        html.div(attr.class('space-y-2'), html.span(attr.class('text-sm'), 'Full trail'),
+        html.div(
+          attr.class('space-y-2'),
+          html.span(attr.class('text-sm'), 'Full trail'),
           Breadcrumbs({
             items: [
               { label: 'Home', href: '/' },
@@ -68,9 +71,11 @@ export default function BreadcrumbsPage() {
               { label: 'Level 4', href: '/l1/l2/l3/l4' },
               { label: 'Current', current: true },
             ],
-          }),
+          })
         ),
-        html.div(attr.class('space-y-2'), html.span(attr.class('text-sm'), 'Collapsed (max 3)'),
+        html.div(
+          attr.class('space-y-2'),
+          html.span(attr.class('text-sm'), 'Collapsed (max 3)'),
           Breadcrumbs({
             items: [
               { label: 'Home', href: '/' },
@@ -81,24 +86,49 @@ export default function BreadcrumbsPage() {
               { label: 'Current', current: true },
             ],
             maxItems: 3,
-          }),
-        ),
+          })
+        )
       ),
 
       SectionBlock(
         'Sizes',
-        html.div(attr.class('space-y-3'),
-          html.div(attr.class('space-y-1'), html.span(attr.class('text-sm'), 'Small'),
-            Breadcrumbs({ items: [{ label: 'Home', href: '/' }, { label: 'Page', current: true }], size: 'sm' }),
+        html.div(
+          attr.class('space-y-3'),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Small'),
+            Breadcrumbs({
+              items: [
+                { label: 'Home', href: '/' },
+                { label: 'Page', current: true },
+              ],
+              size: 'sm',
+            })
           ),
-          html.div(attr.class('space-y-1'), html.span(attr.class('text-sm'), 'Medium'),
-            Breadcrumbs({ items: [{ label: 'Home', href: '/' }, { label: 'Page', current: true }], size: 'md' }),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Medium'),
+            Breadcrumbs({
+              items: [
+                { label: 'Home', href: '/' },
+                { label: 'Page', current: true },
+              ],
+              size: 'md',
+            })
           ),
-          html.div(attr.class('space-y-1'), html.span(attr.class('text-sm'), 'Large'),
-            Breadcrumbs({ items: [{ label: 'Home', href: '/' }, { label: 'Page', current: true }], size: 'lg' }),
-          ),
-        ),
-      ),
+          html.div(
+            attr.class('space-y-1'),
+            html.span(attr.class('text-sm'), 'Large'),
+            Breadcrumbs({
+              items: [
+                { label: 'Home', href: '/' },
+                { label: 'Page', current: true },
+              ],
+              size: 'lg',
+            })
+          )
+        )
+      )
     ),
   })
 }

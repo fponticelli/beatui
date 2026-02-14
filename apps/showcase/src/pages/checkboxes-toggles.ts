@@ -27,8 +27,14 @@ export default function CheckboxesPage() {
     title: 'Checkboxes & Toggles',
     description: 'Checkbox inputs and toggle switches.',
     controls: ControlsHeader(
-      ControlSegmented('Size', size, { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' } as Record<ControlSize, string>),
-      ControlSwitch('Disabled', disabled),
+      ControlSegmented('Size', size, {
+        xs: 'XS',
+        sm: 'SM',
+        md: 'MD',
+        lg: 'LG',
+        xl: 'XL',
+      } as Record<ControlSize, string>),
+      ControlSwitch('Disabled', disabled)
     ),
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
@@ -38,19 +44,31 @@ export default function CheckboxesPage() {
         'Checkboxes',
         InputWrapper({
           label: 'Accept terms',
-          content: CheckboxInput({ value: check1, onChange: check1.set, disabled }),
-          description: Value.map(check1, v => v ? 'Checked' : 'Unchecked'),
+          content: CheckboxInput({
+            value: check1,
+            onChange: check1.set,
+            disabled,
+          }),
+          description: Value.map(check1, v => (v ? 'Checked' : 'Unchecked')),
         }),
         InputWrapper({
           label: 'Subscribe to newsletter',
-          content: CheckboxInput({ value: check2, onChange: check2.set, disabled }),
-          description: Value.map(check2, v => v ? 'Checked' : 'Unchecked'),
+          content: CheckboxInput({
+            value: check2,
+            onChange: check2.set,
+            disabled,
+          }),
+          description: Value.map(check2, v => (v ? 'Checked' : 'Unchecked')),
         }),
         InputWrapper({
           label: 'Remember me',
-          content: CheckboxInput({ value: check3, onChange: check3.set, disabled }),
-          description: Value.map(check3, v => v ? 'Checked' : 'Unchecked'),
-        }),
+          content: CheckboxInput({
+            value: check3,
+            onChange: check3.set,
+            disabled,
+          }),
+          description: Value.map(check3, v => (v ? 'Checked' : 'Unchecked')),
+        })
       ),
 
       // Switches
@@ -59,19 +77,28 @@ export default function CheckboxesPage() {
         InputWrapper({
           label: 'Dark mode',
           content: Switch({ value: switch1, onChange: switch1.set, disabled }),
-          description: Value.map(switch1, v => v ? 'ON' : 'OFF'),
+          description: Value.map(switch1, v => (v ? 'ON' : 'OFF')),
         }),
         InputWrapper({
           label: 'Notifications',
           content: Switch({ value: switch2, onChange: switch2.set, disabled }),
-          description: Value.map(switch2, v => v ? 'ON' : 'OFF'),
-        }),
+          description: Value.map(switch2, v => (v ? 'ON' : 'OFF')),
+        })
       ),
 
       // Switch colors
       Section(
         'Switch Colors',
-        ...(['primary', 'secondary', 'success', 'warning', 'danger', 'info'] as ThemeColorName[]).map(color => {
+        ...(
+          [
+            'primary',
+            'secondary',
+            'success',
+            'warning',
+            'danger',
+            'info',
+          ] as ThemeColorName[]
+        ).map(color => {
           const val = prop(true)
           return InputWrapper({
             label: color,
@@ -87,10 +114,15 @@ export default function CheckboxesPage() {
           const val = prop(true)
           return InputWrapper({
             label: sz.toUpperCase(),
-            content: Switch({ value: val, onChange: val.set, size: sz, disabled }),
+            content: Switch({
+              value: val,
+              onChange: val.set,
+              size: sz,
+              disabled,
+            }),
           })
         })
-      ),
+      )
     ),
   })
 }

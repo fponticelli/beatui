@@ -42,6 +42,7 @@ export function AppearanceSelector({
 }: AppearanceSelectorOptions) {
   return SegmentedInput<Record<AppearancePreference, TNode>>({
     size: 'sm',
+    variant: 'squared',
     value,
     disabled,
     options: {

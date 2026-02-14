@@ -17,7 +17,9 @@ export default function HomePage() {
     html.div(
       attr.style('display: flex; flex-direction: column; gap: 24px'),
       html.p(
-        attr.style('font-size: 13px; color: #6B7280; line-height: 1.5; margin: 0'),
+        attr.style(
+          'font-size: 13px; color: #6B7280; line-height: 1.5; margin: 0'
+        ),
         'Visually compare and interact with BeatUI components. Select a widget from the sidebar or browse by category below.'
       ),
       html.div(

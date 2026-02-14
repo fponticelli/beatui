@@ -371,15 +371,15 @@ export const backgroundConfig = {
   // Standard color variants with their shades and text colors
   variants: {
     solid: {
-      light: { bgShade: 700, textColor: 'var(--color-white)' },
-      dark: { bgShade: 600, textColor: 'var(--color-black)' },
+      light: { bgShade: 600, textColor: 'var(--color-white)' },
+      dark: { bgShade: 400, textColor: 'var(--color-black)' },
     },
     soft: {
       light: { bgShade: 300, textColor: 'var(--text-normal-light)' },
       dark: { bgShade: 700, textColor: 'var(--text-normal-dark)' },
     },
     light: {
-      light: { bgShade: 200, textColor: 'var(--text-normal-light)' },
+      light: { bgShade: 100, textColor: 'var(--text-normal-light)' },
       dark: { bgShade: 800, textColor: 'var(--text-normal-dark)' },
     },
     lighter: {

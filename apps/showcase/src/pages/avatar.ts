@@ -1,9 +1,5 @@
 import { html, attr } from '@tempots/dom'
-import {
-  Avatar,
-  AvatarGroup,
-  AvatarGroupOverflow,
-} from '@tempots/beatui'
+import { Avatar, AvatarGroup, AvatarGroupOverflow } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
 import { Section, SectionBlock } from '../views/section'
 
@@ -20,7 +16,7 @@ export default function AvatarPage() {
         Avatar({ name: 'Alice Johnson' }),
         Avatar({ name: 'Bob Smith' }),
         Avatar({ name: 'Charlie Brown' }),
-        Avatar({ icon: 'mdi:account' }),
+        Avatar({ icon: 'mdi:account' })
       ),
 
       Section(
@@ -30,7 +26,7 @@ export default function AvatarPage() {
         Avatar({ name: 'MD', size: 'md' }),
         Avatar({ name: 'LG', size: 'lg' }),
         Avatar({ name: 'XL', size: 'xl' }),
-        Avatar({ name: '2X', size: '2xl' }),
+        Avatar({ name: '2X', size: '2xl' })
       ),
 
       SectionBlock(
@@ -45,8 +41,8 @@ export default function AvatarPage() {
             Avatar({ name: 'SU', color: 'success' }),
             Avatar({ name: 'WA', color: 'warning' }),
             Avatar({ name: 'DA', color: 'danger' }),
-            Avatar({ name: 'IN', color: 'info' }),
-          ),
+            Avatar({ name: 'IN', color: 'info' })
+          )
         ),
         html.div(
           attr.class('space-y-3 mt-4'),
@@ -58,9 +54,9 @@ export default function AvatarPage() {
             Avatar({ name: 'SU', variant: 'square', color: 'success' }),
             Avatar({ name: 'WA', variant: 'square', color: 'warning' }),
             Avatar({ name: 'DA', variant: 'square', color: 'danger' }),
-            Avatar({ name: 'IN', variant: 'square', color: 'info' }),
-          ),
-        ),
+            Avatar({ name: 'IN', variant: 'square', color: 'info' })
+          )
+        )
       ),
 
       Section(
@@ -71,7 +67,7 @@ export default function AvatarPage() {
         Avatar({ icon: 'mdi:account', color: 'base' }),
         Avatar({ icon: 'mdi:briefcase', color: 'primary' }),
         Avatar({ icon: 'mdi:shield-account', color: 'success' }),
-        Avatar({ icon: 'mdi:robot', color: 'info' }),
+        Avatar({ icon: 'mdi:robot', color: 'info' })
       ),
 
       SectionBlock(
@@ -86,8 +82,8 @@ export default function AvatarPage() {
               Avatar({ name: 'Alice', color: 'primary' }),
               Avatar({ name: 'Bob', color: 'success' }),
               Avatar({ name: 'Charlie', color: 'warning' }),
-              Avatar({ name: 'Diana', color: 'danger' }),
-            ),
+              Avatar({ name: 'Diana', color: 'danger' })
+            )
           ),
           html.div(
             attr.class('space-y-2'),
@@ -97,8 +93,8 @@ export default function AvatarPage() {
               Avatar({ name: 'Alice', color: 'primary' }),
               Avatar({ name: 'Bob', color: 'success' }),
               Avatar({ name: 'Charlie', color: 'warning' }),
-              AvatarGroupOverflow({ count: 12, color: 'base' }),
-            ),
+              AvatarGroupOverflow({ count: 12, color: 'base' })
+            )
           ),
           html.div(
             attr.class('space-y-2'),
@@ -107,11 +103,11 @@ export default function AvatarPage() {
               { spacing: 'normal' },
               Avatar({ name: 'Alice', color: 'primary' }),
               Avatar({ name: 'Bob', color: 'success' }),
-              Avatar({ name: 'Charlie', color: 'warning' }),
-            ),
-          ),
-        ),
-      ),
+              Avatar({ name: 'Charlie', color: 'warning' })
+            )
+          )
+        )
+      )
     ),
   })
 }
