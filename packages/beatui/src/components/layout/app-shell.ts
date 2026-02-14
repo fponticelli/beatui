@@ -763,6 +763,9 @@ export function AppShell({
                 })
               ),
               style.top(headerBottom.map(v => `${v}px`)),
+              WithElement(el => {
+                el.style.setProperty('--slide-distance', '100%')
+              }),
               AnimatedToggleClass({
                 animation: { slide: 'right' },
                 status: computedOf(
@@ -855,6 +858,9 @@ export function AppShell({
                 })
               ),
               style.top(headerBottom.map(v => `${v}px`)),
+              WithElement(el => {
+                el.style.setProperty('--slide-distance', '100%')
+              }),
               AnimatedToggleClass({
                 animation: { slide: 'left' },
                 status: computedOf(

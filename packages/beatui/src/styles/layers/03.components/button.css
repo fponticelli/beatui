@@ -52,6 +52,11 @@
   text-decoration: var(--button-hover-decoration);
 }
 
+/* Keep hover transform while flyout/menu is expanded to prevent position shift */
+.bc-button[aria-expanded='true']:not(:disabled) {
+  transform: scale(1.03);
+}
+
 .bc-button:active:not(:disabled) {
   z-index: 1;
   transform: translateY(var(--spacing-base));

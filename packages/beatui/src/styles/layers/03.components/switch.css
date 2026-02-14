@@ -232,6 +232,24 @@
   min-width: calc(var(--spacing-base) * 13.5);
 }
 
+/* Match input height — adds vertical padding so the switch occupies the same
+   height as text inputs at the corresponding size. */
+.bc-switch--match-input.bc-switch--xs {
+  padding-block: calc(var(--spacing-base) * 1.5);
+}
+.bc-switch--match-input.bc-switch--sm {
+  padding-block: calc(var(--spacing-base) * 2);
+}
+.bc-switch--match-input.bc-switch--md {
+  padding-block: calc(var(--spacing-base) * 1.75);
+}
+.bc-switch--match-input.bc-switch--lg {
+  padding-block: calc(var(--spacing-base) * 2);
+}
+.bc-switch--match-input.bc-switch--xl {
+  padding-block: calc(var(--spacing-base) * 2);
+}
+
 /* Focus styles are handled by the base focus system */
 
 /* Disabled state */

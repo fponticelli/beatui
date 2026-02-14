@@ -48,6 +48,8 @@ export * from './rating-input'
 export * from './nullable-rating-input'
 export * from './radio-group'
 export * from './slider-input'
+export * from './advanced-slider'
+export * from './otp-input'
 
 // Temporal inputs
 export * from './plain-date-input'

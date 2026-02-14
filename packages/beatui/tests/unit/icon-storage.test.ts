@@ -1,9 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // Mock the icon module to test the storage fallback
-vi.mock('../../src/components/data/icon.ts', async importOriginal => {
-  const original = (await importOriginal()) as object
-
+vi.mock('../../src/components/data/icon.ts', () => {
   // Re-implement the icon storage logic for testing
   const memoryCache = new Map<string, string>()
 
@@ -15,44 +13,15 @@ vi.mock('../../src/components/data/icon.ts', async importOriginal => {
     }
   })()
 
-  function storeIconLocally(id: string, svgString: string) {
-    return new Promise((resolve, reject) => {
-      try {
-        if (isIndexedDBAvailable && indexedDB) {
-          // In test environment, indexedDB is not available, so this won't execute
-          reject(new Error('IndexedDB not available in test'))
-        } else {
-          // Fallback to in-memory cache
-          memoryCache.set(id, svgString)
-          resolve(undefined)
-        }
-      } catch (_error) {
-        // If IndexedDB fails, fallback to memory cache
-        memoryCache.set(id, svgString)
-        resolve(undefined)
-      }
-    })
+  async function storeIconLocally(id: string, svgString: string) {
+    memoryCache.set(id, svgString)
   }
 
-  function getIconLocally(id: string) {
-    return new Promise<string | null>((resolve, reject) => {
-      try {
-        if (isIndexedDBAvailable && indexedDB) {
-          // In test environment, indexedDB is not available, so this won't execute
-          reject(new Error('IndexedDB not available in test'))
-        } else {
-          // Fallback to in-memory cache
-          resolve(memoryCache.get(id) || null)
-        }
-      } catch (_error) {
-        // If IndexedDB fails, fallback to memory cache
-        resolve(memoryCache.get(id) || null)
-      }
-    })
+  async function getIconLocally(id: string): Promise<string | null> {
+    return memoryCache.get(id) || null
   }
 
   return {
-    ...original,
     storeIconLocally,
     getIconLocally,
     memoryCache,

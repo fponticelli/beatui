@@ -79,17 +79,114 @@
   }
 }
 
-/* Toolbar group button blending */
-.bc-toolbar__group > :not(:last-child) {
-  border-top-end-radius: 0;
-  border-bottom-end-radius: 0;
-  margin-left: -1px;
+/* ── Toolbar group button blending ── */
+
+/* Strip all border-radius inside the group */
+.bc-toolbar__group > .bc-button {
+  border-radius: 0;
 }
 
-.bc-toolbar__group > :not(:first-child) {
-  border-top-start-radius: 0;
-  border-bottom-start-radius: 0;
-  margin-left: -1px;
+/* First child gets left radii */
+.bc-toolbar__group > .bc-button:first-child {
+  border-top-left-radius: var(--radius-control-sm, var(--radius-sm));
+  border-bottom-left-radius: var(--radius-control-sm, var(--radius-sm));
+}
+
+/* Last child gets right radii */
+.bc-toolbar__group > .bc-button:last-child {
+  border-top-right-radius: var(--radius-control-sm, var(--radius-sm));
+  border-bottom-right-radius: var(--radius-control-sm, var(--radius-sm));
+}
+
+/* Collapse borders between adjacent buttons */
+.bc-toolbar__group > .bc-button + .bc-button {
+  margin-left: -1.5px;
+}
+
+/* Ensure active/hover/focus buttons layer above neighbours */
+.bc-toolbar__group > .bc-button[aria-pressed='true'],
+.bc-toolbar__group > .bc-button.bc-toolbar__button--active {
+  z-index: 1;
+}
+
+.bc-toolbar__group > .bc-button:hover {
+  z-index: 2;
+}
+
+.bc-toolbar__group > .bc-button:focus-visible {
+  z-index: 3;
+}
+
+/* ── Toolbar group button styling ── */
+
+/* Base: transparent bg, no border, muted text */
+.bc-toolbar__group > .bc-toolbar__button.bc-button {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-base-600);
+  transition: background-color var(--motion-transition-fast)
+    var(--motion-easing-standard);
+}
+
+/* Hover: subtle tint, no scale/translate */
+.bc-toolbar__group > .bc-toolbar__button.bc-button:hover:not(:disabled) {
+  background-color: var(--color-base-100);
+  color: var(--color-base-800);
+  transform: none;
+}
+
+/* Active press: no translate */
+.bc-toolbar__group > .bc-toolbar__button.bc-button:active:not(:disabled) {
+  transform: none;
+}
+
+/* Active/pressed: primary highlight */
+.bc-toolbar__group > .bc-toolbar__button.bc-button[aria-pressed='true'],
+.bc-toolbar__group > .bc-toolbar__button.bc-button.bc-toolbar__button--active {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-700);
+}
+
+.bc-toolbar__group
+  > .bc-toolbar__button.bc-button[aria-pressed='true']:hover:not(:disabled),
+.bc-toolbar__group
+  > .bc-toolbar__button.bc-button.bc-toolbar__button--active:hover:not(
+    :disabled
+  ) {
+  background-color: var(--color-primary-200);
+  color: var(--color-primary-800);
+}
+
+/* Dark mode */
+.b-dark .bc-toolbar__group > .bc-toolbar__button.bc-button {
+  color: var(--color-base-300);
+}
+
+.b-dark
+  .bc-toolbar__group
+  > .bc-toolbar__button.bc-button:hover:not(:disabled) {
+  background-color: var(--color-base-700);
+  color: var(--color-base-100);
+}
+
+.b-dark .bc-toolbar__group > .bc-toolbar__button.bc-button[aria-pressed='true'],
+.b-dark
+  .bc-toolbar__group
+  > .bc-toolbar__button.bc-button.bc-toolbar__button--active {
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-300);
+}
+
+.b-dark
+  .bc-toolbar__group
+  > .bc-toolbar__button.bc-button[aria-pressed='true']:hover:not(:disabled),
+.b-dark
+  .bc-toolbar__group
+  > .bc-toolbar__button.bc-button.bc-toolbar__button--active:hover:not(
+    :disabled
+  ) {
+  background-color: var(--color-primary-800);
+  color: var(--color-primary-200);
 }
 
 /* Floating toolbar variant */

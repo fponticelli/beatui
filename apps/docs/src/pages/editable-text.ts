@@ -31,12 +31,12 @@ export default function EditableTextPage() {
       ),
       Card(
         {},
+        attr.class('flex flex-col gap-4'),
         Group(
           attr.class('gap-2 items-baseline'),
           html.div('EditableText'),
           EditableText({ value: text, onChange: text.set, disabled })
         ),
-        html.hr(),
         Group(
           attr.class('gap-2 items-baseline'),
           html.div('Current value:'),

@@ -293,6 +293,16 @@ export function Flyout(options: FlyoutOptions): Renderable {
           // Set element for the animation toggle
           animatedToggle.setElement(element)
 
+          // For hover-triggered flyouts, keep open when hovering over the content
+          const showOnValue =
+            typeof showOn === 'function'
+              ? null
+              : (Value.get(showOn as Value<FlyoutTrigger>) as FlyoutTrigger)
+          if (showOnValue === 'hover' || showOnValue === 'hover-focus') {
+            element.addEventListener('mouseenter', () => show())
+            element.addEventListener('mouseleave', () => hide())
+          }
+
           // Start opening animation after ensuring initial state is rendered
           delayedOpenCleanup = delayedAnimationFrame(() => {
             animatedToggle.open()

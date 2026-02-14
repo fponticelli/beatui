@@ -1,5 +1,5 @@
-import { attr, Signal, Value, When } from '@tempots/dom'
-import { ButtonVariant, ControlSize } from '../theme'
+import { aria, attr, Signal, Value, When } from '@tempots/dom'
+import { ControlSize } from '../theme'
 import { ToolbarButton } from '../navigation'
 import { Icon } from '../data'
 
@@ -25,9 +25,10 @@ export function EditorToolbarButton(options: EditorToolbarButtonOptions) {
       {
         onClick,
         disabled,
-        variant: active.map(v => (v ? 'filled' : 'light') as ButtonVariant),
         size,
       },
+      attr.class(active.map(v => (v ? 'bc-toolbar__button--active' : ''))),
+      aria.pressed(active),
       attr.title(label),
       Icon({ icon, size })
     )

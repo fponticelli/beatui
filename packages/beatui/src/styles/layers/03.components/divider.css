@@ -1,7 +1,7 @@
 /* Divider Component */
 .bc-divider {
-  border: none;
-  border-top: 1px solid var(--border-default);
+  border: 0;
+  border-top: 1px solid var(--border-divider);
   margin: 0;
   height: 0;
   background: transparent;
@@ -15,7 +15,7 @@
 .bc-divider--vertical {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-default);
+  border-left: 1px solid var(--border-divider);
   width: auto;
   height: auto;
   align-self: stretch;
@@ -24,20 +24,20 @@
 
 /* Tone variants */
 .bc-divider--tone-subtle {
-  border-color: var(--border-inverted);
+  border-color: var(--border-muted);
 }
 
 .bc-divider--tone-strong {
-  border-color: var(--border-divider);
+  border-color: var(--border-strong);
 }
 
 /* Line style variants */
 .bc-divider--dashed {
-  border-style: dashed;
+  border-top-style: dashed;
 }
 
 .bc-divider--dotted {
-  border-style: dotted;
+  border-top-style: dotted;
 }
 
 .bc-divider--vertical.bc-divider--dashed {
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-base);
-  border: none;
+  border: 0;
   height: auto;
 }
 
@@ -67,8 +67,8 @@
 
 .bc-divider__line {
   flex: 1;
-  border: none;
-  border-top: 1px solid var(--border-subtle);
+  border: 0;
+  border-top: 1px solid var(--border-default);
   height: 0;
   background: transparent;
   margin: 0;
@@ -80,7 +80,7 @@
 .bc-divider--vertical .bc-divider__line {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-default);
+  border-left: 1px solid var(--border-divider);
   width: 0;
   flex: 1;
   min-height: 1rem;
@@ -124,11 +124,11 @@
 
 /* Tone variants for labeled dividers */
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__line {
-  border-color: var(--border-inverted);
+  border-color: var(--border-muted);
 }
 
 .bc-divider--labeled.bc-divider--tone-strong .bc-divider__line {
-  border-color: var(--border-divider);
+  border-color: var(--border-strong);
 }
 
 .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
@@ -141,11 +141,11 @@
 
 /* Line style variants for labeled dividers */
 .bc-divider--labeled.bc-divider--dashed .bc-divider__line {
-  border-style: dashed;
+  border-top-style: dashed;
 }
 
 .bc-divider--labeled.bc-divider--dotted .bc-divider__line {
-  border-style: dotted;
+  border-top-style: dotted;
 }
 
 .bc-divider--labeled.bc-divider--vertical.bc-divider--dashed .bc-divider__line {

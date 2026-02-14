@@ -12,6 +12,14 @@ import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
+const colorOptions = [
+  undefined,
+  'primary',
+  'success',
+  'warning',
+  'danger',
+  'info',
+] as const
 
 export default function SegmentedControlPage() {
   const disabled = prop(false)
@@ -28,7 +36,7 @@ export default function SegmentedControlPage() {
   return ScrollablePanel({
     header: ControlsHeader(DisabledSelector({ disabled })),
     body: Stack(
-      attr.class('items-center gap-4 p-4 h-full overflow-hidden'),
+      attr.class('items-center gap-4 p-4'),
 
       // Pill vs Squared comparison
       html.h3(attr.class('text-lg font-semibold'), 'Pill vs Squared'),
@@ -64,6 +72,41 @@ export default function SegmentedControlPage() {
             placeholder: 'Same height?',
             onChange: textValue.set,
           }),
+        })
+      ),
+
+      // Color variations
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'Color Variations'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'The color option applies solid button-style coloring to the active indicator.'
+      ),
+      Stack(
+        attr.class('gap-3 items-center'),
+        ...colorOptions.map(color => {
+          const v = prop<keyof typeof options>('first')
+          return Group(
+            attr.class('items-center gap-3'),
+            html.span(
+              attr.class('text-sm font-medium w-20'),
+              color ?? 'default'
+            ),
+            SegmentedInput({
+              options,
+              value: v,
+              onChange: v.set,
+              disabled,
+              color,
+            }),
+            SegmentedInput({
+              options,
+              variant: 'squared',
+              value: v,
+              onChange: v.set,
+              disabled,
+              color,
+            })
+          )
         })
       ),
 

@@ -70,7 +70,6 @@ export default function ButtonPage() {
       Stack(
         Label('Roundedness'),
         SegmentedInput({
-          size: 'sm',
           options: {
             none: 'NONE',
             xs: 'XS',

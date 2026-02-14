@@ -18,6 +18,15 @@
   padding: var(--spacing-sm);
 }
 
+/* Strip flyout panel styles when containing a menu (menu provides its own) */
+.bc-flyout:has(.bc-menu) {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
 /* Pointer events management */
 .bc-flyout-container.bc-animated-toggle--start-opening,
 .bc-flyout-container.bc-animated-toggle--closing,

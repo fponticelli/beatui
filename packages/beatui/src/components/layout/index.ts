@@ -1,3 +1,4 @@
+export * from './accordion'
 export * from './action-card'
 export * from './app-shell'
 export * from './card'

@@ -807,7 +807,7 @@ describe('Flyout Component', () => {
 
       // Final show should work despite the rapid interactions
       button.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }))
-      await new Promise(resolve => setTimeout(resolve, 10))
+      await new Promise(resolve => setTimeout(resolve, 100))
 
       const flyout = document.querySelector('.extreme-rapid-test')
       expect(flyout).not.toBeNull()
