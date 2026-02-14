@@ -12,7 +12,7 @@
   /* Add a transparent border to match button height math */
   border: 1.5px solid transparent;
   border-radius: var(--radius-control, var(--radius-md));
-  box-shadow: var(--shadow-surface, var(--shadow-sm));
+  box-shadow: var(--shadow-xs);
   line-height: 1;
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   align-items: stretch;

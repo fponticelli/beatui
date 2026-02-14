@@ -12,6 +12,7 @@ describe('useAnimatedToggle', () => {
   let closeCleanup: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
+    vi.useFakeTimers()
     openCleanup = vi.fn()
     closeCleanup = vi.fn()
     mockOpenedAfter = vi.fn((cb: () => void) => {
@@ -25,11 +26,27 @@ describe('useAnimatedToggle', () => {
   })
 
   afterEach(() => {
-    vi.clearAllTimers()
+    vi.useRealTimers()
   })
 
+  /** Advance enough to go through start-opening → opening → opened */
+  function advanceFullOpen() {
+    // requestAnimationFrame (start-opening → opening)
+    vi.advanceTimersByTime(16)
+    // setTimeout(cb, 10) from mock (opening → opened)
+    vi.advanceTimersByTime(10)
+  }
+
+  /** Advance enough to go through start-closing → closing → closed */
+  function advanceFullClose() {
+    // requestAnimationFrame (start-closing → closing)
+    vi.advanceTimersByTime(16)
+    // setTimeout(cb, 10) from mock (closing → closed)
+    vi.advanceTimersByTime(10)
+  }
+
   describe('basic functionality', () => {
-    it('should initialize and complete opening sequence', async () => {
+    it('should initialize and complete opening sequence', () => {
       const toggle = useAnimatedToggle({
         openedAfter: mockOpenedAfter,
         closedAfter: mockClosedAfter,
@@ -42,7 +59,7 @@ describe('useAnimatedToggle', () => {
       toggle.status.on(status => statusHistory.push(status))
 
       toggle.open()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullOpen()
 
       expect(toggle.status.value).toBe('opened')
       expect(toggle.display.value).toBe(true)
@@ -54,7 +71,7 @@ describe('useAnimatedToggle', () => {
       ])
     })
 
-    it('should complete closing sequence', async () => {
+    it('should complete closing sequence', () => {
       const toggle = useAnimatedToggle({
         initialStatus: 'opened',
         openedAfter: mockOpenedAfter,
@@ -65,7 +82,7 @@ describe('useAnimatedToggle', () => {
       toggle.status.on(status => statusHistory.push(status))
 
       toggle.close()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullClose()
 
       expect(toggle.status.value).toBe('closed')
       expect(statusHistory).toEqual([
@@ -78,7 +95,7 @@ describe('useAnimatedToggle', () => {
   })
 
   describe('critical edge cases', () => {
-    it('should restart opening sequence when reopening during opening', async () => {
+    it('should restart opening sequence when reopening during opening', () => {
       const toggle = useAnimatedToggle({
         openedAfter: mockOpenedAfter,
         closedAfter: mockClosedAfter,
@@ -88,12 +105,13 @@ describe('useAnimatedToggle', () => {
       toggle.status.on(status => statusHistory.push(status))
 
       toggle.open()
-      await new Promise(resolve => setTimeout(resolve, 20))
+      // Advance past requestAnimationFrame to reach 'opening'
+      vi.advanceTimersByTime(16)
       expect(toggle.status.value).toBe('opening')
 
       // Reopen while opening - should restart
       toggle.open()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullOpen()
 
       expect(toggle.status.value).toBe('opened')
       expect(statusHistory).toEqual([
@@ -105,7 +123,7 @@ describe('useAnimatedToggle', () => {
       ])
     })
 
-    it('should interrupt opening with closing', async () => {
+    it('should interrupt opening with closing', () => {
       const toggle = useAnimatedToggle({
         openedAfter: mockOpenedAfter,
         closedAfter: mockClosedAfter,
@@ -115,12 +133,13 @@ describe('useAnimatedToggle', () => {
       toggle.status.on(status => statusHistory.push(status))
 
       toggle.open()
-      await new Promise(resolve => setTimeout(resolve, 20))
+      // Advance past requestAnimationFrame to reach 'opening'
+      vi.advanceTimersByTime(16)
       expect(toggle.status.value).toBe('opening')
 
       // Close while opening - should interrupt
       toggle.close()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullClose()
 
       expect(toggle.status.value).toBe('opened')
       expect(statusHistory).toEqual([
@@ -132,7 +151,7 @@ describe('useAnimatedToggle', () => {
       ])
     })
 
-    it('should interrupt closing with opening', async () => {
+    it('should interrupt closing with opening', () => {
       const toggle = useAnimatedToggle({
         initialStatus: 'opened',
         openedAfter: mockOpenedAfter,
@@ -143,12 +162,13 @@ describe('useAnimatedToggle', () => {
       toggle.status.on(status => statusHistory.push(status))
 
       toggle.close()
-      await new Promise(resolve => setTimeout(resolve, 20))
+      // Advance past requestAnimationFrame to reach 'closing'
+      vi.advanceTimersByTime(16)
       expect(toggle.status.value).toBe('closing')
 
       // Reopen while closing - should interrupt
       toggle.open()
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullOpen()
 
       expect(toggle.status.value).toBe('closed')
       expect(statusHistory).toEqual([
@@ -162,7 +182,7 @@ describe('useAnimatedToggle', () => {
   })
 
   describe('utility methods', () => {
-    it('should toggle between states', async () => {
+    it('should toggle between states', () => {
       const toggle = useAnimatedToggle({
         openedAfter: mockOpenedAfter,
         closedAfter: mockClosedAfter,
@@ -171,7 +191,7 @@ describe('useAnimatedToggle', () => {
       toggle.toggle()
       expect(toggle.status.value).toBe('start-opening')
 
-      await new Promise(resolve => setTimeout(resolve, 50))
+      advanceFullOpen()
       expect(toggle.status.value).toBe('opened')
 
       toggle.toggle()
@@ -198,7 +218,7 @@ describe('useTimedToggle', () => {
     vi.useRealTimers()
   })
 
-  it('should work with default and custom durations', async () => {
+  it('should work with default and custom durations', () => {
     const defaultToggle = useTimedToggle()
     const customToggle = useTimedToggle({
       openDuration: 100,
