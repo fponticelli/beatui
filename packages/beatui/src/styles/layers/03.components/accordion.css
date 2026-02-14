@@ -1,0 +1,184 @@
+/* Accordion Component */
+.bc-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Default variant: bordered list */
+.bc-accordion--default {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.bc-accordion--default .bc-accordion__item + .bc-accordion__item {
+  border-top: 1px solid var(--border-default);
+}
+
+/* Separated variant: cards with gaps */
+.bc-accordion--separated {
+  gap: var(--spacing-sm);
+}
+
+.bc-accordion--separated .bc-accordion__item {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Item */
+.bc-accordion__item {
+  background-color: var(--bg-background);
+}
+
+.bc-accordion__item--disabled {
+  opacity: 0.5;
+}
+
+/* Header / trigger button */
+.bc-accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: start;
+  font-family: inherit;
+  color: var(--text-normal);
+  font-weight: var(--font-weight-semibold);
+  transition: background-color var(--motion-transition-fast) var(--motion-easing-standard);
+}
+
+.bc-accordion__header:hover:not(:disabled) {
+  background-color: var(--bg-subtle);
+}
+
+.bc-accordion__header:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: -2px;
+}
+
+.bc-accordion__header:disabled {
+  cursor: not-allowed;
+}
+
+.bc-accordion__header-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Chevron indicator */
+.bc-accordion__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--motion-transition-fast) var(--motion-easing-standard);
+}
+
+.bc-accordion__chevron--open {
+  transform: rotate(180deg);
+}
+
+.bc-accordion__chevron-icon {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: -0.15em;
+}
+
+/* Panel body */
+.bc-accordion__body {
+  color: var(--text-normal);
+}
+
+/* Size variants */
+.bc-accordion--size-xs .bc-accordion__header {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+.bc-accordion--size-xs .bc-accordion__body {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+
+.bc-accordion--size-sm .bc-accordion__header {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+.bc-accordion--size-sm .bc-accordion__body {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.bc-accordion--size-md .bc-accordion__header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+.bc-accordion--size-md .bc-accordion__body {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+
+.bc-accordion--size-lg .bc-accordion__header {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+.bc-accordion--size-lg .bc-accordion__body {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+.bc-accordion--size-xl .bc-accordion__header {
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  font-size: var(--font-size-xl);
+}
+.bc-accordion--size-xl .bc-accordion__body {
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  font-size: var(--font-size-xl);
+}
+
+/* Dark mode */
+.b-dark .bc-accordion--default {
+  border-color: var(--border-default);
+}
+
+.b-dark .bc-accordion--default .bc-accordion__item + .bc-accordion__item {
+  border-top-color: var(--border-default);
+}
+
+.b-dark .bc-accordion--separated .bc-accordion__item {
+  border-color: var(--border-default);
+}
+
+.b-dark .bc-accordion__item {
+  background-color: var(--bg-background);
+}
+
+.b-dark .bc-accordion__header {
+  color: var(--text-normal);
+}
+
+.b-dark .bc-accordion__header:hover:not(:disabled) {
+  background-color: var(--bg-subtle);
+}
+
+.b-dark .bc-accordion__body {
+  color: var(--text-normal);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-accordion__chevron {
+    transition: none;
+  }
+  .bc-accordion__header {
+    transition: none;
+  }
+}

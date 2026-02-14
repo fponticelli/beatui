@@ -1,0 +1,103 @@
+import {
+  Calendar,
+  ControlSize,
+  ScrollablePanel,
+  SegmentedInput,
+  Stack,
+  InputWrapper,
+  Switch,
+  Group,
+} from '@tempots/beatui'
+import { html, attr, prop } from '@tempots/dom'
+import { ControlsHeader } from '../elements/controls-header'
+
+export default function CalendarPage() {
+  const size = prop<ControlSize>('md')
+  const disabled = prop(false)
+  const selectedDate = prop<Date | null>(new Date())
+
+  return ScrollablePanel({
+    header: ControlsHeader(
+      InputWrapper({
+        label: 'Size',
+        content: SegmentedInput({
+          size: 'sm',
+          options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
+          value: size,
+          onChange: size.set,
+        }),
+      }),
+      InputWrapper({
+        label: 'Disabled',
+        content: Switch({
+          value: disabled,
+          onChange: disabled.set,
+        }),
+      })
+    ),
+    body: Stack(
+      attr.class('items-start gap-6 p-4'),
+
+      // Basic
+      html.h3(attr.class('text-lg font-semibold'), 'Basic Calendar'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Selected: ',
+        selectedDate.map(d =>
+          d != null ? d.toLocaleDateString() : 'None'
+        )
+      ),
+      Calendar({
+        value: selectedDate,
+        onSelect: selectedDate.set,
+        size,
+        disabled,
+      }),
+
+      // With date range
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'With Date Constraints'),
+      html.p(
+        attr.class('text-sm text-gray-600'),
+        'Only dates in the current month are selectable.'
+      ),
+      Calendar({
+        value: prop(null),
+        onSelect: (d: Date) => console.log('Selected:', d),
+        min: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+        max: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() + 1,
+          0
+        ),
+        size,
+        disabled,
+      }),
+
+      // Monday start
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'Week Starting Monday'),
+      Calendar({
+        value: prop(null),
+        onSelect: (d: Date) => console.log('Selected:', d),
+        weekStartsOn: 1,
+        size,
+        disabled,
+      }),
+
+      // Size comparison
+      html.h3(attr.class('text-lg font-semibold mt-4'), 'Size Comparison'),
+      Group(
+        attr.class('flex-wrap gap-4'),
+        ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s =>
+          Stack(
+            html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
+            Calendar({
+              value: prop(null),
+              onSelect: () => {},
+              size: s,
+            })
+          )
+        )
+      )
+    ),
+  })
+}

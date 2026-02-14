@@ -1,0 +1,116 @@
+/* OTP / Pin Input Component */
+.bc-otp-input {
+  --otp-focus-color: var(--color-primary-500);
+  --otp-focus-color-dark: var(--color-primary-600);
+  --otp-focus-border: var(--color-primary-500);
+  --otp-focus-border-dark: var(--color-primary-400);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.bc-otp-input--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Individual cell */
+.bc-otp-input__cell {
+  text-align: center;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-normal);
+  background-color: var(--bg-background);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  caret-color: var(--otp-focus-color);
+  transition: border-color var(--motion-transition-fast) var(--motion-easing-standard),
+    box-shadow var(--motion-transition-fast) var(--motion-easing-standard);
+}
+
+.bc-otp-input__cell::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.bc-otp-input__cell:focus,
+.bc-otp-input__cell--focused {
+  border-color: var(--otp-focus-border);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--otp-focus-color) 20%, transparent);
+}
+
+.bc-otp-input__cell:disabled {
+  cursor: not-allowed;
+}
+
+/* Size variants */
+.bc-otp-input--size-xs .bc-otp-input__cell {
+  width: 28px;
+  height: 28px;
+  font-size: var(--font-size-xs);
+}
+.bc-otp-input--size-xs {
+  gap: var(--spacing-xs);
+}
+
+.bc-otp-input--size-sm .bc-otp-input__cell {
+  width: 34px;
+  height: 34px;
+  font-size: var(--font-size-sm);
+}
+.bc-otp-input--size-sm {
+  gap: var(--spacing-xs);
+}
+
+.bc-otp-input--size-md .bc-otp-input__cell {
+  width: 42px;
+  height: 42px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.bc-otp-input--size-lg .bc-otp-input__cell {
+  width: 50px;
+  height: 50px;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+.bc-otp-input--size-lg {
+  gap: var(--spacing-md);
+}
+
+.bc-otp-input--size-xl .bc-otp-input__cell {
+  width: 58px;
+  height: 58px;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+.bc-otp-input--size-xl {
+  gap: var(--spacing-md);
+}
+
+/* Dark mode */
+.b-dark .bc-otp-input__cell {
+  background-color: var(--bg-background);
+  border-color: var(--border-default);
+  color: var(--text-normal);
+}
+
+.b-dark .bc-otp-input__cell:focus,
+.b-dark .bc-otp-input__cell--focused {
+  border-color: var(--otp-focus-border-dark);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--otp-focus-color-dark) 25%, transparent);
+}
+
+.b-dark .bc-otp-input__cell::placeholder {
+  color: var(--text-muted);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-otp-input__cell {
+    transition: none;
+  }
+}
