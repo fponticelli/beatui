@@ -410,7 +410,8 @@ export function AdvancedSlider({
     }
 
     // Compute filled track style or segments
-    const useSegments = segmentColors != null && (mode === 'range' || mode === 'multi')
+    const useSegments =
+      segmentColors != null && (mode === 'range' || mode === 'multi')
 
     const filledStyle = useSegments
       ? ''

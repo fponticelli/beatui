@@ -214,9 +214,7 @@ function renderRangeCalendar(
               } else {
                 const cmp = T.PlainDate.compare(start, cell.date)
                 const sorted: [PlainDate, PlainDate] =
-                  cmp <= 0
-                    ? [start, cell.date]
-                    : [cell.date, start]
+                  cmp <= 0 ? [start, cell.date] : [cell.date, start]
                 rangeStart.set(null)
                 hoveredDate.set(null)
                 onChange?.(sorted)
@@ -294,17 +292,14 @@ export function DateRangeCalendar(
           )
         : undefined
 
-    const plainOnChange:
-      | ((range: [PlainDate, PlainDate]) => void)
-      | undefined = onChange
-      ? range =>
-          onChange([plainDateToDate(range[0]), plainDateToDate(range[1])])
-      : undefined
+    const plainOnChange: ((range: [PlainDate, PlainDate]) => void) | undefined =
+      onChange
+        ? range =>
+            onChange([plainDateToDate(range[0]), plainDateToDate(range[1])])
+        : undefined
 
     const plainIsDateDisabled: ((pd: PlainDate) => boolean) | undefined =
-      isDateDisabled
-        ? pd => isDateDisabled(plainDateToDate(pd))
-        : undefined
+      isDateDisabled ? pd => isDateDisabled(plainDateToDate(pd)) : undefined
 
     return renderRangeCalendar(T, {
       ...rest,

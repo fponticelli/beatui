@@ -338,9 +338,7 @@ export function AnimatedToggleClass({
   )((animConfig, s) => {
     const currentAnim = resolveCurrentAnimation(animConfig, s)
     const animClasses = animationToClasses(currentAnim)
-    const prefixed = animClasses
-      .map(c => `bc-animated-toggle--${c}`)
-      .join(' ')
+    const prefixed = animClasses.map(c => `bc-animated-toggle--${c}`).join(' ')
 
     return prefixed
       ? `bc-animated-toggle ${prefixed} bc-animated-toggle--${s}`
@@ -355,9 +353,7 @@ export function AnimatedToggleClass({
     WithElement(el => {
       let prevKeys: string[] = []
 
-      function applyStyleProperties(
-        props: Array<[string, string]>
-      ) {
+      function applyStyleProperties(props: Array<[string, string]>) {
         for (const key of prevKeys) {
           el.style.removeProperty(key)
         }

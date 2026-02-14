@@ -219,9 +219,7 @@ export function DateCalendar(options?: DateCalendarOptions): Renderable {
   return WithTemporal(T => {
     const plainValue: Value<PlainDate | null> | undefined =
       value != null
-        ? Value.map(value, d =>
-            d != null ? dateToPlainDate(T, d) : null
-          )
+        ? Value.map(value, d => (d != null ? dateToPlainDate(T, d) : null))
         : undefined
 
     const plainOnSelect: ((pd: PlainDate) => void) | undefined = onSelect
@@ -229,9 +227,7 @@ export function DateCalendar(options?: DateCalendarOptions): Renderable {
       : undefined
 
     const plainIsDateDisabled: ((pd: PlainDate) => boolean) | undefined =
-      isDateDisabled
-        ? pd => isDateDisabled(plainDateToDate(pd))
-        : undefined
+      isDateDisabled ? pd => isDateDisabled(plainDateToDate(pd)) : undefined
 
     return renderCalendar(T, {
       ...rest,
