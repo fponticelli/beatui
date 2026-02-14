@@ -1,6 +1,6 @@
 import { attr, computedOf, html, on, TNode, Value, aria } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
-import { ThemeColorName } from '../../tokens'
+import { ThemeColorName, getColorVar } from '../../tokens'
 import {
   backgroundValue,
   borderColorValue,
@@ -161,8 +161,29 @@ function generateToggleButtonStyles(
         )
         break
       }
+      case 'default': {
+        const baseLight = backgroundValue('neutral', 'light', 'light')
+        const baseDark = backgroundValue('neutral', 'light', 'dark')
+        styles.set('--toggle-bg', baseLight.backgroundColor)
+        styles.set('--toggle-text', textColorValue(color, 'light'))
+        styles.set('--toggle-bg-dark', baseDark.backgroundColor)
+        styles.set('--toggle-text-dark', textColorValue(color, 'dark'))
+        // Subtle border — lighter than outline
+        styles.set('--toggle-border', getColorVar('neutral', 300))
+        styles.set('--toggle-border-dark', getColorVar('neutral', 700))
+
+        const hoverLight = hoverBackgroundValue('base', 'light', 'light')
+        const hoverDark = hoverBackgroundValue('base', 'light', 'dark')
+        ensureHover(
+          hoverLight.backgroundColor,
+          hoverDark.backgroundColor,
+          styles.get('--toggle-text') ?? baseLight.textColor,
+          styles.get('--toggle-text-dark') ?? baseDark.textColor
+        )
+        break
+      }
       default: {
-        // 'default' and 'text'
+        // 'text' variant — no border
         const baseLight = backgroundValue('neutral', 'light', 'light')
         const baseDark = backgroundValue('neutral', 'light', 'dark')
         styles.set('--toggle-bg', baseLight.backgroundColor)
