@@ -8,17 +8,50 @@ import {
   aria,
   ForEach,
   OneOfValue,
+  type Renderable,
+  type TNode,
 } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { ThemeColorName } from '../../tokens'
 import { backgroundValue } from '../theme/style-utils'
+import { WithTemporal } from '../../temporal/with-temporal'
+import type { BeatUITemporal, PlainDate } from '../../temporal/types'
 
 const YEARS_PER_PAGE = 20
 
 /**
  * Configuration options for the {@link Calendar} component.
+ * Uses Temporal `PlainDate` for date values — no time or timezone concerns.
  */
 export interface CalendarOptions {
+  /** The currently selected date. */
+  value?: Value<PlainDate | null>
+  /** Callback invoked when a date is selected. */
+  onSelect?: (date: PlainDate) => void
+  /**
+   * Predicate that returns `true` if the given date should be disabled (unselectable).
+   * Replaces min/max — use e.g. `d => PlainDate.compare(d, minDate) < 0` for range constraints.
+   */
+  isDateDisabled?: (date: PlainDate) => boolean
+  /** Theme color for selected and today highlights. @default 'primary' */
+  color?: Value<ThemeColorName>
+  /** Visual size of the calendar. @default 'md' */
+  size?: Value<ControlSize>
+  /** Whether the calendar is disabled. @default false */
+  disabled?: Value<boolean>
+  /**
+   * The day the week starts on.
+   * 0 = Sunday, 1 = Monday, etc.
+   * @default 0
+   */
+  weekStartsOn?: number
+}
+
+/**
+ * Configuration options for the {@link DateCalendar} component.
+ * Convenience wrapper that uses JavaScript `Date` objects.
+ */
+export interface DateCalendarOptions {
   /** The currently selected date (year, month, day). */
   value?: Value<Date | null>
   /** Callback invoked when a date is selected. */
@@ -43,22 +76,6 @@ export interface CalendarOptions {
 }
 
 const DAYS_IN_WEEK = 7
-
-function getDaysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate()
-}
-
-function getFirstDayOfMonth(year: number, month: number): number {
-  return new Date(year, month, 1).getDay()
-}
-
-function isSameDay(a: Date, b: Date): boolean {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  )
-}
 
 const MONTH_NAMES = [
   'January',
@@ -117,61 +134,25 @@ function generateCalendarStyles(color: ThemeColorName): string {
   ].join('; ')
 }
 
-/**
- * A calendar component for date selection with month/year navigation.
- *
- * Renders a full month grid with day-of-week headers, previous/next month
- * navigation, and a flexible `isDateDisabled` predicate for controlling which
- * dates are selectable. The calendar highlights the currently selected date
- * and today's date. Navigation buttons allow moving between months and years.
- *
- * @param options - Configuration for the calendar
- * @returns A calendar element with date selection capability
- *
- * @example
- * ```ts
- * import { prop } from '@tempots/dom'
- * import { Calendar } from '@tempots/beatui'
- *
- * const date = prop<Date | null>(new Date())
- * Calendar({
- *   value: date,
- *   onSelect: date.set,
- * })
- * ```
- *
- * @example
- * ```ts
- * // With date range constraints
- * const min = new Date(2024, 0, 1)
- * const max = new Date(2024, 11, 31)
- * Calendar({
- *   value: prop(null),
- *   onSelect: (d) => console.log('Selected:', d),
- *   isDateDisabled: d => d < min || d > max,
- *   weekStartsOn: 1, // Monday
- * })
- * ```
- */
-export function Calendar({
-  value = null,
-  onSelect,
-  isDateDisabled,
-  color = 'primary',
-  size = 'md',
-  disabled = false,
-  weekStartsOn = 0,
-}: CalendarOptions = {}) {
-  const today = new Date()
+function renderCalendar(
+  T: BeatUITemporal,
+  {
+    value = null,
+    onSelect,
+    isDateDisabled,
+    color = 'primary',
+    size = 'md',
+    disabled = false,
+    weekStartsOn = 0,
+  }: CalendarOptions
+): TNode {
+  const today = T.Now.plainDateISO()
   const currentYear = prop(
-    value != null
-      ? (Value.get(value)?.getFullYear() ?? today.getFullYear())
-      : today.getFullYear()
+    value != null ? (Value.get(value)?.year ?? today.year) : today.year
   )
+  // 1-based months to match PlainDate
   const currentMonth = prop(
-    value != null
-      ? (Value.get(value)?.getMonth() ?? today.getMonth())
-      : today.getMonth()
+    value != null ? (Value.get(value)?.month ?? today.month) : today.month
   )
 
   const view = prop<CalendarView>('days')
@@ -183,8 +164,8 @@ export function Calendar({
     if (Value.get(disabled)) return
     const m = currentMonth.value
     const y = currentYear.value
-    if (m === 0) {
-      currentMonth.set(11)
+    if (m === 1) {
+      currentMonth.set(12)
       currentYear.set(y - 1)
     } else {
       currentMonth.set(m - 1)
@@ -195,8 +176,8 @@ export function Calendar({
     if (Value.get(disabled)) return
     const m = currentMonth.value
     const y = currentYear.value
-    if (m === 11) {
-      currentMonth.set(0)
+    if (m === 12) {
+      currentMonth.set(1)
       currentYear.set(y + 1)
     } else {
       currentMonth.set(m + 1)
@@ -236,9 +217,9 @@ export function Calendar({
     view.set('years')
   }
 
-  const selectMonth = (monthIndex: number) => {
+  const selectMonth = (month: number) => {
     if (Value.get(disabled)) return
-    currentMonth.set(monthIndex)
+    currentMonth.set(month)
     view.set('days')
   }
 
@@ -260,19 +241,19 @@ export function Calendar({
     currentMonth,
     value
   )((year, month, selectedDate) => {
-    const daysInMonth = getDaysInMonth(year, month)
-    const firstDay = getFirstDayOfMonth(year, month)
+    const firstOfMonth = T.PlainDate.from({ year, month, day: 1 })
+    const daysInMonth = firstOfMonth.daysInMonth
+    // dayOfWeek: 1=Mon..7=Sun (ISO). Convert to 0=Sun..6=Sat via % 7.
+    const firstDay = firstOfMonth.dayOfWeek % 7
     const startOffset = (firstDay - weekStartsOn + DAYS_IN_WEEK) % DAYS_IN_WEEK
 
-    // Previous month filler days
-    const prevMonthDays = getDaysInMonth(
-      month === 0 ? year - 1 : year,
-      month === 0 ? 11 : month - 1
-    )
+    // Previous month info
+    const prevMonthDate = firstOfMonth.subtract({ months: 1 })
+    const prevMonthDays = prevMonthDate.daysInMonth
 
     const cells: Array<{
       day: number
-      date: Date
+      date: PlainDate
       inMonth: boolean
       isToday: boolean
       isSelected: boolean
@@ -282,30 +263,26 @@ export function Calendar({
     // Previous month days
     for (let i = startOffset - 1; i >= 0; i--) {
       const d = prevMonthDays - i
-      const date = new Date(
-        month === 0 ? year - 1 : year,
-        month === 0 ? 11 : month - 1,
-        d
-      )
+      const date = prevMonthDate.with({ day: d })
       cells.push({
         day: d,
         date,
         inMonth: false,
-        isToday: isSameDay(date, today),
-        isSelected: selectedDate != null && isSameDay(date, selectedDate),
+        isToday: date.equals(today),
+        isSelected: selectedDate != null && date.equals(selectedDate),
         isDisabled: isDateDisabled?.(date) ?? false,
       })
     }
 
     // Current month days
     for (let d = 1; d <= daysInMonth; d++) {
-      const date = new Date(year, month, d)
+      const date = T.PlainDate.from({ year, month, day: d })
       cells.push({
         day: d,
         date,
         inMonth: true,
-        isToday: isSameDay(date, today),
-        isSelected: selectedDate != null && isSameDay(date, selectedDate),
+        isToday: date.equals(today),
+        isSelected: selectedDate != null && date.equals(selectedDate),
         isDisabled: isDateDisabled?.(date) ?? false,
       })
     }
@@ -313,18 +290,15 @@ export function Calendar({
     // Next month filler days (fill to complete last row)
     const remaining = DAYS_IN_WEEK - (cells.length % DAYS_IN_WEEK)
     if (remaining < DAYS_IN_WEEK) {
+      const nextMonthDate = firstOfMonth.add({ months: 1 })
       for (let d = 1; d <= remaining; d++) {
-        const date = new Date(
-          month === 11 ? year + 1 : year,
-          month === 11 ? 0 : month + 1,
-          d
-        )
+        const date = nextMonthDate.with({ day: d })
         cells.push({
           day: d,
           date,
           inMonth: false,
-          isToday: isSameDay(date, today),
-          isSelected: selectedDate != null && isSameDay(date, selectedDate),
+          isToday: date.equals(today),
+          isSelected: selectedDate != null && date.equals(selectedDate),
           isDisabled: isDateDisabled?.(date) ?? false,
         })
       }
@@ -377,7 +351,7 @@ export function Calendar({
                 e.preventDefault()
                 switchToMonthsView()
               }),
-              Value.map(currentMonth, m => MONTH_NAMES[m]!)
+              Value.map(currentMonth, m => MONTH_NAMES[m - 1]!)
             ),
             html.button(
               attr.type('button'),
@@ -526,8 +500,8 @@ export function Calendar({
                   const cell = Value.get(cellSignal)
                   if (!cell.isDisabled && !Value.get(disabled)) {
                     if (!cell.inMonth) {
-                      currentYear.set(cell.date.getFullYear())
-                      currentMonth.set(cell.date.getMonth())
+                      currentYear.set(cell.date.year)
+                      currentMonth.set(cell.date.month)
                     }
                     onSelect?.(cell.date)
                   }
@@ -542,8 +516,10 @@ export function Calendar({
           attr.class(
             'bc-calendar__picker-grid bc-calendar__picker-grid--months'
           ),
-          ...SHORT_MONTH_NAMES.map((monthName, monthIndex) =>
-            html.button(
+          ...SHORT_MONTH_NAMES.map((monthName, monthIndex) => {
+            // monthIndex is 0-based from array, month prop is 1-based
+            const month1 = monthIndex + 1
+            return html.button(
               attr.type('button'),
               attr.class(
                 computedOf(
@@ -551,12 +527,8 @@ export function Calendar({
                   currentYear
                 )((m, y) => {
                   const cls = ['bc-calendar__month-cell']
-                  if (m === monthIndex)
-                    cls.push('bc-calendar__month-cell--current')
-                  if (
-                    today.getMonth() === monthIndex &&
-                    today.getFullYear() === y
-                  )
+                  if (m === month1) cls.push('bc-calendar__month-cell--current')
+                  if (today.month === month1 && today.year === y)
                     cls.push('bc-calendar__month-cell--active')
                   return cls.join(' ')
                 })
@@ -564,11 +536,11 @@ export function Calendar({
               attr.disabled(disabled),
               on.click(e => {
                 e.preventDefault()
-                selectMonth(monthIndex)
+                selectMonth(month1)
               }),
               monthName
             )
-          )
+          })
         ),
       years: () =>
         html.div(
@@ -593,7 +565,7 @@ export function Calendar({
                   )((cy, year) => {
                     const cls = ['bc-calendar__year-cell']
                     if (cy === year) cls.push('bc-calendar__year-cell--current')
-                    if (today.getFullYear() === year)
+                    if (today.year === year)
                       cls.push('bc-calendar__year-cell--active')
                     return cls.join(' ')
                   })
@@ -609,4 +581,90 @@ export function Calendar({
         ),
     })
   )
+}
+
+/**
+ * A calendar component for date selection with month/year navigation.
+ *
+ * Uses Temporal `PlainDate` internally — a date-only type with no time or
+ * timezone concerns, 1-based months, and proper date arithmetic.
+ *
+ * Renders a full month grid with day-of-week headers, previous/next month
+ * navigation, and a flexible `isDateDisabled` predicate for controlling which
+ * dates are selectable. The calendar highlights the currently selected date
+ * and today's date. Navigation buttons allow moving between months and years.
+ *
+ * @param options - Configuration for the calendar
+ * @returns A calendar element with date selection capability
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { Calendar, PlainDate } from '@tempots/beatui'
+ *
+ * const date = prop<PlainDate | null>(null)
+ * Calendar({
+ *   value: date,
+ *   onSelect: date.set,
+ * })
+ * ```
+ */
+export function Calendar(options?: CalendarOptions): Renderable {
+  return WithTemporal(T => renderCalendar(T, options ?? {}))
+}
+
+/**
+ * A convenience calendar wrapper that uses JavaScript `Date` objects.
+ *
+ * Accepts and fires `Date` values, converting to/from `PlainDate` internally.
+ * Use this when integrating with existing `Date`-based code.
+ *
+ * @param options - Configuration for the calendar (uses `Date` objects)
+ * @returns A calendar element with date selection capability
+ *
+ * @example
+ * ```ts
+ * import { prop } from '@tempots/dom'
+ * import { DateCalendar } from '@tempots/beatui'
+ *
+ * const date = prop<Date | null>(new Date())
+ * DateCalendar({
+ *   value: date,
+ *   onSelect: date.set,
+ * })
+ * ```
+ */
+export function DateCalendar(options?: DateCalendarOptions): Renderable {
+  const { value, onSelect, isDateDisabled, ...rest } = options ?? {}
+
+  return WithTemporal(T => {
+    const plainValue: Value<PlainDate | null> | undefined =
+      value != null
+        ? Value.map(value, d =>
+            d != null
+              ? T.PlainDate.from({
+                  year: d.getFullYear(),
+                  month: d.getMonth() + 1,
+                  day: d.getDate(),
+                })
+              : null
+          )
+        : undefined
+
+    const plainOnSelect: ((pd: PlainDate) => void) | undefined = onSelect
+      ? pd => onSelect(new Date(pd.year, pd.month - 1, pd.day))
+      : undefined
+
+    const plainIsDateDisabled: ((pd: PlainDate) => boolean) | undefined =
+      isDateDisabled
+        ? pd => isDateDisabled(new Date(pd.year, pd.month - 1, pd.day))
+        : undefined
+
+    return renderCalendar(T, {
+      ...rest,
+      value: plainValue,
+      onSelect: plainOnSelect,
+      isDateDisabled: plainIsDateDisabled,
+    })
+  })
 }

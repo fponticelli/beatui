@@ -1,5 +1,5 @@
 import {
-  Calendar,
+  DateCalendar,
   ControlSize,
   ScrollablePanel,
   SegmentedInput,
@@ -45,7 +45,7 @@ export default function CalendarPage() {
         'Selected: ',
         selectedDate.map(d => (d != null ? d.toLocaleDateString() : 'None'))
       ),
-      Calendar({
+      DateCalendar({
         value: selectedDate,
         onSelect: selectedDate.set,
         size,
@@ -73,7 +73,7 @@ export default function CalendarPage() {
           new Date().getMonth() + 1,
           0
         )
-        return Calendar({
+        return DateCalendar({
           value: constrainedDate,
           onSelect: constrainedDate.set,
           isDateDisabled: d => d < monthStart || d > monthEnd,
@@ -86,7 +86,7 @@ export default function CalendarPage() {
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Week Starting Monday'),
       (() => {
         const mondayDate = prop<Date | null>(null)
-        return Calendar({
+        return DateCalendar({
           value: mondayDate,
           onSelect: mondayDate.set,
           weekStartsOn: 1,
@@ -105,7 +105,7 @@ export default function CalendarPage() {
           const colorDate = prop<Date | null>(new Date())
           return Stack(
             html.p(attr.class('text-sm text-gray-500 mb-1'), color),
-            Calendar({
+            DateCalendar({
               value: colorDate,
               onSelect: colorDate.set,
               color,
@@ -124,7 +124,7 @@ export default function CalendarPage() {
           const sizeDate = prop<Date | null>(null)
           return Stack(
             html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
-            Calendar({
+            DateCalendar({
               value: sizeDate,
               onSelect: sizeDate.set,
               size: s,
