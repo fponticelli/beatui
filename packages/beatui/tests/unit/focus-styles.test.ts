@@ -28,7 +28,7 @@ describe('Focus Styles', () => {
               border-radius: var(--radius-sm);
             }
 
-            .b-dark *:focus-visible {
+            .dark *:focus-visible {
               outline-color: var(--interactive-focus-dark);
             }
 
@@ -109,11 +109,11 @@ describe('Focus Styles', () => {
   })
 
   it('should support dark mode focus colors', () => {
-    document.body.classList.add('b-dark')
+    document.documentElement.classList.add('dark')
 
     // In a real implementation, this would check the dark mode CSS variable
     // For this test, we're just verifying the class was added
-    expect(document.body.classList.contains('b-dark')).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 
   it('should have different focus offsets for different element types', () => {

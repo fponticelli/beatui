@@ -399,6 +399,6 @@
   text-align: center;
 }
 
-.b-dark .bc-pdf-page-viewer__error-text {
+.dark .bc-pdf-page-viewer__error-text {
   color: var(--color-danger-400);
 }

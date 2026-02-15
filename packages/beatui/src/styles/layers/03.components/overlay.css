@@ -38,12 +38,12 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
 }
 
 /* Dark mode styles */
-.b-dark .bc-overlay--effect-transparent {
+.dark .bc-overlay--effect-transparent {
   background-color: color-mix(in srgb, var(--color-white) 2%, transparent);
 }
 
-.b-dark .bc-overlay--effect-opaque[data-status='opened'],
-.b-dark .bc-overlay--effect-opaque[data-status='opening'] {
+.dark .bc-overlay--effect-opaque[data-status='opened'],
+.dark .bc-overlay--effect-opaque[data-status='opening'] {
   background-color: color-mix(in srgb, var(--color-black) 80%, transparent);
   backdrop-filter: blur(4px);
 }

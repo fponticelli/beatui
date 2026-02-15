@@ -1,5 +1,5 @@
 /* BeatUI theme helpers */
-.b-dark {
+.dark {
   color-scheme: dark;
   --text-normal: var(--text-normal-dark);
   --text-muted: var(--text-muted-dark);
@@ -24,7 +24,7 @@
   background-color: var(--bg-background);
 }
 
-.b-light {
+.light {
   color-scheme: light;
   --text-normal: var(--text-normal-light);
   --text-muted: var(--text-muted-light);
@@ -49,11 +49,11 @@
   background-color: var(--bg-background);
 }
 
-.b-dark *:focus-visible {
+.dark *:focus-visible {
   outline-color: var(--interactive-focus);
 }
 
-.b-light *:focus-visible {
+.light *:focus-visible {
   outline-color: var(--interactive-focus);
 }
 

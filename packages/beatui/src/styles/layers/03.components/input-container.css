@@ -182,58 +182,58 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-input-container--default {
+.dark .bc-input-container--default {
   background-color: var(--bg-surface);
   color: var(--text-normal);
   outline: 2px solid var(--border-default);
 }
 
-.b-dark .bc-input-container--default:focus-within {
+.dark .bc-input-container--default:focus-within {
   outline: 2px solid var(--interactive-focus);
   background-color: var(--bg-elevated);
 }
 
-.b-dark .bc-input-container::placeholder,
-.b-dark .bc-base-input-container::placeholder {
+.dark .bc-input-container::placeholder,
+.dark .bc-base-input-container::placeholder {
   color: var(--color-gray-500);
 }
 
-.b-dark .bc-input-container--disabled {
+.dark .bc-input-container--disabled {
   background-color: var(--bg-subtle);
   outline: 2px solid var(--border-divider);
   opacity: 0.6;
 }
 
-.b-dark .bc-input-container--error {
+.dark .bc-input-container--error {
   outline: 2px solid var(--color-danger-400);
   background-color: var(--color-danger-950);
 }
 
-.b-dark .bc-input-container--error:focus-within {
+.dark .bc-input-container--error:focus-within {
   outline: 2px solid var(--color-danger-400);
   background-color: var(--color-danger-900);
 }
 
-.b-dark .bc-input-container__password-toggle {
+.dark .bc-input-container__password-toggle {
   fill: var(--text-muted);
 }
 
-.b-dark .bc-input-container__password-toggle:hover {
+.dark .bc-input-container__password-toggle:hover {
   background-color: var(--interactive-hover);
   fill: var(--text-normal);
 }
 
 /* Dark mode for nullable reset */
-.b-dark .bc-input-container__reset {
+.dark .bc-input-container__reset {
   fill: var(--text-muted);
 }
 
-.b-dark .bc-input-container__reset:hover:not(:disabled) {
+.dark .bc-input-container__reset:hover:not(:disabled) {
   background-color: var(--interactive-hover);
   fill: var(--text-normal);
 }
 
-.b-dark .bc-input-container__reset:disabled {
+.dark .bc-input-container__reset:disabled {
   opacity: 0.3;
 }
 

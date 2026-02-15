@@ -115,28 +115,28 @@
 }
 
 /* Dark mode */
-.b-dark .bc-tree-item__row:hover {
+.dark .bc-tree-item__row:hover {
   background-color: oklch(0.25 0 0);
 }
 
-.b-dark .bc-tree-item__row--selected {
+.dark .bc-tree-item__row--selected {
   background-color: oklch(0.25 0.03 250);
   color: oklch(0.75 0.12 250);
 }
 
-.b-dark .bc-tree-item__toggle {
+.dark .bc-tree-item__toggle {
   color: var(--color-gray-400);
 }
 
-.b-dark .bc-tree-item__toggle:hover {
+.dark .bc-tree-item__toggle:hover {
   color: var(--color-gray-200);
 }
 
-.b-dark .bc-tree-item__icon {
+.dark .bc-tree-item__icon {
   color: var(--color-gray-400);
 }
 
-.b-dark .bc-tree-item__badge {
+.dark .bc-tree-item__badge {
   background: oklch(0.25 0 0);
   color: var(--color-gray-300);
 }
@@ -157,6 +157,6 @@
   outline-offset: -2px;
 }
 
-.b-dark .bc-tree-item__row:focus-visible {
+.dark .bc-tree-item__row:focus-visible {
   outline-color: var(--color-primary-400);
 }

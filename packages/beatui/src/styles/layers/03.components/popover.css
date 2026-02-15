@@ -10,7 +10,7 @@
 }
 
 /* Dark mode */
-.b-dark .bc-popover {
+.dark .bc-popover {
   background: var(--color-base-800);
   border-color: var(--color-base-700);
   color: var(--color-base-200);

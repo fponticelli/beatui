@@ -62,7 +62,7 @@
 }
 
 /* Dark mode overrides */
-.b-dark .bc-ribbon {
+.dark .bc-ribbon {
   background: var(--ribbon-bg-dark);
   color: var(--ribbon-text-dark);
 }

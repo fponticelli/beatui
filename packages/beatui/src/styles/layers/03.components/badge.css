@@ -149,13 +149,13 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-badge {
+.dark .bc-badge {
   background-color: var(--badge-bg-dark);
   color: var(--badge-text-dark);
   border-color: var(--badge-border-dark);
 }
 
-.b-dark .bc-badge:hover {
+.dark .bc-badge:hover {
   background-color: var(--badge-bg-hover-dark);
   color: var(--badge-text-hover-dark);
 }

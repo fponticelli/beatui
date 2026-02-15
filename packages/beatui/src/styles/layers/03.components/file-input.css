@@ -552,175 +552,175 @@
 }
 
 /* Dark mode */
-.b-dark .bc-file-input__drop-zone {
+.dark .bc-file-input__drop-zone {
   border-color: var(--color-base-600);
 }
 
-.b-dark .bc-file-input__drop-zone:hover {
+.dark .bc-file-input__drop-zone:hover {
   border-color: var(--color-primary-400);
   background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
 }
 
-.b-dark .bc-file-input__drop-zone-content--empty {
+.dark .bc-file-input__drop-zone-content--empty {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__drop-zone-content--drag-over {
+.dark .bc-file-input__drop-zone-content--drag-over {
   color: var(--color-primary-300);
   background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
 }
 
-.b-dark .bc-file-input__drop-zone-content--has-files {
+.dark .bc-file-input__drop-zone-content--has-files {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__file-list {
+.dark .bc-file-input__file-list {
   border-top-color: var(--color-base-700);
 }
 
-.b-dark .bc-file-input__file-item {
+.dark .bc-file-input__file-item {
   border-color: var(--color-base-700);
   background-color: var(--bg-surface);
 }
 
-.b-dark .bc-file-input__file-item:hover {
+.dark .bc-file-input__file-item:hover {
   border-color: var(--color-base-600);
 }
 
-.b-dark .bc-file-input__file-name {
+.dark .bc-file-input__file-name {
   color: var(--text-normal);
 }
 
-.b-dark .bc-file-input__file-meta {
+.dark .bc-file-input__file-meta {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__thumbnail-container {
+.dark .bc-file-input__thumbnail-container {
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-file-input__remove-button {
+.dark .bc-file-input__remove-button {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-file-input__remove-button:hover {
+.dark .bc-file-input__remove-button:hover {
   background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
   color: var(--color-danger-400);
 }
 
-.b-dark .bc-file-input__clear-all-button {
+.dark .bc-file-input__clear-all-button {
   border-color: var(--color-base-600);
   background-color: var(--bg-surface);
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__clear-all-button:hover {
+.dark .bc-file-input__clear-all-button:hover {
   border-color: var(--color-danger-600);
   background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
   color: var(--color-danger-400);
 }
 
-.b-dark .bc-base-input-container--error .bc-file-input__drop-zone {
+.dark .bc-base-input-container--error .bc-file-input__drop-zone {
   border-color: var(--color-danger-600);
 }
 
-.b-dark .bc-base-input-container--error .bc-file-input__drop-zone:hover {
+.dark .bc-base-input-container--error .bc-file-input__drop-zone:hover {
   border-color: var(--color-danger-500);
   background-color: color-mix(in srgb, var(--color-danger-500) 10%, transparent);
 }
 
-.b-dark .bc-base-input-container--disabled .bc-file-input__drop-zone {
+.dark .bc-base-input-container--disabled .bc-file-input__drop-zone {
   border-color: var(--color-base-700);
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-base-input-container--disabled .bc-file-input__drop-zone:hover {
+.dark .bc-base-input-container--disabled .bc-file-input__drop-zone:hover {
   border-color: var(--color-base-700);
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-base-input-container--disabled .bc-file-input__drop-zone-content {
+.dark .bc-base-input-container--disabled .bc-file-input__drop-zone-content {
   color: var(--color-base-600);
 }
 
-.b-dark .bc-file-input__compact-placeholder {
+.dark .bc-file-input__compact-placeholder {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__compact-value {
+.dark .bc-file-input__compact-value {
   color: var(--text-normal);
 }
 
-.b-dark .bc-file-input__compact-value-item {
+.dark .bc-file-input__compact-value-item {
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-file-input__compact-clear {
+.dark .bc-file-input__compact-clear {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-file-input__compact-clear:hover {
+.dark .bc-file-input__compact-clear:hover {
   background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
   color: var(--color-danger-400);
 }
 
-.b-dark .bc-file-input__compact-preview {
+.dark .bc-file-input__compact-preview {
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-file-input__compact-drop-zone {
+.dark .bc-file-input__compact-drop-zone {
   border-color: var(--color-base-600);
 }
 
-.b-dark .bc-file-input__compact-drop-zone:hover {
+.dark .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-primary-400);
   background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
 }
 
-.b-dark .bc-file-input__compact-drop-zone .bc-file-input__compact-placeholder {
+.dark .bc-file-input__compact-drop-zone .bc-file-input__compact-placeholder {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__compact-file-item {
+.dark .bc-file-input__compact-file-item {
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-file-input__compact-file-item:hover {
+.dark .bc-file-input__compact-file-item:hover {
   background-color: var(--color-base-700);
 }
 
-.b-dark .bc-file-input__compact-file-name {
+.dark .bc-file-input__compact-file-name {
   color: var(--text-normal);
 }
 
-.b-dark .bc-file-input__compact-file-meta {
+.dark .bc-file-input__compact-file-meta {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-file-input__compact-remove-button {
+.dark .bc-file-input__compact-remove-button {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-file-input__compact-remove-button:hover {
+.dark .bc-file-input__compact-remove-button:hover {
   background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
   color: var(--color-danger-400);
 }
 
-.b-dark .bc-base-input-container--error .bc-file-input__compact-drop-zone {
+.dark .bc-base-input-container--error .bc-file-input__compact-drop-zone {
   border-color: var(--color-danger-600);
 }
 
-.b-dark .bc-base-input-container--error .bc-file-input__compact-drop-zone:hover {
+.dark .bc-base-input-container--error .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-danger-500);
   background-color: color-mix(in srgb, var(--color-danger-500) 10%, transparent);
 }
 
-.b-dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone {
+.dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone {
   border-color: var(--color-base-700);
   background-color: var(--color-base-800);
 }
 
-.b-dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone:hover {
+.dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-base-700);
   background-color: var(--color-base-800);
 }

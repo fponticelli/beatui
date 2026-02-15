@@ -428,41 +428,41 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-modal {
+.dark .bc-modal {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-default);
   color: var(--text-normal);
 }
 
-.b-dark .bc-modal__header {
+.dark .bc-modal__header {
   border-bottom: 1px solid var(--border-divider);
   background-color: var(--bg-elevated);
 }
 
-.b-dark .bc-modal__body {
+.dark .bc-modal__body {
   color: var(--text-normal);
   background-color: var(--bg-surface);
 }
 
-.b-dark .bc-modal__footer {
+.dark .bc-modal__footer {
   border-top: 1px solid var(--border-divider);
   background-color: var(--bg-elevated);
 }
 
-.b-dark .bc-modal__confirm-body {
+.dark .bc-modal__confirm-body {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-modal__confirm-consequences {
+.dark .bc-modal__confirm-consequences {
   background: var(--color-base-800);
   color: var(--color-base-400);
 }
 
-.b-dark .bc-modal__confirm-consequences li::before {
+.dark .bc-modal__confirm-consequences li::before {
   color: var(--color-base-600);
 }
 
-.b-dark .bc-modal--confirm .bc-modal__footer {
+.dark .bc-modal--confirm .bc-modal__footer {
   border-top: 1px solid var(--color-base-700);
   background: var(--color-base-800);
 }
@@ -546,7 +546,7 @@
   color: var(--color-gray-700);
 }
 
-.b-dark .bc-modal__title {
+.dark .bc-modal__title {
   color: var(--color-gray-200);
 }
 

@@ -130,7 +130,7 @@ export default function PaginationPage() {
           return html.div(
             attr.class('space-y-2'),
             html.p(
-              attr.class('text-sm text-base-600 beatui-dark:text-base-400'),
+              attr.class('text-sm text-base-600 dark:text-base-400'),
               'Dynamically adjusts visible page numbers to fit available space. Resize the browser to see the effect.'
             ),
             Pagination({

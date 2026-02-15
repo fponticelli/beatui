@@ -112,7 +112,7 @@ span.bc-sidebar-link {
 }
 
 /* Dark mode styles */
-.b-dark span.bc-sidebar-link {
+.dark span.bc-sidebar-link {
   color: var(--color-primary-200);
 }
 
@@ -149,7 +149,7 @@ span.bc-sidebar-link {
 }
 
 /* Dark background mode in dark theme - inverted back to light colors */
-.b-dark .bc-sidebar--dark-bg span.bc-sidebar-link {
+.dark .bc-sidebar--dark-bg span.bc-sidebar-link {
   color: var(--color-primary-700);
 }
 

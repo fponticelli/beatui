@@ -233,7 +233,6 @@ export function beatuiTailwindPlugin(
 ): Plugin {
   let projectRoot = process.cwd()
   const injectCss = options.injectCss !== false
-  const darkClass = options.darkClass ?? 'dark'
   const rtlAttribute = options.rtlAttribute ?? 'dir'
   const rtlValue = options.rtlValue ?? 'rtl'
   let publicBasePath = '/'
@@ -548,9 +547,6 @@ export function beatuiTailwindPlugin(
             const root = document.documentElement
             const target = document.body
             if (!target) return
-            const hasDark = root.classList.contains('${darkClass.replace(/'/g, "\\'")}')
-            target.classList.toggle('b-dark', hasDark)
-            target.classList.toggle('b-light', !hasDark)
             const dirValue = root.getAttribute('${rtlAttribute.replace(/'/g, "\\'")}')
             const isRtl = dirValue === '${rtlValue.replace(/'/g, "\\'")}'
             target.classList.toggle('b-rtl', isRtl)
@@ -564,7 +560,7 @@ export function beatuiTailwindPlugin(
           const observer = new MutationObserver(apply)
           observer.observe(document.documentElement, {
             attributes: true,
-            attributeFilter: ['class', '${rtlAttribute.replace(/'/g, "\\'")}'],
+            attributeFilter: ['${rtlAttribute.replace(/'/g, "\\'")}'],
           })
         })();
       `

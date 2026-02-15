@@ -1,4 +1,5 @@
 import {
+  Portal,
   Provider,
   Use,
   attr,
@@ -80,11 +81,12 @@ export const Theme: Provider<ThemeValue, ThemeOptions> = {
 }
 
 /**
- * Reactive attribute that applies the current theme appearance as a CSS class.
- * Maps the resolved appearance ('light' or 'dark') to class names `'b-light'` or `'b-dark'`.
- * Typically attached to the document body or root element.
+ * Reactive node that applies the current theme appearance as a CSS class
+ * (`'dark'` or `'light'`) on the `<html>` element via a Portal.
+ * This aligns with Tailwind CSS's built-in `dark:` variant which expects
+ * a `dark` class on `<html>`.
  *
- * @returns A reactive `attr.class` attribute
+ * @returns A reactive Portal TNode
  *
  * @example
  * ```ts
@@ -98,6 +100,6 @@ export const Theme: Provider<ThemeValue, ThemeOptions> = {
  */
 export const ThemeAppearance = () => {
   return Use(Theme, ({ appearance }) =>
-    attr.class(appearance.map(a => `b-${a}`))
+    Portal('html', attr.class(appearance.map(a => a)))
   )
 }

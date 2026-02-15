@@ -20,7 +20,7 @@
   padding-bottom: var(--spacing-sm);
 }
 
-.b-dark .bc-two-factor__methods {
+.dark .bc-two-factor__methods {
   border-bottom-color: var(--color-neutral-700);
 }
 
@@ -48,12 +48,12 @@
   border-bottom: 2px solid var(--color-primary-600);
 }
 
-.b-dark .bc-two-factor__method-button:hover {
+.dark .bc-two-factor__method-button:hover {
   color: var(--text-normal);
   background-color: var(--color-neutral-800);
 }
 
-.b-dark .bc-two-factor__method-button--active {
+.dark .bc-two-factor__method-button--active {
   color: var(--color-primary-400);
   border-bottom-color: var(--color-primary-400);
 }
@@ -77,7 +77,7 @@
   text-align: center;
 }
 
-.b-dark .bc-two-factor__code-display {
+.dark .bc-two-factor__code-display {
   background-color: var(--color-neutral-800);
 }
 
@@ -106,7 +106,7 @@
   text-align: center;
 }
 
-.b-dark .bc-two-factor__backup-codes li {
+.dark .bc-two-factor__backup-codes li {
   background-color: var(--color-neutral-800);
 }
 

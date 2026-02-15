@@ -409,82 +409,82 @@
 }
 
 /* Dark mode */
-.b-dark .bc-calendar {
+.dark .bc-calendar {
   background-color: var(--bg-background);
   border-color: var(--border-default);
 }
 
-.b-dark .bc-calendar__nav-btn {
+.dark .bc-calendar__nav-btn {
   color: var(--text-normal);
 }
 
-.b-dark .bc-calendar__nav-btn:hover:not(:disabled) {
+.dark .bc-calendar__nav-btn:hover:not(:disabled) {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-calendar__title {
+.dark .bc-calendar__title {
   color: var(--text-normal);
 }
 
-.b-dark .bc-calendar__weekday {
+.dark .bc-calendar__weekday {
   color: var(--text-muted);
 }
 
-.b-dark .bc-calendar__day {
+.dark .bc-calendar__day {
   color: var(--text-normal);
 }
 
-.b-dark .bc-calendar__day:hover:not(:disabled) {
+.dark .bc-calendar__day:hover:not(:disabled) {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-calendar__day--selected {
+.dark .bc-calendar__day--selected {
   background-color: var(--cal-selected-bg-dark);
   color: var(--cal-selected-text-dark);
 }
 
-.b-dark .bc-calendar__day--today {
+.dark .bc-calendar__day--today {
   background-color: var(--cal-today-bg-dark);
   color: var(--cal-today-text-dark);
 }
 
-.b-dark .bc-calendar__day--selected.bc-calendar__day--today {
+.dark .bc-calendar__day--selected.bc-calendar__day--today {
   background-color: var(--cal-selected-bg-dark);
   color: var(--cal-selected-text-dark);
 }
 
-.b-dark .bc-calendar__title-btn {
+.dark .bc-calendar__title-btn {
   color: var(--text-normal);
 }
 
-.b-dark .bc-calendar__title-btn:hover:not(:disabled) {
+.dark .bc-calendar__title-btn:hover:not(:disabled) {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-calendar__month-cell,
-.b-dark .bc-calendar__year-cell {
+.dark .bc-calendar__month-cell,
+.dark .bc-calendar__year-cell {
   color: var(--text-normal);
 }
 
-.b-dark .bc-calendar__month-cell:hover:not(:disabled),
-.b-dark .bc-calendar__year-cell:hover:not(:disabled) {
+.dark .bc-calendar__month-cell:hover:not(:disabled),
+.dark .bc-calendar__year-cell:hover:not(:disabled) {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-calendar__month-cell--current,
-.b-dark .bc-calendar__year-cell--current {
+.dark .bc-calendar__month-cell--current,
+.dark .bc-calendar__year-cell--current {
   background-color: var(--cal-selected-bg-dark);
   color: var(--cal-selected-text-dark);
 }
 
-.b-dark .bc-calendar__month-cell--active,
-.b-dark .bc-calendar__year-cell--active {
+.dark .bc-calendar__month-cell--active,
+.dark .bc-calendar__year-cell--active {
   background-color: var(--cal-today-bg-dark);
   color: var(--cal-today-text-dark);
 }
 
-.b-dark .bc-calendar__month-cell--current.bc-calendar__month-cell--active,
-.b-dark .bc-calendar__year-cell--current.bc-calendar__year-cell--active {
+.dark .bc-calendar__month-cell--current.bc-calendar__month-cell--active,
+.dark .bc-calendar__year-cell--current.bc-calendar__year-cell--active {
   background-color: var(--cal-selected-bg-dark);
   color: var(--cal-selected-text-dark);
 }
@@ -530,13 +530,13 @@
 }
 
 /* Range selection - dark mode */
-.b-dark .bc-calendar__day--range-start,
-.b-dark .bc-calendar__day--range-end {
+.dark .bc-calendar__day--range-start,
+.dark .bc-calendar__day--range-end {
   background-color: var(--cal-selected-bg-dark);
   color: var(--cal-selected-text-dark);
 }
 
-.b-dark .bc-calendar__day--in-range {
+.dark .bc-calendar__day--in-range {
   background-color: var(--cal-today-bg-dark);
   color: var(--cal-today-text-dark);
 }

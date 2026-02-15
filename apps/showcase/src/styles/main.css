@@ -73,7 +73,7 @@
   font-family: inherit;
 }
 
-.b-dark .sc-search-input {
+.dark .sc-search-input {
   background: #1f2937;
   border-color: #374151;
   color: #e5e7eb;
@@ -212,64 +212,64 @@
 }
 
 /* Dark mode overrides */
-.b-dark #app {
+.dark #app {
   color: #e5e7eb;
   background: #111827;
 }
 
-.b-dark .sc-sidebar {
+.dark .sc-sidebar {
   background: #111827;
   border-right-color: #374151;
 }
 
-.b-dark .sc-sidebar-header {
+.dark .sc-sidebar-header {
   border-bottom-color: #374151;
 }
 
-.b-dark .sc-sidebar-footer {
+.dark .sc-sidebar-footer {
   border-top-color: #374151;
 }
 
-.b-dark .sc-nav-item {
+.dark .sc-nav-item {
   color: #9ca3af;
 }
 
-.b-dark .sc-nav-item:hover {
+.dark .sc-nav-item:hover {
   background: #1f2937;
 }
 
-.b-dark .sc-nav-item--active {
+.dark .sc-nav-item--active {
   background: #374151;
   color: #e5e7eb;
 }
 
-.b-dark .sc-page-header {
+.dark .sc-page-header {
   border-bottom-color: #374151;
 }
 
-.b-dark .sc-page-content {
+.dark .sc-page-content {
   background: #111827;
 }
 
-.b-dark .sc-nav-btn {
+.dark .sc-nav-btn {
   border-color: #374151;
   background: #111827;
   color: #9ca3af;
 }
 
-.b-dark .sc-nav-btn:hover {
+.dark .sc-nav-btn:hover {
   background: #1f2937;
 }
 
-.b-dark .sc-controls-header {
+.dark .sc-controls-header {
   background: #1f2937;
   border-bottom-color: #374151;
 }
 
-.b-dark .sc-category-header {
+.dark .sc-category-header {
   color: #6b7280;
 }
 
-.b-dark .sc-controls-header .bc-input-wrapper__label {
+.dark .sc-controls-header .bc-input-wrapper__label {
   color: #6b7280;
 }

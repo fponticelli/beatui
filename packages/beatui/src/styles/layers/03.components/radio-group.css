@@ -202,29 +202,29 @@
 }
 
 /* Dark mode */
-.b-dark .bc-radio-group__indicator {
+.dark .bc-radio-group__indicator {
   border-color: var(--border-default);
   background-color: var(--bg-surface);
 }
 
-.b-dark .bc-radio-group__input:checked + .bc-radio-group__indicator {
+.dark .bc-radio-group__input:checked + .bc-radio-group__indicator {
   border-color: var(--color-primary-400);
 }
 
-.b-dark .bc-radio-group__input:checked + .bc-radio-group__indicator::after {
+.dark .bc-radio-group__input:checked + .bc-radio-group__indicator::after {
   background-color: var(--color-primary-400);
 }
 
-.b-dark .bc-radio-group__input:focus-visible + .bc-radio-group__indicator {
+.dark .bc-radio-group__input:focus-visible + .bc-radio-group__indicator {
   outline-color: var(--interactive-focus);
 }
 
-.b-dark .bc-radio-group__input:disabled + .bc-radio-group__indicator {
+.dark .bc-radio-group__input:disabled + .bc-radio-group__indicator {
   border-color: var(--border-default);
   background-color: var(--bg-subtle);
 }
 
-.b-dark
+.dark
   .bc-radio-group__input:disabled:checked
   + .bc-radio-group__indicator::after {
   background-color: var(--text-muted);

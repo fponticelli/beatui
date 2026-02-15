@@ -13,7 +13,7 @@
 }
 
 /* Dark mode */
-.b-dark .bc-dropdown__search-input {
+.dark .bc-dropdown__search-input {
   background-color: var(--color-base-800);
   border-bottom-color: var(--color-base-600);
 }

@@ -89,10 +89,10 @@
 }
 
 /* Dark mode */
-.b-dark .bc-dialog__consequences li::before {
+.dark .bc-dialog__consequences li::before {
   color: var(--color-base-600);
 }
 
-.b-dark .bc-dialog__icon {
+.dark .bc-dialog__icon {
   /* In dark mode, use shade 900 for bg and 400 for fg — applied via inline styles */
 }

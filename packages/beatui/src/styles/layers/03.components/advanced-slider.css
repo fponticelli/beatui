@@ -272,28 +272,28 @@
 }
 
 /* Dark mode */
-.b-dark .bc-advanced-slider__track {
+.dark .bc-advanced-slider__track {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-advanced-slider__fill {
+.dark .bc-advanced-slider__fill {
   background-color: var(--slider-color-dark);
 }
 
-.b-dark .bc-advanced-slider__thumb {
+.dark .bc-advanced-slider__thumb {
   background-color: var(--text-normal);
   border-color: var(--slider-color-dark);
 }
 
-.b-dark .bc-advanced-slider__value-label {
+.dark .bc-advanced-slider__value-label {
   background-color: var(--slider-color-dark);
 }
 
-.b-dark .bc-advanced-slider__tick::before {
+.dark .bc-advanced-slider__tick::before {
   background-color: var(--color-gray-500);
 }
 
-.b-dark .bc-advanced-slider__tick-label {
+.dark .bc-advanced-slider__tick-label {
   color: var(--text-muted);
 }
 

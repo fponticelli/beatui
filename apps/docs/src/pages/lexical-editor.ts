@@ -316,7 +316,7 @@ function InfoPanel(
     attr.class('gap-2 p-4 border rounded'),
     html.h4(attr.class('font-semibold text-sm'), titleSignal),
     html.p(
-      attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
+      attr.class('text-sm text-gray-600 dark:text-gray-400'),
       descriptionSignal
     )
   )
@@ -492,7 +492,7 @@ export default function LexicalEditorPage() {
           ),
           html.pre(
             attr.class(
-              'text-xs overflow-auto bg-gray-50 beatui-dark:bg-gray-900 p-2 rounded'
+              'text-xs overflow-auto bg-gray-50 dark:bg-gray-900 p-2 rounded'
             ),
             style.maxHeight('400px'),
             currentOutput

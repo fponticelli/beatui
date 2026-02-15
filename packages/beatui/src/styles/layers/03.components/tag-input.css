@@ -119,20 +119,20 @@
 }
 
 /* Dark mode */
-.b-dark .bc-tag-input {
+.dark .bc-tag-input {
   background: var(--color-base-800);
   border-color: var(--color-base-600);
 }
 
-.b-dark .bc-tag-input__tag {
+.dark .bc-tag-input__tag {
   background: var(--color-base-700);
   color: var(--color-base-200);
 }
 
-.b-dark .bc-tag-input__tag-remove {
+.dark .bc-tag-input__tag-remove {
   color: var(--color-base-400);
 }
 
-.b-dark .bc-tag-input__input {
+.dark .bc-tag-input__input {
   color: var(--color-base-100);
 }

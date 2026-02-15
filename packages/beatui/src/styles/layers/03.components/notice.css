@@ -93,50 +93,50 @@
 }
 
 /* Dark mode */
-.b-dark .bc-notice--tone-prominent {
+.dark .bc-notice--tone-prominent {
   border-color: var(--color-base-700);
 }
 
-.b-dark .bc-notice--tone-subtle {
+.dark .bc-notice--tone-subtle {
   border-color: var(--color-base-700);
 }
 
-.b-dark .bc-notice--info.bc-notice--tone-prominent {
+.dark .bc-notice--info.bc-notice--tone-prominent {
   background-color: color-mix(in srgb, var(--color-info-500) 12%, transparent);
   border-color: var(--color-info-800);
   color: var(--color-info-200);
 }
 
-.b-dark .bc-notice--success.bc-notice--tone-prominent {
+.dark .bc-notice--success.bc-notice--tone-prominent {
   background-color: color-mix(in srgb, var(--color-success-500) 12%, transparent);
   border-color: var(--color-success-800);
   color: var(--color-success-200);
 }
 
-.b-dark .bc-notice--warning.bc-notice--tone-prominent {
+.dark .bc-notice--warning.bc-notice--tone-prominent {
   background-color: color-mix(in srgb, var(--color-warning-500) 12%, transparent);
   border-color: var(--color-warning-800);
   color: var(--color-warning-200);
 }
 
-.b-dark .bc-notice--danger.bc-notice--tone-prominent {
+.dark .bc-notice--danger.bc-notice--tone-prominent {
   background-color: color-mix(in srgb, var(--color-danger-500) 12%, transparent);
   border-color: var(--color-danger-800);
   color: var(--color-danger-200);
 }
 
-.b-dark .bc-notice--info.bc-notice--tone-subtle {
+.dark .bc-notice--info.bc-notice--tone-subtle {
   color: var(--color-info-300);
 }
 
-.b-dark .bc-notice--success.bc-notice--tone-subtle {
+.dark .bc-notice--success.bc-notice--tone-subtle {
   color: var(--color-success-300);
 }
 
-.b-dark .bc-notice--warning.bc-notice--tone-subtle {
+.dark .bc-notice--warning.bc-notice--tone-subtle {
   color: var(--color-warning-300);
 }
 
-.b-dark .bc-notice--danger.bc-notice--tone-subtle {
+.dark .bc-notice--danger.bc-notice--tone-subtle {
   color: var(--color-danger-300);
 }

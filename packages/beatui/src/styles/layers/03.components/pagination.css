@@ -120,31 +120,31 @@
 }
 
 /* Dark Mode Support */
-.b-dark .bc-pagination__item {
+.dark .bc-pagination__item {
   color: var(--color-base-300);
 }
 
-.b-dark .bc-pagination__item:hover:not(:disabled) {
+.dark .bc-pagination__item:hover:not(:disabled) {
   background-color: var(--color-base-700);
   color: var(--color-base-100);
 }
 
-.b-dark .bc-pagination__item--active {
+.dark .bc-pagination__item--active {
   background-color: var(--color-primary-600);
   color: var(--color-white);
 }
 
-.b-dark .bc-pagination__item--active:hover {
+.dark .bc-pagination__item--active:hover {
   background-color: var(--color-primary-600);
   color: var(--color-white);
 }
 
-.b-dark .bc-pagination__item:disabled:hover {
+.dark .bc-pagination__item:disabled:hover {
   background: transparent;
   color: var(--color-base-300);
 }
 
-.b-dark .bc-pagination__dots {
+.dark .bc-pagination__dots {
   color: var(--color-base-600);
 }
 

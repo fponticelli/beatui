@@ -78,6 +78,6 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-card--elevated {
+.dark .bc-card--elevated {
   --card-bg: var(--bg-elevated);
 }

@@ -330,7 +330,7 @@ export default function CommandPalettePage() {
           ),
           html.div(
             attr.class(
-              'bg-gray-100 beatui-dark:bg-gray-800 p-4 rounded-lg text-sm font-mono'
+              'bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-sm font-mono'
             ),
             html.pre(
               attr.class('whitespace-pre-wrap'),

@@ -127,12 +127,12 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-segmented-input {
+.dark .bc-segmented-input {
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-default);
 }
 
-.b-dark .bc-segmented-input__indicator {
+.dark .bc-segmented-input__indicator {
   background-color: var(--si-indicator-bg-dark, var(--bg-elevated));
   box-shadow: var(
     --shadow-segmented-control-indicator-dark,
@@ -141,48 +141,48 @@
   );
 }
 
-.b-dark .bc-segmented-input__segment {
+.dark .bc-segmented-input__segment {
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   border-radius: var(--radius-full);
 }
 
-.b-dark .bc-segmented-input--squared .bc-segmented-input__segment {
+.dark .bc-segmented-input--squared .bc-segmented-input__segment {
   border-radius: var(--radius-control-sm, var(--radius-sm));
 }
 
-.b-dark .bc-segmented-input__segment:hover {
+.dark .bc-segmented-input__segment:hover {
   color: var(--text-normal);
   background-color: var(--interactive-hover);
 }
 
-.b-dark .bc-segmented-input__segment--active,
-.b-dark .bc-segmented-input__segment--active:hover {
+.dark .bc-segmented-input__segment--active,
+.dark .bc-segmented-input__segment--active:hover {
   color: var(--si-active-text-dark, var(--text-normal));
   background: transparent;
 }
 
-.b-dark .bc-segmented-input__segment--inactive:hover {
+.dark .bc-segmented-input__segment--inactive:hover {
   color: var(--text-normal);
 }
 
 /* Disabled state (dark) */
-.b-dark .bc-segmented-input--disabled {
+.dark .bc-segmented-input--disabled {
   background-color: var(--bg-background);
   border: 1px solid var(--border-divider);
   opacity: 0.5;
 }
 
-.b-dark .bc-segmented-input--disabled .bc-segmented-input__indicator {
+.dark .bc-segmented-input--disabled .bc-segmented-input__indicator {
   background-color: var(--bg-subtle);
   box-shadow: var(--shadow-none, none);
 }
 
-.b-dark .bc-segmented-input--disabled .bc-segmented-input__segment {
+.dark .bc-segmented-input--disabled .bc-segmented-input__segment {
   cursor: not-allowed;
 }
 
-.b-dark .bc-segmented-input--disabled .bc-segmented-input__segment:hover {
+.dark .bc-segmented-input--disabled .bc-segmented-input__segment:hover {
   background-color: transparent;
 }

@@ -16,7 +16,7 @@
 }
 
 /* Dark mode */
-.b-dark .bc-auth-container--styled {
+.dark .bc-auth-container--styled {
   background-color: var(--bg-surface);
 }
 
@@ -52,7 +52,7 @@
     border: 2px solid var(--border-default);
   }
 
-  .b-dark .bc-auth-container--styled {
+  .dark .bc-auth-container--styled {
     border-color: var(--border-default);
   }
 }

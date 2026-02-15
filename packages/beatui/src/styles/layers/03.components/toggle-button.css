@@ -17,8 +17,15 @@
   background-color: var(--toggle-bg);
   color: var(--toggle-text);
   text-shadow: var(--toggle-text-shadow);
+  line-height: 1;
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   user-select: none;
+}
+
+/* Keep icons sized to the font so icon-only buttons match text button height */
+.bc-toggle-button .bc-icon {
+  width: 1em;
+  height: 1em;
 }
 
 .bc-toggle-button--full-width {
@@ -77,14 +84,14 @@
 }
 
 /* Dark mode */
-.b-dark .bc-toggle-button {
+.dark .bc-toggle-button {
   background-color: var(--toggle-bg-dark);
   color: var(--toggle-text-dark);
   border-color: var(--toggle-border-dark);
   text-shadow: var(--toggle-text-shadow-dark);
 }
 
-.b-dark .bc-toggle-button:hover:not(:disabled) {
+.dark .bc-toggle-button:hover:not(:disabled) {
   background-color: var(--toggle-bg-hover-dark);
   color: var(--toggle-text-hover-dark);
 }

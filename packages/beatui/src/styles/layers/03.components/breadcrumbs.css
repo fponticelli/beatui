@@ -55,8 +55,8 @@
   outline-offset: 2px;
 }
 
-.b-dark .bc-breadcrumbs__link:focus-visible,
-.b-dark .bc-breadcrumbs__button:focus-visible {
+.dark .bc-breadcrumbs__link:focus-visible,
+.dark .bc-breadcrumbs__button:focus-visible {
   outline-color: var(--color-primary-400);
 }
 

@@ -8,7 +8,7 @@
 }
 
 /* Dark mode focus styles */
-.b-dark *:focus-visible {
+.dark *:focus-visible {
   outline-color: var(--interactive-focus-dark);
 }
 
@@ -55,7 +55,7 @@ a:focus-visible {
   border-radius: var(--radius-pill, var(--radius-full));
 }
 
-.b-dark .bc-switch:focus-visible .bc-switch__track {
+.dark .bc-switch:focus-visible .bc-switch__track {
   outline-color: var(--interactive-focus-dark);
 }
 
@@ -67,8 +67,8 @@ a:focus-visible {
   border-radius: var(--radius-focus, var(--radius-sm));
 }
 
-.b-dark .bc-checkbox-input__checkbox:focus-visible,
-.b-dark .bc-radio-input__radio:focus-visible {
+.dark .bc-checkbox-input__checkbox:focus-visible,
+.dark .bc-radio-input__radio:focus-visible {
   outline-color: var(--interactive-focus-dark);
 }
 

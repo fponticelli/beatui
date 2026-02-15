@@ -25,7 +25,7 @@
   padding: calc(var(--spacing-base) * 1);
 }
 
-.b-dark .bc-social-login-button__icon {
+.dark .bc-social-login-button__icon {
   background-color: var(--bg-elevated);
 }
 
@@ -33,7 +33,7 @@
   color: var(--color-base-900);
 }
 
-.b-dark .bc-social-login-button__icon-inner {
+.dark .bc-social-login-button__icon-inner {
   color: var(--text-normal);
 }
 

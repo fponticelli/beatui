@@ -161,7 +161,7 @@ export default function DividerPage() {
             attr.class('flex items-stretch gap-6 h-48'),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Left Panel')
             ),
@@ -172,7 +172,7 @@ export default function DividerPage() {
             }),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Center Panel')
             ),
@@ -183,7 +183,7 @@ export default function DividerPage() {
             }),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Right Panel')
             )
@@ -192,7 +192,7 @@ export default function DividerPage() {
             attr.class('flex items-stretch gap-6 h-48 mt-4'),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Section A')
             ),
@@ -203,7 +203,7 @@ export default function DividerPage() {
             }),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Section B')
             ),
@@ -215,7 +215,7 @@ export default function DividerPage() {
             }),
             html.div(
               attr.class(
-                'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
+                'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
               ),
               html.span('Section C')
             )

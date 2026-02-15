@@ -277,7 +277,7 @@ const tailwindPluginFactory: TailwindPluginFactory = Object.assign(
  * - Sets `darkMode: 'class'` so BeatUI's theme provider can toggle themes.
  * - Registers core and semantic CSS custom properties as base styles.
  * - Extends Tailwind's color palette with semantic aliases (e.g. `bg-primary-500`).
- * - Adds convenience variants: `beatui-dark`, `beatui-light`, `beatui-rtl`, `beatui-ltr`.
+ * - Adds convenience variants: `beatui-light`, `beatui-rtl`, `beatui-ltr`.
  *
  * @param options - Optional overrides for semantic tokens and feature flags.
  * @returns A Tailwind preset object to include in `tailwind.config.ts`.
@@ -316,8 +316,7 @@ export function createBeatuiPreset(
       }),
       tailwindPluginFactory(({ addVariant }: TailwindPluginApi) => {
         // Convenience variants for BeatUI theme helpers
-        addVariant('beatui-dark', '.b-dark &')
-        addVariant('beatui-light', '.b-light &')
+        addVariant('beatui-light', '.light &')
         addVariant('beatui-rtl', '.b-rtl &')
         addVariant('beatui-ltr', '.b-ltr &')
       }),

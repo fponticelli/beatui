@@ -75,7 +75,7 @@
   margin-top: var(--spacing-xs);
 }
 
-.b-dark .bc-auth-form__field-error {
+.dark .bc-auth-form__field-error {
   color: var(--color-danger-400);
 }
 
@@ -119,11 +119,11 @@
   outline-offset: 2px;
 }
 
-.b-dark .bc-auth-form__link {
+.dark .bc-auth-form__link {
   color: var(--color-primary-400);
 }
 
-.b-dark .bc-auth-form__link:hover {
+.dark .bc-auth-form__link:hover {
   color: var(--color-primary-300);
   background-color: var(--color-primary-950);
 }

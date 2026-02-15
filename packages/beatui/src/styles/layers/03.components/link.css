@@ -16,11 +16,11 @@
   color: var(--link-hover-color);
 }
 
-.b-dark .bc-link {
+.dark .bc-link {
   color: var(--link-color-dark);
 }
 
-.b-dark .bc-link:hover {
+.dark .bc-link:hover {
   color: var(--link-hover-color-dark);
 }
 

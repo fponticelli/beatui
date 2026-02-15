@@ -83,11 +83,11 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-progress-bar__track {
+.dark .bc-progress-bar__track {
   background-color: var(--progress-track-dark);
 }
 
-.b-dark .bc-progress-bar__fill {
+.dark .bc-progress-bar__fill {
   background-color: var(--progress-fill-dark);
 }
 

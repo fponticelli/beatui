@@ -132,18 +132,18 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-avatar {
+.dark .bc-avatar {
   background-color: var(--avatar-bg-dark);
   color: var(--avatar-text-dark);
 }
 
-.b-dark .bc-avatar--bordered {
+.dark .bc-avatar--bordered {
   border-color: var(--bg-background-dark, var(--color-base-950));
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.b-dark .bc-avatar-group--spacing-tight > .bc-avatar,
-.b-dark .bc-avatar-group--spacing-tight > .bc-avatar-group__overflow {
+.dark .bc-avatar-group--spacing-tight > .bc-avatar,
+.dark .bc-avatar-group--spacing-tight > .bc-avatar-group__overflow {
   border-color: var(--bg-background-dark, var(--color-base-950));
 }
 

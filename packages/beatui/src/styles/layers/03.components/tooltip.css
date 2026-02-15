@@ -80,7 +80,7 @@
 }
 
 /* Dark theme adjustments */
-.b-dark .bc-tooltip {
+.dark .bc-tooltip {
   background-color: var(--bg-elevated);
   color: var(--text-normal);
   border: 1px solid var(--border-default);
@@ -91,7 +91,7 @@
   );
 }
 
-.b-dark .bc-tooltip__arrow svg path {
+.dark .bc-tooltip__arrow svg path {
   fill: var(--bg-elevated);
   stroke: var(--border-default);
   stroke-width: 1;
@@ -103,7 +103,7 @@
     border: 1px solid var(--color-neutral-600);
   }
 
-  .b-dark .bc-tooltip {
+  .dark .bc-tooltip {
     border: 1px solid var(--color-neutral-400);
   }
 }

@@ -67,42 +67,42 @@
   }
 
   /* Dark mode styles */
-  .b-dark .bc-lexical-table-cell,
-  .b-dark .bc-lexical-table-cell-header {
+  .dark .bc-lexical-table-cell,
+  .dark .bc-lexical-table-cell-header {
     border-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-lexical-table-row {
+  .dark .bc-lexical-table-row {
     border-bottom-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-lexical-table-cell-header {
+  .dark .bc-lexical-table-cell-header {
     background-color: var(--color-neutral-800);
   }
 
-  .b-dark .bc-lexical-table-cell--selected {
+  .dark .bc-lexical-table-cell--selected {
     background-color: var(--color-primary-900);
     outline-color: var(--color-primary-400);
   }
 
-  .b-dark .bc-table-context-menu {
+  .dark .bc-table-context-menu {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-table-menu-button {
+  .dark .bc-table-menu-button {
     color: var(--color-neutral-100);
   }
 
-  .b-dark .bc-table-menu-button:hover:not(:disabled) {
+  .dark .bc-table-menu-button:hover:not(:disabled) {
     background-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-table-menu-button:active:not(:disabled) {
+  .dark .bc-table-menu-button:active:not(:disabled) {
     background-color: var(--color-neutral-600);
   }
 
-  .b-dark .bc-table-menu-separator {
+  .dark .bc-table-menu-separator {
     background-color: var(--color-neutral-700);
   }
 

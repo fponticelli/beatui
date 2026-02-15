@@ -67,6 +67,6 @@
 }
 
 /* Dark mode */
-.b-dark .bc-input-adornment--filled {
+.dark .bc-input-adornment--filled {
   background-color: var(--bg-subtle);
 }

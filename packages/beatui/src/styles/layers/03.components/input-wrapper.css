@@ -118,18 +118,18 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-input-wrapper__label-text--default {
+.dark .bc-input-wrapper__label-text--default {
   color: var(--text-normal);
 }
 
-.b-dark .bc-input-wrapper__label-text--error {
+.dark .bc-input-wrapper__label-text--error {
   color: var(--color-danger-300);
 }
 
-.b-dark .bc-input-wrapper__required {
+.dark .bc-input-wrapper__required {
   color: var(--color-danger-400);
 }
 
-.b-dark .bc-input-wrapper__error {
+.dark .bc-input-wrapper__error {
   color: var(--color-danger-400);
 }

@@ -352,7 +352,7 @@ export default function NotificationToastPage() {
         html.div(
           attr.class('space-y-2'),
           html.p(
-            attr.class('text-sm text-base-600 beatui-dark:text-base-400'),
+            attr.class('text-sm text-base-600 dark:text-base-400'),
             'Notifications appear at the bottom-right by default. Position can be configured via the NotificationProvider options.'
           ),
           Group(
@@ -378,7 +378,7 @@ export default function NotificationToastPage() {
             )
           ),
           html.p(
-            attr.class('text-xs text-base-500 beatui-dark:text-base-400 italic mt-2'),
+            attr.class('text-xs text-base-500 dark:text-base-400 italic mt-2'),
             'Note: To change position, configure NotificationProvider with position: "top-start" | "top-end" | "bottom-start" | "bottom-end"'
           )
         )

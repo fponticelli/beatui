@@ -103,22 +103,22 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-tag {
+.dark .bc-tag {
   background-color: var(--tag-bg-dark);
   color: var(--tag-text-dark);
   border-color: var(--tag-border-dark);
 }
 
-.b-dark .bc-tag:hover {
+.dark .bc-tag:hover {
   background-color: var(--tag-bg-hover-dark);
   color: var(--tag-text-hover-dark);
 }
 
-.b-dark .bc-tag__close {
+.dark .bc-tag__close {
   color: var(--tag-text-dark);
 }
 
-.b-dark .bc-tag__close:hover:not(:disabled) {
+.dark .bc-tag__close:hover:not(:disabled) {
   color: var(--tag-text-dark);
   border-color: color-mix(in srgb, var(--tag-text-dark) 30%, transparent);
 }

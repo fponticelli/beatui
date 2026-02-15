@@ -192,7 +192,7 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-table-container {
+.dark .bc-table-container {
   --table-bg: var(--bg-background);
   --table-stripe-bg: var(--bg-surface);
 }

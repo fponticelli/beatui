@@ -157,11 +157,11 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
+.dark .bc-divider--labeled.bc-divider--tone-subtle .bc-divider__label {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
+.dark .bc-divider--labeled.bc-divider--tone-strong .bc-divider__label {
   color: var(--text-normal);
 }
 

@@ -240,7 +240,12 @@ export function generateSemanticMotionVariables(
   const mapping = { ...defaultSemanticMotion, ...overrides }
 
   objectEntries(mapping).forEach(([name, value]) => {
-    variables[getSemanticMotionVarName(name as SemanticMotionName)] = value
+    const varName = getSemanticMotionVarName(name as SemanticMotionName)
+    // Skip entries where the semantic var name is the same as the referenced
+    // core var — e.g. --motion-easing-standard: var(--motion-easing-standard)
+    // would create a circular self-reference in CSS.
+    if (value === `var(${varName})`) return
+    variables[varName] = value
   })
 
   return variables

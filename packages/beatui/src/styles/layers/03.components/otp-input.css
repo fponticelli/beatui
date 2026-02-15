@@ -94,20 +94,20 @@
 }
 
 /* Dark mode */
-.b-dark .bc-otp-input__cell {
+.dark .bc-otp-input__cell {
   background-color: var(--bg-background);
   border-color: var(--border-default);
   color: var(--text-normal);
 }
 
-.b-dark .bc-otp-input__cell:focus,
-.b-dark .bc-otp-input__cell--focused {
+.dark .bc-otp-input__cell:focus,
+.dark .bc-otp-input__cell--focused {
   border-color: var(--otp-focus-border-dark);
   box-shadow: 0 0 0 2px
     color-mix(in srgb, var(--otp-focus-color-dark) 25%, transparent);
 }
 
-.b-dark .bc-otp-input__cell::placeholder {
+.dark .bc-otp-input__cell::placeholder {
   color: var(--text-muted);
 }
 

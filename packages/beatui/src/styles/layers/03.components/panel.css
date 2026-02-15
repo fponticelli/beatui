@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.b-dark .bc-panel {
+.dark .bc-panel {
   background-color: var(--panel-bg-dark);
   color: var(--panel-text-dark);
 }

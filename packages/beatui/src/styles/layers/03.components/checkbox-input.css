@@ -46,25 +46,25 @@
   user-select: none;
 }
 
-.b-dark .bc-checkbox-input__checkbox {
+.dark .bc-checkbox-input__checkbox {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-checkbox-input__checkbox--checked {
+.dark .bc-checkbox-input__checkbox--checked {
   color: var(--color-primary-400);
 }
 
-.b-dark .bc-checkbox-input__checkbox--unchecked {
+.dark .bc-checkbox-input__checkbox--unchecked {
   color: var(--color-base-500);
 }
 
-.b-dark .bc-checkbox-input__checkbox:focus-visible,
-.b-dark .bc-checkbox-input:focus-within .bc-checkbox-input__checkbox {
+.dark .bc-checkbox-input__checkbox:focus-visible,
+.dark .bc-checkbox-input:focus-within .bc-checkbox-input__checkbox {
   outline: 2px solid var(--interactive-focus);
   outline-offset: 2px;
 }
 
-.b-dark .bc-checkbox-input__label {
+.dark .bc-checkbox-input__label {
   color: var(--text-normal);
 }
 

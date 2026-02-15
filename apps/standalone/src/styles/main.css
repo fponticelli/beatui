@@ -11,14 +11,14 @@ body {
   color: var(--text-normal-light);
 }
 
-body.b-dark,
-#app.b-dark {
+.dark body,
+.dark #app {
   background-color: var(--bg-background-dark);
   color: var(--text-normal-dark);
 }
 
-body.b-light,
-#app.b-light {
+.light body,
+.light #app {
   background-color: var(--bg-background-light);
   color: var(--text-normal-light);
 }
@@ -62,7 +62,7 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-eyebrow {
+.dark .demo-eyebrow {
   color: var(--text-muted-dark);
 }
 
@@ -78,7 +78,7 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-lead {
+.dark .demo-lead {
   color: var(--text-muted-dark);
 }
 
@@ -94,7 +94,7 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-label-inline {
+.dark .demo-label-inline {
   color: var(--text-muted-dark);
 }
 
@@ -113,7 +113,7 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-text {
+.dark .demo-text {
   color: var(--text-muted-dark);
 }
 
@@ -129,7 +129,7 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-caption {
+.dark .demo-caption {
   color: var(--text-muted-dark);
 }
 
@@ -155,6 +155,6 @@ body.b-light,
   color: var(--text-muted-light);
 }
 
-.b-dark .demo-label {
+.dark .demo-label {
   color: var(--text-muted-dark);
 }

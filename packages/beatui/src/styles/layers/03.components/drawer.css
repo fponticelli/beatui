@@ -285,18 +285,18 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-drawer {
+.dark .bc-drawer {
   background-color: var(--bg-surface);
   color: var(--text-normal);
   border: 1px solid var(--border-default);
 }
 
-.b-dark .bc-drawer__header {
+.dark .bc-drawer__header {
   border-bottom: 1px solid var(--border-divider);
   background-color: var(--bg-elevated);
 }
 
-.b-dark .bc-drawer__footer {
+.dark .bc-drawer__footer {
   border-top: 1px solid var(--border-divider);
   background-color: var(--bg-elevated);
 }

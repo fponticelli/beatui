@@ -117,25 +117,25 @@
 }
 
 /* Dark mode */
-.b-dark .bc-block-command-palette {
+.dark .bc-block-command-palette {
   background: var(--color-base-800);
   border-color: var(--color-base-700);
 }
 
-.b-dark .bc-block-command-palette__search {
+.dark .bc-block-command-palette__search {
   border-color: var(--color-base-700);
 }
 
-.b-dark .bc-block-command-palette__search-input {
+.dark .bc-block-command-palette__search-input {
   color: var(--color-base-100);
 }
 
-.b-dark .bc-block-command-palette__item:hover,
-.b-dark .bc-block-command-palette__item--selected {
+.dark .bc-block-command-palette__item:hover,
+.dark .bc-block-command-palette__item--selected {
   background: var(--color-base-700);
 }
 
-.b-dark .bc-block-command-palette__item-label {
+.dark .bc-block-command-palette__item-label {
   color: var(--color-base-100);
 }
 

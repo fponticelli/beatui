@@ -116,97 +116,97 @@
   }
 
   /* Dark mode styles */
-  .b-dark .bc-lexical-code-block {
+  .dark .bc-lexical-code-block {
     background-color: var(--color-neutral-900);
     border-color: var(--color-neutral-700);
     color: var(--color-neutral-100);
   }
 
-  .b-dark .bc-code-language-button {
+  .dark .bc-code-language-button {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-600);
     color: var(--color-neutral-200);
   }
 
-  .b-dark .bc-code-language-button:hover:not(:disabled) {
+  .dark .bc-code-language-button:hover:not(:disabled) {
     background-color: var(--color-neutral-700);
     border-color: var(--color-neutral-500);
   }
 
-  .b-dark .bc-code-language-dropdown {
+  .dark .bc-code-language-dropdown {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-code-language-option {
+  .dark .bc-code-language-option {
     color: var(--color-neutral-100);
   }
 
-  .b-dark .bc-code-language-option:hover {
+  .dark .bc-code-language-option:hover {
     background-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-code-language-option:active {
+  .dark .bc-code-language-option:active {
     background-color: var(--color-neutral-600);
   }
 
   /* Syntax highlighting token colors (dark theme) */
-  .b-dark .bc-lexical-code-block .token.comment,
-  .b-dark .bc-lexical-code-block .token.prolog,
-  .b-dark .bc-lexical-code-block .token.doctype,
-  .b-dark .bc-lexical-code-block .token.cdata {
+  .dark .bc-lexical-code-block .token.comment,
+  .dark .bc-lexical-code-block .token.prolog,
+  .dark .bc-lexical-code-block .token.doctype,
+  .dark .bc-lexical-code-block .token.cdata {
     color: #8b949e;
   }
 
-  .b-dark .bc-lexical-code-block .token.punctuation {
+  .dark .bc-lexical-code-block .token.punctuation {
     color: #c9d1d9;
   }
 
-  .b-dark .bc-lexical-code-block .token.property,
-  .b-dark .bc-lexical-code-block .token.tag,
-  .b-dark .bc-lexical-code-block .token.boolean,
-  .b-dark .bc-lexical-code-block .token.number,
-  .b-dark .bc-lexical-code-block .token.constant,
-  .b-dark .bc-lexical-code-block .token.symbol,
-  .b-dark .bc-lexical-code-block .token.deleted {
+  .dark .bc-lexical-code-block .token.property,
+  .dark .bc-lexical-code-block .token.tag,
+  .dark .bc-lexical-code-block .token.boolean,
+  .dark .bc-lexical-code-block .token.number,
+  .dark .bc-lexical-code-block .token.constant,
+  .dark .bc-lexical-code-block .token.symbol,
+  .dark .bc-lexical-code-block .token.deleted {
     color: #79c0ff;
   }
 
-  .b-dark .bc-lexical-code-block .token.selector,
-  .b-dark .bc-lexical-code-block .token.attr-name,
-  .b-dark .bc-lexical-code-block .token.string,
-  .b-dark .bc-lexical-code-block .token.char,
-  .b-dark .bc-lexical-code-block .token.builtin,
-  .b-dark .bc-lexical-code-block .token.inserted {
+  .dark .bc-lexical-code-block .token.selector,
+  .dark .bc-lexical-code-block .token.attr-name,
+  .dark .bc-lexical-code-block .token.string,
+  .dark .bc-lexical-code-block .token.char,
+  .dark .bc-lexical-code-block .token.builtin,
+  .dark .bc-lexical-code-block .token.inserted {
     color: #a5d6ff;
   }
 
-  .b-dark .bc-lexical-code-block .token.operator,
-  .b-dark .bc-lexical-code-block .token.entity,
-  .b-dark .bc-lexical-code-block .token.url,
-  .b-dark .bc-lexical-code-block .language-css .token.string,
-  .b-dark .bc-lexical-code-block .style .token.string {
+  .dark .bc-lexical-code-block .token.operator,
+  .dark .bc-lexical-code-block .token.entity,
+  .dark .bc-lexical-code-block .token.url,
+  .dark .bc-lexical-code-block .language-css .token.string,
+  .dark .bc-lexical-code-block .style .token.string {
     color: #ff7b72;
   }
 
-  .b-dark .bc-lexical-code-block .token.atrule,
-  .b-dark .bc-lexical-code-block .token.attr-value,
-  .b-dark .bc-lexical-code-block .token.keyword {
+  .dark .bc-lexical-code-block .token.atrule,
+  .dark .bc-lexical-code-block .token.attr-value,
+  .dark .bc-lexical-code-block .token.keyword {
     color: #ff7b72;
   }
 
-  .b-dark .bc-lexical-code-block .token.function,
-  .b-dark .bc-lexical-code-block .token.class-name {
+  .dark .bc-lexical-code-block .token.function,
+  .dark .bc-lexical-code-block .token.class-name {
     color: #d2a8ff;
   }
 
-  .b-dark .bc-lexical-code-block .token.regex,
-  .b-dark .bc-lexical-code-block .token.important,
-  .b-dark .bc-lexical-code-block .token.variable {
+  .dark .bc-lexical-code-block .token.regex,
+  .dark .bc-lexical-code-block .token.important,
+  .dark .bc-lexical-code-block .token.variable {
     color: #ffa657;
   }
 
-  .b-dark .bc-lexical-code-block .line-number {
+  .dark .bc-lexical-code-block .line-number {
     color: var(--color-neutral-600);
   }
 

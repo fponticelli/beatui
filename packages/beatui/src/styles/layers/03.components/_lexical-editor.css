@@ -263,7 +263,7 @@
     border-radius: var(--radius-xs, 0.25rem);
   }
 
-  .b-dark .bc-lexical-code {
+  .dark .bc-lexical-code {
     background-color: var(--color-neutral-800);
     color: var(--color-neutral-200);
   }
@@ -312,71 +312,71 @@
     color: var(--color-neutral-500);
   }
 
-  .b-dark .bc-lexical-li-checked::before {
+  .dark .bc-lexical-li-checked::before {
     background-color: var(--color-primary-400);
     border-color: var(--color-primary-400);
   }
 
-  .b-dark .bc-lexical-li-unchecked::before {
+  .dark .bc-lexical-li-unchecked::before {
     border-color: var(--color-neutral-600);
   }
 
   /* Dark mode styles */
-  .b-dark .bc-lexical-editor-container {
+  .dark .bc-lexical-editor-container {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-lexical-editor {
+  .dark .bc-lexical-editor {
     background-color: var(--bg-surface);
     color: var(--text-normal);
   }
 
-  .b-dark .bc-lexical-editor-container:focus-within {
+  .dark .bc-lexical-editor-container:focus-within {
     border-color: var(--color-primary-400);
     box-shadow: 0 0 0 2px var(--color-primary-900);
   }
 
-  .b-dark .bc-lexical-editor-container--error {
+  .dark .bc-lexical-editor-container--error {
     border-color: var(--color-danger-400);
   }
 
-  .b-dark .bc-lexical-editor-container--error:focus-within {
+  .dark .bc-lexical-editor-container--error:focus-within {
     border-color: var(--color-danger-400);
     box-shadow: 0 0 0 2px var(--color-danger-900);
   }
 
-  .b-dark .bc-lexical-editor--readonly {
+  .dark .bc-lexical-editor--readonly {
     background-color: var(--color-neutral-900);
   }
 
-  .b-dark .bc-lexical-editor [data-lexical-placeholder] {
+  .dark .bc-lexical-editor [data-lexical-placeholder] {
     color: var(--color-neutral-500);
   }
 
-  .b-dark .bc-lexical-editor blockquote {
+  .dark .bc-lexical-editor blockquote {
     border-left-color: var(--color-neutral-600);
   }
 
-  .b-dark .bc-lexical-editor code {
+  .dark .bc-lexical-editor code {
     background-color: var(--color-neutral-800);
     color: var(--color-neutral-200);
   }
 
-  .b-dark .bc-lexical-editor pre {
+  .dark .bc-lexical-editor pre {
     background-color: var(--color-neutral-900);
     border-color: var(--color-neutral-700);
   }
 
-  .b-dark .bc-lexical-editor a {
+  .dark .bc-lexical-editor a {
     color: var(--color-primary-400);
   }
 
-  .b-dark .bc-lexical-editor a:hover {
+  .dark .bc-lexical-editor a:hover {
     color: var(--color-primary-300);
   }
 
-  .b-dark .bc-lexical-editor hr {
+  .dark .bc-lexical-editor hr {
     border-top-color: var(--color-neutral-700);
   }
 
@@ -449,7 +449,7 @@
       box-shadow: 0 0 0 3px var(--color-primary-100);
     }
 
-    .b-dark .bc-lexical-editor-container:focus-within {
+    .dark .bc-lexical-editor-container:focus-within {
       box-shadow: 0 0 0 3px var(--color-primary-900);
     }
   }

@@ -68,7 +68,7 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-skeleton {
+.dark .bc-skeleton {
   --skeleton-bg: oklch(0.25 0 0);
   --skeleton-shimmer: oklch(0.3 0 0);
 }

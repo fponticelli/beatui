@@ -91,7 +91,7 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-button {
+.dark .bc-button {
   background-color: var(--button-bg-dark);
   color: var(--button-text-dark);
   border-color: var(--button-border-dark);
@@ -101,7 +101,7 @@
   );
 }
 
-.b-dark .bc-button:hover:not(:disabled) {
+.dark .bc-button:hover:not(:disabled) {
   background-color: var(--button-bg-hover-dark);
   color: var(--button-text-hover-dark);
 }

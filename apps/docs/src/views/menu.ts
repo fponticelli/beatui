@@ -19,7 +19,7 @@ const SectionHeader = (icon: string, label: string) =>
 
 export function Menu() {
   return Stack(
-    attr.class('h-full overflow-y-auto bg-gray-100 beatui-dark:bg-gray-900'),
+    attr.class('h-full overflow-y-auto bg-gray-100 dark:bg-gray-900'),
     Sidebar(
       {},
       // ── Authentication ──

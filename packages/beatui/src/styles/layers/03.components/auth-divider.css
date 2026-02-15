@@ -22,7 +22,7 @@
   border-radius: var(--radius-full);
 }
 
-.b-dark .bc-auth-divider__text {
+.dark .bc-auth-divider__text {
   color: var(--color-white);
 }
 

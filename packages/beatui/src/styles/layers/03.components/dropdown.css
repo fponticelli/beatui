@@ -136,31 +136,31 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-dropdown__listbox {
+.dark .bc-dropdown__listbox {
   background-color: var(--bg-surface);
   border-color: var(--border-default);
   color: var(--text-normal);
 }
 
-.b-dark .bc-dropdown__option {
+.dark .bc-dropdown__option {
   color: var(--text-normal);
 }
 
-.b-dark .bc-dropdown__option:hover {
+.dark .bc-dropdown__option:hover {
   background-color: var(--interactive-hover);
 }
 
-.b-dark .bc-dropdown__option--focused {
+.dark .bc-dropdown__option--focused {
   background-color: var(--color-primary-900);
   color: var(--color-primary-100);
 }
 
-.b-dark .bc-dropdown__option--selected {
+.dark .bc-dropdown__option--selected {
   background-color: var(--color-primary-500);
   color: var(--color-white);
 }
 
-.b-dark .bc-dropdown__separator {
+.dark .bc-dropdown__separator {
   border-color: var(--border-divider);
 }
 

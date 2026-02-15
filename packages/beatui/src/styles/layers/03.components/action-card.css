@@ -86,11 +86,11 @@
     --action-card-border: var(--color-primary-600);
   }
 
-  .b-dark .bc-action-card--active {
+  .dark .bc-action-card--active {
     --action-card-border: var(--color-primary-400);
   }
 
-  .b-dark .bc-action-card--active:hover {
+  .dark .bc-action-card--active:hover {
     --action-card-border: var(--color-primary-300);
   }
 

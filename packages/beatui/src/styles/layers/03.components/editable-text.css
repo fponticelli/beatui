@@ -105,20 +105,20 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-editable-text {
+.dark .bc-editable-text {
   border-bottom-color: var(--border-default);
   color: var(--text-normal);
 }
 
-.b-dark .bc-editable-text__edit-button {
+.dark .bc-editable-text__edit-button {
   color: var(--color-yellow-400);
 }
 
-.b-dark .bc-editable-text__edit-button:hover {
+.dark .bc-editable-text__edit-button:hover {
   background-color: var(--interactive-hover);
   color: var(--color-yellow-300);
 }
 
-.b-dark .bc-editable-text__edit-button:active {
+.dark .bc-editable-text__edit-button:active {
   background-color: var(--interactive-active);
 }

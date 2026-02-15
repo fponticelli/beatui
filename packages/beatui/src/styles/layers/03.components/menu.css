@@ -14,7 +14,7 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-menu {
+.dark .bc-menu {
   background-color: var(--bg-surface);
   border-color: var(--border-default);
 }
@@ -84,16 +84,16 @@
 }
 
 /* Dark mode menu item styles */
-.b-dark .bc-menu-item:hover:not(.bc-menu-item--disabled) {
+.dark .bc-menu-item:hover:not(.bc-menu-item--disabled) {
   background-color: var(--interactive-hover);
 }
 
-.b-dark .bc-menu-item--focused {
+.dark .bc-menu-item--focused {
   background-color: var(--color-primary-900);
   color: var(--color-primary-100);
 }
 
-.b-dark .bc-menu-item:active:not(.bc-menu-item--disabled) {
+.dark .bc-menu-item:active:not(.bc-menu-item--disabled) {
   background-color: var(--interactive-active);
 }
 
@@ -138,11 +138,11 @@
 }
 
 /* Dark mode separator styles */
-.b-dark .bc-menu-separator {
+.dark .bc-menu-separator {
   border-color: var(--border-divider);
 }
 
-.b-dark .bc-menu-separator__label {
+.dark .bc-menu-separator__label {
   background-color: var(--bg-surface);
 }
 
@@ -265,7 +265,7 @@
     background-color: var(--color-base-200);
   }
 
-  .b-dark .bc-menu-item:active {
+  .dark .bc-menu-item:active {
     background-color: var(--interactive-active);
   }
 }

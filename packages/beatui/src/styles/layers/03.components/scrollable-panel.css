@@ -107,19 +107,19 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-scrollable-panel__body::-webkit-scrollbar-track {
+.dark .bc-scrollable-panel__body::-webkit-scrollbar-track {
   background: var(--bg-subtle);
 }
 
-.b-dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb {
+.dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb {
   background: var(--bg-raised);
   border-radius: var(--radius-sm);
 }
 
-.b-dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb:hover {
+.dark .bc-scrollable-panel__body::-webkit-scrollbar-thumb:hover {
   background: var(--bg-overlay);
 }
 
-.b-dark .bc-scrollable-panel__body {
+.dark .bc-scrollable-panel__body {
   scrollbar-color: var(--bg-raised) var(--bg-subtle);
 }

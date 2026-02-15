@@ -29,7 +29,7 @@ export function ApiLanding() {
             Card(
               {},
               attr.class(
-                'p-5 hover:bg-gray-200 beatui-dark:hover:bg-gray-800 transition-colors'
+                'p-5 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors'
               ),
               Stack(
                 attr.class('gap-2'),

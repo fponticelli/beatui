@@ -26,10 +26,10 @@
 }
 
 /* Dark mode styles */
-.b-dark .bc-label {
+.dark .bc-label {
   color: var(--text-normal);
 }
 
-.b-dark .bc-label--danger {
+.dark .bc-label--danger {
   color: var(--color-danger-400);
 }

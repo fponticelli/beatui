@@ -162,30 +162,30 @@
 }
 
 /* Dark mode */
-.b-dark .bc-history-timeline__filter {
+.dark .bc-history-timeline__filter {
   border-color: var(--color-base-600);
   color: var(--color-base-400);
 }
 
-.b-dark .bc-history-timeline__filter:hover {
+.dark .bc-history-timeline__filter:hover {
   background: var(--color-base-700);
 }
 
-.b-dark .bc-history-timeline__filter--active {
+.dark .bc-history-timeline__filter--active {
   background: rgba(37, 99, 235, 0.15);
   border-color: var(--color-primary-600);
   color: var(--color-primary-300);
 }
 
-.b-dark .bc-history-timeline__line::after {
+.dark .bc-history-timeline__line::after {
   background: var(--color-base-700);
 }
 
-.b-dark .bc-history-timeline__target {
+.dark .bc-history-timeline__target {
   color: var(--color-base-100);
 }
 
-.b-dark .bc-history-timeline__avatar {
+.dark .bc-history-timeline__avatar {
   background: var(--color-primary-800);
   color: var(--color-primary-200);
 }

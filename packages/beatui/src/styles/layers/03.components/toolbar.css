@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-.b-dark .bc-toolbar {
+.dark .bc-toolbar {
   background-color: var(--color-neutral-800);
   border-color: var(--color-neutral-700);
 }
@@ -28,7 +28,7 @@
   margin: 0 var(--spacing-xs);
 }
 
-.b-dark .bc-toolbar__divider {
+.dark .bc-toolbar__divider {
   background-color: var(--color-neutral-600);
 }
 
@@ -158,29 +158,29 @@
 }
 
 /* Dark mode */
-.b-dark .bc-toolbar__group > .bc-toolbar__button.bc-button {
+.dark .bc-toolbar__group > .bc-toolbar__button.bc-button {
   color: var(--color-base-300);
 }
 
-.b-dark
+.dark
   .bc-toolbar__group
   > .bc-toolbar__button.bc-button:hover:not(:disabled) {
   background-color: var(--color-base-700);
   color: var(--color-base-100);
 }
 
-.b-dark .bc-toolbar__group > .bc-toolbar__button.bc-button[aria-pressed='true'],
-.b-dark
+.dark .bc-toolbar__group > .bc-toolbar__button.bc-button[aria-pressed='true'],
+.dark
   .bc-toolbar__group
   > .bc-toolbar__button.bc-button.bc-toolbar__button--active {
   background-color: var(--color-primary-900);
   color: var(--color-primary-300);
 }
 
-.b-dark
+.dark
   .bc-toolbar__group
   > .bc-toolbar__button.bc-button[aria-pressed='true']:hover:not(:disabled),
-.b-dark
+.dark
   .bc-toolbar__group
   > .bc-toolbar__button.bc-button.bc-toolbar__button--active:hover:not(
     :disabled
@@ -236,28 +236,28 @@
 }
 
 /* Dark mode for floating toolbar */
-.b-dark .bc-toolbar--floating {
+.dark .bc-toolbar--floating {
   background: var(--color-base-800);
   border-color: var(--color-base-700);
 }
 
-.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button {
+.dark .bc-toolbar--floating .bc-toolbar__button .bc-button {
   color: var(--color-base-300);
 }
 
-.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button:hover {
+.dark .bc-toolbar--floating .bc-toolbar__button .bc-button:hover {
   background: var(--color-base-700);
 }
 
-.b-dark
+.dark
   .bc-toolbar--floating
   .bc-toolbar__button
   .bc-button[aria-pressed='true'],
-.b-dark .bc-toolbar--floating .bc-toolbar__button .bc-button.bc-button--active {
+.dark .bc-toolbar--floating .bc-toolbar__button .bc-button.bc-button--active {
   background: var(--color-primary-900);
   color: var(--color-primary-300);
 }
 
-.b-dark .bc-toolbar--floating .bc-toolbar__divider {
+.dark .bc-toolbar--floating .bc-toolbar__divider {
   background: var(--color-base-700);
 }

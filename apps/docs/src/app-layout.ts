@@ -19,7 +19,7 @@ export function AppLayout({ children }: { children: TNode }) {
     header: {
       content: Group(
         attr.class(
-          'h-full justify-between items-center bg-gray-100 beatui-dark:bg-gray-900'
+          'h-full justify-between items-center bg-gray-100 dark:bg-gray-900'
         ),
         Anchor(
           { href: '/', viewTransition: true },

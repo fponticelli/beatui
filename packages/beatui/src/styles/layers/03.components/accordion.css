@@ -147,31 +147,31 @@
 }
 
 /* Dark mode */
-.b-dark .bc-accordion--default {
+.dark .bc-accordion--default {
   border-color: var(--border-default);
 }
 
-.b-dark .bc-accordion--default .bc-accordion__item + .bc-accordion__item {
+.dark .bc-accordion--default .bc-accordion__item + .bc-accordion__item {
   border-top-color: var(--border-default);
 }
 
-.b-dark .bc-accordion--separated .bc-accordion__item {
+.dark .bc-accordion--separated .bc-accordion__item {
   border-color: var(--border-default);
 }
 
-.b-dark .bc-accordion__item {
+.dark .bc-accordion__item {
   background-color: var(--bg-background);
 }
 
-.b-dark .bc-accordion__header {
+.dark .bc-accordion__header {
   color: var(--text-normal);
 }
 
-.b-dark .bc-accordion__header:hover:not(:disabled) {
+.dark .bc-accordion__header:hover:not(:disabled) {
   background-color: var(--bg-subtle);
 }
 
-.b-dark .bc-accordion__body {
+.dark .bc-accordion__body {
   color: var(--text-normal);
 }
 

@@ -114,7 +114,7 @@
     align-items: flex-start;
   }
 
-  .b-dark .bc-notification {
+  .dark .bc-notification {
     --notification-bg: var(--bg-surface);
     --notification-border-color: var(--color-base-700);
   }

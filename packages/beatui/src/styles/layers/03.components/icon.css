@@ -8,7 +8,7 @@
   color: var(--icon-color, currentColor);
 }
 
-.b-dark .bc-icon {
+.dark .bc-icon {
   color: var(--icon-color-dark, var(--icon-color, currentColor));
 }
 
