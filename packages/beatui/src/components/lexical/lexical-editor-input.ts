@@ -1,7 +1,7 @@
 import { Renderable, Value, html, attr, aria, computedOf } from '@tempots/dom'
 import { InputContainer } from '../form/input/input-container'
 import { BareEditor } from './bare-editor'
-import type { LexicalInputOptions, EditorContent } from '../../lexical/types'
+import type { JsonContent, LexicalInputOptions } from '../../lexical/types'
 import type { LexicalEditor } from 'lexical'
 
 /**
@@ -105,15 +105,17 @@ export const LexicalEditorInput = (
         onReady,
         marks,
         onInput: formOnInput
-          ? (content: EditorContent, _editor: LexicalEditor) => {
+          ? (content: string | JsonContent, _editor: LexicalEditor) => {
               // Content type matches format (string for markdown/html, JsonContent for json)
-              ;(formOnInput as (content: EditorContent) => void)(content)
+              ;(formOnInput as (content: string | JsonContent) => void)(content)
             }
           : undefined,
         onChange: formOnChange
-          ? (content: EditorContent, _editor: LexicalEditor) => {
+          ? (content: string | JsonContent, _editor: LexicalEditor) => {
               // Content type matches format (string for markdown/html, JsonContent for json)
-              ;(formOnChange as (content: EditorContent) => void)(content)
+              ;(formOnChange as (content: string | JsonContent) => void)(
+                content
+              )
             }
           : undefined,
         onBlur: formOnBlur

@@ -16,8 +16,9 @@ import {
 } from '@tempots/beatui/lexical'
 import type {
   ContentFormatType,
-  EditorContent,
   EditorPresetType,
+  JsonContent,
+  LexicalEditorBaseOptions,
   PluginConfig,
   ToolbarGroupId,
 } from '@tempots/beatui/lexical'
@@ -285,7 +286,7 @@ const jsonSample = {
   },
 }
 
-const formatSamples: Record<ContentFormatType, EditorContent> = {
+const formatSamples = {
   markdown: markdownSample,
   html: htmlSample,
   json: jsonSample,
@@ -344,7 +345,7 @@ export default function LexicalEditorPage() {
   const isPluginEnabled = (key: keyof PluginConfig): Signal<boolean> =>
     pluginConfig.map(cfg => !!cfg[key])
 
-  const handleInput = (content: EditorContent) => {
+  const handleInput = (content: string | JsonContent) => {
     if (typeof content === 'string') {
       currentOutput.set(content)
     } else {
@@ -421,14 +422,14 @@ export default function LexicalEditorPage() {
           attr.class('flex-1 border rounded overflow-hidden'),
           style.minHeight('0'),
           MapSignal(editorConfig, ({ preset: p, format: f, plugins }) => {
-            const base = {
+            const base: LexicalEditorBaseOptions = {
               value: formatSamples[f],
               format: f,
               readOnly,
               plugins,
               onInput: handleInput,
               placeholder: 'Start typing...',
-            }
+            } as LexicalEditorBaseOptions
             switch (p) {
               case 'docked':
                 return DockedEditor({
