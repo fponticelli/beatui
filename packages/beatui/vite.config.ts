@@ -1,13 +1,77 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import { dirname, resolve } from 'path'
 import { generateCSSVariablesPlugin } from './scripts/vite-plugins'
 
 // Use import.meta.url for ESM
 const __dirname = dirname(new URL(import.meta.url).pathname)
 
+/**
+ * Rollup plugin that unwraps `new URL("data:...", import.meta.url).toString()`
+ * into a plain string literal.
+ *
+ * Vite's asset inlining converts CSS imports into base64 data URIs but keeps the
+ * `new URL(...)` wrapper. Consumer Vite builds then try to resolve the data URI
+ * as a relative file path, causing ENAMETOOLONG or 404 errors.
+ */
+function unwrapDataUriPlugin(): Plugin {
+  return {
+    name: 'unwrap-data-uri',
+    renderChunk(code) {
+      // Unwrap `new URL("data:...", <base>).toString()` → `"data:..."`.
+      // The base argument varies between ESM (`import.meta.url`) and CJS (a polyfill
+      // with nested parentheses). Since data URIs are absolute, the base is irrelevant.
+      // We use parenthesis balancing instead of a flat regex to handle the CJS case.
+      const MARKER = 'new URL("data:'
+      if (!code.includes(MARKER)) return null
+
+      let result = code
+      let searchFrom = 0
+      let changed = false
+
+      while (true) {
+        const idx = result.indexOf(MARKER, searchFrom)
+        if (idx === -1) break
+
+        // Extract the data URI (base64 never contains unescaped double-quotes)
+        const uriStart = idx + 'new URL("'.length
+        const uriEnd = result.indexOf('"', uriStart)
+        if (uriEnd === -1) break
+        const dataUri = result.substring(uriStart, uriEnd)
+
+        // Find the opening paren of new URL(
+        let i = idx + 'new URL'.length
+        // Balance parentheses to find the matching close
+        let depth = 0
+        for (; i < result.length; i++) {
+          if (result[i] === '(') depth++
+          else if (result[i] === ')') {
+            depth--
+            if (depth === 0) break
+          }
+        }
+
+        // Check that .toString() follows immediately
+        if (result.substring(i + 1, i + 12) === '.toString()') {
+          const replacement = `"${dataUri}"`
+          result =
+            result.substring(0, idx) +
+            replacement +
+            result.substring(i + 12)
+          searchFrom = idx + replacement.length
+          changed = true
+        } else {
+          searchFrom = idx + MARKER.length
+        }
+      }
+
+      return changed ? { code: result, map: null } : null
+    },
+  }
+}
+
 // Create a merged configuration for Vite and Vitest
 export default defineConfig({
-  plugins: [generateCSSVariablesPlugin()],
+  plugins: [generateCSSVariablesPlugin(), unwrapDataUriPlugin()],
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
