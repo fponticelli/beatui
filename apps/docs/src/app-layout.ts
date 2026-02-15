@@ -30,9 +30,7 @@ export function AppLayout({ children }: { children: TNode }) {
               attr.class('h-full'),
               attr.src(
                 appearance.map(a =>
-                  a === 'dark'
-                    ? '/beatui-logo-dark.svg'
-                    : '/beatui-logo.svg'
+                  a === 'dark' ? '/beatui-logo-dark.svg' : '/beatui-logo.svg'
                 )
               )
             )
