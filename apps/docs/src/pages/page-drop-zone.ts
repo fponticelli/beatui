@@ -49,11 +49,11 @@ export default function PageDropZonePage() {
           'Page-Level Drop Zone'
         ),
         html.p(
-          attr.class('text-gray-600 mb-4'),
+          attr.class('text-gray-600 dark:text-gray-400 mb-4'),
           'This component detects when you drag files from your filesystem anywhere over the page. Try dragging a file from your computer onto this page!'
         ),
         html.ul(
-          attr.class('list-disc list-inside space-y-2 text-gray-600'),
+          attr.class('list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400'),
           html.li('Drag files from your filesystem over the page'),
           html.li('An overlay will appear when files are detected'),
           html.li('Drop the files to see them listed below'),
@@ -96,7 +96,7 @@ export default function PageDropZonePage() {
                   attr.class('flex-1'),
                   html.div(attr.class('font-medium'), file.$.name),
                   html.div(
-                    attr.class('text-sm text-gray-500'),
+                    attr.class('text-sm text-gray-500 dark:text-gray-400'),
                     file.$.size.map(v => `${(v / 1024).toFixed(2)} KB`),
                     ' - ',
                     file.$.type.map(v => v ?? 'unknown type')

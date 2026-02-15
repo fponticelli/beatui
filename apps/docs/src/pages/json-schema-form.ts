@@ -186,7 +186,7 @@ export default function JSONSchemaFormPage() {
             },
             () =>
               html.div(
-                attr.class('text-red-600'),
+                attr.class('text-red-600 dark:text-red-400'),
                 'Invalid JSON: ',
                 schemaError.map(String)
               )
@@ -206,7 +206,7 @@ export default function JSONSchemaFormPage() {
                     attr.class('list-disc pl--5 text-sm space-y-1'),
                     ForEach(errors, error =>
                       html.li(
-                        html.span(attr.class('text-red-700'), error.$.message),
+                        html.span(attr.class('text-red-700 dark:text-red-300'), error.$.message),
                         html.code(
                           attr.class('ml--2 opacity-70'),
                           error.$.path.map(v => `(${v})`)

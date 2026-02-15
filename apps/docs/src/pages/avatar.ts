@@ -20,7 +20,7 @@ export default function AvatarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Avatar – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display user avatars with initials or icon fallbacks.'
           ),
           html.div(
@@ -40,7 +40,7 @@ export default function AvatarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Avatars come in six different sizes from xs to 2xl.'
           ),
           html.div(
@@ -62,7 +62,7 @@ export default function AvatarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Variants & Colors'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Circle or square variants with different theme colors.'
           ),
           html.div(
@@ -106,7 +106,7 @@ export default function AvatarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Bordered & Icons'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Avatars with borders or custom icons as fallbacks.'
           ),
           html.div(
@@ -148,7 +148,7 @@ export default function AvatarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Avatar Groups'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Group multiple avatars with overlapping or normal spacing.'
           ),
           html.div(

@@ -75,7 +75,7 @@ export default function ToggleButtonPage() {
       // Basic toggle
       html.h3(attr.class('text-lg font-semibold'), 'Basic Toggle Button'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Click to toggle between pressed and unpressed states.'
       ),
       Group(

@@ -86,7 +86,7 @@ export default function AuthenticationComponentsPage() {
         () =>
           html.div(
             attr.class(
-              'bg-cyan-200 text-gray-800 p-4 rounded-lg mb-6 text-sm font-mono whitespace-pre-wrap'
+              'bg-cyan-200 dark:bg-cyan-800 text-gray-800 dark:text-gray-200 p-4 rounded-lg mb-6 text-sm font-mono whitespace-pre-wrap'
             ),
             demoMessage
           )

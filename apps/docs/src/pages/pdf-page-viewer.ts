@@ -50,7 +50,7 @@ export default function PdfPageViewerPage() {
             step: 1,
           }),
           html.span(
-            attr.class('text-sm text-gray-600 whitespace-nowrap'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap'),
             '/',
             totalPages.map(String)
           )
@@ -139,7 +139,7 @@ export default function PdfPageViewerPage() {
       )
     ),
     body: html.div(
-      attr.class('h-full w-full overflow-hidden bg-gray-100 p-4'),
+      attr.class('h-full w-full overflow-hidden bg-gray-100 dark:bg-gray-800 p-4'),
       html.div(
         attr.class('h-full w-full flex justify-center items-center'),
         PdfPageViewer(

@@ -13,7 +13,7 @@ export default function RadioGroupPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'RadioGroup – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Select one option from a list of mutually exclusive choices.'
           ),
           (() => {
@@ -30,7 +30,7 @@ export default function RadioGroupPage() {
                 onChange: selected.set,
               }),
               html.p(
-                attr.class('text-sm text-gray-600'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400'),
                 'Selected: ',
                 html.span(
                   attr.class('font-medium'),
@@ -49,7 +49,7 @@ export default function RadioGroupPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Descriptions'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Add descriptions to provide more context for each option.'
           ),
           (() => {
@@ -88,7 +88,7 @@ export default function RadioGroupPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Orientation & Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display options horizontally or vertically in different sizes.'
           ),
           html.div(
@@ -143,7 +143,7 @@ export default function RadioGroupPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Disabled Options'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Disable specific options or the entire radio group.'
           ),
           html.div(

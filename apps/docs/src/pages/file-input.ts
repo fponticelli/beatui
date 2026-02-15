@@ -67,7 +67,7 @@ export default function FileInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Interactive Example'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'Try the file input with different settings using the controls above.'
           ),
 
@@ -88,7 +88,7 @@ export default function FileInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Image Files Only'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'File input that only accepts image files with a 2MB size limit per file and maximum of 3 files.'
           ),
 
@@ -111,7 +111,7 @@ export default function FileInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Compact Mode'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'Compact mode renders the file list inside the drop area and reduces space when no files are selected.'
           ),
 
@@ -135,7 +135,7 @@ export default function FileInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Form Integration'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'File controls integrated with form validation using FileControl component.'
           ),
 

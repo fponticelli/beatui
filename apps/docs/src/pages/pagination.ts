@@ -13,7 +13,7 @@ export default function PaginationPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Pagination – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Navigate through multiple pages of content with page numbers and controls.'
           ),
           (() => {
@@ -29,7 +29,7 @@ export default function PaginationPage() {
                 },
               }),
               html.p(
-                attr.class('text-sm text-gray-600 text-center'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400 text-center'),
                 'Current page: ',
                 html.span(
                   attr.class('font-medium'),
@@ -52,7 +52,7 @@ export default function PaginationPage() {
             'With First/Last Buttons'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Add first and last page buttons for quick navigation.'
           ),
           (() => {
@@ -66,7 +66,7 @@ export default function PaginationPage() {
                 showFirstLast: true,
               }),
               html.p(
-                attr.class('text-sm text-gray-600 text-center'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400 text-center'),
                 'Page ',
                 html.span(
                   attr.class('font-medium'),
@@ -86,7 +86,7 @@ export default function PaginationPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Pagination controls in different sizes.'
           ),
           html.div(
@@ -132,7 +132,7 @@ export default function PaginationPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Justified Layout'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Distribute pagination items across the full available width.'
           ),
           (() => {
@@ -147,7 +147,7 @@ export default function PaginationPage() {
                 justify: true,
               }),
               html.p(
-                attr.class('text-sm text-gray-600 text-center'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400 text-center'),
                 'Page ',
                 html.span(
                   attr.class('font-medium'),
@@ -167,7 +167,7 @@ export default function PaginationPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Different Scenarios'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Pagination behavior with different page counts and positions.'
           ),
           html.div(

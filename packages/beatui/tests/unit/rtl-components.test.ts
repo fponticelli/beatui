@@ -49,7 +49,7 @@ describe('RTL Component Behavior', () => {
       expect(offLabel?.textContent).toBe('إيقاف')
     })
 
-    it('should apply correct thumb positioning in RTL mode', async () => {
+    it('should apply correct thumb class in off state', () => {
       const value = prop(false)
 
       render(
@@ -68,26 +68,13 @@ describe('RTL Component Behavior', () => {
       const thumb = container.querySelector('.bc-switch__thumb') as HTMLElement
       expect(thumb).toBeTruthy()
 
-      // Switch behavior using transform translateX
-      // When switch is off (false), thumb should be at the start (translateX(0))
-      const transform = thumb.style.transform
-      expect(transform).toBe('translateX(0)')
-
-      // Toggle the switch to on
-      value.set(true)
-
-      // Wait for reactive update
-      await new Promise(resolve => setTimeout(resolve, 10))
-
-      // When switch is on (true), thumb should be at the end
-      // Since ElementRect returns 0px width in test environment, we get calc with proper thumb size
-      const newTransform = thumb.style.transform
-      expect(newTransform).toContain(
-        'translateX(calc((var(--spacing-base) * 6) - 0px))'
-      )
+      // Thumb positioning is now CSS-driven via classes.
+      // When off, thumb should have the --off class (positioned at start via CSS inset-inline-start: 0)
+      expect(thumb.classList.contains('bc-switch__thumb--off')).toBe(true)
+      expect(thumb.classList.contains('bc-switch__thumb--on')).toBe(false)
     })
 
-    it('should apply correct thumb positioning in LTR mode', async () => {
+    it('should toggle thumb class between on and off', async () => {
       const value = prop(false)
 
       render(
@@ -106,9 +93,8 @@ describe('RTL Component Behavior', () => {
       const thumb = container.querySelector('.bc-switch__thumb') as HTMLElement
       expect(thumb).toBeTruthy()
 
-      // In LTR mode, when switch is off (false), thumb should be at the start (translateX(0))
-      const transform = thumb.style.transform
-      expect(transform).toBe('translateX(0)')
+      // Off state
+      expect(thumb.classList.contains('bc-switch__thumb--off')).toBe(true)
 
       // Toggle the switch to on
       value.set(true)
@@ -116,22 +102,18 @@ describe('RTL Component Behavior', () => {
       // Wait for reactive update
       await new Promise(resolve => setTimeout(resolve, 10))
 
-      // In LTR mode, when switch is on (true), thumb should be at the end
-      // Since ElementRect returns 0px width in test environment, we get calc with proper thumb size
-      const newTransform = thumb.style.transform
-      expect(newTransform).toContain(
-        'translateX(calc(0px - (var(--spacing-base) * 6)))'
-      )
+      // On state — CSS handles positioning via inset-inline-start
+      expect(thumb.classList.contains('bc-switch__thumb--on')).toBe(true)
+      expect(thumb.classList.contains('bc-switch__thumb--off')).toBe(false)
     })
 
-    it('should maintain consistent thumb positioning regardless of direction', async () => {
+    it('should use CSS class for positioning regardless of direction', async () => {
       const value = prop(true) // Start with switch on
-      let capturedSetLocale: ((locale: string) => void) | undefined
 
       render(
         Provide(Locale, {}, () =>
           Use(Locale, ({ setLocale }) => {
-            capturedSetLocale = setLocale
+            setLocale('en-US')
             return Switch({
               value,
               onChange: () => {},
@@ -144,29 +126,9 @@ describe('RTL Component Behavior', () => {
       const thumb = container.querySelector('.bc-switch__thumb') as HTMLElement
       expect(thumb).toBeTruthy()
 
-      // Start with LTR - switch on should be at end (translateX with distance)
-      capturedSetLocale!('en-US')
-      await new Promise(resolve => setTimeout(resolve, 10))
-      let transform = thumb.style.transform
-      expect(transform).toContain(
-        'translateX(calc(0px - (var(--spacing-base) * 6)))'
-      )
-
-      // Switch to RTL - switch on should be at different position (RTL behavior)
-      capturedSetLocale!('ar-SA')
-      await new Promise(resolve => setTimeout(resolve, 10))
-      transform = thumb.style.transform
-      expect(transform).toContain(
-        'translateX(calc((var(--spacing-base) * 6) - 0px))'
-      )
-
-      // Switch back to LTR - should return to LTR position
-      capturedSetLocale!('en-US')
-      await new Promise(resolve => setTimeout(resolve, 10))
-      transform = thumb.style.transform
-      expect(transform).toContain(
-        'translateX(calc(0px - (var(--spacing-base) * 6)))'
-      )
+      // Thumb positioning is CSS-driven via inset-inline-start (logical property).
+      // RTL is handled automatically by the browser — no JS direction logic needed.
+      expect(thumb.classList.contains('bc-switch__thumb--on')).toBe(true)
     })
   })
 

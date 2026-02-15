@@ -196,6 +196,7 @@ export function Menu() {
       // ── Utilities ──
       SidebarGroup(
         { header: SectionHeader('lucide:wrench', 'Utilities'), rail: true },
+        SidebarLink({ href: '/css-variables', content: 'CSS Variables' }),
         SidebarLink({ href: '/breakpoint', content: 'Breakpoint' }),
         SidebarLink({ href: '/temporal', content: 'Temporal' }),
         SidebarLink({ href: '/rtl-ltr', content: 'RTL/LTR Support' }),

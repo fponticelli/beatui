@@ -152,12 +152,12 @@ export default function JSONSchemaDisplayPage() {
                 },
                 () =>
                   html.div(
-                    attr.class('text-red-600'),
+                    attr.class('text-red-600 dark:text-red-400'),
                     'Invalid JSON: ',
                     dataError.map(String)
                   )
               ),
-            () => html.div(attr.class('text-neutral-500'), 'Loading schema...')
+            () => html.div(attr.class('text-neutral-500 dark:text-neutral-400'), 'Loading schema...')
           ),
         }),
         // Schema panel

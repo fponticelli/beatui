@@ -16,9 +16,10 @@ describe('generateSemanticTokenVariables', () => {
     expect(variables['--motion-transition-fast']).toBe(
       'var(--motion-duration-fast)'
     )
-    expect(variables['--motion-easing-standard']).toBe(
-      'var(--motion-easing-standard)'
-    )
+    // --motion-easing-standard is intentionally omitted from semantic tokens
+    // because the semantic name matches the core name, which would create a
+    // circular CSS self-reference. The core token definition is used instead.
+    expect(variables['--motion-easing-standard']).toBeUndefined()
     expect(variables['--spacing-stack-sm']).toBe('calc(var(--spacing-base) * 2)')
     expect(variables['--text-shadow-button-filled']).toBe(
       'var(--text-shadow-sm)'

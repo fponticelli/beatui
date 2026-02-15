@@ -56,7 +56,7 @@ export default function AuthenticationPage() {
       demoMessage.map(v => v.length > 0),
       () =>
         html.div(
-          attr.class('bg-green-100 text-green-800 p-3 rounded-lg text-sm'),
+          attr.class('bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-3 rounded-lg text-sm'),
           demoMessage
         )
     ),
@@ -98,7 +98,7 @@ export default function AuthenticationPage() {
         'Auth Modal (Modal Wrapper)'
       ),
       html.p(
-        attr.class('text-gray-600 mb-4 text-center'),
+        attr.class('text-gray-600 dark:text-gray-400 mb-4 text-center'),
         'Click the button below to open the authentication form in a modal.'
       ),
       AuthModal(open =>

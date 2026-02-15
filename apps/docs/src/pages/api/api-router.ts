@@ -24,7 +24,7 @@ export function ApiRouter() {
           pending: () => html.div(attr.class('p-6'), 'Loading API data...'),
           error: () =>
             html.div(
-              attr.class('p-6 text-red-600'),
+              attr.class('p-6 text-red-600 dark:text-red-400'),
               'Failed to load API data. Run ',
               html.code('pnpm --filter @beatui/docs run gen:api'),
               ' first.'
@@ -45,7 +45,7 @@ export function ApiRouter() {
               Stack(
                 attr.class('max-w-320 mx-auto'),
                 html.nav(
-                  attr.class('text-sm text-gray-500 mb-4'),
+                  attr.class('text-sm text-gray-500 dark:text-gray-400 mb-4'),
                   Anchor(
                     { href: '/api', viewTransition: true },
                     attr.class('hover:underline'),
@@ -59,7 +59,7 @@ export function ApiRouter() {
                   moduleInfo.displayName
                 ),
                 html.p(
-                  attr.class('text-sm text-gray-500 mb-6'),
+                  attr.class('text-sm text-gray-500 dark:text-gray-400 mb-6'),
                   `@tempots/beatui${slug === 'main' ? '' : '/' + slug}`
                 ),
                 renderComment(mod.comment),
@@ -82,7 +82,7 @@ export function ApiRouter() {
           pending: () => html.div(attr.class('p-6'), 'Loading...'),
           error: () =>
             html.div(
-              attr.class('p-6 text-red-600'),
+              attr.class('p-6 text-red-600 dark:text-red-400'),
               'Failed to load API data.'
             ),
           then: project => {
@@ -100,7 +100,7 @@ export function ApiRouter() {
               Stack(
                 attr.class('max-w-320 mx-auto'),
                 html.nav(
-                  attr.class('text-sm text-gray-500 mb-4'),
+                  attr.class('text-sm text-gray-500 dark:text-gray-400 mb-4'),
                   Anchor(
                     { href: '/api', viewTransition: true },
                     attr.class('hover:underline'),

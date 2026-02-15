@@ -83,7 +83,7 @@ export default function FormPage() {
           style.width('24rem'),
           html.h3(attr.class('text-lg font-semibold mt-4'), 'Layout Examples'),
           html.p(
-            attr.class('text-sm text-gray-600 mb-2'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400 mb-2'),
             'Demonstrating different InputWrapper layout options'
           ),
           Control(TextInput, {

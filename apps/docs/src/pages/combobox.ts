@@ -63,7 +63,7 @@ export default function ComboboxPage() {
         attr.class('gap-2 items-center'),
         html.span(attr.class('font-medium'), f.$.name),
         html.span(
-          attr.class('text-xs text-gray-500'),
+          attr.class('text-xs text-gray-500 dark:text-gray-400'),
           f.$.id.map(id => `(${id})`)
         )
       )
@@ -92,9 +92,9 @@ export default function ComboboxPage() {
     body: Stack(
       attr.class('p-6 gap-8'),
 
-      html.h1(attr.class('text-3xl font-bold text-gray-600'), 'Combobox'),
+      html.h1(attr.class('text-3xl font-bold text-gray-600 dark:text-gray-400'), 'Combobox'),
       html.p(
-        attr.class('text-lg text-gray-500'),
+        attr.class('text-lg text-gray-500 dark:text-gray-400'),
         'Searchable dropdown with dynamic options and custom renderers.'
       ),
 
@@ -102,11 +102,11 @@ export default function ComboboxPage() {
       Stack(
         attr.class('gap-4'),
         html.h2(
-          attr.class('text-2xl font-semibold text-gray-600'),
+          attr.class('text-2xl font-semibold text-gray-600 dark:text-gray-400'),
           'Basic Usage'
         ),
         html.p(
-          attr.class('text-gray-500'),
+          attr.class('text-gray-500 dark:text-gray-400'),
           'Type to search and load matching fruits.'
         ),
         Group(
@@ -115,7 +115,7 @@ export default function ComboboxPage() {
             attr.class('gap-2'),
             style.width('20rem'),
             html.label(
-              attr.class('text-sm font-medium text-gray-600'),
+              attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
               'Select a fruit:'
             ),
             ComboboxInput<Fruit | null>({
@@ -130,7 +130,7 @@ export default function ComboboxPage() {
             })
           ),
           html.div(
-            attr.class('text-sm text-gray-500'),
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
             'Selected: ',
             basicValue.map(v => (v ? v.name : 'None'))
           )
@@ -141,11 +141,11 @@ export default function ComboboxPage() {
       Stack(
         attr.class('gap-4'),
         html.h2(
-          attr.class('text-2xl font-semibold text-gray-600'),
+          attr.class('text-2xl font-semibold text-gray-600 dark:text-gray-400'),
           'Form Integration'
         ),
         html.p(
-          attr.class('text-gray-500'),
+          attr.class('text-gray-500 dark:text-gray-400'),
           'Combobox works with BeatUI form controllers.'
         ),
         Group(
@@ -165,7 +165,7 @@ export default function ComboboxPage() {
             })
           ),
           html.div(
-            attr.class('text-sm text-gray-500'),
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
             'Controller value: ',
             fruitController.signal.map(v => (v ? v.name : 'None'))
           )

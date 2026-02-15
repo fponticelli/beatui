@@ -59,6 +59,8 @@ export type ComboboxOptions<T> = Merge<
     searchPlaceholder?: Value<string>
     /** Debounce delay in milliseconds for the search query. @default 150 */
     debounceMs?: number
+    /** Whether to auto-focus the search input when the dropdown opens. @default true */
+    autoFocusSearch?: boolean
   }
 >
 
@@ -212,6 +214,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
     placeholder,
     searchPlaceholder,
     debounceMs = 150,
+    autoFocusSearch = true,
   } = options
 
   const searchText = prop('')
@@ -265,8 +268,9 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
       requestLoad(current)
     },
     onAfterOpen: () => {
-      // Focus the search input after open
-      searchInputElement?.focus()
+      if (autoFocusSearch) {
+        searchInputElement?.focus()
+      }
     },
     buildListboxContent: ({ focusedValue, handleKeyDown, onSelect }) =>
       Fragment(

@@ -41,7 +41,7 @@ export default function OTPInputPage() {
       // Basic 6-digit OTP
       html.h3(attr.class('text-lg font-semibold'), '6-Digit OTP Input'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Value: ',
         otpValue.map((v: string) => v || '(empty)')
       ),
@@ -58,7 +58,7 @@ export default function OTPInputPage() {
       // 4-digit masked PIN
       html.h3(attr.class('text-lg font-semibold mt-4'), '4-Digit PIN (Masked)'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Value: ',
         pinValue.map((v: string) => v || '(empty)')
       ),
@@ -90,7 +90,7 @@ export default function OTPInputPage() {
       ...(['xs', 'sm', 'md', 'lg', 'xl'] as ControlSize[]).map(s =>
         html.div(
           attr.class('mb-3'),
-          html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
+          html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
           OTPInput({
             value: prop(''),
             onChange: () => {},
@@ -107,7 +107,7 @@ export default function OTPInputPage() {
         color =>
           html.div(
             attr.class('mb-3'),
-            html.p(attr.class('text-sm text-gray-500 mb-1'), color),
+            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), color),
             OTPInput({
               value: prop(''),
               onChange: () => {},

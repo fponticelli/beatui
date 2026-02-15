@@ -66,7 +66,7 @@ export default function ToggleButtonGroupPage() {
       // Single selection
       html.h3(attr.class('text-lg font-semibold'), 'Single Selection'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Only one item can be active at a time. Clicking the active item deselects it.'
       ),
       ...(() => {
@@ -98,7 +98,7 @@ export default function ToggleButtonGroupPage() {
             disabled,
           }),
           html.p(
-            attr.class('text-xs text-gray-500'),
+            attr.class('text-xs text-gray-500 dark:text-gray-400'),
             'Selected: ',
             alignment.map(v => (v.length ? v.join(', ') : '(none)'))
           ),
@@ -108,7 +108,7 @@ export default function ToggleButtonGroupPage() {
       // Multiple selection
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Multiple Selection'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Multiple items can be active simultaneously, like a text formatting toolbar.'
       ),
       ...(() => {
@@ -135,7 +135,7 @@ export default function ToggleButtonGroupPage() {
             disabled,
           }),
           html.p(
-            attr.class('text-xs text-gray-500'),
+            attr.class('text-xs text-gray-500 dark:text-gray-400'),
             'Selected: ',
             formats.map(v => (v.length ? v.join(', ') : '(none)'))
           ),
@@ -145,7 +145,7 @@ export default function ToggleButtonGroupPage() {
       // Vertical orientation
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Vertical Orientation'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Buttons stacked vertically with connected borders.'
       ),
       ...(() => {
@@ -191,7 +191,7 @@ export default function ToggleButtonGroupPage() {
       // Colors
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Colors'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'The pressed state uses the specified theme color.'
       ),
       Stack(
@@ -221,7 +221,7 @@ export default function ToggleButtonGroupPage() {
       // Roundedness
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Roundedness'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'The outer corners of the group can use any radius preset.'
       ),
       Stack(
@@ -254,7 +254,7 @@ export default function ToggleButtonGroupPage() {
         'Individual Disabled Items'
       ),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Specific items within the group can be disabled independently.'
       ),
       ...(() => {

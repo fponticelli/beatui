@@ -19,7 +19,7 @@ export default function EmptyStatePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'EmptyState – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display an empty state when no content is available.'
           ),
           EmptyState({
@@ -36,7 +36,7 @@ export default function EmptyStatePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Icon'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Add an icon to make the empty state more expressive.'
           ),
           html.div(
@@ -62,7 +62,7 @@ export default function EmptyStatePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Action'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Include a call-to-action button to guide users.'
           ),
           html.div(
@@ -96,7 +96,7 @@ export default function EmptyStatePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Empty states come in three sizes: small, medium, and large.'
           ),
           html.div(

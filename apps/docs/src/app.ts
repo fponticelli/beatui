@@ -100,6 +100,8 @@ export const App = () => {
           Async(import('./pages/color-swatch'), ({ default: Page }) => Page()),
         '/editable-text': () =>
           Async(import('./pages/editable-text'), ({ default: Page }) => Page()),
+        '/css-variables': () =>
+          Async(import('./pages/css-variables'), ({ default: Page }) => Page()),
         '/breakpoint': () =>
           Async(import('./pages/breakpoint'), ({ default: Page }) => Page()),
         '/nine-slice-scroll-view': () =>

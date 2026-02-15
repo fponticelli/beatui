@@ -22,7 +22,7 @@ export default function ColorInputPage() {
           attr.class('gap-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Basic Color Swatch'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'A simple color swatch that updates a preview box.'
           ),
           Group(
@@ -36,7 +36,7 @@ export default function ColorInputPage() {
               }),
             }),
             html.div(
-              attr.class('w-16 h-16 rounded-full border-2 border-gray-300'),
+              attr.class('w-16 h-16 rounded-full border-2 border-gray-300 dark:border-gray-600'),
               style.backgroundColor(colorA)
             ),
             Stack(

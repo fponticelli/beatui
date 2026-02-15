@@ -38,7 +38,7 @@ export default function TagsInputPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Basic TagsInput'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Type a tag, then unfocus the field (or submit the change) to add it. Click × to remove.'
           ),
           InputWrapper({
@@ -52,7 +52,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('text-sm text-gray-500'),
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
             html.strong('Current value: '),
             tags.map(list => list.join(', '))
           )
@@ -79,7 +79,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('text-sm text-gray-500'),
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
             html.strong('Current value: '),
             selectedColors1.map(list => list.join(', '))
           )
@@ -107,7 +107,7 @@ export default function TagsInputPage() {
             }),
           }),
           html.div(
-            attr.class('text-sm text-gray-500'),
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
             html.strong('Current value: '),
             selectedColors2.map(list => list.join(', '))
           )

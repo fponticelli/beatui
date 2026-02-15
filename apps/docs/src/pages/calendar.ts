@@ -41,7 +41,7 @@ export default function CalendarPage() {
       // Basic
       html.h3(attr.class('text-lg font-semibold'), 'Basic Calendar'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Selected: ',
         selectedDate.map(d => (d != null ? d.toLocaleDateString() : 'None'))
       ),
@@ -58,7 +58,7 @@ export default function CalendarPage() {
         'With Date Constraints'
       ),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Only dates in the current month are selectable.'
       ),
       (() => {
@@ -104,7 +104,7 @@ export default function CalendarPage() {
         ).map(color => {
           const colorDate = prop<Date | null>(new Date())
           return Stack(
-            html.p(attr.class('text-sm text-gray-500 mb-1'), color),
+            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), color),
             DateCalendar({
               value: colorDate,
               onSelect: colorDate.set,
@@ -119,14 +119,14 @@ export default function CalendarPage() {
       // Date Range
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Date Range'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Click two dates to select a range. Hover to preview.'
       ),
       (() => {
         const range = prop<[Date, Date] | null>(null)
         return Stack(
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Range: ',
             range.map(r =>
               r != null
@@ -150,7 +150,7 @@ export default function CalendarPage() {
         ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s => {
           const sizeDate = prop<Date | null>(null)
           return Stack(
-            html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
+            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
             DateCalendar({
               value: sizeDate,
               onSelect: sizeDate.set,

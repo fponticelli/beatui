@@ -169,7 +169,13 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
             focusedIndex.set(0)
             focusedValue.set(selectable[0])
           }
-          setTimeout(() => onAfterOpen?.(), 0)
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                onAfterOpen?.()
+              })
+            })
+          }, 0)
         }
         break
       }
@@ -289,8 +295,17 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
                   focusedValue.set(selectable[0])
                 }
                 flyoutShow()
-                // Defer to allow DOM to mount (e.g., focusing search input)
-                setTimeout(() => onAfterOpen?.(), 0)
+                // Defer until the flyout animation has started (start-opening)
+                // so the content is visible and focusable.
+                // The flyout opens in setTimeout(0) → rAF → start-opening,
+                // so we need setTimeout(0) → rAF → rAF to run after that.
+                setTimeout(() => {
+                  requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                      onAfterOpen?.()
+                    })
+                  })
+                }, 0)
               }
             }
 

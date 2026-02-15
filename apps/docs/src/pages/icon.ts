@@ -23,7 +23,7 @@ function DisplayIcon({
 }) {
   return html.div(
     attr.class(
-      'flex flex-col items-center p-2 rounded hover:bg-gray-200 cursor-pointer'
+      'flex flex-col items-center p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer'
     ),
     html.div(
       attr.class('mb-2'),
@@ -34,7 +34,7 @@ function DisplayIcon({
         title: value as Value<string | undefined>,
       })
     ),
-    html.div(attr.class('text-xs text-gray-600 text-center break-all'), value)
+    html.div(attr.class('text-xs text-gray-600 dark:text-gray-400 text-center break-all'), value)
   )
 }
 

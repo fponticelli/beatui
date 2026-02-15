@@ -41,7 +41,7 @@ export default function SegmentedControlPage() {
       // Pill vs Squared comparison
       html.h3(attr.class('text-lg font-semibold'), 'Pill vs Squared'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'The squared variant uses control-like border-radius and matches TextInput height.'
       ),
       Group(
@@ -78,7 +78,7 @@ export default function SegmentedControlPage() {
       // Color variations
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Color Variations'),
       html.p(
-        attr.class('text-sm text-gray-600'),
+        attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'The color option applies solid button-style coloring to the active indicator.'
       ),
       Stack(

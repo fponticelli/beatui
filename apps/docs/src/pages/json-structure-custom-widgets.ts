@@ -43,7 +43,7 @@ function FancyEmailWidget({
       '📧'
     ),
     after: html.span(
-      attr.class('text-xs text-gray-500'),
+      attr.class('text-xs text-gray-500 dark:text-gray-400'),
       'This is a custom widget!'
     ),
   })
@@ -77,13 +77,13 @@ function UuidWidget({
       isValid,
       () =>
         html.span(
-          attr.class('text-green-600'),
+          attr.class('text-green-600 dark:text-green-400'),
           style.fontSize('0.75rem'),
           '✓ Valid UUID'
         ),
       () =>
         html.span(
-          attr.class('text-orange-600'),
+          attr.class('text-orange-600 dark:text-orange-400'),
           style.fontSize('0.75rem'),
           '⚠ Invalid format'
         )
@@ -109,7 +109,7 @@ function PhoneWidget({
     description: 'Type + Format based custom widget',
     placeholder: '+1 (555) 123-4567',
     before: html.span(
-      attr.class('text-blue-500'),
+      attr.class('text-blue-500 dark:text-blue-400'),
       style.fontSize('1.2rem'),
       '📱'
     ),
@@ -153,7 +153,7 @@ function PercentageWidget({
       })
     ),
     html.div(
-      attr.class('flex justify-between text-xs text-gray-500 mt-1'),
+      attr.class('flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1'),
       html.span('0%'),
       html.span('50%'),
       html.span('100%')
@@ -341,12 +341,12 @@ export default function JSONStructureCustomWidgetsPage() {
                   html.strong('Explicit x:ui matching'),
                   ' - Use ',
                   html.code(
-                    attr.class('bg-gray-100 px-1 rounded'),
+                    attr.class('bg-gray-100 dark:bg-gray-800 px-1 rounded'),
                     'matcher with x:ui check'
                   ),
                   html.br(),
                   html.span(
-                    attr.class('text-xs text-gray-600'),
+                    attr.class('text-xs text-gray-600 dark:text-gray-400'),
                     'Matches schema fields with x:ui property'
                   )
                 ),
@@ -355,12 +355,12 @@ export default function JSONStructureCustomWidgetsPage() {
                   html.strong('Format-based matching'),
                   ' - Use ',
                   html.code(
-                    attr.class('bg-gray-100 px-1 rounded'),
+                    attr.class('bg-gray-100 dark:bg-gray-800 px-1 rounded'),
                     "forFormat('uuid', factory)"
                   ),
                   html.br(),
                   html.span(
-                    attr.class('text-xs text-gray-600'),
+                    attr.class('text-xs text-gray-600 dark:text-gray-400'),
                     'Matches ALL fields with specific format'
                   )
                 ),
@@ -369,12 +369,12 @@ export default function JSONStructureCustomWidgetsPage() {
                   html.strong('Type + Format matching'),
                   ' - Use ',
                   html.code(
-                    attr.class('bg-gray-100 px-1 rounded'),
+                    attr.class('bg-gray-100 dark:bg-gray-800 px-1 rounded'),
                     "forTypeAndFormat('string', 'phone', factory)"
                   ),
                   html.br(),
                   html.span(
-                    attr.class('text-xs text-gray-600'),
+                    attr.class('text-xs text-gray-600 dark:text-gray-400'),
                     'Matches specific type + format combinations'
                   )
                 ),
@@ -383,12 +383,12 @@ export default function JSONStructureCustomWidgetsPage() {
                   html.strong('Custom matcher function'),
                   ' - Use ',
                   html.code(
-                    attr.class('bg-gray-100 px-1 rounded'),
+                    attr.class('bg-gray-100 dark:bg-gray-800 px-1 rounded'),
                     'forMatcher((ctx) => boolean, factory)'
                   ),
                   html.br(),
                   html.span(
-                    attr.class('text-xs text-gray-600'),
+                    attr.class('text-xs text-gray-600 dark:text-gray-400'),
                     'Most flexible - inspect StructureContext and decide'
                   )
                 )
@@ -413,7 +413,7 @@ export default function JSONStructureCustomWidgetsPage() {
             html.section(
               html.h4(attr.class('font-semibold text-base mb-2'), '💡 Example'),
               html.pre(
-                attr.class('bg-gray-50 p-3 rounded text-xs overflow-x-auto'),
+                attr.class('bg-gray-50 dark:bg-gray-800 p-3 rounded text-xs overflow-x-auto'),
                 html.code(
                   `import {
   JSONStructureForm,

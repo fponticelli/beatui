@@ -79,7 +79,7 @@ export default function ColorSwatchPage() {
         attr.class('gap-2'),
         html.h1(attr.class('text-3xl font-bold'), 'Color Swatch'),
         html.p(
-          attr.class('text-gray-600-600'),
+          attr.class('text-gray-600 dark:text-gray-400'),
           'Interactive color swatch component with validation and format conversion.'
         )
       ),
@@ -91,7 +91,7 @@ export default function ColorSwatchPage() {
           attr.class('gap-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Basic Color Swatch'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'A simple color swatch that updates a preview box.'
           ),
           Group(
@@ -105,7 +105,7 @@ export default function ColorSwatchPage() {
               }),
             }),
             html.div(
-              attr.class('w-16 h-16 rounded-lg border-2 border-gray-300'),
+              attr.class('w-16 h-16 rounded-lg border-2 border-gray-300 dark:border-gray-600'),
               style.backgroundColor(simpleColor)
             ),
             Stack(
@@ -123,7 +123,7 @@ export default function ColorSwatchPage() {
           attr.class('gap-6'),
           html.h2(attr.class('text-xl font-semibold'), 'Color Theme Designer'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Design a color theme with validation and real-time preview.'
           ),
 
@@ -264,10 +264,10 @@ export default function ColorSwatchPage() {
                     contrastRatio.map((ratio): string => {
                       const r = parseFloat(ratio)
                       return r >= 4.5
-                        ? 'text-green-600'
+                        ? 'text-green-600 dark:text-green-400'
                         : r >= 3
-                          ? 'text-yellow-600'
-                          : 'text-red-600'
+                          ? 'text-yellow-600 dark:text-yellow-400'
+                          : 'text-red-600 dark:text-red-400'
                     })
                   ),
                   contrastRatio.map((ratio): string => {

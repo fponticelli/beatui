@@ -66,7 +66,7 @@ export default function MenuPage() {
         html.section(
           html.h2(attr.class('text-xl font-semibold mb-4'), 'Basic Menu'),
           html.p(
-            attr.class('text-gray-500 mb-4'),
+            attr.class('text-gray-500 dark:text-gray-400 mb-4'),
             'A simple menu with basic items and actions.'
           ),
           html.div(
@@ -108,7 +108,7 @@ export default function MenuPage() {
             'Menu with Separators'
           ),
           html.p(
-            attr.class('text-gray-500 mb-4'),
+            attr.class('text-gray-500 dark:text-gray-400 mb-4'),
             'Organize menu items into logical groups using separators.'
           ),
           html.div(
@@ -177,7 +177,7 @@ export default function MenuPage() {
             'Menu with Disabled Items'
           ),
           html.p(
-            attr.class('text-gray-500 mb-4'),
+            attr.class('text-gray-500 dark:text-gray-400 mb-4'),
             'Some menu items can be disabled to indicate unavailable actions.'
           ),
           html.div(
@@ -240,7 +240,7 @@ export default function MenuPage() {
             'Menu with Submenus'
           ),
           html.p(
-            attr.class('text-gray-500 mb-4'),
+            attr.class('text-gray-500 dark:text-gray-400 mb-4'),
             'Create nested menu structures with submenus.'
           ),
           html.div(
@@ -292,7 +292,7 @@ export default function MenuPage() {
         html.section(
           html.h2(attr.class('text-xl font-semibold mb-4'), 'Accessibility'),
           html.div(
-            attr.class('bg-gray-50 p-6 rounded-md space-y-sm'),
+            attr.class('bg-gray-50 dark:bg-gray-800 p-6 rounded-md space-y-sm'),
             html.h3(attr.class('font-medium'), 'Keyboard Navigation'),
             html.ul(
               attr.class('list-disc list-inside space-y-1 text-sm'),

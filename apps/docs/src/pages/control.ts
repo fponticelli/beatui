@@ -59,7 +59,7 @@ export default function ControlPage() {
       html.div(
         html.h2(attr.class('text-xl font-semibold'), 'Control'),
         html.p(
-          attr.class('text-sm text-gray-600'),
+          attr.class('text-sm text-gray-600 dark:text-gray-400'),
           'Control wires inputs to controllers and can display validation errors.'
         )
       ),

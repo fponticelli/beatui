@@ -18,7 +18,7 @@ export default function TagsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Tag – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Simple Tag component with common colors.'
           ),
           html.div(
@@ -58,7 +58,7 @@ export default function TagsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Closable'),
           html.p(
-            attr.class('text-sm text-gray-600-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Tags can display a close button when onClose is provided.'
           ),
           html.div(

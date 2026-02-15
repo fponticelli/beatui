@@ -203,7 +203,7 @@ export default function CommandPalettePage() {
             'CommandPalette – Basic'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'A searchable command menu for quick access to actions and navigation.'
           ),
           CommandPalette(
@@ -226,7 +226,7 @@ export default function CommandPalettePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Sections & Icons'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Organize commands into sections with icons for better discoverability.'
           ),
           CommandPalette({ placeholder: 'Type a command...' }, (open, _close) =>
@@ -249,7 +249,7 @@ export default function CommandPalettePage() {
             'With Keyboard Shortcuts'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display keyboard shortcuts alongside commands.'
           ),
           CommandPalette({ placeholder: 'Search actions...' }, (open, _close) =>
@@ -269,7 +269,7 @@ export default function CommandPalettePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Usage Examples'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Common patterns for command palette implementations.'
           ),
           html.div(
@@ -325,7 +325,7 @@ export default function CommandPalettePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Implementation Note'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'The CommandPalette uses a render prop pattern. Pass items to the open() function when the trigger is clicked. Items can have sections, icons, descriptions, and keyboard shortcuts.'
           ),
           html.div(

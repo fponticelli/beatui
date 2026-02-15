@@ -223,22 +223,22 @@ export default function DrawerPage() {
                 body: html.nav(
                   attr.class('flex flex-col gap-2'),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
                     attr.href('#'),
                     'Home'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
                     attr.href('#'),
                     'About'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
                     attr.href('#'),
                     'Services'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200'),
+                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
                     attr.href('#'),
                     'Contact'
                   )
@@ -353,15 +353,15 @@ export default function DrawerPage() {
                     html.div(
                       attr.class('mt-2 space-y-1'),
                       html.div(
-                        attr.class('p-2 bg-gray-100 rounded'),
+                        attr.class('p-2 bg-gray-100 dark:bg-gray-800 rounded'),
                         'New message from John'
                       ),
                       html.div(
-                        attr.class('p-2 bg-gray-100 rounded'),
+                        attr.class('p-2 bg-gray-100 dark:bg-gray-800 rounded'),
                         'System update available'
                       ),
                       html.div(
-                        attr.class('p-2 bg-gray-100 rounded'),
+                        attr.class('p-2 bg-gray-100 dark:bg-gray-800 rounded'),
                         'Meeting reminder'
                       )
                     )

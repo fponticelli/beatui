@@ -141,7 +141,7 @@ export default function PDFPreviewPage() {
       })
     ),
     body: html.div(
-      attr.class('h-full overflow-hidden bg-gray-300'),
+      attr.class('h-full overflow-hidden bg-gray-300 dark:bg-gray-600'),
       OneOfValue(pdfEngine, {
         pdfjs: () =>
           PDFJSPreview({

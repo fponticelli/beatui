@@ -40,7 +40,7 @@ export default function RadioGroupsPage() {
           disabled,
         }),
         html.p(
-          attr.class('text-sm text-gray-500'),
+          attr.class('text-sm text-gray-500 dark:text-gray-400'),
           'Selected: ',
           html.span(
             attr.class('font-medium'),
@@ -120,7 +120,7 @@ export default function RadioGroupsPage() {
       SectionBlock(
         'Segmented Input',
         html.p(
-          attr.class('text-sm text-gray-500'),
+          attr.class('text-sm text-gray-500 dark:text-gray-400'),
           'An alternative to radio groups for compact selections.'
         ),
         html.div(

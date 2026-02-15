@@ -17,7 +17,7 @@ const HomePage = () => {
       attr.class('max-w-320 mx-auto'),
       html.h1(attr.class('text-4xl font-bold mb-4'), 'Welcome to BeatUI'),
       html.p(
-        attr.class('text-xl text-gray-500 mb-8'),
+        attr.class('text-xl text-gray-500 dark:text-gray-400 mb-8'),
         'A modern TypeScript UI component library built with Tempo-ts'
       ),
 
@@ -32,12 +32,12 @@ const HomePage = () => {
           { href: '/authentication', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 transition-colors'),
+            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Authentication'),
               html.p(
-                attr.class('text-gray-500'),
+                attr.class('text-gray-500 dark:text-gray-400'),
                 'Complete authentication component suite with social login support'
               )
             )
@@ -49,12 +49,12 @@ const HomePage = () => {
           { href: '/button', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 transition-colors'),
+            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Components'),
               html.p(
-                attr.class('text-gray-500'),
+                attr.class('text-gray-500 dark:text-gray-400'),
                 'Explore all available UI components and their documentation'
               )
             )
@@ -66,12 +66,12 @@ const HomePage = () => {
           { href: '/form', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 transition-colors'),
+            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Forms'),
               html.p(
-                attr.class('text-gray-500'),
+                attr.class('text-gray-500 dark:text-gray-400'),
                 'Powerful form handling with validation and type safety'
               )
             )
@@ -83,12 +83,12 @@ const HomePage = () => {
           { href: '/about', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 transition-colors'),
+            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'About'),
               html.p(
-                attr.class('text-gray-500'),
+                attr.class('text-gray-500 dark:text-gray-400'),
                 'Learn more about BeatUI and its design principles'
               )
             )

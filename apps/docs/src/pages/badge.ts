@@ -13,7 +13,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Badge – Variants'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Badge component with different visual variants.'
           ),
           html.div(
@@ -34,7 +34,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Colors'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Badges support all theme colors.'
           ),
           html.div(
@@ -57,7 +57,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Badges come in 5 different sizes.'
           ),
           html.div(
@@ -78,7 +78,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Roundedness'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Control the border radius of badges.'
           ),
           html.div(
@@ -101,7 +101,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Circle Badges'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Circle badges are perfect for notification counts and status indicators.'
           ),
           html.div(
@@ -122,7 +122,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Icons'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Badges can contain icons and text with automatic spacing.'
           ),
           html.div(
@@ -158,7 +158,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Full Width'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Badges can expand to fill their container width.'
           ),
           html.div(
@@ -189,7 +189,7 @@ export default function BadgePage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Common Use Cases'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Examples of common badge usage patterns.'
           ),
           html.div(

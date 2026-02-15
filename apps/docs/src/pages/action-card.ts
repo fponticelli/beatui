@@ -7,7 +7,7 @@ export default function ActionCardPage() {
       attr.class('space-y-2 p-2'),
       html.h1(attr.class('text-2xl font-bold'), 'Action Card'),
       html.p(
-        attr.class('text-lg text-gray-600'),
+        attr.class('text-lg text-gray-600 dark:text-gray-400'),
         'Interactive cards for displaying actions, features, or navigation options with icons and descriptions.'
       )
     ),

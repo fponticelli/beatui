@@ -5,14 +5,10 @@ import {
   computedOf,
   on,
   Value,
-  style,
   TNode,
-  Use,
 } from '@tempots/dom'
-import { ElementRect } from '@tempots/ui'
 import { ControlSize } from '../../theme/types'
 import { sessionId } from '../../../utils/session-id'
-import { Locale } from '../../i18n/locale'
 import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
@@ -56,7 +52,8 @@ export type SwitchOptions = {
  * support (Space and Enter to toggle), and a sliding thumb animation. The switch track
  * color is theme-aware and configurable via the `color` property. Optional on/off labels
  * appear inside the track and cross-fade based on the current state. The thumb position
- * is calculated dynamically based on the track width and adapts to RTL layout direction.
+ * is controlled entirely via CSS using `inset-inline-start`, which handles RTL
+ * automatically via the logical property.
  *
  * @param options - Configuration options for the switch
  * @returns A styled switch element with animated thumb and optional labels
@@ -224,48 +221,11 @@ export const Switch = ({
             onLabel
           )
         : null,
-      ElementRect(rect =>
-        Use(Locale, ({ direction }) =>
-          html.div(
-            attr.class('bc-switch__thumb'),
-            attr.class(
-              Value.map(value, (v): string =>
-                v ? 'bc-switch__thumb--on' : 'bc-switch__thumb--off'
-              )
-            ),
-            style.transform(
-              computedOf(
-                value,
-                rect,
-                size,
-                direction
-              )((value, { width }, size, direction) => {
-                const multiplier = (() => {
-                  switch (size) {
-                    case 'xs':
-                      return 5
-                    case 'sm':
-                      return 5.5
-                    case 'md':
-                      return 6
-                    case 'lg':
-                      return 7
-                    case 'xl':
-                      return 8
-                  }
-                })()
-
-                // Calculate the translation distance
-                const translateDistance =
-                  direction === 'rtl'
-                    ? `calc((var(--spacing-base) * ${multiplier}) - ${width}px)`
-                    : `calc(${width}px - (var(--spacing-base) * ${multiplier}))`
-
-                return value
-                  ? `translateX(${translateDistance})`
-                  : `translateX(0)`
-              })
-            )
+      html.div(
+        attr.class('bc-switch__thumb'),
+        attr.class(
+          Value.map(value, (v): string =>
+            v ? 'bc-switch__thumb--on' : 'bc-switch__thumb--off'
           )
         )
       )

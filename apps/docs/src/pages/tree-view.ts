@@ -13,7 +13,7 @@ export default function TreeViewPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'TreeView – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display hierarchical data with expandable/collapsible items.'
           ),
           (() => {
@@ -44,7 +44,7 @@ export default function TreeViewPage() {
                 onSelect: selectedId.set,
               }),
               html.p(
-                attr.class('text-sm text-gray-600'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400'),
                 'Selected: ',
                 html.span(
                   attr.class('font-medium'),
@@ -63,7 +63,7 @@ export default function TreeViewPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Icons & Badges'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Add icons and badges to tree items for better visual context.'
           ),
           TreeView({
@@ -118,7 +118,7 @@ export default function TreeViewPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Controlled Expansion'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Control which items are expanded externally.'
           ),
           (() => {
@@ -195,7 +195,7 @@ export default function TreeViewPage() {
                 },
               }),
               html.div(
-                attr.class('text-sm text-gray-600 space-y-1'),
+                attr.class('text-sm text-gray-600 dark:text-gray-400 space-y-1'),
                 html.p(
                   'Selected: ',
                   html.span(
@@ -226,7 +226,7 @@ export default function TreeViewPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Tree views in different sizes.'
           ),
           html.div(

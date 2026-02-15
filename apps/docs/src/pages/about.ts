@@ -16,7 +16,7 @@ export default function AboutPage() {
       attr.class('gap-4 max-w-280 mx-auto'),
       html.h1(attr.class('text-3xl font-bold'), 'About BeatUI'),
       html.p(
-        attr.class('text-gray-500'),
+        attr.class('text-gray-500 dark:text-gray-400'),
         'BeatUI is a modern TypeScript UI component library built on Tempo-ts. It embraces layered CSS, design tokens, signals for reactivity, and pragmatic, type-safe APIs.'
       ),
       Card(

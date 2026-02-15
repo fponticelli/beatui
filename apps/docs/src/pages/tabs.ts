@@ -129,11 +129,11 @@ export default function TabsPage() {
       html.section(
         html.h2(attr.class('text-xl font-bold mb-4'), 'Basic Tabs'),
         html.p(
-          attr.class('text-gray-600-600 mb-4'),
+          attr.class('text-gray-600 dark:text-gray-400 mb-4'),
           'A simple tabs component with different content panels.'
         ),
         html.div(
-          attr.class('border border-gray-300 rounded-lg overflow-hidden'),
+          attr.class('border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden'),
           Tabs({
             items: basicTabs,
             value: activeTab,
@@ -151,7 +151,7 @@ export default function TabsPage() {
       html.section(
         html.h2(attr.class('text-xl font-bold mb-4'), 'Size Variations'),
         html.p(
-          attr.class('text-gray-600-600 mb-4'),
+          attr.class('text-gray-600 dark:text-gray-400 mb-4'),
           'Tabs component supports different sizes from xs to xl.'
         ),
         html.div(
@@ -164,7 +164,7 @@ export default function TabsPage() {
                 `Size: ${currentSize}`
               ),
               html.div(
-                attr.class('border border-gray-300 rounded-lg overflow-hidden'),
+                attr.class('border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3), // Only show first 3 tabs for size demo
                   value: sizeActiveTab,
@@ -182,7 +182,7 @@ export default function TabsPage() {
       html.section(
         html.h2(attr.class('text-xl font-bold mb-4'), 'Variants'),
         html.p(
-          attr.class('text-gray-600-600 mb-4'),
+          attr.class('text-gray-600 dark:text-gray-400 mb-4'),
           'Tabs can be rendered with different visual variants.'
         ),
         html.div(
@@ -195,7 +195,7 @@ export default function TabsPage() {
                 `Variant: ${currentVariant}`
               ),
               html.div(
-                attr.class('border border-gray-300 rounded-lg overflow-hidden'),
+                attr.class('border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden'),
                 Tabs({
                   items: basicTabs.slice(0, 3),
                   value: variantActiveTab,
@@ -213,11 +213,11 @@ export default function TabsPage() {
       html.section(
         html.h2(attr.class('text-xl font-bold mb-4'), 'Vertical Orientation'),
         html.p(
-          attr.class('text-gray-600-600 mb-4'),
+          attr.class('text-gray-600 dark:text-gray-400 mb-4'),
           'Tabs can be displayed vertically for sidebar-style navigation.'
         ),
         html.div(
-          attr.class('border border-gray-300 rounded-lg overflow-hidden h-96'),
+          attr.class('border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden h-96'),
           (() => {
             const verticalActiveTab = prop<DemoTabKey>('overview')
             return Tabs({

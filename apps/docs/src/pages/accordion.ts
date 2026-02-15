@@ -54,7 +54,7 @@ export default function AccordionPage() {
           'Import components directly from the package and use them in your Tempo application.'
         ),
         html.pre(
-          attr.class('mt-2 p-2 bg-gray-100 rounded text-sm'),
+          attr.class('mt-2 p-2 bg-gray-100 dark:bg-gray-800 rounded text-sm'),
           "import { Button } from '@tempots/beatui'\n\nButton({ variant: 'filled' }, 'Click me')"
         )
       ),
@@ -139,7 +139,7 @@ export default function AccordionPage() {
       ...allSizes.map(s =>
         html.div(
           attr.class('w-full max-w-xl mb-4'),
-          html.p(attr.class('text-sm text-gray-500 mb-1'), `Size: ${s}`),
+          html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
           Accordion({
             items: [
               {

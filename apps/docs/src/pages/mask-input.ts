@@ -63,7 +63,7 @@ export default function MaskInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Static mask'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'US phone number: (999) 999-9999'
           ),
           MaskInput({
@@ -83,7 +83,7 @@ export default function MaskInputPage() {
           attr.class('space-y-4'),
           html.h2(attr.class('text-xl font-semibold'), 'Dynamic mask'),
           html.p(
-            attr.class('text-gray-600-600'),
+            attr.class('text-gray-600 dark:text-gray-400'),
             'Switch between 5-digit zip and SSN when length > 5'
           ),
           InputWrapper({

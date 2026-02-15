@@ -18,7 +18,7 @@ export function ApiLanding() {
       attr.class('max-w-320 mx-auto'),
       html.h1(attr.class('text-3xl font-bold mb-2'), 'API Reference'),
       html.p(
-        attr.class('text-lg text-gray-500 mb-6'),
+        attr.class('text-lg text-gray-500 dark:text-gray-400 mb-6'),
         'Browse the full API documentation for all BeatUI modules.'
       ),
       html.div(
@@ -35,7 +35,7 @@ export function ApiLanding() {
                 attr.class('gap-2'),
                 html.h3(attr.class('text-lg font-semibold'), mod.displayName),
                 html.p(
-                  attr.class('text-sm text-gray-500'),
+                  attr.class('text-sm text-gray-500 dark:text-gray-400'),
                   `@tempots/beatui${mod.slug === 'main' ? '' : '/' + mod.slug}`
                 )
               )

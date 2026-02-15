@@ -193,7 +193,7 @@ export default function ProgressLoadingPage() {
                   attr.class('flex-1 space-y-1'),
                   html.div(attr.class('font-semibold'), 'John Doe'),
                   html.div(
-                    attr.class('text-sm text-gray-500'),
+                    attr.class('text-sm text-gray-500 dark:text-gray-400'),
                     'Software Engineer'
                   )
                 )

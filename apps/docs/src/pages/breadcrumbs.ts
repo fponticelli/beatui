@@ -13,7 +13,7 @@ export default function BreadcrumbsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Breadcrumbs – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display a navigation trail showing the current page hierarchy.'
           ),
           Breadcrumbs({
@@ -34,7 +34,7 @@ export default function BreadcrumbsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Icons'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Add icons to breadcrumb items for better visual recognition.'
           ),
           html.div(
@@ -69,7 +69,7 @@ export default function BreadcrumbsPage() {
             'Click Handlers & Separators'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Use onClick callbacks and customize the separator character.'
           ),
           html.div(
@@ -126,7 +126,7 @@ export default function BreadcrumbsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Max Items'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Collapse long breadcrumb trails with ellipsis to save space.'
           ),
           html.div(
@@ -197,7 +197,7 @@ export default function BreadcrumbsPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Breadcrumbs in different sizes.'
           ),
           html.div(

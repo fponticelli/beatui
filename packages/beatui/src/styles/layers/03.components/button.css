@@ -70,6 +70,11 @@
   opacity: 0.5;
 }
 
+.bc-button--loading .bc-icon {
+  width: 1em;
+  height: 1em;
+}
+
 .bc-button--size-xs {
   font-size: var(--font-size-xs);
 }

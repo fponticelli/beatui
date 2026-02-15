@@ -23,7 +23,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Skeleton – Variants'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Skeleton component with different shape variants for loading states.'
           ),
           html.div(
@@ -54,7 +54,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Multi-line Text'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Text skeletons can render multiple lines. The last line is automatically 80% width for a natural look.'
           ),
           html.div(
@@ -80,7 +80,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Animation'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Skeletons have a shimmer animation by default, but can be disabled.'
           ),
           html.div(
@@ -109,7 +109,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Custom Dimensions'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Skeletons support custom width and height values.'
           ),
           html.div(
@@ -128,7 +128,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Border Radius'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Control the border radius of skeleton elements.'
           ),
           html.div(
@@ -167,7 +167,7 @@ export default function SkeletonPage() {
             'Common Loading Patterns'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Examples of common skeleton usage patterns for loading states.'
           ),
           html.div(
@@ -260,7 +260,7 @@ export default function SkeletonPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Interactive Demo'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Toggle between loading and loaded states.'
           ),
           Group(
@@ -315,7 +315,7 @@ export default function SkeletonPage() {
                       attr.class('flex-1 space-y-1'),
                       html.div(attr.class('font-semibold'), 'John Doe'),
                       html.div(
-                        attr.class('text-sm text-gray-600'),
+                        attr.class('text-sm text-gray-600 dark:text-gray-400'),
                         'Software Engineer'
                       )
                     )
@@ -330,7 +330,7 @@ export default function SkeletonPage() {
                     )
                   ),
                   html.p(
-                    attr.class('text-gray-700'),
+                    attr.class('text-gray-700 dark:text-gray-300'),
                     'This is the actual content that appears after loading. The skeleton provides a pleasant loading experience by showing where content will appear.'
                   )
                 )

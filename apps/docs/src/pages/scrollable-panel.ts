@@ -8,9 +8,9 @@ export default function ScrollablePanelPage() {
   const displayFooter = prop(true)
 
   const header = html.div(
-    attr.class('p-2 bg-gray-200 border-b'),
+    attr.class('p-2 bg-gray-200 dark:bg-gray-700 border-b'),
     html.h3(attr.class('font-semibold'), 'Header Content'),
-    html.p(attr.class('text-sm text-gray-600'), 'This header stays at the top')
+    html.p(attr.class('text-sm text-gray-600 dark:text-gray-400'), 'This header stays at the top')
   )
 
   const body = html.div(
@@ -25,9 +25,9 @@ export default function ScrollablePanelPage() {
   )
 
   const footer = html.div(
-    attr.class('p-2 bg-gray-100 border-t'),
+    attr.class('p-2 bg-gray-100 dark:bg-gray-800 border-t'),
     html.p(
-      attr.class('text-sm text-gray-600'),
+      attr.class('text-sm text-gray-600 dark:text-gray-400'),
       'This footer stays at the bottom'
     )
   )

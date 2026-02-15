@@ -75,7 +75,7 @@ export default function RTLLTRPage() {
                 'RTL/LTR Internationalization'
               ),
               html.p(
-                attr.class('text-gray-600'),
+                attr.class('text-gray-600 dark:text-gray-400'),
                 'BeatUI provides comprehensive support for right-to-left (RTL) and left-to-right (LTR) text directions. The system automatically detects direction from locale and provides utilities for mixed-direction content.'
               )
             )
@@ -94,7 +94,7 @@ export default function RTLLTRPage() {
                 'BeatUI automatically detects text direction based on the locale. RTL languages include Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), and others.'
               ),
               html.div(
-                attr.class('p-4 bg-gray-200 rounded'),
+                attr.class('p-4 bg-gray-200 dark:bg-gray-700 rounded'),
                 html.code('Current locale: '),
                 locale,
                 html.br(),
@@ -230,19 +230,19 @@ export default function RTLLTRPage() {
                   html.div(
                     attr.class('space-y-2'),
                     html.div(
-                      attr.class('ps-4 bg-gray-200'),
+                      attr.class('ps-4 bg-gray-200 dark:bg-gray-700'),
                       '.ps-4 - Padding inline start'
                     ),
                     html.div(
-                      attr.class('pe-4 bg-gray-200'),
+                      attr.class('pe-4 bg-gray-200 dark:bg-gray-700'),
                       '.pe-4 - Padding inline end'
                     ),
                     html.div(
-                      attr.class('ms-4 bg-gray-200'),
+                      attr.class('ms-4 bg-gray-200 dark:bg-gray-700'),
                       '.ms-4 - Margin inline start'
                     ),
                     html.div(
-                      attr.class('me-4 bg-gray-200'),
+                      attr.class('me-4 bg-gray-200 dark:bg-gray-700'),
                       '.me-4 - Margin inline end'
                     )
                   )

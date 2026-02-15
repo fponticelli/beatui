@@ -231,6 +231,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
     let onClosedCleanup: (() => void) | null = null
     let delayedOpenCleanup: (() => void) | null = null
     let isPopOverOpen = false // Track if PopOver is currently open
+    let triggerElement: HTMLElement | undefined
 
     function cleanup() {
       // Clear any pending timeouts
@@ -283,11 +284,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
         placement: placement ?? 'top',
         mainAxisOffset,
         crossAxisOffset,
-        onClickOutside: () => {
-          if (Value.get(closable)) {
-            hide()
-          }
-        },
         arrow,
         content: WithElement(element => {
           // Set element for the animation toggle
@@ -322,8 +318,27 @@ export function Flyout(options: FlyoutOptions): Renderable {
           // Add keyboard event listener
           document.addEventListener('keydown', handleKeyDown, true)
 
+          // Custom click-outside detection that checks both trigger and popup elements.
+          // PopOver's built-in onClickOutside only checks the trigger element,
+          // but the popup content is rendered in a portal on <body>, so clicks
+          // inside the popup are incorrectly treated as "outside".
+          let clickOutsideHandler: ((e: MouseEvent) => void) | null = null
+          if (Value.get(closable)) {
+            clickOutsideHandler = (e: MouseEvent) => {
+              const target = e.target as Node
+              if (!element.contains(target) && !triggerElement?.contains(target)) {
+                hide()
+              }
+            }
+            document.addEventListener('click', clickOutsideHandler)
+          }
+
           return Fragment(
             OnDispose(() => {
+              if (clickOutsideHandler) {
+                document.removeEventListener('click', clickOutsideHandler)
+                clickOutsideHandler = null
+              }
               cleanup()
               document.removeEventListener('keydown', handleKeyDown, true)
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
@@ -445,7 +460,9 @@ export function Flyout(options: FlyoutOptions): Renderable {
     }
 
     // Add ARIA attributes to trigger element
-    return WithElement(_triggerElement => {
+    return WithElement(el => {
+      triggerElement = el
+      const _triggerElement = el
       const enhancedShow = () => {
         show()
         triggerExpanded.set(true)

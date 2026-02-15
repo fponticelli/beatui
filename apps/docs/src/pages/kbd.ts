@@ -16,7 +16,7 @@ export default function KbdPage() {
             'Kbd – Keyboard Shortcuts'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Display keyboard shortcuts with styled key indicators.'
           ),
           html.div(
@@ -41,7 +41,7 @@ export default function KbdPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Keyboard keys come in three sizes: xs, sm, and md.'
           ),
           html.div(
@@ -78,7 +78,7 @@ export default function KbdPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Common Shortcuts'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Examples of common keyboard shortcuts.'
           ),
           html.div(
@@ -138,7 +138,7 @@ export default function KbdPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'In Context'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Keyboard shortcuts displayed within help text.'
           ),
           html.div(

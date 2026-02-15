@@ -47,7 +47,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'ProgressBar – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Progress bar component for showing completion status.'
           ),
           html.div(
@@ -83,7 +83,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Labels'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Progress bars can display percentage labels.'
           ),
           html.div(
@@ -102,7 +102,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Progress bars come in three different sizes.'
           ),
           html.div(
@@ -142,7 +142,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Colors'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Progress bars support all theme colors.'
           ),
           html.div(
@@ -183,7 +183,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Indeterminate State'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Use indeterminate progress bars when the completion time is unknown.'
           ),
           html.div(
@@ -209,7 +209,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Border Radius'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Control the border radius of progress bars.'
           ),
           html.div(
@@ -240,7 +240,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Interactive Demo'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Adjust progress value with buttons.'
           ),
           Group(
@@ -280,7 +280,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Upload Simulation'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Simulated file upload with progress tracking.'
           ),
           Group(
@@ -305,7 +305,7 @@ export default function ProgressBarPage() {
                     attr.class('flex items-center justify-between text-sm'),
                     html.span('document.pdf'),
                     html.span(
-                      attr.class('text-gray-600'),
+                      attr.class('text-gray-600 dark:text-gray-400'),
                       Value.map(uploadProgress, p =>
                         p === 100 ? 'Complete!' : `${p}%`
                       )
@@ -321,7 +321,7 @@ export default function ProgressBarPage() {
                 ),
               () =>
                 html.div(
-                  attr.class('text-sm text-gray-500 italic'),
+                  attr.class('text-sm text-gray-500 dark:text-gray-400 italic'),
                   'Click "Start Upload" to begin'
                 )
             )
@@ -336,7 +336,7 @@ export default function ProgressBarPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Common Use Cases'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Examples of common progress bar usage patterns.'
           ),
           html.div(
@@ -351,7 +351,7 @@ export default function ProgressBarPage() {
                   attr.class('flex items-center justify-between text-sm'),
                   html.span('Profile Setup'),
                   html.span(
-                    attr.class('text-gray-600'),
+                    attr.class('text-gray-600 dark:text-gray-400'),
                     '3 of 4 steps complete'
                   )
                 ),
@@ -367,7 +367,7 @@ export default function ProgressBarPage() {
                 html.div(
                   attr.class('flex items-center justify-between text-sm'),
                   html.span('Cloud Storage'),
-                  html.span(attr.class('text-gray-600'), '8.2 GB of 10 GB used')
+                  html.span(attr.class('text-gray-600 dark:text-gray-400'), '8.2 GB of 10 GB used')
                 ),
                 ProgressBar({ value: 82, color: 'warning', size: 'lg' })
               )

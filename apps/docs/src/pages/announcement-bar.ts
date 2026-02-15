@@ -68,7 +68,7 @@ export default function AnnouncementBarPage() {
               'Interactive Example'
             ),
             html.p(
-              attr.class('text-gray-500'),
+              attr.class('text-gray-500 dark:text-gray-400'),
               'The announcement bar appears at the top center of this card'
             )
           ),
@@ -99,7 +99,7 @@ export default function AnnouncementBarPage() {
               {},
               attr.class('h-48 p-4 flex items-center justify-center'),
               html.div(
-                attr.class('text-center text-gray-500'),
+                attr.class('text-center text-gray-500 dark:text-gray-400'),
                 'Primary Announcement'
               ),
               AnnouncementBar({ color: 'primary' }, 'Primary notification')
@@ -113,7 +113,7 @@ export default function AnnouncementBarPage() {
               {},
               attr.class('h-48 p-4 flex items-center justify-center'),
               html.div(
-                attr.class('text-center text-gray-500'),
+                attr.class('text-center text-gray-500 dark:text-gray-400'),
                 'Success Announcement'
               ),
               AnnouncementBar(
@@ -130,7 +130,7 @@ export default function AnnouncementBarPage() {
               {},
               attr.class('h-48 p-4 flex items-center justify-center'),
               html.div(
-                attr.class('text-center text-gray-500'),
+                attr.class('text-center text-gray-500 dark:text-gray-400'),
                 'Warning Announcement'
               ),
               AnnouncementBar(
@@ -147,7 +147,7 @@ export default function AnnouncementBarPage() {
               {},
               attr.class('h-48 p-4 flex items-center justify-center'),
               html.div(
-                attr.class('text-center text-gray-500'),
+                attr.class('text-center text-gray-500 dark:text-gray-400'),
                 'Danger Announcement'
               ),
               AnnouncementBar(
@@ -164,7 +164,7 @@ export default function AnnouncementBarPage() {
               {},
               attr.class('h-48 p-4 flex items-center justify-center'),
               html.div(
-                attr.class('text-center text-gray-500'),
+                attr.class('text-center text-gray-500 dark:text-gray-400'),
                 'Info Announcement'
               ),
               AnnouncementBar(
@@ -191,7 +191,7 @@ export default function AnnouncementBarPage() {
             html.div(
               attr.class('text-center'),
               html.p(
-                attr.class('text-gray-500'),
+                attr.class('text-gray-500 dark:text-gray-400'),
                 'Click the close button to dismiss'
               )
             ),

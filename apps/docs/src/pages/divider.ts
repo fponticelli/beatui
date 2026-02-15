@@ -13,7 +13,7 @@ export default function DividerPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-xl font-semibold'), 'Divider – Basic'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Simple horizontal dividers for separating content sections.'
           ),
           html.div(
@@ -32,7 +32,7 @@ export default function DividerPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Variants'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Different line styles: solid, dashed, and dotted.'
           ),
           html.div(
@@ -63,7 +63,7 @@ export default function DividerPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Tones'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Control the visual prominence with subtle, default, or strong tones.'
           ),
           html.div(
@@ -94,7 +94,7 @@ export default function DividerPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'With Labels'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Dividers can include text labels with different alignments.'
           ),
           html.div(
@@ -130,7 +130,7 @@ export default function DividerPage() {
           attr.class('space-y-3'),
           html.h2(attr.class('text-lg font-semibold'), 'Vertical Dividers'),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Use vertical dividers to separate inline content.'
           ),
           html.div(
@@ -154,7 +154,7 @@ export default function DividerPage() {
             'Vertical Dividers with Labels'
           ),
           html.p(
-            attr.class('text-sm text-gray-600'),
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Vertical dividers can include text labels with different alignments.'
           ),
           html.div(
