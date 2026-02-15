@@ -38,3 +38,9 @@
 .bc-flyout-container.bc-animated-toggle--opened {
   pointer-events: auto;
 }
+
+/* Dark mode */
+.b-dark .bc-flyout {
+  background-color: var(--color-base-800);
+  border-color: var(--color-base-700);
+}

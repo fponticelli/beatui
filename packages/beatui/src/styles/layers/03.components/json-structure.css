@@ -398,3 +398,73 @@
   background: var(--color-warning-50);
   color: var(--color-warning-700);
 }
+
+/* Dark mode */
+.b-dark .bc-json-structure-object {
+  border-left-color: var(--color-base-700);
+}
+
+.b-dark .bc-json-structure-additional-property {
+  border-color: var(--color-base-700);
+  background: var(--color-base-800);
+}
+
+.b-dark .bc-json-structure-map-entry-key {
+  color: var(--color-base-300);
+}
+
+.b-dark .bc-json-structure-tuple-label {
+  color: var(--color-base-300);
+}
+
+.b-dark .bc-json-structure-tuple-description {
+  color: var(--color-base-400);
+}
+
+.b-dark .bc-json-structure-tuple-element-header {
+  color: var(--color-base-400);
+}
+
+.b-dark .bc-json-structure-tuple-position {
+  color: var(--color-base-400);
+}
+
+.b-dark .bc-json-structure-description {
+  color: var(--color-base-400);
+}
+
+.b-dark .bc-json-structure-deprecated::before {
+  color: var(--color-warning-400);
+  background: color-mix(in srgb, var(--color-warning-500) 15%, transparent);
+}
+
+.b-dark .bc-json-structure-deprecated-badge {
+  color: var(--color-warning-300);
+  background: color-mix(in srgb, var(--color-warning-500) 15%, transparent);
+}
+
+.b-dark .bc-json-structure-const {
+  background: var(--color-base-800);
+  color: var(--color-base-300);
+}
+
+.b-dark .bc-json-structure-readonly input,
+.b-dark .bc-json-structure-readonly select,
+.b-dark .bc-json-structure-readonly textarea {
+  background: var(--color-base-800);
+}
+
+.b-dark .bc-json-structure-placeholder {
+  border-color: var(--color-base-600);
+  background: var(--color-base-800);
+}
+
+.b-dark .bc-json-structure-placeholder > span:first-child {
+  color: var(--color-base-500);
+}
+
+.b-dark .bc-json-structure-unknown {
+  border-color: var(--color-warning-700);
+  background: color-mix(in srgb, var(--color-warning-500) 10%, transparent);
+  color: var(--color-warning-300);
+}

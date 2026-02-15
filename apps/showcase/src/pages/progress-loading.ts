@@ -199,11 +199,11 @@ export default function ProgressLoadingPage() {
                 )
               ),
               html.div(
-                attr.class('p-4 rounded-md bg-primary-50 dark:bg-primary-900'),
+                attr.class('p-4 rounded-md bg-primary-50 beatui-dark:bg-primary-900'),
                 html.p(attr.class('text-lg font-semibold'), 'Content Loaded!')
               ),
               html.p(
-                attr.class('text-gray-700 dark:text-gray-300'),
+                attr.class('text-gray-700 beatui-dark:text-gray-300'),
                 'The skeleton provides a pleasant loading experience.'
               )
             )

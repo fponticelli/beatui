@@ -40,9 +40,7 @@ export function SidebarMenu() {
         attr.placeholder('Search widgets\u2026'),
         attr.value(search),
         on.input(e => search.set((e.target as HTMLInputElement).value)),
-        attr.style(
-          'width: 100%; padding: 6px 10px; border-radius: 3px; border: 1px solid #e5e5e5; background: #fff; font-size: 12px; outline: none; color: #1a1a1a; box-sizing: border-box; font-family: inherit'
-        )
+        attr.class('sc-search-input')
       )
     ),
     // Nav items

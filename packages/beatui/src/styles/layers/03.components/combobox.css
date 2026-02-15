@@ -11,3 +11,9 @@
   border-radius: 0;
   border-bottom: 1px solid var(--color-gray-300);
 }
+
+/* Dark mode */
+.b-dark .bc-dropdown__search-input {
+  background-color: var(--color-base-800);
+  border-bottom-color: var(--color-base-600);
+}

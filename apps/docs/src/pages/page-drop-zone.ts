@@ -89,7 +89,7 @@ export default function PageDropZonePage() {
             ForEach(files, file =>
               html.li(
                 attr.class(
-                  'flex items-center gap-2 p-2 bg-gray-100 dark:bg-gray-800 rounded'
+                  'flex items-center gap-2 p-2 bg-gray-100 beatui-dark:bg-gray-800 rounded'
                 ),
                 Icon({ icon: 'mdi:file-outline', size: 'md' }),
                 html.div(
@@ -125,7 +125,7 @@ export default function PageDropZonePage() {
               style.pointerEvents('none'),
               html.div(
                 attr.class(
-                  'bg-white dark:bg-gray-800 rounded-lg p-12 shadow-2xl border-4 border-dashed border-primary-500'
+                  'bg-white beatui-dark:bg-gray-800 rounded-lg p-12 shadow-2xl border-4 border-dashed border-primary-500'
                 ),
                 Stack(
                   attr.class('items-center gap-4'),
@@ -140,7 +140,7 @@ export default function PageDropZonePage() {
                     'Drop Files Here'
                   ),
                   html.p(
-                    attr.class('text-gray-600 dark:text-gray-400'),
+                    attr.class('text-gray-600 beatui-dark:text-gray-400'),
                     'Release to upload your files'
                   )
                 )
