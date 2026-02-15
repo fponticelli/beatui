@@ -6,6 +6,7 @@ import {
   LocaleSelector,
   BeatUII18n,
   LocaleItem,
+  Theme,
 } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
 import { Menu } from './views/menu'
@@ -24,7 +25,18 @@ export function AppLayout({ children }: { children: TNode }) {
         Anchor(
           { href: '/', viewTransition: true },
           attr.class('h-full p-2 flex-grow'),
-          html.img(attr.class('h-full'), attr.src('/beatui-logo.png'))
+          Use(Theme, ({ appearance }) =>
+            html.img(
+              attr.class('h-full'),
+              attr.src(
+                appearance.map(a =>
+                  a === 'dark'
+                    ? '/beatui-logo-dark.svg'
+                    : '/beatui-logo.svg'
+                )
+              )
+            )
+          )
         ),
         html.div(
           Use(BeatUII18n, t =>

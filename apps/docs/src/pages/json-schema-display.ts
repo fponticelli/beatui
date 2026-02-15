@@ -157,7 +157,11 @@ export default function JSONSchemaDisplayPage() {
                     dataError.map(String)
                   )
               ),
-            () => html.div(attr.class('text-neutral-500 dark:text-neutral-400'), 'Loading schema...')
+            () =>
+              html.div(
+                attr.class('text-neutral-500 dark:text-neutral-400'),
+                'Loading schema...'
+              )
           ),
         }),
         // Schema panel

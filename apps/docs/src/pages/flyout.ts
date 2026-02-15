@@ -218,7 +218,9 @@ export default function FlyoutPage() {
                   html.div(
                     attr.class('p-3'),
                     html.div(
-                      attr.class('font-semibold text-red-600 dark:text-red-400'),
+                      attr.class(
+                        'font-semibold text-red-600 dark:text-red-400'
+                      ),
                       '⚠️ Delete Item'
                     ),
                     html.p(
@@ -337,7 +339,9 @@ export default function FlyoutPage() {
                     Button({ variant: 'outline', size: 'xs' }, 'Cancel')
                   ),
                   html.div(
-                    attr.class('text-xs text-gray-600 dark:text-gray-400 mt-3 pt-3 border-t'),
+                    attr.class(
+                      'text-xs text-gray-600 dark:text-gray-400 mt-3 pt-3 border-t'
+                    ),
                     computedOf(
                       showDelay,
                       hideDelay,

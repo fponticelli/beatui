@@ -195,7 +195,9 @@ export default function TreeViewPage() {
                 },
               }),
               html.div(
-                attr.class('text-sm text-gray-600 dark:text-gray-400 space-y-1'),
+                attr.class(
+                  'text-sm text-gray-600 dark:text-gray-400 space-y-1'
+                ),
                 html.p(
                   'Selected: ',
                   html.span(

@@ -145,7 +145,9 @@ export default function TabsPage() {
       SectionBlock(
         'Basic Tabs',
         html.div(
-          attr.class('border border-gray-300 dark:border-gray-600 rounded overflow-hidden'),
+          attr.class(
+            'border border-gray-300 dark:border-gray-600 rounded overflow-hidden'
+          ),
           Tabs({
             items: demoTabs,
             value: activeTab,
@@ -167,7 +169,9 @@ export default function TabsPage() {
               attr.class('space-y-1'),
               html.span(attr.class('text-sm font-medium'), sz.toUpperCase()),
               html.div(
-                attr.class('border border-gray-300 dark:border-gray-600 rounded overflow-hidden'),
+                attr.class(
+                  'border border-gray-300 dark:border-gray-600 rounded overflow-hidden'
+                ),
                 Tabs({
                   items: demoTabs,
                   value: tab,
@@ -193,7 +197,9 @@ export default function TabsPage() {
               attr.class('space-y-1'),
               html.span(attr.class('text-sm font-medium capitalize'), v),
               html.div(
-                attr.class('border border-gray-300 dark:border-gray-600 rounded overflow-hidden'),
+                attr.class(
+                  'border border-gray-300 dark:border-gray-600 rounded overflow-hidden'
+                ),
                 Tabs({
                   items: demoTabs,
                   value: tab,
@@ -210,7 +216,9 @@ export default function TabsPage() {
       SectionBlock(
         'Vertical',
         html.div(
-          attr.class('border border-gray-300 dark:border-gray-600 rounded overflow-hidden h-64'),
+          attr.class(
+            'border border-gray-300 dark:border-gray-600 rounded overflow-hidden h-64'
+          ),
           (() => {
             const tab = prop<DemoTab>('overview')
             return Tabs({

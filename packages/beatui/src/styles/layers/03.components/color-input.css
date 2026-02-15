@@ -113,9 +113,7 @@
 }
 
 /* Dark mode */
-.dark
-  .bc-input-container--error
-  .bc-color-swatch-input__control:focus-within {
+.dark .bc-input-container--error .bc-color-swatch-input__control:focus-within {
   outline: 2px solid var(--color-danger-400);
 }
 

@@ -223,22 +223,30 @@ export default function DrawerPage() {
                 body: html.nav(
                   attr.class('flex flex-col gap-2'),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
+                    attr.class(
+                      'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ),
                     attr.href('#'),
                     'Home'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
+                    attr.class(
+                      'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ),
                     attr.href('#'),
                     'About'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
+                    attr.class(
+                      'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ),
                     attr.href('#'),
                     'Services'
                   ),
                   html.a(
-                    attr.class('p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'),
+                    attr.class(
+                      'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ),
                     attr.href('#'),
                     'Contact'
                   )

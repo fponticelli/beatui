@@ -23,7 +23,9 @@ export default function PaginationPage() {
               onPageChange: page.set,
             }),
             html.p(
-              attr.class('text-sm text-gray-500 dark:text-gray-400 text-center'),
+              attr.class(
+                'text-sm text-gray-500 dark:text-gray-400 text-center'
+              ),
               'Page ',
               html.span(
                 attr.class('font-medium'),
@@ -48,7 +50,9 @@ export default function PaginationPage() {
               showFirstLast: true,
             }),
             html.p(
-              attr.class('text-sm text-gray-500 dark:text-gray-400 text-center'),
+              attr.class(
+                'text-sm text-gray-500 dark:text-gray-400 text-center'
+              ),
               'Page ',
               html.span(
                 attr.class('font-medium'),
@@ -111,7 +115,9 @@ export default function PaginationPage() {
               justify: true,
             }),
             html.p(
-              attr.class('text-sm text-gray-500 dark:text-gray-400 text-center'),
+              attr.class(
+                'text-sm text-gray-500 dark:text-gray-400 text-center'
+              ),
               'Page ',
               html.span(
                 attr.class('font-medium'),
@@ -140,7 +146,9 @@ export default function PaginationPage() {
               responsive: true,
             }),
             html.p(
-              attr.class('text-sm text-gray-500 dark:text-gray-400 text-center'),
+              attr.class(
+                'text-sm text-gray-500 dark:text-gray-400 text-center'
+              ),
               'Page ',
               html.span(
                 attr.class('font-medium'),

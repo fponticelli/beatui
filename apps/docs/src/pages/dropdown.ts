@@ -135,7 +135,9 @@ export default function DropdownPage() {
             attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
+              attr.class(
+                'text-sm font-medium text-gray-600 dark:text-gray-400'
+              ),
               'Select a fruit:'
             ),
             DropdownInput({
@@ -170,7 +172,9 @@ export default function DropdownPage() {
             attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
+              attr.class(
+                'text-sm font-medium text-gray-600 dark:text-gray-400'
+              ),
               'Pick a color:'
             ),
             DropdownInput({
@@ -205,7 +209,9 @@ export default function DropdownPage() {
             attr.class('gap-2'),
             style.width('16rem'),
             html.label(
-              attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
+              attr.class(
+                'text-sm font-medium text-gray-600 dark:text-gray-400'
+              ),
               'Choose category:'
             ),
             DropdownInput({
@@ -262,7 +268,9 @@ export default function DropdownPage() {
           'Accessibility Features'
         ),
         html.ul(
-          attr.class('list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2'),
+          attr.class(
+            'list-disc list-inside text-gray-500 dark:text-gray-400 space-y-2'
+          ),
           html.li('Full keyboard navigation (Arrow keys, Enter, Escape)'),
           html.li('ARIA attributes for screen readers'),
           html.li('Focus management and visual indicators'),

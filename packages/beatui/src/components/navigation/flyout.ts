@@ -326,7 +326,10 @@ export function Flyout(options: FlyoutOptions): Renderable {
           if (Value.get(closable)) {
             clickOutsideHandler = (e: MouseEvent) => {
               const target = e.target as Node
-              if (!element.contains(target) && !triggerElement?.contains(target)) {
+              if (
+                !element.contains(target) &&
+                !triggerElement?.contains(target)
+              ) {
                 hide()
               }
             }
@@ -462,7 +465,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
     // Add ARIA attributes to trigger element
     return WithElement(el => {
       triggerElement = el
-      const _triggerElement = el
       const enhancedShow = () => {
         show()
         triggerExpanded.set(true)

@@ -56,7 +56,9 @@ export default function AuthenticationPage() {
       demoMessage.map(v => v.length > 0),
       () =>
         html.div(
-          attr.class('bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-3 rounded-lg text-sm'),
+          attr.class(
+            'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 p-3 rounded-lg text-sm'
+          ),
           demoMessage
         )
     ),

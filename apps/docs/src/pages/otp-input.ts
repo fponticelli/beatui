@@ -90,7 +90,10 @@ export default function OTPInputPage() {
       ...(['xs', 'sm', 'md', 'lg', 'xl'] as ControlSize[]).map(s =>
         html.div(
           attr.class('mb-3'),
-          html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
+          html.p(
+            attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+            `Size: ${s}`
+          ),
           OTPInput({
             value: prop(''),
             onChange: () => {},
@@ -107,7 +110,10 @@ export default function OTPInputPage() {
         color =>
           html.div(
             attr.class('mb-3'),
-            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), color),
+            html.p(
+              attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+              color
+            ),
             OTPInput({
               value: prop(''),
               onChange: () => {},

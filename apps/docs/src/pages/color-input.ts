@@ -36,7 +36,9 @@ export default function ColorInputPage() {
               }),
             }),
             html.div(
-              attr.class('w-16 h-16 rounded-full border-2 border-gray-300 dark:border-gray-600'),
+              attr.class(
+                'w-16 h-16 rounded-full border-2 border-gray-300 dark:border-gray-600'
+              ),
               style.backgroundColor(colorA)
             ),
             Stack(

@@ -17,7 +17,10 @@ export default function RibbonPage() {
         html.div(
           attr.class('text-center'),
           html.h3(attr.class('text-lg font-semibold'), 'Basic Ribbon'),
-          html.p(attr.class('text-gray-500 dark:text-gray-400'), 'top-end 45° band')
+          html.p(
+            attr.class('text-gray-500 dark:text-gray-400'),
+            'top-end 45° band'
+          )
         ),
         Ribbon(
           {
@@ -35,7 +38,10 @@ export default function RibbonPage() {
         html.div(
           attr.class('text-center'),
           html.h3(attr.class('text-lg font-semibold'), 'Accent Color'),
-          html.p(attr.class('text-gray-500 dark:text-gray-400'), 'Custom color background')
+          html.p(
+            attr.class('text-gray-500 dark:text-gray-400'),
+            'Custom color background'
+          )
         ),
         Ribbon({ color: 'white', offset: 20, width: 60 }, 'New')
       ),
@@ -47,7 +53,10 @@ export default function RibbonPage() {
         html.div(
           attr.class('text-center'),
           html.h3(attr.class('text-lg font-semibold'), 'Rich Content'),
-          html.p(attr.class('text-gray-500 dark:text-gray-400'), 'Icon + long label')
+          html.p(
+            attr.class('text-gray-500 dark:text-gray-400'),
+            'Icon + long label'
+          )
         ),
         Ribbon(
           {
@@ -77,7 +86,10 @@ export default function RibbonPage() {
         html.div(
           attr.class('text-center'),
           html.h3(attr.class('text-lg font-semibold'), 'top-start'),
-          html.p(attr.class('text-gray-500 dark:text-gray-400'), 'Corner position')
+          html.p(
+            attr.class('text-gray-500 dark:text-gray-400'),
+            'Corner position'
+          )
         ),
         Ribbon(
           {

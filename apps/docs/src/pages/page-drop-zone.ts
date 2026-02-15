@@ -53,7 +53,9 @@ export default function PageDropZonePage() {
           'This component detects when you drag files from your filesystem anywhere over the page. Try dragging a file from your computer onto this page!'
         ),
         html.ul(
-          attr.class('list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400'),
+          attr.class(
+            'list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400'
+          ),
           html.li('Drag files from your filesystem over the page'),
           html.li('An overlay will appear when files are detected'),
           html.li('Drop the files to see them listed below'),

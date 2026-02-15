@@ -92,7 +92,10 @@ export default function ComboboxPage() {
     body: Stack(
       attr.class('p-6 gap-8'),
 
-      html.h1(attr.class('text-3xl font-bold text-gray-600 dark:text-gray-400'), 'Combobox'),
+      html.h1(
+        attr.class('text-3xl font-bold text-gray-600 dark:text-gray-400'),
+        'Combobox'
+      ),
       html.p(
         attr.class('text-lg text-gray-500 dark:text-gray-400'),
         'Searchable dropdown with dynamic options and custom renderers.'
@@ -115,7 +118,9 @@ export default function ComboboxPage() {
             attr.class('gap-2'),
             style.width('20rem'),
             html.label(
-              attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
+              attr.class(
+                'text-sm font-medium text-gray-600 dark:text-gray-400'
+              ),
               'Select a fruit:'
             ),
             ComboboxInput<Fruit | null>({

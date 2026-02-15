@@ -104,7 +104,10 @@ export default function CalendarPage() {
         ).map(color => {
           const colorDate = prop<Date | null>(new Date())
           return Stack(
-            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), color),
+            html.p(
+              attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+              color
+            ),
             DateCalendar({
               value: colorDate,
               onSelect: colorDate.set,
@@ -150,7 +153,10 @@ export default function CalendarPage() {
         ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s => {
           const sizeDate = prop<Date | null>(null)
           return Stack(
-            html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
+            html.p(
+              attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+              `Size: ${s}`
+            ),
             DateCalendar({
               value: sizeDate,
               onSelect: sizeDate.set,

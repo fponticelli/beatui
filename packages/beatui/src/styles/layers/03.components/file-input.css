@@ -558,7 +558,11 @@
 
 .dark .bc-file-input__drop-zone:hover {
   border-color: var(--color-primary-400);
-  background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-500) 10%,
+    transparent
+  );
 }
 
 .dark .bc-file-input__drop-zone-content--empty {
@@ -567,7 +571,11 @@
 
 .dark .bc-file-input__drop-zone-content--drag-over {
   color: var(--color-primary-300);
-  background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-500) 10%,
+    transparent
+  );
 }
 
 .dark .bc-file-input__drop-zone-content--has-files {
@@ -604,7 +612,11 @@
 }
 
 .dark .bc-file-input__remove-button:hover {
-  background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 15%,
+    transparent
+  );
   color: var(--color-danger-400);
 }
 
@@ -616,7 +628,11 @@
 
 .dark .bc-file-input__clear-all-button:hover {
   border-color: var(--color-danger-600);
-  background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 15%,
+    transparent
+  );
   color: var(--color-danger-400);
 }
 
@@ -626,7 +642,11 @@
 
 .dark .bc-base-input-container--error .bc-file-input__drop-zone:hover {
   border-color: var(--color-danger-500);
-  background-color: color-mix(in srgb, var(--color-danger-500) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 10%,
+    transparent
+  );
 }
 
 .dark .bc-base-input-container--disabled .bc-file-input__drop-zone {
@@ -660,7 +680,11 @@
 }
 
 .dark .bc-file-input__compact-clear:hover {
-  background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 15%,
+    transparent
+  );
   color: var(--color-danger-400);
 }
 
@@ -674,7 +698,11 @@
 
 .dark .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-primary-400);
-  background-color: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-500) 10%,
+    transparent
+  );
 }
 
 .dark .bc-file-input__compact-drop-zone .bc-file-input__compact-placeholder {
@@ -702,7 +730,11 @@
 }
 
 .dark .bc-file-input__compact-remove-button:hover {
-  background-color: color-mix(in srgb, var(--color-danger-500) 15%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 15%,
+    transparent
+  );
   color: var(--color-danger-400);
 }
 
@@ -712,7 +744,11 @@
 
 .dark .bc-base-input-container--error .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-danger-500);
-  background-color: color-mix(in srgb, var(--color-danger-500) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-danger-500) 10%,
+    transparent
+  );
 }
 
 .dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone {
@@ -720,7 +756,9 @@
   background-color: var(--color-base-800);
 }
 
-.dark .bc-base-input-container--disabled .bc-file-input__compact-drop-zone:hover {
+.dark
+  .bc-base-input-container--disabled
+  .bc-file-input__compact-drop-zone:hover {
   border-color: var(--color-base-700);
   background-color: var(--color-base-800);
 }

@@ -153,7 +153,9 @@ function PercentageWidget({
       })
     ),
     html.div(
-      attr.class('flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1'),
+      attr.class(
+        'flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1'
+      ),
       html.span('0%'),
       html.span('50%'),
       html.span('100%')
@@ -413,7 +415,9 @@ export default function JSONStructureCustomWidgetsPage() {
             html.section(
               html.h4(attr.class('font-semibold text-base mb-2'), '💡 Example'),
               html.pre(
-                attr.class('bg-gray-50 dark:bg-gray-800 p-3 rounded text-xs overflow-x-auto'),
+                attr.class(
+                  'bg-gray-50 dark:bg-gray-800 p-3 rounded text-xs overflow-x-auto'
+                ),
                 html.code(
                   `import {
   JSONStructureForm,

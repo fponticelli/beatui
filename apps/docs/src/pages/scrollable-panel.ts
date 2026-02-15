@@ -10,7 +10,10 @@ export default function ScrollablePanelPage() {
   const header = html.div(
     attr.class('p-2 bg-gray-200 dark:bg-gray-700 border-b'),
     html.h3(attr.class('font-semibold'), 'Header Content'),
-    html.p(attr.class('text-sm text-gray-600 dark:text-gray-400'), 'This header stays at the top')
+    html.p(
+      attr.class('text-sm text-gray-600 dark:text-gray-400'),
+      'This header stays at the top'
+    )
   )
 
   const body = html.div(

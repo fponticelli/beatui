@@ -63,23 +63,37 @@ export default function SwitchPage() {
         html.thead(
           html.tr(
             html.th(
-              attr.class('px-1 py-2 border-b border-gray-300 dark:border-gray-600'),
+              attr.class(
+                'px-1 py-2 border-b border-gray-300 dark:border-gray-600'
+              ),
               'size / status'
             ),
             ...['on', 'off'].map(status =>
-              html.th(attr.class('px-1 py-2 border-b border-gray-300 dark:border-gray-600'), status)
+              html.th(
+                attr.class(
+                  'px-1 py-2 border-b border-gray-300 dark:border-gray-600'
+                ),
+                status
+              )
             )
           )
         ),
         html.tbody(
           ...allSizes.map(size => {
             return html.tr(
-              html.th(attr.class('px-1 py-2 border-b border-gray-300 dark:border-gray-600'), size),
+              html.th(
+                attr.class(
+                  'px-1 py-2 border-b border-gray-300 dark:border-gray-600'
+                ),
+                size
+              ),
               ...[true, false].map(status => {
                 const localValue = value.map(v => v === status).deriveProp()
                 const onChange = () => localValue.update(v => !v)
                 return html.td(
-                  attr.class('px-1 py-2 border-b border-gray-300 dark:border-gray-600'),
+                  attr.class(
+                    'px-1 py-2 border-b border-gray-300 dark:border-gray-600'
+                  ),
                   InputWrapper({
                     label,
                     content: Switch({

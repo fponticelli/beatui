@@ -258,9 +258,7 @@ function SemanticColorsSection() {
       attr.class('overflow-x-auto'),
       html.table(
         attr.class('w-full text-sm'),
-        html.thead(
-          html.tr(Th('Semantic Name'), Th('Maps to'), Th('Preview'))
-        ),
+        html.thead(html.tr(Th('Semantic Name'), Th('Maps to'), Th('Preview'))),
         html.tbody(
           ...semanticColorNames.map(name => {
             const baseColor = semanticColors[name]
@@ -484,12 +482,7 @@ function TypographySection() {
       html.table(
         attr.class('w-full text-sm'),
         html.thead(
-          html.tr(
-            Th('Name'),
-            Th('CSS Variable'),
-            Th('Value'),
-            Th('Preview')
-          )
+          html.tr(Th('Name'), Th('CSS Variable'), Th('Value'), Th('Preview'))
         ),
         html.tbody(
           ...Object.entries(fontWeight).map(([name, value]) =>
@@ -497,12 +490,7 @@ function TypographySection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--font-weight-${name}`)),
               Td(html.span(attr.class('text-xs font-mono'), value)),
-              Td(
-                html.span(
-                  style.fontWeight(value),
-                  'The quick brown fox'
-                )
-              )
+              Td(html.span(style.fontWeight(value), 'The quick brown fox'))
             )
           )
         )
@@ -541,9 +529,7 @@ function TypographySection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--letter-spacing-${name}`)),
               Td(html.span(attr.class('text-xs font-mono'), value)),
-              Td(
-                html.span(style.letterSpacing(value), 'LETTER SPACING')
-              )
+              Td(html.span(style.letterSpacing(value), 'LETTER SPACING'))
             )
           )
         )
@@ -593,10 +579,7 @@ function TypographySection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--font-${name}`)),
               Td(
-                html.span(
-                  attr.class('text-xs font-mono'),
-                  defaults[name] ?? ''
-                )
+                html.span(attr.class('text-xs font-mono'), defaults[name] ?? '')
               )
             )
           })
@@ -659,10 +642,7 @@ function RadiusSection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--radius-${name}`)),
               Td(
-                html.span(
-                  attr.class('text-xs font-mono'),
-                  defaults[name] ?? ''
-                )
+                html.span(attr.class('text-xs font-mono'), defaults[name] ?? '')
               )
             )
           })
@@ -736,10 +716,7 @@ function ShadowsSection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--shadow-${name}`)),
               Td(
-                html.span(
-                  attr.class('text-xs font-mono'),
-                  defaults[name] ?? ''
-                )
+                html.span(attr.class('text-xs font-mono'), defaults[name] ?? '')
               )
             )
           })
@@ -756,9 +733,7 @@ function TextShadowsSection() {
       attr.class('overflow-x-auto'),
       html.table(
         attr.class('w-full text-sm'),
-        html.thead(
-          html.tr(Th('Name'), Th('CSS Variable'), Th('Preview'))
-        ),
+        html.thead(html.tr(Th('Name'), Th('CSS Variable'), Th('Preview'))),
         html.tbody(
           ...Object.entries(textShadows).map(([name, value]) =>
             html.tr(
@@ -794,10 +769,7 @@ function TextShadowsSection() {
               Td(html.span(attr.class('font-medium'), name)),
               Td(Code(`--text-shadow-${name}`)),
               Td(
-                html.span(
-                  attr.class('text-xs font-mono'),
-                  defaults[name] ?? ''
-                )
+                html.span(attr.class('text-xs font-mono'), defaults[name] ?? '')
               )
             )
           })
@@ -967,7 +939,7 @@ function CustomizationSection() {
       attr.class(
         'text-xs font-mono bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto'
       ),
-`:root {
+      `:root {
   --spacing-base: 0.3rem;        /* Scale all spacing */
   --base-font-size: 1.125rem;    /* Scale all typography */
   --motion-duration-base: 150ms; /* Adjust animation speed */
@@ -985,7 +957,7 @@ function CustomizationSection() {
       attr.class(
         'text-xs font-mono bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto'
       ),
-`import { generateSemanticTokenVariables } from '@tempots/beatui'
+      `import { generateSemanticTokenVariables } from '@tempots/beatui'
 
 const vars = generateSemanticTokenVariables({
   colors: { primary: 'indigo', danger: 'rose' },

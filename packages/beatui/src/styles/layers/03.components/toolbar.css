@@ -162,9 +162,7 @@
   color: var(--color-base-300);
 }
 
-.dark
-  .bc-toolbar__group
-  > .bc-toolbar__button.bc-button:hover:not(:disabled) {
+.dark .bc-toolbar__group > .bc-toolbar__button.bc-button:hover:not(:disabled) {
   background-color: var(--color-base-700);
   color: var(--color-base-100);
 }
@@ -249,10 +247,7 @@
   background: var(--color-base-700);
 }
 
-.dark
-  .bc-toolbar--floating
-  .bc-toolbar__button
-  .bc-button[aria-pressed='true'],
+.dark .bc-toolbar--floating .bc-toolbar__button .bc-button[aria-pressed='true'],
 .dark .bc-toolbar--floating .bc-toolbar__button .bc-button.bc-button--active {
   background: var(--color-primary-900);
   color: var(--color-primary-300);

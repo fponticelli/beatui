@@ -367,7 +367,10 @@ export default function ProgressBarPage() {
                 html.div(
                   attr.class('flex items-center justify-between text-sm'),
                   html.span('Cloud Storage'),
-                  html.span(attr.class('text-gray-600 dark:text-gray-400'), '8.2 GB of 10 GB used')
+                  html.span(
+                    attr.class('text-gray-600 dark:text-gray-400'),
+                    '8.2 GB of 10 GB used'
+                  )
                 ),
                 ProgressBar({ value: 82, color: 'warning', size: 'lg' })
               )

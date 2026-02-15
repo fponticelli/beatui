@@ -34,7 +34,12 @@ function DisplayIcon({
         title: value as Value<string | undefined>,
       })
     ),
-    html.div(attr.class('text-xs text-gray-600 dark:text-gray-400 text-center break-all'), value)
+    html.div(
+      attr.class(
+        'text-xs text-gray-600 dark:text-gray-400 text-center break-all'
+      ),
+      value
+    )
   )
 }
 

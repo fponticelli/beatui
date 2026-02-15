@@ -1,12 +1,4 @@
-import {
-  aria,
-  attr,
-  html,
-  computedOf,
-  on,
-  Value,
-  TNode,
-} from '@tempots/dom'
+import { aria, attr, html, computedOf, on, Value, TNode } from '@tempots/dom'
 import { ControlSize } from '../../theme/types'
 import { sessionId } from '../../../utils/session-id'
 import { ThemeColorName } from '../../../tokens'

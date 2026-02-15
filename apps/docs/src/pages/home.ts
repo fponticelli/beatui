@@ -32,7 +32,9 @@ const HomePage = () => {
           { href: '/authentication', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
+            attr.class(
+              'p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+            ),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Authentication'),
@@ -49,7 +51,9 @@ const HomePage = () => {
           { href: '/button', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
+            attr.class(
+              'p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+            ),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Components'),
@@ -66,7 +70,9 @@ const HomePage = () => {
           { href: '/form', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
+            attr.class(
+              'p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+            ),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'Forms'),
@@ -83,7 +89,9 @@ const HomePage = () => {
           { href: '/about', viewTransition: true },
           Card(
             {},
-            attr.class('p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'),
+            attr.class(
+              'p-6 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
+            ),
             Stack(
               attr.class('gap-3'),
               html.h3(attr.class('text-lg font-semibold'), 'About'),

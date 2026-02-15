@@ -139,7 +139,10 @@ export default function AccordionPage() {
       ...allSizes.map(s =>
         html.div(
           attr.class('w-full max-w-xl mb-4'),
-          html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), `Size: ${s}`),
+          html.p(
+            attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+            `Size: ${s}`
+          ),
           Accordion({
             items: [
               {

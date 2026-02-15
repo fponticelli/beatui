@@ -253,7 +253,10 @@ export default function AdvancedSliderPage() {
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Color Variants'),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'primary'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'primary'
+        ),
         AdvancedSlider({
           value: primaryColorValue,
           onChange: primaryColorValue.set,
@@ -267,7 +270,10 @@ export default function AdvancedSliderPage() {
       ),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'red'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'red'
+        ),
         AdvancedSlider({
           value: redColorValue,
           onChange: redColorValue.set,
@@ -281,7 +287,10 @@ export default function AdvancedSliderPage() {
       ),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'green'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'green'
+        ),
         AdvancedSlider({
           value: greenColorValue,
           onChange: greenColorValue.set,
@@ -295,7 +304,10 @@ export default function AdvancedSliderPage() {
       ),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'blue'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'blue'
+        ),
         AdvancedSlider({
           value: blueColorValue,
           onChange: blueColorValue.set,
@@ -309,7 +321,10 @@ export default function AdvancedSliderPage() {
       ),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'orange'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'orange'
+        ),
         AdvancedSlider({
           value: orangeColorValue,
           onChange: orangeColorValue.set,
@@ -323,7 +338,10 @@ export default function AdvancedSliderPage() {
       ),
       html.div(
         attr.class('w-full max-w-lg mb-3'),
-        html.p(attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'), 'violet'),
+        html.p(
+          attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
+          'violet'
+        ),
         AdvancedSlider({
           value: violetColorValue,
           onChange: violetColorValue.set,
