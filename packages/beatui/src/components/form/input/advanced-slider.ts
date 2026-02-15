@@ -11,6 +11,7 @@ import {
   aria,
   WithElement,
   MapSignal,
+  When,
   TNode,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
@@ -82,7 +83,7 @@ export interface AdvancedSliderOptions {
    * Whether to show the current value label(s) above the thumb(s).
    * @default false
    */
-  showValue?: boolean
+  showValue?: Value<boolean>
 
   /**
    * Custom formatter for the displayed value labels.
@@ -312,12 +313,15 @@ export function AdvancedSlider({
       style.left(thumbPct),
 
       // Value label
-      showValue
-        ? html.div(
+      When(
+        showValue,
+        () =>
+          html.div(
             attr.class('bc-advanced-slider__value-label'),
             Value.map(thumbVal, (v: number) => formatValue(v))
-          )
-        : Empty,
+          ),
+        () => Empty
+      ),
 
       html.div(
         attr.class(
