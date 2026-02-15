@@ -214,6 +214,9 @@ async function resolveWithPluginContext(
   context: unknown,
   id: string
 ): Promise<{ id: string } | string | null> {
+  if (context == null || typeof context !== 'object') {
+    return null
+  }
   const resolver = (context as { resolve?: PluginResolveFn }).resolve
   if (!resolver) {
     return null
@@ -327,6 +330,14 @@ export function beatuiTailwindPlugin(
           resolveTailwindCssFile(projectRoot)
       }
 
+      const warn = (msg: string) => {
+        if (this && typeof (this as { warn?: unknown }).warn === 'function') {
+          ;(this as { warn: (msg: string) => void }).warn(msg)
+        } else {
+          resolved.logger.warn(msg)
+        }
+      }
+
       if (googleFontRequests.length > 0) {
         const remoteCssUrls = Array.from(
           // eslint-disable-next-line tempots/require-async-signal-disposal -- This is an array, not a Signal
@@ -335,7 +346,7 @@ export function beatuiTailwindPlugin(
         const preparation = await prepareGoogleFonts({
           projectRoot,
           requests: googleFontRequests,
-          logger: message => this.warn(`[BeatUI] ${message}`),
+          logger: message => warn(`[BeatUI] ${message}`),
         })
         googleFontCssRaw = preparation?.cssText ?? ''
         googleFontAssets = preparation?.assets ?? []
@@ -356,7 +367,7 @@ export function beatuiTailwindPlugin(
         googleFontFallbackUrls.length = 0
       }
       if (injectCss && !tailwindCssPath) {
-        this.warn(
+        warn(
           '[BeatUI] Unable to resolve @tempots/beatui/tailwind.css. CSS will not be auto-injected.'
         )
       }

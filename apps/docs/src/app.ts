@@ -188,6 +188,22 @@ export const App = () => {
           Async(import('./pages/skeleton'), ({ default: Page }) => Page()),
         '/tree-view': () =>
           Async(import('./pages/tree-view'), ({ default: Page }) => Page()),
+        '/accordion': () =>
+          Async(import('./pages/accordion'), ({ default: Page }) => Page()),
+        '/calendar': () =>
+          Async(import('./pages/calendar'), ({ default: Page }) => Page()),
+        '/advanced-slider': () =>
+          Async(import('./pages/advanced-slider'), ({ default: Page }) =>
+            Page()
+          ),
+        '/otp-input': () =>
+          Async(import('./pages/otp-input'), ({ default: Page }) => Page()),
+        '/toggle-button': () =>
+          Async(import('./pages/toggle-button'), ({ default: Page }) => Page()),
+        '/toggle-button-group': () =>
+          Async(import('./pages/toggle-button-group'), ({ default: Page }) =>
+            Page()
+          ),
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
             ApiRouter()

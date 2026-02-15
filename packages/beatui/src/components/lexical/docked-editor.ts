@@ -17,7 +17,7 @@ import type {
   DockedEditorOptions,
   PluginConfig,
   ContentFormatType,
-  EditorContent,
+  JsonContent,
 } from '../../lexical/types'
 import {
   getNodesForPlugins,
@@ -314,13 +314,14 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
                       editorState.read(async () => {
                         if (resolvedFormat === 'markdown') {
                           const md = await exportToMarkdown(editor)
-                          onInput(md, editor)
+                          onInput(md as string & JsonContent, editor)
                         } else if (resolvedFormat === 'html') {
                           const htmlContent = await exportToHtml(editor)
-                          onInput(htmlContent, editor)
+                          onInput(htmlContent as string & JsonContent, editor)
                         } else if (resolvedFormat === 'json') {
                           onInput(
-                            editorState.toJSON() as unknown as EditorContent,
+                            editorState.toJSON() as unknown as string &
+                              JsonContent,
                             editor
                           )
                         }
@@ -332,7 +333,9 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
 
               // Set initial content from value
               if (value != null) {
-                const initialValue = Value.get(value)
+                const initialValue = Value.get(
+                  value as Signal<string | JsonContent>
+                )
                 // Skip empty values but allow empty objects for JSON format
                 const shouldLoad =
                   initialValue != null &&
@@ -378,7 +381,7 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
               // React to external value changes
               if (value != null) {
                 disposers.push(
-                  Value.on(value, async v => {
+                  Value.on(value as Signal<string | JsonContent>, async v => {
                     if (v == null) return
                     if (
                       resolvedFormat === 'markdown' &&
@@ -434,15 +437,15 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
                       editor.getEditorState().read(async () => {
                         if (resolvedFormat === 'markdown') {
                           const md = await exportToMarkdown(editor)
-                          onChange(md, editor)
+                          onChange(md as string & JsonContent, editor)
                         } else if (resolvedFormat === 'html') {
                           const htmlContent = await exportToHtml(editor)
-                          onChange(htmlContent, editor)
+                          onChange(htmlContent as string & JsonContent, editor)
                         } else if (resolvedFormat === 'json') {
                           onChange(
                             editor
                               .getEditorState()
-                              .toJSON() as unknown as EditorContent,
+                              .toJSON() as unknown as string & JsonContent,
                             editor
                           )
                         }

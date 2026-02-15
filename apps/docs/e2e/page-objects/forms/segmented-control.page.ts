@@ -15,8 +15,12 @@ export class SegmentedControlPage extends BasePage {
 
   constructor(page: Page) {
     super(page, '/segmented-control')
-    this.segmentedControls = page.locator('.bc-segmented-input, .bc-segmented-control')
-    this.segmentButtons = page.locator('.bc-segmented-input button, .bc-segmented-control button')
+    this.segmentedControls = page.locator(
+      '.bc-segmented-input, .bc-segmented-control'
+    )
+    this.segmentButtons = page.locator(
+      '.bc-segmented-input button, .bc-segmented-control button'
+    )
     this.selectedSegments = page.locator(
       '.bc-segmented-input button[aria-pressed="true"], .bc-segmented-control button[data-selected="true"]'
     )
@@ -33,7 +37,10 @@ export class SegmentedControlPage extends BasePage {
     return this.segmentButtons.count()
   }
 
-  async selectSegment(controlIndex: number, segmentIndex: number): Promise<void> {
+  async selectSegment(
+    controlIndex: number,
+    segmentIndex: number
+  ): Promise<void> {
     const control = this.segmentedControls.nth(controlIndex)
     const button = control.locator('button').nth(segmentIndex)
     if ((await button.count()) > 0) {
@@ -43,9 +50,11 @@ export class SegmentedControlPage extends BasePage {
 
   async getSelectedSegmentText(controlIndex: number): Promise<string> {
     const control = this.segmentedControls.nth(controlIndex)
-    const selected = control.locator('button[aria-pressed="true"], button[data-selected="true"]')
+    const selected = control.locator(
+      'button[aria-pressed="true"], button[data-selected="true"]'
+    )
     if ((await selected.count()) > 0) {
-      return selected.textContent() ?? ''
+      return (await selected.textContent()) ?? ''
     }
     return ''
   }

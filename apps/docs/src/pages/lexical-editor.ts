@@ -16,8 +16,9 @@ import {
 } from '@tempots/beatui/lexical'
 import type {
   ContentFormatType,
-  EditorContent,
   EditorPresetType,
+  JsonContent,
+  LexicalEditorBaseOptions,
   PluginConfig,
   ToolbarGroupId,
 } from '@tempots/beatui/lexical'
@@ -285,7 +286,7 @@ const jsonSample = {
   },
 }
 
-const formatSamples: Record<ContentFormatType, EditorContent> = {
+const formatSamples = {
   markdown: markdownSample,
   html: htmlSample,
   json: jsonSample,
@@ -315,7 +316,7 @@ function InfoPanel(
     attr.class('gap-2 p-4 border rounded'),
     html.h4(attr.class('font-semibold text-sm'), titleSignal),
     html.p(
-      attr.class('text-sm text-gray-600 dark:text-gray-400'),
+      attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
       descriptionSignal
     )
   )
@@ -344,7 +345,7 @@ export default function LexicalEditorPage() {
   const isPluginEnabled = (key: keyof PluginConfig): Signal<boolean> =>
     pluginConfig.map(cfg => !!cfg[key])
 
-  const handleInput = (content: EditorContent) => {
+  const handleInput = (content: string | JsonContent) => {
     if (typeof content === 'string') {
       currentOutput.set(content)
     } else {
@@ -421,14 +422,14 @@ export default function LexicalEditorPage() {
           attr.class('flex-1 border rounded overflow-hidden'),
           style.minHeight('0'),
           MapSignal(editorConfig, ({ preset: p, format: f, plugins }) => {
-            const base = {
+            const base: LexicalEditorBaseOptions = {
               value: formatSamples[f],
               format: f,
               readOnly,
               plugins,
               onInput: handleInput,
               placeholder: 'Start typing...',
-            }
+            } as LexicalEditorBaseOptions
             switch (p) {
               case 'docked':
                 return DockedEditor({
@@ -491,7 +492,7 @@ export default function LexicalEditorPage() {
           ),
           html.pre(
             attr.class(
-              'text-xs overflow-auto bg-gray-50 dark:bg-gray-900 p-2 rounded'
+              'text-xs overflow-auto bg-gray-50 beatui-dark:bg-gray-900 p-2 rounded'
             ),
             style.maxHeight('400px'),
             currentOutput

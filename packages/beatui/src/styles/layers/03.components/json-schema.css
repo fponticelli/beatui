@@ -3,6 +3,10 @@
   padding-inline-start: calc(var(--spacing-base) * 2);
 }
 
+.b-dark .bc-json-schema-object {
+  border-left-color: var(--color-base-700);
+}
+
 .bc-schema-grid {
   display: grid;
 }

@@ -1,0 +1,104 @@
+/* Toggle Button Component */
+.bc-toggle-button {
+  --toggle-bg: transparent;
+  --toggle-text: inherit;
+  --toggle-border: transparent;
+  --toggle-border-style: solid;
+  --toggle-text-shadow: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-stack-2xs);
+  border: 1.5px var(--toggle-border-style) var(--toggle-border);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--toggle-bg);
+  color: var(--toggle-text);
+  text-shadow: var(--toggle-text-shadow);
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
+  user-select: none;
+}
+
+.bc-toggle-button--full-width {
+  width: 100%;
+}
+
+.bc-toggle-button:hover:not(:disabled) {
+  background-color: var(--toggle-bg-hover);
+  color: var(--toggle-text-hover);
+}
+
+.bc-toggle-button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.bc-toggle-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.bc-toggle-button--pressed {
+  box-shadow: inset 0 1px 3px
+    color-mix(in srgb, var(--color-black) 10%, transparent);
+}
+
+/* Size variants */
+.bc-toggle-button--size-xs {
+  font-size: var(--font-size-xs);
+  min-height: calc(var(--spacing-base) * 6);
+  min-width: calc(var(--spacing-base) * 6);
+}
+
+.bc-toggle-button--size-sm {
+  font-size: var(--font-size-sm);
+  min-height: calc(var(--spacing-base) * 7);
+  min-width: calc(var(--spacing-base) * 7);
+}
+
+.bc-toggle-button--size-md {
+  font-size: var(--font-size-md);
+  min-height: calc(var(--spacing-base) * 8);
+  min-width: calc(var(--spacing-base) * 8);
+}
+
+.bc-toggle-button--size-lg {
+  font-size: var(--font-size-lg);
+  min-height: calc(var(--spacing-base) * 10);
+  min-width: calc(var(--spacing-base) * 10);
+}
+
+.bc-toggle-button--size-xl {
+  font-size: var(--font-size-xl);
+  min-height: calc(var(--spacing-base) * 12);
+  min-width: calc(var(--spacing-base) * 12);
+}
+
+/* Dark mode */
+.b-dark .bc-toggle-button {
+  background-color: var(--toggle-bg-dark);
+  color: var(--toggle-text-dark);
+  border-color: var(--toggle-border-dark);
+  text-shadow: var(--toggle-text-shadow-dark);
+}
+
+.b-dark .bc-toggle-button:hover:not(:disabled) {
+  background-color: var(--toggle-bg-hover-dark);
+  color: var(--toggle-text-hover-dark);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-toggle-button {
+    transition: none;
+  }
+}
+
+/* High contrast */
+@media (prefers-contrast: high) {
+  .bc-toggle-button {
+    border-width: 2px;
+  }
+}

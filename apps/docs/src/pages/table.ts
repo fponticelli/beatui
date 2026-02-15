@@ -138,7 +138,6 @@ export default function TablePage() {
           opts =>
             SegmentedInput({
               ...opts,
-              size: 'sm',
               options: {
                 none: 'None',
                 xs: 'XS',

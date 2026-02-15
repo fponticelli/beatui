@@ -20,7 +20,6 @@ export function AuthProviderSelector({
   onChange?: (value: AuthProviderKey) => void
 }) {
   return SegmentedInput({
-    size: 'sm',
     options: OPTIONS,
     value: provider,
     onChange,

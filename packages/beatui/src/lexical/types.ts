@@ -9,19 +9,9 @@ import type { InputOptions } from '../components/form/input/input-options'
 export type ContentFormatType = 'markdown' | 'json' | 'html'
 
 /**
- * String-based content (markdown or html)
- */
-export type StringContent = string
-
-/**
  * JSON-based content (Lexical's serialized state)
  */
 export type JsonContent = Record<string, unknown>
-
-/**
- * Union of all supported content types
- */
-export type EditorContent = StringContent | JsonContent
 
 /**
  * Plugin definition for Lexical editor
@@ -539,24 +529,11 @@ export interface CollaborationUser {
  */
 export type EditorHeightMode = 'fixed' | 'auto'
 
-/**
- * Base options for all Lexical editor variants
- */
-export interface LexicalEditorBaseOptions {
+interface UntypedLexicalEditorOptions {
   /**
    * Editor namespace (for multiple editors on the same page)
    */
   namespace?: string
-
-  /**
-   * Initial content value
-   */
-  value?: Value<EditorContent>
-
-  /**
-   * Content format type
-   */
-  format?: Value<ContentFormatType>
 
   /**
    * Plugin configuration
@@ -586,20 +563,6 @@ export interface LexicalEditorBaseOptions {
   onError?: (error: Error, editor: LexicalEditor) => void
 
   /**
-   * Input event handler (fires on every change)
-   * @param content - The current content
-   * @param editor - The editor instance
-   */
-  onInput?: (content: EditorContent, editor: LexicalEditor) => void
-
-  /**
-   * Change event handler (fires after debounced changes)
-   * @param content - The current content
-   * @param editor - The editor instance
-   */
-  onChange?: (content: EditorContent, editor: LexicalEditor) => void
-
-  /**
    * Blur event handler
    * @param editor - The editor instance
    */
@@ -624,6 +587,24 @@ export interface LexicalEditorBaseOptions {
   heightMode?: EditorHeightMode
 }
 
+interface StringLexicalEditorOptions extends UntypedLexicalEditorOptions {
+  value?: Value<string>
+  format?: 'markdown' | 'html'
+  onChange?: (content: string, editor: LexicalEditor) => void
+  onInput?: (content: string, editor: LexicalEditor) => void
+}
+
+interface JsonLexicalEditorOptions extends UntypedLexicalEditorOptions {
+  value?: Value<JsonContent>
+  format?: 'json'
+  onChange?: (content: JsonContent, editor: LexicalEditor) => void
+  onInput?: (content: JsonContent, editor: LexicalEditor) => void
+}
+
+export type LexicalEditorBaseOptions =
+  | StringLexicalEditorOptions
+  | JsonLexicalEditorOptions
+
 /**
  * Options for bare editor (minimal features)
  */
@@ -632,7 +613,7 @@ export type BareEditorOptions = LexicalEditorBaseOptions
 /**
  * Options for docked editor (with fixed toolbar)
  */
-export interface DockedEditorOptions extends LexicalEditorBaseOptions {
+export type DockedEditorOptions = LexicalEditorBaseOptions & {
   /**
    * Toolbar configuration
    */
@@ -642,7 +623,7 @@ export interface DockedEditorOptions extends LexicalEditorBaseOptions {
 /**
  * Options for contextual editor (with floating toolbar and block handle)
  */
-export interface ContextualEditorOptions extends LexicalEditorBaseOptions {
+export type ContextualEditorOptions = LexicalEditorBaseOptions & {
   /**
    * @deprecated Slash commands are no longer used. Use the block handle instead.
    */

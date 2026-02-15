@@ -45,6 +45,8 @@ export type SwitchOptions = {
   color?: Value<ThemeColorName>
   /** Tab index for keyboard navigation order. @default 0 */
   tabIndex?: Value<number>
+  /** Whether to add vertical padding so the switch matches the height of text inputs at the same size. @default true */
+  matchInputHeight?: boolean
 }
 
 /**
@@ -98,6 +100,7 @@ export const Switch = ({
   id,
   color = 'primary',
   tabIndex = 0,
+  matchInputHeight = true,
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
   const switchId = id ?? sessionId('switch')
@@ -108,6 +111,10 @@ export const Switch = ({
       `bc-switch--size-${size}`,
       `bc-switch--${size}`,
     ]
+
+    if (matchInputHeight) {
+      classes.push('bc-switch--match-input')
+    }
 
     if (disabled) {
       classes.push('bc-switch--disabled')

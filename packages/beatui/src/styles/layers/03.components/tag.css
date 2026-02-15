@@ -63,7 +63,8 @@
 /* Close button */
 .bc-tag__close {
   background: transparent;
-  color: var(--color-gray-200);
+  color: var(--tag-text);
+  opacity: 0.6;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -78,8 +79,8 @@
 }
 
 .bc-tag__close:hover {
-  color: var(--color-white);
-  border-color: var(--color-gray-300);
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--tag-text) 30%, transparent);
 }
 
 /* Disabled state via class */
@@ -113,9 +114,13 @@
   color: var(--tag-text-hover-dark);
 }
 
+.b-dark .bc-tag__close {
+  color: var(--tag-text-dark);
+}
+
 .b-dark .bc-tag__close:hover:not(:disabled) {
-  color: var(--text-normal);
-  border-color: var(--border-default);
+  color: var(--tag-text-dark);
+  border-color: color-mix(in srgb, var(--tag-text-dark) 30%, transparent);
 }
 
 .bc-input-container__tags-selector {

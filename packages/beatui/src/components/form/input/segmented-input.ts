@@ -11,6 +11,8 @@ import {
   OnDispose,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
+import { ThemeColorName } from '../../../tokens'
+import { backgroundValue, ExtendedColor } from '../../theme/style-utils'
 import { delayedAnimationFrame, objectEntries } from '@tempots/std'
 import { ElementRect } from '@tempots/ui'
 function arrEquality<T>(a: T[], b: T[]): boolean {
@@ -43,6 +45,11 @@ export interface SegmentedInputOptions<
    * @default 'pill'
    */
   variant?: Value<'pill' | 'squared'>
+  /**
+   * Theme color for the active segment indicator and text, using solid button-style coloring.
+   * When not set, uses the default white indicator with primary-tinted active text.
+   */
+  color?: Value<ThemeColorName>
 }
 
 function generateSegmentedInputClasses(
@@ -61,6 +68,25 @@ function generateSegmentedInputClasses(
   }
 
   return classes.join(' ')
+}
+
+function generateSegmentedInputStyles(
+  color: ThemeColorName | undefined
+): string {
+  if (color == null) return ''
+  const styles = new Map<string, string>()
+
+  const baseLight = backgroundValue(color as ExtendedColor, 'solid', 'light')
+  const baseDark = backgroundValue(color as ExtendedColor, 'solid', 'dark')
+
+  styles.set('--si-indicator-bg', baseLight.backgroundColor)
+  styles.set('--si-active-text', baseLight.textColor)
+  styles.set('--si-indicator-bg-dark', baseDark.backgroundColor)
+  styles.set('--si-active-text-dark', baseDark.textColor)
+
+  return Array.from(styles.entries())
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ')
 }
 
 /**
@@ -117,6 +143,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
     size = 'md',
     disabled = false,
     variant = 'pill',
+    color,
   }: SegmentedInputOptions<T, keyof T>,
   ...children: TNode[]
 ) {
@@ -146,6 +173,11 @@ export function SegmentedInput<T extends Record<string, TNode>>(
             variant ?? 'pill'
           )
         )
+      ),
+      attr.style(
+        color != null
+          ? Value.map(color, c => generateSegmentedInputStyles(c))
+          : ''
       ),
       html.div(
         attr.class('bc-segmented-input__container'),

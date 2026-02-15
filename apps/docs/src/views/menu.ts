@@ -19,7 +19,7 @@ const SectionHeader = (icon: string, label: string) =>
 
 export function Menu() {
   return Stack(
-    attr.class('h-full overflow-y-auto bg-gray-100 dark:bg-gray-900'),
+    attr.class('h-full overflow-y-auto bg-gray-100 beatui-dark:bg-gray-900'),
     Sidebar(
       {},
       // ── Authentication ──
@@ -44,6 +44,11 @@ export function Menu() {
         SidebarLink({ href: '/inputs', content: 'Inputs' }),
         SidebarLink({ href: '/control', content: 'Control' }),
         SidebarLink({ href: '/button', content: 'Button' }),
+        SidebarLink({ href: '/toggle-button', content: 'Toggle Button' }),
+        SidebarLink({
+          href: '/toggle-button-group',
+          content: 'Toggle Button Group',
+        }),
         SidebarLink({ href: '/switch', content: 'Switch' }),
         SidebarLink({
           href: '/segmented-control',
@@ -58,6 +63,8 @@ export function Menu() {
         SidebarLink({ href: '/file-input', content: 'File Input' }),
         SidebarLink({ href: '/page-drop-zone', content: 'Page Drop Zone' }),
         SidebarLink({ href: '/mask-input', content: 'Mask Input' }),
+        SidebarLink({ href: '/otp-input', content: 'OTP Input' }),
+        SidebarLink({ href: '/advanced-slider', content: 'Advanced Slider' }),
         SidebarLink({ href: '/editable-text', content: 'Editable Text' }),
         SidebarLink({ href: '/form', content: 'Form' })
       ),
@@ -117,6 +124,7 @@ export function Menu() {
       // ── Layout ──
       SidebarGroup(
         { header: SectionHeader('lucide:layout', 'Layout'), rail: true },
+        SidebarLink({ href: '/accordion', content: 'Accordion' }),
         SidebarLink({ href: '/action-card', content: 'Action Card' }),
         SidebarLink({ href: '/collapse', content: 'Collapse' }),
         SidebarLink({ href: '/divider', content: 'Divider' }),
@@ -154,6 +162,7 @@ export function Menu() {
         },
         SidebarLink({ href: '/avatar', content: 'Avatar' }),
         SidebarLink({ href: '/badge', content: 'Badge' }),
+        SidebarLink({ href: '/calendar', content: 'Calendar' }),
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/tags', content: 'Tags' }),
         SidebarLink({ href: '/kbd', content: 'Kbd' }),

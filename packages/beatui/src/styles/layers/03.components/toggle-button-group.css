@@ -1,0 +1,96 @@
+/* Toggle Button Group Component */
+.bc-toggle-button-group {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* Horizontal layout (default) */
+.bc-toggle-button-group--horizontal {
+  flex-direction: row;
+}
+
+/* Vertical layout */
+.bc-toggle-button-group--vertical {
+  flex-direction: column;
+}
+
+/* ── Horizontal: collapse borders between buttons ── */
+.bc-toggle-button-group--horizontal > .bc-toggle-button + .bc-toggle-button {
+  margin-left: -1.5px;
+}
+
+/* ── Vertical: collapse borders between buttons ── */
+.bc-toggle-button-group--vertical > .bc-toggle-button + .bc-toggle-button {
+  margin-top: -1.5px;
+}
+
+/* ── Strip all border-radius inside the group ── */
+.bc-toggle-button-group > .bc-toggle-button {
+  border-radius: 0;
+}
+
+/* ── Horizontal: first child gets left radii ── */
+.bc-toggle-button-group--horizontal > .bc-toggle-button:first-child {
+  border-top-left-radius: var(--toggle-group-radius, var(--radius-sm));
+  border-bottom-left-radius: var(--toggle-group-radius, var(--radius-sm));
+}
+
+/* ── Horizontal: last child gets right radii ── */
+.bc-toggle-button-group--horizontal > .bc-toggle-button:last-child {
+  border-top-right-radius: var(--toggle-group-radius, var(--radius-sm));
+  border-bottom-right-radius: var(--toggle-group-radius, var(--radius-sm));
+}
+
+/* ── Vertical: first child gets top radii ── */
+.bc-toggle-button-group--vertical > .bc-toggle-button:first-child {
+  border-top-left-radius: var(--toggle-group-radius, var(--radius-sm));
+  border-top-right-radius: var(--toggle-group-radius, var(--radius-sm));
+}
+
+/* ── Vertical: last child gets bottom radii ── */
+.bc-toggle-button-group--vertical > .bc-toggle-button:last-child {
+  border-bottom-left-radius: var(--toggle-group-radius, var(--radius-sm));
+  border-bottom-right-radius: var(--toggle-group-radius, var(--radius-sm));
+}
+
+/* Ensure pressed buttons layer above neighbors for visible borders */
+.bc-toggle-button-group > .bc-toggle-button--pressed {
+  z-index: 1;
+}
+
+.bc-toggle-button-group > .bc-toggle-button:hover {
+  z-index: 2;
+}
+
+.bc-toggle-button-group > .bc-toggle-button:focus-visible {
+  z-index: 3;
+}
+
+/* Size-specific radius overrides using the design-token scale */
+.bc-toggle-button-group--rounded-none {
+  --toggle-group-radius: 0;
+}
+
+.bc-toggle-button-group--rounded-xs {
+  --toggle-group-radius: var(--radius-xs);
+}
+
+.bc-toggle-button-group--rounded-sm {
+  --toggle-group-radius: var(--radius-sm);
+}
+
+.bc-toggle-button-group--rounded-md {
+  --toggle-group-radius: var(--radius-md);
+}
+
+.bc-toggle-button-group--rounded-lg {
+  --toggle-group-radius: var(--radius-lg);
+}
+
+.bc-toggle-button-group--rounded-xl {
+  --toggle-group-radius: var(--radius-xl);
+}
+
+.bc-toggle-button-group--rounded-full {
+  --toggle-group-radius: var(--radius-full);
+}

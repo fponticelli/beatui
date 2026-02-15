@@ -10,9 +10,7 @@
 // Types
 export type {
   ContentFormatType,
-  StringContent,
   JsonContent,
-  EditorContent,
   LexicalPluginDefinition,
   PluginConfig,
   HistoryPluginOptions,

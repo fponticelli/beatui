@@ -23,7 +23,7 @@ export default function HomePage() {
               Anchor(
                 { href: w.route, viewTransition: true },
                 attr.class(
-                  'text-sm px-3 py-1 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors no-underline text-gray-700 dark:text-gray-300'
+                  'text-sm px-3 py-1 rounded-md bg-gray-100 beatui-dark:bg-gray-800 hover:bg-primary-100 beatui-dark:hover:bg-primary-900 transition-colors no-underline text-gray-700 beatui-dark:text-gray-300'
                 ),
                 w.label
               )

@@ -121,14 +121,14 @@ export default function DividersPage() {
           attr.class('flex items-stretch gap-6 h-40'),
           html.div(
             attr.class(
-              'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
             ),
             'Panel A'
           ),
           Divider({ orientation: 'vertical', label: 'OR' }),
           html.div(
             attr.class(
-              'flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded'
+              'flex-1 flex items-center justify-center bg-gray-50 beatui-dark:bg-gray-800 rounded'
             ),
             'Panel B'
           )

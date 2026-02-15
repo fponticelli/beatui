@@ -13,7 +13,6 @@ export function ControlSizeSelector({
   return InputWrapper({
     label,
     content: SegmentedInput({
-      size: 'sm',
       options: {
         xs: 'XS',
         sm: 'SM',

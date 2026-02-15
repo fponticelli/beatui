@@ -32,7 +32,7 @@ export default function PresenceOverlayPage() {
             ' dog.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Standalone cursors show where collaborators are editing.'
           )
         )
@@ -54,7 +54,7 @@ export default function PresenceOverlayPage() {
             '.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Highlights show selected text with 12% color opacity.'
           )
         )
@@ -82,7 +82,7 @@ export default function PresenceOverlayPage() {
             '.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Combined selection shows highlight + cursor with author name tag.'
           )
         )
@@ -119,7 +119,7 @@ export default function PresenceOverlayPage() {
             ', quis nostrud exercitation ullamco laboris.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Multiple users can be shown simultaneously with different colors.'
           )
         )
@@ -166,7 +166,7 @@ export default function PresenceOverlayPage() {
             '";'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Presence indicators adapt to different font sizes and styles.'
           )
         )
@@ -210,7 +210,7 @@ export default function PresenceOverlayPage() {
             )
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Common color palette for collaborative presence.'
           )
         )
@@ -220,18 +220,18 @@ export default function PresenceOverlayPage() {
       SectionStack(
         'Usage',
         html.div(
-          attr.class('space-y-2 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg'),
+          attr.class('space-y-2 p-4 bg-gray-50 beatui-dark:bg-gray-900 rounded-lg'),
           html.p(
             attr.class('text-sm'),
             html.strong('Note: '),
             'This is a CSS-based visual component for displaying collaborative editing presence.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Use PresenceCursor for cursor-only indicators, PresenceHighlight for selection highlights, or PresenceSelectionMark for combined cursor + highlight.'
           ),
           html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            attr.class('text-sm text-gray-600 beatui-dark:text-gray-400'),
             'Integration with actual collaborative editors (like Yjs, Lexical, ProseMirror) requires mapping document positions to DOM ranges.'
           )
         )

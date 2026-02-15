@@ -10,7 +10,6 @@ export function AuthModeSelector({
   onChange?: (value: AuthMode) => void
 }) {
   return SegmentedInput({
-    size: 'sm',
     options: {
       signin: 'Sign In',
       signup: 'Sign Up',

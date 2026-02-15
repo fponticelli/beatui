@@ -51,3 +51,12 @@
 .bc-number-input-steppers .bc-button:active:not(:disabled) {
   transform: none;
 }
+
+/* Dark mode */
+.b-dark .bc-number-input-steppers-button {
+  outline-color: var(--color-base-600);
+}
+
+.b-dark .bc-number-input-steppers-button:hover {
+  background-color: var(--color-base-700);
+}

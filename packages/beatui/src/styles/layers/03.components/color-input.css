@@ -24,6 +24,10 @@
   border-radius: 100%;
 }
 
+.bc-input-container .bc-color-input__swatch input {
+  opacity: 0;
+}
+
 .bc-color-swatch-input__control--alpha {
   /* subtle checkerboard background to visualize transparency */
   background-image:

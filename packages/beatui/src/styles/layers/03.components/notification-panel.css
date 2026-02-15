@@ -188,3 +188,27 @@
 .b-dark .bc-notification-panel__item-body {
   color: var(--color-base-400);
 }
+
+.b-dark .bc-notification-panel__mark-read-btn {
+  color: var(--color-primary-400);
+}
+
+.b-dark .bc-notification-panel__close-btn {
+  color: var(--color-base-500);
+}
+
+.b-dark .bc-notification-panel__item-meta {
+  color: var(--color-base-500);
+}
+
+.b-dark .bc-notification-panel__item-source {
+  color: var(--color-primary-400);
+}
+
+.b-dark .bc-notification-panel__empty {
+  color: var(--color-base-500);
+}
+
+.b-dark .bc-notification-panel__item--unread:hover {
+  background: color-mix(in srgb, var(--color-primary-500) 12%, transparent);
+}
