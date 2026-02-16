@@ -114,12 +114,14 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
 
   let triggerElement: HTMLElement | undefined
   let listboxElement: HTMLElement | undefined
+  let flyoutHideFn: (() => void) | undefined
 
   const wrappedOnChange = (selectedValue: T) => {
     onChange?.(selectedValue)
     isOpen.set(false)
     focusedIndex.set(-1)
     focusedValue.set(null)
+    flyoutHideFn?.()
     triggerElement?.focus()
   }
 
@@ -282,6 +284,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
               focusedValue.set(null)
               originalHide()
             }
+            flyoutHideFn = flyoutHide
 
             const handleClick = () => {
               if (isOpen.value) {

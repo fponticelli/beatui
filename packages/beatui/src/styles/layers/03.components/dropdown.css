@@ -77,8 +77,9 @@
 }
 
 .bc-dropdown__option--selected {
-  background-color: var(--color-primary-600);
-  color: var(--color-white);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-semibold);
 }
 
 .bc-dropdown__option--disabled {
@@ -156,8 +157,9 @@
 }
 
 .dark .bc-dropdown__option--selected {
-  background-color: var(--color-primary-500);
-  color: var(--color-white);
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-200);
+  font-weight: var(--font-weight-semibold);
 }
 
 .dark .bc-dropdown__separator {
