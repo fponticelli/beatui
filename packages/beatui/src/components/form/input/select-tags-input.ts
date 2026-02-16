@@ -9,6 +9,7 @@ import {
   computedOf,
   aria,
   NotEmpty,
+  Empty,
 } from '@tempots/dom'
 import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
@@ -175,7 +176,7 @@ export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
                   )
                 }
                 // skip breaks inside groups for simplicity
-                return Fragment()
+                return Empty
               })
             )
           )

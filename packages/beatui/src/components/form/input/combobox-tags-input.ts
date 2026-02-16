@@ -1,12 +1,17 @@
 import {
   attr,
+  Ensure,
+  ForEach,
   Fragment,
   html,
   on,
+  OneOfType,
   prop,
-  TNode,
+  Renderable,
+  Signal,
   Value,
   Use,
+  When,
   computedOf,
   aria,
   WithElement,
@@ -102,71 +107,57 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
     options.onChange?.(toggleValue(current, v, equality))
   }
 
-  const selectedHas = (v: T) =>
-    computedOf(value)(vals => containsValue(vals, v, equality))
-
   const filteredOptions = computedOf(
     allOptions,
     query
   )((opts, q) => filterOptionsByQuery(opts, q, filter))
 
+  const renderMenuItem = (
+    optSignal: Signal<DropdownOption<T>>
+  ): Renderable =>
+    Ensure(optSignal as Signal<DropdownOption<T> | undefined>, opt =>
+      OneOfType(opt, {
+        value: v => {
+          const selected = computedOf(
+            value,
+            v
+          )((vals, opt) => containsValue(vals, opt.value, equality))
+          return html.div(
+            attr.role('menuitem'),
+            attr.tabindex(-1),
+            aria.disabled(v.map(o => o.disabled === true)),
+            aria.checked(selected as Value<boolean | 'mixed'>),
+            attr.class('bc-menu-item'),
+            html.span(attr.class('bc-menu-item__content'), v.$.label),
+            on.click(() => toggleOne(v.value.value))
+          )
+        },
+        group: v =>
+          html.div(
+            attr.class('bc-menu-group'),
+            html.div(attr.class('bc-menu-group__label'), v.$.group),
+            ForEach(
+              v.$.options as Value<DropdownOption<T>[]>,
+              renderMenuItem
+            )
+          ),
+        break: () => MenuSeparator(),
+      })
+    )
+
   const menu = Menu({
-    items: () => {
-      const items: TNode[] = []
-      const opts = Value.get(filteredOptions)
-      if (opts.length === 0) {
-        items.push(
+    items: () => [
+      When(
+        filteredOptions.map(opts => opts.length === 0),
+        () =>
           html.div(
             attr.class('bc-dropdown__empty'),
             Use(BeatUII18n, t => t.$.noResults)
-          )
-        )
-        return items
-      }
-
-      for (const opt of opts) {
-        if (opt.type === 'value') {
-          const selected = selectedHas(opt.value)
-          items.push(
-            html.div(
-              attr.role('menuitem'),
-              attr.tabindex(-1),
-              aria.disabled(opt.disabled === true),
-              aria.checked(selected as Value<boolean | 'mixed'>),
-              attr.class('bc-menu-item'),
-              html.span(attr.class('bc-menu-item__content'), opt.label),
-              on.click(() => toggleOne(opt.value))
-            )
-          )
-        } else if (opt.type === 'group') {
-          items.push(
-            html.div(
-              attr.class('bc-menu-group'),
-              html.div(attr.class('bc-menu-group__label'), opt.group),
-              ...opt.options.map(o => {
-                if (o.type === 'value') {
-                  const selected = selectedHas(o.value)
-                  return html.div(
-                    attr.role('menuitem'),
-                    attr.tabindex(-1),
-                    aria.disabled(o.disabled === true),
-                    aria.checked(selected as Value<boolean | 'mixed'>),
-                    attr.class('bc-menu-item'),
-                    html.span(attr.class('bc-menu-item__content'), o.label),
-                    on.click(() => toggleOne(o.value))
-                  )
-                }
-                return Fragment()
-              })
-            )
-          )
-        } else {
-          items.push(MenuSeparator())
-        }
-      }
-
-      return items
-    },
+          ),
+        () => Fragment()
+      ),
+      ForEach(filteredOptions, renderMenuItem),
+    ],
     placement: 'bottom-start',
     showDelay: 0,
     hideDelay: 100,

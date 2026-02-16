@@ -264,7 +264,7 @@ export default function SkeletonPage() {
             'Toggle between loading and loaded states.'
           ),
           Group(
-            { gap: 'sm' },
+            attr.class('gap-2'),
             Button(
               {
                 onClick: () => isLoading.set(!isLoading.value),

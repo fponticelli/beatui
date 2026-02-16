@@ -1,4 +1,4 @@
-import { Fragment, Renderable } from '@tempots/dom'
+import { Empty, Renderable } from '@tempots/dom'
 import {
   Control,
   NumberInput,
@@ -74,7 +74,7 @@ export function JSONSchemaNumber({
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
   if (shouldHideWriteOnly(ctx)) {
-    return Fragment()
+    return Empty
   }
 
   const def = ctx.definition as JSONSchema

@@ -1,4 +1,4 @@
-import { Fragment, Renderable, Value } from '@tempots/dom'
+import { Empty, Renderable, Value } from '@tempots/dom'
 import { Control, CheckboxInput, type Controller } from '../../form'
 import { NullableResetAfter } from '../../form/input/nullable-utils'
 import type { SchemaContext, JSONSchema } from '../schema-context'
@@ -22,7 +22,7 @@ export function JSONSchemaBoolean({
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
   if (shouldHideWriteOnly(ctx)) {
-    return Fragment()
+    return Empty
   }
 
   const resolved = resolveWidget(ctx.definition as JSONSchema, ctx.name)

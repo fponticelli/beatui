@@ -1,4 +1,12 @@
-import { attr, Renderable, Value, MapSignal, Use, Fragment } from '@tempots/dom'
+import {
+  attr,
+  Renderable,
+  Value,
+  MapSignal,
+  Use,
+  Fragment,
+  Empty,
+} from '@tempots/dom'
 import { ObjectController, InputWrapper } from '../../form'
 import { Button } from '../../button'
 import { objectEntries } from '@tempots/std'
@@ -225,6 +233,7 @@ function renderKnownProperties({
 
   const names = knownPropertyEntries.map(([k]) => k as string)
 
+  // eslint-disable-next-line tempots/no-renderable-signal-map
   const children = knownPropertyEntries.map(([k, definition]) => {
     const key = k as string
     const field = controller.field(key)
@@ -373,7 +382,7 @@ function renderStaticObject({
     const additionalKeys = currentKeys.filter(k => !config.knownKeys.has(k))
 
     if (additionalKeys.length === 0) {
-      return Fragment()
+      return Empty
     }
 
     const evaluatedKeys = getEvaluatedProperties(
@@ -548,6 +557,7 @@ function renderDynamicObject({
 
     const propertyChildren = [
       // Known properties
+      // eslint-disable-next-line tempots/no-renderable-signal-map
       ...knownPropertyEntries.map(([k, definition]) => {
         const key = k as string
         const field = controller.field(key)

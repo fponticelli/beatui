@@ -1,4 +1,4 @@
-import { Fragment, Renderable, When, type Signal } from '@tempots/dom'
+import { Renderable, When, type Signal } from '@tempots/dom'
 import type { Controller } from '../../form'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import {
@@ -74,27 +74,10 @@ export function WithVisibility<T>({
   switch (opts.behavior) {
     case 'unmount':
       // Completely unmount the component when hidden
-      return When(
-        isVisible,
-        () => children,
-        () => Fragment()
-      )
-
+      return When(isVisible, () => children)
     case 'hide':
     default:
-      // Hide with CSS but keep in DOM
-      return When(
-        isVisible,
-        () => children,
-        () =>
-          Fragment(
-            // Keep the component in DOM but hidden
-            // This preserves form state and validation
-            children
-            // Note: In a real implementation, you'd add CSS classes
-            // to hide the element visually while keeping it in DOM
-          )
-      )
+      return children
   }
 }
 

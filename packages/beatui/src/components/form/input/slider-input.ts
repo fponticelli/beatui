@@ -1,12 +1,4 @@
-import {
-  attr,
-  emitValueAsNumber,
-  Empty,
-  on,
-  Value,
-  html,
-  Fragment,
-} from '@tempots/dom'
+import { attr, emitValueAsNumber, Empty, on, Value, html } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
@@ -153,37 +145,33 @@ export const NullableSliderInput = (options: NullableSliderInputOptions) => {
     onChange ?? onInput
   )
 
-  return InputContainer(
-    {
-      ...options,
-      focusableSelector: 'input[type="range"]',
-      after: resetAfter,
-      input: html.input(
-        attr.type('range'),
-        CommonInputAttributes(options),
-        attr.min(min),
-        attr.max(max),
-        attr.step(step),
-        attr.valueAsNumber(effectiveValue),
-        attr.class('bc-input bc-slider-input'),
-        onBlur != null ? on.blur(emitValueAsNumber(onBlur)) : Empty,
-        onChange != null
-          ? on.change(
-              emitValueAsNumber(n => {
-                onChange(n as number)
-              })
-            )
-          : Empty,
-        onInput != null
-          ? on.input(
-              emitValueAsNumber(n => {
-                onInput(n as number)
-              })
-            )
-          : Empty
-      ),
-    },
-    // Ensure container grows input naturally
-    Fragment()
-  )
+  return InputContainer({
+    ...options,
+    focusableSelector: 'input[type="range"]',
+    after: resetAfter,
+    input: html.input(
+      attr.type('range'),
+      CommonInputAttributes(options),
+      attr.min(min),
+      attr.max(max),
+      attr.step(step),
+      attr.valueAsNumber(effectiveValue),
+      attr.class('bc-input bc-slider-input'),
+      onBlur != null ? on.blur(emitValueAsNumber(onBlur)) : Empty,
+      onChange != null
+        ? on.change(
+            emitValueAsNumber(n => {
+              onChange(n as number)
+            })
+          )
+        : Empty,
+      onInput != null
+        ? on.input(
+            emitValueAsNumber(n => {
+              onInput(n as number)
+            })
+          )
+        : Empty
+    ),
+  })
 }

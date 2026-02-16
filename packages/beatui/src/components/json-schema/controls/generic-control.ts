@@ -1,4 +1,4 @@
-import { attr, html, Renderable, Value, Fragment } from '@tempots/dom'
+import { attr, html, Renderable, Value, Empty } from '@tempots/dom'
 import { ArrayController, ObjectController, type Controller } from '../../form'
 import type {
   SchemaContext,
@@ -399,7 +399,7 @@ export function JSONSchemaControl<T>({
   }
   if (schema === false) {
     // Never type - should not be rendered
-    return Fragment()
+    return Empty
   }
   return JSONSchemaGenericControl({ ctx, controller })
 }

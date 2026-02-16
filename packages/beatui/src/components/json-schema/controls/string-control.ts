@@ -1,4 +1,4 @@
-import { Fragment, Renderable } from '@tempots/dom'
+import { Empty, Renderable } from '@tempots/dom'
 import {
   Control,
   TextInput,
@@ -32,7 +32,7 @@ export function JSONSchemaString({
 }): Renderable {
   // Handle writeOnly fields - hide them unless explicitly shown
   if (shouldHideWriteOnly(ctx)) {
-    return Fragment()
+    return Empty
   }
 
   // Use new widget resolver with precedence rules

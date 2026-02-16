@@ -244,7 +244,7 @@ export default function ProgressBarPage() {
             'Adjust progress value with buttons.'
           ),
           Group(
-            { gap: 'sm' },
+            attr.class('gap-2'),
             Button(
               {
                 onClick: () => progress.set(Math.max(0, progress.value - 10)),
@@ -284,7 +284,7 @@ export default function ProgressBarPage() {
             'Simulated file upload with progress tracking.'
           ),
           Group(
-            { gap: 'sm' },
+            attr.class('gap-2'),
             Button(
               {
                 onClick: simulateUpload,

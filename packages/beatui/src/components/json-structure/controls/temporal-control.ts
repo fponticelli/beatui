@@ -4,7 +4,7 @@
  * Handles date, datetime, time, and duration types with appropriate temporal inputs
  */
 
-import { Fragment, Renderable } from '@tempots/dom'
+import { Empty, Renderable } from '@tempots/dom'
 import {
   Control,
   PlainDateInput,
@@ -108,6 +108,6 @@ export function StructureTemporalControl({
 
     default:
       console.warn(`Unknown temporal type: ${temporalType}`)
-      return Fragment()
+      return Empty
   }
 }

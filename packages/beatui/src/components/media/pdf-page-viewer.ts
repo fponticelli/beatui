@@ -635,8 +635,7 @@ export function PdfPageViewer(
                           w =>
                             `width: ${w}px; height: ${value.value.canvasHeight}px;`
                         )
-                      ),
-                    () => Fragment()
+                      )
                   ),
                   // Canvas layer
                   html.canvas(
