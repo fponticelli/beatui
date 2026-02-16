@@ -181,6 +181,11 @@ export const NullableBigintInput = (options: NullableBigintInputOptions) => {
     after: afterContent,
     mask: null,
     allowMode: 'digits',
-    class: 'bc-number-input',
+    classes: {
+      ...options.classes,
+      input: options.classes?.input
+        ? Value.map(options.classes.input, cls => `bc-number-input ${cls}`)
+        : 'bc-number-input',
+    },
   })
 }

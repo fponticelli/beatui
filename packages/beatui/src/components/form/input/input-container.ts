@@ -10,6 +10,7 @@ import {
 import { ControlSize } from '../../theme'
 import { Icon } from '../../data'
 import { ThemeColorName } from '../../../tokens'
+import { InputClasses } from './input-options'
 
 /**
  * Generates CSS class names for the input container based on state.
@@ -108,6 +109,8 @@ export function generateInputContainerInputClasses(
 export const InputContainer = (
   {
     baseContainer,
+    class: rootClass,
+    classes,
     disabled,
     input,
     before,
@@ -117,6 +120,9 @@ export const InputContainer = (
     growInput = true,
     size,
   }: {
+    baseContainer?: Value<boolean>
+    class?: Value<string>
+    classes?: InputClasses
     disabled?: Value<boolean>
     input: TNode
     before?: TNode
@@ -124,7 +130,6 @@ export const InputContainer = (
     hasError?: Value<boolean>
     focusableSelector?: string
     growInput?: Value<boolean>
-    baseContainer?: Value<boolean>
     size?: Value<ControlSize>
   },
   ...children: TNode[]
@@ -157,6 +162,8 @@ export const InputContainer = (
         )
       )
     ),
+    attr.class(rootClass),
+    attr.class(classes?.container),
     before != null
       ? html.span(attr.class('bc-input-container__before'), before)
       : null,
@@ -178,6 +185,7 @@ export const InputContainer = (
           v ? 'bc-input-container__input--grow' : ''
         )
       ),
+      attr.class(classes?.wrapper),
       input
     ),
     after != null

@@ -146,7 +146,7 @@ describe('ColorSwatchInput Component', () => {
     expect(input.classList.contains('bc-color-swatch-input')).toBe(true)
   })
 
-  it('should apply custom class', () => {
+  it('should apply custom class to the container', () => {
     const value = prop('#ff0000')
 
     render(
@@ -158,10 +158,10 @@ describe('ColorSwatchInput Component', () => {
       container
     )
 
-    const input = container.querySelector(
-      'input[type="color"]'
-    ) as HTMLInputElement
-    expect(input.classList.contains('custom-class')).toBe(true)
+    const inputContainer = container.querySelector(
+      '.bc-base-input-container'
+    ) as HTMLElement
+    expect(inputContainer.classList.contains('custom-class')).toBe(true)
   })
 
   it('should set name attribute', () => {

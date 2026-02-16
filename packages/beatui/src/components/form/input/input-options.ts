@@ -3,6 +3,23 @@ import { ControlSize } from '../../theme'
 import { Merge } from '@tempots/std'
 
 /**
+ * Fine-grained CSS class targets for the three DOM levels of an input container.
+ *
+ * Use this to apply CSS classes to specific parts of the input structure:
+ * - `container` — the outer `div.bc-input-container` (border, background)
+ * - `wrapper` — the inner `div.bc-input-container__input` (padding, text size)
+ * - `input` — the native `<input>`, `<select>`, or `<textarea>` element
+ */
+export type InputClasses = {
+  /** Classes applied to the outer container div */
+  container?: Value<string>
+  /** Classes applied to the inner wrapper div */
+  wrapper?: Value<string>
+  /** Classes applied to the native input/select/textarea element */
+  input?: Value<string>
+}
+
+/**
  * Common options shared across all input components in BeatUI.
  *
  * This type defines the foundational properties that every input component
@@ -17,8 +34,14 @@ export type CommonInputOptions = {
   autocomplete?: Value<string>
   /** Whether the input should automatically receive focus when mounted */
   autofocus?: Value<boolean>
-  /** Additional CSS classes to apply to the input element */
+  /** Additional CSS classes to apply to the input container root element */
   class?: Value<string>
+  /**
+   * Fine-grained CSS class targets for each DOM level of the input.
+   * Use `classes.input` to style the native element, `classes.container`
+   * for the outer border div, and `classes.wrapper` for the inner div.
+   */
+  classes?: InputClasses
   /** Whether the input is disabled and cannot be interacted with */
   disabled?: Value<boolean>
   /** Whether the input has a validation error (applies error styling) */
@@ -105,7 +128,7 @@ export type InputOptions<V> = Merge<
 export const CommonInputAttributes = ({
   autocomplete,
   autofocus,
-  class: cls,
+  classes,
   disabled,
   name,
   placeholder,
@@ -117,7 +140,7 @@ export const CommonInputAttributes = ({
   return Fragment(
     attr.autocomplete(autocomplete),
     attr.autofocus(autofocus),
-    attr.class(cls),
+    attr.class(classes?.input),
     attr.disabled(disabled),
     attr.name(name ?? id),
     attr.placeholder(placeholder),
