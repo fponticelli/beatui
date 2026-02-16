@@ -4,6 +4,31 @@ import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
 
+// Breakpoint tokens — kept in sync with src/tokens/breakpoints.ts.
+// CSS var() is not valid inside @media conditions, so we substitute at build time.
+const breakpointValues = {
+  sm: '40rem',
+  md: '48rem',
+  lg: '64rem',
+  xl: '80rem',
+  '2xl': '96rem',
+}
+
+/** Replace `var(--breakpoint-*)` inside `@media` conditions with literal values. */
+function resolveMediaBreakpoints(css) {
+  return css.replace(
+    /(@media\s*\([^)]*?)var\(--breakpoint-(\w+)\)/g,
+    (_match, before, name) => {
+      const value = breakpointValues[name]
+      if (!value) {
+        console.warn(`⚠️  Unknown breakpoint token: --breakpoint-${name}`)
+        return _match
+      }
+      return `${before}${value}`
+    }
+  )
+}
+
 function inlineCssImports(filePath, seen = new Set()) {
   const absPath = path.resolve(filePath)
   if (seen.has(absPath)) return ''
@@ -97,13 +122,13 @@ function main() {
     writeOut('lexical.css', lexicalCss)
   }
 
-  // Build BeatUI CSS bundles
+  // Build BeatUI CSS bundles (resolve breakpoint vars in @media queries)
   const standaloneSrc = path.resolve(pkgRoot, 'src/styles/styles.css')
-  const standaloneCss = inlineCssImports(standaloneSrc)
+  const standaloneCss = resolveMediaBreakpoints(inlineCssImports(standaloneSrc))
   writeOut('beatui.css', standaloneCss)
 
   const tailwindSrc = path.resolve(pkgRoot, 'src/styles/tailwind.css')
-  const tailwindCss = inlineCssImports(tailwindSrc)
+  const tailwindCss = resolveMediaBreakpoints(inlineCssImports(tailwindSrc))
   writeOut('beatui.tailwind.css', tailwindCss)
 }
 

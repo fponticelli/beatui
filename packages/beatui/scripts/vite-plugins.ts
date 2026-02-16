@@ -2,9 +2,55 @@ import fs from 'fs'
 import path from 'path'
 
 import {
+  breakpoints,
+  type BreakpointName,
   generateCoreTokenVariables,
   generateSemanticTokenVariables,
 } from '../src/tokens/index.js'
+
+// Build a lookup from CSS var name to literal value, e.g. "var(--breakpoint-sm)" → "40rem"
+const breakpointVarMap = Object.fromEntries(
+  (Object.keys(breakpoints) as BreakpointName[]).map(name => [
+    `var(--breakpoint-${name})`,
+    breakpoints[name],
+  ])
+)
+
+/**
+ * Vite plugin that resolves `var(--breakpoint-*)` inside `@media` queries at
+ * build time. CSS custom properties are not valid in media conditions (they are
+ * evaluated at parse time before custom properties resolve), so we substitute
+ * the literal token values from the breakpoint design tokens.
+ *
+ * Uses `generateBundle` because CSS `@import` chains in library builds bypass
+ * the standard `transform` hook.
+ */
+export function resolveMediaBreakpointsPlugin() {
+  const mediaVarPattern = /(@media\s*\([^)]*?)var\(--breakpoint-(\w+)\)/g
+  return {
+    name: 'resolve-media-breakpoints',
+    generateBundle(_options: unknown, bundle: Record<string, { type: string; source?: string }>) {
+      for (const [, asset] of Object.entries(bundle)) {
+        if (asset.type !== 'asset' || typeof asset.source !== 'string') continue
+        if (!asset.source.includes('var(--breakpoint-')) continue
+        asset.source = asset.source.replace(
+          mediaVarPattern,
+          (_match, before, name) => {
+            const key = `var(--breakpoint-${name})`
+            const value = breakpointVarMap[key]
+            if (!value) {
+              console.warn(
+                `⚠️  Unknown breakpoint token: --breakpoint-${name}`
+              )
+              return _match
+            }
+            return `${before}${value}`
+          }
+        )
+      }
+    },
+  }
+}
 
 /**
  * Vite plugin to generate CSS variables before build

@@ -112,9 +112,7 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
     query
   )((opts, q) => filterOptionsByQuery(opts, q, filter))
 
-  const renderMenuItem = (
-    optSignal: Signal<DropdownOption<T>>
-  ): Renderable =>
+  const renderMenuItem = (optSignal: Signal<DropdownOption<T>>): Renderable =>
     Ensure(optSignal as Signal<DropdownOption<T> | undefined>, opt =>
       OneOfType(opt, {
         value: v => {
@@ -136,10 +134,7 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
           html.div(
             attr.class('bc-menu-group'),
             html.div(attr.class('bc-menu-group__label'), v.$.group),
-            ForEach(
-              v.$.options as Value<DropdownOption<T>[]>,
-              renderMenuItem
-            )
+            ForEach(v.$.options as Value<DropdownOption<T>[]>, renderMenuItem)
           ),
         break: () => MenuSeparator(),
       })

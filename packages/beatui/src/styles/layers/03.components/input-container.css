@@ -238,7 +238,7 @@
 }
 
 /* Responsive styles */
-@media (width >=var(--breakpoint-sm)) {
+@media (width >= var(--breakpoint-sm)) {
   .bc-input-container {
     /* Do not force font-size; sizing classes control this */
     line-height: 1;

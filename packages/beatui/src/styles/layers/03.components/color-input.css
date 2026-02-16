@@ -118,7 +118,7 @@
 }
 
 /* Responsive styles */
-@media (width >=var(--breakpoint-sm)) {
+@media (width >= var(--breakpoint-sm)) {
   .bc-color-swatch-input__control {
     width: 2.75rem;
     height: 2.25rem;

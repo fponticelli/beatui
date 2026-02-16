@@ -1,6 +1,9 @@
 import { defineConfig, type Plugin } from 'vite'
 import { dirname, resolve } from 'path'
-import { generateCSSVariablesPlugin } from './scripts/vite-plugins'
+import {
+  generateCSSVariablesPlugin,
+  resolveMediaBreakpointsPlugin,
+} from './scripts/vite-plugins'
 
 // Use import.meta.url for ESM
 const __dirname = dirname(new URL(import.meta.url).pathname)
@@ -71,7 +74,11 @@ function unwrapDataUriPlugin(): Plugin {
 
 // Create a merged configuration for Vite and Vitest
 export default defineConfig({
-  plugins: [generateCSSVariablesPlugin(), unwrapDataUriPlugin()],
+  plugins: [
+      generateCSSVariablesPlugin(),
+      resolveMediaBreakpointsPlugin(),
+      unwrapDataUriPlugin(),
+    ],
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
