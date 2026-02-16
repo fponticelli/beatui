@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow: hidden;
 }
 
 .bc-input-container {
@@ -81,7 +80,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow: hidden;
+  min-width: 0;
   /* Horizontal padding only; vertical padding comes from size classes */
   padding-inline: calc(var(--spacing-base) * 4);
 }

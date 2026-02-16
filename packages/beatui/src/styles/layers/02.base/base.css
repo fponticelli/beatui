@@ -1,3 +1,26 @@
+/* Default (light) semantic tokens at :root so components work without .dark/.light class */
+:root {
+  --text-normal: var(--text-normal-light);
+  --text-muted: var(--text-muted-light);
+  --text-inverted: var(--text-inverted-light);
+  --bg-background: var(--bg-background-light);
+  --bg-surface: var(--bg-surface-light);
+  --bg-subtle: var(--bg-subtle-light);
+  --bg-elevated: var(--bg-elevated-light);
+  --bg-raised: var(--bg-raised-light);
+  --bg-overlay: var(--bg-overlay-light);
+  --border-subtle: var(--border-subtle-light);
+  --border-muted: var(--border-muted-light);
+  --border-default: var(--border-border-light);
+  --border-divider: var(--border-divider-light);
+  --border-input: var(--border-input-light);
+  --border-strong: var(--border-strong-light);
+  --border-inverted: var(--border-inverted-light);
+  --interactive-focus: var(--interactive-focus-light);
+  --interactive-hover: var(--interactive-hover-light);
+  --interactive-active: var(--interactive-active-light);
+}
+
 /* BeatUI theme helpers */
 .dark {
   color-scheme: dark;
