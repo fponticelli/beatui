@@ -124,7 +124,7 @@
     "release:minor": "pnpm run release:ensure-login && pnpm run release:prepare && pnpm version minor && pnpm run release:publish && pnpm run release:commit",
     "release:major": "pnpm run release:ensure-login && pnpm run release:prepare && pnpm version major && pnpm run release:publish && pnpm run release:commit",
     "release:prerelease": "pnpm run release:ensure-login && pnpm run release:prepare && pnpm version prerelease && pnpm run release:publish:next && pnpm run release:commit",
-    "release:prepare": "pnpm run clean && pnpm run build && pnpm run test",
+    "release:prepare": "turbo run build test --filter=@tempots/beatui",
     "release:publish": "pnpm run release:ensure-login && pnpm publish --no-git-checks",
     "release:publish:next": "pnpm run release:ensure-login && pnpm publish --tag next --no-git-checks",
     "release:commit": "git add package.json && git commit -m \"chore: release @tempots/beatui@$(node -p 'require(\"./package.json\").version')\" || echo \"Warning: Could not commit to git. Please commit manually.\"",
