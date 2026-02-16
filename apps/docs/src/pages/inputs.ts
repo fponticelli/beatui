@@ -876,9 +876,8 @@ export default function InputsPage() {
             content: TextInput({
               value: priceVal,
               onChange: priceVal.set,
-              before: InputAdornment({ filled: true, size: 'sm' }, '$'),
-              after: InputAdornment({ size: 'sm' }, '.00'),
-              size: 'sm',
+              before: InputAdornment({ filled: true }, '$'),
+              after: InputAdornment({}, '.00'),
               disabled,
             }),
             description: description(priceVal),
@@ -886,10 +885,8 @@ export default function InputsPage() {
           InputWrapper({
             label: 'Bare InputContainer + adornments',
             content: InputContainer({
-              input: html.span(
-                attr.style('padding: 0.5rem;'),
-                'Custom content'
-              ),
+              size: 'md',
+              input: html.span('Custom content'),
               before: InputAdornment({ filled: true }, 'Label'),
               after: InputAdornment({}, 'Suffix'),
             }),
