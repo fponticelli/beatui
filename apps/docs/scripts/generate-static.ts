@@ -553,27 +553,20 @@ const main = async () => {
   const generated = new Set<string>()
   const toGenerate = ['/', '/authentication', '/authentication/components']
   let processedCount = 0
+  const BATCH_SIZE = 8
 
-  while (toGenerate.length > 0) {
-    const url = toGenerate.pop()!
-
+  const processPage = async (
+    url: string
+  ): Promise<{ url: string; html: string; newUrls: string[] } | null> => {
     try {
       const basePath = path.resolve(process.cwd(), './dist')
       const filePath = path.join(basePath, urlToFilePath(url))
       const dirPath = path.dirname(filePath)
 
-      // Skip if already generated
-      if (generated.has(url)) {
-        continue
-      }
-
-      generated.add(url)
-      processedCount++
-
       // Skip if file already exists (except for root)
       if (url !== '/' && (await fse.pathExists(filePath))) {
         console.log(`⏭️  Skipping existing file: ${url}`)
-        continue
+        return null
       }
 
       // Render the page
@@ -581,26 +574,12 @@ const main = async () => {
 
       if (!html) {
         console.warn(`⚠️  Failed to render: ${url}`)
-        continue
+        return null
       }
 
-      // Extract and queue new URLs
-      console.log(`🔍 Extracting links from: ${url}`)
+      // Extract new URLs
       const extractedUrls = extractURLs(html)
-      console.log(
-        `🔍 Found ${extractedUrls.length} links: ${extractedUrls.join(', ')}`
-      )
-      const urls = filterURLs(extractedUrls)
-      console.log(`🔍 Found ${urls.length} links`)
-      // eslint-disable-next-line tempots/require-async-signal-disposal
-      const newUrls = urls.filter(url => !generated.has(url))
-      toGenerate.push(...newUrls)
-
-      if (newUrls.length > 0) {
-        console.log(
-          `🔗 Found ${newUrls.length} new links: ${newUrls.join(', ')}`
-        )
-      }
+      const filteredUrls = filterURLs(extractedUrls)
 
       // Save the rendered HTML
       await fse.ensureDir(dirPath)
@@ -608,9 +587,43 @@ const main = async () => {
       console.log(
         `✅ Generated: ${url} → ${path.relative(process.cwd(), filePath)}`
       )
+
+      return { url, html, newUrls: filteredUrls }
     } catch (error) {
       console.error(`❌ Error processing ${url}:`, error)
-      continue
+      return null
+    }
+  }
+
+  while (toGenerate.length > 0) {
+    // Grab a batch of unique, ungenerated URLs
+    const batch: string[] = []
+    while (toGenerate.length > 0 && batch.length < BATCH_SIZE) {
+      const url = toGenerate.pop()!
+      if (!generated.has(url)) {
+        generated.add(url)
+        batch.push(url)
+      }
+    }
+
+    if (batch.length === 0) break
+
+    processedCount += batch.length
+
+    // Render the batch in parallel
+    const results = await Promise.all(batch.map(url => processPage(url)))
+
+    // Collect newly discovered URLs from all results
+    for (const result of results) {
+      if (!result) continue
+      // eslint-disable-next-line tempots/require-async-signal-disposal
+      const newUrls = result.newUrls.filter(u => !generated.has(u))
+      if (newUrls.length > 0) {
+        console.log(
+          `🔗 Found ${newUrls.length} new links from ${result.url}: ${newUrls.join(', ')}`
+        )
+        toGenerate.push(...newUrls)
+      }
     }
   }
 

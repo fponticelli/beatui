@@ -26,8 +26,12 @@
     "typecheck": {
       "dependsOn": ["^build"]
     },
+    "gen:api": {
+      "dependsOn": ["^build"],
+      "outputs": ["public/api.json"]
+    },
     "check": {
-      "dependsOn": ["build", "lint", "format", "typecheck", "test"]
+      "dependsOn": ["build", "lint", "format", "typecheck", "test", "gen:api"]
     },
     "clean": {
       "cache": false

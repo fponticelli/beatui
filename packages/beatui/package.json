@@ -109,7 +109,7 @@
     "dist/lexical/index.cjs.js"
   ],
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json && node scripts/build-css-entries.mjs",
+    "build": "vite build && (tsc -p tsconfig.build.json & node scripts/build-css-entries.mjs & wait)",
     "build:watch": "node scripts/build-css-entries.mjs && vite build --watch",
     "prepublishOnly": "echo 'Use release scripts instead of direct publish'",
     "test": "vitest run",
