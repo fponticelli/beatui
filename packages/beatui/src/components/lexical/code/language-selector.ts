@@ -220,7 +220,7 @@ export function LanguageSelector({
             style.padding('var(--spacing-xs) var(--spacing-sm)'),
             style.border('none'),
             style.backgroundColor(
-              currentLanguage.map(current =>
+              currentLanguage.map((current): string =>
                 current === lang ? 'var(--color-primary-100)' : 'transparent'
               )
             ),

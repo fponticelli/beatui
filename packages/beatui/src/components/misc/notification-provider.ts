@@ -220,10 +220,7 @@ export const NotificationService = new NotificationServiceImpl()
  * )
  * ```
  */
-export const NotificationProvider: Provider<
-  NotificationProviderValue,
-  NotificationProviderOptions
-> = {
+export const NotificationProvider: Provider<NotificationProviderValue> = {
   mark: makeProviderMark<NotificationProviderValue>('NotificationProvider'),
   create: ({ position = 'bottom-end' }: NotificationProviderOptions = {}) => {
     const activeNotifications = prop(0)

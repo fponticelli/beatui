@@ -339,7 +339,7 @@ export function AdvancedSlider({
           if (Value.get(disabled)) return
           const currentVals = Value.get(thumbValues)
           const current = currentVals[index]!
-          let newVal = current
+          let newVal: number
 
           switch (e.key) {
             case 'ArrowRight':

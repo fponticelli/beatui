@@ -909,7 +909,6 @@ describe('Flyout Component', () => {
       button.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }))
       await new Promise(resolve => setTimeout(resolve, 100)) // Wait partial hide delay (fading period)
 
-      flyout = document.querySelector('.new-issue-test')
       // The flyout might be gone at this point due to timing, which is OK
       // The real test is whether it can show again in step 3
 

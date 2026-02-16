@@ -48,6 +48,7 @@ export function DisplayWrapper({
 
   // If we're at the root, don't show a label wrapper
   if (ctx.isRoot && !mismatches?.length) {
+    // eslint-disable-next-line tempots/no-single-child-fragment -- needed to convert TNode to Renderable
     return Fragment(children)
   }
 

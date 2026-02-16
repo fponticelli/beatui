@@ -291,7 +291,9 @@ export default function ProgressBarPage() {
                 disabled: isUploading,
               },
               Icon({ icon: 'lucide:upload' }),
-              Value.map(isUploading, u => (u ? 'Uploading...' : 'Start Upload'))
+              Value.map(isUploading, (u): string =>
+                u ? 'Uploading...' : 'Start Upload'
+              )
             )
           ),
           html.div(

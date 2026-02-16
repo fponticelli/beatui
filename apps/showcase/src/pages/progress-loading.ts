@@ -30,8 +30,8 @@ export default function ProgressLoadingPage() {
           ),
           html.input(
             attr.type('range'),
-            attr.min('0'),
-            attr.max('100'),
+            attr.min(0),
+            attr.max(100),
             attr.value(progress.map(String)),
             attr.style('width: 100%; accent-color: var(--color-primary-500)'),
             on.input((e: Event) =>
@@ -163,7 +163,9 @@ export default function ProgressLoadingPage() {
           attr.class('gap-2'),
           Button(
             { onClick: () => isLoading.update(v => !v) },
-            Value.map(isLoading, v => (v ? 'Show Content' : 'Show Loading'))
+            Value.map(isLoading, (v): string =>
+              v ? 'Show Content' : 'Show Loading'
+            )
           )
         ),
         When(

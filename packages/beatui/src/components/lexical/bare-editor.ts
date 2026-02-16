@@ -104,13 +104,12 @@ export const BareEditor = (options: BareEditorOptions): Renderable => {
         attr.class('bc-lexical-editor'),
         attr.class(`bc-lexical-editor--${heightMode}`),
         attr.contenteditable(
-          readOnly != null
-            ? Value.map(readOnly, ro => (ro ? 'false' : 'true'))
-            : 'true'
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          readOnly != null ? (Value.map(readOnly, ro => !ro) as any) : true
         ),
         readOnly != null
           ? attr.class(
-              Value.map(readOnly, ro =>
+              Value.map(readOnly, (ro): string =>
                 ro ? 'bc-lexical-editor--readonly' : ''
               )
             )

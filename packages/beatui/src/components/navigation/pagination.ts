@@ -265,22 +265,20 @@ export function Pagination({
             () =>
               html.button(
                 attr.class(
-                  Value.map(isActive, active =>
+                  Value.map(isActive, (active): string =>
                     active
                       ? 'bc-pagination__item bc-pagination__item--active'
                       : 'bc-pagination__item'
                   )
                 ),
                 WithElement(el => {
-                  return OnDispose(
-                    Value.on(isActive, active => {
-                      if (active) {
-                        el.setAttribute('aria-current', 'page')
-                      } else {
-                        el.removeAttribute('aria-current')
-                      }
-                    })
-                  )
+                  Value.on(isActive, active => {
+                    if (active) {
+                      el.setAttribute('aria-current', 'page')
+                    } else {
+                      el.removeAttribute('aria-current')
+                    }
+                  })
                 }),
                 on.click(e => {
                   e.preventDefault()

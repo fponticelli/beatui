@@ -268,7 +268,7 @@ export function OTPInput({
         attr.autocomplete('one-time-code'),
         attr.class('bc-otp-input__cell'),
         attr.class(
-          focusedIndex.map(fi =>
+          focusedIndex.map((fi): string =>
             fi === i ? 'bc-otp-input__cell--focused' : ''
           )
         ),

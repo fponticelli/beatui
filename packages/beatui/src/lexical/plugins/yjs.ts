@@ -10,7 +10,7 @@ import type { CollaborationConfig } from '../types'
  */
 export async function registerYjsPlugin(
   editor: LexicalEditor,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   config: CollaborationConfig
 ): Promise<() => void> {
   const docMap = config.docMap ?? new Map()

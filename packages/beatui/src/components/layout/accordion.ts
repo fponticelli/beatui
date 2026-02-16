@@ -141,7 +141,7 @@ export function Accordion({
       return html.div(
         attr.class('bc-accordion__item'),
         attr.class(
-          open.map(v =>
+          open.map((v): string =>
             v ? 'bc-accordion__item--open' : 'bc-accordion__item--closed'
           )
         ),
@@ -151,7 +151,8 @@ export function Accordion({
           attr.type('button'),
           attr.class('bc-accordion__header'),
           attr.id(headerId),
-          aria.expanded(open),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          aria.expanded(open as any),
           aria.controls(panelId),
           attr.disabled(item.disabled ?? false),
           on.click(e => {
@@ -164,7 +165,7 @@ export function Accordion({
           html.span(
             attr.class('bc-accordion__chevron'),
             attr.class(
-              open.map(v =>
+              open.map((v): string =>
                 v
                   ? 'bc-accordion__chevron--open'
                   : 'bc-accordion__chevron--closed'

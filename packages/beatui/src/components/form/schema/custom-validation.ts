@@ -92,9 +92,10 @@ function createStandardSchema<Input, Output = Input>(
 }
 
 // Base validator class
-abstract class BaseValidator<Input, Output = Input>
-  implements Validator<Input, Output>
-{
+abstract class BaseValidator<Input, Output = Input> implements Validator<
+  Input,
+  Output
+> {
   abstract validate(value: unknown): ValidatorResult<Output>
 
   optional(): Validator<Input | undefined, Output | undefined> {

@@ -109,8 +109,8 @@ export const PasswordInput = (options: InputOptions<string>) => {
         }),
         When(
           hidePassword,
-          () => Fragment(attr.type('password')),
-          () => Fragment(attr.type('text'))
+          () => attr.type('password'),
+          () => attr.type('text')
         ),
         attr.class('bc-input'),
         attr.value(value),

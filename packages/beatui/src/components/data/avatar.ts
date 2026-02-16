@@ -170,11 +170,7 @@ export function Avatar(
           attr.class('bc-avatar__image'),
           attr.src(srcVal),
           attr.alt(
-            Ensure(
-              name,
-              n => n,
-              () => 'Avatar'
-            )
+            name != null ? Value.map(name, n => n ?? 'Avatar') : 'Avatar'
           )
         ),
       () =>

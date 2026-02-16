@@ -48,7 +48,7 @@ export type SidebarContextValue = {
  * })
  * ```
  */
-export const SidebarContext: Provider<SidebarContextValue, object> = {
+export const SidebarContext: Provider<SidebarContextValue> = {
   mark: makeProviderMark<SidebarContextValue>('SidebarContext'),
 
   create: (_options?: object) => {

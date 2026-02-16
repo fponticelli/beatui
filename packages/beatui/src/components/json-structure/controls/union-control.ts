@@ -340,7 +340,7 @@ export function StructureUnionControl<T>({
   const typeSpec = typeDef.type
 
   // Get the type array
-  let types: TypeKeyword[] = []
+  let types: TypeKeyword[]
   if (Array.isArray(typeSpec)) {
     types = typeSpec as TypeKeyword[]
   } else {

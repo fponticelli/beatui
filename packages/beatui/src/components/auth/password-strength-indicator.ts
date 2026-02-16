@@ -8,15 +8,7 @@
  * @module auth/password-strength-indicator
  */
 
-import {
-  attr,
-  computedOf,
-  Fragment,
-  html,
-  Renderable,
-  Use,
-  When,
-} from '@tempots/dom'
+import { attr, computedOf, html, Renderable, Use, When } from '@tempots/dom'
 import { PasswordStrengthIndicatorOptions, defaultPasswordRules } from './index'
 import { calculatePasswordStrength } from './schemas'
 import { AuthI18n } from '../../auth-i18n/translations'
@@ -317,28 +309,26 @@ export function PasswordStrengthText({
     return classes.join(' ')
   })
 
-  return Fragment(
-    Use(AuthI18n, t =>
-      html.span(
-        attr.class(containerClasses),
-        computedOf(
-          strength,
-          t
-        )((str, t) => {
-          switch (str) {
-            case 'weak':
-              return t.passwordStrengthWeak
-            case 'fair':
-              return t.passwordStrengthFair
-            case 'good':
-              return t.passwordStrengthGood
-            case 'strong':
-              return t.passwordStrengthStrong
-            default:
-              return t.passwordStrengthWeak
-          }
-        })
-      )
+  return Use(AuthI18n, t =>
+    html.span(
+      attr.class(containerClasses),
+      computedOf(
+        strength,
+        t
+      )((str, t) => {
+        switch (str) {
+          case 'weak':
+            return t.passwordStrengthWeak
+          case 'fair':
+            return t.passwordStrengthFair
+          case 'good':
+            return t.passwordStrengthGood
+          case 'strong':
+            return t.passwordStrengthStrong
+          default:
+            return t.passwordStrengthWeak
+        }
+      })
     )
   )
 }

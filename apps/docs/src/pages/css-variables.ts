@@ -1,4 +1,4 @@
-import { html, attr, style } from '@tempots/dom'
+import { html, attr, style, TNode } from '@tempots/dom'
 import {
   Stack,
   Card,
@@ -106,7 +106,7 @@ function Swatch(color: string, size = '20px') {
   )
 }
 
-function SectionCard(title: string, ...children: unknown[]) {
+function SectionCard(title: string, ...children: TNode[]) {
   return Card(
     { variant: 'outlined' },
     attr.class('p-5'),
@@ -118,7 +118,7 @@ function SectionCard(title: string, ...children: unknown[]) {
   )
 }
 
-function Th(...children: unknown[]) {
+function Th(...children: TNode[]) {
   return html.th(
     attr.class(
       'text-left p-2 border-b-2 border-gray-200 dark:border-gray-700 font-medium text-sm'
@@ -127,7 +127,7 @@ function Th(...children: unknown[]) {
   )
 }
 
-function Td(...children: unknown[]) {
+function Td(...children: TNode[]) {
   return html.td(
     attr.class('p-2 border-b border-gray-100 dark:border-gray-800'),
     ...children

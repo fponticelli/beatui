@@ -205,10 +205,12 @@ describe('Menu Accessibility', () => {
       const button = container.querySelector('button')!
       button.click()
       await new Promise(resolve => setTimeout(resolve, 100))
+      // Wait for auto-focus on first item
+      await new Promise(resolve => setTimeout(resolve, 100))
 
       const menu = document.querySelector('.bc-menu') as HTMLElement
 
-      // Navigate down - should skip disabled item
+      // ArrowDown from 'Edit' should skip disabled 'Copy' and focus 'Delete'
       menu.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
       )

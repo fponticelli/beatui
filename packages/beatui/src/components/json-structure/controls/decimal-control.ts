@@ -31,15 +31,12 @@ function createInputOptions(ctx: StructureContext, floatType: FloatType) {
   }
 
   // Determine step based on scale or multipleOf
-  let step: number | undefined = undefined
+  let step: number | undefined
   if (def.multipleOf !== undefined) {
     step = def.multipleOf
   } else if (floatType === 'decimal' && def.scale !== undefined) {
     // For decimal with scale, use 10^(-scale) as step
     step = Math.pow(10, -def.scale)
-  } else {
-    // Default to any for float/double
-    step = undefined
   }
 
   // Get min/max constraints

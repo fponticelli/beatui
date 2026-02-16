@@ -139,7 +139,7 @@ export default function RadioGroupsPage() {
                 onChange: seg.set,
                 disabled,
               }),
-              description: seg,
+              description: seg.map((v): string => v),
             })
           })(),
           (() => {
@@ -153,7 +153,7 @@ export default function RadioGroupsPage() {
                 size: 'sm',
                 disabled,
               }),
-              description: view,
+              description: view.map((v): string => v),
             })
           })()
         )

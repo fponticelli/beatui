@@ -64,9 +64,9 @@ export function ControlNumber(
       attr.type('number'),
       attr.class('bc-input bc-input--sm'),
       attr.value(value.map(String)),
-      attr.min(String(opts.min ?? 0)),
-      attr.max(String(opts.max ?? 100)),
-      attr.step(String(opts.step ?? 1))
+      attr.min(opts.min ?? 0),
+      attr.max(opts.max ?? 100),
+      attr.step(opts.step ?? 1)
       // Using standard DOM event since we don't have a NumberInput for quick inline
     ),
   })

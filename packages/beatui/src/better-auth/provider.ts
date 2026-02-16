@@ -2,7 +2,7 @@
  * Better Auth Provider
  *
  * Defines the BeatUI context provider for the better-auth bridge. Follows the
- * standard Tempo `Provider<Value, Options>` pattern with `mark` and `create`.
+ * standard Tempo `Provider<Value>` pattern with `mark` and `create`.
  *
  * @module better-auth/provider
  */
@@ -44,17 +44,16 @@ export interface BetterAuthProviderOptions extends BetterAuthBridgeOptions {
  * )
  * ```
  */
-export const BetterAuth: Provider<BetterAuthBridge, BetterAuthProviderOptions> =
-  {
-    mark: makeProviderMark<BetterAuthBridge>('BetterAuth'),
-    create: (options: BetterAuthProviderOptions | undefined) => {
-      if (!options) {
-        throw new Error('BetterAuth provider requires a client option')
-      }
-      const bridge = createBetterAuthBridge(options.client, options)
-      return {
-        value: bridge,
-        dispose: () => bridge.dispose(),
-      }
-    },
-  }
+export const BetterAuth: Provider<BetterAuthBridge> = {
+  mark: makeProviderMark<BetterAuthBridge>('BetterAuth'),
+  create: (options: BetterAuthProviderOptions | undefined) => {
+    if (!options) {
+      throw new Error('BetterAuth provider requires a client option')
+    }
+    const bridge = createBetterAuthBridge(options.client, options)
+    return {
+      value: bridge,
+      dispose: () => bridge.dispose(),
+    }
+  },
+}

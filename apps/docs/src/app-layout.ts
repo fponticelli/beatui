@@ -29,7 +29,7 @@ export function AppLayout({ children }: { children: TNode }) {
             html.img(
               attr.class('h-full'),
               attr.src(
-                appearance.map(a =>
+                appearance.map((a): string =>
                   a === 'dark' ? '/beatui-logo-dark.svg' : '/beatui-logo.svg'
                 )
               )

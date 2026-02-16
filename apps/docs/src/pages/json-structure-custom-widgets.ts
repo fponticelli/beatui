@@ -142,9 +142,9 @@ function PercentageWidget({
     ),
     html.input(
       attr.type('range'),
-      attr.min('0'),
-      attr.max('100'),
-      attr.step('1'),
+      attr.min(0),
+      attr.max(100),
+      attr.step(1),
       attr.class('w-full'),
       attr.value(percentage.map(v => String(v ?? 0))),
       on.input(e => {

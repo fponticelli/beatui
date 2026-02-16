@@ -40,7 +40,7 @@ export interface ThemeOptions {
  * )
  * ```
  */
-export const Theme: Provider<ThemeValue, ThemeOptions> = {
+export const Theme: Provider<ThemeValue> = {
   mark: makeProviderMark<ThemeValue>('Theme'),
 
   // Create function returns the value and cleanup
@@ -100,6 +100,6 @@ export const Theme: Provider<ThemeValue, ThemeOptions> = {
  */
 export const ThemeAppearance = () => {
   return Use(Theme, ({ appearance }) =>
-    Portal('html', attr.class(appearance.map(a => a)))
+    Portal('html', attr.class(appearance.map((a): string => a)))
   )
 }

@@ -18,7 +18,7 @@ import { Locale } from './locale'
  * @param config.providerName - Optional name for the provider mark, used for debugging
  * @default config.providerName `'I18nProvider'`
  *
- * @returns A `Provider<Signal<M>, object>` that provides a reactive signal of the current messages
+ * @returns A `Provider<Signal<M>>` that provides a reactive signal of the current messages
  *
  * @example
  * ```typescript
@@ -54,7 +54,7 @@ export function makeI18nProvider<M extends object>({
   localeLoader: (locale: string) => Promise<M>
   /** Optional name for the provider mark, used for debugging. @default 'I18nProvider' */
   providerName?: string
-}): Provider<Signal<M>, object> {
+}): Provider<Signal<M>> {
   return {
     mark: makeProviderMark(providerName),
     create: (_options: unknown, ctx) => {

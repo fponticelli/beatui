@@ -79,70 +79,68 @@ export function ListInput<T>(
   separator?: (pos: ElementPosition) => TNode
 ) {
   const length = controller.length.map(v => v)
-  return Fragment(
-    Repeat(
-      length,
-      position => {
-        const item = controller.item(position.index)
-        const disposables = [] as (() => void)[]
-        return Fragment(
-          OnDispose(() => {
-            disposables.forEach(dispose => dispose())
-          }),
-          element({
-            list: controller,
-            item,
-            position,
-            remove: () => controller.removeAt(position.index),
-            move: (direction: MoveDirection) => {
+  return Repeat(
+    length,
+    position => {
+      const item = controller.item(position.index)
+      const disposables = [] as (() => void)[]
+      return Fragment(
+        OnDispose(() => {
+          disposables.forEach(dispose => dispose())
+        }),
+        element({
+          list: controller,
+          item,
+          position,
+          remove: () => controller.removeAt(position.index),
+          move: (direction: MoveDirection) => {
+            switch (direction) {
+              case 'up':
+                if (position.index === 0) return
+                controller.move(position.index, position.index - 1)
+                break
+              case 'down':
+                if (position.index === controller.length.value - 1) return
+                controller.move(position.index, position.index + 1)
+                break
+              case 'first':
+                controller.move(position.index, 0)
+                break
+              case 'last':
+                controller.move(position.index, controller.length.value - 1)
+            }
+          },
+          canMove: (direction: MovableDirection): Signal<boolean> => {
+            const result = (() => {
               switch (direction) {
-                case 'up':
-                  if (position.index === 0) return
-                  controller.move(position.index, position.index - 1)
-                  break
-                case 'down':
-                  if (position.index === controller.length.value - 1) return
-                  controller.move(position.index, position.index + 1)
-                  break
-                case 'first':
-                  controller.move(position.index, 0)
-                  break
-                case 'last':
-                  controller.move(position.index, controller.length.value - 1)
+                case 'up': {
+                  return signal(position.index > 0)
+                }
+                case 'down': {
+                  return controller.length.map(v => position.index < v - 1)
+                }
               }
-            },
-            canMove: (direction: MovableDirection): Signal<boolean> => {
-              const result = (() => {
-                switch (direction) {
-                  case 'up': {
-                    return signal(position.index > 0)
-                  }
-                  case 'down': {
-                    return controller.length.map(v => position.index < v - 1)
-                  }
+            })()
+            disposables.push(() => result.dispose())
+            return result
+          },
+          cannotMove: (direction: MovableDirection): Signal<boolean> => {
+            const result = (() => {
+              switch (direction) {
+                case 'up': {
+                  return signal(position.index === 0)
                 }
-              })()
-              disposables.push(() => result.dispose())
-              return result
-            },
-            cannotMove: (direction: MovableDirection): Signal<boolean> => {
-              const result = (() => {
-                switch (direction) {
-                  case 'up': {
-                    return signal(position.index === 0)
-                  }
-                  case 'down': {
-                    return controller.length.map(v => position.index === v - 1)
-                  }
+                case 'down': {
+                  return controller.length.map(v => position.index === v - 1)
                 }
-              })()
-              disposables.push(() => result.dispose())
-              return result
-            },
-          })
-        )
-      },
-      separator
-    )
+              }
+            })()
+            disposables.push(() => result.dispose())
+            return result
+          },
+        })
+      )
+    },
+    separator
   )
 }

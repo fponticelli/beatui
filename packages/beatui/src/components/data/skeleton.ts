@@ -186,7 +186,7 @@ export function Skeleton({
             variant
           )((w, h, v) => generateSkeletonStyles(w, h, v ?? 'text'))
         ),
-        aria.hidden('true')
+        aria.hidden(true)
       )
   )
 }

@@ -1,8 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, Fragment } from '@tempots/dom'
-import {
-  JSONSchemaDisplay,
-} from '../../src/components/json-schema-display/json-schema-display'
+import { render } from '@tempots/dom'
+import { JSONSchemaDisplay } from '../../src/components/json-schema-display/json-schema-display'
 import { SchemaContext } from '../../src/components/json-schema/schema-context'
 import { StringDisplay } from '../../src/components/json-schema-display/displays/string-display'
 import { BooleanDisplay } from '../../src/components/json-schema-display/displays/boolean-display'
@@ -259,10 +257,7 @@ describe('StringDisplay', () => {
   })
 
   it('renders plain text', () => {
-    const ctx = createCtx(
-      { type: 'string', title: 'Name' },
-      { path: ['name'] }
-    )
+    const ctx = createCtx({ type: 'string', title: 'Name' }, { path: ['name'] })
     render(
       StringDisplay({ ctx, value: 'Hello World', mismatches: [] }),
       container
@@ -308,10 +303,7 @@ describe('StringDisplay', () => {
       { type: 'string', format: 'color', title: 'Color' },
       { path: ['color'] }
     )
-    render(
-      StringDisplay({ ctx, value: '#ff0000', mismatches: [] }),
-      container
-    )
+    render(StringDisplay({ ctx, value: '#ff0000', mismatches: [] }), container)
     const swatch = container.querySelector(
       '.bc-json-schema-display__color-swatch'
     )
@@ -345,9 +337,7 @@ describe('StringDisplay', () => {
       }),
       container
     )
-    const mono = container.querySelector(
-      '.bc-json-schema-display__monospace'
-    )
+    const mono = container.querySelector('.bc-json-schema-display__monospace')
     expect(mono).not.toBeNull()
   })
 })
@@ -373,7 +363,7 @@ describe('DisplayWrapper', () => {
       DisplayWrapper({
         ctx,
         mismatches: [],
-        children: Fragment('value'),
+        children: 'value',
       }),
       container
     )
@@ -390,7 +380,7 @@ describe('DisplayWrapper', () => {
       DisplayWrapper({
         ctx,
         mismatches: [],
-        children: Fragment('value'),
+        children: 'value',
       }),
       container
     )
@@ -410,7 +400,7 @@ describe('DisplayWrapper', () => {
       DisplayWrapper({
         ctx,
         mismatches: [],
-        children: Fragment('value'),
+        children: 'value',
       }),
       container
     )

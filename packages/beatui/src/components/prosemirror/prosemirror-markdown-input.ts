@@ -10,7 +10,6 @@ import {
   prop,
   When,
   Task,
-  Fragment,
 } from '@tempots/dom'
 import type { InputOptions } from '../form/input/input-options'
 import { Merge } from '@tempots/std'
@@ -221,218 +220,216 @@ export const ProseMirrorMarkdownInput = (
   const editorView = prop<EditorView | null>(null)
   const editorStateNotifier = ticker()
 
-  return Fragment(
-    Use(Theme, ({ appearance }) =>
-      html.div(
-        OnDispose(() => editorView.value?.destroy()),
-        (options.cssInjection ?? 'none') === 'none'
-          ? null
-          : Task(
-              () => import('../../prosemirror/styles-url'),
-              ({ default: href }) =>
-                LinkPortal({ id: 'beatui-prosemirror-css', href })
-            ),
-        attr.class('bc-prosemirror-editor-container'),
-        attr.class(cls),
-        attr.class(
-          Value.map(hasError ?? false, (e): string =>
-            e ? 'bc-input-container--error' : ''
-          )
-        ),
-        attr.id(id),
-        attr.name(name),
-        // Optional toolbar
-        When(
-          computedOf(
-            resolvedShowToolbar,
-            editorView
-          )((show, view) => show && view != null),
-          () =>
-            ProseMirrorToolbar({
-              view: editorView,
-              stateUpdate: editorStateNotifier,
-              features: resolvedFeatures,
-              readOnly: resolvedReadonly,
-            })
-        ),
-        // Editor mount point
-        html.div(
-          attr.class('bc-prosemirror-editor'),
-          WithElement(container => {
-            // ProseMirror editor will be initialized here
-            const disposers: Array<() => void> = []
-
-            const mount = () => {
-              try {
-                // Get initial values
-                const initialValue = Value.get(value) ?? ''
-                const initialReadonly = Value.get(resolvedReadonly) ?? false
-                const initialDisabled = Value.get(resolvedDisabled) ?? false
-                const currentFeatures = Value.get(resolvedFeatures)
-
-                // Create filtered schema based on enabled features
-                const filteredSchema = createFilteredSchema(
-                  Schema,
-                  basicSchema,
-                  currentFeatures
-                )
-
-                // Parse initial markdown
-                const doc = parseMarkdown(initialValue, preserveLineBreaks)
-
-                // Create keyboard shortcuts for formatting
-                const formatKeymap = createFormatKeymap(filteredSchema)
-
-                // Create editor state
-                const state = EditorState.create({
-                  doc,
-                  schema: filteredSchema,
-                  plugins: [
-                    history(),
-                    keymap({
-                      'Mod-z': undo,
-                      'Mod-y': redo,
-                      'Mod-Shift-z': redo,
-                    }),
-                    keymap(formatKeymap),
-                    keymap(baseKeymap),
-                    stateWatcher(editorStateNotifier.tick),
-                  ],
-                })
-
-                // Create editor view
-                const view = new EditorView(container as HTMLElement, {
-                  state,
-                  editable: () => !initialReadonly && !initialDisabled,
-                  dispatchTransaction(transaction) {
-                    const newState = view.state.apply(transaction)
-                    view.updateState(newState)
-
-                    // Emit onInput when document changes
-                    if (transaction.docChanged && onInput != null) {
-                      const markdown = defaultMarkdownSerializer.serialize(
-                        newState.doc
-                      )
-                      onInput(markdown)
-                    }
-                  },
-                })
-
-                // Store view for toolbar
-                editorView.set(view)
-
-                // Handle autofocus
-                if (Value.get(autofocus)) {
-                  view.focus()
-                }
-
-                // Handle placeholder
-                // Note: ProseMirror doesn't have built-in placeholder support
-                // We'll add it via CSS and data attributes
-                if (placeholder != null) {
-                  disposers.push(
-                    Value.on(placeholder, p => {
-                      if (p != null && p !== '') {
-                        container.setAttribute('data-placeholder', p)
-                      } else {
-                        container.removeAttribute('data-placeholder')
-                      }
-                    })
-                  )
-                }
-
-                // React to readonly changes
-                disposers.push(
-                  Value.on(resolvedReadonly, ro => {
-                    const disabled = Value.get(resolvedDisabled)
-                    view.setProps({ editable: () => !ro && !disabled })
-                  })
-                )
-
-                // React to disabled changes
-                disposers.push(
-                  Value.on(resolvedDisabled, dis => {
-                    const readonly = Value.get(resolvedReadonly)
-                    view.setProps({ editable: () => !readonly && !dis })
-                  })
-                )
-
-                // React to external value changes
-                disposers.push(
-                  Value.on(value, v => {
-                    const currentMarkdown = defaultMarkdownSerializer.serialize(
-                      view.state.doc
-                    )
-                    if (v !== currentMarkdown) {
-                      const newDoc = parseMarkdown(v, preserveLineBreaks)
-                      if (newDoc != null) {
-                        const newState = EditorState.create({
-                          doc: newDoc,
-                          schema: filteredSchema,
-                          plugins: view.state.plugins,
-                        })
-                        view.updateState(newState)
-                      }
-                    }
-                  })
-                )
-
-                // Handle blur events - emit onChange when editor loses focus
-                if (onChange != null) {
-                  const handleBlur = () => {
-                    const markdown = defaultMarkdownSerializer.serialize(
-                      view.state.doc
-                    )
-                    onChange(markdown)
-                  }
-                  container.addEventListener('blur', handleBlur, true)
-                  disposers.push(() =>
-                    container.removeEventListener('blur', handleBlur, true)
-                  )
-                }
-
-                // Handle legacy onBlur callback
-                if (onBlur != null) {
-                  const handleBlur = () => {
-                    onBlur()
-                  }
-                  container.addEventListener('blur', handleBlur, true)
-                  disposers.push(() =>
-                    container.removeEventListener('blur', handleBlur, true)
-                  )
-                }
-
-                // Apply theme
-                disposers.push(
-                  appearance.on(a => {
-                    if (a === 'dark') {
-                      container.classList.add('bc-prosemirror-editor--dark')
-                    } else {
-                      container.classList.remove('bc-prosemirror-editor--dark')
-                    }
-                  })
-                )
-
-                // Cleanup
-                disposers.push(() => view.destroy())
-              } catch (err) {
-                console.error(
-                  '[BeatUI] Failed to initialize ProseMirror editor:',
-                  err
-                )
-                const el = container as HTMLElement
-                el.textContent =
-                  'Failed to load ProseMirror Editor. Please ensure prosemirror packages are installed.'
-              }
-            }
-
-            mount()
-
-            return OnDispose(() => {
-              disposers.forEach(dispose => dispose())
-            })
-          })
+  return Use(Theme, ({ appearance }) =>
+    html.div(
+      OnDispose(() => editorView.value?.destroy()),
+      (options.cssInjection ?? 'none') === 'none'
+        ? null
+        : Task(
+            () => import('../../prosemirror/styles-url'),
+            ({ default: href }) =>
+              LinkPortal({ id: 'beatui-prosemirror-css', href })
+          ),
+      attr.class('bc-prosemirror-editor-container'),
+      attr.class(cls),
+      attr.class(
+        Value.map(hasError ?? false, (e): string =>
+          e ? 'bc-input-container--error' : ''
         )
+      ),
+      attr.id(id),
+      attr.name(name),
+      // Optional toolbar
+      When(
+        computedOf(
+          resolvedShowToolbar,
+          editorView
+        )((show, view) => show && view != null),
+        () =>
+          ProseMirrorToolbar({
+            view: editorView,
+            stateUpdate: editorStateNotifier,
+            features: resolvedFeatures,
+            readOnly: resolvedReadonly,
+          })
+      ),
+      // Editor mount point
+      html.div(
+        attr.class('bc-prosemirror-editor'),
+        WithElement(container => {
+          // ProseMirror editor will be initialized here
+          const disposers: Array<() => void> = []
+
+          const mount = () => {
+            try {
+              // Get initial values
+              const initialValue = Value.get(value) ?? ''
+              const initialReadonly = Value.get(resolvedReadonly) ?? false
+              const initialDisabled = Value.get(resolvedDisabled) ?? false
+              const currentFeatures = Value.get(resolvedFeatures)
+
+              // Create filtered schema based on enabled features
+              const filteredSchema = createFilteredSchema(
+                Schema,
+                basicSchema,
+                currentFeatures
+              )
+
+              // Parse initial markdown
+              const doc = parseMarkdown(initialValue, preserveLineBreaks)
+
+              // Create keyboard shortcuts for formatting
+              const formatKeymap = createFormatKeymap(filteredSchema)
+
+              // Create editor state
+              const state = EditorState.create({
+                doc,
+                schema: filteredSchema,
+                plugins: [
+                  history(),
+                  keymap({
+                    'Mod-z': undo,
+                    'Mod-y': redo,
+                    'Mod-Shift-z': redo,
+                  }),
+                  keymap(formatKeymap),
+                  keymap(baseKeymap),
+                  stateWatcher(editorStateNotifier.tick),
+                ],
+              })
+
+              // Create editor view
+              const view = new EditorView(container as HTMLElement, {
+                state,
+                editable: () => !initialReadonly && !initialDisabled,
+                dispatchTransaction(transaction) {
+                  const newState = view.state.apply(transaction)
+                  view.updateState(newState)
+
+                  // Emit onInput when document changes
+                  if (transaction.docChanged && onInput != null) {
+                    const markdown = defaultMarkdownSerializer.serialize(
+                      newState.doc
+                    )
+                    onInput(markdown)
+                  }
+                },
+              })
+
+              // Store view for toolbar
+              editorView.set(view)
+
+              // Handle autofocus
+              if (Value.get(autofocus)) {
+                view.focus()
+              }
+
+              // Handle placeholder
+              // Note: ProseMirror doesn't have built-in placeholder support
+              // We'll add it via CSS and data attributes
+              if (placeholder != null) {
+                disposers.push(
+                  Value.on(placeholder, p => {
+                    if (p != null && p !== '') {
+                      container.setAttribute('data-placeholder', p)
+                    } else {
+                      container.removeAttribute('data-placeholder')
+                    }
+                  })
+                )
+              }
+
+              // React to readonly changes
+              disposers.push(
+                Value.on(resolvedReadonly, ro => {
+                  const disabled = Value.get(resolvedDisabled)
+                  view.setProps({ editable: () => !ro && !disabled })
+                })
+              )
+
+              // React to disabled changes
+              disposers.push(
+                Value.on(resolvedDisabled, dis => {
+                  const readonly = Value.get(resolvedReadonly)
+                  view.setProps({ editable: () => !readonly && !dis })
+                })
+              )
+
+              // React to external value changes
+              disposers.push(
+                Value.on(value, v => {
+                  const currentMarkdown = defaultMarkdownSerializer.serialize(
+                    view.state.doc
+                  )
+                  if (v !== currentMarkdown) {
+                    const newDoc = parseMarkdown(v, preserveLineBreaks)
+                    if (newDoc != null) {
+                      const newState = EditorState.create({
+                        doc: newDoc,
+                        schema: filteredSchema,
+                        plugins: view.state.plugins,
+                      })
+                      view.updateState(newState)
+                    }
+                  }
+                })
+              )
+
+              // Handle blur events - emit onChange when editor loses focus
+              if (onChange != null) {
+                const handleBlur = () => {
+                  const markdown = defaultMarkdownSerializer.serialize(
+                    view.state.doc
+                  )
+                  onChange(markdown)
+                }
+                container.addEventListener('blur', handleBlur, true)
+                disposers.push(() =>
+                  container.removeEventListener('blur', handleBlur, true)
+                )
+              }
+
+              // Handle legacy onBlur callback
+              if (onBlur != null) {
+                const handleBlur = () => {
+                  onBlur()
+                }
+                container.addEventListener('blur', handleBlur, true)
+                disposers.push(() =>
+                  container.removeEventListener('blur', handleBlur, true)
+                )
+              }
+
+              // Apply theme
+              disposers.push(
+                appearance.on(a => {
+                  if (a === 'dark') {
+                    container.classList.add('bc-prosemirror-editor--dark')
+                  } else {
+                    container.classList.remove('bc-prosemirror-editor--dark')
+                  }
+                })
+              )
+
+              // Cleanup
+              disposers.push(() => view.destroy())
+            } catch (err) {
+              console.error(
+                '[BeatUI] Failed to initialize ProseMirror editor:',
+                err
+              )
+              const el = container as HTMLElement
+              el.textContent =
+                'Failed to load ProseMirror Editor. Please ensure prosemirror packages are installed.'
+            }
+          }
+
+          mount()
+
+          return OnDispose(() => {
+            disposers.forEach(dispose => dispose())
+          })
+        })
       )
     )
   )

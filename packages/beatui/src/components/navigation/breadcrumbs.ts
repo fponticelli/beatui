@@ -212,7 +212,7 @@ export function Breadcrumbs({
 
                 return html.li(
                   attr.class(
-                    Value.map(isCurrent, current =>
+                    Value.map(isCurrent, (current): string =>
                       current
                         ? 'bc-breadcrumbs__item bc-breadcrumbs__item--current'
                         : 'bc-breadcrumbs__item'

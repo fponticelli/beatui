@@ -250,7 +250,8 @@ export function SlashCommandPalette({
       attr.class('bc-slash-command-palette__item'),
       attr.id(itemId),
       attr.role('option'),
-      aria.selected(isActive),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      aria.selected(isActive as any),
 
       // Mouse hover handlers
       WithElement(el => {

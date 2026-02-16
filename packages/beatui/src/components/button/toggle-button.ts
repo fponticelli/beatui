@@ -259,7 +259,8 @@ export function ToggleButton(
   return html.button(
     attr.type('button'),
     attr.disabled(disabled),
-    aria.pressed(pressed),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    aria.pressed(pressed as any),
     attr.class(
       computedOf(
         size,

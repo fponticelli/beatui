@@ -88,7 +88,7 @@ export const LexicalEditorInput = (
       tabIndex != null ? attr.tabindex(tabIndex) : null,
       hasError != null
         ? attr.class(
-            Value.map(hasError, e =>
+            Value.map(hasError, (e): string =>
               e ? 'bc-lexical-editor-input--error' : ''
             )
           )

@@ -123,7 +123,7 @@ export function TwoFactorVerify({
               attr.type('button'),
               attr.class('bc-two-factor__method-button'),
               attr.class(
-                currentMethod.map(m =>
+                currentMethod.map((m): string =>
                   m === method ? 'bc-two-factor__method-button--active' : ''
                 )
               ),

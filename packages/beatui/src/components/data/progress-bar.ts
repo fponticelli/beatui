@@ -182,7 +182,7 @@ export function ProgressBar({
       () =>
         html.div(
           attr.class('bc-progress-bar__label'),
-          aria.hidden('true'),
+          aria.hidden(true),
           percentageText
         ),
       () => undefined

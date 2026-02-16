@@ -28,14 +28,14 @@
   "license": "MIT",
   "description": "BeatUI Monorepo - Modern UI component library and documentation",
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@tempots/eslint-plugin": "0.8.1",
+    "@eslint/js": "^10.0.1",
+    "@tempots/eslint-plugin": "0.9.2",
     "chokidar": "^5.0.0",
     "concurrently": "^9.2.1",
-    "eslint": "9.37.0",
+    "eslint": "10.0.0",
     "eslint-config-prettier": "10.1.8",
-    "turbo": "2.5.4",
-    "typescript-eslint": "8.46.0"
+    "turbo": "2.8.9",
+    "typescript-eslint": "8.56.0"
   },
   "packageManager": "pnpm@10.21.0"
 }

@@ -138,7 +138,8 @@ export function ToggleButtonGroup({
   return html.div(
     attr.role('group'),
     attr.class(computedOf(orientation, roundedness)(generateGroupClasses)),
-    aria.orientation(orientation),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    aria.orientation(orientation as any),
     ...items.map(item => {
       const itemPressed = Value.map(value, v => v.includes(item.key))
       const itemDisabled = item.disabled

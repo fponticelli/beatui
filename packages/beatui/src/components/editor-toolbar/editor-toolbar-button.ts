@@ -27,8 +27,11 @@ export function EditorToolbarButton(options: EditorToolbarButtonOptions) {
         disabled,
         size,
       },
-      attr.class(active.map(v => (v ? 'bc-toolbar__button--active' : ''))),
-      aria.pressed(active),
+      attr.class(
+        active.map((v): string => (v ? 'bc-toolbar__button--active' : ''))
+      ),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      aria.pressed(active as any),
       attr.title(label),
       Icon({ icon, size })
     )

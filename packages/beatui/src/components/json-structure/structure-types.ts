@@ -492,8 +492,7 @@ export interface BaseTypeDefinition extends TypeMetadata {
  * ```
  */
 export interface ObjectTypeDefinition
-  extends BaseTypeDefinition,
-    ObjectValidation {
+  extends BaseTypeDefinition, ObjectValidation {
   /** Must be 'object' */
   type: 'object'
   /** Map of property names to their type definitions */
@@ -518,8 +517,7 @@ export interface ObjectTypeDefinition
  * ```
  */
 export interface ArrayTypeDefinition
-  extends BaseTypeDefinition,
-    ArrayValidation {
+  extends BaseTypeDefinition, ArrayValidation {
   /** Must be 'array' */
   type: 'array'
   /** Type definition for each item in the array */
@@ -553,8 +551,7 @@ export interface SetTypeDefinition extends BaseTypeDefinition, ArrayValidation {
  * ```
  */
 export interface MapTypeDefinition
-  extends BaseTypeDefinition,
-    ObjectValidation {
+  extends BaseTypeDefinition, ObjectValidation {
   /** Must be 'map' */
   type: 'map'
   /** Type definition for all map values */
@@ -631,8 +628,7 @@ export interface ChoiceTypeDefinition extends BaseTypeDefinition {
  * ```
  */
 export interface DecimalTypeDefinition
-  extends BaseTypeDefinition,
-    NumericValidation {
+  extends BaseTypeDefinition, NumericValidation {
   /** Must be 'decimal' */
   type: 'decimal'
   /** Total number of significant digits */
@@ -645,8 +641,7 @@ export interface DecimalTypeDefinition
  * Type definition for string types with optional validation constraints.
  */
 export interface StringTypeDefinition
-  extends BaseTypeDefinition,
-    StringValidation {
+  extends BaseTypeDefinition, StringValidation {
   /** Must be 'string' */
   type: 'string'
 }
@@ -655,8 +650,7 @@ export interface StringTypeDefinition
  * Type definition for integer types (int8 through uint128) with optional numeric validation.
  */
 export interface IntegerTypeDefinition
-  extends BaseTypeDefinition,
-    NumericValidation {
+  extends BaseTypeDefinition, NumericValidation {
   /** The specific integer type keyword */
   type: IntegerType
 }
@@ -665,8 +659,7 @@ export interface IntegerTypeDefinition
  * Type definition for floating-point types (float, double) with optional numeric validation.
  */
 export interface FloatTypeDefinition
-  extends BaseTypeDefinition,
-    NumericValidation {
+  extends BaseTypeDefinition, NumericValidation {
   /** The specific float type keyword */
   type: 'float' | 'double'
 }
@@ -716,8 +709,7 @@ export type TypeDefinition =
  * ```
  */
 export interface JSONStructureSchema
-  extends BaseTypeDefinition,
-    ObjectValidation {
+  extends BaseTypeDefinition, ObjectValidation {
   /** URI identifying the JSON Structure specification version */
   $schema: string
   /** Unique identifier for this schema document */

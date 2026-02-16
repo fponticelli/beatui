@@ -1,4 +1,12 @@
-import { TNode, Value, attr, html, computedOf, Ensure } from '@tempots/dom'
+import {
+  TNode,
+  Value,
+  attr,
+  html,
+  computedOf,
+  Ensure,
+  Empty,
+} from '@tempots/dom'
 import { Icon } from '../data/icon'
 import type { IconSize } from '../theme'
 
@@ -126,6 +134,8 @@ export function EmptyState({
     Ensure(description, desc =>
       html.p(attr.class('bc-empty-state__description'), desc)
     ),
-    Ensure(action, act => html.div(attr.class('bc-empty-state__action'), act))
+    action != null
+      ? html.div(attr.class('bc-empty-state__action'), action)
+      : Empty
   )
 }

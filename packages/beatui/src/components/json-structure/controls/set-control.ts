@@ -4,13 +4,20 @@
  * Handles set type with items definition, uniqueness validation, and minItems/maxItems constraints
  */
 
-import { attr, html, Renderable, computedOf } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  Fragment,
+  html,
+  Renderable,
+  When,
+} from '@tempots/dom'
 import { ListControl, ArrayController } from '../../form'
 import { Label } from '../../typography'
 import type { StructureContext } from '../structure-context'
 import type { SetTypeDefinition } from '../structure-types'
 import { StructureGenericControl } from './generic-control'
-import { Stack } from '../../layout'
+
 import { createInputOptions, makeDefaultValue } from './control-utils'
 
 /**
@@ -92,19 +99,15 @@ export function StructureSetControl({
       })
 
       // Add duplicate indicator if needed
-      return isDuplicate.map(duplicate => {
-        if (duplicate) {
-          return Stack(
-            attr.class('bc-stack--gap-1'),
-            control,
-            Label(
-              attr.class('bc-json-structure-set-error'),
-              '⚠️ Duplicate value - sets must contain unique items'
-            )
+      return Fragment(
+        control,
+        When(isDuplicate, () =>
+          Label(
+            attr.class('bc-json-structure-set-error'),
+            'Duplicate value - sets must contain unique items'
           )
-        }
-        return control
-      })
+        )
+      )
     },
   })
 }

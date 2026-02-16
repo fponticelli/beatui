@@ -16,6 +16,7 @@ import {
   aria,
   WithElement,
   OnDispose,
+  Empty,
 } from '@tempots/dom'
 import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
@@ -148,8 +149,7 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
           html.div(
             attr.class('bc-dropdown__empty'),
             Use(BeatUII18n, t => t.$.noResults)
-          ),
-        () => Fragment()
+          )
       ),
       ForEach(filteredOptions, renderMenuItem),
     ],
@@ -171,7 +171,7 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
             input.removeEventListener('focus', onFocus)
           })
         }
-        return Fragment()
+        return Empty
       })
     },
     closable: true,

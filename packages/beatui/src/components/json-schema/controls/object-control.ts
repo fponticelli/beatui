@@ -112,8 +112,8 @@ function extractRenderConfig(effective: JSONSchema): ObjectRenderConfig {
   const xuiRaw = (effective as unknown as Record<string, unknown>)['x:ui']
   const lockKeyAfterSet = Boolean(
     xuiRaw &&
-      typeof xuiRaw === 'object' &&
-      (xuiRaw as Record<string, unknown>)['lockKeyAfterSet']
+    typeof xuiRaw === 'object' &&
+    (xuiRaw as Record<string, unknown>)['lockKeyAfterSet']
   )
 
   return {

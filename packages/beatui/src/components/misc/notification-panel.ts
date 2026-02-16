@@ -85,7 +85,7 @@ export function NotificationPanel(options: NotificationPanelOptions): TNode {
         ForEach(items, item => {
           return html.div(
             attr.class(
-              item.map(i =>
+              item.map((i): string =>
                 i.read
                   ? 'bc-notification-panel__item'
                   : 'bc-notification-panel__item bc-notification-panel__item--unread'

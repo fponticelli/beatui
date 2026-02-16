@@ -482,9 +482,7 @@ export function hslToRgb(
   const c = (1 - Math.abs(2 * l - 1)) * s
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
   const m = l - c / 2
-  let r1 = 0,
-    g1 = 0,
-    b1 = 0
+  let r1: number, g1: number, b1: number
   if (0 <= h && h < 60) [r1, g1, b1] = [c, x, 0]
   else if (60 <= h && h < 120) [r1, g1, b1] = [x, c, 0]
   else if (120 <= h && h < 180) [r1, g1, b1] = [0, c, x]

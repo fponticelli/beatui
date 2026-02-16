@@ -60,18 +60,21 @@ export function StructureTupleControl({
     attr.class('bc-json-structure-tuple'),
 
     // Optional label and description
-    inputOptions.label &&
-      html.label(
-        attr.class('bc-json-structure-tuple-label'),
-        inputOptions.label,
-        inputOptions.required &&
-          html.span(attr.class('bc-required-indicator'), '*')
-      ),
-    inputOptions.description &&
-      html.div(
-        attr.class('bc-json-structure-tuple-description'),
-        inputOptions.description
-      ),
+    inputOptions.label
+      ? html.label(
+          attr.class('bc-json-structure-tuple-label'),
+          inputOptions.label,
+          inputOptions.required
+            ? html.span(attr.class('bc-required-indicator'), '*')
+            : null
+        )
+      : null,
+    inputOptions.description
+      ? html.div(
+          attr.class('bc-json-structure-tuple-description'),
+          inputOptions.description
+        )
+      : null,
 
     // Render tuple elements
     html.div(

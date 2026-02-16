@@ -87,7 +87,7 @@ export function HistoryTimeline(options: HistoryTimelineOptions): TNode {
         html.button(
           attr.type('button'),
           attr.class(
-            computedOf(activeFilter)(active =>
+            computedOf(activeFilter)((active): string =>
               active === f.value
                 ? 'bc-history-timeline__filter bc-history-timeline__filter--active'
                 : 'bc-history-timeline__filter'

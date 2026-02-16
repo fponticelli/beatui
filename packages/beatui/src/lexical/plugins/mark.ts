@@ -79,6 +79,7 @@ export async function removeMark(
   editor.update(() => {
     const root = $getRoot()
     // Find all mark nodes with the given ID
+    // eslint-disable-next-line tempots/require-async-signal-disposal -- not a Signal, just an array
     const markNodes = root.getAllTextNodes().filter((node: TextNode) => {
       const parent = node.getParent()
       if ($isMarkNode(parent)) {

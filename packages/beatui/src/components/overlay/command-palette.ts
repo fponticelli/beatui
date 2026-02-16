@@ -213,7 +213,8 @@ export function CommandPalette(
                         )
                       ),
                       attr.role('option'),
-                      aria.selected(isSelected),
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      aria.selected(isSelected as any),
                       on.click(() => {
                         Value.get(entrySignal).item.onSelect()
                         closeOverlay()

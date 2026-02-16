@@ -45,7 +45,7 @@ export type LocaleValue = {
  * Use(Locale, ({ locale, setLocale }) => html.div(locale))
  * ```
  */
-export const Locale: Provider<LocaleValue, object> = {
+export const Locale: Provider<LocaleValue> = {
   mark: makeProviderMark<LocaleValue>('Locale'),
   create: (_options?: object) => {
     const locale = localStorageProp({

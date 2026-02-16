@@ -269,7 +269,7 @@ export default function SkeletonPage() {
               {
                 onClick: () => isLoading.set(!isLoading.value),
               },
-              Value.map(isLoading, loading =>
+              Value.map(isLoading, (loading): string =>
                 loading ? 'Show Content' : 'Show Loading'
               )
             )

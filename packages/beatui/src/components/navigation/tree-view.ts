@@ -5,7 +5,6 @@ import {
   ForEach,
   html,
   on,
-  OnDispose,
   prop,
   Signal,
   TNode,
@@ -117,21 +116,20 @@ function renderTreeItem(
       attr.style(`padding-left: ${depth * 20 + 8}px`),
       attr.role('treeitem'),
       attr.tabindex(0),
-      aria.selected(isSelected),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      aria.selected(isSelected as any),
       WithElement(el => {
         const ariaValue = computedOf(
           hasChildren,
           isExpanded
         )((hc, exp) => (hc ? String(exp) : null))
-        return OnDispose(
-          Value.on(ariaValue, v => {
-            if (v != null) {
-              el.setAttribute('aria-expanded', v)
-            } else {
-              el.removeAttribute('aria-expanded')
-            }
-          })
-        )
+        Value.on(ariaValue, v => {
+          if (v != null) {
+            el.setAttribute('aria-expanded', v)
+          } else {
+            el.removeAttribute('aria-expanded')
+          }
+        })
       }),
       on.click(handleClick),
 
