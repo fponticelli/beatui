@@ -5,8 +5,8 @@
   "description": "BeatUI Documentation Site",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npx tsx scripts/generate-static.ts && pnpm run validate-static",
-    "validate-static": "npx tsx scripts/validate-static.ts",
+    "build": "vite build",
+    "generate-static": "npx tsx scripts/generate-static.ts && npx tsx scripts/validate-static.ts",
     "serve": "serve .",
     "preview": "vite preview",
     "clean": "rm -rf dist",
@@ -26,8 +26,7 @@
     "test:e2e:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
     "test:e2e:update-snapshots": "playwright test --update-snapshots --project=chromium",
     "gen:schema": "npx tsx scripts/gen-meta-schemas.ts",
-    "gen:api": "npx tsx scripts/generate-api-json.ts",
-    "prebuild": "npx tsx scripts/generate-api-json.ts"
+    "gen:api": "npx tsx scripts/generate-api-json.ts"
   },
   "keywords": [
     "documentation",

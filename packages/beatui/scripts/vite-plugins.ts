@@ -1,4 +1,3 @@
-import { spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
@@ -6,34 +5,6 @@ import {
   generateCoreTokenVariables,
   generateSemanticTokenVariables,
 } from '../src/tokens/index.js'
-
-function formatWithPrettier(filePath: string) {
-  try {
-    const res = spawnSync(
-      'pnpm',
-      ['exec', 'prettier', '--log-level', 'warn', '--write', filePath],
-      { stdio: 'inherit' }
-    )
-    if (res.status === 0) return
-  } catch {
-    // pnpm not available, try next method
-  }
-  try {
-    const res = spawnSync(
-      'npx',
-      ['prettier', '--log-level', 'warn', '--write', filePath],
-      { stdio: 'inherit' }
-    )
-    if (res.status === 0) return
-  } catch {
-    // npx not available, try next method
-  }
-  try {
-    spawnSync('prettier', ['--write', filePath], { stdio: 'inherit' })
-  } catch {
-    console.warn('Warning: Prettier not available to format', filePath)
-  }
-}
 
 /**
  * Vite plugin to generate CSS variables before build
@@ -74,11 +45,6 @@ export function generateCSSVariablesPlugin() {
             fs.mkdirSync(dirname, { recursive: true })
           }
           fs.writeFileSync(outputPath, content, 'utf8')
-          try {
-            formatWithPrettier(outputPath)
-          } catch {
-            // Prettier formatting is optional - ignore failures
-          }
         }
 
         writeCss(coreOutput, buildCssFromVariables(generateCoreTokenVariables()))

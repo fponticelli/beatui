@@ -6,6 +6,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "generate-static": {
+      "dependsOn": ["build"],
+      "outputs": ["dist/**/*.html"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -26,8 +30,12 @@
     "typecheck": {
       "dependsOn": ["^build"]
     },
+    "gen:api": {
+      "dependsOn": ["^build"],
+      "outputs": ["public/api.json"]
+    },
     "check": {
-      "dependsOn": ["build", "lint", "format", "typecheck", "test"]
+      "dependsOn": ["build", "generate-static", "lint", "format", "typecheck", "test", "gen:api"]
     },
     "clean": {
       "cache": false
