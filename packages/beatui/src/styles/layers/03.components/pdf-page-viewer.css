@@ -238,10 +238,13 @@
 
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.checkBox
-  :is(input:checked:before, input:checked:after),
+  input:checked::before,
+.bc-pdf-page-viewer__annotation-layer
+  .buttonWidgetAnnotation.checkBox
+  input:checked::after,
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.radioButton
-  input:checked:before {
+  input:checked::before {
   background-color: CanvasText;
   content: '';
   display: block;
@@ -250,10 +253,10 @@
 
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.checkBox
-  input:checked:before,
+  input:checked::before,
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.checkBox
-  input:checked:after {
+  input:checked::after {
   height: 80%;
   left: 45%;
   width: 1px;
@@ -261,19 +264,19 @@
 
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.checkBox
-  input:checked:before {
+  input:checked::before {
   transform: rotate(45deg);
 }
 
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.checkBox
-  input:checked:after {
+  input:checked::after {
   transform: rotate(-45deg);
 }
 
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.radioButton
-  input:checked:before {
+  input:checked::before {
   border-radius: 50%;
   height: 50%;
   left: 25%;

@@ -100,7 +100,7 @@ export function PDFJSPreview({
 
     // Build query parameters
     const params = new URLSearchParams()
-    params.set('file', encodeURIComponent(url))
+    params.set('file', url)
 
     // Build hash parameters for viewer options
     const hashParams: string[] = []
