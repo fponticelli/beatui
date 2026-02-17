@@ -29,7 +29,7 @@
   "description": "BeatUI Monorepo - Modern UI component library and documentation",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tempots/eslint-plugin": "0.9.2",
+    "@tempots/eslint-plugin": "0.11.0",
     "chokidar": "^5.0.0",
     "concurrently": "^9.2.1",
     "eslint": "10.0.0",

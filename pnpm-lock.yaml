@@ -12,8 +12,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.0.0(jiti@2.6.1))
       '@tempots/eslint-plugin':
-        specifier: 0.9.2
-        version: 0.9.2(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
+        specifier: 0.11.0
+        version: 0.11.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       chokidar:
         specifier: ^5.0.0
         version: 5.0.0
@@ -70,8 +70,8 @@ importers:
         specifier: ^4.1.18
         version: 4.1.18(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       '@tempots/eslint-plugin':
-        specifier: 0.9.2
-        version: 0.9.2(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
+        specifier: 0.11.0
+        version: 0.11.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -149,8 +149,8 @@ importers:
         specifier: ^4.1.18
         version: 4.1.18(vite@7.3.1(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       '@tempots/eslint-plugin':
-        specifier: 0.9.2
-        version: 0.9.2(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
+        specifier: 0.11.0
+        version: 0.11.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/eslint-plugin':
         specifier: 8.56.0
         version: 8.56.0(@typescript-eslint/parser@8.56.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3))(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
@@ -318,8 +318,8 @@ importers:
         specifier: ^36.0.1
         version: 36.0.1
       '@tempots/eslint-plugin':
-        specifier: 0.9.2
-        version: 0.9.2(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
+        specifier: 0.11.0
+        version: 0.11.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       '@tempots/render':
         specifier: ^0.0.2
         version: 0.0.2
@@ -1216,8 +1216,8 @@ packages:
   '@tempots/dom@36.0.1':
     resolution: {integrity: sha512-hxKYLfa87NtlJKkZZpomk8Ul/V7y5fq+uSx2VgEQ6qo5EhKQ7g8LL916CsfUgWh4gVsYKyhfymU6VSxwzrWlHA==}
 
-  '@tempots/eslint-plugin@0.9.2':
-    resolution: {integrity: sha512-Qsd9uwHr4gy4EKOcHs1AqeXddCtJ0TyglmhIMllSykOQQXD3tx1Q4jP0nOtxMOUf589Nzm0n/ki6W18oy04fvw==}
+  '@tempots/eslint-plugin@0.11.0':
+    resolution: {integrity: sha512-fJIGT4XnIixs/qm2w3K5uxNV8I60Xy1feuqNtC10dPMyaYrsuh46yGNhYTAPrJrfSoVQd7xRVexD+6tkhK6edA==}
     peerDependencies:
       eslint: ^8.0.0 || ^9.0.0 || ^10.0.0
 
@@ -3706,7 +3706,7 @@ snapshots:
       '@tempots/core': 2.1.1
       '@tempots/render': 0.0.2
 
-  '@tempots/eslint-plugin@0.9.2(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)':
+  '@tempots/eslint-plugin@0.11.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.56.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       eslint: 10.0.0(jiti@2.6.1)
