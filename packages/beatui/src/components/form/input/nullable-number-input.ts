@@ -17,6 +17,7 @@ import { Icon } from '../../data/icon'
 import { defaultMessages } from '../../../beatui-i18n'
 import { Stack } from '../../layout'
 import { NullableResetAfter } from './nullable-utils'
+import { roundToStep } from './step-utils'
 
 /**
  * Options for the {@link NullableNumberInput} component.
@@ -100,7 +101,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
       const current = ((Value.get(value) as number | null) ?? 0) as number
       const stepVal = Value.get(step)
       const multiplier = event?.shiftKey ? 10 : 1
-      const targetValue = current - stepVal * multiplier
+      const targetValue = roundToStep(current - stepVal * multiplier, stepVal)
       const minVal = min != null ? Value.get(min) : undefined
       if (minVal != null && targetValue < minVal) return
       const newValue = clampValue(targetValue)
@@ -111,7 +112,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
       const current = ((Value.get(value) as number | null) ?? 0) as number
       const stepVal = Value.get(step)
       const multiplier = event?.shiftKey ? 10 : 1
-      const targetValue = current + stepVal * multiplier
+      const targetValue = roundToStep(current + stepVal * multiplier, stepVal)
       const maxVal = max != null ? Value.get(max) : undefined
       if (maxVal != null && targetValue > maxVal) return
       const newValue = clampValue(targetValue)
@@ -211,7 +212,7 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
             const multiplier = event.shiftKey ? 10 : 1
             const delta =
               event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
-            const newValue = clampValue(current + delta)
+            const newValue = clampValue(roundToStep(current + delta, stepVal))
             if (newValue !== current && onChange) onChange(newValue)
           })
         : Empty

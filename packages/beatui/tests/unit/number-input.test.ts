@@ -257,4 +257,38 @@ describe('NumberInput', () => {
 
     expect(changedValue).toBeUndefined() // Should not call onChange
   })
+
+  it('should avoid floating-point rounding errors with decimal steps', () => {
+    const value = prop(0.1)
+    const values: number[] = []
+
+    render(
+      BeatUI(
+        {},
+        NumberInput({
+          value,
+          step: 0.1,
+          onChange: newValue => {
+            values.push(newValue)
+            value.set(newValue)
+          },
+          id: 'test-number-input',
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll(
+      '.bc-number-input-steppers .bc-button'
+    )
+    const incrementButton = buttons[0] as HTMLButtonElement
+
+    // Click increment 3 times: 0.1 → 0.2 → 0.3 → 0.4
+    incrementButton.click()
+    incrementButton.click()
+    incrementButton.click()
+
+    // Without rounding fix, 0.1 + 0.1 + 0.1 would produce 0.30000000000000004
+    expect(values).toEqual([0.2, 0.3, 0.4])
+  })
 })

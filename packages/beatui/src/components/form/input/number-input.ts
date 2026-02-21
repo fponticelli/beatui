@@ -18,6 +18,7 @@ import { Merge } from '@tempots/std'
 import { Icon } from '../../data/icon'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { Stack } from '../../layout'
+import { roundToStep } from './step-utils'
 
 /**
  * Configuration options for the {@link NumberInput} component.
@@ -115,7 +116,7 @@ export const NumberInput = (options: NumberInputOptions) => {
             const stepVal = Value.get(step)
             // Apply 10x multiplier when shift key is held
             const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = current - stepVal * multiplier
+            const targetValue = roundToStep(current - stepVal * multiplier, stepVal)
             const minVal = min != null ? Value.get(min) : undefined
 
             // Don't call onChange if we would go below minimum
@@ -136,7 +137,7 @@ export const NumberInput = (options: NumberInputOptions) => {
             const stepVal = Value.get(step)
             // Apply 10x multiplier when shift key is held
             const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = current + stepVal * multiplier
+            const targetValue = roundToStep(current + stepVal * multiplier, stepVal)
             const maxVal = max != null ? Value.get(max) : undefined
 
             // Don't call onChange if we would go above maximum
@@ -218,7 +219,7 @@ export const NumberInput = (options: NumberInputOptions) => {
             const multiplier = event.shiftKey ? 10 : 1
             const delta =
               event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
-            const newValue = clampValue(current + delta)
+            const newValue = clampValue(roundToStep(current + delta, stepVal))
 
             // Only update if value actually changes
             if (newValue !== current && onChange) {

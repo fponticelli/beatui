@@ -17,6 +17,7 @@ import {
 import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
 import { backgroundValue } from '../../theme/style-utils'
+import { roundToStep } from './step-utils'
 
 /**
  * Definition of a tick mark on the slider track.
@@ -117,7 +118,7 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 function snapToStep(value: number, min: number, step: number): number {
-  return Math.round((value - min) / step) * step + min
+  return roundToStep(Math.round((value - min) / step) * step + min, step)
 }
 
 function pctOf(value: number, min: number, max: number): number {
@@ -345,12 +346,12 @@ export function AdvancedSlider({
             case 'ArrowRight':
             case 'ArrowUp':
               e.preventDefault()
-              newVal = clamp(current + step, min, max)
+              newVal = clamp(roundToStep(current + step, step), min, max)
               break
             case 'ArrowLeft':
             case 'ArrowDown':
               e.preventDefault()
-              newVal = clamp(current - step, min, max)
+              newVal = clamp(roundToStep(current - step, step), min, max)
               break
             case 'Home':
               e.preventDefault()
