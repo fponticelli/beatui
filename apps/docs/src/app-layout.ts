@@ -1,4 +1,4 @@
-import { html, attr, TNode, Use } from '@tempots/dom'
+import { html, attr, prop, style, TNode, Use } from '@tempots/dom'
 import {
   StandaloneAppearanceSelector,
   AppShell,
@@ -7,11 +7,16 @@ import {
   BeatUII18n,
   LocaleItem,
   Theme,
+  NumberInput,
+  Label,
 } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
 import { Menu } from './views/menu'
 
 export function AppLayout({ children }: { children: TNode }) {
+  const spacingBase = prop(0.25)
+  const fontSizeBase = prop(1)
+
   return AppShell({
     menu: {
       width: 240,
@@ -35,6 +40,27 @@ export function AppLayout({ children }: { children: TNode }) {
               )
             )
           )
+        ),
+        html.div(
+          attr.class('flex flex-row gap-3 items-center'),
+          Label('Spacing'),
+          NumberInput({
+            value: spacingBase,
+            onChange: v => spacingBase.set(v),
+            min: 0.05,
+            max: 1,
+            step: 0.05,
+            size: 'xs',
+          }),
+          Label('Font Size'),
+          NumberInput({
+            value: fontSizeBase,
+            onChange: v => fontSizeBase.set(v),
+            min: 0.5,
+            max: 2,
+            step: 0.05,
+            size: 'xs',
+          }),
         ),
         html.div(
           Use(BeatUII18n, t =>
@@ -70,7 +96,18 @@ export function AppLayout({ children }: { children: TNode }) {
       ),
     },
     main: {
-      content: html.div(attr.class('h-full overflow-auto'), children),
+      content: html.div(
+        attr.class('h-full overflow-auto'),
+        style.variable(
+          '--spacing-base',
+          spacingBase.map(v => `${v}rem`)
+        ),
+        style.variable(
+          '--font-size-base',
+          fontSizeBase.map(v => `${v}rem`)
+        ),
+        children
+      ),
     },
   })
 }

@@ -77,11 +77,38 @@ export function generateCSSVariablesPlugin() {
         )
 
         const buildCssFromVariables = (variables: Record<string, string>) => {
-          let cssContent = ':root {\n'
+          // Separate base tokens (literal values) from derived tokens (those
+          // referencing other custom properties via var()).  Derived tokens are
+          // placed on the `*` selector so that overriding a base token on any
+          // descendant causes the derived tokens to re-evaluate in that
+          // element's context — `:root`-only declarations resolve var()
+          // references once and the resolved value is inherited, breaking the
+          // cascade for subtree overrides.
+          const base: [string, string][] = []
+          const derived: [string, string][] = []
+
           Object.entries(variables).forEach(([name, value]) => {
+            if (value.includes('var(')) {
+              derived.push([name, value])
+            } else {
+              base.push([name, value])
+            }
+          })
+
+          let cssContent = ':root {\n'
+          base.forEach(([name, value]) => {
             cssContent += `  ${name}: ${value};\n`
           })
           cssContent += '}\n'
+
+          if (derived.length > 0) {
+            cssContent += '\n*, ::before, ::after {\n'
+            derived.forEach(([name, value]) => {
+              cssContent += `  ${name}: ${value};\n`
+            })
+            cssContent += '}\n'
+          }
+
           return cssContent
         }
 
