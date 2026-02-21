@@ -115,19 +115,19 @@ export default function NotificationServicePage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(Label('Title'), TextInput({ value: title, onInput: title.set })),
+      Stack(Label('Title'), TextInput({ value: title, onInput: v => title.set(v) })),
       Stack(
         Label('Message'),
-        TextInput({ value: message, onInput: message.set })
+        TextInput({ value: message, onInput: v => message.set(v) })
       ),
-      Stack(Label('Color'), ColorSelector({ color, onChange: color.set })),
+      Stack(Label('Color'), ColorSelector({ color, onChange: v => color.set(v) })),
       Stack(
         Label('Dismiss after (seconds)'),
         NumberInput({
           value: dismissAfter,
           min: 0,
           step: 1,
-          onInput: dismissAfter.set,
+          onInput: v => dismissAfter.set(v),
         })
       ),
       InputWrapper({
@@ -149,20 +149,20 @@ export default function NotificationServicePage() {
             Option.value('scale-fade', 'Scale Fade'),
           ] as SelectOption<AnimationPreset>[],
           value: animationPreset,
-          onChange: animationPreset.set,
+          onChange: v => animationPreset.set(v),
         }),
       }),
       Stack(
         Label('Show loader'),
-        Switch({ value: loading, onChange: loading.set })
+        Switch({ value: loading, onChange: v => loading.set(v) })
       ),
       Stack(
         Label('Border'),
-        Switch({ value: withBorder, onChange: withBorder.set })
+        Switch({ value: withBorder, onChange: v => withBorder.set(v) })
       ),
       Stack(
         Label('Close button'),
-        Switch({ value: withCloseButton, onChange: withCloseButton.set })
+        Switch({ value: withCloseButton, onChange: v => withCloseButton.set(v) })
       )
     ),
     body: Stack(

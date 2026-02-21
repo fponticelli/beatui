@@ -67,7 +67,7 @@ export default function InputsPage() {
             'Text',
             TextInput({
               value: text,
-              onChange: text.set,
+              onChange: v => text.set(v),
               placeholder: 'Enter text...',
               size,
               disabled,
@@ -78,7 +78,7 @@ export default function InputsPage() {
             'Search',
             TextInput({
               value: search,
-              onChange: search.set,
+              onChange: v => search.set(v),
               placeholder: 'Search...',
               before: InputIcon({ icon: 'lucide:search', size }),
               size,
@@ -90,7 +90,7 @@ export default function InputsPage() {
             'With prefix',
             TextInput({
               value: url,
-              onChange: url.set,
+              onChange: v => url.set(v),
               placeholder: 'example.com',
               type: 'url',
               before: InputAdornment({ filled: true, size }, 'https://'),
@@ -103,7 +103,7 @@ export default function InputsPage() {
             'Number',
             NumberInput({
               value: number,
-              onChange: number.set,
+              onChange: v => number.set(v),
               step: 1,
               size,
               disabled,
@@ -114,7 +114,7 @@ export default function InputsPage() {
             'Date',
             TextInput({
               value: date,
-              onChange: date.set,
+              onChange: v => date.set(v),
               type: 'date',
               size,
               disabled,
@@ -125,7 +125,7 @@ export default function InputsPage() {
             'Textarea',
             TextArea({
               value: textarea,
-              onChange: textarea.set,
+              onChange: v => textarea.set(v),
               placeholder: 'Write something...',
               disabled,
             })
@@ -136,7 +136,7 @@ export default function InputsPage() {
             html.div(
               TextInput({
                 value: errorValue,
-                onChange: errorValue.set,
+                onChange: v => errorValue.set(v),
                 placeholder: 'This field has an error',
                 hasError: true,
                 size,
@@ -155,7 +155,7 @@ export default function InputsPage() {
             'Disabled',
             TextInput({
               value: disabledValue,
-              onChange: disabledValue.set,
+              onChange: v => disabledValue.set(v),
               disabled: true,
               size,
             })
@@ -165,7 +165,7 @@ export default function InputsPage() {
             'Small',
             TextInput({
               value: smallValue,
-              onChange: smallValue.set,
+              onChange: v => smallValue.set(v),
               placeholder: 'Small input',
               size: 'sm',
               disabled,

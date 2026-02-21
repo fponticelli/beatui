@@ -34,7 +34,7 @@ export default function PdfPageViewerPage() {
         label: 'PDF URL',
         content: TextInput({
           value: pdfUrl,
-          onChange: pdfUrl.set,
+          onChange: v => pdfUrl.set(v),
           placeholder: 'Enter PDF URL',
         }),
       }),
@@ -44,7 +44,7 @@ export default function PdfPageViewerPage() {
           attr.class('flex items-center gap-2'),
           NumberInput({
             value: page,
-            onChange: page.set,
+            onChange: v => page.set(v),
             min: 1,
             max: totalPages,
             step: 1,
@@ -77,7 +77,7 @@ export default function PdfPageViewerPage() {
         label: 'Scale (when fit=none)',
         content: NumberInput({
           value: scale,
-          onChange: scale.set,
+          onChange: v => scale.set(v),
           min: 0.1,
           max: 5,
           step: 0.1,
@@ -102,7 +102,7 @@ export default function PdfPageViewerPage() {
         label: 'Quality',
         content: NumberInput({
           value: quality,
-          onChange: quality.set,
+          onChange: v => quality.set(v),
           min: 0.5,
           max: 4,
           step: 0.5,
@@ -112,14 +112,14 @@ export default function PdfPageViewerPage() {
         label: 'Text Layer (Selection)',
         content: Switch({
           value: renderTextLayer,
-          onChange: renderTextLayer.set,
+          onChange: v => renderTextLayer.set(v),
         }),
       }),
       InputWrapper({
         label: 'Annotation Layer',
         content: Switch({
           value: renderAnnotationLayer,
-          onChange: renderAnnotationLayer.set,
+          onChange: v => renderAnnotationLayer.set(v),
         }),
       }),
       Group(

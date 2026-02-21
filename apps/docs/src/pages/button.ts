@@ -80,16 +80,19 @@ export default function ButtonPage() {
             full: 'FULL',
           },
           value: roundedness,
-          onChange: roundedness.set,
+          onChange: v => roundedness.set(v),
         })
       ),
-      Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
+      Stack(
+        Label('Size'),
+        ControlSizeSelector({ size, onChange: v => size.set(v) })
+      ),
       Stack(DisabledSelector({ disabled })),
       InputWrapper({
         label: 'Loading',
         content: Switch({
           value: loading,
-          onChange: loading.set,
+          onChange: v => loading.set(v),
         }),
       }),
       Stack(

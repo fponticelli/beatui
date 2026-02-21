@@ -123,19 +123,19 @@ export default function ProseMirrorEditorPage() {
               label: s.label,
             })),
             value: selectedIndex,
-            onChange: selectedIndex.set,
+            onChange: v => selectedIndex.set(v),
           })
         ),
         html.div(
           attr.class('flex flex-row items-center gap-4 flex-wrap'),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: showToolbar, onChange: showToolbar.set }),
+            Switch({ value: showToolbar, onChange: v => showToolbar.set(v) }),
             html.span('Show Toolbar')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: readOnly, onChange: readOnly.set }),
+            Switch({ value: readOnly, onChange: v => readOnly.set(v) }),
             html.span('Read Only')
           )
         ),
@@ -165,52 +165,52 @@ export default function ProseMirrorEditorPage() {
           html.h4(attr.class('font-semibold mb-2'), 'Markdown Features'),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: headings, onChange: headings.set }),
+            Switch({ value: headings, onChange: v => headings.set(v) }),
             html.span('Headings')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: bold, onChange: bold.set }),
+            Switch({ value: bold, onChange: v => bold.set(v) }),
             html.span('Bold')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: italic, onChange: italic.set }),
+            Switch({ value: italic, onChange: v => italic.set(v) }),
             html.span('Italic')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: code, onChange: code.set }),
+            Switch({ value: code, onChange: v => code.set(v) }),
             html.span('Inline Code')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: links, onChange: links.set }),
+            Switch({ value: links, onChange: v => links.set(v) }),
             html.span('Links')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: bulletList, onChange: bulletList.set }),
+            Switch({ value: bulletList, onChange: v => bulletList.set(v) }),
             html.span('Bullet Lists')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: orderedList, onChange: orderedList.set }),
+            Switch({ value: orderedList, onChange: v => orderedList.set(v) }),
             html.span('Ordered Lists')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: blockquote, onChange: blockquote.set }),
+            Switch({ value: blockquote, onChange: v => blockquote.set(v) }),
             html.span('Blockquotes')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: codeBlock, onChange: codeBlock.set }),
+            Switch({ value: codeBlock, onChange: v => codeBlock.set(v) }),
             html.span('Code Blocks')
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: horizontalRule, onChange: horizontalRule.set }),
+            Switch({ value: horizontalRule, onChange: v => horizontalRule.set(v) }),
             html.span('Horizontal Rules')
           )
         ),

@@ -134,7 +134,7 @@ export default function JSONSchemaFormPage() {
             NativeSelect({
               options: sampleNames.map(name => Option.value(name, name)),
               value: selectedSample,
-              onChange: selectedSample.set,
+              onChange: v => selectedSample.set(v),
             })
           ),
           body: MonacoEditorInput({
@@ -244,7 +244,7 @@ export default function JSONSchemaFormPage() {
                     Option.value<'all' | 'failing' | 'off'>('off', 'off'),
                   ],
                   value: sanitizeMode,
-                  onChange: sanitizeMode.set,
+                  onChange: v => sanitizeMode.set(v),
                 })
               ),
               Button(

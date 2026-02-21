@@ -21,7 +21,7 @@ export function ControlSelect<T extends string>(
     content: DropdownInput<T>({
       value,
       options: dropdownOptions,
-      onChange: value.set,
+      onChange: v => value.set(v),
       size: 'sm',
     }),
   })
@@ -38,7 +38,7 @@ export function ControlSegmented<T extends string>(
       size: 'sm',
       options,
       value,
-      onChange: value.set,
+      onChange: v => value.set(v),
     }),
   })
 }
@@ -48,7 +48,7 @@ export function ControlSwitch(label: string, value: Prop<boolean>): TNode {
     label,
     content: Switch({
       value,
-      onChange: value.set,
+      onChange: v => value.set(v),
     }),
   })
 }

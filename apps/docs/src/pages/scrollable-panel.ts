@@ -41,21 +41,21 @@ export default function ScrollablePanelPage() {
         label: 'Display Shadows',
         content: Switch({
           value: displayShadows,
-          onChange: displayShadows.set,
+          onChange: v => displayShadows.set(v),
         }),
       }),
       InputWrapper({
         label: 'Display Header',
         content: Switch({
           value: displayHeader,
-          onChange: displayHeader.set,
+          onChange: v => displayHeader.set(v),
         }),
       }),
       InputWrapper({
         label: 'Display Footer',
         content: Switch({
           value: displayFooter,
-          onChange: displayFooter.set,
+          onChange: v => displayFooter.set(v),
         }),
       })
     ),

@@ -6,7 +6,7 @@ export function DisabledSelector({ disabled }: { disabled: Prop<boolean> }) {
     label: 'Disabled',
     content: Switch({
       value: disabled,
-      onChange: disabled.set,
+      onChange: v => disabled.set(v),
     }),
   })
 }

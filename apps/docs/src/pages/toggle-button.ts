@@ -43,7 +43,7 @@ export default function ToggleButtonPage() {
         content: SegmentedInput({
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         }),
       }),
       InputWrapper({
@@ -58,14 +58,14 @@ export default function ToggleButtonPage() {
             text: 'Text',
           },
           value: variant,
-          onChange: variant.set,
+          onChange: v => variant.set(v),
         }),
       }),
       InputWrapper({
         label: 'Disabled',
         content: Switch({
           value: disabled,
-          onChange: disabled.set,
+          onChange: v => disabled.set(v),
         }),
       })
     ),
@@ -89,7 +89,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: boldPressed,
-                onToggle: boldPressed.set,
+                onToggle: v => boldPressed.set(v),
                 variant,
                 size,
                 disabled,
@@ -99,7 +99,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: italicPressed,
-                onToggle: italicPressed.set,
+                onToggle: v => italicPressed.set(v),
                 variant,
                 size,
                 disabled,
@@ -109,7 +109,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: underlinePressed,
-                onToggle: underlinePressed.set,
+                onToggle: v => underlinePressed.set(v),
                 variant,
                 size,
                 disabled,
@@ -133,7 +133,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: star,
-                onToggle: star.set,
+                onToggle: v => star.set(v),
                 variant,
                 size,
                 disabled,
@@ -144,7 +144,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: heart,
-                onToggle: heart.set,
+                onToggle: v => heart.set(v),
                 variant,
                 size,
                 disabled,
@@ -155,7 +155,7 @@ export default function ToggleButtonPage() {
             ToggleButton(
               {
                 pressed: pin,
-                onToggle: pin.set,
+                onToggle: v => pin.set(v),
                 variant,
                 size,
                 disabled,
@@ -193,7 +193,7 @@ export default function ToggleButtonPage() {
                     ToggleButton(
                       {
                         pressed,
-                        onToggle: pressed.set,
+                        onToggle: v => pressed.set(v),
                         variant: v,
                         color,
                         size,

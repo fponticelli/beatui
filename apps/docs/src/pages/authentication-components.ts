@@ -60,21 +60,21 @@ export default function AuthenticationComponentsPage() {
     header: ControlsHeader(
       Stack(
         Label('Mode'),
-        AuthModeSelector({ mode: authMode, onChange: authMode.set })
+        AuthModeSelector({ mode: authMode, onChange: v => authMode.set(v) })
       ),
       Stack(
         Label('Social Login'),
-        Switch({ value: showSocial, onChange: showSocial.set })
+        Switch({ value: showSocial, onChange: v => showSocial.set(v) })
       ),
       Stack(
         Label('Remember Me'),
-        Switch({ value: showRememberMe, onChange: showRememberMe.set })
+        Switch({ value: showRememberMe, onChange: v => showRememberMe.set(v) })
       ),
       Stack(
         Label('Password Strength'),
         Switch({
           value: showPasswordStrength,
-          onChange: showPasswordStrength.set,
+          onChange: v => showPasswordStrength.set(v),
         })
       )
     ),
@@ -110,7 +110,7 @@ export default function AuthenticationComponentsPage() {
           await handleAuthAction(data, 'Password reset')
           return null
         },
-        onModeChange: authMode.set,
+        onModeChange: v => authMode.set(v),
       }),
 
       // Individual Forms Demo
@@ -169,7 +169,7 @@ export default function AuthenticationComponentsPage() {
           Label('Provider'),
           AuthProviderSelector({
             provider: socialProvider,
-            onChange: socialProvider.set,
+            onChange: v => socialProvider.set(v),
           })
         )
       ),
@@ -225,7 +225,7 @@ export default function AuthenticationComponentsPage() {
         Label('Test Password'),
         PasswordInput({
           value: passwordValue,
-          onInput: passwordValue.set,
+          onInput: v => passwordValue.set(v),
           placeholder: 'Type a password to see strength feedback',
         })
       ),

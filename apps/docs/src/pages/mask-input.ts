@@ -44,14 +44,14 @@ export default function MaskInputPage() {
             description: 'No-op placeholder demo',
             content: Switch({
               value: showGuide,
-              onChange: showGuide.set,
+              onChange: v => showGuide.set(v),
             }),
           }),
           InputWrapper({
             label: 'Disabled',
             content: Switch({
               value: disabled,
-              onChange: disabled.set,
+              onChange: v => disabled.set(v),
             }),
           })
         )

@@ -41,7 +41,7 @@ export default function TreeViewPage() {
                   { id: 'file3', label: 'Notes.txt' },
                 ],
                 selectedId,
-                onSelect: selectedId.set,
+                onSelect: v => selectedId.set(v),
               }),
               html.p(
                 attr.class('text-sm text-gray-600 dark:text-gray-400'),
@@ -183,7 +183,7 @@ export default function TreeViewPage() {
                 ],
                 selectedId,
                 expandedIds,
-                onSelect: selectedId.set,
+                onSelect: v => selectedId.set(v),
                 onToggle: (id, expanded) => {
                   const ids = new Set(expandedIds.value)
                   if (expanded) {

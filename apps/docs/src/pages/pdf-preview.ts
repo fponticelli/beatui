@@ -46,14 +46,14 @@ export default function PDFPreviewPage() {
             native: 'Native',
           },
           value: pdfEngine,
-          onChange: pdfEngine.set,
+          onChange: v => pdfEngine.set(v),
         }),
       }),
       InputWrapper({
         label: 'Page',
         content: NumberInput({
           value: page,
-          onChange: page.set,
+          onChange: v => page.set(v),
           min: 1,
           step: 1,
         }),
@@ -70,7 +70,7 @@ export default function PDFPreviewPage() {
                 Option.value(100, '100%'),
               ] as SelectOption<'auto' | 'page-fit' | 'page-width' | number>[],
               value: zoom,
-              onChange: zoom.set,
+              onChange: v => zoom.set(v),
             }),
           }),
         native: () =>
@@ -79,7 +79,7 @@ export default function PDFPreviewPage() {
               label: 'Toolbar',
               content: Switch({
                 value: toolbar,
-                onChange: toolbar.set,
+                onChange: v => toolbar.set(v),
               }),
             }),
             InputWrapper({
@@ -91,14 +91,14 @@ export default function PDFPreviewPage() {
                   Option.value('Fit', 'Fit'),
                 ] as SelectOption<'FitV' | 'FitH' | 'Fit'>[],
                 value: view,
-                onChange: view.set,
+                onChange: v => view.set(v),
               }),
             }),
             InputWrapper({
               label: 'Scrollbar',
               content: Switch({
                 value: scrollbar,
-                onChange: scrollbar.set,
+                onChange: v => scrollbar.set(v),
               }),
             })
           ),
@@ -122,21 +122,21 @@ export default function PDFPreviewPage() {
             | 'optionalcontent'
           >[],
           value: pagemode,
-          onChange: pagemode.set,
+          onChange: v => pagemode.set(v),
         }),
       }),
       InputWrapper({
         label: 'Search',
         content: TextInput({
           value: search,
-          onChange: search.set,
+          onChange: v => search.set(v),
         }),
       }),
       InputWrapper({
         label: 'Allow Fullscreen',
         content: Switch({
           value: allowfullscreen,
-          onChange: allowfullscreen.set,
+          onChange: v => allowfullscreen.set(v),
         }),
       })
     ),

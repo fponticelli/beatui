@@ -32,7 +32,7 @@ export default function LightboxPage() {
             none: 'None',
           },
           value: overlayEffect,
-          onChange: overlayEffect.set,
+          onChange: v => overlayEffect.set(v),
         })
       ),
       Stack(
@@ -54,14 +54,14 @@ export default function LightboxPage() {
         label: 'Dismissable',
         content: Switch({
           value: dismissable,
-          onChange: dismissable.set,
+          onChange: v => dismissable.set(v),
         }),
       }),
       InputWrapper({
         label: 'Show Close Button',
         content: Switch({
           value: showCloseButton,
-          onChange: showCloseButton.set,
+          onChange: v => showCloseButton.set(v),
         }),
       })
     ),

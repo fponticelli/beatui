@@ -390,7 +390,7 @@ export default function LexicalEditorPage() {
                 selectOption('contextual', 'Contextual'),
               ],
               value: preset,
-              onChange: preset.set,
+              onChange: v => preset.set(v),
             })
           ),
 
@@ -405,14 +405,14 @@ export default function LexicalEditorPage() {
                 selectOption('json', 'JSON'),
               ],
               value: format,
-              onChange: format.set,
+              onChange: v => format.set(v),
             })
           ),
 
           // Read Only Toggle
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: readOnly, onChange: readOnly.set }),
+            Switch({ value: readOnly, onChange: v => readOnly.set(v) }),
             html.span('Read Only')
           )
         ),

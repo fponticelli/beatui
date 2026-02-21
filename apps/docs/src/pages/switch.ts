@@ -29,7 +29,7 @@ export default function SwitchPage() {
         label: 'Value',
         content: Switch({
           value,
-          onChange: value.set,
+          onChange: v => value.set(v),
           color,
         }),
       }),
@@ -54,7 +54,7 @@ export default function SwitchPage() {
           onInput: (value: string) => offLabel.set(value),
         })
       ),
-      Stack(Label('Color'), ColorSelector({ color, onChange: color.set })),
+      Stack(Label('Color'), ColorSelector({ color, onChange: v => color.set(v) })),
       Stack(DisabledSelector({ disabled }))
     ),
     body: Stack(

@@ -162,7 +162,7 @@ function JSONSchemaOneOfLike<T>({
   // Initialize selection with auto-detected branch or fallback to 0
   const initialBranch = Value.get(autoDetectedBranch)
   const sel = prop<number>(initialBranch >= 0 ? initialBranch : 0)
-  controller.onDispose(sel.dispose)
+  controller.onDispose(() => sel.dispose())
 
   // Update selection when auto-detection changes (but only if user hasn't manually selected)
   let userHasManuallySelected = false

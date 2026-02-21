@@ -407,7 +407,7 @@ export function useForm<T extends object>({
   })
   const submitting = prop(false)
   const controller = baseController.object()
-  controller.onDispose(submitting.dispose)
+  controller.onDispose(() => submitting.dispose())
   const submitHandler = async (e?: Event) => {
     submitting.set(true)
     e?.preventDefault()

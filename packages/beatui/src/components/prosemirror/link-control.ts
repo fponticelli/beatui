@@ -239,7 +239,7 @@ export function LinkControl({
         TextInput({
           value,
           autofocus: true,
-          onInput: urlInput.set,
+          onInput: v => urlInput.set(v),
           placeholder: linkUrlPlaceholder,
           size,
         })

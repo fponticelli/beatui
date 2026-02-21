@@ -44,7 +44,7 @@ export default function NotificationToastPage() {
             Option.value('info', 'Info'),
           ] as SelectOption<string>[],
           value: colorStr,
-          onChange: colorStr.set,
+          onChange: v => colorStr.set(v),
         })
       ),
       Stack(
@@ -57,14 +57,14 @@ export default function NotificationToastPage() {
             Option.value('10', '10s'),
           ] as SelectOption<string>[],
           value: dismissAfterStr,
-          onChange: dismissAfterStr.set,
+          onChange: v => dismissAfterStr.set(v),
         })
       ),
       Stack(
         Label('With border'),
         CheckboxInput({
           value: withBorder,
-          onChange: withBorder.set,
+          onChange: v => withBorder.set(v),
         })
       )
     ),

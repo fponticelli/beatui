@@ -101,7 +101,7 @@ export default function TabsPage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(Label('Size'), ControlSizeSelector({ size, onChange: size.set })),
+      Stack(Label('Size'), ControlSizeSelector({ size, onChange: v => size.set(v) })),
       Stack(
         Label('Orientation'),
         SegmentedInput({
@@ -110,7 +110,7 @@ export default function TabsPage() {
             vertical: 'Vertical',
           },
           value: orientation,
-          onChange: orientation.set,
+          onChange: v => orientation.set(v),
         })
       ),
       Stack(DisabledSelector({ disabled })),
@@ -118,7 +118,7 @@ export default function TabsPage() {
         label: 'Show Content',
         content: Switch({
           value: showContent,
-          onChange: showContent.set,
+          onChange: v => showContent.set(v),
         }),
       })
     ),
@@ -139,7 +139,7 @@ export default function TabsPage() {
           Tabs({
             items: basicTabs,
             value: activeTab,
-            onChange: activeTab.set,
+            onChange: v => activeTab.set(v),
             size,
             disabled,
             orientation,
@@ -172,7 +172,7 @@ export default function TabsPage() {
                 Tabs({
                   items: basicTabs.slice(0, 3), // Only show first 3 tabs for size demo
                   value: sizeActiveTab,
-                  onChange: sizeActiveTab.set,
+                  onChange: v => sizeActiveTab.set(v),
                   size: currentSize,
                   showContent: prop(false), // Hide content for size comparison
                 })
@@ -205,7 +205,7 @@ export default function TabsPage() {
                 Tabs({
                   items: basicTabs.slice(0, 3),
                   value: variantActiveTab,
-                  onChange: variantActiveTab.set,
+                  onChange: v => variantActiveTab.set(v),
                   variant: currentVariant,
                   showContent: prop(false),
                 })
@@ -231,7 +231,7 @@ export default function TabsPage() {
             return Tabs({
               items: basicTabs.slice(0, 3),
               value: verticalActiveTab,
-              onChange: verticalActiveTab.set,
+              onChange: v => verticalActiveTab.set(v),
               orientation: prop('vertical' as TabsDirection),
               size: prop('md' as ControlSize),
             })

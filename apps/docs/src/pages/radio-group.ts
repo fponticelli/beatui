@@ -27,7 +27,7 @@ export default function RadioGroupPage() {
                   { value: 'option3', label: 'Option 3' },
                 ],
                 value: selected,
-                onChange: selected.set,
+                onChange: v => selected.set(v),
               }),
               html.p(
                 attr.class('text-sm text-gray-600 dark:text-gray-400'),
@@ -75,7 +75,7 @@ export default function RadioGroupPage() {
                 },
               ],
               value: plan,
-              onChange: plan.set,
+              onChange: v => plan.set(v),
             })
           })()
         )

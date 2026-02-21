@@ -24,7 +24,7 @@ export default function EditableTextPage() {
             label: 'Disabled',
             content: Switch({
               value: disabled,
-              onChange: disabled.set,
+              onChange: v => disabled.set(v),
             }),
           })
         )
@@ -35,7 +35,7 @@ export default function EditableTextPage() {
         Group(
           attr.class('gap-2 items-baseline'),
           html.div('EditableText'),
-          EditableText({ value: text, onChange: text.set, disabled })
+          EditableText({ value: text, onChange: v => text.set(v), disabled })
         ),
         Group(
           attr.class('gap-2 items-baseline'),

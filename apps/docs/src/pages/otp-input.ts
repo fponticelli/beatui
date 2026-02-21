@@ -24,14 +24,14 @@ export default function OTPInputPage() {
         content: SegmentedInput({
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         }),
       }),
       InputWrapper({
         label: 'Disabled',
         content: Switch({
           value: disabled,
-          onChange: disabled.set,
+          onChange: v => disabled.set(v),
         }),
       })
     ),
@@ -47,7 +47,7 @@ export default function OTPInputPage() {
       ),
       OTPInput({
         value: otpValue,
-        onChange: otpValue.set,
+        onChange: v => otpValue.set(v),
         onComplete: (v: string) => console.log('OTP complete:', v),
         length: 6,
         size,
@@ -64,7 +64,7 @@ export default function OTPInputPage() {
       ),
       OTPInput({
         value: pinValue,
-        onChange: pinValue.set,
+        onChange: v => pinValue.set(v),
         onComplete: (v: string) => console.log('PIN complete:', v),
         length: 4,
         mask: true,

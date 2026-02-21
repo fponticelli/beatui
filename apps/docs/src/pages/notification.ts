@@ -43,26 +43,26 @@ export default function NotificationPage() {
     header: ControlsHeader(
       InputWrapper({
         label: 'Color',
-        content: ColorSelector({ color, onChange: color.set }),
+        content: ColorSelector({ color, onChange: v => color.set(v) }),
       }),
       InputWrapper({
         label: 'Radius',
         content: SegmentedInput({
           options: radiusOptions,
           value: radius,
-          onChange: radius.set,
+          onChange: v => radius.set(v),
         }),
       }),
       InputWrapper({
         label: 'Show Icon',
-        content: Switch({ value: showIcon, onChange: showIcon.set }),
+        content: Switch({ value: showIcon, onChange: v => showIcon.set(v) }),
       }),
       InputWrapper({
         label: 'Icon',
         content: TextInput({
           value: icon,
           placeholder: 'material-symbols:notifications-active',
-          onInput: icon.set,
+          onInput: v => icon.set(v),
         }),
       }),
       InputWrapper({
@@ -70,7 +70,7 @@ export default function NotificationPage() {
         content: TextInput({
           value: title,
           placeholder: 'Optional title',
-          onInput: title.set,
+          onInput: v => title.set(v),
         }),
       }),
       InputWrapper({
@@ -78,27 +78,27 @@ export default function NotificationPage() {
         content: TextInput({
           value: message,
           placeholder: 'Notification copy',
-          onInput: message.set,
+          onInput: v => message.set(v),
         }),
       }),
       InputWrapper({
         label: 'With border',
-        content: Switch({ value: withBorder, onChange: withBorder.set }),
+        content: Switch({ value: withBorder, onChange: v => withBorder.set(v) }),
       }),
       InputWrapper({
         label: 'Close button',
         content: Switch({
           value: withCloseButton,
-          onChange: withCloseButton.set,
+          onChange: v => withCloseButton.set(v),
         }),
       }),
       InputWrapper({
         label: 'Title visible',
-        content: Switch({ value: showTitle, onChange: showTitle.set }),
+        content: Switch({ value: showTitle, onChange: v => showTitle.set(v) }),
       }),
       InputWrapper({
         label: 'Loading',
-        content: Switch({ value: loading, onChange: loading.set }),
+        content: Switch({ value: loading, onChange: v => loading.set(v) }),
       })
     ),
     body: Stack(

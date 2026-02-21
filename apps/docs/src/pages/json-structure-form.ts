@@ -114,7 +114,7 @@ export default function JSONStructureFormPage() {
             NativeSelect({
               options: sampleNames.map(name => Option.value(name, name)),
               value: selectedSample,
-              onChange: selectedSample.set,
+              onChange: v => selectedSample.set(v),
             })
           ),
           body: MonacoEditorInput({

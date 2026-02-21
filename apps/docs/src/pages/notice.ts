@@ -36,7 +36,7 @@ export default function NoticePage() {
             warning: 'Warning',
             danger: 'Danger',
           },
-          onChange: variant.set,
+          onChange: v => variant.set(v),
           size: 'sm',
         })
       ),
@@ -45,7 +45,7 @@ export default function NoticePage() {
         SegmentedInput({
           value: tone,
           options: { subtle: 'Subtle', prominent: 'Prominent' },
-          onChange: tone.set,
+          onChange: v => tone.set(v),
           size: 'sm',
         })
       ),
@@ -54,20 +54,20 @@ export default function NoticePage() {
         SegmentedInput({
           value: role,
           options: { auto: 'Auto', status: 'Status', alert: 'Alert' },
-          onChange: role.set,
+          onChange: v => role.set(v),
           size: 'sm',
         })
       ),
       Stack(
         Label('Closable'),
-        Switch({ value: closable, onChange: closable.set })
+        Switch({ value: closable, onChange: v => closable.set(v) })
       ),
       Stack(
         Label('Icon'),
         SegmentedInput({
           value: iconMode,
           options: { auto: 'Auto', custom: 'Custom', none: 'None' },
-          onChange: iconMode.set,
+          onChange: v => iconMode.set(v),
           size: 'sm',
         })
       ),
@@ -76,7 +76,7 @@ export default function NoticePage() {
         TextInput({
           value: title,
           placeholder: 'Optional title',
-          onInput: title.set,
+          onInput: v => title.set(v),
         })
       ),
       // Custom icon text input shown always for simplicity
@@ -85,7 +85,7 @@ export default function NoticePage() {
         TextInput({
           value: customIcon,
           placeholder: 'e.g. mdi:alert',
-          onInput: customIcon.set,
+          onInput: v => customIcon.set(v),
         })
       )
     ),

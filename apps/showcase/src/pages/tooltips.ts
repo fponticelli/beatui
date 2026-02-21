@@ -36,7 +36,7 @@ export default function TooltipsPage() {
             Option.value('left', 'Left'),
           ] as SelectOption<Placement>[],
           value: placement,
-          onChange: placement.set,
+          onChange: v => placement.set(v),
         })
       ),
       Stack(
@@ -49,7 +49,7 @@ export default function TooltipsPage() {
             Option.value('click', 'Click'),
           ] as SelectOption<TooltipTrigger>[],
           value: showOn,
-          onChange: showOn.set,
+          onChange: v => showOn.set(v),
         })
       )
     ),

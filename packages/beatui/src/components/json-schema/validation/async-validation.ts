@@ -220,6 +220,7 @@ export class AsyncValidator {
     force = false
   ): Promise<void> {
     const fieldId = `${rule.field}_${rule.id}`
+    // eslint-disable-next-line tempots/require-async-signal-disposal -- state is retrieved from a class-managed map, not created here; disposal is handled by AsyncValidationManager.dispose()
     const state = this.getValidationState(fieldId)
 
     // Clear existing timeout

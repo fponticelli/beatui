@@ -123,7 +123,7 @@ function renderInterfaceBody(r: ApiReflection, moduleSlug: string): TNode {
       ? html.div(
           attr.class('api-symbol-card__section'),
           html.h3('Methods'),
-          // eslint-disable-next-line tempots/no-renderable-signal-map
+           
           ...methods.map(m =>
             html.div(
               attr.class('api-symbol-card__method'),
@@ -250,7 +250,7 @@ function renderEnumBody(r: ApiReflection, moduleSlug: string): TNode {
         html.tr(html.th('Member'), html.th('Value'), html.th('Description'))
       ),
       html.tbody(
-        // eslint-disable-next-line tempots/no-renderable-signal-map
+         
         ...members.map(m =>
           html.tr(
             html.td(html.code(m.name)),

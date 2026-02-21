@@ -115,7 +115,7 @@ export function FileUploadWidget({
       }
     } else {
       // Default behavior: store file names
-      // eslint-disable-next-line tempots/require-async-signal-disposal
+       
       const fileNames = Array.from(files).map(f => f.name)
       controller.change(isMultiple ? fileNames : fileNames[0] || null)
     }

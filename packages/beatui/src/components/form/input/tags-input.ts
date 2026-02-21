@@ -69,7 +69,7 @@ export const TagsInput = (options: InputOptions<string[]>) => {
         CommonInputAttributes(options),
         attr.value(currentValue),
         attr.class('bc-input bc-input-container__tags-input'),
-        on.input(emitValue(currentValue.set)),
+        on.input(emitValue(v => currentValue.set(v))),
         onChange != null ? on.change(addOne) : Empty,
         onBlur != null ? on.blur(onBlur) : Empty
       )

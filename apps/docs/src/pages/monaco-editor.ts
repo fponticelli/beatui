@@ -115,7 +115,7 @@ export default function MonacoEditorPage() {
                 Option.value(i, s.label)
               ) as SelectOption<number>[],
               value: selectedIndex,
-              onChange: selectedIndex.set,
+              onChange: v => selectedIndex.set(v),
             }),
             html.br()
           ),

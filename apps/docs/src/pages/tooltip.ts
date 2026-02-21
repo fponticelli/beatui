@@ -42,7 +42,7 @@ export default function TooltipPage() {
             Option.value('left-end', 'Left End'),
           ] as SelectOption<Placement>[],
           value: placement,
-          onChange: placement.set,
+          onChange: v => placement.set(v),
         })
       ),
       Stack(
@@ -56,21 +56,21 @@ export default function TooltipPage() {
             Option.value('never', 'Never'),
           ] as SelectOption<TooltipTrigger>[],
           value: showOn,
-          onChange: showOn.set,
+          onChange: v => showOn.set(v),
         })
       ),
       Stack(
         Label('Show Delay'),
         NumberInput({
           value: showDelay,
-          onChange: showDelay.set,
+          onChange: v => showDelay.set(v),
         })
       ),
       Stack(
         Label('Hide Delay'),
         NumberInput({
           value: hideDelay,
-          onChange: hideDelay.set,
+          onChange: v => hideDelay.set(v),
         })
       )
     ),

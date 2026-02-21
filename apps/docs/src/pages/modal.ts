@@ -48,7 +48,7 @@ export default function ModalPage() {
             xl: 'XL',
           },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         })
       ),
       Stack(
@@ -60,7 +60,7 @@ export default function ModalPage() {
             none: 'None',
           },
           value: overlayEffect,
-          onChange: overlayEffect.set,
+          onChange: v => overlayEffect.set(v),
         })
       ),
       Stack(
@@ -78,21 +78,21 @@ export default function ModalPage() {
             'bottom-end': 'bottom-end',
           },
           value: position,
-          onChange: position.set,
+          onChange: v => position.set(v),
         })
       ),
       InputWrapper({
         label: 'Dismissable',
         content: Switch({
           value: dismissable,
-          onChange: dismissable.set,
+          onChange: v => dismissable.set(v),
         }),
       }),
       InputWrapper({
         label: 'Show Close Button',
         content: Switch({
           value: showCloseButton,
-          onChange: showCloseButton.set,
+          onChange: v => showCloseButton.set(v),
         }),
       }),
       Stack(

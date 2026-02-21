@@ -20,7 +20,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(10),
-              onPageChange: page.set,
+              onPageChange: v => page.set(v),
             }),
             html.p(
               attr.class(
@@ -46,7 +46,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(20),
-              onPageChange: page.set,
+              onPageChange: v => page.set(v),
               showFirstLast: true,
             }),
             html.p(
@@ -110,7 +110,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(15),
-              onPageChange: page.set,
+              onPageChange: v => page.set(v),
               showFirstLast: true,
               justify: true,
             }),
@@ -142,7 +142,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(50),
-              onPageChange: page.set,
+              onPageChange: v => page.set(v),
               responsive: true,
             }),
             html.p(

@@ -23,7 +23,7 @@ export default function LinkPage() {
             plain: 'Plain',
             hover: 'Hover',
           },
-          onChange: variant.set,
+          onChange: v => variant.set(v),
         })
       )
     ),

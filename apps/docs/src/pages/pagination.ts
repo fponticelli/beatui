@@ -64,7 +64,7 @@ export default function PaginationPage() {
               Pagination({
                 currentPage,
                 totalPages: prop(20),
-                onPageChange: currentPage.set,
+                onPageChange: v => currentPage.set(v),
                 showFirstLast: true,
               }),
               html.p(
@@ -146,7 +146,7 @@ export default function PaginationPage() {
               Pagination({
                 currentPage,
                 totalPages: prop(15),
-                onPageChange: currentPage.set,
+                onPageChange: v => currentPage.set(v),
                 showFirstLast: true,
                 justify: true,
               }),

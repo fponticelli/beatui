@@ -33,20 +33,20 @@ export default function AnnouncementBarPage() {
             value: color as Value<
               'primary' | 'success' | 'warning' | 'danger' | 'info'
             >,
-            onChange: color.set,
+            onChange: v => color.set(v),
           }),
         }),
         InputWrapper({
           content: Switch({
             value: showIcon,
-            onChange: showIcon.set,
+            onChange: v => showIcon.set(v),
           }),
           label: 'Show Icon',
         }),
         InputWrapper({
           content: Switch({
             value: closable,
-            onChange: closable.set,
+            onChange: v => closable.set(v),
           }),
           label: 'Closable',
         })

@@ -49,7 +49,7 @@ export default function FlyoutPage() {
             Option.value('left-end', 'Left End'),
           ] as SelectOption<Placement>[],
           value: placement,
-          onChange: placement.set,
+          onChange: v => placement.set(v),
         })
       ),
       Stack(
@@ -63,35 +63,35 @@ export default function FlyoutPage() {
             Option.value('never', 'Never'),
           ] as SelectOption<FlyoutTrigger>[],
           value: showOn,
-          onChange: showOn.set,
+          onChange: v => showOn.set(v),
         })
       ),
       Stack(
         Label('Show Delay'),
         NumberInput({
           value: showDelay,
-          onChange: showDelay.set,
+          onChange: v => showDelay.set(v),
         })
       ),
       Stack(
         Label('Hide Delay'),
         NumberInput({
           value: hideDelay,
-          onChange: hideDelay.set,
+          onChange: v => hideDelay.set(v),
         })
       ),
       InputWrapper({
         label: 'Closable',
         content: Switch({
           value: closable,
-          onChange: closable.set,
+          onChange: v => closable.set(v),
         }),
       }),
       InputWrapper({
         label: 'Animations',
         content: Switch({
           value: showAnimations,
-          onChange: showAnimations.set,
+          onChange: v => showAnimations.set(v),
         }),
       })
     ),

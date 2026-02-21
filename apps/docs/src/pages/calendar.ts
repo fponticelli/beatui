@@ -24,14 +24,14 @@ export default function CalendarPage() {
         content: SegmentedInput({
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         }),
       }),
       InputWrapper({
         label: 'Disabled',
         content: Switch({
           value: disabled,
-          onChange: disabled.set,
+          onChange: v => disabled.set(v),
         }),
       })
     ),
@@ -47,7 +47,7 @@ export default function CalendarPage() {
       ),
       DateCalendar({
         value: selectedDate,
-        onSelect: selectedDate.set,
+        onSelect: v => selectedDate.set(v),
         size,
         disabled,
       }),
@@ -75,7 +75,7 @@ export default function CalendarPage() {
         )
         return DateCalendar({
           value: constrainedDate,
-          onSelect: constrainedDate.set,
+          onSelect: v => constrainedDate.set(v),
           isDateDisabled: d => d < monthStart || d > monthEnd,
           size,
           disabled,
@@ -88,7 +88,7 @@ export default function CalendarPage() {
         const mondayDate = prop<Date | null>(null)
         return DateCalendar({
           value: mondayDate,
-          onSelect: mondayDate.set,
+          onSelect: v => mondayDate.set(v),
           weekStartsOn: 1,
           size,
           disabled,
@@ -110,7 +110,7 @@ export default function CalendarPage() {
             ),
             DateCalendar({
               value: colorDate,
-              onSelect: colorDate.set,
+              onSelect: v => colorDate.set(v),
               color,
               size,
               disabled,
@@ -139,7 +139,7 @@ export default function CalendarPage() {
           ),
           DateRangeCalendar({
             value: range,
-            onChange: range.set,
+            onChange: v => range.set(v),
             size,
             disabled,
           })
@@ -159,7 +159,7 @@ export default function CalendarPage() {
             ),
             DateCalendar({
               value: sizeDate,
-              onSelect: sizeDate.set,
+              onSelect: v => sizeDate.set(v),
               size: s,
             })
           )

@@ -170,7 +170,7 @@ export default function InputsPage() {
     ]
     const comboboxVal = prop('apple')
     const loadFruits = async (q: string) =>
-      // eslint-disable-next-line tempots/require-async-signal-disposal
+       
       comboboxFruits.filter(
         o =>
           o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())
@@ -256,12 +256,12 @@ export default function InputsPage() {
             label: 'Display non-nullables',
             content: Switch({
               value: displayNonNullables,
-              onChange: displayNonNullables.set,
+              onChange: v => displayNonNullables.set(v),
             }),
           }),
           InputWrapper({
             label: 'Disabled',
-            content: Switch({ value: disabled, onChange: disabled.set }),
+            content: Switch({ value: disabled, onChange: v => disabled.set(v) }),
           })
         )
       ),
@@ -279,7 +279,7 @@ export default function InputsPage() {
             label: 'Appearance Selector',
             content: AppearanceSelector({
               value: appearance,
-              onChange: appearance.set,
+              onChange: v => appearance.set(v),
               disabled,
             }),
             description: description(appearance),
@@ -288,7 +288,7 @@ export default function InputsPage() {
             label: 'Base64 Input',
             content: Base64Input({
               value: base64,
-              onChange: base64.set,
+              onChange: v => base64.set(v),
               disabled,
             }),
             description: description(base64),
@@ -297,7 +297,7 @@ export default function InputsPage() {
             label: 'Base64s Input',
             content: Base64sInput({
               value: base64s,
-              onChange: base64s.set,
+              onChange: v => base64s.set(v),
               disabled,
             }),
             description: description(base64s),
@@ -306,7 +306,7 @@ export default function InputsPage() {
             label: 'Checkbox Input',
             content: CheckboxInput({
               value: checkbox,
-              onChange: checkbox.set,
+              onChange: v => checkbox.set(v),
               disabled,
             }),
             description: description(checkbox),
@@ -315,7 +315,7 @@ export default function InputsPage() {
             label: 'Color Input',
             content: ColorSwatchInput({
               value: color,
-              onChange: color.set,
+              onChange: v => color.set(v),
               displayValue: true,
               withAlpha: true,
               colorTextFormat: 'hex',
@@ -330,7 +330,7 @@ export default function InputsPage() {
                 label: 'Rating Input',
                 content: RatingInput({
                   value: rating,
-                  onChange: rating.set,
+                  onChange: v => rating.set(v),
                   emptyIcon: 'line-md:beer-alt-loop',
                   fullIcon: 'line-md:beer-alt-twotone-loop',
                   fullColor: 'orange',
@@ -347,7 +347,7 @@ export default function InputsPage() {
                 label: 'Nullable Rating Input',
                 content: NullableRatingInput({
                   value: nullableRating,
-                  onChange: nullableRating.set,
+                  onChange: v => nullableRating.set(v),
                   emptyIcon: 'line-md:beer-alt-loop',
                   fullIcon: 'line-md:beer-alt-twotone-loop',
                   fullColor: 'orange',
@@ -366,7 +366,7 @@ export default function InputsPage() {
                 label: 'Email Input',
                 content: EmailInput({
                   value: email,
-                  onChange: email.set,
+                  onChange: v => email.set(v),
                   disabled,
                 }),
                 description: description(email),
@@ -376,7 +376,7 @@ export default function InputsPage() {
                 label: 'Nullable Email Input',
                 content: NullableEmailInput({
                   value: nullableEmail,
-                  onChange: nullableEmail.set,
+                  onChange: v => nullableEmail.set(v),
                   disabled,
                 }),
                 description: description(nullableEmail),
@@ -389,7 +389,7 @@ export default function InputsPage() {
                 label: 'URL Input',
                 content: UrlInput({
                   value: urlVal,
-                  onChange: urlVal.set,
+                  onChange: v => urlVal.set(v),
                   disabled,
                 }),
                 description: description(urlVal),
@@ -399,7 +399,7 @@ export default function InputsPage() {
                 label: 'Nullable URL Input',
                 content: NullableUrlInput({
                   value: nullableUrlVal,
-                  onChange: nullableUrlVal.set,
+                  onChange: v => nullableUrlVal.set(v),
                   disabled,
                 }),
                 description: description(nullableUrlVal),
@@ -409,7 +409,7 @@ export default function InputsPage() {
             label: 'File Input (input)',
             content: FileInput({
               value: file,
-              onChange: file.set,
+              onChange: v => file.set(v),
               mode: 'input',
               disabled,
             }),
@@ -419,7 +419,7 @@ export default function InputsPage() {
             label: 'File Input (compact)',
             content: FileInput({
               value: file,
-              onChange: file.set,
+              onChange: v => file.set(v),
               mode: 'compact',
               disabled,
             }),
@@ -427,14 +427,14 @@ export default function InputsPage() {
           }),
           InputWrapper({
             label: 'File Input',
-            content: FileInput({ value: file, onChange: file.set, disabled }),
+            content: FileInput({ value: file, onChange: v => file.set(v), disabled }),
             description: description(file),
           }),
           InputWrapper({
             label: 'Files Input (input)',
             content: FilesInput({
               value: files,
-              onChange: files.set,
+              onChange: v => files.set(v),
               mode: 'input',
               disabled,
             }),
@@ -444,7 +444,7 @@ export default function InputsPage() {
             label: 'Files Input (compact)',
             content: FilesInput({
               value: files,
-              onChange: files.set,
+              onChange: v => files.set(v),
               mode: 'compact',
               disabled,
             }),
@@ -454,7 +454,7 @@ export default function InputsPage() {
             label: 'Files Input',
             content: FilesInput({
               value: files,
-              onChange: files.set,
+              onChange: v => files.set(v),
               disabled,
             }),
             description: description(files),
@@ -466,7 +466,7 @@ export default function InputsPage() {
                 label: 'Number Input',
                 content: NumberInput({
                   value: number,
-                  onChange: number.set,
+                  onChange: v => number.set(v),
                   step: 1,
                   disabled,
                 }),
@@ -477,7 +477,7 @@ export default function InputsPage() {
                 label: 'Nullable Number Input',
                 content: NullableNumberInput({
                   value: nullableNumber,
-                  onChange: nullableNumber.set,
+                  onChange: v => nullableNumber.set(v),
                   step: 1,
                   disabled,
                 }),
@@ -491,7 +491,7 @@ export default function InputsPage() {
                 label: 'Bigint Input',
                 content: BigintInput({
                   value: bigint,
-                  onChange: bigint.set,
+                  onChange: v => bigint.set(v),
                   step: 1n,
                   disabled,
                 }),
@@ -502,7 +502,7 @@ export default function InputsPage() {
                 label: 'Nullable Bigint Input',
                 content: NullableBigintInput({
                   value: nullableBigint,
-                  onChange: nullableBigint.set,
+                  onChange: v => nullableBigint.set(v),
                   step: 1n,
                   disabled,
                 }),
@@ -516,7 +516,7 @@ export default function InputsPage() {
                 label: 'Password Input',
                 content: PasswordInput({
                   value: password,
-                  onChange: password.set,
+                  onChange: v => password.set(v),
                   disabled,
                 }),
                 description: description(password),
@@ -526,7 +526,7 @@ export default function InputsPage() {
                 label: 'Nullable Password Input',
                 content: NullablePasswordInput({
                   value: nullablePassword,
-                  onChange: nullablePassword.set,
+                  onChange: v => nullablePassword.set(v),
                   disabled,
                 }),
                 description: description(nullablePassword),
@@ -534,7 +534,7 @@ export default function InputsPage() {
           ),
           InputWrapper({
             label: 'Tags Input',
-            content: TagsInput({ value: tags, onChange: tags.set, disabled }),
+            content: TagsInput({ value: tags, onChange: v => tags.set(v), disabled }),
             description: description(tags),
           }),
           When(
@@ -544,7 +544,7 @@ export default function InputsPage() {
                 label: 'Text Area',
                 content: TextArea({
                   value: textAreaVal,
-                  onChange: textAreaVal.set,
+                  onChange: v => textAreaVal.set(v),
                   disabled,
                 }),
                 description: description(textAreaVal),
@@ -554,7 +554,7 @@ export default function InputsPage() {
                 label: 'Nullable Text Area',
                 content: NullableTextArea({
                   value: nullableTextAreaVal,
-                  onChange: nullableTextAreaVal.set,
+                  onChange: v => nullableTextAreaVal.set(v),
                   disabled,
                 }),
                 description: description(nullableTextAreaVal),
@@ -567,7 +567,7 @@ export default function InputsPage() {
                 label: 'Text Input',
                 content: TextInput({
                   value: textVal,
-                  onChange: textVal.set,
+                  onChange: v => textVal.set(v),
                   disabled,
                 }),
                 description: description(textVal),
@@ -577,7 +577,7 @@ export default function InputsPage() {
                 label: 'Nullable Text Input',
                 content: NullableTextInput({
                   value: nullableTextVal,
-                  onChange: nullableTextVal.set,
+                  onChange: v => nullableTextVal.set(v),
                   disabled,
                 }),
                 description: description(nullableTextVal),
@@ -592,7 +592,7 @@ export default function InputsPage() {
                 label: 'UUID Input',
                 content: UUIDInput({
                   value: uuid,
-                  onChange: uuid.set,
+                  onChange: v => uuid.set(v),
                   disabled,
                 }),
                 description: description(uuid),
@@ -602,7 +602,7 @@ export default function InputsPage() {
                 label: 'Nullable UUID Input',
                 content: NullableUUIDInput({
                   value: nullableUuid,
-                  onChange: nullableUuid.set,
+                  onChange: v => nullableUuid.set(v),
                   disabled,
                 }),
                 description: description(nullableUuid),
@@ -615,7 +615,7 @@ export default function InputsPage() {
                 label: 'Date Input',
                 content: DateInput({
                   value: date,
-                  onChange: date.set,
+                  onChange: v => date.set(v),
                   disabled,
                 }),
                 description: description(date),
@@ -625,7 +625,7 @@ export default function InputsPage() {
                 label: 'Nullable Date Input',
                 content: NullableDateInput({
                   value: nullableDate,
-                  onChange: nullableDate.set,
+                  onChange: v => nullableDate.set(v),
                   disabled,
                 }),
                 description: description(nullableDate),
@@ -638,7 +638,7 @@ export default function InputsPage() {
                 label: 'Date Time Input',
                 content: DateTimeInput({
                   value: dateTime,
-                  onChange: dateTime.set,
+                  onChange: v => dateTime.set(v),
                   disabled,
                 }),
                 description: description(dateTime),
@@ -648,7 +648,7 @@ export default function InputsPage() {
                 label: 'Nullable Date Time Input',
                 content: NullableDateTimeInput({
                   value: nullableDateTime,
-                  onChange: nullableDateTime.set,
+                  onChange: v => nullableDateTime.set(v),
                   disabled,
                 }),
                 description: description(nullableDateTime),
@@ -668,7 +668,7 @@ export default function InputsPage() {
             content: DropdownInput({
               value: dropdownValue,
               options: dropdownOptions,
-              onChange: dropdownValue.set,
+              onChange: v => dropdownValue.set(v),
               disabled,
             }),
             description: description(dropdownValue),
@@ -678,7 +678,7 @@ export default function InputsPage() {
             content: NativeSelect({
               value: nativeSelectValue,
               options: nativeSelectOptions,
-              onChange: nativeSelectValue.set,
+              onChange: v => nativeSelectValue.set(v),
               disabled,
             }),
             description: description(nativeSelectValue),
@@ -692,7 +692,7 @@ export default function InputsPage() {
                 { id: 'a', label: 'A' },
                 { id: 'b', label: 'B' },
               ],
-              onChange: lazySelectValue.set,
+              onChange: v => lazySelectValue.set(v),
               disabled,
             }),
             description: description(lazySelectValue),
@@ -705,7 +705,7 @@ export default function InputsPage() {
                 content: MaskInput({
                   value: maskVal,
                   mask: '999-999',
-                  onChange: maskVal.set,
+                  onChange: v => maskVal.set(v),
                   disabled,
                 }),
                 description: description(maskVal),
@@ -716,7 +716,7 @@ export default function InputsPage() {
                 content: NullableMaskInput({
                   value: nullableMaskVal,
                   mask: '999-999',
-                  onChange: nullableMaskVal.set,
+                  onChange: v => nullableMaskVal.set(v),
                   disabled,
                 }),
                 description: description(nullableMaskVal),
@@ -726,7 +726,7 @@ export default function InputsPage() {
             label: 'Editable Text',
             content: EditableText({
               value: editableTextVal,
-              onChange: editableTextVal.set,
+              onChange: v => editableTextVal.set(v),
               disabled,
             }),
             description: description(editableTextVal),
@@ -735,7 +735,7 @@ export default function InputsPage() {
             label: 'Switch',
             content: Switch({
               value: switchVal,
-              onChange: switchVal.set,
+              onChange: v => switchVal.set(v),
               disabled,
             }),
             description: description(switchVal),
@@ -770,7 +770,7 @@ export default function InputsPage() {
                 label: 'Slider Input',
                 content: SliderInput({
                   value: sliderVal,
-                  onChange: sliderVal.set,
+                  onChange: v => sliderVal.set(v),
                   min: 0,
                   max: 100,
                   step: 1,
@@ -783,7 +783,7 @@ export default function InputsPage() {
                 label: 'Nullable Slider Input',
                 content: NullableSliderInput({
                   value: nullableSliderVal,
-                  onChange: nullableSliderVal.set,
+                  onChange: v => nullableSliderVal.set(v),
                   min: 0,
                   max: 100,
                   step: 1,
@@ -797,7 +797,7 @@ export default function InputsPage() {
             content: SegmentedInput({
               options: segmentedOptions,
               value: segmentedVal,
-              onChange: segmentedVal.set,
+              onChange: v => segmentedVal.set(v),
               disabled,
             }),
             description: description(segmentedVal),
@@ -807,7 +807,7 @@ export default function InputsPage() {
             content: SelectTagsInput({
               value: selectTagsVal,
               options: selectTagsOptions,
-              onChange: selectTagsVal.set,
+              onChange: v => selectTagsVal.set(v),
               disabled,
             }),
             description: description(selectTagsVal),
@@ -816,7 +816,7 @@ export default function InputsPage() {
             label: 'Combobox Input',
             content: ComboboxInput<string>({
               value: comboboxVal,
-              onChange: comboboxVal.set,
+              onChange: v => comboboxVal.set(v),
               loadOptions: loadFruits,
               renderOption: v => v,
               disabled,
@@ -827,7 +827,7 @@ export default function InputsPage() {
             label: 'Combobox Tags Input',
             content: ComboboxTagsInput({
               value: comboboxTagsVal,
-              onChange: comboboxTagsVal.set,
+              onChange: v => comboboxTagsVal.set(v),
               options: comboboxTagsOptions,
               disabled,
             }),
@@ -845,7 +845,7 @@ export default function InputsPage() {
             label: 'Price (filled before)',
             content: TextInput({
               value: priceVal,
-              onChange: priceVal.set,
+              onChange: v => priceVal.set(v),
               before: InputAdornment({ filled: true }, '$'),
               disabled,
             }),
@@ -855,7 +855,7 @@ export default function InputsPage() {
             label: 'Domain (filled after)',
             content: TextInput({
               value: domainVal,
-              onChange: domainVal.set,
+              onChange: v => domainVal.set(v),
               after: InputAdornment({ filled: true }, '.com'),
               disabled,
             }),
@@ -865,7 +865,7 @@ export default function InputsPage() {
             label: 'Weight (unfilled after)',
             content: TextInput({
               value: weightVal,
-              onChange: weightVal.set,
+              onChange: v => weightVal.set(v),
               after: InputAdornment({}, 'kg'),
               disabled,
             }),
@@ -875,7 +875,7 @@ export default function InputsPage() {
             label: 'Both adornments',
             content: TextInput({
               value: priceVal,
-              onChange: priceVal.set,
+              onChange: v => priceVal.set(v),
               before: InputAdornment({ filled: true }, '$'),
               after: InputAdornment({}, '.00'),
               disabled,
@@ -907,7 +907,7 @@ export default function InputsPage() {
                 label: 'Plain Date Input',
                 content: PlainDateInput({
                   value: plainDate,
-                  onChange: plainDate.set,
+                  onChange: v => plainDate.set(v),
                   disabled,
                 }),
                 description: description(plainDate),
@@ -930,7 +930,7 @@ export default function InputsPage() {
                 label: 'Plain Time Input',
                 content: PlainTimeInput({
                   value: plainTime,
-                  onChange: plainTime.set,
+                  onChange: v => plainTime.set(v),
                   disabled,
                 }),
                 description: description(plainTime),
@@ -953,7 +953,7 @@ export default function InputsPage() {
                 label: 'Plain Date Time Input',
                 content: PlainDateTimeInput({
                   value: plainDateTime,
-                  onChange: plainDateTime.set,
+                  onChange: v => plainDateTime.set(v),
                   disabled,
                 }),
                 description: description(plainDateTime),
@@ -976,7 +976,7 @@ export default function InputsPage() {
                 label: 'Instant Input',
                 content: InstantInput({
                   value: instant,
-                  onChange: instant.set,
+                  onChange: v => instant.set(v),
                   disabled,
                 }),
                 description: description(instant),
@@ -999,7 +999,7 @@ export default function InputsPage() {
                 label: 'Zoned Date Time Input',
                 content: ZonedDateTimeInput({
                   value: zonedDateTime,
-                  onChange: zonedDateTime.set,
+                  onChange: v => zonedDateTime.set(v),
                   disabled,
                 }),
                 description: description(zonedDateTime),
@@ -1022,7 +1022,7 @@ export default function InputsPage() {
                 label: 'Plain Year Month Input',
                 content: PlainYearMonthInput({
                   value: plainYearMonth,
-                  onChange: plainYearMonth.set,
+                  onChange: v => plainYearMonth.set(v),
                   disabled,
                 }),
                 description: description(plainYearMonth),
@@ -1032,7 +1032,7 @@ export default function InputsPage() {
                 label: 'Nullable Plain Year Month Input',
                 content: NullablePlainYearMonthInput({
                   value: nullablePlainYearMonth,
-                  onChange: nullablePlainYearMonth.set,
+                  onChange: v => nullablePlainYearMonth.set(v),
                   disabled,
                 }),
                 description: description(nullablePlainYearMonth),
@@ -1045,7 +1045,7 @@ export default function InputsPage() {
                 label: 'Plain Month Day Input',
                 content: PlainMonthDayInput({
                   value: plainMonthDay,
-                  onChange: plainMonthDay.set,
+                  onChange: v => plainMonthDay.set(v),
                   disabled,
                 }),
                 description: description(plainMonthDay),
@@ -1055,7 +1055,7 @@ export default function InputsPage() {
                 label: 'Nullable Plain Month Day Input',
                 content: NullablePlainMonthDayInput({
                   value: nullablePlainMonthDay,
-                  onChange: nullablePlainMonthDay.set,
+                  onChange: v => nullablePlainMonthDay.set(v),
                   disabled,
                 }),
                 description: description(nullablePlainMonthDay),
@@ -1068,7 +1068,7 @@ export default function InputsPage() {
                 label: 'Duration Input',
                 content: DurationInput({
                   value: duration,
-                  onChange: duration.set,
+                  onChange: v => duration.set(v),
                   disabled,
                 }),
                 description: description(duration),
@@ -1078,7 +1078,7 @@ export default function InputsPage() {
                 label: 'Nullable Duration Input',
                 content: NullableDurationInput({
                   value: nullableDuration,
-                  onChange: nullableDuration.set,
+                  onChange: v => nullableDuration.set(v),
                   disabled,
                 }),
                 description: description(nullableDuration),

@@ -28,6 +28,8 @@ export function createESLintConfig(tsconfigRootDir, options = {}) {
         'node_modules/**',
         'test-results/**',
         'playwright-report/**',
+        'coverage/**',
+        'e2e/**',
       ],
     },
     {
@@ -84,13 +86,20 @@ export function createESLintConfig(tsconfigRootDir, options = {}) {
     })
   }
 
-  // Source files - stricter rules
+  // Source files - stricter rules with type-checked tempots linting
   if (hasSrc) {
     config.push({
       files: ['src/**/*.ts'],
+      languageOptions: {
+        parserOptions: {
+          projectService: true,
+          tsconfigRootDir,
+        },
+      },
       rules: {
         'no-empty': ['error', { allowEmptyCatch: true }],
         'no-case-declarations': 'off', // Allow lexical declarations in case blocks
+        'tempots/no-method-reference': 'error',
       },
     })
   }

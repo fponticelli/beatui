@@ -47,7 +47,7 @@ export default function DrawerPage() {
             lg: 'Large',
             xl: 'Extra Large',
           },
-          onChange: size.set,
+          onChange: v => size.set(v),
         })
       ),
       // Side Control
@@ -63,7 +63,7 @@ export default function DrawerPage() {
             'inline-start': 'Inline Start',
             'inline-end': 'Inline End',
           },
-          onChange: side.set,
+          onChange: v => side.set(v),
         })
       ),
       // Overlay Effect Control
@@ -76,7 +76,7 @@ export default function DrawerPage() {
             opaque: 'Opaque',
             none: 'None',
           },
-          onChange: overlayEffect.set,
+          onChange: v => overlayEffect.set(v),
         })
       ),
       // Title Input
@@ -88,14 +88,14 @@ export default function DrawerPage() {
         label: 'Dismissable',
         content: Switch({
           value: dismissable,
-          onChange: dismissable.set,
+          onChange: v => dismissable.set(v),
         }),
       }),
       InputWrapper({
         label: 'Show Close Button',
         content: Switch({
           value: showCloseButton,
-          onChange: showCloseButton.set,
+          onChange: v => showCloseButton.set(v),
         }),
       })
     ),

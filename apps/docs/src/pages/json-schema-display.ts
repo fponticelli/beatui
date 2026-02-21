@@ -96,14 +96,14 @@ export default function JSONSchemaDisplayPage() {
               NativeSelect({
                 options: sampleNames.map(name => Option.value(name, name)),
                 value: selectedSample,
-                onChange: selectedSample.set,
+                onChange: v => selectedSample.set(v),
               }),
               html.label(
                 attr.class('text-sm flex items-center gap-1'),
                 'Mismatches',
                 Switch({
                   value: showMismatches,
-                  onChange: showMismatches.set,
+                  onChange: v => showMismatches.set(v),
                 })
               )
             )

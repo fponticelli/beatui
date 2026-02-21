@@ -36,7 +36,7 @@ export default function RadioGroupsPage() {
             { value: 'option3', label: 'Option 3' },
           ],
           value: basic,
-          onChange: basic.set,
+          onChange: v => basic.set(v),
           disabled,
         }),
         html.p(
@@ -71,7 +71,7 @@ export default function RadioGroupsPage() {
             },
           ],
           value: plan,
-          onChange: plan.set,
+          onChange: v => plan.set(v),
           disabled,
         })
       ),
@@ -86,7 +86,7 @@ export default function RadioGroupsPage() {
             { value: 'right', label: 'Right' },
           ],
           value: alignment,
-          onChange: alignment.set,
+          onChange: v => alignment.set(v),
           orientation: 'horizontal',
           disabled,
         })
@@ -136,7 +136,7 @@ export default function RadioGroupsPage() {
                   monthly: 'Monthly',
                 },
                 value: seg,
-                onChange: seg.set,
+                onChange: v => seg.set(v),
                 disabled,
               }),
               description: seg.map((v): string => v),
@@ -149,7 +149,7 @@ export default function RadioGroupsPage() {
               content: SegmentedInput({
                 options: { list: 'List', grid: 'Grid', kanban: 'Kanban' },
                 value: view,
-                onChange: view.set,
+                onChange: v => view.set(v),
                 size: 'sm',
                 disabled,
               }),

@@ -260,7 +260,7 @@ export default function NineSliceScrollViewPage() {
           label: 'Columns',
           content: NumberInput({
             value: columns,
-            onChange: columns.set,
+            onChange: v => columns.set(v),
             step: 1,
             min: 1,
           }),
@@ -269,7 +269,7 @@ export default function NineSliceScrollViewPage() {
           label: 'Rows',
           content: NumberInput({
             value: rows,
-            onChange: rows.set,
+            onChange: v => rows.set(v),
             step: 1,
             min: 1,
           }),
@@ -278,7 +278,7 @@ export default function NineSliceScrollViewPage() {
           label: 'Start Columns',
           content: NumberInput({
             value: startColumns,
-            onChange: startColumns.set,
+            onChange: v => startColumns.set(v),
             step: 1,
             min: 0,
             max: columns,
@@ -288,7 +288,7 @@ export default function NineSliceScrollViewPage() {
           label: 'End Columns',
           content: NumberInput({
             value: endColumns,
-            onChange: endColumns.set,
+            onChange: v => endColumns.set(v),
             step: 1,
             min: 0,
             max: columns,
@@ -298,7 +298,7 @@ export default function NineSliceScrollViewPage() {
           label: 'Header Rows',
           content: NumberInput({
             value: headerRows,
-            onChange: headerRows.set,
+            onChange: v => headerRows.set(v),
             step: 1,
             min: 0,
             max: rows,
@@ -308,7 +308,7 @@ export default function NineSliceScrollViewPage() {
           label: 'Footer Rows',
           content: NumberInput({
             value: footerRows,
-            onChange: footerRows.set,
+            onChange: v => footerRows.set(v),
             step: 1,
             min: 0,
             max: rows,
@@ -324,7 +324,7 @@ export default function NineSliceScrollViewPage() {
               Option.value('body-end-bottom', 'Body End & Bottom'),
             ] as SelectOption<AnchorMode>[],
             value: anchorMode,
-            onChange: anchorMode.set,
+            onChange: v => anchorMode.set(v),
           }),
         })
       )

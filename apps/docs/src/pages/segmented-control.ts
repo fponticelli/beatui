@@ -51,7 +51,7 @@ export default function SegmentedControlPage() {
           content: SegmentedInput({
             options,
             value: valuePill,
-            onChange: valuePill.set,
+            onChange: v => valuePill.set(v),
             disabled,
           }),
         }),
@@ -61,7 +61,7 @@ export default function SegmentedControlPage() {
             options,
             variant: 'squared',
             value: valueSquared,
-            onChange: valueSquared.set,
+            onChange: v => valueSquared.set(v),
             disabled,
           }),
         }),
@@ -70,7 +70,7 @@ export default function SegmentedControlPage() {
           content: TextInput({
             value: textValue,
             placeholder: 'Same height?',
-            onChange: textValue.set,
+            onChange: v => textValue.set(v),
           }),
         })
       ),
@@ -94,7 +94,7 @@ export default function SegmentedControlPage() {
             SegmentedInput({
               options,
               value: v,
-              onChange: v.set,
+              onChange: v => v.set(v),
               disabled,
               color,
             }),
@@ -102,7 +102,7 @@ export default function SegmentedControlPage() {
               options,
               variant: 'squared',
               value: v,
-              onChange: v.set,
+              onChange: v => v.set(v),
               disabled,
               color,
             })
@@ -132,7 +132,7 @@ export default function SegmentedControlPage() {
                   size: currentSize,
                   disabled,
                   value,
-                  onChange: value.set,
+                  onChange: v => value.set(v),
                 })
               ),
               html.td(
@@ -143,7 +143,7 @@ export default function SegmentedControlPage() {
                   variant: 'squared',
                   disabled,
                   value,
-                  onChange: value.set,
+                  onChange: v => value.set(v),
                 })
               )
             )

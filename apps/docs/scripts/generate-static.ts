@@ -522,7 +522,7 @@ const main = async () => {
 
   // Filter URLs to only include internal links
   const filterURLs = (urls: string[]): string[] => {
-    // eslint-disable-next-line tempots/require-async-signal-disposal
+     
     return urls
       .filter(url => url.startsWith('/'))
       .filter(url => !url.startsWith('/assets/'))
@@ -616,7 +616,7 @@ const main = async () => {
     // Collect newly discovered URLs from all results
     for (const result of results) {
       if (!result) continue
-      // eslint-disable-next-line tempots/require-async-signal-disposal
+       
       const newUrls = result.newUrls.filter(u => !generated.has(u))
       if (newUrls.length > 0) {
         console.log(

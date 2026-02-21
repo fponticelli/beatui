@@ -55,7 +55,6 @@ export default function SelectsPage() {
   const tags = prop(['frontend', 'urgent'])
 
   const loadOptions = async (q: string) =>
-    // eslint-disable-next-line tempots/require-async-signal-disposal
     fruits.filter(
       o => o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())
     )
@@ -87,7 +86,7 @@ export default function SelectsPage() {
             DropdownInput({
               value: dropdown,
               options: prop(fruits),
-              onChange: dropdown.set,
+              onChange: v => dropdown.set(v),
               size,
               disabled,
             })
@@ -98,7 +97,7 @@ export default function SelectsPage() {
             NativeSelect({
               value: native,
               options: prop(countries),
-              onChange: native.set,
+              onChange: v => native.set(v),
               size,
               disabled,
             })
@@ -108,7 +107,7 @@ export default function SelectsPage() {
             'Combobox',
             ComboboxInput<string>({
               value: combobox,
-              onChange: combobox.set,
+              onChange: v => combobox.set(v),
               loadOptions,
               renderOption: v => v,
               size,
@@ -120,7 +119,7 @@ export default function SelectsPage() {
             'Multi-value',
             TagInput({
               values: tags,
-              onChange: tags.set,
+              onChange: v => tags.set(v),
               placeholder: 'Add...',
               size,
               disabled,

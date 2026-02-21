@@ -72,7 +72,7 @@ export default function TabsPage() {
           return Tabs({
             items: demoTabs,
             value: tab,
-            onChange: tab.set,
+            onChange: v => tab.set(v),
             variant: 'underline' as TabsVariant,
             showContent: prop(false),
           })
@@ -86,7 +86,7 @@ export default function TabsPage() {
           return Tabs({
             items: demoTabs,
             value: tab,
-            onChange: tab.set,
+            onChange: v => tab.set(v),
             variant: 'pill' as TabsVariant,
             showContent: prop(false),
           })
@@ -134,7 +134,7 @@ export default function TabsPage() {
           return Tabs({
             items: iconTabs,
             value: tab,
-            onChange: tab.set,
+            onChange: v => tab.set(v),
             variant: 'outline',
             showContent: prop(false),
             size: 'sm',
@@ -151,7 +151,7 @@ export default function TabsPage() {
           Tabs({
             items: demoTabs,
             value: activeTab,
-            onChange: activeTab.set,
+            onChange: v => activeTab.set(v),
             disabled,
             showContent,
             ariaLabel: 'Demo tabs',
@@ -175,7 +175,7 @@ export default function TabsPage() {
                 Tabs({
                   items: demoTabs,
                   value: tab,
-                  onChange: tab.set,
+                  onChange: v => tab.set(v),
                   size: sz,
                   showContent: prop(false),
                 })
@@ -203,7 +203,7 @@ export default function TabsPage() {
                 Tabs({
                   items: demoTabs,
                   value: tab,
-                  onChange: tab.set,
+                  onChange: v => tab.set(v),
                   variant: v,
                   showContent: prop(false),
                 })
@@ -224,7 +224,7 @@ export default function TabsPage() {
             return Tabs({
               items: demoTabs,
               value: tab,
-              onChange: tab.set,
+              onChange: v => tab.set(v),
               orientation: prop<TabsDirection>('vertical'),
             })
           })()

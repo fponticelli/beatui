@@ -222,7 +222,7 @@ export function StructureChoiceControl({
   // Initialize selection with auto-detected choice or first choice
   const initialChoice = Value.get(autoDetectedChoice) || choiceNames[0]!
   const selectedChoice = prop<string>(initialChoice)
-  controller.onDispose(selectedChoice.dispose)
+  controller.onDispose(() => selectedChoice.dispose())
 
   // Track if user has manually changed the selection
   let userHasManuallySelected = false

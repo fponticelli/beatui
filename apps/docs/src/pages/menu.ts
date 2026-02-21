@@ -40,7 +40,7 @@ export default function MenuPage() {
             Option.value('left-end', 'Left End'),
           ] as SelectOption<Placement>[],
           value: placement,
-          onChange: placement.set,
+          onChange: v => placement.set(v),
         })
       ),
       Stack(
@@ -52,7 +52,7 @@ export default function MenuPage() {
             Option.value('hover-focus', 'Hover + Focus'),
           ] as SelectOption<MenuTrigger>[],
           value: showOn,
-          onChange: showOn.set,
+          onChange: v => showOn.set(v),
         })
       )
     ),

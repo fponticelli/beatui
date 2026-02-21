@@ -45,21 +45,21 @@ export default function AdvancedSliderPage() {
         content: SegmentedInput({
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         }),
       }),
       InputWrapper({
         label: 'Show Value',
         content: Switch({
           value: showValue,
-          onChange: showValue.set,
+          onChange: v => showValue.set(v),
         }),
       }),
       InputWrapper({
         label: 'Disabled',
         content: Switch({
           value: disabled,
-          onChange: disabled.set,
+          onChange: v => disabled.set(v),
         }),
       })
     ),
@@ -77,7 +77,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           value: singleValue,
-          onChange: singleValue.set,
+          onChange: v => singleValue.set(v),
           min: 0,
           max: 100,
           step: 1,
@@ -98,7 +98,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           value: ticksValue,
-          onChange: ticksValue.set,
+          onChange: v => ticksValue.set(v),
           min: 0,
           max: 100,
           step: 10,
@@ -120,7 +120,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           value: customTicksValue,
-          onChange: customTicksValue.set,
+          onChange: v => customTicksValue.set(v),
           min: 0,
           max: 100,
           step: 25,
@@ -149,7 +149,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           range: rangeValue,
-          onRangeChange: rangeValue.set,
+          onRangeChange: v => rangeValue.set(v),
           min: 0,
           max: 100,
           step: 5,
@@ -177,7 +177,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           points: multiPoints,
-          onPointsChange: multiPoints.set,
+          onPointsChange: v => multiPoints.set(v),
           min: 0,
           max: 100,
           step: 1,
@@ -202,7 +202,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           points: multiPoints,
-          onPointsChange: multiPoints.set,
+          onPointsChange: v => multiPoints.set(v),
           min: 0,
           max: 100,
           step: 1,
@@ -224,7 +224,7 @@ export default function AdvancedSliderPage() {
         attr.class('w-full max-w-lg'),
         AdvancedSlider({
           value: singleValue,
-          onChange: singleValue.set,
+          onChange: v => singleValue.set(v),
           min: 0,
           max: 100,
           step: 1,
@@ -259,7 +259,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: primaryColorValue,
-          onChange: primaryColorValue.set,
+          onChange: v => primaryColorValue.set(v),
           min: 0,
           max: 100,
           showValue,
@@ -276,7 +276,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: redColorValue,
-          onChange: redColorValue.set,
+          onChange: v => redColorValue.set(v),
           min: 0,
           max: 100,
           showValue,
@@ -293,7 +293,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: greenColorValue,
-          onChange: greenColorValue.set,
+          onChange: v => greenColorValue.set(v),
           min: 0,
           max: 100,
           showValue,
@@ -310,7 +310,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: blueColorValue,
-          onChange: blueColorValue.set,
+          onChange: v => blueColorValue.set(v),
           min: 0,
           max: 100,
           showValue,
@@ -327,7 +327,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: orangeColorValue,
-          onChange: orangeColorValue.set,
+          onChange: v => orangeColorValue.set(v),
           min: 0,
           max: 100,
           showValue,
@@ -344,7 +344,7 @@ export default function AdvancedSliderPage() {
         ),
         AdvancedSlider({
           value: violetColorValue,
-          onChange: violetColorValue.set,
+          onChange: v => violetColorValue.set(v),
           min: 0,
           max: 100,
           showValue,

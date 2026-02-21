@@ -71,7 +71,7 @@ export default function AuthenticationPage() {
           invalid_credentials: 'Invalid Credentials',
           success: 'Success',
         },
-        onChange: outcome.set,
+        onChange: v => outcome.set(v),
       })
     ),
 

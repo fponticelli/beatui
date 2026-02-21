@@ -74,7 +74,7 @@ export default function AccordionPage() {
         content: SegmentedInput({
           options: { xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL' },
           value: size,
-          onChange: size.set,
+          onChange: v => size.set(v),
         }),
       }),
       InputWrapper({
@@ -82,14 +82,14 @@ export default function AccordionPage() {
         content: SegmentedInput({
           options: { default: 'Default', separated: 'Separated' },
           value: variant,
-          onChange: variant.set,
+          onChange: v => variant.set(v),
         }),
       }),
       InputWrapper({
         label: 'Multiple',
         content: Switch({
           value: multiple,
-          onChange: multiple.set,
+          onChange: v => multiple.set(v),
         }),
       })
     ),

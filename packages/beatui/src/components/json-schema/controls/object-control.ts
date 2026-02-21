@@ -233,7 +233,7 @@ function renderKnownProperties({
 
   const names = knownPropertyEntries.map(([k]) => k as string)
 
-  // eslint-disable-next-line tempots/no-renderable-signal-map
+   
   const children = knownPropertyEntries.map(([k, definition]) => {
     const key = k as string
     const field = controller.field(key)
@@ -557,7 +557,7 @@ function renderDynamicObject({
 
     const propertyChildren = [
       // Known properties
-      // eslint-disable-next-line tempots/no-renderable-signal-map
+       
       ...knownPropertyEntries.map(([k, definition]) => {
         const key = k as string
         const field = controller.field(key)

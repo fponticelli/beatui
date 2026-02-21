@@ -40,17 +40,17 @@ export default function CheckboxesPage() {
         html.div(
           attr.style('display: flex; flex-direction: column; gap: 10px'),
           InputWrapper({
-            content: CheckboxInput({ value: check1, onChange: check1.set }),
+            content: CheckboxInput({ value: check1, onChange: v => check1.set(v) }),
             label: 'Checked option',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: CheckboxInput({ value: check2, onChange: check2.set }),
+            content: CheckboxInput({ value: check2, onChange: v => check2.set(v) }),
             label: 'Unchecked option',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: CheckboxInput({ value: check3, onChange: check3.set }),
+            content: CheckboxInput({ value: check3, onChange: v => check3.set(v) }),
             label: 'Another option',
             layout: 'horizontal-label-right',
           }),
@@ -77,7 +77,7 @@ export default function CheckboxesPage() {
           RadioGroup({
             options: radioOptions,
             value: radio,
-            onChange: radio.set,
+            onChange: v => radio.set(v),
           })
         )
       ),
@@ -88,17 +88,17 @@ export default function CheckboxesPage() {
         html.div(
           attr.style('display: flex; flex-direction: column; gap: 10px'),
           InputWrapper({
-            content: Switch({ value: switch1, onChange: switch1.set }),
+            content: Switch({ value: switch1, onChange: v => switch1.set(v) }),
             label: 'Notifications',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: Switch({ value: switch2, onChange: switch2.set }),
+            content: Switch({ value: switch2, onChange: v => switch2.set(v) }),
             label: 'Dark mode',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: Switch({ value: switch3, onChange: switch3.set }),
+            content: Switch({ value: switch3, onChange: v => switch3.set(v) }),
             label: 'Auto-save',
             layout: 'horizontal-label-right',
           })
