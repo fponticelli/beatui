@@ -49,7 +49,7 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bc-auth-container--styled {
-    border: 2px solid var(--border-default);
+    border: var(--border-width-medium) solid var(--border-default);
   }
 
   .dark .bc-auth-container--styled {

@@ -1,9 +1,9 @@
 /* Editable Text Component */
 .bc-editable-text {
-  border-bottom: 1px dashed var(--color-gray-300);
+  border-bottom: var(--border-width-thin) dashed var(--color-gray-300);
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   align-items: flex-start;
   cursor: pointer;
 }
@@ -25,7 +25,7 @@
 /* Input state */
 .bc-editable-text__input {
   outline: none;
-  padding: 0 calc(var(--spacing-base) / 2);
+  padding: 0 var(--spacing-xs);
   background: transparent;
   border: none;
   font: inherit;
@@ -42,8 +42,8 @@
 
 /* Draw the focus on the display container similar to other inputs via focus-within */
 .bc-editable-text:focus-within {
-  outline: 2px solid var(--interactive-focus);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
+  outline-offset: calc(-1 * var(--outline-width-focus));
   border-radius: var(--radius-sm);
 }
 
@@ -51,11 +51,11 @@
 .bc-editable-text__display {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 0 calc(var(--spacing-base) / 2);
+  padding: 0 var(--spacing-xs);
   white-space: nowrap;
   flex-grow: 1;
   overflow: hidden;
@@ -83,7 +83,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: calc(var(--spacing-base) / 2);
+  padding: var(--spacing-xs);
   display: flex;
   align-items: center;
   justify-content: center;

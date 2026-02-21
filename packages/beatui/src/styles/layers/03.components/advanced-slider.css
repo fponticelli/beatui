@@ -50,7 +50,7 @@
 /* Thumb */
 .bc-advanced-slider__thumb {
   background-color: var(--color-white);
-  border: 2px solid var(--slider-color);
+  border: var(--border-width-medium) solid var(--slider-color);
   border-radius: var(--radius-full);
   cursor: grab;
   box-shadow: var(--shadow-sm);
@@ -70,7 +70,7 @@
 }
 
 .bc-advanced-slider__thumb:focus-visible {
-  outline: 2px solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -88,7 +88,7 @@
 }
 
 .bc-advanced-slider__thumb-custom:focus-visible {
-  outline: 2px solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -102,7 +102,7 @@
   font-weight: var(--font-weight-semibold);
   pointer-events: none;
   text-align: center;
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 /* Ticks container */

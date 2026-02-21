@@ -171,11 +171,11 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "@tempots/core": "^2.1.0",
-    "@tempots/dom": "^36.0.0",
-    "@tempots/render": "^0.0.1",
-    "@tempots/std": "~0.26.0",
-    "@tempots/ui": "^15.0.0",
+    "@tempots/core": "^3.0.0",
+    "@tempots/dom": "^37.0.0",
+    "@tempots/render": "^0.0.4",
+    "@tempots/std": "~0.26.1",
+    "@tempots/ui": "^16.0.0",
     "better-auth": ">=1.0.0"
   },
   "peerDependenciesMeta": {
@@ -185,12 +185,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tempots/core": "^2.1.1",
-    "@tempots/dom": "^36.0.1",
-    "@tempots/eslint-plugin": "0.11.0",
-    "@tempots/render": "^0.0.2",
+    "@tempots/core": "^3.0.0",
+    "@tempots/dom": "^37.0.3",
+    "@tempots/eslint-plugin": "0.13.1",
+    "@tempots/render": "^0.0.4",
     "@tempots/std": "~0.26.1",
-    "@tempots/ui": "^15.0.1",
+    "@tempots/ui": "^16.0.0",
     "@testing-library/dom": "10.4.1",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "25.2.3",

@@ -16,17 +16,17 @@
   align-items: center;
   border-radius: var(--radius-pill, var(--radius-full));
   line-height: 1.2;
-  border: 1px solid var(--tag-border);
+  border: var(--border-width-thin) solid var(--tag-border);
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   font-size: var(--font-size-md);
-  padding: 0 calc(var(--spacing-base) * 2);
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  padding: 0 var(--spacing-md);
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   background-color: var(--tag-bg);
   color: var(--tag-text);
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
 }
@@ -38,12 +38,12 @@
 
 .bc-tag--xs {
   font-size: var(--font-size-xs);
-  padding: 0 calc(var(--spacing-base) * 1);
+  padding: 0 var(--spacing-sm);
 }
 
 .bc-tag--sm {
   font-size: var(--font-size-sm);
-  padding: 0 calc(var(--spacing-base) * 1.5);
+  padding: 0 var(--spacing-smh);
 }
 
 .bc-tag--lg {
@@ -53,7 +53,7 @@
 
 .bc-tag--xl {
   font-size: var(--font-size-xl);
-  padding: 0 calc(var(--spacing-base) * 3);
+  padding: 0 var(--spacing-mdh);
 }
 
 .bc-tag:has(.bc-tag__close) {
@@ -69,13 +69,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 4);
-  height: calc(var(--spacing-base) * 4);
+  width: var(--spacing-lg);
+  height: var(--spacing-lg);
   border-radius: var(--radius-full);
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
 }
 
 .bc-tag__close:hover {
@@ -133,5 +133,5 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }

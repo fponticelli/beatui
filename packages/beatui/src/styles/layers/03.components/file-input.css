@@ -7,7 +7,7 @@
 .bc-file-input__drop-zone {
   width: 100%;
   min-height: 120px;
-  border: 2px dashed var(--color-gray-300);
+  border: var(--border-width-medium) dashed var(--color-gray-300);
   border-radius: var(--radius-control, var(--radius-md));
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
@@ -22,7 +22,7 @@
 }
 
 .bc-file-input__drop-zone:focus-within {
-  outline: 2px solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -32,11 +32,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--spacing-base) * 6);
+  padding: var(--spacing-xl);
   height: 100%;
   min-height: 120px;
   text-align: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-file-input__drop-zone-content--empty {
@@ -51,7 +51,7 @@
 .bc-file-input__drop-zone-content--has-files {
   color: var(--color-gray-500);
   min-height: 80px;
-  padding: calc(var(--spacing-base) * 4);
+  padding: var(--spacing-lg);
 }
 
 .bc-file-input__drop-zone-text {
@@ -67,22 +67,22 @@
 }
 
 .bc-file-input__file-list {
-  margin-top: calc(var(--spacing-base) * 3);
-  border-top: 1px solid var(--color-gray-200);
-  padding-top: calc(var(--spacing-base) * 3);
+  margin-top: var(--spacing-mdh);
+  border-top: var(--border-width-thin) solid var(--color-gray-200);
+  padding-top: var(--spacing-mdh);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
 }
 
 .bc-file-input__file-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
-  padding: calc(var(--spacing-base) * 2);
-  border: 1px solid var(--color-gray-200);
+  gap: var(--spacing-stack-sm, var(--spacing-md));
+  padding: var(--spacing-md);
+  border: var(--border-width-thin) solid var(--color-gray-200);
   border-radius: var(--radius-sm);
   background-color: var(--color-white);
   transition:
@@ -110,10 +110,10 @@
 
 /* Thumbnail Styles */
 .bc-file-input__thumbnail-container {
-  min-width: calc(var(--spacing-base) * 12);
-  max-width: calc(var(--spacing-base) * 12);
-  min-height: calc(var(--spacing-base) * 12);
-  max-height: calc(var(--spacing-base) * 12);
+  min-width: var(--spacing-3xl);
+  max-width: var(--spacing-3xl);
+  min-height: var(--spacing-3xl);
+  max-height: var(--spacing-3xl);
   border-radius: var(--radius-sm);
   overflow: hidden;
   background-color: var(--color-gray-100);
@@ -123,24 +123,24 @@
 }
 
 .bc-file-input__file-icon .bc-icon {
-  min-width: calc(var(--spacing-base) * 12);
-  max-width: calc(var(--spacing-base) * 12);
-  min-height: calc(var(--spacing-base) * 12);
-  max-height: calc(var(--spacing-base) * 12);
+  min-width: var(--spacing-3xl);
+  max-width: var(--spacing-3xl);
+  min-height: var(--spacing-3xl);
+  max-height: var(--spacing-3xl);
 }
 
 .bc-file-input__compact-value-item .bc-icon {
-  min-width: calc(var(--spacing-base) * 6);
-  max-width: calc(var(--spacing-base) * 6);
-  min-height: calc(var(--spacing-base) * 6);
-  max-height: calc(var(--spacing-base) * 6);
+  min-width: var(--spacing-xl);
+  max-width: var(--spacing-xl);
+  min-height: var(--spacing-xl);
+  max-height: var(--spacing-xl);
 }
 
 .bc-file-input__compact-value-item .bc-file-input__thumbnail-container {
-  min-width: calc(var(--spacing-base) * 6);
-  max-width: calc(var(--spacing-base) * 6);
-  min-height: calc(var(--spacing-base) * 6);
-  max-height: calc(var(--spacing-base) * 6);
+  min-width: var(--spacing-xl);
+  max-width: var(--spacing-xl);
+  min-height: var(--spacing-xl);
+  max-height: var(--spacing-xl);
 }
 
 .bc-file-input__thumbnail {
@@ -178,8 +178,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   border: none;
   border-radius: var(--radius-sm);
   background-color: transparent;
@@ -196,7 +196,7 @@
 }
 
 .bc-file-input__remove-button:focus {
-  outline: 2px solid var(--color-danger-500);
+  outline: var(--outline-width-focus) solid var(--color-danger-500);
   outline-offset: 2px;
 }
 
@@ -207,9 +207,9 @@
 
 .bc-file-input__clear-all-button {
   display: block;
-  margin: calc(var(--spacing-base) * 2) auto 0;
-  padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 3);
-  border: 1px solid var(--color-gray-300);
+  margin: var(--spacing-md) auto 0;
+  padding: var(--spacing-smh) var(--spacing-mdh);
+  border: var(--border-width-thin) solid var(--color-gray-300);
   border-radius: var(--radius-sm);
   background-color: var(--color-white);
   color: var(--color-gray-600);
@@ -228,7 +228,7 @@
 }
 
 .bc-file-input__clear-all-button:focus {
-  outline: 2px solid var(--color-danger-500);
+  outline: var(--outline-width-focus) solid var(--color-danger-500);
   outline-offset: 2px;
 }
 
@@ -273,7 +273,7 @@
   .bc-file-input__file-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+    gap: var(--spacing-stack-sm, var(--spacing-md));
   }
 
   .bc-file-input__remove-button {
@@ -314,16 +314,16 @@
   text-overflow: ellipsis;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-stack-xs, calc(var(--spacing-base) * 1));
+  gap: var(--spacing-stack-xs, var(--spacing-sm));
 }
 
 .bc-file-input__compact-value-item {
   background-color: var(--color-gray-100);
   border-radius: var(--radius-sm);
-  padding: calc(var(--spacing-base) / 2) calc(var(--spacing-base) * 2);
+  padding: var(--spacing-xs) var(--spacing-md);
   display: flex;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   flex-wrap: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -333,8 +333,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   border: none;
   border-radius: var(--radius-sm);
   background-color: transparent;
@@ -366,8 +366,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   border-radius: var(--radius-xs);
   overflow: hidden;
   background-color: var(--color-gray-100);
@@ -387,14 +387,14 @@
 .bc-file-input__compact-drop-zone {
   width: 100%;
   min-height: 100px;
-  border: 2px dashed var(--color-gray-300);
+  border: var(--border-width-medium) dashed var(--color-gray-300);
   border-radius: var(--radius-control, var(--radius-md));
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
   cursor: pointer;
   position: relative;
-  padding: calc(var(--spacing-base) * 3);
+  padding: var(--spacing-mdh);
 }
 
 .bc-file-input__compact-drop-zone:hover {
@@ -403,7 +403,7 @@
 }
 
 .bc-file-input__compact-drop-zone:focus-within {
-  outline: 2px solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -413,10 +413,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   color: var(--color-gray-600);
   text-align: center;
-  padding: calc(var(--spacing-base) * 2);
+  padding: var(--spacing-md);
 }
 
 .bc-file-input__compact-placeholder-text {
@@ -430,15 +430,15 @@
   display: flex;
   flex-direction: column;
   justify-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   overflow-y: auto;
 }
 
 .bc-file-input__compact-file-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
-  padding: calc(var(--spacing-base) * 1.5);
+  gap: var(--spacing-stack-sm, var(--spacing-md));
+  padding: var(--spacing-smh);
   border-radius: var(--radius-sm);
   background-color: var(--color-gray-50);
   transition: background-color
@@ -456,17 +456,17 @@
 }
 
 .bc-file-input__compact-file-icon .bc-icon {
-  min-width: calc(var(--spacing-base) * 8);
-  max-width: calc(var(--spacing-base) * 8);
-  min-height: calc(var(--spacing-base) * 8);
-  max-height: calc(var(--spacing-base) * 8);
+  min-width: var(--spacing-2xl);
+  max-width: var(--spacing-2xl);
+  min-height: var(--spacing-2xl);
+  max-height: var(--spacing-2xl);
 }
 
 .bc-file-input__compact-file-icon .bc-file-input__thumbnail-container {
-  min-width: calc(var(--spacing-base) * 8);
-  max-width: calc(var(--spacing-base) * 8);
-  min-height: calc(var(--spacing-base) * 8);
-  max-height: calc(var(--spacing-base) * 8);
+  min-width: var(--spacing-2xl);
+  max-width: var(--spacing-2xl);
+  min-height: var(--spacing-2xl);
+  max-height: var(--spacing-2xl);
 }
 
 .bc-file-input__compact-file-info {
@@ -497,8 +497,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   border: none;
   border-radius: var(--radius-sm);
   background-color: transparent;
@@ -515,7 +515,7 @@
 }
 
 .bc-file-input__compact-remove-button:focus {
-  outline: 2px solid var(--color-danger-500);
+  outline: var(--outline-width-focus) solid var(--color-danger-500);
   outline-offset: 2px;
 }
 

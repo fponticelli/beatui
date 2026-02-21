@@ -12,7 +12,7 @@
 .bc-json-structure-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
 }
 
 /* =============================================================================
@@ -20,18 +20,18 @@
    ============================================================================= */
 
 .bc-json-structure-object {
-  border-left: calc(var(--spacing-base) * 2) solid var(--color-base-200);
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  border-left: var(--spacing-md) solid var(--color-base-200);
+  padding-inline-start: var(--spacing-md);
 }
 
 .bc-json-structure-object-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
 }
 
 .bc-json-structure-object--nested {
-  margin-top: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  margin-top: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 /* Additional properties */
@@ -39,8 +39,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-stack-xs, var(--spacing-base));
-  padding: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
-  border: 1px solid var(--color-base-200);
+  padding: var(--spacing-inline-sm, var(--spacing-md));
+  border: var(--border-width-thin) solid var(--color-base-200);
   border-radius: var(--radius-sm);
   background: var(--color-base-50);
 }
@@ -49,11 +49,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-inline-sm, var(--spacing-md));
 }
 
 .bc-json-structure-additional-property-value {
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  padding-inline-start: var(--spacing-md);
 }
 
 /* =============================================================================
@@ -65,7 +65,7 @@
 .bc-json-structure-map {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-array-items,
@@ -73,7 +73,7 @@
 .bc-json-structure-map-entries {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-array-item,
@@ -81,7 +81,7 @@
 .bc-json-structure-map-entry {
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-inline-sm, var(--spacing-md));
 }
 
 .bc-json-structure-array-item-content,
@@ -106,7 +106,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-inline-sm, var(--spacing-md));
   margin-bottom: var(--spacing-stack-xs, var(--spacing-base));
 }
 
@@ -117,7 +117,7 @@
 }
 
 .bc-json-structure-map-entry-value {
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  padding-inline-start: var(--spacing-md);
 }
 
 /* Set error indicator */
@@ -134,7 +134,7 @@
 .bc-json-structure-tuple {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-tuple-label {
@@ -152,7 +152,7 @@
 .bc-json-structure-tuple-elements {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-tuple-element {
@@ -180,7 +180,7 @@
 }
 
 .bc-json-structure-tuple-element-control {
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  padding-inline-start: var(--spacing-md);
 }
 
 /* =============================================================================
@@ -190,15 +190,15 @@
 .bc-json-structure-choice {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-choice-selector {
-  margin-bottom: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  margin-bottom: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-json-structure-choice-options {
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  padding-inline-start: var(--spacing-md);
 }
 
 /* =============================================================================
@@ -210,7 +210,7 @@
 }
 
 .bc-structure-grid--gap-4 {
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 .bc-structure-grid--cols-1 {
@@ -347,7 +347,7 @@
   font-family: var(--font-family-mono);
   background: var(--color-base-100);
   padding: var(--spacing-inline-xs, calc(var(--spacing-base) * 0.5))
-    var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
+    var(--spacing-inline-sm, var(--spacing-md));
   border-radius: var(--radius-sm);
   color: var(--color-base-600);
 }
@@ -376,8 +376,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-stack-xs, var(--spacing-base));
-  padding: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
-  border: 1px dashed var(--color-base-300);
+  padding: var(--spacing-inline-sm, var(--spacing-md));
+  border: var(--border-width-thin) dashed var(--color-base-300);
   border-radius: var(--radius-md);
   background: var(--color-base-50);
 }
@@ -392,8 +392,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-stack-xs, var(--spacing-base));
-  padding: var(--spacing-inline-sm, calc(var(--spacing-base) * 2));
-  border: 1px solid var(--color-warning-300);
+  padding: var(--spacing-inline-sm, var(--spacing-md));
+  border: var(--border-width-thin) solid var(--color-warning-300);
   border-radius: var(--radius-md);
   background: var(--color-warning-50);
   color: var(--color-warning-700);

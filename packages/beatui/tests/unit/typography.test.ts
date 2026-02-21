@@ -32,18 +32,18 @@ describe('Typography Tokens', () => {
     expect(overrides['--font-sans']).toBe('Inter, system-ui')
   })
 
-  it('emits --base-font-size variable', () => {
+  it('emits --font-size-base variable', () => {
     const variables = generateTypographyVariables()
     expect(variables[getBaseFontSizeVarName()]).toBe(baseFontSize)
   })
 
-  it('font size variables reference --base-font-size', () => {
+  it('font size variables reference --font-size-base', () => {
     const variables = generateTypographyVariables()
-    expect(variables['--font-size-md']).toBe('var(--base-font-size)')
-    expect(variables['--font-size-sm']).toContain('var(--base-font-size)')
-    expect(variables['--font-size-lg']).toContain('var(--base-font-size)')
-    expect(variables['--font-size-3xs']).toContain('var(--base-font-size)')
-    expect(variables['--font-size-9xl']).toContain('var(--base-font-size)')
+    expect(variables['--font-size-md']).toBe('var(--font-size-base)')
+    expect(variables['--font-size-sm']).toContain('var(--font-size-base)')
+    expect(variables['--font-size-lg']).toContain('var(--font-size-base)')
+    expect(variables['--font-size-3xs']).toContain('var(--font-size-base)')
+    expect(variables['--font-size-9xl']).toContain('var(--font-size-base)')
   })
 
   it('emits --font-size-*-lh variables for each font size', () => {
@@ -55,9 +55,9 @@ describe('Typography Tokens', () => {
       expect(variables[varName]).toBeDefined()
     }
 
-    // rem-based line heights reference --base-font-size
-    expect(variables['--font-size-md-lh']).toContain('var(--base-font-size)')
-    expect(variables['--font-size-sm-lh']).toContain('var(--base-font-size)')
+    // rem-based line heights reference --font-size-base
+    expect(variables['--font-size-md-lh']).toContain('var(--font-size-base)')
+    expect(variables['--font-size-sm-lh']).toContain('var(--font-size-base)')
 
     // unitless line heights stay as '1'
     expect(variables['--font-size-5xl-lh']).toBe('1')

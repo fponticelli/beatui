@@ -2,7 +2,7 @@
 .bc-notice {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
   align-items: start;
   border-radius: var(--radius-control, var(--radius-md));
   padding: var(--spacing-md);
@@ -25,12 +25,12 @@
 
 /* Tones */
 .bc-notice--tone-subtle {
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
   background-color: var(--bg-surface);
 }
 
 .bc-notice--tone-prominent {
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
 }
 
 /* Variants base color variables per tone */

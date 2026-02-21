@@ -1,6 +1,6 @@
 .bc-json-schema-object {
-  border-left: calc(var(--spacing-base) * 2) solid var(--color-base-200);
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  border-left: var(--spacing-md) solid var(--color-base-200);
+  padding-inline-start: var(--spacing-md);
 }
 
 .dark .bc-json-schema-object {
@@ -12,7 +12,7 @@
 }
 
 .bc-schema-grid--gap-4 {
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 .bc-schema-grid--cols-1 {
@@ -198,7 +198,7 @@
 
 .bc-object-helpers__row {
   display: grid;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   grid-template-columns: 2fr 3fr min-content;
 }
 
@@ -213,7 +213,7 @@
 }
 
 .bc-object-helpers__remove {
-  padding-top: calc(var(--spacing-base) * 3);
+  padding-top: var(--spacing-mdh);
   flex-shrink: 1;
 }
 

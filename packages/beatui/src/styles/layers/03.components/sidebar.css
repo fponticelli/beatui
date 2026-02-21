@@ -19,13 +19,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
   font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
   transition: all
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 2);
+  padding: var(--spacing-md) var(--spacing-md);
 }
 
 .bc-sidebar-group__header {
@@ -53,8 +53,8 @@ span.bc-sidebar-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 4);
-  height: calc(var(--spacing-base) * 4);
+  width: var(--spacing-lg);
+  height: var(--spacing-lg);
   color: var(--text-muted);
 }
 
@@ -62,9 +62,9 @@ span.bc-sidebar-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
-  border: 1px solid var(--border-default);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  border: var(--border-width-thin) solid var(--border-default);
   border-radius: var(--radius-control, var(--radius-md));
   cursor: pointer;
   padding: var(--spacing-sm);
@@ -85,9 +85,9 @@ span.bc-sidebar-link {
 }
 
 .bc-sidebar-group--rail {
-  padding-inline-start: calc(var(--spacing-base) * 2);
+  padding-inline-start: var(--spacing-md);
   margin-left: 1px;
-  border-left: 1px solid var(--border-default);
+  border-left: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-sidebar-group-collapsible-indicator {
@@ -136,7 +136,7 @@ span.bc-sidebar-link {
 
 .bc-sidebar--dark-bg .bc-sidebar-link--action {
   color: var(--text-normal);
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
@@ -145,7 +145,7 @@ span.bc-sidebar-link {
 }
 
 .bc-sidebar--dark-bg .bc-sidebar-group--rail {
-  border-inline-start: 1px solid var(--border-default);
+  border-inline-start: var(--border-width-thin) solid var(--border-default);
 }
 
 /* Dark background mode in dark theme - inverted back to light colors */
@@ -155,6 +155,6 @@ span.bc-sidebar-link {
 
 .bc-sidebar-separator {
   border: none;
-  border-top: 1px solid var(--border-default);
-  margin: calc(var(--spacing-base) * 2) 0;
+  border-top: var(--border-width-thin) solid var(--border-default);
+  margin: var(--spacing-md) 0;
 }

@@ -1,6 +1,6 @@
 .bc-social-login-buttons.bc-stack {
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
-  padding-inline: calc(var(--spacing-base) * 8);
+  gap: var(--spacing-stack-sm, var(--spacing-md));
+  padding-inline: var(--spacing-2xl);
   width: 100%;
 }
 
@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-social-login-button__icon {
@@ -22,7 +22,7 @@
   justify-content: center;
   background-color: var(--color-white);
   border-radius: var(--radius-full);
-  padding: calc(var(--spacing-base) * 1);
+  padding: var(--spacing-sm);
 }
 
 .dark .bc-social-login-button__icon {
@@ -43,7 +43,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-inline: calc(var(--spacing-base) * 4);
+  padding-inline: var(--spacing-lg);
 }
 
 /* Provider-specific icon backgrounds and colors */

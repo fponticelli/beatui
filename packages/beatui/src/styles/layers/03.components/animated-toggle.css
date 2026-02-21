@@ -4,7 +4,7 @@
   --animation-easing: cubic-bezier(0.2, 0, 0, 1);
   --scale-factor: 0.95;
   --transform-origin: center;
-  --slide-distance: calc(var(--spacing-base) * 6);
+  --slide-distance: var(--spacing-xl);
 
   transition-property: opacity, transform;
   transition-duration: var(--animation-duration);

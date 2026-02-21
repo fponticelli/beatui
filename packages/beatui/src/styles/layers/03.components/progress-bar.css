@@ -3,7 +3,7 @@
 .bc-progress-bar-wrapper {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-base) * 1);
+  gap: var(--spacing-sm);
   width: 100%;
 }
 
@@ -43,11 +43,11 @@
 }
 
 .bc-progress-bar--size-md {
-  height: calc(var(--spacing-base) * 2);
+  height: var(--spacing-md);
 }
 
 .bc-progress-bar--size-lg {
-  height: calc(var(--spacing-base) * 3);
+  height: var(--spacing-mdh);
 }
 
 /* Indeterminate state - animated sliding bar */
@@ -73,13 +73,13 @@
 /* Label text */
 .bc-progress-bar__label {
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   text-align: right;
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 /* Dark mode styles */
@@ -108,12 +108,12 @@
 /* High contrast mode: add borders for better visibility */
 @media (prefers-contrast: high) {
   .bc-progress-bar__track {
-    outline: 1px solid currentColor;
-    outline-offset: -1px;
+    outline: var(--outline-width-default) solid currentColor;
+    outline-offset: calc(-1 * var(--outline-width-default));
   }
 
   .bc-progress-bar__fill {
-    outline: 1px solid var(--progress-fill);
-    outline-offset: -1px;
+    outline: var(--outline-width-default) solid var(--progress-fill);
+    outline-offset: calc(-1 * var(--outline-width-default));
   }
 }

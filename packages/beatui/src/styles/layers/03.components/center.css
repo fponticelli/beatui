@@ -32,11 +32,11 @@
 }
 
 .bc-center--gap-md {
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
 }
 
 .bc-center--gap-lg {
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 .bc-center--gap-xl {

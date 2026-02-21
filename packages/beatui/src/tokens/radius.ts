@@ -14,23 +14,23 @@ import { objectEntries } from '@tempots/std'
  * Radius scale definitions mapping size names to CSS values.
  * Values are expressed as multiples of the base spacing variable.
  *
- * | Name | Value                        | Approx |
- * |------|------------------------------|--------|
- * | none | 0                            | 0      |
- * | xs   | base / 2                     | 2px    |
- * | sm   | base                         | 4px    |
- * | md   | base * 1.5                   | 6px    |
- * | lg   | base * 2                     | 8px    |
- * | xl   | base * 3                     | 12px   |
- * | full | 9999px                       | pill   |
+ * | Name | Value              | Approx |
+ * |------|--------------------|--------|
+ * | none | 0                  | 0      |
+ * | xs   | --spacing-xs       | 2px    |
+ * | sm   | --spacing-sm       | 4px    |
+ * | md   | --spacing-smh      | 6px    |
+ * | lg   | --spacing-md       | 8px    |
+ * | xl   | --spacing-mdh      | 12px   |
+ * | full | 9999px             | pill   |
  */
 export const radius = {
   none: '0',
-  xs: 'calc(var(--spacing-base) / 2)',
-  sm: 'var(--spacing-base)',
-  md: 'calc(var(--spacing-base) * 1.5)',
-  lg: 'calc(var(--spacing-base) * 2)',
-  xl: 'calc(var(--spacing-base) * 3)',
+  xs: 'var(--spacing-xs)',
+  sm: 'var(--spacing-sm)',
+  md: 'var(--spacing-smh)',
+  lg: 'var(--spacing-md)',
+  xl: 'var(--spacing-mdh)',
   full: '9999px',
 } as const
 

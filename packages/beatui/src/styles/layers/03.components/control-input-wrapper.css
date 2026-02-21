@@ -10,14 +10,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 /* Label container */
 .bc-control-input-wrapper__label {
   display: flex;
   align-items: center;
-  gap: var(--spacing-stack-2xs, calc(var(--spacing-base) / 2));
+  gap: var(--spacing-stack-2xs, var(--spacing-xs));
 }
 
 /* Label text styles */

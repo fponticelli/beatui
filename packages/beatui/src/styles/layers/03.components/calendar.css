@@ -3,7 +3,7 @@
   display: inline-flex;
   flex-direction: column;
   background-color: var(--bg-background);
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   user-select: none;
@@ -28,14 +28,14 @@
   align-items: center;
   justify-content: center;
   background: none;
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--text-normal);
   font-weight: var(--font-weight-semibold);
   transition: background-color var(--motion-transition-fast)
     var(--motion-easing-standard);
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 .bc-calendar__nav-btn:hover:not(:disabled) {
@@ -43,8 +43,8 @@
 }
 
 .bc-calendar__nav-btn:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-calendar__nav-btn:disabled {
@@ -83,8 +83,8 @@
 }
 
 .bc-calendar__title-btn:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-calendar__title-btn:disabled {
@@ -137,8 +137,8 @@
 }
 
 .bc-calendar__day:focus-visible {
-  outline: 2px solid var(--cal-selected-bg);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--cal-selected-bg);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-calendar__day--outside {
@@ -211,8 +211,8 @@
 }
 
 .bc-calendar__month-cell:focus-visible {
-  outline: 2px solid var(--cal-selected-bg);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--cal-selected-bg);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-calendar__month-cell--current {
@@ -257,8 +257,8 @@
 }
 
 .bc-calendar__year-cell:focus-visible {
-  outline: 2px solid var(--cal-selected-bg);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--cal-selected-bg);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-calendar__year-cell--current {

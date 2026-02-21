@@ -70,7 +70,7 @@
 /* High contrast */
 @media (prefers-contrast: more) {
   .bc-ribbon {
-    outline: 1px solid var(--border-border-light, var(--color-neutral-500));
+    outline: var(--outline-width-default) solid var(--border-border-light, var(--color-neutral-500));
   }
 }
 

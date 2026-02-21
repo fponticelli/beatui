@@ -17,7 +17,7 @@ html,
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
   font-family: var(
-    --default-font-family,
+    --font-family-default,
     ui-sans-serif,
     system-ui,
     sans-serif,
@@ -26,8 +26,8 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   );
-  font-feature-settings: var(--default-font-feature-settings, normal);
-  font-variation-settings: var(--default-font-variation-settings, normal);
+  font-feature-settings: var(--font-family-default-feature-settings, normal);
+  font-variation-settings: var(--font-family-default-variation-settings, normal);
   font-size: var(--font-size-base, 1rem);
   color: var(--text-normal-light, var(--color-neutral-900));
   background-color: var(--bg-background-light, var(--color-white));
@@ -45,7 +45,7 @@ body {
 hr {
   height: 0;
   color: inherit;
-  border-top-width: 1px;
+  border-top-width: var(--border-width-thin);
 }
 
 abbr:where([title]) {
@@ -62,7 +62,7 @@ h6 {
   font-size: inherit;
   font-weight: inherit;
   font-family: var(
-    --default-heading-font-family,
+    --font-family-default-heading,
     var(--font-heading, var(--font-body, var(--font-family-sans)))
   );
 }
@@ -83,7 +83,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --default-mono-font-family,
+    --font-family-default-mono,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -93,8 +93,8 @@ pre {
     'Courier New',
     monospace
   );
-  font-feature-settings: var(--default-mono-font-feature-settings, normal);
-  font-variation-settings: var(--default-mono-font-variation-settings, normal);
+  font-feature-settings: var(--font-family-default-mono-feature-settings, normal);
+  font-variation-settings: var(--font-family-default-mono-variation-settings, normal);
   font-size: 1em;
 }
 
@@ -233,7 +233,7 @@ textarea {
 }
 
 ::-webkit-calendar-picker-indicator {
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 :-moz-ui-invalid {

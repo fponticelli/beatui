@@ -5,7 +5,7 @@
   .bc-lexical-editor-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
     border-radius: var(--radius-control, var(--radius-md));
     background-color: var(--color-neutral-50);
     overflow: hidden;
@@ -168,7 +168,7 @@
   .bc-lexical-editor blockquote {
     margin: 1rem 0;
     padding-left: 1rem;
-    border-left: 4px solid var(--color-neutral-300);
+    border-left: calc(2 * var(--border-width-medium)) solid var(--color-neutral-300);
     color: var(--color-neutral-700);
     font-style: italic;
   }
@@ -206,7 +206,7 @@
     background-color: var(--color-neutral-100);
     border-radius: var(--radius-md, 0.5rem);
     overflow-x: auto;
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
   }
 
   .bc-lexical-editor pre code {
@@ -231,7 +231,7 @@
   .bc-lexical-editor hr {
     margin: 1.5rem 0;
     border: none;
-    border-top: 2px solid var(--color-neutral-200);
+    border-top: var(--border-width-medium) solid var(--color-neutral-200);
   }
 
   .bc-lexical-editor strong,
@@ -285,7 +285,7 @@
     top: 0.35em;
     width: 1em;
     height: 1em;
-    border: 2px solid var(--color-neutral-400);
+    border: var(--border-width-medium) solid var(--color-neutral-400);
     border-radius: var(--radius-xs, 0.25rem);
     cursor: pointer;
   }
@@ -302,8 +302,8 @@
     top: 0.45em;
     width: 0.5em;
     height: 0.25em;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
+    border-left: var(--border-width-medium) solid white;
+    border-bottom: var(--border-width-medium) solid white;
     transform: rotate(-45deg);
   }
 
@@ -442,7 +442,7 @@
 
   @media (prefers-contrast: high) {
     .bc-lexical-editor-container {
-      border-width: 2px;
+      border-width: var(--border-width-medium);
     }
 
     .bc-lexical-editor-container:focus-within {

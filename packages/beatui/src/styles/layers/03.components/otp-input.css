@@ -22,7 +22,7 @@
   font-variant-numeric: tabular-nums;
   color: var(--text-normal);
   background-color: var(--bg-background);
-  border: 1.5px solid var(--border-default);
+  border: var(--border-width-default) solid var(--border-default);
   border-radius: var(--radius-md);
   outline: none;
   caret-color: var(--otp-focus-color);

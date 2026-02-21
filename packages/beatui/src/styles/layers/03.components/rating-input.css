@@ -1,7 +1,7 @@
 /* Rating Input Component */
 .bc-rating-input {
   display: inline-flex;
-  gap: var(--spacing-stack-xs, calc(var(--spacing-base) * 1));
+  gap: var(--spacing-stack-xs, var(--spacing-sm));
 }
 
 .bc-rating-input__icon-container {

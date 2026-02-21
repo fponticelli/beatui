@@ -15,7 +15,7 @@
     padding: var(--spacing-md);
 
     /* Border */
-    border: 2px solid var(--action-card-border);
+    border: var(--border-width-medium) solid var(--action-card-border);
     border-radius: var(--radius-lg);
 
     /* Background */
@@ -156,7 +156,7 @@
 
   /* Focus styles for accessibility */
   .bc-action-card--clickable:focus-visible {
-    outline: 2px solid var(--color-primary-500);
+    outline: var(--outline-width-focus) solid var(--color-primary-500);
     outline-offset: 2px;
   }
 

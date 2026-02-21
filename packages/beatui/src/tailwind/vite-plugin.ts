@@ -97,7 +97,7 @@ export interface BeatuiTailwindPluginOptions {
    */
   baseSpacing?: string
   /**
-   * Override the base font size (`--base-font-size`). All font size and per-size
+   * Override the base font size (`--font-size-base`). All font size and per-size
    * line height values are computed from this variable. Defaults to `'1rem'`.
    */
   baseFontSize?: string

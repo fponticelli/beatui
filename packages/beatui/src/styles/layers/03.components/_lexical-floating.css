@@ -8,7 +8,7 @@
     padding: var(--spacing-xs);
     border-radius: var(--radius-md);
     background-color: var(--color-white);
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     z-index: 1000;
     animation: bc-floating-toolbar-enter 0.15s ease-out;
@@ -40,7 +40,7 @@
     overflow-y: auto;
     border-radius: var(--radius-md);
     background-color: var(--color-white);
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     padding: var(--spacing-xs);
     z-index: 1000;
@@ -160,7 +160,7 @@
     justify-content: center;
     width: 24px;
     height: 24px;
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
     border-radius: var(--radius-sm);
     background-color: var(--color-white);
     color: var(--color-neutral-400);

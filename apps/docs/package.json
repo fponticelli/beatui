@@ -38,9 +38,9 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^15.2.2",
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "^36.0.1",
+    "@tempots/dom": "^37.0.3",
     "@tempots/std": "~0.26.1",
-    "@tempots/ui": "^15.0.1",
+    "@tempots/ui": "^16.0.0",
     "zod": "4.3.6"
   },
   "devDependencies": {
@@ -49,7 +49,7 @@
     "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/vite": "^4.1.18",
-    "@tempots/eslint-plugin": "0.11.0",
+    "@tempots/eslint-plugin": "0.13.1",
     "@types/fs-extra": "^11.0.4",
     "@types/jsdom": "^27.0.0",
     "@types/node": "25.2.3",

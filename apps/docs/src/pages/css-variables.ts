@@ -449,7 +449,7 @@ function TypographySection() {
     'Typography',
     // Font Sizes
     html.h3(attr.class('text-base font-medium'), 'Font Sizes'),
-    Desc('All sizes are relative to --base-font-size (1rem = 16px).'),
+    Desc('All sizes are relative to --font-size-base (1rem = 16px).'),
     html.div(
       attr.class('overflow-x-auto'),
       html.table(
@@ -941,7 +941,7 @@ function CustomizationSection() {
       ),
       `:root {
   --spacing-base: 0.3rem;        /* Scale all spacing */
-  --base-font-size: 1.125rem;    /* Scale all typography */
+  --font-size-base: 1.125rem;    /* Scale all typography */
   --motion-duration-base: 150ms; /* Adjust animation speed */
 }
 

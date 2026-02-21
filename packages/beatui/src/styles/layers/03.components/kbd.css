@@ -5,11 +5,11 @@
   justify-content: center;
   font-family: var(--font-family-mono);
   font-weight: var(--font-weight-medium);
-  line-height: 1;
+  line-height: var(--line-height-none);
   border-radius: var(--radius-xs);
   background-color: var(--bg-surface);
   color: var(--text-muted);
-  border: 1px solid var(--border-subtle);
+  border: var(--border-width-thin) solid var(--border-subtle);
   box-shadow: rgb(229, 229, 229) 0px 1px 0px;
   white-space: nowrap;
   vertical-align: middle;
@@ -27,13 +27,13 @@
 
 .bc-kbd--size-sm {
   font-size: var(--font-size-sm);
-  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base) * 1.5);
+  padding: calc(var(--spacing-base) * 0.5) var(--spacing-smh);
   min-width: calc(var(--font-size-sm) + var(--spacing-base) * 2);
 }
 
 .bc-kbd--size-md {
   font-size: var(--font-size-md);
-  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base) * 2);
+  padding: calc(var(--spacing-base) * 0.5) var(--spacing-md);
   min-width: calc(var(--font-size-md) + var(--spacing-base) * 2.5);
 }
 
@@ -49,7 +49,7 @@
 /* Accessibility adjustments */
 @media (prefers-contrast: high) {
   .bc-kbd {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 }
 

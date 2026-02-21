@@ -17,8 +17,8 @@ export const baseFontSize = '1rem'
 
 /**
  * Font size scale mapping size names to `[fontSize, { lineHeight }]` tuples.
- * Each entry provides a font size derived from `--base-font-size` via `calc()`
- * and its recommended line height. When `--base-font-size` is `1rem` (default),
+ * Each entry provides a font size derived from `--font-size-base` via `calc()`
+ * and its recommended line height. When `--font-size-base` is `1rem` (default),
  * computed values match the pixel sizes shown.
  *
  * | Name | Multiplier | Line Height      | Pixels (at 1rem base) |
@@ -36,50 +36,50 @@ export const baseFontSize = '1rem'
  */
 export const fontSize = {
   '3xs': [
-    'calc(var(--base-font-size) * 0.5)',
-    { lineHeight: 'calc(var(--base-font-size) * 0.75)' },
+    'calc(var(--font-size-base) * 0.5)',
+    { lineHeight: 'calc(var(--font-size-base) * 0.75)' },
   ], // 8px
   '2xs': [
-    'calc(var(--base-font-size) * 0.625)',
-    { lineHeight: 'calc(var(--base-font-size) * 0.75)' },
+    'calc(var(--font-size-base) * 0.625)',
+    { lineHeight: 'calc(var(--font-size-base) * 0.75)' },
   ], // 10px
   xs: [
-    'calc(var(--base-font-size) * 0.75)',
-    { lineHeight: 'var(--base-font-size)' },
+    'calc(var(--font-size-base) * 0.75)',
+    { lineHeight: 'var(--font-size-base)' },
   ], // 12px
   sm: [
-    'calc(var(--base-font-size) * 0.875)',
-    { lineHeight: 'calc(var(--base-font-size) * 1.25)' },
+    'calc(var(--font-size-base) * 0.875)',
+    { lineHeight: 'calc(var(--font-size-base) * 1.25)' },
   ], // 14px
   md: [
-    'var(--base-font-size)',
-    { lineHeight: 'calc(var(--base-font-size) * 1.5)' },
+    'var(--font-size-base)',
+    { lineHeight: 'calc(var(--font-size-base) * 1.5)' },
   ], // 16px
   lg: [
-    'calc(var(--base-font-size) * 1.125)',
-    { lineHeight: 'calc(var(--base-font-size) * 1.75)' },
+    'calc(var(--font-size-base) * 1.125)',
+    { lineHeight: 'calc(var(--font-size-base) * 1.75)' },
   ], // 18px
   xl: [
-    'calc(var(--base-font-size) * 1.25)',
-    { lineHeight: 'calc(var(--base-font-size) * 1.75)' },
+    'calc(var(--font-size-base) * 1.25)',
+    { lineHeight: 'calc(var(--font-size-base) * 1.75)' },
   ], // 20px
   '2xl': [
-    'calc(var(--base-font-size) * 1.5)',
-    { lineHeight: 'calc(var(--base-font-size) * 2)' },
+    'calc(var(--font-size-base) * 1.5)',
+    { lineHeight: 'calc(var(--font-size-base) * 2)' },
   ], // 24px
   '3xl': [
-    'calc(var(--base-font-size) * 1.875)',
-    { lineHeight: 'calc(var(--base-font-size) * 2.25)' },
+    'calc(var(--font-size-base) * 1.875)',
+    { lineHeight: 'calc(var(--font-size-base) * 2.25)' },
   ], // 30px
   '4xl': [
-    'calc(var(--base-font-size) * 2.25)',
-    { lineHeight: 'calc(var(--base-font-size) * 2.5)' },
+    'calc(var(--font-size-base) * 2.25)',
+    { lineHeight: 'calc(var(--font-size-base) * 2.5)' },
   ], // 36px
-  '5xl': ['calc(var(--base-font-size) * 3)', { lineHeight: '1' }], // 48px
-  '6xl': ['calc(var(--base-font-size) * 3.75)', { lineHeight: '1' }], // 60px
-  '7xl': ['calc(var(--base-font-size) * 4.5)', { lineHeight: '1' }], // 72px
-  '8xl': ['calc(var(--base-font-size) * 6)', { lineHeight: '1' }], // 96px
-  '9xl': ['calc(var(--base-font-size) * 8)', { lineHeight: '1' }], // 128px
+  '5xl': ['calc(var(--font-size-base) * 3)', { lineHeight: '1' }], // 48px
+  '6xl': ['calc(var(--font-size-base) * 3.75)', { lineHeight: '1' }], // 60px
+  '7xl': ['calc(var(--font-size-base) * 4.5)', { lineHeight: '1' }], // 72px
+  '8xl': ['calc(var(--font-size-base) * 6)', { lineHeight: '1' }], // 96px
+  '9xl': ['calc(var(--font-size-base) * 8)', { lineHeight: '1' }], // 128px
 } as const
 
 /**
@@ -333,16 +333,16 @@ export function getFontSizeVar(size: FontSize): string {
 /**
  * Returns the CSS custom property name for the base font size.
  *
- * @returns The CSS variable name `'--base-font-size'`
+ * @returns The CSS variable name `'--font-size-base'`
  */
 export function getBaseFontSizeVarName(): string {
-  return '--base-font-size'
+  return '--font-size-base'
 }
 
 /**
  * Returns a CSS `var()` expression referencing the base font size custom property.
  *
- * @returns A CSS `var()` string `'var(--base-font-size)'`
+ * @returns A CSS `var()` string `'var(--font-size-base)'`
  */
 export function getBaseFontSizeVar(): string {
   return `var(${getBaseFontSizeVarName()})`
@@ -478,9 +478,9 @@ export function getSemanticFontVar(name: SemanticFontName): string {
  * @example
  * ```ts
  * const vars = generateTypographyVariables()
- * // vars['--base-font-size'] === '1rem'
- * // vars['--font-size-md'] === 'var(--base-font-size)'
- * // vars['--font-size-md-lh'] === 'calc(var(--base-font-size) * 1.5)'
+ * // vars['--font-size-base'] === '1rem'
+ * // vars['--font-size-md'] === 'var(--font-size-base)'
+ * // vars['--font-size-md-lh'] === 'calc(var(--font-size-base) * 1.5)'
  * // vars['--font-weight-bold'] === '700'
  * ```
  */
@@ -571,7 +571,7 @@ export function generateFontFamilyOverrideVariables(
  * ```ts
  * const vars = generateSemanticFontVariables({ heading: 'var(--font-family-serif)' })
  * // vars['--font-heading'] === 'var(--font-family-serif)'
- * // vars['--default-font-family'] === 'var(--font-body)'
+ * // vars['--font-family-default'] === 'var(--font-body)'
  * ```
  */
 export function generateSemanticFontVariables(
@@ -584,12 +584,12 @@ export function generateSemanticFontVariables(
     variables[getSemanticFontVarName(key as SemanticFontName)] = value
   })
 
-  variables['--default-font-family'] = getSemanticFontVar('body')
-  variables['--default-heading-font-family'] = getSemanticFontVar('heading')
-  variables['--default-display-font-family'] = getSemanticFontVar('display')
-  variables['--default-ui-font-family'] = getSemanticFontVar('ui')
-  variables['--default-prose-font-family'] = getSemanticFontVar('prose')
-  variables['--default-mono-font-family'] = getSemanticFontVar('mono')
+  variables['--font-family-default'] = getSemanticFontVar('body')
+  variables['--font-family-default-heading'] = getSemanticFontVar('heading')
+  variables['--font-family-default-display'] = getSemanticFontVar('display')
+  variables['--font-family-default-ui'] = getSemanticFontVar('ui')
+  variables['--font-family-default-prose'] = getSemanticFontVar('prose')
+  variables['--font-family-default-mono'] = getSemanticFontVar('mono')
 
   return variables
 }

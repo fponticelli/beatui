@@ -19,32 +19,32 @@
 }
 
 .bc-panel--side-all {
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--side-top {
-  border-top: 1px solid var(--border-default);
+  border-top: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--side-bottom {
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--side-left {
-  border-left: 1px solid var(--border-default);
+  border-left: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--side-right {
-  border-right: 1px solid var(--border-default);
+  border-right: var(--border-width-thin) solid var(--border-default);
 }
 
 /* Direction-aware panel borders */
 .bc-panel--side-inline-start {
-  border-inline-start: 1px solid var(--border-default);
+  border-inline-start: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--side-inline-end {
-  border-inline-end: 1px solid var(--border-default);
+  border-inline-end: var(--border-width-thin) solid var(--border-default);
 }
 
 .bc-panel--shadow-sm {

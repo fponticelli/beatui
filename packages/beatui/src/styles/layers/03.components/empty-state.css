@@ -62,7 +62,7 @@
 }
 
 .bc-empty-state--size-lg {
-  padding: var(--spacing-2xl, calc(var(--spacing-base) * 10));
+  padding: var(--spacing-2xl, var(--spacing-2xlh));
   max-width: 500px;
 }
 

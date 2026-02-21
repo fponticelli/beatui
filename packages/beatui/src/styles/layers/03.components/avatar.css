@@ -13,7 +13,7 @@
   background-color: var(--avatar-bg);
   color: var(--avatar-text);
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
   user-select: none;
@@ -32,7 +32,7 @@
 /* Initials text */
 .bc-avatar__initials {
   font-weight: var(--font-weight-semibold);
-  line-height: 1;
+  line-height: var(--line-height-none);
   text-align: center;
   text-transform: uppercase;
 }
@@ -48,32 +48,32 @@
 
 /* Size variants */
 .bc-avatar--size-xs {
-  width: calc(var(--spacing-base) * 6);
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   font-size: var(--font-size-xs);
 }
 
 .bc-avatar--size-sm {
-  width: calc(var(--spacing-base) * 8);
-  height: calc(var(--spacing-base) * 8);
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
   font-size: var(--font-size-sm);
 }
 
 .bc-avatar--size-md {
-  width: calc(var(--spacing-base) * 10);
-  height: calc(var(--spacing-base) * 10);
+  width: var(--spacing-2xlh);
+  height: var(--spacing-2xlh);
   font-size: var(--font-size-md);
 }
 
 .bc-avatar--size-lg {
-  width: calc(var(--spacing-base) * 12);
-  height: calc(var(--spacing-base) * 12);
+  width: var(--spacing-3xl);
+  height: var(--spacing-3xl);
   font-size: var(--font-size-lg);
 }
 
 .bc-avatar--size-xl {
-  width: calc(var(--spacing-base) * 16);
-  height: calc(var(--spacing-base) * 16);
+  width: var(--spacing-4xl);
+  height: var(--spacing-4xl);
   font-size: var(--font-size-xl);
 }
 
@@ -94,7 +94,7 @@
 
 /* Bordered variant */
 .bc-avatar--bordered {
-  border: 2px solid var(--color-white);
+  border: var(--border-width-medium) solid var(--color-white);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -118,7 +118,7 @@
 /* Add border to overlapping avatars for better separation */
 .bc-avatar-group--spacing-tight > .bc-avatar,
 .bc-avatar-group--spacing-tight > .bc-avatar-group__overflow {
-  border: 2px solid var(--color-white);
+  border: var(--border-width-medium) solid var(--color-white);
 }
 
 /* Normal spacing - standard gap */
@@ -150,12 +150,12 @@
 /* Accessibility adjustments */
 @media (prefers-contrast: high) {
   .bc-avatar--bordered {
-    border-width: 3px;
+    border-width: var(--border-width-thick);
   }
 
   .bc-avatar-group--spacing-tight > .bc-avatar,
   .bc-avatar-group--spacing-tight > .bc-avatar-group__overflow {
-    border-width: 3px;
+    border-width: var(--border-width-thick);
   }
 }
 

@@ -33,7 +33,7 @@
 }
 
 .bc-dialog__consequences {
-  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3);
+  padding: var(--spacing-md) var(--spacing-mdh);
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
   font-size: var(--font-size-xs);
@@ -41,13 +41,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-base);
-  margin: calc(var(--spacing-base) * 3) 0 0;
+  margin: var(--spacing-mdh) 0 0;
   list-style: none;
 }
 
 .bc-dialog__consequences li {
   display: flex;
-  gap: calc(var(--spacing-base) * 1.5);
+  gap: var(--spacing-smh);
 }
 
 .bc-dialog__consequences li::before {
@@ -59,23 +59,23 @@
 .bc-dialog__actions {
   display: flex;
   justify-content: flex-end;
-  gap: calc(var(--spacing-base) * 2);
+  gap: var(--spacing-md);
   width: 100%;
 }
 
 .bc-dialog__input {
   display: block;
   width: 100%;
-  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3);
-  margin-top: calc(var(--spacing-base) * 3);
-  border: 1px solid var(--border-input);
+  padding: var(--spacing-md) var(--spacing-mdh);
+  margin-top: var(--spacing-mdh);
+  border: var(--border-width-thin) solid var(--border-input);
   border-radius: var(--radius-md);
   background: var(--bg-background);
   color: var(--text-normal);
   font-size: var(--font-size-sm);
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color var(--motion-duration-fast) var(--motion-easing-standard);
 }
 
 .bc-dialog__input::placeholder {

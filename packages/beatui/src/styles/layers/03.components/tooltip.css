@@ -7,7 +7,7 @@
   font-size: var(--font-size-sm);
   line-height: var(--font-size-sm-lh);
   font-weight: var(--font-weight-medium);
-  max-width: 200px;
+  max-width: var(--overlay-width-xs);
   word-wrap: break-word;
   z-index: var(--z-index-tooltip);
   box-shadow: var(--shadow-popover, var(--shadow-md));
@@ -83,7 +83,7 @@
 .dark .bc-tooltip {
   background-color: var(--bg-elevated);
   color: var(--text-normal);
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
   box-shadow: var(
     --shadow-tooltip-dark,
     0 10px 15px -3px var(--shadow-color-dark),
@@ -100,11 +100,11 @@
 /* High contrast mode */
 @media (prefers-contrast: high) {
   .bc-tooltip {
-    border: 1px solid var(--color-neutral-600);
+    border: var(--border-width-thin) solid var(--color-neutral-600);
   }
 
   .dark .bc-tooltip {
-    border: 1px solid var(--color-neutral-400);
+    border: var(--border-width-thin) solid var(--color-neutral-400);
   }
 }
 

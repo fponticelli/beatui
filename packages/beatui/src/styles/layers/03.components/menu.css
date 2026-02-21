@@ -1,16 +1,16 @@
 /* Menu Component */
 .bc-menu {
   background-color: var(--color-white);
-  border: 1px solid var(--color-base-200);
+  border: var(--border-width-thin) solid var(--color-base-200);
   border-radius: var(--radius-popover, var(--radius-md));
   box-shadow: var(--shadow-popover, var(--shadow-lg));
   padding: var(--spacing-xs) 0;
   z-index: var(--z-index-popover);
-  min-width: 12rem;
+  min-width: var(--overlay-min-width);
   max-height: 20rem;
   overflow-y: auto;
   outline: none;
-  font-family: var(--default-ui-font-family, inherit);
+  font-family: var(--font-family-default-ui, inherit);
 }
 
 /* Dark mode styles */
@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-stack-md, var(--spacing-md));
-  padding: calc(var(--spacing-base) * 1.75) calc(var(--spacing-base) * 3);
+  padding: calc(var(--spacing-base) * 1.75) var(--spacing-mdh);
   border-radius: 0;
   cursor: pointer;
   transition: background-color
@@ -121,7 +121,7 @@
 /* Menu Separator Component */
 .bc-menu-separator {
   margin: var(--spacing-xs) var(--spacing-sm);
-  border-top: 1px solid var(--border-divider, var(--color-base-200));
+  border-top: var(--border-width-thin) solid var(--border-divider, var(--color-base-200));
   position: relative;
 }
 
@@ -148,24 +148,24 @@
 
 /* Focus styles for accessibility */
 .bc-menu-item:focus-visible {
-  outline: 2px solid var(--interactive-focus);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
+  outline-offset: calc(-1 * var(--outline-width-focus));
   border-radius: var(--radius-sm);
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .bc-menu {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 
   .bc-menu-item--focused {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
+    outline: var(--outline-width-focus) solid currentColor;
+    outline-offset: calc(-1 * var(--outline-width-focus));
   }
 
   .bc-menu-separator {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 }
 
@@ -183,7 +183,7 @@
 }
 
 .bc-menu--size-sm .bc-menu-item {
-  padding: var(--spacing-xs) calc(var(--spacing-base) * 2);
+  padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-xs);
 }
 
@@ -193,7 +193,7 @@
 }
 
 .bc-menu--size-lg .bc-menu-item {
-  padding: calc(var(--spacing-base) * 2) calc(var(--spacing-base) * 3.5);
+  padding: var(--spacing-md) calc(var(--spacing-base) * 3.5);
   font-size: var(--font-size-md);
 }
 
@@ -254,7 +254,7 @@
 @media (hover: none) and (pointer: coarse) {
   .bc-menu-item {
     min-height: 44px; /* Minimum touch target */
-    padding: calc(var(--spacing-base) * 1.75) calc(var(--spacing-base) * 3);
+    padding: calc(var(--spacing-base) * 1.75) var(--spacing-mdh);
   }
 
   .bc-menu-item:hover {

@@ -34,7 +34,7 @@
   background-color: var(--table-bg);
   color: var(--table-text);
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
   font-size: var(--font-size-md);
@@ -88,7 +88,7 @@
 
 /* With table border */
 .bc-table-container--with-table-border {
-  border: 1px solid var(--table-border);
+  border: var(--border-width-thin) solid var(--table-border);
 }
 
 /* With row borders */
@@ -98,7 +98,7 @@
 .bc-table--with-row-borders > tbody > tr > td,
 .bc-table--with-row-borders > tfoot > tr > th,
 .bc-table--with-row-borders > tfoot > tr > td {
-  border-bottom: 1px solid var(--table-border);
+  border-bottom: var(--border-width-thin) solid var(--table-border);
 }
 
 /* With column borders */
@@ -108,7 +108,7 @@
 .bc-table--with-column-borders > tbody > tr > td,
 .bc-table--with-column-borders > tfoot > tr > th,
 .bc-table--with-column-borders > tfoot > tr > td {
-  border-right: 1px solid var(--table-border);
+  border-right: var(--border-width-thin) solid var(--table-border);
 }
 
 .bc-table--with-column-borders > thead > tr > th:last-child,
@@ -150,7 +150,7 @@
 .bc-table--size-sm > tbody > tr > td,
 .bc-table--size-sm > tfoot > tr > th,
 .bc-table--size-sm > tfoot > tr > td {
-  padding: calc(var(--spacing-base) * 1.5);
+  padding: var(--spacing-smh);
   font-size: var(--font-size-sm);
 }
 
@@ -169,7 +169,7 @@
 .bc-table--size-xl > tbody > tr > td,
 .bc-table--size-xl > tfoot > tr > th,
 .bc-table--size-xl > tfoot > tr > td {
-  padding: calc(var(--spacing-base) * 5);
+  padding: var(--spacing-lgh);
   font-size: var(--font-size-lg);
 }
 
@@ -188,7 +188,7 @@
 .bc-table__footer {
   background-color: var(--table-header-bg);
   font-weight: var(--font-weight-semibold);
-  border-top: 2px solid var(--table-border);
+  border-top: var(--border-width-medium) solid var(--table-border);
 }
 
 /* Dark mode styles */

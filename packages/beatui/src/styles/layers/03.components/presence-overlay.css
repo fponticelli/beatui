@@ -48,7 +48,7 @@
   line-height: 1.4;
   pointer-events: none;
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
 }

@@ -8,9 +8,11 @@ describe('generateSemanticTokenVariables', () => {
     expect(variables['--font-body']).toBe('var(--font-family-sans)')
     expect(variables['--font-mono']).toBe('var(--font-family-mono)')
     expect(variables['--font-prose']).toBe('var(--font-family-serif)')
-    expect(variables['--default-font-family']).toBe('var(--font-body)')
-    expect(variables['--default-mono-font-family']).toBe('var(--font-mono)')
-    expect(variables['--default-heading-font-family']).toBe('var(--font-heading)')
+    expect(variables['--font-family-default']).toBe('var(--font-body)')
+    expect(variables['--font-family-default-mono']).toBe('var(--font-mono)')
+    expect(variables['--font-family-default-heading']).toBe(
+      'var(--font-heading)'
+    )
     expect(variables['--shadow-surface']).toBe('var(--shadow-sm)')
     expect(variables['--shadow-popover']).toBe('var(--shadow-lg)')
     expect(variables['--motion-transition-fast']).toBe(
@@ -20,7 +22,7 @@ describe('generateSemanticTokenVariables', () => {
     // because the semantic name matches the core name, which would create a
     // circular CSS self-reference. The core token definition is used instead.
     expect(variables['--motion-easing-standard']).toBeUndefined()
-    expect(variables['--spacing-stack-sm']).toBe('calc(var(--spacing-base) * 2)')
+    expect(variables['--spacing-stack-sm']).toBe('var(--spacing-md)')
     expect(variables['--text-shadow-button-filled']).toBe(
       'var(--text-shadow-sm)'
     )

@@ -53,7 +53,7 @@
   bottom: 0;
   overflow: hidden;
   opacity: 0.2;
-  line-height: 1;
+  line-height: var(--line-height-none);
   text-align: initial;
   forced-color-adjust: none;
   transform-origin: 0 0;
@@ -180,7 +180,7 @@
   .buttonWidgetAnnotation.radioButton
   input {
   background-image: none;
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
   box-sizing: border-box;
   font: calc(9px * var(--scale-factor)) sans-serif;
   height: 100%;
@@ -213,7 +213,7 @@
   .buttonWidgetAnnotation.radioButton
   input[disabled] {
   background: none;
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
   cursor: not-allowed;
 }
 
@@ -226,14 +226,14 @@
 .bc-pdf-page-viewer__annotation-layer
   .buttonWidgetAnnotation.radioButton
   input:hover {
-  border: 1px solid rgba(0, 0, 0, 1);
+  border: var(--border-width-thin) solid rgba(0, 0, 0, 1);
 }
 
 .bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation input:focus,
 .bc-pdf-page-viewer__annotation-layer .textWidgetAnnotation textarea:focus,
 .bc-pdf-page-viewer__annotation-layer .choiceWidgetAnnotation select:focus {
   background: none;
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
 }
 
 .bc-pdf-page-viewer__annotation-layer
@@ -344,7 +344,7 @@
 }
 
 .bc-pdf-page-viewer__annotation-layer .popupContent {
-  border-top: 1px solid rgba(51, 51, 51, 1);
+  border-top: var(--border-width-thin) solid rgba(51, 51, 51, 1);
   margin-top: calc(2px * var(--scale-factor));
   padding-top: calc(2px * var(--scale-factor));
 }

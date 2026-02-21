@@ -9,10 +9,10 @@
 .bc-input-container {
   width: 100%;
   /* Add a transparent border to match button height math */
-  border: 1.5px solid transparent;
+  border: var(--border-width-default) solid transparent;
   border-radius: var(--radius-control, var(--radius-md));
   box-shadow: var(--shadow-xs);
-  line-height: 1;
+  line-height: var(--line-height-none);
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   align-items: stretch;
 }
@@ -25,8 +25,8 @@
 
 .bc-input-container--default {
   background-color: var(--color-white);
-  outline: 1px solid var(--border-divider);
-  outline-offset: -1px;
+  outline: var(--outline-width-default) solid var(--border-divider);
+  outline-offset: calc(-1 * var(--outline-width-default));
 }
 
 .bc-base-input-container ::placeholder,
@@ -43,26 +43,26 @@
 
 .bc-input-container--disabled {
   background-color: var(--color-neutral-200);
-  outline: 2px solid var(--border-divider);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--border-divider);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 /* Focus within state */
 .bc-input-container:focus-within {
   z-index: var(--z-index-navigation);
-  outline: 2px solid var(--interactive-focus);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 /* Error state */
 .bc-input-container--error {
-  outline: 2px solid var(--color-danger-600);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-danger-600);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-danger-600);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-danger-600);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 /* Before and after elements */
@@ -82,7 +82,7 @@
   align-items: center;
   min-width: 0;
   /* Horizontal padding only; vertical padding comes from size classes */
-  padding-inline: calc(var(--spacing-base) * 4);
+  padding-inline: var(--spacing-lg);
 }
 
 .bc-input-container__input--grow {
@@ -105,10 +105,9 @@
 /* Normalize native element heights for consistent input container sizing */
 .bc-input-container input,
 .bc-input-container select {
-  min-height: 19px;
   padding: 0;
-  padding-block: 1.5px;
-  line-height: 1;
+  padding-block: var(--spacing-px);
+  line-height: var(--line-height-none);
 }
 
 /* Password toggle button */
@@ -184,11 +183,11 @@
 .dark .bc-input-container--default {
   background-color: var(--bg-surface);
   color: var(--text-normal);
-  outline: 2px solid var(--border-default);
+  outline: var(--outline-width-focus) solid var(--border-default);
 }
 
 .dark .bc-input-container--default:focus-within {
-  outline: 2px solid var(--interactive-focus);
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
   background-color: var(--bg-elevated);
 }
 
@@ -199,17 +198,17 @@
 
 .dark .bc-input-container--disabled {
   background-color: var(--bg-subtle);
-  outline: 2px solid var(--border-divider);
+  outline: var(--outline-width-focus) solid var(--border-divider);
   opacity: 0.6;
 }
 
 .dark .bc-input-container--error {
-  outline: 2px solid var(--color-danger-400);
+  outline: var(--outline-width-focus) solid var(--color-danger-400);
   background-color: var(--color-danger-950);
 }
 
 .dark .bc-input-container--error:focus-within {
-  outline: 2px solid var(--color-danger-400);
+  outline: var(--outline-width-focus) solid var(--color-danger-400);
   background-color: var(--color-danger-900);
 }
 
@@ -240,7 +239,7 @@
 @media (width >= var(--breakpoint-sm)) {
   .bc-input-container {
     /* Do not force font-size; sizing classes control this */
-    line-height: 1;
+    line-height: var(--line-height-none);
   }
 }
 
@@ -248,7 +247,7 @@
 @media (prefers-contrast: high) {
   .bc-input-container,
   .bc-input {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 }
 

@@ -7,7 +7,7 @@
     margin: 1rem 0;
     padding: 1rem;
     background-color: var(--color-neutral-50);
-    border: 1px solid var(--color-neutral-200);
+    border: var(--border-width-thin) solid var(--color-neutral-200);
     border-radius: var(--radius-md);
     overflow-x: auto;
     font-family:
@@ -220,7 +220,7 @@
 
   @media (prefers-contrast: high) {
     .bc-lexical-code-block {
-      border-width: 2px;
+      border-width: var(--border-width-medium);
     }
   }
 }

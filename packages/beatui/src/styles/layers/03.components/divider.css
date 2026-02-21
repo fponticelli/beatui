@@ -1,7 +1,7 @@
 /* Divider Component */
 .bc-divider {
   border: 0;
-  border-top: 1px solid var(--border-divider);
+  border-top: var(--border-width-thin) solid var(--border-divider);
   margin: 0;
   height: 0;
   background: transparent;
@@ -15,7 +15,7 @@
 .bc-divider--vertical {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-divider);
+  border-left: var(--border-width-thin) solid var(--border-divider);
   width: auto;
   height: auto;
   align-self: stretch;
@@ -68,7 +68,7 @@
 .bc-divider__line {
   flex: 1;
   border: 0;
-  border-top: 1px solid var(--border-default);
+  border-top: var(--border-width-thin) solid var(--border-default);
   height: 0;
   background: transparent;
   margin: 0;
@@ -80,7 +80,7 @@
 .bc-divider--vertical .bc-divider__line {
   border-top: none;
   border-top-width: 0;
-  border-left: 1px solid var(--border-divider);
+  border-left: var(--border-width-thin) solid var(--border-divider);
   width: 0;
   flex: 1;
   min-height: 1rem;
@@ -92,11 +92,11 @@
   font-weight: var(--font-weight-medium);
   color: var(--text-muted);
   font-family: var(
-    --default-ui-font-family,
+    --font-family-default-ui,
     var(--font-ui, var(--font-body, var(--font-family-sans)))
   );
   white-space: nowrap;
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 /* Label alignment */
@@ -169,7 +169,7 @@
 @media (prefers-contrast: high) {
   .bc-divider,
   .bc-divider__line {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 }
 

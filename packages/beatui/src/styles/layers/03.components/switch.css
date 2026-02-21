@@ -54,7 +54,7 @@
   transition: background-color var(--motion-transition-fast)
     var(--motion-easing-standard);
   cursor: pointer;
-  padding: calc(var(--spacing-base)) var(--spacing-base);
+  padding: var(--spacing-sm) var(--spacing-base);
 }
 
 /* Switch track - off state */
@@ -82,18 +82,18 @@
 .bc-switch__track-label--off {
   justify-content: flex-end;
   padding-inline-end: var(--spacing-base);
-  padding-inline-start: calc(var(--spacing-base) * 5);
+  padding-inline-start: var(--spacing-lgh);
   color: var(--color-gray-600);
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 /* On label positioning and styling */
 .bc-switch__track-label--on {
   justify-content: flex-start;
-  padding-inline-end: calc(var(--spacing-base) * 5);
+  padding-inline-end: var(--spacing-lgh);
   padding-inline-start: var(--spacing-base);
   color: var(--switch-track-on-label, var(--color-gray-100));
-  line-height: 1;
+  line-height: var(--line-height-none);
 }
 
 .bc-switch--size-xs .bc-switch__track-label {
@@ -129,8 +129,8 @@
 .bc-switch__thumb {
   grid-area: stack;
   position: relative;
-  width: calc(var(--spacing-base) * 4); /* 16px equivalent */
-  height: calc(var(--spacing-base) * 4);
+  width: var(--spacing-lg); /* 16px equivalent */
+  height: var(--spacing-lg);
   border-radius: var(--radius-full);
   background-color: var(--color-white);
   box-shadow: var(
@@ -149,23 +149,23 @@
    automatically via the logical property. calc(100% - thumbWidth) moves
    the thumb to the far end of the grid area regardless of track width. */
 .bc-switch__thumb--on {
-  inset-inline-start: calc(100% - var(--spacing-base) * 4);
+  inset-inline-start: calc(100% - var(--spacing-lg));
 }
 
 /* Size variants for track and thumb */
 .bc-switch--xs .bc-switch__thumb {
-  width: calc(var(--spacing-base) * 3); /* 12px equivalent */
-  height: calc(var(--spacing-base) * 3);
+  width: var(--spacing-mdh); /* 12px equivalent */
+  height: var(--spacing-mdh);
 }
 .bc-switch--xs .bc-switch__thumb--on {
-  inset-inline-start: calc(100% - var(--spacing-base) * 3);
+  inset-inline-start: calc(100% - var(--spacing-mdh));
 }
 .bc-switch--xs .bc-switch__track-label--off {
   padding-inline-end: var(--spacing-base);
-  padding-inline-start: calc(var(--spacing-base) * 4);
+  padding-inline-start: var(--spacing-lg);
 }
 .bc-switch--xs .bc-switch__track-label--on {
-  padding-inline-end: calc(var(--spacing-base) * 4);
+  padding-inline-end: var(--spacing-lg);
   padding-inline-start: var(--spacing-base);
 }
 .bc-switch--xs .bc-switch__track {
@@ -181,10 +181,10 @@
 }
 .bc-switch--sm .bc-switch__track-label--off {
   padding-inline-end: var(--spacing-base);
-  padding-inline-start: calc(var(--spacing-base) * 5);
+  padding-inline-start: var(--spacing-lgh);
 }
 .bc-switch--sm .bc-switch__track-label--on {
-  padding-inline-end: calc(var(--spacing-base) * 5);
+  padding-inline-end: var(--spacing-lgh);
   padding-inline-start: var(--spacing-base);
 }
 .bc-switch--sm .bc-switch__track {
@@ -192,18 +192,18 @@
 }
 
 .bc-switch--md .bc-switch__thumb {
-  width: calc(var(--spacing-base) * 4); /* 20px equivalent */
-  height: calc(var(--spacing-base) * 4);
+  width: var(--spacing-lg); /* 20px equivalent */
+  height: var(--spacing-lg);
 }
 .bc-switch--md .bc-switch__thumb--on {
-  inset-inline-start: calc(100% - var(--spacing-base) * 4);
+  inset-inline-start: calc(100% - var(--spacing-lg));
 }
 .bc-switch--md .bc-switch__track-label--off {
   padding-inline-end: var(--spacing-base);
-  padding-inline-start: calc(var(--spacing-base) * 6);
+  padding-inline-start: var(--spacing-xl);
 }
 .bc-switch--md .bc-switch__track-label--on {
-  padding-inline-end: calc(var(--spacing-base) * 6);
+  padding-inline-end: var(--spacing-xl);
   padding-inline-start: var(--spacing-base);
 }
 .bc-switch--md .bc-switch__track {
@@ -211,11 +211,11 @@
 }
 
 .bc-switch--lg .bc-switch__thumb {
-  width: calc(var(--spacing-base) * 5); /* 20px equivalent */
-  height: calc(var(--spacing-base) * 5);
+  width: var(--spacing-lgh); /* 20px equivalent */
+  height: var(--spacing-lgh);
 }
 .bc-switch--lg .bc-switch__thumb--on {
-  inset-inline-start: calc(100% - var(--spacing-base) * 5);
+  inset-inline-start: calc(100% - var(--spacing-lgh));
 }
 .bc-switch--lg .bc-switch__track-label--off {
   padding-inline-end: var(--spacing-base);
@@ -226,15 +226,15 @@
   padding-inline-start: var(--spacing-base);
 }
 .bc-switch--lg .bc-switch__track {
-  min-width: calc(var(--spacing-base) * 12);
+  min-width: var(--spacing-3xl);
 }
 
 .bc-switch--xl .bc-switch__thumb {
-  width: calc(var(--spacing-base) * 6); /* 24px equivalent */
-  height: calc(var(--spacing-base) * 6);
+  width: var(--spacing-xl); /* 24px equivalent */
+  height: var(--spacing-xl);
 }
 .bc-switch--xl .bc-switch__thumb--on {
-  inset-inline-start: calc(100% - var(--spacing-base) * 6);
+  inset-inline-start: calc(100% - var(--spacing-xl));
 }
 .bc-switch--xl .bc-switch__track-label--off {
   padding-inline-end: var(--spacing-base);
@@ -251,19 +251,19 @@
 /* Match input height — adds vertical padding so the switch occupies the same
    height as text inputs at the corresponding size. */
 .bc-switch--match-input.bc-switch--xs {
-  padding-block: calc(var(--spacing-base) * 1.5);
+  padding-block: var(--spacing-smh);
 }
 .bc-switch--match-input.bc-switch--sm {
-  padding-block: calc(var(--spacing-base) * 2);
+  padding-block: var(--spacing-md);
 }
 .bc-switch--match-input.bc-switch--md {
   padding-block: calc(var(--spacing-base) * 1.75);
 }
 .bc-switch--match-input.bc-switch--lg {
-  padding-block: calc(var(--spacing-base) * 2);
+  padding-block: var(--spacing-md);
 }
 .bc-switch--match-input.bc-switch--xl {
-  padding-block: calc(var(--spacing-base) * 2);
+  padding-block: var(--spacing-md);
 }
 
 /* Focus styles are handled by the base focus system */
@@ -285,12 +285,12 @@
 
 .dark .bc-switch__track--off {
   background-color: var(--bg-subtle);
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
 }
 
 .dark .bc-switch__track--on {
   background-color: var(--switch-track-on-bg-dark, var(--color-primary-600));
-  border: 1px solid var(--switch-track-on-border-dark, var(--color-primary-500));
+  border: var(--border-width-thin) solid var(--switch-track-on-border-dark, var(--color-primary-500));
 }
 
 .dark .bc-switch__track-label--on {

@@ -144,12 +144,12 @@ export type SemanticSpacingOverrides = Partial<
  * Default semantic spacing values, expressed as multiples of the base spacing variable.
  */
 const defaultSemanticSpacing: Record<SemanticSpacingName, string> = {
-  'stack-2xs': 'calc(var(--spacing-base) / 2)',
-  'stack-xs': 'calc(var(--spacing-base) * 1)',
-  'stack-sm': 'calc(var(--spacing-base) * 2)',
-  'stack-md': 'calc(var(--spacing-base) * 3)',
-  'stack-lg': 'calc(var(--spacing-base) * 4)',
-  'stack-xl': 'calc(var(--spacing-base) * 6)',
+  'stack-2xs': 'var(--spacing-xs)',
+  'stack-xs': 'var(--spacing-sm)',
+  'stack-sm': 'var(--spacing-md)',
+  'stack-md': 'var(--spacing-mdh)',
+  'stack-lg': 'var(--spacing-lg)',
+  'stack-xl': 'var(--spacing-xl)',
 }
 
 /**

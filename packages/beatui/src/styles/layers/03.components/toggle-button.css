@@ -10,14 +10,14 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-stack-2xs);
-  border: 1.5px var(--toggle-border-style) var(--toggle-border);
+  border: var(--border-width-default) var(--toggle-border-style) var(--toggle-border);
   cursor: pointer;
   font-family: inherit;
   font-weight: var(--font-weight-semibold);
   background-color: var(--toggle-bg);
   color: var(--toggle-text);
   text-shadow: var(--toggle-text-shadow);
-  line-height: 1;
+  line-height: var(--line-height-none);
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
   user-select: none;
 }
@@ -38,7 +38,7 @@
 }
 
 .bc-toggle-button:focus-visible {
-  outline: 2px solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
@@ -55,8 +55,8 @@
 /* Size variants */
 .bc-toggle-button--size-xs {
   font-size: var(--font-size-xs);
-  min-height: calc(var(--spacing-base) * 6);
-  min-width: calc(var(--spacing-base) * 6);
+  min-height: var(--spacing-xl);
+  min-width: var(--spacing-xl);
 }
 
 .bc-toggle-button--size-sm {
@@ -67,20 +67,20 @@
 
 .bc-toggle-button--size-md {
   font-size: var(--font-size-md);
-  min-height: calc(var(--spacing-base) * 8);
-  min-width: calc(var(--spacing-base) * 8);
+  min-height: var(--spacing-2xl);
+  min-width: var(--spacing-2xl);
 }
 
 .bc-toggle-button--size-lg {
   font-size: var(--font-size-lg);
-  min-height: calc(var(--spacing-base) * 10);
-  min-width: calc(var(--spacing-base) * 10);
+  min-height: var(--spacing-2xlh);
+  min-width: var(--spacing-2xlh);
 }
 
 .bc-toggle-button--size-xl {
   font-size: var(--font-size-xl);
-  min-height: calc(var(--spacing-base) * 12);
-  min-width: calc(var(--spacing-base) * 12);
+  min-height: var(--spacing-3xl);
+  min-width: var(--spacing-3xl);
 }
 
 /* Dark mode */
@@ -106,6 +106,6 @@
 /* High contrast */
 @media (prefers-contrast: high) {
   .bc-toggle-button {
-    border-width: 2px;
+    border-width: var(--border-width-medium);
   }
 }

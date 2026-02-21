@@ -43,7 +43,7 @@
     font-family: var(
       --font-prose,
       var(
-        --default-prose-font-family,
+        --font-family-default-prose,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -58,7 +58,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -72,7 +72,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -86,7 +86,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -100,7 +100,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -114,7 +114,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );
@@ -128,7 +128,7 @@
     font-family: var(
       --font-heading,
       var(
-        --default-heading-font-family,
+        --font-family-default-heading,
         var(--font-body, var(--font-family-sans))
       )
     );

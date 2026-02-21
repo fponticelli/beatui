@@ -21,13 +21,13 @@
   "license": "MIT",
   "dependencies": {
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "^36.0.1",
+    "@tempots/dom": "^37.0.3",
     "@tempots/std": "~0.26.1",
-    "@tempots/ui": "^15.0.1"
+    "@tempots/ui": "^16.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",
-    "@tempots/eslint-plugin": "0.11.0",
+    "@tempots/eslint-plugin": "0.13.1",
     "@typescript-eslint/eslint-plugin": "8.56.0",
     "@typescript-eslint/parser": "8.56.0",
     "eslint": "10.0.0",

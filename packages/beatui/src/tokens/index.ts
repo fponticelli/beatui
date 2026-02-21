@@ -2,8 +2,10 @@
 // Central export for all design tokens
 
 export * from './base-colors'
+export * from './borders'
 export * from './breakpoints'
 export * from './colors'
+export * from './controls'
 export * from './radius'
 export * from './spacing'
 export * from './shadows'
@@ -49,6 +51,11 @@ import {
   generateSemanticSpacingVariables,
   SemanticSpacingOverrides,
 } from './spacing'
+import {
+  generateBorderWidthVariables,
+  generateOutlineWidthVariables,
+} from './borders'
+import { generateControlTokenVariables } from './controls'
 
 // Generate all CSS variables
 export function generateCoreTokenVariables(): Record<string, string> {
@@ -62,6 +69,9 @@ export function generateCoreTokenVariables(): Record<string, string> {
     ...generateMotionVariables(),
     ...generateTextShadowVariables(),
     ...generateZIndexVariables(),
+    ...generateBorderWidthVariables(),
+    ...generateOutlineWidthVariables(),
+    ...generateControlTokenVariables(),
   }
 }
 

@@ -36,8 +36,8 @@
 
 .bc-checkbox-input__checkbox:focus-visible,
 .bc-checkbox-input:focus-within .bc-checkbox-input__checkbox {
-  outline: 1px solid var(--interactive-focus);
-  outline-offset: -1px;
+  outline: var(--outline-width-default) solid var(--interactive-focus);
+  outline-offset: calc(-1 * var(--outline-width-default));
   border-radius: var(--radius-lg);
 }
 
@@ -60,7 +60,7 @@
 
 .dark .bc-checkbox-input__checkbox:focus-visible,
 .dark .bc-checkbox-input:focus-within .bc-checkbox-input__checkbox {
-  outline: 2px solid var(--interactive-focus);
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
   outline-offset: 2px;
 }
 

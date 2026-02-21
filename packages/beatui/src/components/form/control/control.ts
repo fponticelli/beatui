@@ -1,4 +1,4 @@
-import { Merge, TextNode, TNode, Value } from '@tempots/dom'
+import { Merge, Primitive, TextNode, TNode, Value } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
 import { Controller } from '../controller'
 import { InputWrapper, InputWrapperOptions } from '../input'
@@ -178,7 +178,8 @@ export function Control<T, O extends BaseControlOptions>(
     {
       ...options,
       hasError: options.controller.errorVisible,
-      error: TextNode(options.controller.error.map(v => v ?? '')),
+      // TODO: Remove Primitive annotation once @tempots/dom TextNode is generic
+      error: TextNode(options.controller.error.map((v): Primitive => v ?? '')),
       labelFor,
       content: BaseControl(
         opts => InputComponent({ ...(opts as unknown as O), id }),

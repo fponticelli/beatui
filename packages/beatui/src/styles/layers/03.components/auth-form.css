@@ -28,7 +28,7 @@
 .bc-auth-form__social {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+  gap: var(--spacing-stack-md, var(--spacing-mdh));
 }
 
 /* Form fields */
@@ -41,7 +41,7 @@
 .bc-auth-form__fields {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 /* Remember me checkbox */
@@ -115,7 +115,7 @@
 }
 
 .bc-auth-form__link:focus-visible {
-  outline: 2px solid var(--interactive-focus);
+  outline: var(--outline-width-focus) solid var(--interactive-focus);
   outline-offset: 2px;
 }
 
@@ -131,7 +131,7 @@
 /* Responsive adjustments */
 @media (width < 40rem) {
   .bc-auth-form {
-    gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+    gap: var(--spacing-stack-lg, var(--spacing-lg));
   }
 
   .bc-auth-form__title {
@@ -139,7 +139,7 @@
   }
 
   .bc-auth-form__fields {
-    gap: var(--spacing-stack-md, calc(var(--spacing-base) * 3));
+    gap: var(--spacing-stack-md, var(--spacing-mdh));
   }
 }
 

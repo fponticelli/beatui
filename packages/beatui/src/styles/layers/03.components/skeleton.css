@@ -54,7 +54,7 @@
 .bc-skeleton__lines-container {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-base) * 1.5);
+  gap: var(--spacing-smh);
   width: 100%;
 }
 
@@ -84,7 +84,7 @@
 /* High contrast mode: add subtle border */
 @media (prefers-contrast: high) {
   .bc-skeleton {
-    outline: 1px solid currentColor;
-    outline-offset: -1px;
+    outline: var(--outline-width-default) solid currentColor;
+    outline-offset: calc(-1 * var(--outline-width-default));
   }
 }

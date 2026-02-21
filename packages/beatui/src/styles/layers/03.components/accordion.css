@@ -7,13 +7,13 @@
 
 /* Default variant: bordered list */
 .bc-accordion--default {
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 .bc-accordion--default .bc-accordion__item + .bc-accordion__item {
-  border-top: 1px solid var(--border-default);
+  border-top: var(--border-width-thin) solid var(--border-default);
 }
 
 /* Separated variant: cards with gaps */
@@ -22,7 +22,7 @@
 }
 
 .bc-accordion--separated .bc-accordion__item {
-  border: 1px solid var(--border-default);
+  border: var(--border-width-thin) solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -58,8 +58,8 @@
 }
 
 .bc-accordion__header:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .bc-accordion__header:disabled {
@@ -89,8 +89,8 @@
   display: inline-block;
   width: 0.5em;
   height: 0.5em;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
+  border-right: var(--border-width-medium) solid currentColor;
+  border-bottom: var(--border-width-medium) solid currentColor;
   transform: rotate(45deg);
   margin-top: -0.15em;
 }

@@ -3,43 +3,43 @@
 }
 
 .bc-control--padding-xs {
-  padding: var(--spacing-xs);
+  padding: var(--control-padding-block-xs) var(--control-padding-inline-xs);
 }
 
 .bc-control--padding-sm {
-  padding: var(--spacing-sm);
+  padding: var(--control-padding-block-sm) var(--control-padding-inline-sm);
 }
 
 .bc-control--padding-md {
-  padding: var(--spacing-md);
+  padding: var(--control-padding-block-md) var(--control-padding-inline-md);
 }
 
 .bc-control--padding-lg {
-  padding: var(--spacing-lg);
+  padding: var(--control-padding-block-lg) var(--control-padding-inline-lg);
 }
 
 .bc-control--padding-xl {
-  padding: var(--spacing-xl);
+  padding: var(--control-padding-block-xl) var(--control-padding-inline-xl);
 }
 
 .bc-control--padding-xs:has(> .bc-icon:only-child) {
-  padding: var(--spacing-xs);
+  padding: var(--control-padding-block-xs);
 }
 
 .bc-control--padding-sm:has(> .bc-icon:only-child) {
-  padding: var(--spacing-sm);
+  padding: var(--control-padding-block-sm);
 }
 
 .bc-control--padding-md:has(> .bc-icon:only-child) {
-  padding: var(--spacing-md);
+  padding: var(--control-padding-block-md);
 }
 
 .bc-control--padding-lg:has(> .bc-icon:only-child) {
-  padding: var(--spacing-lg);
+  padding: var(--control-padding-block-lg);
 }
 
 .bc-control--padding-xl:has(> .bc-icon:only-child) {
-  padding: var(--spacing-xl);
+  padding: var(--control-padding-block-xl);
 }
 
 .bc-control--rounded-none {

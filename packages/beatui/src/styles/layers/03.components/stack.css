@@ -5,15 +5,15 @@
 }
 
 .bc-stack--gap-1 {
-  gap: var(--spacing-stack-xs, calc(var(--spacing-base) * 1));
+  gap: var(--spacing-stack-xs, var(--spacing-sm));
 }
 
 .bc-stack--gap-2 {
-  gap: var(--spacing-stack-sm, calc(var(--spacing-base) * 2));
+  gap: var(--spacing-stack-sm, var(--spacing-md));
 }
 
 .bc-stack--gap-4 {
-  gap: var(--spacing-stack-lg, calc(var(--spacing-base) * 4));
+  gap: var(--spacing-stack-lg, var(--spacing-lg));
 }
 
 .bc-stack--align-center {

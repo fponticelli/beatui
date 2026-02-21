@@ -103,7 +103,7 @@
   background: oklch(0.95 0 0);
   border-radius: var(--radius-sm);
   font-weight: 500;
-  line-height: 1;
+  line-height: var(--line-height-none);
   display: inline-flex;
   align-items: center;
 }
@@ -153,8 +153,8 @@
 
 /* Focus styles for keyboard navigation */
 .bc-tree-item__row:focus-visible {
-  outline: 2px solid var(--color-primary-500);
-  outline-offset: -2px;
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
 .dark .bc-tree-item__row:focus-visible {
