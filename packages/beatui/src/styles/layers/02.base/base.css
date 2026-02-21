@@ -116,7 +116,8 @@
 
 .b-rtl blockquote,
 .b-ltr blockquote {
-  border-inline-start: calc(2 * var(--border-width-medium)) solid var(--color-base-300);
+  border-inline-start: calc(2 * var(--border-width-medium)) solid
+    var(--color-base-300);
   border-inline-end: none;
   padding-inline-start: 1rem;
   padding-inline-end: 0;

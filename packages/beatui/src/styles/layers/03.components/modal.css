@@ -279,7 +279,8 @@
 .bc-overlay[data-status='start-opening'] .bc-modal--position-top,
 .bc-overlay[data-status='closing'] .bc-modal--position-top {
   opacity: 0;
-  transform: translateX(-50%) translateY(calc(-1 * var(--spacing-lgh))) scale(0.95);
+  transform: translateX(-50%) translateY(calc(-1 * var(--spacing-lgh)))
+    scale(0.95);
 }
 
 .bc-overlay[data-status='opened'] .bc-modal--position-top,
@@ -305,7 +306,8 @@
 .bc-overlay[data-status='start-opening'] .bc-modal--position-left,
 .bc-overlay[data-status='closing'] .bc-modal--position-left {
   opacity: 0;
-  transform: translateY(-50%) translateX(calc(-1 * var(--spacing-lgh))) scale(0.95);
+  transform: translateY(-50%) translateX(calc(-1 * var(--spacing-lgh)))
+    scale(0.95);
 }
 
 .bc-overlay[data-status='opened'] .bc-modal--position-left,
@@ -356,7 +358,8 @@
 .bc-overlay[data-status='start-opening'] .bc-modal--position-inline-start,
 .bc-overlay[data-status='closing'] .bc-modal--position-inline-start {
   opacity: 0;
-  transform: translateY(-50%) translateX(calc(-1 * var(--spacing-lgh))) scale(0.95);
+  transform: translateY(-50%) translateX(calc(-1 * var(--spacing-lgh)))
+    scale(0.95);
 }
 
 .bc-overlay[data-status='opened'] .bc-modal--position-inline-start,
@@ -566,8 +569,7 @@
   display: flex;
   align-items: center;
   gap: calc(var(--spacing-base) * 2.5);
-  padding: var(--spacing-lgh) var(--spacing-xl)
-    calc(var(--spacing-base) * 2.5);
+  padding: var(--spacing-lgh) var(--spacing-xl) calc(var(--spacing-base) * 2.5);
   border-bottom: none;
 }
 

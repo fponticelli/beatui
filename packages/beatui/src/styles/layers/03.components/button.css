@@ -19,7 +19,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--control-gap-md);
-  border: var(--border-width-default) var(--button-border-style) var(--button-border);
+  border: var(--border-width-default) var(--button-border-style)
+    var(--button-border);
   cursor: pointer;
   font-weight: var(--font-weight-semibold);
   font-family: var(

@@ -116,7 +116,10 @@ export const NumberInput = (options: NumberInputOptions) => {
             const stepVal = Value.get(step)
             // Apply 10x multiplier when shift key is held
             const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = roundToStep(current - stepVal * multiplier, stepVal)
+            const targetValue = roundToStep(
+              current - stepVal * multiplier,
+              stepVal
+            )
             const minVal = min != null ? Value.get(min) : undefined
 
             // Don't call onChange if we would go below minimum
@@ -137,7 +140,10 @@ export const NumberInput = (options: NumberInputOptions) => {
             const stepVal = Value.get(step)
             // Apply 10x multiplier when shift key is held
             const multiplier = event?.shiftKey ? 10 : 1
-            const targetValue = roundToStep(current + stepVal * multiplier, stepVal)
+            const targetValue = roundToStep(
+              current + stepVal * multiplier,
+              stepVal
+            )
             const maxVal = max != null ? Value.get(max) : undefined
 
             // Don't call onChange if we would go above maximum

@@ -10,7 +10,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-stack-2xs);
-  border: var(--border-width-default) var(--toggle-border-style) var(--toggle-border);
+  border: var(--border-width-default) var(--toggle-border-style)
+    var(--toggle-border);
   cursor: pointer;
   font-family: inherit;
   font-weight: var(--font-weight-semibold);

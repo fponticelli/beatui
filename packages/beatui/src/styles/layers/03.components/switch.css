@@ -290,7 +290,8 @@
 
 .dark .bc-switch__track--on {
   background-color: var(--switch-track-on-bg-dark, var(--color-primary-600));
-  border: var(--border-width-thin) solid var(--switch-track-on-border-dark, var(--color-primary-500));
+  border: var(--border-width-thin) solid
+    var(--switch-track-on-border-dark, var(--color-primary-500));
 }
 
 .dark .bc-switch__track-label--on {

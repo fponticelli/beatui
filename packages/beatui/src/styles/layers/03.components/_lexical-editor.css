@@ -168,7 +168,8 @@
   .bc-lexical-editor blockquote {
     margin: 1rem 0;
     padding-left: 1rem;
-    border-left: calc(2 * var(--border-width-medium)) solid var(--color-neutral-300);
+    border-left: calc(2 * var(--border-width-medium)) solid
+      var(--color-neutral-300);
     color: var(--color-neutral-700);
     font-style: italic;
   }

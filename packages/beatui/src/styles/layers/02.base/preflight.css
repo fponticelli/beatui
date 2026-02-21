@@ -27,7 +27,10 @@ html,
     'Noto Color Emoji'
   );
   font-feature-settings: var(--font-family-default-feature-settings, normal);
-  font-variation-settings: var(--font-family-default-variation-settings, normal);
+  font-variation-settings: var(
+    --font-family-default-variation-settings,
+    normal
+  );
   font-size: var(--font-size-base, 1rem);
   color: var(--text-normal-light, var(--color-neutral-900));
   background-color: var(--bg-background-light, var(--color-white));
@@ -93,8 +96,14 @@ pre {
     'Courier New',
     monospace
   );
-  font-feature-settings: var(--font-family-default-mono-feature-settings, normal);
-  font-variation-settings: var(--font-family-default-mono-variation-settings, normal);
+  font-feature-settings: var(
+    --font-family-default-mono-feature-settings,
+    normal
+  );
+  font-variation-settings: var(
+    --font-family-default-mono-variation-settings,
+    normal
+  );
   font-size: 1em;
 }
 

@@ -121,7 +121,8 @@
 /* Menu Separator Component */
 .bc-menu-separator {
   margin: var(--spacing-xs) var(--spacing-sm);
-  border-top: var(--border-width-thin) solid var(--border-divider, var(--color-base-200));
+  border-top: var(--border-width-thin) solid
+    var(--border-divider, var(--color-base-200));
   position: relative;
 }
 

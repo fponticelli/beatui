@@ -32,10 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(
-    --badge-gap,
-    var(--control-gap-md)
-  );
+  gap: var(--badge-gap, var(--control-gap-md));
 }
 
 /* Size variants */
@@ -78,23 +75,35 @@
 }
 
 .bc-badge--circle.bc-badge--size-xs {
-  min-width: calc(var(--font-size-xs) + var(--spacing-base) * 1 + var(--border-width-thick));
+  min-width: calc(
+    var(--font-size-xs) + var(--spacing-base) * 1 + var(--border-width-thick)
+  );
 }
 
 .bc-badge--circle.bc-badge--size-sm {
-  min-width: calc(var(--font-size-sm) + var(--spacing-base) * 1.5 + var(--border-width-thick));
+  min-width: calc(
+    var(--font-size-sm) + var(--spacing-base) * 1.5 + var(--border-width-thick)
+  );
 }
 
 .bc-badge--circle.bc-badge--size-md {
-  min-width: calc(var(--font-size-md) + var(--spacing-base) * 2 + var(--border-width-thick));
+  min-width: calc(
+    var(--font-size-md) + var(--spacing-base) * 2 + var(--border-width-thick)
+  );
 }
 
 .bc-badge--circle.bc-badge--size-lg {
-  min-width: calc(var(--font-size-lg) * 1.2 + var(--spacing-base) * 2.5 + var(--border-width-thick));
+  min-width: calc(
+    var(--font-size-lg) * 1.2 + var(--spacing-base) * 2.5 +
+      var(--border-width-thick)
+  );
 }
 
 .bc-badge--circle.bc-badge--size-xl {
-  min-width: calc(var(--font-size-xl) * 1.2 + var(--spacing-base) * 3 + var(--border-width-thick));
+  min-width: calc(
+    var(--font-size-xl) * 1.2 + var(--spacing-base) * 3 +
+      var(--border-width-thick)
+  );
 }
 
 /* Full width variant */

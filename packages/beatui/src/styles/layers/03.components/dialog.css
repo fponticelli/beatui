@@ -75,7 +75,8 @@
   font-size: var(--font-size-sm);
   font-family: inherit;
   outline: none;
-  transition: border-color var(--motion-duration-fast) var(--motion-easing-standard);
+  transition: border-color var(--motion-duration-fast)
+    var(--motion-easing-standard);
 }
 
 .bc-dialog__input::placeholder {
