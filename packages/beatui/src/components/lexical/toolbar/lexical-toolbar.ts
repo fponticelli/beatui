@@ -1,13 +1,13 @@
 import {
   Signal,
   signal,
+  TNode,
   Value,
   Ensure,
   Use,
   attr,
   html,
   on,
-  When,
 } from '@tempots/dom'
 import {
   type LexicalEditor,
@@ -36,15 +36,17 @@ import {
   REDO_COMMAND,
 } from '../../../lexical/commands'
 import type {
+  ToolbarButtonId,
   ToolbarConfig,
-  ToolbarGroupId,
+  ToolbarLayoutEntry,
   FontOption,
 } from '../../../lexical/types'
-import { Toolbar } from '../../navigation/toolbar/toolbar'
+import { Toolbar, ToolbarDivider } from '../../navigation/toolbar/toolbar'
 import { LexicalToolbarGroup } from './toolbar-group'
 import { ControlSize } from '../../theme'
 import { createToolbarHelpers, createButtonFactory } from './toolbar-helpers'
 import { BeatUII18n } from '../../../beatui-i18n'
+import { GROUP_BUTTONS, resolveLayout } from './toolbar-registry'
 
 const DEFAULT_FONT_FAMILIES: FontOption[] = [
   { value: 'Arial', label: 'Arial' },
@@ -82,33 +84,15 @@ export function LexicalToolbar({
   readOnly = signal(false),
   size = 'sm',
 }: LexicalToolbarOptions) {
-  const { visibleGroups, hiddenGroups, maxHeadingLevel = 3 } = toolbar
+  const { maxHeadingLevel = 3 } = toolbar
 
-  // Helper to determine if a group should be visible
-  const isGroupVisible = (groupId: ToolbarGroupId): boolean => {
-    if (hiddenGroups?.includes(groupId)) return false
-    if (visibleGroups && !visibleGroups.includes(groupId)) return false
-    return true
-  }
+  // Resolve the layout from config (handles layout/visibleGroups/hiddenGroups)
+  const layout = resolveLayout(toolbar)
 
   return Use(BeatUII18n, t =>
     Ensure(editor, editorSignal => {
       const ed = editorSignal as unknown as Signal<LexicalEditor>
       const lex = t.$.lexical
-
-      // Group visibility signals
-      const showTextFormatting = signal(isGroupVisible('text-formatting'))
-      const showHeadings = signal(isGroupVisible('headings'))
-      const showLists = signal(isGroupVisible('lists'))
-      const showBlocks = signal(isGroupVisible('blocks'))
-      const showLinks = signal(isGroupVisible('links'))
-      const showIndent = signal(isGroupVisible('indent'))
-      const showTables = signal(isGroupVisible('tables'))
-      const showHistory = signal(isGroupVisible('history'))
-      const showClipboard = signal(isGroupVisible('clipboard'))
-      const showFont = signal(isGroupVisible('font'))
-      const showColor = signal(isGroupVisible('color'))
-      const showClearFormatting = signal(isGroupVisible('clear-formatting'))
 
       // Create shared toolbar helpers
       const {
@@ -125,12 +109,13 @@ export function LexicalToolbar({
         enterUrlMessage: () => t.value.lexical.enterUrl,
       })
 
-      // Create button factory
+      // Create button factory (all buttons use signal(true) — visibility
+      // is controlled by which buttons appear in the layout, not by signals)
       const button = createButtonFactory(readOnly, size)
+      const btn = button(signal(true))
 
-      // === Specific handlers (docked toolbar only) ===
+      // === Handlers ===
 
-      // Format paragraph (revert heading/block to normal paragraph)
       const formatParagraph = () => {
         const editor = ed.value
         if (!editor) return
@@ -143,7 +128,6 @@ export function LexicalToolbar({
         editor.focus()
       }
 
-      // Heading toggle handler (toggle: re-clicking the active heading reverts to paragraph)
       const formatHeading = (level: number) => {
         const editor = ed.value
         if (!editor) return
@@ -173,20 +157,6 @@ export function LexicalToolbar({
         editor.focus()
       }
 
-      // === Build the toolbar ===
-
-      const textBtn = button(showTextFormatting)
-      const headingBtn = button(showHeadings)
-      const listBtn = button(showLists)
-      const blockBtn = button(showBlocks)
-      const linkBtn = button(showLinks)
-      const indentBtn = button(showIndent)
-      const tableBtn = button(showTables)
-      const clearFmtBtn = button(showClearFormatting)
-      const historyBtn = button(showHistory)
-      const clipboardBtn = button(showClipboard)
-
-      // Clipboard handlers
       const clipboardCopy = () => {
         const editor = ed.value
         if (!editor) return
@@ -222,7 +192,6 @@ export function LexicalToolbar({
           .catch(() => {})
       }
 
-      // Clear formatting handler
       const clearFormatting = () => {
         const editor = ed.value
         if (!editor) return
@@ -240,7 +209,6 @@ export function LexicalToolbar({
         editor.focus()
       }
 
-      // Insert table handler
       const insertTable = () => {
         const editor = ed.value
         if (!editor) return
@@ -252,7 +220,7 @@ export function LexicalToolbar({
         editor.focus()
       }
 
-      // Font options (use config overrides or defaults, always prepend Default entry)
+      // Font options
       const defaultEntry: FontOption = {
         value: '',
         label: t.value.lexical.defaultOption,
@@ -266,7 +234,6 @@ export function LexicalToolbar({
         ...(toolbar.fontSizes ?? DEFAULT_FONT_SIZES),
       ]
 
-      // Current font selection (reactive to editor state updates)
       const currentFontFamily = stateUpdate.map(() => {
         const editor = ed.value
         if (!editor) return ''
@@ -396,298 +363,360 @@ export function LexicalToolbar({
         editor.focus()
       }
 
-      return Toolbar(
-        attr.class('bc-lexical-toolbar'),
+      // === Button registry ===
+      // Maps each ToolbarButtonId to a render function for that button/widget.
+      const registry = new Map<ToolbarButtonId, () => TNode>()
 
-        // Font group (font family and font size selects)
-        When(showFont, () =>
-          LexicalToolbarGroup(
-            { display: [showFont] },
-            html.select(
-              attr.class('bc-lexical-toolbar-select'),
-              attr.title(lex.map(l => l.fontFamily)),
-              attr.disabled(readOnly),
-              on.change(e =>
-                applyFontFamily((e.target as HTMLSelectElement).value)
-              ),
-              ...FONT_FAMILIES.map(f =>
-                html.option(
-                  attr.value(f.value),
-                  attr.selected(currentFontFamily.map(v => v === f.value)),
-                  f.label
-                )
-              )
-            ),
-            html.select(
-              attr.class('bc-lexical-toolbar-select'),
-              attr.title(lex.map(l => l.fontSize)),
-              attr.disabled(readOnly),
-              on.change(e =>
-                applyFontSize((e.target as HTMLSelectElement).value)
-              ),
-              ...FONT_SIZES.map(f =>
-                html.option(
-                  attr.value(f.value),
-                  attr.selected(currentFontSize.map(v => v === f.value)),
-                  f.label
-                )
-              )
-            )
-          )
-        ),
+      // text-formatting
+      registry.set('bold', () =>
+        btn({
+          active: textFormatActive('bold'),
+          onClick: dispatch(FORMAT_TEXT_COMMAND, 'bold'),
+          label: lex.map(l => l.bold),
+          icon: 'mdi:format-bold',
+        })
+      )
+      registry.set('italic', () =>
+        btn({
+          active: textFormatActive('italic'),
+          onClick: dispatch(FORMAT_TEXT_COMMAND, 'italic'),
+          label: lex.map(l => l.italic),
+          icon: 'mdi:format-italic',
+        })
+      )
+      registry.set('underline', () =>
+        btn({
+          active: textFormatActive('underline'),
+          onClick: dispatch(FORMAT_TEXT_COMMAND, 'underline'),
+          label: lex.map(l => l.underline),
+          icon: 'mdi:format-underline',
+        })
+      )
+      registry.set('strikethrough', () =>
+        btn({
+          active: textFormatActive('strikethrough'),
+          onClick: dispatch(FORMAT_TEXT_COMMAND, 'strikethrough'),
+          label: lex.map(l => l.strikethrough),
+          icon: 'mdi:format-strikethrough',
+        })
+      )
+      registry.set('code', () =>
+        btn({
+          active: textFormatActive('code'),
+          onClick: dispatch(FORMAT_TEXT_COMMAND, 'code'),
+          label: lex.map(l => l.code),
+          icon: 'mdi:code-tags',
+        })
+      )
 
-        // Color group (font color, highlight, background)
-        When(showColor, () =>
-          LexicalToolbarGroup(
-            { display: [showColor] },
-            html.label(
-              attr.class('bc-lexical-toolbar-color'),
-              attr.title(lex.map(l => l.fontColor)),
-              html.input(
-                attr.type('color'),
-                attr.value(currentFontColor),
-                attr.disabled(readOnly),
-                on.input(e =>
-                  applyFontColor((e.target as HTMLInputElement).value)
-                )
-              ),
-              html.span(attr.class('bc-lexical-toolbar-color-icon'), 'A')
-            ),
-            html.label(
-              attr.class('bc-lexical-toolbar-color'),
-              attr.title(lex.map(l => l.highlightColor)),
-              html.input(
-                attr.type('color'),
-                attr.value(currentHighlight),
-                attr.disabled(readOnly),
-                on.input(e =>
-                  applyHighlight((e.target as HTMLInputElement).value)
-                )
-              ),
-              html.span(
-                attr.class(
-                  'bc-lexical-toolbar-color-icon bc-lexical-toolbar-color-icon--highlight'
-                ),
-                'A'
-              )
-            ),
-            html.label(
-              attr.class('bc-lexical-toolbar-color'),
-              attr.title(lex.map(l => l.backgroundColor)),
-              html.input(
-                attr.type('color'),
-                attr.value(currentBgColor),
-                attr.disabled(readOnly),
-                on.input(e =>
-                  applyBgColor((e.target as HTMLInputElement).value)
-                )
-              ),
-              html.span(
-                attr.class(
-                  'bc-lexical-toolbar-color-icon bc-lexical-toolbar-color-icon--bg'
-                ),
-                '\u25A0'
-              )
-            )
-          )
-        ),
+      // clear-formatting
+      registry.set('clear-formatting', () =>
+        btn({
+          active: signal(false),
+          onClick: clearFormatting,
+          label: lex.map(l => l.clearFormatting),
+          icon: 'mdi:format-clear',
+        })
+      )
 
-        // Text formatting group
-        LexicalToolbarGroup(
-          { display: Array(5).fill(showTextFormatting) },
-          textBtn({
-            active: textFormatActive('bold'),
-            onClick: dispatch(FORMAT_TEXT_COMMAND, 'bold'),
-            label: lex.map(l => l.bold),
-            icon: 'mdi:format-bold',
-          }),
-          textBtn({
-            active: textFormatActive('italic'),
-            onClick: dispatch(FORMAT_TEXT_COMMAND, 'italic'),
-            label: lex.map(l => l.italic),
-            icon: 'mdi:format-italic',
-          }),
-          textBtn({
-            active: textFormatActive('underline'),
-            onClick: dispatch(FORMAT_TEXT_COMMAND, 'underline'),
-            label: lex.map(l => l.underline),
-            icon: 'mdi:format-underline',
-          }),
-          textBtn({
-            active: textFormatActive('strikethrough'),
-            onClick: dispatch(FORMAT_TEXT_COMMAND, 'strikethrough'),
-            label: lex.map(l => l.strikethrough),
-            icon: 'mdi:format-strikethrough',
-          }),
-          textBtn({
-            active: textFormatActive('code'),
-            onClick: dispatch(FORMAT_TEXT_COMMAND, 'code'),
-            label: lex.map(l => l.code),
-            icon: 'mdi:code-tags',
-          })
-        ),
-
-        // Clear formatting group
-        LexicalToolbarGroup(
-          { display: [showClearFormatting] },
-          clearFmtBtn({
-            active: signal(false),
-            onClick: clearFormatting,
-            label: lex.map(l => l.clearFormatting),
-            icon: 'mdi:format-clear',
-          })
-        ),
-
-        // Headings group (includes "Normal" paragraph button)
-        LexicalToolbarGroup(
-          {
-            display: [
-              showHeadings,
-              ...Array(maxHeadingLevel).fill(showHeadings),
-            ],
-          },
-          headingBtn({
-            active: blockTypeActive('paragraph'),
-            onClick: formatParagraph,
-            label: lex.map(l => l.normal),
-            icon: 'mdi:format-paragraph',
-          }),
-          ...Array.from({ length: maxHeadingLevel }, (_, i) => {
-            const level = i + 1
-            return headingBtn({
-              active: headingActive(level),
-              onClick: () => formatHeading(level),
-              label: lex.map(l => l.heading(level)),
-              icon: `mdi:format-header-${level}`,
-            })
-          })
-        ),
-
-        // Lists group
-        LexicalToolbarGroup(
-          { display: Array(3).fill(showLists) },
-          listBtn({
-            active: listTypeActive('bullet'),
-            onClick: dispatch(INSERT_UNORDERED_LIST_COMMAND, undefined),
-            label: lex.map(l => l.bulletList),
-            icon: 'mdi:format-list-bulleted',
-          }),
-          listBtn({
-            active: listTypeActive('number'),
-            onClick: dispatch(INSERT_ORDERED_LIST_COMMAND, undefined),
-            label: lex.map(l => l.orderedList),
-            icon: 'mdi:format-list-numbered',
-          }),
-          listBtn({
-            active: listTypeActive('check'),
-            onClick: dispatch(INSERT_CHECK_LIST_COMMAND, undefined),
-            label: lex.map(l => l.checkList),
-            icon: 'mdi:format-list-checks',
-          })
-        ),
-
-        // Indent group
-        LexicalToolbarGroup(
-          { display: Array(2).fill(showIndent) },
-          indentBtn({
-            active: signal(false),
-            onClick: dispatch(INDENT_CONTENT_COMMAND, undefined),
-            label: lex.map(l => l.indent),
-            icon: 'mdi:format-indent-increase',
-          }),
-          indentBtn({
-            active: signal(false),
-            onClick: dispatch(OUTDENT_CONTENT_COMMAND, undefined),
-            label: lex.map(l => l.outdent),
-            icon: 'mdi:format-indent-decrease',
-          })
-        ),
-
-        // Blocks group
-        LexicalToolbarGroup(
-          { display: Array(3).fill(showBlocks) },
-          blockBtn({
-            active: blockTypeActive('quote'),
-            onClick: toggleBlock('quote', $createQuoteNode),
-            label: lex.map(l => l.blockquote),
-            icon: 'mdi:format-quote-close',
-          }),
-          blockBtn({
-            active: blockTypeActive('code'),
-            onClick: toggleBlock('code', $createCodeNode),
-            label: lex.map(l => l.codeBlock),
-            icon: 'mdi:code-braces',
-          }),
-          blockBtn({
-            active: signal(false),
-            onClick: dispatch(INSERT_HORIZONTAL_RULE_COMMAND, undefined),
-            label: lex.map(l => l.horizontalRule),
-            icon: 'mdi:minus',
-          })
-        ),
-
-        // Tables group
-        LexicalToolbarGroup(
-          { display: [showTables] },
-          tableBtn({
-            active: signal(false),
-            onClick: insertTable,
-            label: lex.map(l => l.insertTable),
-            icon: 'mdi:table-plus',
-          })
-        ),
-
-        // Links group
-        LexicalToolbarGroup(
-          { display: [showLinks] },
-          linkBtn({
-            active: linkActive(),
-            onClick: sharedToggleLink,
-            label: lex.map(l => l.link),
-            icon: 'mdi:link',
-          })
-        ),
-
-        // History group
-        LexicalToolbarGroup(
-          { display: Array(2).fill(showHistory) },
-          historyBtn({
-            active: signal(false),
-            onClick: dispatch(UNDO_COMMAND, undefined),
-            label: lex.map(l => l.undo),
-            icon: 'mdi:undo',
-          }),
-          historyBtn({
-            active: signal(false),
-            onClick: dispatch(REDO_COMMAND, undefined),
-            label: lex.map(l => l.redo),
-            icon: 'mdi:redo',
-          })
-        ),
-
-        // Clipboard group
-        LexicalToolbarGroup(
-          { display: Array(3).fill(showClipboard) },
-          clipboardBtn({
-            active: signal(false),
-            onClick: clipboardCut,
-            label: lex.map(l => l.cut),
-            icon: 'mdi:content-cut',
-          }),
-          clipboardBtn({
-            active: signal(false),
-            onClick: clipboardCopy,
-            label: lex.map(l => l.copy),
-            icon: 'mdi:content-copy',
-          }),
-          clipboardBtn({
-            active: signal(false),
-            onClick: clipboardPaste,
-            label: lex.map(l => l.paste),
-            icon: 'mdi:content-paste',
+      // headings
+      registry.set('paragraph', () =>
+        btn({
+          active: blockTypeActive('paragraph'),
+          onClick: formatParagraph,
+          label: lex.map(l => l.normal),
+          icon: 'mdi:format-paragraph',
+        })
+      )
+      for (let level = 1; level <= maxHeadingLevel; level++) {
+        registry.set(`heading-${level}` as ToolbarButtonId, () =>
+          btn({
+            active: headingActive(level),
+            onClick: () => formatHeading(level),
+            label: lex.map(l => l.heading(level)),
+            icon: `mdi:format-header-${level}`,
           })
         )
+      }
+
+      // lists
+      registry.set('bullet-list', () =>
+        btn({
+          active: listTypeActive('bullet'),
+          onClick: dispatch(INSERT_UNORDERED_LIST_COMMAND, undefined),
+          label: lex.map(l => l.bulletList),
+          icon: 'mdi:format-list-bulleted',
+        })
+      )
+      registry.set('ordered-list', () =>
+        btn({
+          active: listTypeActive('number'),
+          onClick: dispatch(INSERT_ORDERED_LIST_COMMAND, undefined),
+          label: lex.map(l => l.orderedList),
+          icon: 'mdi:format-list-numbered',
+        })
+      )
+      registry.set('check-list', () =>
+        btn({
+          active: listTypeActive('check'),
+          onClick: dispatch(INSERT_CHECK_LIST_COMMAND, undefined),
+          label: lex.map(l => l.checkList),
+          icon: 'mdi:format-list-checks',
+        })
+      )
+
+      // indent
+      registry.set('indent', () =>
+        btn({
+          active: signal(false),
+          onClick: dispatch(INDENT_CONTENT_COMMAND, undefined),
+          label: lex.map(l => l.indent),
+          icon: 'mdi:format-indent-increase',
+        })
+      )
+      registry.set('outdent', () =>
+        btn({
+          active: signal(false),
+          onClick: dispatch(OUTDENT_CONTENT_COMMAND, undefined),
+          label: lex.map(l => l.outdent),
+          icon: 'mdi:format-indent-decrease',
+        })
+      )
+
+      // blocks
+      registry.set('blockquote', () =>
+        btn({
+          active: blockTypeActive('quote'),
+          onClick: toggleBlock('quote', $createQuoteNode),
+          label: lex.map(l => l.blockquote),
+          icon: 'mdi:format-quote-close',
+        })
+      )
+      registry.set('code-block', () =>
+        btn({
+          active: blockTypeActive('code'),
+          onClick: toggleBlock('code', $createCodeNode),
+          label: lex.map(l => l.codeBlock),
+          icon: 'mdi:code-braces',
+        })
+      )
+      registry.set('horizontal-rule', () =>
+        btn({
+          active: signal(false),
+          onClick: dispatch(INSERT_HORIZONTAL_RULE_COMMAND, undefined),
+          label: lex.map(l => l.horizontalRule),
+          icon: 'mdi:minus',
+        })
+      )
+
+      // tables
+      registry.set('insert-table', () =>
+        btn({
+          active: signal(false),
+          onClick: insertTable,
+          label: lex.map(l => l.insertTable),
+          icon: 'mdi:table-plus',
+        })
+      )
+
+      // links
+      registry.set('link', () =>
+        btn({
+          active: linkActive(),
+          onClick: sharedToggleLink,
+          label: lex.map(l => l.link),
+          icon: 'mdi:link',
+        })
+      )
+
+      // history
+      registry.set('undo', () =>
+        btn({
+          active: signal(false),
+          onClick: dispatch(UNDO_COMMAND, undefined),
+          label: lex.map(l => l.undo),
+          icon: 'mdi:undo',
+        })
+      )
+      registry.set('redo', () =>
+        btn({
+          active: signal(false),
+          onClick: dispatch(REDO_COMMAND, undefined),
+          label: lex.map(l => l.redo),
+          icon: 'mdi:redo',
+        })
+      )
+
+      // clipboard
+      registry.set('cut', () =>
+        btn({
+          active: signal(false),
+          onClick: clipboardCut,
+          label: lex.map(l => l.cut),
+          icon: 'mdi:content-cut',
+        })
+      )
+      registry.set('copy', () =>
+        btn({
+          active: signal(false),
+          onClick: clipboardCopy,
+          label: lex.map(l => l.copy),
+          icon: 'mdi:content-copy',
+        })
+      )
+      registry.set('paste', () =>
+        btn({
+          active: signal(false),
+          onClick: clipboardPaste,
+          label: lex.map(l => l.paste),
+          icon: 'mdi:content-paste',
+        })
+      )
+
+      // font (select widgets)
+      registry.set('font-family', () =>
+        html.select(
+          attr.class('bc-lexical-toolbar-select'),
+          attr.title(lex.map(l => l.fontFamily)),
+          attr.disabled(readOnly),
+          on.change(e =>
+            applyFontFamily((e.target as HTMLSelectElement).value)
+          ),
+          ...FONT_FAMILIES.map(f =>
+            html.option(
+              attr.value(f.value),
+              attr.selected(currentFontFamily.map(v => v === f.value)),
+              f.label
+            )
+          )
+        )
+      )
+      registry.set('font-size', () =>
+        html.select(
+          attr.class('bc-lexical-toolbar-select'),
+          attr.title(lex.map(l => l.fontSize)),
+          attr.disabled(readOnly),
+          on.change(e =>
+            applyFontSize((e.target as HTMLSelectElement).value)
+          ),
+          ...FONT_SIZES.map(f =>
+            html.option(
+              attr.value(f.value),
+              attr.selected(currentFontSize.map(v => v === f.value)),
+              f.label
+            )
+          )
+        )
+      )
+
+      // color (color picker widgets)
+      registry.set('font-color', () =>
+        html.label(
+          attr.class('bc-lexical-toolbar-color'),
+          attr.title(lex.map(l => l.fontColor)),
+          html.input(
+            attr.type('color'),
+            attr.value(currentFontColor),
+            attr.disabled(readOnly),
+            on.input(e =>
+              applyFontColor((e.target as HTMLInputElement).value)
+            )
+          ),
+          html.span(attr.class('bc-lexical-toolbar-color-icon'), 'A')
+        )
+      )
+      registry.set('highlight-color', () =>
+        html.label(
+          attr.class('bc-lexical-toolbar-color'),
+          attr.title(lex.map(l => l.highlightColor)),
+          html.input(
+            attr.type('color'),
+            attr.value(currentHighlight),
+            attr.disabled(readOnly),
+            on.input(e =>
+              applyHighlight((e.target as HTMLInputElement).value)
+            )
+          ),
+          html.span(
+            attr.class(
+              'bc-lexical-toolbar-color-icon bc-lexical-toolbar-color-icon--highlight'
+            ),
+            'A'
+          )
+        )
+      )
+      registry.set('background-color', () =>
+        html.label(
+          attr.class('bc-lexical-toolbar-color'),
+          attr.title(lex.map(l => l.backgroundColor)),
+          html.input(
+            attr.type('color'),
+            attr.value(currentBgColor),
+            attr.disabled(readOnly),
+            on.input(e =>
+              applyBgColor((e.target as HTMLInputElement).value)
+            )
+          ),
+          html.span(
+            attr.class(
+              'bc-lexical-toolbar-color-icon bc-lexical-toolbar-color-icon--bg'
+            ),
+            '\u25A0'
+          )
+        )
+      )
+
+      // === Render from layout ===
+      return Toolbar(
+        attr.class('bc-lexical-toolbar'),
+        ...renderLayout(layout, registry, maxHeadingLevel)
       )
     })
   )
+}
+
+/**
+ * Renders the resolved layout into TNode children for the Toolbar component.
+ */
+function renderLayout(
+  layout: ToolbarLayoutEntry[],
+  registry: Map<ToolbarButtonId, () => TNode>,
+  maxHeadingLevel: number
+): TNode[] {
+  const nodes: TNode[] = []
+
+  for (const entry of layout) {
+    if ('separator' in entry) {
+      nodes.push(ToolbarDivider())
+      continue
+    }
+
+    // Determine which button IDs to render in this group
+    let itemIds = entry.items ?? GROUP_BUTTONS[entry.group] ?? []
+
+    // Filter heading items by maxHeadingLevel when items are not explicitly specified
+    if (entry.group === 'headings' && !entry.items) {
+      itemIds = itemIds.filter(id => {
+        if (!id.startsWith('heading-')) return true // keep 'paragraph'
+        const level = parseInt(id.split('-')[1], 10)
+        return level <= maxHeadingLevel
+      })
+    }
+
+    // Collect renderable items (skip any not in registry)
+    const children: TNode[] = []
+    for (const itemId of itemIds) {
+      const renderFn = registry.get(itemId)
+      if (!renderFn) continue
+      children.push(renderFn())
+    }
+
+    if (children.length === 0) continue
+
+    // Wrap in a group with display signals (all true — layout controls visibility)
+    const displaySignals = children.map(() => signal(true))
+    nodes.push(LexicalToolbarGroup({ display: displaySignals }, ...children))
+  }
+
+  return nodes
 }

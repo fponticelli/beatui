@@ -342,16 +342,101 @@ export type ToolbarGroupId =
   | 'clear-formatting'
 
 /**
+ * Stable identifiers for individual toolbar buttons/controls.
+ * Each ID corresponds to a single button or widget within a toolbar group.
+ */
+export type ToolbarButtonId =
+  // text-formatting group
+  | 'bold'
+  | 'italic'
+  | 'underline'
+  | 'strikethrough'
+  | 'code'
+  // clear-formatting group
+  | 'clear-formatting'
+  // headings group
+  | 'paragraph'
+  | 'heading-1'
+  | 'heading-2'
+  | 'heading-3'
+  | 'heading-4'
+  | 'heading-5'
+  | 'heading-6'
+  // lists group
+  | 'bullet-list'
+  | 'ordered-list'
+  | 'check-list'
+  // indent group
+  | 'indent'
+  | 'outdent'
+  // blocks group
+  | 'blockquote'
+  | 'code-block'
+  | 'horizontal-rule'
+  // tables group
+  | 'insert-table'
+  // links group
+  | 'link'
+  // history group
+  | 'undo'
+  | 'redo'
+  // clipboard group
+  | 'cut'
+  | 'copy'
+  | 'paste'
+  // font group (select widgets)
+  | 'font-family'
+  | 'font-size'
+  // color group (color picker widgets)
+  | 'font-color'
+  | 'highlight-color'
+  | 'background-color'
+
+/**
+ * A group entry in the toolbar layout.
+ * Specifies which group to render, optionally restricting to specific buttons.
+ */
+export interface ToolbarLayoutGroup {
+  /** The group to render */
+  group: ToolbarGroupId
+  /**
+   * Optional subset of buttons/controls to include within this group.
+   * When omitted, all buttons in the group are shown (respecting maxHeadingLevel).
+   */
+  items?: ToolbarButtonId[]
+}
+
+/**
+ * A visual separator between toolbar groups.
+ */
+export interface ToolbarLayoutSeparator {
+  separator: true
+}
+
+/**
+ * A single entry in the toolbar layout.
+ * Either a group (with optional button subset) or a visual separator.
+ */
+export type ToolbarLayoutEntry = ToolbarLayoutGroup | ToolbarLayoutSeparator
+
+/**
+ * Convenience constant for inserting a separator in a toolbar layout.
+ */
+export const TOOLBAR_SEPARATOR: ToolbarLayoutSeparator = { separator: true }
+
+/**
  * Toolbar configuration
  */
 export interface ToolbarConfig {
   /**
-   * Groups to show in toolbar
+   * Groups to show in toolbar (whitelist).
+   * Ignored when `layout` is set.
    */
   visibleGroups?: ToolbarGroupId[]
 
   /**
-   * Groups to hide from toolbar
+   * Groups to hide from toolbar (blacklist).
+   * Ignored when `layout` is set.
    */
   hiddenGroups?: ToolbarGroupId[]
 
@@ -380,6 +465,13 @@ export interface ToolbarConfig {
    * A `{ value: '', label: 'Default' }` entry is always prepended automatically.
    */
   fontSizes?: FontOption[]
+
+  /**
+   * Declarative toolbar layout. When provided, takes full control over
+   * which groups/buttons appear and in what order.
+   * `visibleGroups` and `hiddenGroups` are ignored when `layout` is set.
+   */
+  layout?: ToolbarLayoutEntry[]
 }
 
 /**

@@ -23,7 +23,11 @@ export type {
   SlashCommandPluginOptions,
   SlashCommandDefinition,
   ToolbarGroupId,
+  ToolbarButtonId,
   ToolbarConfig,
+  ToolbarLayoutGroup,
+  ToolbarLayoutSeparator,
+  ToolbarLayoutEntry,
   MarkMetadata,
   MarkPluginCallbacks,
   CollaborationConfig,
@@ -41,6 +45,8 @@ export type {
   EditorPresetType,
   EditorHeightMode,
 } from './types'
+
+export { TOOLBAR_SEPARATOR } from './types'
 
 // Node helpers and default configs
 export { getNodesForPlugins, createDefaultPluginConfig } from './nodes'

@@ -1291,3 +1291,313 @@ describe('LexicalToolbar Component', () => {
     expect(mockEditor.focus).toHaveBeenCalled()
   })
 })
+
+describe('LexicalToolbar Layout', () => {
+  let container: HTMLDivElement
+  let mockEditor: Partial<LexicalEditor>
+
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+    mockEditor = createMockEditor()
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+  })
+
+  it('should render only groups specified in layout', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'text-formatting' },
+              { group: 'history' },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll('button')
+    const buttonTitles = Array.from(buttons).map(btn => btn.getAttribute('title'))
+
+    // These should be present
+    expect(buttonTitles).toContain('Bold')
+    expect(buttonTitles).toContain('Italic')
+    expect(buttonTitles).toContain('Undo')
+    expect(buttonTitles).toContain('Redo')
+
+    // These should NOT be present
+    expect(buttonTitles).not.toContain('Bullet List')
+    expect(buttonTitles).not.toContain('Link')
+    expect(buttonTitles).not.toContain('Blockquote')
+  })
+
+  it('should render only specified items within a group', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'lists', items: ['bullet-list', 'ordered-list'] },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll('button')
+    const buttonTitles = Array.from(buttons).map(btn => btn.getAttribute('title'))
+
+    expect(buttonTitles).toContain('Bullet List')
+    expect(buttonTitles).toContain('Ordered List')
+    expect(buttonTitles).not.toContain('Check List')
+  })
+
+  it('should render separator between groups', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'text-formatting' },
+              { separator: true },
+              { group: 'history' },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const separators = container.querySelectorAll('[role="separator"]')
+    expect(separators.length).toBe(1)
+  })
+
+  it('should ignore hiddenGroups when layout is set', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            hiddenGroups: ['history'],
+            layout: [
+              { group: 'history' },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll('button')
+    const buttonTitles = Array.from(buttons).map(btn => btn.getAttribute('title'))
+
+    // Layout takes precedence — history buttons should be present
+    expect(buttonTitles).toContain('Undo')
+    expect(buttonTitles).toContain('Redo')
+  })
+
+  it('should not render group when all items are absent from registry', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            maxHeadingLevel: 2,
+            layout: [
+              { group: 'headings', items: ['heading-5', 'heading-6'] },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    // Heading 5 and 6 are not in the registry when maxHeadingLevel is 2
+    const groups = container.querySelectorAll('[role="group"]')
+    expect(groups.length).toBe(0)
+  })
+
+  it('should render font selects in layout mode', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'font', items: ['font-family'] },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const selects = container.querySelectorAll('select')
+    const selectTitles = Array.from(selects).map(s => s.getAttribute('title'))
+
+    expect(selectTitles).toContain('Font Family')
+    expect(selectTitles).not.toContain('Font Size')
+  })
+
+  it('should render color pickers in layout mode', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'color', items: ['font-color'] },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const labels = container.querySelectorAll('.bc-lexical-toolbar-color')
+    const titles = Array.from(labels).map(l => l.getAttribute('title'))
+
+    expect(titles).toContain('Font Color')
+    expect(titles).not.toContain('Highlight Color')
+    expect(titles).not.toContain('Background Color')
+  })
+
+  it('should support the ticket use case: hide check-list, blockquote, horizontal-rule', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'text-formatting' },
+              { group: 'links' },
+              { group: 'font' },
+              { group: 'color' },
+              { group: 'indent' },
+              { group: 'lists', items: ['bullet-list', 'ordered-list'] },
+              { group: 'blocks', items: ['code-block'] },
+              { group: 'clear-formatting' },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll('button')
+    const buttonTitles = Array.from(buttons).map(btn => btn.getAttribute('title'))
+
+    // Present
+    expect(buttonTitles).toContain('Bold')
+    expect(buttonTitles).toContain('Link')
+    expect(buttonTitles).toContain('Indent')
+    expect(buttonTitles).toContain('Bullet List')
+    expect(buttonTitles).toContain('Ordered List')
+    expect(buttonTitles).toContain('Code Block')
+    expect(buttonTitles).toContain('Clear Formatting')
+
+    // Hidden
+    expect(buttonTitles).not.toContain('Check List')
+    expect(buttonTitles).not.toContain('Blockquote')
+    expect(buttonTitles).not.toContain('Horizontal Rule')
+    expect(buttonTitles).not.toContain('Heading 1')
+    expect(buttonTitles).not.toContain('Insert Table')
+    expect(buttonTitles).not.toContain('Undo')
+    expect(buttonTitles).not.toContain('Cut')
+  })
+
+  it('should render groups in the order specified by layout', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [
+              { group: 'history' },
+              { group: 'text-formatting' },
+            ],
+          },
+        })
+      ),
+      container
+    )
+
+    const buttons = container.querySelectorAll('button')
+    const buttonTitles = Array.from(buttons).map(btn => btn.getAttribute('title'))
+
+    // Undo should come before Bold
+    const undoIndex = buttonTitles.indexOf('Undo')
+    const boldIndex = buttonTitles.indexOf('Bold')
+    expect(undoIndex).toBeLessThan(boldIndex)
+  })
+
+  it('should render empty layout with no groups', () => {
+    const editorSignal = prop<LexicalEditor | null>(mockEditor as LexicalEditor)
+    const stateUpdate = prop(0)
+
+    render(
+      WithProviders(() =>
+        LexicalToolbar({
+          editor: editorSignal,
+          stateUpdate,
+          toolbar: {
+            layout: [],
+          },
+        })
+      ),
+      container
+    )
+
+    const toolbar = container.querySelector('[role="toolbar"]')
+    expect(toolbar).not.toBeNull()
+
+    const buttons = container.querySelectorAll('button')
+    expect(buttons.length).toBe(0)
+  })
+})
