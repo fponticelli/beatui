@@ -168,6 +168,14 @@ const ur: BeatUIMessages = {
     changeBlockType: 'بلاک کی قسم تبدیل کریں',
     blockTypes: 'بلاک کی اقسام',
     enterUrl: 'URL درج کریں:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

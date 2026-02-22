@@ -168,6 +168,14 @@ const tr: BeatUIMessages = {
     changeBlockType: 'Blok türünü değiştir',
     blockTypes: 'Blok türleri',
     enterUrl: 'URL girin:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

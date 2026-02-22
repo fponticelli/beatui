@@ -167,6 +167,14 @@ const fa: BeatUIMessages = {
     changeBlockType: 'تغییر نوع بلوک',
     blockTypes: 'انواع بلوک',
     enterUrl: 'آدرس URL را وارد کنید:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

@@ -167,6 +167,14 @@ const hi: BeatUIMessages = {
     changeBlockType: 'ब्लॉक प्रकार बदलें',
     blockTypes: 'ब्लॉक प्रकार',
     enterUrl: 'URL दर्ज करें:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

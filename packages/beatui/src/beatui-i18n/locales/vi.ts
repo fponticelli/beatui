@@ -167,6 +167,14 @@ const vi: BeatUIMessages = {
     changeBlockType: 'Đổi loại khối',
     blockTypes: 'Loại khối',
     enterUrl: 'Nhập URL:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

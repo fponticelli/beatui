@@ -170,6 +170,14 @@ export const ru: BeatUIMessages = {
     changeBlockType: 'Изменить тип блока',
     blockTypes: 'Типы блоков',
     enterUrl: 'Введите URL:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

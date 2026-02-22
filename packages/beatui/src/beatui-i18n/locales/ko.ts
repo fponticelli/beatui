@@ -168,6 +168,14 @@ const ko: BeatUIMessages = {
     changeBlockType: '블록 유형 변경',
     blockTypes: '블록 유형',
     enterUrl: 'URL 입력:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

@@ -37,33 +37,41 @@
     outline-offset: calc(-1 * var(--outline-width-focus));
   }
 
-  /* Table context menu */
-  .bc-table-context-menu {
-    display: flex;
-    flex-direction: column;
+  /* Table cell marker button (appears at top-right of selected cell) */
+  .bc-table-cell-marker {
+    pointer-events: auto;
   }
 
-  .bc-table-menu-button {
-    font-family: inherit;
-    line-height: 1.5;
-    white-space: nowrap;
+  .bc-table-cell-marker__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: var(--border-width-thin) solid var(--color-neutral-300);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-neutral-600);
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+    font-size: 0;
+    line-height: 1;
   }
 
-  .bc-table-menu-button:hover:not(:disabled) {
+  .bc-table-cell-marker__button:hover:not(:disabled) {
     background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-400);
+    color: var(--color-neutral-800);
   }
 
-  .bc-table-menu-button:active:not(:disabled) {
+  .bc-table-cell-marker__button:active:not(:disabled) {
     background-color: var(--color-neutral-200);
   }
 
-  .bc-table-menu-button:disabled {
+  .bc-table-cell-marker__button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  .bc-table-menu-separator {
-    /* Separator styling defined inline in component */
   }
 
   /* Dark mode styles */
@@ -85,30 +93,25 @@
     outline-color: var(--color-primary-400);
   }
 
-  .dark .bc-table-context-menu {
+  .dark .bc-table-cell-marker__button {
+    border-color: var(--color-neutral-600);
     background-color: var(--color-neutral-800);
-    border-color: var(--color-neutral-700);
+    color: var(--color-neutral-400);
   }
 
-  .dark .bc-table-menu-button {
-    color: var(--color-neutral-100);
-  }
-
-  .dark .bc-table-menu-button:hover:not(:disabled) {
+  .dark .bc-table-cell-marker__button:hover:not(:disabled) {
     background-color: var(--color-neutral-700);
+    border-color: var(--color-neutral-500);
+    color: var(--color-neutral-200);
   }
 
-  .dark .bc-table-menu-button:active:not(:disabled) {
+  .dark .bc-table-cell-marker__button:active:not(:disabled) {
     background-color: var(--color-neutral-600);
-  }
-
-  .dark .bc-table-menu-separator {
-    background-color: var(--color-neutral-700);
   }
 
   /* Accessibility */
   @media (prefers-reduced-motion: reduce) {
-    .bc-table-menu-button {
+    .bc-table-cell-marker__button {
       transition: none;
     }
   }

@@ -169,6 +169,14 @@ const fr: BeatUIMessages = {
     changeBlockType: 'Changer le type de bloc',
     blockTypes: 'Types de bloc',
     enterUrl: "Saisir l'URL :",
+    tableActions: 'Actions du tableau',
+    insertRowAbove: 'Insérer une ligne au-dessus',
+    insertRowBelow: 'Insérer une ligne en-dessous',
+    insertColumnLeft: 'Insérer une colonne à gauche',
+    insertColumnRight: 'Insérer une colonne à droite',
+    deleteRow: 'Supprimer la ligne',
+    deleteColumn: 'Supprimer la colonne',
+    deleteTable: 'Supprimer le tableau',
   },
   // prosemirror
   prosemirror: {

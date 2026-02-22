@@ -168,6 +168,14 @@ const es: BeatUIMessages = {
     changeBlockType: 'Cambiar tipo de bloque',
     blockTypes: 'Tipos de bloque',
     enterUrl: 'Introducir URL:',
+    tableActions: 'Acciones de tabla',
+    insertRowAbove: 'Insertar fila arriba',
+    insertRowBelow: 'Insertar fila abajo',
+    insertColumnLeft: 'Insertar columna izquierda',
+    insertColumnRight: 'Insertar columna derecha',
+    deleteRow: 'Eliminar fila',
+    deleteColumn: 'Eliminar columna',
+    deleteTable: 'Eliminar tabla',
   },
   // prosemirror
   prosemirror: {

@@ -167,6 +167,14 @@ const zh: BeatUIMessages = {
     changeBlockType: '更改块类型',
     blockTypes: '块类型',
     enterUrl: '输入网址：',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {

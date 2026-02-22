@@ -167,6 +167,14 @@ const he: BeatUIMessages = {
     changeBlockType: 'שנה סוג בלוק',
     blockTypes: 'סוגי בלוקים',
     enterUrl: 'הכנס כתובת URL:',
+    tableActions: 'Table actions',
+    insertRowAbove: 'Insert row above',
+    insertRowBelow: 'Insert row below',
+    insertColumnLeft: 'Insert column left',
+    insertColumnRight: 'Insert column right',
+    deleteRow: 'Delete row',
+    deleteColumn: 'Delete column',
+    deleteTable: 'Delete table',
   },
   // prosemirror
   prosemirror: {
