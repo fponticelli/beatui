@@ -30,3 +30,10 @@ export { getSelectionInfo } from './selection'
 export { getTextContent, getCharacterCount, getWordCount } from './text'
 export { loadOffsetUtils } from './offset'
 export { registerHorizontalRulePlugin, HR_TRANSFORMER } from './horizontal-rule'
+export {
+  registerElementStylePlugin,
+  buildElementStyleExportMap,
+  buildElementStyleImportMap,
+  mergeElementStyle,
+  getElementStyleProperty,
+} from './element-style'

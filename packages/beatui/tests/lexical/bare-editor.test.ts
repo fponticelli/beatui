@@ -88,6 +88,12 @@ vi.mock('../../src/lexical/plugins/horizontal-rule', () => ({
   registerHorizontalRulePlugin: vi.fn(() => vi.fn()),
 }))
 
+vi.mock('../../src/lexical/plugins/element-style', () => ({
+  registerElementStylePlugin: vi.fn(() => vi.fn()),
+  buildElementStyleExportMap: vi.fn(() => new Map()),
+  buildElementStyleImportMap: vi.fn(() => ({})),
+}))
+
 vi.mock('../../src/lexical/styles-url', () => ({
   default: 'mock-styles-url.css',
 }))

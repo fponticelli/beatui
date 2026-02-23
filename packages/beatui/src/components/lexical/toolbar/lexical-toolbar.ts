@@ -47,6 +47,10 @@ import { ControlSize } from '../../theme'
 import { createToolbarHelpers, createButtonFactory } from './toolbar-helpers'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { GROUP_BUTTONS, resolveLayout } from './toolbar-registry'
+import {
+  mergeElementStyle,
+  getElementStyleProperty,
+} from '../../../lexical/plugins/element-style'
 
 const DEFAULT_FONT_FAMILIES: FontOption[] = [
   { value: 'Arial', label: 'Arial' },
@@ -316,8 +320,10 @@ export function LexicalToolbar({
           const sel = $getSelection()
           if ($isRangeSelection(sel)) {
             const element = getAnchorElement(sel)
-            const dom = editor.getElementByKey(element.getKey())
-            return dom?.style.backgroundColor || '#ffffff'
+            const style = element.getStyle()
+            return (
+              getElementStyleProperty(style, 'background-color') || '#ffffff'
+            )
           }
           return '#ffffff'
         })
@@ -354,10 +360,13 @@ export function LexicalToolbar({
           const sel = $getSelection()
           if ($isRangeSelection(sel)) {
             const element = getAnchorElement(sel)
-            const dom = editor.getElementByKey(element.getKey())
-            if (dom) {
-              dom.style.backgroundColor = value
-            }
+            const currentStyle = element.getStyle()
+            const newStyle = mergeElementStyle(
+              currentStyle,
+              'background-color',
+              value
+            )
+            element.setStyle(newStyle)
           }
         })
         editor.focus()

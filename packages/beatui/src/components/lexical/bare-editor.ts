@@ -36,6 +36,11 @@ import { exportToHtml, importFromHtml } from '../../lexical/plugins/html-io'
 import { registerTablePlugin } from '../../lexical/plugins/table'
 import { registerHorizontalRulePlugin } from '../../lexical/plugins/horizontal-rule'
 import {
+  registerElementStylePlugin,
+  buildElementStyleExportMap,
+  buildElementStyleImportMap,
+} from '../../lexical/plugins/element-style'
+import {
   type LexicalEditor,
   createEditor,
   BLUR_COMMAND,
@@ -181,6 +186,10 @@ export const BareEditor = (options: BareEditorOptions): Renderable => {
                   }
                 },
                 editable: readOnly ? !Value.get(readOnly) : true,
+                html: {
+                  export: buildElementStyleExportMap(),
+                  import: buildElementStyleImportMap(),
+                },
               })
 
               editorInstance = editor
@@ -239,6 +248,9 @@ export const BareEditor = (options: BareEditorOptions): Renderable => {
 
               // Register horizontal rule command handler
               disposers.push(registerHorizontalRulePlugin(editor))
+
+              // Register element style plugin (syncs block-level styles to DOM)
+              disposers.push(registerElementStylePlugin(editor))
 
               // Set initial content from value
               if (value != null) {
