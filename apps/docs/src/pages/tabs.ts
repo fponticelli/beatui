@@ -101,7 +101,10 @@ export default function TabsPage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(Label('Size'), ControlSizeSelector({ size, onChange: v => size.set(v) })),
+      Stack(
+        Label('Size'),
+        ControlSizeSelector({ size, onChange: v => size.set(v) })
+      ),
       Stack(
         Label('Orientation'),
         SegmentedInput({

@@ -55,10 +55,7 @@ export function mergeElementStyle(
 /**
  * Extract a single CSS property value from a CSS text string.
  */
-export function getElementStyleProperty(
-  cssText: string,
-  prop: string
-): string {
+export function getElementStyleProperty(cssText: string, prop: string): string {
   if (!cssText) return ''
   const regex = new RegExp(
     `(?:^|;)\\s*${prop.replace(/-/g, '\\-')}:\\s*([^;]+)`
@@ -93,9 +90,7 @@ function syncElementStyleToDOM(editor: LexicalEditor, key: string): void {
  * automatically. This plugin bridges that gap by listening for updates
  * and syncing background-color from node state to the DOM element.
  */
-export function registerElementStylePlugin(
-  editor: LexicalEditor
-): () => void {
+export function registerElementStylePlugin(editor: LexicalEditor): () => void {
   const removeUpdateListener = editor.registerUpdateListener(
     ({ dirtyElements }) => {
       if (dirtyElements.size === 0) return
@@ -114,10 +109,7 @@ export function registerElementStylePlugin(
         if (style) {
           const dom = editor.getElementByKey(child.getKey())
           if (dom) {
-            const bgColor = getElementStyleProperty(
-              style,
-              'background-color'
-            )
+            const bgColor = getElementStyleProperty(style, 'background-color')
             if (bgColor) {
               dom.style.backgroundColor = bgColor
             }

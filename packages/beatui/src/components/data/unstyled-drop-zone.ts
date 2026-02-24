@@ -221,7 +221,11 @@ export function UnstyledDropZone({
       aria.label(bind(t.$.dropZoneInstructions)(enableClick)),
 
       // Content
-      content({ files, clear: () => (files.value = []), change: v => files.set(v) })
+      content({
+        files,
+        clear: () => (files.value = []),
+        change: v => files.set(v),
+      })
     )
   })
 }

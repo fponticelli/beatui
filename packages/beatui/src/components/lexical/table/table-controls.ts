@@ -115,22 +115,16 @@ export function TableControls({
   stateUpdate.onChange(checkTableSelection)
 
   // Table operations
-  const makeOperation =
-    (op: () => void) =>
-    () => {
-      const ed = editor.value
-      if (!ed) return
-      ed.update(op)
-      hideMenuFn?.()
-      ed.focus()
-    }
+  const makeOperation = (op: () => void) => () => {
+    const ed = editor.value
+    if (!ed) return
+    ed.update(op)
+    hideMenuFn?.()
+    ed.focus()
+  }
 
-  const insertRowAbove = makeOperation(() =>
-    $insertTableRowAtSelection(false)
-  )
-  const insertRowBelow = makeOperation(() =>
-    $insertTableRowAtSelection(true)
-  )
+  const insertRowAbove = makeOperation(() => $insertTableRowAtSelection(false))
+  const insertRowBelow = makeOperation(() => $insertTableRowAtSelection(true))
   const insertColumnLeft = makeOperation(() =>
     $insertTableColumnAtSelection(false)
   )

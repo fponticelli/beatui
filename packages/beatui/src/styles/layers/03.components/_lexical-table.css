@@ -54,7 +54,9 @@
     background-color: var(--color-surface);
     color: var(--color-neutral-600);
     cursor: pointer;
-    transition: background-color 0.15s, border-color 0.15s;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
     font-size: 0;
     line-height: 1;
   }

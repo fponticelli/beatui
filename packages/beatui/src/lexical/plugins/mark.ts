@@ -79,7 +79,7 @@ export async function removeMark(
   editor.update(() => {
     const root = $getRoot()
     // Find all mark nodes with the given ID
-     
+
     const markNodes = root.getAllTextNodes().filter((node: TextNode) => {
       const parent = node.getParent()
       if ($isMarkNode(parent)) {

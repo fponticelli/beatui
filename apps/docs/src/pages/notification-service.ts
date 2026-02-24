@@ -115,12 +115,18 @@ export default function NotificationServicePage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(Label('Title'), TextInput({ value: title, onInput: v => title.set(v) })),
+      Stack(
+        Label('Title'),
+        TextInput({ value: title, onInput: v => title.set(v) })
+      ),
       Stack(
         Label('Message'),
         TextInput({ value: message, onInput: v => message.set(v) })
       ),
-      Stack(Label('Color'), ColorSelector({ color, onChange: v => color.set(v) })),
+      Stack(
+        Label('Color'),
+        ColorSelector({ color, onChange: v => color.set(v) })
+      ),
       Stack(
         Label('Dismiss after (seconds)'),
         NumberInput({
@@ -162,7 +168,10 @@ export default function NotificationServicePage() {
       ),
       Stack(
         Label('Close button'),
-        Switch({ value: withCloseButton, onChange: v => withCloseButton.set(v) })
+        Switch({
+          value: withCloseButton,
+          onChange: v => withCloseButton.set(v),
+        })
       )
     ),
     body: Stack(

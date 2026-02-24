@@ -60,7 +60,7 @@ export function AppLayout({ children }: { children: TNode }) {
             max: 2,
             step: 0.05,
             size: 'xs',
-          }),
+          })
         ),
         html.div(
           Use(BeatUII18n, t =>

@@ -54,7 +54,10 @@ export default function SwitchPage() {
           onInput: (value: string) => offLabel.set(value),
         })
       ),
-      Stack(Label('Color'), ColorSelector({ color, onChange: v => color.set(v) })),
+      Stack(
+        Label('Color'),
+        ColorSelector({ color, onChange: v => color.set(v) })
+      ),
       Stack(DisabledSelector({ disabled }))
     ),
     body: Stack(

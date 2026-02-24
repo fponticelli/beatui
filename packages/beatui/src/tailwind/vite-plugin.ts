@@ -339,7 +339,6 @@ export function beatuiTailwindPlugin(
 
       if (googleFontRequests.length > 0) {
         const remoteCssUrls = Array.from(
-           
           new Set(googleFontRequests.map(buildGoogleFontCssUrl))
         )
         const preparation = await prepareGoogleFonts({

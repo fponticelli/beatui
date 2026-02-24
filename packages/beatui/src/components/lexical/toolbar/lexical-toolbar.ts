@@ -605,9 +605,7 @@ export function LexicalToolbar({
           attr.class('bc-lexical-toolbar-select'),
           attr.title(lex.map(l => l.fontSize)),
           attr.disabled(readOnly),
-          on.change(e =>
-            applyFontSize((e.target as HTMLSelectElement).value)
-          ),
+          on.change(e => applyFontSize((e.target as HTMLSelectElement).value)),
           ...FONT_SIZES.map(f =>
             html.option(
               attr.value(f.value),
@@ -627,9 +625,7 @@ export function LexicalToolbar({
             attr.type('color'),
             attr.value(currentFontColor),
             attr.disabled(readOnly),
-            on.input(e =>
-              applyFontColor((e.target as HTMLInputElement).value)
-            )
+            on.input(e => applyFontColor((e.target as HTMLInputElement).value))
           ),
           html.span(attr.class('bc-lexical-toolbar-color-icon'), 'A')
         )
@@ -642,9 +638,7 @@ export function LexicalToolbar({
             attr.type('color'),
             attr.value(currentHighlight),
             attr.disabled(readOnly),
-            on.input(e =>
-              applyHighlight((e.target as HTMLInputElement).value)
-            )
+            on.input(e => applyHighlight((e.target as HTMLInputElement).value))
           ),
           html.span(
             attr.class(
@@ -662,9 +656,7 @@ export function LexicalToolbar({
             attr.type('color'),
             attr.value(currentBgColor),
             attr.disabled(readOnly),
-            on.input(e =>
-              applyBgColor((e.target as HTMLInputElement).value)
-            )
+            on.input(e => applyBgColor((e.target as HTMLInputElement).value))
           ),
           html.span(
             attr.class(

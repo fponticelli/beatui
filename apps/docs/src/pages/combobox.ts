@@ -35,14 +35,14 @@ export default function ComboboxPage() {
 
   const loadFruitOptions = async (search: string) => {
     const q = search.trim().toLowerCase()
-     
+
     const filtered = allFruits.filter(
       f =>
         q.length === 0 || f.name.toLowerCase().includes(q) || f.id.includes(q)
     )
     // Simulate async
     await new Promise(r => setTimeout(r, 120))
-     
+
     return filtered.map(f =>
       Option.value<Fruit>(f, f.name, {
         before: html.div(

@@ -40,17 +40,26 @@ export default function CheckboxesPage() {
         html.div(
           attr.style('display: flex; flex-direction: column; gap: 10px'),
           InputWrapper({
-            content: CheckboxInput({ value: check1, onChange: v => check1.set(v) }),
+            content: CheckboxInput({
+              value: check1,
+              onChange: v => check1.set(v),
+            }),
             label: 'Checked option',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: CheckboxInput({ value: check2, onChange: v => check2.set(v) }),
+            content: CheckboxInput({
+              value: check2,
+              onChange: v => check2.set(v),
+            }),
             label: 'Unchecked option',
             layout: 'horizontal-label-right',
           }),
           InputWrapper({
-            content: CheckboxInput({ value: check3, onChange: v => check3.set(v) }),
+            content: CheckboxInput({
+              value: check3,
+              onChange: v => check3.set(v),
+            }),
             label: 'Another option',
             layout: 'horizontal-label-right',
           }),

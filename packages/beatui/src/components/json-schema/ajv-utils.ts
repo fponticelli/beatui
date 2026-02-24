@@ -311,7 +311,7 @@ async function preloadExternalRefs(
   const MAX_ROUNDS = 5
   for (let i = 0; i < MAX_ROUNDS; i++) {
     const idsFromRoot = collectExternalRefIds(root)
-     
+
     const idsFromResolved = resolvedSchemas.flatMap(s =>
       collectExternalRefIds(s)
     )

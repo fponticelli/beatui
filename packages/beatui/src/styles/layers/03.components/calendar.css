@@ -362,7 +362,9 @@
   --cal-cell-size: calc(var(--spacing-base) * 10.5);
   padding: var(--spacing-lg);
   font-size: var(--font-size-lg);
-  width: calc(7 * calc(var(--spacing-base) * 10.5) + 2 * var(--spacing-lg) + 2px);
+  width: calc(
+    7 * calc(var(--spacing-base) * 10.5) + 2 * var(--spacing-lg) + 2px
+  );
 }
 .bc-calendar--size-lg .bc-calendar__nav-btn {
   width: var(--spacing-2xl);

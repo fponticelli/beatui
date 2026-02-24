@@ -83,7 +83,10 @@ export default function IconPage() {
 
   return ScrollablePanel({
     header: ControlsHeader(
-      Stack(Label('Size'), ControlSizeSelector({ size, onChange: v => size.set(v) })),
+      Stack(
+        Label('Size'),
+        ControlSizeSelector({ size, onChange: v => size.set(v) })
+      ),
       Stack(
         Label('Color'),
         ColorSelector({

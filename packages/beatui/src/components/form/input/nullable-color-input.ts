@@ -2,10 +2,7 @@ import { Fragment, Renderable, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { ColorInput } from './color-input'
 import { NullableResetAfter } from './nullable-utils'
-import {
-  emptyToNull,
-  nullToEmpty,
-} from './create-nullable-string-input'
+import { emptyToNull, nullToEmpty } from './create-nullable-string-input'
 
 /**
  * Configuration options for the {@link NullableColorInput} component.

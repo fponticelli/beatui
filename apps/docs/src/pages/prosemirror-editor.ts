@@ -210,7 +210,10 @@ export default function ProseMirrorEditorPage() {
           ),
           html.label(
             attr.class('flex items-center gap-2'),
-            Switch({ value: horizontalRule, onChange: v => horizontalRule.set(v) }),
+            Switch({
+              value: horizontalRule,
+              onChange: v => horizontalRule.set(v),
+            }),
             html.span('Horizontal Rules')
           )
         ),

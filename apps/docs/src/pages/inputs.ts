@@ -170,7 +170,6 @@ export default function InputsPage() {
     ]
     const comboboxVal = prop('apple')
     const loadFruits = async (q: string) =>
-       
       comboboxFruits.filter(
         o =>
           o.type === 'value' && o.label.toLowerCase().includes(q.toLowerCase())
@@ -261,7 +260,10 @@ export default function InputsPage() {
           }),
           InputWrapper({
             label: 'Disabled',
-            content: Switch({ value: disabled, onChange: v => disabled.set(v) }),
+            content: Switch({
+              value: disabled,
+              onChange: v => disabled.set(v),
+            }),
           })
         )
       ),
@@ -427,7 +429,11 @@ export default function InputsPage() {
           }),
           InputWrapper({
             label: 'File Input',
-            content: FileInput({ value: file, onChange: v => file.set(v), disabled }),
+            content: FileInput({
+              value: file,
+              onChange: v => file.set(v),
+              disabled,
+            }),
             description: description(file),
           }),
           InputWrapper({
@@ -534,7 +540,11 @@ export default function InputsPage() {
           ),
           InputWrapper({
             label: 'Tags Input',
-            content: TagsInput({ value: tags, onChange: v => tags.set(v), disabled }),
+            content: TagsInput({
+              value: tags,
+              onChange: v => tags.set(v),
+              disabled,
+            }),
             description: description(tags),
           }),
           When(

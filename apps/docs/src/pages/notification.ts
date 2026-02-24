@@ -83,7 +83,10 @@ export default function NotificationPage() {
       }),
       InputWrapper({
         label: 'With border',
-        content: Switch({ value: withBorder, onChange: v => withBorder.set(v) }),
+        content: Switch({
+          value: withBorder,
+          onChange: v => withBorder.set(v),
+        }),
       }),
       InputWrapper({
         label: 'Close button',

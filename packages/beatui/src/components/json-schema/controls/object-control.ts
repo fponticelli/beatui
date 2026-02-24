@@ -233,7 +233,6 @@ function renderKnownProperties({
 
   const names = knownPropertyEntries.map(([k]) => k as string)
 
-   
   const children = knownPropertyEntries.map(([k, definition]) => {
     const key = k as string
     const field = controller.field(key)
@@ -557,7 +556,7 @@ function renderDynamicObject({
 
     const propertyChildren = [
       // Known properties
-       
+
       ...knownPropertyEntries.map(([k, definition]) => {
         const key = k as string
         const field = controller.field(key)
