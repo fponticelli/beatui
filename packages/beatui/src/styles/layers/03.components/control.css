@@ -5,26 +5,31 @@
 .bc-control--padding-xs {
   padding-block: var(--control-padding-block-xs);
   padding-inline: var(--control-padding-inline-xs);
+  min-height: var(--control-height-xs);
 }
 
 .bc-control--padding-sm {
   padding-block: var(--control-padding-block-sm);
   padding-inline: var(--control-padding-inline-sm);
+  min-height: var(--control-height-sm);
 }
 
 .bc-control--padding-md {
   padding-block: var(--control-padding-block-md);
   padding-inline: var(--control-padding-inline-md);
+  min-height: var(--control-height-md);
 }
 
 .bc-control--padding-lg {
   padding-block: var(--control-padding-block-lg);
   padding-inline: var(--control-padding-inline-lg);
+  min-height: var(--control-height-lg);
 }
 
 .bc-control--padding-xl {
   padding-block: var(--control-padding-block-xl);
   padding-inline: var(--control-padding-inline-xl);
+  min-height: var(--control-height-xl);
 }
 
 .bc-control--padding-xs:has(> .bc-icon:only-child) {
