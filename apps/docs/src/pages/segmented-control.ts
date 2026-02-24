@@ -94,7 +94,7 @@ export default function SegmentedControlPage() {
             SegmentedInput({
               options,
               value: v,
-              onChange: v => v.set(v),
+              onChange: val => v.set(val),
               disabled,
               color,
             }),
@@ -102,7 +102,7 @@ export default function SegmentedControlPage() {
               options,
               variant: 'squared',
               value: v,
-              onChange: v => v.set(v),
+              onChange: val => v.set(val),
               disabled,
               color,
             })
