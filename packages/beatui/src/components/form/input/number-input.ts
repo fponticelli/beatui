@@ -130,8 +130,9 @@ export const NumberInput = (options: NumberInputOptions) => {
             const newValue = clampValue(targetValue)
 
             // Only update if value actually changes
-            if (newValue !== current && onChange) {
-              onChange(newValue)
+            if (newValue !== current) {
+              onChange?.(newValue)
+              onInput?.(newValue)
             }
           }
 
@@ -154,8 +155,9 @@ export const NumberInput = (options: NumberInputOptions) => {
             const newValue = clampValue(targetValue)
 
             // Only update if value actually changes
-            if (newValue !== current && onChange) {
-              onChange(newValue)
+            if (newValue !== current) {
+              onChange?.(newValue)
+              onInput?.(newValue)
             }
           }
 
@@ -228,8 +230,9 @@ export const NumberInput = (options: NumberInputOptions) => {
             const newValue = clampValue(roundToStep(current + delta, stepVal))
 
             // Only update if value actually changes
-            if (newValue !== current && onChange) {
-              onChange(newValue)
+            if (newValue !== current) {
+              onChange?.(newValue)
+              onInput?.(newValue)
             }
           })
         : Empty

@@ -112,6 +112,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
     value,
     onBlur,
     onChange,
+    onInput,
     options: selectOptions,
     unselectedLabel,
     equality = (a, b) => a === b,
@@ -155,6 +156,9 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
         onBlur != null ? on.blur(onBlur) : Empty,
         onChange != null
           ? on.change(emitOptionExpando<T>('value', v => onChange(v)))
+          : Empty,
+        onInput != null
+          ? on.input(emitOptionExpando<T>('value', v => onInput(v)))
           : Empty
       ),
     },
