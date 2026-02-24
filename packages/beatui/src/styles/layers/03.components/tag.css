@@ -127,7 +127,7 @@
   flex-grow: 1;
   background-color: transparent;
   min-width: 100px;
-  min-height: 1rem;
+  min-height: var(--spacing-lg);
   align-self: stretch;
   justify-self: stretch;
   display: flex;

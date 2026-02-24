@@ -49,8 +49,8 @@
 
 /* Size variants */
 .bc-otp-input--size-xs .bc-otp-input__cell {
-  width: 28px;
-  height: 28px;
+  width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
   font-size: var(--font-size-xs);
 }
 .bc-otp-input--size-xs {
@@ -58,8 +58,8 @@
 }
 
 .bc-otp-input--size-sm .bc-otp-input__cell {
-  width: 34px;
-  height: 34px;
+  width: calc(var(--spacing-base) * 8.5);
+  height: calc(var(--spacing-base) * 8.5);
   font-size: var(--font-size-sm);
 }
 .bc-otp-input--size-sm {
@@ -67,15 +67,15 @@
 }
 
 .bc-otp-input--size-md .bc-otp-input__cell {
-  width: 42px;
-  height: 42px;
+  width: calc(var(--spacing-base) * 10.5);
+  height: calc(var(--spacing-base) * 10.5);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
 }
 
 .bc-otp-input--size-lg .bc-otp-input__cell {
-  width: 50px;
-  height: 50px;
+  width: calc(var(--spacing-base) * 12.5);
+  height: calc(var(--spacing-base) * 12.5);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
 }
@@ -84,8 +84,8 @@
 }
 
 .bc-otp-input--size-xl .bc-otp-input__cell {
-  width: 58px;
-  height: 58px;
+  width: calc(var(--spacing-base) * 14.5);
+  height: calc(var(--spacing-base) * 14.5);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
 }

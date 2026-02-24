@@ -17,8 +17,8 @@
 }
 
 .bc-input-container .bc-color-input__swatch {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: calc(var(--spacing-base) * 7.2);
+  height: calc(var(--spacing-base) * 7.2);
   cursor: pointer;
   border: var(--border-width-thin) solid var(--color-neutral-300);
   border-radius: 100%;
@@ -103,7 +103,7 @@
 }
 
 .bc-color-swatch-input__alpha {
-  width: 5rem;
+  width: calc(var(--spacing-base) * 20);
   margin-inline-start: var(--spacing-md);
 }
 
@@ -120,7 +120,7 @@
 /* Responsive styles */
 @media (width >= var(--breakpoint-sm)) {
   .bc-color-swatch-input__control {
-    width: 2.75rem;
-    height: 2.25rem;
+    width: calc(var(--spacing-base) * 11);
+    height: calc(var(--spacing-base) * 9);
   }
 }

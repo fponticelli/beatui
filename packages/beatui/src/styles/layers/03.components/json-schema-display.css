@@ -148,8 +148,8 @@
 
 .bc-json-schema-display__color-swatch {
   display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: var(--spacing-lgh);
+  height: var(--spacing-lgh);
   border-radius: var(--radius-sm);
   border: var(--border-width-thin) solid var(--color-neutral-300);
   vertical-align: middle;
@@ -257,7 +257,7 @@
   font-weight: var(--font-weight-normal);
   color: var(--color-neutral-400);
   font-family: var(--font-family-mono, monospace);
-  min-width: 2rem;
+  min-width: var(--spacing-2xl);
   text-align: right;
   flex-shrink: 0;
 }

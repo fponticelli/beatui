@@ -19,26 +19,26 @@
 }
 
 .bc-icon--xs {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: var(--spacing-mdh);
+  height: var(--spacing-mdh);
 }
 
 .bc-icon--sm {
-  width: 1rem;
-  height: 1rem;
+  width: var(--spacing-lg);
+  height: var(--spacing-lg);
 }
 
 .bc-icon--md {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: calc(var(--spacing-base) * 4.8);
+  height: calc(var(--spacing-base) * 4.8);
 }
 
 .bc-icon--lg {
-  width: 2rem;
-  height: 2rem;
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
 }
 
 .bc-icon--xl {
-  width: 3rem;
-  height: 3rem;
+  width: var(--spacing-3xl);
+  height: var(--spacing-3xl);
 }

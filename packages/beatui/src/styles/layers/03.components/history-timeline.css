@@ -10,12 +10,12 @@
 .bc-history-timeline__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
+  gap: var(--spacing-smh);
+  margin-bottom: var(--spacing-lg);
 }
 
 .bc-history-timeline__filter {
-  padding: 4px 12px;
+  padding: var(--spacing-sm) var(--spacing-mdh);
   border: var(--border-width-thin) solid var(--color-base-200);
   border-radius: var(--radius-full, 9999px);
   background: transparent;
@@ -45,8 +45,8 @@
 /* Entry */
 .bc-history-timeline__entry {
   display: flex;
-  gap: 12px;
-  padding-bottom: 20px;
+  gap: var(--spacing-mdh);
+  padding-bottom: var(--spacing-lgh);
 }
 
 /* Timeline line + dot */
@@ -54,7 +54,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 16px;
+  width: var(--spacing-lg);
   flex-shrink: 0;
   position: relative;
 }
@@ -62,8 +62,8 @@
 .bc-history-timeline__line::after {
   content: '';
   position: absolute;
-  top: 16px;
-  bottom: -4px;
+  top: var(--spacing-lg);
+  bottom: calc(-1 * var(--spacing-sm));
   left: 50%;
   width: 1.5px;
   background: var(--color-base-200);
@@ -75,11 +75,11 @@
 }
 
 .bc-history-timeline__dot {
-  width: 10px;
-  height: 10px;
+  width: calc(var(--spacing-base) * 2.5);
+  height: calc(var(--spacing-base) * 2.5);
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 3px;
+  margin-top: calc(var(--spacing-base) * 0.75);
   z-index: 1;
 }
 
@@ -92,8 +92,8 @@
 .bc-history-timeline__content-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .bc-history-timeline__action {
@@ -111,38 +111,38 @@
 .bc-history-timeline__target {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-base-800);
-  margin-bottom: 2px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .bc-history-timeline__detail {
   font-size: var(--font-size-xs);
   color: var(--color-base-500);
   line-height: 1.4;
-  margin-bottom: 6px;
+  margin-bottom: var(--spacing-smh);
 }
 
 .bc-history-timeline__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: var(--spacing-md);
 }
 
 .bc-history-timeline__actor {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-smh);
   font-size: var(--font-size-xs);
   color: var(--color-base-500);
 }
 
 .bc-history-timeline__avatar {
-  width: 20px;
-  height: 20px;
+  width: var(--spacing-lgh);
+  height: var(--spacing-lgh);
   border-radius: 50%;
   background: var(--color-primary-100);
   color: var(--color-primary-700);
@@ -155,7 +155,7 @@
 
 /* Empty state */
 .bc-history-timeline__empty {
-  padding: 24px;
+  padding: var(--spacing-xl);
   text-align: center;
   font-size: var(--font-size-sm);
   color: var(--color-base-400);

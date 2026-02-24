@@ -41,7 +41,7 @@
 
   /* Toolbar selects (font family/size) */
   .bc-lexical-toolbar-select {
-    height: 28px;
+    height: calc(var(--spacing-base) * 7);
     padding: 0 var(--spacing-xs);
     border: var(--border-width-thin) solid var(--color-neutral-300);
     border-radius: var(--radius-sm);
@@ -63,8 +63,8 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 28px;
-    height: 28px;
+    width: calc(var(--spacing-base) * 7);
+    height: calc(var(--spacing-base) * 7);
     cursor: pointer;
     border-radius: var(--radius-sm);
   }
@@ -97,7 +97,7 @@
 
   .bc-lexical-toolbar-color-icon--highlight {
     background-color: #ffff00;
-    padding: 0 2px;
+    padding: 0 var(--spacing-xs);
     border-radius: 2px;
   }
 

@@ -79,6 +79,7 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
     namespace = 'BeatUILexical',
     heightMode = 'fixed',
     toolbar: toolbarConfig,
+    autoFocus = false,
     onError,
     onInput,
     onChange,
@@ -467,6 +468,17 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
                   }
                 })
               )
+
+              // Handle autofocus
+              if (autoFocus) {
+                editor.focus()
+              } else {
+                // Prevent browser from auto-focusing the contenteditable element
+                const root = editor.getRootElement()
+                if (root && root === document.activeElement) {
+                  root.blur()
+                }
+              }
 
               // Notify ready
               if (onReady) {

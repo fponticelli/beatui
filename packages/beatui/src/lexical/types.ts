@@ -677,6 +677,12 @@ interface UntypedLexicalEditorOptions {
    * - 'auto': grows with content (default for BareEditor, ContextualEditor)
    */
   heightMode?: EditorHeightMode
+
+  /**
+   * Whether to automatically focus the editor on mount.
+   * @default false
+   */
+  autoFocus?: boolean
 }
 
 interface StringLexicalEditorOptions extends UntypedLexicalEditorOptions {

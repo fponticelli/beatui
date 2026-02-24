@@ -59,6 +59,7 @@ export const LexicalEditorInput = (
     onError,
     onReady,
     marks,
+    autoFocus,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = options as Record<string, unknown> as any // Union type requires runtime access to all fields
 
@@ -101,6 +102,7 @@ export const LexicalEditorInput = (
         placeholder,
         namespace,
         class: cls,
+        autoFocus,
         onError,
         onReady,
         marks,

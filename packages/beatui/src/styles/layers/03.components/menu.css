@@ -236,7 +236,7 @@
   .bc-menu-item {
     padding: var(--spacing-md) var(--spacing-lg);
     font-size: var(--font-size-md);
-    min-height: 44px; /* Touch target size */
+    min-height: calc(var(--spacing-base) * 11); /* Touch target size */
   }
 
   .bc-submenu {
@@ -254,7 +254,7 @@
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
   .bc-menu-item {
-    min-height: 44px; /* Minimum touch target */
+    min-height: calc(var(--spacing-base) * 11); /* Minimum touch target */
     padding: calc(var(--spacing-base) * 1.75) var(--spacing-mdh);
   }
 

@@ -32,7 +32,7 @@
   color: inherit;
   flex-grow: 1;
   line-height: var(--line-height-normal);
-  height: 2rem;
+  height: var(--spacing-2xl);
 }
 
 /* Use base focus system for inputs (consistent with TextInput) */
@@ -60,7 +60,7 @@
   flex-grow: 1;
   overflow: hidden;
   line-height: var(--line-height-normal);
-  height: 2rem;
+  height: var(--spacing-2xl);
 }
 
 /* Text content */

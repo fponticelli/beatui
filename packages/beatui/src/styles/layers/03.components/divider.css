@@ -19,7 +19,7 @@
   width: auto;
   height: auto;
   align-self: stretch;
-  min-height: 1rem;
+  min-height: var(--spacing-lg);
 }
 
 /* Tone variants */
@@ -83,7 +83,7 @@
   border-left: var(--border-width-thin) solid var(--border-divider);
   width: 0;
   flex: 1;
-  min-height: 1rem;
+  min-height: var(--spacing-lg);
 }
 
 .bc-divider__label {

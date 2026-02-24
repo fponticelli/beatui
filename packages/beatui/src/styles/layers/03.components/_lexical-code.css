@@ -4,8 +4,8 @@
   /* Code block structure */
   .bc-lexical-code-block {
     position: relative;
-    margin: 1rem 0;
-    padding: 1rem;
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
     background-color: var(--color-neutral-50);
     border: var(--border-width-thin) solid var(--color-neutral-200);
     border-radius: var(--radius-md);
@@ -102,17 +102,17 @@
 
   /* Line numbers (optional) */
   .bc-lexical-code-block--with-line-numbers {
-    padding-left: 3.5rem;
+    padding-left: calc(var(--spacing-base) * 14);
   }
 
   .bc-lexical-code-block .line-number {
     position: absolute;
     left: 0;
-    width: 3rem;
+    width: var(--spacing-3xl);
     text-align: right;
     color: var(--color-neutral-400);
     user-select: none;
-    padding-right: 1rem;
+    padding-right: var(--spacing-lg);
   }
 
   /* Dark mode styles */

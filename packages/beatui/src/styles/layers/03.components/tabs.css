@@ -132,17 +132,17 @@
 }
 
 .bc-tabs--horizontal .bc-tab--active::after {
-  bottom: -2px;
+  bottom: calc(-1 * var(--spacing-xs));
   left: 0;
   right: 0;
-  height: 2px;
+  height: var(--spacing-xs);
 }
 
 .bc-tabs--vertical .bc-tab--active::after {
-  right: -2px;
+  right: calc(-1 * var(--spacing-xs));
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: var(--spacing-xs);
 }
 
 .bc-tab--disabled {
@@ -428,8 +428,8 @@
 
 .bc-tabs--variant-underline .bc-tab--active::after {
   background-color: var(--color-primary-500);
-  bottom: -1px;
-  height: 2px;
+  bottom: calc(-1 * var(--spacing-px));
+  height: var(--spacing-xs);
 }
 
 /* Pill variant: segmented button style with contained tabs */

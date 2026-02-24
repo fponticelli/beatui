@@ -284,19 +284,19 @@
 
 /* Size variants */
 .bc-calendar--size-xs {
-  --cal-cell-size: 24px;
+  --cal-cell-size: var(--spacing-xl);
   padding: var(--spacing-xs);
   font-size: var(--font-size-xs);
-  width: calc(7 * 24px + 2 * var(--spacing-xs) + 2px);
+  width: calc(7 * var(--spacing-xl) + 2 * var(--spacing-xs) + 2px);
 }
 .bc-calendar--size-xs .bc-calendar__nav-btn {
-  width: 20px;
-  height: 20px;
+  width: var(--spacing-lgh);
+  height: var(--spacing-lgh);
   font-size: var(--font-size-xs);
 }
 .bc-calendar--size-xs .bc-calendar__day {
-  width: 24px;
-  height: 24px;
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   font-size: var(--font-size-2xs);
 }
 .bc-calendar--size-xs .bc-calendar__weekday {
@@ -309,19 +309,19 @@
 }
 
 .bc-calendar--size-sm {
-  --cal-cell-size: 28px;
+  --cal-cell-size: calc(var(--spacing-base) * 7);
   padding: var(--spacing-sm);
   font-size: var(--font-size-sm);
-  width: calc(7 * 28px + 2 * var(--spacing-sm) + 2px);
+  width: calc(7 * calc(var(--spacing-base) * 7) + 2 * var(--spacing-sm) + 2px);
 }
 .bc-calendar--size-sm .bc-calendar__nav-btn {
-  width: 24px;
-  height: 24px;
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
   font-size: var(--font-size-sm);
 }
 .bc-calendar--size-sm .bc-calendar__day {
-  width: 28px;
-  height: 28px;
+  width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
   font-size: var(--font-size-xs);
 }
 .bc-calendar--size-sm .bc-calendar__weekday {
@@ -334,19 +334,19 @@
 }
 
 .bc-calendar--size-md {
-  --cal-cell-size: 36px;
+  --cal-cell-size: calc(var(--spacing-base) * 9);
   padding: var(--spacing-md);
   font-size: var(--font-size-md);
-  width: calc(7 * 36px + 2 * var(--spacing-md) + 2px);
+  width: calc(7 * calc(var(--spacing-base) * 9) + 2 * var(--spacing-md) + 2px);
 }
 .bc-calendar--size-md .bc-calendar__nav-btn {
-  width: 28px;
-  height: 28px;
+  width: calc(var(--spacing-base) * 7);
+  height: calc(var(--spacing-base) * 7);
   font-size: var(--font-size-md);
 }
 .bc-calendar--size-md .bc-calendar__day {
-  width: 36px;
-  height: 36px;
+  width: calc(var(--spacing-base) * 9);
+  height: calc(var(--spacing-base) * 9);
   font-size: var(--font-size-sm);
 }
 .bc-calendar--size-md .bc-calendar__weekday {
@@ -359,19 +359,19 @@
 }
 
 .bc-calendar--size-lg {
-  --cal-cell-size: 42px;
+  --cal-cell-size: calc(var(--spacing-base) * 10.5);
   padding: var(--spacing-lg);
   font-size: var(--font-size-lg);
-  width: calc(7 * 42px + 2 * var(--spacing-lg) + 2px);
+  width: calc(7 * calc(var(--spacing-base) * 10.5) + 2 * var(--spacing-lg) + 2px);
 }
 .bc-calendar--size-lg .bc-calendar__nav-btn {
-  width: 32px;
-  height: 32px;
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
   font-size: var(--font-size-lg);
 }
 .bc-calendar--size-lg .bc-calendar__day {
-  width: 42px;
-  height: 42px;
+  width: calc(var(--spacing-base) * 10.5);
+  height: calc(var(--spacing-base) * 10.5);
   font-size: var(--font-size-md);
 }
 .bc-calendar--size-lg .bc-calendar__weekday {
@@ -384,19 +384,19 @@
 }
 
 .bc-calendar--size-xl {
-  --cal-cell-size: 48px;
+  --cal-cell-size: var(--spacing-3xl);
   padding: var(--spacing-xl);
   font-size: var(--font-size-xl);
-  width: calc(7 * 48px + 2 * var(--spacing-xl) + 2px);
+  width: calc(7 * var(--spacing-3xl) + 2 * var(--spacing-xl) + 2px);
 }
 .bc-calendar--size-xl .bc-calendar__nav-btn {
-  width: 36px;
-  height: 36px;
+  width: calc(var(--spacing-base) * 9);
+  height: calc(var(--spacing-base) * 9);
   font-size: var(--font-size-xl);
 }
 .bc-calendar--size-xl .bc-calendar__day {
-  width: 48px;
-  height: 48px;
+  width: var(--spacing-3xl);
+  height: var(--spacing-3xl);
   font-size: var(--font-size-lg);
 }
 .bc-calendar--size-xl .bc-calendar__weekday {

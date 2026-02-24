@@ -80,6 +80,7 @@ export const ContextualEditor = (
     namespace = 'BeatUILexical',
     heightMode = 'auto',
     floatingToolbarGroups,
+    autoFocus = false,
     onError,
     onInput,
     onChange,
@@ -470,6 +471,17 @@ export const ContextualEditor = (
                   }
                 })
               )
+
+              // Handle autofocus
+              if (autoFocus) {
+                editor.focus()
+              } else {
+                // Prevent browser from auto-focusing the contenteditable element
+                const root = editor.getRootElement()
+                if (root && root === document.activeElement) {
+                  root.blur()
+                }
+              }
 
               // Notify ready
               if (onReady) {

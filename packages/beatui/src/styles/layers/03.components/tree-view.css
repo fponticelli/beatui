@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   user-select: none;
-  gap: 1px;
+  gap: var(--spacing-px);
 }
 
 .bc-tree-item {
@@ -15,7 +15,7 @@
 .bc-tree-item__row {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-sm);
   cursor: pointer;
   border-radius: var(--radius-sm);
   transition: background-color 0.15s ease;
@@ -34,27 +34,27 @@
 }
 
 .bc-tree-item__row--size-sm {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-right: 8px;
+  padding-top: var(--spacing-xs);
+  padding-bottom: var(--spacing-xs);
+  padding-right: var(--spacing-md);
   font-size: var(--font-size-sm);
-  min-height: 24px;
+  min-height: var(--spacing-xl);
 }
 
 .bc-tree-item__row--size-md {
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-right: 8px;
+  padding-top: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  padding-right: var(--spacing-md);
   font-size: var(--font-size-md);
-  min-height: 32px;
+  min-height: var(--spacing-2xl);
 }
 
 .bc-tree-item__row--size-lg {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-right: 12px;
+  padding-top: var(--spacing-smh);
+  padding-bottom: var(--spacing-smh);
+  padding-right: var(--spacing-mdh);
   font-size: var(--font-size-lg);
-  min-height: 40px;
+  min-height: var(--spacing-2xlh);
 }
 
 .bc-tree-item__toggle {
@@ -62,8 +62,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: var(--spacing-lgh);
+  height: var(--spacing-lgh);
   transition: transform 0.15s ease;
   color: var(--color-gray-500);
   cursor: pointer;
@@ -78,7 +78,7 @@
 }
 
 .bc-tree-item__toggle-spacer {
-  width: 20px;
+  width: var(--spacing-lgh);
   flex-shrink: 0;
 }
 
@@ -99,7 +99,7 @@
 .bc-tree-item__badge {
   font-size: 0.75em;
   color: var(--color-gray-600);
-  padding: 2px 6px;
+  padding: var(--spacing-xs) var(--spacing-smh);
   background: oklch(0.95 0 0);
   border-radius: var(--radius-sm);
   font-weight: 500;
@@ -111,7 +111,7 @@
 .bc-tree-item__children {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--spacing-px);
 }
 
 /* Dark mode */

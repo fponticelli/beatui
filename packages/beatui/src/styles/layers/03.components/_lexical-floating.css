@@ -89,8 +89,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: var(--spacing-lgh);
+    height: var(--spacing-lgh);
   }
 
   .bc-slash-command-palette__content {
@@ -102,7 +102,7 @@
     font-weight: 500;
     font-size: var(--font-size-sm);
     color: var(--color-neutral-900);
-    margin-bottom: 2px;
+    margin-bottom: var(--spacing-xs);
   }
 
   .dark .bc-slash-command-palette__label {
@@ -120,7 +120,7 @@
   .bc-slash-command-palette__category {
     font-size: var(--font-size-xs);
     color: var(--color-neutral-500);
-    padding: 2px 6px;
+    padding: var(--spacing-xs) var(--spacing-smh);
     border-radius: var(--radius-sm);
     background-color: var(--color-neutral-100);
     flex-shrink: 0;
@@ -158,8 +158,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
     border: var(--border-width-thin) solid var(--color-neutral-200);
     border-radius: var(--radius-sm);
     background-color: var(--color-white);

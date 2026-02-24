@@ -24,8 +24,8 @@
 
   .bc-notification__icon {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: var(--spacing-2xl);
+    height: var(--spacing-2xl);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -37,7 +37,7 @@
 
   .bc-notification__accent {
     margin: 0 var(--spacing-md) 0 0;
-    min-width: 4px;
+    min-width: var(--spacing-sm);
     min-height: 100%;
     border-radius: var(--radius-pill, var(--radius-full));
     background-color: var(--notification-accent-color);

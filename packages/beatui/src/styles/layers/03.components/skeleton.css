@@ -41,7 +41,7 @@
 /* Variant: Rectangle */
 .bc-skeleton--rect {
   width: 100%;
-  min-height: 2rem;
+  min-height: var(--spacing-2xl);
 }
 
 /* Variant: Circle */
