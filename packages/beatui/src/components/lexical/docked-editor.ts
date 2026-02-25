@@ -38,6 +38,11 @@ import {
 import { exportToHtml, importFromHtml } from '../../lexical/plugins/html-io'
 import { registerTablePlugin } from '../../lexical/plugins/table'
 import { registerHorizontalRulePlugin } from '../../lexical/plugins/horizontal-rule'
+import {
+  buildElementStyleExportMap,
+  buildStyleImportMap,
+  registerElementStylePlugin,
+} from '../../lexical/plugins/element-style'
 import { LexicalToolbar } from './toolbar'
 import { TableControls } from './table'
 import {
@@ -226,6 +231,10 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
                   }
                 },
                 editable: readOnly ? !Value.get(readOnly) : true,
+                html: {
+                  export: buildElementStyleExportMap(),
+                  import: buildStyleImportMap(),
+                },
               })
 
               editorInstance = editor
@@ -287,6 +296,9 @@ export const DockedEditor = (options: DockedEditorOptions): Renderable => {
 
               // Register horizontal rule command handler
               disposers.push(registerHorizontalRulePlugin(editor))
+
+              // Register element style plugin (syncs block-level styles to DOM)
+              disposers.push(registerElementStylePlugin(editor))
 
               // Register selection change listener to update toolbar state
               disposers.push(

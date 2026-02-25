@@ -5,12 +5,14 @@ import type {
   DOMExportOutputMap,
   DOMConversionMap,
   ElementFormatType,
+  TextFormatType,
 } from 'lexical'
 import {
   $getRoot,
   $isElementNode,
   $isRootNode,
   $getNodeByKey,
+  $isTextNode,
   $createParagraphNode,
   ParagraphNode,
 } from 'lexical'
@@ -196,5 +198,198 @@ export function buildElementStyleImportMap(): DOMConversionMap {
     h4: makeImporter(() => $createHeadingNode('h4')),
     h5: makeImporter(() => $createHeadingNode('h5')),
     h6: makeImporter(() => $createHeadingNode('h6')),
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Inline style import
+// ---------------------------------------------------------------------------
+
+/**
+ * Default set of CSS properties to preserve on inline text nodes during
+ * HTML import. Matches the properties the toolbar applies via
+ * `$patchStyleText()`.
+ */
+export const DEFAULT_INLINE_STYLE_PROPERTIES: readonly string[] = [
+  'color',
+  'font-size',
+  'font-family',
+  'background-color',
+]
+
+/**
+ * CSS properties that are handled by Lexical text format toggles.
+ * These must NOT be copied into TextNode.__style to avoid
+ * double-application on export.
+ */
+const FORMAT_TOGGLE_PROPERTIES = new Set([
+  'font-weight',
+  'font-style',
+  'text-decoration',
+  'text-decoration-line',
+  'vertical-align',
+])
+
+/**
+ * Map from HTML tag name to the Lexical TextFormatType it represents.
+ * Replicates Lexical's internal `nodeNameToTextFormat`.
+ */
+const TAG_TO_FORMAT: Record<string, TextFormatType> = {
+  code: 'code',
+  em: 'italic',
+  i: 'italic',
+  mark: 'highlight',
+  s: 'strikethrough',
+  strong: 'bold',
+  sub: 'subscript',
+  sup: 'superscript',
+  u: 'underline',
+}
+
+/**
+ * All inline element tag names that need style-preserving import handlers.
+ */
+const INLINE_TAGS = [
+  'span',
+  'b',
+  'em',
+  'i',
+  'strong',
+  'u',
+  's',
+  'sub',
+  'sup',
+  'code',
+  'mark',
+] as const
+
+/**
+ * Replicate Lexical's `applyTextFormatFromStyle` logic.
+ * Examines CSS properties on the element to toggle text formats
+ * (bold from font-weight, italic from font-style, etc.), then
+ * optionally applies the tag-specific format.
+ */
+function applyFormatsFromStyle(
+  style: CSSStyleDeclaration,
+  node: LexicalNode,
+  tagFormat?: TextFormatType
+): void {
+  if (!$isTextNode(node)) return
+
+  const fontWeight = style.fontWeight
+  const textDecoration = style.textDecoration.split(' ')
+
+  if (
+    (fontWeight === '700' || fontWeight === 'bold') &&
+    !node.hasFormat('bold')
+  ) {
+    node.toggleFormat('bold')
+  }
+
+  if (style.fontStyle === 'italic' && !node.hasFormat('italic')) {
+    node.toggleFormat('italic')
+  }
+
+  if (
+    textDecoration.includes('line-through') &&
+    !node.hasFormat('strikethrough')
+  ) {
+    node.toggleFormat('strikethrough')
+  }
+
+  if (textDecoration.includes('underline') && !node.hasFormat('underline')) {
+    node.toggleFormat('underline')
+  }
+
+  if (style.verticalAlign === 'sub' && !node.hasFormat('subscript')) {
+    node.toggleFormat('subscript')
+  }
+
+  if (style.verticalAlign === 'super' && !node.hasFormat('superscript')) {
+    node.toggleFormat('superscript')
+  }
+
+  if (tagFormat && !node.hasFormat(tagFormat)) {
+    node.toggleFormat(tagFormat)
+  }
+}
+
+/**
+ * Build a DOMConversionMap that preserves inline CSS styles from inline
+ * HTML elements onto Lexical TextNode.__style.
+ *
+ * Also replicates Lexical's default format toggling (bold from
+ * font-weight, italic from font-style, etc.) since our priority-1
+ * handler replaces the default priority-0 handler.
+ *
+ * @param properties - CSS properties to preserve. Defaults to
+ *   {@link DEFAULT_INLINE_STYLE_PROPERTIES}.
+ */
+export function buildInlineStyleImportMap(
+  properties: readonly string[] = DEFAULT_INLINE_STYLE_PROPERTIES
+): DOMConversionMap {
+  const map: DOMConversionMap = {}
+
+  for (const tag of INLINE_TAGS) {
+    map[tag] = (domNode: HTMLElement) => {
+      const style = domNode.style
+      const tagFormat = TAG_TO_FORMAT[tag]
+
+      // <b> with font-weight: normal should NOT apply bold (Google Docs pattern)
+      const resolvedFormat: TextFormatType | undefined =
+        tag === 'b'
+          ? style.fontWeight !== 'normal'
+            ? 'bold'
+            : undefined
+          : tagFormat
+
+      return {
+        conversion: () => ({
+          node: null,
+          forChild: lexicalNode => {
+            if (!$isTextNode(lexicalNode)) return lexicalNode
+
+            // 1. Apply format toggles (replicate Lexical default behaviour)
+            applyFormatsFromStyle(style, lexicalNode, resolvedFormat)
+
+            // 2. Merge preserved inline styles onto the TextNode
+            let merged = lexicalNode.getStyle()
+            for (const prop of properties) {
+              if (FORMAT_TOGGLE_PROPERTIES.has(prop)) continue
+              const value = style.getPropertyValue(prop)
+              if (value) {
+                merged = mergeElementStyle(merged, prop, value)
+              }
+            }
+            if (merged) {
+              lexicalNode.setStyle(merged)
+            }
+
+            return lexicalNode
+          },
+        }),
+        priority: 1 as const,
+      }
+    }
+  }
+
+  return map
+}
+
+/**
+ * Build a combined DOMConversionMap that preserves styles for both
+ * block-level elements (text-align, background-color on p/h1-h6)
+ * and inline elements (color, font-size, font-family, background-color
+ * on span/em/strong/etc.).
+ *
+ * @param inlineProperties - CSS properties to preserve on inline text
+ *   nodes. Defaults to {@link DEFAULT_INLINE_STYLE_PROPERTIES}.
+ */
+export function buildStyleImportMap(
+  inlineProperties?: readonly string[]
+): DOMConversionMap {
+  return {
+    ...buildElementStyleImportMap(),
+    ...buildInlineStyleImportMap(inlineProperties),
   }
 }

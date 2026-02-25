@@ -6,6 +6,10 @@ import type {
 } from 'lexical'
 import type { HeadlessEditorOptions } from './types'
 import { loadLexicalCore } from './lazy-loader'
+import {
+  buildElementStyleExportMap,
+  buildStyleImportMap,
+} from './plugins/element-style'
 
 /**
  * Create a headless Lexical editor instance (no DOM mounting).
@@ -46,6 +50,10 @@ export async function createHeadlessEditor(
       }
     },
     editable: false, // Headless editors are typically not editable
+    html: {
+      export: buildElementStyleExportMap(),
+      import: buildStyleImportMap(),
+    },
   })
 
   // Register custom plugins if provided

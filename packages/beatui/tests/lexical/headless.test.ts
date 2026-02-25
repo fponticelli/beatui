@@ -26,6 +26,11 @@ vi.mock('../../src/lexical/plugins/html-io', () => ({
   exportToHtml: vi.fn(() => Promise.resolve('<h1>Test</h1>')),
 }))
 
+vi.mock('../../src/lexical/plugins/element-style', () => ({
+  buildElementStyleExportMap: vi.fn(() => new Map()),
+  buildStyleImportMap: vi.fn(() => ({})),
+}))
+
 describe('Headless Editor', () => {
   beforeEach(() => {
     vi.clearAllMocks()

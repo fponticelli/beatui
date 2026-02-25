@@ -109,6 +109,12 @@ vi.mock('../../src/lexical/plugins/markdown-io', () => ({
   importFromMarkdown: vi.fn(async () => {}),
 }))
 
+vi.mock('../../src/lexical/plugins/element-style', () => ({
+  buildElementStyleExportMap: vi.fn(() => new Map()),
+  buildStyleImportMap: vi.fn(() => ({})),
+  registerElementStylePlugin: vi.fn(() => vi.fn()),
+}))
+
 vi.mock('../../src/lexical/styles-url', () => ({
   default: 'mock-styles-url.css',
 }))

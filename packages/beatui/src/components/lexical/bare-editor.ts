@@ -38,7 +38,7 @@ import { registerHorizontalRulePlugin } from '../../lexical/plugins/horizontal-r
 import {
   registerElementStylePlugin,
   buildElementStyleExportMap,
-  buildElementStyleImportMap,
+  buildStyleImportMap,
 } from '../../lexical/plugins/element-style'
 import {
   type LexicalEditor,
@@ -189,7 +189,7 @@ export const BareEditor = (options: BareEditorOptions): Renderable => {
                 editable: readOnly ? !Value.get(readOnly) : true,
                 html: {
                   export: buildElementStyleExportMap(),
-                  import: buildElementStyleImportMap(),
+                  import: buildStyleImportMap(),
                 },
               })
 

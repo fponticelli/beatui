@@ -91,7 +91,7 @@ vi.mock('../../src/lexical/plugins/horizontal-rule', () => ({
 vi.mock('../../src/lexical/plugins/element-style', () => ({
   registerElementStylePlugin: vi.fn(() => vi.fn()),
   buildElementStyleExportMap: vi.fn(() => new Map()),
-  buildElementStyleImportMap: vi.fn(() => ({})),
+  buildStyleImportMap: vi.fn(() => ({})),
 }))
 
 vi.mock('../../src/lexical/styles-url', () => ({

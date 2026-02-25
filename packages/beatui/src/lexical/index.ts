@@ -98,6 +98,9 @@ export {
   loadOffsetUtils,
   registerHorizontalRulePlugin,
   HR_TRANSFORMER,
+  buildInlineStyleImportMap,
+  buildStyleImportMap,
+  DEFAULT_INLINE_STYLE_PROPERTIES,
 } from './plugins'
 
 export type { SlashCommandState, SlashCommandCallbacks } from './plugins'

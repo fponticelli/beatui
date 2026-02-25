@@ -34,6 +34,9 @@ export {
   registerElementStylePlugin,
   buildElementStyleExportMap,
   buildElementStyleImportMap,
+  buildInlineStyleImportMap,
+  buildStyleImportMap,
+  DEFAULT_INLINE_STYLE_PROPERTIES,
   mergeElementStyle,
   getElementStyleProperty,
 } from './element-style'
