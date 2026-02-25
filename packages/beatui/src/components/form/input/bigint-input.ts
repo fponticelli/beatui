@@ -99,7 +99,10 @@ export const BigintInput = (options: BigintInputOptions) => {
             if (delta < 0n && minVal != null && target < minVal) return
             if (delta > 0n && maxVal != null && target > maxVal) return
             const newValue = clampValue(target)
-            if (newValue !== current && onChange) onChange(newValue)
+            if (newValue !== current) {
+              onChange?.(newValue)
+              onInput?.(newValue)
+            }
           }
 
           return Stack(

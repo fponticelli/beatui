@@ -95,6 +95,7 @@ export type DropdownBaseOptions<T> = InputOptions<T> & {
 export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
   const {
     onChange,
+    onInput,
     onBlur,
     role,
     display,
@@ -118,6 +119,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
 
   const wrappedOnChange = (selectedValue: T) => {
     onChange?.(selectedValue)
+    onInput?.(selectedValue)
     isOpen.set(false)
     focusedIndex.set(-1)
     focusedValue.set(null)

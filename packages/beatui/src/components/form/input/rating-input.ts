@@ -90,6 +90,7 @@ export const RatingInput = (options: RatingInputOptions) => {
   const {
     value,
     onChange,
+    onInput,
     disabled,
     max = 5,
     fullColor = 'yellow',
@@ -121,6 +122,7 @@ export const RatingInput = (options: RatingInputOptions) => {
     const rounded = Math.ceil(newValue / step) * step
     const clamped = clamp(rounded)
     onChange?.(clamped)
+    onInput?.(clamped)
   }
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -150,6 +152,7 @@ export const RatingInput = (options: RatingInputOptions) => {
 
     event.preventDefault()
     onChange?.(next)
+    onInput?.(next)
   }
 
   const iconSize = Value.map(size, (s): string => `bc-icon--${s}`)

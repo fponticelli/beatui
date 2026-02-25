@@ -105,7 +105,10 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
       const minVal = min != null ? Value.get(min) : undefined
       if (minVal != null && targetValue < minVal) return
       const newValue = clampValue(targetValue)
-      if (newValue !== current && onChange) onChange(newValue)
+      if (newValue !== current) {
+        onChange?.(newValue)
+        onInput?.(newValue)
+      }
     }
 
     const handleIncrement = (event?: MouseEvent) => {
@@ -116,7 +119,10 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
       const maxVal = max != null ? Value.get(max) : undefined
       if (maxVal != null && targetValue > maxVal) return
       const newValue = clampValue(targetValue)
-      if (newValue !== current && onChange) onChange(newValue)
+      if (newValue !== current) {
+        onChange?.(newValue)
+        onInput?.(newValue)
+      }
     }
 
     const render = (incLabel: string, decLabel: string) =>
@@ -213,7 +219,10 @@ export const NullableNumberInput = (options: NullableNumberInputOptions) => {
             const delta =
               event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
             const newValue = clampValue(roundToStep(current + delta, stepVal))
-            if (newValue !== current && onChange) onChange(newValue)
+            if (newValue !== current) {
+              onChange?.(newValue)
+              onInput?.(newValue)
+            }
           })
         : Empty
     ),

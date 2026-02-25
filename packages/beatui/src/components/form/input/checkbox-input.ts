@@ -63,6 +63,7 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
     value,
     onBlur,
     onChange,
+    onInput,
     placeholder,
     disabled,
     id,
@@ -80,6 +81,7 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
     if (Value.get(disabled ?? false)) return
     const currentValue = Value.get(value)
     onChange?.(!currentValue)
+    onInput?.(!currentValue)
   }
 
   // Handle keyboard events
