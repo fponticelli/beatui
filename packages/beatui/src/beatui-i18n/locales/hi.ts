@@ -135,6 +135,7 @@ const hi: BeatUIMessages = {
   lexical: {
     fontFamily: 'फ़ॉन्ट परिवार',
     fontSize: 'फ़ॉन्ट आकार',
+    lineHeight: 'पंक्ति ऊँचाई',
     fontColor: 'फ़ॉन्ट रंग',
     highlightColor: 'हाइलाइट रंग',
     backgroundColor: 'पृष्ठभूमि रंग',

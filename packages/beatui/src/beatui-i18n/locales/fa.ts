@@ -135,6 +135,7 @@ const fa: BeatUIMessages = {
   lexical: {
     fontFamily: 'خانواده فونت',
     fontSize: 'اندازه فونت',
+    lineHeight: 'ارتفاع خط',
     fontColor: 'رنگ فونت',
     highlightColor: 'رنگ هایلایت',
     backgroundColor: 'رنگ پس‌زمینه',

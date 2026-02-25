@@ -136,6 +136,7 @@ const ur: BeatUIMessages = {
   lexical: {
     fontFamily: 'فونٹ فیملی',
     fontSize: 'فونٹ سائز',
+    lineHeight: 'لائن کی اونچائی',
     fontColor: 'فونٹ رنگ',
     highlightColor: 'ہائی لائٹ رنگ',
     backgroundColor: 'پس منظر رنگ',

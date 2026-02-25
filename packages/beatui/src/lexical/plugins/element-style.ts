@@ -67,8 +67,9 @@ export function getElementStyleProperty(cssText: string, prop: string): string {
 }
 
 /**
- * Apply background-color from an ElementNode's style to its DOM element.
- * Only touches background-color to avoid interfering with Lexical's own
+ * Apply custom style properties from an ElementNode's style to its DOM element.
+ * Only touches properties that Lexical's reconciler does not handle natively
+ * (background-color, line-height) to avoid interfering with Lexical's own
  * format/indent/direction handling.
  */
 function syncElementStyleToDOM(editor: LexicalEditor, key: string): void {
@@ -82,6 +83,8 @@ function syncElementStyleToDOM(editor: LexicalEditor, key: string): void {
     const style = node.getStyle()
     const bgColor = getElementStyleProperty(style, 'background-color')
     dom.style.backgroundColor = bgColor || ''
+    const lineHeight = getElementStyleProperty(style, 'line-height')
+    dom.style.lineHeight = lineHeight || ''
   })
 }
 
@@ -115,6 +118,10 @@ export function registerElementStylePlugin(editor: LexicalEditor): () => void {
             if (bgColor) {
               dom.style.backgroundColor = bgColor
             }
+            const lineHeight = getElementStyleProperty(style, 'line-height')
+            if (lineHeight) {
+              dom.style.lineHeight = lineHeight
+            }
           }
         }
       }
@@ -142,6 +149,10 @@ function exportElementWithStyle(
     const bgColor = getElementStyleProperty(style, 'background-color')
     if (bgColor) {
       output.element.style.backgroundColor = bgColor
+    }
+    const lineHeight = getElementStyleProperty(style, 'line-height')
+    if (lineHeight) {
+      output.element.style.lineHeight = lineHeight
     }
   }
   return output
@@ -174,14 +185,23 @@ export function buildElementStyleImportMap(): DOMConversionMap {
           if (element.style?.textAlign) {
             node.setFormat(element.style.textAlign as ElementFormatType)
           }
+          let nodeStyle = ''
           if (element.style?.backgroundColor) {
-            node.setStyle(
-              mergeElementStyle(
-                '',
-                'background-color',
-                element.style.backgroundColor
-              )
+            nodeStyle = mergeElementStyle(
+              nodeStyle,
+              'background-color',
+              element.style.backgroundColor
             )
+          }
+          if (element.style?.lineHeight) {
+            nodeStyle = mergeElementStyle(
+              nodeStyle,
+              'line-height',
+              element.style.lineHeight
+            )
+          }
+          if (nodeStyle) {
+            node.setStyle(nodeStyle)
           }
         }
         return { node }
@@ -215,6 +235,7 @@ export const DEFAULT_INLINE_STYLE_PROPERTIES: readonly string[] = [
   'font-size',
   'font-family',
   'background-color',
+  'line-height',
 ]
 
 /**

@@ -70,6 +70,7 @@ describe('element-style inline imports', () => {
         'font-size',
         'font-family',
         'background-color',
+        'line-height',
       ])
     })
   })

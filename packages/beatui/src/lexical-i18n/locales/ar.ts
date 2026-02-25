@@ -10,6 +10,7 @@ const ar = {
   outdent: 'تقليل المسافة البادئة',
   fontFamily: 'نوع الخط',
   fontSize: 'حجم الخط',
+  lineHeight: 'ارتفاع السطر',
   fontColor: 'لون الخط',
   highlightColor: 'لون التمييز',
   backgroundColor: 'لون الخلفية',

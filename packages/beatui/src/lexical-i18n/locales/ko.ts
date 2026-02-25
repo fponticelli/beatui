@@ -10,6 +10,7 @@ const ko = {
   outdent: '내어쓰기',
   fontFamily: '글꼴',
   fontSize: '글꼴 크기',
+  lineHeight: '줄 높이',
   fontColor: '글꼴 색',
   highlightColor: '강조 색',
   backgroundColor: '배경색',

@@ -138,6 +138,7 @@ export const ru: BeatUIMessages = {
   lexical: {
     fontFamily: 'Шрифт',
     fontSize: 'Размер шрифта',
+    lineHeight: 'Высота строки',
     fontColor: 'Цвет шрифта',
     highlightColor: 'Цвет выделения',
     backgroundColor: 'Цвет фона',

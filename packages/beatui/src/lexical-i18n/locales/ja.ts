@@ -10,6 +10,7 @@ const ja = {
   outdent: 'インデント解除',
   fontFamily: 'フォント',
   fontSize: 'フォントサイズ',
+  lineHeight: '行の高さ',
   fontColor: '文字色',
   highlightColor: 'ハイライト色',
   backgroundColor: '背景色',

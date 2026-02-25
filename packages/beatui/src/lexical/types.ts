@@ -387,6 +387,7 @@ export type ToolbarButtonId =
   // font group (select widgets)
   | 'font-family'
   | 'font-size'
+  | 'line-height'
   // color group (color picker widgets)
   | 'font-color'
   | 'highlight-color'
@@ -465,6 +466,13 @@ export interface ToolbarConfig {
    * A `{ value: '', label: 'Default' }` entry is always prepended automatically.
    */
   fontSizes?: FontOption[]
+
+  /**
+   * Custom line-height options for the line-height dropdown.
+   * Each entry has a unitless CSS `value` (e.g. '1.5') and a display `label`.
+   * A `{ value: '', label: 'Default' }` entry is always prepended automatically.
+   */
+  lineHeights?: FontOption[]
 
   /**
    * Declarative toolbar layout. When provided, takes full control over

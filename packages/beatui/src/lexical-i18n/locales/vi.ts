@@ -10,6 +10,7 @@ const vi = {
   outdent: 'Giảm thụt lề',
   fontFamily: 'Phông chữ',
   fontSize: 'Cỡ chữ',
+  lineHeight: 'Chiều cao dòng',
   fontColor: 'Màu chữ',
   highlightColor: 'Màu nổi bật',
   backgroundColor: 'Màu nền',

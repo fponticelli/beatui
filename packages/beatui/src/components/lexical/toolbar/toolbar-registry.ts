@@ -10,7 +10,7 @@ import type {
  * This is the single source of truth for default group contents.
  */
 export const GROUP_BUTTONS: Record<ToolbarGroupId, ToolbarButtonId[]> = {
-  font: ['font-family', 'font-size'],
+  font: ['font-family', 'font-size', 'line-height'],
   color: ['font-color', 'highlight-color', 'background-color'],
   'text-formatting': ['bold', 'italic', 'underline', 'strikethrough', 'code'],
   'clear-formatting': ['clear-formatting'],

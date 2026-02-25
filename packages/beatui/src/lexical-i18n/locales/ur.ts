@@ -10,6 +10,7 @@ const ur = {
   outdent: 'حاشیہ کم کریں',
   fontFamily: 'فونٹ',
   fontSize: 'فونٹ سائز',
+  lineHeight: 'لائن کی اونچائی',
   fontColor: 'فونٹ رنگ',
   highlightColor: 'نمایاں رنگ',
   backgroundColor: 'پس منظر رنگ',

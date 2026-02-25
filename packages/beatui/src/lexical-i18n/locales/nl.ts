@@ -10,6 +10,7 @@ const nl = {
   outdent: 'Uitspringen',
   fontFamily: 'Lettertype',
   fontSize: 'Lettergrootte',
+  lineHeight: 'Regelhoogte',
   fontColor: 'Letterkleur',
   highlightColor: 'Markeringskleur',
   backgroundColor: 'Achtergrondkleur',

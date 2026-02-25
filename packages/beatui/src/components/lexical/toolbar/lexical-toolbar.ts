@@ -73,6 +73,15 @@ const DEFAULT_FONT_SIZES: FontOption[] = [
   { value: '36px', label: '36' },
 ]
 
+const DEFAULT_LINE_HEIGHTS: FontOption[] = [
+  { value: '1', label: '1' },
+  { value: '1.15', label: '1.15' },
+  { value: '1.5', label: '1.5' },
+  { value: '2', label: '2' },
+  { value: '2.5', label: '2.5' },
+  { value: '3', label: '3' },
+]
+
 export interface LexicalToolbarOptions {
   editor: Signal<LexicalEditor | null>
   stateUpdate: Signal<number>
@@ -237,6 +246,10 @@ export function LexicalToolbar({
         defaultEntry,
         ...(toolbar.fontSizes ?? DEFAULT_FONT_SIZES),
       ]
+      const LINE_HEIGHTS = [
+        defaultEntry,
+        ...(toolbar.lineHeights ?? DEFAULT_LINE_HEIGHTS),
+      ]
 
       const currentFontFamily = stateUpdate.map(() => {
         const editor = ed.value
@@ -329,6 +342,20 @@ export function LexicalToolbar({
         })
       })
 
+      const currentLineHeight = stateUpdate.map(() => {
+        const editor = ed.value
+        if (!editor) return ''
+        return editor.getEditorState().read(() => {
+          const sel = $getSelection()
+          if ($isRangeSelection(sel)) {
+            const element = getAnchorElement(sel)
+            const style = element.getStyle()
+            return getElementStyleProperty(style, 'line-height') || ''
+          }
+          return ''
+        })
+      })
+
       const applyFontColor = (value: string) => {
         const editor = ed.value
         if (!editor) return
@@ -364,6 +391,25 @@ export function LexicalToolbar({
             const newStyle = mergeElementStyle(
               currentStyle,
               'background-color',
+              value
+            )
+            element.setStyle(newStyle)
+          }
+        })
+        editor.focus()
+      }
+
+      const applyLineHeight = (value: string) => {
+        const editor = ed.value
+        if (!editor) return
+        editor.update(() => {
+          const sel = $getSelection()
+          if ($isRangeSelection(sel)) {
+            const element = getAnchorElement(sel)
+            const currentStyle = element.getStyle()
+            const newStyle = mergeElementStyle(
+              currentStyle,
+              'line-height',
               value
             )
             element.setStyle(newStyle)
@@ -611,6 +657,24 @@ export function LexicalToolbar({
               attr.value(f.value),
               attr.selected(currentFontSize.map(v => v === f.value)),
               f.label
+            )
+          )
+        )
+      )
+
+      registry.set('line-height', () =>
+        html.select(
+          attr.class('bc-lexical-toolbar-select'),
+          attr.title(lex.map(l => l.lineHeight)),
+          attr.disabled(readOnly),
+          on.change(e =>
+            applyLineHeight((e.target as HTMLSelectElement).value)
+          ),
+          ...LINE_HEIGHTS.map(lh =>
+            html.option(
+              attr.value(lh.value),
+              attr.selected(currentLineHeight.map(v => v === lh.value)),
+              lh.label
             )
           )
         )

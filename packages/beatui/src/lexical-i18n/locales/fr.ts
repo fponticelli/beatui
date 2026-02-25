@@ -29,6 +29,7 @@ const fr = {
   outdent: 'Réduire le retrait',
   fontFamily: 'Police',
   fontSize: 'Taille de police',
+  lineHeight: 'Hauteur de ligne',
   fontColor: 'Couleur de police',
   highlightColor: 'Couleur de surlignage',
   backgroundColor: 'Couleur de fond',

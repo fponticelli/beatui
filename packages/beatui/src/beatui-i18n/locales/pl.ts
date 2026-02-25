@@ -135,6 +135,7 @@ export const pl: BeatUIMessages = {
   lexical: {
     fontFamily: 'Krój czcionki',
     fontSize: 'Rozmiar czcionki',
+    lineHeight: 'Wysokość linii',
     fontColor: 'Kolor czcionki',
     highlightColor: 'Kolor wyróżnienia',
     backgroundColor: 'Kolor tła',

@@ -136,6 +136,7 @@ export const nl: BeatUIMessages = {
   lexical: {
     fontFamily: 'Lettertype',
     fontSize: 'Lettergrootte',
+    lineHeight: 'Regelhoogte',
     fontColor: 'Letterkleur',
     highlightColor: 'Markeringskleur',
     backgroundColor: 'Achtergrondkleur',

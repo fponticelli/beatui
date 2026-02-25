@@ -135,6 +135,7 @@ const he: BeatUIMessages = {
   lexical: {
     fontFamily: 'משפחת גופן',
     fontSize: 'גודל גופן',
+    lineHeight: 'גובה שורה',
     fontColor: 'צבע גופן',
     highlightColor: 'צבע הדגשה',
     backgroundColor: 'צבע רקע',

@@ -135,6 +135,7 @@ const en = {
   lexical: {
     fontFamily: 'Font Family',
     fontSize: 'Font Size',
+    lineHeight: 'Line Height',
     fontColor: 'Font Color',
     highlightColor: 'Highlight Color',
     backgroundColor: 'Background Color',

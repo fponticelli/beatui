@@ -136,6 +136,7 @@ const tr: BeatUIMessages = {
   lexical: {
     fontFamily: 'Yazı Tipi',
     fontSize: 'Yazı Boyutu',
+    lineHeight: 'Satır yüksekliği',
     fontColor: 'Yazı Rengi',
     highlightColor: 'Vurgu Rengi',
     backgroundColor: 'Arka Plan Rengi',

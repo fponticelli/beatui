@@ -137,6 +137,7 @@ const fr: BeatUIMessages = {
   lexical: {
     fontFamily: 'Police de caractères',
     fontSize: 'Taille de police',
+    lineHeight: 'Hauteur de ligne',
     fontColor: 'Couleur de police',
     highlightColor: 'Couleur de surbrillance',
     backgroundColor: "Couleur d'arrière-plan",

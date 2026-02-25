@@ -135,6 +135,7 @@ const zh: BeatUIMessages = {
   lexical: {
     fontFamily: '字体',
     fontSize: '字号',
+    lineHeight: '行高',
     fontColor: '字体颜色',
     highlightColor: '高亮颜色',
     backgroundColor: '背景颜色',

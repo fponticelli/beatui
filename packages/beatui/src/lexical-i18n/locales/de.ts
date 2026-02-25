@@ -10,6 +10,7 @@ const de = {
   outdent: 'Einzug verkleinern',
   fontFamily: 'Schriftart',
   fontSize: 'Schriftgröße',
+  lineHeight: 'Zeilenhöhe',
   fontColor: 'Schriftfarbe',
   highlightColor: 'Hervorhebungsfarbe',
   backgroundColor: 'Hintergrundfarbe',

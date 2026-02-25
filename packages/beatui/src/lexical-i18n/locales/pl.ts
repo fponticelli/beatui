@@ -10,6 +10,7 @@ const pl = {
   outdent: 'Zmniejsz wcięcie',
   fontFamily: 'Czcionka',
   fontSize: 'Rozmiar czcionki',
+  lineHeight: 'Wysokość linii',
   fontColor: 'Kolor czcionki',
   highlightColor: 'Kolor zaznaczenia',
   backgroundColor: 'Kolor tła',

@@ -10,6 +10,7 @@ const it = {
   outdent: 'Riduci rientro',
   fontFamily: 'Tipo di carattere',
   fontSize: 'Dimensione carattere',
+  lineHeight: 'Altezza riga',
   fontColor: 'Colore carattere',
   highlightColor: 'Colore evidenziazione',
   backgroundColor: 'Colore sfondo',

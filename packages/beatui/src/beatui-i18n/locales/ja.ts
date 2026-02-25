@@ -136,6 +136,7 @@ export const ja: BeatUIMessages = {
   lexical: {
     fontFamily: 'フォントファミリー',
     fontSize: 'フォントサイズ',
+    lineHeight: '行の高さ',
     fontColor: 'フォントの色',
     highlightColor: 'ハイライトの色',
     backgroundColor: '背景色',

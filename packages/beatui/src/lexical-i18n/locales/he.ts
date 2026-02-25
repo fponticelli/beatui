@@ -10,6 +10,7 @@ const he = {
   outdent: 'הקטן כניסה',
   fontFamily: 'גופן',
   fontSize: 'גודל גופן',
+  lineHeight: 'גובה שורה',
   fontColor: 'צבע גופן',
   highlightColor: 'צבע סימון',
   backgroundColor: 'צבע רקע',

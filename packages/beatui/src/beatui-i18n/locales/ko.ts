@@ -136,6 +136,7 @@ const ko: BeatUIMessages = {
   lexical: {
     fontFamily: '글꼴',
     fontSize: '글꼴 크기',
+    lineHeight: '줄 높이',
     fontColor: '글꼴 색상',
     highlightColor: '강조 색상',
     backgroundColor: '배경 색상',
