@@ -58,25 +58,34 @@ export function getDefaultLayout(): ToolbarLayoutEntry[] {
 /**
  * Resolves a ToolbarConfig into a concrete layout.
  * - If `layout` is provided, returns it directly.
- * - Otherwise, applies visibleGroups/hiddenGroups filtering to the default layout.
+ * - Otherwise, applies visibleGroups/hiddenGroups filtering to the default layout
+ *   and appends any custom groups at the end.
  */
 export function resolveLayout(config: ToolbarConfig): ToolbarLayoutEntry[] {
   if (config.layout) {
     return config.layout
   }
 
-  const { visibleGroups, hiddenGroups } = config
-  const defaultLayout = getDefaultLayout()
+  const { visibleGroups, hiddenGroups, customGroups } = config
+  let layout = getDefaultLayout()
 
-  if (!visibleGroups && !hiddenGroups) {
-    return defaultLayout
+  if (visibleGroups || hiddenGroups) {
+    layout = layout.filter(entry => {
+      if ('separator' in entry) return true
+      if ('customGroup' in entry) return true
+      const groupId = entry.group
+      if (hiddenGroups?.includes(groupId)) return false
+      if (visibleGroups && !visibleGroups.includes(groupId)) return false
+      return true
+    })
   }
 
-  return defaultLayout.filter(entry => {
-    if ('separator' in entry) return true
-    const groupId = entry.group
-    if (hiddenGroups?.includes(groupId)) return false
-    if (visibleGroups && !visibleGroups.includes(groupId)) return false
-    return true
-  })
+  // Auto-append custom groups at the end
+  if (customGroups && customGroups.length > 0) {
+    for (const cg of customGroups) {
+      layout.push({ customGroup: cg.id })
+    }
+  }
+
+  return layout
 }

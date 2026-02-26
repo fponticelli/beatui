@@ -1,7 +1,8 @@
-import type { Renderable, TNode, Value } from '@tempots/dom'
+import type { Renderable, Signal, TNode, Value } from '@tempots/dom'
 import type { Merge } from '@tempots/std'
 import type { LexicalEditor, LexicalNode, Klass } from 'lexical'
 import type { InputOptions } from '../components/form/input/input-options'
+import type { ControlSize } from '../components/theme'
 
 /**
  * Content format types supported by the editor
@@ -394,6 +395,108 @@ export type ToolbarButtonId =
   | 'background-color'
 
 /**
+ * Context passed to custom toolbar items, providing access to editor state,
+ * reactive signals, and the built-in button factory.
+ */
+export interface ToolbarItemContext {
+  /** Editor signal (guaranteed non-null inside the toolbar) */
+  editor: Signal<LexicalEditor>
+  /** Incremented on every editor state update — use in `.map()` for reactive queries */
+  stateUpdate: Signal<number>
+  /** Whether the editor is read-only */
+  readOnly: Signal<boolean>
+  /** Control size */
+  size: Value<ControlSize>
+  /** Create a toolbar button matching built-in styling */
+  button: (opts: {
+    active?: Signal<boolean>
+    onClick: () => void
+    label: Value<string>
+    icon: string
+  }) => TNode
+}
+
+/**
+ * A custom icon button toolbar item, rendered identically to built-in buttons.
+ */
+export interface ToolbarButtonItem {
+  type: 'button'
+  /** Unique id (must not collide with built-in ToolbarButtonId values) */
+  id: string
+  /** Accessible tooltip label */
+  label: string
+  /** Iconify icon identifier (e.g. 'mdi:variable') */
+  icon: string
+  /** Called when the button is clicked */
+  onClick: (editor: LexicalEditor) => void
+  /** Optional reactive active state. Return a signal that tracks whether this button is "on". */
+  active?: (ctx: ToolbarItemContext) => Signal<boolean>
+}
+
+/**
+ * A single option in a select dropdown toolbar item.
+ */
+export interface ToolbarSelectOption {
+  /** Value passed to onSelect when this option is chosen */
+  value: string
+  /** Display label in the dropdown */
+  label: string
+}
+
+/**
+ * A select dropdown toolbar item: renders a `<select>` and calls
+ * `onSelect(value, editor)` when the user picks an option.
+ */
+export interface ToolbarSelectItem {
+  type: 'select'
+  /** Unique id (must not collide with built-in ToolbarButtonId values) */
+  id: string
+  /** Accessible tooltip / placeholder label */
+  label: string
+  /** Dropdown options */
+  options: ToolbarSelectOption[]
+  /** Called when the user picks an option */
+  onSelect: (value: string, editor: LexicalEditor) => void
+  /**
+   * Reset the dropdown to its placeholder after each selection.
+   * Use `true` for action menus (e.g. "Insert snippet"), `false` for
+   * stateful selections where the current value should remain visible.
+   * @default true
+   */
+  resetOnSelect?: boolean
+}
+
+/**
+ * A fully custom toolbar item where the user supplies a render function
+ * that receives the full toolbar context.
+ */
+export interface ToolbarCustomItem {
+  type: 'custom'
+  /** Unique id (must not collide with built-in ToolbarButtonId values) */
+  id: string
+  /** Render function. Receives the full toolbar context. */
+  render: (ctx: ToolbarItemContext) => TNode
+}
+
+/**
+ * Union of all custom toolbar item types.
+ */
+export type CustomToolbarItem =
+  | ToolbarButtonItem
+  | ToolbarSelectItem
+  | ToolbarCustomItem
+
+/**
+ * A custom group definition containing one or more custom items.
+ */
+export interface CustomToolbarGroup {
+  /** Unique group id (must not collide with built-in ToolbarGroupId values) */
+  id: string
+  /** Custom toolbar items in this group */
+  items: CustomToolbarItem[]
+}
+
+/**
  * A group entry in the toolbar layout.
  * Specifies which group to render, optionally restricting to specific buttons.
  */
@@ -402,9 +505,10 @@ export interface ToolbarLayoutGroup {
   group: ToolbarGroupId
   /**
    * Optional subset of buttons/controls to include within this group.
+   * Accepts built-in `ToolbarButtonId` values and custom item IDs (strings).
    * When omitted, all buttons in the group are shown (respecting maxHeadingLevel).
    */
-  items?: ToolbarButtonId[]
+  items?: (ToolbarButtonId | string)[]
 }
 
 /**
@@ -415,10 +519,21 @@ export interface ToolbarLayoutSeparator {
 }
 
 /**
- * A single entry in the toolbar layout.
- * Either a group (with optional button subset) or a visual separator.
+ * A layout entry referencing a custom group by its id.
  */
-export type ToolbarLayoutEntry = ToolbarLayoutGroup | ToolbarLayoutSeparator
+export interface ToolbarLayoutCustomGroup {
+  /** References a CustomToolbarGroup.id from ToolbarConfig.customGroups */
+  customGroup: string
+}
+
+/**
+ * A single entry in the toolbar layout.
+ * Either a built-in group, a custom group, or a visual separator.
+ */
+export type ToolbarLayoutEntry =
+  | ToolbarLayoutGroup
+  | ToolbarLayoutCustomGroup
+  | ToolbarLayoutSeparator
 
 /**
  * Convenience constant for inserting a separator in a toolbar layout.
@@ -478,8 +593,24 @@ export interface ToolbarConfig {
    * Declarative toolbar layout. When provided, takes full control over
    * which groups/buttons appear and in what order.
    * `visibleGroups` and `hiddenGroups` are ignored when `layout` is set.
+   * Use `{ customGroup: '<id>' }` entries to place custom groups.
    */
   layout?: ToolbarLayoutEntry[]
+
+  /**
+   * Standalone custom toolbar items, registered by their `id`.
+   * Place them in built-in groups via `layout[].items` arrays.
+   */
+  customItems?: CustomToolbarItem[]
+
+  /**
+   * Custom toolbar groups with user-defined buttons/dropdowns.
+   * When `layout` is not specified, custom groups are appended
+   * at the end of the default toolbar layout.
+   * When `layout` is specified, use `{ customGroup: '<id>' }` entries
+   * to place them.
+   */
+  customGroups?: CustomToolbarGroup[]
 }
 
 /**

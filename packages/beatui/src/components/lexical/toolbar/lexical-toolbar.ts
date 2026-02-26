@@ -36,10 +36,12 @@ import {
   REDO_COMMAND,
 } from '../../../lexical/commands'
 import type {
-  ToolbarButtonId,
   ToolbarConfig,
   ToolbarLayoutEntry,
   FontOption,
+  CustomToolbarGroup,
+  CustomToolbarItem,
+  ToolbarItemContext,
 } from '../../../lexical/types'
 import { Toolbar, ToolbarDivider } from '../../navigation/toolbar/toolbar'
 import { LexicalToolbarGroup } from './toolbar-group'
@@ -420,7 +422,7 @@ export function LexicalToolbar({
 
       // === Button registry ===
       // Maps each ToolbarButtonId to a render function for that button/widget.
-      const registry = new Map<ToolbarButtonId, () => TNode>()
+      const registry = new Map<string, () => TNode>()
 
       // text-formatting
       registry.set('bold', () =>
@@ -484,7 +486,7 @@ export function LexicalToolbar({
         })
       )
       for (let level = 1; level <= maxHeadingLevel; level++) {
-        registry.set(`heading-${level}` as ToolbarButtonId, () =>
+        registry.set(`heading-${level}`, () =>
           btn({
             active: headingActive(level),
             onClick: () => formatHeading(level),
@@ -731,10 +733,88 @@ export function LexicalToolbar({
         )
       )
 
+      // Build context for custom toolbar items
+      const ctx: ToolbarItemContext = {
+        editor: ed,
+        stateUpdate,
+        readOnly,
+        size,
+        button: opts =>
+          btn({
+            active: opts.active ?? signal(false),
+            onClick: opts.onClick,
+            label: opts.label,
+            icon: opts.icon,
+          }),
+      }
+
+      // Register a single custom toolbar item in the registry
+      const registerCustomItem = (item: CustomToolbarItem) => {
+        if (item.type === 'button') {
+          const buttonItem = item
+          registry.set(item.id, () =>
+            btn({
+              active: buttonItem.active?.(ctx) ?? signal(false),
+              onClick: () => buttonItem.onClick(ed.value),
+              label: buttonItem.label,
+              icon: buttonItem.icon,
+            })
+          )
+        } else if (item.type === 'select') {
+          const selectItem = item
+          const resetOnSelect = selectItem.resetOnSelect !== false
+          registry.set(item.id, () =>
+            html.select(
+              attr.class('bc-lexical-toolbar-select'),
+              attr.title(selectItem.label),
+              attr.disabled(readOnly),
+              on.change(e => {
+                const select = e.target as HTMLSelectElement
+                const value = select.value
+                if (value !== '') {
+                  selectItem.onSelect(value, ed.value)
+                  if (resetOnSelect) {
+                    select.value = ''
+                  }
+                }
+              }),
+              html.option(
+                attr.value(''),
+                attr.disabled(resetOnSelect),
+                attr.selected(true),
+                selectItem.label
+              ),
+              ...selectItem.options.map(opt =>
+                html.option(attr.value(opt.value), opt.label)
+              )
+            )
+          )
+        } else if (item.type === 'custom') {
+          const customItem = item
+          registry.set(item.id, () => customItem.render(ctx))
+        }
+      }
+
+      // Register standalone custom items
+      if (toolbar.customItems) {
+        for (const item of toolbar.customItems) {
+          registerCustomItem(item)
+        }
+      }
+
+      // Register custom group items
+      if (toolbar.customGroups) {
+        for (const group of toolbar.customGroups) {
+          for (const item of group.items) {
+            registerCustomItem(item)
+          }
+        }
+      }
+
       // === Render from layout ===
       return Toolbar(
         attr.class('bc-lexical-toolbar'),
-        ...renderLayout(layout, registry, maxHeadingLevel)
+        ...renderLayout(layout, registry, maxHeadingLevel, toolbar.customGroups)
       )
     })
   )
@@ -745,9 +825,17 @@ export function LexicalToolbar({
  */
 function renderLayout(
   layout: ToolbarLayoutEntry[],
-  registry: Map<ToolbarButtonId, () => TNode>,
-  maxHeadingLevel: number
+  registry: Map<string, () => TNode>,
+  maxHeadingLevel: number,
+  customGroups?: CustomToolbarGroup[]
 ): TNode[] {
+  const customGroupMap = new Map<string, CustomToolbarGroup>()
+  if (customGroups) {
+    for (const cg of customGroups) {
+      customGroupMap.set(cg.id, cg)
+    }
+  }
+
   const nodes: TNode[] = []
 
   for (const entry of layout) {
@@ -756,7 +844,25 @@ function renderLayout(
       continue
     }
 
-    // Determine which button IDs to render in this group
+    if ('customGroup' in entry) {
+      const cg = customGroupMap.get(entry.customGroup)
+      if (!cg) continue
+
+      const children: TNode[] = []
+      for (const item of cg.items) {
+        const renderFn = registry.get(item.id)
+        if (!renderFn) continue
+        children.push(renderFn())
+      }
+
+      if (children.length === 0) continue
+
+      const displaySignals = children.map(() => signal(true))
+      nodes.push(LexicalToolbarGroup({ display: displaySignals }, ...children))
+      continue
+    }
+
+    // Built-in group
     let itemIds = entry.items ?? GROUP_BUTTONS[entry.group] ?? []
 
     // Filter heading items by maxHeadingLevel when items are not explicitly specified

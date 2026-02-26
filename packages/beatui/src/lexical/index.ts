@@ -27,6 +27,7 @@ export type {
   ToolbarConfig,
   ToolbarLayoutGroup,
   ToolbarLayoutSeparator,
+  ToolbarLayoutCustomGroup,
   ToolbarLayoutEntry,
   MarkMetadata,
   MarkPluginCallbacks,
@@ -44,6 +45,13 @@ export type {
   SelectionInfo,
   EditorPresetType,
   EditorHeightMode,
+  ToolbarItemContext,
+  ToolbarButtonItem,
+  ToolbarSelectOption,
+  ToolbarSelectItem,
+  ToolbarCustomItem,
+  CustomToolbarItem,
+  CustomToolbarGroup,
 } from './types'
 
 export { TOOLBAR_SEPARATOR } from './types'
@@ -95,6 +103,7 @@ export {
   getTextContent,
   getCharacterCount,
   getWordCount,
+  insertTextAtCursor,
   loadOffsetUtils,
   registerHorizontalRulePlugin,
   HR_TRANSFORMER,

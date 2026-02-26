@@ -27,7 +27,12 @@ export { registerOverflowPlugin } from './overflow'
 export { registerDragonPlugin } from './dragon'
 export { registerYjsPlugin } from './yjs'
 export { getSelectionInfo } from './selection'
-export { getTextContent, getCharacterCount, getWordCount } from './text'
+export {
+  getTextContent,
+  getCharacterCount,
+  getWordCount,
+  insertTextAtCursor,
+} from './text'
 export { loadOffsetUtils } from './offset'
 export { registerHorizontalRulePlugin, HR_TRANSFORMER } from './horizontal-rule'
 export {
