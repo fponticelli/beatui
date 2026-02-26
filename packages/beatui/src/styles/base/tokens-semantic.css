@@ -1,7 +1,9 @@
 :root {
 }
 
-*, ::before, ::after {
+*,
+::before,
+::after {
   --color-primary-50: var(--color-blue-50);
   --color-primary-100: var(--color-blue-100);
   --color-primary-200: var(--color-blue-200);
