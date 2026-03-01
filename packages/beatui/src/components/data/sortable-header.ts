@@ -18,6 +18,8 @@ export interface SortableHeaderOptions<T, C extends string = string> {
   column: C
   /** Size variant. @default 'md' */
   size?: Value<ControlSize>
+  /** Extra actions (e.g. filter panel) rendered alongside the sort icon */
+  actions?: TNode
 }
 
 /**
@@ -42,7 +44,7 @@ export interface SortableHeaderOptions<T, C extends string = string> {
  * ```
  */
 export function SortableHeader<T, C extends string = string>(
-  { dataSource, column, size }: SortableHeaderOptions<T, C>,
+  { dataSource, column, size, actions }: SortableHeaderOptions<T, C>,
   ...children: TNode[]
 ) {
   const direction = dataSource.getSortDirection(column)
@@ -82,14 +84,18 @@ export function SortableHeader<T, C extends string = string>(
       attr.class('bc-sortable-header__content'),
       html.span(attr.class('bc-sortable-header__label'), ...children),
       html.span(
-        attr.class(
-          direction.map((d): string =>
-            d != null
-              ? 'bc-sortable-header__icon bc-sortable-header__icon--active'
-              : 'bc-sortable-header__icon'
-          )
+        attr.class('bc-sortable-header__icons'),
+        html.span(
+          attr.class(
+            direction.map((d): string =>
+              d != null
+                ? 'bc-sortable-header__icon bc-sortable-header__icon--active'
+                : 'bc-sortable-header__icon'
+            )
+          ),
+          Icon({ icon: iconName, size: size ?? 'md' })
         ),
-        Icon({ icon: iconName, size: size ?? 'md' })
+        actions ?? null
       )
     ),
     Use(BeatUII18n, t =>

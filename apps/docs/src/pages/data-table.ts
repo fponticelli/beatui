@@ -13,6 +13,7 @@ import { ControlSizeSelector } from '../elements/control-size-selector'
 interface Product {
   id: string
   name: string
+  sku: string
   category: string
   price: number
   stock: number
@@ -23,6 +24,7 @@ const products: Product[] = [
   {
     id: '1',
     name: 'Laptop Pro',
+    sku: 'ELEC-LP-001',
     category: 'Electronics',
     price: 999,
     stock: 15,
@@ -31,6 +33,7 @@ const products: Product[] = [
   {
     id: '2',
     name: 'Wireless Mouse',
+    sku: 'ACC-WM-002',
     category: 'Accessories',
     price: 29,
     stock: 150,
@@ -39,6 +42,7 @@ const products: Product[] = [
   {
     id: '3',
     name: 'Mechanical Keyboard',
+    sku: 'ACC-MK-003',
     category: 'Accessories',
     price: 79,
     stock: 85,
@@ -47,6 +51,7 @@ const products: Product[] = [
   {
     id: '4',
     name: '4K Monitor',
+    sku: 'ELEC-4M-004',
     category: 'Electronics',
     price: 299,
     stock: 42,
@@ -55,6 +60,7 @@ const products: Product[] = [
   {
     id: '5',
     name: 'Noise-Cancelling Headphones',
+    sku: 'AUD-NC-005',
     category: 'Audio',
     price: 149,
     stock: 25,
@@ -63,6 +69,7 @@ const products: Product[] = [
   {
     id: '6',
     name: 'USB-C Hub',
+    sku: 'ACC-UH-006',
     category: 'Accessories',
     price: 49,
     stock: 60,
@@ -71,6 +78,7 @@ const products: Product[] = [
   {
     id: '7',
     name: 'Webcam HD',
+    sku: 'ELEC-WC-007',
     category: 'Electronics',
     price: 89,
     stock: 30,
@@ -79,6 +87,7 @@ const products: Product[] = [
   {
     id: '8',
     name: 'Bluetooth Speaker',
+    sku: 'AUD-BS-008',
     category: 'Audio',
     price: 59,
     stock: 40,
@@ -87,6 +96,7 @@ const products: Product[] = [
   {
     id: '9',
     name: 'External SSD',
+    sku: 'STOR-ES-009',
     category: 'Storage',
     price: 119,
     stock: 35,
@@ -95,6 +105,7 @@ const products: Product[] = [
   {
     id: '10',
     name: 'USB Flash Drive',
+    sku: 'STOR-FD-010',
     category: 'Storage',
     price: 15,
     stock: 200,
@@ -103,6 +114,7 @@ const products: Product[] = [
   {
     id: '11',
     name: 'HDMI Cable',
+    sku: 'ACC-HC-011',
     category: 'Accessories',
     price: 14,
     stock: 300,
@@ -111,6 +123,7 @@ const products: Product[] = [
   {
     id: '12',
     name: 'Desk Lamp',
+    sku: 'OFF-DL-012',
     category: 'Office',
     price: 45,
     stock: 55,
@@ -119,6 +132,7 @@ const products: Product[] = [
   {
     id: '13',
     name: 'Ergonomic Chair',
+    sku: 'OFF-EC-013',
     category: 'Office',
     price: 349,
     stock: 12,
@@ -127,6 +141,7 @@ const products: Product[] = [
   {
     id: '14',
     name: 'Standing Desk',
+    sku: 'OFF-SD-014',
     category: 'Office',
     price: 499,
     stock: 8,
@@ -135,6 +150,7 @@ const products: Product[] = [
   {
     id: '15',
     name: 'Tablet',
+    sku: 'ELEC-TB-015',
     category: 'Electronics',
     price: 449,
     stock: 20,
@@ -148,6 +164,7 @@ export default function DataTablePage() {
       size: z.enum(['xs', 'sm', 'md', 'lg', 'xl']),
       hoverable: z.boolean(),
       selectable: z.boolean(),
+      selectOnRowClick: z.boolean(),
       fullWidth: z.boolean(),
       withStripedRows: z.boolean(),
       withTableBorder: z.boolean(),
@@ -157,7 +174,8 @@ export default function DataTablePage() {
     initialValue: {
       size: 'md' as ControlSize,
       hoverable: false,
-      selectable: false,
+      selectable: true,
+      selectOnRowClick: true,
       fullWidth: true,
       withStripedRows: false,
       withTableBorder: true,
@@ -169,6 +187,7 @@ export default function DataTablePage() {
   const size = controller.field('size')
   const hoverable = controller.field('hoverable')
   const selectable = controller.field('selectable')
+  const selectOnRowClick = controller.field('selectOnRowClick')
   const fullWidth = controller.field('fullWidth')
   const withStripedRows = controller.field('withStripedRows')
   const withTableBorder = controller.field('withTableBorder')
@@ -182,7 +201,10 @@ export default function DataTablePage() {
     html.h2(attr.class('text-lg font-semibold mb-2'), 'DataTable Component'),
     html.p(
       attr.class('text-sm text-gray-600 dark:text-gray-400 mb-4'),
-      'A full-featured data table with sorting, filtering, row selection, pagination, and bulk actions. Click column headers to sort, type in filter inputs, and use checkboxes to select rows.'
+      'Full-featured data table with sorting, filtering (text, select, and advanced panel), ',
+      'click-to-select rows, pagination, toolbar with localized filter chips, and bulk actions. ',
+      'Try clicking rows to select, use the filter icons in headers, and apply filters to see ',
+      'localized descriptions in the toolbar.'
     ),
 
     html.div(
@@ -201,7 +223,16 @@ export default function DataTablePage() {
             header: 'Product',
             cell: row => row.name,
             sortable: true,
+            filterable: 'panel',
+            filterPosition: 'header',
+          },
+          {
+            id: 'sku',
+            header: 'SKU',
+            cell: row => html.code(attr.class('text-xs'), row.sku),
+            sortable: true,
             filterable: true,
+            hideable: true,
           },
           {
             id: 'category',
@@ -224,6 +255,7 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
+            filterPosition: 'header',
             align: 'right',
             hideable: true,
           },
@@ -234,6 +266,7 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
+            filterPosition: 'header',
             align: 'right',
             hideable: true,
           },
@@ -244,14 +277,17 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
+            filterPosition: 'header',
             align: 'center',
             hideable: true,
           },
         ],
         rowId: row => row.id,
         sortable: true,
+        multiSort: true,
         filterable: true,
         selectable: selectable.signal,
+        selectOnRowClick: selectOnRowClick.signal,
         pagination: { pageSize: 5, showFirstLast: true },
         toolbar: {
           bulkActions: [
@@ -299,11 +335,6 @@ export default function DataTablePage() {
           }),
           Control(Switch, {
             layout: 'horizontal-label-right',
-            controller: selectable,
-            label: 'Selectable',
-          }),
-          Control(Switch, {
-            layout: 'horizontal-label-right',
             controller: fullWidth,
             label: 'Full Width',
           }),
@@ -311,6 +342,20 @@ export default function DataTablePage() {
             layout: 'horizontal-label-right',
             controller: withStripedRows,
             label: 'Striped Rows',
+          })
+        ),
+        html.div(
+          attr.class('flex flex-col space-y-3 min-w-48'),
+          html.h3(attr.class('text-sm font-semibold'), 'Selection'),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: selectable,
+            label: 'Selectable',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: selectOnRowClick,
+            label: 'Select on Row Click',
           })
         ),
         html.div(
@@ -331,6 +376,31 @@ export default function DataTablePage() {
             controller: withRowBorders,
             label: 'Row Borders',
           })
+        )
+      ),
+
+      // Feature descriptions
+      Card(
+        {},
+        html.h3(attr.class('text-sm font-semibold mb-2'), 'Filter Types'),
+        html.ul(
+          attr.class('text-xs text-gray-600 dark:text-gray-400 space-y-1 list-disc pl-4'),
+          html.li(
+            html.strong('Product'),
+            ' \u2014 Panel filter (text): contains, starts with, equals, etc. Icon in header.'
+          ),
+          html.li(
+            html.strong('SKU'),
+            ' \u2014 Basic text input filter in the filter row.'
+          ),
+          html.li(
+            html.strong('Category'),
+            ' \u2014 Select dropdown filter in the filter row.'
+          ),
+          html.li(
+            html.strong('Price / Stock / Rating'),
+            ' \u2014 Panel filter (number): =, >, between, etc. Icon in header.'
+          )
         )
       )
     )

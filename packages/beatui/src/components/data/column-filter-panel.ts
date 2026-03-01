@@ -515,9 +515,11 @@ export function ColumnFilterPanel<T, C extends string = string>(
                   Button(
                     {
                       size: 'xs',
-                      variant: 'outline',
+                      variant: 'light',
+                      color: 'danger',
                       onClick: () => clearFilters(),
                     },
+                    Icon({ icon: 'lucide:trash-2', size: 'xs' }),
                     dt.map(d => d.filterPanelClear)
                   ),
                   Button(

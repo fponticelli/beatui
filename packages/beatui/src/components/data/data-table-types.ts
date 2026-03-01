@@ -107,8 +107,10 @@ export interface DataTableOptions<T, C extends string = string> {
   filterable?: Value<boolean>
   /** Show selection checkboxes. @default false */
   selectable?: Value<boolean>
-  /** Position of selection checkboxes. @default 'left' */
+  /** Position of selection checkboxes. @default 'before' */
   selectionPosition?: 'before' | 'after'
+  /** Toggle row selection when clicking anywhere on the row. @default false */
+  selectOnRowClick?: Value<boolean>
 
   /** Pagination config. `true` uses defaults, `false`/undefined disables. */
   pagination?: Value<DataTablePaginationOptions | boolean>

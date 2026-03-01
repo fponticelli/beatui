@@ -1,5 +1,6 @@
 import {
   attr,
+  computedOf,
   ForEach,
   Fragment,
   html,
@@ -92,6 +93,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     filterable = false,
     selectable = false,
     selectionPosition = 'before',
+    selectOnRowClick = false,
     pagination: paginationOpt,
     toolbar: toolbarOpt,
     size = 'md',
@@ -168,6 +170,20 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
   onDataSource?.(ds)
 
+  // Effective hoverable: true when hoverable, selectOnRowClick+selectable, or onRowClick
+  const hoverableSignal = Value.toSignal(hoverable)
+  const selectOnRowClickSignal = Value.toSignal(selectOnRowClick)
+  const selectableSignal = Value.toSignal(selectable)
+  const effectiveHoverable = computedOf(
+    hoverableSignal,
+    selectOnRowClickSignal,
+    selectableSignal
+  )((h, sorc, sel) => h || (sorc && sel) || onRowClick != null)
+  const rowClickable = computedOf(
+    selectOnRowClickSignal,
+    selectableSignal
+  )((sorc, sel) => (sorc && sel) || onRowClick != null)
+
   const hasFilters = filterable && columns.some(c => c.filterable)
 
   // Helper: render a column header cell
@@ -179,18 +195,42 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
     if (sortable && col.sortable) {
       return SortableHeader(
-        { dataSource: ds, column: col.id, size },
-        headerContent,
-        ...(panelInHeader
-          ? [
-              ColumnFilterPanel({
+        {
+          dataSource: ds,
+          column: col.id,
+          size,
+          actions: panelInHeader
+            ? ColumnFilterPanel({
                 dataSource: ds,
                 column: col.id,
                 columnType: col.columnType,
                 size,
-              }),
-            ]
-          : [])
+              })
+            : undefined,
+        },
+        headerContent
+      )
+    }
+    if (panelInHeader) {
+      return html.th(
+        col.width != null ? style.width(col.width) : null,
+        col.minWidth != null ? style.minWidth(col.minWidth) : null,
+        col.align != null
+          ? style.textAlign(Value.map(col.align, (a): string => a))
+          : null,
+        html.div(
+          attr.class('bc-sortable-header__content'),
+          html.span(attr.class('bc-sortable-header__label'), headerContent),
+          html.span(
+            attr.class('bc-sortable-header__icons'),
+            ColumnFilterPanel({
+              dataSource: ds,
+              column: col.id,
+              columnType: col.columnType,
+              size,
+            })
+          )
+        )
       )
     }
     return html.th(
@@ -199,15 +239,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       col.align != null
         ? style.textAlign(Value.map(col.align, (a): string => a))
         : null,
-      headerContent,
-      panelInHeader
-        ? ColumnFilterPanel({
-            dataSource: ds,
-            column: col.id,
-            columnType: col.columnType,
-            size,
-          })
-        : null
+      headerContent
     )
   }
 
@@ -317,20 +349,24 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
             SelectionCheckbox({ dataSource: ds, rowId: id, size })
           )
         )
+      const rowClass = computedOf(
+        ds.isSelected(id),
+        rowClickable
+      )((sel, clickable): string => {
+        let cls = 'bc-data-table__row'
+        if (sel) cls += ' bc-data-table__row--selected'
+        if (clickable) cls += ' bc-data-table__row--clickable'
+        return cls
+      })
       return MapSignal(visibleColumns, visCols =>
         html.tr(
-          attr.class(
-            ds
-              .isSelected(id)
-              .map((sel): string =>
-                sel
-                  ? 'bc-data-table__row bc-data-table__row--selected'
-                  : 'bc-data-table__row'
-              )
-          ),
-          onRowClick != null
-            ? on.click(() => onRowClick(rowSignal.value))
-            : null,
+          attr.class(rowClass),
+          on.click(() => {
+            if (selectOnRowClickSignal.value && selectableSignal.value) {
+              ds.toggleSelect(id)
+            }
+            onRowClick?.(rowSignal.value)
+          }),
           !selectionAfter ? selectionCell() : null,
           ...visCols.map((col, colIdx) =>
             renderDataCell(col, colIdx, rowSignal)
@@ -436,6 +472,11 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       ds.dispose()
       hiddenColumns.dispose()
       visibleColumns.dispose()
+      hoverableSignal.dispose()
+      selectOnRowClickSignal.dispose()
+      selectableSignal.dispose()
+      effectiveHoverable.dispose()
+      rowClickable.dispose()
     }),
 
     // Column visibility toggle
@@ -469,7 +510,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       Table(
         {
           size,
-          hoverable,
+          hoverable: effectiveHoverable,
           stickyHeader,
           fullWidth,
           withStripedRows,

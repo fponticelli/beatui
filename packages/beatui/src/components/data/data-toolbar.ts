@@ -11,7 +11,13 @@ import {
   When,
 } from '@tempots/dom'
 import { BulkAction, DataSource } from './data-source'
-import { describeFilter, DescribeFilterOptions, FilterBase } from './filter'
+import {
+  describeFilter,
+  describeFilterLocalized,
+  DescribeFilterOptions,
+  FilterBase,
+  FilterDescriptionMessages,
+} from './filter'
 import { Icon } from './icon'
 import { Tag } from './tag'
 import { BeatUII18n } from '../../beatui-i18n'
@@ -84,6 +90,13 @@ export function DataToolbar<T, C extends string = string>({
     ? { describeFilter: describeFilterCb }
     : undefined
 
+  function describeFilterChip(f: FilterBase<C>, messages?: FilterDescriptionMessages): string {
+    if (messages) {
+      return describeFilterLocalized(f, messages, describeOpts)
+    }
+    return describeFilter(f, describeOpts)
+  }
+
   return Fragment(
     OnDispose(() => {
       hasActiveState.dispose()
@@ -120,7 +133,12 @@ export function DataToolbar<T, C extends string = string>({
             ForEach(dataSource.filters, filterSignal =>
               Tag({
                 value: filterSignal.map((f: FilterBase<C>) =>
-                  describeFilter(f, describeOpts)
+                  describeFilterChip(
+                    f,
+                    (t.value.dataTable as Record<string, unknown>).describeFilter as
+                      | FilterDescriptionMessages
+                      | undefined
+                  )
                 ),
                 color: 'violet',
                 size: 'sm',

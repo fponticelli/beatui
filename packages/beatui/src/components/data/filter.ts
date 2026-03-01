@@ -465,6 +465,36 @@ export interface DescribeFilterOptions<C extends string = string> {
 }
 
 /**
+ * Localized message functions for describing filter conditions.
+ * Each function receives the column name and relevant values,
+ * returning a human-readable description.
+ */
+export interface FilterDescriptionMessages {
+  textContains: (column: string, value: string) => string
+  textNotContains: (column: string, value: string) => string
+  textEquals: (column: string, value: string) => string
+  textNotEquals: (column: string, value: string) => string
+  textStartsWith: (column: string, value: string) => string
+  textEndsWith: (column: string, value: string) => string
+  compareEq: (column: string, value: string) => string
+  compareNeq: (column: string, value: string) => string
+  compareGt: (column: string, value: string) => string
+  compareGte: (column: string, value: string) => string
+  compareLt: (column: string, value: string) => string
+  compareLte: (column: string, value: string) => string
+  rangeBetween: (column: string, min: string, max: string) => string
+  rangeGte: (column: string, value: string) => string
+  rangeLte: (column: string, value: string) => string
+  setIn: (column: string, values: string) => string
+  setNotIn: (column: string, values: string) => string
+  booleanIs: (column: string, value: string) => string
+  isNull: (column: string) => string
+  isNotNull: (column: string) => string
+  compositeAnd: (descriptions: string[]) => string
+  compositeOr: (descriptions: string[]) => string
+}
+
+/**
  * Returns a human-readable label for any filter, delegating to a callback
  * for custom kinds.
  */
@@ -474,6 +504,94 @@ export function describeFilter<C extends string = string>(
 ): string {
   if (isBuiltinFilter(filter)) {
     return describeBuiltinFilter(filter)
+  }
+  if (opts?.describeFilter) {
+    return opts.describeFilter(filter)
+  }
+  return `${filter.column}: [${filter.kind}]`
+}
+
+/**
+ * Returns a localized human-readable label for a builtin filter
+ * using the provided message functions.
+ */
+export function describeBuiltinFilterLocalized<C extends string = string>(
+  filter: BuiltinFilter<C>,
+  messages: FilterDescriptionMessages
+): string {
+  const col = filter.column
+  switch (filter.kind) {
+    case 'text': {
+      const val = filter.value
+      const map: Record<TextOperator, (c: string, v: string) => string> = {
+        contains: messages.textContains,
+        notContains: messages.textNotContains,
+        equals: messages.textEquals,
+        notEquals: messages.textNotEquals,
+        startsWith: messages.textStartsWith,
+        endsWith: messages.textEndsWith,
+      }
+      return map[filter.operator](col, val)
+    }
+    case 'compare': {
+      const val = formatValue(filter.value)
+      const map: Record<CompareOperator, (c: string, v: string) => string> = {
+        eq: messages.compareEq,
+        neq: messages.compareNeq,
+        gt: messages.compareGt,
+        gte: messages.compareGte,
+        lt: messages.compareLt,
+        lte: messages.compareLte,
+      }
+      return map[filter.operator](col, val)
+    }
+    case 'range': {
+      if (filter.min != null && filter.max != null) {
+        return messages.rangeBetween(col, formatValue(filter.min), formatValue(filter.max))
+      }
+      if (filter.min != null) return messages.rangeGte(col, formatValue(filter.min))
+      return messages.rangeLte(col, formatValue(filter.max!))
+    }
+    case 'set': {
+      const vals = filter.values.map(formatValue).join(', ')
+      return filter.mode === 'include'
+        ? messages.setIn(col, vals)
+        : messages.setNotIn(col, vals)
+    }
+    case 'boolean':
+      return messages.booleanIs(col, String(filter.value))
+    case 'null':
+      return filter.operator === 'isNull'
+        ? messages.isNull(col)
+        : messages.isNotNull(col)
+    case 'composite': {
+      const children = filter.filters.map(f =>
+        describeBuiltinFilterLocalized(f, messages)
+      )
+      return filter.mode === 'and'
+        ? messages.compositeAnd(children)
+        : messages.compositeOr(children)
+    }
+  }
+}
+
+export interface DescribeFilterLocalizedOptions<C extends string = string> {
+  /** Describe a custom (non-builtin) filter kind. */
+  describeFilter?: (filter: FilterBase<C>) => string
+}
+
+/**
+ * Returns a localized human-readable label for any filter, using
+ * the provided message functions for builtin kinds and delegating
+ * to a callback for custom kinds.
+ */
+export function describeFilterLocalized<C extends string = string>(
+  filter: FilterBase<C>,
+  messages: FilterDescriptionMessages,
+  opts?: DescribeFilterLocalizedOptions<C>
+): string {
+  if (isBuiltinFilter(filter)) {
+    return describeBuiltinFilterLocalized(filter, messages)
   }
   if (opts?.describeFilter) {
     return opts.describeFilter(filter)
