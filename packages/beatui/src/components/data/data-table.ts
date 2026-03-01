@@ -31,9 +31,15 @@ import { SelectAllCheckbox } from './selection-checkbox'
 import { SelectionCheckbox } from './selection-checkbox'
 import { DataToolbar } from './data-toolbar'
 import { Flyout } from '../navigation/flyout'
+import { Tooltip } from '../overlay/tooltip'
 import { CheckboxInput } from '../form/input/checkbox-input'
 import { Icon } from './icon'
 import { Button } from '../button/button'
+import {
+  describeFilter,
+  describeFilterLocalized,
+  FilterDescriptionMessages,
+} from './filter'
 
 function resolveToolbarOptions(
   toolbar: boolean | DataTableToolbarOptions
@@ -91,6 +97,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     sortable = false,
     multiSort = false,
     filterable = false,
+    filterLayout = 'header',
     selectable = false,
     selectionPosition = 'before',
     selectOnRowClick = false,
@@ -186,12 +193,90 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
   const hasFilters = filterable && columns.some(c => c.filterable)
 
+  // Helper: render a filter action for header mode (text/select as icon trigger with flyout)
+  const renderFilterAction = (col: DataColumnDef<T, C>): TNode => {
+    const columnFilters = ds.getColumnFilters(col.id)
+    const hasActive = columnFilters.map(f => f.length > 0)
+    return html.div(
+      attr.class('bc-column-filter-panel__trigger-wrap'),
+      html.button(
+        attr.class(
+          hasActive.map(
+            (active): string =>
+              active
+                ? 'bc-column-filter-panel__trigger bc-column-filter-panel__trigger--active'
+                : 'bc-column-filter-panel__trigger'
+          )
+        ),
+        attr.type('button'),
+        Icon({ icon: 'lucide:filter', size }),
+        When(hasActive, () =>
+          html.span(attr.class('bc-column-filter-panel__active-dot'))
+        ),
+        When(hasActive, () =>
+          Use(BeatUII18n, t => {
+            const messages = (
+              t.value.dataTable as Record<string, unknown>
+            ).describeFilter as FilterDescriptionMessages | undefined
+            return Tooltip({
+              content: columnFilters.map(filters => {
+                if (filters.length === 0) return ''
+                const f = filters[0]
+                return messages
+                  ? describeFilterLocalized(f, messages)
+                  : describeFilter(f)
+              }),
+              showDelay: 500,
+            })
+          })
+        ),
+        Flyout({
+          content: () =>
+            html.div(
+              attr.class('bc-column-filter-panel'),
+              on.click(e => e.stopPropagation()),
+              col.filterable === 'select'
+                ? ColumnFilter({
+                    dataSource: ds,
+                    column: col.id,
+                    type: 'select',
+                    options: col.filterOptions ?? [],
+                    size,
+                  })
+                : ColumnFilter({
+                    dataSource: ds,
+                    column: col.id,
+                    size,
+                  })
+            ),
+          placement: 'bottom-start',
+          showOn: 'click',
+          showDelay: 0,
+          hideDelay: 0,
+        })
+      )
+    )
+  }
+
+  // Helper: resolve header filter action for a column (returns null if no filter or layout is 'row')
+  const headerFilterAction = (col: DataColumnDef<T, C>): TNode | undefined => {
+    if (filterLayout !== 'header' || !col.filterable) return undefined
+    if (col.filterable === 'panel') {
+      return ColumnFilterPanel({
+        dataSource: ds,
+        column: col.id,
+        columnType: col.columnType,
+        size,
+      })
+    }
+    return renderFilterAction(col)
+  }
+
   // Helper: render a column header cell
   const renderHeaderCell = (col: DataColumnDef<T, C>): TNode => {
     const headerContent =
       typeof col.header === 'string' ? col.header : col.header()
-    const panelInHeader =
-      col.filterable === 'panel' && col.filterPosition === 'header'
+    const action = headerFilterAction(col)
 
     if (sortable && col.sortable) {
       return SortableHeader(
@@ -199,19 +284,12 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           dataSource: ds,
           column: col.id,
           size,
-          actions: panelInHeader
-            ? ColumnFilterPanel({
-                dataSource: ds,
-                column: col.id,
-                columnType: col.columnType,
-                size,
-              })
-            : undefined,
+          actions: action,
         },
         headerContent
       )
     }
-    if (panelInHeader) {
+    if (action != null) {
       return html.th(
         col.width != null ? style.width(col.width) : null,
         col.minWidth != null ? style.minWidth(col.minWidth) : null,
@@ -223,12 +301,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           html.span(attr.class('bc-sortable-header__label'), headerContent),
           html.span(
             attr.class('bc-sortable-header__icons'),
-            ColumnFilterPanel({
-              dataSource: ds,
-              column: col.id,
-              columnType: col.columnType,
-              size,
-            })
+            action
           )
         )
       )
@@ -243,7 +316,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     )
   }
 
-  // Helper: render a filter cell
+  // Helper: render a filter cell (used in 'row' layout mode)
   const renderFilterCell = (col: DataColumnDef<T, C>): TNode => {
     const filterType =
       col.filterable === true
@@ -258,7 +331,6 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     if (filterType == null) return html.th()
 
     if (filterType === 'panel') {
-      if (col.filterPosition === 'header') return html.th()
       return html.th(
         ColumnFilterPanel({
           dataSource: ds,
@@ -324,9 +396,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       )
     )
 
-  // Filter row
+  // Filter row (only shown when filterLayout is 'row')
   const renderFilterRow = (): TNode => {
-    if (!hasFilters) return null
+    if (!hasFilters || filterLayout === 'header') return null
     return MapSignal(visibleColumns, visCols =>
       html.tr(
         attr.class('bc-data-table__filter-row'),

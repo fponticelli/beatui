@@ -224,7 +224,6 @@ export default function DataTablePage() {
             cell: row => row.name,
             sortable: true,
             filterable: 'panel',
-            filterPosition: 'header',
           },
           {
             id: 'sku',
@@ -255,7 +254,6 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
-            filterPosition: 'header',
             align: 'right',
             hideable: true,
           },
@@ -266,7 +264,6 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
-            filterPosition: 'header',
             align: 'right',
             hideable: true,
           },
@@ -277,7 +274,6 @@ export default function DataTablePage() {
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
-            filterPosition: 'header',
             align: 'center',
             hideable: true,
           },
@@ -387,19 +383,23 @@ export default function DataTablePage() {
           attr.class('text-xs text-gray-600 dark:text-gray-400 space-y-1 list-disc pl-4'),
           html.li(
             html.strong('Product'),
-            ' \u2014 Panel filter (text): contains, starts with, equals, etc. Icon in header.'
+            ' \u2014 Panel filter (text): contains, starts with, equals, etc.'
           ),
           html.li(
             html.strong('SKU'),
-            ' \u2014 Basic text input filter in the filter row.'
+            ' \u2014 Basic text input filter (shown as icon trigger in header).'
           ),
           html.li(
             html.strong('Category'),
-            ' \u2014 Select dropdown filter in the filter row.'
+            ' \u2014 Select dropdown filter (shown as icon trigger in header).'
           ),
           html.li(
             html.strong('Price / Stock / Rating'),
-            ' \u2014 Panel filter (number): =, >, between, etc. Icon in header.'
+            ' \u2014 Panel filter (number): =, >, between, etc.'
+          ),
+          html.li(
+            html.strong('Tooltips'),
+            ' \u2014 Hover any active filter icon to see the applied filter description.'
           )
         )
       )

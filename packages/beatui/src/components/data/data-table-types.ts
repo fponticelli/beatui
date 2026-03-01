@@ -42,8 +42,6 @@ export interface DataColumnDef<T, C extends string = string> {
   filterOptions?: { value: string; label: string }[]
   /** The column value type, used by `'panel'` filter to determine available operators. @default 'text' */
   columnType?: ColumnValueType
-  /** Where to render the filter panel trigger. @default 'filter-row' */
-  filterPosition?: 'header' | 'filter-row'
   /** Custom comparator for sorting this column */
   comparator?: (a: unknown, b: unknown) => number
   /** Column width (e.g., '200px', '20%') */
@@ -105,6 +103,13 @@ export interface DataTableOptions<T, C extends string = string> {
   multiSort?: Value<boolean>
   /** Enable filtering (columns opt-in via `column.filterable`). @default false */
   filterable?: Value<boolean>
+  /**
+   * Where to render filter controls.
+   * - `'header'`: all filters render inline in the header row as icon triggers
+   * - `'row'`: all filters render in a dedicated row below the header
+   * @default 'header'
+   */
+  filterLayout?: 'header' | 'row'
   /** Show selection checkboxes. @default false */
   selectable?: Value<boolean>
   /** Position of selection checkboxes. @default 'before' */

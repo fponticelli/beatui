@@ -22,7 +22,13 @@ import {
 import { ColumnValueType } from './data-table-types'
 import { ControlSize } from '../theme'
 import { Icon } from './icon'
+import { Tooltip } from '../overlay/tooltip'
 import { Flyout } from '../navigation/flyout'
+import {
+  describeFilter,
+  describeFilterLocalized,
+  FilterDescriptionMessages,
+} from './filter'
 import { NativeSelect } from '../form/input/native-select'
 import { TextInput } from '../form/input/text-input'
 import { NumberInput } from '../form/input/number-input'
@@ -369,6 +375,23 @@ export function ColumnFilterPanel<T, C extends string = string>(
         Icon({ icon: 'lucide:filter', size }),
         When(hasActiveFilters, () =>
           html.span(attr.class('bc-column-filter-panel__active-dot'))
+        ),
+        When(hasActiveFilters, () =>
+          Use(BeatUII18n, t => {
+            const messages = (
+              t.value.dataTable as Record<string, unknown>
+            ).describeFilter as FilterDescriptionMessages | undefined
+            return Tooltip({
+              content: columnFilters.map(filters => {
+                if (filters.length === 0) return ''
+                const f = filters[0]
+                return messages
+                  ? describeFilterLocalized(f, messages)
+                  : describeFilter(f)
+              }),
+              showDelay: 500,
+            })
+          })
         ),
         Flyout({
           content: () =>
