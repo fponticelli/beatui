@@ -1,0 +1,338 @@
+import { html, attr, Fragment, prop } from '@tempots/dom'
+import {
+  Card,
+  DataTable,
+  useForm,
+  Control,
+  Switch,
+  type ControlSize,
+} from '@tempots/beatui'
+import z from 'zod'
+import { ControlSizeSelector } from '../elements/control-size-selector'
+
+interface Product {
+  id: string
+  name: string
+  category: string
+  price: number
+  stock: number
+  rating: number
+}
+
+const products: Product[] = [
+  {
+    id: '1',
+    name: 'Laptop Pro',
+    category: 'Electronics',
+    price: 999,
+    stock: 15,
+    rating: 4.5,
+  },
+  {
+    id: '2',
+    name: 'Wireless Mouse',
+    category: 'Accessories',
+    price: 29,
+    stock: 150,
+    rating: 4.2,
+  },
+  {
+    id: '3',
+    name: 'Mechanical Keyboard',
+    category: 'Accessories',
+    price: 79,
+    stock: 85,
+    rating: 4.7,
+  },
+  {
+    id: '4',
+    name: '4K Monitor',
+    category: 'Electronics',
+    price: 299,
+    stock: 42,
+    rating: 4.3,
+  },
+  {
+    id: '5',
+    name: 'Noise-Cancelling Headphones',
+    category: 'Audio',
+    price: 149,
+    stock: 25,
+    rating: 4.8,
+  },
+  {
+    id: '6',
+    name: 'USB-C Hub',
+    category: 'Accessories',
+    price: 49,
+    stock: 60,
+    rating: 4.1,
+  },
+  {
+    id: '7',
+    name: 'Webcam HD',
+    category: 'Electronics',
+    price: 89,
+    stock: 30,
+    rating: 3.9,
+  },
+  {
+    id: '8',
+    name: 'Bluetooth Speaker',
+    category: 'Audio',
+    price: 59,
+    stock: 40,
+    rating: 4.4,
+  },
+  {
+    id: '9',
+    name: 'External SSD',
+    category: 'Storage',
+    price: 119,
+    stock: 35,
+    rating: 4.6,
+  },
+  {
+    id: '10',
+    name: 'USB Flash Drive',
+    category: 'Storage',
+    price: 15,
+    stock: 200,
+    rating: 4.0,
+  },
+  {
+    id: '11',
+    name: 'HDMI Cable',
+    category: 'Accessories',
+    price: 14,
+    stock: 300,
+    rating: 4.1,
+  },
+  {
+    id: '12',
+    name: 'Desk Lamp',
+    category: 'Office',
+    price: 45,
+    stock: 55,
+    rating: 4.3,
+  },
+  {
+    id: '13',
+    name: 'Ergonomic Chair',
+    category: 'Office',
+    price: 349,
+    stock: 12,
+    rating: 4.7,
+  },
+  {
+    id: '14',
+    name: 'Standing Desk',
+    category: 'Office',
+    price: 499,
+    stock: 8,
+    rating: 4.5,
+  },
+  {
+    id: '15',
+    name: 'Tablet',
+    category: 'Electronics',
+    price: 449,
+    stock: 20,
+    rating: 4.4,
+  },
+]
+
+export default function DataTablePage() {
+  const { controller } = useForm({
+    schema: z.object({
+      size: z.enum(['xs', 'sm', 'md', 'lg', 'xl']),
+      hoverable: z.boolean(),
+      selectable: z.boolean(),
+      fullWidth: z.boolean(),
+      withStripedRows: z.boolean(),
+      withTableBorder: z.boolean(),
+      withColumnBorders: z.boolean(),
+      withRowBorders: z.boolean(),
+    }),
+    initialValue: {
+      size: 'md' as ControlSize,
+      hoverable: false,
+      selectable: false,
+      fullWidth: true,
+      withStripedRows: false,
+      withTableBorder: true,
+      withColumnBorders: false,
+      withRowBorders: true,
+    },
+  })
+
+  const size = controller.field('size')
+  const hoverable = controller.field('hoverable')
+  const selectable = controller.field('selectable')
+  const fullWidth = controller.field('fullWidth')
+  const withStripedRows = controller.field('withStripedRows')
+  const withTableBorder = controller.field('withTableBorder')
+  const withColumnBorders = controller.field('withColumnBorders')
+  const withRowBorders = controller.field('withRowBorders')
+
+  const selectionInfo = prop('')
+
+  return Fragment(
+    attr.class('m-4'),
+    html.h2(attr.class('text-lg font-semibold mb-2'), 'DataTable Component'),
+    html.p(
+      attr.class('text-sm text-gray-600 dark:text-gray-400 mb-4'),
+      'A full-featured data table with sorting, filtering, row selection, pagination, and bulk actions. Click column headers to sort, type in filter inputs, and use checkboxes to select rows.'
+    ),
+
+    html.div(
+      attr.class('flex flex-col space-y-4'),
+      // Selection info
+      html.div(
+        attr.class('text-sm text-gray-500 dark:text-gray-400 h-5'),
+        selectionInfo
+      ),
+      // DataTable
+      DataTable<Product>({
+        data: prop(products),
+        columns: [
+          {
+            id: 'name',
+            header: 'Product',
+            cell: row => row.name,
+            sortable: true,
+            filterable: true,
+          },
+          {
+            id: 'category',
+            header: 'Category',
+            cell: row => row.category,
+            sortable: true,
+            filterable: 'select',
+            filterOptions: [
+              { value: 'Electronics', label: 'Electronics' },
+              { value: 'Accessories', label: 'Accessories' },
+              { value: 'Audio', label: 'Audio' },
+              { value: 'Storage', label: 'Storage' },
+              { value: 'Office', label: 'Office' },
+            ],
+          },
+          {
+            id: 'price',
+            header: 'Price',
+            cell: row => `$${row.price}`,
+            sortable: true,
+            filterable: 'panel',
+            columnType: 'number',
+            align: 'right',
+            hideable: true,
+          },
+          {
+            id: 'stock',
+            header: 'Stock',
+            cell: row => String(row.stock),
+            sortable: true,
+            filterable: 'panel',
+            columnType: 'number',
+            align: 'right',
+            hideable: true,
+          },
+          {
+            id: 'rating',
+            header: 'Rating',
+            cell: row => `${row.rating} / 5`,
+            sortable: true,
+            filterable: 'panel',
+            columnType: 'number',
+            align: 'center',
+            hideable: true,
+          },
+        ],
+        rowId: row => row.id,
+        sortable: true,
+        filterable: true,
+        selectable: selectable.signal,
+        pagination: { pageSize: 5, showFirstLast: true },
+        toolbar: {
+          bulkActions: [
+            {
+              label: 'Log Selected',
+              icon: 'lucide:terminal',
+              onClick: sel => {
+                selectionInfo.set(`Bulk action on IDs: ${[...sel].join(', ')}`)
+              },
+            },
+          ],
+        },
+        size: size.signal,
+        hoverable: hoverable.signal,
+        fullWidth: fullWidth.signal,
+        withStripedRows: withStripedRows.signal,
+        withTableBorder: withTableBorder.signal,
+        withColumnBorders: withColumnBorders.signal,
+        withRowBorders: withRowBorders.signal,
+        onSelectionChange: sel => {
+          selectionInfo.set(
+            sel.size > 0 ? `Selected IDs: ${[...sel].join(', ')}` : ''
+          )
+        },
+        columnVisibility: {},
+        emptyContent: 'No products match your filters',
+      }),
+
+      // Appearance controls
+      Card(
+        {},
+        attr.class('flex flex-row flex-wrap gap-6'),
+        html.div(
+          attr.class('flex flex-col space-y-3 min-w-48'),
+          html.h3(attr.class('text-sm font-semibold'), 'Appearance'),
+          ControlSizeSelector({
+            size: size.signal,
+            onChange: size.change,
+            label: 'Size',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: hoverable,
+            label: 'Hoverable',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: selectable,
+            label: 'Selectable',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: fullWidth,
+            label: 'Full Width',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: withStripedRows,
+            label: 'Striped Rows',
+          })
+        ),
+        html.div(
+          attr.class('flex flex-col space-y-3 min-w-48'),
+          html.h3(attr.class('text-sm font-semibold'), 'Borders'),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: withTableBorder,
+            label: 'Table Border',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: withColumnBorders,
+            label: 'Column Borders',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: withRowBorders,
+            label: 'Row Borders',
+          })
+        )
+      )
+    )
+  )
+}

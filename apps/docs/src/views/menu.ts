@@ -170,7 +170,9 @@ export function Menu() {
         SidebarLink({ href: '/ribbon', content: 'Ribbon' }),
         SidebarLink({ href: '/skeleton', content: 'Skeleton' }),
         SidebarLink({ href: '/empty-state', content: 'Empty State' }),
-        SidebarLink({ href: '/table', content: 'Table' })
+        SidebarLink({ href: '/table', content: 'Table' }),
+        SidebarLink({ href: '/data-table', content: 'DataTable' }),
+        SidebarLink({ href: '/data-source', content: 'DataSource' })
       ),
 
       // ── Feedback ──
