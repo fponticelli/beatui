@@ -156,7 +156,7 @@ export function DataToolbar<T, C extends string = string>({
               html.span(
                 attr.class('bc-data-toolbar__selection-count'),
                 dataSource.selectedCount.map(c =>
-                  t.value.dataTable.selectedCount.replace('{count}', String(c))
+                  t.value.dataTable.selectedCount(c)
                 )
               ),
               ...bulkActions.map(action =>

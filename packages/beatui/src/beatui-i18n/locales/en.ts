@@ -186,7 +186,7 @@ const en = {
     clearFilter: 'Clear filter',
     selectAll: 'Select all',
     deselectAll: 'Deselect all',
-    selectedCount: '{count} selected',
+    selectedCount: (count: number) => `${count} selected`,
     resetAll: 'Reset all',
     noResults: 'No results found',
     loading: 'Loading...',

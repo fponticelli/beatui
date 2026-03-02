@@ -367,17 +367,25 @@ export default function DataSourcePage() {
       })
     ),
 
-    // Info footer — use computedOf so both signals are tracked reactively
+    // Info footer
     html.div(
       attr.class('flex justify-between mt-2 text-xs text-gray-500'),
-      computedOf(
-        ds.totalFilteredRows,
-        ds.totalRows
-      )((filtered, total) => `${filtered} of ${total} employees`),
-      computedOf(
-        ds.currentPage,
-        ds.totalPages
-      )((page, total) => `Page ${page} of ${total}`)
+      html.span(
+        MapSignal(
+          computedOf(ds.totalFilteredRows, ds.totalRows)(
+            (filtered, total) => `${filtered} of ${total} employees`
+          ),
+          text => text
+        )
+      ),
+      html.span(
+        MapSignal(
+          computedOf(ds.currentPage, ds.totalPages)(
+            (page, total) => `Page ${page} of ${total}`
+          ),
+          text => text
+        )
+      )
     )
   )
 }

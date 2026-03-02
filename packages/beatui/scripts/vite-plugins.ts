@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { createRequire } from 'module'
 
 import {
   breakpoints,
@@ -135,6 +136,123 @@ export function generateCSSVariablesPlugin() {
         console.error('❌ Failed to generate CSS variables:', error)
         throw error
       }
+    },
+  }
+}
+
+/**
+ * Vite plugin that generates standalone CSS entry files (markdown.css, monaco.css,
+ * etc.) after every build via the `closeBundle` hook.
+ *
+ * This replaces the standalone `build-css-entries.mjs` script and ensures the CSS
+ * files survive `dist/` being emptied during watch-mode rebuilds.
+ */
+export function buildCssEntriesPlugin() {
+  const require = createRequire(import.meta.url)
+
+  // Breakpoint tokens for @media query resolution
+  const breakpointValues: Record<string, string> = {
+    sm: '40rem',
+    md: '48rem',
+    lg: '64rem',
+    xl: '80rem',
+    '2xl': '96rem',
+  }
+
+  function resolveMediaBreakpointsInCSS(css: string) {
+    return css.replace(
+      /(@media\s*\([^)]*?)var\(--breakpoint-(\w+)\)/g,
+      (_match, before, name) => {
+        const value = breakpointValues[name]
+        if (!value) {
+          console.warn(`⚠️  Unknown breakpoint token: --breakpoint-${name}`)
+          return _match
+        }
+        return `${before}${value}`
+      }
+    )
+  }
+
+  function inlineCssImports(filePath: string, seen = new Set<string>()): string {
+    const absPath = path.resolve(filePath)
+    if (seen.has(absPath)) return ''
+    seen.add(absPath)
+
+    const dir = path.dirname(absPath)
+    let css = fs.readFileSync(absPath, 'utf8')
+
+    css = css.replace(
+      /@import\s+(?:url\()?['"]([^'")]+)['"](?:\))?\s*(layer\([^;]+\))?\s*;?/g,
+      (match, spec, layerClause) => {
+        let resolved: string
+        try {
+          resolved = require.resolve(spec, { paths: [dir] })
+        } catch {
+          return match
+        }
+
+        const inlinedContent = inlineCssImports(resolved, seen)
+        if (!layerClause) return inlinedContent
+
+        const layerName = (layerClause as string).slice('layer('.length, -1).trim()
+        if (!layerName) return inlinedContent
+
+        return `@layer ${layerName} {\n${inlinedContent}\n}`
+      }
+    )
+
+    return css
+  }
+
+  function writeOut(pkgRoot: string, relOut: string, content: string) {
+    const outPath = path.resolve(pkgRoot, 'dist', relOut)
+    const outDir = path.dirname(outPath)
+    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
+    fs.writeFileSync(outPath, content)
+    console.log(`✅ Wrote ${relOut} (${content.length} bytes)`)
+  }
+
+  return {
+    name: 'build-css-entries',
+    closeBundle() {
+      const pkgRoot = process.cwd()
+
+      // Monaco CSS
+      const monacoSrc = path.resolve(pkgRoot, 'src/components/monaco/monaco-editor.css')
+      writeOut(pkgRoot, 'monaco.css', fs.readFileSync(monacoSrc, 'utf8'))
+
+      // Markdown CSS
+      const markdownSrc = path.resolve(pkgRoot, 'src/markdown/styles.css')
+      writeOut(pkgRoot, 'markdown.css', fs.readFileSync(markdownSrc, 'utf8'))
+
+      // ProseMirror CSS
+      const prosemirrorSrc = path.resolve(pkgRoot, 'src/components/prosemirror/prosemirror-editor.css')
+      writeOut(pkgRoot, 'prosemirror.css', fs.readFileSync(prosemirrorSrc, 'utf8'))
+
+      // Lexical CSS (concatenate all lexical CSS files)
+      const lexicalCssDir = path.resolve(pkgRoot, 'src/styles/layers/03.components')
+      const lexicalCssFiles = [
+        '_lexical-editor.css',
+        '_lexical-toolbar.css',
+        '_lexical-floating.css',
+        '_lexical-table.css',
+        '_lexical-code.css',
+      ]
+      let lexicalCss = ''
+      for (const file of lexicalCssFiles) {
+        const filePath = path.resolve(lexicalCssDir, file)
+        if (fs.existsSync(filePath)) {
+          lexicalCss += fs.readFileSync(filePath, 'utf8') + '\n'
+        }
+      }
+      if (lexicalCss) writeOut(pkgRoot, 'lexical.css', lexicalCss)
+
+      // BeatUI CSS bundles
+      const standaloneSrc = path.resolve(pkgRoot, 'src/styles/styles.css')
+      writeOut(pkgRoot, 'beatui.css', resolveMediaBreakpointsInCSS(inlineCssImports(standaloneSrc)))
+
+      const tailwindSrc = path.resolve(pkgRoot, 'src/styles/tailwind.css')
+      writeOut(pkgRoot, 'beatui.tailwind.css', resolveMediaBreakpointsInCSS(inlineCssImports(tailwindSrc)))
     },
   }
 }

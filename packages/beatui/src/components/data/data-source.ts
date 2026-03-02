@@ -457,8 +457,11 @@ export function createDataSource<T, C extends string = string>(
 
   const isAllSelected = computedOf(
     selectionState,
-    totalFilteredRows
-  )((sel, total) => total > 0 && sel.size >= total)
+    filteredData
+  )((sel, filtered) => {
+    if (filtered.length === 0) return false
+    return filtered.every(row => sel.has(rowId(row)))
+  })
   disposables.push(() => isAllSelected.dispose())
 
   const isSomeSelected = computedOf(

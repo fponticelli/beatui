@@ -8,6 +8,7 @@ import {
   OnDispose,
   prop,
   TNode,
+  Use,
   Value,
   When,
 } from '@tempots/dom'
@@ -36,7 +37,6 @@ import { CloseButton } from '../button/close-button'
 import { Button } from '../button/button'
 import { SegmentedInput } from '../form/input/segmented-input'
 import { Option, SelectOption } from '../form/input/option'
-import { Use } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
 
 // ---------------------------------------------------------------------------
@@ -145,7 +145,8 @@ function conditionToFilter<C extends string>(
 }
 
 function filterToConditions<C extends string>(
-  filter: BuiltinFilter<C>
+  filter: BuiltinFilter<C>,
+  nextId: () => number
 ): FilterCondition[] {
   switch (filter.kind) {
     case 'text':
@@ -170,16 +171,16 @@ function filterToConditions<C extends string>(
       return [{ id: nextId(), operator: filter.operator, value: '' }]
     case 'composite':
       return (filter as CompositeColumnFilter<C>).filters.flatMap(f =>
-        filterToConditions(f)
+        filterToConditions(f, nextId)
       )
     default:
       return []
   }
 }
 
-let _nextId = 0
-function nextId(): number {
-  return ++_nextId
+function createIdCounter(): () => number {
+  let _nextId = 0
+  return () => ++_nextId
 }
 
 // ---------------------------------------------------------------------------
@@ -222,6 +223,8 @@ export function ColumnFilterPanel<T, C extends string = string>(
   opts: ColumnFilterPanelOptions<T, C>
 ): TNode {
   const { dataSource, column, columnType = 'text', size = 'sm', embedded = false } = opts
+
+  const nextId = createIdCounter()
 
   const columnFilters = dataSource.getColumnFilters(column)
   const hasActiveFilters = columnFilters.map(f => f.length > 0)
@@ -267,7 +270,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
         | undefined
       if (composite) {
         mode.set(composite.mode)
-        conds = filterToConditions(composite)
+        conds = filterToConditions(composite, nextId)
       } else {
         mode.set('and')
         conds = filters.flatMap(f => {
@@ -278,7 +281,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
             f.kind === 'null' ||
             f.kind === 'composite'
           ) {
-            return filterToConditions(f as BuiltinFilter<C>)
+            return filterToConditions(f as BuiltinFilter<C>, nextId)
           }
           return []
         })
@@ -526,8 +529,13 @@ export function ColumnFilterPanel<T, C extends string = string>(
 
   // Embedded mode: render just the panel content without trigger/flyout
   if (embedded) {
+    // Re-populate conditions when filters change externally (e.g. resetFilters)
+    const unsubEmbedded = columnFilters.on(() => {
+      populateFromDataSource()
+    })
     return Fragment(
       OnDispose(() => {
+        unsubEmbedded()
         disposeAllConditions()
         conditionIds.dispose()
         mode.dispose()

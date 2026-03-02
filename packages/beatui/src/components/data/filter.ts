@@ -622,7 +622,10 @@ function inferTypedRange(
   max: InferableValue | undefined
 ): TypedRange {
   const ref = min ?? max
-  const vt = inferValueType(ref!)
+  if (ref == null) {
+    return { valueType: 'string' } as TypedRange
+  }
+  const vt = inferValueType(ref)
   const result: Record<string, unknown> = { valueType: vt }
   if (min != null) result.min = min
   if (max != null) result.max = max

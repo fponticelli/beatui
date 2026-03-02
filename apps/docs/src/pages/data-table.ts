@@ -293,7 +293,7 @@ export default function DataTablePage() {
         filterable: true,
         selectable: selectable.signal,
         selectOnRowClick: selectOnRowClick.signal,
-        groupBy: groupByCategory.signal.map(v => v ? 'category' as const : undefined),
+        groupBy: groupByCategory.signal.map((v): string | undefined => v ? 'category' : undefined),
         showAggregation: true,
         reorderableColumns: true,
         pagination: { pageSize: 5, showFirstLast: true },

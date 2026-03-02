@@ -69,6 +69,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
     return Menu({
       items: () => {
         const items: TNode[] = []
+        // Read current values at menu-open time
         const dir: SortDirection | undefined = direction?.value
 
         if (sortable) {
@@ -77,14 +78,14 @@ export function ColumnHeaderMenu<T, C extends string = string>(
               key: 'sort-asc',
               content: dt.map(d => d.menuSortAsc),
               startContent: Icon({ icon: 'line-md:arrow-small-up', size }),
-              disabled: dir === 'asc',
+              disabled: direction?.map(d => d === 'asc'),
               onClick: () => dataSource.setSort([{ column, direction: 'asc' }]),
             }),
             MenuItem({
               key: 'sort-desc',
               content: dt.map(d => d.menuSortDesc),
               startContent: Icon({ icon: 'line-md:arrow-small-down', size }),
-              disabled: dir === 'desc',
+              disabled: direction?.map(d => d === 'desc'),
               onClick: () =>
                 dataSource.setSort([{ column, direction: 'desc' }]),
             })
@@ -112,8 +113,6 @@ export function ColumnHeaderMenu<T, C extends string = string>(
 
         // Filter submenu
         if (filterContent != null) {
-          const isActive = hasActiveFilter?.value ?? false
-
           items.push(
             MenuItem({
               key: 'filter',
@@ -128,15 +127,17 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             })
           )
 
-          // Clear filter — only when a filter is active
-          if (isActive && onClearFilter) {
+          // Clear filter — reactively shown when a filter is active
+          if (onClearFilter && hasActiveFilter) {
             items.push(
-              MenuItem({
-                key: 'clear-filter',
-                content: dt.map(d => d.clearFilter),
-                startContent: Icon({ icon: 'lucide:filter-x', size }),
-                onClick: onClearFilter,
-              })
+              When(hasActiveFilter, () =>
+                MenuItem({
+                  key: 'clear-filter',
+                  content: dt.map(d => d.clearFilter),
+                  startContent: Icon({ icon: 'lucide:filter-x', size }),
+                  onClick: onClearFilter,
+                })
+              )
             )
           }
 
@@ -157,7 +158,6 @@ export function ColumnHeaderMenu<T, C extends string = string>(
 
         // Column chooser submenu
         if (hideableColumns && hideableColumns.length > 0 && hiddenColumns && onToggleColumn) {
-          const hasHidden = hiddenColumns.value.size > 0
           items.push(
             MenuItem({
               key: 'choose-columns',
@@ -175,30 +175,38 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                       size: 'sm',
                     })
                   ),
-                  hasHidden && onResetColumns
-                    ? Button(
-                        {
-                          size: 'xs',
-                          variant: 'outline',
-                          onClick: () => onResetColumns(),
-                        },
-                        dt.map(d => d.showAllColumns)
-                      )
-                    : null
+                  When(
+                    hiddenColumns.map(h => h.size > 0),
+                    () =>
+                      onResetColumns
+                        ? Button(
+                            {
+                              size: 'xs',
+                              variant: 'outline',
+                              onClick: () => onResetColumns(),
+                            },
+                            dt.map(d => d.showAllColumns)
+                          )
+                        : null
+                  )
                 ),
               ],
             })
           )
 
-          // Reset columns — only when columns are actually hidden
-          if (hasHidden && onResetColumns) {
+          // Reset columns — reactively shown when columns are hidden
+          if (onResetColumns) {
             items.push(
-              MenuItem({
-                key: 'reset-columns',
-                content: dt.map(d => d.menuResetColumns),
-                startContent: Icon({ icon: 'lucide:rotate-ccw', size }),
-                onClick: onResetColumns,
-              })
+              When(
+                hiddenColumns.map(h => h.size > 0),
+                () =>
+                  MenuItem({
+                    key: 'reset-columns',
+                    content: dt.map(d => d.menuResetColumns),
+                    startContent: Icon({ icon: 'lucide:rotate-ccw', size }),
+                    onClick: onResetColumns,
+                  })
+              )
             )
           }
         }

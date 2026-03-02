@@ -1,11 +1,12 @@
-import { Fragment, OnDispose, prop, Value } from '@tempots/dom'
+import { Fragment, OnDispose, prop, Use, Value } from '@tempots/dom'
 import { DataSource } from './data-source'
-import { Filter, FilterBase, SetFilter, TextOperator } from './filter'
+import { Filter, FilterBase, SetFilter, TextFilter, TextOperator } from './filter'
 import { ControlSize } from '../theme'
 import { TextInput } from '../form/input/text-input'
 import { NativeSelect } from '../form/input/native-select'
 import { TagInput } from '../form/input/tag-input'
 import { Option, SelectOption } from '../form/input/option'
+import { BeatUII18n } from '../../beatui-i18n'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -142,7 +143,7 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
   // Tags variant
   // ------------------------------------------------------------------
   if (opts.type === 'tags') {
-    const { options, placeholder = 'Select values...' } = opts
+    const { options, placeholder } = opts
     const columnFilters = dataSource.getColumnFilters(column)
 
     // Derive selected values from the set filter
@@ -167,60 +168,70 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
         selectedValues.dispose()
         displayValues.dispose()
       }),
-      TagInput({
-        values: displayValues,
-        onChange: (labels: string[]) => {
-          // Map labels back to values
-          const reverseLabelMap = new Map(options.map(o => [o.label, o.value]))
-          const vals = labels.map(l => reverseLabelMap.get(l) ?? l)
-          selectedValues.set(vals)
-          if (vals.length === 0) {
-            dataSource.removeFilter(column)
-          } else {
-            dataSource.setFilter(Filter.oneOf(column, vals))
-          }
-        },
-        placeholder,
-        size,
-      })
+      Use(BeatUII18n, t =>
+        TagInput({
+          values: displayValues,
+          onChange: (labels: string[]) => {
+            // Map labels back to values
+            const reverseLabelMap = new Map(options.map(o => [o.label, o.value]))
+            const vals = labels.map(l => reverseLabelMap.get(l) ?? l)
+            selectedValues.set(vals)
+            if (vals.length === 0) {
+              dataSource.removeFilter(column)
+            } else {
+              dataSource.setFilter(Filter.oneOf(column, vals))
+            }
+          },
+          placeholder: placeholder ?? t.$.dataTable.map(dt => dt.filterTagsPlaceholder),
+          size,
+        })
+      )
     )
   }
 
   // ------------------------------------------------------------------
   // Select variant
   // ------------------------------------------------------------------
-  const filterValue = dataSource.getTextFilterValue(column)
-
   if (opts.type === 'select') {
-    const { options, allLabel = 'All' } = opts
+    const { options, allLabel } = opts
 
-    // Prepend the "All" option (value '') so that when filterValue is ''
-    // NativeSelect marks it as selected automatically.
-    const selectOptions: SelectOption<string>[] = [
-      Option.value('', allLabel),
-      ...options.map(o => Option.value(o.value, o.label)),
-    ]
+    // Derive selected value from column filters — works with any filter kind
+    const columnFilters = dataSource.getColumnFilters(column)
+    const selectValue = columnFilters.map(filters => {
+      const tf = filters.find(f => f.kind === 'text') as TextFilter<C> | undefined
+      return tf?.value ?? ''
+    })
 
-    return NativeSelect<string>({
-      value: filterValue,
-      options: selectOptions,
-      size,
-      class: 'bc-column-filter',
-      onChange: (value: string) => {
-        if (value === '') {
-          dataSource.removeFilter(column)
-        } else {
-          dataSource.setFilter(Filter.equals(column, value))
-        }
-      },
+    return Use(BeatUII18n, t => {
+      const resolvedAllLabel = allLabel ?? t.value.dataTable.selectAll
+
+      const selectOptions: SelectOption<string>[] = [
+        Option.value('', resolvedAllLabel),
+        ...options.map(o => Option.value(o.value, o.label)),
+      ]
+
+      return NativeSelect<string>({
+        value: selectValue,
+        options: selectOptions,
+        size,
+        class: 'bc-column-filter',
+        onChange: (value: string) => {
+          if (value === '') {
+            dataSource.removeFilter(column)
+          } else {
+            dataSource.setFilter(Filter.equals(column, value))
+          }
+        },
+      })
     })
   }
 
   // ------------------------------------------------------------------
   // Text variant (default)
   // ------------------------------------------------------------------
+  const filterValue = dataSource.getTextFilterValue(column)
   const {
-    placeholder = 'Filter...',
+    placeholder,
     operator = 'contains',
     debounce = 300,
   } = opts as TextColumnFilter<T, C>
@@ -231,21 +242,23 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
     OnDispose(() => {
       if (debounceTimer != null) clearTimeout(debounceTimer)
     }),
-    TextInput({
-      value: filterValue,
-      size,
-      class: 'bc-column-filter',
-      placeholder,
-      onInput: (value: string) => {
-        if (debounceTimer != null) clearTimeout(debounceTimer)
-        debounceTimer = setTimeout(() => {
-          if (value === '') {
-            dataSource.removeFilter(column)
-          } else {
-            dataSource.setFilter(Filter.text(column, operator, value))
-          }
-        }, debounce)
-      },
-    })
+    Use(BeatUII18n, t =>
+      TextInput({
+        value: filterValue,
+        size,
+        class: 'bc-column-filter',
+        placeholder: placeholder ?? t.$.dataTable.map(dt => dt.filterPlaceholder),
+        onInput: (value: string) => {
+          if (debounceTimer != null) clearTimeout(debounceTimer)
+          debounceTimer = setTimeout(() => {
+            if (value === '') {
+              dataSource.removeFilter(column)
+            } else {
+              dataSource.setFilter(Filter.text(column, operator, value))
+            }
+          }, debounce)
+        },
+      })
+    )
   )
 }

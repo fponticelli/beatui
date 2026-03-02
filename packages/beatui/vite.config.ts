@@ -3,6 +3,7 @@ import { dirname, resolve } from 'path'
 import {
   generateCSSVariablesPlugin,
   resolveMediaBreakpointsPlugin,
+  buildCssEntriesPlugin,
 } from './scripts/vite-plugins'
 
 // Use import.meta.url for ESM
@@ -78,6 +79,7 @@ export default defineConfig({
       generateCSSVariablesPlugin(),
       resolveMediaBreakpointsPlugin(),
       unwrapDataUriPlugin(),
+      buildCssEntriesPlugin(),
     ],
   test: {
     environment: 'jsdom',

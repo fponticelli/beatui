@@ -5,7 +5,6 @@ import {
   OnDispose,
   Value,
   WithElement,
-  Fragment,
 } from '@tempots/dom'
 import { DataSource } from './data-source'
 import { ControlSize } from '../theme'

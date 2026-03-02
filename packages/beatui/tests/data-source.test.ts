@@ -476,6 +476,25 @@ describe('createDataSource', () => {
       expect(ds.currentPage.value).toBe(1)
       ds.dispose()
     })
+
+    it('should react to external pageSize signal changes', async () => {
+      const pageSizeSignal = prop(2)
+      const ds = createTestSource({ pageSize: pageSizeSignal })
+      expect(ds.pageSize.value).toBe(2)
+      expect(ds.rows.value).toHaveLength(2)
+      expect(ds.totalPages.value).toBe(3)
+
+      pageSizeSignal.set(5)
+      // Value.on subscriptions fire asynchronously on a microtask
+      await Promise.resolve()
+      expect(ds.pageSize.value).toBe(5)
+      expect(ds.rows.value).toHaveLength(5)
+      expect(ds.totalPages.value).toBe(1)
+      expect(ds.currentPage.value).toBe(1)
+
+      pageSizeSignal.dispose()
+      ds.dispose()
+    })
   })
 
   describe('reorder', () => {
@@ -505,6 +524,33 @@ describe('createDataSource', () => {
       ds.resetSort()
       // Manual order should still be applied
       expect(ds.rows.value[0].id).toBe('5')
+      ds.dispose()
+    })
+
+    it('should move rows within the first page when pagination is active', () => {
+      const ds = createTestSource({ pageSize: 3 })
+      // First page: Alice(1), Bob(2), Charlie(3)
+      ds.moveRow('3', '1') // move Charlie before Alice
+      expect(ds.rows.value[0].id).toBe('3')
+      expect(ds.rows.value[1].id).toBe('1')
+      expect(ds.rows.value[2].id).toBe('2')
+      ds.dispose()
+    })
+
+    it('should show correct rows on each page after reordering', () => {
+      const ds = createTestSource({ pageSize: 2 })
+      // Original order: Alice(1), Bob(2), Charlie(3), Diana(4), Eve(5)
+      ds.moveRow('5', '1') // move Eve before Alice → [5,1,2,3,4]
+      // Page 1 should be Eve and Alice
+      expect(ds.rows.value[0].id).toBe('5')
+      expect(ds.rows.value[1].id).toBe('1')
+      // Page 2 should be Bob and Charlie
+      ds.setPage(2)
+      expect(ds.rows.value[0].id).toBe('2')
+      expect(ds.rows.value[1].id).toBe('3')
+      // Page 3 should be Diana
+      ds.setPage(3)
+      expect(ds.rows.value[0].id).toBe('4')
       ds.dispose()
     })
   })
@@ -541,6 +587,161 @@ describe('createDataSource', () => {
       expect(ds.selectedCount.value).toBe(0)
       expect(ds.currentPage.value).toBe(1)
       expect(ds.rows.value).toHaveLength(2) // still paginated
+      ds.dispose()
+    })
+
+    it('should restore original row order after resetAll when manualOrder was set', () => {
+      const ds = createTestSource()
+      // Move Eve(5) before Alice(1) → [5,1,2,3,4]
+      ds.moveRow('5', '1')
+      expect(ds.rows.value[0].id).toBe('5')
+
+      ds.resetAll()
+
+      // Original order should be restored: Alice, Bob, Charlie, Diana, Eve
+      expect(ds.rows.value[0].id).toBe('1')
+      expect(ds.rows.value[1].id).toBe('2')
+      expect(ds.rows.value[2].id).toBe('3')
+      expect(ds.rows.value[3].id).toBe('4')
+      expect(ds.rows.value[4].id).toBe('5')
+      ds.dispose()
+    })
+  })
+
+  describe('groupBy', () => {
+    it('should return empty groups when no groupBy is set', () => {
+      const ds = createTestSource()
+      expect(ds.groups.value).toEqual([])
+      ds.dispose()
+    })
+
+    it('should produce groups with correct keys and row counts after setGroupBy', () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      const groups = ds.groups.value
+      // Roles: admin(Alice,Charlie), user(Bob,Diana), moderator(Eve)
+      expect(groups).toHaveLength(3)
+      const adminGroup = groups.find(g => g.key === 'admin')
+      expect(adminGroup).toBeDefined()
+      expect(adminGroup!.rows).toHaveLength(2)
+      expect(adminGroup!.rows.every(u => u.role === 'admin')).toBe(true)
+      const userGroup = groups.find(g => g.key === 'user')
+      expect(userGroup).toBeDefined()
+      expect(userGroup!.rows).toHaveLength(2)
+      const moderatorGroup = groups.find(g => g.key === 'moderator')
+      expect(moderatorGroup).toBeDefined()
+      expect(moderatorGroup!.rows).toHaveLength(1)
+      ds.dispose()
+    })
+
+    it('should compute groups from filtered data', () => {
+      const ds = createTestSource()
+      ds.setFilter(Filter.equals('role', 'admin'))
+      ds.setGroupBy('role')
+      const groups = ds.groups.value
+      // Only admin rows remain after filter
+      expect(groups).toHaveLength(1)
+      expect(groups[0].key).toBe('admin')
+      expect(groups[0].rows).toHaveLength(2)
+      ds.dispose()
+    })
+
+    it('should compute groups respecting sort order', () => {
+      const ds = createTestSource()
+      ds.toggleSort('name')
+      ds.setGroupBy('role')
+      const adminGroup = ds.groups.value.find(g => g.key === 'admin')
+      expect(adminGroup).toBeDefined()
+      // With name sort asc, admin rows should be Alice then Charlie
+      expect(adminGroup!.rows[0].name).toBe('Alice')
+      expect(adminGroup!.rows[1].name).toBe('Charlie')
+      ds.dispose()
+    })
+
+    it('should clear groupBy when resetAll is called', () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      expect(ds.groupBy.value).toBe('role')
+      ds.resetAll()
+      expect(ds.groupBy.value).toBeUndefined()
+      expect(ds.groups.value).toEqual([])
+      ds.dispose()
+    })
+
+    it('should disable grouping when setGroupBy is called with undefined', () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      expect(ds.groups.value).toHaveLength(3)
+      ds.setGroupBy(undefined)
+      expect(ds.groupBy.value).toBeUndefined()
+      expect(ds.groups.value).toEqual([])
+      ds.dispose()
+    })
+
+    it('should update groups when filter is applied after groupBy', () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      expect(ds.groups.value).toHaveLength(3)
+      // Apply filter while groupBy is active
+      ds.setFilter(Filter.equals('role', 'admin'))
+      expect(ds.groups.value).toHaveLength(1)
+      expect(ds.groups.value[0].key).toBe('admin')
+      expect(ds.groups.value[0].rows).toHaveLength(2)
+      ds.dispose()
+    })
+
+    it('should update groups when filter is removed while groupBy is active', () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      ds.setFilter(Filter.equals('role', 'admin'))
+      expect(ds.groups.value).toHaveLength(1)
+      ds.removeFilter('role')
+      expect(ds.groups.value).toHaveLength(3)
+      ds.dispose()
+    })
+
+    it('should update groups reactively when external groupBy signal changes', async () => {
+      const groupBySignal = prop<string | undefined>(undefined)
+      const ds = createTestSource({ groupBy: groupBySignal })
+      expect(ds.groups.value).toEqual([])
+
+      groupBySignal.set('role')
+      await Promise.resolve()
+      expect(ds.groups.value).toHaveLength(3)
+
+      // Now apply filter while grouped
+      ds.setFilter(Filter.equals('role', 'admin'))
+      expect(ds.groups.value).toHaveLength(1)
+
+      groupBySignal.dispose()
+      ds.dispose()
+    })
+
+    it('should notify on() listeners when groups change after filter', async () => {
+      const ds = createTestSource()
+      ds.setGroupBy('role')
+      expect(ds.groups.value).toHaveLength(3)
+
+      const updates: number[] = []
+      const unsub = ds.groups.on(groups => updates.push(groups.length))
+
+      ds.setFilter(Filter.equals('role', 'admin'))
+      // on() listeners fire asynchronously — wait several microtasks for the chain
+      // filterState → filteredData → sortedData → groups
+      for (let i = 0; i < 5; i++) await Promise.resolve()
+
+      expect(updates).toContain(1) // should have received update with 1 group
+      unsub()
+      ds.dispose()
+    })
+
+    it('should correctly paginate when groupBy is active with pagination', () => {
+      const ds = createTestSource({ pageSize: 2 })
+      ds.setGroupBy('role')
+      // Groups should be computed from ALL sorted+filtered data, not just paginated rows
+      expect(ds.groups.value).toHaveLength(3)
+      const totalRows = ds.groups.value.reduce((sum, g) => sum + g.rows.length, 0)
+      expect(totalRows).toBe(5) // all 5 users, not just page of 2
       ds.dispose()
     })
   })

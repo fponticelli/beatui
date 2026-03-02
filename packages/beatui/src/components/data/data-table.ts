@@ -1,4 +1,5 @@
 import {
+  aria,
   attr,
   computedOf,
   ForEach,
@@ -15,7 +16,7 @@ import {
   Use,
 } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
-import { createDataSource, DataSource, BulkAction, RowGroup } from './data-source'
+import { createDataSource, DataSource } from './data-source'
 import {
   DataColumnDef,
   DataTableOptions,
@@ -133,6 +134,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     resolvePaginationOptions(o ?? false)
   )
   const toolbarConfig = Value.map(toolbarOpt ?? false, resolveToolbarOptions)
+  const toolbarConfigSignal = Value.toSignal(toolbarConfig)
 
   // Column visibility state
   const hideableColumns = columns.filter(c => c.hideable)
@@ -182,15 +184,18 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     rowId,
     accessors,
     comparators: comparatorsMap,
-    pageSize: Value.map(paginationConfig, p =>
-      p === false ? 10 : (p?.pageSize ?? 10)
-    ),
+    ...(paginationOpt != null
+      ? {
+          pageSize: Value.map(paginationConfig, p =>
+            p === false ? 0 : (p?.pageSize ?? 10)
+          ),
+        }
+      : {}),
     multiSort,
     serverSide,
     groupBy: groupByOpt,
     onSortChange,
     onFilterChange,
-    onPageChange: undefined,
     onSelectionChange,
   })
 
@@ -296,14 +301,14 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     )
   }
 
-  // Helper: build the column header menu for a column (only used in 'header' layout)
-  const buildColumnMenu = (col: DataColumnDef<T, C>): TNode => {
+  // Helper: build the column header menu for a column
+  const buildColumnMenu = (col: DataColumnDef<T, C>, includeFilter = true): TNode => {
     const columnFilters = ds.getColumnFilters(col.id)
     const hasActiveFilter = columnFilters.map(f => f.length > 0)
     return html.span(
       attr.class('bc-column-header-menu'),
       // Filter active indicator (shown on header, with tooltip describing the filter)
-      col.filterable
+      includeFilter && col.filterable
         ? When(hasActiveFilter, () =>
             html.span(
               attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
@@ -343,9 +348,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         hiddenColumns: hasColumnVisibility ? hiddenColumns : undefined,
         onToggleColumn: hasColumnVisibility ? toggleColumnVisibility : undefined,
         onResetColumns: hasColumnVisibility ? showAllColumns : undefined,
-        filterContent: buildFilterContent(col),
-        hasActiveFilter,
-        onClearFilter: col.filterable ? () => ds.removeFilter(col.id) : undefined,
+        filterContent: includeFilter ? buildFilterContent(col) : undefined,
+        hasActiveFilter: includeFilter ? hasActiveFilter : undefined,
+        onClearFilter: includeFilter && col.filterable ? () => ds.removeFilter(col.id) : undefined,
       })
     )
   }
@@ -404,7 +409,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   const renderHeaderCell = (col: DataColumnDef<T, C>): TNode => {
     const headerContent =
       typeof col.header === 'string' ? col.header : col.header()
-    const menu = filterLayout === 'header' ? buildColumnMenu(col) : undefined
+    const menu = buildColumnMenu(col, filterLayout === 'header')
     const drag = makeDragHandlers(col.id)
 
     if (sortable && col.sortable) {
@@ -578,20 +583,23 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         if (clickable) cls += ' bc-data-table__row--clickable'
         return cls
       })
-      return MapSignal(visibleColumns, visCols =>
-        html.tr(
-          attr.class(rowClass),
-          on.click(() => {
-            if (selectOnRowClickSignal.value && selectableSignal.value) {
-              ds.toggleSelect(id)
-            }
-            onRowClick?.(rowSignal.value)
-          }),
-          !selectionAfter ? selectionCell() : null,
-          ...visCols.map((col, colIdx) =>
-            renderDataCell(col, colIdx, rowSignal)
-          ),
-          selectionAfter ? selectionCell() : null
+      return Fragment(
+        OnDispose(() => rowClass.dispose()),
+        MapSignal(visibleColumns, visCols =>
+          html.tr(
+            attr.class(rowClass),
+            on.click(() => {
+              if (selectOnRowClickSignal.value && selectableSignal.value) {
+                ds.toggleSelect(id)
+              }
+              onRowClick?.(rowSignal.value)
+            }),
+            !selectionAfter ? selectionCell() : null,
+            ...visCols.map((col, colIdx) =>
+              renderDataCell(col, colIdx, rowSignal)
+            ),
+            selectionAfter ? selectionCell() : null
+          )
         )
       )
     })
@@ -599,7 +607,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   // Grouped body rendering
   const collapsedGroups = prop<Set<string>>(new Set())
 
-  const renderGroupRow = (row: T, visCols: DataColumnDef<T, C>[]): TNode => {
+  const renderGroupRow = (row: T): TNode => {
     const id = rowId(row)
     const selectionCell = (): TNode =>
       When(selectable, () =>
@@ -618,137 +626,171 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       if (clickable) cls += ' bc-data-table__row--clickable'
       return cls
     })
-    return html.tr(
-      attr.class(rowClass),
-      on.click(() => {
-        if (selectOnRowClickSignal.value && selectableSignal.value) {
-          ds.toggleSelect(id)
-        }
-        onRowClick?.(row)
-      }),
-      !selectionAfter ? selectionCell() : null,
-      ...visCols.map((col, colIdx) =>
-        html.td(
-          col.align != null
-            ? style.textAlign(Value.map(col.align, (a): string => a))
-            : null,
-          col.width != null ? style.width(col.width) : null,
-          col.cell(row, colIdx)
+    return Fragment(
+      OnDispose(() => rowClass.dispose()),
+      MapSignal(visibleColumns, visCols =>
+        html.tr(
+          attr.class(rowClass),
+          on.click(() => {
+            if (selectOnRowClickSignal.value && selectableSignal.value) {
+              ds.toggleSelect(id)
+            }
+            onRowClick?.(row)
+          }),
+          !selectionAfter ? selectionCell() : null,
+          ...visCols.map((col, colIdx) =>
+            html.td(
+              col.align != null
+                ? style.textAlign(Value.map(col.align, (a): string => a))
+                : null,
+              col.width != null ? style.width(col.width) : null,
+              col.cell(row, colIdx)
+            )
+          ),
+          selectionAfter ? selectionCell() : null
         )
-      ),
-      selectionAfter ? selectionCell() : null
+      )
     )
   }
 
-  const renderGroupedBody = (): TNode =>
-    MapSignal(visibleColumns, visCols => {
-      const colSpan = Value.map(selectable, (sel): number =>
-        visCols.length + (sel ? 1 : 0)
-      )
-      return ForEach(ds.groups, groupSignal => {
-        const group: RowGroup<T> = groupSignal.value
-        const isCollapsed = collapsedGroups.map(s => s.has(group.key))
-        const toggleCollapse = () => {
-          const next = new Set(collapsedGroups.value)
-          if (next.has(group.key)) {
-            next.delete(group.key)
-          } else {
-            next.add(group.key)
+  const renderGroupedBody = (): TNode => {
+    const groupColSpan = computedOf(
+      visibleColumns,
+      selectableSignal
+    )((visCols, sel) => visCols.length + (sel ? 1 : 0))
+
+    return Fragment(
+      OnDispose(() => groupColSpan.dispose()),
+      MapSignal(ds.groups, groups => Fragment(
+        ...groups.map(group => {
+          const isCollapsed = collapsedGroups.map(s => s.has(group.key))
+          const toggleCollapse = () => {
+            const next = new Set(collapsedGroups.value)
+            if (next.has(group.key)) {
+              next.delete(group.key)
+            } else {
+              next.add(group.key)
+            }
+            collapsedGroups.set(next)
           }
-          collapsedGroups.set(next)
-        }
-        return Fragment(
-          Use(BeatUII18n, t =>
-            html.tr(
-              attr.class('bc-data-table__group-header'),
-              on.click(() => {
-                if (groupCollapsible) toggleCollapse()
-              }),
-              html.td(
-                attr.colspan(colSpan),
-                html.div(
-                  attr.class('bc-data-table__group-header-content'),
-                  groupCollapsible
-                    ? html.span(
-                        attr.class(
-                          isCollapsed.map((c): string =>
-                            c
-                              ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
-                              : 'bc-data-table__group-toggle'
-                          )
-                        ),
-                        Icon({ icon: 'lucide:chevron-down', size: 'sm' })
-                      )
-                    : null,
-                  html.span(
-                    attr.class('bc-data-table__group-label'),
-                    group.key
-                  ),
-                  html.span(
-                    attr.class('bc-data-table__group-count'),
-                    (() => {
-                      const fn = (
-                        t.value.dataTable as Record<string, unknown>
-                      ).groupCount as ((count: number) => string) | undefined
-                      return fn ? fn(group.rows.length) : `(${group.rows.length})`
-                    })()
+          return Fragment(
+            OnDispose(() => isCollapsed.dispose()),
+            Use(BeatUII18n, t =>
+              html.tr(
+                attr.class('bc-data-table__group-header'),
+                on.click(() => {
+                  if (groupCollapsible) toggleCollapse()
+                }),
+                html.td(
+                  attr.colspan(groupColSpan),
+                  html.div(
+                    attr.class('bc-data-table__group-header-content'),
+                    groupCollapsible
+                      ? html.span(
+                          attr.class(
+                            isCollapsed.map((c): string =>
+                              c
+                                ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
+                                : 'bc-data-table__group-toggle'
+                            )
+                          ),
+                          aria.label(
+                            isCollapsed.map((c): string => {
+                              const dt = t.value.dataTable as Record<string, unknown>
+                              return c
+                                ? ((dt.expandGroup as string) ?? 'Expand group')
+                                : ((dt.collapseGroup as string) ?? 'Collapse group')
+                            })
+                          ),
+                          Icon({ icon: 'lucide:chevron-down', size: 'sm' })
+                        )
+                      : null,
+                    html.span(
+                      attr.class('bc-data-table__group-label'),
+                      group.key
+                    ),
+                    html.span(
+                      attr.class('bc-data-table__group-count'),
+                      (() => {
+                        const fn = (
+                          t.value.dataTable as Record<string, unknown>
+                        ).groupCount as ((count: number) => string) | undefined
+                        return fn ? fn(group.rows.length) : `(${group.rows.length})`
+                      })()
+                    ),
+                    // Inline aggregation summary when collapsed
+                    hasAggregation
+                      ? When(
+                          computedOf(isCollapsed, Value.toSignal(showAggregation))(
+                            (c, agg) => c && agg
+                          ),
+                          () =>
+                            html.span(
+                              attr.class('bc-data-table__group-aggregation-summary'),
+                              computeGroupAggSummary(group.rows, t)
+                            )
+                        )
+                      : null
                   )
                 )
               )
-            )
-          ),
-          When(
-            isCollapsed.map(c => !c),
-            () =>
-              Fragment(
-                ...group.rows.map(row => renderGroupRow(row, visCols)),
-                // Per-group aggregation row
-                hasAggregation
-                  ? When(showAggregation, () =>
-                      Use(BeatUII18n, t =>
-                        html.tr(
-                          attr.class(
-                            'bc-data-table__aggregation-row bc-data-table__group-aggregation-row'
-                          ),
-                          When(selectable, () => html.td()),
-                          ...visCols.map(col => {
-                            if (!col.aggregation) return html.td()
-                            const { fn, format, label } = col.aggregation
-                            const accessor =
-                              col.accessor ??
-                              ((row: T) =>
-                                (row as Record<string, unknown>)[col.id])
-                            const values = group.rows.map(row => accessor(row))
-                            const result = computeAggregation(values, fn)
-                            const formatted = format
-                              ? format(result)
-                              : String(result)
-                            const defaultLabel = (
-                              t.value.dataTable as Record<string, unknown>
-                            )[aggLabelMap[fn]] as string | undefined
-                            const displayLabel =
-                              label ?? defaultLabel ?? fn
-                            return html.td(
-                              col.align != null
-                                ? style.textAlign(
-                                    Value.map(
-                                      col.align,
-                                      (a): string => a
-                                    )
-                                  )
-                                : null,
-                              `${displayLabel}: ${formatted}`
+            ),
+            When(
+              isCollapsed.map(c => !c),
+              () =>
+                Fragment(
+                  ...group.rows.map(row => renderGroupRow(row)),
+                  // Per-group aggregation row
+                  hasAggregation
+                    ? When(showAggregation, () =>
+                        Use(BeatUII18n, t =>
+                          MapSignal(visibleColumns, visCols =>
+                            html.tr(
+                              attr.class(
+                                'bc-data-table__aggregation-row bc-data-table__group-aggregation-row'
+                              ),
+                              When(selectable, () => html.td()),
+                              ...visCols.map(col => {
+                                if (!col.aggregation) return html.td()
+                                const { fn, format, label } = col.aggregation
+                                const accessor =
+                                  col.accessor ??
+                                  ((row: T) =>
+                                    (row as Record<string, unknown>)[col.id])
+                                const values = group.rows.map(row => accessor(row))
+                                const result = computeAggregation(values, fn)
+                                const formatted = format
+                                  ? format(result)
+                                  : String(result)
+                                const defaultLabel = (
+                                  t.value.dataTable as Record<string, unknown>
+                                )[aggLabelMap[fn]] as string | undefined
+                                const displayLabel =
+                                  label ?? defaultLabel ?? fn
+                                return html.td(
+                                  col.align != null
+                                    ? style.textAlign(
+                                        Value.map(
+                                          col.align,
+                                          (a): string => a
+                                        )
+                                      )
+                                    : null,
+                                  `${displayLabel}: ${formatted}`
+                                )
+                              })
                             )
-                          })
+                          )
                         )
                       )
-                    )
-                  : null
-              )
+                    : null
+                )
+            )
           )
-        )
-      })
-    })
+        })
+      ))
+    )
+  }
 
   // Empty state
   const renderEmpty = (): TNode =>
@@ -851,6 +893,33 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   }
 
   const hasAggregation = columns.some(c => c.aggregation != null)
+  const aggColumns = columns.filter(c => c.aggregation != null)
+
+  /** Compute a compact aggregation summary string for a set of rows. */
+  const computeGroupAggSummary = (
+    rows: T[],
+    t: { value: { dataTable: unknown } }
+  ): string => {
+    const dt = t.value.dataTable as Record<string, unknown>
+    return aggColumns
+      .map(col => {
+        const { fn, format, label } = col.aggregation!
+        const accessor =
+          col.accessor ?? ((row: T) => (row as Record<string, unknown>)[col.id])
+        const values = rows.map(row => accessor(row))
+        const result = computeAggregation(values, fn)
+        const formatted = format ? format(result) : String(result)
+        const defaultLabel = dt[aggLabelMap[fn]] as string | undefined
+        const displayLabel = label ?? defaultLabel ?? fn
+        return `${displayLabel}: ${formatted}`
+      })
+      .join('  ·  ')
+  }
+
+  // Row count signal — created here so it can be properly disposed
+  const rowCounts = computedOf(ds.totalFilteredRows, ds.totalRows)(
+    (filtered, total) => ({ filtered, total })
+  )
 
   // Aggregation footer
   const renderAggregationFooter = (): TNode => {
@@ -901,31 +970,24 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       rowClickable.dispose()
       paginationEnabledSignal.dispose()
       showPagination.dispose()
+      toolbarConfigSignal.dispose()
+      rowCounts.dispose()
     }),
 
     // Column visibility toggle (only in row mode; in header mode it's in the menu)
     filterLayout !== 'header' ? renderColumnToggle() : null,
 
     // Toolbar
-    When(
-      Value.map(toolbarConfig, t => t !== false),
-      () =>
-        DataToolbar({
-          dataSource: ds,
-          showSort: Value.map(toolbarConfig, t =>
-            t === false ? false : (t.showSort ?? true)
-          ),
-          showFilters: Value.map(toolbarConfig, t =>
-            t === false ? false : (t.showFilters ?? true)
-          ),
-          showSelection: Value.map(toolbarConfig, t =>
-            t === false ? false : (t.showSelection ?? true)
-          ),
-          bulkActions: Value.map(toolbarConfig, t =>
-            t === false ? undefined : t.bulkActions
-          ) as unknown as BulkAction[],
-        })
-    ),
+    MapSignal(toolbarConfigSignal, tc => {
+      if (tc === false) return null
+      return DataToolbar({
+        dataSource: ds,
+        showSort: tc.showSort ?? true,
+        showFilters: tc.showFilters ?? true,
+        showSelection: tc.showSelection ?? true,
+        bulkActions: tc.bulkActions ?? [],
+      })
+    }),
 
     // Table with loading overlay
     html.div(
@@ -983,10 +1045,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     Use(BeatUII18n, t =>
       html.div(
         attr.class('bc-data-table__row-count'),
-        computedOf(
-          ds.totalFilteredRows,
-          ds.totalRows
-        )((filtered, total) => {
+        MapSignal(rowCounts, ({ filtered, total }) => {
           const fn = (
             t.value.dataTable as Record<string, unknown>
           ).rowCount as ((f: number, t: number) => string) | undefined
