@@ -1,4 +1,4 @@
-import { html, attr, Fragment, MapSignal, prop, Value } from '@tempots/dom'
+import { html, attr, Fragment, prop } from '@tempots/dom'
 import {
   Card,
   DataTable,
@@ -8,6 +8,7 @@ import {
   type ControlSize,
   NumberInput,
   DataTablePaginationOptions,
+  Badge,
 } from '@tempots/beatui'
 import z from 'zod'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -28,7 +29,7 @@ const products: Product[] = [
     name: 'Laptop Pro',
     sku: 'ELEC-LP-001',
     category: 'Electronics',
-    price: 999,
+    price: 1999,
     stock: 15,
     rating: 4.5,
   },
@@ -55,7 +56,7 @@ const products: Product[] = [
     name: '4K Monitor',
     sku: 'ELEC-4M-004',
     category: 'Electronics',
-    price: 299,
+    price: 3299,
     stock: 42,
     rating: 4.3,
   },
@@ -91,7 +92,7 @@ const products: Product[] = [
     name: 'Bluetooth Speaker',
     sku: 'AUD-BS-008',
     category: 'Audio',
-    price: 59,
+    price: 7759,
     stock: 40,
     rating: 4.4,
   },
@@ -223,7 +224,7 @@ export default function DataTablePage() {
           {
             id: 'name',
             header: 'Product',
-            cell: row => Value.map(row, r => r.name),
+            cell: row => row.$.name,
             sortable: true,
             filter: { type: 'panel' },
             minWidth: '150px',
@@ -231,7 +232,7 @@ export default function DataTablePage() {
           {
             id: 'sku',
             header: 'SKU',
-            cell: row => MapSignal(row, r => html.code(attr.class('text-xs'), r.sku)),
+            cell: row => html.code(attr.class('text-xs'), row.$.sku),
             sortable: true,
             filter: true,
             hideable: true,
@@ -240,7 +241,8 @@ export default function DataTablePage() {
           {
             id: 'category',
             header: 'Category',
-            cell: row => Value.map(row, r => r.category),
+            cell: row =>
+              Badge({ size: 'sm', variant: 'outline' }, row.$.category),
             sortable: true,
             filter: {
               type: 'tags',
@@ -256,7 +258,7 @@ export default function DataTablePage() {
           {
             id: 'price',
             header: 'Price',
-            cell: row => Value.map(row, r => `$${r.price.toLocaleString()}`),
+            cell: row => row.map(r => `$${r.price.toLocaleString()}`),
             value: row => row.price,
             sortable: true,
             filter: 'number',
@@ -264,15 +266,15 @@ export default function DataTablePage() {
             width: '100px',
             hideable: true,
             footer: rows =>
-              Value.map(rows, rs => {
+              rows.map(rs => {
                 const sum = rs.reduce((acc, r) => acc + r.price, 0)
-                return `Sum: $${sum.toFixed(0)}`
+                return `$${sum.toLocaleString()}`
               }),
           },
           {
             id: 'stock',
             header: 'Stock',
-            cell: row => Value.map(row, r => String(r.stock)),
+            cell: row => row.map(r => String(r.stock)),
             value: row => row.stock,
             sortable: true,
             filter: 'number',
@@ -280,7 +282,7 @@ export default function DataTablePage() {
             maxWidth: '100px',
             hideable: true,
             footer: rows =>
-              Value.map(rows, rs => {
+              rows.map(rs => {
                 const sum = rs.reduce((acc, r) => acc + r.stock, 0)
                 return `Sum: ${sum}`
               }),
@@ -288,14 +290,14 @@ export default function DataTablePage() {
           {
             id: 'rating',
             header: 'Rating',
-            cell: row => Value.map(row, r => `${r.rating} / 5`),
+            cell: row => row.map(r => `${r.rating} / 5`),
             value: row => row.rating,
             sortable: true,
             filter: 'number',
             align: 'center',
             hideable: true,
             footer: rows =>
-              Value.map(rows, rs => {
+              rows.map(rs => {
                 const avg =
                   rs.length > 0
                     ? rs.reduce((acc, r) => acc + r.rating, 0) / rs.length

@@ -10,6 +10,7 @@ import {
   OnDispose,
   prop,
   style,
+  Signal,
   TNode,
   Value,
   When,
@@ -40,6 +41,7 @@ import { Icon } from './icon'
 import { Button } from '../button/button'
 import { Tooltip } from '../overlay/tooltip'
 import {
+  Filter,
   describeFilter,
   describeFilterLocalized,
   FilterDescriptionMessages,
@@ -148,6 +150,10 @@ function resolveFilterContent<T, C extends string>(
     return config.render({ dataSource: ds, column: colId, size })
   }
 
+  if (typeof config === 'object' && 'input' in config) {
+    return resolveCustomInput(config, ds, colId, size)
+  }
+
   if (typeof config === 'object' && 'type' in config) {
     switch (config.type) {
       case 'select':
@@ -187,6 +193,44 @@ function resolveFilterContent<T, C extends string>(
 }
 
 /**
+ * Create a writable prop synced with the data source's text filter value.
+ * Returns the node from the custom input callback plus disposal logic.
+ */
+function resolveCustomInput<T, C extends string>(
+  config: { input: (value: Signal<string>, size: Value<ControlSize>) => TNode },
+  ds: DataSource<T, C>,
+  colId: C,
+  size: Value<ControlSize>
+): TNode {
+  const readValue = ds.getTextFilterValue(colId)
+  const value = prop(readValue.value)
+  let syncing = false
+  const unsub1 = readValue.on(v => {
+    if (!syncing && value.value !== v) {
+      syncing = true
+      value.set(v)
+      syncing = false
+    }
+  })
+  const unsub2 = value.on(v => {
+    if (!syncing && readValue.value !== v) {
+      syncing = true
+      if (v === '') ds.removeFilter(colId)
+      else ds.setFilter(Filter.text(colId, 'contains', v))
+      syncing = false
+    }
+  })
+  return Fragment(
+    OnDispose(() => {
+      unsub1()
+      unsub2()
+      value.dispose()
+    }),
+    config.input(value, size)
+  )
+}
+
+/**
  * Resolve a static ColumnFilterConfig into filter cell content (for 'row' layout).
  */
 function resolveFilterCell<T, C extends string>(
@@ -216,6 +260,10 @@ function resolveFilterCell<T, C extends string>(
 
   if (typeof config === 'object' && 'render' in config) {
     return html.th(config.render({ dataSource: ds, column: colId, size }))
+  }
+
+  if (typeof config === 'object' && 'input' in config) {
+    return html.th(resolveCustomInput(config, ds, colId, size))
   }
 
   if (typeof config === 'object' && 'type' in config) {
@@ -691,11 +739,11 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     return resolveFilterCell(config, ds, col.id, size)
   }
 
-  // Helper: render a data cell — pass Value<T> directly to col.cell
+  // Helper: render a data cell — pass Signal<T> directly to col.cell
   const renderDataCell = (
     col: DataColumnDef<T, C>,
     colIdx: number,
-    rowSignal: Value<T>
+    rowSignal: Signal<T>
   ): TNode =>
     html.td(
       col.align != null
@@ -789,6 +837,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   // Grouped body rendering
   const renderGroupRow = (row: T): TNode => {
     const id = rowId(row)
+    const rowSignal = Value.toSignal(row)
     const selectionCell = (): TNode =>
       When(selectable, () =>
         html.td(
@@ -807,7 +856,10 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       return cls
     })
     return Fragment(
-      OnDispose(() => rowClass.dispose()),
+      OnDispose(() => {
+        rowClass.dispose()
+        rowSignal.dispose()
+      }),
       MapSignal(visibleColumns, visCols =>
         html.tr(
           attr.class(rowClass),
@@ -825,7 +877,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
                 : null,
               col.width != null ? style.width(col.width) : null,
               col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
-              col.cell(row, colIdx)
+              col.cell(rowSignal, colIdx)
             )
           ),
           selectionAfter ? selectionCell() : null
@@ -939,7 +991,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
                                           )
                                         )
                                       : null,
-                                    col.footer(group.rows)
+                                    col.footer(Value.toSignal(group.rows))
                                   )
                                 : html.td()
                             )

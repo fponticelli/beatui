@@ -1,11 +1,22 @@
-import { Fragment, OnDispose, prop, Use, Value } from '@tempots/dom'
+import {
+  attr,
+  computedOf,
+  ForEach,
+  Fragment,
+  html,
+  on,
+  OnDispose,
+  prop,
+  Use,
+  Value,
+} from '@tempots/dom'
 import { DataSource } from './data-source'
 import { Filter, FilterBase, SetFilter, TextFilter, TextOperator } from './filter'
 import { ControlSize } from '../theme'
 import { TextInput } from '../form/input/text-input'
 import { NativeSelect } from '../form/input/native-select'
-import { TagInput } from '../form/input/tag-input'
 import { Option, SelectOption } from '../form/input/option'
+import { NullableResetAfter } from '../form/input/nullable-utils'
 import { BeatUII18n } from '../../beatui-i18n'
 
 // ---------------------------------------------------------------------------
@@ -156,35 +167,64 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
       selectedValues.set(extractSetValues(filters))
     })
 
-    // Map labels for display
-    const labelMap = new Map(options.map(o => [o.value, o.label]))
-    const displayValues = selectedValues.map(vals =>
-      vals.map(v => labelMap.get(v) ?? v)
-    )
+    const query = prop('')
+    const filteredOptions = query.map(q => {
+      if (q === '') return options
+      const lower = q.toLowerCase()
+      return options.filter(o => o.label.toLowerCase().includes(lower))
+    })
+
+    const toggle = (val: string) => {
+      const current = selectedValues.value
+      const next = current.includes(val)
+        ? current.filter(v => v !== val)
+        : [...current, val]
+      selectedValues.set(next)
+      if (next.length === 0) {
+        dataSource.removeFilter(column)
+      } else {
+        dataSource.setFilter(Filter.oneOf(column, next))
+      }
+    }
 
     return Fragment(
       OnDispose(() => {
         unsub()
         selectedValues.dispose()
-        displayValues.dispose()
+        query.dispose()
+        filteredOptions.dispose()
       }),
       Use(BeatUII18n, t =>
-        TagInput({
-          values: displayValues,
-          onChange: (labels: string[]) => {
-            // Map labels back to values
-            const reverseLabelMap = new Map(options.map(o => [o.label, o.value]))
-            const vals = labels.map(l => reverseLabelMap.get(l) ?? l)
-            selectedValues.set(vals)
-            if (vals.length === 0) {
-              dataSource.removeFilter(column)
-            } else {
-              dataSource.setFilter(Filter.oneOf(column, vals))
-            }
-          },
-          placeholder: placeholder ?? t.$.dataTable.map(dt => dt.filterTagsPlaceholder),
-          size,
-        })
+        html.div(
+          attr.class('bc-column-filter-tags'),
+          html.input(
+            attr.type('text'),
+            attr.class('bc-column-filter'),
+            attr.placeholder(
+              placeholder ?? t.$.dataTable.map(dt => dt.filterTagsPlaceholder)
+            ),
+            attr.value(query),
+            on.input(e => query.set((e.target as HTMLInputElement).value))
+          ),
+          html.div(
+            attr.class('bc-column-filter-tags__list'),
+            ForEach(filteredOptions, optSignal => {
+              const isChecked = computedOf(
+                selectedValues,
+                optSignal
+              )((sel, opt) => sel.includes(opt.value))
+              return html.label(
+                attr.class('bc-column-filter-tags__item'),
+                html.input(
+                  attr.type('checkbox'),
+                  attr.checked(isChecked),
+                  on.change(() => toggle(Value.get(optSignal).value))
+                ),
+                html.span(Value.map(optSignal, o => o.label))
+              )
+            })
+          )
+        )
       )
     )
   }
@@ -238,9 +278,13 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
 
   let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
+  // Map empty string → null for the reset button's disabled state
+  const nullableValue = filterValue.map(v => (v === '' ? null : v))
+
   return Fragment(
     OnDispose(() => {
       if (debounceTimer != null) clearTimeout(debounceTimer)
+      nullableValue.dispose()
     }),
     Use(BeatUII18n, t =>
       TextInput({
@@ -258,6 +302,10 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
             }
           }, debounce)
         },
+        after: NullableResetAfter(nullableValue, undefined, () => {
+          if (debounceTimer != null) clearTimeout(debounceTimer)
+          dataSource.removeFilter(column)
+        }),
       })
     )
   )

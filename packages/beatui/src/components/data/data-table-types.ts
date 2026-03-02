@@ -1,4 +1,4 @@
-import { TNode, Value } from '@tempots/dom'
+import { Signal, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import {
   BulkAction,
@@ -44,6 +44,7 @@ export type ColumnFilterConfig<T, C extends string = string> =
   | { type: 'tags'; options: { value: string; label: string }[] }
   | { type: 'panel'; valueType?: ColumnValueType }
   | { render: (props: FilterRenderProps<T, C>) => TNode }
+  | { input: (value: Signal<string>, size: Value<ControlSize>) => TNode }
 
 /**
  * Column definition for a {@link DataTable}.
@@ -56,8 +57,8 @@ export interface DataColumnDef<T, C extends string = string> {
   id: C
   /** Column header content. String or render function. */
   header: string | (() => TNode)
-  /** Render function for cell content. Receives a reactive row value and the column index. */
-  cell: (row: Value<T>, index: number) => TNode
+  /** Render function for cell content. Receives a reactive row signal and the column index. */
+  cell: (row: Signal<T>, index: number) => TNode
   /**
    * Accessor function to extract the column value from a row.
    * If omitted, defaults to `row[id]`.
@@ -69,8 +70,8 @@ export interface DataColumnDef<T, C extends string = string> {
   comparator?: (a: unknown, b: unknown) => number
   /** Filter configuration for this column. Reactive — can be toggled at runtime. */
   filter?: Value<ColumnFilterConfig<T, C>>
-  /** Footer render function. Receives all filtered rows as a reactive value. */
-  footer?: (rows: Value<T[]>) => TNode
+  /** Footer render function. Receives all filtered rows as a reactive signal. */
+  footer?: (rows: Signal<T[]>) => TNode
   /** Column width (e.g., '200px', '20%') */
   width?: Value<string>
   /** Minimum column width */
