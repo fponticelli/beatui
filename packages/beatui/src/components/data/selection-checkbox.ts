@@ -5,6 +5,7 @@ import {
   OnDispose,
   Value,
   WithElement,
+  Fragment,
 } from '@tempots/dom'
 import { DataSource } from './data-source'
 import { ControlSize } from '../theme'
@@ -52,7 +53,15 @@ export function SelectionCheckbox<T, C extends string = string>({
         s => `bc-selection-checkbox bc-selection-checkbox--size-${s}`
       )
     ),
-    attr.checked(checked),
+    WithElement(el => {
+      // Set initial state
+      ;(el as HTMLInputElement).checked = checked.value
+      // Track signal changes imperatively (same pattern as SelectAllCheckbox)
+      const unsub = Value.on(checked, v => {
+        ;(el as HTMLInputElement).checked = v
+      })
+      return OnDispose(unsub)
+    }),
     on.change(() => dataSource.toggleSelect(rowId))
   )
 }

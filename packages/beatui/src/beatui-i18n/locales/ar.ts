@@ -214,6 +214,29 @@ const ar: BeatUIMessages = {
     sortMultiHint: 'اضغط Shift للترتيب حسب أعمدة متعددة',
     columnVisibility: 'الأعمدة',
     showAllColumns: 'إظهار الكل',
+    // Column header menu
+    menuSortAsc: 'ترتيب تصاعدي',
+    menuSortDesc: 'ترتيب تنازلي',
+    menuClearSort: 'مسح الترتيب',
+    menuHideColumn: 'إخفاء العمود',
+    menuChooseColumns: 'اختيار الأعمدة',
+    menuResetColumns: 'إعادة تعيين الأعمدة',
+    menuFilter: 'تصفية',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `الصفوف: ${filtered}  إجمالي الصفوف: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'اختر القيم...',
+    // Group by
+    groupCount: (count: number) => `${count} عناصر`,
+    collapseGroup: 'طي المجموعة',
+    expandGroup: 'توسيع المجموعة',
+    // Aggregation labels
+    aggregationSum: 'المجموع',
+    aggregationCount: 'العدد',
+    aggregationAvg: 'المتوسط',
+    aggregationMin: 'الحد الأدنى',
+    aggregationMax: 'الحد الأقصى',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} يحتوي على "${val}"`,
       textNotContains: (col: string, val: string) => `${col} لا يحتوي على "${val}"`,

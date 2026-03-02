@@ -213,6 +213,29 @@ const zh: BeatUIMessages = {
     sortMultiHint: '按住 Shift 可对多列排序',
     columnVisibility: '列',
     showAllColumns: '显示全部',
+    // Column header menu
+    menuSortAsc: '升序排列',
+    menuSortDesc: '降序排列',
+    menuClearSort: '清除排序',
+    menuHideColumn: '隐藏列',
+    menuChooseColumns: '选择列',
+    menuResetColumns: '重置列',
+    menuFilter: '筛选',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `行数：${filtered}  总行数：${total}`,
+    // Tags filter
+    filterTagsPlaceholder: '选择值...',
+    // Group by
+    groupCount: (count: number) => `${count} 项`,
+    collapseGroup: '收起分组',
+    expandGroup: '展开分组',
+    // Aggregation labels
+    aggregationSum: '求和',
+    aggregationCount: '计数',
+    aggregationAvg: '平均',
+    aggregationMin: '最小',
+    aggregationMax: '最大',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} 包含 "${val}"`,
       textNotContains: (col: string, val: string) => `${col} 不包含 "${val}"`,

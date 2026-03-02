@@ -216,6 +216,29 @@ export const ru: BeatUIMessages = {
     sortMultiHint: 'Удерживайте Shift для сортировки по нескольким столбцам',
     columnVisibility: 'Столбцы',
     showAllColumns: 'Показать все',
+    // Column header menu
+    menuSortAsc: 'Сортировать по возрастанию',
+    menuSortDesc: 'Сортировать по убыванию',
+    menuClearSort: 'Сбросить сортировку',
+    menuHideColumn: 'Скрыть столбец',
+    menuChooseColumns: 'Выбрать столбцы',
+    menuResetColumns: 'Сбросить столбцы',
+    menuFilter: 'Фильтр',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `Строки: ${filtered}  Всего строк: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'Выбрать значения...',
+    // Group by
+    groupCount: (count: number) => `${count} элементов`,
+    collapseGroup: 'Свернуть группу',
+    expandGroup: 'Развернуть группу',
+    // Aggregation labels
+    aggregationSum: 'Сумма',
+    aggregationCount: 'Количество',
+    aggregationAvg: 'Среднее',
+    aggregationMin: 'Мин',
+    aggregationMax: 'Макс',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} содержит "${val}"`,
       textNotContains: (col: string, val: string) => `${col} не содержит "${val}"`,

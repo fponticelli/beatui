@@ -93,6 +93,8 @@ export interface ColumnFilterPanelOptions<T, C extends string = string> {
   columnType?: ColumnValueType
   /** Size variant. @default 'sm' */
   size?: Value<ControlSize>
+  /** When true, render only the panel content without trigger button and flyout wrapper. @default false */
+  embedded?: boolean
 }
 
 // ---------------------------------------------------------------------------
@@ -219,7 +221,7 @@ function disposeConditionState(state: ConditionState) {
 export function ColumnFilterPanel<T, C extends string = string>(
   opts: ColumnFilterPanelOptions<T, C>
 ): TNode {
-  const { dataSource, column, columnType = 'text', size = 'sm' } = opts
+  const { dataSource, column, columnType = 'text', size = 'sm', embedded = false } = opts
 
   const columnFilters = dataSource.getColumnFilters(column)
   const hasActiveFilters = columnFilters.map(f => f.length > 0)
@@ -233,6 +235,10 @@ export function ColumnFilterPanel<T, C extends string = string>(
 
   function defaultOperator(): string {
     return columnType === 'number' ? 'eq' : 'contains'
+  }
+
+  function defaultValue(): string {
+    return columnType === 'number' ? '0' : ''
   }
 
   function createCondition(operator: string, value: string, value2 = ''): number {
@@ -253,7 +259,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
     let conds: FilterCondition[]
 
     if (filters.length === 0) {
-      conds = [{ id: 0, operator: defaultOperator(), value: '' }]
+      conds = [{ id: 0, operator: defaultOperator(), value: defaultValue() }]
       mode.set('and')
     } else {
       const composite = filters.find(f => f.kind === 'composite') as
@@ -278,7 +284,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
         })
       }
       if (conds.length === 0) {
-        conds = [{ id: 0, operator: defaultOperator(), value: '' }]
+        conds = [{ id: 0, operator: defaultOperator(), value: defaultValue() }]
       }
     }
 
@@ -295,7 +301,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
   }
 
   function addCondition() {
-    const id = createCondition(defaultOperator(), '')
+    const id = createCondition(defaultOperator(), defaultValue())
     conditionIds.set([...conditionIds.value, id])
   }
 
@@ -347,13 +353,190 @@ export function ColumnFilterPanel<T, C extends string = string>(
   function clearFilters() {
     dataSource.removeFilter(column)
     disposeAllConditions()
-    const id = createCondition(defaultOperator(), '')
+    const id = createCondition(defaultOperator(), defaultValue())
     conditionIds.set([id])
     mode.set('and')
   }
 
   const operators = columnType === 'number' ? NUMBER_OPERATORS : TEXT_OPERATORS
 
+  // Shared panel content builder — used both in flyout mode and embedded mode
+  const buildPanelContent = (): TNode =>
+    Use(BeatUII18n, t => {
+      populateFromDataSource()
+
+      const dt = t.$.dataTable
+
+      const operatorOptions: SelectOption<string>[] = operators.map(
+        op =>
+          Option.value(
+            op.value,
+            dt.value[
+              op.labelKey as keyof typeof dt.value
+            ] as string
+          )
+      )
+
+      return html.div(
+        attr.class('bc-column-filter-panel'),
+        on.click(e => e.stopPropagation()),
+
+        // AND/OR mode toggle
+        When(
+          conditionIds.map(ids => ids.length >= 2),
+          () =>
+            html.div(
+              attr.class('bc-column-filter-panel__mode'),
+              SegmentedInput({
+                options: {
+                  and: dt.map(d => d.filterPanelAnd),
+                  or: dt.map(d => d.filterPanelOr),
+                },
+                value: mode as Value<'and' | 'or'>,
+                onChange: (v: 'and' | 'or') => mode.set(v),
+                size: 'xs',
+              })
+            )
+        ),
+
+        // Condition rows
+        html.div(
+          attr.class('bc-column-filter-panel__conditions'),
+          ForEach(conditionIds, idSignal =>
+            MapSignal(idSignal, id => {
+              const state = stateMap.get(id)
+              if (!state) return null
+
+              const valuePlaceholder = dt.map(
+                d => d.filterPanelValuePlaceholder
+              )
+
+              const makeNumberInput = (
+                valProp: ReturnType<typeof prop<string>>,
+                placeholder?: Value<string>
+              ) =>
+                NumberInput({
+                  value: valProp.map(v =>
+                    v === '' ? 0 : Number(v)
+                  ),
+                  size: 'xs',
+                  class: 'bc-column-filter-panel__value',
+                  placeholder: placeholder ?? valuePlaceholder,
+                  onChange: (v: number) =>
+                    valProp.set(String(v)),
+                })
+
+              const makeTextInput = (
+                valProp: ReturnType<typeof prop<string>>
+              ) =>
+                TextInput({
+                  value: valProp,
+                  size: 'xs',
+                  class: 'bc-column-filter-panel__value',
+                  placeholder: valuePlaceholder,
+                  onInput: (v: string) => valProp.set(v),
+                })
+
+              // Value row content depends on operator
+              const valueRow = (): TNode => {
+                if (columnType === 'number') {
+                  // "between" shows two number inputs
+                  const isBetween = state.opProp.map(
+                    op => op === 'between'
+                  )
+                  return Fragment(
+                    makeNumberInput(state.valProp),
+                    When(isBetween, () =>
+                      makeNumberInput(state.val2Prop)
+                    )
+                  )
+                }
+                return makeTextInput(state.valProp)
+              }
+
+              return html.div(
+                attr.class('bc-column-filter-panel__row'),
+                // Operator + close on one line
+                html.div(
+                  attr.class('bc-column-filter-panel__row-header'),
+                  NativeSelect<string>({
+                    value: state.opProp,
+                    options: operatorOptions,
+                    size: 'xs',
+                    class: 'bc-column-filter-panel__operator',
+                    onChange: (v: string) => state.opProp.set(v),
+                  }),
+                  CloseButton({
+                    size: 'xs',
+                    onClick: () => removeCondition(id),
+                  })
+                ),
+                // Value input(s) below — hidden for null ops
+                html.div(
+                  attr.class(
+                    state.opProp.map((op): string =>
+                      NULL_OPS.has(op)
+                        ? 'bc-column-filter-panel__value-wrap bc-column-filter-panel__value-wrap--hidden'
+                        : 'bc-column-filter-panel__value-wrap'
+                    )
+                  ),
+                  valueRow()
+                )
+              )
+            })
+          )
+        ),
+
+        // Add condition
+        html.div(
+          attr.class('bc-column-filter-panel__add'),
+          html.button(
+            attr.type('button'),
+            attr.class('bc-column-filter-panel__add-btn'),
+            on.click(() => addCondition()),
+            '+ ',
+            dt.map(d => d.filterPanelAddCondition)
+          )
+        ),
+
+        // Footer actions
+        html.div(
+          attr.class('bc-column-filter-panel__actions'),
+          Button(
+            {
+              size: 'xs',
+              variant: 'light',
+              color: 'danger',
+              onClick: () => clearFilters(),
+            },
+            Icon({ icon: 'lucide:trash-2', size: 'xs' }),
+            dt.map(d => d.filterPanelClear)
+          ),
+          Button(
+            {
+              size: 'xs',
+              variant: 'filled',
+              onClick: () => applyFilters(),
+            },
+            dt.map(d => d.filterPanelApply)
+          )
+        )
+      )
+    })
+
+  // Embedded mode: render just the panel content without trigger/flyout
+  if (embedded) {
+    return Fragment(
+      OnDispose(() => {
+        disposeAllConditions()
+        conditionIds.dispose()
+        mode.dispose()
+      }),
+      buildPanelContent()
+    )
+  }
+
+  // Default mode: trigger button with flyout
   return Fragment(
     OnDispose(() => {
       disposeAllConditions()
@@ -394,168 +577,7 @@ export function ColumnFilterPanel<T, C extends string = string>(
           })
         ),
         Flyout({
-          content: () =>
-            Use(BeatUII18n, t => {
-              populateFromDataSource()
-
-              const dt = t.$.dataTable
-
-              const operatorOptions: SelectOption<string>[] = operators.map(
-                op =>
-                  Option.value(
-                    op.value,
-                    dt.value[
-                      op.labelKey as keyof typeof dt.value
-                    ] as string
-                  )
-              )
-
-              return html.div(
-                attr.class('bc-column-filter-panel'),
-                on.click(e => e.stopPropagation()),
-
-                // AND/OR mode toggle
-                When(
-                  conditionIds.map(ids => ids.length >= 2),
-                  () =>
-                    html.div(
-                      attr.class('bc-column-filter-panel__mode'),
-                      SegmentedInput({
-                        options: {
-                          and: dt.map(d => d.filterPanelAnd),
-                          or: dt.map(d => d.filterPanelOr),
-                        },
-                        value: mode as Value<'and' | 'or'>,
-                        onChange: (v: 'and' | 'or') => mode.set(v),
-                        size: 'xs',
-                      })
-                    )
-                ),
-
-                // Condition rows
-                html.div(
-                  attr.class('bc-column-filter-panel__conditions'),
-                  ForEach(conditionIds, idSignal =>
-                    MapSignal(idSignal, id => {
-                      const state = stateMap.get(id)
-                      if (!state) return null
-
-                      const valuePlaceholder = dt.map(
-                        d => d.filterPanelValuePlaceholder
-                      )
-
-                      const makeNumberInput = (
-                        valProp: ReturnType<typeof prop<string>>,
-                        placeholder?: Value<string>
-                      ) =>
-                        NumberInput({
-                          value: valProp.map(v =>
-                            v === '' ? 0 : Number(v)
-                          ),
-                          size: 'xs',
-                          class: 'bc-column-filter-panel__value',
-                          placeholder: placeholder ?? valuePlaceholder,
-                          onChange: (v: number) =>
-                            valProp.set(String(v)),
-                        })
-
-                      const makeTextInput = (
-                        valProp: ReturnType<typeof prop<string>>
-                      ) =>
-                        TextInput({
-                          value: valProp,
-                          size: 'xs',
-                          class: 'bc-column-filter-panel__value',
-                          placeholder: valuePlaceholder,
-                          onInput: (v: string) => valProp.set(v),
-                        })
-
-                      // Value row content depends on operator
-                      const valueRow = (): TNode => {
-                        if (columnType === 'number') {
-                          // "between" shows two number inputs
-                          const isBetween = state.opProp.map(
-                            op => op === 'between'
-                          )
-                          return Fragment(
-                            makeNumberInput(state.valProp),
-                            When(isBetween, () =>
-                              makeNumberInput(state.val2Prop)
-                            )
-                          )
-                        }
-                        return makeTextInput(state.valProp)
-                      }
-
-                      return html.div(
-                        attr.class('bc-column-filter-panel__row'),
-                        // Operator + close on one line
-                        html.div(
-                          attr.class('bc-column-filter-panel__row-header'),
-                          NativeSelect<string>({
-                            value: state.opProp,
-                            options: operatorOptions,
-                            size: 'xs',
-                            class: 'bc-column-filter-panel__operator',
-                            onChange: (v: string) => state.opProp.set(v),
-                          }),
-                          CloseButton({
-                            size: 'xs',
-                            onClick: () => removeCondition(id),
-                          })
-                        ),
-                        // Value input(s) below — hidden for null ops
-                        html.div(
-                          attr.class(
-                            state.opProp.map((op): string =>
-                              NULL_OPS.has(op)
-                                ? 'bc-column-filter-panel__value-wrap bc-column-filter-panel__value-wrap--hidden'
-                                : 'bc-column-filter-panel__value-wrap'
-                            )
-                          ),
-                          valueRow()
-                        )
-                      )
-                    })
-                  )
-                ),
-
-                // Add condition
-                html.div(
-                  attr.class('bc-column-filter-panel__add'),
-                  html.button(
-                    attr.type('button'),
-                    attr.class('bc-column-filter-panel__add-btn'),
-                    on.click(() => addCondition()),
-                    '+ ',
-                    dt.map(d => d.filterPanelAddCondition)
-                  )
-                ),
-
-                // Footer actions
-                html.div(
-                  attr.class('bc-column-filter-panel__actions'),
-                  Button(
-                    {
-                      size: 'xs',
-                      variant: 'light',
-                      color: 'danger',
-                      onClick: () => clearFilters(),
-                    },
-                    Icon({ icon: 'lucide:trash-2', size: 'xs' }),
-                    dt.map(d => d.filterPanelClear)
-                  ),
-                  Button(
-                    {
-                      size: 'xs',
-                      variant: 'filled',
-                      onClick: () => applyFilters(),
-                    },
-                    dt.map(d => d.filterPanelApply)
-                  )
-                )
-              )
-            }),
+          content: () => buildPanelContent(),
           placement: 'bottom-start',
           showOn: 'click',
           showDelay: 0,

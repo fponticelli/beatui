@@ -213,6 +213,29 @@ const hi: BeatUIMessages = {
     sortMultiHint: 'एकाधिक कॉलम सॉर्ट करने के लिए Shift दबाएं',
     columnVisibility: 'कॉलम',
     showAllColumns: 'सभी दिखाएं',
+    // Column header menu
+    menuSortAsc: 'आरोही क्रम में छाँटें',
+    menuSortDesc: 'अवरोही क्रम में छाँटें',
+    menuClearSort: 'छँटाई हटाएं',
+    menuHideColumn: 'कॉलम छुपाएं',
+    menuChooseColumns: 'कॉलम चुनें',
+    menuResetColumns: 'कॉलम रीसेट करें',
+    menuFilter: 'फ़िल्टर',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `पंक्तियां: ${filtered}  कुल पंक्तियां: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'मान चुनें...',
+    // Group by
+    groupCount: (count: number) => `${count} आइटम`,
+    collapseGroup: 'समूह संकुचित करें',
+    expandGroup: 'समूह विस्तृत करें',
+    // Aggregation labels
+    aggregationSum: 'योग',
+    aggregationCount: 'गिनती',
+    aggregationAvg: 'औसत',
+    aggregationMin: 'न्यूनतम',
+    aggregationMax: 'अधिकतम',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} में "${val}" है`,
       textNotContains: (col: string, val: string) => `${col} में "${val}" नहीं है`,

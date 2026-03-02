@@ -6,6 +6,7 @@ import {
   SortDescriptor,
 } from './data-source'
 import { FilterBase } from './filter'
+import { ColumnAggregation } from './aggregation'
 
 /** The value type of a column, used by the filter panel to determine available operators. */
 export type ColumnValueType = 'text' | 'number'
@@ -35,9 +36,10 @@ export interface DataColumnDef<T, C extends string = string> {
    * - `true` or `'text'`: text input filter
    * - `'select'`: dropdown filter (requires `filterOptions`)
    * - `'panel'`: advanced flyout filter panel with multiple conditions and AND/OR logic
+   * - `'tags'`: multi-select tag input using OR logic (requires `filterOptions`)
    * @default false
    */
-  filterable?: boolean | 'text' | 'select' | 'panel'
+  filterable?: boolean | 'text' | 'select' | 'panel' | 'tags'
   /** Options for select-type filter */
   filterOptions?: { value: string; label: string }[]
   /** The column value type, used by `'panel'` filter to determine available operators. @default 'text' */
@@ -52,6 +54,8 @@ export interface DataColumnDef<T, C extends string = string> {
   align?: Value<'left' | 'center' | 'right'>
   /** Whether this column can be hidden via the column visibility toggle. @default false */
   hideable?: boolean
+  /** Aggregation to display in the footer row for this column */
+  aggregation?: ColumnAggregation
 }
 
 /**
@@ -116,6 +120,10 @@ export interface DataTableOptions<T, C extends string = string> {
   selectionPosition?: 'before' | 'after'
   /** Toggle row selection when clicking anywhere on the row. @default false */
   selectOnRowClick?: Value<boolean>
+  /** Enable drag-to-reorder columns. @default false */
+  reorderableColumns?: boolean
+  /** Called when column order changes via drag-and-drop */
+  onColumnOrderChange?: (columnIds: C[]) => void
 
   /** Pagination config. `true` uses defaults, `false`/undefined disables. */
   pagination?: Value<DataTablePaginationOptions | boolean>
@@ -157,6 +165,14 @@ export interface DataTableOptions<T, C extends string = string> {
   totalRows?: Value<number>
   /** Loading state */
   loading?: Value<boolean>
+
+  /** Column to group rows by. Renders collapsible group header rows. */
+  groupBy?: Value<C | undefined>
+  /** Whether groups are collapsible. @default true */
+  groupCollapsible?: boolean
+
+  /** Show aggregation footer row. Columns opt-in via `column.aggregation`. @default false */
+  showAggregation?: Value<boolean>
 
   /** Content to show when no rows match */
   emptyContent?: TNode

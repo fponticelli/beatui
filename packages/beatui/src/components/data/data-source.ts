@@ -42,6 +42,18 @@ export interface BulkAction {
  * @typeParam T - The type of data rows
  * @typeParam C - Column identifier type (defaults to `string`)
  */
+/**
+ * A group of rows sharing the same group-by value.
+ *
+ * @typeParam T - The type of data rows
+ */
+export interface RowGroup<T> {
+  /** The stringified group key */
+  key: string
+  /** Rows belonging to this group */
+  rows: T[]
+}
+
 export interface DataSourceOptions<T, C extends string = string> {
   /** The source data array (static or reactive) */
   data: Value<T[]>
@@ -61,6 +73,8 @@ export interface DataSourceOptions<T, C extends string = string> {
   multiSort?: Value<boolean>
   /** When true, skips client-side sort/filter/paginate (caller drives rows externally). @default false */
   serverSide?: Value<boolean>
+  /** Column to group rows by. `undefined` disables grouping. */
+  groupBy?: Value<C | undefined>
   /** Called whenever sort state changes */
   onSortChange?: (sort: SortDescriptor<C>[]) => void
   /** Called whenever filter state changes */
@@ -149,11 +163,21 @@ export interface DataSource<T, C extends string = string> {
   /** Change page size (resets to page 1) */
   setPageSize: (size: number) => void
 
+  // Group by
+  /** Current group-by column (undefined = no grouping) */
+  groupBy: Signal<C | undefined>
+  /** Set or clear group-by column */
+  setGroupBy: (column: C | undefined) => void
+  /** Grouped rows (empty array when groupBy is undefined) */
+  groups: Signal<RowGroup<T>[]>
+  /** All rows after sort and filter, before pagination */
+  allFilteredRows: Signal<T[]>
+
   // Reorder
   /** Swap two rows by ID (only effective when no sort active) */
   moveRow: (fromId: string, toId: string) => void
 
-  /** Reset sort, filters, selection, and page */
+  /** Reset sort, filters, selection, page, and groupBy */
   resetAll: () => void
   /** Clean up all reactive subscriptions */
   dispose: () => void
@@ -222,6 +246,7 @@ export function createDataSource<T, C extends string = string>(
     pageSize: pageSizeValue,
     multiSort = false,
     serverSide = false,
+    groupBy: groupByValue,
     onSortChange,
     onFilterChange,
     onPageChange,
@@ -355,6 +380,43 @@ export function createDataSource<T, C extends string = string>(
         return sorted
       })
   if (!serverSide) disposables.push(() => sortedData.dispose())
+
+  // Group-by state
+  const groupByState = prop<C | undefined>(
+    groupByValue != null ? Value.get(groupByValue) : undefined
+  )
+  disposables.push(() => groupByState.dispose())
+
+  // Track external groupBy changes
+  if (groupByValue != null) {
+    const groupBySignal = Value.toSignal(groupByValue)
+    const unsub = Value.on(groupBySignal, col => {
+      groupByState.set(col)
+    })
+    disposables.push(unsub)
+    disposables.push(() => groupBySignal.dispose())
+  }
+
+  // Groups computed from sortedData + groupBy
+  const groups = computedOf(
+    sortedData,
+    groupByState
+  )((items, col): RowGroup<T>[] => {
+    if (col == null) return []
+    const accessor = getAccessor(col)
+    const map = new Map<string, T[]>()
+    const keys: string[] = []
+    for (const row of items) {
+      const key = String(accessor(row) ?? '')
+      if (!map.has(key)) {
+        map.set(key, [])
+        keys.push(key)
+      }
+      map.get(key)!.push(row)
+    }
+    return keys.map(key => ({ key, rows: map.get(key)! }))
+  })
+  disposables.push(() => groups.dispose())
 
   // Step 4: Paginate
   const hasPagination = pageSizeValue != null
@@ -588,12 +650,17 @@ export function createDataSource<T, C extends string = string>(
     manualOrder.set(order)
   }
 
+  const setGroupBy = (column: C | undefined) => {
+    groupByState.set(column)
+  }
+
   const resetAll = () => {
     resetSort()
     resetFilters()
     deselectAll()
     currentPageState.set(1)
     manualOrder.set([])
+    groupByState.set(undefined)
   }
 
   const dispose = () => {
@@ -636,6 +703,10 @@ export function createDataSource<T, C extends string = string>(
     pageSize: pageSizeState,
     setPage,
     setPageSize,
+    groupBy: groupByState,
+    setGroupBy,
+    groups,
+    allFilteredRows: sortedData,
     moveRow,
     resetAll,
     dispose,

@@ -213,6 +213,29 @@ const vi: BeatUIMessages = {
     sortMultiHint: 'Giữ Shift để sắp xếp nhiều cột',
     columnVisibility: 'Cột',
     showAllColumns: 'Hiển thị tất cả',
+    // Column header menu
+    menuSortAsc: 'Sắp xếp tăng dần',
+    menuSortDesc: 'Sắp xếp giảm dần',
+    menuClearSort: 'Xóa sắp xếp',
+    menuHideColumn: 'Ẩn cột',
+    menuChooseColumns: 'Chọn cột',
+    menuResetColumns: 'Đặt lại cột',
+    menuFilter: 'Lọc',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `Hàng: ${filtered}  Tổng hàng: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'Chọn giá trị...',
+    // Group by
+    groupCount: (count: number) => `${count} mục`,
+    collapseGroup: 'Thu gọn nhóm',
+    expandGroup: 'Mở rộng nhóm',
+    // Aggregation labels
+    aggregationSum: 'Tổng',
+    aggregationCount: 'Đếm',
+    aggregationAvg: 'Trung bình',
+    aggregationMin: 'Min',
+    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} chứa "${val}"`,
       textNotContains: (col: string, val: string) => `${col} không chứa "${val}"`,

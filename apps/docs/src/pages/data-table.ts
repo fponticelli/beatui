@@ -165,6 +165,7 @@ export default function DataTablePage() {
       hoverable: z.boolean(),
       selectable: z.boolean(),
       selectOnRowClick: z.boolean(),
+      groupByCategory: z.boolean(),
       fullWidth: z.boolean(),
       withStripedRows: z.boolean(),
       withTableBorder: z.boolean(),
@@ -176,6 +177,7 @@ export default function DataTablePage() {
       hoverable: false,
       selectable: true,
       selectOnRowClick: true,
+      groupByCategory: false,
       fullWidth: true,
       withStripedRows: false,
       withTableBorder: true,
@@ -188,6 +190,7 @@ export default function DataTablePage() {
   const hoverable = controller.field('hoverable')
   const selectable = controller.field('selectable')
   const selectOnRowClick = controller.field('selectOnRowClick')
+  const groupByCategory = controller.field('groupByCategory')
   const fullWidth = controller.field('fullWidth')
   const withStripedRows = controller.field('withStripedRows')
   const withTableBorder = controller.field('withTableBorder')
@@ -238,7 +241,7 @@ export default function DataTablePage() {
             header: 'Category',
             cell: row => row.category,
             sortable: true,
-            filterable: 'select',
+            filterable: 'tags',
             filterOptions: [
               { value: 'Electronics', label: 'Electronics' },
               { value: 'Accessories', label: 'Accessories' },
@@ -251,31 +254,37 @@ export default function DataTablePage() {
             id: 'price',
             header: 'Price',
             cell: row => `$${row.price}`,
+            accessor: row => row.price,
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
             align: 'right',
             hideable: true,
+            aggregation: { fn: 'sum', format: v => `$${v.toFixed(0)}` },
           },
           {
             id: 'stock',
             header: 'Stock',
             cell: row => String(row.stock),
+            accessor: row => row.stock,
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
             align: 'right',
             hideable: true,
+            aggregation: { fn: 'sum' },
           },
           {
             id: 'rating',
             header: 'Rating',
             cell: row => `${row.rating} / 5`,
+            accessor: row => row.rating,
             sortable: true,
             filterable: 'panel',
             columnType: 'number',
             align: 'center',
             hideable: true,
+            aggregation: { fn: 'avg', format: v => `${v.toFixed(1)} / 5` },
           },
         ],
         rowId: row => row.id,
@@ -284,6 +293,9 @@ export default function DataTablePage() {
         filterable: true,
         selectable: selectable.signal,
         selectOnRowClick: selectOnRowClick.signal,
+        groupBy: groupByCategory.signal.map(v => v ? 'category' as const : undefined),
+        showAggregation: true,
+        reorderableColumns: true,
         pagination: { pageSize: 5, showFirstLast: true },
         toolbar: {
           bulkActions: [
@@ -342,7 +354,7 @@ export default function DataTablePage() {
         ),
         html.div(
           attr.class('flex flex-col space-y-3 min-w-48'),
-          html.h3(attr.class('text-sm font-semibold'), 'Selection'),
+          html.h3(attr.class('text-sm font-semibold'), 'Selection & Grouping'),
           Control(Switch, {
             layout: 'horizontal-label-right',
             controller: selectable,
@@ -352,6 +364,11 @@ export default function DataTablePage() {
             layout: 'horizontal-label-right',
             controller: selectOnRowClick,
             label: 'Select on Row Click',
+          }),
+          Control(Switch, {
+            layout: 'horizontal-label-right',
+            controller: groupByCategory,
+            label: 'Group by Category',
           })
         ),
         html.div(
@@ -391,7 +408,7 @@ export default function DataTablePage() {
           ),
           html.li(
             html.strong('Category'),
-            ' \u2014 Select dropdown filter (shown as icon trigger in header).'
+            ' \u2014 Multi-select tags filter (shown as icon trigger in header).'
           ),
           html.li(
             html.strong('Price / Stock / Rating'),

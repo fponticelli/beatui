@@ -214,6 +214,29 @@ export const ja: BeatUIMessages = {
     sortMultiHint: 'Shiftキーを押しながら複数列をソート',
     columnVisibility: '列',
     showAllColumns: 'すべて表示',
+    // Column header menu
+    menuSortAsc: '昇順で並び替え',
+    menuSortDesc: '降順で並び替え',
+    menuClearSort: '並び替えをクリア',
+    menuHideColumn: '列を非表示',
+    menuChooseColumns: '列を選択',
+    menuResetColumns: '列をリセット',
+    menuFilter: 'フィルター',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `行数: ${filtered}  合計行数: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: '値を選択...',
+    // Group by
+    groupCount: (count: number) => `${count} 件`,
+    collapseGroup: 'グループを折りたたむ',
+    expandGroup: 'グループを展開',
+    // Aggregation labels
+    aggregationSum: '合計',
+    aggregationCount: '件数',
+    aggregationAvg: '平均',
+    aggregationMin: '最小',
+    aggregationMax: '最大',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} が "${val}" を含む`,
       textNotContains: (col: string, val: string) => `${col} が "${val}" を含まない`,

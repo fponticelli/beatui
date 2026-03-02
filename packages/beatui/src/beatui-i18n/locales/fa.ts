@@ -213,6 +213,29 @@ const fa: BeatUIMessages = {
     sortMultiHint: 'برای مرتب‌سازی چند ستون، Shift را نگه دارید',
     columnVisibility: 'ستون‌ها',
     showAllColumns: 'نمایش همه',
+    // Column header menu
+    menuSortAsc: 'مرتب‌سازی صعودی',
+    menuSortDesc: 'مرتب‌سازی نزولی',
+    menuClearSort: 'حذف مرتب‌سازی',
+    menuHideColumn: 'پنهان کردن ستون',
+    menuChooseColumns: 'انتخاب ستون‌ها',
+    menuResetColumns: 'بازنشانی ستون‌ها',
+    menuFilter: 'فیلتر',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `ردیف‌ها: ${filtered}  کل ردیف‌ها: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'انتخاب مقادیر...',
+    // Group by
+    groupCount: (count: number) => `${count} مورد`,
+    collapseGroup: 'جمع کردن گروه',
+    expandGroup: 'بسط دادن گروه',
+    // Aggregation labels
+    aggregationSum: 'جمع',
+    aggregationCount: 'تعداد',
+    aggregationAvg: 'میانگین',
+    aggregationMin: 'کمینه',
+    aggregationMax: 'بیشینه',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} شامل "${val}"`,
       textNotContains: (col: string, val: string) => `${col} شامل نیست "${val}"`,

@@ -214,6 +214,29 @@ const ur: BeatUIMessages = {
     sortMultiHint: 'متعدد کالموں کو ترتیب دینے کے لیے Shift دبائیں',
     columnVisibility: 'کالم',
     showAllColumns: 'سب دکھائیں',
+    // Column header menu
+    menuSortAsc: 'صعودی ترتیب',
+    menuSortDesc: 'نزولی ترتیب',
+    menuClearSort: 'ترتیب ہٹائیں',
+    menuHideColumn: 'کالم چھپائیں',
+    menuChooseColumns: 'کالم منتخب کریں',
+    menuResetColumns: 'کالم ری سیٹ کریں',
+    menuFilter: 'فلٹر',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `قطاریں: ${filtered}  کل قطاریں: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'قدریں منتخب کریں...',
+    // Group by
+    groupCount: (count: number) => `${count} آئٹم`,
+    collapseGroup: 'گروپ سکیڑیں',
+    expandGroup: 'گروپ پھیلائیں',
+    // Aggregation labels
+    aggregationSum: 'مجموع',
+    aggregationCount: 'تعداد',
+    aggregationAvg: 'اوسط',
+    aggregationMin: 'کم سے کم',
+    aggregationMax: 'زیادہ سے زیادہ',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" پر مشتمل`,
       textNotContains: (col: string, val: string) => `${col} "${val}" پر مشتمل نہیں`,

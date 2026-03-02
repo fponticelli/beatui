@@ -1,10 +1,24 @@
-import { Fragment, OnDispose, Value } from '@tempots/dom'
+import { Fragment, OnDispose, prop, Value } from '@tempots/dom'
 import { DataSource } from './data-source'
-import { Filter, TextOperator } from './filter'
+import { Filter, FilterBase, SetFilter, TextOperator } from './filter'
 import { ControlSize } from '../theme'
 import { TextInput } from '../form/input/text-input'
 import { NativeSelect } from '../form/input/native-select'
+import { TagInput } from '../form/input/tag-input'
 import { Option, SelectOption } from '../form/input/option'
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function extractSetValues<C extends string>(filters: FilterBase<C>[]): string[] {
+  for (const f of filters) {
+    if (f.kind === 'set' && (f as SetFilter<C>).mode === 'include') {
+      return ((f as SetFilter<C>) as { values: unknown[] }).values.map(String)
+    }
+  }
+  return []
+}
 
 // ---------------------------------------------------------------------------
 // Discriminated union types
@@ -59,13 +73,24 @@ export interface SelectColumnFilter<T, C extends string = string> extends Column
 }
 
 /**
+ * Options for a multi-select tags column filter.
+ *
+ * @typeParam T - The type of data rows in the data source
+ */
+export interface TagsColumnFilter<T, C extends string = string> extends ColumnFilterBase<T, C> {
+  /** Discriminator — must be `'tags'` for a multi-select tag input filter. */
+  type: 'tags'
+  /** The list of value/label pairs. */
+  options: { value: string; label: string }[]
+  /** Placeholder text. @default 'Select values...' */
+  placeholder?: Value<string>
+}
+
+/**
  * Options for the {@link ColumnFilter} component.
  *
- * Use the `type` discriminator to select between `'text'` (default) and
- * `'select'` variants. The TypeScript compiler will enforce that `options` /
- * `allLabel` are only provided when `type === 'select'`, and that `placeholder`
- * / `operator` / `debounce` are only provided when `type` is `'text'` or
- * omitted.
+ * Use the `type` discriminator to select between `'text'` (default),
+ * `'select'`, and `'tags'` variants.
  *
  * @typeParam T - The type of data rows in the data source
  * @typeParam C - Column identifier type (defaults to `string`)
@@ -73,6 +98,7 @@ export interface SelectColumnFilter<T, C extends string = string> extends Column
 export type ColumnFilterOptions<T, C extends string = string> =
   | TextColumnFilter<T, C>
   | SelectColumnFilter<T, C>
+  | TagsColumnFilter<T, C>
 
 // ---------------------------------------------------------------------------
 // Component
@@ -111,11 +137,60 @@ export type ColumnFilterOptions<T, C extends string = string> =
  */
 export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOptions<T, C>) {
   const { dataSource, column, size = 'sm' } = opts
-  const filterValue = dataSource.getTextFilterValue(column)
+
+  // ------------------------------------------------------------------
+  // Tags variant
+  // ------------------------------------------------------------------
+  if (opts.type === 'tags') {
+    const { options, placeholder = 'Select values...' } = opts
+    const columnFilters = dataSource.getColumnFilters(column)
+
+    // Derive selected values from the set filter
+    const selectedValues = prop<string[]>(
+      extractSetValues(columnFilters.value)
+    )
+
+    // Keep selectedValues in sync when filters change externally
+    const unsub = columnFilters.on(filters => {
+      selectedValues.set(extractSetValues(filters))
+    })
+
+    // Map labels for display
+    const labelMap = new Map(options.map(o => [o.value, o.label]))
+    const displayValues = selectedValues.map(vals =>
+      vals.map(v => labelMap.get(v) ?? v)
+    )
+
+    return Fragment(
+      OnDispose(() => {
+        unsub()
+        selectedValues.dispose()
+        displayValues.dispose()
+      }),
+      TagInput({
+        values: displayValues,
+        onChange: (labels: string[]) => {
+          // Map labels back to values
+          const reverseLabelMap = new Map(options.map(o => [o.label, o.value]))
+          const vals = labels.map(l => reverseLabelMap.get(l) ?? l)
+          selectedValues.set(vals)
+          if (vals.length === 0) {
+            dataSource.removeFilter(column)
+          } else {
+            dataSource.setFilter(Filter.oneOf(column, vals))
+          }
+        },
+        placeholder,
+        size,
+      })
+    )
+  }
 
   // ------------------------------------------------------------------
   // Select variant
   // ------------------------------------------------------------------
+  const filterValue = dataSource.getTextFilterValue(column)
+
   if (opts.type === 'select') {
     const { options, allLabel = 'All' } = opts
 

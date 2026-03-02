@@ -215,6 +215,29 @@ const fr: BeatUIMessages = {
     sortMultiHint: 'Maintenez Shift pour trier plusieurs colonnes',
     columnVisibility: 'Colonnes',
     showAllColumns: 'Tout afficher',
+    // Column header menu
+    menuSortAsc: 'Tri croissant',
+    menuSortDesc: 'Tri décroissant',
+    menuClearSort: 'Supprimer le tri',
+    menuHideColumn: 'Masquer la colonne',
+    menuChooseColumns: 'Choisir les colonnes',
+    menuResetColumns: 'Réinitialiser les colonnes',
+    menuFilter: 'Filtrer',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `Lignes : ${filtered}  Total des lignes : ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'Sélectionner des valeurs...',
+    // Group by
+    groupCount: (count: number) => `${count} éléments`,
+    collapseGroup: 'Réduire le groupe',
+    expandGroup: 'Développer le groupe',
+    // Aggregation labels
+    aggregationSum: 'Somme',
+    aggregationCount: 'Nombre',
+    aggregationAvg: 'Moy.',
+    aggregationMin: 'Min',
+    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} contient "${val}"`,
       textNotContains: (col: string, val: string) => `${col} ne contient pas "${val}"`,

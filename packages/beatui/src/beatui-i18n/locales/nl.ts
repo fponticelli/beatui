@@ -214,6 +214,29 @@ export const nl: BeatUIMessages = {
     sortMultiHint: 'Houd Shift ingedrukt om meerdere kolommen te sorteren',
     columnVisibility: 'Kolommen',
     showAllColumns: 'Alles weergeven',
+    // Column header menu
+    menuSortAsc: 'Oplopend sorteren',
+    menuSortDesc: 'Aflopend sorteren',
+    menuClearSort: 'Sortering wissen',
+    menuHideColumn: 'Kolom verbergen',
+    menuChooseColumns: 'Kolommen kiezen',
+    menuResetColumns: 'Kolommen herstellen',
+    menuFilter: 'Filteren',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `Rijen: ${filtered}  Totaal rijen: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'Waarden selecteren...',
+    // Group by
+    groupCount: (count: number) => `${count} items`,
+    collapseGroup: 'Groep inklappen',
+    expandGroup: 'Groep uitklappen',
+    // Aggregation labels
+    aggregationSum: 'Som',
+    aggregationCount: 'Aantal',
+    aggregationAvg: 'Gem.',
+    aggregationMin: 'Min',
+    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} bevat "${val}"`,
       textNotContains: (col: string, val: string) => `${col} bevat niet "${val}"`,

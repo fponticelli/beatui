@@ -1,4 +1,4 @@
-import { aria, attr, html, on, TNode, Use, Value } from '@tempots/dom'
+import { aria, attr, html, on, TNode, Use, Value, When } from '@tempots/dom'
 import { DataSource } from './data-source'
 import { Icon } from './icon'
 import { Tooltip } from '../overlay/tooltip'
@@ -20,6 +20,20 @@ export interface SortableHeaderOptions<T, C extends string = string> {
   size?: Value<ControlSize>
   /** Extra actions (e.g. filter panel) rendered alongside the sort icon */
   actions?: TNode
+  /** Column menu (e.g. kebab ⋮ with sort/hide/columns actions) */
+  menu?: TNode
+  /** Hide the sort icon when no sort is active. @default false */
+  hideInactiveIcon?: boolean
+  /** Whether this header is draggable (for column reordering). @default false */
+  draggable?: boolean
+  /** Drag start handler */
+  onDragStart?: (e: DragEvent) => void
+  /** Drag over handler */
+  onDragOver?: (e: DragEvent) => void
+  /** Drop handler */
+  onDrop?: (e: DragEvent) => void
+  /** Drag end handler */
+  onDragEnd?: (e: DragEvent) => void
 }
 
 /**
@@ -44,7 +58,7 @@ export interface SortableHeaderOptions<T, C extends string = string> {
  * ```
  */
 export function SortableHeader<T, C extends string = string>(
-  { dataSource, column, size, actions }: SortableHeaderOptions<T, C>,
+  { dataSource, column, size, actions, menu, hideInactiveIcon = false, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd }: SortableHeaderOptions<T, C>,
   ...children: TNode[]
 ) {
   const direction = dataSource.getSortDirection(column)
@@ -70,6 +84,11 @@ export function SortableHeader<T, C extends string = string>(
   return html.th(
     attr.class(classes),
     attr.role('columnheader'),
+    isDraggable ? attr.draggable('true') : null,
+    onDragStart ? on.dragstart(onDragStart) : null,
+    onDragOver ? on.dragover(onDragOver) : null,
+    onDrop ? on.drop(onDrop) : null,
+    onDragEnd ? on.dragend(onDragEnd) : null,
     aria.sort(
       direction.map((d): 'none' | 'ascending' | 'descending' | 'other' => {
         if (d === 'asc') return 'ascending'
@@ -85,24 +104,46 @@ export function SortableHeader<T, C extends string = string>(
       html.span(attr.class('bc-sortable-header__label'), ...children),
       html.span(
         attr.class('bc-sortable-header__icons'),
-        html.span(
-          attr.class(
-            direction.map((d): string =>
-              d != null
-                ? 'bc-sortable-header__icon bc-sortable-header__icon--active'
-                : 'bc-sortable-header__icon'
+        hideInactiveIcon
+          ? When(
+              direction.map(d => d != null),
+              () =>
+                html.span(
+                  attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
+                  Icon({ icon: iconName, size: size ?? 'md' }),
+                  Use(BeatUII18n, t =>
+                    Tooltip({
+                      content: t.$.dataTable.map(dt => dt.sortMultiHint),
+                      showDelay: 800,
+                    })
+                  )
+                )
             )
-          ),
-          Icon({ icon: iconName, size: size ?? 'md' })
-        ),
-        actions ?? null
+          : html.span(
+              attr.class(
+                direction.map((d): string =>
+                  d != null
+                    ? 'bc-sortable-header__icon bc-sortable-header__icon--active'
+                    : 'bc-sortable-header__icon'
+                )
+              ),
+              Icon({ icon: iconName, size: size ?? 'md' }),
+              Use(BeatUII18n, t =>
+                Tooltip({
+                  content: t.$.dataTable.map(dt => dt.sortMultiHint),
+                  showDelay: 800,
+                })
+              )
+            ),
+        actions ?? null,
+        menu != null
+          ? html.span(
+              attr.class('bc-sortable-header__menu'),
+              on.click(e => e.stopPropagation()),
+              menu
+            )
+          : null
       )
-    ),
-    Use(BeatUII18n, t =>
-      Tooltip({
-        content: t.$.dataTable.map(dt => dt.sortMultiHint),
-        showDelay: 800,
-      })
     )
   )
 }

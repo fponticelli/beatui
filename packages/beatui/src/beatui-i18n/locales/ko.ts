@@ -214,6 +214,29 @@ const ko: BeatUIMessages = {
     sortMultiHint: 'Shift를 누른 채로 여러 열 정렬',
     columnVisibility: '열',
     showAllColumns: '모두 표시',
+    // Column header menu
+    menuSortAsc: '오름차순 정렬',
+    menuSortDesc: '내림차순 정렬',
+    menuClearSort: '정렬 지우기',
+    menuHideColumn: '열 숨기기',
+    menuChooseColumns: '열 선택',
+    menuResetColumns: '열 초기화',
+    menuFilter: '필터',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `행: ${filtered}  전체 행: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: '값 선택...',
+    // Group by
+    groupCount: (count: number) => `${count}개 항목`,
+    collapseGroup: '그룹 접기',
+    expandGroup: '그룹 펼치기',
+    // Aggregation labels
+    aggregationSum: '합계',
+    aggregationCount: '개수',
+    aggregationAvg: '평균',
+    aggregationMin: '최소',
+    aggregationMax: '최대',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" 포함`,
       textNotContains: (col: string, val: string) => `${col} "${val}" 미포함`,

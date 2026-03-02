@@ -214,6 +214,29 @@ const tr: BeatUIMessages = {
     sortMultiHint: 'Birden fazla sütunu sıralamak için Shift tuşunu basılı tutun',
     columnVisibility: 'Sütunlar',
     showAllColumns: 'Tümünü göster',
+    // Column header menu
+    menuSortAsc: 'Artan sırada sırala',
+    menuSortDesc: 'Azalan sırada sırala',
+    menuClearSort: 'Sıralamayı temizle',
+    menuHideColumn: 'Sütunu gizle',
+    menuChooseColumns: 'Sütun seç',
+    menuResetColumns: 'Sütunları sıfırla',
+    menuFilter: 'Filtrele',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `Satırlar: ${filtered}  Toplam satır: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'Değer seçin...',
+    // Group by
+    groupCount: (count: number) => `${count} öğe`,
+    collapseGroup: 'Grubu daralt',
+    expandGroup: 'Grubu genişlet',
+    // Aggregation labels
+    aggregationSum: 'Toplam',
+    aggregationCount: 'Sayı',
+    aggregationAvg: 'Ort.',
+    aggregationMin: 'Min',
+    aggregationMax: 'Maks',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" içerir`,
       textNotContains: (col: string, val: string) => `${col} "${val}" içermez`,

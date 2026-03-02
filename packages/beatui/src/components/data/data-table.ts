@@ -15,7 +15,7 @@ import {
   Use,
 } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
-import { createDataSource, DataSource, BulkAction } from './data-source'
+import { createDataSource, DataSource, BulkAction, RowGroup } from './data-source'
 import {
   DataColumnDef,
   DataTableOptions,
@@ -30,16 +30,18 @@ import { ColumnFilterPanel } from './column-filter-panel'
 import { SelectAllCheckbox } from './selection-checkbox'
 import { SelectionCheckbox } from './selection-checkbox'
 import { DataToolbar } from './data-toolbar'
+import { ColumnHeaderMenu } from './column-header-menu'
 import { Flyout } from '../navigation/flyout'
-import { Tooltip } from '../overlay/tooltip'
 import { CheckboxInput } from '../form/input/checkbox-input'
 import { Icon } from './icon'
 import { Button } from '../button/button'
+import { Tooltip } from '../overlay/tooltip'
 import {
   describeFilter,
   describeFilterLocalized,
   FilterDescriptionMessages,
 } from './filter'
+import { computeAggregation, AggregationFunction } from './aggregation'
 
 function resolveToolbarOptions(
   toolbar: boolean | DataTableToolbarOptions
@@ -101,6 +103,8 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     selectable = false,
     selectionPosition = 'before',
     selectOnRowClick = false,
+    reorderableColumns = false,
+    onColumnOrderChange,
     pagination: paginationOpt,
     toolbar: toolbarOpt,
     size = 'md',
@@ -117,6 +121,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     onRowClick,
     serverSide = false,
     loading = false,
+    groupBy: groupByOpt,
+    groupCollapsible = true,
+    showAggregation = false,
     emptyContent,
     columnVisibility: columnVisibilityOpt,
     onDataSource,
@@ -133,9 +140,20 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   const hiddenColumns = prop<Set<string>>(
     new Set(columnVisibilityOpt?.defaultHidden ?? [])
   )
-  const visibleColumns = hiddenColumns.map(hidden =>
-    columns.filter(c => !hidden.has(c.id))
-  )
+
+  // Column order state (for drag-to-reorder)
+  const columnOrder = prop<C[]>(columns.map(c => c.id))
+  const columnMap = new Map(columns.map(c => [c.id, c]))
+
+  const visibleColumns = reorderableColumns
+    ? computedOf(hiddenColumns, columnOrder)((hidden, order) =>
+        order
+          .filter(id => !hidden.has(id) && columnMap.has(id))
+          .map(id => columnMap.get(id)!)
+      )
+    : hiddenColumns.map(hidden =>
+        columns.filter(c => !hidden.has(c.id))
+      )
 
   const toggleColumnVisibility = (colId: string) => {
     const next = new Set(hiddenColumns.value)
@@ -169,6 +187,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     ),
     multiSort,
     serverSide,
+    groupBy: groupByOpt,
     onSortChange,
     onFilterChange,
     onPageChange: undefined,
@@ -193,90 +212,200 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
   const hasFilters = filterable && columns.some(c => c.filterable)
 
-  // Helper: render a filter action for header mode (text/select as icon trigger with flyout)
-  const renderFilterAction = (col: DataColumnDef<T, C>): TNode => {
-    const columnFilters = ds.getColumnFilters(col.id)
-    const hasActive = columnFilters.map(f => f.length > 0)
-    return html.div(
-      attr.class('bc-column-filter-panel__trigger-wrap'),
-      html.button(
-        attr.class(
-          hasActive.map(
-            (active): string =>
-              active
-                ? 'bc-column-filter-panel__trigger bc-column-filter-panel__trigger--active'
-                : 'bc-column-filter-panel__trigger'
-          )
-        ),
-        attr.type('button'),
-        Icon({ icon: 'lucide:filter', size }),
-        When(hasActive, () =>
-          html.span(attr.class('bc-column-filter-panel__active-dot'))
-        ),
-        When(hasActive, () =>
-          Use(BeatUII18n, t => {
-            const messages = (
-              t.value.dataTable as Record<string, unknown>
-            ).describeFilter as FilterDescriptionMessages | undefined
-            return Tooltip({
-              content: columnFilters.map(filters => {
-                if (filters.length === 0) return ''
-                const f = filters[0]
-                return messages
-                  ? describeFilterLocalized(f, messages)
-                  : describeFilter(f)
-              }),
-              showDelay: 500,
-            })
-          })
-        ),
-        Flyout({
-          content: () =>
-            html.div(
-              attr.class('bc-column-filter-panel'),
-              on.click(e => e.stopPropagation()),
-              col.filterable === 'select'
-                ? ColumnFilter({
-                    dataSource: ds,
-                    column: col.id,
-                    type: 'select',
-                    options: col.filterOptions ?? [],
-                    size,
-                  })
-                : ColumnFilter({
-                    dataSource: ds,
-                    column: col.id,
-                    size,
-                  })
-            ),
-          placement: 'bottom-start',
-          showOn: 'click',
-          showDelay: 0,
-          hideDelay: 0,
-        })
-      )
-    )
-  }
+  // Pagination should be hidden when groupBy is active (groups render all rows)
+  const paginationEnabledSignal = Value.toSignal(
+    Value.map(paginationConfig, p => p !== false)
+  )
+  const showPagination = computedOf(
+    paginationEnabledSignal,
+    ds.groupBy
+  )((pag, gb) => pag && gb == null)
 
-  // Helper: resolve header filter action for a column (returns null if no filter or layout is 'row')
-  const headerFilterAction = (col: DataColumnDef<T, C>): TNode | undefined => {
-    if (filterLayout !== 'header' || !col.filterable) return undefined
+  // Hideable column metadata for the menu
+  const hideableColumnMeta = hideableColumns.map(c => ({
+    id: c.id,
+    label: typeof c.header === 'string' ? c.header : c.id,
+  }))
+
+  // Helper: build filter content for embedding in the menu
+  const buildFilterContent = (col: DataColumnDef<T, C>): TNode | undefined => {
+    if (!col.filterable) return undefined
     if (col.filterable === 'panel') {
       return ColumnFilterPanel({
         dataSource: ds,
         column: col.id,
         columnType: col.columnType,
         size,
+        embedded: true,
       })
     }
-    return renderFilterAction(col)
+    if (col.filterable === 'select') {
+      return html.div(
+        attr.class('bc-column-filter-panel'),
+        ColumnFilter({
+          dataSource: ds,
+          column: col.id,
+          type: 'select',
+          options: col.filterOptions ?? [],
+          size,
+        })
+      )
+    }
+    if (col.filterable === 'tags') {
+      return html.div(
+        attr.class('bc-column-filter-panel'),
+        ColumnFilter({
+          dataSource: ds,
+          column: col.id,
+          type: 'tags',
+          options: col.filterOptions ?? [],
+          size,
+        })
+      )
+    }
+    // Auto-detect: if filterOptions exist, use select; if number column, use panel
+    if (col.filterOptions && col.filterOptions.length > 0) {
+      return html.div(
+        attr.class('bc-column-filter-panel'),
+        ColumnFilter({
+          dataSource: ds,
+          column: col.id,
+          type: 'select',
+          options: col.filterOptions,
+          size,
+        })
+      )
+    }
+    if (col.columnType === 'number') {
+      return ColumnFilterPanel({
+        dataSource: ds,
+        column: col.id,
+        columnType: 'number',
+        size,
+        embedded: true,
+      })
+    }
+    // Default: text filter
+    return html.div(
+      attr.class('bc-column-filter-panel'),
+      ColumnFilter({
+        dataSource: ds,
+        column: col.id,
+        size,
+      })
+    )
+  }
+
+  // Helper: build the column header menu for a column (only used in 'header' layout)
+  const buildColumnMenu = (col: DataColumnDef<T, C>): TNode => {
+    const columnFilters = ds.getColumnFilters(col.id)
+    const hasActiveFilter = columnFilters.map(f => f.length > 0)
+    return html.span(
+      attr.class('bc-column-header-menu'),
+      // Filter active indicator (shown on header, with tooltip describing the filter)
+      col.filterable
+        ? When(hasActiveFilter, () =>
+            html.span(
+              attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
+              Icon({ icon: 'lucide:filter', size }),
+              Use(BeatUII18n, t => {
+                const messages = (
+                  t.value.dataTable as Record<string, unknown>
+                ).describeFilter as FilterDescriptionMessages | undefined
+                return Tooltip({
+                  content: columnFilters.map(filters => {
+                    if (filters.length === 0) return ''
+                    return filters
+                      .map(f =>
+                        messages
+                          ? describeFilterLocalized(f, messages)
+                          : describeFilter(f)
+                      )
+                      .join(', ')
+                  }),
+                  showDelay: 300,
+                })
+              })
+            )
+          )
+        : null,
+      Icon({ icon: 'lucide:ellipsis-vertical', size }),
+      ColumnHeaderMenu({
+        dataSource: ds,
+        column: col.id,
+        sortable: !!(sortable && col.sortable),
+        hideable: col.hideable,
+        size,
+        onHideColumn: col.hideable
+          ? () => toggleColumnVisibility(col.id)
+          : undefined,
+        hideableColumns: hasColumnVisibility ? hideableColumnMeta : undefined,
+        hiddenColumns: hasColumnVisibility ? hiddenColumns : undefined,
+        onToggleColumn: hasColumnVisibility ? toggleColumnVisibility : undefined,
+        onResetColumns: hasColumnVisibility ? showAllColumns : undefined,
+        filterContent: buildFilterContent(col),
+        hasActiveFilter,
+        onClearFilter: col.filterable ? () => ds.removeFilter(col.id) : undefined,
+      })
+    )
+  }
+
+  // Column reorder drag state
+  let dragColumnId: C | null = null
+
+  const makeDragHandlers = (colId: C) => {
+    if (!reorderableColumns) return {}
+    return {
+      draggable: true as const,
+      onDragStart: (e: DragEvent) => {
+        dragColumnId = colId
+        if (e.dataTransfer) {
+          e.dataTransfer.effectAllowed = 'move'
+          e.dataTransfer.setData('text/plain', colId)
+        }
+        const th = e.currentTarget as HTMLElement
+        th.classList.add('bc-data-table__header--dragging')
+      },
+      onDragOver: (e: DragEvent) => {
+        if (dragColumnId == null || dragColumnId === colId) return
+        e.preventDefault()
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'move'
+        const th = e.currentTarget as HTMLElement
+        th.classList.add('bc-data-table__header--drag-over')
+      },
+      onDrop: (e: DragEvent) => {
+        e.preventDefault()
+        const th = e.currentTarget as HTMLElement
+        th.classList.remove('bc-data-table__header--drag-over')
+        if (dragColumnId == null || dragColumnId === colId) return
+        const order = [...columnOrder.value]
+        const fromIdx = order.indexOf(dragColumnId)
+        const toIdx = order.indexOf(colId)
+        if (fromIdx < 0 || toIdx < 0) return
+        order.splice(fromIdx, 1)
+        order.splice(toIdx, 0, dragColumnId)
+        columnOrder.set(order)
+        onColumnOrderChange?.(order)
+        dragColumnId = null
+      },
+      onDragEnd: (e: DragEvent) => {
+        dragColumnId = null
+        const th = e.currentTarget as HTMLElement
+        th.classList.remove('bc-data-table__header--dragging')
+        // Clean up any lingering drag-over classes
+        th.closest('tr')?.querySelectorAll('.bc-data-table__header--drag-over').forEach(el =>
+          el.classList.remove('bc-data-table__header--drag-over')
+        )
+      },
+    }
   }
 
   // Helper: render a column header cell
   const renderHeaderCell = (col: DataColumnDef<T, C>): TNode => {
     const headerContent =
       typeof col.header === 'string' ? col.header : col.header()
-    const action = headerFilterAction(col)
+    const menu = filterLayout === 'header' ? buildColumnMenu(col) : undefined
+    const drag = makeDragHandlers(col.id)
 
     if (sortable && col.sortable) {
       return SortableHeader(
@@ -284,35 +413,39 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           dataSource: ds,
           column: col.id,
           size,
-          actions: action,
+          menu,
+          hideInactiveIcon: filterLayout === 'header',
+          ...drag,
         },
         headerContent
       )
     }
-    if (action != null) {
-      return html.th(
-        col.width != null ? style.width(col.width) : null,
-        col.minWidth != null ? style.minWidth(col.minWidth) : null,
-        col.align != null
-          ? style.textAlign(Value.map(col.align, (a): string => a))
-          : null,
-        html.div(
-          attr.class('bc-sortable-header__content'),
-          html.span(attr.class('bc-sortable-header__label'), headerContent),
-          html.span(
-            attr.class('bc-sortable-header__icons'),
-            action
-          )
-        )
-      )
-    }
+    // Non-sortable header with menu (only in header mode)
     return html.th(
+      drag.draggable ? attr.draggable('true') : null,
+      drag.onDragStart ? on.dragstart(drag.onDragStart) : null,
+      drag.onDragOver ? on.dragover(drag.onDragOver) : null,
+      drag.onDrop ? on.drop(drag.onDrop) : null,
+      drag.onDragEnd ? on.dragend(drag.onDragEnd) : null,
       col.width != null ? style.width(col.width) : null,
       col.minWidth != null ? style.minWidth(col.minWidth) : null,
       col.align != null
         ? style.textAlign(Value.map(col.align, (a): string => a))
         : null,
-      headerContent
+      html.div(
+        attr.class('bc-sortable-header__content'),
+        html.span(attr.class('bc-sortable-header__label'), headerContent),
+        menu != null
+          ? html.span(
+              attr.class('bc-sortable-header__icons'),
+              html.span(
+                attr.class('bc-sortable-header__menu'),
+                on.click(e => e.stopPropagation()),
+                menu
+              )
+            )
+          : null
+      )
     )
   }
 
@@ -327,7 +460,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
             ? 'select'
             : col.filterable === 'panel'
               ? 'panel'
-              : null
+              : col.filterable === 'tags'
+                ? 'tags'
+                : null
     if (filterType == null) return html.th()
 
     if (filterType === 'panel') {
@@ -336,6 +471,18 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           dataSource: ds,
           column: col.id,
           columnType: col.columnType,
+          size,
+        })
+      )
+    }
+
+    if (filterType === 'tags') {
+      return html.th(
+        ColumnFilter({
+          dataSource: ds,
+          column: col.id,
+          type: 'tags',
+          options: col.filterOptions ?? [],
           size,
         })
       )
@@ -386,14 +533,15 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   const selectionEmptyCell = (): TNode =>
     When(selectable, () => html.th())
 
-  // Header row
+  // Header row — uses ForEach so toggling column visibility doesn't
+  // destroy existing header cells (which would close open menus).
   const renderHeaderRow = (): TNode =>
-    MapSignal(visibleColumns, visCols =>
-      html.tr(
-        !selectionAfter ? selectionHeaderCell() : null,
-        ...visCols.map(col => renderHeaderCell(col)),
-        selectionAfter ? selectionHeaderCell() : null
-      )
+    html.tr(
+      !selectionAfter ? selectionHeaderCell() : null,
+      ForEach(visibleColumns, colSignal =>
+        MapSignal(colSignal, col => renderHeaderCell(col))
+      ),
+      selectionAfter ? selectionHeaderCell() : null
     )
 
   // Filter row (only shown when filterLayout is 'row')
@@ -446,6 +594,160 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           selectionAfter ? selectionCell() : null
         )
       )
+    })
+
+  // Grouped body rendering
+  const collapsedGroups = prop<Set<string>>(new Set())
+
+  const renderGroupRow = (row: T, visCols: DataColumnDef<T, C>[]): TNode => {
+    const id = rowId(row)
+    const selectionCell = (): TNode =>
+      When(selectable, () =>
+        html.td(
+          attr.class('bc-data-table__selection-cell'),
+          on.click(e => e.stopPropagation()),
+          SelectionCheckbox({ dataSource: ds, rowId: id, size })
+        )
+      )
+    const rowClass = computedOf(
+      ds.isSelected(id),
+      rowClickable
+    )((sel, clickable): string => {
+      let cls = 'bc-data-table__row'
+      if (sel) cls += ' bc-data-table__row--selected'
+      if (clickable) cls += ' bc-data-table__row--clickable'
+      return cls
+    })
+    return html.tr(
+      attr.class(rowClass),
+      on.click(() => {
+        if (selectOnRowClickSignal.value && selectableSignal.value) {
+          ds.toggleSelect(id)
+        }
+        onRowClick?.(row)
+      }),
+      !selectionAfter ? selectionCell() : null,
+      ...visCols.map((col, colIdx) =>
+        html.td(
+          col.align != null
+            ? style.textAlign(Value.map(col.align, (a): string => a))
+            : null,
+          col.width != null ? style.width(col.width) : null,
+          col.cell(row, colIdx)
+        )
+      ),
+      selectionAfter ? selectionCell() : null
+    )
+  }
+
+  const renderGroupedBody = (): TNode =>
+    MapSignal(visibleColumns, visCols => {
+      const colSpan = Value.map(selectable, (sel): number =>
+        visCols.length + (sel ? 1 : 0)
+      )
+      return ForEach(ds.groups, groupSignal => {
+        const group: RowGroup<T> = groupSignal.value
+        const isCollapsed = collapsedGroups.map(s => s.has(group.key))
+        const toggleCollapse = () => {
+          const next = new Set(collapsedGroups.value)
+          if (next.has(group.key)) {
+            next.delete(group.key)
+          } else {
+            next.add(group.key)
+          }
+          collapsedGroups.set(next)
+        }
+        return Fragment(
+          Use(BeatUII18n, t =>
+            html.tr(
+              attr.class('bc-data-table__group-header'),
+              on.click(() => {
+                if (groupCollapsible) toggleCollapse()
+              }),
+              html.td(
+                attr.colspan(colSpan),
+                html.div(
+                  attr.class('bc-data-table__group-header-content'),
+                  groupCollapsible
+                    ? html.span(
+                        attr.class(
+                          isCollapsed.map((c): string =>
+                            c
+                              ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
+                              : 'bc-data-table__group-toggle'
+                          )
+                        ),
+                        Icon({ icon: 'lucide:chevron-down', size: 'sm' })
+                      )
+                    : null,
+                  html.span(
+                    attr.class('bc-data-table__group-label'),
+                    group.key
+                  ),
+                  html.span(
+                    attr.class('bc-data-table__group-count'),
+                    (() => {
+                      const fn = (
+                        t.value.dataTable as Record<string, unknown>
+                      ).groupCount as ((count: number) => string) | undefined
+                      return fn ? fn(group.rows.length) : `(${group.rows.length})`
+                    })()
+                  )
+                )
+              )
+            )
+          ),
+          When(
+            isCollapsed.map(c => !c),
+            () =>
+              Fragment(
+                ...group.rows.map(row => renderGroupRow(row, visCols)),
+                // Per-group aggregation row
+                hasAggregation
+                  ? When(showAggregation, () =>
+                      Use(BeatUII18n, t =>
+                        html.tr(
+                          attr.class(
+                            'bc-data-table__aggregation-row bc-data-table__group-aggregation-row'
+                          ),
+                          When(selectable, () => html.td()),
+                          ...visCols.map(col => {
+                            if (!col.aggregation) return html.td()
+                            const { fn, format, label } = col.aggregation
+                            const accessor =
+                              col.accessor ??
+                              ((row: T) =>
+                                (row as Record<string, unknown>)[col.id])
+                            const values = group.rows.map(row => accessor(row))
+                            const result = computeAggregation(values, fn)
+                            const formatted = format
+                              ? format(result)
+                              : String(result)
+                            const defaultLabel = (
+                              t.value.dataTable as Record<string, unknown>
+                            )[aggLabelMap[fn]] as string | undefined
+                            const displayLabel =
+                              label ?? defaultLabel ?? fn
+                            return html.td(
+                              col.align != null
+                                ? style.textAlign(
+                                    Value.map(
+                                      col.align,
+                                      (a): string => a
+                                    )
+                                  )
+                                : null,
+                              `${displayLabel}: ${formatted}`
+                            )
+                          })
+                        )
+                      )
+                    )
+                  : null
+              )
+          )
+        )
+      })
     })
 
   // Empty state
@@ -539,20 +841,70 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       )
     )
 
+  // Aggregation labels
+  const aggLabelMap: Record<AggregationFunction, string> = {
+    sum: 'aggregationSum',
+    count: 'aggregationCount',
+    avg: 'aggregationAvg',
+    min: 'aggregationMin',
+    max: 'aggregationMax',
+  }
+
+  const hasAggregation = columns.some(c => c.aggregation != null)
+
+  // Aggregation footer
+  const renderAggregationFooter = (): TNode => {
+    if (!hasAggregation) return null
+    return When(showAggregation, () =>
+      Use(BeatUII18n, t =>
+        MapSignal(visibleColumns, visCols =>
+          html.tr(
+            attr.class('bc-data-table__aggregation-row'),
+            When(selectable, () => html.td()),
+            ...visCols.map(col => {
+              if (!col.aggregation) return html.td()
+              const { fn, format, label } = col.aggregation
+              const accessor = col.accessor ?? ((row: T) => (row as Record<string, unknown>)[col.id])
+              return html.td(
+                col.align != null
+                  ? style.textAlign(Value.map(col.align, (a): string => a))
+                  : null,
+                MapSignal(ds.allFilteredRows, rows => {
+                  const values = rows.map(row => accessor(row))
+                  const result = computeAggregation(values, fn)
+                  const formatted = format ? format(result) : String(result)
+                  const defaultLabel = (
+                    t.value.dataTable as Record<string, unknown>
+                  )[aggLabelMap[fn]] as string | undefined
+                  const displayLabel = label ?? defaultLabel ?? fn
+                  return `${displayLabel}: ${formatted}`
+                })
+              )
+            })
+          )
+        )
+      )
+    )
+  }
+
   return Fragment(
     OnDispose(() => {
       ds.dispose()
       hiddenColumns.dispose()
       visibleColumns.dispose()
+      columnOrder.dispose()
+      collapsedGroups.dispose()
       hoverableSignal.dispose()
       selectOnRowClickSignal.dispose()
       selectableSignal.dispose()
       effectiveHoverable.dispose()
       rowClickable.dispose()
+      paginationEnabledSignal.dispose()
+      showPagination.dispose()
     }),
 
-    // Column visibility toggle
-    renderColumnToggle(),
+    // Column visibility toggle (only in row mode; in header mode it's in the menu)
+    filterLayout !== 'header' ? renderColumnToggle() : null,
 
     // Toolbar
     When(
@@ -591,13 +943,20 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           withRowBorders,
         },
         html.thead(renderHeaderRow(), renderFilterRow()),
-        html.tbody(renderBody(), renderEmpty())
+        html.tbody(
+          When(
+            ds.groupBy.map(g => g != null),
+            () => Fragment(renderGroupedBody(), renderEmpty()),
+            () => Fragment(renderBody(), renderEmpty())
+          )
+        ),
+        html.tfoot(renderAggregationFooter())
       )
     ),
 
-    // Pagination
+    // Pagination (hidden when groupBy is active)
     When(
-      Value.map(paginationConfig, p => p !== false),
+      showPagination,
       () =>
         html.div(
           attr.class('bc-data-table__pagination'),
@@ -618,6 +977,22 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
             ),
           })
         )
+    ),
+
+    // Row count footer
+    Use(BeatUII18n, t =>
+      html.div(
+        attr.class('bc-data-table__row-count'),
+        computedOf(
+          ds.totalFilteredRows,
+          ds.totalRows
+        )((filtered, total) => {
+          const fn = (
+            t.value.dataTable as Record<string, unknown>
+          ).rowCount as ((f: number, t: number) => string) | undefined
+          return fn ? fn(filtered, total) : `Rows: ${filtered}  Total Rows: ${total}`
+        })
+      )
     )
   )
 }

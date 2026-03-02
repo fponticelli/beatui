@@ -213,6 +213,29 @@ const he: BeatUIMessages = {
     sortMultiHint: 'החזק Shift למיון לפי מספר עמודות',
     columnVisibility: 'עמודות',
     showAllColumns: 'הצג הכל',
+    // Column header menu
+    menuSortAsc: 'מיון עולה',
+    menuSortDesc: 'מיון יורד',
+    menuClearSort: 'בטל מיון',
+    menuHideColumn: 'הסתר עמודה',
+    menuChooseColumns: 'בחר עמודות',
+    menuResetColumns: 'אפס עמודות',
+    menuFilter: 'סינון',
+    // Row count footer
+    rowCount: (filtered: number, total: number) =>
+      `שורות: ${filtered}  סה"כ שורות: ${total}`,
+    // Tags filter
+    filterTagsPlaceholder: 'בחר ערכים...',
+    // Group by
+    groupCount: (count: number) => `${count} פריטים`,
+    collapseGroup: 'כווץ קבוצה',
+    expandGroup: 'הרחב קבוצה',
+    // Aggregation labels
+    aggregationSum: 'סכום',
+    aggregationCount: 'ספירה',
+    aggregationAvg: 'ממוצע',
+    aggregationMin: 'מינ\'',
+    aggregationMax: 'מקס\'',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} מכיל "${val}"`,
       textNotContains: (col: string, val: string) => `${col} לא מכיל "${val}"`,
