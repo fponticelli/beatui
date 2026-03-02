@@ -161,6 +161,7 @@
 .bc-table--size-lg > tfoot > tr > th,
 .bc-table--size-lg > tfoot > tr > td {
   padding: var(--spacing-lg);
+  font-size: var(--font-size-lg);
 }
 
 .bc-table--size-xl > thead > tr > th,

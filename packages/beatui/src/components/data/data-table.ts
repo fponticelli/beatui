@@ -43,6 +43,7 @@ import {
   FilterDescriptionMessages,
 } from './filter'
 import { computeAggregation, AggregationFunction } from './aggregation'
+import { RowGroup } from './data-source'
 
 function resolveToolbarOptions(
   toolbar: boolean | DataTableToolbarOptions
@@ -50,6 +51,59 @@ function resolveToolbarOptions(
   if (toolbar === true) return {}
   if (toolbar === false || toolbar == null) return false
   return toolbar
+}
+
+/**
+ * Partition groups into pages, keeping whole groups together.
+ * A group only spans multiple pages if it alone exceeds pageSize.
+ * Collapsed groups count as 1 row (just the header) for page capacity.
+ */
+function paginateGroups<T>(
+  groups: RowGroup<T>[],
+  pageSize: number,
+  collapsed: Set<string>
+): RowGroup<T>[][] {
+  if (pageSize <= 0) return [groups]
+  const pages: RowGroup<T>[][] = []
+  let page: RowGroup<T>[] = []
+  let pageRows = 0
+
+  for (const group of groups) {
+    // Collapsed groups take up only 1 row (the header)
+    const effectiveRows = collapsed.has(group.key) ? 1 : group.rows.length
+
+    if (effectiveRows <= pageSize) {
+      // Small or collapsed group — keep together
+      if (pageRows > 0 && pageRows + effectiveRows > pageSize) {
+        pages.push(page)
+        page = []
+        pageRows = 0
+      }
+      page.push(group)
+      pageRows += effectiveRows
+    } else {
+      // Large expanded group — split into pageSize chunks
+      if (pageRows > 0) {
+        pages.push(page)
+        page = []
+        pageRows = 0
+      }
+      let offset = 0
+      while (offset < group.rows.length) {
+        const chunk = group.rows.slice(offset, offset + pageSize)
+        page.push({ key: group.key, rows: chunk })
+        pageRows = chunk.length
+        if (offset + pageSize < group.rows.length) {
+          pages.push(page)
+          page = []
+          pageRows = 0
+        }
+        offset += pageSize
+      }
+    }
+  }
+  if (page.length > 0) pages.push(page)
+  return pages.length > 0 ? pages : [[]]
 }
 
 function resolvePaginationOptions(
@@ -217,14 +271,68 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
   const hasFilters = filterable && columns.some(c => c.filterable)
 
-  // Pagination should be hidden when groupBy is active (groups render all rows)
   const paginationEnabledSignal = Value.toSignal(
     Value.map(paginationConfig, p => p !== false)
   )
+
+  // Collapsed group state (needed by group pagination)
+  const collapsedGroups = prop<Set<string>>(new Set())
+
+  // Group-aware pagination: partition groups into pages keeping whole groups together.
+  // Uses its own page state because DataSource.setPage clamps to flat totalPages.
+  const pageSizeSignal = Value.toSignal(
+    Value.map(paginationConfig, p => (p === false ? 0 : (p?.pageSize ?? 10)))
+  )
+  const groupCurrentPage = prop(1)
+  const groupPages = computedOf(
+    ds.groups,
+    pageSizeSignal,
+    collapsedGroups
+  )((groups, ps, collapsed) => paginateGroups(groups, ps, collapsed))
+
+  const groupTotalPages = groupPages.map(pages => pages.length)
+
+  // Clamp groupCurrentPage when groupTotalPages shrinks (e.g. filter applied)
+  const groupPageClampUnsub = Value.on(groupTotalPages, tp => {
+    const cp = groupCurrentPage.value
+    if (cp > tp) groupCurrentPage.set(Math.max(1, tp))
+  })
+
+  const currentGroupPageGroups = computedOf(
+    groupPages,
+    groupCurrentPage
+  )((pages, cp) => {
+    const idx = Math.max(0, Math.min(cp - 1, pages.length - 1))
+    return pages[idx] ?? []
+  })
+
+  // Effective total pages & current page: switch between flat and group-aware
+  const effectiveTotalPages = computedOf(
+    ds.groupBy,
+    ds.totalPages,
+    groupTotalPages
+  )((gb, stdPages, grpPages) => (gb != null ? grpPages : stdPages))
+
+  const effectiveCurrentPage = computedOf(
+    ds.groupBy,
+    ds.currentPage,
+    groupCurrentPage
+  )((gb, stdPage, grpPage) => (gb != null ? grpPage : stdPage))
+
+  const setEffectivePage = (page: number) => {
+    if (ds.groupBy.value != null) {
+      const clamped = Math.max(1, Math.min(page, groupTotalPages.value))
+      groupCurrentPage.set(clamped)
+    } else {
+      ds.setPage(page)
+    }
+  }
+
+  // Hide pagination when disabled or when all data fits on one page
   const showPagination = computedOf(
     paginationEnabledSignal,
-    ds.groupBy
-  )((pag, gb) => pag && gb == null)
+    effectiveTotalPages
+  )((pag, tp) => pag && tp > 1)
 
   // Hideable column metadata for the menu
   const hideableColumnMeta = hideableColumns.map(c => ({
@@ -307,12 +415,25 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     const hasActiveFilter = columnFilters.map(f => f.length > 0)
     return html.span(
       attr.class('bc-column-header-menu'),
-      // Filter active indicator (shown on header, with tooltip describing the filter)
+      // Filter active indicator — clickable to open filter panel directly
       includeFilter && col.filterable
         ? When(hasActiveFilter, () =>
             html.span(
               attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
+              on.click(e => e.stopPropagation()),
               Icon({ icon: 'lucide:filter', size }),
+              Flyout({
+                content: () =>
+                  html.div(
+                    attr.class('bc-column-filter-panel'),
+                    on.click(e => e.stopPropagation()),
+                    buildFilterContent(col) ?? null
+                  ),
+                placement: 'bottom-end',
+                showOn: 'click',
+                showDelay: 0,
+                hideDelay: 0,
+              }),
               Use(BeatUII18n, t => {
                 const messages = (
                   t.value.dataTable as Record<string, unknown>
@@ -344,10 +465,6 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         onHideColumn: col.hideable
           ? () => toggleColumnVisibility(col.id)
           : undefined,
-        hideableColumns: hasColumnVisibility ? hideableColumnMeta : undefined,
-        hiddenColumns: hasColumnVisibility ? hiddenColumns : undefined,
-        onToggleColumn: hasColumnVisibility ? toggleColumnVisibility : undefined,
-        onResetColumns: hasColumnVisibility ? showAllColumns : undefined,
         filterContent: includeFilter ? buildFilterContent(col) : undefined,
         hasActiveFilter: includeFilter ? hasActiveFilter : undefined,
         onClearFilter: includeFilter && col.filterable ? () => ds.removeFilter(col.id) : undefined,
@@ -605,8 +722,6 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     })
 
   // Grouped body rendering
-  const collapsedGroups = prop<Set<string>>(new Set())
-
   const renderGroupRow = (row: T): TNode => {
     const id = rowId(row)
     const selectionCell = (): TNode =>
@@ -661,7 +776,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
     return Fragment(
       OnDispose(() => groupColSpan.dispose()),
-      MapSignal(ds.groups, groups => Fragment(
+      MapSignal(currentGroupPageGroups, groups => Fragment(
         ...groups.map(group => {
           const isCollapsed = collapsedGroups.map(s => s.has(group.key))
           const toggleCollapse = () => {
@@ -969,13 +1084,21 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       effectiveHoverable.dispose()
       rowClickable.dispose()
       paginationEnabledSignal.dispose()
+      pageSizeSignal.dispose()
+      groupCurrentPage.dispose()
+      groupPageClampUnsub()
+      groupPages.dispose()
+      groupTotalPages.dispose()
+      currentGroupPageGroups.dispose()
+      effectiveTotalPages.dispose()
+      effectiveCurrentPage.dispose()
       showPagination.dispose()
       toolbarConfigSignal.dispose()
       rowCounts.dispose()
     }),
 
-    // Column visibility toggle (only in row mode; in header mode it's in the menu)
-    filterLayout !== 'header' ? renderColumnToggle() : null,
+    // Column visibility toggle
+    renderColumnToggle(),
 
     // Toolbar
     MapSignal(toolbarConfigSignal, tc => {
@@ -1023,9 +1146,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         html.div(
           attr.class('bc-data-table__pagination'),
           Pagination({
-            currentPage: ds.currentPage,
-            totalPages: ds.totalPages,
-            onPageChange: page => ds.setPage(page),
+            currentPage: effectiveCurrentPage,
+            totalPages: effectiveTotalPages,
+            onPageChange: page => setEffectivePage(page),
             siblings: Value.map(paginationConfig, p =>
               p === false ? 1 : (p.siblings ?? 1)
             ),
@@ -1041,16 +1164,18 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         )
     ),
 
-    // Row count footer
-    Use(BeatUII18n, t =>
-      html.div(
-        attr.class('bc-data-table__row-count'),
-        MapSignal(rowCounts, ({ filtered, total }) => {
-          const fn = (
-            t.value.dataTable as Record<string, unknown>
-          ).rowCount as ((f: number, t: number) => string) | undefined
-          return fn ? fn(filtered, total) : `Rows: ${filtered}  Total Rows: ${total}`
-        })
+    // Row count footer (hidden when pagination is hidden)
+    When(showPagination, () =>
+      Use(BeatUII18n, t =>
+        html.div(
+          attr.class('bc-data-table__row-count'),
+          MapSignal(rowCounts, ({ filtered, total }) => {
+            const fn = (
+              t.value.dataTable as Record<string, unknown>
+            ).rowCount as ((f: number, t: number) => string) | undefined
+            return fn ? fn(filtered, total) : `Rows: ${filtered}  Total Rows: ${total}`
+          })
+        )
       )
     )
   )
