@@ -75,6 +75,8 @@ export interface DataColumnDef<T, C extends string = string> {
   width?: Value<string>
   /** Minimum column width */
   minWidth?: Value<string>
+  /** Maximum column width */
+  maxWidth?: Value<string>
   /** Text alignment within cells. @default 'left' */
   align?: Value<'left' | 'center' | 'right'>
   /** Whether this column can be hidden via the column visibility toggle. @default false */

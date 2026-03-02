@@ -226,6 +226,7 @@ export default function DataTablePage() {
             cell: row => Value.map(row, r => r.name),
             sortable: true,
             filter: { type: 'panel' },
+            minWidth: '150px',
           },
           {
             id: 'sku',
@@ -234,6 +235,7 @@ export default function DataTablePage() {
             sortable: true,
             filter: true,
             hideable: true,
+            width: '140px',
           },
           {
             id: 'category',
@@ -259,6 +261,7 @@ export default function DataTablePage() {
             sortable: true,
             filter: 'number',
             align: 'right',
+            width: '100px',
             hideable: true,
             footer: rows =>
               Value.map(rows, rs => {
@@ -274,6 +277,7 @@ export default function DataTablePage() {
             sortable: true,
             filter: 'number',
             align: 'right',
+            maxWidth: '100px',
             hideable: true,
             footer: rows =>
               Value.map(rows, rs => {

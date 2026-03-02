@@ -664,6 +664,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       drag.onDragEnd ? on.dragend(drag.onDragEnd) : null,
       col.width != null ? style.width(col.width) : null,
       col.minWidth != null ? style.minWidth(col.minWidth) : null,
+      col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
       col.align != null
         ? style.textAlign(Value.map(col.align, (a): string => a))
         : null,
@@ -701,6 +702,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         ? style.textAlign(Value.map(col.align, (a): string => a))
         : null,
       col.width != null ? style.width(col.width) : null,
+      col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
       col.cell(rowSignal, colIdx)
     )
 
@@ -822,6 +824,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
                 ? style.textAlign(Value.map(col.align, (a): string => a))
                 : null,
               col.width != null ? style.width(col.width) : null,
+              col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
               col.cell(row, colIdx)
             )
           ),
