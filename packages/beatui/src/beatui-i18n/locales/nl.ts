@@ -231,12 +231,6 @@ export const nl: BeatUIMessages = {
     groupCount: (count: number) => `${count} items`,
     collapseGroup: 'Groep inklappen',
     expandGroup: 'Groep uitklappen',
-    // Aggregation labels
-    aggregationSum: 'Som',
-    aggregationCount: 'Aantal',
-    aggregationAvg: 'Gem.',
-    aggregationMin: 'Min',
-    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} bevat "${val}"`,
       textNotContains: (col: string, val: string) => `${col} bevat niet "${val}"`,

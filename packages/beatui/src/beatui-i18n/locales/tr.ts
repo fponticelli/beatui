@@ -231,12 +231,6 @@ const tr: BeatUIMessages = {
     groupCount: (count: number) => `${count} öğe`,
     collapseGroup: 'Grubu daralt',
     expandGroup: 'Grubu genişlet',
-    // Aggregation labels
-    aggregationSum: 'Toplam',
-    aggregationCount: 'Sayı',
-    aggregationAvg: 'Ort.',
-    aggregationMin: 'Min',
-    aggregationMax: 'Maks',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" içerir`,
       textNotContains: (col: string, val: string) => `${col} "${val}" içermez`,

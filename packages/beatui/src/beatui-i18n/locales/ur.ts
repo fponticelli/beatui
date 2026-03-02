@@ -231,12 +231,6 @@ const ur: BeatUIMessages = {
     groupCount: (count: number) => `${count} آئٹم`,
     collapseGroup: 'گروپ سکیڑیں',
     expandGroup: 'گروپ پھیلائیں',
-    // Aggregation labels
-    aggregationSum: 'مجموع',
-    aggregationCount: 'تعداد',
-    aggregationAvg: 'اوسط',
-    aggregationMin: 'کم سے کم',
-    aggregationMax: 'زیادہ سے زیادہ',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" پر مشتمل`,
       textNotContains: (col: string, val: string) => `${col} "${val}" پر مشتمل نہیں`,

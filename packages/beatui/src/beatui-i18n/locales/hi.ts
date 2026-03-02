@@ -230,12 +230,6 @@ const hi: BeatUIMessages = {
     groupCount: (count: number) => `${count} आइटम`,
     collapseGroup: 'समूह संकुचित करें',
     expandGroup: 'समूह विस्तृत करें',
-    // Aggregation labels
-    aggregationSum: 'योग',
-    aggregationCount: 'गिनती',
-    aggregationAvg: 'औसत',
-    aggregationMin: 'न्यूनतम',
-    aggregationMax: 'अधिकतम',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} में "${val}" है`,
       textNotContains: (col: string, val: string) => `${col} में "${val}" नहीं है`,

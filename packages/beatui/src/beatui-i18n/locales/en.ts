@@ -230,12 +230,6 @@ const en = {
     groupCount: (count: number) => `${count} items`,
     collapseGroup: 'Collapse group',
     expandGroup: 'Expand group',
-    // Aggregation labels
-    aggregationSum: 'Sum',
-    aggregationCount: 'Count',
-    aggregationAvg: 'Avg',
-    aggregationMin: 'Min',
-    aggregationMax: 'Max',
     // Filter descriptions (for toolbar chips)
     describeFilter: {
       textContains: (col: string, val: string) => `${col} contains "${val}"`,

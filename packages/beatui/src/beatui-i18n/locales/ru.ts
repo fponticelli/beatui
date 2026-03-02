@@ -233,12 +233,6 @@ export const ru: BeatUIMessages = {
     groupCount: (count: number) => `${count} элементов`,
     collapseGroup: 'Свернуть группу',
     expandGroup: 'Развернуть группу',
-    // Aggregation labels
-    aggregationSum: 'Сумма',
-    aggregationCount: 'Количество',
-    aggregationAvg: 'Среднее',
-    aggregationMin: 'Мин',
-    aggregationMax: 'Макс',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} содержит "${val}"`,
       textNotContains: (col: string, val: string) => `${col} не содержит "${val}"`,

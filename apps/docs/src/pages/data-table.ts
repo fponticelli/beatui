@@ -1,4 +1,4 @@
-import { html, attr, Fragment, prop } from '@tempots/dom'
+import { html, attr, Fragment, MapSignal, prop, Value } from '@tempots/dom'
 import {
   Card,
   DataTable,
@@ -6,6 +6,8 @@ import {
   Control,
   Switch,
   type ControlSize,
+  NumberInput,
+  DataTablePaginationOptions,
 } from '@tempots/beatui'
 import z from 'zod'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -171,6 +173,7 @@ export default function DataTablePage() {
       withTableBorder: z.boolean(),
       withColumnBorders: z.boolean(),
       withRowBorders: z.boolean(),
+      rowsPerPage: z.number(),
     }),
     initialValue: {
       size: 'md' as ControlSize,
@@ -183,6 +186,7 @@ export default function DataTablePage() {
       withTableBorder: true,
       withColumnBorders: false,
       withRowBorders: true,
+      rowsPerPage: 10,
     },
   })
 
@@ -196,20 +200,15 @@ export default function DataTablePage() {
   const withTableBorder = controller.field('withTableBorder')
   const withColumnBorders = controller.field('withColumnBorders')
   const withRowBorders = controller.field('withRowBorders')
+  const rowsPerPage = controller.field('rowsPerPage')
 
   const selectionInfo = prop('')
+
+  const data = prop(products)
 
   return Fragment(
     attr.class('m-4'),
     html.h2(attr.class('text-lg font-semibold mb-2'), 'DataTable Component'),
-    html.p(
-      attr.class('text-sm text-gray-600 dark:text-gray-400 mb-4'),
-      'Full-featured data table with sorting, filtering (text, select, and advanced panel), ',
-      'click-to-select rows, pagination, toolbar with localized filter chips, and bulk actions. ',
-      'Try clicking rows to select, use the filter icons in headers, and apply filters to see ',
-      'localized descriptions in the toolbar.'
-    ),
-
     html.div(
       attr.class('flex flex-col space-y-4'),
       // Selection info
@@ -219,72 +218,86 @@ export default function DataTablePage() {
       ),
       // DataTable
       DataTable<Product>({
-        data: prop(products),
+        data,
         columns: [
           {
             id: 'name',
             header: 'Product',
-            cell: row => row.name,
+            cell: row => Value.map(row, r => r.name),
             sortable: true,
-            filterable: 'panel',
+            filter: { type: 'panel' },
           },
           {
             id: 'sku',
             header: 'SKU',
-            cell: row => html.code(attr.class('text-xs'), row.sku),
+            cell: row => MapSignal(row, r => html.code(attr.class('text-xs'), r.sku)),
             sortable: true,
-            filterable: true,
+            filter: true,
             hideable: true,
           },
           {
             id: 'category',
             header: 'Category',
-            cell: row => row.category,
+            cell: row => Value.map(row, r => r.category),
             sortable: true,
-            filterable: 'tags',
-            filterOptions: [
-              { value: 'Electronics', label: 'Electronics' },
-              { value: 'Accessories', label: 'Accessories' },
-              { value: 'Audio', label: 'Audio' },
-              { value: 'Storage', label: 'Storage' },
-              { value: 'Office', label: 'Office' },
-            ],
+            filter: {
+              type: 'tags',
+              options: [
+                { value: 'Electronics', label: 'Electronics' },
+                { value: 'Accessories', label: 'Accessories' },
+                { value: 'Audio', label: 'Audio' },
+                { value: 'Storage', label: 'Storage' },
+                { value: 'Office', label: 'Office' },
+              ],
+            },
           },
           {
             id: 'price',
             header: 'Price',
-            cell: row => `$${row.price}`,
-            accessor: row => row.price,
+            cell: row => Value.map(row, r => `$${r.price.toLocaleString()}`),
+            value: row => row.price,
             sortable: true,
-            filterable: 'panel',
-            columnType: 'number',
+            filter: 'number',
             align: 'right',
             hideable: true,
-            aggregation: { fn: 'sum', format: v => `$${v.toFixed(0)}` },
+            footer: rows =>
+              Value.map(rows, rs => {
+                const sum = rs.reduce((acc, r) => acc + r.price, 0)
+                return `Sum: $${sum.toFixed(0)}`
+              }),
           },
           {
             id: 'stock',
             header: 'Stock',
-            cell: row => String(row.stock),
-            accessor: row => row.stock,
+            cell: row => Value.map(row, r => String(r.stock)),
+            value: row => row.stock,
             sortable: true,
-            filterable: 'panel',
-            columnType: 'number',
+            filter: 'number',
             align: 'right',
             hideable: true,
-            aggregation: { fn: 'sum' },
+            footer: rows =>
+              Value.map(rows, rs => {
+                const sum = rs.reduce((acc, r) => acc + r.stock, 0)
+                return `Sum: ${sum}`
+              }),
           },
           {
             id: 'rating',
             header: 'Rating',
-            cell: row => `${row.rating} / 5`,
-            accessor: row => row.rating,
+            cell: row => Value.map(row, r => `${r.rating} / 5`),
+            value: row => row.rating,
             sortable: true,
-            filterable: 'panel',
-            columnType: 'number',
+            filter: 'number',
             align: 'center',
             hideable: true,
-            aggregation: { fn: 'avg', format: v => `${v.toFixed(1)} / 5` },
+            footer: rows =>
+              Value.map(rows, rs => {
+                const avg =
+                  rs.length > 0
+                    ? rs.reduce((acc, r) => acc + r.rating, 0) / rs.length
+                    : 0
+                return `Avg: ${avg.toFixed(1)} / 5`
+              }),
           },
         ],
         rowId: row => row.id,
@@ -293,10 +306,18 @@ export default function DataTablePage() {
         filterable: true,
         selectable: selectable.signal,
         selectOnRowClick: selectOnRowClick.signal,
-        groupBy: groupByCategory.signal.map((v): string | undefined => v ? 'category' : undefined),
-        showAggregation: true,
+        groupBy: groupByCategory.signal.map((v): string | undefined =>
+          v ? 'category' : undefined
+        ),
+        showFooter: true,
         reorderableColumns: true,
-        pagination: { pageSize: 5, showFirstLast: true },
+        pagination: rowsPerPage.signal.map(
+          v =>
+            ({
+              pageSize: v,
+              showFirstLast: true,
+            }) as DataTablePaginationOptions | boolean
+        ),
         toolbar: {
           bulkActions: [
             {
@@ -329,13 +350,24 @@ export default function DataTablePage() {
         {},
         attr.class('flex flex-row flex-wrap gap-6'),
         html.div(
-          attr.class('flex flex-col space-y-3 min-w-48'),
+          attr.class('flex flex-col min-w-48 gap-2'),
           html.h3(attr.class('text-sm font-semibold'), 'Appearance'),
           ControlSizeSelector({
             size: size.signal,
             onChange: size.change,
             label: 'Size',
           }),
+          NumberInput({
+            min: 1,
+            max: 100,
+            step: 1,
+            value: rowsPerPage.signal,
+            onChange: rowsPerPage.change,
+          })
+        ),
+        html.div(
+          attr.class('flex flex-col min-w-48'),
+          html.h3(attr.class('text-sm font-semibold'), '-'),
           Control(Switch, {
             layout: 'horizontal-label-right',
             controller: hoverable,
@@ -353,7 +385,7 @@ export default function DataTablePage() {
           })
         ),
         html.div(
-          attr.class('flex flex-col space-y-3 min-w-48'),
+          attr.class('flex flex-col min-w-48'),
           html.h3(attr.class('text-sm font-semibold'), 'Selection & Grouping'),
           Control(Switch, {
             layout: 'horizontal-label-right',
@@ -372,7 +404,7 @@ export default function DataTablePage() {
           })
         ),
         html.div(
-          attr.class('flex flex-col space-y-3 min-w-48'),
+          attr.class('flex flex-col min-w-48'),
           html.h3(attr.class('text-sm font-semibold'), 'Borders'),
           Control(Switch, {
             layout: 'horizontal-label-right',
@@ -389,35 +421,6 @@ export default function DataTablePage() {
             controller: withRowBorders,
             label: 'Row Borders',
           })
-        )
-      ),
-
-      // Feature descriptions
-      Card(
-        {},
-        html.h3(attr.class('text-sm font-semibold mb-2'), 'Filter Types'),
-        html.ul(
-          attr.class('text-xs text-gray-600 dark:text-gray-400 space-y-1 list-disc pl-4'),
-          html.li(
-            html.strong('Product'),
-            ' \u2014 Panel filter (text): contains, starts with, equals, etc.'
-          ),
-          html.li(
-            html.strong('SKU'),
-            ' \u2014 Basic text input filter (shown as icon trigger in header).'
-          ),
-          html.li(
-            html.strong('Category'),
-            ' \u2014 Multi-select tags filter (shown as icon trigger in header).'
-          ),
-          html.li(
-            html.strong('Price / Stock / Rating'),
-            ' \u2014 Panel filter (number): =, >, between, etc.'
-          ),
-          html.li(
-            html.strong('Tooltips'),
-            ' \u2014 Hover any active filter icon to see the applied filter description.'
-          )
         )
       )
     )

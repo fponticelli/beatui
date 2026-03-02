@@ -230,12 +230,6 @@ const vi: BeatUIMessages = {
     groupCount: (count: number) => `${count} mục`,
     collapseGroup: 'Thu gọn nhóm',
     expandGroup: 'Mở rộng nhóm',
-    // Aggregation labels
-    aggregationSum: 'Tổng',
-    aggregationCount: 'Đếm',
-    aggregationAvg: 'Trung bình',
-    aggregationMin: 'Min',
-    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} chứa "${val}"`,
       textNotContains: (col: string, val: string) => `${col} không chứa "${val}"`,

@@ -230,12 +230,6 @@ const he: BeatUIMessages = {
     groupCount: (count: number) => `${count} פריטים`,
     collapseGroup: 'כווץ קבוצה',
     expandGroup: 'הרחב קבוצה',
-    // Aggregation labels
-    aggregationSum: 'סכום',
-    aggregationCount: 'ספירה',
-    aggregationAvg: 'ממוצע',
-    aggregationMin: 'מינ\'',
-    aggregationMax: 'מקס\'',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} מכיל "${val}"`,
       textNotContains: (col: string, val: string) => `${col} לא מכיל "${val}"`,

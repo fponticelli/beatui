@@ -474,24 +474,24 @@ th.bc-data-table__header--drag-over {
   border-left: 2px solid var(--color-primary-500);
 }
 
-/* Aggregation Footer */
-.bc-data-table__aggregation-row {
+/* Footer */
+.bc-data-table__footer-row {
   background-color: var(--bg-surface);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--text-muted);
 }
 
-.bc-data-table__aggregation-row td {
+.bc-data-table__footer-row td {
   padding: var(--spacing-xs) var(--spacing-sm);
   border-top: var(--border-width-thin) solid var(--border-default);
 }
 
-.bc-data-table__group-aggregation-row {
+.bc-data-table__group-footer-row {
   font-size: var(--font-size-xs);
 }
 
-.bc-data-table__group-aggregation-row td {
+.bc-data-table__group-footer-row td {
   border-top: none;
   padding-top: var(--spacing-2xs);
   padding-bottom: var(--spacing-2xs);
@@ -538,7 +538,7 @@ th.bc-data-table__header--drag-over {
   font-size: var(--font-size-xs);
 }
 
-.bc-data-table__group-aggregation-summary {
+.bc-data-table__group-footer-summary {
   margin-left: auto;
   color: var(--text-muted);
   font-weight: var(--font-weight-normal);

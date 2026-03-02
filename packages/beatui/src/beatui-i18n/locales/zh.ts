@@ -230,12 +230,6 @@ const zh: BeatUIMessages = {
     groupCount: (count: number) => `${count} 项`,
     collapseGroup: '收起分组',
     expandGroup: '展开分组',
-    // Aggregation labels
-    aggregationSum: '求和',
-    aggregationCount: '计数',
-    aggregationAvg: '平均',
-    aggregationMin: '最小',
-    aggregationMax: '最大',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} 包含 "${val}"`,
       textNotContains: (col: string, val: string) => `${col} 不包含 "${val}"`,

@@ -230,12 +230,6 @@ const fa: BeatUIMessages = {
     groupCount: (count: number) => `${count} مورد`,
     collapseGroup: 'جمع کردن گروه',
     expandGroup: 'بسط دادن گروه',
-    // Aggregation labels
-    aggregationSum: 'جمع',
-    aggregationCount: 'تعداد',
-    aggregationAvg: 'میانگین',
-    aggregationMin: 'کمینه',
-    aggregationMax: 'بیشینه',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} شامل "${val}"`,
       textNotContains: (col: string, val: string) => `${col} شامل نیست "${val}"`,

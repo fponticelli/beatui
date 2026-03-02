@@ -6,10 +6,44 @@ import {
   SortDescriptor,
 } from './data-source'
 import { FilterBase } from './filter'
-import { ColumnAggregation } from './aggregation'
 
 /** The value type of a column, used by the filter panel to determine available operators. */
 export type ColumnValueType = 'text' | 'number'
+
+/**
+ * Props passed to a custom filter render function.
+ *
+ * @typeParam T - The type of data rows
+ * @typeParam C - Column identifier type (defaults to `string`)
+ */
+export interface FilterRenderProps<T, C extends string = string> {
+  dataSource: DataSource<T, C>
+  column: C
+  size: Value<ControlSize>
+}
+
+/**
+ * Filter configuration for a column.
+ *
+ * - `boolean` — `true` enables a text filter
+ * - `'text'` — explicit text filter
+ * - `'number'` — shortcut for `{ type: 'panel', valueType: 'number' }`
+ * - `{ type: 'select', options }` — dropdown filter
+ * - `{ type: 'tags', options }` — multi-select tag filter
+ * - `{ type: 'panel', valueType? }` — advanced filter panel
+ * - `{ render }` — fully custom filter UI
+ *
+ * @typeParam T - The type of data rows
+ * @typeParam C - Column identifier type (defaults to `string`)
+ */
+export type ColumnFilterConfig<T, C extends string = string> =
+  | boolean
+  | 'text'
+  | 'number'
+  | { type: 'select'; options: { value: string; label: string }[] }
+  | { type: 'tags'; options: { value: string; label: string }[] }
+  | { type: 'panel'; valueType?: ColumnValueType }
+  | { render: (props: FilterRenderProps<T, C>) => TNode }
 
 /**
  * Column definition for a {@link DataTable}.
@@ -18,34 +52,25 @@ export type ColumnValueType = 'text' | 'number'
  * @typeParam C - Column identifier type (defaults to `string`)
  */
 export interface DataColumnDef<T, C extends string = string> {
-  /** Unique column identifier. Used as key for accessor, sort, and filter. */
+  /** Unique column identifier. Used as key for value accessor, sort, and filter. */
   id: C
   /** Column header content. String or render function. */
   header: string | (() => TNode)
-  /** Render function for cell content. Receives the row data and row index. */
-  cell: (row: T, index: number) => TNode
+  /** Render function for cell content. Receives a reactive row value and the column index. */
+  cell: (row: Value<T>, index: number) => TNode
   /**
    * Accessor function to extract the column value from a row.
    * If omitted, defaults to `row[id]`.
    */
-  accessor?: (row: T) => unknown
+  value?: (row: T) => unknown
   /** Whether this column is sortable. @default false */
-  sortable?: boolean
-  /**
-   * Whether this column is filterable.
-   * - `true` or `'text'`: text input filter
-   * - `'select'`: dropdown filter (requires `filterOptions`)
-   * - `'panel'`: advanced flyout filter panel with multiple conditions and AND/OR logic
-   * - `'tags'`: multi-select tag input using OR logic (requires `filterOptions`)
-   * @default false
-   */
-  filterable?: boolean | 'text' | 'select' | 'panel' | 'tags'
-  /** Options for select-type filter */
-  filterOptions?: { value: string; label: string }[]
-  /** The column value type, used by `'panel'` filter to determine available operators. @default 'text' */
-  columnType?: ColumnValueType
+  sortable?: Value<boolean>
   /** Custom comparator for sorting this column */
   comparator?: (a: unknown, b: unknown) => number
+  /** Filter configuration for this column. Reactive — can be toggled at runtime. */
+  filter?: Value<ColumnFilterConfig<T, C>>
+  /** Footer render function. Receives all filtered rows as a reactive value. */
+  footer?: (rows: Value<T[]>) => TNode
   /** Column width (e.g., '200px', '20%') */
   width?: Value<string>
   /** Minimum column width */
@@ -53,9 +78,7 @@ export interface DataColumnDef<T, C extends string = string> {
   /** Text alignment within cells. @default 'left' */
   align?: Value<'left' | 'center' | 'right'>
   /** Whether this column can be hidden via the column visibility toggle. @default false */
-  hideable?: boolean
-  /** Aggregation to display in the footer row for this column */
-  aggregation?: ColumnAggregation
+  hideable?: Value<boolean>
 }
 
 /**
@@ -105,7 +128,7 @@ export interface DataTableOptions<T, C extends string = string> {
   sortable?: Value<boolean>
   /** Allow sorting by multiple columns. @default false */
   multiSort?: Value<boolean>
-  /** Enable filtering (columns opt-in via `column.filterable`). @default false */
+  /** Enable filtering (columns opt-in via `column.filter`). @default false */
   filterable?: Value<boolean>
   /**
    * Where to render filter controls.
@@ -171,8 +194,11 @@ export interface DataTableOptions<T, C extends string = string> {
   /** Whether groups are collapsible. @default true */
   groupCollapsible?: boolean
 
-  /** Show aggregation footer row. Columns opt-in via `column.aggregation`. @default false */
-  showAggregation?: Value<boolean>
+  /** Show footer row. Columns opt-in via `column.footer`. @default false */
+  showFooter?: Value<boolean>
+
+  /** Custom render function for collapsed group summaries. */
+  groupSummary?: (groupKey: string, rows: T[]) => TNode
 
   /** Content to show when no rows match */
   emptyContent?: TNode

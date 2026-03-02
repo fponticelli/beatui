@@ -231,12 +231,6 @@ const ko: BeatUIMessages = {
     groupCount: (count: number) => `${count}개 항목`,
     collapseGroup: '그룹 접기',
     expandGroup: '그룹 펼치기',
-    // Aggregation labels
-    aggregationSum: '합계',
-    aggregationCount: '개수',
-    aggregationAvg: '평균',
-    aggregationMin: '최소',
-    aggregationMax: '최대',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" 포함`,
       textNotContains: (col: string, val: string) => `${col} "${val}" 미포함`,

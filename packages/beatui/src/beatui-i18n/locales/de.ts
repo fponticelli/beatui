@@ -230,12 +230,6 @@ const de: BeatUIMessages = {
     groupCount: (count: number) => `${count} Einträge`,
     collapseGroup: 'Gruppe einklappen',
     expandGroup: 'Gruppe ausklappen',
-    // Aggregation labels
-    aggregationSum: 'Summe',
-    aggregationCount: 'Anzahl',
-    aggregationAvg: 'Durchschn.',
-    aggregationMin: 'Min',
-    aggregationMax: 'Max',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} enthält "${val}"`,
       textNotContains: (col: string, val: string) => `${col} enthält nicht "${val}"`,

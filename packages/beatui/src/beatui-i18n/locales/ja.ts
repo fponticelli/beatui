@@ -231,12 +231,6 @@ export const ja: BeatUIMessages = {
     groupCount: (count: number) => `${count} 件`,
     collapseGroup: 'グループを折りたたむ',
     expandGroup: 'グループを展開',
-    // Aggregation labels
-    aggregationSum: '合計',
-    aggregationCount: '件数',
-    aggregationAvg: '平均',
-    aggregationMin: '最小',
-    aggregationMax: '最大',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} が "${val}" を含む`,
       textNotContains: (col: string, val: string) => `${col} が "${val}" を含まない`,
