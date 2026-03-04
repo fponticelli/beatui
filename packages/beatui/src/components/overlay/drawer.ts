@@ -202,7 +202,7 @@ export function Drawer(
           aria.describedby(bodyId),
           attr.tabindex(-1), // Make drawer focusable for initial focus
           attr.id(drawerId),
-          dataAttr.focusTrap('true'), // Mark as focus trap container
+          dataAttr('focus-trap', 'true'), // Mark as focus trap container
 
           // Focus trap for keyboard navigation
           FocusTrap({

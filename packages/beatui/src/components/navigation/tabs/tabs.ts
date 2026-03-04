@@ -347,7 +347,7 @@ export function Tabs<T extends string>(options: TabsOptions<T>) {
             aria.controls(panelId),
             aria.disabled(isTabDisabled),
             attr.disabled(isTabDisabled),
-            dataAttr['tab-index'](String(index)),
+            dataAttr('tab-index', String(index)),
             aria.label(item.ariaLabel),
 
             on.click(event => {

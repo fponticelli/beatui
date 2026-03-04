@@ -185,7 +185,7 @@ export function Modal(
         aria.describedby(bodyId),
         attr.tabindex(-1), // Make modal focusable for initial focus
         attr.id(modalId),
-        dataAttr.focusTrap('true'), // Mark as focus trap container
+        dataAttr('focus-trap', 'true'), // Mark as focus trap container
 
         on.mousedown(e => e.stopPropagation()), // Prevent overlay click-outside when clicking modal content
 

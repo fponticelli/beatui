@@ -508,7 +508,7 @@ export function MenuItem(options: MenuItemOptions): Renderable {
     attr.id(itemId),
     attr.role('menuitem'),
     attr.tabindex(-1),
-    dataAttr.key(itemKey),
+    dataAttr('key', itemKey),
     aria.disabled(disabled),
     aria.selected(false), // Will be updated by focus management
     hasSubmenu ? aria.expanded(false) : Empty,

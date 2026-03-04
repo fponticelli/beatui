@@ -179,8 +179,8 @@ export function Overlay(
 
         return html.div(
           WithElement(el => status.setElement(el)),
-          dataAttr.status(status.status.map(String)),
-          dataAttr.overlay('true'),
+          dataAttr('status', status.status.map(String)),
+          dataAttr('overlay', 'true'),
           attr.class(
             computedOf(
               effect ?? 'opaque',

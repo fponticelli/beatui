@@ -265,12 +265,13 @@ export const InputWrapper = (
       attr.class('bc-input-wrapper__content'),
       // Add data attributes to help inputs inherit accessibility information
       [descriptionId, errorId].filter(Boolean).length > 0
-        ? dataAttr.describedby(
+        ? dataAttr(
+            'describedby',
             [descriptionId, errorId].filter(Boolean).join(' ')
           )
         : Empty,
-      required ? dataAttr.required('true') : Empty,
-      When(computedHasError, () => dataAttr.invalid('true')),
+      required ? dataAttr('required', 'true') : Empty,
+      When(computedHasError, () => dataAttr('invalid', 'true')),
       content
     ),
     // Show description at bottom only when not horizontal
