@@ -1,13 +1,7 @@
-import {
-  attr,
-  html,
-  on,
-  OnDispose,
-  Value,
-  WithElement,
-} from '@tempots/dom'
+import { Value } from '@tempots/dom'
 import { DataSource } from './data-source'
 import { ControlSize } from '../theme'
+import { CheckboxInput } from '../form'
 
 /**
  * Options for the {@link SelectionCheckbox} component.
@@ -18,7 +12,8 @@ export interface SelectionCheckboxOptions<T, C extends string = string> {
   /** The data source to wire selection into */
   dataSource: DataSource<T, C>
   /** The unique row ID for this checkbox */
-  rowId: string
+  rowId: Value<string>
+  isSelected: Value<boolean>
   /** Size variant. @default 'md' */
   size?: Value<ControlSize>
 }
@@ -40,29 +35,14 @@ export interface SelectionCheckboxOptions<T, C extends string = string> {
 export function SelectionCheckbox<T, C extends string = string>({
   dataSource,
   rowId,
+  isSelected,
   size = 'md',
 }: SelectionCheckboxOptions<T, C>) {
-  const checked = dataSource.isSelected(rowId)
-
-  return html.input(
-    attr.type('checkbox'),
-    attr.class(
-      Value.map(
-        size,
-        s => `bc-selection-checkbox bc-selection-checkbox--size-${s}`
-      )
-    ),
-    WithElement(el => {
-      // Set initial state
-      ;(el as HTMLInputElement).checked = checked.value
-      // Track signal changes imperatively (same pattern as SelectAllCheckbox)
-      const unsub = Value.on(checked, v => {
-        ;(el as HTMLInputElement).checked = v
-      })
-      return OnDispose(unsub)
-    }),
-    on.change(() => dataSource.toggleSelect(rowId))
-  )
+  return CheckboxInput({
+    size,
+    value: isSelected,
+    onChange: () => dataSource.toggleSelect(Value.get(rowId)),
+  })
 }
 
 /**
@@ -100,29 +80,18 @@ export function SelectAllCheckbox<T, C extends string = string>({
   dataSource,
   size = 'md',
 }: SelectAllCheckboxOptions<T, C>) {
-  const indeterminate = dataSource.isSomeSelected
+  // TODO indeterminate ... add IndeterminateCheckboxInput with tri-state
+  // const indeterminate = dataSource.isSomeSelected
 
-  return html.input(
-    attr.type('checkbox'),
-    attr.class(
-      Value.map(
-        size,
-        s => `bc-selection-checkbox bc-selection-checkbox--size-${s}`
-      )
-    ),
-    attr.checked(dataSource.isAllSelected),
-    WithElement(el => {
-      const unsub = Value.on(indeterminate, ind => {
-        ;(el as HTMLInputElement).indeterminate = ind
-      })
-      return OnDispose(unsub)
-    }),
-    on.change(() => {
+  return CheckboxInput({
+    size,
+    value: dataSource.isAllSelected,
+    onChange: () => {
       if (dataSource.isAllSelected.value) {
         dataSource.deselectAll()
       } else {
         dataSource.selectAll()
       }
-    })
-  )
+    },
+  })
 }

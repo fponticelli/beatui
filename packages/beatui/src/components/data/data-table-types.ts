@@ -1,10 +1,6 @@
 import { Signal, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
-import {
-  BulkAction,
-  DataSource,
-  SortDescriptor,
-} from './data-source'
+import { BulkAction, DataSource, SortDescriptor } from './data-source'
 import { FilterBase } from './filter'
 
 /** The value type of a column, used by the filter panel to determine available operators. */
@@ -147,7 +143,7 @@ export interface DataTableOptions<T, C extends string = string> {
   /** Toggle row selection when clicking anywhere on the row. @default false */
   selectOnRowClick?: Value<boolean>
   /** Enable drag-to-reorder columns. @default false */
-  reorderableColumns?: boolean
+  reorderableColumns?: Value<boolean>
   /** Called when column order changes via drag-and-drop */
   onColumnOrderChange?: (columnIds: C[]) => void
 
@@ -207,10 +203,7 @@ export interface DataTableOptions<T, C extends string = string> {
   emptyContent?: TNode
 
   /** Column visibility options. When set, a column toggle button appears. */
-  columnVisibility?: {
-    /** Column IDs hidden by default */
-    defaultHidden?: C[]
-  }
+  hiddenColumns?: Value<C[]>
 
   /** Callback to receive the internal DataSource for external integration */
   onDataSource?: (ds: DataSource<T, C>) => void

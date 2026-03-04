@@ -40,12 +40,7 @@ import { CheckboxInput } from '../form/input/checkbox-input'
 import { Icon } from './icon'
 import { Button } from '../button/button'
 import { Tooltip } from '../overlay/tooltip'
-import {
-  Filter,
-  describeFilter,
-  describeFilterLocalized,
-  FilterDescriptionMessages,
-} from './filter'
+import { Filter, describeFilterLocalized } from './filter'
 import { RowGroup } from './data-source'
 
 function resolveToolbarOptions(
@@ -221,6 +216,7 @@ function resolveCustomInput<T, C extends string>(
     }
   })
   return Fragment(
+    // TODO are these disposals necessary?
     OnDispose(() => {
       unsub1()
       unsub2()
@@ -242,9 +238,7 @@ function resolveFilterCell<T, C extends string>(
   if (config == null || config === false) return html.th()
 
   if (config === true || config === 'text') {
-    return html.th(
-      ColumnFilter({ dataSource: ds, column: colId, size })
-    )
+    return html.th(ColumnFilter({ dataSource: ds, column: colId, size }))
   }
 
   if (config === 'number') {
@@ -339,7 +333,9 @@ function resolveFilterCell<T, C extends string>(
  * })
  * ```
  */
-export function DataTable<T, C extends string = string>(options: DataTableOptions<T, C>) {
+export function DataTable<T, C extends string = string>(
+  options: DataTableOptions<T, C>
+) {
   const {
     data,
     columns,
@@ -374,15 +370,18 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     showFooter = false,
     groupSummary,
     emptyContent,
-    columnVisibility: columnVisibilityOpt,
+    hiddenColumns: hiddenColumnsOption = [],
     onDataSource,
   } = options
+
+  const hiddenColumns = Value.deriveProp(hiddenColumnsOption)
 
   const paginationConfig = Value.map(paginationOpt ?? false, o =>
     resolvePaginationOptions(o ?? false)
   )
-  const toolbarConfig = Value.map(toolbarOpt ?? false, resolveToolbarOptions)
-  const toolbarConfigSignal = Value.toSignal(toolbarConfig)
+  const toolbarConfig = Value.toSignal(toolbarOpt ?? false).map(
+    resolveToolbarOptions
+  )
 
   // Column visibility state — evaluate hideable at setup time
   const hideableColumns = columns.filter(c => {
@@ -391,42 +390,47 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     // Evaluate: plain boolean or signal's current value
     return typeof h === 'boolean' ? h : h.value
   })
-  const hasColumnVisibility = columnVisibilityOpt != null && hideableColumns.length > 0
-  const hiddenColumns = prop<Set<string>>(
-    new Set(columnVisibilityOpt?.defaultHidden ?? [])
+  const hasColumnVisibility = Value.map(
+    hiddenColumns ?? [],
+    hc => hc.length > 0
   )
 
   // Column order state (for drag-to-reorder)
   const columnOrder = prop<C[]>(columns.map(c => c.id))
   const columnMap = new Map(columns.map(c => [c.id, c]))
 
-  const visibleColumns = reorderableColumns
-    ? computedOf(hiddenColumns, columnOrder)((hidden, order) =>
-        order
-          .filter(id => !hidden.has(id) && columnMap.has(id))
-          .map(id => columnMap.get(id)!)
-      )
-    : hiddenColumns.map(hidden =>
-        columns.filter(c => !hidden.has(c.id))
-      )
+  const visibleColumns = computedOf(
+    reorderableColumns,
+    hiddenColumns,
+    columnOrder
+  )((reorder, hidden, order) => {
+    if (reorder) {
+      return order
+        .filter(id => !hidden.includes(id) && columnMap.has(id))
+        .map(id => columnMap.get(id)!)
+    } else {
+      return columns.filter(c => !hidden.includes(c.id))
+    }
+  })
 
-  const toggleColumnVisibility = (colId: string) => {
+  const toggleColumnVisibility = (colId: C) => {
     const next = new Set(hiddenColumns.value)
     if (next.has(colId)) {
       next.delete(colId)
     } else {
       next.add(colId)
     }
-    hiddenColumns.set(next)
+    hiddenColumns.set(Array.from(next))
   }
 
   const showAllColumns = () => {
-    hiddenColumns.set(new Set())
+    hiddenColumns.set(Array.from(columns.map(c => c.id)))
   }
 
   // Build accessors and comparators from column defs
   const accessors: Partial<Record<C, (row: T) => unknown>> = {}
-  const comparatorsMap: Partial<Record<C, (a: unknown, b: unknown) => number>> = {}
+  const comparatorsMap: Partial<Record<C, (a: unknown, b: unknown) => number>> =
+    {}
   for (const col of columns) {
     if (col.value) accessors[col.id] = col.value
     if (col.comparator) comparatorsMap[col.id] = col.comparator
@@ -533,14 +537,10 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     effectiveTotalPages
   )((pag, tp) => pag && tp > 1)
 
-  // Hideable column metadata for the menu
-  const hideableColumnMeta = hideableColumns.map(c => ({
-    id: c.id,
-    label: typeof c.header === 'string' ? c.header : c.id,
-  }))
-
   // Helper: resolve the current filter config for a column (static snapshot)
-  const getFilterConfig = (col: DataColumnDef<T, C>): ColumnFilterConfig<T, C> | false | undefined => {
+  const getFilterConfig = (
+    col: DataColumnDef<T, C>
+  ): ColumnFilterConfig<T, C> | false | undefined => {
     if (col.filter == null) return undefined
     return Value.get(col.filter) as ColumnFilterConfig<T, C>
   }
@@ -558,16 +558,25 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   }
 
   // Helper: build the column header menu for a column
-  const buildColumnMenu = (col: DataColumnDef<T, C>, includeFilter = true): TNode => {
+  const buildColumnMenu = (
+    col: DataColumnDef<T, C>,
+    includeFilter = true
+  ): TNode => {
     const columnFilters = ds.getColumnFilters(col.id)
     const hasActiveFilter = columnFilters.map(f => f.length > 0)
     // Resolve sortable — may be Value<boolean> or plain boolean
-    const colSortable = col.sortable != null
-      ? (typeof col.sortable === 'boolean' ? col.sortable : col.sortable.value)
-      : false
-    const colHideable = col.hideable != null
-      ? (typeof col.hideable === 'boolean' ? col.hideable : col.hideable.value)
-      : false
+    const colSortable =
+      col.sortable != null
+        ? typeof col.sortable === 'boolean'
+          ? col.sortable
+          : col.sortable.value
+        : false
+    const colHideable =
+      col.hideable != null
+        ? typeof col.hideable === 'boolean'
+          ? col.hideable
+          : col.hideable.value
+        : false
     const hasFilter = colHasFilter(col)
     return html.span(
       attr.class('bc-column-header-menu'),
@@ -575,7 +584,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       includeFilter && hasFilter
         ? When(hasActiveFilter, () =>
             html.span(
-              attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
+              attr.class(
+                'bc-sortable-header__icon bc-sortable-header__icon--active'
+              ),
               on.click(e => e.stopPropagation()),
               Icon({ icon: 'lucide:filter', size }),
               Flyout({
@@ -591,20 +602,16 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
                 hideDelay: 0,
               }),
               Use(BeatUII18n, t => {
-                const messages = (
-                  t.value.dataTable as Record<string, unknown>
-                ).describeFilter as FilterDescriptionMessages | undefined
+                const trans = computedOf(
+                  t.$.dataTable.$.describeFilter,
+                  columnFilters
+                )((describe, filters) => {
+                  return filters
+                    .map(v => describeFilterLocalized(v, describe))
+                    .join(', ')
+                })
                 return Tooltip({
-                  content: columnFilters.map(filters => {
-                    if (filters.length === 0) return ''
-                    return filters
-                      .map(f =>
-                        messages
-                          ? describeFilterLocalized(f, messages)
-                          : describeFilter(f)
-                      )
-                      .join(', ')
-                  }),
+                  content: trans,
                   showDelay: 300,
                 })
               })
@@ -623,7 +630,10 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
           : undefined,
         filterContent: includeFilter ? buildFilterContent(col) : undefined,
         hasActiveFilter: includeFilter ? hasActiveFilter : undefined,
-        onClearFilter: includeFilter && hasFilter ? () => ds.removeFilter(col.id) : undefined,
+        onClearFilter:
+          includeFilter && hasFilter
+            ? () => ds.removeFilter(col.id)
+            : undefined,
       })
     )
   }
@@ -671,9 +681,11 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
         const th = e.currentTarget as HTMLElement
         th.classList.remove('bc-data-table__header--dragging')
         // Clean up any lingering drag-over classes
-        th.closest('tr')?.querySelectorAll('.bc-data-table__header--drag-over').forEach(el =>
-          el.classList.remove('bc-data-table__header--drag-over')
-        )
+        th.closest('tr')
+          ?.querySelectorAll('.bc-data-table__header--drag-over')
+          .forEach(el =>
+            el.classList.remove('bc-data-table__header--drag-over')
+          )
       },
     }
   }
@@ -686,9 +698,12 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     const drag = makeDragHandlers(col.id)
 
     // Resolve sortable for this column
-    const colSortable = col.sortable != null
-      ? (typeof col.sortable === 'boolean' ? col.sortable : col.sortable.value)
-      : false
+    const colSortable =
+      col.sortable != null
+        ? typeof col.sortable === 'boolean'
+          ? col.sortable
+          : col.sortable.value
+        : false
 
     if (sortable && colSortable) {
       return SortableHeader(
@@ -760,13 +775,15 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   const selectionHeaderCell = (): TNode =>
     When(selectable, () =>
       html.th(
-        attr.class('bc-data-table__selection-cell'),
-        SelectAllCheckbox({ dataSource: ds, size })
+        attr.class('bc-data-table__selection-header'),
+        html.div(
+          attr.class('bc-data-table__selection-cell'),
+          SelectAllCheckbox({ dataSource: ds, size })
+        )
       )
     )
 
-  const selectionEmptyCell = (): TNode =>
-    When(selectable, () => html.th())
+  const selectionEmptyCell = (): TNode => When(selectable, () => html.th())
 
   // Header row — uses ForEach so toggling column visibility doesn't
   // destroy existing header cells (which would close open menus).
@@ -795,17 +812,25 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   // Data rows — always track isSelected (harmless when selectable is false)
   const renderBody = (): TNode =>
     ForEach(ds.rows, rowSignal => {
-      const id = rowId(rowSignal.value)
+      const id = rowSignal.map(rowId)
+      const isSelected = computedOf(
+        id,
+        ds.selected
+      )((id, selected) => {
+        return selected.has(id)
+      })
       const selectionCell = (): TNode =>
         When(selectable, () =>
           html.td(
-            attr.class('bc-data-table__selection-cell'),
             on.click(e => e.stopPropagation()),
-            SelectionCheckbox({ dataSource: ds, rowId: id, size })
+            html.div(
+              attr.class('bc-data-table__selection-cell'),
+              SelectionCheckbox({ dataSource: ds, rowId: id, isSelected, size })
+            )
           )
         )
       const rowClass = computedOf(
-        ds.isSelected(id),
+        isSelected,
         rowClickable
       )((sel, clickable): string => {
         let cls = 'bc-data-table__row'
@@ -820,7 +845,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
             attr.class(rowClass),
             on.click(() => {
               if (selectOnRowClickSignal.value && selectableSignal.value) {
-                ds.toggleSelect(id)
+                ds.toggleSelect(id.value)
               }
               onRowClick?.(rowSignal.value)
             }),
@@ -837,17 +862,23 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   // Grouped body rendering
   const renderGroupRow = (row: T): TNode => {
     const id = rowId(row)
+    const isSelected = computedOf(
+      id,
+      ds.selected
+    )((id, selected) => selected.has(id))
     const rowSignal = Value.toSignal(row)
     const selectionCell = (): TNode =>
       When(selectable, () =>
         html.td(
-          attr.class('bc-data-table__selection-cell'),
           on.click(e => e.stopPropagation()),
-          SelectionCheckbox({ dataSource: ds, rowId: id, size })
+          html.div(
+            attr.class('bc-data-table__selection-cell'),
+            SelectionCheckbox({ dataSource: ds, rowId: id, isSelected, size })
+          )
         )
       )
     const rowClass = computedOf(
-      ds.isSelected(id),
+      isSelected,
       rowClickable
     )((sel, clickable): string => {
       let cls = 'bc-data-table__row'
@@ -896,114 +927,124 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
 
     return Fragment(
       OnDispose(() => groupColSpan.dispose()),
-      MapSignal(currentGroupPageGroups, groups => Fragment(
-        ...groups.map(group => {
-          const isCollapsed = collapsedGroups.map(s => s.has(group.key))
-          const toggleCollapse = () => {
-            const next = new Set(collapsedGroups.value)
-            if (next.has(group.key)) {
-              next.delete(group.key)
-            } else {
-              next.add(group.key)
+      MapSignal(currentGroupPageGroups, groups =>
+        Fragment(
+          ...groups.map(group => {
+            const isCollapsed = collapsedGroups.map(s => s.has(group.key))
+            const toggleCollapse = () => {
+              const next = new Set(collapsedGroups.value)
+              if (next.has(group.key)) {
+                next.delete(group.key)
+              } else {
+                next.add(group.key)
+              }
+              collapsedGroups.set(next)
             }
-            collapsedGroups.set(next)
-          }
-          return Fragment(
-            OnDispose(() => isCollapsed.dispose()),
-            Use(BeatUII18n, t =>
-              html.tr(
-                attr.class('bc-data-table__group-header'),
-                on.click(() => {
-                  if (groupCollapsible) toggleCollapse()
-                }),
-                html.td(
-                  attr.colspan(groupColSpan),
-                  html.div(
-                    attr.class('bc-data-table__group-header-content'),
-                    groupCollapsible
-                      ? html.span(
-                          attr.class(
-                            isCollapsed.map((c): string =>
-                              c
-                                ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
-                                : 'bc-data-table__group-toggle'
+            return Fragment(
+              Use(BeatUII18n, t =>
+                html.tr(
+                  attr.class('bc-data-table__group-header'),
+                  on.click(() => {
+                    if (groupCollapsible) toggleCollapse()
+                  }),
+                  html.td(
+                    attr.colspan(groupColSpan),
+                    html.div(
+                      attr.class('bc-data-table__group-header-content'),
+                      groupCollapsible
+                        ? html.span(
+                            attr.class(
+                              isCollapsed.map((c): string =>
+                                c
+                                  ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
+                                  : 'bc-data-table__group-toggle'
+                              )
+                            ),
+                            aria.label(
+                              isCollapsed.map((c): string => {
+                                const dt = t.value.dataTable as Record<
+                                  string,
+                                  unknown
+                                >
+                                return c
+                                  ? ((dt.expandGroup as string) ??
+                                      'Expand group')
+                                  : ((dt.collapseGroup as string) ??
+                                      'Collapse group')
+                              })
+                            ),
+                            Icon({ icon: 'lucide:chevron-down', size: 'sm' })
+                          )
+                        : null,
+                      html.span(
+                        attr.class('bc-data-table__group-label'),
+                        group.key
+                      ),
+                      html.span(
+                        attr.class('bc-data-table__group-count'),
+                        (() => {
+                          const fn = (
+                            t.value.dataTable as Record<string, unknown>
+                          ).groupCount as
+                            | ((count: number) => string)
+                            | undefined
+                          return fn
+                            ? fn(group.rows.length)
+                            : `(${group.rows.length})`
+                        })()
+                      ),
+                      // Inline summary when collapsed
+                      groupSummary != null
+                        ? When(isCollapsed, () =>
+                            html.span(
+                              attr.class('bc-data-table__group-footer-summary'),
+                              groupSummary(group.key, group.rows)
                             )
-                          ),
-                          aria.label(
-                            isCollapsed.map((c): string => {
-                              const dt = t.value.dataTable as Record<string, unknown>
-                              return c
-                                ? ((dt.expandGroup as string) ?? 'Expand group')
-                                : ((dt.collapseGroup as string) ?? 'Collapse group')
-                            })
-                          ),
-                          Icon({ icon: 'lucide:chevron-down', size: 'sm' })
-                        )
-                      : null,
-                    html.span(
-                      attr.class('bc-data-table__group-label'),
-                      group.key
-                    ),
-                    html.span(
-                      attr.class('bc-data-table__group-count'),
-                      (() => {
-                        const fn = (
-                          t.value.dataTable as Record<string, unknown>
-                        ).groupCount as ((count: number) => string) | undefined
-                        return fn ? fn(group.rows.length) : `(${group.rows.length})`
-                      })()
-                    ),
-                    // Inline summary when collapsed
-                    groupSummary != null
-                      ? When(isCollapsed, () =>
-                          html.span(
-                            attr.class('bc-data-table__group-footer-summary'),
-                            groupSummary(group.key, group.rows)
+                          )
+                        : null
+                    )
+                  )
+                )
+              ),
+              When(
+                isCollapsed.map(c => !c),
+                () =>
+                  Fragment(
+                    ...group.rows.map(row => renderGroupRow(row)),
+                    // Per-group footer row
+                    hasFooter
+                      ? When(showFooter, () =>
+                          MapSignal(visibleColumns, visCols =>
+                            html.tr(
+                              attr.class(
+                                'bc-data-table__footer-row bc-data-table__group-footer-row'
+                              ),
+                              When(selectable, () => html.td()),
+                              ...visCols.map(col =>
+                                col.footer
+                                  ? html.td(
+                                      col.align != null
+                                        ? style.textAlign(
+                                            Value.map(
+                                              col.align,
+                                              (a): string => a
+                                            )
+                                          )
+                                        : null,
+                                      col.footer(Value.toSignal(group.rows))
+                                    )
+                                  : html.td()
+                              )
+                            )
                           )
                         )
                       : null
                   )
-                )
               )
-            ),
-            When(
-              isCollapsed.map(c => !c),
-              () =>
-                Fragment(
-                  ...group.rows.map(row => renderGroupRow(row)),
-                  // Per-group footer row
-                  hasFooter
-                    ? When(showFooter, () =>
-                        MapSignal(visibleColumns, visCols =>
-                          html.tr(
-                            attr.class(
-                              'bc-data-table__footer-row bc-data-table__group-footer-row'
-                            ),
-                            When(selectable, () => html.td()),
-                            ...visCols.map(col =>
-                              col.footer
-                                ? html.td(
-                                    col.align != null
-                                      ? style.textAlign(
-                                          Value.map(
-                                            col.align,
-                                            (a): string => a
-                                          )
-                                        )
-                                      : null,
-                                    col.footer(Value.toSignal(group.rows))
-                                  )
-                                : html.td()
-                            )
-                          )
-                        )
-                      )
-                    : null
-                )
             )
-          )
-        })
-      ))
+          })
+        )
+      )
     )
   }
 
@@ -1017,8 +1058,9 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
             html.tr(
               html.td(
                 attr.colspan(
-                  Value.map(selectable, (sel): number =>
-                    visCols.length + (sel ? 1 : 0)
+                  Value.map(
+                    selectable,
+                    (sel): number => visCols.length + (sel ? 1 : 0)
                   )
                 ),
                 attr.class('bc-data-table__empty'),
@@ -1032,7 +1074,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   // Column visibility toggle
   const renderColumnToggle = (): TNode => {
     if (!hasColumnVisibility) return null
-    const hasHiddenColumns = hiddenColumns.map(h => h.size > 0)
+    const hasHiddenColumns = hiddenColumns.map(h => h.length > 0)
     return Use(BeatUII18n, t =>
       html.div(
         attr.class('bc-data-table__column-toggle'),
@@ -1057,12 +1099,10 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
                 on.click(e => e.stopPropagation()),
                 ...hideableColumns.map(col =>
                   CheckboxInput({
-                    value: hiddenColumns.map(h => !h.has(col.id)),
+                    value: hiddenColumns.map(h => !h.includes(col.id)),
                     onChange: () => toggleColumnVisibility(col.id),
                     placeholder:
-                      typeof col.header === 'string'
-                        ? col.header
-                        : col.id,
+                      typeof col.header === 'string' ? col.header : col.id,
                     size: 'sm',
                   })
                 ),
@@ -1124,11 +1164,13 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
   }
 
   // Row count signal — created here so it can be properly disposed
-  const rowCounts = computedOf(ds.totalFilteredRows, ds.totalRows)(
-    (filtered, total) => ({ filtered, total })
-  )
+  const rowCounts = computedOf(
+    ds.totalFilteredRows,
+    ds.totalRows
+  )((filtered, total) => ({ filtered, total }))
 
   return Fragment(
+    // TODO necessary?
     OnDispose(() => {
       ds.dispose()
       hiddenColumns.dispose()
@@ -1150,7 +1192,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       effectiveTotalPages.dispose()
       effectiveCurrentPage.dispose()
       showPagination.dispose()
-      toolbarConfigSignal.dispose()
+      toolbarConfig.dispose()
       rowCounts.dispose()
     }),
 
@@ -1158,7 +1200,7 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
     renderColumnToggle(),
 
     // Toolbar
-    MapSignal(toolbarConfigSignal, tc => {
+    MapSignal(toolbarConfig, tc => {
       if (tc === false) return null
       return DataToolbar({
         dataSource: ds,
@@ -1196,43 +1238,45 @@ export function DataTable<T, C extends string = string>(options: DataTableOption
       )
     ),
 
-    // Pagination (hidden when groupBy is active)
-    When(
-      showPagination,
-      () =>
-        html.div(
-          attr.class('bc-data-table__pagination'),
-          Pagination({
-            currentPage: effectiveCurrentPage,
-            totalPages: effectiveTotalPages,
-            onPageChange: page => setEffectivePage(page),
-            siblings: Value.map(paginationConfig, p =>
-              p === false ? 1 : (p.siblings ?? 1)
-            ),
-            showFirstLast: Value.map(paginationConfig, p =>
-              p === false ? false : (p.showFirstLast ?? false)
-            ),
-            showPrevNext: true,
-            size,
-            responsive: Value.map(paginationConfig, p =>
-              p === false ? false : (p.responsive ?? false)
-            ),
-          })
-        )
-    ),
-
-    // Row count footer (hidden when pagination is hidden)
     When(showPagination, () =>
-      Use(BeatUII18n, t =>
+      html.div(
+        attr.class('bc-data-table__pagination'),
+        // TODO Translate
         html.div(
           attr.class('bc-data-table__row-count'),
-          MapSignal(rowCounts, ({ filtered, total }) => {
-            const fn = (
-              t.value.dataTable as Record<string, unknown>
-            ).rowCount as ((f: number, t: number) => string) | undefined
-            return fn ? fn(filtered, total) : `Rows: ${filtered}  Total Rows: ${total}`
-          })
-        )
+          'Rows ',
+          computedOf(
+            pageSizeSignal,
+            effectiveCurrentPage
+          )((s, e) => (e - 1) * s + 1),
+          ' to ',
+          computedOf(
+            pageSizeSignal,
+            effectiveCurrentPage,
+            rowCounts.$.filtered
+          )((s, e, t) => Math.min(e * s, t)),
+          ' of ',
+          rowCounts.$.filtered,
+          rowCounts.map(({ filtered, total }) =>
+            total > filtered ? ` of ${total}` : ''
+          )
+        ),
+        Pagination({
+          currentPage: effectiveCurrentPage,
+          totalPages: effectiveTotalPages,
+          onPageChange: page => setEffectivePage(page),
+          siblings: Value.map(paginationConfig, p =>
+            p === false ? 1 : (p.siblings ?? 1)
+          ),
+          showFirstLast: Value.map(paginationConfig, p =>
+            p === false ? false : (p.showFirstLast ?? false)
+          ),
+          showPrevNext: true,
+          size,
+          responsive: Value.map(paginationConfig, p =>
+            p === false ? false : (p.responsive ?? false)
+          ),
+        })
       )
     )
   )

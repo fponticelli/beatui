@@ -108,6 +108,11 @@
   height: 20px;
 }
 
+.bc-selection-checkbox--size-xl {
+  width: 24px;
+  height: 24px;
+}
+
 /* Data Toolbar */
 .bc-data-toolbar {
   display: flex;
@@ -190,11 +195,32 @@
   padding-bottom: var(--spacing-xs);
 }
 
+.bc-data-table__selection-header {
+  width: calc(var(--spacing-base) * 10);
+}
+
+.bc-table--size-xl .bc-data-table__selection-header {
+  width: calc(var(--spacing-base) * 18);
+}
+
+.bc-table--size-lg .bc-data-table__selection-header {
+  width: calc(var(--spacing-base) * 14);
+}
+
+.bc-table--size-sm .bc-data-table__selection-header {
+  width: calc(var(--spacing-base) * 8);
+}
+
+.bc-table--size-xs .bc-data-table__selection-header {
+  width: calc(var(--spacing-base) * 6);
+}
+
 .bc-data-table__selection-cell {
-  width: 40px;
-  min-width: 40px;
-  max-width: 40px;
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bc-data-table__row--clickable {
@@ -226,7 +252,8 @@
 
 .bc-data-table__pagination {
   display: flex;
-  justify-content: center;
+  justify-items: center;
+  justify-content: space-between;
   padding: var(--spacing-md) 0;
 }
 
@@ -247,8 +274,8 @@
   color: var(--text-muted);
   cursor: pointer;
   position: relative;
-  transition: border-color var(--motion-transition-fast)
-      var(--motion-easing-standard),
+  transition:
+    border-color var(--motion-transition-fast) var(--motion-easing-standard),
     color var(--motion-transition-fast) var(--motion-easing-standard);
 }
 
@@ -376,7 +403,6 @@
   background-color: var(--color-primary-950);
 }
 
-
 .dark .bc-column-filter {
   background-color: var(--bg-surface);
 }
@@ -400,7 +426,8 @@
   font-size: var(--font-size-sm);
   cursor: pointer;
   position: relative;
-  transition: border-color var(--motion-transition-fast) var(--motion-easing-standard),
+  transition:
+    border-color var(--motion-transition-fast) var(--motion-easing-standard),
     color var(--motion-transition-fast) var(--motion-easing-standard);
 }
 
@@ -521,7 +548,8 @@ th.bc-data-table__header--drag-over {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform var(--motion-transition-fast) var(--motion-easing-standard);
+  transition: transform var(--motion-transition-fast)
+    var(--motion-easing-standard);
 }
 
 .bc-data-table__group-toggle--collapsed {

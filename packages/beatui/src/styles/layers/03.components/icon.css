@@ -19,18 +19,18 @@
 }
 
 .bc-icon--xs {
-  width: var(--spacing-mdh);
-  height: var(--spacing-mdh);
-}
-
-.bc-icon--sm {
   width: var(--spacing-lg);
   height: var(--spacing-lg);
 }
 
+.bc-icon--sm {
+  width: var(--spacing-lgh);
+  height: var(--spacing-lgh);
+}
+
 .bc-icon--md {
-  width: calc(var(--spacing-base) * 4.8);
-  height: calc(var(--spacing-base) * 4.8);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
 }
 
 .bc-icon--lg {

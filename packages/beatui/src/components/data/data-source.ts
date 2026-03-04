@@ -132,8 +132,6 @@ export interface DataSource<T, C extends string = string> {
   // Selection
   /** Set of selected row IDs */
   selected: Signal<Set<string>>
-  /** Reactive boolean for whether a specific row is selected */
-  isSelected: (id: string) => Signal<boolean>
   /** Toggle selection of a row */
   toggleSelect: (id: string) => void
   /** Add rows to selection */
@@ -474,7 +472,6 @@ export function createDataSource<T, C extends string = string>(
   const sortDirectionCache = new Map<C, Signal<SortDirection | undefined>>()
   const columnFiltersCache = new Map<C, Signal<FilterBase<C>[]>>()
   const textFilterValueCache = new Map<C, Signal<string>>()
-  const isSelectedCache = new Map<string, Signal<boolean>>()
 
   // Methods
   const toggleSort = (column: C, opts?: { multi?: boolean }) => {
@@ -575,16 +572,6 @@ export function createDataSource<T, C extends string = string>(
     return cached
   }
 
-  const isSelected = (id: string): Signal<boolean> => {
-    let cached = isSelectedCache.get(id)
-    if (!cached) {
-      cached = selectionState.map(s => s.has(id))
-      isSelectedCache.set(id, cached)
-      disposables.push(() => cached!.dispose())
-    }
-    return cached
-  }
-
   const updateSelection = (next: Set<string>) => {
     selectionState.set(next)
     onSelectionChange?.(next)
@@ -672,7 +659,6 @@ export function createDataSource<T, C extends string = string>(
     sortDirectionCache.clear()
     columnFiltersCache.clear()
     textFilterValueCache.clear()
-    isSelectedCache.clear()
   }
 
   return {
@@ -692,7 +678,6 @@ export function createDataSource<T, C extends string = string>(
     getTextFilterValue,
     resetFilters,
     selected: selectionState,
-    isSelected,
     toggleSelect,
     select,
     deselect,

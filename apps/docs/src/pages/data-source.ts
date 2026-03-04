@@ -163,8 +163,7 @@ export default function DataSourcePage() {
           {
             size: 'sm',
             variant: 'light',
-            onClick: () =>
-              ds.setFilter(Filter.gt('salary', 100000)),
+            onClick: () => ds.setFilter(Filter.gt('salary', 100000)),
           },
           'Salary > $100k'
         ),
@@ -192,8 +191,7 @@ export default function DataSourcePage() {
           {
             size: 'sm',
             variant: 'light',
-            onClick: () =>
-              ds.setFilter(Filter.startsWith('name', 'A')),
+            onClick: () => ds.setFilter(Filter.startsWith('name', 'A')),
           },
           'Name starts with A'
         ),
@@ -216,7 +214,7 @@ export default function DataSourcePage() {
             onClick: () => ds.resetFilters(),
           },
           'Clear Filters'
-        ),
+        )
       ),
       // Active filters display
       When(
@@ -251,8 +249,11 @@ export default function DataSourcePage() {
         // Header row with sortable headers
         html.tr(
           html.th(
-            attr.class('bc-data-table__selection-cell'),
-            SelectAllCheckbox({ dataSource: ds, size: 'sm' })
+            attr.class('bc-data-table__selection-header'),
+            html.div(
+              attr.class('bc-data-table__selection-cell'),
+              SelectAllCheckbox({ dataSource: ds, size: 'sm' })
+            )
           ),
           SortableHeader(
             { dataSource: ds, column: 'name', size: 'sm' },
@@ -324,8 +325,10 @@ export default function DataSourcePage() {
                 )
             ),
             html.td(
-              attr.class('bc-data-table__selection-cell'),
-              SelectionCheckbox({ dataSource: ds, rowId: id, size: 'sm' })
+              html.div(
+                attr.class('bc-data-table__selection-cell'),
+                SelectionCheckbox({ dataSource: ds, rowId: id, size: 'sm' })
+              )
             ),
             // Use MapSignal so cells re-render reactively when row data changes
             MapSignal(rowSignal, row => html.td(row.name)),
@@ -372,17 +375,19 @@ export default function DataSourcePage() {
       attr.class('flex justify-between mt-2 text-xs text-gray-500'),
       html.span(
         MapSignal(
-          computedOf(ds.totalFilteredRows, ds.totalRows)(
-            (filtered, total) => `${filtered} of ${total} employees`
-          ),
+          computedOf(
+            ds.totalFilteredRows,
+            ds.totalRows
+          )((filtered, total) => `${filtered} of ${total} employees`),
           text => text
         )
       ),
       html.span(
         MapSignal(
-          computedOf(ds.currentPage, ds.totalPages)(
-            (page, total) => `Page ${page} of ${total}`
-          ),
+          computedOf(
+            ds.currentPage,
+            ds.totalPages
+          )((page, total) => `Page ${page} of ${total}`),
           text => text
         )
       )

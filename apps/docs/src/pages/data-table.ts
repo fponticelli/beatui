@@ -9,6 +9,7 @@ import {
   NumberInput,
   DataTablePaginationOptions,
   Badge,
+  RatingInput,
 } from '@tempots/beatui'
 import z from 'zod'
 import { ControlSizeSelector } from '../elements/control-size-selector'
@@ -244,6 +245,7 @@ export default function DataTablePage() {
             cell: row =>
               Badge({ size: 'sm', variant: 'outline' }, row.$.category),
             sortable: true,
+            align: 'center',
             filter: {
               type: 'tags',
               options: [
@@ -274,7 +276,7 @@ export default function DataTablePage() {
           {
             id: 'stock',
             header: 'Stock',
-            cell: row => row.map(r => String(r.stock)),
+            cell: row => row.map(r => r.stock.toLocaleString()),
             value: row => row.stock,
             sortable: true,
             filter: 'number',
@@ -284,26 +286,31 @@ export default function DataTablePage() {
             footer: rows =>
               rows.map(rs => {
                 const sum = rs.reduce((acc, r) => acc + r.stock, 0)
-                return `Sum: ${sum}`
+                return sum.toLocaleString()
               }),
           },
           {
             id: 'rating',
             header: 'Rating',
-            cell: row => row.map(r => `${r.rating} / 5`),
+            cell: row =>
+              html.div(
+                attr.class('flex items-center justify-center'),
+                RatingInput({ value: row.$.rating })
+              ),
             value: row => row.rating,
             sortable: true,
             filter: 'number',
             align: 'center',
             hideable: true,
-            footer: rows =>
-              rows.map(rs => {
-                const avg =
-                  rs.length > 0
-                    ? rs.reduce((acc, r) => acc + r.rating, 0) / rs.length
-                    : 0
-                return `Avg: ${avg.toFixed(1)} / 5`
-              }),
+            footer: rows => {
+              const avg = rows.map(
+                rs => rs.reduce((acc, r) => acc + r.rating, 0) / rs.length
+              )
+              return html.div(
+                attr.class('flex items-center justify-center'),
+                RatingInput({ value: avg })
+              )
+            },
           },
         ],
         rowId: row => row.id,

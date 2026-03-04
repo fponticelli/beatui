@@ -54,7 +54,6 @@ export type CheckboxInputOptions = InputOptions<boolean> & {
  *   onChange: (v) => console.log('Checked:', v),
  *   checkedIcon: 'mdi:checkbox-marked',
  *   uncheckedIcon: 'mdi:checkbox-blank-outline',
- *   iconSize: 'xl',
  * })
  * ```
  */
@@ -69,7 +68,7 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
     id,
     checkedIcon,
     uncheckedIcon,
-    iconSize = 'lg',
+    size = 'md',
   } = options
 
   // Generate unique IDs for accessibility
@@ -139,7 +138,7 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
                 : (uncheckedIconName ?? 'akar-icons/box')
             ),
             accessibility: 'decorative',
-            size: iconSize,
+            size: size,
           })
         ),
         placeholder != null
