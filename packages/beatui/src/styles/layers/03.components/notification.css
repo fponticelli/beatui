@@ -127,8 +127,33 @@
     }
   }
 
+  .bc-notification-item {
+    transition: opacity var(--motion-duration-base, 200ms)
+        var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
+      transform var(--motion-duration-base, 200ms)
+        var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+
+  .bc-notification-item--entering {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+
+  .bc-notification-item:not(.bc-notification-item--entering):not(
+      .bc-notification-item--exiting
+    ) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .bc-notification-item--exiting {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .bc-notification {
+    .bc-notification,
+    .bc-notification-item {
       transition: none;
     }
   }

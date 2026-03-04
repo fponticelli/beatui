@@ -23,12 +23,15 @@ export type AnimatedToggleOptions = {
   initialStatus?: ToggleStatus
   openedAfter: (cb: () => void) => () => void
   closedAfter: (cb: () => void) => () => void
+  /** When true, skips animation delays and transitions instantly. */
+  reducedMotion?: Signal<boolean>
 }
 
 export function useAnimatedToggle({
   initialStatus = 'closed',
   openedAfter,
   closedAfter,
+  reducedMotion,
 }: AnimatedToggleOptions) {
   const status = prop<ToggleStatus>(initialStatus)
   const open = () => {
@@ -63,17 +66,26 @@ export function useAnimatedToggle({
   let clean = () => {}
   status.on(value => {
     clean()
+    const skipAnimation = reducedMotion != null && Value.get(reducedMotion)
     switch (value) {
       case 'start-opening':
-        // One frame for browser to apply initial styles
-        clean = delayedAnimationFrame(() => status.set('opening'))
+        if (skipAnimation) {
+          status.set('opened')
+        } else {
+          // One frame for browser to apply initial styles
+          clean = delayedAnimationFrame(() => status.set('opening'))
+        }
         break
       case 'opening':
         clean = openedAfter(() => status.set('opened'))
         break
       case 'start-closing':
-        // One frame for browser to apply initial styles
-        clean = delayedAnimationFrame(() => status.set('closing'))
+        if (skipAnimation) {
+          status.set('closed')
+        } else {
+          // One frame for browser to apply initial styles
+          clean = delayedAnimationFrame(() => status.set('closing'))
+        }
         break
       case 'closing':
         clean = closedAfter(() => status.set('closed'))
@@ -118,6 +130,8 @@ export type TimedToggleOptions = {
   openDuration?: number
   closeDuration?: number
   duration?: number
+  /** When true, skips animation delays and transitions instantly. */
+  reducedMotion?: Signal<boolean>
 }
 
 export function useTimedToggle({
@@ -125,9 +139,11 @@ export function useTimedToggle({
   duration,
   openDuration = duration ?? 500,
   closeDuration = duration ?? 500,
+  reducedMotion,
 }: TimedToggleOptions = {}) {
   return useAnimatedToggle({
     initialStatus,
+    reducedMotion,
     openedAfter: cb => delayed(cb, openDuration),
     closedAfter: cb => delayed(cb, closeDuration),
   })
@@ -200,11 +216,14 @@ function onAnimationEnd(element: HTMLElement, cb: () => void) {
 export type AnimatedElementToggleOptions = {
   initialStatus?: ToggleStatus
   element?: HTMLElement
+  /** When true, skips animation delays and transitions instantly. */
+  reducedMotion?: Signal<boolean>
 }
 
 export function useAnimatedElementToggle({
   initialStatus = 'closed',
   element,
+  reducedMotion,
 }: AnimatedElementToggleOptions = {}) {
   let el = element
   return {
@@ -213,6 +232,7 @@ export function useAnimatedElementToggle({
     },
     ...useAnimatedToggle({
       initialStatus,
+      reducedMotion,
       openedAfter: cb => {
         if (el == null) {
           cb()
@@ -391,9 +411,12 @@ export function AnimatedToggle(
   {
     initialStatus = 'closed',
     animation,
+    reducedMotion,
   }: {
     initialStatus?: ToggleStatus
     animation?: Value<AnimationConfig>
+    /** When true, skips animation delays and transitions instantly. */
+    reducedMotion?: Signal<boolean>
   },
   render: (options: {
     status: Signal<ToggleStatus>
@@ -415,6 +438,7 @@ export function AnimatedToggle(
     const { setElement, dispose, ...rest } = useAnimatedElementToggle({
       initialStatus,
       element,
+      reducedMotion,
     })
     setElement(element)
     return Fragment(

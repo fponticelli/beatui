@@ -24,6 +24,8 @@ import { sleep } from '@tempots/std'
  * configuration, and lifecycle hooks for a single notification instance.
  */
 type NotificationEntry = {
+  /** Unique identifier for keyed rendering. */
+  id: string
   /** Animation configuration for the notification's enter/exit transitions. */
   animation: AnimationConfig
   /** Child content nodes rendered inside the notification body. */
@@ -49,6 +51,8 @@ type NotificationEntry = {
   /** Optional promise that, when resolved, triggers automatic dismissal. */
   delayedClose?: Promise<void>
 }
+
+let notificationCounter = 0
 
 /**
  * Options for showing a notification via the notification provider.
@@ -124,6 +128,10 @@ export type NotificationProviderValue = {
   listenOnShow: (fn: (entry: NotificationEntry) => void) => () => void
   /** Reactive signal tracking the number of currently visible notifications. */
   activeNotifications: Signal<number>
+  /** Reactive list of active notification entries for declarative rendering. */
+  entries: Signal<NotificationEntry[]>
+  /** Removes a notification entry by ID. */
+  removeEntry: (id: string) => void
 }
 
 /**
@@ -224,6 +232,7 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
   mark: makeProviderMark<NotificationProviderValue>('NotificationProvider'),
   create: ({ position = 'bottom-end' }: NotificationProviderOptions = {}) => {
     const activeNotifications = prop(0)
+    const entries = prop<NotificationEntry[]>([])
     const onShowListeners: Array<(entry: NotificationEntry) => void> = []
     function listenOnShow(fn: (entry: NotificationEntry) => void) {
       onShowListeners.push(fn)
@@ -235,12 +244,18 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
       }
     }
 
+    const removeEntry = (id: string) => {
+      entries.update(list => list.filter(e => e.id !== id))
+      activeNotifications.update(n => Math.max(0, n - 1))
+    }
+
     const cleanup: Array<() => void> = []
     const show: NotificationShowFn = (
       { dismissAfter, onClose, animation = { fade: true }, ...options },
       ...children
     ) => {
       const localCleanup: Array<() => void> = []
+      const id = `notification-${++notificationCounter}`
       activeNotifications.update(n => n + 1)
 
       const delayedClose =
@@ -251,6 +266,7 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
           : undefined
 
       const entry: NotificationEntry = {
+        id,
         animation,
         class: Value.toSignal(options.class),
         loading: Value.toSignal(options.loading ?? false) as Signal<boolean>,
@@ -279,12 +295,15 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
         delayedClose,
       }
 
+      entries.update(list => [...list, entry])
       onShowListeners.forEach(fn => fn(entry))
     }
 
     const clear = () => {
       cleanup.forEach(fn => fn())
       cleanup.length = 0
+      entries.set([])
+      activeNotifications.set(0)
     }
 
     const detach = NotificationService.attach({ show, clear })
@@ -292,6 +311,8 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
     return {
       value: {
         activeNotifications,
+        entries,
+        removeEntry,
         show,
         clear,
         position,
