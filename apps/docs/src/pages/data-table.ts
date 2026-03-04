@@ -182,7 +182,7 @@ export default function DataTablePage() {
       hoverable: false,
       selectable: true,
       selectOnRowClick: true,
-      groupByCategory: false,
+      groupByCategory: true,
       fullWidth: true,
       withStripedRows: false,
       withTableBorder: true,
@@ -233,7 +233,7 @@ export default function DataTablePage() {
           {
             id: 'sku',
             header: 'SKU',
-            cell: row => html.code(attr.class('text-xs'), row.$.sku),
+            cell: row => html.code(attr.class('text-sm'), row.$.sku),
             sortable: true,
             filter: true,
             hideable: true,
@@ -354,7 +354,6 @@ export default function DataTablePage() {
             sel.size > 0 ? `Selected IDs: ${[...sel].join(', ')}` : ''
           )
         },
-        columnVisibility: {},
         emptyContent: 'No products match your filters',
       }),
 

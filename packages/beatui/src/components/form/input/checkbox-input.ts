@@ -13,9 +13,9 @@ import { IconSize } from '../../theme'
  * customize the checked/unchecked icons and their size.
  */
 export type CheckboxInputOptions = InputOptions<boolean> & {
-  /** Icon name to display when the checkbox is checked. @default 'akar-icons/check-box-fill' */
+  /** Icon name to display when the checkbox is checked. @default 'ri:checkbox-fill' */
   checkedIcon?: Value<string | undefined>
-  /** Icon name to display when the checkbox is unchecked. @default 'akar-icons/box' */
+  /** Icon name to display when the checkbox is unchecked. @default 'mdi:checkbox-blank-outline' */
   uncheckedIcon?: Value<string | undefined>
   /** Size of the checkbox icon. @default 'lg' */
   iconSize?: Value<IconSize>
@@ -134,8 +134,8 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
               uncheckedIcon
             )((isChecked, checkedIconName, uncheckedIconName): string =>
               isChecked
-                ? (checkedIconName ?? 'akar-icons/check-box-fill')
-                : (uncheckedIconName ?? 'akar-icons/box')
+                ? (checkedIconName ?? 'ri:checkbox-fill')
+                : (uncheckedIconName ?? 'mdi:checkbox-blank-outline')
             ),
             accessibility: 'decorative',
             size: size,

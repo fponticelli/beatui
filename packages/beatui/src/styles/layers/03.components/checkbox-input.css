@@ -24,6 +24,10 @@
   color: var(--checkbox-checked-color);
 }
 
+.bc-checkbox-input__checkbox--indeterminate {
+  color: var(--checkbox-checked-color);
+}
+
 .bc-checkbox-input__checkbox--unchecked {
   color: var(--color-base-400);
 }
@@ -51,6 +55,10 @@
 }
 
 .dark .bc-checkbox-input__checkbox--checked {
+  color: var(--color-primary-400);
+}
+
+.dark .bc-checkbox-input__checkbox--indeterminate {
   color: var(--color-primary-400);
 }
 

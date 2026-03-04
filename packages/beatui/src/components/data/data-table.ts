@@ -891,6 +891,7 @@ export function DataTable<T, C extends string = string>(
         rowClass.dispose()
         rowSignal.dispose()
       }),
+      // TODO remove
       MapSignal(visibleColumns, visCols =>
         html.tr(
           attr.class(rowClass),
@@ -921,129 +922,162 @@ export function DataTable<T, C extends string = string>(
     const groupColSpan = computedOf(
       visibleColumns,
       selectableSignal
-    )((visCols, sel) => visCols.length + (sel ? 1 : 0))
+    )((visCols, sel) => {
+      return visCols.length + (sel ? 1 : 0)
+    })
+    const collapsedGroupColSpan = computedOf(
+      visibleColumns,
+      selectableSignal
+    )((visCols, sel) => {
+      const firstTot = visCols.findIndex(c => c.footer != null)
+      console.log(firstTot, sel)
+      return firstTot + (sel ? 1 : 0)
+    })
 
     const hasFooter = columns.some(c => c.footer != null)
 
-    return Fragment(
-      OnDispose(() => groupColSpan.dispose()),
-      MapSignal(currentGroupPageGroups, groups =>
-        Fragment(
-          ...groups.map(group => {
-            const isCollapsed = collapsedGroups.map(s => s.has(group.key))
-            const toggleCollapse = () => {
-              const next = new Set(collapsedGroups.value)
-              if (next.has(group.key)) {
-                next.delete(group.key)
-              } else {
-                next.add(group.key)
-              }
-              collapsedGroups.set(next)
+    return MapSignal(currentGroupPageGroups, groups =>
+      Fragment(
+        ...groups.map(group => {
+          const isCollapsed = collapsedGroups.map(s => s.has(group.key))
+          const toggleCollapse = () => {
+            const next = new Set(collapsedGroups.value)
+            if (next.has(group.key)) {
+              next.delete(group.key)
+            } else {
+              next.add(group.key)
             }
-            return Fragment(
-              Use(BeatUII18n, t =>
-                html.tr(
-                  attr.class('bc-data-table__group-header'),
-                  on.click(() => {
-                    if (groupCollapsible) toggleCollapse()
-                  }),
-                  html.td(
-                    attr.colspan(groupColSpan),
-                    html.div(
-                      attr.class('bc-data-table__group-header-content'),
-                      groupCollapsible
-                        ? html.span(
-                            attr.class(
-                              isCollapsed.map((c): string =>
-                                c
-                                  ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
-                                  : 'bc-data-table__group-toggle'
-                              )
-                            ),
-                            aria.label(
-                              isCollapsed.map((c): string => {
-                                const dt = t.value.dataTable as Record<
-                                  string,
-                                  unknown
-                                >
-                                return c
-                                  ? ((dt.expandGroup as string) ??
-                                      'Expand group')
-                                  : ((dt.collapseGroup as string) ??
-                                      'Collapse group')
-                              })
-                            ),
-                            Icon({ icon: 'lucide:chevron-down', size: 'sm' })
-                          )
-                        : null,
-                      html.span(
-                        attr.class('bc-data-table__group-label'),
-                        group.key
-                      ),
-                      html.span(
-                        attr.class('bc-data-table__group-count'),
-                        (() => {
-                          const fn = (
-                            t.value.dataTable as Record<string, unknown>
-                          ).groupCount as
-                            | ((count: number) => string)
-                            | undefined
-                          return fn
-                            ? fn(group.rows.length)
-                            : `(${group.rows.length})`
-                        })()
-                      ),
-                      // Inline summary when collapsed
-                      groupSummary != null
-                        ? When(isCollapsed, () =>
-                            html.span(
-                              attr.class('bc-data-table__group-footer-summary'),
-                              groupSummary(group.key, group.rows)
+            collapsedGroups.set(next)
+          }
+          return Fragment(
+            Use(BeatUII18n, t =>
+              html.tr(
+                attr.class('bc-data-table__group-header'),
+                on.click(() => {
+                  if (groupCollapsible) toggleCollapse()
+                }),
+                html.td(
+                  When(
+                    isCollapsed,
+                    () => attr.colspan(collapsedGroupColSpan),
+                    () => attr.colspan(groupColSpan)
+                  ),
+                  html.div(
+                    attr.class('bc-data-table__group-header-content'),
+                    groupCollapsible
+                      ? html.span(
+                          attr.class(
+                            isCollapsed.map((c): string =>
+                              c
+                                ? 'bc-data-table__group-toggle bc-data-table__group-toggle--collapsed'
+                                : 'bc-data-table__group-toggle'
                             )
-                          )
-                        : null
-                    )
-                  )
-                )
-              ),
-              When(
-                isCollapsed.map(c => !c),
-                () =>
-                  Fragment(
-                    ...group.rows.map(row => renderGroupRow(row)),
-                    // Per-group footer row
-                    hasFooter
-                      ? When(showFooter, () =>
-                          MapSignal(visibleColumns, visCols =>
-                            html.tr(
-                              attr.class(
-                                'bc-data-table__footer-row bc-data-table__group-footer-row'
-                              ),
-                              When(selectable, () => html.td()),
-                              ...visCols.map(col =>
-                                col.footer
-                                  ? html.td(
-                                      col.align != null
-                                        ? style.textAlign(
-                                            Value.map(
-                                              col.align,
-                                              (a): string => a
-                                            )
-                                          )
-                                        : null,
-                                      col.footer(Value.toSignal(group.rows))
-                                    )
-                                  : html.td()
-                              )
-                            )
+                          ),
+                          aria.label(
+                            isCollapsed.map((c): string => {
+                              const dt = t.value.dataTable as Record<
+                                string,
+                                unknown
+                              >
+                              return c
+                                ? ((dt.expandGroup as string) ?? 'Expand group')
+                                : ((dt.collapseGroup as string) ??
+                                    'Collapse group')
+                            })
+                          ),
+                          Icon({ icon: 'lucide:chevron-down', size: 'sm' })
+                        )
+                      : null,
+                    html.span(
+                      attr.class('bc-data-table__group-label'),
+                      group.key
+                    ),
+                    html.span(
+                      attr.class('bc-data-table__group-count'),
+                      (() => {
+                        const fn = (
+                          t.value.dataTable as Record<string, unknown>
+                        ).groupCount as ((count: number) => string) | undefined
+                        return fn
+                          ? fn(group.rows.length)
+                          : `(${group.rows.length})`
+                      })()
+                    ),
+                    // Inline summary when collapsed
+                    groupSummary != null
+                      ? When(isCollapsed, () =>
+                          html.span(
+                            attr.class('bc-data-table__group-footer-summary'),
+                            groupSummary(group.key, group.rows)
                           )
                         )
                       : null
                   )
+                ),
+                When(isCollapsed, () =>
+                  hasFooter
+                    ? When(showFooter, () =>
+                        MapSignal(visibleColumns, visCols =>
+                          Fragment(
+                            ...visCols.map((col, index) =>
+                              col.footer
+                                ? html.td(
+                                    attr.class(
+                                      'bc-data-table__footer-row bc-data-table__group-footer-row'
+                                    ),
+                                    col.align != null
+                                      ? style.textAlign(
+                                          Value.map(col.align, (a): string => a)
+                                        )
+                                      : null,
+                                    col.footer(Value.toSignal(group.rows))
+                                  )
+                                : When(
+                                    collapsedGroupColSpan.map(s => s < index),
+                                    () => html.td()
+                                  )
+                            )
+                          )
+                        )
+                      )
+                    : null
+                )
               )
+            ),
+            When(
+              isCollapsed.map(c => !c),
+              () =>
+                Fragment(
+                  ...group.rows.map(row => renderGroupRow(row)),
+                  // Per-group footer row
+                  hasFooter
+                    ? When(showFooter, () =>
+                        MapSignal(visibleColumns, visCols =>
+                          html.tr(
+                            attr.class(
+                              'bc-data-table__footer-row bc-data-table__group-footer-row'
+                            ),
+                            When(selectable, () => html.td()),
+                            ...visCols.map(col =>
+                              col.footer
+                                ? html.td(
+                                    col.align != null
+                                      ? style.textAlign(
+                                          Value.map(col.align, (a): string => a)
+                                        )
+                                      : null,
+                                    col.footer(Value.toSignal(group.rows))
+                                  )
+                                : html.td()
+                            )
+                          )
+                        )
+                      )
+                    : null
+                )
             )
-          })
-        )
+          )
+        })
       )
     )
   }
