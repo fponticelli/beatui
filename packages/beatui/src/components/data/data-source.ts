@@ -83,6 +83,8 @@ export interface DataSourceOptions<T, C extends string = string> {
   onPageChange?: (page: number) => void
   /** Called whenever selection changes */
   onSelectionChange?: (selected: Set<string>) => void
+  /** Called whenever the group-by column changes */
+  onGroupByChange?: (column: C | undefined) => void
   /** Evaluate a custom (non-builtin) filter kind. Return `true` to include the row. */
   evaluateFilter?: (filter: FilterBase<C>, row: T) => boolean
 }
@@ -249,6 +251,7 @@ export function createDataSource<T, C extends string = string>(
     onFilterChange,
     onPageChange,
     onSelectionChange,
+    onGroupByChange,
     evaluateFilter: evaluateFilterCb,
   } = options
 
@@ -642,6 +645,7 @@ export function createDataSource<T, C extends string = string>(
 
   const setGroupBy = (column: C | undefined) => {
     groupByState.set(column)
+    onGroupByChange?.(column)
   }
 
   const resetAll = () => {

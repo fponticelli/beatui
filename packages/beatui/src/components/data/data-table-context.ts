@@ -107,6 +107,7 @@ export function createDataTableContext<T, C extends string = string>(
     onSortChange,
     onFilterChange,
     onSelectionChange,
+    onGroupByChange,
     onRowClick,
     serverSide = false,
     loading = false,
@@ -197,6 +198,7 @@ export function createDataTableContext<T, C extends string = string>(
     onSortChange,
     onFilterChange,
     onSelectionChange,
+    onGroupByChange,
   })
 
   onDataSource?.(ds)
@@ -229,12 +231,17 @@ export function createDataTableContext<T, C extends string = string>(
   const pageSizeSignal = Value.toSignal(
     Value.map(paginationConfig, p => (p === false ? 0 : (p?.pageSize ?? 10)))
   )
+  const serverSideSignal = Value.toSignal(serverSide)
   const groupCurrentPage = prop(1)
+  // In server-side mode, skip client-side group pagination — the server controls pages.
   const groupPages = computedOf(
     ds.groups,
     pageSizeSignal,
-    collapsedGroups
-  )((groups, ps, collapsed) => paginateGroups(groups, ps, collapsed))
+    collapsedGroups,
+    serverSideSignal
+  )((groups, ps, collapsed, ss) =>
+    ss ? [groups] : paginateGroups(groups, ps, collapsed)
+  )
 
   const groupTotalPages = groupPages.map(pages => pages.length)
 
@@ -302,6 +309,7 @@ export function createDataTableContext<T, C extends string = string>(
     rowClickable.dispose()
     paginationEnabledSignal.dispose()
     pageSizeSignal.dispose()
+    serverSideSignal.dispose()
     groupCurrentPage.dispose()
     groupPageClampUnsub()
     groupPages.dispose()

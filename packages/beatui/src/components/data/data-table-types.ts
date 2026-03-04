@@ -177,6 +177,8 @@ export interface DataTableOptions<T, C extends string = string> {
   onFilterChange?: (filters: FilterBase<C>[]) => void
   /** Called when selection changes */
   onSelectionChange?: (selected: Set<string>) => void
+  /** Called when the group-by column changes */
+  onGroupByChange?: (column: C | undefined) => void
   /** Called when a row is clicked */
   onRowClick?: (row: T) => void
 
