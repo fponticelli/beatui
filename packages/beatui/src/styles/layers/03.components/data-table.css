@@ -188,6 +188,7 @@
 /* Data Table */
 .bc-data-table__wrapper {
   position: relative;
+  min-height: 120px;
 }
 
 .bc-data-table__filter-row > th {
@@ -236,18 +237,6 @@
   padding: var(--spacing-xl);
   color: var(--text-muted);
   font-style: italic;
-}
-
-.bc-data-table__loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--bg-overlay);
-  z-index: var(--z-index-raised);
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
 }
 
 .bc-data-table__pagination {

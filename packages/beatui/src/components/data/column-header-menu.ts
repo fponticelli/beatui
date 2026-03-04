@@ -177,7 +177,6 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                       value: hiddenColumns.map(h => !h.has(col.id)),
                       onChange: () => onToggleColumn(col.id),
                       placeholder: col.label,
-                      size: 'sm',
                     })
                   ),
                   When(
@@ -190,7 +189,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                               variant: 'outline',
                               onClick: () => onResetColumns(),
                             },
-                            dt.map(d => d.showAllColumns)
+                            dt.$.showAllColumns
                           )
                         : null
                   )

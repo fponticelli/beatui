@@ -18,6 +18,7 @@ import {
 import { BeatUII18n } from '../../beatui-i18n'
 import { DataTableContext } from './data-table-context'
 import { SelectionCheckbox } from './selection-checkbox'
+import { LoadingOverlay } from '../misc/loading-overlay'
 import { Icon } from './icon'
 
 /** Render a single data cell. */
@@ -342,13 +343,12 @@ export function renderEmpty<T, C extends string>(
 export function renderLoading<T, C extends string>(
   ctx: DataTableContext<T, C>
 ): TNode {
-  return When(ctx.loading, () =>
-    Use(BeatUII18n, t =>
-      html.div(
-        attr.class('bc-data-table__loading'),
-        t.$.dataTable.map(dt => dt.loading)
-      )
-    )
+  return Use(BeatUII18n, t =>
+    LoadingOverlay({
+      visible: ctx.loading,
+      message: t.$.dataTable.map(dt => dt.loading),
+      size: 'lg',
+    })
   )
 }
 
