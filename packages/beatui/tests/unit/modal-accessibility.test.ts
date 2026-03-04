@@ -47,7 +47,7 @@ describe('Modal Accessibility', () => {
       expect(modal.getAttribute('aria-labelledby')).toMatch(/modal-.*-header/)
       expect(modal.getAttribute('aria-describedby')).toMatch(/modal-.*-body/)
       expect(modal.getAttribute('tabindex')).toBe('-1')
-      expect(modal.getAttribute('data-focustrap')).toBe('true')
+      expect(modal.getAttribute('data-focus-trap')).toBe('true')
     })
 
     it('should have proper ARIA labeling when header is provided', async () => {

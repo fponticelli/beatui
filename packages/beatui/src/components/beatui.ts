@@ -2,6 +2,7 @@ import {
   Empty,
   Fragment,
   Provide,
+  ReducedMotion,
   Task,
   TNode,
   WithProvider,
@@ -80,6 +81,7 @@ export function BeatUI(
       defaultAppearance: enableAppearance ? defaultAppearance : 'light',
       appearancePreferenceKey,
     })
+    set(ReducedMotion, undefined)
     if (includeNotifications) {
       set(NotificationProvider, { position: notificationPosition })
     }

@@ -11,6 +11,21 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(style)
 }
 
+// Mock matchMedia for jsdom (needed by ReducedMotion provider)
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList
+}
+
 // Mock Web Animations API for jsdom
 if (typeof Element !== 'undefined' && !Element.prototype.getAnimations) {
   Element.prototype.getAnimations = function () {
