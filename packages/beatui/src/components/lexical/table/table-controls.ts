@@ -12,6 +12,7 @@ import {
   Use,
   Ensure,
 } from '@tempots/dom'
+import { delayedAnimationFrame } from '@tempots/std'
 import type { LexicalEditor, LexicalNode } from 'lexical'
 import { $getSelection, $isRangeSelection } from 'lexical'
 import {
@@ -166,7 +167,7 @@ export function TableControls({
           }
 
           // Open menu after the marker is rendered
-          requestAnimationFrame(() => {
+          delayedAnimationFrame(() => {
             showMenuFn?.()
           })
         }

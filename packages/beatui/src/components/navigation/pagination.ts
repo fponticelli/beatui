@@ -12,6 +12,7 @@ import {
   prop,
   Use,
 } from '@tempots/dom'
+import { delayedAnimationFrame } from '@tempots/std'
 import { ControlSize } from '../theme'
 import { BeatUII18n } from '../../beatui-i18n'
 
@@ -193,7 +194,7 @@ export function Pagination({
 
           const observer = new ResizeObserver(updateSiblings)
           observer.observe(navEl)
-          requestAnimationFrame(updateSiblings)
+          delayedAnimationFrame(updateSiblings)
 
           return OnDispose(() => observer.disconnect())
         })

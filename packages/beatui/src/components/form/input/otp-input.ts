@@ -9,6 +9,7 @@ import {
   aria,
   WithElement,
 } from '@tempots/dom'
+import { delayedAnimationFrame } from '@tempots/std'
 import { ControlSize } from '../../theme'
 import { sessionId } from '../../../utils/session-id'
 import { ThemeColorName } from '../../../tokens'
@@ -257,7 +258,7 @@ export function OTPInput({
           // Store ref to this input element
           inputRefs[i] = el as HTMLInputElement
           if (autoFocus && i === 0) {
-            requestAnimationFrame(() => (el as HTMLInputElement).focus())
+            delayedAnimationFrame(() => (el as HTMLInputElement).focus())
           }
           return Empty
         }),
