@@ -157,7 +157,12 @@ export function ColumnHeaderMenu<T, C extends string = string>(
         }
 
         // Column chooser submenu
-        if (hideableColumns && hideableColumns.length > 0 && hiddenColumns && onToggleColumn) {
+        if (
+          hideableColumns &&
+          hideableColumns.length > 0 &&
+          hiddenColumns &&
+          onToggleColumn
+        ) {
           items.push(
             MenuItem({
               key: 'choose-columns',

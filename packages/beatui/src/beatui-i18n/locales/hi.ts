@@ -232,7 +232,8 @@ const hi: BeatUIMessages = {
     expandGroup: 'समूह विस्तृत करें',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} में "${val}" है`,
-      textNotContains: (col: string, val: string) => `${col} में "${val}" नहीं है`,
+      textNotContains: (col: string, val: string) =>
+        `${col} में "${val}" नहीं है`,
       textEquals: (col: string, val: string) => `${col} बराबर "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} बराबर नहीं "${val}"`,
       textStartsWith: (col: string, val: string) => `${col} शुरू "${val}" से`,
@@ -243,7 +244,8 @@ const hi: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} ${min} और ${max} के बीच`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} ${min} और ${max} के बीच`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} [${vals}] में`,

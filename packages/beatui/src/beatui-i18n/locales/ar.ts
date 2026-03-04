@@ -233,7 +233,8 @@ const ar: BeatUIMessages = {
     expandGroup: 'توسيع المجموعة',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} يحتوي على "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} لا يحتوي على "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} لا يحتوي على "${val}"`,
       textEquals: (col: string, val: string) => `${col} يساوي "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} لا يساوي "${val}"`,
       textStartsWith: (col: string, val: string) => `${col} يبدأ بـ "${val}"`,
@@ -244,7 +245,8 @@ const ar: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} بين ${min} و ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} بين ${min} و ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} ضمن [${vals}]`,

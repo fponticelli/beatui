@@ -211,7 +211,8 @@ const tr: BeatUIMessages = {
     filterPanelLte: 'Küçük veya eşit',
     filterPanelBetween: 'Arasında',
     filterPanelValuePlaceholder: 'Değer...',
-    sortMultiHint: 'Birden fazla sütunu sıralamak için Shift tuşunu basılı tutun',
+    sortMultiHint:
+      'Birden fazla sütunu sıralamak için Shift tuşunu basılı tutun',
     columnVisibility: 'Sütunlar',
     showAllColumns: 'Tümünü göster',
     // Column header menu
@@ -235,8 +236,10 @@ const tr: BeatUIMessages = {
       textContains: (col: string, val: string) => `${col} "${val}" içerir`,
       textNotContains: (col: string, val: string) => `${col} "${val}" içermez`,
       textEquals: (col: string, val: string) => `${col} "${val}" eşittir`,
-      textNotEquals: (col: string, val: string) => `${col} "${val}" eşit değildir`,
-      textStartsWith: (col: string, val: string) => `${col} "${val}" ile başlar`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} "${val}" eşit değildir`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} "${val}" ile başlar`,
       textEndsWith: (col: string, val: string) => `${col} "${val}" ile biter`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
@@ -244,7 +247,8 @@ const tr: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} ${min} ile ${max} arasında`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} ${min} ile ${max} arasında`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} [${vals}] içinde`,

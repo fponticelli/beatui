@@ -1,11 +1,4 @@
-import {
-  attr,
-  html,
-  on,
-  TNode,
-  When,
-  Use,
-} from '@tempots/dom'
+import { attr, html, on, TNode, When, Use } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
 import { DataTableContext } from './data-table-context'
 import { Flyout } from '../navigation/flyout'

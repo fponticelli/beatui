@@ -315,19 +315,26 @@ export default function DataSourcePage() {
       html.tbody(
         ForEach(ds.rows, rowSignal => {
           // Capture ID once — stable per ForEach slot, used to wire reactive selection
-          const id = rowSignal.value.id
+          const id = rowSignal.$.id
+          const isSelected = computedOf(
+            id,
+            ds.selected
+          )((id, selected) => selected.has(id))
           return html.tr(
             attr.class(
-              ds
-                .isSelected(id)
-                .map((sel): string =>
-                  sel ? 'bc-data-table__row bc-data-table__row--selected' : ''
-                )
+              isSelected.map((sel): string =>
+                sel ? 'bc-data-table__row bc-data-table__row--selected' : ''
+              )
             ),
             html.td(
               html.div(
                 attr.class('bc-data-table__selection-cell'),
-                SelectionCheckbox({ dataSource: ds, rowId: id, size: 'sm' })
+                SelectionCheckbox({
+                  dataSource: ds,
+                  rowId: id,
+                  isSelected,
+                  size: 'sm',
+                })
               )
             ),
             // Use MapSignal so cells re-render reactively when row data changes

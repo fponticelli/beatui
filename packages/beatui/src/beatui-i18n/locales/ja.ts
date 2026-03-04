@@ -233,10 +233,13 @@ export const ja: BeatUIMessages = {
     expandGroup: 'グループを展開',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} が "${val}" を含む`,
-      textNotContains: (col: string, val: string) => `${col} が "${val}" を含まない`,
+      textNotContains: (col: string, val: string) =>
+        `${col} が "${val}" を含まない`,
       textEquals: (col: string, val: string) => `${col} が "${val}" に等しい`,
-      textNotEquals: (col: string, val: string) => `${col} が "${val}" に等しくない`,
-      textStartsWith: (col: string, val: string) => `${col} が "${val}" で始まる`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} が "${val}" に等しくない`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} が "${val}" で始まる`,
       textEndsWith: (col: string, val: string) => `${col} が "${val}" で終わる`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
@@ -244,11 +247,13 @@ export const ja: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} が ${min} ～ ${max} の間`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} が ${min} ～ ${max} の間`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} が [${vals}] に含まれる`,
-      setNotIn: (col: string, vals: string) => `${col} が [${vals}] に含まれない`,
+      setNotIn: (col: string, vals: string) =>
+        `${col} が [${vals}] に含まれない`,
       booleanIs: (col: string, val: string) => `${col} は ${val}`,
       isNull: (col: string) => `${col} が空`,
       isNotNull: (col: string) => `${col} が空でない`,

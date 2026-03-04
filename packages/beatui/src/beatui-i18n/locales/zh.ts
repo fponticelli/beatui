@@ -243,7 +243,8 @@ const zh: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} 在 ${min} 到 ${max} 之间`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} 在 ${min} 到 ${max} 之间`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} 在 [${vals}] 中`,

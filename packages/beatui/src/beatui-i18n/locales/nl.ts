@@ -233,10 +233,13 @@ export const nl: BeatUIMessages = {
     expandGroup: 'Groep uitklappen',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} bevat "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} bevat niet "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} bevat niet "${val}"`,
       textEquals: (col: string, val: string) => `${col} is gelijk aan "${val}"`,
-      textNotEquals: (col: string, val: string) => `${col} is niet gelijk aan "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} begint met "${val}"`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} is niet gelijk aan "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} begint met "${val}"`,
       textEndsWith: (col: string, val: string) => `${col} eindigt met "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
@@ -244,7 +247,8 @@ export const nl: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} tussen ${min} en ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} tussen ${min} en ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} in [${vals}]`,

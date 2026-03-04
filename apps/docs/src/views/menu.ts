@@ -172,6 +172,7 @@ export function Menu() {
         SidebarLink({ href: '/empty-state', content: 'Empty State' }),
         SidebarLink({ href: '/table', content: 'Table' }),
         SidebarLink({ href: '/data-table', content: 'DataTable' }),
+        SidebarLink({ href: '/data-table-async', content: 'DataTable Async' }),
         SidebarLink({ href: '/data-source', content: 'DataSource' })
       ),
 

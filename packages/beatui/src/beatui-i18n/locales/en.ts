@@ -233,10 +233,13 @@ const en = {
     // Filter descriptions (for toolbar chips)
     describeFilter: {
       textContains: (col: string, val: string) => `${col} contains "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} does not contain "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} does not contain "${val}"`,
       textEquals: (col: string, val: string) => `${col} equals "${val}"`,
-      textNotEquals: (col: string, val: string) => `${col} does not equal "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} starts with "${val}"`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} does not equal "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} starts with "${val}"`,
       textEndsWith: (col: string, val: string) => `${col} ends with "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
@@ -244,7 +247,8 @@ const en = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} between ${min} and ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} between ${min} and ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} in [${vals}]`,

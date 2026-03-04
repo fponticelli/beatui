@@ -232,18 +232,22 @@ const vi: BeatUIMessages = {
     expandGroup: 'Mở rộng nhóm',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} chứa "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} không chứa "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} không chứa "${val}"`,
       textEquals: (col: string, val: string) => `${col} bằng "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} không bằng "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} bắt đầu bằng "${val}"`,
-      textEndsWith: (col: string, val: string) => `${col} kết thúc bằng "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} bắt đầu bằng "${val}"`,
+      textEndsWith: (col: string, val: string) =>
+        `${col} kết thúc bằng "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
       compareGt: (col: string, val: string) => `${col} > ${val}`,
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} giữa ${min} và ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} giữa ${min} và ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} trong [${vals}]`,

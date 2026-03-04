@@ -1,11 +1,4 @@
-import {
-  computedOf,
-  Prop,
-  prop,
-  Signal,
-  TNode,
-  Value,
-} from '@tempots/dom'
+import { computedOf, Prop, prop, Signal, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { createDataSource, DataSource, RowGroup } from './data-source'
 import {

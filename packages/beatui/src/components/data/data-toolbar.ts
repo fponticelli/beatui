@@ -76,7 +76,10 @@ export function DataToolbar<T, C extends string = string>({
     dataSource.sort,
     dataSource.filters,
     dataSource.selectedCount
-  )((sorts, filters, selCount) => sorts.length > 0 || filters.length > 0 || selCount > 0)
+  )(
+    (sorts, filters, selCount) =>
+      sorts.length > 0 || filters.length > 0 || selCount > 0
+  )
 
   // Combine showSelection (Value<boolean>) with selectedCount into a single derived signal
   // so we avoid creating a new computedOf on each render cycle
@@ -90,7 +93,10 @@ export function DataToolbar<T, C extends string = string>({
     ? { describeFilter: describeFilterCb }
     : undefined
 
-  function describeFilterChip(f: FilterBase<C>, messages?: FilterDescriptionMessages): string {
+  function describeFilterChip(
+    f: FilterBase<C>,
+    messages?: FilterDescriptionMessages
+  ): string {
     if (messages) {
       return describeFilterLocalized(f, messages, describeOpts)
     }
@@ -112,8 +118,9 @@ export function DataToolbar<T, C extends string = string>({
           When(showSort, () =>
             ForEach(dataSource.sort, sortSignal =>
               Tag({
-                value: sortSignal.map(s =>
-                  `${s.column} ${s.direction === 'asc' ? '\u2191' : '\u2193'}`
+                value: sortSignal.map(
+                  s =>
+                    `${s.column} ${s.direction === 'asc' ? '\u2191' : '\u2193'}`
                 ),
                 color: 'green',
                 size: 'sm',
@@ -135,9 +142,8 @@ export function DataToolbar<T, C extends string = string>({
                 value: filterSignal.map((f: FilterBase<C>) =>
                   describeFilterChip(
                     f,
-                    (t.value.dataTable as Record<string, unknown>).describeFilter as
-                      | FilterDescriptionMessages
-                      | undefined
+                    (t.value.dataTable as Record<string, unknown>)
+                      .describeFilter as FilterDescriptionMessages | undefined
                   )
                 ),
                 color: 'violet',
@@ -170,7 +176,9 @@ export function DataToolbar<T, C extends string = string>({
                 )
               ),
               html.button(
-                attr.class('bc-data-toolbar__action bc-data-toolbar__action--secondary'),
+                attr.class(
+                  'bc-data-toolbar__action bc-data-toolbar__action--secondary'
+                ),
                 on.click(() => dataSource.deselectAll()),
                 t.$.dataTable.map(dt => dt.deselectAll)
               )

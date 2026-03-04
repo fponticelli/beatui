@@ -2,7 +2,10 @@ import { Value, computedOf } from '@tempots/dom'
 import { DataSource } from './data-source'
 import { ControlSize } from '../theme'
 import { CheckboxInput } from '../form'
-import { CheckboxState, TriStateCheckboxInput } from '../form/input/tri-state-checkbox-input'
+import {
+  CheckboxState,
+  TriStateCheckboxInput,
+} from '../form/input/tri-state-checkbox-input'
 
 /**
  * Options for the {@link SelectionCheckbox} component.
@@ -84,8 +87,9 @@ export function SelectAllCheckbox<T, C extends string = string>({
   const checkboxState = computedOf(
     dataSource.isAllSelected,
     dataSource.isSomeSelected
-  )((isAll, isSome): CheckboxState =>
-    isAll ? 'checked' : isSome ? 'indeterminate' : 'unchecked'
+  )(
+    (isAll, isSome): CheckboxState =>
+      isAll ? 'checked' : isSome ? 'indeterminate' : 'unchecked'
   )
 
   return TriStateCheckboxInput({

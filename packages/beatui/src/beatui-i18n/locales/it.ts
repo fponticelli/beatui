@@ -233,10 +233,12 @@ const it: BeatUIMessages = {
     expandGroup: 'Espandi gruppo',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} contiene "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} non contiene "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} non contiene "${val}"`,
       textEquals: (col: string, val: string) => `${col} uguale a "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} diverso da "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} inizia con "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} inizia con "${val}"`,
       textEndsWith: (col: string, val: string) => `${col} finisce con "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
@@ -244,7 +246,8 @@ const it: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} tra ${min} e ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} tra ${min} e ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} in [${vals}]`,

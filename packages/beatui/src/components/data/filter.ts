@@ -105,8 +105,9 @@ export type SetFilter<C extends string = string> = FilterBase<C> & {
 /**
  * Boolean filter.
  */
-export interface BooleanFilter<C extends string = string>
-  extends FilterBase<C> {
+export interface BooleanFilter<
+  C extends string = string,
+> extends FilterBase<C> {
   kind: 'boolean'
   value: boolean
 }
@@ -123,8 +124,9 @@ export interface NullFilter<C extends string = string> extends FilterBase<C> {
  * A composite per-column filter that combines multiple child filters
  * using AND or OR logic. All children share the same column.
  */
-export interface CompositeColumnFilter<C extends string = string>
-  extends FilterBase<C> {
+export interface CompositeColumnFilter<
+  C extends string = string,
+> extends FilterBase<C> {
   kind: 'composite'
   mode: 'and' | 'or'
   filters: BuiltinFilter<C>[]
@@ -547,9 +549,14 @@ export function describeBuiltinFilterLocalized<C extends string = string>(
     }
     case 'range': {
       if (filter.min != null && filter.max != null) {
-        return messages.rangeBetween(col, formatValue(filter.min), formatValue(filter.max))
+        return messages.rangeBetween(
+          col,
+          formatValue(filter.min),
+          formatValue(filter.max)
+        )
       }
-      if (filter.min != null) return messages.rangeGte(col, formatValue(filter.min))
+      if (filter.min != null)
+        return messages.rangeGte(col, formatValue(filter.min))
       return messages.rangeLte(col, formatValue(filter.max!))
     }
     case 'set': {
@@ -673,8 +680,7 @@ export const Filter = {
     column: C,
     value: string,
     caseSensitive?: boolean
-  ): TextFilter<C> =>
-    Filter.text(column, 'notContains', value, caseSensitive),
+  ): TextFilter<C> => Filter.text(column, 'notContains', value, caseSensitive),
   equals: <C extends string = string>(
     column: C,
     value: string,
@@ -700,57 +706,63 @@ export const Filter = {
   eq: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'eq',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'eq',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
   neq: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'neq',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'neq',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
   gt: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'gt',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'gt',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
   gte: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'gte',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'gte',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
   lt: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'lt',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'lt',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
   lte: <C extends string = string>(
     column: C,
     value: InferableValue
-  ): CompareFilter<C> => ({
-    kind: 'compare',
-    column,
-    operator: 'lte',
-    ...inferTypedValue(value),
-  }) as CompareFilter<C>,
+  ): CompareFilter<C> =>
+    ({
+      kind: 'compare',
+      column,
+      operator: 'lte',
+      ...inferTypedValue(value),
+    }) as CompareFilter<C>,
 
   // --- Range ---
   between: <C extends string = string>(
@@ -758,32 +770,35 @@ export const Filter = {
     min: InferableValue | undefined,
     max: InferableValue | undefined,
     exclusive?: boolean
-  ): RangeFilter<C> => ({
-    kind: 'range',
-    column,
-    ...(exclusive != null ? { exclusive } : {}),
-    ...inferTypedRange(min, max),
-  }) as RangeFilter<C>,
+  ): RangeFilter<C> =>
+    ({
+      kind: 'range',
+      column,
+      ...(exclusive != null ? { exclusive } : {}),
+      ...inferTypedRange(min, max),
+    }) as RangeFilter<C>,
 
   // --- Set ---
   oneOf: <C extends string = string>(
     column: C,
     values: InferableValue[]
-  ): SetFilter<C> => ({
-    kind: 'set',
-    column,
-    mode: 'include',
-    ...inferTypedSet(values),
-  }) as SetFilter<C>,
+  ): SetFilter<C> =>
+    ({
+      kind: 'set',
+      column,
+      mode: 'include',
+      ...inferTypedSet(values),
+    }) as SetFilter<C>,
   noneOf: <C extends string = string>(
     column: C,
     values: InferableValue[]
-  ): SetFilter<C> => ({
-    kind: 'set',
-    column,
-    mode: 'exclude',
-    ...inferTypedSet(values),
-  }) as SetFilter<C>,
+  ): SetFilter<C> =>
+    ({
+      kind: 'set',
+      column,
+      mode: 'exclude',
+      ...inferTypedSet(values),
+    }) as SetFilter<C>,
 
   // --- Boolean ---
   isTrue: <C extends string = string>(column: C): BooleanFilter<C> => ({

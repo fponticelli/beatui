@@ -11,7 +11,13 @@ import {
   Value,
 } from '@tempots/dom'
 import { DataSource } from './data-source'
-import { Filter, FilterBase, SetFilter, TextFilter, TextOperator } from './filter'
+import {
+  Filter,
+  FilterBase,
+  SetFilter,
+  TextFilter,
+  TextOperator,
+} from './filter'
 import { ControlSize } from '../theme'
 import { TextInput } from '../form/input/text-input'
 import { NativeSelect } from '../form/input/native-select'
@@ -23,10 +29,12 @@ import { BeatUII18n } from '../../beatui-i18n'
 // Helpers
 // ---------------------------------------------------------------------------
 
-function extractSetValues<C extends string>(filters: FilterBase<C>[]): string[] {
+function extractSetValues<C extends string>(
+  filters: FilterBase<C>[]
+): string[] {
   for (const f of filters) {
     if (f.kind === 'set' && (f as SetFilter<C>).mode === 'include') {
-      return ((f as SetFilter<C>) as { values: unknown[] }).values.map(String)
+      return (f as SetFilter<C> as { values: unknown[] }).values.map(String)
     }
   }
   return []
@@ -56,7 +64,10 @@ export interface ColumnFilterBase<T, C extends string = string> {
  *
  * @typeParam T - The type of data rows in the data source
  */
-export interface TextColumnFilter<T, C extends string = string> extends ColumnFilterBase<T, C> {
+export interface TextColumnFilter<
+  T,
+  C extends string = string,
+> extends ColumnFilterBase<T, C> {
   /** Discriminator — omit or set to `'text'` for a debounced text input. */
   type?: 'text'
   /** Placeholder text for the text input. @default 'Filter...' */
@@ -72,7 +83,10 @@ export interface TextColumnFilter<T, C extends string = string> extends ColumnFi
  *
  * @typeParam T - The type of data rows in the data source
  */
-export interface SelectColumnFilter<T, C extends string = string> extends ColumnFilterBase<T, C> {
+export interface SelectColumnFilter<
+  T,
+  C extends string = string,
+> extends ColumnFilterBase<T, C> {
   /** Discriminator — must be `'select'` for a dropdown filter. */
   type: 'select'
   /** The list of value/label pairs to present in the dropdown. */
@@ -89,7 +103,10 @@ export interface SelectColumnFilter<T, C extends string = string> extends Column
  *
  * @typeParam T - The type of data rows in the data source
  */
-export interface TagsColumnFilter<T, C extends string = string> extends ColumnFilterBase<T, C> {
+export interface TagsColumnFilter<
+  T,
+  C extends string = string,
+> extends ColumnFilterBase<T, C> {
   /** Discriminator — must be `'tags'` for a multi-select tag input filter. */
   type: 'tags'
   /** The list of value/label pairs. */
@@ -147,7 +164,9 @@ export type ColumnFilterOptions<T, C extends string = string> =
  * })
  * ```
  */
-export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOptions<T, C>) {
+export function ColumnFilter<T, C extends string = string>(
+  opts: ColumnFilterOptions<T, C>
+) {
   const { dataSource, column, size = 'sm' } = opts
 
   // ------------------------------------------------------------------
@@ -158,9 +177,7 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
     const columnFilters = dataSource.getColumnFilters(column)
 
     // Derive selected values from the set filter
-    const selectedValues = prop<string[]>(
-      extractSetValues(columnFilters.value)
-    )
+    const selectedValues = prop<string[]>(extractSetValues(columnFilters.value))
 
     // Keep selectedValues in sync when filters change externally
     const unsub = columnFilters.on(filters => {
@@ -238,7 +255,9 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
     // Derive selected value from column filters — works with any filter kind
     const columnFilters = dataSource.getColumnFilters(column)
     const selectValue = columnFilters.map(filters => {
-      const tf = filters.find(f => f.kind === 'text') as TextFilter<C> | undefined
+      const tf = filters.find(f => f.kind === 'text') as
+        | TextFilter<C>
+        | undefined
       return tf?.value ?? ''
     })
 
@@ -291,7 +310,8 @@ export function ColumnFilter<T, C extends string = string>(opts: ColumnFilterOpt
         value: filterValue,
         size,
         class: 'bc-column-filter',
-        placeholder: placeholder ?? t.$.dataTable.map(dt => dt.filterPlaceholder),
+        placeholder:
+          placeholder ?? t.$.dataTable.map(dt => dt.filterPlaceholder),
         onInput: (value: string) => {
           if (debounceTimer != null) clearTimeout(debounceTimer)
           debounceTimer = setTimeout(() => {

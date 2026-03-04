@@ -201,11 +201,11 @@ const fr: BeatUIMessages = {
     filterPanelContains: 'Contient',
     filterPanelNotContains: 'Ne contient pas',
     filterPanelEquals: 'Est égal à',
-    filterPanelNotEquals: 'N\'est pas égal à',
+    filterPanelNotEquals: "N'est pas égal à",
     filterPanelStartsWith: 'Commence par',
     filterPanelEndsWith: 'Se termine par',
     filterPanelIsNull: 'Est vide',
-    filterPanelIsNotNull: 'N\'est pas vide',
+    filterPanelIsNotNull: "N'est pas vide",
     filterPanelGt: 'Supérieur à',
     filterPanelGte: 'Supérieur ou égal',
     filterPanelLt: 'Inférieur à',
@@ -234,18 +234,23 @@ const fr: BeatUIMessages = {
     expandGroup: 'Développer le groupe',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} contient "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} ne contient pas "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} ne contient pas "${val}"`,
       textEquals: (col: string, val: string) => `${col} est égal à "${val}"`,
-      textNotEquals: (col: string, val: string) => `${col} n'est pas égal à "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} commence par "${val}"`,
-      textEndsWith: (col: string, val: string) => `${col} se termine par "${val}"`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} n'est pas égal à "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} commence par "${val}"`,
+      textEndsWith: (col: string, val: string) =>
+        `${col} se termine par "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
       compareGt: (col: string, val: string) => `${col} > ${val}`,
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} entre ${min} et ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} entre ${min} et ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} dans [${vals}]`,

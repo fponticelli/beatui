@@ -232,7 +232,8 @@ const fa: BeatUIMessages = {
     expandGroup: 'بسط دادن گروه',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} شامل "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} شامل نیست "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} شامل نیست "${val}"`,
       textEquals: (col: string, val: string) => `${col} برابر با "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} نابرابر با "${val}"`,
       textStartsWith: (col: string, val: string) => `${col} شروع با "${val}"`,
@@ -243,7 +244,8 @@ const fa: BeatUIMessages = {
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} بین ${min} و ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} بین ${min} و ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} در [${vals}]`,

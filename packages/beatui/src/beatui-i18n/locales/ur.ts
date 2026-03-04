@@ -233,18 +233,23 @@ const ur: BeatUIMessages = {
     expandGroup: 'گروپ پھیلائیں',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} "${val}" پر مشتمل`,
-      textNotContains: (col: string, val: string) => `${col} "${val}" پر مشتمل نہیں`,
+      textNotContains: (col: string, val: string) =>
+        `${col} "${val}" پر مشتمل نہیں`,
       textEquals: (col: string, val: string) => `${col} "${val}" کے برابر`,
-      textNotEquals: (col: string, val: string) => `${col} "${val}" کے برابر نہیں`,
-      textStartsWith: (col: string, val: string) => `${col} "${val}" سے شروع ہوتا ہے`,
-      textEndsWith: (col: string, val: string) => `${col} "${val}" پر ختم ہوتا ہے`,
+      textNotEquals: (col: string, val: string) =>
+        `${col} "${val}" کے برابر نہیں`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} "${val}" سے شروع ہوتا ہے`,
+      textEndsWith: (col: string, val: string) =>
+        `${col} "${val}" پر ختم ہوتا ہے`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
       compareGt: (col: string, val: string) => `${col} > ${val}`,
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} ${min} اور ${max} کے درمیان`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} ${min} اور ${max} کے درمیان`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} [${vals}] میں`,

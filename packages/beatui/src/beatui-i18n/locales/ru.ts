@@ -235,18 +235,22 @@ export const ru: BeatUIMessages = {
     expandGroup: 'Развернуть группу',
     describeFilter: {
       textContains: (col: string, val: string) => `${col} содержит "${val}"`,
-      textNotContains: (col: string, val: string) => `${col} не содержит "${val}"`,
+      textNotContains: (col: string, val: string) =>
+        `${col} не содержит "${val}"`,
       textEquals: (col: string, val: string) => `${col} равно "${val}"`,
       textNotEquals: (col: string, val: string) => `${col} не равно "${val}"`,
-      textStartsWith: (col: string, val: string) => `${col} начинается с "${val}"`,
-      textEndsWith: (col: string, val: string) => `${col} заканчивается на "${val}"`,
+      textStartsWith: (col: string, val: string) =>
+        `${col} начинается с "${val}"`,
+      textEndsWith: (col: string, val: string) =>
+        `${col} заканчивается на "${val}"`,
       compareEq: (col: string, val: string) => `${col} = ${val}`,
       compareNeq: (col: string, val: string) => `${col} \u2260 ${val}`,
       compareGt: (col: string, val: string) => `${col} > ${val}`,
       compareGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       compareLt: (col: string, val: string) => `${col} < ${val}`,
       compareLte: (col: string, val: string) => `${col} \u2264 ${val}`,
-      rangeBetween: (col: string, min: string, max: string) => `${col} между ${min} и ${max}`,
+      rangeBetween: (col: string, min: string, max: string) =>
+        `${col} между ${min} и ${max}`,
       rangeGte: (col: string, val: string) => `${col} \u2265 ${val}`,
       rangeLte: (col: string, val: string) => `${col} \u2264 ${val}`,
       setIn: (col: string, vals: string) => `${col} в [${vals}]`,

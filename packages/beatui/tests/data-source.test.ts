@@ -341,12 +341,11 @@ describe('createDataSource', () => {
       ds.dispose()
     })
 
-    it('should report isSelected reactively', () => {
+    it('should report selected reactively', () => {
       const ds = createTestSource()
-      const sel1 = ds.isSelected('1')
-      expect(sel1.value).toBe(false)
+      expect(ds.selected.value.has('1')).toBe(false)
       ds.toggleSelect('1')
-      expect(sel1.value).toBe(true)
+      expect(ds.selected.value.has('1')).toBe(true)
       ds.dispose()
     })
 
@@ -795,7 +794,7 @@ describe('createDataSource', () => {
       ds.getSortDirection('name')
       ds.getTextFilterValue('role')
       ds.getColumnFilters('role')
-      ds.isSelected('1')
+      ds.selected.value.has('1')
       expect(() => ds.dispose()).not.toThrow()
     })
   })

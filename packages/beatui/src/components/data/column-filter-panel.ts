@@ -193,7 +193,11 @@ interface ConditionState {
   val2Prop: ReturnType<typeof prop<string>>
 }
 
-function createConditionState(operator: string, value: string, value2 = ''): ConditionState {
+function createConditionState(
+  operator: string,
+  value: string,
+  value2 = ''
+): ConditionState {
   return {
     opProp: prop(operator),
     valProp: prop(value),
@@ -222,7 +226,13 @@ function disposeConditionState(state: ConditionState) {
 export function ColumnFilterPanel<T, C extends string = string>(
   opts: ColumnFilterPanelOptions<T, C>
 ): TNode {
-  const { dataSource, column, columnType = 'text', size = 'sm', embedded = false } = opts
+  const {
+    dataSource,
+    column,
+    columnType = 'text',
+    size = 'sm',
+    embedded = false,
+  } = opts
 
   const nextId = createIdCounter()
 
@@ -244,7 +254,11 @@ export function ColumnFilterPanel<T, C extends string = string>(
     return columnType === 'number' ? '0' : ''
   }
 
-  function createCondition(operator: string, value: string, value2 = ''): number {
+  function createCondition(
+    operator: string,
+    value: string,
+    value2 = ''
+  ): number {
     const id = nextId()
     stateMap.set(id, createConditionState(operator, value, value2))
     return id
@@ -370,14 +384,11 @@ export function ColumnFilterPanel<T, C extends string = string>(
 
       const dt = t.$.dataTable
 
-      const operatorOptions: SelectOption<string>[] = operators.map(
-        op =>
-          Option.value(
-            op.value,
-            dt.value[
-              op.labelKey as keyof typeof dt.value
-            ] as string
-          )
+      const operatorOptions: SelectOption<string>[] = operators.map(op =>
+        Option.value(
+          op.value,
+          dt.value[op.labelKey as keyof typeof dt.value] as string
+        )
       )
 
       return html.div(
@@ -419,14 +430,11 @@ export function ColumnFilterPanel<T, C extends string = string>(
                 placeholder?: Value<string>
               ) =>
                 NumberInput({
-                  value: valProp.map(v =>
-                    v === '' ? 0 : Number(v)
-                  ),
+                  value: valProp.map(v => (v === '' ? 0 : Number(v))),
                   size: 'xs',
                   class: 'bc-column-filter-panel__value',
                   placeholder: placeholder ?? valuePlaceholder,
-                  onChange: (v: number) =>
-                    valProp.set(String(v)),
+                  onChange: (v: number) => valProp.set(String(v)),
                 })
 
               const makeTextInput = (
@@ -444,14 +452,10 @@ export function ColumnFilterPanel<T, C extends string = string>(
               const valueRow = (): TNode => {
                 if (columnType === 'number') {
                   // "between" shows two number inputs
-                  const isBetween = state.opProp.map(
-                    op => op === 'between'
-                  )
+                  const isBetween = state.opProp.map(op => op === 'between')
                   return Fragment(
                     makeNumberInput(state.valProp),
-                    When(isBetween, () =>
-                      makeNumberInput(state.val2Prop)
-                    )
+                    When(isBetween, () => makeNumberInput(state.val2Prop))
                   )
                 }
                 return makeTextInput(state.valProp)
@@ -555,11 +559,10 @@ export function ColumnFilterPanel<T, C extends string = string>(
       attr.class('bc-column-filter-panel__trigger-wrap'),
       html.button(
         attr.class(
-          hasActiveFilters.map(
-            (active): string =>
-              active
-                ? 'bc-column-filter-panel__trigger bc-column-filter-panel__trigger--active'
-                : 'bc-column-filter-panel__trigger'
+          hasActiveFilters.map((active): string =>
+            active
+              ? 'bc-column-filter-panel__trigger bc-column-filter-panel__trigger--active'
+              : 'bc-column-filter-panel__trigger'
           )
         ),
         attr.type('button'),
@@ -569,9 +572,8 @@ export function ColumnFilterPanel<T, C extends string = string>(
         ),
         When(hasActiveFilters, () =>
           Use(BeatUII18n, t => {
-            const messages = (
-              t.value.dataTable as Record<string, unknown>
-            ).describeFilter as FilterDescriptionMessages | undefined
+            const messages = (t.value.dataTable as Record<string, unknown>)
+              .describeFilter as FilterDescriptionMessages | undefined
             return Tooltip({
               content: columnFilters.map(filters => {
                 if (filters.length === 0) return ''

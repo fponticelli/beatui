@@ -58,7 +58,19 @@ export interface SortableHeaderOptions<T, C extends string = string> {
  * ```
  */
 export function SortableHeader<T, C extends string = string>(
-  { dataSource, column, size, actions, menu, hideInactiveIcon = false, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd }: SortableHeaderOptions<T, C>,
+  {
+    dataSource,
+    column,
+    size,
+    actions,
+    menu,
+    hideInactiveIcon = false,
+    draggable: isDraggable,
+    onDragStart,
+    onDragOver,
+    onDrop,
+    onDragEnd,
+  }: SortableHeaderOptions<T, C>,
   ...children: TNode[]
 ) {
   const direction = dataSource.getSortDirection(column)
@@ -109,7 +121,9 @@ export function SortableHeader<T, C extends string = string>(
               direction.map(d => d != null),
               () =>
                 html.span(
-                  attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
+                  attr.class(
+                    'bc-sortable-header__icon bc-sortable-header__icon--active'
+                  ),
                   Icon({ icon: iconName, size: size ?? 'md' }),
                   Use(BeatUII18n, t =>
                     Tooltip({

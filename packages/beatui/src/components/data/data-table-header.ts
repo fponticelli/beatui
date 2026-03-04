@@ -166,9 +166,7 @@ function makeDragHandlers<T, C extends string>(
       th.classList.remove('bc-data-table__header--dragging')
       th.closest('tr')
         ?.querySelectorAll('.bc-data-table__header--drag-over')
-        .forEach(el =>
-          el.classList.remove('bc-data-table__header--drag-over')
-        )
+        .forEach(el => el.classList.remove('bc-data-table__header--drag-over'))
     },
   }
 }

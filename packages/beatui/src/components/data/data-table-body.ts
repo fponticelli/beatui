@@ -231,9 +231,8 @@ export function renderGroupedBody<T, C extends string>(
                   html.span(
                     attr.class('bc-data-table__group-count'),
                     (() => {
-                      const fn = (
-                        t.value.dataTable as Record<string, unknown>
-                      ).groupCount as ((count: number) => string) | undefined
+                      const fn = (t.value.dataTable as Record<string, unknown>)
+                        .groupCount as ((count: number) => string) | undefined
                       return fn
                         ? fn(group.rows.length)
                         : `(${group.rows.length})`

@@ -84,6 +84,10 @@ export const App = () => {
           Async(import('./pages/table'), ({ default: Page }) => Page()),
         '/data-table': () =>
           Async(import('./pages/data-table'), ({ default: Page }) => Page()),
+        '/data-table-async': () =>
+          Async(import('./pages/data-table-async'), ({ default: Page }) =>
+            Page()
+          ),
         '/data-source': () =>
           Async(import('./pages/data-source'), ({ default: Page }) => Page()),
         '/tags': () =>
