@@ -187,7 +187,7 @@ export function Overlay(
               mode
             )(
               (effect, mode) =>
-                `bc-overlay bc-overlay--effect-${effect} bc-overlay--mode-${mode}`
+                `bc-overlay bc-overlay--container-${container} bc-overlay--effect-${effect} bc-overlay--mode-${mode}`
             )
           ),
           content

@@ -13,6 +13,11 @@ export type OverlayMode = 'capturing' | 'non-capturing' */
     var(--motion-easing-emphasis, cubic-bezier(0.33, 1, 0.68, 1));
 }
 
+/* When portaled to body, use fixed positioning to avoid layout interference */
+.bc-overlay--container-body {
+  position: fixed;
+}
+
 .bc-overlay[data-status='start-opening'],
 .bc-overlay[data-status='closing'] {
   backdrop-filter: blur(0);
