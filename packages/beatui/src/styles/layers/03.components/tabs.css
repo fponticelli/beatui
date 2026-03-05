@@ -326,7 +326,6 @@
 .bc-tabs--variant-outline .bc-tab {
   background-color: var(--color-base-50);
   border: var(--border-width-thin) solid var(--color-base-300);
-  border-bottom: var(--border-width-thin) solid var(--color-base-300);
   border-radius: var(--radius-control-sm, var(--radius-sm))
     var(--radius-control-sm, var(--radius-sm)) 0 0;
 }
@@ -337,6 +336,17 @@
 }
 .bc-tabs--variant-outline .bc-tab--active::after {
   display: none;
+}
+.bc-tabs--vertical.bc-tabs--variant-outline .bc-tabs__list {
+  border-right: none;
+}
+.bc-tabs--vertical.bc-tabs--variant-outline .bc-tab {
+  border-radius: var(--radius-control-sm, var(--radius-sm)) 0 0
+    var(--radius-control-sm, var(--radius-sm));
+}
+.bc-tabs--vertical.bc-tabs--variant-outline .bc-tab--active {
+  border-bottom-color: var(--color-primary-400);
+  border-right-color: var(--color-white);
 }
 
 /* Dark mode adjustments for variants */
@@ -379,6 +389,10 @@
   background-color: var(--color-base-900);
   border-color: var(--color-primary-600);
   border-bottom-color: var(--color-base-900);
+}
+.dark .bc-tabs--vertical.bc-tabs--variant-outline .bc-tab--active {
+  border-bottom-color: var(--color-primary-600);
+  border-right-color: var(--color-base-900);
 }
 
 /* Underline variant: minimal, clean underline style */
@@ -430,6 +444,19 @@
   background-color: var(--color-primary-500);
   bottom: calc(-1 * var(--spacing-px));
   height: var(--spacing-xs);
+}
+.bc-tabs--vertical.bc-tabs--variant-underline .bc-tabs__list {
+  border-bottom: none;
+  border-right: var(--border-width-thin) solid var(--color-base-200);
+}
+.bc-tabs--vertical.bc-tabs--variant-underline .bc-tab--active::after {
+  bottom: auto;
+  left: auto;
+  height: auto;
+  right: calc(-1 * var(--spacing-px));
+  top: 0;
+  bottom: 0;
+  width: var(--spacing-xs);
 }
 
 /* Pill variant: segmented button style with contained tabs */
@@ -485,6 +512,10 @@
 .bc-tabs--variant-pill .bc-tab--active::after {
   display: none;
 }
+.bc-tabs--vertical.bc-tabs--variant-pill .bc-tabs__list {
+  display: flex;
+  flex-direction: column;
+}
 
 /* Dark mode adjustments for underline variant */
 .dark .bc-tabs--variant-underline .bc-tabs__list {
@@ -508,6 +539,10 @@
 
 .dark .bc-tabs--variant-underline .bc-tab--active::after {
   background-color: var(--color-primary-400);
+}
+.dark .bc-tabs--vertical.bc-tabs--variant-underline .bc-tabs__list {
+  border-bottom: none;
+  border-right-color: var(--color-base-700);
 }
 
 /* Dark mode adjustments for pill variant */

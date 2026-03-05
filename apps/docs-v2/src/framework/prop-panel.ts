@@ -4,6 +4,7 @@ import {
   prop,
   TNode,
   Signal,
+  Value,
 } from '@tempots/dom'
 import {
   SegmentedInput,
@@ -20,6 +21,19 @@ import type { PropMeta, ComponentMeta } from './types'
  * A record of reactive signals for each controllable prop.
  */
 export type PropSignals = Record<string, Signal<unknown>>
+
+/**
+ * Read the current values from all signals, returning a plain object snapshot.
+ * Useful for imperative APIs (e.g. Drawer/Modal open callbacks) that need
+ * current values at call time rather than reactive signals.
+ */
+export function snapshotSignals(
+  signals: Record<string, Value<unknown>>
+): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(signals).map(([k, v]) => [k, Value.get(v)])
+  )
+}
 
 /**
  * Render a description string as inline markdown.

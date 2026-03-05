@@ -1,5 +1,5 @@
 import { Tabs } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -49,16 +49,11 @@ export default function TabsPage() {
       return html.div(
         attr.class('w-full'),
         Tabs({
+          ...signals,
           items: sampleItems,
           value: active,
           onChange: v => active.set(v),
-          size: signals.size as Value<'xs' | 'sm' | 'md' | 'lg' | 'xl'>,
-          variant: signals.variant as Value<string>,
-          color: signals.color as Value<string>,
-          orientation: signals.orientation as Value<'horizontal' | 'vertical'>,
-          showContent: signals.showContent as Value<boolean>,
-          disabled: signals.disabled as Value<boolean>,
-        })
+        } as never)
       )
     }),
     sections: [

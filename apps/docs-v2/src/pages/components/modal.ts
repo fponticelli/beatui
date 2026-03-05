@@ -1,5 +1,5 @@
 import { Modal, Button, Group, Icon, ConfirmModal } from '@tempots/beatui'
-import { html, attr, Fragment, Value } from '@tempots/dom'
+import { html, attr, Fragment } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -18,13 +18,9 @@ export default function ModalPage() {
     playground: manualPlayground('Modal', signals =>
       Modal(
         {
-          size: signals.size as Value<'sm' | 'md' | 'lg' | 'xl'>,
-          position: signals.position as Value<'center' | 'top' | 'bottom'>,
-          dismissable: signals.dismissable as Value<boolean>,
-          showCloseButton: signals.showCloseButton as Value<boolean>,
-          overlayEffect: signals.overlayEffect as Value<'opaque' | 'blur' | 'none'>,
+          ...signals,
           onClose: () => {},
-        },
+        } as never,
         (open, close) =>
           Button(
             {

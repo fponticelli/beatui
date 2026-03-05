@@ -1,6 +1,6 @@
 import { Drawer, Button, Group, Stack, Icon } from '@tempots/beatui'
 import { html, attr, Fragment, Value } from '@tempots/dom'
-import { ComponentPage, manualPlayground, Section } from '../../framework'
+import { ComponentPage, manualPlayground, Section, snapshotSignals } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -22,11 +22,7 @@ export default function DrawerPage() {
             color: 'primary',
             onClick: () =>
               open({
-                size: Value.get(signals.size) as 'sm' | 'md' | 'lg' | 'xl',
-                side: Value.get(signals.side) as 'left' | 'right' | 'top' | 'bottom',
-                dismissable: Value.get(signals.dismissable) as boolean,
-                showCloseButton: Value.get(signals.showCloseButton) as boolean,
-                overlayEffect: Value.get(signals.overlayEffect) as 'opaque' | 'blur' | 'none',
+                ...snapshotSignals(signals),
                 header: html.h2('Drawer Title'),
                 body: html.div(
                   html.p('This is the drawer body content.'),
@@ -46,7 +42,7 @@ export default function DrawerPage() {
                     'Save'
                   )
                 ),
-              }),
+              } as never),
           },
           'Open Drawer'
         )

@@ -1,5 +1,5 @@
 import { Tooltip, Button, Icon, Badge, Group } from '@tempots/beatui'
-import { html, attr, Value } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -20,11 +20,9 @@ export default function TooltipPage() {
         { variant: 'outline' },
         'Hover me',
         Tooltip({
+          ...signals,
           content: 'This is a tooltip',
-          placement: signals.placement as Value<'top' | 'bottom' | 'left' | 'right'>,
-          showDelay: signals.showDelay as Value<number>,
-          hideDelay: signals.hideDelay as Value<number>,
-        })
+        } as never)
       )
     ),
     sections: [
