@@ -38,17 +38,17 @@ function SVGArrow(
 export interface TooltipOptions {
   /** The tooltip content to display */
   content: TNode
-  /** Placement of the tooltip relative to the trigger element */
+  /** Placement of the tooltip relative to the trigger element. @default 'top' */
   placement?: Value<Placement>
-  /** Delay in milliseconds before showing the tooltip on hover */
+  /** Delay in milliseconds before showing the tooltip on hover. @default 250 */
   showDelay?: Value<number>
-  /** Delay in milliseconds before hiding the tooltip after mouse leave */
+  /** Delay in milliseconds before hiding the tooltip after mouse leave. @default 500 */
   hideDelay?: Value<number>
-  /** Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right) */
+  /** Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right). @default 8 */
   mainAxisOffset?: Value<number>
-  /** Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right) */
+  /** Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right). @default 0 */
   crossAxisOffset?: Value<number>
-  /** How to show the tooltip */
+  /** How to show the tooltip. @default 'hover-focus' */
   showOn?: Value<TooltipTrigger>
 }
 

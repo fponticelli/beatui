@@ -41,6 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-md);
   width: 100%;
   border: none;
   background: none;

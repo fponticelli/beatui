@@ -16,9 +16,9 @@ import { backgroundValue, ExtendedColor } from '../theme/style-utils'
  * Configuration options for the {@link ProgressBar} component.
  */
 export interface ProgressBarOptions {
-  /** Current progress value (0 to max). @default 0 */
+  /** Current progress value (0 to max). @default 50 @min 0 @max 100 @step 1 */
   value?: Value<number>
-  /** Maximum value for the progress bar. @default 100 */
+  /** Maximum value for the progress bar. @default 100 @min 1 @step 1 */
   max?: Value<number>
   /** Visual size variant. @default 'md' */
   size?: Value<'sm' | 'md' | 'lg'>

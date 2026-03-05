@@ -1,6 +1,6 @@
 import { Drawer, Button, Group, Stack, Icon } from '@tempots/beatui'
-import { html, attr, Fragment } from '@tempots/dom'
-import { ComponentPage, Section } from '../../framework'
+import { html, attr, Fragment, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -14,11 +14,7 @@ export const meta: ComponentPageMeta = {
 
 export default function DrawerPage() {
   return ComponentPage(meta, {
-    // Drawer uses a callback API like Modal
-    playground: html.div(
-      attr.class(
-        'flex items-center justify-center gap-4 p-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
-      ),
+    playground: manualPlayground('Drawer', signals =>
       Drawer((open, close) =>
         Button(
           {
@@ -26,6 +22,11 @@ export default function DrawerPage() {
             color: 'primary',
             onClick: () =>
               open({
+                size: Value.get(signals.size) as 'sm' | 'md' | 'lg' | 'xl',
+                side: Value.get(signals.side) as 'left' | 'right' | 'top' | 'bottom',
+                dismissable: Value.get(signals.dismissable) as boolean,
+                showCloseButton: Value.get(signals.showCloseButton) as boolean,
+                overlayEffect: Value.get(signals.overlayEffect) as 'opaque' | 'blur' | 'none',
                 header: html.h2('Drawer Title'),
                 body: html.div(
                   html.p('This is the drawer body content.'),

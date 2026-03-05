@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Group } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
-import { ComponentPage, autoPlayground, AutoSections, Section } from '../../framework'
+import { ComponentPage, autoPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {

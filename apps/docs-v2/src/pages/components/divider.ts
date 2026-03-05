@@ -1,6 +1,6 @@
 import { Divider, Stack, Group } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
-import { ComponentPage, AutoSections, Section } from '../../framework'
+import { ComponentPage, autoPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -14,20 +14,12 @@ export const meta: ComponentPageMeta = {
 
 export default function DividerPage() {
   return ComponentPage(meta, {
-    playground: html.div(
-      attr.class(
-        'w-full p-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
-      ),
-      Stack(
-        attr.class('gap-4'),
-        html.p('Content above'),
-        Divider({}),
-        html.p('Content below')
-      )
+    playground: autoPlayground('Divider', props =>
+      html.div(attr.class('w-full'), Divider(props as never))
     ),
     sections: [
       ...AutoSections('Divider', props =>
-        html.div(attr.class('w-full'), Divider(props))
+        html.div(attr.class('w-full'), Divider(props as never))
       ),
       Section(
         'With Label',

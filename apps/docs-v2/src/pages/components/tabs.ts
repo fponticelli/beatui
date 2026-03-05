@@ -1,6 +1,6 @@
-import { Tabs, Stack, Icon } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
-import { ComponentPage, AutoSections, Section } from '../../framework'
+import { Tabs } from '@tempots/beatui'
+import { html, attr, prop, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -44,25 +44,29 @@ const sampleItems = [
 
 export default function TabsPage() {
   return ComponentPage(meta, {
-    playground: (() => {
+    playground: manualPlayground('Tabs', signals => {
       const active = prop<string>('overview')
       return html.div(
-        attr.class(
-          'w-full p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
-        ),
+        attr.class('w-full'),
         Tabs({
           items: sampleItems,
           value: active,
           onChange: v => active.set(v),
+          size: signals.size as Value<'xs' | 'sm' | 'md' | 'lg' | 'xl'>,
+          variant: signals.variant as Value<string>,
+          color: signals.color as Value<string>,
+          orientation: signals.orientation as Value<'horizontal' | 'vertical'>,
+          showContent: signals.showContent as Value<boolean>,
+          disabled: signals.disabled as Value<boolean>,
         })
       )
-    })(),
+    }),
     sections: [
       Section(
         'Variants',
         () =>
-          Stack(
-            attr.class('gap-8 w-full'),
+          html.div(
+            attr.class('flex flex-col gap-8 w-full'),
             ...(
               [
                 'filled',
@@ -94,8 +98,8 @@ export default function TabsPage() {
       Section(
         'Sizes',
         () =>
-          Stack(
-            attr.class('gap-6 w-full'),
+          html.div(
+            attr.class('flex flex-col gap-6 w-full'),
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => {
               const active = prop<string>('overview')
               return html.div(

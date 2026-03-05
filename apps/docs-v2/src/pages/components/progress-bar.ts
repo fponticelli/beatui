@@ -1,5 +1,5 @@
 import { ProgressBar, Stack } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 import { ComponentPage, autoPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -17,13 +17,13 @@ export default function ProgressBarPage() {
     playground: autoPlayground('ProgressBar', props =>
       html.div(
         attr.class('w-full max-w-md'),
-        ProgressBar({ ...props, value: 65 } as never)
+        ProgressBar(props as never)
       )
     ),
     sections: [
       ...AutoSections('ProgressBar', props =>
         html.div(
-          attr.class('w-full max-w-xs'),
+          attr.class('w-48'),
           ProgressBar({ ...props, value: 65 } as never)
         )
       ),

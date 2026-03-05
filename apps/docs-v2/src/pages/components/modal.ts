@@ -1,6 +1,6 @@
 import { Modal, Button, Group, Icon, ConfirmModal } from '@tempots/beatui'
-import { html, attr, Fragment } from '@tempots/dom'
-import { ComponentPage, Section } from '../../framework'
+import { html, attr, Fragment, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -15,15 +15,15 @@ export const meta: ComponentPageMeta = {
 
 export default function ModalPage() {
   return ComponentPage(meta, {
-    // Modal uses a callback API (open, close) so autoPlayground doesn't apply
-    playground: html.div(
-      attr.class(
-        'flex items-center justify-center gap-4 p-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
-      ),
+    playground: manualPlayground('Modal', signals =>
       Modal(
         {
-          size: 'md',
-          onClose: () => console.log('closed'),
+          size: signals.size as Value<'sm' | 'md' | 'lg' | 'xl'>,
+          position: signals.position as Value<'center' | 'top' | 'bottom'>,
+          dismissable: signals.dismissable as Value<boolean>,
+          showCloseButton: signals.showCloseButton as Value<boolean>,
+          overlayEffect: signals.overlayEffect as Value<'opaque' | 'blur' | 'none'>,
+          onClose: () => {},
         },
         (open, close) =>
           Button(

@@ -1,6 +1,6 @@
 import { Tooltip, Button, Icon, Badge, Group } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
-import { ComponentPage, Section } from '../../framework'
+import { html, attr, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -14,15 +14,17 @@ export const meta: ComponentPageMeta = {
 
 export default function TooltipPage() {
   return ComponentPage(meta, {
-    // Tooltip is a child of the element it annotates, not a wrapper
-    playground: html.div(
-      attr.class(
-        'flex items-center justify-center gap-4 p-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'
-      ),
+    // Tooltip is a child of the element it annotates
+    playground: manualPlayground('Tooltip', signals =>
       Button(
         { variant: 'outline' },
         'Hover me',
-        Tooltip({ content: 'This is a tooltip' })
+        Tooltip({
+          content: 'This is a tooltip',
+          placement: signals.placement as Value<'top' | 'bottom' | 'left' | 'right'>,
+          showDelay: signals.showDelay as Value<number>,
+          hideDelay: signals.hideDelay as Value<number>,
+        })
       )
     ),
     sections: [

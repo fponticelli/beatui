@@ -21,7 +21,7 @@ export interface SkeletonOptions {
   width?: Value<string | undefined>
   /** CSS height value (e.g., '100px', '2rem'). Default varies by variant. */
   height?: Value<string | undefined>
-  /** Number of text lines to render (only applies to text variant). @default 1 */
+  /** Number of text lines to render (only applies to text variant). @default 1 @step 1 @min 1 */
   lines?: Value<number>
   /** Whether to show the shimmer animation. @default true */
   animate?: Value<boolean>

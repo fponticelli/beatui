@@ -10,6 +10,9 @@ export interface PropMeta {
   unionValues?: string[]
   reactive: boolean
   optional: boolean
+  numberStep?: number
+  numberMin?: number
+  numberMax?: number
 }
 
 export interface ComponentMeta {
@@ -37,7 +40,11 @@ const SKIP_PROP_PATTERNS = [
   /^ref$/, // Element refs
 ]
 
+/** Props that should NOT be skipped despite matching a skip pattern */
+const KEEP_PROPS = new Set(['onLabel', 'offLabel'])
+
 function shouldSkipProp(name: string): boolean {
+  if (KEEP_PROPS.has(name)) return false
   return SKIP_PROP_PATTERNS.some(p => p.test(name))
 }
 
@@ -142,19 +149,44 @@ function analyzePropertyType(
 }
 
 /**
- * Extract @default value from JSDoc tags.
+ * Extract a JSDoc tag value as a trimmed string.
  */
-function extractDefault(symbol: ts.Symbol): string | undefined {
+function extractJsDocTag(symbol: ts.Symbol, tagName: string): string | undefined {
   const jsDocs = symbol.getJsDocTags()
-  const defaultTag = jsDocs.find(t => t.name === 'default')
-  if (defaultTag && defaultTag.text) {
-    return defaultTag.text
+  const tag = jsDocs.find(t => t.name === tagName)
+  if (tag && tag.text) {
+    return tag.text
       .map(t => t.text)
       .join('')
       .trim()
-      .replace(/^['"]|['"]$/g, '')
   }
   return undefined
+}
+
+/**
+ * Extract @default value from JSDoc tags.
+ */
+function extractDefault(symbol: ts.Symbol): string | undefined {
+  const raw = extractJsDocTag(symbol, 'default')
+  return raw?.replace(/^['"]|['"]$/g, '')
+}
+
+/**
+ * Extract numeric JSDoc hints (@step, @min, @max).
+ */
+function extractNumberHints(symbol: ts.Symbol): {
+  numberStep?: number
+  numberMin?: number
+  numberMax?: number
+} {
+  const result: { numberStep?: number; numberMin?: number; numberMax?: number } = {}
+  const step = extractJsDocTag(symbol, 'step')
+  const min = extractJsDocTag(symbol, 'min')
+  const max = extractJsDocTag(symbol, 'max')
+  if (step != null) { const n = Number(step); if (!isNaN(n)) result.numberStep = n }
+  if (min != null) { const n = Number(min); if (!isNaN(n)) result.numberMin = n }
+  if (max != null) { const n = Number(max); if (!isNaN(n)) result.numberMax = n }
+  return result
 }
 
 /**
@@ -169,14 +201,28 @@ function extractDescription(
 }
 
 /**
- * Check if a union type contains TNode, Renderable, or other complex non-controllable types.
+ * Check if a property's declared type text contains TNode.
+ * We use the declaration text rather than the resolved type because TNode
+ * is a complex type alias that the compiler fully expands.
+ */
+function isDeclaredTNode(propSymbol: ts.Symbol): boolean {
+  const decl = propSymbol.getDeclarations()?.[0]
+  if (!decl) return false
+  const typeNode = (decl as ts.PropertySignature | ts.PropertyDeclaration).type
+  if (!typeNode) return false
+  const text = typeNode.getText()
+  return text === 'TNode' || text.includes('TNode')
+}
+
+/**
+ * Check if a union type contains Renderable, HTMLElement, or other complex non-controllable types.
+ * TNode is excluded from this check — it's handled as a string input.
  */
 function containsComplexType(type: ts.Type): boolean {
   const checkSingle = (t: ts.Type): boolean => {
     const sym = t.getSymbol() || t.aliasSymbol
     const name = sym?.getName()
     if (
-      name === 'TNode' ||
       name === 'Renderable' ||
       name === 'HTMLElement' ||
       name === 'Element' ||
@@ -243,12 +289,13 @@ export function extractAllComponentMeta(
     if (sourceFile.fileName.indexOf(beatuiSrcDir) === -1) continue
 
     ts.forEachChild(sourceFile, node => {
-      if (
-        ts.isInterfaceDeclaration(node) &&
+      const isOptionsDecl =
+        (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) &&
         node.name.text.endsWith('Options') &&
         node.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)
-      ) {
-        const optionsName = node.name.text
+
+      if (isOptionsDecl) {
+        const optionsName = (node as ts.InterfaceDeclaration | ts.TypeAliasDeclaration).name.text
         const componentName = optionsName.replace(/Options$/, '')
 
         // Skip internal/utility options
@@ -272,9 +319,25 @@ export function extractAllComponentMeta(
           const propName = propSymbol.getName()
           if (shouldSkipProp(propName)) continue
 
+          // TNode props are treated as string inputs (strings are valid TNodes)
+          if (isDeclaredTNode(propSymbol)) {
+            const description = extractDescription(propSymbol, checker)
+            const defaultValue = extractDefault(propSymbol)
+            const optional = !!(propSymbol.flags & ts.SymbolFlags.Optional)
+            props.push({
+              name: propName,
+              description,
+              type: 'string',
+              defaultValue,
+              reactive: false,
+              optional,
+            })
+            continue
+          }
+
           const propType = checker.getTypeOfSymbolAtLocation(propSymbol, node)
 
-          // Skip types containing TNode, Renderable, etc.
+          // Skip types containing Renderable, HTMLElement, etc.
           if (containsComplexType(propType)) continue
 
           const analysis = analyzePropertyType(propType, checker)
@@ -284,6 +347,8 @@ export function extractAllComponentMeta(
           const defaultValue = extractDefault(propSymbol)
           const optional = !!(propSymbol.flags & ts.SymbolFlags.Optional)
 
+          const numberHints = analysis.type === 'number' ? extractNumberHints(propSymbol) : {}
+
           props.push({
             name: propName,
             description,
@@ -292,6 +357,7 @@ export function extractAllComponentMeta(
             unionValues: analysis.unionValues,
             reactive: analysis.reactive,
             optional,
+            ...numberHints,
           })
         }
 

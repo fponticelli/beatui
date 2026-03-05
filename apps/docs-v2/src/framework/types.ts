@@ -18,6 +18,12 @@ export interface PropMeta {
   reactive: boolean
   /** Whether the property is optional */
   optional: boolean
+  /** Step increment for number inputs (from @step JSDoc tag) */
+  numberStep?: number
+  /** Minimum value for number inputs (from @min JSDoc tag) */
+  numberMin?: number
+  /** Maximum value for number inputs (from @max JSDoc tag) */
+  numberMax?: number
 }
 
 /**

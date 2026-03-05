@@ -3,6 +3,50 @@ import type { ComponentMeta } from '../framework/types'
 
 export const componentMeta: Record<string, ComponentMeta> = 
 {
+  "FormatFileSize": {
+    "name": "FormatFileSize",
+    "optionsType": "FormatFileSizeOptions",
+    "sourceFile": "utils/format-file-size.ts",
+    "props": [
+      {
+        "name": "decimalPlaces",
+        "description": "Number of decimal places to show for values above bytes.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "locale",
+        "description": "BCP 47 locale string for number formatting (e.g., `'en-US'`, `'de-DE'`).\nUses the browser default locale if not specified.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "AnimatedElementToggle": {
+    "name": "AnimatedElementToggle",
+    "optionsType": "AnimatedElementToggleOptions",
+    "sourceFile": "utils/use-animated-toggle.ts",
+    "props": [
+      {
+        "name": "initialStatus",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "closed",
+          "start-opening",
+          "opening",
+          "opened",
+          "closing",
+          "start-closing"
+        ],
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
   "Theme": {
     "name": "Theme",
     "optionsType": "ThemeOptions",
@@ -23,6 +67,202 @@ export const componentMeta: Record<string, ComponentMeta> =
       {
         "name": "appearancePreferenceKey",
         "description": "localStorage key for persisting appearance preference. Defaults to `'bui-appearance'`.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "CommonInput": {
+    "name": "CommonInput",
+    "optionsType": "CommonInputOptions",
+    "sourceFile": "components/form/input/input-options.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Input": {
+    "name": "Input",
+    "optionsType": "InputOptions",
+    "sourceFile": "components/form/input/input-options.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
         "reactive": false,
         "optional": true
@@ -267,6 +507,108 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "boolean",
         "defaultValue": "true",
         "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "CloseButton": {
+    "name": "CloseButton",
+    "optionsType": "CloseButtonOptions",
+    "sourceFile": "components/button/close-button.ts",
+    "props": [
+      {
+        "name": "size",
+        "description": "Size of the close button icon and hit target.",
+        "type": "union",
+        "defaultValue": "sm",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "description": "Icon name from Iconify.",
+        "type": "string",
+        "defaultValue": "line-md:close",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the button is disabled.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "roundedness",
+        "description": "Border radius of the button.",
+        "type": "union",
+        "defaultValue": "full",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "none",
+          "full"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "color",
+        "description": "Theme color for the icon.",
+        "type": "union",
+        "defaultValue": "base",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "label",
+        "description": "Localized label for screen readers. Defaults to the i18n `closeModal` translation.",
+        "type": "string",
+        "reactive": true,
         "optional": true
       }
     ]
@@ -618,6 +960,27 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "boolean",
         "defaultValue": "false",
         "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "WithTemporal": {
+    "name": "WithTemporal",
+    "optionsType": "WithTemporalOptions",
+    "sourceFile": "temporal/with-temporal.ts",
+    "props": [
+      {
+        "name": "pending",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "",
+        "type": "string",
+        "reactive": false,
         "optional": true
       }
     ]
@@ -1401,6 +1764,29 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "PageDropZone": {
+    "name": "PageDropZone",
+    "optionsType": "PageDropZoneOptions",
+    "sourceFile": "components/data/page-drop-zone.ts",
+    "props": [
+      {
+        "name": "accept",
+        "description": "MIME type filter for accepted files (e.g., `'image/*'`, `'application/pdf'`).\nFiles that do not match are filtered out and reported via `onInvalidSelection`.",
+        "type": "string",
+        "defaultValue": "*\\/*",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the drop zone is disabled. Disabled zones ignore all drag events.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "ProgressBar": {
     "name": "ProgressBar",
     "optionsType": "ProgressBarOptions",
@@ -1410,9 +1796,12 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "value",
         "description": "Current progress value (0 to max).",
         "type": "number",
-        "defaultValue": "0",
+        "defaultValue": "50",
         "reactive": true,
-        "optional": true
+        "optional": true,
+        "numberStep": 1,
+        "numberMin": 0,
+        "numberMax": 100
       },
       {
         "name": "max",
@@ -1420,7 +1809,9 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "defaultValue": "100",
         "reactive": true,
-        "optional": true
+        "optional": true,
+        "numberStep": 1,
+        "numberMin": 1
       },
       {
         "name": "size",
@@ -1549,7 +1940,9 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "defaultValue": "1",
         "reactive": true,
-        "optional": true
+        "optional": true,
+        "numberStep": 1,
+        "numberMin": 1
       },
       {
         "name": "animate",
@@ -1666,6 +2059,44 @@ export const componentMeta: Record<string, ComponentMeta> =
           "xl",
           "none"
         ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "DropZone": {
+    "name": "DropZone",
+    "optionsType": "DropZoneOptions",
+    "sourceFile": "components/data/unstyled-drop-zone.ts",
+    "props": [
+      {
+        "name": "accept",
+        "description": "MIME type filter for accepted files (e.g., `'image/*'`, `'application/pdf'`).\nPassed to the hidden `<input type=\"file\">` element.",
+        "type": "string",
+        "defaultValue": "*\\/*",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "enableClick",
+        "description": "Whether clicking the drop zone opens the native file picker dialog.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the drop zone is disabled. Disabled zones do not accept drops or clicks.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "allowMultiple",
+        "description": "Whether multiple files can be selected at once.",
+        "type": "boolean",
         "reactive": true,
         "optional": true
       }
@@ -1956,6 +2387,20 @@ export const componentMeta: Record<string, ComponentMeta> =
         "defaultValue": "false",
         "reactive": true,
         "optional": true
+      },
+      {
+        "name": "groupSummary",
+        "description": "Custom render function for collapsed group summaries.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "emptyContent",
+        "description": "Content to show when no rows match",
+        "type": "string",
+        "reactive": false,
+        "optional": true
       }
     ]
   },
@@ -2068,6 +2513,369 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "resetLabel",
         "description": "Custom label for the reset button",
         "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "TextInput": {
+    "name": "TextInput",
+    "optionsType": "TextInputOptions",
+    "sourceFile": "components/form/input/text-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "type",
+        "description": "HTML input type attribute.",
+        "type": "string",
+        "defaultValue": "text",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "InputWrapper": {
+    "name": "InputWrapper",
+    "optionsType": "InputWrapperOptions",
+    "sourceFile": "components/form/input/input-wrapper.ts",
+    "props": [
+      {
+        "name": "fullWidth",
+        "description": "Whether the wrapper should take full width of its container",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "label",
+        "description": "Label text or node to display above/beside the input",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelChildren",
+        "description": "Additional content to render after the label (e.g., badges, tooltips)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Contextual information displayed in the header area (e.g., character count)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "Error message to display when the input has a validation error",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required (adds asterisk to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "labelFor",
+        "description": "ID of the input element for the label's `for` attribute",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled (applies disabled styling to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "layout",
+        "description": "Layout mode for label and input positioning",
+        "type": "union",
+        "unionValues": [
+          "horizontal",
+          "vertical",
+          "horizontal-label-right",
+          "horizontal-fixed"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "labelWidth",
+        "description": "CSS width value for label in 'horizontal-fixed' layout (e.g., '120px', '10rem')",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NativeSelect": {
+    "name": "NativeSelect",
+    "optionsType": "NativeSelectOptions",
+    "sourceFile": "components/form/input/native-select.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "unselectedLabel",
+        "description": "Label for the initial unselected/placeholder option. Defaults to the i18n \"Select one\" message.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ColumnFilter": {
+    "name": "ColumnFilter",
+    "optionsType": "ColumnFilterOptions",
+    "sourceFile": "components/data/column-filter.ts",
+    "props": [
+      {
+        "name": "type",
+        "description": "Discriminator — omit or set to `'text'` for a debounced text input.\n\n\nDiscriminator — must be `'select'` for a dropdown filter.\n\n\nDiscriminator — must be `'tags'` for a multi-select tag input filter.",
+        "type": "union",
+        "unionValues": [
+          "text",
+          "select",
+          "tags"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Size variant.",
+        "type": "union",
+        "defaultValue": "sm",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
         "reactive": true,
         "optional": true
       }
@@ -2190,6 +2998,13 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "arrow",
+        "description": "Optional arrow renderer. Receives a signal with \n{@link \nPopOverArrowOptions\n}\n positioning\ndata and returns a TNode to render as the arrow element.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "role",
         "description": "ARIA role attribute applied to the flyout container.",
         "type": "string",
@@ -2206,8 +3021,9 @@ export const componentMeta: Record<string, ComponentMeta> =
     "props": [
       {
         "name": "placement",
-        "description": "Placement of the tooltip relative to the trigger element",
+        "description": "Placement of the tooltip relative to the trigger element.",
         "type": "union",
+        "defaultValue": "top",
         "unionValues": [
           "top",
           "top-start",
@@ -2227,36 +3043,41 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "showDelay",
-        "description": "Delay in milliseconds before showing the tooltip on hover",
+        "description": "Delay in milliseconds before showing the tooltip on hover.",
         "type": "number",
+        "defaultValue": "250",
         "reactive": true,
         "optional": true
       },
       {
         "name": "hideDelay",
-        "description": "Delay in milliseconds before hiding the tooltip after mouse leave",
+        "description": "Delay in milliseconds before hiding the tooltip after mouse leave.",
         "type": "number",
+        "defaultValue": "500",
         "reactive": true,
         "optional": true
       },
       {
         "name": "mainAxisOffset",
-        "description": "Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right)",
+        "description": "Offset in pixels from the main axis (vertical for top/bottom, horizontal for left/right).",
         "type": "number",
+        "defaultValue": "8",
         "reactive": true,
         "optional": true
       },
       {
         "name": "crossAxisOffset",
-        "description": "Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right)",
+        "description": "Offset in pixels from the cross axis (horizontal for top/bottom, vertical for left/right).",
         "type": "number",
+        "defaultValue": "0",
         "reactive": true,
         "optional": true
       },
       {
         "name": "showOn",
-        "description": "How to show the tooltip",
+        "description": "How to show the tooltip.",
         "type": "union",
+        "defaultValue": "hover-focus",
         "unionValues": [
           "hover",
           "focus",
@@ -2519,6 +3340,55 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "reactive": false,
         "optional": false
+      }
+    ]
+  },
+  "AppShellBreakpointOptional": {
+    "name": "AppShellBreakpointOptional",
+    "optionsType": "AppShellBreakpointOptionalOptions",
+    "sourceFile": "components/layout/app-shell.ts",
+    "props": [
+      {
+        "name": "zero",
+        "description": "Width/height at the zero (smallest) breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "xs",
+        "description": "Width/height at the xs breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "sm",
+        "description": "Width/height at the sm breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "md",
+        "description": "Width/height at the md breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "lg",
+        "description": "Width/height at the lg breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "xl",
+        "description": "Width/height at the xl breakpoint in pixels.",
+        "type": "number",
+        "reactive": false,
+        "optional": true
       }
     ]
   },
@@ -2888,6 +3758,13 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "label",
+        "description": "Optional label to display in the middle of the divider.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "labelAlign",
         "description": "Alignment of the label text.",
         "type": "union",
@@ -2897,6 +3774,116 @@ export const componentMeta: Record<string, ComponentMeta> =
           "left",
           "center"
         ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NineSliceScrollView": {
+    "name": "NineSliceScrollView",
+    "optionsType": "NineSliceScrollViewOptions",
+    "sourceFile": "components/layout/nine-slice-scroll-view.ts",
+    "props": [
+      {
+        "name": "headerHeight",
+        "description": "Fixed pixel height of the header region.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "topStart",
+        "description": "Content for the top-start corner (top-left in LTR, top-right in RTL).",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "topEnd",
+        "description": "Content for the top-end corner (top-right in LTR, top-left in RTL).",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "footerHeight",
+        "description": "Fixed pixel height of the footer region.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "bottomStart",
+        "description": "Content for the bottom-start corner (bottom-left in LTR, bottom-right in RTL).",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "bottomEnd",
+        "description": "Content for the bottom-end corner (bottom-right in LTR, bottom-left in RTL).",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "sidebarStart",
+        "description": "Content for the start sidebar (left in LTR, right in RTL). Scrolls vertically\nwith the body but remains fixed horizontally.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "sidebarStartWidth",
+        "description": "Fixed pixel width of the start sidebar.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "sidebarEnd",
+        "description": "Content for the end sidebar (right in LTR, left in RTL). Scrolls vertically\nwith the body but remains fixed horizontally.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "sidebarEndWidth",
+        "description": "Fixed pixel width of the end sidebar.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "anchorMode",
+        "description": "Controls how the end sidebar and footer anchor relative to the body content.",
+        "type": "union",
+        "defaultValue": "container-edge",
+        "unionValues": [
+          "container-edge",
+          "body-end",
+          "body-bottom",
+          "body-end-bottom"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ScrollablePanel": {
+    "name": "ScrollablePanel",
+    "optionsType": "ScrollablePanelOptions",
+    "sourceFile": "components/layout/scrollable-panel.ts",
+    "props": [
+      {
+        "name": "shadowOnScroll",
+        "description": "Whether to display scroll shadow indicators at the top/bottom edges\nwhen the body content overflows. Shadows help indicate scrollable content\nthat is currently out of view.",
+        "type": "boolean",
+        "defaultValue": "true",
         "reactive": true,
         "optional": true
       }
@@ -2950,6 +3937,139 @@ export const componentMeta: Record<string, ComponentMeta> =
           "none",
           "full"
         ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NumberInput": {
+    "name": "NumberInput",
+    "optionsType": "NumberInputOptions",
+    "sourceFile": "components/form/input/number-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "number",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "step",
+        "description": "Step increment for stepper buttons and wheel interactions. When set, enables +/- buttons and scroll-to-step. Hold Shift for 10x multiplier.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "min",
+        "description": "Minimum allowed value. Disables decrement when reached.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "max",
+        "description": "Maximum allowed value. Disables increment when reached.",
+        "type": "number",
         "reactive": true,
         "optional": true
       }
@@ -3100,6 +4220,20 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "actions",
+        "description": "Extra actions (e.g. filter panel) rendered alongside the sort icon",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "menu",
+        "description": "Column menu (e.g. kebab ⋮ with sort/hide/columns actions)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "hideInactiveIcon",
         "description": "Hide the sort icon when no sort is active.",
         "type": "boolean",
@@ -3213,6 +4347,20 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "startContent",
+        "description": "Optional content displayed at the start (left side) of the menu item,\ntypically used for icons or selection indicators.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "endContent",
+        "description": "Optional content displayed at the end (right side) of the menu item,\ntypically used for keyboard shortcuts or badges.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "disabled",
         "description": "Whether the menu item is disabled. Disabled items are skipped by keyboard\nnavigation and cannot be activated.",
         "type": "boolean",
@@ -3225,6 +4373,13 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Accessible label for the menu item (`aria-label`).",
         "type": "string",
         "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "submenu",
+        "description": "Factory function returning submenu items for nested menus.\nWhen provided, the menu item gains a hover-triggered submenu.",
+        "type": "string",
+        "reactive": false,
         "optional": true
       },
       {
@@ -3245,6 +4400,163 @@ export const componentMeta: Record<string, ComponentMeta> =
           "left",
           "left-start",
           "left-end"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "MenuSeparator": {
+    "name": "MenuSeparator",
+    "optionsType": "MenuSeparatorOptions",
+    "sourceFile": "components/navigation/menu.ts",
+    "props": [
+      {
+        "name": "label",
+        "description": "Optional label displayed alongside the separator line,\nuseful for grouping related menu items under a heading.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "CheckboxInput": {
+    "name": "CheckboxInput",
+    "optionsType": "CheckboxInputOptions",
+    "sourceFile": "components/form/input/checkbox-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "checkedIcon",
+        "description": "Icon name to display when the checkbox is checked.",
+        "type": "string",
+        "defaultValue": "ri:checkbox-fill",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "uncheckedIcon",
+        "description": "Icon name to display when the checkbox is unchecked.",
+        "type": "string",
+        "defaultValue": "mdi:checkbox-blank-outline",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "iconSize",
+        "description": "Size of the checkbox icon.",
+        "type": "union",
+        "defaultValue": "lg",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
         ],
         "reactive": true,
         "optional": true
@@ -3275,6 +4587,168 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Size variant.",
         "type": "union",
         "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "filterContent",
+        "description": "Filter content to embed as a submenu (ColumnFilterPanel, ColumnFilter, etc.)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "TriStateCheckboxInput": {
+    "name": "TriStateCheckboxInput",
+    "optionsType": "TriStateCheckboxInputOptions",
+    "sourceFile": "components/form/input/tri-state-checkbox-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "union",
+        "unionValues": [
+          "checked",
+          "unchecked",
+          "indeterminate"
+        ],
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "checkedIcon",
+        "description": "Icon name to display when the checkbox is checked.",
+        "type": "string",
+        "defaultValue": "ri:checkbox-fill",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "uncheckedIcon",
+        "description": "Icon name to display when the checkbox is unchecked.",
+        "type": "string",
+        "defaultValue": "mdi:checkbox-blank-outline",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "indeterminateIcon",
+        "description": "Icon name to display when the checkbox is in the indeterminate state.",
+        "type": "string",
+        "defaultValue": "ri/checkbox-indeterminate-fill",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "iconSize",
+        "description": "Size of the checkbox icon.",
+        "type": "union",
         "unionValues": [
           "xs",
           "sm",
@@ -3382,6 +4856,1837 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "AppearanceSelector": {
+    "name": "AppearanceSelector",
+    "optionsType": "AppearanceSelectorOptions",
+    "sourceFile": "components/form/input/appearance-selector.ts",
+    "props": [
+      {
+        "name": "value",
+        "description": "The current appearance preference value.",
+        "type": "union",
+        "unionValues": [
+          "light",
+          "dark",
+          "system"
+        ],
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the selector is disabled.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "FilesInput": {
+    "name": "FilesInput",
+    "optionsType": "FilesInputOptions",
+    "sourceFile": "components/form/input/files-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "accept",
+        "description": "Comma-separated list of accepted MIME types or file extensions (e.g., `'image/*,.pdf'`).",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFiles",
+        "description": "Maximum number of files that can be selected.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFileSize",
+        "description": "Maximum allowed file size in bytes. Files exceeding this size are filtered out.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Display mode for the file input.",
+        "type": "union",
+        "defaultValue": "default",
+        "unionValues": [
+          "default",
+          "input",
+          "compact"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showFileList",
+        "description": "Whether to show the selected files in a list below the drop zone.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Base64sInput": {
+    "name": "Base64sInput",
+    "optionsType": "Base64sInputOptions",
+    "sourceFile": "components/form/input/base64s-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "accept",
+        "description": "Comma-separated list of accepted MIME types or file extensions.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFiles",
+        "description": "Maximum number of files that can be selected.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFileSize",
+        "description": "Maximum allowed file size in bytes per file.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Display mode for the file input.",
+        "type": "union",
+        "defaultValue": "default",
+        "unionValues": [
+          "default",
+          "input",
+          "compact"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showFileList",
+        "description": "Whether to show the selected files in a list below the drop zone.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Base64Input": {
+    "name": "Base64Input",
+    "optionsType": "Base64InputOptions",
+    "sourceFile": "components/form/input/base64-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "accept",
+        "description": "Comma-separated list of accepted MIME types or file extensions.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFileSize",
+        "description": "Maximum allowed file size in bytes.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Display mode for the file input.",
+        "type": "union",
+        "defaultValue": "default",
+        "unionValues": [
+          "default",
+          "input",
+          "compact"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showFileList",
+        "description": "Whether to show the selected file in a list below the drop zone.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ColorInput": {
+    "name": "ColorInput",
+    "optionsType": "ColorInputOptions",
+    "sourceFile": "components/form/input/color-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "ColorSwatchInput": {
+    "name": "ColorSwatchInput",
+    "optionsType": "ColorSwatchInputOptions",
+    "sourceFile": "components/form/input/color-swatch-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "displayValue",
+        "description": "When true, renders the formatted color value text next to the blob preview.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withAlpha",
+        "description": "Enable alpha channel support with a small opacity slider.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "colorTextFormat",
+        "description": "Color space format for the displayed text label and emitted value.",
+        "type": "union",
+        "defaultValue": "rgb' for display, 'hex' for emitted values",
+        "unionValues": [
+          "hex",
+          "rgb",
+          "hsl",
+          "hwb",
+          "oklch"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableColorInput": {
+    "name": "NullableColorInput",
+    "optionsType": "NullableColorInputOptions",
+    "sourceFile": "components/form/input/nullable-color-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "NullableColorSwatchInput": {
+    "name": "NullableColorSwatchInput",
+    "optionsType": "NullableColorSwatchInputOptions",
+    "sourceFile": "components/form/input/nullable-color-swatch-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "displayValue",
+        "description": "When true, renders the formatted color value text next to the blob preview.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withAlpha",
+        "description": "Enable alpha channel support with a small opacity slider.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "colorTextFormat",
+        "description": "Color space format for the displayed text label and emitted value.",
+        "type": "union",
+        "defaultValue": "rgb' for display, 'hex' for emitted values",
+        "unionValues": [
+          "hex",
+          "rgb",
+          "hsl",
+          "hwb",
+          "oklch"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "DropdownBase": {
+    "name": "DropdownBase",
+    "optionsType": "DropdownBaseOptions",
+    "sourceFile": "components/form/input/dropdown-base.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "role",
+        "description": "ARIA role for the dropdown trigger (`'combobox'` or `'dropdown'`).",
+        "type": "union",
+        "unionValues": [
+          "combobox",
+          "dropdown"
+        ],
+        "reactive": false,
+        "optional": false
+      },
+      {
+        "name": "display",
+        "description": "The display content shown in the trigger area (e.g., the selected label).",
+        "type": "string",
+        "reactive": false,
+        "optional": false
+      },
+      {
+        "name": "allowSpaceToggle",
+        "description": "Whether pressing the spacebar toggles the dropdown open/closed.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "buildListboxContent",
+        "description": "Function that builds the listbox content inside the dropdown flyout.\nReceives context with IDs, focused value signal, keyboard handler, and selection callback.",
+        "type": "string",
+        "reactive": false,
+        "optional": false
+      }
+    ]
+  },
+  "Dropdown": {
+    "name": "Dropdown",
+    "optionsType": "DropdownOptions",
+    "sourceFile": "components/form/input/dropdown-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when no option is selected",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "unselectedLabel",
+        "description": "Label to show when no option is selected (fallback for `placeholder`). Uses i18n \"selectOne\" when both are omitted.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "searchable",
+        "description": "Whether to enable keyboard search filtering (disables Space-to-toggle).",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Combobox": {
+    "name": "Combobox",
+    "optionsType": "ComboboxOptions",
+    "sourceFile": "components/form/input/combobox-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when no option is selected",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "searchPlaceholder",
+        "description": "Placeholder text for the search input inside the dropdown.",
+        "type": "string",
+        "defaultValue": "Search",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "debounceMs",
+        "description": "Debounce delay in milliseconds for the search query.",
+        "type": "number",
+        "defaultValue": "150",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocusSearch",
+        "description": "Whether to auto-focus the search input when the dropdown opens.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "SelectTags": {
+    "name": "SelectTags",
+    "optionsType": "SelectTagsOptions",
+    "sourceFile": "components/form/input/select-tags-input.ts",
+    "props": [
+      {
+        "name": "placeholder",
+        "description": "Placeholder text shown when no tags are selected.\n\n\nPlaceholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "ComboboxTags": {
+    "name": "ComboboxTags",
+    "optionsType": "ComboboxTagsOptions",
+    "sourceFile": "components/form/input/combobox-tags-input.ts",
+    "props": [
+      {
+        "name": "placeholder",
+        "description": "Placeholder text shown when no tags are selected.\n\n\nPlaceholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "searchPlaceholder",
+        "description": "Placeholder text for the search input field.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "EditableText": {
+    "name": "EditableText",
+    "optionsType": "EditableTextOptions",
+    "sourceFile": "components/form/input/editable-text.ts",
+    "props": [
+      {
+        "name": "value",
+        "description": "The current text value to display and edit.",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text shown when the value is empty.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "startEditing",
+        "description": "Whether the component should start in editing mode.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the component is disabled and cannot be edited.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "FileInput": {
+    "name": "FileInput",
+    "optionsType": "FileInputOptions",
+    "sourceFile": "components/form/input/file-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "accept",
+        "description": "Comma-separated list of accepted MIME types or file extensions (e.g., `'image/*,.pdf'`).",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFileSize",
+        "description": "Maximum allowed file size in bytes. Files exceeding this size are rejected.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Display mode for the file input.",
+        "type": "union",
+        "defaultValue": "default",
+        "unionValues": [
+          "default",
+          "input",
+          "compact"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showFileList",
+        "description": "Whether to show the selected file in a list below the drop zone.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "InputAdornment": {
+    "name": "InputAdornment",
+    "optionsType": "InputAdornmentOptions",
+    "sourceFile": "components/form/input/input-adornment.ts",
+    "props": [
+      {
+        "name": "size",
+        "description": "The size of the adornment, controlling padding and font size.",
+        "type": "union",
+        "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "filled",
+        "description": "When true, applies a subtle background fill and stretches to full height.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "LazyNativeSelect": {
+    "name": "LazyNativeSelect",
+    "optionsType": "LazyNativeSelectOptions",
+    "sourceFile": "components/form/input/lazy-native-select.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "unselectedLabel",
+        "description": "Label for the initial unselected/placeholder option.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "Unmask": {
     "name": "Unmask",
     "optionsType": "UnmaskOptions",
@@ -3413,9 +6718,9 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "union",
         "defaultValue": "mask",
         "unionValues": [
+          "min",
           "custom",
-          "mask",
-          "min"
+          "mask"
         ],
         "reactive": false,
         "optional": true
@@ -3564,6 +6869,1063 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "MaskInput": {
+    "name": "MaskInput",
+    "optionsType": "MaskInputOptions",
+    "sourceFile": "components/form/input/mask-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when the input is empty.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "debounceMs",
+        "description": "Debounce delay in milliseconds for change events.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "useDefaultDefinitions",
+        "description": "Whether to include the default definitions (`9`, `A`, `*`).",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "prefix",
+        "description": "A string prepended to the conformed value.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "suffix",
+        "description": "A string appended to the conformed value.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofix",
+        "description": "Auto-fix mode for out-of-range values.",
+        "type": "union",
+        "defaultValue": "none",
+        "unionValues": [
+          "none",
+          "pad",
+          "truncate"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autoclear",
+        "description": "Whether to clear the input when incomplete on blur.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "allowMode",
+        "description": "Character filtering mode.",
+        "type": "union",
+        "defaultValue": "all",
+        "unionValues": [
+          "custom",
+          "all",
+          "digits",
+          "letters",
+          "alphanumeric"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxLengthHard",
+        "description": "Hard maximum character length.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "compositionSafe",
+        "description": "Whether to handle IME composition events safely.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableMaskInput": {
+    "name": "NullableMaskInput",
+    "optionsType": "NullableMaskInputOptions",
+    "sourceFile": "components/form/input/nullable-mask-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when the input is empty.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "debounceMs",
+        "description": "Debounce delay in milliseconds for change events.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "useDefaultDefinitions",
+        "description": "Whether to include the default definitions (`9`, `A`, `*`).",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "prefix",
+        "description": "A string prepended to the conformed value.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "suffix",
+        "description": "A string appended to the conformed value.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofix",
+        "description": "Auto-fix mode for out-of-range values.",
+        "type": "union",
+        "defaultValue": "none",
+        "unionValues": [
+          "none",
+          "pad",
+          "truncate"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autoclear",
+        "description": "Whether to clear the input when incomplete on blur.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "allowMode",
+        "description": "Character filtering mode.",
+        "type": "union",
+        "defaultValue": "all",
+        "unionValues": [
+          "custom",
+          "all",
+          "digits",
+          "letters",
+          "alphanumeric"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxLengthHard",
+        "description": "Hard maximum character length.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "compositionSafe",
+        "description": "Whether to handle IME composition events safely.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "TextArea": {
+    "name": "TextArea",
+    "optionsType": "TextAreaOptions",
+    "sourceFile": "components/form/input/text-area.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "rows",
+        "description": "Number of visible text rows.",
+        "type": "number",
+        "defaultValue": "3",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableTextArea": {
+    "name": "NullableTextArea",
+    "optionsType": "NullableTextAreaOptions",
+    "sourceFile": "components/form/input/nullable-text-area.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "rows",
+        "description": "Number of visible text rows.",
+        "type": "number",
+        "defaultValue": "3",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableNumberInput": {
+    "name": "NullableNumberInput",
+    "optionsType": "NullableNumberInputOptions",
+    "sourceFile": "components/form/input/nullable-number-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "step",
+        "description": "Step value for increment/decrement buttons and mouse wheel. If provided, stepper buttons are shown.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "min",
+        "description": "Minimum allowed value. Values below this are clamped.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "max",
+        "description": "Maximum allowed value. Values above this are clamped.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "BigintInput": {
+    "name": "BigintInput",
+    "optionsType": "BigintInputOptions",
+    "sourceFile": "components/form/input/bigint-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "NullableBigintInput": {
+    "name": "NullableBigintInput",
+    "optionsType": "NullableBigintInputOptions",
+    "sourceFile": "components/form/input/nullable-bigint-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "Switch": {
+    "name": "Switch",
+    "optionsType": "SwitchOptions",
+    "sourceFile": "components/form/input/switch.ts",
+    "props": [
+      {
+        "name": "value",
+        "description": "The current boolean state of the switch (on/off)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "offLabel",
+        "description": "Optional label displayed when the switch is in the off state",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "onLabel",
+        "description": "Optional label displayed when the switch is in the on state",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the switch is disabled and cannot be toggled.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the switch.",
+        "type": "union",
+        "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the switch element",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "color",
+        "description": "Theme color for the switch track when on.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order.",
+        "type": "number",
+        "defaultValue": "0",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "matchInputHeight",
+        "description": "Whether to add vertical padding so the switch matches the height of text inputs at the same size.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
   "TagInput": {
     "name": "TagInput",
     "optionsType": "TagInputOptions",
@@ -3608,6 +7970,220 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "hasError",
         "description": "Whether the input has an error",
         "type": "boolean",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableRatingInput": {
+    "name": "NullableRatingInput",
+    "optionsType": "NullableRatingInputOptions",
+    "sourceFile": "components/form/input/nullable-rating-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.\n\n\nSize of the rating icons.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "max",
+        "description": "Maximum number of rating stars/items.",
+        "type": "number",
+        "defaultValue": "5",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "fullColor",
+        "description": "Color name for filled rating icons.",
+        "type": "union",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "emptyColor",
+        "description": "Color name for empty rating icons.",
+        "type": "union",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "fullIcon",
+        "description": "Icon identifier for filled rating items.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "emptyIcon",
+        "description": "Icon identifier for empty rating items.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "rounding",
+        "description": "Rounding precision for fractional ratings (e.g., `0.5` for half stars).",
+        "type": "number",
         "reactive": true,
         "optional": true
       }
@@ -3663,6 +8239,265 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "class",
         "description": "Additional CSS class name(s) to apply to the root element.",
         "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "SliderInput": {
+    "name": "SliderInput",
+    "optionsType": "SliderInputOptions",
+    "sourceFile": "components/form/input/slider-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "number",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "step",
+        "description": "Step increment between valid values on the slider",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "min",
+        "description": "Minimum value of the slider range",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "max",
+        "description": "Maximum value of the slider range",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NullableSliderInput": {
+    "name": "NullableSliderInput",
+    "optionsType": "NullableSliderInputOptions",
+    "sourceFile": "components/form/input/slider-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "step",
+        "description": "Step increment between valid values on the slider",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "min",
+        "description": "Minimum value of the slider range",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "max",
+        "description": "Maximum value of the slider range",
+        "type": "number",
         "reactive": true,
         "optional": true
       }
@@ -3898,6 +8733,714 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "ListItemControls": {
+    "name": "ListItemControls",
+    "optionsType": "ListItemControlsOptions",
+    "sourceFile": "components/form/control/list-item-controls.ts",
+    "props": [
+      {
+        "name": "showMove",
+        "description": "Whether to show the move buttons.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showRemove",
+        "description": "Whether to show the remove button.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "removeDisabled",
+        "description": "When true, disables the remove button instead of hiding it",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showMoveButtons",
+        "description": "Whether to show move buttons (e.g., when list has more than 1 item).",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "layout",
+        "description": "Layout mode for the controls.",
+        "type": "union",
+        "defaultValue": "aside",
+        "unionValues": [
+          "below",
+          "aside"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "BaseListControl": {
+    "name": "BaseListControl",
+    "optionsType": "BaseListControlOptions",
+    "sourceFile": "components/form/control/list-control.ts",
+    "props": [
+      {
+        "name": "element",
+        "description": "Render function for each list item, receiving the item's payload",
+        "type": "string",
+        "reactive": false,
+        "optional": false
+      },
+      {
+        "name": "separator",
+        "description": "Optional separator rendered between list items",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "showMove",
+        "description": "Whether to show move up/down buttons for reordering items.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showRemove",
+        "description": "Whether to show the remove button for each item.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showAdd",
+        "description": "Whether to show the \"Add\" button below the list.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "removeDisabled",
+        "description": "When true, disables the remove button instead of hiding it",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "addDisabled",
+        "description": "When true, disables the add button (if visible)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "addLabel",
+        "description": "Custom label for the \"Add\" button. Defaults to the i18n `addLabel` message.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "controlsLayout",
+        "description": "Layout mode for the item controls.",
+        "type": "union",
+        "defaultValue": "aside",
+        "unionValues": [
+          "below",
+          "aside"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ListControl": {
+    "name": "ListControl",
+    "optionsType": "ListControlOptions",
+    "sourceFile": "components/form/control/list-control.ts",
+    "props": [
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled (applies disabled styling to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required (adds asterisk to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "fullWidth",
+        "description": "Whether the wrapper should take full width of its container",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "label",
+        "description": "Label text or node to display above/beside the input",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelChildren",
+        "description": "Additional content to render after the label (e.g., badges, tooltips)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Contextual information displayed in the header area (e.g., character count)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "Error message to display when the input has a validation error",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelFor",
+        "description": "ID of the input element for the label's `for` attribute",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "layout",
+        "description": "Layout mode for label and input positioning",
+        "type": "union",
+        "unionValues": [
+          "horizontal",
+          "vertical",
+          "horizontal-label-right",
+          "horizontal-fixed"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "labelWidth",
+        "description": "CSS width value for label in 'horizontal-fixed' layout (e.g., '120px', '10rem')",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "element",
+        "description": "Render function for each list item, receiving the item's payload",
+        "type": "string",
+        "reactive": false,
+        "optional": false
+      },
+      {
+        "name": "separator",
+        "description": "Optional separator rendered between list items",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "showMove",
+        "description": "Whether to show move up/down buttons for reordering items.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showRemove",
+        "description": "Whether to show the remove button for each item.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showAdd",
+        "description": "Whether to show the \"Add\" button below the list.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "removeDisabled",
+        "description": "When true, disables the remove button instead of hiding it",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "addDisabled",
+        "description": "When true, disables the add button (if visible)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "addLabel",
+        "description": "Custom label for the \"Add\" button. Defaults to the i18n `addLabel` message.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "controlsLayout",
+        "description": "Layout mode for the item controls.",
+        "type": "union",
+        "defaultValue": "aside",
+        "unionValues": [
+          "below",
+          "aside"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "BaseControl": {
+    "name": "BaseControl",
+    "optionsType": "BaseControlOptions",
+    "sourceFile": "components/form/control/control.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "Control": {
+    "name": "Control",
+    "optionsType": "ControlOptions",
+    "sourceFile": "components/form/control/control.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with\n\n\nWhether the input is disabled (applies disabled styling to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation\n\n\nWhether the input is required (adds asterisk to label)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "fullWidth",
+        "description": "Whether the wrapper should take full width of its container",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "label",
+        "description": "Label text or node to display above/beside the input",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelChildren",
+        "description": "Additional content to render after the label (e.g., badges, tooltips)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Contextual information displayed in the header area (e.g., character count)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "Error message to display when the input has a validation error",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelFor",
+        "description": "ID of the input element for the label's `for` attribute",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "layout",
+        "description": "Layout mode for label and input positioning",
+        "type": "union",
+        "unionValues": [
+          "horizontal",
+          "vertical",
+          "horizontal-label-right",
+          "horizontal-fixed"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "labelWidth",
+        "description": "CSS width value for label in 'horizontal-fixed' layout (e.g., '120px', '10rem')",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "BaseController": {
+    "name": "BaseController",
+    "optionsType": "BaseControllerOptions",
+    "sourceFile": "components/form/control/control.ts",
+    "props": [
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "Controller": {
+    "name": "Controller",
+    "optionsType": "ControllerOptions",
+    "sourceFile": "components/form/control/control.ts",
+    "props": [
+      {
+        "name": "label",
+        "description": "Label text or node to display above/beside the input",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelChildren",
+        "description": "Additional content to render after the label (e.g., badges, tooltips)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Contextual information displayed in the header area (e.g., character count)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "Error message to display when the input has a validation error",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "MappedController": {
+    "name": "MappedController",
+    "optionsType": "MappedControllerOptions",
+    "sourceFile": "components/form/control/control.ts",
+    "props": [
+      {
+        "name": "label",
+        "description": "Label text or node to display above/beside the input",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "labelChildren",
+        "description": "Additional content to render after the label (e.g., badges, tooltips)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Contextual information displayed in the header area (e.g., character count)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "error",
+        "description": "Error message to display when the input has a validation error",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
   "UseForm": {
     "name": "UseForm",
     "optionsType": "UseFormOptions",
@@ -3945,6 +9488,328 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "validateDebounceMs",
         "description": "Debounce delay in milliseconds for validation.",
         "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "LocaleSelector": {
+    "name": "LocaleSelector",
+    "optionsType": "LocaleSelectorOptions",
+    "sourceFile": "components/i18n/locale-selector.ts",
+    "props": [
+      {
+        "name": "updateLocale",
+        "description": "Whether to automatically update the `Locale` provider when the selection changes.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "Notification": {
+    "name": "Notification",
+    "optionsType": "NotificationOptions",
+    "sourceFile": "components/misc/notification.ts",
+    "props": [
+      {
+        "name": "loading",
+        "description": "Whether the notification is in a loading state. When `true`, a spinner\nicon replaces the custom icon.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withCloseButton",
+        "description": "Whether to display a close button in the notification.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withBorder",
+        "description": "Whether the notification displays a colored border.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "color",
+        "description": "Theme color applied to the notification accent, icon, and close button.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "radius",
+        "description": "Border radius applied to the notification container.",
+        "type": "union",
+        "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "none",
+          "full"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "title",
+        "description": "Optional title content rendered above the notification body.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "description": "Iconify icon identifier to display. When `undefined` and not loading,\na colored accent bar is shown instead.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class name(s) to apply to the notification root element.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ShowNotification": {
+    "name": "ShowNotification",
+    "optionsType": "ShowNotificationOptions",
+    "sourceFile": "components/misc/notification-provider.ts",
+    "props": [
+      {
+        "name": "loading",
+        "description": "Whether the notification is in a loading state. When `true`, a spinner\nicon replaces the custom icon.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withCloseButton",
+        "description": "Whether to display a close button in the notification.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "withBorder",
+        "description": "Whether the notification displays a colored border.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "color",
+        "description": "Theme color applied to the notification accent, icon, and close button.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "radius",
+        "description": "Border radius applied to the notification container.",
+        "type": "union",
+        "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+          "none",
+          "full"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "title",
+        "description": "Optional title content rendered above the notification body.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "description": "Iconify icon identifier to display. When `undefined` and not loading,\na colored accent bar is shown instead.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class name(s) to apply to the notification root element.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "NotificationProvider": {
+    "name": "NotificationProvider",
+    "optionsType": "NotificationProviderOptions",
+    "sourceFile": "components/misc/notification-provider.ts",
+    "props": [
+      {
+        "name": "position",
+        "description": "Screen corner where notifications are displayed.",
+        "type": "union",
+        "defaultValue": "bottom-end",
+        "unionValues": [
+          "top-start",
+          "top-end",
+          "bottom-start",
+          "bottom-end"
+        ],
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "BeatUI": {
+    "name": "BeatUI",
+    "optionsType": "BeatUIOptions",
+    "sourceFile": "components/beatui.ts",
+    "props": [
+      {
+        "name": "includeAuthI18n",
+        "description": "Whether to load and provide the authentication i18n translations.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "enableAppearance",
+        "description": "Whether to enable light/dark appearance toggling.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "defaultAppearance",
+        "description": "The initial appearance preference when appearance is enabled.",
+        "type": "union",
+        "defaultValue": "system",
+        "unionValues": [
+          "light",
+          "dark",
+          "system"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "appearancePreferenceKey",
+        "description": "localStorage key used to persist the appearance preference.",
+        "type": "string",
+        "defaultValue": "bui-appearance",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "includeNotifications",
+        "description": "Whether to include the notification system provider and viewport.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "notificationPosition",
+        "description": "Position of the notification viewport on screen.",
+        "type": "union",
+        "defaultValue": "bottom-end",
+        "unionValues": [
+          "top-start",
+          "top-end",
+          "bottom-start",
+          "bottom-end"
+        ],
         "reactive": false,
         "optional": true
       }
@@ -4156,8 +10021,404 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "action",
+        "description": "Optional action element (e.g., a button) displayed below the description.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "class",
         "description": "Additional CSS class name(s) to apply to the root element.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "StylePortal": {
+    "name": "StylePortal",
+    "optionsType": "StylePortalOptions",
+    "sourceFile": "components/misc/style-portal.ts",
+    "props": [
+      {
+        "name": "id",
+        "description": "Optional `id` attribute for the injected `<style>` element, useful for\ndeduplication or later removal.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "css",
+        "description": "The CSS content to inject. Supports reactive values so styles update\ndynamically when the value changes.",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      }
+    ]
+  },
+  "LinkPortal": {
+    "name": "LinkPortal",
+    "optionsType": "LinkPortalOptions",
+    "sourceFile": "components/misc/link-portal.ts",
+    "props": [
+      {
+        "name": "id",
+        "description": "Optional `id` attribute for the injected `<link>` element, useful for\ndeduplication or later removal.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "href",
+        "description": "The URL of the linked resource (e.g., a stylesheet URL).",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "rel",
+        "description": "The relationship type of the linked resource.",
+        "type": "string",
+        "defaultValue": "stylesheet",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Notice": {
+    "name": "Notice",
+    "optionsType": "NoticeOptions",
+    "sourceFile": "components/misc/notice.ts",
+    "props": [
+      {
+        "name": "variant",
+        "description": "The semantic variant controlling color scheme and default icon.",
+        "type": "union",
+        "defaultValue": "info",
+        "unionValues": [
+          "success",
+          "warning",
+          "danger",
+          "info"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tone",
+        "description": "The visual tone controlling background intensity.",
+        "type": "union",
+        "defaultValue": "subtle",
+        "unionValues": [
+          "subtle",
+          "prominent"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "role",
+        "description": "ARIA role override. When not specified, defaults to `'alert'` for the\n`'danger'` variant and `'status'` for all others.",
+        "type": "union",
+        "unionValues": [
+          "status",
+          "alert"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "title",
+        "description": "Optional title text displayed prominently above the notice body content.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "closable",
+        "description": "Whether the notice can be dismissed by the user via a close button.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class name(s) to apply to the notice root element.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "OpenGraph": {
+    "name": "OpenGraph",
+    "optionsType": "OpenGraphOptions",
+    "sourceFile": "components/misc/opengraph.ts",
+    "props": [
+      {
+        "name": "title",
+        "description": "The title of your object as it should appear within the graph",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "type",
+        "description": "The type of your object, e.g., \"website\", \"article\", \"video.movie\"",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "url",
+        "description": "The canonical URL of your object that will be used as its permanent ID in the graph",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "image",
+        "description": "An image URL which should represent your object within the graph",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "description",
+        "description": "A one to two sentence description of your object",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "siteName",
+        "description": "The name of the overall site",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "locale",
+        "description": "The locale these tags are marked up in. Format: language_TERRITORY (default: en_US)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "imageAlt",
+        "description": "A description of what is in the image (not a caption)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "imageWidth",
+        "description": "The width of the image in pixels",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "imageHeight",
+        "description": "The height of the image in pixels",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "imageType",
+        "description": "The MIME type of the image",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "video",
+        "description": "A URL to a video file that complements this object",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "videoType",
+        "description": "The MIME type of the video",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "videoWidth",
+        "description": "The width of the video in pixels",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "videoHeight",
+        "description": "The height of the video in pixels",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "videoSecureUrl",
+        "description": "A URL to a video file that complements this object (secure URL)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "audio",
+        "description": "A URL to an audio file to accompany this object",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "audioType",
+        "description": "The MIME type of the audio",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "audioSecureUrl",
+        "description": "A URL to an audio file to accompany this object (secure URL)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "publishedTime",
+        "description": "When the article was first published (ISO 8601)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "modifiedTime",
+        "description": "When the article was last changed (ISO 8601)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "expirationTime",
+        "description": "When the article is out of date after (ISO 8601)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "section",
+        "description": "A high-level section name",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "firstName",
+        "description": "A person's first name",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "lastName",
+        "description": "A person's last name",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "username",
+        "description": "A person's username",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "gender",
+        "description": "A person's gender",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterCard",
+        "description": "The card type: \"summary\", \"summary_large_image\", \"app\", or \"player\"",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterSite",
+        "description": "",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterCreator",
+        "description": "",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterTitle",
+        "description": "Title for Twitter (falls back to og:title if not provided)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterDescription",
+        "description": "Description for Twitter (falls back to og:description if not provided)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterImage",
+        "description": "Image URL for Twitter (falls back to og:image if not provided)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "twitterImageAlt",
+        "description": "Alt text for Twitter image",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "canonical",
+        "description": "Canonical URL for SEO",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "robots",
+        "description": "Robots meta tag",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "keywords",
+        "description": "Keywords for SEO",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "metaAuthor",
+        "description": "Author meta tag",
         "type": "string",
         "reactive": true,
         "optional": true
@@ -4369,8 +10630,8 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "How to match the current URL against the link's href\n- 'exact': URL must match exactly (default)\n- 'prefix': Current URL must start with the link's href\n- 'params': Match pathname and search params, ignore hash",
         "type": "union",
         "unionValues": [
-          "exact",
           "prefix",
+          "exact",
           "params"
         ],
         "reactive": false,
@@ -4584,8 +10845,8 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "",
         "type": "union",
         "unionValues": [
-          "exact",
           "prefix",
+          "exact",
           "params"
         ],
         "reactive": false,
@@ -4706,6 +10967,110 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "Sidebar": {
+    "name": "Sidebar",
+    "optionsType": "SidebarOptions",
+    "sourceFile": "components/navigation/sidebar/sidebar.ts",
+    "props": [
+      {
+        "name": "backgroundMode",
+        "description": "Background mode controlling the sidebar's visual appearance.\nWhen set to `'dark'`, the sidebar applies a dark background CSS modifier class.",
+        "type": "union",
+        "defaultValue": "light",
+        "unionValues": [
+          "light",
+          "dark"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "SidebarGroup": {
+    "name": "SidebarGroup",
+    "optionsType": "SidebarGroupOptions",
+    "sourceFile": "components/navigation/sidebar/sidebar-group.ts",
+    "props": [
+      {
+        "name": "rail",
+        "description": "Whether to render the group in compact \"rail\" mode, typically used for\nicon-only sidebar layouts.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "SidebarLink": {
+    "name": "SidebarLink",
+    "optionsType": "SidebarLinkOptions",
+    "sourceFile": "components/navigation/sidebar/sidebar-link.ts",
+    "props": [
+      {
+        "name": "icon",
+        "description": "Optional icon identifier displayed at the start of the link.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "right",
+        "description": "Optional content displayed at the right side of the link (e.g., badges, counts).",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "ariaExpanded",
+        "description": "ARIA expanded state, used when the link controls a collapsible section.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "ariaControls",
+        "description": "ID of the element this link controls (for ARIA `aria-controls`).",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "ariaLabel",
+        "description": "Accessible label for the link (for ARIA `aria-label`).",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "CollapsibleSidebarGroup": {
+    "name": "CollapsibleSidebarGroup",
+    "optionsType": "CollapsibleSidebarGroupOptions",
+    "sourceFile": "components/navigation/sidebar/collapsible-sidebar-group.ts",
+    "props": [
+      {
+        "name": "icon",
+        "description": "",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "rail",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "startOpen",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "Tabs": {
     "name": "Tabs",
     "optionsType": "TabsOptions",
@@ -4713,8 +11078,9 @@ export const componentMeta: Record<string, ComponentMeta> =
     "props": [
       {
         "name": "size",
-        "description": "Size of the tabs",
+        "description": "Size of the tabs.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -4727,8 +11093,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "variant",
-        "description": "Visual variant",
+        "description": "Visual variant.",
         "type": "union",
+        "defaultValue": "default",
         "unionValues": [
           "light",
           "filled",
@@ -4744,8 +11111,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "color",
-        "description": "Color used by certain variants (e.g., filled)",
+        "description": "Color used by certain variants (e.g., filled).",
         "type": "union",
+        "defaultValue": "primary",
         "unionValues": [
           "red",
           "orange",
@@ -4784,15 +11152,17 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "disabled",
-        "description": "Whether tabs are disabled",
+        "description": "Whether tabs are disabled.",
         "type": "boolean",
+        "defaultValue": "false",
         "reactive": true,
         "optional": true
       },
       {
         "name": "orientation",
-        "description": "Orientation of the tabs",
+        "description": "Orientation of the tabs.",
         "type": "union",
+        "defaultValue": "horizontal",
         "unionValues": [
           "horizontal",
           "vertical"
@@ -4802,8 +11172,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "showContent",
-        "description": "Whether to show tab content",
+        "description": "Whether to show tab content.",
         "type": "boolean",
+        "defaultValue": "true",
         "reactive": true,
         "optional": true
       },
@@ -5023,6 +11394,50 @@ export const componentMeta: Record<string, ComponentMeta> =
           "xl"
         ],
         "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "Overlay": {
+    "name": "Overlay",
+    "optionsType": "OverlayOptions",
+    "sourceFile": "components/overlay/overlay.ts",
+    "props": [
+      {
+        "name": "effect",
+        "description": "Visual effect applied to the overlay backdrop.",
+        "type": "union",
+        "defaultValue": "opaque",
+        "unionValues": [
+          "none",
+          "transparent",
+          "opaque"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Interaction mode for the overlay.\n- `'capturing'` - Listens for Escape key presses and click-outside events to close the overlay.\n- `'non-capturing'` - Does not register any close event listeners, making the overlay non-dismissable via user interaction.",
+        "type": "union",
+        "defaultValue": "capturing",
+        "unionValues": [
+          "capturing",
+          "non-capturing"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "container",
+        "description": "Where to attach the overlay in the DOM.\n- `'body'` - Renders via a portal to the document body.\n- `'element'` - Renders as a child of the current element context.",
+        "type": "union",
+        "defaultValue": "body",
+        "unionValues": [
+          "element",
+          "body"
+        ],
+        "reactive": false,
         "optional": true
       }
     ]
@@ -5278,6 +11693,84 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "Ribbon": {
+    "name": "Ribbon",
+    "optionsType": "RibbonOptions",
+    "sourceFile": "components/overlay/ribbon.ts",
+    "props": [
+      {
+        "name": "color",
+        "description": "Theme color applied to the ribbon background and text.\nAccepts any named theme color or an extended color value.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white",
+          "transparent"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class names to apply to the ribbon element.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "angle",
+        "description": "Rotation angle of the ribbon in degrees.",
+        "type": "number",
+        "defaultValue": "45",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "corner",
+        "description": "Corner of the parent container where the ribbon is positioned.",
+        "type": "union",
+        "defaultValue": "top-end",
+        "unionValues": [
+          "top-start",
+          "top-end",
+          "bottom-start",
+          "bottom-end"
+        ],
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "Lightbox": {
     "name": "Lightbox",
     "optionsType": "LightboxOptions",
@@ -5329,6 +11822,76 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Padding in pixels kept around the content. The content is constrained to the\nviewport dimensions minus this padding on each side.",
         "type": "number",
         "defaultValue": "32",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "AnnouncementBar": {
+    "name": "AnnouncementBar",
+    "optionsType": "AnnouncementBarOptions",
+    "sourceFile": "components/overlay/announcement-bar.ts",
+    "props": [
+      {
+        "name": "color",
+        "description": "Theme color applied to the announcement bar background.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "icon",
+        "description": "Optional icon identifier displayed at the start of the announcement bar.\nWhen `undefined` or not provided, no icon is rendered.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "closable",
+        "description": "Whether the announcement bar can be dismissed by the user via a close button.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class names to apply to the announcement bar element.",
+        "type": "string",
         "reactive": true,
         "optional": true
       }
@@ -5585,6 +12148,76 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "BaseVideoPlayer": {
+    "name": "BaseVideoPlayer",
+    "optionsType": "BaseVideoPlayerOptions",
+    "sourceFile": "components/media/base-video-player.ts",
+    "props": [
+      {
+        "name": "playing",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "loop",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "controls",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "volume",
+        "description": "",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "muted",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "playbackRate",
+        "description": "",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "pip",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "playsinline",
+        "description": "",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "progressInterval",
+        "description": "",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "PdfPageViewer": {
     "name": "PdfPageViewer",
     "optionsType": "PdfPageViewerOptions",
@@ -5622,6 +12255,249 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "quality",
         "description": "Rendering quality/pixel density multiplier\nHigher values produce sharper images but use more memory\nDefault: 2 (retina quality)",
         "type": "number",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "SchemaContext": {
+    "name": "SchemaContext",
+    "optionsType": "SchemaContextOptions",
+    "sourceFile": "components/json-schema/schema-context.ts",
+    "props": [
+      {
+        "name": "horizontal",
+        "description": "",
+        "type": "boolean",
+        "reactive": false,
+        "optional": false
+      },
+      {
+        "name": "isPropertyRequired",
+        "description": "",
+        "type": "boolean",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "suppressLabel",
+        "description": "",
+        "type": "boolean",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "validationMode",
+        "description": "Current validation mode ('eager', 'onTouched', 'onSubmit').\nCustom widgets may want to behave differently based on this.",
+        "type": "union",
+        "unionValues": [
+          "onSubmit",
+          "eager",
+          "onTouched"
+        ],
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "MonacoEditorSpecific": {
+    "name": "MonacoEditorSpecific",
+    "optionsType": "MonacoEditorSpecificOptions",
+    "sourceFile": "monaco/types.ts",
+    "props": [
+      {
+        "name": "language",
+        "description": "The programming language for syntax highlighting and validation.",
+        "type": "string",
+        "defaultValue": "plaintext",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Whether the editor should be read-only.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "MonacoEditorInput": {
+    "name": "MonacoEditorInput",
+    "optionsType": "MonacoEditorInputOptions",
+    "sourceFile": "components/monaco/monaco-editor-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "language",
+        "description": "The programming language for syntax highlighting and validation.",
+        "type": "string",
+        "defaultValue": "plaintext",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Whether the editor should be read-only.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "cssInjection",
+        "description": "CSS injection strategy for the Monaco editor stylesheet.\n- `'link'`: Lazily inject a `<link>` element pointing to the CSS asset.\n- `'none'`: Do not inject any CSS (the consumer manages styles).",
+        "type": "union",
+        "defaultValue": "none",
+        "unionValues": [
+          "none",
+          "link"
+        ],
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "SpecialSocialLoginButton": {
+    "name": "SpecialSocialLoginButton",
+    "optionsType": "SpecialSocialLoginButtonOptions",
+    "sourceFile": "components/auth/social-login-button.ts",
+    "props": [
+      {
+        "name": "disabled",
+        "description": "Whether the button is disabled.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "The size of the button.",
+        "type": "union",
+        "defaultValue": "md",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "flow",
+        "description": "The OAuth flow type: `'redirect'` or `'popup'`.",
+        "type": "union",
+        "unionValues": [
+          "redirect",
+          "popup"
+        ],
         "reactive": true,
         "optional": true
       }
@@ -5716,6 +12592,13 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "termsAndConditions",
+        "description": "Custom terms and conditions content to display next to the checkbox.",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
         "name": "showContainer",
         "description": "Whether to render the styled container wrapper.",
         "type": "boolean",
@@ -5792,6 +12675,13 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Whether to show the \"accept terms and conditions\" checkbox.",
         "type": "boolean",
         "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "termsAndConditions",
+        "description": "Custom terms and conditions content to display next to the checkbox.",
+        "type": "string",
+        "reactive": false,
         "optional": true
       }
     ]
@@ -6114,6 +13004,146 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "NullableBase64Input": {
+    "name": "NullableBase64Input",
+    "optionsType": "NullableBase64InputOptions",
+    "sourceFile": "components/form/input/nullable-base64-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "accept",
+        "description": "Comma-separated list of accepted MIME types or file extensions.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "maxFileSize",
+        "description": "Maximum allowed file size in bytes.",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "mode",
+        "description": "Display mode for the file input.",
+        "type": "union",
+        "defaultValue": "default",
+        "unionValues": [
+          "default",
+          "input",
+          "compact"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "showFileList",
+        "description": "Whether to show the selected file in a list below the drop zone.",
+        "type": "boolean",
+        "defaultValue": "true",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "CacheManagement": {
     "name": "CacheManagement",
     "optionsType": "CacheManagementOptions",
@@ -6132,6 +13162,607 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "boolean",
         "reactive": false,
         "optional": true
+      }
+    ]
+  },
+  "StringWidget": {
+    "name": "StringWidget",
+    "optionsType": "StringWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "BinaryWidget": {
+    "name": "BinaryWidget",
+    "optionsType": "BinaryWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "mediaType",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "DateTimeWidget": {
+    "name": "DateTimeWidget",
+    "optionsType": "DateTimeWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "DateWidget": {
+    "name": "DateWidget",
+    "optionsType": "DateWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "EmailWidget": {
+    "name": "EmailWidget",
+    "optionsType": "EmailWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "MarkdownWidget": {
+    "name": "MarkdownWidget",
+    "optionsType": "MarkdownWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "PasswordWidget": {
+    "name": "PasswordWidget",
+    "optionsType": "PasswordWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "TextAreaWidget": {
+    "name": "TextAreaWidget",
+    "optionsType": "TextAreaWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "rows",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "TimeWidget": {
+    "name": "TimeWidget",
+    "optionsType": "TimeWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "UUIDWidget": {
+    "name": "UUIDWidget",
+    "optionsType": "UUIDWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "URIWidget": {
+    "name": "URIWidget",
+    "optionsType": "URIWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "URLWidget": {
+    "name": "URLWidget",
+    "optionsType": "URLWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "URIReferenceWidget": {
+    "name": "URIReferenceWidget",
+    "optionsType": "URIReferenceWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "HostnameWidget": {
+    "name": "HostnameWidget",
+    "optionsType": "HostnameWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "IPv4Widget": {
+    "name": "IPv4Widget",
+    "optionsType": "IPv4WidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "IPv6Widget": {
+    "name": "IPv6Widget",
+    "optionsType": "IPv6WidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "RegexWidget": {
+    "name": "RegexWidget",
+    "optionsType": "RegexWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "DurationWidget": {
+    "name": "DurationWidget",
+    "optionsType": "DurationWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "ColorWidget": {
+    "name": "ColorWidget",
+    "optionsType": "ColorWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "AnyStringWidget": {
+    "name": "AnyStringWidget",
+    "optionsType": "AnyStringWidgetOptions",
+    "sourceFile": "components/json-schema/widgets/string-type.ts",
+    "props": [
+      {
+        "name": "pattern",
+        "description": "",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "minLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "maxLength",
+        "description": "",
+        "type": "number",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "color",
+          "binary",
+          "date-time",
+          "date",
+          "email",
+          "markdown",
+          "password",
+          "textarea",
+          "time",
+          "uuid",
+          "uri",
+          "url",
+          "uri-reference",
+          "hostname",
+          "ipv4",
+          "ipv6",
+          "regex",
+          "duration"
+        ],
+        "reactive": false,
+        "optional": false
       }
     ]
   },
@@ -6265,6 +13896,668 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "LexicalEditorBase": {
+    "name": "LexicalEditorBase",
+    "optionsType": "LexicalEditorBaseOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json",
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "CSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "BareEditor": {
+    "name": "BareEditor",
+    "optionsType": "BareEditorOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json",
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "CSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "DockedEditor": {
+    "name": "DockedEditor",
+    "optionsType": "DockedEditorOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json",
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "CSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "ContextualEditor": {
+    "name": "ContextualEditor",
+    "optionsType": "ContextualEditorOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json",
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "CSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "LexicalStringInput": {
+    "name": "LexicalStringInput",
+    "optionsType": "LexicalStringInputOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element\n\n\nCSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "LexicalJsonInput": {
+    "name": "LexicalJsonInput",
+    "optionsType": "LexicalJsonInputOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element\n\n\nCSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "LexicalInput": {
+    "name": "LexicalInput",
+    "optionsType": "LexicalInputOptions",
+    "sourceFile": "lexical/types.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element\n\n\nCSS class name(s)",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "format",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "json",
+          "html",
+          "markdown"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "namespace",
+        "description": "Editor namespace (for multiple editors on the same page)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "heightMode",
+        "description": "Height behavior mode.\n- 'fixed': fills container, scrolls on overflow (default for DockedEditor)\n- 'auto': grows with content (default for BareEditor, ContextualEditor)",
+        "type": "union",
+        "unionValues": [
+          "auto",
+          "fixed"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "autoFocus",
+        "description": "Whether to automatically focus the editor on mount.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
   "FloatingToolbar": {
     "name": "FloatingToolbar",
     "optionsType": "FloatingToolbarOptions",
@@ -6325,6 +14618,183 @@ export const componentMeta: Record<string, ComponentMeta> =
           "xl"
         ],
         "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "ProseMirrorMarkdownInput": {
+    "name": "ProseMirrorMarkdownInput",
+    "optionsType": "ProseMirrorMarkdownInputOptions",
+    "sourceFile": "components/prosemirror/prosemirror-markdown-input.ts",
+    "props": [
+      {
+        "name": "autocomplete",
+        "description": "HTML autocomplete attribute for browser autofill suggestions",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "autofocus",
+        "description": "Whether the input should automatically receive focus when mounted",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS classes to apply to the input container root element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "disabled",
+        "description": "Whether the input is disabled and cannot be interacted with",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "hasError",
+        "description": "Whether the input has a validation error (applies error styling)",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "name",
+        "description": "HTML name attribute, used for form submission",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder text displayed when the input is empty",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "id",
+        "description": "Unique HTML id attribute for the input element",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "required",
+        "description": "Whether the input is required for form validation",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "tabIndex",
+        "description": "Tab index for keyboard navigation order",
+        "type": "number",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "type": "union",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "value",
+        "description": "The current value of the input (can be static or reactive signal)",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "before",
+        "description": "Optional node to render before the input element (e.g., icon)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "after",
+        "description": "Optional node to render after the input element (e.g., button)",
+        "type": "string",
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "showToolbar",
+        "description": "Show toolbar with formatting buttons",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "cssInjection",
+        "description": "CSS injection strategy",
+        "type": "union",
+        "unionValues": [
+          "none",
+          "link"
+        ],
+        "reactive": false,
+        "optional": true
+      },
+      {
+        "name": "readOnly",
+        "description": "Read-only mode",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "preserveLineBreaks",
+        "description": "Preserve line breaks in markdown (converts single newlines to hard breaks). Default: false",
+        "type": "boolean",
+        "reactive": false,
+        "optional": true
+      }
+    ]
+  },
+  "Markdown": {
+    "name": "Markdown",
+    "optionsType": "MarkdownOptions",
+    "sourceFile": "markdown/index.ts",
+    "props": [
+      {
+        "name": "allowHtml",
+        "description": "Escape HTML by default for safety. Set true to allow raw HTML passthrough.",
+        "type": "boolean",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "allowDangerousProtocol",
+        "description": "Allow potentially dangerous protocols in links and images (e.g., `data:`, `javascript:`).\n**WARNING: This is unsafe!** Enabling this opens you up to XSS attacks.\nOnly enable if you completely trust the markdown source.",
+        "type": "boolean",
+        "defaultValue": "false",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "cssInjection",
+        "description": "",
+        "type": "union",
+        "unionValues": [
+          "none",
+          "link"
+        ],
+        "reactive": false,
         "optional": true
       }
     ]

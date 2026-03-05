@@ -6,7 +6,6 @@
 
   display: block;
   background-color: var(--skeleton-bg);
-  border-radius: var(--radius-control, var(--radius-sm));
   overflow: hidden;
   position: relative;
 }

@@ -16,7 +16,6 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-control, var(--radius-full));
 }
 
 .bc-progress-bar__track {

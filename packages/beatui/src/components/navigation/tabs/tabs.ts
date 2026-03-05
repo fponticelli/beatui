@@ -46,17 +46,17 @@ export interface TabsOptions<T extends string> {
   value: Value<T>
   /** Callback when tab changes */
   onChange?: (key: T) => void
-  /** Size of the tabs */
+  /** Size of the tabs. @default 'md' */
   size?: Value<ControlSize>
-  /** Visual variant */
+  /** Visual variant. @default 'default' */
   variant?: Value<TabsVariant>
-  /** Color used by certain variants (e.g., filled) */
+  /** Color used by certain variants (e.g., filled). @default 'primary' */
   color?: Value<ThemeColorName>
-  /** Whether tabs are disabled */
+  /** Whether tabs are disabled. @default false */
   disabled?: Value<boolean>
-  /** Orientation of the tabs */
+  /** Orientation of the tabs. @default 'horizontal' */
   orientation?: Value<TabsDirection>
-  /** Whether to show tab content */
+  /** Whether to show tab content. @default true */
   showContent?: Value<boolean>
   /** ARIA label for the tab list */
   ariaLabel?: Value<string>

@@ -40,6 +40,24 @@ export const pages: PageEntry[] = [
     "slug": "button"
   },
   {
+    "name": "Divider",
+    "category": "Layout",
+    "component": "Divider",
+    "description": "A visual separator between content sections.",
+    "icon": "lucide:minus",
+    "order": 3,
+    "slug": "divider"
+  },
+  {
+    "name": "Drawer",
+    "category": "Overlays",
+    "component": "Drawer",
+    "description": "A sliding panel anchored to any edge of the viewport.",
+    "icon": "lucide:panel-right",
+    "order": 2,
+    "slug": "drawer"
+  },
+  {
     "name": "Modal",
     "category": "Overlays",
     "component": "Modal",
@@ -47,6 +65,51 @@ export const pages: PageEntry[] = [
     "icon": "lucide:square",
     "order": 1,
     "slug": "modal"
+  },
+  {
+    "name": "ProgressBar",
+    "category": "Data Display",
+    "component": "ProgressBar",
+    "description": "A horizontal bar indicating progress or loading state.",
+    "icon": "lucide:loader",
+    "order": 3,
+    "slug": "progress-bar"
+  },
+  {
+    "name": "Skeleton",
+    "category": "Data Display",
+    "component": "Skeleton",
+    "description": "Placeholder loading indicators for content that is still loading.",
+    "icon": "lucide:layout",
+    "order": 4,
+    "slug": "skeleton"
+  },
+  {
+    "name": "Switch",
+    "category": "Form Inputs",
+    "component": "Switch",
+    "description": "A toggle switch for boolean on/off states.",
+    "icon": "lucide:toggle-left",
+    "order": 5,
+    "slug": "switch"
+  },
+  {
+    "name": "Tabs",
+    "category": "Navigation",
+    "component": "Tabs",
+    "description": "Tabbed navigation for switching between content panels.",
+    "icon": "lucide:layout-list",
+    "order": 2,
+    "slug": "tabs"
+  },
+  {
+    "name": "Tooltip",
+    "category": "Overlays",
+    "component": "Tooltip",
+    "description": "A small popup that shows contextual information on hover or focus.",
+    "icon": "lucide:message-square",
+    "order": 3,
+    "slug": "tooltip"
   }
 ]
 
@@ -63,6 +126,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:chevrons-down",
         "order": 1,
         "slug": "accordion"
+      },
+      {
+        "name": "Divider",
+        "category": "Layout",
+        "component": "Divider",
+        "description": "A visual separator between content sections.",
+        "icon": "lucide:minus",
+        "order": 3,
+        "slug": "divider"
       }
     ]
   },
@@ -78,6 +150,24 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:tag",
         "order": 2,
         "slug": "badge"
+      },
+      {
+        "name": "ProgressBar",
+        "category": "Data Display",
+        "component": "ProgressBar",
+        "description": "A horizontal bar indicating progress or loading state.",
+        "icon": "lucide:loader",
+        "order": 3,
+        "slug": "progress-bar"
+      },
+      {
+        "name": "Skeleton",
+        "category": "Data Display",
+        "component": "Skeleton",
+        "description": "Placeholder loading indicators for content that is still loading.",
+        "icon": "lucide:layout",
+        "order": 4,
+        "slug": "skeleton"
       }
     ]
   },
@@ -93,6 +183,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:mouse-pointer",
         "order": 1,
         "slug": "button"
+      },
+      {
+        "name": "Switch",
+        "category": "Form Inputs",
+        "component": "Switch",
+        "description": "A toggle switch for boolean on/off states.",
+        "icon": "lucide:toggle-left",
+        "order": 5,
+        "slug": "switch"
       }
     ]
   },
@@ -108,6 +207,39 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:square",
         "order": 1,
         "slug": "modal"
+      },
+      {
+        "name": "Drawer",
+        "category": "Overlays",
+        "component": "Drawer",
+        "description": "A sliding panel anchored to any edge of the viewport.",
+        "icon": "lucide:panel-right",
+        "order": 2,
+        "slug": "drawer"
+      },
+      {
+        "name": "Tooltip",
+        "category": "Overlays",
+        "component": "Tooltip",
+        "description": "A small popup that shows contextual information on hover or focus.",
+        "icon": "lucide:message-square",
+        "order": 3,
+        "slug": "tooltip"
+      }
+    ]
+  },
+  {
+    "name": "Navigation",
+    "icon": "lucide:compass",
+    "pages": [
+      {
+        "name": "Tabs",
+        "category": "Navigation",
+        "component": "Tabs",
+        "description": "Tabbed navigation for switching between content panels.",
+        "icon": "lucide:layout-list",
+        "order": 2,
+        "slug": "tabs"
       }
     ]
   }

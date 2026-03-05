@@ -1,9 +1,9 @@
 export { ComponentPage } from './component-page'
-export { autoPlayground } from './auto-playground'
+export { autoPlayground, manualPlayground } from './auto-playground'
 export { AutoSections } from './auto-sections'
 export { Section } from './section'
 export { CodePreview } from './code-preview'
-export { createPropPanel } from './prop-panel'
+export { createOptionsPanel } from './prop-panel'
 export type {
   ComponentPageMeta,
   ComponentMeta,
