@@ -56,11 +56,14 @@ export function useAnimatedToggle({
   const disposeOnClosedListeners: Array<() => void> = []
   const listenOnClosed = (fn: () => void) => {
     disposeOnClosedListeners.push(
-      status.on(value => {
-        if (value === 'closed') {
-          fn()
-        }
-      })
+      status.on(
+        value => {
+          if (value === 'closed') {
+            fn()
+          }
+        },
+        { skipInitial: true }
+      )
     )
   }
   let clean = () => {}
