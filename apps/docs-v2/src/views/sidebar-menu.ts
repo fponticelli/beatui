@@ -1,32 +1,24 @@
 import {
-  Icon,
+  CollapsibleSidebarGroup,
   Sidebar,
-  SidebarGroup,
   SidebarLink,
   Stack,
-  Group,
 } from '@tempots/beatui'
 import { attr } from '@tempots/dom'
 import { categories } from '../registry/page-registry'
 import { MODULES } from '../api/api-data'
-
-const SectionHeader = (icon: string, label: string) =>
-  Group(attr.class('gap-1'), Icon({ icon, size: 'xs' }), label)
 
 export function SidebarMenu() {
   return Stack(
     attr.class('h-full overflow-y-auto bg-gray-100 dark:bg-gray-900'),
     Sidebar(
       {},
-      SidebarGroup(
-        { header: SectionHeader('lucide:home', 'Home'), rail: true },
-        SidebarLink({ href: '/', content: 'Overview' })
-      ),
       ...categories.map(cat =>
-        SidebarGroup(
+        CollapsibleSidebarGroup(
           {
-            header: SectionHeader(cat.icon, cat.name),
-            rail: true,
+            icon: cat.icon,
+            header: cat.name,
+            startOpen: false,
           },
           ...cat.pages.map(page =>
             SidebarLink({
@@ -36,10 +28,11 @@ export function SidebarMenu() {
           )
         )
       ),
-      SidebarGroup(
+      CollapsibleSidebarGroup(
         {
-          header: SectionHeader('lucide:book-open', 'API Reference'),
-          rail: true,
+          icon: 'lucide:book-open',
+          header: 'API Reference',
+          startOpen: false,
         },
         SidebarLink({ href: '/api', content: 'Overview' }),
         ...MODULES.map(mod =>
