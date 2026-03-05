@@ -1,4 +1,5 @@
 import './styles/main.css'
+import './styles/api.css'
 import { render } from '@tempots/dom'
 import { App } from './app'
 

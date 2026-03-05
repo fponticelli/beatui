@@ -52,6 +52,8 @@ export interface ComponentPageMeta {
   order?: number
   /** Tags for filtering/search */
   tags?: string[]
+  /** API module slug (defaults to 'main') */
+  apiModule?: string
 }
 
 /**

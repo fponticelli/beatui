@@ -24,6 +24,10 @@ export const App = () => {
         '/': () =>
           Async(import('./pages/home'), ({ default: Page }) => Page()),
         ...componentRoutes,
+        '/api/*': () =>
+          Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
+            ApiRouter()
+          ),
         '/*': () => html.div('Not Found'),
       }),
     })
