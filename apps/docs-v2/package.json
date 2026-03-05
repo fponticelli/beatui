@@ -1,0 +1,30 @@
+{
+  "name": "@beatui/docs-v2",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "BeatUI Documentation Site v2",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["documentation", "beatui", "vite"],
+  "author": "Franco Ponticelli",
+  "license": "MIT",
+  "dependencies": {
+    "@tempots/beatui": "workspace:*",
+    "@tempots/dom": "^37.1.0",
+    "@tempots/std": "~0.27.0",
+    "@tempots/ui": "^16.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "25.2.3",
+    "tailwindcss": "4.1.18",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  },
+  "packageManager": "pnpm@10.21.0"
+}

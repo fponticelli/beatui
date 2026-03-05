@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@custom-variant dark (&:is(.dark *));
+@source "../../index.html";
+@source "../../src/**/*.{ts}";
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
