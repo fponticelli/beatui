@@ -254,28 +254,6 @@
 }
 
 /* Variants */
-/* Text variant: minimal, link-like tabs */
-.bc-tabs--variant-text .bc-tabs__list {
-  background-color: transparent;
-  border-bottom: none;
-}
-.bc-tabs--variant-text .bc-tab {
-  background: transparent;
-  color: var(--color-primary-600);
-  border-radius: 0;
-}
-.bc-tabs--variant-text .bc-tab:hover:not(.bc-tab--disabled) {
-  background: transparent;
-  text-decoration: underline;
-}
-.bc-tabs--variant-text .bc-tab--active {
-  background: transparent;
-  color: var(--color-primary-700);
-  font-weight: var(--font-weight-semibold);
-}
-.bc-tabs--variant-text .bc-tab--active::after {
-  display: none;
-}
 
 /* Filled variant: inverted - inactive tabs filled with color, active is white */
 .bc-tabs--variant-filled .bc-tabs__list {
@@ -350,17 +328,6 @@
 }
 
 /* Dark mode adjustments for variants */
-.dark .bc-tabs--variant-text .bc-tabs__list {
-  background-color: transparent;
-  border-bottom: none;
-}
-.dark .bc-tabs--variant-text .bc-tab {
-  color: var(--color-primary-300);
-}
-.dark .bc-tabs--variant-text .bc-tab--active {
-  color: var(--color-primary-200);
-}
-
 .dark .bc-tabs--variant-filled .bc-tab {
   background-color: var(--tabs-filled-inactive-bg-dark);
   color: var(--tabs-filled-inactive-text-dark);

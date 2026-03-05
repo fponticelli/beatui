@@ -10,7 +10,7 @@ import {
   dataAttr,
   When,
 } from '@tempots/dom'
-import { ControlSize, ButtonVariant } from '../../theme'
+import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
 import {
   backgroundValue,
@@ -22,7 +22,16 @@ import { getColorVar, type ColorShade } from '../../../tokens/colors'
 
 import { sessionId } from '../../../utils/session-id'
 
-export type TabsVariant = ButtonVariant | 'underline' | 'pill'
+/**
+ * Visual variant for tabs.
+ *
+ * - `'default'` — Standard tabs with bottom indicator
+ * - `'filled'` — Color-filled inactive tabs, white active tab
+ * - `'outline'` — Bordered tabs that connect to the panel
+ * - `'underline'` — Minimal underline indicator
+ * - `'pill'` — Contained segmented-button style
+ */
+export type TabsVariant = 'default' | 'filled' | 'outline' | 'underline' | 'pill'
 
 export interface TabItem<T extends string> {
   /** Unique identifier for the tab */

@@ -11097,12 +11097,9 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "union",
         "defaultValue": "default",
         "unionValues": [
-          "light",
           "filled",
           "outline",
-          "dashed",
           "default",
-          "text",
           "pill",
           "underline"
         ],

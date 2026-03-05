@@ -64,10 +64,9 @@ export default function TabsPage() {
             attr.class('flex flex-col gap-8 w-full'),
             ...(
               [
-                'filled',
-                'light',
-                'outline',
                 'default',
+                'filled',
+                'outline',
                 'underline',
                 'pill',
               ] as const
