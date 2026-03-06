@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Button',
-  category: 'Form Inputs',
+  category: 'Buttons',
   component: 'Button',
   description:
     'A clickable button with multiple variants, sizes, colors, and states.',

@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'RadioGroup',
-  category: 'Form Inputs',
+  category: 'Selection',
   component: 'RadioGroup',
   description: 'A group of radio buttons for selecting one option from a mutually exclusive list.',
   icon: 'lucide:circle-dot',
@@ -23,7 +23,9 @@ export default function RadioGroupPage() {
     playground: manualPlayground('RadioGroup', signals => {
       const value = prop('light')
       return RadioGroup({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
+        orientation: signals.orientation,
         options: sampleOptions,
         value,
         onChange: v => value.set(v),

@@ -25,7 +25,12 @@ export default function EmptyStatePage() {
       ;(signals.title as Signal<string>).set('Nothing here yet')
       ;(signals.icon as Signal<string>).set('material-symbols:inbox-outline')
       ;(signals.description as Signal<string>).set('Add some content to get started.')
-      return EmptyState({ ...signals } as never)
+      return EmptyState({
+        icon: signals.icon,
+        title: signals.title,
+        description: signals.description,
+        size: signals.size,
+      } as never)
     }),
     sections: [
       ...AutoSections('EmptyState', props =>

@@ -20,7 +20,12 @@ export default function TooltipPage() {
         { variant: 'outline' },
         'Hover me',
         Tooltip({
-          ...signals,
+          placement: signals.placement,
+          showDelay: signals.showDelay,
+          hideDelay: signals.hideDelay,
+          mainAxisOffset: signals.mainAxisOffset,
+          crossAxisOffset: signals.crossAxisOffset,
+          showOn: signals.showOn,
           content: 'This is a tooltip',
         } as never)
       )

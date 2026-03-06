@@ -22,6 +22,33 @@ export const pages: PageEntry[] = [
     "slug": "accordion"
   },
   {
+    "name": "ActionCard",
+    "category": "Layout",
+    "component": "ActionCard",
+    "description": "An interactive card with an icon, title, and description. Used for selection grids, feature highlights, and navigation tiles.",
+    "icon": "lucide:layout-grid",
+    "order": 7,
+    "slug": "action-card"
+  },
+  {
+    "name": "AdvancedSlider",
+    "category": "Pickers",
+    "component": "AdvancedSlider",
+    "description": "An advanced slider supporting single value, range selection, and multi-point modes with tick marks, value labels, and customizable theme colors.",
+    "icon": "lucide:sliders-horizontal",
+    "order": 15,
+    "slug": "advanced-slider"
+  },
+  {
+    "name": "AlertDialog",
+    "category": "Overlays",
+    "component": "AlertDialog",
+    "description": "An informational dialog for presenting important messages to the user with a single acknowledgement action. Supports info, success, warning, and error variants.",
+    "icon": "lucide:alert-circle",
+    "order": 4,
+    "slug": "alert-dialog"
+  },
+  {
     "name": "AnnouncementBar",
     "category": "Feedback",
     "component": "AnnouncementBar",
@@ -29,6 +56,33 @@ export const pages: PageEntry[] = [
     "icon": "lucide:megaphone",
     "order": 2,
     "slug": "announcement-bar"
+  },
+  {
+    "name": "AppShell",
+    "category": "Layout",
+    "component": "AppShell",
+    "description": "A responsive application layout shell using CSS Grid with structured sections for banner, header, menu, main content, aside, and footer.",
+    "icon": "lucide:layout-dashboard",
+    "order": 8,
+    "slug": "app-shell"
+  },
+  {
+    "name": "AppearanceSelector",
+    "category": "Selection",
+    "component": "AppearanceSelector",
+    "description": "A segmented input for selecting the application appearance: light, dark, or system. Connects to the theme provider or can be controlled manually.",
+    "icon": "lucide:sun-moon",
+    "order": 14,
+    "slug": "appearance-selector"
+  },
+  {
+    "name": "AvatarGroup",
+    "category": "Data Display",
+    "component": "AvatarGroup",
+    "description": "Arranges multiple avatars in a row with overlapping or spaced layout and an overflow indicator.",
+    "icon": "lucide:users",
+    "order": 7,
+    "slug": "avatar-group"
   },
   {
     "name": "Avatar",
@@ -58,13 +112,31 @@ export const pages: PageEntry[] = [
     "slug": "breadcrumbs"
   },
   {
+    "name": "ButtonLink",
+    "category": "Buttons",
+    "component": "ButtonLink",
+    "description": "A navigation link styled as a button, combining the visual appearance of a button with anchor semantics.",
+    "icon": "lucide:external-link",
+    "order": 5,
+    "slug": "button-link"
+  },
+  {
     "name": "Button",
-    "category": "Form Inputs",
+    "category": "Buttons",
     "component": "Button",
     "description": "A clickable button with multiple variants, sizes, colors, and states.",
     "icon": "lucide:mouse-pointer",
     "order": 1,
     "slug": "button"
+  },
+  {
+    "name": "Calendar",
+    "category": "Tables & Media",
+    "component": "Calendar",
+    "description": "A date selection calendar with month/year navigation. Uses Temporal PlainDate internally, with a DateCalendar convenience wrapper for JavaScript Date objects.",
+    "icon": "lucide:calendar",
+    "order": 9,
+    "slug": "calendar"
   },
   {
     "name": "Card",
@@ -76,13 +148,31 @@ export const pages: PageEntry[] = [
     "slug": "card"
   },
   {
+    "name": "Center",
+    "category": "Layout",
+    "component": "Center",
+    "description": "Centers its children both horizontally and vertically within a container, with configurable gap spacing.",
+    "icon": "lucide:align-center",
+    "order": 6,
+    "slug": "center"
+  },
+  {
     "name": "CheckboxInput",
-    "category": "Form Inputs",
+    "category": "Selection",
     "component": "CheckboxInput",
     "description": "A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.",
     "icon": "lucide:square-check",
     "order": 4,
     "slug": "checkbox-input"
+  },
+  {
+    "name": "CloseButton",
+    "category": "Buttons",
+    "component": "CloseButton",
+    "description": "A small icon-only button for dismissing modals, drawers, notifications, and tags. Fully accessible with ARIA labeling.",
+    "icon": "lucide:x-circle",
+    "order": 9,
+    "slug": "close-button"
   },
   {
     "name": "Collapse",
@@ -95,12 +185,30 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "ColorInput",
-    "category": "Form Inputs",
+    "category": "Pickers",
     "component": "ColorInput",
     "description": "A color picker combining a text field and a clickable color swatch that opens the native color picker.",
     "icon": "lucide:palette",
     "order": 9,
     "slug": "color-input"
+  },
+  {
+    "name": "ColorSwatchInput",
+    "category": "Pickers",
+    "component": "ColorSwatchInput",
+    "description": "A color picker that renders a unique organic SVG blob swatch for each color. Supports alpha channel control and multiple color format outputs.",
+    "icon": "lucide:droplets",
+    "order": 12,
+    "slug": "color-swatch-input"
+  },
+  {
+    "name": "ComboboxInput",
+    "category": "Pickers",
+    "component": "Combobox",
+    "description": "A searchable combobox with async option loading, keyboard navigation, and custom option rendering.",
+    "icon": "lucide:search",
+    "order": 17,
+    "slug": "combobox-input"
   },
   {
     "name": "CommandPalette",
@@ -110,6 +218,24 @@ export const pages: PageEntry[] = [
     "icon": "lucide:terminal",
     "order": 7,
     "slug": "command-palette"
+  },
+  {
+    "name": "ConfirmationDialog",
+    "category": "Overlays",
+    "component": "ConfirmationDialog",
+    "description": "A confirmation dialog for destructive or irreversible actions. Displays a title with a colored icon, descriptive body, optional consequence list, and confirm/cancel buttons.",
+    "icon": "lucide:shield-alert",
+    "order": 5,
+    "slug": "confirm-dialog"
+  },
+  {
+    "name": "DataTable",
+    "category": "Tables & Media",
+    "component": "DataTable",
+    "description": "A full-featured data table with sorting, filtering, row selection, pagination, and bulk actions. Each feature is opt-in and configurable per column.",
+    "icon": "lucide:table-2",
+    "order": 11,
+    "slug": "data-table"
   },
   {
     "name": "Divider",
@@ -131,7 +257,7 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "Dropdown",
-    "category": "Overlays",
+    "category": "Pickers",
     "component": "Dropdown",
     "description": "A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.",
     "icon": "lucide:chevron-down-circle",
@@ -140,7 +266,7 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "EditableText",
-    "category": "Form Inputs",
+    "category": "Text Inputs",
     "component": "EditableText",
     "description": "An inline editable text that toggles between display and input modes on click.",
     "icon": "lucide:pencil-line",
@@ -157,6 +283,15 @@ export const pages: PageEntry[] = [
     "slug": "empty-state"
   },
   {
+    "name": "FileInput",
+    "category": "Pickers",
+    "component": "FileInput",
+    "description": "A drag-and-drop file input with click-to-select support, file type filtering, size limits, and multiple display modes.",
+    "icon": "lucide:upload",
+    "order": 18,
+    "slug": "file-input"
+  },
+  {
     "name": "Flyout",
     "category": "Overlays",
     "component": "Flyout",
@@ -164,6 +299,33 @@ export const pages: PageEntry[] = [
     "icon": "lucide:panel-top-open",
     "order": 6,
     "slug": "flyout"
+  },
+  {
+    "name": "Group",
+    "category": "Layout",
+    "component": "Group",
+    "description": "Horizontal group layout that arranges children in a row with consistent spacing using flexbox.",
+    "icon": "lucide:columns-3",
+    "order": 5,
+    "slug": "group"
+  },
+  {
+    "name": "HistoryTimeline",
+    "category": "Tables & Media",
+    "component": "HistoryTimeline",
+    "description": "A chronological audit log timeline with filter chips, colored action labels, and optional restore actions.",
+    "icon": "lucide:history",
+    "order": 12,
+    "slug": "history-timeline"
+  },
+  {
+    "name": "IconBadge",
+    "category": "Data Display",
+    "component": "IconBadge",
+    "description": "An icon with an overlaid badge indicator — either a dot or a count. Useful for notification icons, cart counters, and status indicators.",
+    "icon": "lucide:bell-dot",
+    "order": 10,
+    "slug": "icon-badge"
   },
   {
     "name": "Icon",
@@ -184,6 +346,15 @@ export const pages: PageEntry[] = [
     "slug": "kbd"
   },
   {
+    "name": "LazyNativeSelect",
+    "category": "Selection",
+    "component": "LazyNativeSelect",
+    "description": "A native select input that loads its options asynchronously. Shows a loading spinner while fetching, then renders the populated select once options are ready.",
+    "icon": "lucide:loader",
+    "order": 17,
+    "slug": "lazy-native-select"
+  },
+  {
     "name": "Lightbox",
     "category": "Overlays",
     "component": "Lightbox",
@@ -202,8 +373,35 @@ export const pages: PageEntry[] = [
     "slug": "link"
   },
   {
+    "name": "LoadingOverlay",
+    "category": "Feedback",
+    "component": "LoadingOverlay",
+    "description": "A semi-transparent overlay with a centered loading spinner. Place inside a relatively-positioned container to cover its content while loading.",
+    "icon": "lucide:loader-circle",
+    "order": 2,
+    "slug": "loading-overlay"
+  },
+  {
+    "name": "LocaleSelector",
+    "category": "Navigation",
+    "component": "LocaleSelector",
+    "description": "A dropdown for selecting the application locale. Reads the current locale from the Locale provider and optionally updates it when the user makes a selection.",
+    "icon": "lucide:languages",
+    "order": 10,
+    "slug": "locale-selector"
+  },
+  {
+    "name": "MaskInput",
+    "category": "Text Inputs",
+    "component": "MaskInput",
+    "description": "A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.",
+    "icon": "lucide:shield-check",
+    "order": 11,
+    "slug": "mask-input"
+  },
+  {
     "name": "Menu",
-    "category": "Overlays",
+    "category": "Navigation",
     "component": "Menu",
     "description": "A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.",
     "icon": "lucide:list",
@@ -220,6 +418,33 @@ export const pages: PageEntry[] = [
     "slug": "modal"
   },
   {
+    "name": "NativeSelect",
+    "category": "Selection",
+    "component": "NativeSelect",
+    "description": "A native HTML select element with styled appearance, grouped options, and custom equality support.",
+    "icon": "lucide:chevron-down",
+    "order": 16,
+    "slug": "native-select"
+  },
+  {
+    "name": "NavigationLink",
+    "category": "Navigation",
+    "component": "NavigationLink",
+    "description": "A styled navigation link that automatically detects the active route and disables itself when the current URL matches.",
+    "icon": "lucide:navigation",
+    "order": 8,
+    "slug": "navigation-link"
+  },
+  {
+    "name": "NineSliceScrollView",
+    "category": "Layout",
+    "component": "NineSliceScrollView",
+    "description": "A scrollable container divided into nine regions: a scrollable body with fixed header, footer, and sidebars that stay in place while the body scrolls in both axes.",
+    "icon": "lucide:layout-grid",
+    "order": 6,
+    "slug": "nine-slice-scroll-view"
+  },
+  {
     "name": "Notice",
     "category": "Feedback",
     "component": "Notice",
@@ -227,6 +452,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:info",
     "order": 2,
     "slug": "notice"
+  },
+  {
+    "name": "NotificationPanel",
+    "category": "Feedback",
+    "component": "ShowNotification",
+    "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata. Also includes the NotificationService for dispatching toast notifications programmatically.",
+    "icon": "lucide:bell",
+    "order": 3,
+    "slug": "notification-panel"
   },
   {
     "name": "Notification",
@@ -239,7 +473,7 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "NumberInput",
-    "category": "Form Inputs",
+    "category": "Text Inputs",
     "component": "NumberInput",
     "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
     "icon": "lucide:hash",
@@ -248,12 +482,21 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "OTPInput",
-    "category": "Form Inputs",
+    "category": "Text Inputs",
     "component": "OTPInput",
     "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
     "icon": "lucide:key-round",
     "order": 10,
     "slug": "otp-input"
+  },
+  {
+    "name": "PageDropZone",
+    "category": "Tables & Media",
+    "component": "PageDropZone",
+    "description": "A full-page drag-and-drop file zone that listens for file drag events anywhere on the document, showing an overlay while dragging and providing programmatic file picker access.",
+    "icon": "lucide:file-up",
+    "order": 8,
+    "slug": "page-drop-zone"
   },
   {
     "name": "Pagination",
@@ -263,6 +506,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:chevrons-left-right",
     "order": 5,
     "slug": "pagination"
+  },
+  {
+    "name": "NativePdfPreview",
+    "category": "Tables & Media",
+    "component": "NativePdfPreview",
+    "description": "Renders a PDF using the browser native viewer via an iframe. Accepts a URL string, Blob, ArrayBuffer, or Uint8Array and manages blob URL lifecycle automatically.",
+    "icon": "lucide:file-text",
+    "order": 10,
+    "slug": "pdf-preview"
   },
   {
     "name": "Popover",
@@ -283,8 +535,17 @@ export const pages: PageEntry[] = [
     "slug": "progress-bar"
   },
   {
+    "name": "PromptDialog",
+    "category": "Overlays",
+    "component": "PromptDialog",
+    "description": "A dialog that prompts the user for text input. Includes a title, optional description, a text field, and confirm/cancel buttons. Pressing Enter submits the form.",
+    "icon": "lucide:text-cursor-input",
+    "order": 6,
+    "slug": "prompt-dialog"
+  },
+  {
     "name": "RadioGroup",
-    "category": "Form Inputs",
+    "category": "Selection",
     "component": "RadioGroup",
     "description": "A group of radio buttons for selecting one option from a mutually exclusive list.",
     "icon": "lucide:circle-dot",
@@ -292,8 +553,17 @@ export const pages: PageEntry[] = [
     "slug": "radio-group"
   },
   {
+    "name": "RatingInput",
+    "category": "Pickers",
+    "component": "NullableRatingInput",
+    "description": "A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.",
+    "icon": "lucide:star",
+    "order": 15,
+    "slug": "rating-input"
+  },
+  {
     "name": "Ribbon",
-    "category": "Data Display",
+    "category": "Tables & Media",
     "component": "Ribbon",
     "description": "A diagonal corner ribbon for labeling cards or containers with status tags like \"New\", \"Sale\", or \"Featured\".",
     "icon": "lucide:tag",
@@ -301,13 +571,40 @@ export const pages: PageEntry[] = [
     "slug": "ribbon"
   },
   {
+    "name": "ScrollablePanel",
+    "category": "Layout",
+    "component": "ScrollablePanel",
+    "description": "A panel with a scrollable body and optional fixed header and footer. Displays scroll shadow indicators when content overflows.",
+    "icon": "lucide:panel-top",
+    "order": 9,
+    "slug": "scrollable-panel"
+  },
+  {
     "name": "SegmentedInput",
-    "category": "Form Inputs",
+    "category": "Selection",
     "component": "SegmentedInput",
     "description": "A segmented control for selecting one option from a set, with an animated sliding indicator.",
     "icon": "lucide:layout-list",
     "order": 6,
     "slug": "segmented-input"
+  },
+  {
+    "name": "Sidebar",
+    "category": "Navigation",
+    "component": "Sidebar",
+    "description": "Vertical navigation panel with grouped links, collapsible sections, and support for light and dark background modes.",
+    "icon": "lucide:panel-left",
+    "order": 5,
+    "slug": "sidebar"
+  },
+  {
+    "name": "Sink",
+    "category": "Layout",
+    "component": "Sink",
+    "description": "A sunken/inset container with configurable depth, padding, and border radius. Useful for code blocks, input areas, or nested content that needs a recessed visual appearance.",
+    "icon": "lucide:square-dashed",
+    "order": 7,
+    "slug": "sink"
   },
   {
     "name": "Skeleton",
@@ -319,8 +616,26 @@ export const pages: PageEntry[] = [
     "slug": "skeleton"
   },
   {
+    "name": "SliderInput",
+    "category": "Pickers",
+    "component": "SliderInput",
+    "description": "A range slider input with configurable min, max, and step values for selecting a numeric value.",
+    "icon": "lucide:sliders-horizontal",
+    "order": 14,
+    "slug": "slider-input"
+  },
+  {
+    "name": "Stack",
+    "category": "Layout",
+    "component": "Stack",
+    "description": "Vertical stack layout that arranges children in a column with consistent spacing using flexbox.",
+    "icon": "lucide:rows-3",
+    "order": 4,
+    "slug": "stack"
+  },
+  {
     "name": "Switch",
-    "category": "Form Inputs",
+    "category": "Selection",
     "component": "Switch",
     "description": "A toggle switch for boolean on/off states.",
     "icon": "lucide:toggle-left",
@@ -329,7 +644,7 @@ export const pages: PageEntry[] = [
   },
   {
     "name": "Table",
-    "category": "Data Display",
+    "category": "Tables & Media",
     "component": "Table",
     "description": "A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.",
     "icon": "lucide:table",
@@ -346,8 +661,17 @@ export const pages: PageEntry[] = [
     "slug": "tabs"
   },
   {
+    "name": "Tag",
+    "category": "Data Display",
+    "component": "Tag",
+    "description": "A small pill-shaped label for categorization, filtering, or displaying metadata. Supports optional removal.",
+    "icon": "lucide:tag",
+    "order": 8,
+    "slug": "tag"
+  },
+  {
     "name": "TagInput",
-    "category": "Form Inputs",
+    "category": "Pickers",
     "component": "TagInput",
     "description": "A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.",
     "icon": "lucide:tags",
@@ -355,8 +679,17 @@ export const pages: PageEntry[] = [
     "slug": "tags-input"
   },
   {
+    "name": "TextArea",
+    "category": "Text Inputs",
+    "component": "TextArea",
+    "description": "A multi-line text input with configurable row count, placeholder, and all standard input states.",
+    "icon": "lucide:align-left",
+    "order": 13,
+    "slug": "text-area"
+  },
+  {
     "name": "TextInput",
-    "category": "Form Inputs",
+    "category": "Text Inputs",
     "component": "TextInput",
     "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
     "icon": "lucide:type",
@@ -364,8 +697,17 @@ export const pages: PageEntry[] = [
     "slug": "text-input"
   },
   {
+    "name": "ToggleButtonGroup",
+    "category": "Buttons",
+    "component": "ToggleButtonGroup",
+    "description": "A group of connected toggle buttons supporting single or multiple selection with shared borders and coordinated styling.",
+    "icon": "lucide:layout-list",
+    "order": 8,
+    "slug": "toggle-button-group"
+  },
+  {
     "name": "ToggleButton",
-    "category": "Form Inputs",
+    "category": "Buttons",
     "component": "ToggleButton",
     "description": "A button that toggles between pressed and unpressed states with full variant and color support.",
     "icon": "lucide:toggle-left",
@@ -389,6 +731,42 @@ export const pages: PageEntry[] = [
     "icon": "lucide:message-square",
     "order": 3,
     "slug": "tooltip"
+  },
+  {
+    "name": "TreeView",
+    "category": "Navigation",
+    "component": "TreeView",
+    "description": "Hierarchical tree navigation with expand/collapse, icon support, badges, and both controlled and uncontrolled expansion modes.",
+    "icon": "lucide:git-branch",
+    "order": 7,
+    "slug": "tree-view"
+  },
+  {
+    "name": "TriStateCheckboxInput",
+    "category": "Selection",
+    "component": "TriStateCheckboxInput",
+    "description": "A checkbox with three states: checked, unchecked, and indeterminate. Cycles through states on click with full ARIA semantics.",
+    "icon": "lucide:check-square-2",
+    "order": 13,
+    "slug": "tri-state-checkbox"
+  },
+  {
+    "name": "BaseVideoPlayer",
+    "category": "Tables & Media",
+    "component": "BaseVideoPlayer",
+    "description": "A unified video player supporting HTML5 video files, HLS streams, and YouTube URLs. Provides a consistent API across providers with reactive controls and playback callbacks.",
+    "icon": "lucide:play-circle",
+    "order": 9,
+    "slug": "video-player"
+  },
+  {
+    "name": "WithBreakpoint",
+    "category": "Layout",
+    "component": "WithBreakpoint",
+    "description": "A reactive breakpoint utility that monitors viewport or element width and provides the current breakpoint name and comparison helpers to a render callback.",
+    "icon": "lucide:monitor-smartphone",
+    "order": 8,
+    "slug": "with-breakpoint"
   }
 ]
 
@@ -432,6 +810,270 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:minus",
         "order": 3,
         "slug": "divider"
+      },
+      {
+        "name": "Stack",
+        "category": "Layout",
+        "component": "Stack",
+        "description": "Vertical stack layout that arranges children in a column with consistent spacing using flexbox.",
+        "icon": "lucide:rows-3",
+        "order": 4,
+        "slug": "stack"
+      },
+      {
+        "name": "Group",
+        "category": "Layout",
+        "component": "Group",
+        "description": "Horizontal group layout that arranges children in a row with consistent spacing using flexbox.",
+        "icon": "lucide:columns-3",
+        "order": 5,
+        "slug": "group"
+      },
+      {
+        "name": "Center",
+        "category": "Layout",
+        "component": "Center",
+        "description": "Centers its children both horizontally and vertically within a container, with configurable gap spacing.",
+        "icon": "lucide:align-center",
+        "order": 6,
+        "slug": "center"
+      },
+      {
+        "name": "NineSliceScrollView",
+        "category": "Layout",
+        "component": "NineSliceScrollView",
+        "description": "A scrollable container divided into nine regions: a scrollable body with fixed header, footer, and sidebars that stay in place while the body scrolls in both axes.",
+        "icon": "lucide:layout-grid",
+        "order": 6,
+        "slug": "nine-slice-scroll-view"
+      },
+      {
+        "name": "ActionCard",
+        "category": "Layout",
+        "component": "ActionCard",
+        "description": "An interactive card with an icon, title, and description. Used for selection grids, feature highlights, and navigation tiles.",
+        "icon": "lucide:layout-grid",
+        "order": 7,
+        "slug": "action-card"
+      },
+      {
+        "name": "Sink",
+        "category": "Layout",
+        "component": "Sink",
+        "description": "A sunken/inset container with configurable depth, padding, and border radius. Useful for code blocks, input areas, or nested content that needs a recessed visual appearance.",
+        "icon": "lucide:square-dashed",
+        "order": 7,
+        "slug": "sink"
+      },
+      {
+        "name": "AppShell",
+        "category": "Layout",
+        "component": "AppShell",
+        "description": "A responsive application layout shell using CSS Grid with structured sections for banner, header, menu, main content, aside, and footer.",
+        "icon": "lucide:layout-dashboard",
+        "order": 8,
+        "slug": "app-shell"
+      },
+      {
+        "name": "WithBreakpoint",
+        "category": "Layout",
+        "component": "WithBreakpoint",
+        "description": "A reactive breakpoint utility that monitors viewport or element width and provides the current breakpoint name and comparison helpers to a render callback.",
+        "icon": "lucide:monitor-smartphone",
+        "order": 8,
+        "slug": "with-breakpoint"
+      },
+      {
+        "name": "ScrollablePanel",
+        "category": "Layout",
+        "component": "ScrollablePanel",
+        "description": "A panel with a scrollable body and optional fixed header and footer. Displays scroll shadow indicators when content overflows.",
+        "icon": "lucide:panel-top",
+        "order": 9,
+        "slug": "scrollable-panel"
+      }
+    ]
+  },
+  {
+    "name": "Pickers",
+    "icon": "lucide:component",
+    "pages": [
+      {
+        "name": "Dropdown",
+        "category": "Pickers",
+        "component": "Dropdown",
+        "description": "A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.",
+        "icon": "lucide:chevron-down-circle",
+        "order": 4,
+        "slug": "dropdown"
+      },
+      {
+        "name": "ColorInput",
+        "category": "Pickers",
+        "component": "ColorInput",
+        "description": "A color picker combining a text field and a clickable color swatch that opens the native color picker.",
+        "icon": "lucide:palette",
+        "order": 9,
+        "slug": "color-input"
+      },
+      {
+        "name": "TagInput",
+        "category": "Pickers",
+        "component": "TagInput",
+        "description": "A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.",
+        "icon": "lucide:tags",
+        "order": 11,
+        "slug": "tags-input"
+      },
+      {
+        "name": "ColorSwatchInput",
+        "category": "Pickers",
+        "component": "ColorSwatchInput",
+        "description": "A color picker that renders a unique organic SVG blob swatch for each color. Supports alpha channel control and multiple color format outputs.",
+        "icon": "lucide:droplets",
+        "order": 12,
+        "slug": "color-swatch-input"
+      },
+      {
+        "name": "SliderInput",
+        "category": "Pickers",
+        "component": "SliderInput",
+        "description": "A range slider input with configurable min, max, and step values for selecting a numeric value.",
+        "icon": "lucide:sliders-horizontal",
+        "order": 14,
+        "slug": "slider-input"
+      },
+      {
+        "name": "AdvancedSlider",
+        "category": "Pickers",
+        "component": "AdvancedSlider",
+        "description": "An advanced slider supporting single value, range selection, and multi-point modes with tick marks, value labels, and customizable theme colors.",
+        "icon": "lucide:sliders-horizontal",
+        "order": 15,
+        "slug": "advanced-slider"
+      },
+      {
+        "name": "RatingInput",
+        "category": "Pickers",
+        "component": "NullableRatingInput",
+        "description": "A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.",
+        "icon": "lucide:star",
+        "order": 15,
+        "slug": "rating-input"
+      },
+      {
+        "name": "ComboboxInput",
+        "category": "Pickers",
+        "component": "Combobox",
+        "description": "A searchable combobox with async option loading, keyboard navigation, and custom option rendering.",
+        "icon": "lucide:search",
+        "order": 17,
+        "slug": "combobox-input"
+      },
+      {
+        "name": "FileInput",
+        "category": "Pickers",
+        "component": "FileInput",
+        "description": "A drag-and-drop file input with click-to-select support, file type filtering, size limits, and multiple display modes.",
+        "icon": "lucide:upload",
+        "order": 18,
+        "slug": "file-input"
+      }
+    ]
+  },
+  {
+    "name": "Overlays",
+    "icon": "lucide:layers",
+    "pages": [
+      {
+        "name": "Modal",
+        "category": "Overlays",
+        "component": "Modal",
+        "description": "A dialog overlay for focused interactions, with customizable size and position.",
+        "icon": "lucide:square",
+        "order": 1,
+        "slug": "modal"
+      },
+      {
+        "name": "Drawer",
+        "category": "Overlays",
+        "component": "Drawer",
+        "description": "A sliding panel anchored to any edge of the viewport.",
+        "icon": "lucide:panel-right",
+        "order": 2,
+        "slug": "drawer"
+      },
+      {
+        "name": "Tooltip",
+        "category": "Overlays",
+        "component": "Tooltip",
+        "description": "A small popup that shows contextual information on hover or focus.",
+        "icon": "lucide:message-square",
+        "order": 3,
+        "slug": "tooltip"
+      },
+      {
+        "name": "AlertDialog",
+        "category": "Overlays",
+        "component": "AlertDialog",
+        "description": "An informational dialog for presenting important messages to the user with a single acknowledgement action. Supports info, success, warning, and error variants.",
+        "icon": "lucide:alert-circle",
+        "order": 4,
+        "slug": "alert-dialog"
+      },
+      {
+        "name": "ConfirmationDialog",
+        "category": "Overlays",
+        "component": "ConfirmationDialog",
+        "description": "A confirmation dialog for destructive or irreversible actions. Displays a title with a colored icon, descriptive body, optional consequence list, and confirm/cancel buttons.",
+        "icon": "lucide:shield-alert",
+        "order": 5,
+        "slug": "confirm-dialog"
+      },
+      {
+        "name": "Flyout",
+        "category": "Overlays",
+        "component": "Flyout",
+        "description": "A positioned floating panel anchored to a trigger element, with configurable trigger modes, placement, delays, and animated transitions.",
+        "icon": "lucide:panel-top-open",
+        "order": 6,
+        "slug": "flyout"
+      },
+      {
+        "name": "PromptDialog",
+        "category": "Overlays",
+        "component": "PromptDialog",
+        "description": "A dialog that prompts the user for text input. Includes a title, optional description, a text field, and confirm/cancel buttons. Pressing Enter submits the form.",
+        "icon": "lucide:text-cursor-input",
+        "order": 6,
+        "slug": "prompt-dialog"
+      },
+      {
+        "name": "CommandPalette",
+        "category": "Overlays",
+        "component": "CommandPalette",
+        "description": "A searchable command menu overlay for quickly finding and executing actions, with keyboard navigation and section grouping.",
+        "icon": "lucide:terminal",
+        "order": 7,
+        "slug": "command-palette"
+      },
+      {
+        "name": "Lightbox",
+        "category": "Overlays",
+        "component": "Lightbox",
+        "description": "A full-screen overlay for displaying images or arbitrary content centered over a dark backdrop with dismiss support.",
+        "icon": "lucide:maximize",
+        "order": 8,
+        "slug": "lightbox"
+      },
+      {
+        "name": "Popover",
+        "category": "Overlays",
+        "component": "Popover",
+        "description": "A positioned popover panel attached to a trigger element. Placed as a child of the trigger — not a wrapper.",
+        "icon": "lucide:message-square-more",
+        "order": 9,
+        "slug": "popover"
       }
     ]
   },
@@ -467,6 +1109,15 @@ export const categories: CategoryEntry[] = [
         "slug": "announcement-bar"
       },
       {
+        "name": "LoadingOverlay",
+        "category": "Feedback",
+        "component": "LoadingOverlay",
+        "description": "A semi-transparent overlay with a centered loading spinner. Place inside a relatively-positioned container to cover its content while loading.",
+        "icon": "lucide:loader-circle",
+        "order": 2,
+        "slug": "loading-overlay"
+      },
+      {
         "name": "Notice",
         "category": "Feedback",
         "component": "Notice",
@@ -474,6 +1125,93 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:info",
         "order": 2,
         "slug": "notice"
+      },
+      {
+        "name": "NotificationPanel",
+        "category": "Feedback",
+        "component": "ShowNotification",
+        "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata. Also includes the NotificationService for dispatching toast notifications programmatically.",
+        "icon": "lucide:bell",
+        "order": 3,
+        "slug": "notification-panel"
+      }
+    ]
+  },
+  {
+    "name": "Selection",
+    "icon": "lucide:component",
+    "pages": [
+      {
+        "name": "CheckboxInput",
+        "category": "Selection",
+        "component": "CheckboxInput",
+        "description": "A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.",
+        "icon": "lucide:square-check",
+        "order": 4,
+        "slug": "checkbox-input"
+      },
+      {
+        "name": "Switch",
+        "category": "Selection",
+        "component": "Switch",
+        "description": "A toggle switch for boolean on/off states.",
+        "icon": "lucide:toggle-left",
+        "order": 5,
+        "slug": "switch"
+      },
+      {
+        "name": "SegmentedInput",
+        "category": "Selection",
+        "component": "SegmentedInput",
+        "description": "A segmented control for selecting one option from a set, with an animated sliding indicator.",
+        "icon": "lucide:layout-list",
+        "order": 6,
+        "slug": "segmented-input"
+      },
+      {
+        "name": "RadioGroup",
+        "category": "Selection",
+        "component": "RadioGroup",
+        "description": "A group of radio buttons for selecting one option from a mutually exclusive list.",
+        "icon": "lucide:circle-dot",
+        "order": 8,
+        "slug": "radio-group"
+      },
+      {
+        "name": "TriStateCheckboxInput",
+        "category": "Selection",
+        "component": "TriStateCheckboxInput",
+        "description": "A checkbox with three states: checked, unchecked, and indeterminate. Cycles through states on click with full ARIA semantics.",
+        "icon": "lucide:check-square-2",
+        "order": 13,
+        "slug": "tri-state-checkbox"
+      },
+      {
+        "name": "AppearanceSelector",
+        "category": "Selection",
+        "component": "AppearanceSelector",
+        "description": "A segmented input for selecting the application appearance: light, dark, or system. Connects to the theme provider or can be controlled manually.",
+        "icon": "lucide:sun-moon",
+        "order": 14,
+        "slug": "appearance-selector"
+      },
+      {
+        "name": "NativeSelect",
+        "category": "Selection",
+        "component": "NativeSelect",
+        "description": "A native HTML select element with styled appearance, grouped options, and custom equality support.",
+        "icon": "lucide:chevron-down",
+        "order": 16,
+        "slug": "native-select"
+      },
+      {
+        "name": "LazyNativeSelect",
+        "category": "Selection",
+        "component": "LazyNativeSelect",
+        "description": "A native select input that loads its options asynchronously. Shows a loading spinner while fetching, then renders the populated select once options are ready.",
+        "icon": "lucide:loader",
+        "order": 17,
+        "slug": "lazy-native-select"
       }
     ]
   },
@@ -527,15 +1265,6 @@ export const categories: CategoryEntry[] = [
         "slug": "skeleton"
       },
       {
-        "name": "Table",
-        "category": "Data Display",
-        "component": "Table",
-        "description": "A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.",
-        "icon": "lucide:table",
-        "order": 4,
-        "slug": "table"
-      },
-      {
         "name": "Kbd",
         "category": "Data Display",
         "component": "Kbd",
@@ -545,13 +1274,31 @@ export const categories: CategoryEntry[] = [
         "slug": "kbd"
       },
       {
-        "name": "Ribbon",
+        "name": "AvatarGroup",
         "category": "Data Display",
-        "component": "Ribbon",
-        "description": "A diagonal corner ribbon for labeling cards or containers with status tags like \"New\", \"Sale\", or \"Featured\".",
+        "component": "AvatarGroup",
+        "description": "Arranges multiple avatars in a row with overlapping or spaced layout and an overflow indicator.",
+        "icon": "lucide:users",
+        "order": 7,
+        "slug": "avatar-group"
+      },
+      {
+        "name": "Tag",
+        "category": "Data Display",
+        "component": "Tag",
+        "description": "A small pill-shaped label for categorization, filtering, or displaying metadata. Supports optional removal.",
         "icon": "lucide:tag",
-        "order": 6,
-        "slug": "ribbon"
+        "order": 8,
+        "slug": "tag"
+      },
+      {
+        "name": "IconBadge",
+        "category": "Data Display",
+        "component": "IconBadge",
+        "description": "An icon with an overlaid badge indicator — either a dot or a count. Useful for notification icons, cart counters, and status indicators.",
+        "icon": "lucide:bell-dot",
+        "order": 10,
+        "slug": "icon-badge"
       }
     ]
   },
@@ -587,6 +1334,15 @@ export const categories: CategoryEntry[] = [
         "slug": "link"
       },
       {
+        "name": "Menu",
+        "category": "Navigation",
+        "component": "Menu",
+        "description": "A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.",
+        "icon": "lucide:list",
+        "order": 5,
+        "slug": "menu"
+      },
+      {
         "name": "Pagination",
         "category": "Navigation",
         "component": "Pagination",
@@ -596,6 +1352,15 @@ export const categories: CategoryEntry[] = [
         "slug": "pagination"
       },
       {
+        "name": "Sidebar",
+        "category": "Navigation",
+        "component": "Sidebar",
+        "description": "Vertical navigation panel with grouped links, collapsible sections, and support for light and dark background modes.",
+        "icon": "lucide:panel-left",
+        "order": 5,
+        "slug": "sidebar"
+      },
+      {
         "name": "Toolbar",
         "category": "Navigation",
         "component": "Toolbar",
@@ -603,16 +1368,43 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:grip-horizontal",
         "order": 6,
         "slug": "toolbar"
+      },
+      {
+        "name": "TreeView",
+        "category": "Navigation",
+        "component": "TreeView",
+        "description": "Hierarchical tree navigation with expand/collapse, icon support, badges, and both controlled and uncontrolled expansion modes.",
+        "icon": "lucide:git-branch",
+        "order": 7,
+        "slug": "tree-view"
+      },
+      {
+        "name": "NavigationLink",
+        "category": "Navigation",
+        "component": "NavigationLink",
+        "description": "A styled navigation link that automatically detects the active route and disables itself when the current URL matches.",
+        "icon": "lucide:navigation",
+        "order": 8,
+        "slug": "navigation-link"
+      },
+      {
+        "name": "LocaleSelector",
+        "category": "Navigation",
+        "component": "LocaleSelector",
+        "description": "A dropdown for selecting the application locale. Reads the current locale from the Locale provider and optionally updates it when the user makes a selection.",
+        "icon": "lucide:languages",
+        "order": 10,
+        "slug": "locale-selector"
       }
     ]
   },
   {
-    "name": "Form Inputs",
-    "icon": "lucide:text-cursor-input",
+    "name": "Buttons",
+    "icon": "lucide:component",
     "pages": [
       {
         "name": "Button",
-        "category": "Form Inputs",
+        "category": "Buttons",
         "component": "Button",
         "description": "A clickable button with multiple variants, sizes, colors, and states.",
         "icon": "lucide:mouse-pointer",
@@ -620,8 +1412,128 @@ export const categories: CategoryEntry[] = [
         "slug": "button"
       },
       {
+        "name": "ButtonLink",
+        "category": "Buttons",
+        "component": "ButtonLink",
+        "description": "A navigation link styled as a button, combining the visual appearance of a button with anchor semantics.",
+        "icon": "lucide:external-link",
+        "order": 5,
+        "slug": "button-link"
+      },
+      {
+        "name": "ToggleButton",
+        "category": "Buttons",
+        "component": "ToggleButton",
+        "description": "A button that toggles between pressed and unpressed states with full variant and color support.",
+        "icon": "lucide:toggle-left",
+        "order": 7,
+        "slug": "toggle-button"
+      },
+      {
+        "name": "ToggleButtonGroup",
+        "category": "Buttons",
+        "component": "ToggleButtonGroup",
+        "description": "A group of connected toggle buttons supporting single or multiple selection with shared borders and coordinated styling.",
+        "icon": "lucide:layout-list",
+        "order": 8,
+        "slug": "toggle-button-group"
+      },
+      {
+        "name": "CloseButton",
+        "category": "Buttons",
+        "component": "CloseButton",
+        "description": "A small icon-only button for dismissing modals, drawers, notifications, and tags. Fully accessible with ARIA labeling.",
+        "icon": "lucide:x-circle",
+        "order": 9,
+        "slug": "close-button"
+      }
+    ]
+  },
+  {
+    "name": "Tables & Media",
+    "icon": "lucide:component",
+    "pages": [
+      {
+        "name": "Table",
+        "category": "Tables & Media",
+        "component": "Table",
+        "description": "A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.",
+        "icon": "lucide:table",
+        "order": 4,
+        "slug": "table"
+      },
+      {
+        "name": "Ribbon",
+        "category": "Tables & Media",
+        "component": "Ribbon",
+        "description": "A diagonal corner ribbon for labeling cards or containers with status tags like \"New\", \"Sale\", or \"Featured\".",
+        "icon": "lucide:tag",
+        "order": 6,
+        "slug": "ribbon"
+      },
+      {
+        "name": "PageDropZone",
+        "category": "Tables & Media",
+        "component": "PageDropZone",
+        "description": "A full-page drag-and-drop file zone that listens for file drag events anywhere on the document, showing an overlay while dragging and providing programmatic file picker access.",
+        "icon": "lucide:file-up",
+        "order": 8,
+        "slug": "page-drop-zone"
+      },
+      {
+        "name": "BaseVideoPlayer",
+        "category": "Tables & Media",
+        "component": "BaseVideoPlayer",
+        "description": "A unified video player supporting HTML5 video files, HLS streams, and YouTube URLs. Provides a consistent API across providers with reactive controls and playback callbacks.",
+        "icon": "lucide:play-circle",
+        "order": 9,
+        "slug": "video-player"
+      },
+      {
+        "name": "Calendar",
+        "category": "Tables & Media",
+        "component": "Calendar",
+        "description": "A date selection calendar with month/year navigation. Uses Temporal PlainDate internally, with a DateCalendar convenience wrapper for JavaScript Date objects.",
+        "icon": "lucide:calendar",
+        "order": 9,
+        "slug": "calendar"
+      },
+      {
+        "name": "NativePdfPreview",
+        "category": "Tables & Media",
+        "component": "NativePdfPreview",
+        "description": "Renders a PDF using the browser native viewer via an iframe. Accepts a URL string, Blob, ArrayBuffer, or Uint8Array and manages blob URL lifecycle automatically.",
+        "icon": "lucide:file-text",
+        "order": 10,
+        "slug": "pdf-preview"
+      },
+      {
+        "name": "DataTable",
+        "category": "Tables & Media",
+        "component": "DataTable",
+        "description": "A full-featured data table with sorting, filtering, row selection, pagination, and bulk actions. Each feature is opt-in and configurable per column.",
+        "icon": "lucide:table-2",
+        "order": 11,
+        "slug": "data-table"
+      },
+      {
+        "name": "HistoryTimeline",
+        "category": "Tables & Media",
+        "component": "HistoryTimeline",
+        "description": "A chronological audit log timeline with filter chips, colored action labels, and optional restore actions.",
+        "icon": "lucide:history",
+        "order": 12,
+        "slug": "history-timeline"
+      }
+    ]
+  },
+  {
+    "name": "Text Inputs",
+    "icon": "lucide:component",
+    "pages": [
+      {
         "name": "TextInput",
-        "category": "Form Inputs",
+        "category": "Text Inputs",
         "component": "TextInput",
         "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
         "icon": "lucide:type",
@@ -630,7 +1542,7 @@ export const categories: CategoryEntry[] = [
       },
       {
         "name": "NumberInput",
-        "category": "Form Inputs",
+        "category": "Text Inputs",
         "component": "NumberInput",
         "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
         "icon": "lucide:hash",
@@ -638,62 +1550,8 @@ export const categories: CategoryEntry[] = [
         "slug": "number-input"
       },
       {
-        "name": "CheckboxInput",
-        "category": "Form Inputs",
-        "component": "CheckboxInput",
-        "description": "A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.",
-        "icon": "lucide:square-check",
-        "order": 4,
-        "slug": "checkbox-input"
-      },
-      {
-        "name": "Switch",
-        "category": "Form Inputs",
-        "component": "Switch",
-        "description": "A toggle switch for boolean on/off states.",
-        "icon": "lucide:toggle-left",
-        "order": 5,
-        "slug": "switch"
-      },
-      {
-        "name": "SegmentedInput",
-        "category": "Form Inputs",
-        "component": "SegmentedInput",
-        "description": "A segmented control for selecting one option from a set, with an animated sliding indicator.",
-        "icon": "lucide:layout-list",
-        "order": 6,
-        "slug": "segmented-input"
-      },
-      {
-        "name": "ToggleButton",
-        "category": "Form Inputs",
-        "component": "ToggleButton",
-        "description": "A button that toggles between pressed and unpressed states with full variant and color support.",
-        "icon": "lucide:toggle-left",
-        "order": 7,
-        "slug": "toggle-button"
-      },
-      {
-        "name": "RadioGroup",
-        "category": "Form Inputs",
-        "component": "RadioGroup",
-        "description": "A group of radio buttons for selecting one option from a mutually exclusive list.",
-        "icon": "lucide:circle-dot",
-        "order": 8,
-        "slug": "radio-group"
-      },
-      {
-        "name": "ColorInput",
-        "category": "Form Inputs",
-        "component": "ColorInput",
-        "description": "A color picker combining a text field and a clickable color swatch that opens the native color picker.",
-        "icon": "lucide:palette",
-        "order": 9,
-        "slug": "color-input"
-      },
-      {
         "name": "OTPInput",
-        "category": "Form Inputs",
+        "category": "Text Inputs",
         "component": "OTPInput",
         "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
         "icon": "lucide:key-round",
@@ -701,109 +1559,31 @@ export const categories: CategoryEntry[] = [
         "slug": "otp-input"
       },
       {
-        "name": "TagInput",
-        "category": "Form Inputs",
-        "component": "TagInput",
-        "description": "A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.",
-        "icon": "lucide:tags",
+        "name": "MaskInput",
+        "category": "Text Inputs",
+        "component": "MaskInput",
+        "description": "A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.",
+        "icon": "lucide:shield-check",
         "order": 11,
-        "slug": "tags-input"
+        "slug": "mask-input"
       },
       {
         "name": "EditableText",
-        "category": "Form Inputs",
+        "category": "Text Inputs",
         "component": "EditableText",
         "description": "An inline editable text that toggles between display and input modes on click.",
         "icon": "lucide:pencil-line",
         "order": 12,
         "slug": "editable-text"
-      }
-    ]
-  },
-  {
-    "name": "Overlays",
-    "icon": "lucide:layers",
-    "pages": [
-      {
-        "name": "Modal",
-        "category": "Overlays",
-        "component": "Modal",
-        "description": "A dialog overlay for focused interactions, with customizable size and position.",
-        "icon": "lucide:square",
-        "order": 1,
-        "slug": "modal"
       },
       {
-        "name": "Drawer",
-        "category": "Overlays",
-        "component": "Drawer",
-        "description": "A sliding panel anchored to any edge of the viewport.",
-        "icon": "lucide:panel-right",
-        "order": 2,
-        "slug": "drawer"
-      },
-      {
-        "name": "Tooltip",
-        "category": "Overlays",
-        "component": "Tooltip",
-        "description": "A small popup that shows contextual information on hover or focus.",
-        "icon": "lucide:message-square",
-        "order": 3,
-        "slug": "tooltip"
-      },
-      {
-        "name": "Dropdown",
-        "category": "Overlays",
-        "component": "Dropdown",
-        "description": "A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.",
-        "icon": "lucide:chevron-down-circle",
-        "order": 4,
-        "slug": "dropdown"
-      },
-      {
-        "name": "Menu",
-        "category": "Overlays",
-        "component": "Menu",
-        "description": "A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.",
-        "icon": "lucide:list",
-        "order": 5,
-        "slug": "menu"
-      },
-      {
-        "name": "Flyout",
-        "category": "Overlays",
-        "component": "Flyout",
-        "description": "A positioned floating panel anchored to a trigger element, with configurable trigger modes, placement, delays, and animated transitions.",
-        "icon": "lucide:panel-top-open",
-        "order": 6,
-        "slug": "flyout"
-      },
-      {
-        "name": "CommandPalette",
-        "category": "Overlays",
-        "component": "CommandPalette",
-        "description": "A searchable command menu overlay for quickly finding and executing actions, with keyboard navigation and section grouping.",
-        "icon": "lucide:terminal",
-        "order": 7,
-        "slug": "command-palette"
-      },
-      {
-        "name": "Lightbox",
-        "category": "Overlays",
-        "component": "Lightbox",
-        "description": "A full-screen overlay for displaying images or arbitrary content centered over a dark backdrop with dismiss support.",
-        "icon": "lucide:maximize",
-        "order": 8,
-        "slug": "lightbox"
-      },
-      {
-        "name": "Popover",
-        "category": "Overlays",
-        "component": "Popover",
-        "description": "A positioned popover panel attached to a trigger element. Placed as a child of the trigger — not a wrapper.",
-        "icon": "lucide:message-square-more",
-        "order": 9,
-        "slug": "popover"
+        "name": "TextArea",
+        "category": "Text Inputs",
+        "component": "TextArea",
+        "description": "A multi-line text input with configurable row count, placeholder, and all standard input states.",
+        "icon": "lucide:align-left",
+        "order": 13,
+        "slug": "text-area"
       }
     ]
   }

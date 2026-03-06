@@ -58,7 +58,7 @@ export type CommonInputOptions = {
   tabIndex?: Value<number>
   /**
    * Visual size of the control, aligned with Button sizes.
-   * Defaults to 'md' when omitted.
+   * @default 'md'
    */
   size?: Value<ControlSize>
 }

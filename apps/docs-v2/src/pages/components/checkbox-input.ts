@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'CheckboxInput',
-  category: 'Form Inputs',
+  category: 'Selection',
   component: 'CheckboxInput',
   description: 'A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.',
   icon: 'lucide:square-check',
@@ -17,7 +17,8 @@ export default function CheckboxInputPage() {
     playground: manualPlayground('CheckboxInput', signals => {
       const value = prop(false)
       return CheckboxInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
         value,
         onChange: v => value.set(v),
         placeholder: 'Check me',

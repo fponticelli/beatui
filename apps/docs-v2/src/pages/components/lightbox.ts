@@ -1,6 +1,6 @@
 import { Lightbox, Button, Icon } from '@tempots/beatui'
-import { html, attr, on } from '@tempots/dom'
-import { ComponentPage, manualPlayground, Section, snapshotSignals } from '../../framework'
+import { html, attr, on, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -17,7 +17,12 @@ export default function LightboxPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Lightbox', signals =>
       Lightbox(
-        { ...snapshotSignals(signals), padding: 32 } as never,
+        {
+          dismissable: signals.dismissable as Value<boolean>,
+          showCloseButton: signals.showCloseButton as Value<boolean>,
+          overlayEffect: signals.overlayEffect as Value<'none' | 'transparent' | 'opaque'>,
+          padding: signals.padding as Value<number>,
+        },
         (open, _close) =>
           Button(
             {

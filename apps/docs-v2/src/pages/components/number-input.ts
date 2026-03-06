@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NumberInput',
-  category: 'Form Inputs',
+  category: 'Text Inputs',
   component: 'NumberInput',
   description: 'A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.',
   icon: 'lucide:hash',
@@ -17,7 +17,8 @@ export default function NumberInputPage() {
     playground: manualPlayground('NumberInput', signals => {
       const value = prop(0)
       return NumberInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
         value,
         onChange: v => value.set(v),
       } as never)

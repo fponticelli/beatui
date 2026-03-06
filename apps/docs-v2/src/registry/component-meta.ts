@@ -150,8 +150,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -241,8 +242,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -2595,8 +2597,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -2812,8 +2815,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -4019,8 +4023,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -4497,8 +4502,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -4683,8 +4689,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -4960,8 +4967,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -5107,8 +5115,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -5254,8 +5263,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -5841,8 +5851,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -5979,8 +5990,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6099,8 +6111,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6228,8 +6241,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6340,8 +6354,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6482,8 +6497,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6652,8 +6668,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -6946,8 +6963,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7136,8 +7154,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7319,8 +7338,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7439,8 +7459,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7552,8 +7573,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7678,8 +7700,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -7783,8 +7806,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -8052,8 +8076,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.\n\n\nSize of the rating icons.",
+        "description": "Visual size of the control, aligned with Button sizes.\n\n\nSize of the rating icons.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -8321,8 +8346,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -8454,8 +8480,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -9109,8 +9136,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -9214,8 +9242,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -12400,8 +12429,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -13081,8 +13111,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -14202,8 +14233,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -14344,8 +14376,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -14485,8 +14518,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",
@@ -14699,8 +14733,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the control, aligned with Button sizes.\nDefaults to 'md' when omitted.",
+        "description": "Visual size of the control, aligned with Button sizes.",
         "type": "union",
+        "defaultValue": "md",
         "unionValues": [
           "xs",
           "sm",

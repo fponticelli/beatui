@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Ribbon',
-  category: 'Data Display',
+  category: 'Tables & Media',
   component: 'Ribbon',
   description:
     'A diagonal corner ribbon for labeling cards or containers with status tags like "New", "Sale", or "Featured".',

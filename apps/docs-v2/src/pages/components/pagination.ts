@@ -18,7 +18,12 @@ export default function PaginationPage() {
     playground: manualPlayground('Pagination', signals => {
       const currentPage = prop(1)
       return Pagination({
-        ...signals,
+        size: signals.size,
+        siblings: signals.siblings,
+        showPrevNext: signals.showPrevNext,
+        showFirstLast: signals.showFirstLast,
+        justify: signals.justify,
+        responsive: signals.responsive,
         currentPage,
         totalPages: 10,
         onPageChange: (page: number) => currentPage.set(page),

@@ -1,7 +1,7 @@
 import { CommandPalette, Button, Icon } from '@tempots/beatui'
 import type { CommandPaletteItem } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
-import { ComponentPage, manualPlayground, Section, snapshotSignals } from '../../framework'
+import { html, attr, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -73,7 +73,11 @@ export default function CommandPalettePage() {
   return ComponentPage(meta, {
     playground: manualPlayground('CommandPalette', signals =>
       CommandPalette(
-        { ...snapshotSignals(signals) } as never,
+        {
+          placeholder: signals.placeholder as Value<string>,
+          emptyMessage: signals.emptyMessage as Value<string>,
+          size: signals.size as Value<'sm' | 'md' | 'lg'>,
+        },
         (open, _close) =>
           Button(
             {

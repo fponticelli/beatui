@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TextInput',
-  category: 'Form Inputs',
+  category: 'Text Inputs',
   component: 'TextInput',
   description: 'A single-line text input with support for prefix, suffix, icons, and all standard input states.',
   icon: 'lucide:type',
@@ -17,7 +17,10 @@ export default function TextInputPage() {
     playground: manualPlayground('TextInput', signals => {
       const value = prop('')
       return TextInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
+        hasError: signals.hasError,
+        placeholder: signals.placeholder,
         value,
         onInput: v => value.set(v),
       } as never)

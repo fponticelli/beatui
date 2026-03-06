@@ -49,7 +49,13 @@ export default function TabsPage() {
       return html.div(
         attr.class('w-full'),
         Tabs({
-          ...signals,
+          size: signals.size,
+          variant: signals.variant,
+          color: signals.color,
+          disabled: signals.disabled,
+          orientation: signals.orientation,
+          showContent: signals.showContent,
+          ariaLabel: signals.ariaLabel,
           items: sampleItems,
           value: active,
           onChange: v => active.set(v),

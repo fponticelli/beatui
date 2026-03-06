@@ -1,11 +1,11 @@
-import { TagInput } from '@tempots/beatui'
+import { TagInput, SelectTagsInput, ComboboxTagsInput, Option } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TagInput',
-  category: 'Form Inputs',
+  category: 'Pickers',
   component: 'TagInput',
   description: 'A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.',
   icon: 'lucide:tags',
@@ -17,7 +17,11 @@ export default function TagsInputPage() {
     playground: manualPlayground('TagInput', signals => {
       const values = prop<string[]>(['TypeScript', 'Tempo'])
       return TagInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
+        placeholder: signals.placeholder,
+        maxTags: signals.maxTags,
+        hasError: signals.hasError,
         values,
         onChange: v => values.set(v),
       } as never)
@@ -68,6 +72,63 @@ export default function TagsInputPage() {
             disabled: true,
           }),
         'Disabled TagInput prevents adding or removing tags.'
+      ),
+      Section(
+        'SelectTagsInput (predefined options)',
+        () => {
+          const selected = prop<string[]>(['red'])
+          const options = [
+            Option.value('red', 'Red'),
+            Option.value('green', 'Green'),
+            Option.value('blue', 'Blue'),
+            Option.value('orange', 'Orange'),
+            Option.value('purple', 'Purple'),
+          ]
+          return html.div(
+            attr.class('flex flex-col gap-2 max-w-sm'),
+            SelectTagsInput({
+              value: selected,
+              onChange: v => selected.set(v),
+              options,
+              placeholder: 'Select colors...',
+            }),
+            html.div(
+              attr.class('text-xs text-gray-500'),
+              selected.map(v => v.length > 0 ? `Selected: ${v.join(', ')}` : 'None selected')
+            )
+          )
+        },
+        'SelectTagsInput renders selected values as tag chips and provides a click-to-open dropdown for choosing from a predefined list of options.'
+      ),
+      Section(
+        'ComboboxTagsInput (searchable)',
+        () => {
+          const selected = prop<string[]>([])
+          const options = [
+            Option.value('typescript', 'TypeScript'),
+            Option.value('javascript', 'JavaScript'),
+            Option.value('rust', 'Rust'),
+            Option.value('go', 'Go'),
+            Option.value('python', 'Python'),
+            Option.value('swift', 'Swift'),
+            Option.value('kotlin', 'Kotlin'),
+          ]
+          return html.div(
+            attr.class('flex flex-col gap-2 max-w-sm'),
+            ComboboxTagsInput({
+              value: selected,
+              onChange: v => selected.set(v),
+              options,
+              placeholder: 'Choose languages...',
+              searchPlaceholder: 'Search...',
+            }),
+            html.div(
+              attr.class('text-xs text-gray-500'),
+              selected.map(v => v.length > 0 ? `Selected: ${v.join(', ')}` : 'None selected')
+            )
+          )
+        },
+        'ComboboxTagsInput adds a search input to the dropdown, filtering options as the user types. Ideal for large option sets.'
       ),
     ],
   })

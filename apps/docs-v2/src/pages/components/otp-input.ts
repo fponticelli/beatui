@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'OTPInput',
-  category: 'Form Inputs',
+  category: 'Text Inputs',
   component: 'OTPInput',
   description:
     'A one-time password input with individual cells, keyboard navigation, paste support, and masking.',

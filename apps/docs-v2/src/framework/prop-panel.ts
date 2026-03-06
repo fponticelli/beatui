@@ -172,6 +172,8 @@ function parseDefault(meta: PropMeta): unknown {
       case 'number':
         return 0
       case 'union':
+        // Default size to 'md' when not specified (most components default to md)
+        if (meta.name === 'size' && meta.unionValues?.includes('md')) return 'md'
         return meta.unionValues?.[0] ?? ''
       default:
         return ''

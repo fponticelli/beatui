@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'SegmentedInput',
-  category: 'Form Inputs',
+  category: 'Selection',
   component: 'SegmentedInput',
   description: 'A segmented control for selecting one option from a set, with an animated sliding indicator.',
   icon: 'lucide:layout-list',
@@ -23,7 +23,10 @@ export default function SegmentedInputPage() {
     playground: manualPlayground('SegmentedInput', signals => {
       const value = prop<'a' | 'b' | 'c'>('a')
       return SegmentedInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
+        variant: signals.variant,
+        color: signals.color,
         options: sampleOptions,
         value,
         onChange: v => value.set(v as 'a' | 'b' | 'c'),

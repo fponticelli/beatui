@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ColorInput',
-  category: 'Form Inputs',
+  category: 'Pickers',
   component: 'ColorInput',
   description: 'A color picker combining a text field and a clickable color swatch that opens the native color picker.',
   icon: 'lucide:palette',
@@ -17,7 +17,8 @@ export default function ColorInputPage() {
     playground: manualPlayground('ColorInput', signals => {
       const value = prop('#3b82f6')
       return ColorInput({
-        ...signals,
+        size: signals.size,
+        disabled: signals.disabled,
         value,
         onChange: v => value.set(v),
         onInput: v => value.set(v),

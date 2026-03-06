@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ToggleButton',
-  category: 'Form Inputs',
+  category: 'Buttons',
   component: 'ToggleButton',
   description: 'A button that toggles between pressed and unpressed states with full variant and color support.',
   icon: 'lucide:toggle-left',
@@ -18,7 +18,12 @@ export default function ToggleButtonPage() {
       const pressed = prop(false)
       return ToggleButton(
         {
-          ...signals,
+          size: signals.size,
+          color: signals.color,
+          variant: signals.variant,
+          disabled: signals.disabled,
+          roundedness: signals.roundedness,
+          fullWidth: signals.fullWidth,
           pressed,
           onToggle: v => pressed.set(v),
         } as never,

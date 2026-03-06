@@ -23,7 +23,14 @@ export default function IconPage() {
     playground: manualPlayground('Icon', signals => {
       // Set a default icon so something renders initially
       ;(signals.icon as Signal<string>).set('lucide:star')
-      return Icon({ ...signals } as never)
+      return Icon({
+        icon: signals.icon,
+        size: signals.size,
+        color: signals.color,
+        title: signals.title,
+        accessibility: signals.accessibility,
+        tone: signals.tone,
+      } as never)
     }),
     sections: [
       ...AutoSections('Icon', props =>

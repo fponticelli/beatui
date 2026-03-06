@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Table',
-  category: 'Data Display',
+  category: 'Tables & Media',
   component: 'Table',
   description:
     'A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.',
@@ -50,7 +50,17 @@ export default function TablePage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Table', signals => {
       return Table(
-        { ...signals, fullWidth: true } as never,
+        {
+          size: signals.size,
+          hoverable: signals.hoverable,
+          stickyHeader: signals.stickyHeader,
+          withStripedRows: signals.withStripedRows,
+          withTableBorder: signals.withTableBorder,
+          withColumnBorders: signals.withColumnBorders,
+          withRowBorders: signals.withRowBorders,
+          borderRadius: signals.borderRadius,
+          fullWidth: true,
+        } as never,
         html.thead(
           html.tr(
             html.th('Name'),

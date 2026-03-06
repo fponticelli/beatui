@@ -20,7 +20,9 @@ export default function PopoverPage() {
         { variant: 'outline' },
         'Click me',
         Popover({
-          ...signals,
+          placement: signals.placement,
+          showOn: signals.showOn,
+          closable: signals.closable,
           content: html.div(
             attr.class('p-4 max-w-xs'),
             html.h4(attr.class('font-semibold mb-2'), 'Popover Title'),

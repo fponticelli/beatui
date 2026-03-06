@@ -20,9 +20,14 @@ export default function DrawerPage() {
           {
             variant: 'filled',
             color: 'primary',
-            onClick: () =>
+            onClick: () => {
+              const s = snapshotSignals(signals)
               open({
-                ...snapshotSignals(signals),
+                size: s.size as 'sm' | 'md' | 'lg' | 'xl' | undefined,
+                side: s.side as 'top' | 'right' | 'bottom' | 'left' | 'inline-start' | 'inline-end' | undefined,
+                dismissable: s.dismissable as boolean | undefined,
+                showCloseButton: s.showCloseButton as boolean | undefined,
+                overlayEffect: s.overlayEffect as 'none' | 'transparent' | 'opaque' | undefined,
                 header: html.h2('Drawer Title'),
                 body: html.div(
                   html.p('This is the drawer body content.'),
@@ -42,7 +47,8 @@ export default function DrawerPage() {
                     'Save'
                   )
                 ),
-              } as never),
+              })
+            },
           },
           'Open Drawer'
         )

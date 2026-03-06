@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Switch',
-  category: 'Form Inputs',
+  category: 'Selection',
   component: 'Switch',
   description: 'A toggle switch for boolean on/off states.',
   icon: 'lucide:toggle-left',
@@ -17,7 +17,12 @@ export default function SwitchPage() {
     playground: manualPlayground('Switch', signals => {
       const checked = prop(false)
       return Switch({
-        ...signals,
+        size: signals.size,
+        color: signals.color,
+        disabled: signals.disabled,
+        offLabel: signals.offLabel,
+        onLabel: signals.onLabel,
+        matchInputHeight: signals.matchInputHeight,
         value: checked,
         onChange: v => checked.set(v),
       } as never)

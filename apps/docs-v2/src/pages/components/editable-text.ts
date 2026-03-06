@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'EditableText',
-  category: 'Form Inputs',
+  category: 'Text Inputs',
   component: 'EditableText',
   description: 'An inline editable text that toggles between display and input modes on click.',
   icon: 'lucide:pencil-line',
@@ -17,7 +17,8 @@ export default function EditableTextPage() {
     playground: manualPlayground('EditableText', signals => {
       const value = prop('Click to edit')
       return EditableText({
-        ...signals,
+        disabled: signals.disabled,
+        startEditing: signals.startEditing,
         value,
         onChange: v => value.set(v),
         placeholder: 'Enter text...',

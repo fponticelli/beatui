@@ -24,7 +24,9 @@ export default function BreadcrumbsPage() {
     playground: manualPlayground('Breadcrumbs', signals => {
       const items = prop(sampleItems)
       return Breadcrumbs({
-        ...signals,
+        size: signals.size,
+        separator: signals.separator,
+        maxItems: signals.maxItems,
         items,
       } as never)
     }),

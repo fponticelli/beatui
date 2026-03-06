@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Menu',
-  category: 'Overlays',
+  category: 'Navigation',
   component: 'Menu',
   description:
     'A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.',
@@ -20,7 +20,8 @@ export default function MenuPage() {
         { variant: 'outline' },
         'Actions',
         Menu({
-          ...signals,
+          placement: signals.placement,
+          closable: signals.closable,
           items: () => [
             MenuItem({
               key: 'edit',
