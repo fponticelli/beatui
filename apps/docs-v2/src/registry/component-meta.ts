@@ -8622,7 +8622,10 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "defaultValue": "6",
         "reactive": false,
-        "optional": true
+        "optional": true,
+        "numberStep": 1,
+        "numberMin": 1,
+        "numberMax": 12
       },
       {
         "name": "value",

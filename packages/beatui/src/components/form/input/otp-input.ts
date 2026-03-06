@@ -8,6 +8,7 @@ import {
   Empty,
   aria,
   WithElement,
+  Repeat,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
 import { ControlSize } from '../../theme'
@@ -19,8 +20,8 @@ import { backgroundValue, borderColorValue } from '../../theme/style-utils'
  * Configuration options for the {@link OTPInput} component.
  */
 export interface OTPInputOptions {
-  /** Number of input digits/characters. @default 6 */
-  length?: number
+  /** Number of input digits/characters. @default 6 @min 1 @max 12 @step 1 */
+  length?: Value<number>
   /** The current OTP value as a string */
   value?: Value<string>
   /** Callback invoked on every input change */
@@ -129,16 +130,16 @@ export function OTPInput({
   const otpId = sessionId('otp')
 
   // Internal state: array of individual cell values
-  const cells = prop<string[]>(
-    (() => {
+  const cells = Value.toSignal(length)
+    .map(length => {
       const initial = Value.get(value)
       const arr = new Array<string>(length).fill('')
       for (let i = 0; i < Math.min(initial.length, length); i++) {
         arr[i] = initial[i]!
       }
       return arr
-    })()
-  )
+    })
+    .deriveProp()
 
   const focusedIndex = prop<number | null>(null)
 
@@ -170,12 +171,12 @@ export function OTPInput({
     if (chars.length > 1) {
       // Paste mode: fill from current index
       const newCells = [...cells.value]
-      for (let i = 0; i < chars.length && index + i < length; i++) {
+      for (let i = 0; i < chars.length && index + i < Value.get(length); i++) {
         newCells[index + i] = chars[i]!
       }
       cells.set(newCells)
       emitValue()
-      const nextIndex = Math.min(index + chars.length, length - 1)
+      const nextIndex = Math.min(index + chars.length, Value.get(length) - 1)
       focusCell(nextIndex)
       return
     }
@@ -186,7 +187,7 @@ export function OTPInput({
       cells.set(newCells)
       emitValue()
       // Advance focus
-      if (index < length - 1) {
+      if (index < Value.get(length) - 1) {
         focusCell(index + 1)
       }
     }
@@ -217,7 +218,7 @@ export function OTPInput({
         break
       case 'ArrowRight':
         e.preventDefault()
-        if (index < length - 1) focusCell(index + 1)
+        if (index < Value.get(length) - 1) focusCell(index + 1)
         break
       case 'Delete': {
         e.preventDefault()
@@ -233,7 +234,7 @@ export function OTPInput({
         break
       case 'End':
         e.preventDefault()
-        focusCell(length - 1)
+        focusCell(Value.get(length) - 1)
         break
     }
   }
@@ -250,7 +251,8 @@ export function OTPInput({
     attr.role('group'),
     aria.label('One-time password input'),
 
-    ...Array.from({ length }, (_, i) => {
+    Repeat(length, pos => {
+      const i = pos.index
       const cellId = `${otpId}-cell-${i}`
 
       return html.input(

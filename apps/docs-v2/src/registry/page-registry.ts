@@ -22,6 +22,24 @@ export const pages: PageEntry[] = [
     "slug": "accordion"
   },
   {
+    "name": "AnnouncementBar",
+    "category": "Feedback",
+    "component": "AnnouncementBar",
+    "description": "A colored banner displayed at the top of a page or container for announcements, promotions, or system messages. Supports icons and user-dismissal.",
+    "icon": "lucide:megaphone",
+    "order": 2,
+    "slug": "announcement-bar"
+  },
+  {
+    "name": "Avatar",
+    "category": "Data Display",
+    "component": "Avatar",
+    "description": "Displays a user avatar with image, initials, or icon fallback.",
+    "icon": "lucide:user-circle",
+    "order": 1,
+    "slug": "avatar"
+  },
+  {
     "name": "Badge",
     "category": "Data Display",
     "component": "Badge",
@@ -31,6 +49,15 @@ export const pages: PageEntry[] = [
     "slug": "badge"
   },
   {
+    "name": "Breadcrumbs",
+    "category": "Navigation",
+    "component": "Breadcrumbs",
+    "description": "Hierarchical navigation trail showing the current page location within a site structure.",
+    "icon": "lucide:chevrons-right",
+    "order": 3,
+    "slug": "breadcrumbs"
+  },
+  {
     "name": "Button",
     "category": "Form Inputs",
     "component": "Button",
@@ -38,6 +65,51 @@ export const pages: PageEntry[] = [
     "icon": "lucide:mouse-pointer",
     "order": 1,
     "slug": "button"
+  },
+  {
+    "name": "Card",
+    "category": "Layout",
+    "component": "Card",
+    "description": "A content container with visual separation using elevation, borders, or background depending on the variant.",
+    "icon": "lucide:square",
+    "order": 1,
+    "slug": "card"
+  },
+  {
+    "name": "CheckboxInput",
+    "category": "Form Inputs",
+    "component": "CheckboxInput",
+    "description": "A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.",
+    "icon": "lucide:square-check",
+    "order": 4,
+    "slug": "checkbox-input"
+  },
+  {
+    "name": "Collapse",
+    "category": "Layout",
+    "component": "Collapse",
+    "description": "Animated collapsible container that smoothly expands and contracts content with CSS height transitions.",
+    "icon": "lucide:chevron-down",
+    "order": 2,
+    "slug": "collapse"
+  },
+  {
+    "name": "ColorInput",
+    "category": "Form Inputs",
+    "component": "ColorInput",
+    "description": "A color picker combining a text field and a clickable color swatch that opens the native color picker.",
+    "icon": "lucide:palette",
+    "order": 9,
+    "slug": "color-input"
+  },
+  {
+    "name": "CommandPalette",
+    "category": "Overlays",
+    "component": "CommandPalette",
+    "description": "A searchable command menu overlay for quickly finding and executing actions, with keyboard navigation and section grouping.",
+    "icon": "lucide:terminal",
+    "order": 7,
+    "slug": "command-palette"
   },
   {
     "name": "Divider",
@@ -58,6 +130,87 @@ export const pages: PageEntry[] = [
     "slug": "drawer"
   },
   {
+    "name": "Dropdown",
+    "category": "Overlays",
+    "component": "Dropdown",
+    "description": "A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.",
+    "icon": "lucide:chevron-down-circle",
+    "order": 4,
+    "slug": "dropdown"
+  },
+  {
+    "name": "EditableText",
+    "category": "Form Inputs",
+    "component": "EditableText",
+    "description": "An inline editable text that toggles between display and input modes on click.",
+    "icon": "lucide:pencil-line",
+    "order": 12,
+    "slug": "editable-text"
+  },
+  {
+    "name": "EmptyState",
+    "category": "Feedback",
+    "component": "EmptyState",
+    "description": "Placeholder displayed when content or data is absent, with optional icon, title, description, and call-to-action.",
+    "icon": "lucide:inbox",
+    "order": 1,
+    "slug": "empty-state"
+  },
+  {
+    "name": "Flyout",
+    "category": "Overlays",
+    "component": "Flyout",
+    "description": "A positioned floating panel anchored to a trigger element, with configurable trigger modes, placement, delays, and animated transitions.",
+    "icon": "lucide:panel-top-open",
+    "order": 6,
+    "slug": "flyout"
+  },
+  {
+    "name": "Icon",
+    "category": "Data Display",
+    "component": "Icon",
+    "description": "Renders an SVG icon from the Iconify library with lazy loading, caching, and theme color support.",
+    "icon": "lucide:star",
+    "order": 3,
+    "slug": "icon"
+  },
+  {
+    "name": "Kbd",
+    "category": "Data Display",
+    "component": "Kbd",
+    "description": "A styled keyboard key indicator for displaying keyboard shortcuts with a 3D pressed appearance.",
+    "icon": "lucide:keyboard",
+    "order": 5,
+    "slug": "kbd"
+  },
+  {
+    "name": "Lightbox",
+    "category": "Overlays",
+    "component": "Lightbox",
+    "description": "A full-screen overlay for displaying images or arbitrary content centered over a dark backdrop with dismiss support.",
+    "icon": "lucide:maximize",
+    "order": 8,
+    "slug": "lightbox"
+  },
+  {
+    "name": "Link",
+    "category": "Navigation",
+    "component": "Link",
+    "description": "A themed navigation link with support for variants, colors, disabled state, and client-side routing.",
+    "icon": "lucide:link",
+    "order": 4,
+    "slug": "link"
+  },
+  {
+    "name": "Menu",
+    "category": "Overlays",
+    "component": "Menu",
+    "description": "A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.",
+    "icon": "lucide:list",
+    "order": 5,
+    "slug": "menu"
+  },
+  {
     "name": "Modal",
     "category": "Overlays",
     "component": "Modal",
@@ -67,6 +220,60 @@ export const pages: PageEntry[] = [
     "slug": "modal"
   },
   {
+    "name": "Notice",
+    "category": "Feedback",
+    "component": "Notice",
+    "description": "An informational banner or callout with variant-driven styling, optional title, icon, and dismiss support.",
+    "icon": "lucide:info",
+    "order": 2,
+    "slug": "notice"
+  },
+  {
+    "name": "Notification",
+    "category": "Feedback",
+    "component": "Notification",
+    "description": "A notification card with optional icon, title, body content, loading state, and close button. Supports theme colors and border radius customization.",
+    "icon": "lucide:bell",
+    "order": 1,
+    "slug": "notification"
+  },
+  {
+    "name": "NumberInput",
+    "category": "Form Inputs",
+    "component": "NumberInput",
+    "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
+    "icon": "lucide:hash",
+    "order": 3,
+    "slug": "number-input"
+  },
+  {
+    "name": "OTPInput",
+    "category": "Form Inputs",
+    "component": "OTPInput",
+    "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
+    "icon": "lucide:key-round",
+    "order": 10,
+    "slug": "otp-input"
+  },
+  {
+    "name": "Pagination",
+    "category": "Navigation",
+    "component": "Pagination",
+    "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, and responsive layout.",
+    "icon": "lucide:chevrons-left-right",
+    "order": 5,
+    "slug": "pagination"
+  },
+  {
+    "name": "Popover",
+    "category": "Overlays",
+    "component": "Popover",
+    "description": "A positioned popover panel attached to a trigger element. Placed as a child of the trigger — not a wrapper.",
+    "icon": "lucide:message-square-more",
+    "order": 9,
+    "slug": "popover"
+  },
+  {
     "name": "ProgressBar",
     "category": "Data Display",
     "component": "ProgressBar",
@@ -74,6 +281,33 @@ export const pages: PageEntry[] = [
     "icon": "lucide:loader",
     "order": 3,
     "slug": "progress-bar"
+  },
+  {
+    "name": "RadioGroup",
+    "category": "Form Inputs",
+    "component": "RadioGroup",
+    "description": "A group of radio buttons for selecting one option from a mutually exclusive list.",
+    "icon": "lucide:circle-dot",
+    "order": 8,
+    "slug": "radio-group"
+  },
+  {
+    "name": "Ribbon",
+    "category": "Data Display",
+    "component": "Ribbon",
+    "description": "A diagonal corner ribbon for labeling cards or containers with status tags like \"New\", \"Sale\", or \"Featured\".",
+    "icon": "lucide:tag",
+    "order": 6,
+    "slug": "ribbon"
+  },
+  {
+    "name": "SegmentedInput",
+    "category": "Form Inputs",
+    "component": "SegmentedInput",
+    "description": "A segmented control for selecting one option from a set, with an animated sliding indicator.",
+    "icon": "lucide:layout-list",
+    "order": 6,
+    "slug": "segmented-input"
   },
   {
     "name": "Skeleton",
@@ -94,6 +328,15 @@ export const pages: PageEntry[] = [
     "slug": "switch"
   },
   {
+    "name": "Table",
+    "category": "Data Display",
+    "component": "Table",
+    "description": "A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.",
+    "icon": "lucide:table",
+    "order": 4,
+    "slug": "table"
+  },
+  {
     "name": "Tabs",
     "category": "Navigation",
     "component": "Tabs",
@@ -101,6 +344,42 @@ export const pages: PageEntry[] = [
     "icon": "lucide:layout-list",
     "order": 2,
     "slug": "tabs"
+  },
+  {
+    "name": "TagInput",
+    "category": "Form Inputs",
+    "component": "TagInput",
+    "description": "A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.",
+    "icon": "lucide:tags",
+    "order": 11,
+    "slug": "tags-input"
+  },
+  {
+    "name": "TextInput",
+    "category": "Form Inputs",
+    "component": "TextInput",
+    "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
+    "icon": "lucide:type",
+    "order": 2,
+    "slug": "text-input"
+  },
+  {
+    "name": "ToggleButton",
+    "category": "Form Inputs",
+    "component": "ToggleButton",
+    "description": "A button that toggles between pressed and unpressed states with full variant and color support.",
+    "icon": "lucide:toggle-left",
+    "order": 7,
+    "slug": "toggle-button"
+  },
+  {
+    "name": "Toolbar",
+    "category": "Navigation",
+    "component": "Toolbar",
+    "description": "Horizontal toolbar container with roving tabindex keyboard navigation, grouping, dividers, and spacers.",
+    "icon": "lucide:grip-horizontal",
+    "order": 6,
+    "slug": "toolbar"
   },
   {
     "name": "Tooltip",
@@ -128,6 +407,24 @@ export const categories: CategoryEntry[] = [
         "slug": "accordion"
       },
       {
+        "name": "Card",
+        "category": "Layout",
+        "component": "Card",
+        "description": "A content container with visual separation using elevation, borders, or background depending on the variant.",
+        "icon": "lucide:square",
+        "order": 1,
+        "slug": "card"
+      },
+      {
+        "name": "Collapse",
+        "category": "Layout",
+        "component": "Collapse",
+        "description": "Animated collapsible container that smoothly expands and contracts content with CSS height transitions.",
+        "icon": "lucide:chevron-down",
+        "order": 2,
+        "slug": "collapse"
+      },
+      {
         "name": "Divider",
         "category": "Layout",
         "component": "Divider",
@@ -139,9 +436,60 @@ export const categories: CategoryEntry[] = [
     ]
   },
   {
+    "name": "Feedback",
+    "icon": "lucide:bell",
+    "pages": [
+      {
+        "name": "EmptyState",
+        "category": "Feedback",
+        "component": "EmptyState",
+        "description": "Placeholder displayed when content or data is absent, with optional icon, title, description, and call-to-action.",
+        "icon": "lucide:inbox",
+        "order": 1,
+        "slug": "empty-state"
+      },
+      {
+        "name": "Notification",
+        "category": "Feedback",
+        "component": "Notification",
+        "description": "A notification card with optional icon, title, body content, loading state, and close button. Supports theme colors and border radius customization.",
+        "icon": "lucide:bell",
+        "order": 1,
+        "slug": "notification"
+      },
+      {
+        "name": "AnnouncementBar",
+        "category": "Feedback",
+        "component": "AnnouncementBar",
+        "description": "A colored banner displayed at the top of a page or container for announcements, promotions, or system messages. Supports icons and user-dismissal.",
+        "icon": "lucide:megaphone",
+        "order": 2,
+        "slug": "announcement-bar"
+      },
+      {
+        "name": "Notice",
+        "category": "Feedback",
+        "component": "Notice",
+        "description": "An informational banner or callout with variant-driven styling, optional title, icon, and dismiss support.",
+        "icon": "lucide:info",
+        "order": 2,
+        "slug": "notice"
+      }
+    ]
+  },
+  {
     "name": "Data Display",
     "icon": "lucide:bar-chart-3",
     "pages": [
+      {
+        "name": "Avatar",
+        "category": "Data Display",
+        "component": "Avatar",
+        "description": "Displays a user avatar with image, initials, or icon fallback.",
+        "icon": "lucide:user-circle",
+        "order": 1,
+        "slug": "avatar"
+      },
       {
         "name": "Badge",
         "category": "Data Display",
@@ -150,6 +498,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:tag",
         "order": 2,
         "slug": "badge"
+      },
+      {
+        "name": "Icon",
+        "category": "Data Display",
+        "component": "Icon",
+        "description": "Renders an SVG icon from the Iconify library with lazy loading, caching, and theme color support.",
+        "icon": "lucide:star",
+        "order": 3,
+        "slug": "icon"
       },
       {
         "name": "ProgressBar",
@@ -168,6 +525,84 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:layout",
         "order": 4,
         "slug": "skeleton"
+      },
+      {
+        "name": "Table",
+        "category": "Data Display",
+        "component": "Table",
+        "description": "A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.",
+        "icon": "lucide:table",
+        "order": 4,
+        "slug": "table"
+      },
+      {
+        "name": "Kbd",
+        "category": "Data Display",
+        "component": "Kbd",
+        "description": "A styled keyboard key indicator for displaying keyboard shortcuts with a 3D pressed appearance.",
+        "icon": "lucide:keyboard",
+        "order": 5,
+        "slug": "kbd"
+      },
+      {
+        "name": "Ribbon",
+        "category": "Data Display",
+        "component": "Ribbon",
+        "description": "A diagonal corner ribbon for labeling cards or containers with status tags like \"New\", \"Sale\", or \"Featured\".",
+        "icon": "lucide:tag",
+        "order": 6,
+        "slug": "ribbon"
+      }
+    ]
+  },
+  {
+    "name": "Navigation",
+    "icon": "lucide:compass",
+    "pages": [
+      {
+        "name": "Tabs",
+        "category": "Navigation",
+        "component": "Tabs",
+        "description": "Tabbed navigation for switching between content panels.",
+        "icon": "lucide:layout-list",
+        "order": 2,
+        "slug": "tabs"
+      },
+      {
+        "name": "Breadcrumbs",
+        "category": "Navigation",
+        "component": "Breadcrumbs",
+        "description": "Hierarchical navigation trail showing the current page location within a site structure.",
+        "icon": "lucide:chevrons-right",
+        "order": 3,
+        "slug": "breadcrumbs"
+      },
+      {
+        "name": "Link",
+        "category": "Navigation",
+        "component": "Link",
+        "description": "A themed navigation link with support for variants, colors, disabled state, and client-side routing.",
+        "icon": "lucide:link",
+        "order": 4,
+        "slug": "link"
+      },
+      {
+        "name": "Pagination",
+        "category": "Navigation",
+        "component": "Pagination",
+        "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, and responsive layout.",
+        "icon": "lucide:chevrons-left-right",
+        "order": 5,
+        "slug": "pagination"
+      },
+      {
+        "name": "Toolbar",
+        "category": "Navigation",
+        "component": "Toolbar",
+        "description": "Horizontal toolbar container with roving tabindex keyboard navigation, grouping, dividers, and spacers.",
+        "icon": "lucide:grip-horizontal",
+        "order": 6,
+        "slug": "toolbar"
       }
     ]
   },
@@ -185,6 +620,33 @@ export const categories: CategoryEntry[] = [
         "slug": "button"
       },
       {
+        "name": "TextInput",
+        "category": "Form Inputs",
+        "component": "TextInput",
+        "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
+        "icon": "lucide:type",
+        "order": 2,
+        "slug": "text-input"
+      },
+      {
+        "name": "NumberInput",
+        "category": "Form Inputs",
+        "component": "NumberInput",
+        "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
+        "icon": "lucide:hash",
+        "order": 3,
+        "slug": "number-input"
+      },
+      {
+        "name": "CheckboxInput",
+        "category": "Form Inputs",
+        "component": "CheckboxInput",
+        "description": "A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.",
+        "icon": "lucide:square-check",
+        "order": 4,
+        "slug": "checkbox-input"
+      },
+      {
         "name": "Switch",
         "category": "Form Inputs",
         "component": "Switch",
@@ -192,6 +654,69 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:toggle-left",
         "order": 5,
         "slug": "switch"
+      },
+      {
+        "name": "SegmentedInput",
+        "category": "Form Inputs",
+        "component": "SegmentedInput",
+        "description": "A segmented control for selecting one option from a set, with an animated sliding indicator.",
+        "icon": "lucide:layout-list",
+        "order": 6,
+        "slug": "segmented-input"
+      },
+      {
+        "name": "ToggleButton",
+        "category": "Form Inputs",
+        "component": "ToggleButton",
+        "description": "A button that toggles between pressed and unpressed states with full variant and color support.",
+        "icon": "lucide:toggle-left",
+        "order": 7,
+        "slug": "toggle-button"
+      },
+      {
+        "name": "RadioGroup",
+        "category": "Form Inputs",
+        "component": "RadioGroup",
+        "description": "A group of radio buttons for selecting one option from a mutually exclusive list.",
+        "icon": "lucide:circle-dot",
+        "order": 8,
+        "slug": "radio-group"
+      },
+      {
+        "name": "ColorInput",
+        "category": "Form Inputs",
+        "component": "ColorInput",
+        "description": "A color picker combining a text field and a clickable color swatch that opens the native color picker.",
+        "icon": "lucide:palette",
+        "order": 9,
+        "slug": "color-input"
+      },
+      {
+        "name": "OTPInput",
+        "category": "Form Inputs",
+        "component": "OTPInput",
+        "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
+        "icon": "lucide:key-round",
+        "order": 10,
+        "slug": "otp-input"
+      },
+      {
+        "name": "TagInput",
+        "category": "Form Inputs",
+        "component": "TagInput",
+        "description": "A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.",
+        "icon": "lucide:tags",
+        "order": 11,
+        "slug": "tags-input"
+      },
+      {
+        "name": "EditableText",
+        "category": "Form Inputs",
+        "component": "EditableText",
+        "description": "An inline editable text that toggles between display and input modes on click.",
+        "icon": "lucide:pencil-line",
+        "order": 12,
+        "slug": "editable-text"
       }
     ]
   },
@@ -225,21 +750,60 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:message-square",
         "order": 3,
         "slug": "tooltip"
-      }
-    ]
-  },
-  {
-    "name": "Navigation",
-    "icon": "lucide:compass",
-    "pages": [
+      },
       {
-        "name": "Tabs",
-        "category": "Navigation",
-        "component": "Tabs",
-        "description": "Tabbed navigation for switching between content panels.",
-        "icon": "lucide:layout-list",
-        "order": 2,
-        "slug": "tabs"
+        "name": "Dropdown",
+        "category": "Overlays",
+        "component": "Dropdown",
+        "description": "A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.",
+        "icon": "lucide:chevron-down-circle",
+        "order": 4,
+        "slug": "dropdown"
+      },
+      {
+        "name": "Menu",
+        "category": "Overlays",
+        "component": "Menu",
+        "description": "A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.",
+        "icon": "lucide:list",
+        "order": 5,
+        "slug": "menu"
+      },
+      {
+        "name": "Flyout",
+        "category": "Overlays",
+        "component": "Flyout",
+        "description": "A positioned floating panel anchored to a trigger element, with configurable trigger modes, placement, delays, and animated transitions.",
+        "icon": "lucide:panel-top-open",
+        "order": 6,
+        "slug": "flyout"
+      },
+      {
+        "name": "CommandPalette",
+        "category": "Overlays",
+        "component": "CommandPalette",
+        "description": "A searchable command menu overlay for quickly finding and executing actions, with keyboard navigation and section grouping.",
+        "icon": "lucide:terminal",
+        "order": 7,
+        "slug": "command-palette"
+      },
+      {
+        "name": "Lightbox",
+        "category": "Overlays",
+        "component": "Lightbox",
+        "description": "A full-screen overlay for displaying images or arbitrary content centered over a dark backdrop with dismiss support.",
+        "icon": "lucide:maximize",
+        "order": 8,
+        "slug": "lightbox"
+      },
+      {
+        "name": "Popover",
+        "category": "Overlays",
+        "component": "Popover",
+        "description": "A positioned popover panel attached to a trigger element. Placed as a child of the trigger — not a wrapper.",
+        "icon": "lucide:message-square-more",
+        "order": 9,
+        "slug": "popover"
       }
     ]
   }

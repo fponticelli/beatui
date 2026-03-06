@@ -48,6 +48,14 @@ a.bc-sidebar-link:hover {
 span.bc-sidebar-link {
   font-weight: var(--font-weight-medium);
   width: 100%;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
+  border-radius: var(--radius-md);
+}
+
+.dark span.bc-sidebar-link {
+  background-color: var(--color-primary-950);
+  color: var(--color-primary-200);
 }
 
 .bc-sidebar-link--icon {
@@ -110,11 +118,6 @@ span.bc-sidebar-link {
   .bc-sidebar-group-collapsible--closed
   .bc-sidebar-group-collapsible-indicator {
   transform: rotate(-90deg);
-}
-
-/* Dark mode styles */
-.dark span.bc-sidebar-link {
-  color: var(--color-primary-200);
 }
 
 /* Dark background mode styles - inverted colors in light theme */

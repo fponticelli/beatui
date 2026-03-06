@@ -110,7 +110,21 @@ function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
       })
     }
 
-    case 'string':
+    case 'string': {
+      // For optional string props (Value<string | undefined>), convert empty ↔ undefined
+      // so components using Ensure/null checks work correctly
+      if (meta.optional) {
+        const displayValue = Value.map(signal, v => (v as string) ?? '')
+        return InputWrapper({
+          label: meta.name,
+          description,
+          content: TextInput({
+            value: displayValue as Value<string>,
+            onInput: v => signal.set(v === '' ? undefined : v),
+            size: 'xs',
+          }),
+        })
+      }
       return InputWrapper({
         label: meta.name,
         description,
@@ -120,6 +134,7 @@ function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
           size: 'xs',
         }),
       })
+    }
 
     case 'number':
       return InputWrapper({
@@ -145,12 +160,15 @@ function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
  */
 function parseDefault(meta: PropMeta): unknown {
   const d = meta.defaultValue
-  if (d === undefined) {
+  // Treat @default undefined as actual undefined (not the string "undefined")
+  if (d === undefined || d === 'undefined') {
     switch (meta.type) {
       case 'boolean':
         return false
       case 'string':
-        return ''
+        // Optional string props (Value<string | undefined>) should start as
+        // undefined so components using Ensure/null checks work correctly
+        return meta.optional ? undefined : ''
       case 'number':
         return 0
       case 'union':

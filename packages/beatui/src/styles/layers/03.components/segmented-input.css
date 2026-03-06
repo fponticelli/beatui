@@ -40,7 +40,6 @@
   cursor: pointer;
   white-space: nowrap;
   font-weight: var(--font-weight-semibold);
-  text-transform: capitalize;
   color: var(--color-base-700);
   transition: color
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
