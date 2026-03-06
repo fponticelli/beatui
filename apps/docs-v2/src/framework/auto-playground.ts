@@ -91,7 +91,7 @@ export function autoPlayground(
  */
 export function manualPlayground(
   componentName: string,
-  renderFn: (signals: Record<string, Value<unknown>>) => TNode
+  renderFn: (signals: Record<string, Value<any>>) => TNode
 ): TNode {
   const meta = componentMeta[componentName]
   if (!meta) {

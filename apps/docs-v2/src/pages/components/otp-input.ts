@@ -1,13 +1,19 @@
 import { OTPInput } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
-import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
+import {
+  ComponentPage,
+  manualPlayground,
+  AutoSections,
+  Section,
+} from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'OTPInput',
   category: 'Form Inputs',
   component: 'OTPInput',
-  description: 'A one-time password input with individual cells, keyboard navigation, paste support, and masking.',
+  description:
+    'A one-time password input with individual cells, keyboard navigation, paste support, and masking.',
   icon: 'lucide:key-round',
   order: 10,
 }
@@ -18,11 +24,12 @@ export default function OTPInputPage() {
       const value = prop('')
       return OTPInput({
         value,
-        onChange: v => value.set(v),
+        onChange: (v: string) => value.set(v),
         size: signals.size,
         color: signals.color,
         disabled: signals.disabled,
-      } as never)
+        length: signals.length,
+      })
     }),
     sections: [
       ...AutoSections('OTPInput', props =>
@@ -76,7 +83,10 @@ export default function OTPInputPage() {
             attr.class('flex flex-col gap-4'),
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-2'), size),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-2'),
+                  size
+                ),
                 OTPInput({ value: '', onChange: () => {}, size, length: 6 })
               )
             )
@@ -90,7 +100,10 @@ export default function OTPInputPage() {
             attr.class('flex flex-col gap-4'),
             ...(['primary', 'success', 'danger'] as const).map(color =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-2'), color),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-2'),
+                  color
+                ),
                 OTPInput({ value: '', onChange: () => {}, color, length: 6 })
               )
             )
