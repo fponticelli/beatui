@@ -7,7 +7,7 @@
   flex-direction: column;
   border-radius: var(--radius-surface, var(--radius-lg));
   border: var(--border-width-thin) solid var(--card-border);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
   box-shadow: var(--shadow-surface, var(--shadow-md));
   background-color: var(--card-bg);
   color: var(--card-text);

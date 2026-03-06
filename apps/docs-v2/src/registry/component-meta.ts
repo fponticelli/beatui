@@ -8621,7 +8621,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Number of input digits/characters.",
         "type": "number",
         "defaultValue": "6",
-        "reactive": false,
+        "reactive": true,
         "optional": true,
         "numberStep": 1,
         "numberMin": 1,

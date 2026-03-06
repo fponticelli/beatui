@@ -215,7 +215,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
         attr.class('bc-dropdown__trigger'),
         html.span(attr.class('bc-dropdown__display'), display),
         Icon(
-          { icon: 'ph:caret-up-down-bold', color: 'neutral' },
+          { icon: 'ph:caret-up-down-bold', color: 'neutral', size: options.size },
           attr.class('bc-dropdown__arrow')
         )
       ),

@@ -30,9 +30,12 @@ export default function DropdownPage() {
       return html.div(
         attr.class('w-56'),
         DropdownInput({
-          ...signals,
           value,
           options,
+          size: signals.size,
+          color: signals.color,
+          disabled: signals.disabled,
+          searchable: signals.searchable,
           placeholder: 'Select a fruit...',
           onChange: (v: string) => value.set(v),
         } as never)

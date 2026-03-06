@@ -1,11 +1,10 @@
 import { html, attr } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Icon, Badge } from '@tempots/beatui'
 import { categories } from '../registry/page-registry'
-import { componentMeta } from '../registry/component-meta'
 import { Anchor } from '@tempots/ui'
 
 export default function HomePage() {
-  const totalComponents = Object.keys(componentMeta).length
+  const totalComponents = categories.reduce((sum, cat) => sum + cat.pages.length, 0)
 
   return ScrollablePanel({
     body: Stack(

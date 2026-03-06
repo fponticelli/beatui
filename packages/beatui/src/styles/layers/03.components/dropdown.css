@@ -12,7 +12,6 @@
 
 .bc-dropdown__trigger {
   width: 100%;
-  height: calc(var(--spacing-base) * 4.75);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,11 +32,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--spacing-xl);
-  height: var(--spacing-xl);
   flex-shrink: 0;
   margin-inline-start: var(--spacing-sm);
-  margin-inline-end: calc(var(--spacing-base) * -1.25);
 }
 
 /* Listbox (dropdown) */
