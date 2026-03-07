@@ -17,7 +17,8 @@
 
 .bc-tag-input:focus-within {
   border-color: var(--color-primary-500);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-600) 12%, transparent);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--color-primary-600) 12%, transparent);
 }
 
 .bc-tag-input--error {
@@ -25,7 +26,8 @@
 }
 
 .bc-tag-input--error:focus-within {
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-danger-600) 12%, transparent);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--color-danger-600) 12%, transparent);
 }
 
 .bc-tag-input--disabled {

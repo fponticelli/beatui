@@ -144,10 +144,7 @@ function generateTabsStyles(
   }
 
   if (variant === 'outline') {
-    styles.set(
-      '--tabs-outline-active-border',
-      colorLight400
-    )
+    styles.set('--tabs-outline-active-border', colorLight400)
     styles.set(
       '--tabs-outline-active-border-dark',
       getColorVar(

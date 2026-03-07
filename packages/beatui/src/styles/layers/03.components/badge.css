@@ -123,7 +123,8 @@
   font-size: inherit;
   line-height: var(--line-height-none);
   opacity: 0.5;
-  transition: opacity var(--motion-transition-fast) var(--motion-easing-standard);
+  transition: opacity var(--motion-transition-fast)
+    var(--motion-easing-standard);
 }
 
 .bc-badge__close:hover {

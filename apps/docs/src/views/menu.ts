@@ -9,7 +9,8 @@ import {
 } from '@tempots/beatui'
 import { attr } from '@tempots/dom'
 
-const TodoTag = () => Badge({ variant: 'light', color: 'red', size: 'xs' }, 'TODO')
+const TodoTag = () =>
+  Badge({ variant: 'light', color: 'red', size: 'xs' }, 'TODO')
 
 const Todo = (content: string) =>
   Group(attr.class('justify-between'), content, TodoTag())

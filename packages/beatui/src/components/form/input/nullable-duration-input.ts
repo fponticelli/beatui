@@ -1,6 +1,10 @@
 import { attr, Empty, Fragment, Value, input, on } from '@tempots/dom'
 import { InputContainer } from './input-container'
-import { CommonInputAttributes, InputOptions, mapInputOptions } from './input-options'
+import {
+  CommonInputAttributes,
+  InputOptions,
+  mapInputOptions,
+} from './input-options'
 import { WithTemporal } from '../../../temporal/with-temporal'
 import { MaskInput } from './mask-input'
 import { durationMaskConfig } from './duration-mask'

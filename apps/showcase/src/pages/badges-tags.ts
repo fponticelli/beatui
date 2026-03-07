@@ -11,7 +11,8 @@ export default function BadgesTagsPage() {
   return WidgetPage({
     id: 'badges-tags',
     title: 'Badges & Indicators',
-    description: 'Badges for status indicators and labels, indicators for overlaid counts and dots.',
+    description:
+      'Badges for status indicators and labels, indicators for overlaid counts and dots.',
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
 
@@ -173,18 +174,37 @@ export default function BadgesTagsPage() {
 
       Section(
         'Removable Badge Sizes',
-        Badge({ variant: 'light', size: 'xs', color: 'primary', onClose: () => {} }, 'XS'),
-        Badge({ variant: 'light', size: 'sm', color: 'primary', onClose: () => {} }, 'SM'),
-        Badge({ variant: 'light', size: 'md', color: 'primary', onClose: () => {} }, 'MD'),
-        Badge({ variant: 'light', size: 'lg', color: 'primary', onClose: () => {} }, 'LG'),
-        Badge({ variant: 'light', size: 'xl', color: 'primary', onClose: () => {} }, 'XL')
+        Badge(
+          { variant: 'light', size: 'xs', color: 'primary', onClose: () => {} },
+          'XS'
+        ),
+        Badge(
+          { variant: 'light', size: 'sm', color: 'primary', onClose: () => {} },
+          'SM'
+        ),
+        Badge(
+          { variant: 'light', size: 'md', color: 'primary', onClose: () => {} },
+          'MD'
+        ),
+        Badge(
+          { variant: 'light', size: 'lg', color: 'primary', onClose: () => {} },
+          'LG'
+        ),
+        Badge(
+          { variant: 'light', size: 'xl', color: 'primary', onClose: () => {} },
+          'XL'
+        )
       ),
 
       Section(
         'Closable Badges',
         ForEach(closableBadges, v =>
           Badge(
-            { variant: 'light', color: 'info', onClose: () => removeBadge(v.value) },
+            {
+              variant: 'light',
+              color: 'info',
+              onClose: () => removeBadge(v.value),
+            },
             v
           )
         )
@@ -192,9 +212,15 @@ export default function BadgesTagsPage() {
 
       Section(
         'Icon Indicators',
-        Indicator({ color: 'danger' }, Icon({ icon: 'lucide:bell', size: 'xl' })),
+        Indicator(
+          { color: 'danger' },
+          Icon({ icon: 'lucide:bell', size: 'xl' })
+        ),
         Indicator({ count: 5 }, Icon({ icon: 'lucide:mail', size: 'xl' })),
-        Indicator({ count: 99, maxCount: 9 }, Icon({ icon: 'lucide:shopping-cart', size: 'xl' }))
+        Indicator(
+          { count: 99, maxCount: 9 },
+          Icon({ icon: 'lucide:shopping-cart', size: 'xl' })
+        )
       )
     ),
   })

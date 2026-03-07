@@ -97,9 +97,7 @@ export const LazyNativeSelect = <T, R>(
         input: html.select(
           attr.class('bc-native-select bc-input'),
           attr.disabled(true),
-          Use(BeatUII18n, t =>
-            html.option(t.$.loadingShort)
-          )
+          Use(BeatUII18n, t => html.option(t.$.loadingShort))
         ),
       }),
   })
