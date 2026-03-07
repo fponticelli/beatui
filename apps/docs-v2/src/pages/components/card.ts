@@ -1,4 +1,4 @@
-import { Card } from '@tempots/beatui'
+import { Card, CardHeader, CardBody, CardFooter, CardCoverImage, Button } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
 import { ComponentPage, autoPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -92,6 +92,79 @@ export default function CardPage() {
         'Control the corner radius with the roundedness prop.'
       ),
       Section(
+        'Structured Card',
+        () =>
+          html.div(
+            attr.class('max-w-sm'),
+            Card(
+              {},
+              CardHeader(
+                {},
+                html.h3(attr.class('font-semibold'), 'Project Settings')
+              ),
+              CardBody(
+                {},
+                html.p(
+                  attr.class('text-sm text-gray-600 dark:text-gray-400'),
+                  'Configure your project name, description, and visibility. Changes are saved automatically.'
+                )
+              ),
+              CardFooter(
+                {},
+                Button({ variant: 'default', size: 'sm' }, 'Cancel'),
+                Button({ variant: 'filled', color: 'primary', size: 'sm' }, 'Save')
+              )
+            )
+          ),
+        'Use CardHeader, CardBody, and CardFooter for structured layouts with built-in borders and padding.'
+      ),
+      Section(
+        'Cover Image',
+        () =>
+          html.div(
+            attr.class('flex flex-wrap gap-4'),
+            html.div(
+              attr.class('max-w-xs'),
+              Card(
+                {},
+                CardCoverImage({
+                  src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=200&fit=crop',
+                  alt: 'Landscape',
+                  height: '180px',
+                }),
+                CardBody(
+                  {},
+                  html.h3(attr.class('font-semibold mb-1'), 'Mountain Lake'),
+                  html.p(
+                    attr.class('text-sm text-gray-500 dark:text-gray-400'),
+                    'A beautiful alpine lake surrounded by mountains.'
+                  )
+                )
+              )
+            ),
+            html.div(
+              attr.class('max-w-xs'),
+              Card(
+                {},
+                CardBody(
+                  {},
+                  html.h3(attr.class('font-semibold mb-1'), 'Ocean Sunset'),
+                  html.p(
+                    attr.class('text-sm text-gray-500 dark:text-gray-400'),
+                    'Golden hour over the Pacific coast.'
+                  )
+                ),
+                CardCoverImage({
+                  src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=200&fit=crop',
+                  alt: 'Sunset',
+                  height: '180px',
+                })
+              )
+            )
+          ),
+        'CardCoverImage renders a full-bleed image that inherits the card border radius. Place it first for top images or last for bottom images.'
+      ),
+      Section(
         'As Content Container',
         () =>
           Card(
@@ -108,12 +181,12 @@ export default function CardPage() {
                 html.h3(attr.class('font-semibold'), 'User Profile'),
                 html.p(
                   attr.class('text-sm text-gray-500 dark:text-gray-400 mt-1'),
-                  'Cards are ideal for displaying structured content like profiles, articles, and data summaries.'
+                  'Cards without sub-components use the card\'s own padding directly.'
                 )
               )
             )
           ),
-        'Cards are flexible containers for any kind of structured content.'
+        'Without sub-components, Card works as a simple padded container.'
       ),
     ],
   })

@@ -139,8 +139,8 @@ export default function CollapsePage() {
                   ),
                   attr.type('button'),
                   on.click(() => open.set(!open.value)),
-                  label,
-                  Value.map(open, (o): string => (o ? '−' : '+'))
+                  html.span(label),
+                  html.span(Value.map(open, (o): string => (o ? '−' : '+')))
                 ),
                 html.div(
                   Collapse(

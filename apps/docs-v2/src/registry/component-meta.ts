@@ -3695,6 +3695,48 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
+  "CardSection": {
+    "name": "CardSection",
+    "optionsType": "CardSectionOptions",
+    "sourceFile": "components/layout/card.ts",
+    "props": [
+      {
+        "name": "class",
+        "description": "Additional CSS classes.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
+  "CardCoverImage": {
+    "name": "CardCoverImage",
+    "optionsType": "CardCoverImageOptions",
+    "sourceFile": "components/layout/card.ts",
+    "props": [
+      {
+        "name": "src",
+        "description": "Image source URL.",
+        "type": "string",
+        "reactive": true,
+        "optional": false
+      },
+      {
+        "name": "alt",
+        "description": "Alt text for accessibility.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "height",
+        "description": "Fixed height for the image (e.g. `'200px'`). Defaults to auto.",
+        "type": "string",
+        "reactive": true,
+        "optional": true
+      }
+    ]
+  },
   "Center": {
     "name": "Center",
     "optionsType": "CenterOptions",

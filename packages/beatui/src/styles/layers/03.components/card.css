@@ -77,6 +77,62 @@
   border-radius: var(--radius-full);
 }
 
+/* Remove Card padding when structured sub-components are used */
+.bc-card:has(
+    > .bc-card__header,
+    > .bc-card__body,
+    > .bc-card__footer,
+    > .bc-card__cover-image
+  ) {
+  padding: 0;
+}
+
+/* Card sections */
+.bc-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-bottom: var(--border-width-thin) solid var(--card-border);
+  background-color: var(--bg-surface-secondary, color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%));
+  flex-shrink: 0;
+}
+
+.bc-card__body {
+  flex: 1;
+  padding: var(--spacing-md);
+}
+
+.bc-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-top: var(--border-width-thin) solid var(--card-border);
+  background-color: var(--bg-surface-secondary, color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%));
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+/* Cover image */
+.bc-card__cover-image {
+  width: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.bc-card__cover-image:first-child {
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.bc-card__cover-image:last-child {
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 /* Dark mode styles */
 .dark .bc-card--elevated {
   --card-bg: var(--bg-elevated);
