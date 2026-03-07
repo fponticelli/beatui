@@ -1,77 +1,64 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, beforeAll, afterAll, vi } from 'vitest'
 import { render, prop } from '@tempots/dom'
 import { NineSliceScrollView } from '../../src/components/layout/nine-slice-scroll-view'
 import { WithProviders } from '../helpers/test-providers'
-
-// ElementRect uses ResizeObserver which jsdom doesn't have.
-// Mock it as a class that fires the callback with a fixed container size.
-class MockResizeObserver {
-  private callback: ResizeObserverCallback
-  constructor(callback: ResizeObserverCallback) {
-    this.callback = callback
-  }
-  observe(target: Element) {
-    // Fire callback asynchronously to mimic real behavior
-    Promise.resolve().then(() => {
-      this.callback(
-        [
-          {
-            target,
-            contentRect: {
-              x: 0,
-              y: 0,
-              width: 600,
-              height: 400,
-              top: 0,
-              right: 600,
-              bottom: 400,
-              left: 0,
-              toJSON: () => ({}),
-            },
-            borderBoxSize: [{ inlineSize: 600, blockSize: 400 }],
-            contentBoxSize: [{ inlineSize: 600, blockSize: 400 }],
-            devicePixelContentBoxSize: [{ inlineSize: 600, blockSize: 400 }],
-          } as unknown as ResizeObserverEntry,
-        ],
-        this as unknown as ResizeObserver
-      )
-    })
-  }
-  unobserve() {}
-  disconnect() {}
-}
-
-vi.stubGlobal('ResizeObserver', MockResizeObserver)
 
 function flush() {
   return new Promise(resolve => setTimeout(resolve, 50))
 }
 
-// jsdom getBoundingClientRect returns all zeros. Patch it on test containers.
-function mockContainerRect(el: HTMLElement, width: number, height: number) {
-  el.getBoundingClientRect = () => ({
-    x: 0,
-    y: 0,
-    width,
-    height,
-    top: 0,
-    left: 0,
-    right: width,
-    bottom: height,
-    toJSON: () => ({}),
-  })
-}
 
 describe('NineSliceScrollView', () => {
   let container: HTMLElement
+  let origResizeObserver: typeof ResizeObserver | undefined
+
+  // ElementRect uses ResizeObserver which jsdom doesn't have.
+  // Scope the mock to this describe block to avoid leaking.
+  beforeAll(() => {
+    origResizeObserver = globalThis.ResizeObserver
+
+    class MockResizeObserver {
+      private callback: ResizeObserverCallback
+      constructor(callback: ResizeObserverCallback) {
+        this.callback = callback
+      }
+      observe(target: Element) {
+        Promise.resolve().then(() => {
+          this.callback(
+            [
+              {
+                target,
+                contentRect: { x: 0, y: 0, width: 600, height: 400, top: 0, right: 600, bottom: 400, left: 0, toJSON: () => ({}) },
+                borderBoxSize: [{ inlineSize: 600, blockSize: 400 }],
+                contentBoxSize: [{ inlineSize: 600, blockSize: 400 }],
+                devicePixelContentBoxSize: [{ inlineSize: 600, blockSize: 400 }],
+              } as unknown as ResizeObserverEntry,
+            ],
+            this as unknown as ResizeObserver
+          )
+        })
+      }
+      unobserve() {}
+      disconnect() {}
+    }
+
+    globalThis.ResizeObserver = MockResizeObserver as unknown as typeof ResizeObserver
+  })
+
+  afterAll(() => {
+    if (origResizeObserver) {
+      globalThis.ResizeObserver = origResizeObserver
+    } else {
+      delete (globalThis as Record<string, unknown>).ResizeObserver
+    }
+  })
 
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     container = document.createElement('div')
     document.body.appendChild(container)
 
-    // Patch getBoundingClientRect globally so ElementRect gets real dimensions
-    // The NineSliceScrollView container will be the observed element.
+    // Patch getBoundingClientRect so ElementRect gets real dimensions
     const origGetBCR = Element.prototype.getBoundingClientRect
     vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
       this: Element
