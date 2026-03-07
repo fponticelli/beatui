@@ -3,3 +3,6 @@ src/registry/
 
 # Generated API docs
 public/api.json
+
+# Generated search index
+public/search-index.json

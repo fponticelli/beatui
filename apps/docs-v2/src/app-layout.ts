@@ -7,6 +7,7 @@ import {
 } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
 import { SidebarMenu } from './views/sidebar-menu'
+import { HeaderSearch } from './views/header-search'
 
 export function AppLayout({ children }: { children: TNode }) {
   return AppShell({
@@ -33,7 +34,10 @@ export function AppLayout({ children }: { children: TNode }) {
             )
           )
         ),
-        html.div(attr.class('px-2'), StandaloneAppearanceSelector())
+        html.div(attr.class('flex items-center gap-2 px-2'),
+          HeaderSearch(),
+          StandaloneAppearanceSelector()
+        )
       ),
     },
     main: {

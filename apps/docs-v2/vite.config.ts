@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 import { componentMetaPlugin } from './scripts/vite-plugin-component-meta'
 import { pageRegistryPlugin } from './scripts/vite-plugin-page-registry'
+import { searchIndexPlugin } from './scripts/vite-plugin-search-index'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -48,6 +49,7 @@ export default defineConfig({
     beatuiPlugin,
     componentMetaPlugin(),
     pageRegistryPlugin(),
+    searchIndexPlugin(),
     spa404Plugin(),
   ],
   build: {
