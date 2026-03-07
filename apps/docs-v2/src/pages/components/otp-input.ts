@@ -1,5 +1,5 @@
 import { OTPInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -21,7 +21,7 @@ export const meta: ComponentPageMeta = {
 export default function OTPInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('OTPInput', signals => {
-      const value = prop('')
+      const value = signals.value as Prop<string>
       return OTPInput({
         value,
         onChange: (v: string) => value.set(v),

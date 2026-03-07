@@ -1,5 +1,5 @@
 import { MaskInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,11 +15,13 @@ export const meta: ComponentPageMeta = {
 export default function MaskInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('MaskInput', signals => {
-      const value = prop('')
+      const value = signals.value as Prop<string>
       return MaskInput({
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
+        before: signals.before,
+        after: signals.after,
         mask: '(999) 999-9999',
         placeholder: '(___) ___-____',
         size: signals.size,

@@ -1,5 +1,5 @@
 import { NumberInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,10 +15,12 @@ export const meta: ComponentPageMeta = {
 export default function NumberInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('NumberInput', signals => {
-      const value = prop(0)
+      const value = signals.value as Prop<number>
       return NumberInput({
         size: signals.size,
         disabled: signals.disabled,
+        before: signals.before,
+        after: signals.after,
         value,
         onChange: (v: number) => value.set(v),
       } as never)

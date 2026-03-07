@@ -1,5 +1,5 @@
 import { TextArea } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,12 +15,14 @@ export const meta: ComponentPageMeta = {
 export default function TextAreaPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TextArea', signals => {
-      const value = prop('')
+      const value = signals.value as Prop<string>
       return TextArea({
         size: signals.size,
         disabled: signals.disabled,
         hasError: signals.hasError,
         placeholder: signals.placeholder,
+        before: signals.before,
+        after: signals.after,
         value,
         onInput: (v: string) => value.set(v),
       } as never)
