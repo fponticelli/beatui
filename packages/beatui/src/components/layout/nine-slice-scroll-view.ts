@@ -188,7 +188,9 @@ export function NineSliceScrollView({
   const horizontalScrollPosition = prop(0n)
 
   const headerHeightPx = valueToPx(headerHeight)
+  const footerHeightPx = valueToPx(footerHeight)
   const sidebarStartWidthPx = valueToPx(sidebarStartWidth)
+  const sidebarEndWidthPx = valueToPx(sidebarEndWidth)
 
   return html.div(
     attr.class('bc-nine-slice-container'),
@@ -235,6 +237,9 @@ export function NineSliceScrollView({
         return hasHScroll ? height - SCROLLBAR_SIZE : height
       })
 
+      const visibleAreaWidthPx = visibleAreaWidth.map(toPx)
+      const visibleAreaHeightPx = visibleAreaHeight.map(toPx)
+
       const maxVerticalScroll = computedOf(
         contentHeight,
         visibleAreaHeight
@@ -266,7 +271,7 @@ export function NineSliceScrollView({
               return `${Math.max(startWidth + endWidth, position)}px`
             })
           ),
-        () => style.right(`${SCROLLBAR_SIZE}px`)
+        () => style.right('0')
       )
       const shouldAnchorFooterToBody = Value.map(
         anchorMode,
@@ -288,7 +293,7 @@ export function NineSliceScrollView({
               return `${Math.max(hh + fh, position)}px`
             })
           ),
-        () => style.bottom(`${SCROLLBAR_SIZE}px`)
+        () => style.bottom('0')
       )
 
       const endSideOffset = computedOf(needsVerticalScroll)((
@@ -634,6 +639,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-top-start'),
                 style.top('0'),
                 style.left('0'),
+                style.width(sidebarStartWidthPx),
+                style.height(headerHeightPx),
                 topStart
               )
             : null,
@@ -643,6 +650,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-header'),
                 style.top('0'),
                 style.left(sidebarStartWidthPx),
+                style.width(visibleAreaWidthPx),
+                style.height(headerHeightPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   horizontalTransform,
@@ -656,6 +665,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
                 style.top('0'),
                 EndAnchor,
+                style.width(sidebarEndWidthPx),
+                style.height(headerHeightPx),
                 topEnd
               )
             : null,
@@ -665,6 +676,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-start'),
                 style.left('0'),
                 style.top(headerHeightPx),
+                style.width(sidebarStartWidthPx),
+                style.height(visibleAreaHeightPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   verticalTransform,
@@ -677,6 +690,8 @@ export function NineSliceScrollView({
             attr.class('bc-nine-slice-pane bc-nine-slice-body'),
             style.left(sidebarStartWidthPx),
             style.top(headerHeightPx),
+            style.width(visibleAreaWidthPx),
+            style.height(visibleAreaHeightPx),
             // Body drag via pointer events for inertia
             on.pointerdown((e: PointerEvent) => {
               if (e.button !== 0) return
@@ -743,6 +758,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
                 EndAnchor,
                 style.top(headerHeightPx),
+                style.width(sidebarEndWidthPx),
+                style.height(visibleAreaHeightPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   verticalTransform,
@@ -756,6 +773,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
                 style.left('0'),
                 FooterAnchor,
+                style.width(sidebarStartWidthPx),
+                style.height(footerHeightPx),
                 bottomStart
               )
             : null,
@@ -765,6 +784,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
                 style.left(sidebarStartWidthPx),
                 FooterAnchor,
+                style.width(visibleAreaWidthPx),
+                style.height(footerHeightPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   horizontalTransform,
@@ -778,6 +799,8 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
                 EndAnchor,
                 FooterAnchor,
+                style.width(sidebarEndWidthPx),
+                style.height(footerHeightPx),
                 bottomEnd
               )
             : null

@@ -84,7 +84,7 @@ export default function CenterPage() {
                 attr.class('flex flex-col items-center gap-3'),
                 html.div(
                   attr.class(
-                    'w-8 h-8 rounded-full border-2 border-primary-500 border-t-transparent animate-spin'
+                    'w-8 h-8 rounded-full border-2 border-sky-500 border-t-transparent animate-spin'
                   )
                 ),
                 html.p(
@@ -101,18 +101,18 @@ export default function CenterPage() {
         () =>
           html.div(
             attr.class(
-              'h-48 rounded-lg bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-950 dark:to-primary-900'
+              'h-48 rounded-lg bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-950 dark:to-sky-900'
             ),
             Center(
               { gap: 'md' },
               html.div(
                 attr.class('text-center'),
                 html.h2(
-                  attr.class('text-xl font-bold text-primary-700 dark:text-primary-300 mb-2'),
+                  attr.class('text-xl font-bold text-sky-700 dark:text-sky-300 mb-2'),
                   'Welcome to BeatUI'
                 ),
                 html.p(
-                  attr.class('text-sm text-primary-600 dark:text-primary-400 mb-4'),
+                  attr.class('text-sm text-sky-600 dark:text-sky-400 mb-4'),
                   'Build beautiful interfaces with Tempo reactivity.'
                 ),
                 Button({ variant: 'filled', color: 'primary' }, 'Get Started')

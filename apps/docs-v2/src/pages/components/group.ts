@@ -14,7 +14,7 @@ export const meta: ComponentPageMeta = {
 }
 
 const itemClass =
-  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
+  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium'
 
 export default function GroupPage() {
   return ComponentPage(meta, {
@@ -150,7 +150,7 @@ export default function GroupPage() {
             Gap('sm'),
             html.div(
               attr.class(
-                'w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-bold'
+                'w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white text-sm font-bold'
               ),
               'JD'
             ),

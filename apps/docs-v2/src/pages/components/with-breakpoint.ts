@@ -23,7 +23,7 @@ export default function WithBreakpointPage() {
             value.map(({ width, breakpoint }) =>
               html.div(
                 html.div(
-                  attr.class('text-2xl font-bold text-primary-600 dark:text-primary-400 mb-1'),
+                  attr.class('text-2xl font-bold text-sky-600 dark:text-sky-400 mb-1'),
                   String(breakpoint).toUpperCase()
                 ),
                 html.div(
@@ -79,7 +79,7 @@ export default function WithBreakpointPage() {
                     html.p(
                       attr.class('text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'),
                       `Current breakpoint: `,
-                      html.strong(attr.class('text-primary-600 dark:text-primary-400'), String(breakpoint)),
+                      html.strong(attr.class('text-sky-600 dark:text-sky-400'), String(breakpoint)),
                       ` (${width}px)`
                     ),
                     html.div(
@@ -111,7 +111,7 @@ export default function WithBreakpointPage() {
                       html.div(
                         attr.class('p-3 bg-gray-50 dark:bg-gray-800/50'),
                         html.div(
-                          attr.class('text-xs font-mono text-primary-600 dark:text-primary-400'),
+                          attr.class('text-xs font-mono text-sky-600 dark:text-sky-400'),
                           String(breakpoint)
                         ),
                         html.div(
@@ -140,7 +140,7 @@ export default function WithBreakpointPage() {
                 html.div(
                   attr.class('font-semibold text-gray-700 dark:text-gray-300 mb-2'),
                   `Breakpoint: `,
-                  html.span(attr.class('text-primary-600 dark:text-primary-400'), String(breakpoint)),
+                  html.span(attr.class('text-sky-600 dark:text-sky-400'), String(breakpoint)),
                   ` at ${width}px`
                 ),
                 html.div(
@@ -149,7 +149,7 @@ export default function WithBreakpointPage() {
                     html.span(
                       attr.class(
                         breakpoint === bp
-                          ? 'px-2 py-0.5 rounded text-xs bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 font-semibold'
+                          ? 'px-2 py-0.5 rounded text-xs bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300 font-semibold'
                           : 'px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-800 text-gray-500'
                       ),
                       bp
@@ -175,7 +175,7 @@ export default function WithBreakpointPage() {
               value.map(({ width, breakpoint }) =>
                 html.div(
                   attr.class('p-3 rounded bg-gray-50 dark:bg-gray-800/50 text-sm'),
-                  html.span(attr.class('font-mono text-primary-600 dark:text-primary-400'), String(breakpoint)),
+                  html.span(attr.class('font-mono text-sky-600 dark:text-sky-400'), String(breakpoint)),
                   html.span(attr.class('text-gray-400 ml-2'), `(${width}px)`)
                 )
               )

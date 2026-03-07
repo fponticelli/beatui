@@ -182,12 +182,10 @@ export default function NineSliceScrollViewPage() {
               ),
               bottomStart: html.div(
                 attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 border-r border-t border-gray-300 dark:border-gray-600'),
-                style.height('32px'),
                 'Sum'
               ),
               bottomEnd: html.div(
                 attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 border-l border-t border-gray-300 dark:border-gray-600'),
-                style.height('32px'),
                 '--'
               ),
               body: makeGrid(),
@@ -215,7 +213,7 @@ export default function NineSliceScrollViewPage() {
                 ),
                 ...Array.from({ length: 20 }, (_, i) =>
                   html.div(
-                    attr.class('absolute w-32 h-8 rounded text-xs flex items-center justify-center bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'),
+                    attr.class('absolute w-32 h-8 rounded text-xs flex items-center justify-center bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300'),
                     style.left(`${(i % 5) * 600 + 20}px`),
                     style.top(`${Math.floor(i / 5) * 480 + 20}px`),
                     `Item ${i + 1}`

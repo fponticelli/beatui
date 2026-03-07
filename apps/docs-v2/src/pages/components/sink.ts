@@ -112,7 +112,7 @@ export default function SinkPage() {
             html.div(
               attr.class('flex gap-6'),
               html.div(
-                html.div(attr.class('text-2xl font-bold text-primary-600 dark:text-primary-400'), '1,234'),
+                html.div(attr.class('text-2xl font-bold text-sky-600 dark:text-sky-400'), '1,234'),
                 html.div(attr.class('text-xs text-gray-500'), 'Total users')
               ),
               html.div(

@@ -93,7 +93,7 @@ export default function LocaleSelectorPage() {
             }),
             html.button(
               attr.class(
-                'text-sm text-primary-600 dark:text-primary-400 hover:underline cursor-pointer text-left'
+                'text-sm text-sky-600 dark:text-sky-400 hover:underline cursor-pointer text-left'
               ),
               attr.type('button'),
               html.span(Value.map(showAll, v => (v ? 'Show fewer locales' : 'Show all locales')) as Value<string>),

@@ -144,7 +144,7 @@ export default function PopoverPage() {
                   attr.class('flex items-center gap-3 mb-3'),
                   html.div(
                     attr.class(
-                      'w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-sm font-bold'
+                      'w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-900 flex items-center justify-center text-sm font-bold'
                     ),
                     'JD'
                   ),

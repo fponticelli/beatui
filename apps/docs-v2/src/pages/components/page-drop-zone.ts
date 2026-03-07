@@ -27,11 +27,11 @@ export default function PageDropZonePage() {
           },
           onDragContent: () =>
             html.div(
-              attr.class('fixed inset-0 z-50 flex items-center justify-center bg-primary-500/20 backdrop-blur-sm pointer-events-none'),
+              attr.class('fixed inset-0 z-50 flex items-center justify-center bg-sky-500/20 backdrop-blur-sm pointer-events-none'),
               html.div(
-                attr.class('bg-white dark:bg-gray-900 border-2 border-dashed border-primary-400 rounded-2xl p-12 flex flex-col items-center gap-4 shadow-2xl'),
+                attr.class('bg-white dark:bg-gray-900 border-2 border-dashed border-sky-400 rounded-2xl p-12 flex flex-col items-center gap-4 shadow-2xl'),
                 Icon({ icon: 'lucide:file-down', size: 'xl' }),
-                html.p(attr.class('text-lg font-semibold text-primary-600 dark:text-primary-400'), 'Drop files here')
+                html.p(attr.class('text-lg font-semibold text-sky-600 dark:text-sky-400'), 'Drop files here')
               )
             ),
           content: ({ isDragging, files, selectFiles }) =>
@@ -41,7 +41,7 @@ export default function PageDropZonePage() {
                 attr.class('border-2 border-dashed rounded-xl p-8 text-center transition-colors'),
                 attr.class(isDragging.map(d =>
                   d
-                    ? 'border-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                    ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/20'
                     : 'border-gray-300 dark:border-gray-600'
                 )),
                 Icon({ icon: 'lucide:upload-cloud', size: 'xl' }),

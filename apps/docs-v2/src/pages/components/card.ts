@@ -173,7 +173,7 @@ export default function CardPage() {
               attr.class('flex items-start gap-4'),
               html.div(
                 attr.class(
-                  'w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center shrink-0'
+                  'w-12 h-12 rounded-full bg-sky-100 dark:bg-sky-900 flex items-center justify-center shrink-0'
                 ),
                 html.span(attr.class('text-xl'), 'U')
               ),

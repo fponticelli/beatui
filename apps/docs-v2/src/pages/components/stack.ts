@@ -14,7 +14,7 @@ export const meta: ComponentPageMeta = {
 }
 
 const itemClass =
-  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
+  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-sky-50 dark:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-medium'
 
 export default function StackPage() {
   return ComponentPage(meta, {

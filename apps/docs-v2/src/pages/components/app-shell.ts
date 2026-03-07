@@ -29,7 +29,7 @@ function DemoAppShell(options: {
             banner: {
               content: html.div(
                 attr.class(
-                  'flex items-center justify-center h-full text-xs font-medium bg-primary-600 text-white'
+                  'flex items-center justify-center h-full text-xs font-medium bg-sky-700 text-white'
                 ),
                 'Announcement banner'
               ),

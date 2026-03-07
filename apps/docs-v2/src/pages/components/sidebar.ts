@@ -292,7 +292,7 @@ export default function SidebarPage() {
                   content: 'Inbox',
                   icon: 'lucide:inbox',
                   right: html.span(
-                    attr.class('text-xs font-medium bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 rounded-full px-2 py-0.5'),
+                    attr.class('text-xs font-medium bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300 rounded-full px-2 py-0.5'),
                     '12'
                   ),
                   onClick: () => {},
