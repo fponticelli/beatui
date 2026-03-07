@@ -26,9 +26,8 @@ export default function AlertDialogPage() {
       return MapSignal(key, () =>
         AlertDialog(
           {
-            title: signals.title,
+            ...signals,
             variant: Value.get(signals.variant) || 'info',
-            okText: signals.okText,
             dismissable: Value.get(signals.dismissable) ?? true,
             body: html.p('This is the alert message body content.'),
             onOk: () => console.log('Alert acknowledged'),

@@ -1,6 +1,5 @@
 import { RatingInput, NullableRatingInput } from '@tempots/beatui'
-import type { ThemeColorName } from '@tempots/beatui'
-import { html, attr, prop, Value, type Prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -19,17 +18,10 @@ export default function RatingInputPage() {
     playground: manualPlayground('NullableRatingInput', signals => {
       const value = signals.value as Prop<number | null>
       return NullableRatingInput({
-        size: signals.size as Value<'xs' | 'sm' | 'md' | 'lg' | 'xl'>,
-        disabled: signals.disabled as Value<boolean>,
-        fullColor: signals.fullColor as Value<ThemeColorName>,
-        emptyColor: signals.emptyColor as Value<ThemeColorName>,
-        max: signals.max as Value<number>,
-        rounding: signals.rounding as Value<number>,
-        fullIcon: signals.fullIcon as Value<string>,
-        emptyIcon: signals.emptyIcon as Value<string>,
+        ...signals,
         value,
         onChange: (v: number | null) => value.set(v),
-      })
+      } as never)
     }),
     sections: [
       ...AutoSections('NullableRatingInput', props =>

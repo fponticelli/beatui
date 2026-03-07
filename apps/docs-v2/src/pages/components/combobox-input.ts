@@ -1,5 +1,5 @@
 import { ComboboxInput, Option } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Signal } from '@tempots/dom'
 import type { DropdownOption } from '@tempots/beatui'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -56,14 +56,13 @@ export default function ComboboxInputPage() {
       return html.div(
         attr.class('w-64'),
         ComboboxInput<Fruit>({
-          disabled: signals.disabled as never,
+          ...signals,
           value,
           loadOptions: searchFruits,
-          renderOption: fruitSignal => fruitSignal.map(f => f.name),
-          placeholder: 'Search fruits...',
+          renderOption: (fruitSignal: Signal<Fruit>) => fruitSignal.map(f => f.name),
           onChange: (f: Fruit) => value.set(f),
           equality: (a: Fruit, b: Fruit) => a.id === b.id,
-        })
+        } as never)
       )
     }),
     sections: [

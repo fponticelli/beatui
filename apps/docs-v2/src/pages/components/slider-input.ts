@@ -20,14 +20,9 @@ export default function SliderInputPage() {
       return html.div(
         attr.class('w-64'),
         SliderInput({
-          size: signals.size,
-          color: signals.color,
-          disabled: signals.disabled,
+          ...signals,
           value,
           onChange: (v: number) => value.set(v),
-          min: 0,
-          max: 100,
-          step: 1,
         } as never)
       )
     }),

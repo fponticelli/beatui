@@ -19,9 +19,9 @@ export default function AppearanceSelectorPage() {
     playground: manualPlayground('AppearanceSelector', signals => {
       const value = signals.value as Prop<AppearancePreference>
       return AppearanceSelector({
+        ...signals,
         value,
         onChange: (v: AppearancePreference) => value.set(v),
-        disabled: signals.disabled,
       } as never)
     }),
     sections: [

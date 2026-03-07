@@ -18,8 +18,7 @@ export default function ColorInputPage() {
     playground: manualPlayground('ColorInput', signals => {
       const value = signals.value as Prop<string>
       return ColorInput({
-        size: signals.size,
-        disabled: signals.disabled,
+        ...signals,
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),

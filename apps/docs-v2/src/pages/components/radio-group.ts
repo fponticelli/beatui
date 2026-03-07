@@ -24,9 +24,7 @@ export default function RadioGroupPage() {
     playground: manualPlayground('RadioGroup', signals => {
       const value = signals.value as Prop<string>
       return RadioGroup({
-        size: signals.size,
-        disabled: signals.disabled,
-        orientation: signals.orientation,
+        ...signals,
         options: sampleOptions,
         value,
         onChange: (v: string) => value.set(v),

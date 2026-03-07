@@ -1,11 +1,4 @@
-import {
-  html,
-  attr,
-  prop,
-  Prop,
-  TNode,
-  Value,
-} from '@tempots/dom'
+import { html, attr, prop, Prop, TNode, Value } from '@tempots/dom'
 import {
   SegmentedInput,
   Switch,
@@ -46,10 +39,16 @@ function renderDescription(text: string): TNode {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
   const rendered = escaped
-    .replace(/`([^`]+)`/g, '<code class="text-[0.65rem] px-0.5 bg-gray-200 dark:bg-gray-700 rounded">$1</code>')
+    .replace(
+      /`([^`]+)`/g,
+      '<code class="text-[0.65rem] px-0.5 bg-gray-200 dark:bg-gray-700 rounded">$1</code>'
+    )
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    .replace(/\{@link\s+(\w+)\}/g, '<code class="text-[0.65rem] px-0.5 bg-gray-200 dark:bg-gray-700 rounded">$1</code>')
+    .replace(
+      /\{@link\s+(\w+)\}/g,
+      '<code class="text-[0.65rem] px-0.5 bg-gray-200 dark:bg-gray-700 rounded">$1</code>'
+    )
   return html.span(attr.innerHTML(rendered))
 }
 
@@ -58,7 +57,9 @@ function renderDescription(text: string): TNode {
  */
 function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
   const typedSignal = signal as Prop<string>
-  const description = meta.description ? renderDescription(meta.description) : undefined
+  const description = meta.description
+    ? renderDescription(meta.description)
+    : undefined
 
   switch (meta.type) {
     case 'boolean':
@@ -159,6 +160,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
  * Parse a default value string into a typed JS value.
  */
 function parseDefault(meta: PropMeta): unknown {
+  console.log(meta)
   const d = meta.defaultValue
   // Treat @default undefined as actual undefined (not the string "undefined")
   if (d === undefined || d === 'undefined') {
@@ -166,14 +168,13 @@ function parseDefault(meta: PropMeta): unknown {
       case 'boolean':
         return false
       case 'string':
-        // Optional string props (Value<string | undefined>) should start as
-        // undefined so components using Ensure/null checks work correctly
-        return meta.optional ? undefined : ''
+        return ''
       case 'number':
         return 0
       case 'union':
         // Default size to 'md' when not specified (most components default to md)
-        if (meta.name === 'size' && meta.unionValues?.includes('md')) return 'md'
+        if (meta.name === 'size' && meta.unionValues?.includes('md'))
+          return 'md'
         return meta.unionValues?.[0] ?? ''
       default:
         return ''
@@ -186,7 +187,11 @@ function parseDefault(meta: PropMeta): unknown {
   if (!isNaN(num) && meta.type === 'number') return num
   const cleaned = d.replace(/^['"]|['"]$/g, '')
   // For union types, ensure the default matches one of the available values
-  if (meta.type === 'union' && meta.unionValues && meta.unionValues.length > 0) {
+  if (
+    meta.type === 'union' &&
+    meta.unionValues &&
+    meta.unionValues.length > 0
+  ) {
     if (!meta.unionValues.includes(cleaned)) {
       return meta.unionValues[0]
     }
@@ -224,7 +229,7 @@ export function createOptionsPanel(
 
     // For optional string/TNode props, wrap in a computed that maps '' → undefined
     // so components checking `label != null` see undefined instead of a truthy signal
-    if (propMeta.optional && (propMeta.type === 'string') && defaultVal === undefined) {
+    if (propMeta.optional && propMeta.type === 'string') {
       props[propMeta.name] = Value.map(signal, v =>
         v === undefined || v === '' ? undefined : v
       )
@@ -239,12 +244,12 @@ export function createOptionsPanel(
       'flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 overflow-y-auto max-h-[400px]'
     ),
     html.div(
-      attr.class('text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1'),
+      attr.class(
+        'text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1'
+      ),
       'Options'
     ),
-    ...componentMeta.props.map(meta =>
-      PropControl(meta, signals[meta.name])
-    )
+    ...componentMeta.props.map(meta => PropControl(meta, signals[meta.name]))
   )
 
   return { panel, signals, props, optionalKeys }

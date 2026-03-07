@@ -8698,8 +8698,9 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "value",
-        "description": "The current OTP value as a string",
+        "description": "The current OTP value as a string.",
         "type": "string",
+        "defaultValue": "",
         "reactive": true,
         "optional": true
       },

@@ -1,5 +1,5 @@
 import { AdvancedSlider } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,17 +15,11 @@ export const meta: ComponentPageMeta = {
 export default function AdvancedSliderPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('AdvancedSlider', signals => {
-      const value = prop(50)
+      const value = signals.value as Prop<number>
       return AdvancedSlider({
+        ...signals,
         value,
         onChange: (v: number) => value.set(v),
-        min: 0,
-        max: 100,
-        step: 1,
-        showValue: signals.showValue,
-        size: signals.size,
-        color: signals.color,
-        disabled: signals.disabled,
       } as never)
     }),
     sections: [

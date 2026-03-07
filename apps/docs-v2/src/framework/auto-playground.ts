@@ -1,4 +1,12 @@
-import { html, attr, TNode, computedOf, MapSignal, Value } from '@tempots/dom'
+import {
+  html,
+  attr,
+  TNode,
+  computedOf,
+  MapSignal,
+  Value,
+  Renderable,
+} from '@tempots/dom'
 import { componentMeta } from '../registry/component-meta'
 import { createOptionsPanel, type PropSignals } from './prop-panel'
 import { CodePreview } from './code-preview'
@@ -11,7 +19,7 @@ function playgroundLayout(
   preview: TNode,
   panel: TNode,
   signals: PropSignals
-): TNode {
+): Renderable {
   const meta = componentMeta[componentName]
   const signalValues = Object.entries(signals)
 
@@ -53,7 +61,7 @@ function playgroundLayout(
         attr.class(
           'flex-1 flex items-center justify-center p-6 min-h-[120px] rounded-lg bg-gray-50 dark:bg-gray-800/30'
         ),
-        preview
+        html.div(preview)
       ),
       html.div(attr.class('lg:w-72 shrink-0'), panel)
     ),
@@ -78,7 +86,10 @@ export function autoPlayground(
     )
   }
 
-  const { panel, signals, props, optionalKeys } = createOptionsPanel(meta, defaults)
+  const { panel, signals, props, optionalKeys } = createOptionsPanel(
+    meta,
+    defaults
+  )
 
   // If there are optional props that toggle between undefined/defined,
   // re-render the component when any of them toggle. This handles components
@@ -87,8 +98,8 @@ export function autoPlayground(
   if (optionalKeys.length > 0) {
     // Compute a key that changes when any optional prop toggles defined/undefined
     const optionalSignals = optionalKeys.map(k => props[k] as Value<unknown>)
-    const structureKey = computedOf(...optionalSignals)(
-      (...vals: unknown[]) => vals.map(v => (v == null ? '0' : '1')).join('')
+    const structureKey = computedOf(...optionalSignals)((...vals: unknown[]) =>
+      vals.map(v => (v == null ? '0' : '1')).join('')
     )
     preview = MapSignal(structureKey, () => {
       // Build fresh props: omit optional keys that are currently undefined,
@@ -124,7 +135,7 @@ export function manualPlayground(
   componentName: string,
   renderFn: (signals: Record<string, Value<any>>) => TNode,
   defaults?: Record<string, unknown>
-): TNode {
+): Renderable {
   const meta = componentMeta[componentName]
   if (!meta) {
     return html.div(

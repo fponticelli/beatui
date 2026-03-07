@@ -18,14 +18,10 @@ export default function ColorSwatchInputPage() {
     playground: manualPlayground('ColorSwatchInput', signals => {
       const value = signals.value as Prop<string>
       return ColorSwatchInput({
+        ...signals,
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
-        size: signals.size as never,
-        disabled: signals.disabled,
-        displayValue: signals.displayValue,
-        withAlpha: signals.withAlpha,
-        colorTextFormat: signals.colorTextFormat,
       } as never)
     }),
     sections: [

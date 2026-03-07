@@ -23,13 +23,10 @@ export default function OTPInputPage() {
     playground: manualPlayground('OTPInput', signals => {
       const value = signals.value as Prop<string>
       return OTPInput({
+        ...signals,
         value,
         onChange: (v: string) => value.set(v),
-        size: signals.size,
-        color: signals.color,
-        disabled: signals.disabled,
-        length: signals.length,
-      })
+      } as never)
     }),
     sections: [
       ...AutoSections('OTPInput', props =>

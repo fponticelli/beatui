@@ -18,11 +18,9 @@ export default function TriStateCheckboxPage() {
     playground: manualPlayground('TriStateCheckboxInput', signals => {
       const value = signals.value as Prop<CheckboxState>
       return TriStateCheckboxInput({
+        ...signals,
         value,
         onChange: (v: CheckboxState) => value.set(v),
-        placeholder: 'Select all items',
-        size: signals.size,
-        disabled: signals.disabled,
       } as never)
     }),
     sections: [

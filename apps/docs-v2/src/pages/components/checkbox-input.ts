@@ -16,13 +16,7 @@ export default function CheckboxInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('CheckboxInput', signals => {
       const value = signals.value as Prop<boolean>
-      return CheckboxInput({
-        size: signals.size,
-        disabled: signals.disabled,
-        value,
-        onChange: (v: boolean) => value.set(v),
-        placeholder: 'Check me',
-      } as never)
+      return CheckboxInput({ ...signals, value, onChange: (v: boolean) => value.set(v) } as never)
     }),
     sections: [
       ...AutoSections('CheckboxInput', props =>

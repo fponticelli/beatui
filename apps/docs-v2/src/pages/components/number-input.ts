@@ -16,14 +16,7 @@ export default function NumberInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('NumberInput', signals => {
       const value = signals.value as Prop<number>
-      return NumberInput({
-        size: signals.size,
-        disabled: signals.disabled,
-        before: signals.before,
-        after: signals.after,
-        value,
-        onChange: (v: number) => value.set(v),
-      } as never)
+      return NumberInput({ ...signals, value, onChange: (v: number) => value.set(v) } as never)
     }),
     sections: [
       ...AutoSections('NumberInput', props =>

@@ -16,16 +16,7 @@ export default function TextAreaPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TextArea', signals => {
       const value = signals.value as Prop<string>
-      return TextArea({
-        size: signals.size,
-        disabled: signals.disabled,
-        hasError: signals.hasError,
-        placeholder: signals.placeholder,
-        before: signals.before,
-        after: signals.after,
-        value,
-        onInput: (v: string) => value.set(v),
-      } as never)
+      return TextArea({ ...signals, value, onInput: (v: string) => value.set(v) } as never)
     }),
     sections: [
       ...AutoSections('TextArea', props =>

@@ -16,17 +16,7 @@ export default function TextInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TextInput', signals => {
       const value = signals.value as Prop<string>
-      return TextInput({
-        size: signals.size,
-        disabled: signals.disabled,
-        hasError: signals.hasError,
-        placeholder: signals.placeholder,
-        before: signals.before,
-        after: signals.after,
-        type: signals.type,
-        value,
-        onInput: (v: string) => value.set(v),
-      } as never)
+      return TextInput({ ...signals, value, onInput: (v: string) => value.set(v) } as never)
     }),
     sections: [
       ...AutoSections('TextInput', props =>

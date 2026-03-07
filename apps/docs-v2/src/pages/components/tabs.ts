@@ -45,20 +45,14 @@ const sampleItems = [
 export default function TabsPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Tabs', signals => {
-      const active = prop<string>('overview')
+      const value = prop<string>('overview')
       return html.div(
         attr.class('w-full'),
         Tabs({
-          size: signals.size,
-          variant: signals.variant,
-          color: signals.color,
-          disabled: signals.disabled,
-          orientation: signals.orientation,
-          showContent: signals.showContent,
-          ariaLabel: signals.ariaLabel,
+          ...signals,
           items: sampleItems,
-          value: active,
-          onChange: (v: string) => active.set(v),
+          value,
+          onChange: (v: string) => value.set(v),
         } as never)
       )
     }),

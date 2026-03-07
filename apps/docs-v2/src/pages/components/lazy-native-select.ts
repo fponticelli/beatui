@@ -60,14 +60,13 @@ export default function LazyNativeSelectPage() {
       return html.div(
         attr.class('w-64 space-y-2'),
         LazyNativeSelect<string, string>({
+          ...signals,
           value,
           request,
           load: loadCountries,
-          size: signals.size as never,
-          disabled: signals.disabled as never,
           unselectedLabel: 'Select a country...',
           onChange: (v: string) => value.set(v),
-        }),
+        } as never),
         html.div(
           attr.class('text-xs text-gray-500 dark:text-gray-400 font-mono'),
           'Selected: ',

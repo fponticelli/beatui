@@ -22,7 +22,7 @@ import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 export interface OTPInputOptions {
   /** Number of input digits/characters. @default 6 @min 1 @max 12 @step 1 */
   length?: Value<number>
-  /** The current OTP value as a string */
+  /** The current OTP value as a string. */
   value?: Value<string>
   /** Callback invoked on every input change */
   onChange?: (value: string) => void
@@ -34,20 +34,20 @@ export interface OTPInputOptions {
    * Whether to mask the input characters (like a password).
    * @default false
    */
-  mask?: boolean
+  mask?: Value<boolean>
   /**
    * Allowed input type.
    * - `'numeric'` allows only digits 0-9
    * - `'alphanumeric'` allows letters and digits
    * @default 'numeric'
    */
-  type?: 'numeric' | 'alphanumeric'
+  type?: Value<'numeric' | 'alphanumeric'>
   /** Visual size of the input cells. @default 'md' */
   size?: Value<ControlSize>
   /** Theme color for the focused input border. @default 'primary' */
   color?: Value<ThemeColorName>
   /** Placeholder character shown in empty cells. @default '' */
-  placeholder?: string
+  placeholder?: Value<string>
   /** Whether to auto-focus the first cell on mount. @default false */
   autoFocus?: boolean
 }
@@ -130,16 +130,16 @@ export function OTPInput({
   const otpId = sessionId('otp')
 
   // Internal state: array of individual cell values
-  const cells = Value.toSignal(length)
-    .map(length => {
-      const initial = Value.get(value)
-      const arr = new Array<string>(length).fill('')
-      for (let i = 0; i < Math.min(initial.length, length); i++) {
-        arr[i] = initial[i]!
-      }
-      return arr
-    })
-    .deriveProp()
+  const cells = computedOf(
+    length,
+    value
+  )((len, v) => {
+    const arr = new Array<string>(len).fill('')
+    for (let i = 0; i < Math.min(v.length, len); i++) {
+      arr[i] = v[i]!
+    }
+    return arr
+  }).deriveProp()
 
   const focusedIndex = prop<number | null>(null)
 
@@ -166,7 +166,8 @@ export function OTPInput({
     if (Value.get(disabled)) return
 
     // Handle paste of multiple chars
-    const chars = inputValue.split('').filter(c => isValidChar(c, type))
+    const t = Value.get(type)
+    const chars = inputValue.split('').filter(c => isValidChar(c, t))
 
     if (chars.length > 1) {
       // Paste mode: fill from current index
@@ -265,8 +266,25 @@ export function OTPInput({
           return Empty
         }),
         attr.id(cellId),
-        attr.type(mask ? 'password' : 'text'),
-        attr.inputmode(type === 'numeric' ? 'numeric' : 'text'),
+        attr.type(
+          Value.map(mask, (mask): string => (mask ? 'password' : 'text'))
+        ),
+        attr.inputmode(
+          Value.map(
+            type,
+            (
+              t
+            ):
+              | 'text'
+              | 'none'
+              | 'search'
+              | 'decimal'
+              | 'numeric'
+              | 'tel'
+              | 'email'
+              | 'url' => (t === 'numeric' ? 'numeric' : 'text')
+          )
+        ),
         attr.maxlength(1),
         attr.autocomplete('one-time-code'),
         attr.class('bc-otp-input__cell'),
@@ -294,7 +312,7 @@ export function OTPInput({
           const target = e.target as HTMLInputElement
           handleInput(i, target.value)
           // Reset the input value to single char
-          target.value = cells.value[i] ?? ''
+          // target.value = cells.value[i] ?? ''
         }),
 
         on.keydown((e: KeyboardEvent) => handleKeyDown(i, e)),

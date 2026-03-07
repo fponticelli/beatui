@@ -18,12 +18,7 @@ export default function ToggleButtonPage() {
       const pressed = signals.pressed as Prop<boolean>
       return ToggleButton(
         {
-          size: signals.size,
-          color: signals.color,
-          variant: signals.variant,
-          disabled: signals.disabled,
-          roundedness: signals.roundedness,
-          fullWidth: signals.fullWidth,
+          ...signals,
           pressed,
           onToggle: (v: boolean) => pressed.set(v),
         } as never,

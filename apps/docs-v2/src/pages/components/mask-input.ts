@@ -17,17 +17,10 @@ export default function MaskInputPage() {
     playground: manualPlayground('MaskInput', signals => {
       const value = signals.value as Prop<string>
       return MaskInput({
+        ...signals,
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
-        before: signals.before,
-        after: signals.after,
-        mask: '(999) 999-9999',
-        placeholder: '(___) ___-____',
-        size: signals.size,
-        color: signals.color,
-        disabled: signals.disabled,
-        hasError: signals.hasError,
       } as never)
     }),
     sections: [

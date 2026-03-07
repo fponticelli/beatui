@@ -18,11 +18,7 @@ export default function ModalPage() {
     playground: manualPlayground('Modal', signals =>
       Modal(
         {
-          size: signals.size,
-          position: signals.position,
-          overlayEffect: signals.overlayEffect,
-          dismissable: signals.dismissable,
-          showCloseButton: signals.showCloseButton,
+          ...signals,
           onClose: () => {},
         } as never,
         (open, close) =>

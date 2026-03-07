@@ -17,11 +17,9 @@ export default function EditableTextPage() {
     playground: manualPlayground('EditableText', signals => {
       const value = signals.value as Prop<string>
       return EditableText({
-        disabled: signals.disabled,
-        startEditing: signals.startEditing,
+        ...signals,
         value,
         onChange: (v: string) => value.set(v),
-        placeholder: 'Enter text...',
       } as never)
     }),
     sections: [

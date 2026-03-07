@@ -30,12 +30,9 @@ export default function NativeSelectPage() {
       return html.div(
         attr.class('w-56'),
         NativeSelect({
+          ...signals,
           value,
           options,
-          size: signals.size,
-          color: signals.color,
-          disabled: signals.disabled,
-          placeholder: 'Select a country...',
           onChange: (v: string) => value.set(v),
         } as never)
       )

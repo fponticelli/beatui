@@ -24,10 +24,7 @@ export default function SegmentedInputPage() {
     playground: manualPlayground('SegmentedInput', signals => {
       const value = signals.value as Prop<string>
       return SegmentedInput({
-        size: signals.size,
-        disabled: signals.disabled,
-        variant: signals.variant,
-        color: signals.color,
+        ...signals,
         options: sampleOptions,
         value,
         onChange: (v: string) => value.set(v),
