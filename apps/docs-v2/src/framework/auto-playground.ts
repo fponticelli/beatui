@@ -61,7 +61,7 @@ function playgroundLayout(
         attr.class(
           'flex-1 flex items-center justify-center p-6 min-h-[120px] rounded-lg bg-gray-50 dark:bg-gray-800/30'
         ),
-        html.div(preview)
+        html.div(attr.class('min-w-48 min-h-16 text-center'), preview)
       ),
       html.div(attr.class('lg:w-72 shrink-0'), panel)
     ),
