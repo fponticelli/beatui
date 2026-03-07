@@ -8,6 +8,7 @@ import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 import { componentMetaPlugin } from './scripts/vite-plugin-component-meta'
 import { pageRegistryPlugin } from './scripts/vite-plugin-page-registry'
 import { searchIndexPlugin } from './scripts/vite-plugin-search-index'
+import { llmsTxtPlugin } from './scripts/vite-plugin-llms-txt'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -50,6 +51,7 @@ export default defineConfig({
     componentMetaPlugin(),
     pageRegistryPlugin(),
     searchIndexPlugin(),
+    llmsTxtPlugin(),
     spa404Plugin(),
   ],
   build: {

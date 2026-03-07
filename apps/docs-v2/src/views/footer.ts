@@ -37,6 +37,14 @@ export function Footer() {
             'hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
           ),
           'API Reference'
+        ),
+        Anchor(
+          { href: '/llms.txt' },
+          attr.class(
+            'hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
+          ),
+          attr.target('_blank'),
+          'llms.txt'
         )
       )
     )

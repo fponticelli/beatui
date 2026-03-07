@@ -6,3 +6,7 @@ public/api.json
 
 # Generated search index
 public/search-index.json
+
+# Generated LLM documentation
+public/llms.txt
+public/llms-full.txt
