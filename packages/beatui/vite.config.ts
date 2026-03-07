@@ -156,53 +156,52 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: (id, _parentId) => {
+      external: (id) => {
         // Always externalize these core dependencies
-        const alwaysExternal = [
-          '@tempots/dom',
-          '@tempots/ui',
-          'tailwindcss',
-          'tailwindcss/plugin',
-          'fs',
-          'node:fs',
-          'fs/promises',
-          'node:fs/promises',
-          'path',
-          'node:path',
-          'crypto',
-          'node:crypto',
-          'module',
-          'node:module',
-          'url',
-          'node:url',
-        ]
-
-        if (alwaysExternal.includes(id)) {
+        if (
+          id === '@tempots/dom' ||
+          id === '@tempots/ui' ||
+          id === '@tempots/std' ||
+          id === 'tailwindcss' ||
+          id === 'tailwindcss/plugin'
+        ) {
           return true
         }
 
-        // Bundle ProseMirror packages into the prosemirror entry
-        // (don't externalize them)
-        if (id.startsWith('prosemirror-')) {
-          return false
-        }
-
-        // Externalize better-auth packages
-        if (id === 'better-auth' || id.startsWith('better-auth/')) {
+        // Node built-ins
+        if (
+          id === 'fs' ||
+          id === 'node:fs' ||
+          id === 'fs/promises' ||
+          id === 'node:fs/promises' ||
+          id === 'path' ||
+          id === 'node:path' ||
+          id === 'crypto' ||
+          id === 'node:crypto' ||
+          id === 'module' ||
+          id === 'node:module' ||
+          id === 'url' ||
+          id === 'node:url'
+        ) {
           return true
         }
-        if (id.startsWith('@better-auth/')) {
-          return true
-        }
 
-        // Bundle Lexical packages into the lexical entry
-        // (don't externalize them)
-        if (id === 'lexical' || id.startsWith('@lexical/')) {
-          return false
-        }
+        // Externalize all optional peer dependencies
+        if (id.startsWith('prosemirror-')) return true
+        if (id === 'better-auth' || id.startsWith('better-auth/')) return true
+        if (id.startsWith('@better-auth/')) return true
+        if (id === 'lexical' || id.startsWith('@lexical/')) return true
+        if (id === 'shiki' || id.startsWith('shiki/')) return true
+        if (id === 'hls.js' || id.startsWith('hls.js/')) return true
+        if (id === 'dashjs' || id.startsWith('dashjs/')) return true
+        if (id === 'ajv' || id.startsWith('ajv/')) return true
+        if (id === 'ajv-formats' || id.startsWith('ajv-formats/')) return true
+        if (id === 'monaco-editor' || id.startsWith('monaco-editor/')) return true
+        if (id === 'katex' || id.startsWith('katex/')) return true
+        if (id === 'markdown-it' || id.startsWith('markdown-it/')) return true
+        if (id === 'micromark' || id.startsWith('micromark/') || id.startsWith('micromark-')) return true
 
         // For all other dependencies, use default behavior
-        // (externalize dependencies, bundle devDependencies)
         return undefined
       },
       output: {
