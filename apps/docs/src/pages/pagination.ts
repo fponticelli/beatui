@@ -1,5 +1,6 @@
 import { html, attr, prop, Value } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Pagination } from '@tempots/beatui'
+import type { PaginationVariant } from '@tempots/beatui'
 
 export default function PaginationPage() {
   return ScrollablePanel({
@@ -23,9 +24,8 @@ export default function PaginationPage() {
               Pagination({
                 currentPage,
                 totalPages: prop(10),
-                onPageChange: page => {
+                onPageChange: (page: number) => {
                   currentPage.set(page)
-                  console.log('Page changed to:', page)
                 },
               }),
               html.p(
@@ -41,6 +41,75 @@ export default function PaginationPage() {
               )
             )
           })()
+        )
+      ),
+
+      // Variants
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Variants'),
+          html.p(
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            'Five visual variants for different design contexts.'
+          ),
+          html.div(
+            attr.class('space-y-4'),
+            ...(['filled', 'outline', 'light', 'subtle', 'pill'] as const).map(
+              (variant: PaginationVariant) => {
+                const page = prop(3)
+                return html.div(
+                  attr.class('space-y-2'),
+                  html.p(attr.class('text-sm font-medium font-mono'), variant),
+                  Pagination({
+                    currentPage: page,
+                    totalPages: prop(10),
+                    onPageChange: (p: number) => page.set(p),
+                    variant,
+                  })
+                )
+              }
+            )
+          )
+        )
+      ),
+
+      // Colors
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-3'),
+          html.h2(attr.class('text-lg font-semibold'), 'Colors'),
+          html.p(
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            'The color prop controls the active page indicator color.'
+          ),
+          html.div(
+            attr.class('space-y-4'),
+            ...(
+              [
+                'primary',
+                'secondary',
+                'success',
+                'danger',
+                'warning',
+                'info',
+              ] as const
+            ).map(color => {
+              const page = prop(3)
+              return html.div(
+                attr.class('space-y-2'),
+                html.p(attr.class('text-sm font-medium font-mono'), color),
+                Pagination({
+                  currentPage: page,
+                  totalPages: prop(10),
+                  onPageChange: (p: number) => page.set(p),
+                  color,
+                })
+              )
+            })
+          )
         )
       ),
 
@@ -64,7 +133,7 @@ export default function PaginationPage() {
               Pagination({
                 currentPage,
                 totalPages: prop(20),
-                onPageChange: v => currentPage.set(v),
+                onPageChange: (v: number) => currentPage.set(v),
                 showFirstLast: true,
               }),
               html.p(
@@ -95,36 +164,19 @@ export default function PaginationPage() {
           ),
           html.div(
             attr.class('space-y-4'),
-            html.div(
-              attr.class('space-y-2'),
-              html.p(attr.class('text-sm font-medium'), 'Small'),
-              Pagination({
-                currentPage: prop(3),
-                totalPages: prop(10),
-                onPageChange: () => {},
-                size: 'sm',
-              })
-            ),
-            html.div(
-              attr.class('space-y-2'),
-              html.p(attr.class('text-sm font-medium'), 'Medium (default)'),
-              Pagination({
-                currentPage: prop(3),
-                totalPages: prop(10),
-                onPageChange: () => {},
-                size: 'md',
-              })
-            ),
-            html.div(
-              attr.class('space-y-2'),
-              html.p(attr.class('text-sm font-medium'), 'Large'),
-              Pagination({
-                currentPage: prop(3),
-                totalPages: prop(10),
-                onPageChange: () => {},
-                size: 'lg',
-              })
-            )
+            ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => {
+              const page = prop(3)
+              return html.div(
+                attr.class('space-y-2'),
+                html.p(attr.class('text-sm font-medium font-mono'), size),
+                Pagination({
+                  currentPage: page,
+                  totalPages: prop(10),
+                  onPageChange: (p: number) => page.set(p),
+                  size,
+                })
+              )
+            })
           )
         )
       ),
@@ -146,7 +198,7 @@ export default function PaginationPage() {
               Pagination({
                 currentPage,
                 totalPages: prop(15),
-                onPageChange: v => currentPage.set(v),
+                onPageChange: (v: number) => currentPage.set(v),
                 showFirstLast: true,
                 justify: true,
               }),

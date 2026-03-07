@@ -1,4 +1,5 @@
 import { Pagination } from '@tempots/beatui'
+import type { PaginationVariant } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -8,7 +9,7 @@ export const meta: ComponentPageMeta = {
   category: 'Navigation',
   component: 'Pagination',
   description:
-    'Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, and responsive layout.',
+    'Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, visual variants, and responsive layout.',
   icon: 'lucide:chevrons-left-right',
   order: 5,
 }
@@ -24,12 +25,97 @@ export default function PaginationPage() {
         showFirstLast: signals.showFirstLast,
         justify: signals.justify,
         responsive: signals.responsive,
+        variant: signals.variant,
+        color: signals.color,
         currentPage,
         totalPages: 10,
         onPageChange: (page: number) => currentPage.set(page),
       } as never)
     }),
     sections: [
+      Section(
+        'Variants',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['filled', 'outline', 'light', 'subtle', 'pill'] as const).map(
+              variant => {
+                const page = prop(3)
+                return html.div(
+                  html.div(
+                    attr.class('text-xs font-mono text-gray-500 mb-1'),
+                    variant
+                  ),
+                  Pagination({
+                    currentPage: page,
+                    totalPages: 10,
+                    onPageChange: p => page.set(p),
+                    variant,
+                  })
+                )
+              }
+            )
+          ),
+        'Pagination supports five visual variants for different design contexts.'
+      ),
+      Section(
+        'Colors',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(
+              [
+                'primary',
+                'secondary',
+                'success',
+                'danger',
+                'warning',
+                'info',
+              ] as const
+            ).map(color => {
+              const page = prop(3)
+              return html.div(
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  color
+                ),
+                Pagination({
+                  currentPage: page,
+                  totalPages: 10,
+                  onPageChange: p => page.set(p),
+                  color,
+                })
+              )
+            })
+          ),
+        'The color prop controls the active page indicator color.'
+      ),
+      Section(
+        'Variants with Color',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['filled', 'outline', 'light', 'subtle', 'pill'] as const).map(
+              variant => {
+                const page = prop(3)
+                return html.div(
+                  html.div(
+                    attr.class('text-xs font-mono text-gray-500 mb-1'),
+                    `${variant} + success`
+                  ),
+                  Pagination({
+                    currentPage: page,
+                    totalPages: 10,
+                    onPageChange: p => page.set(p),
+                    variant,
+                    color: 'success',
+                  })
+                )
+              }
+            )
+          ),
+        'All variants work with any theme color.'
+      ),
       Section(
         'Sizes',
         () =>

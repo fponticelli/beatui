@@ -230,6 +230,21 @@ export type AlignSelf =
 export type CardVariant = 'default' | 'elevated' | 'flat' | 'outlined'
 
 /**
+ * Visual style variant for pagination components.
+ * - `'filled'`: Solid primary background on active page
+ * - `'outline'`: Primary border on active page, no fill
+ * - `'light'`: Light color-tinted background on active page
+ * - `'subtle'`: Text-only with bold weight and underline on active page
+ * - `'pill'`: Fully rounded pill-shaped items with solid active fill
+ */
+export type PaginationVariant =
+  | 'filled'
+  | 'outline'
+  | 'light'
+  | 'subtle'
+  | 'pill'
+
+/**
  * Gap spacing size for centered layouts.
  * Ranges from `'none'` (no gap) to `'xl'` (extra large gap).
  */

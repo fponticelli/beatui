@@ -9,11 +9,16 @@ import {
   on,
   When,
   WithElement,
-  prop,
   Use,
 } from '@tempots/dom'
 import { delayedAnimationFrame } from '@tempots/std'
-import { ControlSize } from '../theme'
+import { ControlSize, PaginationVariant } from '../theme'
+import { ThemeColorName, getColorVar } from '../../tokens'
+import {
+  backgroundValue,
+  textColorValue,
+  borderColorValue,
+} from '../theme/style-utils'
 import { BeatUII18n } from '../../beatui-i18n'
 
 /**
@@ -34,6 +39,10 @@ export interface PaginationOptions {
   showFirstLast?: Value<boolean>
   /** Size affecting button dimensions and font size. @default 'md' */
   size?: Value<ControlSize>
+  /** Visual style variant for the pagination items. @default 'filled' */
+  variant?: Value<PaginationVariant>
+  /** Theme color for the active page indicator. @default 'primary' */
+  color?: Value<ThemeColorName>
   /** Whether to distribute items across the full available width. @default false */
   justify?: Value<boolean>
   /** Whether to dynamically adjust the number of visible page numbers to fit available space. @default false */
@@ -89,6 +98,78 @@ export function generatePaginationRange(
 }
 
 /**
+ * Generates inline CSS custom properties for pagination theming based on variant and color.
+ *
+ * @param variant - The visual style variant
+ * @param color - The theme color
+ * @returns Semicolon-separated CSS custom property declarations
+ */
+export function generatePaginationStyles(
+  variant: PaginationVariant,
+  color: ThemeColorName
+): string {
+  const styles = new Map<string, string>()
+
+  // Active state colors
+  switch (variant) {
+    case 'filled':
+    case 'pill': {
+      const bgLight = backgroundValue(color, 'solid', 'light')
+      const bgDark = backgroundValue(color, 'solid', 'dark')
+      styles.set('--pagination-active-bg', bgLight.backgroundColor)
+      styles.set('--pagination-active-text', bgLight.textColor)
+      styles.set('--pagination-active-bg-dark', bgDark.backgroundColor)
+      styles.set('--pagination-active-text-dark', bgDark.textColor)
+      break
+    }
+    case 'outline': {
+      styles.set('--pagination-active-bg', 'transparent')
+      styles.set('--pagination-active-text', textColorValue(color, 'light'))
+      styles.set('--pagination-active-border', borderColorValue(color, 'light'))
+      styles.set('--pagination-active-bg-dark', 'transparent')
+      styles.set('--pagination-active-text-dark', textColorValue(color, 'dark'))
+      styles.set(
+        '--pagination-active-border-dark',
+        borderColorValue(color, 'dark')
+      )
+      // Non-active items: subtle border
+      styles.set('--pagination-item-border', getColorVar('base', 300))
+      styles.set('--pagination-item-border-dark', getColorVar('base', 600))
+      break
+    }
+    case 'light': {
+      const bgLight = backgroundValue(color, 'light', 'light')
+      const bgDark = backgroundValue(color, 'light', 'dark')
+      styles.set('--pagination-active-bg', bgLight.backgroundColor)
+      styles.set('--pagination-active-text', textColorValue(color, 'light'))
+      styles.set('--pagination-active-bg-dark', bgDark.backgroundColor)
+      styles.set('--pagination-active-text-dark', textColorValue(color, 'dark'))
+      // Non-active items: faint background
+      styles.set('--pagination-item-bg', getColorVar('base', 100))
+      styles.set('--pagination-item-bg-dark', getColorVar('base', 800))
+      break
+    }
+    case 'subtle': {
+      styles.set('--pagination-active-bg', 'transparent')
+      styles.set('--pagination-active-text', textColorValue(color, 'light'))
+      styles.set('--pagination-active-bg-dark', 'transparent')
+      styles.set('--pagination-active-text-dark', textColorValue(color, 'dark'))
+      break
+    }
+  }
+
+  // Hover state colors (shared across variants)
+  const hoverBgLight = getColorVar('base', 100)
+  const hoverBgDark = getColorVar('base', 700)
+  styles.set('--pagination-hover-bg', hoverBgLight)
+  styles.set('--pagination-hover-bg-dark', hoverBgDark)
+
+  return Array.from(styles.entries())
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ')
+}
+
+/**
  * A pagination component for navigating through multiple pages of content.
  *
  * Features:
@@ -129,10 +210,12 @@ export function Pagination({
   showPrevNext = true,
   showFirstLast = false,
   size = 'md',
+  variant = 'filled',
+  color = 'primary',
   justify = false,
   responsive = false,
 }: PaginationOptions) {
-  const responsiveSiblings = prop(Value.get(siblings))
+  const responsiveSiblings = Value.deriveProp(siblings)
 
   // When responsive, use measured siblings; otherwise use user-provided value
   const effectiveSiblings = computedOf(
@@ -146,12 +229,20 @@ export function Pagination({
       attr.class(
         computedOf(
           size,
+          variant,
           justify
-        )((s, j) => {
-          const classes = ['bc-pagination', `bc-pagination--size-${s}`]
+        )((s, v, j) => {
+          const classes = [
+            'bc-pagination',
+            `bc-pagination--size-${s}`,
+            `bc-pagination--variant-${v}`,
+          ]
           if (j) classes.push('bc-pagination--justify')
           return classes.join(' ')
         })
+      ),
+      attr.style(
+        computedOf(variant, color)((v, c) => generatePaginationStyles(v, c))
       ),
       aria.label(t.$.paginationLabel),
 
