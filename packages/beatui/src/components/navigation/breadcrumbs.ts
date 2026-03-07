@@ -38,7 +38,7 @@ export interface BreadcrumbsOptions {
   items: Value<BreadcrumbItem[]>
   /**
    * Separator character or string displayed between items.
-   * @default '\u203A'
+   * @default '›'
    */
   separator?: Value<string>
   /**
@@ -143,7 +143,7 @@ function collapseItems(
  */
 export function Breadcrumbs({
   items,
-  separator = '\u203A',
+  separator = '›',
   maxItems,
   size = 'md',
 }: BreadcrumbsOptions): TNode {

@@ -404,7 +404,7 @@ export function Pagination({
               onPageChange(current + 1)
             }
           }),
-          '\u203A' // ›
+          '›'
         )
       ),
 

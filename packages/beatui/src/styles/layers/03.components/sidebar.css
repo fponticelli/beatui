@@ -9,15 +9,35 @@
   color: var(--text-normal);
 }
 
-/* Dark background mode - inverted colors for light theme */
+/* Dark background mode - override semantic tokens to invert colors */
 .bc-sidebar--dark-bg {
-  background-color: var(--color-base-900);
-  color: var(--color-base-100);
+  --bg-background: var(--bg-background-dark);
+  --bg-surface: var(--bg-surface-dark);
+  --text-normal: var(--text-normal-dark);
+  --text-muted: var(--text-muted-dark);
+  --text-inverted: var(--text-inverted-dark);
+  --border-default: var(--border-border-dark);
+  --border-divider: var(--border-divider-dark);
+  --border-input: var(--border-input-dark);
+  --border-strong: var(--border-strong-dark);
+  --interactive-hover: var(--interactive-hover-dark);
+  --interactive-active: var(--interactive-active-dark);
+  --interactive-focus: var(--interactive-focus-dark);
 }
 
 .dark .bc-sidebar--dark-bg {
-  background-color: var(--color-base-50);
-  color: var(--color-base-900);
+  --bg-background: var(--bg-background-light);
+  --bg-surface: var(--bg-surface-light);
+  --text-normal: var(--text-normal-light);
+  --text-muted: var(--text-muted-light);
+  --text-inverted: var(--text-inverted-light);
+  --border-default: var(--border-border-light);
+  --border-divider: var(--border-divider-light);
+  --border-input: var(--border-input-light);
+  --border-strong: var(--border-strong-light);
+  --interactive-hover: var(--interactive-hover-light);
+  --interactive-active: var(--interactive-active-light);
+  --interactive-focus: var(--interactive-focus-light);
 }
 
 .bc-sidebar-link {
@@ -61,6 +81,17 @@ span.bc-sidebar-link {
 .dark span.bc-sidebar-link {
   background-color: var(--color-primary-950);
   color: var(--color-primary-200);
+}
+
+/* Dark bg inverts the active link colors */
+.bc-sidebar--dark-bg span.bc-sidebar-link {
+  background-color: var(--color-primary-950);
+  color: var(--color-primary-200);
+}
+
+.dark .bc-sidebar--dark-bg span.bc-sidebar-link {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-700);
 }
 
 .bc-sidebar-link--icon {
@@ -123,90 +154,6 @@ span.bc-sidebar-link {
   .bc-sidebar-group-collapsible--closed
   .bc-sidebar-group-collapsible-indicator {
   transform: rotate(-90deg);
-}
-
-/* Dark background mode styles - inverted colors in light theme */
-.bc-sidebar--dark-bg .bc-sidebar-group__header {
-  color: var(--color-base-400);
-}
-
-.bc-sidebar--dark-bg button.bc-sidebar-link:hover,
-.bc-sidebar--dark-bg a.bc-sidebar-link:hover {
-  background-color: var(--interactive-hover-dark);
-}
-
-.bc-sidebar--dark-bg span.bc-sidebar-link {
-  background-color: var(--color-primary-950);
-  color: var(--color-primary-200);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-link,
-.bc-sidebar--dark-bg .bc-sidebar-link__content {
-  color: var(--color-base-100);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-link--icon {
-  color: var(--color-base-400);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-link--action {
-  color: var(--color-base-100);
-  border: var(--border-width-thin) solid var(--color-base-700);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
-  background-color: var(--interactive-hover-dark);
-  border-color: var(--color-base-600);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-group--rail {
-  border-inline-start: var(--border-width-thin) solid var(--color-base-700);
-}
-
-.bc-sidebar--dark-bg .bc-sidebar-separator {
-  border-top-color: var(--color-base-700);
-}
-
-/* Dark background mode in dark theme - inverted back to light colors */
-.dark .bc-sidebar--dark-bg .bc-sidebar-group__header {
-  color: var(--color-base-500);
-}
-
-.dark .bc-sidebar--dark-bg button.bc-sidebar-link:hover,
-.dark .bc-sidebar--dark-bg a.bc-sidebar-link:hover {
-  background-color: var(--interactive-hover-light);
-}
-
-.dark .bc-sidebar--dark-bg span.bc-sidebar-link {
-  background-color: var(--color-primary-50);
-  color: var(--color-primary-700);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-link,
-.dark .bc-sidebar--dark-bg .bc-sidebar-link__content {
-  color: var(--color-base-900);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-link--icon {
-  color: var(--color-base-500);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-link--action {
-  color: var(--color-base-900);
-  border: var(--border-width-thin) solid var(--color-base-200);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-link--action:hover {
-  background-color: var(--interactive-hover-light);
-  border-color: var(--color-base-300);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-group--rail {
-  border-inline-start: var(--border-width-thin) solid var(--color-base-200);
-}
-
-.dark .bc-sidebar--dark-bg .bc-sidebar-separator {
-  border-top-color: var(--color-base-200);
 }
 
 .bc-sidebar-separator {

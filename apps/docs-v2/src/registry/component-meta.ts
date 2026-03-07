@@ -10420,7 +10420,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "separator",
         "description": "Separator character or string displayed between items.",
         "type": "string",
-        "defaultValue": "\\u203A",
+        "defaultValue": "›",
         "reactive": true,
         "optional": true
       },

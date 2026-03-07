@@ -353,7 +353,7 @@ export function renderDatePickerShell(
               e.preventDefault()
               nextMonth()
             }),
-            '\u203A'
+            '›'
           ),
           html.button(
             attr.type('button'),
