@@ -1,7 +1,7 @@
 @layer components {
   .bc-announcement-bar {
     --announcement-bar-bg-color: var(--color-primary-600);
-    --announcement-bar-text-color: #ffffff;
+    --announcement-bar-text-color: var(--color-white);
 
     position: absolute;
     top: 0;
@@ -57,7 +57,7 @@
 
   .bc-announcement-bar--dismissible .bc-announcement-bar__close button:hover {
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: color-mix(in srgb, var(--color-white) 10%, transparent);
   }
 
   /* Responsive adjustments */

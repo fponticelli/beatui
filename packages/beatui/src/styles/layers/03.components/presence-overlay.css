@@ -9,7 +9,7 @@
 .bc-presence-highlight {
   background-color: color-mix(
     in srgb,
-    var(--presence-color, #2563eb) 12%,
+    var(--presence-color, var(--color-primary-600)) 12%,
     transparent
   );
   border-radius: 1px;
@@ -30,7 +30,7 @@
   left: 0;
   width: 2px;
   height: calc(1em + 4px);
-  background: var(--presence-color, #2563eb);
+  background: var(--presence-color, var(--color-primary-600));
   border-radius: 1px;
 }
 
@@ -39,8 +39,8 @@
   bottom: calc(100% + 2px);
   left: -1px;
   padding: 1px 6px;
-  background: var(--presence-color, #2563eb);
-  color: #fff;
+  background: var(--presence-color, var(--color-primary-600));
+  color: var(--color-white);
   font-size: 9px;
   font-weight: var(--font-weight-medium, 500);
   white-space: nowrap;

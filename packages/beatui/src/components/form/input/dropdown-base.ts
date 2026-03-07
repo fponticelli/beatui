@@ -218,7 +218,7 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
           {
             icon: 'ph:caret-up-down-bold',
             color: 'neutral',
-            size: options.size,
+            size: 'xs',
           },
           attr.class('bc-dropdown__arrow')
         )

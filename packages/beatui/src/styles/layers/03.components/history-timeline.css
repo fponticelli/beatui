@@ -172,7 +172,7 @@
 }
 
 .dark .bc-history-timeline__filter--active {
-  background: rgba(37, 99, 235, 0.15);
+  background: color-mix(in srgb, var(--color-primary-600) 15%, transparent);
   border-color: var(--color-primary-600);
   color: var(--color-primary-300);
 }

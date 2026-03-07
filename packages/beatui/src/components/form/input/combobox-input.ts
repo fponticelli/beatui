@@ -94,7 +94,10 @@ const ComboboxOptionItem = <T>(
         const isSelected = computedOf(
           v,
           currentValue
-        )((v, currentValue) => equality(v.value, currentValue as T))
+        )(
+          (v, currentValue) =>
+            currentValue != null && equality(v.value, currentValue as T)
+        )
 
         const isFocused = computedOf(
           v,

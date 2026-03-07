@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-inline-start: var(--spacing-sm);
+  margin-inline-start: var(--spacing-xs);
 }
 
 /* Listbox (dropdown) */

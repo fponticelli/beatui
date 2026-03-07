@@ -195,7 +195,7 @@
   padding: calc(var(--spacing-base) * 0.75);
   background: var(--color-white);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
   border: var(--border-width-thin) solid var(--color-base-200);
   width: auto;
 }
