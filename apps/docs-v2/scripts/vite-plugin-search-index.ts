@@ -5,12 +5,13 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PAGES_DIR = path.resolve(__dirname, '../src/pages/components')
+const GUIDES_DIR = path.resolve(__dirname, '../src/pages/guides')
 const API_JSON = path.resolve(__dirname, '../public/api.json')
 const OUTPUT_FILE = path.resolve(__dirname, '../public/search-index.json')
 
 export interface SearchEntry {
-  /** Entry type: component page or API symbol */
-  type: 'component' | 'api'
+  /** Entry type */
+  type: 'component' | 'api' | 'guide'
   /** Display name */
   name: string
   /** URL path (relative) */
@@ -142,6 +143,65 @@ function extractComponentEntries(): SearchEntry[] {
   return entries
 }
 
+// --- Guide page extraction ---
+
+/** Guide page metadata — simpler than component meta, just title + description */
+interface GuideMeta {
+  title: string
+  description: string
+}
+
+function extractGuideMeta(content: string): GuideMeta | null {
+  const match = content.match(
+    /export\s+const\s+meta\s*(?::\s*\w+)?\s*=\s*(\{[\s\S]*?\n\})/
+  )
+  if (!match) return null
+
+  try {
+    const objStr = match[1]
+      .replace(/\/\/.*$/gm, '')
+      .replace(/,\s*\}/g, '}')
+    const fn = new Function(`return ${objStr}`)
+    return fn()
+  } catch {
+    return null
+  }
+}
+
+function extractGuideEntries(): SearchEntry[] {
+  if (!fs.existsSync(GUIDES_DIR)) return []
+
+  const files = fs
+    .readdirSync(GUIDES_DIR)
+    .filter(f => f.endsWith('.ts') && !f.startsWith('_'))
+    .sort()
+
+  const entries: SearchEntry[] = []
+
+  for (const file of files) {
+    const filePath = path.join(GUIDES_DIR, file)
+    const content = fs.readFileSync(filePath, 'utf-8')
+    const slug = file.replace(/\.ts$/, '')
+    const meta = extractGuideMeta(content)
+
+    const sections = extractSections(content)
+    const title = meta?.title ?? slug.replace(/-/g, ' ')
+    const description = meta?.description ?? ''
+
+    entries.push({
+      type: 'guide',
+      name: title,
+      url: `/guides/${slug}`,
+      category: 'Guides',
+      description,
+      keywords: sections.map(s => s.title),
+      icon: 'guide',
+    })
+  }
+
+  return entries
+}
+
 // --- API reference extraction ---
 
 /** Module slug mapping (typedocName → slug) matching api-data.ts MODULES */
@@ -253,9 +313,10 @@ function extractApiEntries(): SearchEntry[] {
 // --- Generation ---
 
 function generate() {
+  const guideEntries = extractGuideEntries()
   const componentEntries = extractComponentEntries()
   const apiEntries = extractApiEntries()
-  const entries = [...componentEntries, ...apiEntries]
+  const entries = [...guideEntries, ...componentEntries, ...apiEntries]
 
   const dir = path.dirname(OUTPUT_FILE)
   if (!fs.existsSync(dir)) {
@@ -263,7 +324,7 @@ function generate() {
   }
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(entries), 'utf-8')
   console.log(
-    `[search-index] Generated index: ${componentEntries.length} components + ${apiEntries.length} API symbols = ${entries.length} total`
+    `[search-index] Generated index: ${guideEntries.length} guides + ${componentEntries.length} components + ${apiEntries.length} API symbols = ${entries.length} total`
   )
 }
 
@@ -275,8 +336,12 @@ export function searchIndexPlugin(): Plugin {
     },
     configureServer(server) {
       server.watcher.add(PAGES_DIR + '/**/*.ts')
+      server.watcher.add(GUIDES_DIR + '/**/*.ts')
       server.watcher.on('change', (file: string) => {
-        if (file.startsWith(PAGES_DIR) && file.endsWith('.ts')) {
+        if (
+          (file.startsWith(PAGES_DIR) || file.startsWith(GUIDES_DIR)) &&
+          file.endsWith('.ts')
+        ) {
           console.log('[search-index] Page changed, regenerating...')
           try {
             generate()

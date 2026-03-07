@@ -144,6 +144,9 @@ importers:
       '@tempots/ui':
         specifier: ^16.0.1
         version: 16.0.1(@floating-ui/dom@1.7.5)(@tempots/dom@37.2.0)(@tempots/std@0.27.0)
+      zod:
+        specifier: 4.3.6
+        version: 4.3.6
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.18

@@ -4812,6 +4812,21 @@ export const componentMeta: Record<string, ComponentMeta> =
         "defaultValue": "false",
         "reactive": true,
         "optional": true
+      },
+      {
+        "name": "size",
+        "description": "Visual size of the selector.",
+        "type": "union",
+        "defaultValue": "sm",
+        "unionValues": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "reactive": true,
+        "optional": true
       }
     ]
   },

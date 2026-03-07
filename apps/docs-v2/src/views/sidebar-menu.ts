@@ -12,10 +12,27 @@ export function SidebarMenu() {
   // Read current path at construction time to auto-open the matching category
   const currentPath = window.location.pathname
 
+  const isGuide = currentPath.startsWith('/guides')
+
   return Stack(
     attr.class('h-full overflow-y-auto bg-gray-100 dark:bg-gray-900'),
     Sidebar(
       {},
+      CollapsibleSidebarGroup(
+        {
+          icon: 'lucide:book-text',
+          header: 'Guides',
+          startOpen: isGuide,
+        },
+        SidebarLink({ href: '/guides/getting-started', content: 'Getting Started' }),
+        SidebarLink({ href: '/guides/theming', content: 'Theming' }),
+        SidebarLink({ href: '/guides/customization', content: 'Customization' }),
+        SidebarLink({ href: '/guides/css-variables', content: 'CSS Variables' }),
+        SidebarLink({ href: '/guides/forms', content: 'Forms' }),
+        SidebarLink({ href: '/guides/rtl-ltr', content: 'RTL & LTR' }),
+        SidebarLink({ href: '/guides/data-source', content: 'DataSource' }),
+        SidebarLink({ href: '/guides/authentication', content: 'Authentication' })
+      ),
       ...categories.map(cat => {
         const containsCurrentPage = cat.pages.some(
           page => currentPath === `/components/${page.slug}`

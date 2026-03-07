@@ -1,4 +1,5 @@
 import { AppearancePreference, Theme } from '../../theme'
+import type { ControlSize } from '../../theme'
 import { attr, html, TNode, Use, Value } from '@tempots/dom'
 import { Icon } from '../../data'
 import { SegmentedInput } from './segmented-input'
@@ -17,6 +18,11 @@ export type AppearanceSelectorOptions = {
    * @default false
    */
   disabled?: Value<boolean>
+  /**
+   * Visual size of the selector.
+   * @default 'sm'
+   */
+  size?: Value<ControlSize>
 }
 
 /**
@@ -40,10 +46,11 @@ export function AppearanceSelector({
   value,
   onChange,
   disabled,
+  size = 'md',
 }: AppearanceSelectorOptions) {
   return Use(BeatUII18n, t =>
     SegmentedInput<Record<AppearancePreference, TNode>>({
-      size: 'sm',
+      size,
       variant: 'squared',
       value,
       disabled,
@@ -74,6 +81,7 @@ export function AppearanceSelector({
  * {@link Theme} provider. Reads and writes the appearance preference from the
  * current theme context without requiring manual wiring.
  *
+ * @param options - Optional configuration (e.g. size).
  * @returns A renderable standalone appearance selector component.
  *
  * @example
@@ -82,11 +90,14 @@ export function AppearanceSelector({
  * StandaloneAppearanceSelector()
  * ```
  */
-export function StandaloneAppearanceSelector() {
+export function StandaloneAppearanceSelector(
+  options?: Pick<AppearanceSelectorOptions, 'size'>
+) {
   return Use(Theme, ({ appearancePreference, setAppearancePreference }) =>
     AppearanceSelector({
       value: appearancePreference,
       onChange: setAppearancePreference,
+      size: options?.size,
     })
   )
 }

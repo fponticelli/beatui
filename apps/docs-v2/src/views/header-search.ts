@@ -28,6 +28,9 @@ function iconForEntry(entry: SearchEntry): string {
   if (entry.type === 'component') {
     return categoryIconMap.get(entry.category) ?? 'lucide:component'
   }
+  if (entry.type === 'guide') {
+    return 'lucide:book-text'
+  }
   return API_ICON[entry.icon] ?? 'lucide:code-2'
 }
 

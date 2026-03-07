@@ -22,6 +22,44 @@ export default function HomePage() {
           Badge({ variant: 'light', color: 'secondary', size: 'sm' }, `${categories.length} categories`),
         )
       ),
+      // Quick start links
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-3'),
+          html.div(
+            attr.class('flex items-center gap-2'),
+            Icon({ icon: 'lucide:book-text', size: 'sm' }),
+            html.h2(attr.class('text-lg font-semibold'), 'Guides')
+          ),
+          html.p(
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            'Learn how to install, theme, and customize BeatUI.'
+          ),
+          html.div(
+            attr.class('flex flex-wrap gap-2'),
+            ...[
+              { href: '/guides/getting-started', label: 'Getting Started' },
+              { href: '/guides/theming', label: 'Theming' },
+              { href: '/guides/customization', label: 'Customization' },
+              { href: '/guides/css-variables', label: 'CSS Variables' },
+              { href: '/guides/forms', label: 'Forms' },
+              { href: '/guides/rtl-ltr', label: 'RTL & LTR' },
+              { href: '/guides/data-source', label: 'DataSource' },
+              { href: '/guides/authentication', label: 'Authentication' },
+            ].map(({ href, label }) =>
+              Anchor(
+                { href, viewTransition: true },
+                attr.class(
+                  'px-3 py-1 text-sm rounded-md border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors'
+                ),
+                label
+              )
+            )
+          )
+        )
+      ),
+
       // Category cards with descriptions and component links
       html.div(
         attr.class('grid grid-cols-1 md:grid-cols-2 gap-4'),

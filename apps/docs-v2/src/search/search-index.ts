@@ -1,5 +1,5 @@
 export interface SearchEntry {
-  type: 'component' | 'api'
+  type: 'component' | 'api' | 'guide'
   name: string
   url: string
   category: string
@@ -76,9 +76,10 @@ export function searchEntries(
       }
     }
 
-    // Boost component entries slightly over API entries for same score
+    // Boost guides and components over API entries
     if (score > 0) {
-      if (entry.type === 'component') score += 5
+      if (entry.type === 'guide') score += 10
+      else if (entry.type === 'component') score += 5
       results.push({ entry, score })
     }
   }

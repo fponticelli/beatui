@@ -32,7 +32,7 @@ export function SidebarMenu() {
         ),
         html.div(
           attr.style('margin-left: auto'),
-          StandaloneAppearanceSelector()
+          StandaloneAppearanceSelector({ size: 'sm' })
         )
       ),
       html.input(

@@ -34,9 +34,10 @@ export function AppLayout({ children }: { children: TNode }) {
             )
           )
         ),
-        html.div(attr.class('flex items-center gap-2 px-2'),
+        html.div(
+          attr.class('flex items-center gap-2 px-2'),
           HeaderSearch(),
-          StandaloneAppearanceSelector()
+          StandaloneAppearanceSelector({ size: 'sm' })
         )
       ),
     },

@@ -1,4 +1,7 @@
-import { AppearanceSelector, StandaloneAppearanceSelector } from '@tempots/beatui'
+import {
+  AppearanceSelector,
+  StandaloneAppearanceSelector,
+} from '@tempots/beatui'
 import type { AppearancePreference } from '@tempots/beatui'
 import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
@@ -44,7 +47,7 @@ export default function AppearanceSelectorPage() {
         () =>
           html.div(
             attr.class('flex flex-col gap-4 items-start'),
-            StandaloneAppearanceSelector()
+            StandaloneAppearanceSelector({ size: 'sm' })
           ),
         'StandaloneAppearanceSelector automatically reads and writes the appearance preference from the Theme provider — no props required.'
       ),
@@ -69,7 +72,10 @@ export default function AppearanceSelectorPage() {
             ...(['system', 'light', 'dark'] as const).map(pref =>
               html.div(
                 attr.class('flex items-center gap-3'),
-                html.div(attr.class('text-xs font-mono text-gray-500 w-12'), pref),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 w-12'),
+                  pref
+                ),
                 AppearanceSelector({
                   value: prop<AppearancePreference>(pref),
                   onChange: () => {},
