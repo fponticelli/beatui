@@ -105,6 +105,43 @@
   flex-direction: row;
 }
 
+/* Group size cascades to child avatars */
+.bc-avatar-group--size-xs > .bc-avatar {
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  font-size: var(--font-size-xs);
+}
+
+.bc-avatar-group--size-sm > .bc-avatar {
+  width: var(--spacing-2xl);
+  height: var(--spacing-2xl);
+  font-size: var(--font-size-sm);
+}
+
+.bc-avatar-group--size-md > .bc-avatar {
+  width: var(--spacing-2xlh);
+  height: var(--spacing-2xlh);
+  font-size: var(--font-size-md);
+}
+
+.bc-avatar-group--size-lg > .bc-avatar {
+  width: var(--spacing-3xl);
+  height: var(--spacing-3xl);
+  font-size: var(--font-size-lg);
+}
+
+.bc-avatar-group--size-xl > .bc-avatar {
+  width: var(--spacing-4xl);
+  height: var(--spacing-4xl);
+  font-size: var(--font-size-xl);
+}
+
+.bc-avatar-group--size-2xl > .bc-avatar {
+  width: calc(var(--spacing-base) * 24);
+  height: calc(var(--spacing-base) * 24);
+  font-size: var(--font-size-2xl);
+}
+
 /* Tight spacing - avatars overlap */
 .bc-avatar-group--spacing-tight {
   gap: 0;

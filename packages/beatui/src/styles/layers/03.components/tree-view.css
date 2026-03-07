@@ -33,6 +33,14 @@
   color: oklch(0.5 0.15 250);
 }
 
+.bc-tree-item__row--size-xs {
+  padding-top: calc(var(--spacing-xs) / 2);
+  padding-bottom: calc(var(--spacing-xs) / 2);
+  padding-right: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  min-height: var(--spacing-lg);
+}
+
 .bc-tree-item__row--size-sm {
   padding-top: var(--spacing-xs);
   padding-bottom: var(--spacing-xs);
@@ -55,6 +63,14 @@
   padding-right: var(--spacing-mdh);
   font-size: var(--font-size-lg);
   min-height: var(--spacing-2xlh);
+}
+
+.bc-tree-item__row--size-xl {
+  padding-top: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  padding-right: var(--spacing-lg);
+  font-size: var(--font-size-xl);
+  min-height: var(--spacing-3xl);
 }
 
 .bc-tree-item__toggle {
@@ -90,6 +106,7 @@
 }
 
 .bc-tree-item__label {
+  text-align: left;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;

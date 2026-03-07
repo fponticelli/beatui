@@ -22,11 +22,11 @@ export const meta: ComponentPageMeta = {
 
 export default function SidebarPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Sidebar', _signals =>
+    playground: manualPlayground('Sidebar', signals =>
       html.div(
         attr.class('w-64 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden'),
         Sidebar(
-          {},
+          { backgroundMode: signals.backgroundMode },
           SidebarGroup(
             { header: html.span('Main') },
             SidebarLink({

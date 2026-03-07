@@ -1,5 +1,5 @@
 import { TreeView } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -53,16 +53,16 @@ const sampleTree = [
 
 export default function TreeViewPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('TreeView', _signals => {
-      const selectedId = prop<string | undefined>(undefined)
+    playground: manualPlayground('TreeView', signals => {
+      const selectedId = signals.selectedId as Prop<string | undefined>
       return html.div(
         attr.class('w-72 border border-gray-200 dark:border-gray-700 rounded-lg p-2'),
         TreeView({
           items: sampleTree,
           selectedId,
-          onSelect: id => selectedId.set(id),
-          size: 'md',
-        })
+          onSelect: (id: string) => selectedId.set(id),
+          size: signals.size,
+        } as never)
       )
     }),
     sections: [
