@@ -185,11 +185,7 @@ export function CardFooter(
  * )
  * ```
  */
-export function CardCoverImage({
-  src,
-  alt,
-  height,
-}: CardCoverImageOptions) {
+export function CardCoverImage({ src, alt, height }: CardCoverImageOptions) {
   return html.img(
     attr.class('bc-card__cover-image'),
     attr.src(src),

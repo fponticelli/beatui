@@ -134,6 +134,69 @@ export default function NineSliceScrollViewPage() {
         'Classic spreadsheet-style layout with frozen row labels and column headers. The body scrolls while periphery regions remain fixed.'
       ),
       Section(
+        'Full Nine-Slice',
+        () => {
+          return html.div(
+            attr.class('w-full rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden'),
+            style.height('350px'),
+            NineSliceScrollView({
+              contentWidth: prop(BigInt(COLS * COL_WIDTH)),
+              contentHeight: prop(BigInt(ROWS * ROW_HEIGHT)),
+              headerHeight: HEADER_HEIGHT,
+              footerHeight: 32,
+              sidebarStartWidth: SIDEBAR_WIDTH,
+              sidebarEndWidth: 60,
+              header: makeColumnHeaders(),
+              footer: html.div(
+                attr.class('relative flex items-center bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700'),
+                style.width(`${COLS * COL_WIDTH}px`),
+                style.height('32px'),
+                html.div(
+                  attr.class('px-3 text-xs text-gray-500 dark:text-gray-400'),
+                  `${ROWS} rows x ${COLS} columns`
+                )
+              ),
+              sidebarStart: makeRowLabels(),
+              sidebarEnd: html.div(
+                attr.class('relative'),
+                style.width('60px'),
+                style.height(`${ROWS * ROW_HEIGHT}px`),
+                ...Array.from({ length: ROWS }, (_, row) =>
+                  html.div(
+                    attr.class('absolute flex items-center justify-center text-xs bg-gray-50 dark:bg-gray-850 border-l border-b border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500'),
+                    style.left('0'),
+                    style.top(`${row * ROW_HEIGHT}px`),
+                    style.width('60px'),
+                    style.height(`${ROW_HEIGHT}px`),
+                    `#${row + 1}`
+                  )
+                )
+              ),
+              topStart: html.div(
+                attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400 border-r border-b border-gray-300 dark:border-gray-600'),
+                '#'
+              ),
+              topEnd: html.div(
+                attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400 border-l border-b border-gray-300 dark:border-gray-600'),
+                'ID'
+              ),
+              bottomStart: html.div(
+                attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 border-r border-t border-gray-300 dark:border-gray-600'),
+                style.height('32px'),
+                'Sum'
+              ),
+              bottomEnd: html.div(
+                attr.class('w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-xs text-gray-500 dark:text-gray-400 border-l border-t border-gray-300 dark:border-gray-600'),
+                style.height('32px'),
+                '--'
+              ),
+              body: makeGrid(),
+            })
+          )
+        },
+        'All nine regions populated: header, footer, both sidebars, all four corners, and the scrollable body. Supports wheel, drag (with momentum), keyboard (arrow keys, Page Up/Down, Home/End), and scrollbar interaction.'
+      ),
+      Section(
         'Body Only',
         () => {
           return html.div(

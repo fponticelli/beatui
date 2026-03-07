@@ -199,7 +199,10 @@ function parseDefault(meta: PropMeta): unknown {
  * Returns the panel TNode, a record of reactive signals, and a props record
  * where optional string props map empty/undefined values to `undefined` reactively.
  */
-export function createOptionsPanel(componentMeta: ComponentMeta): {
+export function createOptionsPanel(
+  componentMeta: ComponentMeta,
+  defaults?: Record<string, unknown>
+): {
   panel: TNode
   signals: PropSignals
   /** Props for passing to components — optional string signals map '' to undefined. */
@@ -212,7 +215,10 @@ export function createOptionsPanel(componentMeta: ComponentMeta): {
   const optionalKeys: string[] = []
 
   for (const propMeta of componentMeta.props) {
-    const defaultVal = parseDefault(propMeta)
+    const defaultVal =
+      defaults && propMeta.name in defaults
+        ? defaults[propMeta.name]
+        : parseDefault(propMeta)
     const signal = prop(defaultVal)
     signals[propMeta.name] = signal
 

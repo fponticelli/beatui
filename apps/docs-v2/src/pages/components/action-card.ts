@@ -1,6 +1,6 @@
 import { ActionCard, Group } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
-import { ComponentPage, autoPlayground, AutoSections, Section } from '../../framework'
+import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -15,13 +15,18 @@ export const meta: ComponentPageMeta = {
 
 export default function ActionCardPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('ActionCard', props =>
+    playground: manualPlayground('ActionCard', signals =>
       ActionCard({
-        ...(props as never),
-        icon: 'material-symbols:star',
-        title: 'Feature Title',
-        description: 'A short description of this feature or option.',
-      })
+        icon: signals.icon,
+        title: signals.title,
+        description: signals.description,
+        size: signals.size,
+        active: signals.active,
+        disabled: signals.disabled,
+        iconColor: signals.iconColor,
+        iconSize: signals.iconSize,
+      }),
+      { icon: 'material-symbols:star', title: 'Feature Title', description: 'A short description of this feature or option.' }
     ),
     sections: [
       ...AutoSections('ActionCard', props =>
@@ -135,7 +140,7 @@ export default function ActionCardPage() {
         () =>
           html.div(
             attr.class('flex flex-wrap gap-4 items-start'),
-            ...(['sm', 'md', 'lg'] as const).map(size =>
+            ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               ActionCard({
                 icon: 'material-symbols:info',
                 title: `Size: ${size}`,

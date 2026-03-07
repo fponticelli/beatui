@@ -17,7 +17,7 @@ export default function CenterPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Center', props =>
       html.div(
-        attr.class('h-48 border rounded-lg border-gray-200 dark:border-gray-700'),
+        attr.class('h-48 p-4 border rounded-lg border-gray-200 dark:border-gray-700'),
         Center(
           props as never,
           html.div(
@@ -30,7 +30,7 @@ export default function CenterPage() {
     sections: [
       ...AutoSections('Center', props =>
         html.div(
-          attr.class('h-32 border rounded-lg border-gray-200 dark:border-gray-700'),
+          attr.class('h-32 p-4 border rounded-lg border-gray-200 dark:border-gray-700'),
           Center(
             props as never,
             html.span(attr.class('text-sm text-gray-500'), 'Content')

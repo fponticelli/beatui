@@ -67,7 +67,8 @@ function playgroundLayout(
  */
 export function autoPlayground(
   componentName: string,
-  renderFn: (props: Record<string, Value<unknown>>) => TNode
+  renderFn: (props: Record<string, Value<unknown>>) => TNode,
+  defaults?: Record<string, unknown>
 ): TNode {
   const meta = componentMeta[componentName]
   if (!meta) {
@@ -77,7 +78,7 @@ export function autoPlayground(
     )
   }
 
-  const { panel, signals, props, optionalKeys } = createOptionsPanel(meta)
+  const { panel, signals, props, optionalKeys } = createOptionsPanel(meta, defaults)
 
   // If there are optional props that toggle between undefined/defined,
   // re-render the component when any of them toggle. This handles components
@@ -121,7 +122,8 @@ export function autoPlayground(
  */
 export function manualPlayground(
   componentName: string,
-  renderFn: (signals: Record<string, Value<any>>) => TNode
+  renderFn: (signals: Record<string, Value<any>>) => TNode,
+  defaults?: Record<string, unknown>
 ): TNode {
   const meta = componentMeta[componentName]
   if (!meta) {
@@ -131,7 +133,7 @@ export function manualPlayground(
     )
   }
 
-  const { panel, signals } = createOptionsPanel(meta)
+  const { panel, signals } = createOptionsPanel(meta, defaults)
   const preview = renderFn(signals as Record<string, Value<unknown>>)
   return playgroundLayout(componentName, preview, panel, signals)
 }

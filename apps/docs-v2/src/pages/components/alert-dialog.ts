@@ -18,7 +18,7 @@ export default function AlertDialogPage() {
     playground: manualPlayground('AlertDialog', signals =>
       AlertDialog(
         {
-          title: signals.title ?? 'Alert',
+          title: signals.title,
           variant: signals.variant,
           okText: signals.okText,
           dismissable: signals.dismissable,
@@ -34,7 +34,8 @@ export default function AlertDialogPage() {
             },
             'Show Alert'
           )
-      )
+      ),
+      { title: 'Alert' }
     ),
     sections: [
       Section(

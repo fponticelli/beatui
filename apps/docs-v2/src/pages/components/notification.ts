@@ -17,12 +17,10 @@ export default function NotificationPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Notification', props =>
       Notification(
-        {
-          ...props,
-          title: html.strong('Notification Title'),
-        } as never,
+        props as never,
         'This is the notification body text.'
-      )
+      ),
+      { title: 'Notification Title' }
     ),
     sections: [
       ...AutoSections('Notification', props =>

@@ -31,7 +31,12 @@ import { sessionId } from '../../../utils/session-id'
  * - `'underline'` — Minimal underline indicator
  * - `'pill'` — Contained segmented-button style
  */
-export type TabsVariant = 'default' | 'filled' | 'outline' | 'underline' | 'pill'
+export type TabsVariant =
+  | 'default'
+  | 'filled'
+  | 'outline'
+  | 'underline'
+  | 'pill'
 
 export interface TabItem<T extends string> {
   /** Unique identifier for the tab */

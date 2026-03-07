@@ -45,17 +45,17 @@
     gap: var(--spacing-xs);
   }
 
-  /* Title */
+  /* Title — fixed font size across all sizes */
   .bc-action-card__title {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-semibold);
     color: var(--action-card-title-color);
     line-height: var(--line-height-tight);
   }
 
-  /* Description */
+  /* Description — fixed font size across all sizes */
   .bc-action-card__description {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-normal);
     color: var(--action-card-description-color);
     line-height: var(--line-height-normal);
@@ -101,18 +101,10 @@
     pointer-events: none;
   }
 
-  /* Size variants */
+  /* Size variants — padding and gap only */
   .bc-action-card--xs {
     padding: var(--spacing-xs);
     gap: var(--spacing-xs);
-  }
-
-  .bc-action-card--xs .bc-action-card__title {
-    font-size: var(--font-size-sm);
-  }
-
-  .bc-action-card--xs .bc-action-card__description {
-    font-size: var(--font-size-xs);
   }
 
   .bc-action-card--sm {
@@ -120,38 +112,14 @@
     gap: var(--spacing-sm);
   }
 
-  .bc-action-card--sm .bc-action-card__title {
-    font-size: var(--font-size-md);
-  }
-
-  .bc-action-card--sm .bc-action-card__description {
-    font-size: var(--font-size-sm);
-  }
-
   .bc-action-card--lg {
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     gap: var(--spacing-lg);
   }
 
-  .bc-action-card--lg .bc-action-card__title {
-    font-size: var(--font-size-xl);
-  }
-
-  .bc-action-card--lg .bc-action-card__description {
-    font-size: var(--font-size-lg);
-  }
-
   .bc-action-card--xl {
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-xl);
     gap: var(--spacing-xl);
-  }
-
-  .bc-action-card--xl .bc-action-card__title {
-    font-size: var(--font-size-2xl);
-  }
-
-  .bc-action-card--xl .bc-action-card__description {
-    font-size: var(--font-size-xl);
   }
 
   /* Focus styles for accessibility */

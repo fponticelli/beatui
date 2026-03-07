@@ -18,7 +18,7 @@ export default function ConfirmDialogPage() {
     playground: manualPlayground('ConfirmationDialog', signals =>
       ConfirmationDialog(
         {
-          title: signals.title ?? 'Confirm action',
+          title: signals.title,
           body: 'Are you sure you want to perform this action? This cannot be undone.',
           icon: signals.icon,
           color: signals.color,
@@ -37,7 +37,8 @@ export default function ConfirmDialogPage() {
             },
             'Open Confirmation'
           )
-      )
+      ),
+      { title: 'Confirm action' }
     ),
     sections: [
       Section(

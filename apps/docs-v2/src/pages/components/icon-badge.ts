@@ -21,7 +21,8 @@ export const meta: ComponentPageMeta = {
 export default function IconBadgePage() {
   return ComponentPage(meta, {
     playground: autoPlayground('IconBadge', props =>
-      IconBadge({ icon: 'lucide:bell', size: 'xl', ...props } as never)
+      IconBadge(props as never),
+      { icon: 'lucide:bell' }
     ),
     sections: [
       ...AutoSections('IconBadge', props =>

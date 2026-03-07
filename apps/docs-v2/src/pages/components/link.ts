@@ -17,9 +17,10 @@ export default function LinkPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Link', props =>
       Link(
-        { href: '#', ...props } as never,
+        props as never,
         'Click this link'
-      )
+      ),
+      { href: '#' }
     ),
     sections: [
       ...AutoSections('Link', props =>

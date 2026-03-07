@@ -18,7 +18,7 @@ export default function PromptDialogPage() {
     playground: manualPlayground('PromptDialog', signals =>
       PromptDialog(
         {
-          title: signals.title ?? 'Enter a value',
+          title: signals.title,
           placeholder: signals.placeholder,
           defaultValue: signals.defaultValue,
           confirmText: signals.confirmText,
@@ -36,7 +36,8 @@ export default function PromptDialogPage() {
             },
             'Open Prompt'
           )
-      )
+      ),
+      { title: 'Enter a value' }
     ),
     sections: [
       Section(

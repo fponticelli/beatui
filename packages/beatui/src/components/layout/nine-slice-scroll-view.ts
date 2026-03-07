@@ -1,6 +1,8 @@
 import {
+  aria,
   attr,
   computedOf,
+  createInertiaHandler,
   Fragment,
   html,
   on,
@@ -10,6 +12,7 @@ import {
   TNode,
   Value,
   When,
+  WithElement,
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { biMax, biMin } from '@tempots/std'
@@ -113,12 +116,19 @@ export type NineSliceScrollViewOptions = {
   anchorMode?: Value<AnchorMode>
 }
 
+const SCROLLBAR_SIZE = 12
+const KEYBOARD_STEP = 40
+
 function toPx(v: Value<number>): string {
   return `${v}px`
 }
 
 function valueToPx(v: Value<number>) {
   return Value.map(v, toPx)
+}
+
+function clampScroll(position: bigint, maxScroll: bigint): bigint {
+  return biMin(biMax(0n, maxScroll), biMax(0n, position))
 }
 
 /**
@@ -178,13 +188,13 @@ export function NineSliceScrollView({
   const horizontalScrollPosition = prop(0n)
 
   const headerHeightPx = valueToPx(headerHeight)
-  // const footerHeightPx = valueToPx(footerHeight)
   const sidebarStartWidthPx = valueToPx(sidebarStartWidth)
-  // const sidebarEndWidthPx = valueToPx(sidebarEndWidth)
-  const scrollbarThickness = prop(16)
 
   return html.div(
     attr.class('bc-nine-slice-container'),
+    attr.tabindex(0),
+    attr.role('group'),
+    aria.label('Scrollable grid view'),
     ElementRect(rect => {
       const viewportWidth = computedOf(
         rect.$.width,
@@ -197,52 +207,45 @@ export function NineSliceScrollView({
         rect.$.height,
         headerHeight,
         footerHeight
-      )((height, headerHeight, footerHeight) => {
-        return height - headerHeight - footerHeight
+      )((height, hh, fh) => {
+        return height - hh - fh
       })
+
       const needsHorizontalScroll = computedOf(
         contentWidth,
         viewportWidth
-      )((contentWidth, viewportWidth) => {
-        return contentWidth > BigInt(viewportWidth)
-      })
+      )((cw, vw) => cw > BigInt(Math.max(0, vw)))
+
       const needsVerticalScroll = computedOf(
         contentHeight,
         viewportHeight
-      )((contentHeight, viewportHeight) => {
-        return contentHeight > BigInt(viewportHeight)
-      })
+      )((ch, vh) => ch > BigInt(Math.max(0, vh)))
+
       const visibleAreaWidth = computedOf(
         viewportWidth,
-        needsVerticalScroll,
-        scrollbarThickness
-      )((width, hasScrollbar, thickness) => {
-        return hasScrollbar ? width - thickness : width
+        needsVerticalScroll
+      )((width, hasVScroll) => {
+        return hasVScroll ? width - SCROLLBAR_SIZE : width
       })
+
       const visibleAreaHeight = computedOf(
         viewportHeight,
-        needsHorizontalScroll,
-        scrollbarThickness
-      )((height, hasScrollbar, thickness) => {
-        return hasScrollbar ? height - thickness : height
+        needsHorizontalScroll
+      )((height, hasHScroll) => {
+        return hasHScroll ? height - SCROLLBAR_SIZE : height
       })
-      // const visibleAreaWidthPx = valueToPx(visibleAreaWidth)
-      // const visibleAreaHeightPx = valueToPx(visibleAreaHeight)
 
-      const scrollRatioHorizontal = computedOf(
-        contentWidth,
-        visibleAreaWidth
-      )((contentWidth, visibleWidth) => {
-        return Number(contentWidth / BigInt(Math.max(1, visibleWidth)))
-      })
-      const scrollRatioVertical = computedOf(
+      const maxVerticalScroll = computedOf(
         contentHeight,
         visibleAreaHeight
-      )((contentHeight, visibleHeight) => {
-        return Number(contentHeight / BigInt(Math.max(1, visibleHeight)))
-      })
+      )((content, visible) => biMax(0n, content - BigInt(Math.max(1, visible))))
 
-      // Calculate positioning based on anchor mode
+      const maxHorizontalScroll = computedOf(
+        contentWidth,
+        visibleAreaWidth
+      )((content, visible) => biMax(0n, content - BigInt(Math.max(1, visible))))
+
+      // Anchor mode computations
       const shouldAnchorEndToBody = Value.map(
         anchorMode,
         mode => mode === 'body-end' || mode === 'body-end-bottom'
@@ -257,16 +260,13 @@ export function NineSliceScrollView({
               visibleAreaWidth,
               sidebarEndWidth
             )((startWidth, contentW, visibleW, endWidth) => {
-              // When content is smaller than viewport, anchor to content end
-              // When content is larger, fix to viewport edge to keep visible
               const contentEnd = startWidth + Number(contentW)
               const viewportEnd = startWidth + visibleW
               const position = Math.min(contentEnd, viewportEnd)
-              // Ensure end sidebar stays fully visible
               return `${Math.max(startWidth + endWidth, position)}px`
             })
           ),
-        () => style.right('0')
+        () => style.right(`${SCROLLBAR_SIZE}px`)
       )
       const shouldAnchorFooterToBody = Value.map(
         anchorMode,
@@ -281,32 +281,28 @@ export function NineSliceScrollView({
               contentHeight,
               visibleAreaHeight,
               footerHeight
-            )((headerH, contentH, visibleH, footerH) => {
-              // When content is smaller than viewport, anchor to content bottom
-              // When content is larger, fix to viewport edge to keep visible
-              const contentBottom = headerH + Number(contentH)
-              const viewportBottom = headerH + visibleH
+            )((hh, contentH, visibleH, fh) => {
+              const contentBottom = hh + Number(contentH)
+              const viewportBottom = hh + visibleH
               const position = Math.min(contentBottom, viewportBottom)
-              // Ensure footer stays fully visible
-              return `${Math.max(headerH + footerH, position)}px`
+              return `${Math.max(hh + fh, position)}px`
             })
           ),
-        () => style.bottom('0')
+        () => style.bottom(`${SCROLLBAR_SIZE}px`)
       )
 
-      const endSideOffset = computedOf(
-        needsVerticalScroll,
-        scrollbarThickness
-      )((hasScrollbar, thickness) => {
-        return hasScrollbar ? `${thickness}px` : '0'
+      const endSideOffset = computedOf(needsVerticalScroll)((
+        hasScrollbar
+      ): string => {
+        return hasScrollbar ? `${SCROLLBAR_SIZE}px` : '0'
       })
-      const bottomOffset = computedOf(
-        needsHorizontalScroll,
-        scrollbarThickness
-      )((hasScrollbar, thickness) => {
-        return hasScrollbar ? `${thickness}px` : '0'
+      const bottomOffset = computedOf(needsHorizontalScroll)((
+        hasScrollbar
+      ): string => {
+        return hasScrollbar ? `${SCROLLBAR_SIZE}px` : '0'
       })
 
+      // Content transforms
       const contentTransform = style.transform(
         computedOf(
           horizontalScrollPosition,
@@ -314,63 +310,47 @@ export function NineSliceScrollView({
           needsHorizontalScroll,
           needsVerticalScroll
         )((hPos, vPos, needsH, needsV) => {
-          const hTransform = needsH ? `translateX(-${hPos}px)` : ''
-          const vTransform = needsV ? `translateY(-${vPos}px)` : ''
-          return `${hTransform} ${vTransform}`.trim() || 'none'
+          const hT = needsH ? `translateX(-${hPos}px)` : ''
+          const vT = needsV ? `translateY(-${vPos}px)` : ''
+          return `${hT} ${vT}`.trim() || 'none'
         })
       )
       const horizontalTransform = style.transform(
-        horizontalScrollPosition.map(scrollPos => `translateX(-${scrollPos}px)`)
+        horizontalScrollPosition.map(p => `translateX(-${p}px)`)
       )
       const verticalTransform = style.transform(
-        verticalScrollPosition.map(scrollPos => `translateY(-${scrollPos}px)`)
+        verticalScrollPosition.map(p => `translateY(-${p}px)`)
       )
 
-      // Cache max scroll values as computed values to avoid recalculation in event handlers
-      const maxVerticalScroll = computedOf(
-        contentHeight,
-        visibleAreaHeight
-      )((content, visible) => content - BigInt(Math.max(1, visible)))
-
-      const maxHorizontalScroll = computedOf(
-        contentWidth,
-        visibleAreaWidth
-      )((content, visible) => content - BigInt(Math.max(1, visible)))
-
-      // Throttle mechanism for wheel events
+      // Wheel event throttling
       let wheelThrottleTimer: ReturnType<typeof setTimeout> | null = null
       let accumulatedDeltaX = 0
       let accumulatedDeltaY = 0
 
       const processWheelEvent = () => {
-        // Use cached values instead of reading directly
         const maxV = maxVerticalScroll.value
         const maxH = maxHorizontalScroll.value
         const needsV = needsVerticalScroll.value
         const needsH = needsHorizontalScroll.value
 
         if (needsV && accumulatedDeltaY !== 0) {
-          const newVerticalPosition = biMin(
-            biMax(0n, maxV),
-            biMax(
-              0n,
+          verticalScrollPosition.set(
+            clampScroll(
               verticalScrollPosition.value +
-                BigInt(Math.round(accumulatedDeltaY))
+                BigInt(Math.round(accumulatedDeltaY)),
+              maxV
             )
           )
-          verticalScrollPosition.set(newVerticalPosition)
         }
 
         if (needsH && accumulatedDeltaX !== 0) {
-          const newHorizontalPosition = biMin(
-            biMax(0n, maxH),
-            biMax(
-              0n,
+          horizontalScrollPosition.set(
+            clampScroll(
               horizontalScrollPosition.value +
-                BigInt(Math.round(accumulatedDeltaX))
+                BigInt(Math.round(accumulatedDeltaX)),
+              maxH
             )
           )
-          horizontalScrollPosition.set(newHorizontalPosition)
         }
 
         accumulatedDeltaX = 0
@@ -378,31 +358,272 @@ export function NineSliceScrollView({
         wheelThrottleTimer = null
       }
 
+      // Reset scroll when content fits
       needsHorizontalScroll.on(need => {
         if (!need) horizontalScrollPosition.set(0n)
       })
       needsVerticalScroll.on(need => {
         if (!need) verticalScrollPosition.set(0n)
       })
+
+      // Inertia handler for body drag
+      const inertia = createInertiaHandler(
+        (dx, dy) => {
+          const maxH = maxHorizontalScroll.value
+          const maxV = maxVerticalScroll.value
+          if (needsHorizontalScroll.value) {
+            horizontalScrollPosition.set(
+              clampScroll(
+                horizontalScrollPosition.value - BigInt(Math.round(dx)),
+                maxH
+              )
+            )
+          }
+          if (needsVerticalScroll.value) {
+            verticalScrollPosition.set(
+              clampScroll(
+                verticalScrollPosition.value - BigInt(Math.round(dy)),
+                maxV
+              )
+            )
+          }
+        },
+        { friction: 0.92, minVelocity: 0.5 }
+      )
+
+      let inertiaCancel: { dispose: () => void } | null = null
+
+      // Scrollbar thumb size and position computations
+      const hThumbFraction = computedOf(
+        visibleAreaWidth,
+        contentWidth
+      )((visible, content) => {
+        const c = Number(content)
+        return c > 0 ? Math.max(24, (visible * visible) / c) : 0
+      })
+
+      const hTrackUsable = computedOf(
+        visibleAreaWidth,
+        hThumbFraction
+      )((track, thumb) => Math.max(1, track - thumb))
+
+      const hThumbOffset = computedOf(
+        horizontalScrollPosition,
+        maxHorizontalScroll,
+        hTrackUsable
+      )((pos, maxS, usable) => {
+        const max = Number(maxS)
+        return max > 0 ? (Number(pos) / max) * usable : 0
+      })
+
+      const vThumbFraction = computedOf(
+        visibleAreaHeight,
+        contentHeight
+      )((visible, content) => {
+        const c = Number(content)
+        return c > 0 ? Math.max(24, (visible * visible) / c) : 0
+      })
+
+      const vTrackUsable = computedOf(
+        visibleAreaHeight,
+        vThumbFraction
+      )((track, thumb) => Math.max(1, track - thumb))
+
+      const vThumbOffset = computedOf(
+        verticalScrollPosition,
+        maxVerticalScroll,
+        vTrackUsable
+      )((pos, maxS, usable) => {
+        const max = Number(maxS)
+        return max > 0 ? (Number(pos) / max) * usable : 0
+      })
+
+      // Drag handler factory for scrollbar thumbs
+      function makeScrollbarDrag(
+        orientation: 'horizontal' | 'vertical',
+        scrollPosition: ReturnType<typeof prop<bigint>>,
+        maxScroll: Value<bigint>,
+        trackUsable: Value<number>
+      ) {
+        return on.pointerdown((e: PointerEvent) => {
+          e.preventDefault()
+          e.stopPropagation()
+          const startClient =
+            orientation === 'horizontal' ? e.clientX : e.clientY
+          const startScroll = Number(scrollPosition.value)
+
+          const onPointerMove = (moveEvt: PointerEvent) => {
+            const delta =
+              orientation === 'horizontal'
+                ? moveEvt.clientX - startClient
+                : moveEvt.clientY - startClient
+            const usable = Value.get(trackUsable)
+            const max = Number(Value.get(maxScroll))
+            if (usable > 0 && max > 0) {
+              const newScroll = startScroll + (delta / usable) * max
+              scrollPosition.set(
+                clampScroll(BigInt(Math.round(newScroll)), Value.get(maxScroll))
+              )
+            }
+          }
+
+          const onPointerUp = () => {
+            window.removeEventListener('pointermove', onPointerMove)
+            window.removeEventListener('pointerup', onPointerUp)
+          }
+
+          window.addEventListener('pointermove', onPointerMove)
+          window.addEventListener('pointerup', onPointerUp)
+        })
+      }
+
+      // Track click handler factory
+      function makeTrackClick(
+        orientation: 'horizontal' | 'vertical',
+        scrollPosition: ReturnType<typeof prop<bigint>>,
+        maxScroll: Value<bigint>,
+        trackUsable: Value<number>,
+        thumbSize: Value<number>
+      ) {
+        return on.pointerdown((e: PointerEvent) => {
+          const target = e.target as HTMLElement
+          if (!target.classList.contains('bc-nine-slice-scrollbar-track'))
+            return
+          e.preventDefault()
+          const rect = target.getBoundingClientRect()
+          const clickPos =
+            orientation === 'horizontal'
+              ? e.clientX - rect.left
+              : e.clientY - rect.top
+          const thumbHalf = Value.get(thumbSize) / 2
+          const usable = Value.get(trackUsable)
+          const max = Number(Value.get(maxScroll))
+          if (usable > 0 && max > 0) {
+            const fraction = Math.max(
+              0,
+              Math.min(1, (clickPos - thumbHalf) / usable)
+            )
+            scrollPosition.set(
+              clampScroll(BigInt(Math.round(fraction * max)), Value.get(maxScroll))
+            )
+          }
+        })
+      }
+
       return Fragment(
         OnDispose(() => {
-          if (wheelThrottleTimer) {
-            clearTimeout(wheelThrottleTimer)
-          }
+          if (wheelThrottleTimer) clearTimeout(wheelThrottleTimer)
+          if (inertiaCancel) inertiaCancel.dispose()
         }),
+        // Wheel handler
         on.wheel(event => {
           event.preventDefault()
-          const { deltaX, deltaY } = event
-
-          // Accumulate deltas
-          accumulatedDeltaX += deltaX
-          accumulatedDeltaY += deltaY
-
-          // Throttle to 60fps (16ms)
+          accumulatedDeltaX += event.deltaX
+          accumulatedDeltaY += event.deltaY
           if (!wheelThrottleTimer) {
             wheelThrottleTimer = setTimeout(processWheelEvent, 16)
           }
         }),
+        // Keyboard handler
+        on.keydown(event => {
+          const needsH = needsHorizontalScroll.value
+          const needsV = needsVerticalScroll.value
+          let handled = false
+
+          switch (event.key) {
+            case 'ArrowUp':
+              if (needsV) {
+                verticalScrollPosition.set(
+                  clampScroll(
+                    verticalScrollPosition.value - BigInt(KEYBOARD_STEP),
+                    maxVerticalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'ArrowDown':
+              if (needsV) {
+                verticalScrollPosition.set(
+                  clampScroll(
+                    verticalScrollPosition.value + BigInt(KEYBOARD_STEP),
+                    maxVerticalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'ArrowLeft':
+              if (needsH) {
+                horizontalScrollPosition.set(
+                  clampScroll(
+                    horizontalScrollPosition.value - BigInt(KEYBOARD_STEP),
+                    maxHorizontalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'ArrowRight':
+              if (needsH) {
+                horizontalScrollPosition.set(
+                  clampScroll(
+                    horizontalScrollPosition.value + BigInt(KEYBOARD_STEP),
+                    maxHorizontalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'PageUp':
+              if (needsV) {
+                verticalScrollPosition.set(
+                  clampScroll(
+                    verticalScrollPosition.value -
+                      BigInt(Math.round(visibleAreaHeight.value)),
+                    maxVerticalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'PageDown':
+              if (needsV) {
+                verticalScrollPosition.set(
+                  clampScroll(
+                    verticalScrollPosition.value +
+                      BigInt(Math.round(visibleAreaHeight.value)),
+                    maxVerticalScroll.value
+                  )
+                )
+                handled = true
+              }
+              break
+            case 'Home':
+              if (needsV) {
+                verticalScrollPosition.set(0n)
+                handled = true
+              }
+              if (needsH) {
+                horizontalScrollPosition.set(0n)
+                handled = true
+              }
+              break
+            case 'End':
+              if (needsV) {
+                verticalScrollPosition.set(maxVerticalScroll.value)
+                handled = true
+              }
+              if (needsH) {
+                horizontalScrollPosition.set(maxHorizontalScroll.value)
+                handled = true
+              }
+              break
+          }
+
+          if (handled) event.preventDefault()
+        }),
+        // Pane container
         html.div(
           attr.class('bc-nine-slice-pane-container'),
           style.right(endSideOffset),
@@ -413,19 +634,15 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-top-start'),
                 style.top('0'),
                 style.left('0'),
-                // style.height(headerHeightPx),
-                // style.width(sidebarStartWidthPx),
                 topStart
               )
             : null,
-          // top-center
+          // header
           header != null
             ? html.div(
                 attr.class('bc-nine-slice-pane bc-nine-slice-header'),
                 style.top('0'),
                 style.left(sidebarStartWidthPx),
-                // style.height(headerHeightPx),
-                // style.width(visibleAreaWidthPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   horizontalTransform,
@@ -439,19 +656,15 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-top-end'),
                 style.top('0'),
                 EndAnchor,
-                // style.height(headerHeightPx),
-                // style.width(sidebarEndWidthPx),
                 topEnd
               )
             : null,
-          // middle-start sidebar
+          // sidebar start
           sidebarStart != null
             ? html.div(
                 attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-start'),
                 style.left('0'),
                 style.top(headerHeightPx),
-                // style.height(visibleAreaHeightPx),
-                // style.width(sidebarStartWidthPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   verticalTransform,
@@ -459,27 +672,77 @@ export function NineSliceScrollView({
                 )
               )
             : null,
-          // middle-center (main body)
+          // body
           html.div(
             attr.class('bc-nine-slice-pane bc-nine-slice-body'),
             style.left(sidebarStartWidthPx),
             style.top(headerHeightPx),
-            // style.width(visibleAreaWidth.map(toPx)),
-            // style.height(visibleAreaHeight.map(toPx)),
+            // Body drag via pointer events for inertia
+            on.pointerdown((e: PointerEvent) => {
+              if (e.button !== 0) return
+              if (inertiaCancel) {
+                inertiaCancel.dispose()
+                inertiaCancel = null
+              }
+              inertia.track(e.clientX, e.clientY)
+
+              const onPointerMove = (moveEvt: PointerEvent) => {
+                const dx = moveEvt.clientX - lastX
+                const dy = moveEvt.clientY - lastY
+                lastX = moveEvt.clientX
+                lastY = moveEvt.clientY
+                inertia.track(moveEvt.clientX, moveEvt.clientY)
+
+                const maxH = maxHorizontalScroll.value
+                const maxV = maxVerticalScroll.value
+                if (needsHorizontalScroll.value) {
+                  horizontalScrollPosition.set(
+                    clampScroll(
+                      horizontalScrollPosition.value - BigInt(Math.round(dx)),
+                      maxH
+                    )
+                  )
+                }
+                if (needsVerticalScroll.value) {
+                  verticalScrollPosition.set(
+                    clampScroll(
+                      verticalScrollPosition.value - BigInt(Math.round(dy)),
+                      maxV
+                    )
+                  )
+                }
+              }
+
+              let lastX = e.clientX
+              let lastY = e.clientY
+
+              const onPointerUp = () => {
+                inertiaCancel = inertia.release()
+                window.removeEventListener('pointermove', onPointerMove)
+                window.removeEventListener('pointerup', onPointerUp)
+              }
+
+              window.addEventListener('pointermove', onPointerMove)
+              window.addEventListener('pointerup', onPointerUp)
+            }),
+            style.cursor(
+              computedOf(
+                needsHorizontalScroll,
+                needsVerticalScroll
+              )((h, v): string => (h || v ? 'grab' : 'default'))
+            ),
             html.div(
               attr.class('bc-nine-slice-pane-content'),
               contentTransform,
               body
             )
           ),
-          // middle-end sidebar
+          // sidebar end
           sidebarEnd != null
             ? html.div(
                 attr.class('bc-nine-slice-pane bc-nine-slice-sidebar-end'),
                 EndAnchor,
                 style.top(headerHeightPx),
-                // style.height(visibleAreaHeightPx),
-                // style.width(sidebarEndWidthPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   verticalTransform,
@@ -493,19 +756,15 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-bottom-start'),
                 style.left('0'),
                 FooterAnchor,
-                // style.height(footerHeightPx),
-                // style.width(sidebarStartWidthPx),
                 bottomStart
               )
             : null,
-          // bottom-center
+          // footer
           footer != null
             ? html.div(
                 attr.class('bc-nine-slice-pane bc-nine-slice-footer'),
                 style.left(sidebarStartWidthPx),
                 FooterAnchor,
-                // style.height(footerHeightPx),
-                // style.width(visibleAreaWidthPx),
                 html.div(
                   attr.class('bc-nine-slice-pane-content'),
                   horizontalTransform,
@@ -519,103 +778,102 @@ export function NineSliceScrollView({
                 attr.class('bc-nine-slice-pane bc-nine-slice-bottom-end'),
                 EndAnchor,
                 FooterAnchor,
-                // style.height(footerHeightPx),
-                // style.width(sidebarEndWidthPx),
                 bottomEnd
               )
             : null
         ),
-        // horizontal scrollbar
+        // Horizontal scrollbar
         html.div(
-          attr.class('bc-nine-slice-pane bc-nine-slice-horizontal-scrollbar'),
-          style.overflowX('scroll'),
-          style.left('0'),
-          style.right(
-            computedOf(
-              needsVerticalScroll,
-              scrollbarThickness
-            )((hasScrollbar, thickness) => {
-              return hasScrollbar ? `${thickness}px` : '0'
-            })
-          ),
-          style.bottom('0'),
-          style.height(
-            needsHorizontalScroll.map((hasScrollbar): string =>
-              hasScrollbar ? '16px' : '0'
+          attr.class(
+            needsHorizontalScroll.map(
+              needs =>
+                `bc-nine-slice-scrollbar bc-nine-slice-scrollbar--horizontal${needs ? '' : ' bc-nine-slice-scrollbar--hidden'}`
             )
           ),
-          html.div(
-            attr.class(
-              'bc-nine-slice-pane bc-nine-slice-horizontal-scrollbar-thumb'
-            ),
-            style.width(
-              scrollRatioHorizontal.map(ratio => `${100 / Math.max(1, ratio)}%`)
-            ),
-            style.height('100%'),
-            style.backgroundColor('#ff000066')
+          style.left(valueToPx(sidebarStartWidth)),
+          style.right(endSideOffset),
+          makeTrackClick(
+            'horizontal',
+            horizontalScrollPosition,
+            maxHorizontalScroll,
+            hTrackUsable,
+            hThumbFraction
           ),
-          on.scroll(event => {
-            const target = event.target as HTMLElement
-            const scrollLeft = target.scrollLeft
-            const scrollableWidth = target.scrollWidth - target.clientWidth
-            if (scrollableWidth > 0) {
-              const scrollFraction = scrollLeft / scrollableWidth
-              // Use cached max value instead of recalculating
-              const maxH = maxHorizontalScroll.value
-              horizontalScrollPosition.set(
-                BigInt(Math.round(Number(maxH) * scrollFraction))
+          WithElement(el => {
+            return Fragment(
+              attr.role('scrollbar'),
+              aria.orientation('horizontal'),
+              aria.valuemin(0),
+              OnDispose(
+                Value.on(maxHorizontalScroll, max => {
+                  el.setAttribute('aria-valuemax', String(max))
+                }),
+                Value.on(horizontalScrollPosition, pos => {
+                  el.setAttribute('aria-valuenow', String(pos))
+                })
+              ),
+              html.div(
+                attr.class('bc-nine-slice-scrollbar-track'),
+                html.div(
+                  attr.class('bc-nine-slice-scrollbar-thumb'),
+                  style.width(hThumbFraction.map(w => `${w}px`)),
+                  style.transform(hThumbOffset.map(o => `translateX(${o}px)`)),
+                  makeScrollbarDrag(
+                    'horizontal',
+                    horizontalScrollPosition,
+                    maxHorizontalScroll,
+                    hTrackUsable
+                  )
+                )
               )
-            }
+            )
           })
         ),
-        // vertical scrollbar
+        // Vertical scrollbar
         html.div(
-          attr.class('bc-nine-slice-pane bc-nine-slice-vertical-scrollbar'),
-          style.overflowY('scroll'),
-          style.top('0'),
-          style.bottom(
-            computedOf(
-              needsHorizontalScroll,
-              scrollbarThickness
-            )((hasScrollbar, thickness) => {
-              return hasScrollbar ? `${thickness}px` : '0'
-            })
-          ),
-          style.right('0'),
-          style.width(
-            needsVerticalScroll.map((hasScrollbar): string =>
-              hasScrollbar ? '16px' : '0'
+          attr.class(
+            needsVerticalScroll.map(
+              needs =>
+                `bc-nine-slice-scrollbar bc-nine-slice-scrollbar--vertical${needs ? '' : ' bc-nine-slice-scrollbar--hidden'}`
             )
           ),
-          html.div(
-            attr.class(
-              'bc-nine-slice-pane bc-nine-slice-vertical-scrollbar-thumb'
-            ),
-            style.width('100%'),
-            style.height(
-              computedOf(
-                headerHeight,
-                footerHeight,
-                contentHeight,
-                scrollRatioVertical
-              )((_headerHeight, _footerHeight, _contentHeight, scrollRatio) => {
-                return `${100 / Math.max(1, scrollRatio)}%`
-              })
-            ),
-            style.backgroundColor('#ff000066')
+          style.top(headerHeightPx),
+          style.bottom(bottomOffset),
+          makeTrackClick(
+            'vertical',
+            verticalScrollPosition,
+            maxVerticalScroll,
+            vTrackUsable,
+            vThumbFraction
           ),
-          on.scroll(event => {
-            const target = event.target as HTMLElement
-            const scrollTop = target.scrollTop
-            const scrollableHeight = target.scrollHeight - target.clientHeight
-            if (scrollableHeight > 0) {
-              const scrollFraction = scrollTop / scrollableHeight
-              // Use cached max value instead of recalculating
-              const maxV = maxVerticalScroll.value
-              verticalScrollPosition.set(
-                BigInt(Math.round(Number(maxV) * scrollFraction))
+          WithElement(el => {
+            return Fragment(
+              attr.role('scrollbar'),
+              aria.orientation('vertical'),
+              aria.valuemin(0),
+              OnDispose(
+                Value.on(maxVerticalScroll, max => {
+                  el.setAttribute('aria-valuemax', String(max))
+                }),
+                Value.on(verticalScrollPosition, pos => {
+                  el.setAttribute('aria-valuenow', String(pos))
+                })
+              ),
+              html.div(
+                attr.class('bc-nine-slice-scrollbar-track'),
+                html.div(
+                  attr.class('bc-nine-slice-scrollbar-thumb'),
+                  style.height(vThumbFraction.map(h => `${h}px`)),
+                  style.transform(vThumbOffset.map(o => `translateY(${o}px)`)),
+                  makeScrollbarDrag(
+                    'vertical',
+                    verticalScrollPosition,
+                    maxVerticalScroll,
+                    vTrackUsable
+                  )
+                )
               )
-            }
+            )
           })
         )
       )

@@ -18,7 +18,8 @@ export default function ProgressBarPage() {
       html.div(
         attr.class('w-full max-w-md'),
         ProgressBar(props as never)
-      )
+      ),
+      { value: 65 }
     ),
     sections: [
       ...AutoSections('ProgressBar', props =>

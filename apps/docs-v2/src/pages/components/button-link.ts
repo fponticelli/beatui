@@ -17,9 +17,10 @@ export default function ButtonLinkPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('ButtonLink', props =>
       ButtonLink(
-        { href: '#', ...props } as never,
+        props as never,
         'Go somewhere'
-      )
+      ),
+      { href: '#' }
     ),
     sections: [
       ...AutoSections('ButtonLink', props =>

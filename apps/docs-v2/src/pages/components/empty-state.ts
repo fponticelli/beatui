@@ -1,5 +1,5 @@
 import { EmptyState, Button } from '@tempots/beatui'
-import { html, attr, Signal } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -20,18 +20,15 @@ export const meta: ComponentPageMeta = {
 
 export default function EmptyStatePage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('EmptyState', signals => {
-      // Set meaningful defaults so the empty state renders content
-      ;(signals.title as Signal<string>).set('Nothing here yet')
-      ;(signals.icon as Signal<string>).set('material-symbols:inbox-outline')
-      ;(signals.description as Signal<string>).set('Add some content to get started.')
-      return EmptyState({
+    playground: manualPlayground('EmptyState', signals =>
+      EmptyState({
         icon: signals.icon,
         title: signals.title,
         description: signals.description,
         size: signals.size,
-      } as never)
-    }),
+      } as never),
+      { title: 'Nothing here yet', icon: 'material-symbols:inbox-outline', description: 'Add some content to get started.' }
+    ),
     sections: [
       ...AutoSections('EmptyState', props =>
         EmptyState({

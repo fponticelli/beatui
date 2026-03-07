@@ -1,5 +1,5 @@
 import { Icon } from '@tempots/beatui'
-import { html, attr, Signal } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -20,18 +20,17 @@ export const meta: ComponentPageMeta = {
 
 export default function IconPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Icon', signals => {
-      // Set a default icon so something renders initially
-      ;(signals.icon as Signal<string>).set('lucide:star')
-      return Icon({
+    playground: manualPlayground('Icon', signals =>
+      Icon({
         icon: signals.icon,
         size: signals.size,
         color: signals.color,
         title: signals.title,
         accessibility: signals.accessibility,
         tone: signals.tone,
-      } as never)
-    }),
+      } as never),
+      { icon: 'lucide:star' }
+    ),
     sections: [
       ...AutoSections('Icon', props =>
         Icon({ ...props, icon: 'lucide:star' } as never)

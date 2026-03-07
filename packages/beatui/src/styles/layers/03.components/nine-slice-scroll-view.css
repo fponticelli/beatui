@@ -3,6 +3,7 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
+  outline: none;
 }
 
 .bc-nine-slice-pane-container {
@@ -10,18 +11,27 @@
   overflow: hidden;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .bc-nine-slice-pane {
   position: absolute;
   overflow: visible;
 }
+
+.bc-nine-slice-pane-content {
+  will-change: transform;
+}
+
+/* Z-index layering: corners > sidebars > header/footer > body */
 .bc-nine-slice-top-start {
   z-index: 60;
 }
 
 .bc-nine-slice-header {
   z-index: 20;
+  overflow: hidden;
 }
 
 .bc-nine-slice-top-end {
@@ -30,14 +40,17 @@
 
 .bc-nine-slice-sidebar-start {
   z-index: 30;
+  overflow: hidden;
 }
 
 .bc-nine-slice-body {
   z-index: 10;
+  overflow: hidden;
 }
 
 .bc-nine-slice-sidebar-end {
   z-index: 40;
+  overflow: hidden;
 }
 
 .bc-nine-slice-bottom-start {
@@ -46,8 +59,90 @@
 
 .bc-nine-slice-footer {
   z-index: 50;
+  overflow: hidden;
 }
 
 .bc-nine-slice-bottom-end {
   z-index: 90;
+}
+
+/* Scrollbar shared */
+.bc-nine-slice-scrollbar {
+  position: absolute;
+  z-index: 100;
+}
+
+.bc-nine-slice-scrollbar-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-base-200);
+  border-radius: 8px;
+}
+
+.bc-nine-slice-scrollbar-thumb {
+  position: absolute;
+  border-radius: 8px;
+  background-color: var(--color-base-400);
+  cursor: grab;
+  transition: background-color 150ms ease;
+}
+
+.bc-nine-slice-scrollbar-thumb:hover {
+  background-color: var(--color-base-500);
+}
+
+.bc-nine-slice-scrollbar-thumb:active,
+.bc-nine-slice-scrollbar-thumb--dragging {
+  background-color: var(--color-base-600);
+  cursor: grabbing;
+}
+
+/* Horizontal scrollbar */
+.bc-nine-slice-scrollbar--horizontal {
+  left: 0;
+  bottom: 0;
+  height: 12px;
+}
+
+.bc-nine-slice-scrollbar--horizontal .bc-nine-slice-scrollbar-thumb {
+  top: 0;
+  height: 100%;
+  min-width: 24px;
+}
+
+/* Vertical scrollbar */
+.bc-nine-slice-scrollbar--vertical {
+  top: 0;
+  right: 0;
+  width: 12px;
+}
+
+.bc-nine-slice-scrollbar--vertical .bc-nine-slice-scrollbar-thumb {
+  left: 0;
+  width: 100%;
+  min-height: 24px;
+}
+
+/* Hidden state */
+.bc-nine-slice-scrollbar--hidden {
+  display: none;
+}
+
+/* Dark mode */
+.dark .bc-nine-slice-scrollbar-track {
+  background-color: var(--color-base-800);
+}
+
+.dark .bc-nine-slice-scrollbar-thumb {
+  background-color: var(--color-base-600);
+}
+
+.dark .bc-nine-slice-scrollbar-thumb:hover {
+  background-color: var(--color-base-500);
+}
+
+.dark .bc-nine-slice-scrollbar-thumb:active,
+.dark .bc-nine-slice-scrollbar-thumb--dragging {
+  background-color: var(--color-base-400);
 }
