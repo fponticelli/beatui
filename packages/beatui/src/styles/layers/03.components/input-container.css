@@ -110,6 +110,11 @@
   line-height: var(--line-height-none);
 }
 
+.bc-input-container textarea {
+  resize: vertical;
+  line-height: var(--line-height-normal);
+}
+
 /* Password toggle button */
 .bc-input-container__password-toggle {
   font-size: var(--font-size-sm);
