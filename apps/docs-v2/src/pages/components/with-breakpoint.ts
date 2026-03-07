@@ -1,5 +1,5 @@
 import { WithBreakpoint, WithBeatUIBreakpoint, WithBeatUIElementBreakpoint } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
+import { html, attr, MapSignal } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -20,7 +20,7 @@ export default function WithBreakpointPage() {
         ({ value, is }) =>
           html.div(
             attr.class('w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 text-center'),
-            value.map(({ width, breakpoint }) =>
+            MapSignal(value, ({ width, breakpoint }) =>
               html.div(
                 html.div(
                   attr.class('text-2xl font-bold text-sky-600 dark:text-sky-400 mb-1'),
@@ -74,7 +74,7 @@ export default function WithBreakpointPage() {
             ({ value, is }) =>
               html.div(
                 attr.class('p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700'),
-                value.map(({ width, breakpoint }) =>
+                MapSignal(value, ({ width, breakpoint }) =>
                   html.div(
                     html.p(
                       attr.class('text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'),
@@ -84,7 +84,7 @@ export default function WithBreakpointPage() {
                     ),
                     html.div(
                       attr.class('text-xs text-gray-500 dark:text-gray-400'),
-                      is('>=md', width) ? 'Desktop layout active' : 'Mobile layout active'
+                      is('>=desktop', width) ? 'Desktop layout active' : 'Mobile layout active'
                     )
                   )
                 )
@@ -107,7 +107,7 @@ export default function WithBreakpointPage() {
                 attr.style(`width: ${maxWidth}px; flex-shrink: 0`),
                 WithBreakpoint(
                   ({ value }) =>
-                    value.map(({ width, breakpoint }) =>
+                    MapSignal(value, ({ width, breakpoint }) =>
                       html.div(
                         attr.class('p-3 bg-gray-50 dark:bg-gray-800/50'),
                         html.div(
@@ -134,7 +134,7 @@ export default function WithBreakpointPage() {
         'Standard BeatUI Breakpoints',
         () =>
           WithBeatUIBreakpoint(({ value, is }) =>
-            value.map(({ width, breakpoint }) =>
+            MapSignal(value, ({ width, breakpoint }) =>
               html.div(
                 attr.class('p-4 rounded-lg border border-gray-200 dark:border-gray-700 text-sm'),
                 html.div(
@@ -172,7 +172,7 @@ export default function WithBreakpointPage() {
             attr.class('w-full resize overflow-auto border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-2'),
             html.p(attr.class('text-xs text-gray-400 mb-2'), 'Drag the corner to resize this container'),
             WithBeatUIElementBreakpoint(({ value }) =>
-              value.map(({ width, breakpoint }) =>
+              MapSignal(value, ({ width, breakpoint }) =>
                 html.div(
                   attr.class('p-3 rounded bg-gray-50 dark:bg-gray-800/50 text-sm'),
                   html.span(attr.class('font-mono text-sky-600 dark:text-sky-400'), String(breakpoint)),

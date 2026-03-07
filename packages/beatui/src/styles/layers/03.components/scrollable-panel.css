@@ -36,18 +36,14 @@
   isolation: isolate;
 }
 
-/* Smooth scrolling for better UX */
-.bc-scrollable-panel__body {
-  scroll-behavior: smooth;
-}
-
-.bc-scrollable-panel--scrolled-down .bc-scrollable-panel--header-shadow,
-.bc-scrollable-panel--scrolled-up .bc-scrollable-panel--footer-shadow {
+/* Shadow containers — always positioned, visibility controlled by opacity */
+.bc-scrollable-panel--header-shadow,
+.bc-scrollable-panel--footer-shadow {
   position: relative;
   width: 100%;
   flex-shrink: 0;
-  height: 0px;
-  z-index: 2;
+  height: 0;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -56,26 +52,30 @@
   width: 100%;
   height: var(--spacing-lgh);
   position: absolute;
-  transition: box-shadow
-    var(--motion-transition-slow, var(--motion-duration-slow, 0.5s))
+  opacity: 0;
+  transition: opacity
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  box-shadow: var(--shadow-scrollable-panel-idle, 0 0 0 transparent);
-  background-color: transparent;
 }
 
 .bc-scrollable-panel--header-shadow > div {
   bottom: 0;
-}
-
-.bc-scrollable-panel--scrolled-down .bc-scrollable-panel--header-shadow > div {
   box-shadow: var(--shadow-surface-elevated, var(--shadow-md));
 }
 
 .bc-scrollable-panel--footer-shadow > div {
   top: 0;
+  box-shadow: var(--shadow-top-md, 0 -2px 6px rgba(0, 0, 0, 0.08));
 }
+
+/* Show header shadow when scrolled down */
+.bc-scrollable-panel--scrolled-down .bc-scrollable-panel--header-shadow > div {
+  opacity: 1;
+}
+
+/* Show footer shadow when scrolled up (content below) */
 .bc-scrollable-panel--scrolled-up .bc-scrollable-panel--footer-shadow > div {
-  box-shadow: var(--shadow-top-md);
+  opacity: 1;
 }
 
 /* Custom scrollbar styling (webkit browsers) */

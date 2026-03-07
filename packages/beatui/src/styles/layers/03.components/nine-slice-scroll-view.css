@@ -4,6 +4,7 @@
   width: 100%;
   height: 100%;
   outline: none;
+  touch-action: none;
 }
 
 .bc-nine-slice-pane-container {

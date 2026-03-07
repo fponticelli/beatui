@@ -363,6 +363,16 @@ export function NineSliceScrollView({
         wheelThrottleTimer = null
       }
 
+      // Clamp scroll position when content/viewport changes
+      maxHorizontalScroll.on(maxH => {
+        const pos = horizontalScrollPosition.value
+        if (pos > maxH) horizontalScrollPosition.set(biMax(0n, maxH))
+      })
+      maxVerticalScroll.on(maxV => {
+        const pos = verticalScrollPosition.value
+        if (pos > maxV) verticalScrollPosition.set(biMax(0n, maxV))
+      })
+
       // Reset scroll when content fits
       needsHorizontalScroll.on(need => {
         if (!need) horizontalScrollPosition.set(0n)
@@ -397,6 +407,10 @@ export function NineSliceScrollView({
       )
 
       let inertiaCancel: { dispose: () => void } | null = null
+      const reducedMotionQuery =
+        typeof window !== 'undefined'
+          ? window.matchMedia('(prefers-reduced-motion: reduce)')
+          : null
 
       // Scrollbar thumb size and position computations
       const hThumbFraction = computedOf(
@@ -732,7 +746,9 @@ export function NineSliceScrollView({
               let lastY = e.clientY
 
               const onPointerUp = () => {
-                inertiaCancel = inertia.release()
+                if (!reducedMotionQuery?.matches) {
+                  inertiaCancel = inertia.release()
+                }
                 window.removeEventListener('pointermove', onPointerMove)
                 window.removeEventListener('pointerup', onPointerUp)
               }

@@ -9,7 +9,7 @@ import {
   on,
   computedOf,
 } from '@tempots/dom'
-import { delayedAnimationFrame } from '@tempots/std'
+
 
 /**
  * Configuration options for the {@link ScrollablePanel} component.
@@ -79,9 +79,9 @@ export function ScrollablePanel(
   const scrollShadow = prop<'both' | 'top' | 'bottom' | 'none'>('none')
 
   function updateShadow(target: HTMLElement) {
-    const isAtTop = target.scrollTop === 0
+    const isAtTop = target.scrollTop <= 1
     const isAtBottom =
-      target.scrollTop + target.clientHeight >= target.scrollHeight - 1
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 2
     if (isAtTop && isAtBottom) {
       scrollShadow.set('none')
     } else if (isAtTop) {
@@ -94,32 +94,39 @@ export function ScrollablePanel(
   }
 
   const panelElement = html.div(
-    attr.class('bc-scrollable-panel'),
     attr.class(
       computedOf(
         scrollShadow,
         shadowOnScroll
-      )((scrollShadow, shadowOnScroll): string => {
-        if (!shadowOnScroll) return ''
-        switch (scrollShadow) {
-          case 'both':
-            return 'bc-scrollable-panel--scrolled-up bc-scrollable-panel--scrolled-down'
-          case 'bottom':
-            return 'bc-scrollable-panel--scrolled-up'
-          case 'top':
-            return 'bc-scrollable-panel--scrolled-down'
-          default:
-            return ''
+      )((shadow, enabled): string => {
+        const classes = ['bc-scrollable-panel']
+        if (enabled) {
+          if (shadow === 'top' || shadow === 'both')
+            classes.push('bc-scrollable-panel--scrolled-down')
+          if (shadow === 'bottom' || shadow === 'both')
+            classes.push('bc-scrollable-panel--scrolled-up')
         }
+        return classes.join(' ')
       })
     ),
     header && html.div(attr.class('bc-scrollable-panel__header'), header),
     html.div(attr.class('bc-scrollable-panel--header-shadow'), html.div()),
     html.div(
       attr.class('bc-scrollable-panel__body'),
-      WithElement(el =>
-        OnDispose(delayedAnimationFrame(() => updateShadow(el)))
-      ),
+      WithElement(el => {
+        updateShadow(el)
+        const ro = new ResizeObserver(() => updateShadow(el))
+        ro.observe(el)
+        // Also observe children so shadow updates when content size changes
+        const mo = new MutationObserver(() => {
+          requestAnimationFrame(() => updateShadow(el))
+        })
+        mo.observe(el, { childList: true, subtree: true })
+        return OnDispose(() => {
+          ro.disconnect()
+          mo.disconnect()
+        })
+      }),
       on.scroll(event => {
         const target = event.target as HTMLElement
         updateShadow(target)
