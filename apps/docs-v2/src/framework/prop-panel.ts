@@ -249,6 +249,13 @@ export function createOptionsPanel(
     }
   }
 
+  // Ensure a `value` signal always exists for input-based components.
+  // The metadata extractor skips `value` when the Options type is generic (e.g. NativeSelectOptions<T>).
+  if (!signals.value) {
+    signals.value = prop<unknown>(undefined)
+    props.value = signals.value
+  }
+
   const panel = html.div(
     attr.class(
       'flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 overflow-y-auto max-h-[400px]'
