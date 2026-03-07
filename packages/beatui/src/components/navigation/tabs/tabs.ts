@@ -98,32 +98,66 @@ function generateTabsStyles(
   variant: TabsVariant,
   color: ExtendedColor
 ): string {
-  // Only filled variant needs color-based styles
-  if (variant !== 'filled') return ''
   const styles = new Map<string, string>()
-  const baseLight = backgroundValue(color, 'solid', 'light')
-  const baseDark = backgroundValue(color, 'solid', 'dark')
-  styles.set('--tabs-filled-inactive-bg', baseLight.backgroundColor)
-  // For light mode inactive tabs, always use white text
-  styles.set('--tabs-filled-inactive-text', 'var(--color-white)')
-  const hoverLight = hoverBackgroundValue(color, 'solid', 'light')
-  styles.set('--tabs-filled-inactive-bg-hover', hoverLight.backgroundColor)
-  const hoverDark = hoverBackgroundValue(color, 'solid', 'dark')
-  styles.set('--tabs-filled-inactive-bg-dark-hover', hoverDark.backgroundColor)
 
-  styles.set('--tabs-filled-inactive-bg-dark', baseDark.backgroundColor)
-  styles.set('--tabs-filled-inactive-text-dark', baseDark.textColor)
-
-  // Active tab should be white in light mode and base-900 in dark mode
-  styles.set('--tabs-filled-active-bg', 'var(--color-white)')
-  // Light mode active tab text: neutral gray/base-800
-  styles.set('--tabs-filled-active-text', 'var(--color-base-800)')
-  styles.set('--tabs-filled-active-bg-dark', 'var(--color-base-900)')
-  const activeTextDark =
+  // Shared color tokens for all variants
+  const colorLight =
     color === 'white' || color === 'black' || color === 'transparent'
-      ? 'var(--color-white)'
+      ? 'var(--color-primary-600)'
+      : getColorVar(color as ThemeColorName, 600 as ColorShade)
+  const colorDark =
+    color === 'white' || color === 'black' || color === 'transparent'
+      ? 'var(--color-primary-400)'
       : getColorVar(color as ThemeColorName, 400 as ColorShade)
-  styles.set('--tabs-filled-active-text-dark', activeTextDark)
+  const colorLight500 =
+    color === 'white' || color === 'black' || color === 'transparent'
+      ? 'var(--color-primary-500)'
+      : getColorVar(color as ThemeColorName, 500 as ColorShade)
+  const colorLight400 =
+    color === 'white' || color === 'black' || color === 'transparent'
+      ? 'var(--color-primary-400)'
+      : getColorVar(color as ThemeColorName, 400 as ColorShade)
+
+  styles.set('--tabs-active-color', colorLight)
+  styles.set('--tabs-active-color-dark', colorDark)
+  styles.set('--tabs-indicator-color', colorLight500)
+  styles.set('--tabs-indicator-color-dark', colorLight400)
+
+  if (variant === 'filled') {
+    const baseLight = backgroundValue(color, 'solid', 'light')
+    const baseDark = backgroundValue(color, 'solid', 'dark')
+    styles.set('--tabs-filled-inactive-bg', baseLight.backgroundColor)
+    styles.set('--tabs-filled-inactive-text', 'var(--color-white)')
+    const hoverLight = hoverBackgroundValue(color, 'solid', 'light')
+    styles.set('--tabs-filled-inactive-bg-hover', hoverLight.backgroundColor)
+    const hoverDark = hoverBackgroundValue(color, 'solid', 'dark')
+    styles.set(
+      '--tabs-filled-inactive-bg-dark-hover',
+      hoverDark.backgroundColor
+    )
+    styles.set('--tabs-filled-inactive-bg-dark', baseDark.backgroundColor)
+    styles.set('--tabs-filled-inactive-text-dark', baseDark.textColor)
+    styles.set('--tabs-filled-active-bg', 'var(--color-white)')
+    styles.set('--tabs-filled-active-text', 'var(--color-base-800)')
+    styles.set('--tabs-filled-active-bg-dark', 'var(--color-base-900)')
+    styles.set('--tabs-filled-active-text-dark', colorDark)
+  }
+
+  if (variant === 'outline') {
+    styles.set(
+      '--tabs-outline-active-border',
+      colorLight400
+    )
+    styles.set(
+      '--tabs-outline-active-border-dark',
+      getColorVar(
+        (color === 'white' || color === 'black' || color === 'transparent'
+          ? 'primary'
+          : color) as ThemeColorName,
+        600 as ColorShade
+      )
+    )
+  }
 
   return Array.from(styles.entries())
     .map(([k, v]) => `${k}: ${v}`)

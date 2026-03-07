@@ -112,13 +112,13 @@
 }
 
 .bc-tab:focus-visible {
-  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--tabs-indicator-color, var(--color-primary-500));
   outline-offset: calc(-1 * var(--outline-width-focus));
   z-index: 1;
 }
 
 .bc-tab--active {
-  color: var(--color-primary-600);
+  color: var(--tabs-active-color, var(--color-primary-600));
   background-color: var(--color-white);
   font-weight: var(--font-weight-semibold);
   cursor: default;
@@ -127,7 +127,7 @@
 .bc-tab--active::after {
   content: '';
   position: absolute;
-  background-color: var(--color-primary-500);
+  background-color: var(--tabs-indicator-color, var(--color-primary-500));
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
 }
 
@@ -182,7 +182,7 @@
 }
 
 .bc-tabs__panel:focus-visible {
-  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline: var(--outline-width-focus) solid var(--tabs-indicator-color, var(--color-primary-500));
   outline-offset: calc(-1 * var(--outline-width-focus));
 }
 
@@ -214,7 +214,7 @@
 }
 
 .dark .bc-tab--active {
-  color: var(--color-primary-400);
+  color: var(--tabs-active-color-dark, var(--color-primary-400));
   background-color: var(--color-base-900);
 }
 
@@ -309,7 +309,7 @@
 }
 .bc-tabs--variant-outline .bc-tab--active {
   background-color: var(--color-white);
-  border-color: var(--color-primary-400);
+  border-color: var(--tabs-outline-active-border, var(--color-primary-400));
   border-bottom-color: var(--color-white);
 }
 .bc-tabs--variant-outline .bc-tab--active::after {
@@ -322,8 +322,11 @@
   border-radius: var(--radius-control-sm, var(--radius-sm)) 0 0
     var(--radius-control-sm, var(--radius-sm));
 }
+.bc-tabs--variant-outline .bc-tab--active {
+  color: var(--tabs-active-color, var(--color-primary-600));
+}
 .bc-tabs--vertical.bc-tabs--variant-outline .bc-tab--active {
-  border-bottom-color: var(--color-primary-400);
+  border-bottom-color: var(--tabs-outline-active-border, var(--color-primary-400));
   border-right-color: var(--color-white);
 }
 
@@ -354,11 +357,12 @@
 }
 .dark .bc-tabs--variant-outline .bc-tab--active {
   background-color: var(--color-base-900);
-  border-color: var(--color-primary-600);
+  color: var(--tabs-active-color-dark, var(--color-primary-400));
+  border-color: var(--tabs-outline-active-border-dark, var(--color-primary-600));
   border-bottom-color: var(--color-base-900);
 }
 .dark .bc-tabs--vertical.bc-tabs--variant-outline .bc-tab--active {
-  border-bottom-color: var(--color-primary-600);
+  border-bottom-color: var(--tabs-outline-active-border-dark, var(--color-primary-600));
   border-right-color: var(--color-base-900);
 }
 
@@ -402,13 +406,13 @@
 }
 
 .bc-tabs--variant-underline .bc-tab--active {
-  color: var(--color-primary-600);
+  color: var(--tabs-active-color, var(--color-primary-600));
   background-color: transparent;
   font-weight: var(--font-weight-medium);
 }
 
 .bc-tabs--variant-underline .bc-tab--active::after {
-  background-color: var(--color-primary-500);
+  background-color: var(--tabs-indicator-color, var(--color-primary-500));
   bottom: calc(-1 * var(--spacing-px));
   height: var(--spacing-xs);
 }
@@ -501,11 +505,11 @@
 }
 
 .dark .bc-tabs--variant-underline .bc-tab--active {
-  color: var(--color-primary-400);
+  color: var(--tabs-active-color-dark, var(--color-primary-400));
 }
 
 .dark .bc-tabs--variant-underline .bc-tab--active::after {
-  background-color: var(--color-primary-400);
+  background-color: var(--tabs-indicator-color-dark, var(--color-primary-400));
 }
 .dark .bc-tabs--vertical.bc-tabs--variant-underline .bc-tabs__list {
   border-bottom: none;
