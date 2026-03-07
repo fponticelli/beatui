@@ -1,5 +1,5 @@
 import { AlertDialog, Button } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
+import { html, attr, MapSignal, Value, computedOf } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,27 +15,37 @@ export const meta: ComponentPageMeta = {
 
 export default function AlertDialogPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('AlertDialog', signals =>
-      AlertDialog(
-        {
-          title: signals.title,
-          variant: signals.variant,
-          okText: signals.okText,
-          dismissable: signals.dismissable,
-          body: html.p('This is the alert message body content.'),
-          onOk: () => console.log('Alert acknowledged'),
-        } as never,
-        (open) =>
-          Button(
-            {
-              variant: 'filled',
-              color: 'primary',
-              onClick: open,
-            },
-            'Show Alert'
-          )
-      ),
-      { title: 'Alert' }
+    playground: manualPlayground('AlertDialog', signals => {
+      // AlertDialog reads variant at construction time (non-reactive),
+      // so we recreate the component when variant changes.
+      const key = computedOf(
+        signals.variant as Value<unknown>,
+        signals.dismissable as Value<unknown>
+      )((...vals: unknown[]) => vals.map(String).join('|'))
+
+      return MapSignal(key, () =>
+        AlertDialog(
+          {
+            title: signals.title,
+            variant: Value.get(signals.variant) || 'info',
+            okText: signals.okText,
+            dismissable: Value.get(signals.dismissable) ?? true,
+            body: html.p('This is the alert message body content.'),
+            onOk: () => console.log('Alert acknowledged'),
+          } as never,
+          (open) =>
+            Button(
+              {
+                variant: 'filled',
+                color: 'primary',
+                onClick: open,
+              },
+              'Show Alert'
+            )
+        )
+      )
+    },
+      { title: 'Alert', variant: 'info' }
     ),
     sections: [
       Section(
