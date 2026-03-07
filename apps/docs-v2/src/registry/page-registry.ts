@@ -773,7 +773,7 @@ export const pages: PageEntry[] = [
 export const categories: CategoryEntry[] = [
   {
     "name": "Layout",
-    "icon": "lucide:layout",
+    "icon": "lucide:layout-grid",
     "pages": [
       {
         "name": "Accordion",
@@ -896,7 +896,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Pickers",
-    "icon": "lucide:component",
+    "icon": "lucide:list-filter",
     "pages": [
       {
         "name": "Dropdown",
@@ -1079,7 +1079,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Feedback",
-    "icon": "lucide:bell",
+    "icon": "lucide:message-circle",
     "pages": [
       {
         "name": "EmptyState",
@@ -1139,7 +1139,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Selection",
-    "icon": "lucide:component",
+    "icon": "lucide:check-square",
     "pages": [
       {
         "name": "CheckboxInput",
@@ -1217,7 +1217,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Data Display",
-    "icon": "lucide:bar-chart-3",
+    "icon": "lucide:eye",
     "pages": [
       {
         "name": "Avatar",
@@ -1400,7 +1400,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Buttons",
-    "icon": "lucide:component",
+    "icon": "lucide:mouse-pointer-click",
     "pages": [
       {
         "name": "Button",
@@ -1451,7 +1451,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Tables & Media",
-    "icon": "lucide:component",
+    "icon": "lucide:table",
     "pages": [
       {
         "name": "Table",
@@ -1529,7 +1529,7 @@ export const categories: CategoryEntry[] = [
   },
   {
     "name": "Text Inputs",
-    "icon": "lucide:component",
+    "icon": "lucide:text-cursor-input",
     "pages": [
       {
         "name": "TextInput",

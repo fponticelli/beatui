@@ -10,12 +10,17 @@ const OUTPUT_FILE = path.join(REGISTRY_DIR, 'page-registry.ts')
 
 /** Category icons for sidebar groups */
 const CATEGORY_ICONS: Record<string, string> = {
-  'Form Inputs': 'lucide:text-cursor-input',
+  Buttons: 'lucide:mouse-pointer-click',
+  'Text Inputs': 'lucide:text-cursor-input',
+  Selection: 'lucide:check-square',
+  Pickers: 'lucide:list-filter',
   Navigation: 'lucide:compass',
-  Layout: 'lucide:layout',
+  Layout: 'lucide:layout-grid',
   Overlays: 'lucide:layers',
-  'Data Display': 'lucide:bar-chart-3',
-  Feedback: 'lucide:bell',
+  'Data Display': 'lucide:eye',
+  'Tables & Media': 'lucide:table',
+  Feedback: 'lucide:message-circle',
+  'Form Inputs': 'lucide:clipboard-edit',
   Media: 'lucide:play',
   'Rich Editors': 'lucide:pen-line',
   'Schema Forms': 'lucide:braces',
