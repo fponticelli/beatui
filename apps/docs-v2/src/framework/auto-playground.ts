@@ -1,4 +1,4 @@
-import { html, attr, TNode, computedOf, Value } from '@tempots/dom'
+import { html, attr, TNode, computedOf, MapSignal, Value } from '@tempots/dom'
 import { componentMeta } from '../registry/component-meta'
 import { createOptionsPanel, type PropSignals } from './prop-panel'
 import { CodePreview } from './code-preview'
@@ -77,8 +77,38 @@ export function autoPlayground(
     )
   }
 
-  const { panel, signals } = createOptionsPanel(meta)
-  const preview = renderFn(signals as Record<string, Value<unknown>>)
+  const { panel, signals, props, optionalKeys } = createOptionsPanel(meta)
+
+  // If there are optional props that toggle between undefined/defined,
+  // re-render the component when any of them toggle. This handles components
+  // like Divider that check `label != null` at construction time.
+  let preview: TNode
+  if (optionalKeys.length > 0) {
+    // Compute a key that changes when any optional prop toggles defined/undefined
+    const optionalSignals = optionalKeys.map(k => props[k] as Value<unknown>)
+    const structureKey = computedOf(...optionalSignals)(
+      (...vals: unknown[]) => vals.map(v => (v == null ? '0' : '1')).join('')
+    )
+    preview = MapSignal(structureKey, () => {
+      // Build fresh props: omit optional keys that are currently undefined,
+      // pass raw signals for defined ones (so text updates reactively).
+      const currentProps: Record<string, Value<unknown>> = {}
+      for (const [key, value] of Object.entries(props)) {
+        if (optionalKeys.includes(key)) {
+          const currentVal = Value.get(value)
+          if (currentVal != null && currentVal !== '') {
+            currentProps[key] = signals[key]
+          }
+        } else {
+          currentProps[key] = value
+        }
+      }
+      return renderFn(currentProps)
+    })
+  } else {
+    preview = renderFn(props as Record<string, Value<unknown>>)
+  }
+
   return playgroundLayout(componentName, preview, panel, signals)
 }
 

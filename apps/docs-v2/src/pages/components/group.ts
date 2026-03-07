@@ -1,4 +1,4 @@
-import { Group, Button, Badge } from '@tempots/beatui'
+import { Group, Button, Badge, Gap, Justify, Wrap } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -13,34 +13,87 @@ export const meta: ComponentPageMeta = {
   order: 5,
 }
 
+const itemClass =
+  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
+
 export default function GroupPage() {
   return ComponentPage(meta, {
     playground: (() =>
       Group(
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'First'
-        ),
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'Second'
-        ),
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'Third'
-        )
+        Gap('md'),
+        html.div(attr.class(itemClass), 'First'),
+        html.div(attr.class(itemClass), 'Second'),
+        html.div(attr.class(itemClass), 'Third')
       ))(),
     sections: [
+      Section(
+        'Gap Sizes',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
+              html.div(
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  `Gap('${size}')`
+                ),
+                Group(
+                  Gap(size),
+                  html.div(attr.class(itemClass), 'A'),
+                  html.div(attr.class(itemClass), 'B'),
+                  html.div(attr.class(itemClass), 'C')
+                )
+              )
+            )
+          ),
+        'Control spacing between items with Gap().'
+      ),
+      Section(
+        'Justify Content',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['start', 'center', 'end', 'between', 'around', 'evenly'] as const).map(
+              justify =>
+                html.div(
+                  html.div(
+                    attr.class('text-xs font-mono text-gray-500 mb-1'),
+                    `Justify('${justify}')`
+                  ),
+                  html.div(
+                    attr.class('border rounded-lg border-gray-200 dark:border-gray-700 p-2'),
+                    Group(
+                      Justify(justify),
+                      html.div(attr.class(itemClass), 'A'),
+                      html.div(attr.class(itemClass), 'B'),
+                      html.div(attr.class(itemClass), 'C')
+                    )
+                  )
+                )
+            )
+          ),
+        'Control distribution along the main axis with Justify().'
+      ),
+      Section(
+        'Wrap',
+        () =>
+          html.div(
+            attr.class('max-w-xs border rounded-lg border-gray-200 dark:border-gray-700 p-2'),
+            Group(
+              Gap('sm'),
+              Wrap,
+              ...Array.from({ length: 8 }, (_, i) =>
+                html.div(attr.class(itemClass), `Item ${i + 1}`)
+              )
+            )
+          ),
+        'Use Wrap to allow items to flow to the next line.'
+      ),
       Section(
         'Button Group',
         () =>
           Group(
+            Gap('sm'),
             Button({ variant: 'outline' }, 'Cancel'),
             Button({ variant: 'filled', color: 'primary' }, 'Save')
           ),
@@ -50,6 +103,7 @@ export default function GroupPage() {
         'Inline Items',
         () =>
           Group(
+            Gap('sm'),
             html.span(
               attr.class('text-sm font-medium text-gray-700 dark:text-gray-300'),
               'Status:'
@@ -67,6 +121,7 @@ export default function GroupPage() {
               'p-3 border rounded-lg border-gray-200 dark:border-gray-700'
             ),
             Group(
+              Gap('xs'),
               Button({ variant: 'light', size: 'sm', color: 'base' }, 'Bold'),
               Button({ variant: 'light', size: 'sm', color: 'base' }, 'Italic'),
               Button(
@@ -92,6 +147,7 @@ export default function GroupPage() {
         'Mixed Content',
         () =>
           Group(
+            Gap('sm'),
             html.div(
               attr.class(
                 'w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white text-sm font-bold'

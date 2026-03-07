@@ -1,4 +1,4 @@
-import { Stack, Button, Card } from '@tempots/beatui'
+import { Stack, Button, Card, Gap, Align } from '@tempots/beatui'
 import { html, attr } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -13,34 +13,71 @@ export const meta: ComponentPageMeta = {
   order: 4,
 }
 
+const itemClass =
+  'p-3 rounded border border-gray-200 dark:border-gray-700 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
+
 export default function StackPage() {
   return ComponentPage(meta, {
     playground: (() =>
       Stack(
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'First item'
-        ),
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'Second item'
-        ),
-        html.div(
-          attr.class(
-            'p-3 rounded bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm font-medium'
-          ),
-          'Third item'
-        )
+        Gap('md'),
+        html.div(attr.class(itemClass), 'First item'),
+        html.div(attr.class(itemClass), 'Second item'),
+        html.div(attr.class(itemClass), 'Third item')
       ))(),
     sections: [
+      Section(
+        'Gap Sizes',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
+              html.div(
+                html.div(
+                  attr.class(
+                    'text-xs font-mono text-gray-500 mb-1'
+                  ),
+                  `Gap('${size}')`
+                ),
+                Stack(
+                  Gap(size),
+                  html.div(attr.class(itemClass), 'A'),
+                  html.div(attr.class(itemClass), 'B'),
+                  html.div(attr.class(itemClass), 'C')
+                )
+              )
+            )
+          ),
+        'Control spacing between items with Gap().'
+      ),
+      Section(
+        'Alignment',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6'),
+            ...(['start', 'center', 'end', 'stretch'] as const).map(align =>
+              html.div(
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  `Align('${align}')`
+                ),
+                Stack(
+                  Gap('sm'),
+                  Align(align),
+                  html.div(attr.class(itemClass), 'Short'),
+                  html.div(attr.class(itemClass), 'Longer item'),
+                  html.div(attr.class(itemClass), 'A much longer item')
+                )
+              )
+            )
+          ),
+        'Control cross-axis alignment with Align().'
+      ),
       Section(
         'Basic Stack',
         () =>
           Stack(
+            Gap('md'),
             html.p(
               attr.class('text-sm text-gray-600 dark:text-gray-400'),
               'Stack arranges children vertically with uniform spacing.'
@@ -54,6 +91,7 @@ export default function StackPage() {
         'With Cards',
         () =>
           Stack(
+            Gap('md'),
             Card(
               {},
               html.h3(attr.class('font-semibold mb-1'), 'Card One'),
@@ -87,6 +125,7 @@ export default function StackPage() {
           html.div(
             attr.class('max-w-sm'),
             Stack(
+              Gap('md'),
               html.div(
                 html.label(
                   attr.class(

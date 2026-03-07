@@ -41,19 +41,19 @@
 }
 
 .bc-group--gap-1 {
-  gap: var(--spacing-stack-xs, var(--spacing-sm));
+  gap: var(--spacing-xs);
 }
 
 .bc-group--gap-2 {
-  gap: var(--spacing-stack-sm, var(--spacing-md));
+  gap: var(--spacing-sm);
 }
 
 .bc-group--gap-4 {
-  gap: var(--spacing-stack-lg, var(--spacing-lg));
+  gap: var(--spacing-lg);
 }
 
 .bc-group--gap-md {
-  gap: var(--spacing-stack-md, var(--spacing-mdh));
+  gap: var(--spacing-md);
 }
 
 .bc-group--grow {

@@ -1,0 +1,86 @@
+/* Shared flex modifiers for Stack and Group */
+
+/* Gap */
+.bc-flex--gap-none {
+  gap: 0;
+}
+
+.bc-flex--gap-xs {
+  gap: var(--spacing-xs);
+}
+
+.bc-flex--gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.bc-flex--gap-md {
+  gap: var(--spacing-md);
+}
+
+.bc-flex--gap-lg {
+  gap: var(--spacing-lg);
+}
+
+.bc-flex--gap-xl {
+  gap: var(--spacing-xl);
+}
+
+/* Align */
+.bc-flex--align-start {
+  align-items: flex-start;
+}
+
+.bc-flex--align-center {
+  align-items: center;
+}
+
+.bc-flex--align-end {
+  align-items: flex-end;
+}
+
+.bc-flex--align-stretch {
+  align-items: stretch;
+}
+
+.bc-flex--align-baseline {
+  align-items: baseline;
+}
+
+/* Justify */
+.bc-flex--justify-start {
+  justify-content: flex-start;
+}
+
+.bc-flex--justify-center {
+  justify-content: center;
+}
+
+.bc-flex--justify-end {
+  justify-content: flex-end;
+}
+
+.bc-flex--justify-between {
+  justify-content: space-between;
+}
+
+.bc-flex--justify-around {
+  justify-content: space-around;
+}
+
+.bc-flex--justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* Wrap */
+.bc-flex--wrap {
+  flex-wrap: wrap;
+}
+
+.bc-flex--nowrap {
+  flex-wrap: nowrap;
+}
+
+/* Grow */
+.bc-flex--grow {
+  flex-grow: 1;
+}

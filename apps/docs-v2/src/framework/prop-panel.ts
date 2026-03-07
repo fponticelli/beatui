@@ -196,17 +196,36 @@ function parseDefault(meta: PropMeta): unknown {
 
 /**
  * Creates an options panel with auto-generated controls for all controllable props.
- * Returns the panel TNode and a record of reactive signals.
+ * Returns the panel TNode, a record of reactive signals, and a props record
+ * where optional string props map empty/undefined values to `undefined` reactively.
  */
 export function createOptionsPanel(componentMeta: ComponentMeta): {
   panel: TNode
   signals: PropSignals
+  /** Props for passing to components — optional string signals map '' to undefined. */
+  props: Record<string, Value<unknown>>
+  /** Names of optional props that can toggle between undefined and a value. */
+  optionalKeys: string[]
 } {
   const signals: PropSignals = {}
+  const props: Record<string, Value<unknown>> = {}
+  const optionalKeys: string[] = []
 
   for (const propMeta of componentMeta.props) {
     const defaultVal = parseDefault(propMeta)
-    signals[propMeta.name] = prop(defaultVal)
+    const signal = prop(defaultVal)
+    signals[propMeta.name] = signal
+
+    // For optional string/TNode props, wrap in a computed that maps '' → undefined
+    // so components checking `label != null` see undefined instead of a truthy signal
+    if (propMeta.optional && (propMeta.type === 'string') && defaultVal === undefined) {
+      props[propMeta.name] = Value.map(signal, v =>
+        v === undefined || v === '' ? undefined : v
+      )
+      optionalKeys.push(propMeta.name)
+    } else {
+      props[propMeta.name] = signal
+    }
   }
 
   const panel = html.div(
@@ -222,5 +241,5 @@ export function createOptionsPanel(componentMeta: ComponentMeta): {
     )
   )
 
-  return { panel, signals }
+  return { panel, signals, props, optionalKeys }
 }
