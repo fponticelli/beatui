@@ -81,7 +81,7 @@ export function AppLayout({ children }: { children: TNode }) {
     main: {
       content: html.div(
         attr.class('h-full overflow-auto flex flex-col'),
-        html.div(attr.class('px-4 pt-2'), PageBreadcrumbs()),
+        html.div(attr.class('px-6 py-2 border-b border-gray-100 dark:border-gray-800'), PageBreadcrumbs()),
         html.div(attr.class('flex-1'), children),
         Footer()
       ),

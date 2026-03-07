@@ -1,5 +1,5 @@
 import { html, attr } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card } from '@tempots/beatui'
+import { ScrollablePanel, Stack, Card, Badge } from '@tempots/beatui'
 import { Anchor } from '@tempots/ui'
 import { CodeBlock } from '../../framework/code-block'
 
@@ -62,7 +62,7 @@ Stack(
 export default function GettingStartedPage() {
   return ScrollablePanel({
     body: Stack(
-      attr.class('gap-6 p-6 max-w-3xl mx-auto'),
+      attr.class('gap-6 p-6 max-w-4xl mx-auto'),
 
       // Page header
       html.div(
@@ -71,6 +71,12 @@ export default function GettingStartedPage() {
         html.p(
           attr.class('text-gray-600 dark:text-gray-400 max-w-2xl'),
           'Get up and running with BeatUI in minutes. This guide walks you through installation, setup, and building your first component.'
+        ),
+        html.div(
+          attr.class('flex gap-3 items-center'),
+          Badge({ variant: 'light', color: 'primary', size: 'sm' }, 'Tailwind v4'),
+          Badge({ variant: 'light', color: 'secondary', size: 'sm' }, 'Standalone CSS'),
+          Badge({ variant: 'light', color: 'success', size: 'sm' }, 'TypeScript')
         )
       ),
 

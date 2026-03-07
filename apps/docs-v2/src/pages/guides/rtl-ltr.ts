@@ -1,5 +1,5 @@
 import { html, attr } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card, Icon, Notice } from '@tempots/beatui'
+import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -56,6 +56,12 @@ export default function RtlLtrGuidePage() {
         html.p(
           attr.class('text-gray-600 dark:text-gray-400 max-w-2xl'),
           'BeatUI supports right-to-left and left-to-right layouts out of the box. Text direction is detected automatically from the active locale, and all layout components adapt accordingly using CSS logical properties.'
+        ),
+        html.div(
+          attr.class('flex gap-3 items-center'),
+          Badge({ variant: 'light', color: 'primary', size: 'sm' }, 'Auto-detection'),
+          Badge({ variant: 'light', color: 'secondary', size: 'sm' }, 'Logical Properties'),
+          Badge({ variant: 'light', color: 'success', size: 'sm' }, 'Bidirectional')
         )
       ),
 

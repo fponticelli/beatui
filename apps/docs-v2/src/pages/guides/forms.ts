@@ -4,6 +4,7 @@ import {
   Card,
   Icon,
   Group,
+  Badge,
   useController,
   Control,
   TextInput,
@@ -289,6 +290,12 @@ export default function FormsGuidePage() {
             'Control()'
           ),
           ', and get label, description, and live validation display for free — no boilerplate.'
+        ),
+        html.div(
+          attr.class('flex gap-3 items-center'),
+          Badge({ variant: 'light', color: 'primary', size: 'sm' }, 'Zod / Standard Schema'),
+          Badge({ variant: 'light', color: 'secondary', size: 'sm' }, 'Reactive Controllers'),
+          Badge({ variant: 'light', color: 'success', size: 'sm' }, 'Live Validation')
         )
       ),
 

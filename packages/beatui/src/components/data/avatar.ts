@@ -153,7 +153,10 @@ export function Avatar(
   }: AvatarOptions,
   ...children: TNode[]
 ) {
-  const iconSize = Value.map(Value.toSignal(size), s => avatarSizeToIconSize[s ?? 'md'])
+  const iconSize = Value.map(
+    Value.toSignal(size),
+    s => avatarSizeToIconSize[s ?? 'md']
+  )
 
   // Default icon fallback
   const defaultIcon = html.span(

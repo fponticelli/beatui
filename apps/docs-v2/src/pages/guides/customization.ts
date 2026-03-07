@@ -97,6 +97,12 @@ export default function CustomizationPage() {
         html.p(
           attr.class('text-gray-600 dark:text-gray-400 max-w-2xl'),
           'BeatUI is designed to be fully customizable. Override styles with CSS custom properties, pass reactive signals as props, compose components freely, and import only what you need.'
+        ),
+        html.div(
+          attr.class('flex gap-3 items-center'),
+          Badge({ variant: 'light', color: 'primary', size: 'sm' }, 'CSS Overrides'),
+          Badge({ variant: 'light', color: 'secondary', size: 'sm' }, 'Reactive Props'),
+          Badge({ variant: 'light', color: 'success', size: 'sm' }, 'Tree-shakeable')
         )
       ),
 

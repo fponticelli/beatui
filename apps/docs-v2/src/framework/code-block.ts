@@ -16,9 +16,19 @@ export function CodeBlock(code: string, language?: string): TNode {
   }
 
   return html.div(
-    attr.class('relative group'),
+    attr.class(
+      'relative group rounded-lg border border-gray-200 dark:border-gray-700/50 overflow-hidden'
+    ),
     html.div(
-      attr.class('absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity'),
+      attr.class(
+        'absolute top-2 right-8 z-10 text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider select-none pointer-events-none'
+      ),
+      language ?? 'typescript'
+    ),
+    html.div(
+      attr.class(
+        'absolute top-2 right-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity'
+      ),
       Button(
         {
           variant: 'default',

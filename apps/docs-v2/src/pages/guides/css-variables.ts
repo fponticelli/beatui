@@ -1,5 +1,5 @@
 import { html, attr, style, TNode } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card } from '@tempots/beatui'
+import { ScrollablePanel, Stack, Card, Badge } from '@tempots/beatui'
 import {
   colors,
   colorShades,
@@ -330,6 +330,12 @@ export default function CSSVariablesPage() {
         html.p(
           attr.class('text-gray-600 dark:text-gray-400 max-w-3xl'),
           'BeatUI exposes its entire design system as CSS custom properties. Every color, spacing value, font setting, shadow, and animation token is available as a CSS variable that automatically adapts to light and dark themes.'
+        ),
+        html.div(
+          attr.class('flex gap-3 items-center'),
+          Badge({ variant: 'light', color: 'primary', size: 'sm' }, 'Design Tokens'),
+          Badge({ variant: 'light', color: 'secondary', size: 'sm' }, 'Light & Dark'),
+          Badge({ variant: 'light', color: 'success', size: 'sm' }, 'Custom Properties')
         )
       ),
 
