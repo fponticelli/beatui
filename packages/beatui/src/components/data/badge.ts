@@ -1,4 +1,4 @@
-import { attr, computedOf, html, TNode, Value } from '@tempots/dom'
+import { aria, attr, computedOf, Empty, html, on, TNode, Use, Value } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
 import { ThemeColorName } from '../../tokens'
 import {
@@ -9,6 +9,7 @@ import {
   ExtendedColor,
 } from '../theme/style-utils'
 import { RadiusName } from '../../tokens/radius'
+import { BeatUII18n } from '../../beatui-i18n'
 
 /** Configuration options for the {@link Badge} component. */
 export interface BadgeOptions {
@@ -24,26 +25,21 @@ export interface BadgeOptions {
   circle?: Value<boolean>
   /** Whether the badge takes the full width of its container. @default false */
   fullWidth?: Value<boolean>
-  /** Whether to render as a small colored dot indicator (8px by default). @default false */
-  dot?: Value<boolean>
+  /** Callback when the close button is clicked. Renders a close button when set. */
+  onClose?: () => void
+  /** Whether the badge is disabled. @default false */
+  disabled?: Value<boolean>
 }
 
 /**
  * Generates CSS class names for the badge based on size, roundedness, and shape.
- *
- * @param size - Control size for padding and text
- * @param roundedness - Border radius preset
- * @param circle - Whether to force a circular shape
- * @param fullWidth - Whether to stretch to full container width
- * @param dot - Whether to render as a small dot indicator
- * @returns Space-separated CSS class string
  */
 export function generateBadgeClasses(
   size: ControlSize,
   roundedness: RadiusName,
   circle: boolean,
   fullWidth: boolean,
-  dot: boolean
+  disabled: boolean
 ): string {
   const classes = [
     'bc-badge',
@@ -59,8 +55,8 @@ export function generateBadgeClasses(
     classes.push('bc-badge--full-width')
   }
 
-  if (dot) {
-    classes.push('bc-badge--dot')
+  if (disabled) {
+    classes.push('bc-badge--disabled')
   }
 
   return classes.join(' ')
@@ -69,10 +65,6 @@ export function generateBadgeClasses(
 /**
  * Generates inline CSS custom properties for badge theming based on variant and color.
  * Sets background, text, border, and hover colors for both light and dark modes.
- *
- * @param variant - The visual style variant
- * @param color - The theme color
- * @returns Semicolon-separated CSS custom property declarations
  */
 export function generateBadgeStyles(
   variant: ButtonVariant,
@@ -256,8 +248,9 @@ export function generateBadgeStyles(
  * A small status indicator or label component with theme-aware colors.
  * Supports all button variants (filled, light, outline, default, text) and
  * can be rendered as a pill, circle, or full-width element.
+ * Optionally renders a close button for removable badges.
  *
- * @param options - Configuration for variant, size, color, and shape
+ * @param options - Configuration for variant, size, color, shape, and close behavior
  * @param children - Content to display inside the badge (text, number, icon)
  * @returns A styled span element
  *
@@ -268,8 +261,8 @@ export function generateBadgeStyles(
  *
  * @example
  * ```typescript
- * // Circle badge for notification counts
- * Badge({ circle: true, color: 'danger', size: 'xs' }, '9+')
+ * // Removable badge
+ * Badge({ variant: 'light', color: 'info', onClose: () => remove(item) }, 'TypeScript')
  * ```
  */
 export function Badge(
@@ -280,7 +273,8 @@ export function Badge(
     roundedness = 'full',
     circle = false,
     fullWidth = false,
-    dot = false,
+    onClose,
+    disabled = false,
   }: BadgeOptions,
   ...children: TNode[]
 ) {
@@ -291,14 +285,14 @@ export function Badge(
         roundedness,
         circle,
         fullWidth,
-        dot
-      )((size, roundedness, circle, fullWidth, dot) =>
+        disabled
+      )((size, roundedness, circle, fullWidth, disabled) =>
         generateBadgeClasses(
           size ?? 'md',
           roundedness ?? 'sm',
           circle ?? false,
           fullWidth ?? false,
-          dot ?? false
+          disabled ?? false
         )
       )
     ),
@@ -313,6 +307,22 @@ export function Badge(
         )
       )
     ),
-    html.span(attr.class('bc-badge__content'), ...children)
+    html.span(attr.class('bc-badge__content'), ...children),
+    onClose != null
+      ? Use(BeatUII18n, t =>
+          html.button(
+            attr.class('bc-badge__close'),
+            attr.type('button'),
+            attr.disabled(disabled),
+            aria.label(t.$.removeItem),
+            on.click(e => {
+              e.stopPropagation()
+              onClose()
+            }),
+            // × character as lightweight close indicator
+            '\u00d7'
+          )
+        )
+      : Empty
   )
 }

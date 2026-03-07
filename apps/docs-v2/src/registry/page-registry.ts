@@ -97,7 +97,7 @@ export const pages: PageEntry[] = [
     "name": "Badge",
     "category": "Data Display",
     "component": "Badge",
-    "description": "Small label for status indicators, counts, or categories.",
+    "description": "Small label for status indicators, counts, or categories. Supports removable badges with a close button.",
     "icon": "lucide:tag",
     "order": 2,
     "slug": "badge"
@@ -319,15 +319,6 @@ export const pages: PageEntry[] = [
     "slug": "history-timeline"
   },
   {
-    "name": "IconBadge",
-    "category": "Data Display",
-    "component": "IconBadge",
-    "description": "An icon with an overlaid badge indicator — either a dot or a count. Useful for notification icons, cart counters, and status indicators.",
-    "icon": "lucide:bell-dot",
-    "order": 10,
-    "slug": "icon-badge"
-  },
-  {
     "name": "Icon",
     "category": "Data Display",
     "component": "Icon",
@@ -335,6 +326,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:star",
     "order": 3,
     "slug": "icon"
+  },
+  {
+    "name": "Indicator",
+    "category": "Data Display",
+    "component": "Indicator",
+    "description": "Overlays a small dot or count badge on any child content. Useful for notification icons, unread counts, and status indicators.",
+    "icon": "lucide:bell-dot",
+    "order": 10,
+    "slug": "indicator"
   },
   {
     "name": "Kbd",
@@ -511,7 +511,7 @@ export const pages: PageEntry[] = [
     "name": "Pagination",
     "category": "Navigation",
     "component": "Pagination",
-    "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, and responsive layout.",
+    "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, visual variants, and responsive layout.",
     "icon": "lucide:chevrons-left-right",
     "order": 5,
     "slug": "pagination"
@@ -668,15 +668,6 @@ export const pages: PageEntry[] = [
     "icon": "lucide:layout-list",
     "order": 2,
     "slug": "tabs"
-  },
-  {
-    "name": "Tag",
-    "category": "Data Display",
-    "component": "Tag",
-    "description": "A small pill-shaped label for categorization, filtering, or displaying metadata. Supports optional removal.",
-    "icon": "lucide:tag",
-    "order": 8,
-    "slug": "tag"
   },
   {
     "name": "TagInput",
@@ -1250,7 +1241,7 @@ export const categories: CategoryEntry[] = [
         "name": "Badge",
         "category": "Data Display",
         "component": "Badge",
-        "description": "Small label for status indicators, counts, or categories.",
+        "description": "Small label for status indicators, counts, or categories. Supports removable badges with a close button.",
         "icon": "lucide:tag",
         "order": 2,
         "slug": "badge"
@@ -1301,22 +1292,13 @@ export const categories: CategoryEntry[] = [
         "slug": "avatar-group"
       },
       {
-        "name": "Tag",
+        "name": "Indicator",
         "category": "Data Display",
-        "component": "Tag",
-        "description": "A small pill-shaped label for categorization, filtering, or displaying metadata. Supports optional removal.",
-        "icon": "lucide:tag",
-        "order": 8,
-        "slug": "tag"
-      },
-      {
-        "name": "IconBadge",
-        "category": "Data Display",
-        "component": "IconBadge",
-        "description": "An icon with an overlaid badge indicator — either a dot or a count. Useful for notification icons, cart counters, and status indicators.",
+        "component": "Indicator",
+        "description": "Overlays a small dot or count badge on any child content. Useful for notification icons, unread counts, and status indicators.",
         "icon": "lucide:bell-dot",
         "order": 10,
-        "slug": "icon-badge"
+        "slug": "indicator"
       }
     ]
   },
@@ -1364,7 +1346,7 @@ export const categories: CategoryEntry[] = [
         "name": "Pagination",
         "category": "Navigation",
         "component": "Pagination",
-        "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, and responsive layout.",
+        "description": "Page navigation control for moving through multi-page content, with configurable sibling pages, first/last buttons, visual variants, and responsive layout.",
         "icon": "lucide:chevrons-left-right",
         "order": 5,
         "slug": "pagination"

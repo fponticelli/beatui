@@ -166,6 +166,20 @@
   align-items: center;
 }
 
+/* Tags selector (dropdown trigger area in select-tags) */
+.bc-input-container__tags-selector {
+  flex-grow: 1;
+  background-color: transparent;
+  min-width: 100px;
+  min-height: var(--spacing-lg);
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-stack-sm, var(--spacing-md));
+}
+
 /* Tags input text field */
 .bc-input-container .bc-input-container__tags-input {
   min-width: 8rem;

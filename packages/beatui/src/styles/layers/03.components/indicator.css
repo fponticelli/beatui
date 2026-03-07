@@ -1,0 +1,115 @@
+/* Indicator Component */
+.bc-indicator {
+  position: relative;
+  display: inline-flex;
+}
+
+.bc-indicator__badge {
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(
+    --font-family-default-ui,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-none);
+  white-space: nowrap;
+  background-color: var(--indicator-bg);
+  color: var(--indicator-text);
+}
+
+/* Placement variants */
+.bc-indicator--top-right {
+  top: 0;
+  right: 0;
+  transform: translate(40%, -40%);
+}
+
+.bc-indicator--top-left {
+  top: 0;
+  left: 0;
+  transform: translate(-40%, -40%);
+}
+
+.bc-indicator--bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: translate(40%, 40%);
+}
+
+.bc-indicator--bottom-left {
+  bottom: 0;
+  left: 0;
+  transform: translate(-40%, 40%);
+}
+
+/* Dot variant — small circle with no text */
+.bc-indicator--dot.bc-indicator--size-xs {
+  width: var(--spacing-smh);
+  height: var(--spacing-smh);
+}
+
+.bc-indicator--dot.bc-indicator--size-sm {
+  width: var(--spacing-md);
+  height: var(--spacing-md);
+}
+
+.bc-indicator--dot.bc-indicator--size-md {
+  width: calc(var(--spacing-base) * 2.5);
+  height: calc(var(--spacing-base) * 2.5);
+}
+
+.bc-indicator--dot.bc-indicator--size-lg {
+  width: var(--spacing-mdh);
+  height: var(--spacing-mdh);
+}
+
+.bc-indicator--dot.bc-indicator--size-xl {
+  width: calc(var(--spacing-base) * 3.5);
+  height: calc(var(--spacing-base) * 3.5);
+}
+
+/* Count variant — pill badge with text */
+.bc-indicator--count {
+  min-width: 1.25em;
+  height: 1.25em;
+  padding: 0 0.35em;
+  border-radius: 999px;
+}
+
+.bc-indicator--count.bc-indicator--size-xs {
+  font-size: var(--font-size-xs);
+}
+
+.bc-indicator--count.bc-indicator--size-sm {
+  font-size: var(--font-size-xs);
+}
+
+.bc-indicator--count.bc-indicator--size-md {
+  font-size: var(--font-size-sm);
+}
+
+.bc-indicator--count.bc-indicator--size-lg {
+  font-size: var(--font-size-md);
+}
+
+.bc-indicator--count.bc-indicator--size-xl {
+  font-size: var(--font-size-lg);
+}
+
+/* Dark mode */
+.dark .bc-indicator__badge {
+  background-color: var(--indicator-bg-dark);
+  color: var(--indicator-text-dark);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .bc-indicator__badge {
+    transition: none;
+  }
+}

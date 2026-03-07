@@ -1481,8 +1481,8 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
-        "name": "dot",
-        "description": "Whether to render as a small colored dot indicator (8px by default).",
+        "name": "disabled",
+        "description": "Whether the badge is disabled.",
         "type": "boolean",
         "defaultValue": "false",
         "reactive": true,
@@ -1490,36 +1490,39 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
-  "IconBadge": {
-    "name": "IconBadge",
-    "optionsType": "IconBadgeOptions",
-    "sourceFile": "components/data/icon-badge.ts",
+  "Indicator": {
+    "name": "Indicator",
+    "optionsType": "IndicatorOptions",
+    "sourceFile": "components/data/indicator.ts",
     "props": [
       {
-        "name": "indicator",
-        "description": "Show a dot indicator",
+        "name": "show",
+        "description": "Whether to show the indicator.",
         "type": "boolean",
+        "defaultValue": "true",
         "reactive": true,
         "optional": true
       },
       {
         "name": "count",
-        "description": "Show a count badge. If > 0, displays the number.",
+        "description": "Count to display. When > 0, shows a count badge instead of a dot.",
         "type": "number",
         "reactive": true,
         "optional": true
       },
       {
         "name": "maxCount",
-        "description": "Max count to display (e.g., 9 shows \"9+\")",
+        "description": "Maximum count before showing \"N+\".",
         "type": "number",
+        "defaultValue": "9",
         "reactive": true,
         "optional": true
       },
       {
-        "name": "indicatorColor",
-        "description": "Color of the indicator badge",
+        "name": "color",
+        "description": "Theme color of the indicator.",
         "type": "union",
+        "defaultValue": "danger",
         "unionValues": [
           "red",
           "orange",
@@ -1557,95 +1560,30 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
-        "name": "icon",
-        "description": "Icon name in Iconify format (e.g., `'mdi:home'`, `'line-md:loading-twotone-loop'`).",
-        "type": "string",
+        "name": "placement",
+        "description": "Position of the indicator.",
+        "type": "union",
+        "defaultValue": "top-right",
+        "unionValues": [
+          "top-right",
+          "top-left",
+          "bottom-right",
+          "bottom-left"
+        ],
         "reactive": true,
-        "optional": false
+        "optional": true
       },
       {
         "name": "size",
-        "description": "Size of the icon.",
+        "description": "Size of the indicator.",
         "type": "union",
-        "defaultValue": "md",
+        "defaultValue": "sm",
         "unionValues": [
           "xs",
           "sm",
           "md",
           "lg",
           "xl"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "color",
-        "description": "Theme color applied to the icon. Uses foreground color values.",
-        "type": "union",
-        "unionValues": [
-          "red",
-          "orange",
-          "amber",
-          "yellow",
-          "lime",
-          "green",
-          "emerald",
-          "teal",
-          "cyan",
-          "sky",
-          "blue",
-          "indigo",
-          "violet",
-          "purple",
-          "fuchsia",
-          "pink",
-          "rose",
-          "slate",
-          "gray",
-          "zinc",
-          "neutral",
-          "stone",
-          "primary",
-          "secondary",
-          "base",
-          "success",
-          "warning",
-          "danger",
-          "info",
-          "black",
-          "white"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "title",
-        "description": "Accessible title for informative icons. Also sets the tooltip.",
-        "type": "string",
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "accessibility",
-        "description": "Accessibility mode for the icon.\n- `'decorative'`: Hidden from screen readers with `aria-hidden=\"true\"`\n- `'informative'`: Gets `aria-label` and `role=\"img\"` for screen readers\n- `'auto'`: Determined by the presence of a `title` prop",
-        "type": "union",
-        "defaultValue": "auto",
-        "unionValues": [
-          "decorative",
-          "informative",
-          "auto"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "tone",
-        "description": "Foreground color tone: `'solid'` for vibrant or `'soft'` for muted.",
-        "type": "union",
-        "defaultValue": "solid",
-        "unionValues": [
-          "solid",
-          "soft"
         ],
         "reactive": true,
         "optional": true
@@ -2346,6 +2284,62 @@ export const componentMeta: Record<string, ComponentMeta> =
           "md",
           "lg",
           "xl"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "variant",
+        "description": "Visual style variant for the pagination items.",
+        "type": "union",
+        "defaultValue": "filled",
+        "unionValues": [
+          "light",
+          "filled",
+          "outline",
+          "subtle",
+          "pill"
+        ],
+        "reactive": true,
+        "optional": true
+      },
+      {
+        "name": "color",
+        "description": "Theme color for the active page indicator.",
+        "type": "union",
+        "defaultValue": "primary",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
         ],
         "reactive": true,
         "optional": true
@@ -10426,7 +10420,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "separator",
         "description": "Separator character or string displayed between items.",
         "type": "string",
-        "defaultValue": "/",
+        "defaultValue": "\\u203A",
         "reactive": true,
         "optional": true
       },

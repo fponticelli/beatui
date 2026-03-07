@@ -1,5 +1,5 @@
 import { Badge, Icon } from '@tempots/beatui'
-import { html, attr, Value } from '@tempots/dom'
+import { html, attr, prop, MapSignal, Value } from '@tempots/dom'
 import {
   ComponentPage,
   autoPlayground,
@@ -12,7 +12,7 @@ export const meta: ComponentPageMeta = {
   name: 'Badge',
   category: 'Data Display',
   component: 'Badge',
-  description: 'Small label for status indicators, counts, or categories.',
+  description: 'Small label for status indicators, counts, or categories. Supports removable badges with a close button.',
   icon: 'lucide:tag',
   order: 2,
 }
@@ -58,6 +58,63 @@ export default function BadgePage() {
             )
           ),
         'Badges can contain icons with automatic spacing.'
+      ),
+      Section(
+        'Removable Sizes',
+        () =>
+          html.div(
+            attr.class('flex flex-wrap gap-3 items-center'),
+            Badge({ variant: 'light', size: 'xs', color: 'primary', onClose: () => {} }, 'XS'),
+            Badge({ variant: 'light', size: 'sm', color: 'primary', onClose: () => {} }, 'SM'),
+            Badge({ variant: 'light', size: 'md', color: 'primary', onClose: () => {} }, 'MD'),
+            Badge({ variant: 'light', size: 'lg', color: 'primary', onClose: () => {} }, 'LG'),
+            Badge({ variant: 'light', size: 'xl', color: 'primary', onClose: () => {} }, 'XL')
+          ),
+        'The close button scales proportionally with the badge size.'
+      ),
+      Section(
+        'Removable Badges',
+        () => {
+          const tags = prop(['React', 'Vue', 'Solid', 'Svelte', 'Angular'])
+          return html.div(
+            attr.class('flex flex-wrap gap-2 items-center min-h-[32px]'),
+            MapSignal(tags, items =>
+              html.div(
+                attr.class('flex flex-wrap gap-2 items-center'),
+                ...items.map(item =>
+                  Badge(
+                    {
+                      variant: 'light',
+                      color: 'primary',
+                      onClose: () => tags.set(tags.value.filter(t => t !== item)),
+                    },
+                    item
+                  )
+                )
+              )
+            )
+          )
+        },
+        'When onClose is provided, a close button appears. Click the X to remove a badge.'
+      ),
+      Section(
+        'Disabled',
+        () =>
+          html.div(
+            attr.class('flex flex-wrap gap-2 items-center'),
+            Badge({ variant: 'light', disabled: true }, 'Disabled'),
+            Badge({ variant: 'light', color: 'primary', disabled: true }, 'Disabled Primary'),
+            Badge(
+              {
+                variant: 'light',
+                color: 'danger',
+                disabled: true,
+                onClose: () => {},
+              },
+              'Disabled with Close'
+            )
+          ),
+        'Disabled badges and their close buttons cannot be interacted with.'
       ),
     ],
   })

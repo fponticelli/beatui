@@ -20,7 +20,7 @@ import {
   SelectionCheckbox,
   Pagination,
   Button,
-  Tag,
+  Badge,
   Filter,
   describeFilter,
 } from '@tempots/beatui'
@@ -132,23 +132,21 @@ export default function DataSourcePage() {
       When(
         ds.selectedCount.map(c => c > 0),
         () =>
-          Tag({
-            value: ds.selectedCount.map(c => `${c} selected`),
-            color: 'blue',
-            size: 'sm',
-          })
+          Badge(
+            { variant: 'light', color: 'info', size: 'sm' },
+            ds.selectedCount.map(c => `${c} selected`)
+          )
       ),
       // Active sort indicator
       When(
         ds.sort.map(s => s.length > 0),
         () =>
-          Tag({
-            value: ds.sort.map(s =>
+          Badge(
+            { variant: 'light', color: 'success', size: 'sm' },
+            ds.sort.map(s =>
               s.map(x => `${x.column} ${x.direction}`).join(', ')
-            ),
-            color: 'green',
-            size: 'sm',
-          })
+            )
+          )
       )
     ),
 
@@ -227,11 +225,10 @@ export default function DataSourcePage() {
               'Active:'
             ),
             ForEach(ds.filters, filterSignal =>
-              Tag({
-                value: filterSignal.map(f => describeFilter(f)),
-                color: 'violet',
-                size: 'sm',
-              })
+              Badge(
+                { variant: 'light', color: 'secondary', size: 'sm' },
+                filterSignal.map(f => describeFilter(f))
+              )
             )
           )
       )

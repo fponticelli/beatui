@@ -30,7 +30,7 @@
 @import './group.css';
 @import './history-timeline.css';
 @import './icon.css';
-@import './icon-badge.css';
+@import './indicator.css';
 @import './input-adornment.css';
 @import './input-container.css';
 @import './input-wrapper.css';
@@ -66,7 +66,6 @@
 @import './sink.css';
 @import './skeleton.css';
 @import './stack.css';
-@import './tag.css';
 @import './switch.css';
 @import './table.css';
 @import './tabs.css';

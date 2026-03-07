@@ -19,7 +19,7 @@ import {
   FilterDescriptionMessages,
 } from './filter'
 import { Icon } from './icon'
-import { Tag } from './tag'
+import { Badge } from './badge'
 import { BeatUII18n } from '../../beatui-i18n'
 
 /**
@@ -117,41 +117,47 @@ export function DataToolbar<T, C extends string = string>({
           // Sort chips
           When(showSort, () =>
             ForEach(dataSource.sort, sortSignal =>
-              Tag({
-                value: sortSignal.map(
+              Badge(
+                {
+                  variant: 'light',
+                  color: 'green',
+                  size: 'sm',
+                  onClose: () => {
+                    const s = sortSignal.value
+                    const next = dataSource.sort.value.filter(
+                      x => x.column !== s.column
+                    )
+                    dataSource.setSort(next)
+                  },
+                },
+                sortSignal.map(
                   s =>
                     `${s.column} ${s.direction === 'asc' ? '\u2191' : '\u2193'}`
-                ),
-                color: 'green',
-                size: 'sm',
-                onClose: () => {
-                  const s = sortSignal.value
-                  const next = dataSource.sort.value.filter(
-                    x => x.column !== s.column
-                  )
-                  dataSource.setSort(next)
-                },
-              })
+                )
+              )
             )
           ),
 
           // Filter chips
           When(showFilters, () =>
             ForEach(dataSource.filters, filterSignal =>
-              Tag({
-                value: filterSignal.map((f: FilterBase<C>) =>
+              Badge(
+                {
+                  variant: 'light',
+                  color: 'violet',
+                  size: 'sm',
+                  onClose: () => {
+                    dataSource.removeFilter(filterSignal.value.column)
+                  },
+                },
+                filterSignal.map((f: FilterBase<C>) =>
                   describeFilterChip(
                     f,
                     (t.value.dataTable as Record<string, unknown>)
                       .describeFilter as FilterDescriptionMessages | undefined
                   )
-                ),
-                color: 'violet',
-                size: 'sm',
-                onClose: () => {
-                  dataSource.removeFilter(filterSignal.value.column)
-                },
-              })
+                )
+              )
             )
           ),
 

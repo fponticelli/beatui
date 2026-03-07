@@ -13,7 +13,7 @@ import {
 } from '@tempots/dom'
 import { InputContainer, InputIcon } from './input-container'
 import { InputOptions } from './input-options'
-import { Tag } from '../../data/tag'
+import { Badge } from '../../data/badge'
 import { DropdownOption } from './option'
 import { Menu, MenuSeparator } from '../../navigation/menu'
 import {
@@ -78,14 +78,17 @@ export function Chips<T>(opts: {
     values,
     () =>
       ForEach(values, item =>
-        Tag({
-          value: computedOf(
+        Badge(
+          {
+            variant: 'light',
+            onClose: () => onRemove(item.value),
+            disabled,
+          },
+          computedOf(
             item,
             options
-          )((it, opts) => getLabelByValue(opts, it as T, equality)),
-          onClose: () => onRemove(item.value),
-          disabled,
-        })
+          )((it, opts) => getLabelByValue(opts, it as T, equality))
+        )
       ),
     () =>
       html.span(attr.class('bc-input-container__placeholder'), opts.placeholder)

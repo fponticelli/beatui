@@ -11,7 +11,7 @@ import {
 } from '@tempots/dom'
 import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
-import { Tag } from '../../data/tag'
+import { Badge } from '../../data/badge'
 
 /**
  * A free-form tags input component that allows users to add and remove string tags.
@@ -59,11 +59,14 @@ export const TagsInput = (options: InputOptions<string[]>) => {
     input: Fragment(
       attr.class('bc-input-container__tags'),
       ForEach(value, v =>
-        Tag({
-          value: v,
-          onClose: () => removeOne(v.value),
-          disabled: options.disabled,
-        })
+        Badge(
+          {
+            variant: 'light',
+            onClose: () => removeOne(v.value),
+            disabled: options.disabled,
+          },
+          v
+        )
       ),
       input.text(
         CommonInputAttributes(options),

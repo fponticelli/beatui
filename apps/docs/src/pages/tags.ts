@@ -1,5 +1,5 @@
 import { html, attr, prop, ForEach } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card, Tag } from '@tempots/beatui'
+import { ScrollablePanel, Stack, Card, Badge } from '@tempots/beatui'
 
 export default function TagsPage() {
   // For closable example
@@ -16,20 +16,20 @@ export default function TagsPage() {
         {},
         html.div(
           attr.class('space-y-3'),
-          html.h2(attr.class('text-xl font-semibold'), 'Tag – Basic'),
+          html.h2(attr.class('text-xl font-semibold'), 'Badge – Basic'),
           html.p(
             attr.class('text-sm text-gray-600 dark:text-gray-400'),
-            'Simple Tag component with common colors.'
+            'Simple Badge component with common colors.'
           ),
           html.div(
             attr.class('flex flex-row flex-wrap gap-2'),
-            Tag({ value: 'Base' }),
-            Tag({ value: 'Primary', color: 'primary' }),
-            Tag({ value: 'Secondary', color: 'secondary' }),
-            Tag({ value: 'Success', color: 'success' }),
-            Tag({ value: 'Warning', color: 'warning' }),
-            Tag({ value: 'Danger', color: 'danger' }),
-            Tag({ value: 'Disabled', class: 'bc-tag--disabled' })
+            Badge({ variant: 'light' }, 'Base'),
+            Badge({ variant: 'light', color: 'primary' }, 'Primary'),
+            Badge({ variant: 'light', color: 'secondary' }, 'Secondary'),
+            Badge({ variant: 'light', color: 'success' }, 'Success'),
+            Badge({ variant: 'light', color: 'warning' }, 'Warning'),
+            Badge({ variant: 'light', color: 'danger' }, 'Danger'),
+            Badge({ variant: 'light', disabled: true }, 'Disabled')
           )
         )
       ),
@@ -42,16 +42,16 @@ export default function TagsPage() {
           html.h2(attr.class('text-lg font-semibold'), 'Sizes'),
           html.div(
             attr.class('flex flex-row flex-wrap gap-2 items-center'),
-            Tag({ value: 'XS', size: 'xs', color: 'primary' }),
-            Tag({ value: 'SM', size: 'sm', color: 'primary' }),
-            Tag({ value: 'MD', size: 'md', color: 'primary' }),
-            Tag({ value: 'LG', size: 'lg', color: 'primary' }),
-            Tag({ value: 'XL', size: 'xl', color: 'primary' })
+            Badge({ variant: 'light', size: 'xs', color: 'primary' }, 'XS'),
+            Badge({ variant: 'light', size: 'sm', color: 'primary' }, 'SM'),
+            Badge({ variant: 'light', size: 'md', color: 'primary' }, 'MD'),
+            Badge({ variant: 'light', size: 'lg', color: 'primary' }, 'LG'),
+            Badge({ variant: 'light', size: 'xl', color: 'primary' }, 'XL')
           )
         )
       ),
 
-      // Closable tags
+      // Closable badges
       Card(
         {},
         html.div(
@@ -59,17 +59,20 @@ export default function TagsPage() {
           html.h2(attr.class('text-lg font-semibold'), 'Closable'),
           html.p(
             attr.class('text-sm text-gray-600 dark:text-gray-400'),
-            'Tags can display a close button when onClose is provided.'
+            'Badges can display a close button when onClose is provided.'
           ),
           html.div(
             attr.class('flex flex-row flex-wrap gap-2'),
             ForEach(closable, v =>
-              Tag({
-                value: v,
-                color: 'info',
-                onClose: removeClosable,
-                disabled: v.map(v => v === 'delta'),
-              })
+              Badge(
+                {
+                  variant: 'light',
+                  color: 'info',
+                  onClose: () => removeClosable(v.value),
+                  disabled: v.map(v => v === 'delta'),
+                },
+                v
+              )
             )
           )
         )

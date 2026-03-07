@@ -5,11 +5,11 @@ import {
   SidebarGroup,
   SidebarLink,
   Stack,
-  Tag,
+  Badge,
 } from '@tempots/beatui'
 import { attr } from '@tempots/dom'
 
-const TodoTag = () => Tag({ value: 'TODO', color: 'red', size: 'xs' })
+const TodoTag = () => Badge({ variant: 'light', color: 'red', size: 'xs' }, 'TODO')
 
 const Todo = (content: string) =>
   Group(attr.class('justify-between'), content, TodoTag())

@@ -1,17 +1,17 @@
 import { html, attr, prop, ForEach } from '@tempots/dom'
-import { Badge, Tag, Icon } from '@tempots/beatui'
+import { Badge, Indicator, Icon } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
 import { Section } from '../views/section'
 
 export default function BadgesTagsPage() {
-  const closableTags = prop(['TypeScript', 'React', 'CSS', 'Design'])
-  const removeTag = (v: string) =>
-    closableTags.set(closableTags.value.filter(t => t !== v))
+  const closableBadges = prop(['TypeScript', 'React', 'CSS', 'Design'])
+  const removeBadge = (item: string) =>
+    closableBadges.set(closableBadges.value.filter(t => t !== item))
 
   return WidgetPage({
     id: 'badges-tags',
-    title: 'Badges & Tags',
-    description: 'Badges for status indicators and tags for categorization.',
+    title: 'Badges & Indicators',
+    description: 'Badges for status indicators and labels, indicators for overlaid counts and dots.',
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
 
@@ -40,28 +40,28 @@ export default function BadgesTagsPage() {
           attr.style(
             'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
           ),
-          Badge({ dot: true, color: 'success', size: 'sm' }),
+          Indicator({ color: 'success', size: 'sm' }, html.span()),
           'Online'
         ),
         html.span(
           attr.style(
             'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
           ),
-          Badge({ dot: true, color: 'warning', size: 'sm' }),
+          Indicator({ color: 'warning', size: 'sm' }, html.span()),
           'Away'
         ),
         html.span(
           attr.style(
             'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
           ),
-          Badge({ dot: true, color: 'danger', size: 'sm' }),
+          Indicator({ color: 'danger', size: 'sm' }, html.span()),
           'Busy'
         ),
         html.span(
           attr.style(
             'display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-base-600)'
           ),
-          Badge({ dot: true, color: 'base', size: 'sm' }),
+          Indicator({ color: 'base', size: 'sm' }, html.span()),
           'Offline'
         )
       ),
@@ -162,29 +162,39 @@ export default function BadgesTagsPage() {
       ),
 
       Section(
-        'Tags – Colors',
-        Tag({ value: 'Base' }),
-        Tag({ value: 'Primary', color: 'primary' }),
-        Tag({ value: 'Secondary', color: 'secondary' }),
-        Tag({ value: 'Success', color: 'success' }),
-        Tag({ value: 'Warning', color: 'warning' }),
-        Tag({ value: 'Danger', color: 'danger' })
+        'Removable Badges',
+        Badge({ variant: 'light' }, 'Base'),
+        Badge({ variant: 'light', color: 'primary' }, 'Primary'),
+        Badge({ variant: 'light', color: 'secondary' }, 'Secondary'),
+        Badge({ variant: 'light', color: 'success' }, 'Success'),
+        Badge({ variant: 'light', color: 'warning' }, 'Warning'),
+        Badge({ variant: 'light', color: 'danger' }, 'Danger')
       ),
 
       Section(
-        'Tag Sizes',
-        Tag({ value: 'XS', size: 'xs', color: 'primary' }),
-        Tag({ value: 'SM', size: 'sm', color: 'primary' }),
-        Tag({ value: 'MD', size: 'md', color: 'primary' }),
-        Tag({ value: 'LG', size: 'lg', color: 'primary' }),
-        Tag({ value: 'XL', size: 'xl', color: 'primary' })
+        'Removable Badge Sizes',
+        Badge({ variant: 'light', size: 'xs', color: 'primary', onClose: () => {} }, 'XS'),
+        Badge({ variant: 'light', size: 'sm', color: 'primary', onClose: () => {} }, 'SM'),
+        Badge({ variant: 'light', size: 'md', color: 'primary', onClose: () => {} }, 'MD'),
+        Badge({ variant: 'light', size: 'lg', color: 'primary', onClose: () => {} }, 'LG'),
+        Badge({ variant: 'light', size: 'xl', color: 'primary', onClose: () => {} }, 'XL')
       ),
 
       Section(
-        'Closable Tags',
-        ForEach(closableTags, v =>
-          Tag({ value: v, color: 'info', onClose: removeTag })
+        'Closable Badges',
+        ForEach(closableBadges, v =>
+          Badge(
+            { variant: 'light', color: 'info', onClose: () => removeBadge(v.value) },
+            v
+          )
         )
+      ),
+
+      Section(
+        'Icon Indicators',
+        Indicator({ color: 'danger' }, Icon({ icon: 'lucide:bell', size: 'xl' })),
+        Indicator({ count: 5 }, Icon({ icon: 'lucide:mail', size: 'xl' })),
+        Indicator({ count: 99, maxCount: 9 }, Icon({ icon: 'lucide:shopping-cart', size: 'xl' }))
       )
     ),
   })
