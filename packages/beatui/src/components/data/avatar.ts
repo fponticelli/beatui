@@ -1,7 +1,17 @@
 import { attr, computedOf, Ensure, html, TNode, Value } from '@tempots/dom'
 import { ThemeColorName, getColorVar } from '../../tokens'
+import { IconSize } from '../theme'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 import { Icon } from './icon'
+
+const avatarSizeToIconSize: Record<AvatarSize, IconSize> = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+  xl: 'xl',
+  '2xl': 'xl',
+}
 
 /**
  * Size options for Avatar components.
@@ -143,10 +153,12 @@ export function Avatar(
   }: AvatarOptions,
   ...children: TNode[]
 ) {
+  const iconSize = Value.map(Value.toSignal(size), s => avatarSizeToIconSize[s ?? 'md'])
+
   // Default icon fallback
   const defaultIcon = html.span(
     attr.class('bc-avatar__icon'),
-    Icon({ icon: 'mdi:account', size: 'md' })
+    Icon({ icon: 'mdi:account', size: iconSize })
   )
 
   // Render the avatar container
@@ -202,7 +214,7 @@ export function Avatar(
               iconVal =>
                 html.span(
                   attr.class('bc-avatar__icon'),
-                  Icon({ icon: iconVal, size: 'md' })
+                  Icon({ icon: iconVal, size: iconSize })
                 ),
               () => defaultIcon
             )
