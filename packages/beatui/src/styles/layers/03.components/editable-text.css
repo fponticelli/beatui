@@ -87,6 +87,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: inherit;
   transition: background-color
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
@@ -102,6 +103,12 @@
 
 .bc-editable-text__edit-button:active {
   background-color: var(--color-gray-200);
+}
+
+/* Scale icon to match text size */
+.bc-editable-text__edit-button .bc-icon {
+  width: 1em;
+  height: 1em;
 }
 
 /* Dark mode styles */

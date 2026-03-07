@@ -1,5 +1,5 @@
 import { Lightbox, Button, Icon } from '@tempots/beatui'
-import { html, attr, on, Value } from '@tempots/dom'
+import { html, attr, Value } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -54,38 +54,6 @@ export default function LightboxPage() {
       )
     ),
     sections: [
-      Section(
-        'Image Viewer',
-        () =>
-          html.div(
-            attr.class('flex flex-wrap gap-4'),
-            ...[
-              { label: 'Sunset', color: '#f97316' },
-              { label: 'Ocean', color: '#0ea5e9' },
-              { label: 'Forest', color: '#22c55e' },
-            ].map(({ label, color }) =>
-              Lightbox(
-                { dismissable: true },
-                (open, _close) =>
-                  html.div(
-                    attr.class('w-24 h-24 rounded-lg cursor-pointer flex items-center justify-center text-white font-semibold'),
-                    attr.style(`background-color: ${color}`),
-                    on.click(() =>
-                      open(
-                        html.div(
-                          attr.class('w-full h-96 rounded-xl flex items-center justify-center text-white text-2xl font-bold'),
-                          attr.style(`background-color: ${color}`),
-                          label
-                        )
-                      )
-                    ),
-                    label
-                  )
-              )
-            )
-          ),
-        'Lightbox is ideal for image previews — click any thumbnail to expand it.'
-      ),
       Section(
         'Custom Padding',
         () =>
