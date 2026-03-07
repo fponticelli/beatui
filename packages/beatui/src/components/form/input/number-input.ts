@@ -30,11 +30,11 @@ import { roundToStep } from './step-utils'
 export type NumberInputOptions = Merge<
   InputOptions<number>,
   {
-    /** Step increment for stepper buttons and wheel interactions. When set, enables +/- buttons and scroll-to-step. Hold Shift for 10x multiplier. */
+    /** Step increment for stepper buttons and wheel interactions. When set, enables +/- buttons and scroll-to-step. Hold Shift for 10x multiplier. @default 1 */
     step?: Value<number>
-    /** Minimum allowed value. Disables decrement when reached. */
+    /** Minimum allowed value. Disables decrement when reached. @default 0 */
     min?: Value<number>
-    /** Maximum allowed value. Disables increment when reached. */
+    /** Maximum allowed value. Disables increment when reached. @default 10 */
     max?: Value<number>
   }
 >

@@ -166,7 +166,10 @@ export interface MaskedInputOptions {
   value?: string
   /** Default value used when no value is provided. */
   defaultValue?: string
-  /** The mask pattern or dynamic mask function. */
+  /**
+   * The mask pattern or dynamic mask function.
+   * @default '(999) 999-9999'
+   */
   mask: Value<Mask | DynamicMask>
   /** Custom mask symbol definitions. */
   definitions?: Value<MaskDictionary>
@@ -175,7 +178,10 @@ export interface MaskedInputOptions {
    * @default true
    */
   useDefaultDefinitions?: Value<boolean>
-  /** Placeholder text displayed when the input is empty. */
+  /**
+   * Placeholder text displayed when the input is empty.
+   * @default '(___) ___-____'
+   */
   placeholder?: Value<string>
   /** Options for placeholder guide display. */
   placeholderOptions?: Value<PlaceholderOptions>

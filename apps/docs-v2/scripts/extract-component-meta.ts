@@ -201,17 +201,42 @@ function extractDescription(
 }
 
 /**
+ * Get the raw declared type text of a property symbol.
+ */
+function getDeclaredTypeText(propSymbol: ts.Symbol): string | undefined {
+  const decl = propSymbol.getDeclarations()?.[0]
+  if (!decl) return undefined
+  const typeNode = (decl as ts.PropertySignature | ts.PropertyDeclaration).type
+  return typeNode?.getText()
+}
+
+/**
  * Check if a property's declared type text contains TNode.
  * We use the declaration text rather than the resolved type because TNode
  * is a complex type alias that the compiler fully expands.
  */
 function isDeclaredTNode(propSymbol: ts.Symbol): boolean {
-  const decl = propSymbol.getDeclarations()?.[0]
-  if (!decl) return false
-  const typeNode = (decl as ts.PropertySignature | ts.PropertyDeclaration).type
-  if (!typeNode) return false
-  const text = typeNode.getText()
+  const text = getDeclaredTypeText(propSymbol)
+  if (!text) return false
   return text === 'TNode' || text.includes('TNode')
+}
+
+/**
+ * Complex types that should be exposed as string inputs in the playground.
+ * These are types whose primary usage is a string value, but whose full
+ * type definition includes non-primitive alternatives (arrays, functions, etc.)
+ * that the type analyzer can't resolve to a simple primitive.
+ */
+const STRING_LIKE_DECLARED_TYPES = [/\bMask\b/, /\bDynamicMask\b/]
+
+/**
+ * Check if a property's declared type wraps a complex type that should
+ * be treated as a string input in the playground.
+ */
+function isDeclaredStringLike(propSymbol: ts.Symbol): boolean {
+  const text = getDeclaredTypeText(propSymbol)
+  if (!text) return false
+  return STRING_LIKE_DECLARED_TYPES.some(re => re.test(text))
 }
 
 /**
@@ -319,8 +344,8 @@ export function extractAllComponentMeta(
           const propName = propSymbol.getName()
           if (shouldSkipProp(propName)) continue
 
-          // TNode props are treated as string inputs (strings are valid TNodes)
-          if (isDeclaredTNode(propSymbol)) {
+          // TNode and string-like complex props are treated as string inputs
+          if (isDeclaredTNode(propSymbol) || isDeclaredStringLike(propSymbol)) {
             const description = extractDescription(propSymbol, checker)
             const defaultValue = extractDefault(propSymbol)
             const optional = !!(propSymbol.flags & ts.SymbolFlags.Optional)
@@ -329,7 +354,7 @@ export function extractAllComponentMeta(
               description,
               type: 'string',
               defaultValue,
-              reactive: false,
+              reactive: true,
               optional,
             })
             continue

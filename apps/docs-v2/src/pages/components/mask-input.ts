@@ -1,13 +1,19 @@
 import { MaskInput } from '@tempots/beatui'
 import { html, attr, prop, type Prop } from '@tempots/dom'
-import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
+import {
+  ComponentPage,
+  manualPlayground,
+  AutoSections,
+  Section,
+} from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'MaskInput',
   category: 'Text Inputs',
   component: 'MaskInput',
-  description: 'A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.',
+  description:
+    'A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.',
   icon: 'lucide:shield-check',
   order: 11,
 }
@@ -25,7 +31,7 @@ export default function MaskInputPage() {
     }),
     sections: [
       ...AutoSections('MaskInput', props =>
-        MaskInput({ ...props, value: '', mask: '(999) 999-9999' } as never)
+        MaskInput({ ...props, value: '', mask: '(999) 999-9999' })
       ),
       Section(
         'Common Masks',
@@ -33,13 +39,28 @@ export default function MaskInputPage() {
           html.div(
             attr.class('flex flex-col gap-4 max-w-sm'),
             ...[
-              { label: 'Phone', mask: '(999) 999-9999', placeholder: '(___) ___-____' },
+              {
+                label: 'Phone',
+                mask: '(999) 999-9999',
+                placeholder: '(___) ___-____',
+              },
               { label: 'Date', mask: '99/99/9999', placeholder: 'MM/DD/YYYY' },
-              { label: 'Credit Card', mask: '9999 9999 9999 9999', placeholder: '____ ____ ____ ____' },
-              { label: 'ZIP Code', mask: '99999-9999', placeholder: '_____-____' },
+              {
+                label: 'Credit Card',
+                mask: '9999 9999 9999 9999',
+                placeholder: '____ ____ ____ ____',
+              },
+              {
+                label: 'ZIP Code',
+                mask: '99999-9999',
+                placeholder: '_____-____',
+              },
             ].map(({ label, mask, placeholder }) =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), label),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  label
+                ),
                 MaskInput({
                   value: '',
                   onChange: () => {},
@@ -57,19 +78,28 @@ export default function MaskInputPage() {
           html.div(
             attr.class('flex flex-col gap-4 max-w-sm'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Hex color (#RRGGBB)'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Hex color (#RRGGBB)'
+              ),
               MaskInput({
                 value: '',
                 onChange: () => {},
                 mask: '#AAAAAA',
                 definitions: {
-                  A: { pattern: /^[0-9A-Fa-f]$/, transform: (c: string) => c.toUpperCase() },
+                  A: {
+                    pattern: /^[0-9A-Fa-f]$/,
+                    transform: (c: string) => c.toUpperCase(),
+                  },
                 },
                 placeholder: '#______',
               })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'License plate (AA-9999)'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'License plate (AA-9999)'
+              ),
               MaskInput({
                 value: '',
                 onChange: () => {},
@@ -87,7 +117,10 @@ export default function MaskInputPage() {
             attr.class('flex flex-col gap-3 max-w-sm'),
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  size
+                ),
                 MaskInput({
                   value: '',
                   onChange: () => {},

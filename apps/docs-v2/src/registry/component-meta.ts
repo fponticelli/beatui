@@ -259,14 +259,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -975,14 +975,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "pending",
         "description": "",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -2394,14 +2394,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "groupSummary",
         "description": "Custom render function for collapsed group summaries.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "emptyContent",
         "description": "Content to show when no rows match",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -2621,14 +2621,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -2657,35 +2657,35 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Label text or node to display above/beside the input",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "labelChildren",
         "description": "Additional content to render after the label (e.g., badges, tooltips)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "context",
         "description": "Contextual information displayed in the header area (e.g., character count)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "description",
         "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "Error message to display when the input has a validation error",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -2832,14 +2832,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -3005,7 +3005,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "arrow",
         "description": "Optional arrow renderer. Receives a signal with \n{@link \nPopOverArrowOptions\n}\n positioning\ndata and returns a TNode to render as the arrow element.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -3807,7 +3807,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Optional label to display in the middle of the divider.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -3842,14 +3842,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "topStart",
         "description": "Content for the top-start corner (top-left in LTR, top-right in RTL).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "topEnd",
         "description": "Content for the top-end corner (top-right in LTR, top-left in RTL).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -3864,21 +3864,21 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "bottomStart",
         "description": "Content for the bottom-start corner (bottom-left in LTR, bottom-right in RTL).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "bottomEnd",
         "description": "Content for the bottom-end corner (bottom-right in LTR, bottom-left in RTL).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "sidebarStart",
         "description": "Content for the start sidebar (left in LTR, right in RTL). Scrolls vertically\nwith the body but remains fixed horizontally.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -3893,7 +3893,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "sidebarEnd",
         "description": "Content for the end sidebar (right in LTR, left in RTL). Scrolls vertically\nwith the body but remains fixed horizontally.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -4089,20 +4089,21 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "step",
         "description": "Step increment for stepper buttons and wheel interactions. When set, enables +/- buttons and scroll-to-step. Hold Shift for 10x multiplier.",
         "type": "number",
+        "defaultValue": "1",
         "reactive": true,
         "optional": true
       },
@@ -4110,6 +4111,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "min",
         "description": "Minimum allowed value. Disables decrement when reached.",
         "type": "number",
+        "defaultValue": "0",
         "reactive": true,
         "optional": true
       },
@@ -4117,6 +4119,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "max",
         "description": "Maximum allowed value. Disables increment when reached.",
         "type": "number",
+        "defaultValue": "10",
         "reactive": true,
         "optional": true
       }
@@ -4270,14 +4273,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "actions",
         "description": "Extra actions (e.g. filter panel) rendered alongside the sort icon",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "menu",
         "description": "Column menu (e.g. kebab ⋮ with sort/hide/columns actions)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -4397,14 +4400,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "startContent",
         "description": "Optional content displayed at the start (left side) of the menu item,\ntypically used for icons or selection indicators.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "endContent",
         "description": "Optional content displayed at the end (right side) of the menu item,\ntypically used for keyboard shortcuts or badges.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -4426,7 +4429,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "submenu",
         "description": "Factory function returning submenu items for nested menus.\nWhen provided, the menu item gains a hover-triggered submenu.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -4462,7 +4465,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Optional label displayed alongside the separator line,\nuseful for grouping related menu items under a heading.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -4568,14 +4571,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -4649,7 +4652,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "filterContent",
         "description": "Filter content to embed as a submenu (ColumnFilterPanel, ColumnFilter, etc.)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -4760,14 +4763,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5026,14 +5029,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5174,14 +5177,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5329,14 +5332,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5462,14 +5465,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -5560,14 +5563,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5682,14 +5685,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -5773,14 +5776,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5910,14 +5913,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -5935,7 +5938,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "display",
         "description": "The display content shown in the trigger area (e.g., the selected label).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": false
       },
       {
@@ -5950,7 +5953,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "buildListboxContent",
         "description": "Function that builds the listbox content inside the dropdown flyout.\nReceives context with IDs, focused value signal, keyboard handler, and selection callback.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": false
       }
     ]
@@ -6049,14 +6052,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -6170,14 +6173,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -6300,14 +6303,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -6413,14 +6416,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -6434,6 +6437,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "value",
         "description": "The current text value to display and edit.",
         "type": "string",
+        "defaultValue": "The content",
         "reactive": true,
         "optional": false
       },
@@ -6441,6 +6445,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "placeholder",
         "description": "Placeholder text shown when the value is empty.",
         "type": "string",
+        "defaultValue": "Edit me",
         "reactive": true,
         "optional": true
       },
@@ -6556,14 +6561,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -6727,14 +6732,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -6842,6 +6847,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "optional": true
       },
       {
+        "name": "mask",
+        "description": "The mask pattern or dynamic mask function.",
+        "type": "string",
+        "defaultValue": "(999) 999-9999",
+        "reactive": true,
+        "optional": false
+      },
+      {
         "name": "useDefaultDefinitions",
         "description": "Whether to include the default definitions (`9`, `A`, `*`).",
         "type": "boolean",
@@ -6853,6 +6866,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "placeholder",
         "description": "Placeholder text displayed when the input is empty.",
         "type": "string",
+        "defaultValue": "(___) ___-____",
         "reactive": true,
         "optional": true
       },
@@ -6979,6 +6993,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "placeholder",
         "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when the input is empty.",
         "type": "string",
+        "defaultValue": "(___) ___-____",
         "reactive": true,
         "optional": true
       },
@@ -7029,14 +7044,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -7045,6 +7060,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "reactive": true,
         "optional": true
+      },
+      {
+        "name": "mask",
+        "description": "The mask pattern or dynamic mask function.",
+        "type": "string",
+        "defaultValue": "(999) 999-9999",
+        "reactive": true,
+        "optional": false
       },
       {
         "name": "useDefaultDefinitions",
@@ -7170,6 +7193,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "placeholder",
         "description": "Placeholder text displayed when the input is empty\n\n\nPlaceholder text displayed when the input is empty.",
         "type": "string",
+        "defaultValue": "(___) ___-____",
         "reactive": true,
         "optional": true
       },
@@ -7213,14 +7237,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -7229,6 +7253,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "type": "number",
         "reactive": true,
         "optional": true
+      },
+      {
+        "name": "mask",
+        "description": "The mask pattern or dynamic mask function.",
+        "type": "string",
+        "defaultValue": "(999) 999-9999",
+        "reactive": true,
+        "optional": false
       },
       {
         "name": "useDefaultDefinitions",
@@ -7404,14 +7436,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -7518,14 +7550,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -7632,14 +7664,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -7759,14 +7791,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -7865,14 +7897,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -7893,14 +7925,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "offLabel",
         "description": "Optional label displayed when the switch is in the off state",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "onLabel",
         "description": "Optional label displayed when the switch is in the on state",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8135,14 +8167,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8412,14 +8444,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8539,14 +8571,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8700,7 +8732,6 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "value",
         "description": "The current OTP value as a string.",
         "type": "string",
-        "defaultValue": "",
         "reactive": true,
         "optional": true
       },
@@ -8717,7 +8748,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Whether to mask the input characters (like a password).",
         "type": "boolean",
         "defaultValue": "false",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8729,7 +8760,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "alphanumeric",
           "numeric"
         ],
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8793,7 +8824,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "description": "Placeholder character shown in empty cells.",
         "type": "string",
         "defaultValue": "",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8865,14 +8896,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "element",
         "description": "Render function for each list item, receiving the item's payload",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": false
       },
       {
         "name": "separator",
         "description": "Optional separator rendered between list items",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8917,7 +8948,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "addLabel",
         "description": "Custom label for the \"Add\" button. Defaults to the i18n `addLabel` message.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -8971,35 +9002,35 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Label text or node to display above/beside the input",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "labelChildren",
         "description": "Additional content to render after the label (e.g., badges, tooltips)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "context",
         "description": "Contextual information displayed in the header area (e.g., character count)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "description",
         "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "Error message to display when the input has a validation error",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9033,14 +9064,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "element",
         "description": "Render function for each list item, receiving the item's payload",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": false
       },
       {
         "name": "separator",
         "description": "Optional separator rendered between list items",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9085,7 +9116,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "addLabel",
         "description": "Custom label for the \"Add\" button. Defaults to the i18n `addLabel` message.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9196,14 +9227,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -9302,14 +9333,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9323,35 +9354,35 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Label text or node to display above/beside the input",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "labelChildren",
         "description": "Additional content to render after the label (e.g., badges, tooltips)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "context",
         "description": "Contextual information displayed in the header area (e.g., character count)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "description",
         "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "Error message to display when the input has a validation error",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9392,14 +9423,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -9413,49 +9444,49 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Label text or node to display above/beside the input",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "labelChildren",
         "description": "Additional content to render after the label (e.g., badges, tooltips)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "context",
         "description": "Contextual information displayed in the header area (e.g., character count)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "description",
         "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "Error message to display when the input has a validation error",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -9469,49 +9500,49 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "label",
         "description": "Label text or node to display above/beside the input",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "labelChildren",
         "description": "Additional content to render after the label (e.g., badges, tooltips)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "context",
         "description": "Contextual information displayed in the header area (e.g., character count)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "description",
         "description": "Helpful description text displayed below the input (or under label in horizontal layouts)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "error",
         "description": "Error message to display when the input has a validation error",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -9674,7 +9705,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "title",
         "description": "Optional title content rendered above the notification body.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -9784,7 +9815,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "title",
         "description": "Optional title content rendered above the notification body.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -10099,7 +10130,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "action",
         "description": "Optional action element (e.g., a button) displayed below the description.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -11092,7 +11123,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "right",
         "description": "Optional content displayed at the right side of the link (e.g., badges, counts).",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -12496,14 +12527,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -12668,7 +12699,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "termsAndConditions",
         "description": "Custom terms and conditions content to display next to the checkbox.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -12754,7 +12785,7 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "termsAndConditions",
         "description": "Custom terms and conditions content to display next to the checkbox.",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       }
     ]
@@ -13171,14 +13202,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -14293,14 +14324,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -14436,14 +14467,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -14578,14 +14609,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
@@ -14800,14 +14831,14 @@ export const componentMeta: Record<string, ComponentMeta> =
         "name": "before",
         "description": "Optional node to render before the input element (e.g., icon)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {
         "name": "after",
         "description": "Optional node to render after the input element (e.g., button)",
         "type": "string",
-        "reactive": false,
+        "reactive": true,
         "optional": true
       },
       {

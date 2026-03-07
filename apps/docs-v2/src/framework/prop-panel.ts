@@ -160,7 +160,6 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
  * Parse a default value string into a typed JS value.
  */
 function parseDefault(meta: PropMeta): unknown {
-  console.log(meta)
   const d = meta.defaultValue
   // Treat @default undefined as actual undefined (not the string "undefined")
   if (d === undefined || d === 'undefined') {

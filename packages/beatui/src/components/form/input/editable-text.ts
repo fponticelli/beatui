@@ -18,11 +18,11 @@ import { AutoSelect } from '@tempots/ui'
  * Options for the {@link EditableText} component.
  */
 export type EditableTextOptions = {
-  /** The current text value to display and edit. */
+  /** The current text value to display and edit. @default 'The content' */
   value: Value<string>
   /** Callback invoked with the new text value when editing completes. */
   onChange: (value: string) => void
-  /** Placeholder text shown when the value is empty. */
+  /** Placeholder text shown when the value is empty. @default 'Edit me' */
   placeholder?: Value<string>
   /**
    * Whether the component should start in editing mode.
