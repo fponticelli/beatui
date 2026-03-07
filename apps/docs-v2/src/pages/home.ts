@@ -77,7 +77,7 @@ function getCategoryDescription(name: string): string {
     Overlays:
       'Floating UI layers — modals, drawers, tooltips, flyouts, lightboxes, and command palettes.',
     'Data Display':
-      'Components for presenting data — tables, badges, avatars, progress bars, calendars, and skeleton loaders.',
+      'Components for presenting data — tables, badges, avatars, progress bars, date pickers, and skeleton loaders.',
     Feedback:
       'User feedback components — notices, notifications, and toast-style notification services.',
     Media:

@@ -51,18 +51,18 @@ export const SHORT_MONTH_NAMES = [
 
 export const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-export type CalendarView = 'days' | 'months' | 'years'
+export type DatePickerView = 'days' | 'months' | 'years'
 
-export function generateCalendarClasses(
+export function generateDatePickerClasses(
   size: ControlSize,
   disabled: boolean
 ): string {
-  const classes = ['bc-calendar', `bc-calendar--size-${size}`]
-  if (disabled) classes.push('bc-calendar--disabled')
+  const classes = ['bc-date-picker', `bc-date-picker--size-${size}`]
+  if (disabled) classes.push('bc-date-picker--disabled')
   return classes.join(' ')
 }
 
-export function generateCalendarStyles(color: ThemeColorName): string {
+export function generateDatePickerStyles(color: ThemeColorName): string {
   const light = backgroundValue(color, 'solid', 'light')
   const dark = backgroundValue(color, 'solid', 'dark')
   const lightSubtle = backgroundValue(color, 'light', 'light')
@@ -79,8 +79,8 @@ export function generateCalendarStyles(color: ThemeColorName): string {
   ].join('; ')
 }
 
-/** Base cell data computed by {@link buildCalendarGrid}. */
-export interface CalendarBaseCell {
+/** Base cell data computed by {@link buildDatePickerGrid}. */
+export interface DatePickerBaseCell {
   day: number
   date: PlainDate
   inMonth: boolean
@@ -89,14 +89,14 @@ export interface CalendarBaseCell {
 }
 
 /** Builds the base array of day cells for a given month. */
-export function buildCalendarGrid(
+export function buildDatePickerGrid(
   T: BeatUITemporal,
   year: number,
   month: number,
   weekStartsOn: number,
   today: PlainDate,
   isDateDisabled?: (date: PlainDate) => boolean
-): CalendarBaseCell[] {
+): DatePickerBaseCell[] {
   const firstOfMonth = T.PlainDate.from({ year, month, day: 1 })
   const daysInMonth = firstOfMonth.daysInMonth
   // dayOfWeek: 1=Mon..7=Sun (ISO). Convert to 0=Sun..6=Sat via % 7.
@@ -106,7 +106,7 @@ export function buildCalendarGrid(
   const prevMonthDate = firstOfMonth.subtract({ months: 1 })
   const prevMonthDays = prevMonthDate.daysInMonth
 
-  const cells: CalendarBaseCell[] = []
+  const cells: DatePickerBaseCell[] = []
 
   const makeCell = (date: PlainDate, day: number, inMonth: boolean) => {
     cells.push({
@@ -141,12 +141,12 @@ export function buildCalendarGrid(
   return cells
 }
 
-/** State and actions returned by {@link createCalendarNav}. */
-export interface CalendarNav {
+/** State and actions returned by {@link createDatePickerNav}. */
+export interface DatePickerNav {
   today: PlainDate
   currentYear: Prop<number>
   currentMonth: Prop<number>
-  view: Prop<CalendarView>
+  view: Prop<DatePickerView>
   yearPageStart: Prop<number>
   shiftedDayNames: string[]
   prevMonth: () => void
@@ -161,18 +161,18 @@ export interface CalendarNav {
   selectYear: (year: number) => void
 }
 
-/** Creates the shared navigation state for a calendar. */
-export function createCalendarNav(
+/** Creates the shared navigation state for a date picker. */
+export function createDatePickerNav(
   T: BeatUITemporal,
   initialYear: number,
   initialMonth: number,
   disabled: Value<boolean>,
   weekStartsOn: number
-): CalendarNav {
+): DatePickerNav {
   const today = T.Now.plainDateISO()
   const currentYear = prop(initialYear)
   const currentMonth = prop(initialMonth)
-  const view = prop<CalendarView>('days')
+  const view = prop<DatePickerView>('days')
   const yearPageStart = prop(
     Math.floor(initialYear / YEARS_PER_PAGE) * YEARS_PER_PAGE
   )
@@ -250,7 +250,7 @@ export function createCalendarNav(
   }
 }
 
-export interface CalendarShellOptions {
+export interface DatePickerShellOptions {
   size: Value<ControlSize>
   disabled: Value<boolean>
   color: Value<ThemeColorName>
@@ -258,13 +258,13 @@ export interface CalendarShellOptions {
 }
 
 /**
- * Renders the full calendar shell: outer wrapper, navigation header
+ * Renders the full date picker shell: outer wrapper, navigation header
  * (days/months/years), weekday headers, month picker, year picker,
  * and a custom day grid.
  */
-export function renderCalendarShell(
-  nav: CalendarNav,
-  opts: CalendarShellOptions,
+export function renderDatePickerShell(
+  nav: DatePickerNav,
+  opts: DatePickerShellOptions,
   renderGrid: () => TNode
 ): TNode {
   const { size, disabled, color, ariaLabel } = opts
@@ -287,8 +287,8 @@ export function renderCalendarShell(
   } = nav
 
   return html.div(
-    attr.class(computedOf(size, disabled)(generateCalendarClasses)),
-    attr.style(Value.map(color, generateCalendarStyles)),
+    attr.class(computedOf(size, disabled)(generateDatePickerClasses)),
+    attr.style(Value.map(color, generateDatePickerStyles)),
     attr.role('grid'),
     aria.label(ariaLabel),
 
@@ -296,10 +296,10 @@ export function renderCalendarShell(
     OneOfValue(view, {
       days: () =>
         html.div(
-          attr.class('bc-calendar__nav'),
+          attr.class('bc-date-picker__nav'),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Previous year'),
             on.click(e => {
@@ -310,7 +310,7 @@ export function renderCalendarShell(
           ),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Previous month'),
             on.click(e => {
@@ -320,10 +320,10 @@ export function renderCalendarShell(
             '\u2039'
           ),
           html.div(
-            attr.class('bc-calendar__title'),
+            attr.class('bc-date-picker__title'),
             html.button(
               attr.type('button'),
-              attr.class('bc-calendar__title-btn'),
+              attr.class('bc-date-picker__title-btn'),
               attr.disabled(disabled),
               aria.label('Select month'),
               on.click(e => {
@@ -334,7 +334,7 @@ export function renderCalendarShell(
             ),
             html.button(
               attr.type('button'),
-              attr.class('bc-calendar__title-btn'),
+              attr.class('bc-date-picker__title-btn'),
               attr.disabled(disabled),
               aria.label('Select year'),
               on.click(e => {
@@ -346,7 +346,7 @@ export function renderCalendarShell(
           ),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Next month'),
             on.click(e => {
@@ -357,7 +357,7 @@ export function renderCalendarShell(
           ),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Next year'),
             on.click(e => {
@@ -369,10 +369,10 @@ export function renderCalendarShell(
         ),
       months: () =>
         html.div(
-          attr.class('bc-calendar__nav'),
+          attr.class('bc-date-picker__nav'),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Previous year'),
             on.click(e => {
@@ -382,12 +382,12 @@ export function renderCalendarShell(
             '\u00AB'
           ),
           html.span(
-            attr.class('bc-calendar__title'),
+            attr.class('bc-date-picker__title'),
             Value.map(currentYear, String)
           ),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label('Next year'),
             on.click(e => {
@@ -399,10 +399,10 @@ export function renderCalendarShell(
         ),
       years: () =>
         html.div(
-          attr.class('bc-calendar__nav'),
+          attr.class('bc-date-picker__nav'),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label(`Previous ${YEARS_PER_PAGE} years`),
             on.click(e => {
@@ -412,7 +412,7 @@ export function renderCalendarShell(
             '\u00AB'
           ),
           html.span(
-            attr.class('bc-calendar__title'),
+            attr.class('bc-date-picker__title'),
             Value.map(
               yearPageStart,
               start => `${start} \u2013 ${start + YEARS_PER_PAGE - 1}`
@@ -420,7 +420,7 @@ export function renderCalendarShell(
           ),
           html.button(
             attr.type('button'),
-            attr.class('bc-calendar__nav-btn'),
+            attr.class('bc-date-picker__nav-btn'),
             attr.disabled(disabled),
             aria.label(`Next ${YEARS_PER_PAGE} years`),
             on.click(e => {
@@ -436,11 +436,11 @@ export function renderCalendarShell(
     OneOfValue(view, {
       days: () =>
         html.div(
-          attr.class('bc-calendar__days-view'),
+          attr.class('bc-date-picker__days-view'),
           html.div(
-            attr.class('bc-calendar__weekdays'),
+            attr.class('bc-date-picker__weekdays'),
             ...nav.shiftedDayNames.map(name =>
-              html.div(attr.class('bc-calendar__weekday'), name)
+              html.div(attr.class('bc-date-picker__weekday'), name)
             )
           ),
           renderGrid()
@@ -448,7 +448,7 @@ export function renderCalendarShell(
       months: () =>
         html.div(
           attr.class(
-            'bc-calendar__picker-grid bc-calendar__picker-grid--months'
+            'bc-date-picker__picker-grid bc-date-picker__picker-grid--months'
           ),
           ...SHORT_MONTH_NAMES.map((monthName, monthIndex) => {
             const month1 = monthIndex + 1
@@ -459,10 +459,10 @@ export function renderCalendarShell(
                   currentMonth,
                   currentYear
                 )((m, y) => {
-                  const cls = ['bc-calendar__month-cell']
-                  if (m === month1) cls.push('bc-calendar__month-cell--current')
+                  const cls = ['bc-date-picker__month-cell']
+                  if (m === month1) cls.push('bc-date-picker__month-cell--current')
                   if (today.month === month1 && today.year === y)
-                    cls.push('bc-calendar__month-cell--active')
+                    cls.push('bc-date-picker__month-cell--active')
                   return cls.join(' ')
                 })
               ),
@@ -478,7 +478,7 @@ export function renderCalendarShell(
       years: () =>
         html.div(
           attr.class(
-            'bc-calendar__picker-grid bc-calendar__picker-grid--years'
+            'bc-date-picker__picker-grid bc-date-picker__picker-grid--years'
           ),
           ForEach(
             Value.map(yearPageStart, start => {
@@ -496,10 +496,10 @@ export function renderCalendarShell(
                     currentYear,
                     yearSignal
                   )((cy, year) => {
-                    const cls = ['bc-calendar__year-cell']
-                    if (cy === year) cls.push('bc-calendar__year-cell--current')
+                    const cls = ['bc-date-picker__year-cell']
+                    if (cy === year) cls.push('bc-date-picker__year-cell--current')
                     if (today.year === year)
-                      cls.push('bc-calendar__year-cell--active')
+                      cls.push('bc-date-picker__year-cell--active')
                     return cls.join(' ')
                   })
                 ),
@@ -514,18 +514,4 @@ export function renderCalendarShell(
         ),
     })
   )
-}
-
-/** Converts a `PlainDate` to a JavaScript `Date` (local midnight). */
-export function plainDateToDate(pd: PlainDate): Date {
-  return new Date(pd.year, pd.month - 1, pd.day)
-}
-
-/** Converts a JavaScript `Date` to a `PlainDate`. */
-export function dateToPlainDate(T: BeatUITemporal, d: Date): PlainDate {
-  return T.PlainDate.from({
-    year: d.getFullYear(),
-    month: d.getMonth() + 1,
-    day: d.getDate(),
-  })
 }

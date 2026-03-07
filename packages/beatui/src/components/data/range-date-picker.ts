@@ -14,18 +14,16 @@ import { ThemeColorName } from '../../tokens'
 import { WithTemporal } from '../../temporal/with-temporal'
 import type { BeatUITemporal, PlainDate } from '../../temporal/types'
 import {
-  buildCalendarGrid,
-  createCalendarNav,
-  renderCalendarShell,
-  plainDateToDate,
-  dateToPlainDate,
-} from './calendar-shared'
+  buildDatePickerGrid,
+  createDatePickerNav,
+  renderDatePickerShell,
+} from './date-picker-shared'
 
 /**
- * Configuration options for the {@link RangeCalendar} component.
+ * Configuration options for the {@link DateRangePicker} component.
  * Uses Temporal `PlainDate` for date values — no time or timezone concerns.
  */
-export interface RangeCalendarOptions {
+export interface DateRangePickerOptions {
   /** The currently selected date range as `[start, end]`. */
   value?: Value<[PlainDate, PlainDate] | null>
   /** Callback invoked when a complete range is selected. */
@@ -36,9 +34,9 @@ export interface RangeCalendarOptions {
   isDateDisabled?: (date: PlainDate) => boolean
   /** Theme color for selected and today highlights. @default 'primary' */
   color?: Value<ThemeColorName>
-  /** Visual size of the calendar. @default 'md' */
+  /** Visual size of the date picker. @default 'md' */
   size?: Value<ControlSize>
-  /** Whether the calendar is disabled. @default false */
+  /** Whether the date picker is disabled. @default false */
   disabled?: Value<boolean>
   /**
    * The day the week starts on.
@@ -48,34 +46,7 @@ export interface RangeCalendarOptions {
   weekStartsOn?: number
 }
 
-/**
- * Configuration options for the {@link DateRangeCalendar} component.
- * Convenience wrapper that uses JavaScript `Date` objects.
- */
-export interface DateRangeCalendarOptions {
-  /** The currently selected date range as `[start, end]`. */
-  value?: Value<[Date, Date] | null>
-  /** Callback invoked when a complete range is selected. */
-  onChange?: (range: [Date, Date]) => void
-  /**
-   * Predicate that returns `true` if the given date should be disabled (unselectable).
-   */
-  isDateDisabled?: (date: Date) => boolean
-  /** Theme color for selected and today highlights. @default 'primary' */
-  color?: Value<ThemeColorName>
-  /** Visual size of the calendar. @default 'md' */
-  size?: Value<ControlSize>
-  /** Whether the calendar is disabled. @default false */
-  disabled?: Value<boolean>
-  /**
-   * The day the week starts on.
-   * 0 = Sunday, 1 = Monday, etc.
-   * @default 0
-   */
-  weekStartsOn?: number
-}
-
-function renderRangeCalendar(
+function renderRangeDatePicker(
   T: BeatUITemporal,
   {
     value = null,
@@ -85,10 +56,10 @@ function renderRangeCalendar(
     size = 'md',
     disabled = false,
     weekStartsOn = 0,
-  }: RangeCalendarOptions
+  }: DateRangePickerOptions
 ): TNode {
   const initialRange = value != null ? Value.get(value) : null
-  const nav = createCalendarNav(
+  const nav = createDatePickerNav(
     T,
     initialRange?.[0]?.year ?? T.Now.plainDateISO().year,
     initialRange?.[0]?.month ?? T.Now.plainDateISO().month,
@@ -130,7 +101,7 @@ function renderRangeCalendar(
       effectiveEnd = committedRange[1]
     }
 
-    return buildCalendarGrid(
+    return buildDatePickerGrid(
       T,
       year,
       month,
@@ -154,29 +125,29 @@ function renderRangeCalendar(
     })
   })
 
-  return renderCalendarShell(
+  return renderDatePickerShell(
     nav,
-    { size, disabled, color, ariaLabel: 'Date range calendar' },
+    { size, disabled, color, ariaLabel: 'Date range picker' },
     () =>
       html.div(
-        attr.class('bc-calendar__grid'),
+        attr.class('bc-date-picker__grid'),
         on.mouseleave(() => {
           hoveredDate.set(null)
         }),
         ForEach(gridCells, cellSignal => {
           const classes = cellSignal.map(cell => {
-            const cls = ['bc-calendar__day']
-            if (!cell.inMonth) cls.push('bc-calendar__day--outside')
-            if (cell.isToday) cls.push('bc-calendar__day--today')
-            if (cell.isDisabled) cls.push('bc-calendar__day--disabled')
-            if (cell.isRangeStart) cls.push('bc-calendar__day--range-start')
-            if (cell.isRangeEnd) cls.push('bc-calendar__day--range-end')
-            if (cell.isInRange) cls.push('bc-calendar__day--in-range')
+            const cls = ['bc-date-picker__day']
+            if (!cell.inMonth) cls.push('bc-date-picker__day--outside')
+            if (cell.isToday) cls.push('bc-date-picker__day--today')
+            if (cell.isDisabled) cls.push('bc-date-picker__day--disabled')
+            if (cell.isRangeStart) cls.push('bc-date-picker__day--range-start')
+            if (cell.isRangeEnd) cls.push('bc-date-picker__day--range-end')
+            if (cell.isInRange) cls.push('bc-date-picker__day--in-range')
             if (
               cell.isPreview &&
               (cell.isRangeStart || cell.isRangeEnd || cell.isInRange)
             )
-              cls.push('bc-calendar__day--preview')
+              cls.push('bc-date-picker__day--preview')
             return cls.join(' ')
           })
 
@@ -228,7 +199,7 @@ function renderRangeCalendar(
 }
 
 /**
- * A calendar component for date range selection with hover preview.
+ * A date picker component for date range selection with hover preview.
  *
  * Uses Temporal `PlainDate` internally — a date-only type with no time or
  * timezone concerns, 1-based months, and proper date arithmetic.
@@ -237,75 +208,23 @@ function renderRangeCalendar(
  * hovering shows a preview, and the second click completes the range.
  * The range is auto-sorted so start is always before end.
  *
- * @param options - Configuration for the range calendar
- * @returns A calendar element with date range selection capability
+ * @param options - Configuration for the range date picker
+ * @returns A date picker element with date range selection capability
  *
  * @example
  * ```ts
  * import { prop } from '@tempots/dom'
- * import { RangeCalendar, PlainDate } from '@tempots/beatui'
+ * import { DateRangePicker, PlainDate } from '@tempots/beatui'
  *
  * const range = prop<[PlainDate, PlainDate] | null>(null)
- * RangeCalendar({
+ * DateRangePicker({
  *   value: range,
  *   onChange: range.set,
  * })
  * ```
  */
-export function RangeCalendar(options?: RangeCalendarOptions): Renderable {
-  return WithTemporal(T => renderRangeCalendar(T, options ?? {}))
-}
-
-/**
- * A convenience range calendar wrapper that uses JavaScript `Date` objects.
- *
- * Accepts and fires `Date` values, converting to/from `PlainDate` internally.
- * Use this when integrating with existing `Date`-based code.
- *
- * @param options - Configuration for the range calendar (uses `Date` objects)
- * @returns A calendar element with date range selection capability
- *
- * @example
- * ```ts
- * import { prop } from '@tempots/dom'
- * import { DateRangeCalendar } from '@tempots/beatui'
- *
- * const range = prop<[Date, Date] | null>(null)
- * DateRangeCalendar({
- *   value: range,
- *   onChange: range.set,
- * })
- * ```
- */
-export function DateRangeCalendar(
-  options?: DateRangeCalendarOptions
+export function DateRangePicker(
+  options?: DateRangePickerOptions
 ): Renderable {
-  const { value, onChange, isDateDisabled, ...rest } = options ?? {}
-
-  return WithTemporal(T => {
-    const plainValue: Value<[PlainDate, PlainDate] | null> | undefined =
-      value != null
-        ? Value.map(value, d =>
-            d != null
-              ? [dateToPlainDate(T, d[0]), dateToPlainDate(T, d[1])]
-              : null
-          )
-        : undefined
-
-    const plainOnChange: ((range: [PlainDate, PlainDate]) => void) | undefined =
-      onChange
-        ? range =>
-            onChange([plainDateToDate(range[0]), plainDateToDate(range[1])])
-        : undefined
-
-    const plainIsDateDisabled: ((pd: PlainDate) => boolean) | undefined =
-      isDateDisabled ? pd => isDateDisabled(plainDateToDate(pd)) : undefined
-
-    return renderRangeCalendar(T, {
-      ...rest,
-      value: plainValue,
-      onChange: plainOnChange,
-      isDateDisabled: plainIsDateDisabled,
-    })
-  })
+  return WithTemporal(T => renderRangeDatePicker(T, options ?? {}))
 }

@@ -113,10 +113,10 @@ export default function TabsPage() {
               content: () => Empty,
             },
             {
-              key: 'calendar',
+              key: 'date-picker',
               label: Fragment(
                 Icon({ icon: 'lucide:calendar', size: 'xs' }),
-                ' Calendar'
+                ' DatePicker'
               ),
               content: () => Empty,
             },

@@ -1,6 +1,6 @@
 import {
-  DateCalendar,
-  DateRangeCalendar,
+  DatePicker,
+  DateRangePicker,
   ControlSize,
   ScrollablePanel,
   SegmentedInput,
@@ -12,10 +12,10 @@ import {
 import { html, attr, prop } from '@tempots/dom'
 import { ControlsHeader } from '../elements/controls-header'
 
-export default function CalendarPage() {
+export default function DatePickerPage() {
   const size = prop<ControlSize>('md')
   const disabled = prop(false)
-  const selectedDate = prop<Date | null>(new Date())
+  const selectedDate = prop<{ year: number; month: number; day: number } | null>(null)
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -39,15 +39,19 @@ export default function CalendarPage() {
       attr.class('items-start gap-6 p-4'),
 
       // Basic
-      html.h3(attr.class('text-lg font-semibold'), 'Basic Calendar'),
+      html.h3(attr.class('text-lg font-semibold'), 'Basic DatePicker'),
       html.p(
         attr.class('text-sm text-gray-600 dark:text-gray-400'),
         'Selected: ',
-        selectedDate.map(d => (d != null ? d.toLocaleDateString() : 'None'))
+        selectedDate.map(d =>
+          d != null
+            ? `${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`
+            : 'None'
+        )
       ),
-      DateCalendar({
-        value: selectedDate,
-        onSelect: v => selectedDate.set(v),
+      DatePicker({
+        value: selectedDate as never,
+        onSelect: v => selectedDate.set(v as never),
         size,
         disabled,
       }),
@@ -62,33 +66,27 @@ export default function CalendarPage() {
         'Only dates in the current month are selectable.'
       ),
       (() => {
-        const constrainedDate = prop<Date | null>(null)
-        const monthStart = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          1
-        )
-        const monthEnd = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth() + 1,
-          0
-        )
-        return DateCalendar({
-          value: constrainedDate,
-          onSelect: v => constrainedDate.set(v),
-          isDateDisabled: d => d < monthStart || d > monthEnd,
+        const constrainedDate = prop<{ year: number; month: number; day: number } | null>(null)
+        const now = new Date()
+        const currentYear = now.getFullYear()
+        const currentMonth = now.getMonth() + 1
+        return DatePicker({
+          value: constrainedDate as never,
+          onSelect: (v: { year: number; month: number; day: number }) => constrainedDate.set(v),
+          isDateDisabled: (d: { year: number; month: number; day: number }) =>
+            d.year !== currentYear || d.month !== currentMonth,
           size,
           disabled,
-        })
+        } as never)
       })(),
 
       // Monday start
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Week Starting Monday'),
       (() => {
-        const mondayDate = prop<Date | null>(null)
-        return DateCalendar({
-          value: mondayDate,
-          onSelect: v => mondayDate.set(v),
+        const mondayDate = prop<{ year: number; month: number; day: number } | null>(null)
+        return DatePicker({
+          value: mondayDate as never,
+          onSelect: v => mondayDate.set(v as never),
           weekStartsOn: 1,
           size,
           disabled,
@@ -102,15 +100,12 @@ export default function CalendarPage() {
         ...(
           ['primary', 'red', 'green', 'blue', 'orange', 'violet'] as const
         ).map(color => {
-          const colorDate = prop<Date | null>(new Date())
           return Stack(
             html.p(
               attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
               color
             ),
-            DateCalendar({
-              value: colorDate,
-              onSelect: v => colorDate.set(v),
+            DatePicker({
               color,
               size,
               disabled,
@@ -126,20 +121,20 @@ export default function CalendarPage() {
         'Click two dates to select a range. Hover to preview.'
       ),
       (() => {
-        const range = prop<[Date, Date] | null>(null)
+        const range = prop<[{ year: number; month: number; day: number }, { year: number; month: number; day: number }] | null>(null)
         return Stack(
           html.p(
             attr.class('text-sm text-gray-600 dark:text-gray-400'),
             'Range: ',
             range.map(r =>
               r != null
-                ? `${r[0].toLocaleDateString()} \u2013 ${r[1].toLocaleDateString()}`
+                ? `${r[0].year}-${String(r[0].month).padStart(2, '0')}-${String(r[0].day).padStart(2, '0')} \u2013 ${r[1].year}-${String(r[1].month).padStart(2, '0')}-${String(r[1].day).padStart(2, '0')}`
                 : 'None'
             )
           ),
-          DateRangeCalendar({
-            value: range,
-            onChange: v => range.set(v),
+          DateRangePicker({
+            value: range as never,
+            onChange: v => range.set(v as never),
             size,
             disabled,
           })
@@ -151,15 +146,12 @@ export default function CalendarPage() {
       Group(
         attr.class('flex-wrap gap-4'),
         ...(['xs', 'sm', 'md', 'lg'] as ControlSize[]).map(s => {
-          const sizeDate = prop<Date | null>(null)
           return Stack(
             html.p(
               attr.class('text-sm text-gray-500 dark:text-gray-400 mb-1'),
               `Size: ${s}`
             ),
-            DateCalendar({
-              value: sizeDate,
-              onSelect: v => sizeDate.set(v),
+            DatePicker({
               size: s,
             })
           )

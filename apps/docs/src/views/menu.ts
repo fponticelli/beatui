@@ -162,7 +162,7 @@ export function Menu() {
         },
         SidebarLink({ href: '/avatar', content: 'Avatar' }),
         SidebarLink({ href: '/badge', content: 'Badge' }),
-        SidebarLink({ href: '/calendar', content: 'Calendar' }),
+        SidebarLink({ href: '/date-picker', content: 'DatePicker' }),
         SidebarLink({ href: '/icon', content: 'Icon' }),
         SidebarLink({ href: '/tags', content: 'Tags' }),
         SidebarLink({ href: '/kbd', content: 'Kbd' }),

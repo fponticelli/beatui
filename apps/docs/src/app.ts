@@ -200,8 +200,8 @@ export const App = () => {
           Async(import('./pages/tree-view'), ({ default: Page }) => Page()),
         '/accordion': () =>
           Async(import('./pages/accordion'), ({ default: Page }) => Page()),
-        '/calendar': () =>
-          Async(import('./pages/calendar'), ({ default: Page }) => Page()),
+        '/date-picker': () =>
+          Async(import('./pages/date-picker'), ({ default: Page }) => Page()),
         '/advanced-slider': () =>
           Async(import('./pages/advanced-slider'), ({ default: Page }) =>
             Page()

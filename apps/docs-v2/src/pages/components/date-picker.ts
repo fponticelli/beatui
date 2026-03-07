@@ -1,4 +1,4 @@
-import { Calendar, DateCalendar, RangeCalendar, DateRangeCalendar } from '@tempots/beatui'
+import { DatePicker, DateRangePicker } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import {
   ComponentPage,
@@ -8,29 +8,26 @@ import {
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
-  name: 'Calendar',
+  name: 'DatePicker',
   category: 'Tables & Media',
-  component: 'Calendar',
+  component: 'DatePicker',
   description:
-    'A date selection calendar with month/year navigation. Uses Temporal PlainDate internally, with a DateCalendar convenience wrapper for JavaScript Date objects.',
+    'A date selection panel with month/year navigation. Uses Temporal PlainDate internally.',
   icon: 'lucide:calendar',
   order: 9,
 }
 
-export default function CalendarPage() {
+export default function DatePickerPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Calendar', signals => {
+    playground: manualPlayground('DatePicker', signals => {
       const selectedDate = prop<{ year: number; month: number; day: number } | null>(null)
       return html.div(
         attr.class('flex flex-col gap-3 items-center'),
-        Calendar({
-          color: signals.color as never,
-          size: signals.size as never,
-          disabled: signals.disabled as never,
-          weekStartsOn: signals.weekStartsOn as never,
+        DatePicker({
+          ...signals,
           value: selectedDate as never,
-          onSelect: (d) => selectedDate.set(d as never),
-        }),
+          onSelect: (d: { year: number; month: number; day: number }) => selectedDate.set(d),
+        } as never),
         html.p(
           attr.class('text-sm text-gray-500'),
           selectedDate.map(d =>
@@ -43,12 +40,12 @@ export default function CalendarPage() {
     }),
     sections: [
       Section(
-        'Basic Calendar',
+        'Basic DatePicker',
         () => {
           const selected = prop<{ year: number; month: number; day: number } | null>(null)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
-            Calendar({
+            DatePicker({
               value: selected as never,
               onSelect: (d) => selected.set(d as never),
             }),
@@ -62,38 +59,16 @@ export default function CalendarPage() {
             )
           )
         },
-        'A standalone calendar for date selection. Uses Temporal PlainDate for all date logic.'
-      ),
-      Section(
-        'DateCalendar (JavaScript Date)',
-        () => {
-          const selected = prop<Date | null>(null)
-          return html.div(
-            attr.class('flex flex-col gap-3 items-start'),
-            DateCalendar({
-              value: selected,
-              onSelect: d => selected.set(d),
-            }),
-            html.p(
-              attr.class('text-sm text-gray-500'),
-              selected.map(d =>
-                d != null
-                  ? `Selected: ${d.toLocaleDateString()}`
-                  : 'Click a date to select'
-              )
-            )
-          )
-        },
-        'DateCalendar is a convenience wrapper that works with JavaScript Date objects instead of PlainDate.'
+        'A standalone date picker for date selection. Uses Temporal PlainDate for all date logic.'
       ),
       Section(
         'Colors',
         () =>
           html.div(
             attr.class('flex flex-wrap gap-6'),
-            Calendar({ color: 'primary' }),
-            Calendar({ color: 'success' }),
-            Calendar({ color: 'danger' })
+            DatePicker({ color: 'primary' }),
+            DatePicker({ color: 'success' }),
+            DatePicker({ color: 'danger' })
           ),
         'The color prop controls the highlight color for the selected date and today\'s date.'
       ),
@@ -105,25 +80,25 @@ export default function CalendarPage() {
             html.div(
               attr.class('flex flex-col gap-1 items-center'),
               html.span(attr.class('text-xs font-mono text-gray-500'), 'sm'),
-              Calendar({ size: 'sm' })
+              DatePicker({ size: 'sm' })
             ),
             html.div(
               attr.class('flex flex-col gap-1 items-center'),
               html.span(attr.class('text-xs font-mono text-gray-500'), 'md'),
-              Calendar({ size: 'md' })
+              DatePicker({ size: 'md' })
             ),
             html.div(
               attr.class('flex flex-col gap-1 items-center'),
               html.span(attr.class('text-xs font-mono text-gray-500'), 'lg'),
-              Calendar({ size: 'lg' })
+              DatePicker({ size: 'lg' })
             )
           ),
-        'Calendar sizes adjust cell dimensions and typography for different contexts.'
+        'DatePicker sizes adjust cell dimensions and typography for different contexts.'
       ),
       Section(
         'Week Starts On Monday',
         () =>
-          Calendar({ weekStartsOn: 1, color: 'info' }),
+          DatePicker({ weekStartsOn: 1, color: 'info' }),
         'Set weekStartsOn to 1 to start the week on Monday (ISO standard) instead of Sunday.'
       ),
       Section(
@@ -131,7 +106,7 @@ export default function CalendarPage() {
         () => {
           const selected = prop<{ year: number; month: number; day: number } | null>(null)
           const today = new Date()
-          return Calendar({
+          return DatePicker({
             value: selected as never,
             onSelect: (d: { year: number; month: number; day: number }) => selected.set(d),
             isDateDisabled: (d: { year: number; month: number; day: number }) => {
@@ -143,21 +118,21 @@ export default function CalendarPage() {
         'Use isDateDisabled to prevent selecting past dates, weekends, or any custom range.'
       ),
       Section(
-        'Disabled Calendar',
+        'Disabled DatePicker',
         () =>
-          Calendar({
+          DatePicker({
             value: { year: 2025, month: 6, day: 15 } as never,
             disabled: true,
           }),
-        'A fully disabled calendar displays the selection but prevents all interaction.'
+        'A fully disabled date picker displays the selection but prevents all interaction.'
       ),
       Section(
-        'RangeCalendar (PlainDate)',
+        'DateRangePicker',
         () => {
           const range = prop<[{ year: number; month: number; day: number }, { year: number; month: number; day: number }] | null>(null)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
-            RangeCalendar({
+            DateRangePicker({
               value: range as never,
               onChange: (r) => range.set(r as never),
             }),
@@ -171,29 +146,7 @@ export default function CalendarPage() {
             )
           )
         },
-        'RangeCalendar supports two-click range selection using Temporal PlainDate. Click a start date, hover to preview, then click an end date to complete the range.'
-      ),
-      Section(
-        'DateRangeCalendar (JavaScript Date)',
-        () => {
-          const range = prop<[Date, Date] | null>(null)
-          return html.div(
-            attr.class('flex flex-col gap-3 items-start'),
-            DateRangeCalendar({
-              value: range,
-              onChange: r => range.set(r),
-            }),
-            html.p(
-              attr.class('text-sm text-gray-500'),
-              range.map(r =>
-                r != null
-                  ? `Range: ${r[0].toLocaleDateString()} to ${r[1].toLocaleDateString()}`
-                  : 'Click two dates to select a range'
-              )
-            )
-          )
-        },
-        'DateRangeCalendar is a convenience wrapper for DateRangeCalendar that uses JavaScript Date objects. Internally converts to and from PlainDate.'
+        'DateRangePicker supports two-click range selection using Temporal PlainDate. Click a start date, hover to preview, then click an end date to complete the range.'
       ),
     ],
   })

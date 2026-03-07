@@ -130,15 +130,6 @@ export const pages: PageEntry[] = [
     "slug": "button"
   },
   {
-    "name": "Calendar",
-    "category": "Tables & Media",
-    "component": "Calendar",
-    "description": "A date selection calendar with month/year navigation. Uses Temporal PlainDate internally, with a DateCalendar convenience wrapper for JavaScript Date objects.",
-    "icon": "lucide:calendar",
-    "order": 9,
-    "slug": "calendar"
-  },
-  {
     "name": "Card",
     "category": "Layout",
     "component": "Card",
@@ -236,6 +227,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:table-2",
     "order": 11,
     "slug": "data-table"
+  },
+  {
+    "name": "DatePicker",
+    "category": "Tables & Media",
+    "component": "DatePicker",
+    "description": "A date selection panel with month/year navigation. Uses Temporal PlainDate internally.",
+    "icon": "lucide:calendar",
+    "order": 9,
+    "slug": "date-picker"
   },
   {
     "name": "Divider",
@@ -1490,13 +1490,13 @@ export const categories: CategoryEntry[] = [
         "slug": "video-player"
       },
       {
-        "name": "Calendar",
+        "name": "DatePicker",
         "category": "Tables & Media",
-        "component": "Calendar",
-        "description": "A date selection calendar with month/year navigation. Uses Temporal PlainDate internally, with a DateCalendar convenience wrapper for JavaScript Date objects.",
+        "component": "DatePicker",
+        "description": "A date selection panel with month/year navigation. Uses Temporal PlainDate internally.",
         "icon": "lucide:calendar",
         "order": 9,
-        "slug": "calendar"
+        "slug": "date-picker"
       },
       {
         "name": "NativePdfPreview",
