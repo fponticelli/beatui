@@ -1,9 +1,9 @@
-import { html, Signal, Use, Value } from '@tempots/dom'
+import { attr, Fragment, html, Signal, Use, Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
+import { InputContainer, InputIcon } from './input-container'
 import { NativeSelect } from './native-select'
 import { Query } from '@tempots/ui'
 import { BeatUII18n } from '../../../beatui-i18n'
-import { Icon } from '../../data'
 import { Option, SelectOption } from './option'
 
 /**
@@ -83,13 +83,24 @@ export const LazyNativeSelect = <T, R>(
       })
     },
     pending: () =>
-      Use(BeatUII18n, t =>
-        html.span(
-          Icon({
-            icon: 'line-md:loading-twotone-loop',
-            title: t.$.loadingShort as Signal<string | undefined>,
-          })
-        )
-      ),
+      InputContainer({
+        ...options,
+        disabled: true,
+        after: Fragment(
+          InputIcon({
+            icon: 'ph:caret-down-bold',
+            color: 'neutral',
+            size: 'sm',
+          }),
+          options.after
+        ),
+        input: html.select(
+          attr.class('bc-native-select bc-input'),
+          attr.disabled(true),
+          Use(BeatUII18n, t =>
+            html.option(t.$.loadingShort)
+          )
+        ),
+      }),
   })
 }

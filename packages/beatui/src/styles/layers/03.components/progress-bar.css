@@ -39,14 +39,17 @@
 /* Size variants */
 .bc-progress-bar--size-sm {
   height: var(--spacing-base);
+  min-width: var(--spacing-2xl);
 }
 
 .bc-progress-bar--size-md {
   height: var(--spacing-md);
+  min-width: var(--spacing-3xl);
 }
 
 .bc-progress-bar--size-lg {
   height: var(--spacing-mdh);
+  min-width: var(--spacing-4xl);
 }
 
 /* Indeterminate state - animated sliding bar */

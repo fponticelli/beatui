@@ -1,5 +1,5 @@
 import { LoadingOverlay, Button, Card } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { html, attr, prop, Prop, Value } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -16,7 +16,7 @@ export const meta: ComponentPageMeta = {
 export default function LoadingOverlayPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('LoadingOverlay', signals => {
-      const visible = prop(false)
+      const visible = signals.visible as Prop<boolean>
       return html.div(
         attr.class('flex flex-col items-center gap-4 w-full'),
         html.div(
@@ -33,9 +33,8 @@ export default function LoadingOverlayPage() {
             )
           ),
           LoadingOverlay({
+            ...signals,
             visible,
-            message: signals.message,
-            size: signals.size,
           } as never)
         ),
         Button(
