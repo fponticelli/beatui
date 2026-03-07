@@ -79,11 +79,11 @@
 
 /* Remove Card padding when structured sub-components are used */
 .bc-card:has(
-    > .bc-card__header,
-    > .bc-card__body,
-    > .bc-card__footer,
-    > .bc-card__cover-image
-  ) {
+  > .bc-card__header,
+  > .bc-card__body,
+  > .bc-card__footer,
+  > .bc-card__cover-image
+) {
   padding: 0;
 }
 
@@ -94,7 +94,10 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
   border-bottom: var(--border-width-thin) solid var(--card-border);
-  background-color: var(--bg-surface-secondary, color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%));
+  background-color: var(
+    --bg-surface-secondary,
+    color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%)
+  );
   flex-shrink: 0;
 }
 
@@ -109,7 +112,10 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
   border-top: var(--border-width-thin) solid var(--card-border);
-  background-color: var(--bg-surface-secondary, color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%));
+  background-color: var(
+    --bg-surface-secondary,
+    color-mix(in srgb, var(--card-bg) 90%, var(--card-text) 10%)
+  );
   flex-shrink: 0;
   justify-content: flex-end;
 }

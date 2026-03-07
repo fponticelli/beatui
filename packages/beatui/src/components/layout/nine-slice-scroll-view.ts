@@ -523,7 +523,10 @@ export function NineSliceScrollView({
               Math.min(1, (clickPos - thumbHalf) / usable)
             )
             scrollPosition.set(
-              clampScroll(BigInt(Math.round(fraction * max)), Value.get(maxScroll))
+              clampScroll(
+                BigInt(Math.round(fraction * max)),
+                Value.get(maxScroll)
+              )
             )
           }
         })

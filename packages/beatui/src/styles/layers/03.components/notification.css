@@ -128,7 +128,8 @@
   }
 
   .bc-notification-item {
-    transition: opacity var(--motion-duration-base, 200ms)
+    transition:
+      opacity var(--motion-duration-base, 200ms)
         var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1)),
       transform var(--motion-duration-base, 200ms)
         var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));

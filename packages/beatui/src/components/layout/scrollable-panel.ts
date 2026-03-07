@@ -10,7 +10,6 @@ import {
   computedOf,
 } from '@tempots/dom'
 
-
 /**
  * Configuration options for the {@link ScrollablePanel} component.
  */
