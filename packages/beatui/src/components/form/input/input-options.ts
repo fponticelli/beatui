@@ -101,6 +101,46 @@ export type InputOptions<V> = Merge<
 >
 
 /**
+ * Maps an `InputOptions<Outer>` to an `InputOptions<Inner>` by transforming
+ * the `value`, `onChange`, and `onInput` fields. All other options pass through
+ * unchanged.
+ *
+ * Use this to adapt an input component that works with type `Inner` so it can
+ * be driven by a value of type `Outer`.
+ *
+ * @template Outer - The external value type (what the consumer provides)
+ * @template Inner - The internal value type (what the wrapped component expects)
+ * @param options - The original input options with the `Outer` value type
+ * @param toInner - Converts an `Outer` value to `Inner` (for display)
+ * @param toOuter - Converts an `Inner` value back to `Outer` (for change events)
+ * @returns A new `InputOptions<Inner>` suitable for the wrapped component
+ *
+ * @example
+ * ```ts
+ * // Adapt a TextInput (string) to accept string | null
+ * const mapped = mapInputOptions<string | null, string>(
+ *   options,
+ *   v => v ?? '',           // null → '' for display
+ *   v => v === '' ? null : v // '' → null on change
+ * )
+ * TextInput(mapped)
+ * ```
+ */
+export function mapInputOptions<Outer, Inner>(
+  options: InputOptions<Outer>,
+  toInner: (value: Outer) => Inner,
+  toOuter: (value: Inner) => Outer
+): InputOptions<Inner> {
+  const { value, onChange, onInput, ...rest } = options
+  return {
+    ...rest,
+    value: Value.map(value, toInner),
+    onChange: onChange != null ? (v: Inner) => onChange(toOuter(v)) : undefined,
+    onInput: onInput != null ? (v: Inner) => onInput(toOuter(v)) : undefined,
+  }
+}
+
+/**
  * Helper function that applies common HTML attributes to an input element.
  *
  * This utility converts `CommonInputOptions` into Tempo DOM attribute nodes,

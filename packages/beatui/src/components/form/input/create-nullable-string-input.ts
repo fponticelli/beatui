@@ -1,5 +1,5 @@
-import { Fragment, Renderable, Value } from '@tempots/dom'
-import { InputOptions } from './input-options'
+import { Fragment, Renderable } from '@tempots/dom'
+import { InputOptions, mapInputOptions } from './input-options'
 import { NullableResetAfter } from './nullable-utils'
 
 /**
@@ -31,18 +31,17 @@ export function createNullableStringInput(
   BaseInput: (options: InputOptions<string>) => Renderable
 ): (options: InputOptions<null | string>) => Renderable {
   return (options: InputOptions<null | string>) => {
-    const { value, onBlur, onChange, onInput, after, disabled, ...rest } =
-      options
+    const { after, disabled } = options
+    const mapped = mapInputOptions(options, nullToEmpty, emptyToNull)
 
-    const ResetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
+    const ResetAfter = NullableResetAfter(
+      options.value,
+      disabled,
+      options.onChange ?? options.onInput
+    )
 
     return BaseInput({
-      ...rest,
-      disabled,
-      value: Value.map(value, nullToEmpty),
-      onChange: onChange != null ? v => onChange(emptyToNull(v)) : undefined,
-      onInput: onInput != null ? v => onInput(emptyToNull(v)) : undefined,
-      onBlur,
+      ...mapped,
       after: after != null ? Fragment(ResetAfter, after) : ResetAfter,
     })
   }

@@ -1,6 +1,6 @@
 import { attr, Empty, Fragment, Value, input, on } from '@tempots/dom'
 import { InputContainer } from './input-container'
-import { CommonInputAttributes, InputOptions } from './input-options'
+import { CommonInputAttributes, InputOptions, mapInputOptions } from './input-options'
 import { WithTemporal } from '../../../temporal/with-temporal'
 import { MaskInput } from './mask-input'
 import { durationMaskConfig } from './duration-mask'
@@ -96,18 +96,21 @@ export const NullableDurationInput = (
   }
 
   return WithTemporal(
-    temporal =>
-      MaskInput({
-        ...options,
-        value: Value.map(value, v => v?.toString() ?? ''),
-        onChange: onChange
-          ? (v: string) => onChange(v === '' ? null : temporal.Duration.from(v))
-          : undefined,
+    temporal => {
+      const mapped = mapInputOptions<Duration | null, string>(
+        options,
+        v => v?.toString() ?? '',
+        v => (v === '' ? null : temporal.Duration.from(v))
+      )
+
+      return MaskInput({
+        ...mapped,
         onInput: undefined,
         ...durationMaskConfig(temporal.Duration.from),
         placeholder: 'P0DT0H0M0S',
         after: makeAfter(),
-      }),
+      })
+    },
     { pending }
   )
 }

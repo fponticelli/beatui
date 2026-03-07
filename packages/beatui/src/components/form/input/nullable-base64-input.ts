@@ -1,6 +1,7 @@
 import { Fragment, Value } from '@tempots/dom'
 import { Base64Input, type Base64InputOptions } from './base64-input'
 import { NullableResetAfter } from './nullable-utils'
+import { mapInputOptions } from './input-options'
 
 /**
  * Options for the {@link NullableBase64Input} component.
@@ -37,16 +38,21 @@ export type NullableBase64InputOptions = Omit<
  * ```
  */
 export const NullableBase64Input = (options: NullableBase64InputOptions) => {
-  const { value, onBlur, onChange, onInput, after, disabled, ...rest } = options
+  const { after, disabled } = options
+  const mapped = mapInputOptions<string | null, string | undefined>(
+    options,
+    v => v ?? undefined,
+    v => v ?? null
+  )
 
-  const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)
+  const resetAfter = NullableResetAfter(
+    options.value,
+    disabled,
+    options.onChange ?? options.onInput
+  )
 
   return Base64Input({
-    ...rest,
-    value: Value.map(value, v => v ?? undefined),
-    onChange: onChange != null ? v => onChange(v ?? null) : undefined,
-    onInput: onInput != null ? v => onInput(v ?? null) : undefined,
-    onBlur,
+    ...mapped,
     after: after != null ? Fragment(resetAfter, after) : resetAfter,
   })
 }
