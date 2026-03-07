@@ -28,6 +28,7 @@ const allVariants: ButtonVariant[] = [
   'outline',
   'dashed',
   'default',
+  'subtle',
   'text',
 ]
 
@@ -55,6 +56,7 @@ export default function ToggleButtonPage() {
             light: 'Light',
             dashed: 'Dashed',
             default: 'Default',
+            subtle: 'Subtle',
             text: 'Text',
           },
           value: variant,

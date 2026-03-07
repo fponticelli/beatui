@@ -15,7 +15,11 @@ import { ControlsHeader } from '../elements/controls-header'
 export default function DatePickerPage() {
   const size = prop<ControlSize>('md')
   const disabled = prop(false)
-  const selectedDate = prop<{ year: number; month: number; day: number } | null>(null)
+  const selectedDate = prop<{
+    year: number
+    month: number
+    day: number
+  } | null>(null)
 
   return ScrollablePanel({
     header: ControlsHeader(
@@ -66,13 +70,18 @@ export default function DatePickerPage() {
         'Only dates in the current month are selectable.'
       ),
       (() => {
-        const constrainedDate = prop<{ year: number; month: number; day: number } | null>(null)
+        const constrainedDate = prop<{
+          year: number
+          month: number
+          day: number
+        } | null>(null)
         const now = new Date()
         const currentYear = now.getFullYear()
         const currentMonth = now.getMonth() + 1
         return DatePicker({
           value: constrainedDate as never,
-          onSelect: (v: { year: number; month: number; day: number }) => constrainedDate.set(v),
+          onSelect: (v: { year: number; month: number; day: number }) =>
+            constrainedDate.set(v),
           isDateDisabled: (d: { year: number; month: number; day: number }) =>
             d.year !== currentYear || d.month !== currentMonth,
           size,
@@ -83,7 +92,11 @@ export default function DatePickerPage() {
       // Monday start
       html.h3(attr.class('text-lg font-semibold mt-4'), 'Week Starting Monday'),
       (() => {
-        const mondayDate = prop<{ year: number; month: number; day: number } | null>(null)
+        const mondayDate = prop<{
+          year: number
+          month: number
+          day: number
+        } | null>(null)
         return DatePicker({
           value: mondayDate as never,
           onSelect: v => mondayDate.set(v as never),
@@ -121,7 +134,13 @@ export default function DatePickerPage() {
         'Click two dates to select a range. Hover to preview.'
       ),
       (() => {
-        const range = prop<[{ year: number; month: number; day: number }, { year: number; month: number; day: number }] | null>(null)
+        const range = prop<
+          | [
+              { year: number; month: number; day: number },
+              { year: number; month: number; day: number },
+            ]
+          | null
+        >(null)
         return Stack(
           html.p(
             attr.class('text-sm text-gray-600 dark:text-gray-400'),

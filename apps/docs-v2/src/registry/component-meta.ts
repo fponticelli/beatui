@@ -417,6 +417,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,
@@ -646,6 +647,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,
@@ -766,6 +768,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,
@@ -963,6 +966,46 @@ export const componentMeta: Record<string, ComponentMeta> =
         "defaultValue": "false",
         "reactive": true,
         "optional": true
+      },
+      {
+        "name": "borderColor",
+        "description": "Theme color for the avatar border. Implies bordered when set.",
+        "type": "union",
+        "unionValues": [
+          "red",
+          "orange",
+          "amber",
+          "yellow",
+          "lime",
+          "green",
+          "emerald",
+          "teal",
+          "cyan",
+          "sky",
+          "blue",
+          "indigo",
+          "violet",
+          "purple",
+          "fuchsia",
+          "pink",
+          "rose",
+          "slate",
+          "gray",
+          "zinc",
+          "neutral",
+          "stone",
+          "primary",
+          "secondary",
+          "base",
+          "success",
+          "warning",
+          "danger",
+          "info",
+          "black",
+          "white"
+        ],
+        "reactive": true,
+        "optional": true
       }
     ]
   },
@@ -987,10 +1030,10 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
-  "CalendarShell": {
-    "name": "CalendarShell",
-    "optionsType": "CalendarShellOptions",
-    "sourceFile": "components/data/calendar-shared.ts",
+  "DatePickerShell": {
+    "name": "DatePickerShell",
+    "optionsType": "DatePickerShellOptions",
+    "sourceFile": "components/data/date-picker-shared.ts",
     "props": [
       {
         "name": "size",
@@ -1062,10 +1105,10 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
-  "Calendar": {
-    "name": "Calendar",
-    "optionsType": "CalendarOptions",
-    "sourceFile": "components/data/calendar.ts",
+  "DatePicker": {
+    "name": "DatePicker",
+    "optionsType": "DatePickerOptions",
+    "sourceFile": "components/data/date-picker.ts",
     "props": [
       {
         "name": "color",
@@ -1110,7 +1153,7 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the calendar.",
+        "description": "Visual size of the date picker.",
         "type": "union",
         "defaultValue": "md",
         "unionValues": [
@@ -1125,7 +1168,7 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "disabled",
-        "description": "Whether the calendar is disabled.",
+        "description": "Whether the date picker is disabled.",
         "type": "boolean",
         "defaultValue": "false",
         "reactive": true,
@@ -1141,10 +1184,10 @@ export const componentMeta: Record<string, ComponentMeta> =
       }
     ]
   },
-  "DateCalendar": {
-    "name": "DateCalendar",
-    "optionsType": "DateCalendarOptions",
-    "sourceFile": "components/data/calendar.ts",
+  "DateRangePicker": {
+    "name": "DateRangePicker",
+    "optionsType": "DateRangePickerOptions",
+    "sourceFile": "components/data/range-date-picker.ts",
     "props": [
       {
         "name": "color",
@@ -1189,7 +1232,7 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "size",
-        "description": "Visual size of the calendar.",
+        "description": "Visual size of the date picker.",
         "type": "union",
         "defaultValue": "md",
         "unionValues": [
@@ -1204,165 +1247,7 @@ export const componentMeta: Record<string, ComponentMeta> =
       },
       {
         "name": "disabled",
-        "description": "Whether the calendar is disabled.",
-        "type": "boolean",
-        "defaultValue": "false",
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "weekStartsOn",
-        "description": "The day the week starts on.\n0 = Sunday, 1 = Monday, etc.",
-        "type": "number",
-        "defaultValue": "0",
-        "reactive": false,
-        "optional": true
-      }
-    ]
-  },
-  "RangeCalendar": {
-    "name": "RangeCalendar",
-    "optionsType": "RangeCalendarOptions",
-    "sourceFile": "components/data/range-calendar.ts",
-    "props": [
-      {
-        "name": "color",
-        "description": "Theme color for selected and today highlights.",
-        "type": "union",
-        "defaultValue": "primary",
-        "unionValues": [
-          "red",
-          "orange",
-          "amber",
-          "yellow",
-          "lime",
-          "green",
-          "emerald",
-          "teal",
-          "cyan",
-          "sky",
-          "blue",
-          "indigo",
-          "violet",
-          "purple",
-          "fuchsia",
-          "pink",
-          "rose",
-          "slate",
-          "gray",
-          "zinc",
-          "neutral",
-          "stone",
-          "primary",
-          "secondary",
-          "base",
-          "success",
-          "warning",
-          "danger",
-          "info",
-          "black",
-          "white"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "size",
-        "description": "Visual size of the calendar.",
-        "type": "union",
-        "defaultValue": "md",
-        "unionValues": [
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "disabled",
-        "description": "Whether the calendar is disabled.",
-        "type": "boolean",
-        "defaultValue": "false",
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "weekStartsOn",
-        "description": "The day the week starts on.\n0 = Sunday, 1 = Monday, etc.",
-        "type": "number",
-        "defaultValue": "0",
-        "reactive": false,
-        "optional": true
-      }
-    ]
-  },
-  "DateRangeCalendar": {
-    "name": "DateRangeCalendar",
-    "optionsType": "DateRangeCalendarOptions",
-    "sourceFile": "components/data/range-calendar.ts",
-    "props": [
-      {
-        "name": "color",
-        "description": "Theme color for selected and today highlights.",
-        "type": "union",
-        "defaultValue": "primary",
-        "unionValues": [
-          "red",
-          "orange",
-          "amber",
-          "yellow",
-          "lime",
-          "green",
-          "emerald",
-          "teal",
-          "cyan",
-          "sky",
-          "blue",
-          "indigo",
-          "violet",
-          "purple",
-          "fuchsia",
-          "pink",
-          "rose",
-          "slate",
-          "gray",
-          "zinc",
-          "neutral",
-          "stone",
-          "primary",
-          "secondary",
-          "base",
-          "success",
-          "warning",
-          "danger",
-          "info",
-          "black",
-          "white"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "size",
-        "description": "Visual size of the calendar.",
-        "type": "union",
-        "defaultValue": "md",
-        "unionValues": [
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl"
-        ],
-        "reactive": true,
-        "optional": true
-      },
-      {
-        "name": "disabled",
-        "description": "Whether the calendar is disabled.",
+        "description": "Whether the date picker is disabled.",
         "type": "boolean",
         "defaultValue": "false",
         "reactive": true,
@@ -1500,6 +1385,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,
@@ -3438,9 +3324,9 @@ export const componentMeta: Record<string, ComponentMeta> =
           "info",
           "black",
           "white",
+          "subtle",
           "background",
           "surface",
-          "subtle",
           "elevated",
           "raised",
           "overlay",
@@ -3507,9 +3393,9 @@ export const componentMeta: Record<string, ComponentMeta> =
           "info",
           "black",
           "white",
+          "subtle",
           "background",
           "surface",
-          "subtle",
           "elevated",
           "raised",
           "overlay",
@@ -3576,9 +3462,9 @@ export const componentMeta: Record<string, ComponentMeta> =
           "info",
           "black",
           "white",
+          "subtle",
           "background",
           "surface",
-          "subtle",
           "elevated",
           "raised",
           "overlay",
@@ -10975,6 +10861,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,
@@ -11363,6 +11250,7 @@ export const componentMeta: Record<string, ComponentMeta> =
           "outline",
           "dashed",
           "default",
+          "subtle",
           "text"
         ],
         "reactive": true,

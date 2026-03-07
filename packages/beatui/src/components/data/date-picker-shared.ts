@@ -460,7 +460,8 @@ export function renderDatePickerShell(
                   currentYear
                 )((m, y) => {
                   const cls = ['bc-date-picker__month-cell']
-                  if (m === month1) cls.push('bc-date-picker__month-cell--current')
+                  if (m === month1)
+                    cls.push('bc-date-picker__month-cell--current')
                   if (today.month === month1 && today.year === y)
                     cls.push('bc-date-picker__month-cell--active')
                   return cls.join(' ')
@@ -497,7 +498,8 @@ export function renderDatePickerShell(
                     yearSignal
                   )((cy, year) => {
                     const cls = ['bc-date-picker__year-cell']
-                    if (cy === year) cls.push('bc-date-picker__year-cell--current')
+                    if (cy === year)
+                      cls.push('bc-date-picker__year-cell--current')
                     if (today.year === year)
                       cls.push('bc-date-picker__year-cell--active')
                     return cls.join(' ')

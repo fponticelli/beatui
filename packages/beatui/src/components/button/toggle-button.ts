@@ -182,6 +182,22 @@ function generateToggleButtonStyles(
         )
         break
       }
+      case 'subtle': {
+        styles.set('--toggle-bg', 'transparent')
+        styles.set('--toggle-bg-dark', 'transparent')
+        styles.set('--toggle-text', textColorValue(color, 'light'))
+        styles.set('--toggle-text-dark', textColorValue(color, 'dark'))
+
+        const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+        const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+        ensureHover(
+          hoverLight.backgroundColor,
+          hoverDark.backgroundColor,
+          hoverLight.textColor,
+          hoverDark.textColor
+        )
+        break
+      }
       default: {
         // 'text' variant — no border
         const baseLight = backgroundValue('neutral', 'light', 'light')

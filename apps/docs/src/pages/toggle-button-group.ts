@@ -46,6 +46,7 @@ export default function ToggleButtonGroupPage() {
             light: 'Light',
             dashed: 'Dashed',
             default: 'Default',
+            subtle: 'Subtle',
             text: 'Text',
           },
           value: variant,

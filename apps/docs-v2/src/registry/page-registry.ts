@@ -456,11 +456,20 @@ export const pages: PageEntry[] = [
   {
     "name": "NotificationPanel",
     "category": "Feedback",
-    "component": "ShowNotification",
-    "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata. Also includes the NotificationService for dispatching toast notifications programmatically.",
+    "component": "NotificationPanel",
+    "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata.",
     "icon": "lucide:bell",
     "order": 3,
     "slug": "notification-panel"
+  },
+  {
+    "name": "NotificationService",
+    "category": "Feedback",
+    "component": "ShowNotification",
+    "description": "A toast notification system for dispatching ephemeral popup notifications programmatically. Wrap your app with NotificationProvider and place a NotificationViewport to render toasts.",
+    "icon": "lucide:bell-ring",
+    "order": 4,
+    "slug": "notification-service"
   },
   {
     "name": "Notification",
@@ -1129,11 +1138,20 @@ export const categories: CategoryEntry[] = [
       {
         "name": "NotificationPanel",
         "category": "Feedback",
-        "component": "ShowNotification",
-        "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata. Also includes the NotificationService for dispatching toast notifications programmatically.",
+        "component": "NotificationPanel",
+        "description": "A panel for displaying a list of notifications with read/unread state, icons, and metadata.",
         "icon": "lucide:bell",
         "order": 3,
         "slug": "notification-panel"
+      },
+      {
+        "name": "NotificationService",
+        "category": "Feedback",
+        "component": "ShowNotification",
+        "description": "A toast notification system for dispatching ephemeral popup notifications programmatically. Wrap your app with NotificationProvider and place a NotificationViewport to render toasts.",
+        "icon": "lucide:bell-ring",
+        "order": 4,
+        "slug": "notification-service"
       }
     ]
   },

@@ -19,6 +19,7 @@ const allVariants: ButtonVariant[] = [
   'light',
   'outline',
   'default',
+  'subtle',
   'text',
   'dashed',
 ]

@@ -14,7 +14,7 @@ import {
   Empty,
 } from '@tempots/dom'
 import { ControlSize, ButtonVariant } from '../theme'
-import { ThemeColorName } from '../../tokens'
+import { ThemeColorName, getColorVar } from '../../tokens'
 import {
   backgroundValue,
   borderColorValue,
@@ -221,6 +221,8 @@ export function generateButtonStyles(
       styles.set('--button-text', textColorValue(color, 'light'))
       styles.set('--button-bg-dark', baseDark.backgroundColor)
       styles.set('--button-text-dark', textColorValue(color, 'dark'))
+      styles.set('--button-border', getColorVar('neutral', 300))
+      styles.set('--button-border-dark', getColorVar('neutral', 700))
       styles.set(
         '--button-text-shadow',
         'var(--text-shadow-button-default, var(--text-shadow-2xs))'
@@ -237,6 +239,23 @@ export function generateButtonStyles(
         hoverDark.backgroundColor,
         styles.get('--button-text') ?? baseLight.textColor,
         styles.get('--button-text-dark') ?? baseDark.textColor
+      )
+      break
+    }
+
+    case 'subtle': {
+      styles.set('--button-bg', 'transparent')
+      styles.set('--button-bg-dark', 'transparent')
+      styles.set('--button-text', textColorValue(color, 'light'))
+      styles.set('--button-text-dark', textColorValue(color, 'dark'))
+
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
       )
       break
     }

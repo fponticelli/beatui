@@ -35,6 +35,7 @@ export default function ButtonLinkPage() {
             ButtonLink({ href: '#', variant: 'light', color: 'primary' }, 'Light'),
             ButtonLink({ href: '#', variant: 'outline', color: 'primary' }, 'Outline'),
             ButtonLink({ href: '#', variant: 'default' }, 'Default'),
+            ButtonLink({ href: '#', variant: 'subtle', color: 'primary' }, 'Subtle'),
             ButtonLink({ href: '#', variant: 'text', color: 'primary' }, 'Text'),
             ButtonLink({ href: '#', variant: 'dashed' }, 'Dashed')
           ),

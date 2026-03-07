@@ -223,8 +223,6 @@ function renderRangeDatePicker(
  * })
  * ```
  */
-export function DateRangePicker(
-  options?: DateRangePickerOptions
-): Renderable {
+export function DateRangePicker(options?: DateRangePickerOptions): Renderable {
   return WithTemporal(T => renderRangeDatePicker(T, options ?? {}))
 }

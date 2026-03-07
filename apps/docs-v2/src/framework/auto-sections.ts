@@ -33,8 +33,9 @@ export function AutoSections(
     const baseProps: Record<string, unknown> = {}
     for (const p of meta.props) {
       if (p.name === propMeta.name) continue
-      if (p.defaultValue !== undefined) {
-        baseProps[p.name] = parseDefaultValue(p)
+      const val = parseDefaultValue(p)
+      if (val !== undefined) {
+        baseProps[p.name] = val
       }
     }
 
@@ -74,10 +75,13 @@ function capitalizeFirst(s: string): string {
 
 function parseDefaultValue(meta: PropMeta): unknown {
   const d = meta.defaultValue
-  if (d === undefined) {
+  if (d === undefined || d === 'undefined') {
     if (meta.type === 'boolean') return false
-    if (meta.type === 'union') return meta.unionValues?.[0] ?? ''
-    return ''
+    if (meta.type === 'union') {
+      if (meta.optional) return undefined
+      return meta.unionValues?.[0] ?? ''
+    }
+    return undefined
   }
   if (d === 'true') return true
   if (d === 'false') return false

@@ -5,10 +5,12 @@ import { AppearanceType } from '@tempots/ui'
 /**
  * Visual style variant for button components.
  * - `'filled'`: Solid background with theme color
- * - `'light'`: Light background with colored text
+ * - `'light'`: Color-tinted background with normal text
  * - `'outline'`: Transparent background with colored border
- * - `'default'`: Default subtle styling
- * - `'text'`: No background, text-only styling
+ * - `'dashed'`: Transparent background with colored dashed border
+ * - `'default'`: Neutral background with subtle border and colored text
+ * - `'subtle'`: Transparent background with colored text, tinted background on hover
+ * - `'text'`: No background, text-only with underline on hover
  */
 export type ButtonVariant =
   | 'filled'
@@ -16,6 +18,7 @@ export type ButtonVariant =
   | 'outline'
   | 'dashed'
   | 'default'
+  | 'subtle'
   | 'text'
 
 /**

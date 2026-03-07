@@ -203,6 +203,27 @@ export function generateBadgeStyles(
       )
       break
     }
+    case 'subtle': {
+      const textLight = textColorValue(color, 'light')
+      const textDark = textColorValue(color, 'dark')
+      const hoverLight = hoverBackgroundValue(color, 'light', 'light')
+      const hoverDark = hoverBackgroundValue(color, 'light', 'dark')
+
+      styles.set('--badge-bg', 'transparent')
+      styles.set('--badge-text', textLight)
+      styles.set('--badge-bg-dark', 'transparent')
+      styles.set('--badge-text-dark', textDark)
+      styles.set('--badge-border', 'transparent')
+      styles.set('--badge-border-dark', 'transparent')
+
+      ensureHover(
+        hoverLight.backgroundColor,
+        hoverDark.backgroundColor,
+        hoverLight.textColor,
+        hoverDark.textColor
+      )
+      break
+    }
     case 'text': {
       const textLight = textColorValue(color, 'light')
       const textDark = textColorValue(color, 'dark')

@@ -1,5 +1,5 @@
 import { attr, computedOf, Ensure, html, TNode, Value } from '@tempots/dom'
-import { ThemeColorName } from '../../tokens'
+import { ThemeColorName, getColorVar } from '../../tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
 import { Icon } from './icon'
 
@@ -27,6 +27,8 @@ export interface AvatarOptions {
   color?: Value<ThemeColorName>
   /** Whether to add a border around the avatar. @default false */
   bordered?: Value<boolean>
+  /** Theme color for the avatar border. Implies bordered when set. */
+  borderColor?: Value<ThemeColorName>
 }
 
 /**
@@ -137,6 +139,7 @@ export function Avatar(
     variant = 'circle',
     color = 'base',
     bordered = false,
+    borderColor,
   }: AvatarOptions,
   ...children: TNode[]
 ) {
@@ -152,15 +155,27 @@ export function Avatar(
       computedOf(
         size,
         variant,
-        bordered
-      )((s, v, b) =>
-        generateAvatarClasses(s ?? 'md', v ?? 'circle', b ?? false)
+        bordered,
+        borderColor
+      )((s, v, b, bc) =>
+        generateAvatarClasses(
+          s ?? 'md',
+          v ?? 'circle',
+          (b ?? false) || bc != null
+        )
       )
     ),
     attr.style(
-      Value.map(color, c =>
-        generateAvatarStyles((c ?? 'base') as ExtendedColor)
-      )
+      computedOf(
+        color,
+        borderColor
+      )((c, bc) => {
+        const base = generateAvatarStyles((c ?? 'base') as ExtendedColor)
+        if (bc == null) return base
+        const light = getColorVar(bc, 500)
+        const dark = getColorVar(bc, 400)
+        return `${base}; --avatar-border-color: ${light}; --avatar-border-color-dark: ${dark}`
+      })
     ),
     // Fallback chain: src → name (initials) → icon → default icon
     Ensure(
@@ -179,7 +194,7 @@ export function Avatar(
           nameVal =>
             html.span(
               attr.class('bc-avatar__initials'),
-              nameVal.map(n => getInitials(n))
+              nameVal.map(getInitials)
             ),
           () =>
             Ensure(

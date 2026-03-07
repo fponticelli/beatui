@@ -76,7 +76,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
     case 'union': {
       const values = meta.unionValues ?? []
 
-      if (values.length <= 4) {
+      if (!meta.optional && values.length <= 4) {
         const options: Record<string, string> = {}
         for (const v of values) {
           options[v] = v
@@ -93,19 +93,29 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
         })
       }
 
-      // More than 4 options — use NativeSelect
+      // Use NativeSelect for >4 options or optional unions (need a "none" entry)
       const selectOptions: SelectOption<string>[] = values.map(v => ({
         type: 'value' as const,
         value: v,
         label: v,
       }))
+      if (meta.optional) {
+        selectOptions.unshift({
+          type: 'value' as const,
+          value: '',
+          label: '(none)',
+        })
+      }
       return InputWrapper({
         label: meta.name,
         description,
         content: NativeSelect({
           options: selectOptions,
-          value: typedSignal,
-          onChange: v => typedSignal.set(v),
+          value: meta.optional
+            ? (Value.map(signal, v => (v as string) ?? '') as Value<string>)
+            : typedSignal,
+          onChange: v =>
+            signal.set(meta.optional && v === '' ? undefined : v),
           size: 'xs',
         }),
       })
@@ -171,6 +181,7 @@ function parseDefault(meta: PropMeta): unknown {
       case 'number':
         return 0
       case 'union':
+        if (meta.optional) return undefined
         // Default size to 'md' when not specified (most components default to md)
         if (meta.name === 'size' && meta.unionValues?.includes('md'))
           return 'md'
@@ -226,9 +237,9 @@ export function createOptionsPanel(
     const signal = prop(defaultVal)
     signals[propMeta.name] = signal
 
-    // For optional string/TNode props, wrap in a computed that maps '' → undefined
-    // so components checking `label != null` see undefined instead of a truthy signal
-    if (propMeta.optional && propMeta.type === 'string') {
+    // For optional string/union props, wrap in a computed that maps '' → undefined
+    // so components checking `prop != null` see undefined instead of a truthy signal
+    if (propMeta.optional && (propMeta.type === 'string' || propMeta.type === 'union')) {
       props[propMeta.name] = Value.map(signal, v =>
         v === undefined || v === '' ? undefined : v
       )

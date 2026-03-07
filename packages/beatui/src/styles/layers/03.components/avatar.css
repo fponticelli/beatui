@@ -94,8 +94,8 @@
 
 /* Bordered variant */
 .bc-avatar--bordered {
-  border: var(--border-width-medium) solid var(--color-white);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border: var(--border-width-medium) solid
+    var(--avatar-border-color, var(--color-white));
 }
 
 /* Avatar Group */
@@ -138,8 +138,10 @@
 }
 
 .dark .bc-avatar--bordered {
-  border-color: var(--bg-background-dark, var(--color-base-950));
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-color: var(
+    --avatar-border-color-dark,
+    var(--bg-background-dark, var(--color-base-950))
+  );
 }
 
 .dark .bc-avatar-group--spacing-tight > .bc-avatar,
