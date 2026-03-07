@@ -5,7 +5,6 @@ import {
   TabsDirection,
   TabsVariant,
   ControlSize,
-  ButtonVariant,
   Icon,
 } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
@@ -190,7 +189,13 @@ export default function TabsPage() {
         html.div(
           attr.class('space-y-4'),
           ...(
-            ['filled', 'light', 'outline', 'default', 'text'] as ButtonVariant[]
+            [
+              'filled',
+              'outline',
+              'default',
+              'underline',
+              'pill',
+            ] as TabsVariant[]
           ).map(v => {
             const tab = prop<DemoTab>('overview')
             return html.div(

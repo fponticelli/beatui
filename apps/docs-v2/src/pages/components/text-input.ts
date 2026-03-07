@@ -22,7 +22,7 @@ export default function TextInputPage() {
         hasError: signals.hasError,
         placeholder: signals.placeholder,
         value,
-        onInput: v => value.set(v),
+        onInput: (v: string) => value.set(v),
       } as never)
     }),
     sections: [
@@ -55,7 +55,7 @@ export default function TextInputPage() {
             TextInput({ value: '', placeholder: 'Default' }),
             TextInput({ value: '', placeholder: 'Disabled', disabled: true }),
             TextInput({ value: 'Error state', hasError: true }),
-            TextInput({ value: '', placeholder: 'Read only', readOnly: true })
+            TextInput({ value: '', placeholder: 'Read only', disabled: true })
           ),
         'TextInput supports disabled, error, and read-only states.'
       ),

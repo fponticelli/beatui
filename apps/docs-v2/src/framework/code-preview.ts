@@ -18,7 +18,7 @@ export function CodePreview(code: Value<string>): TNode {
           onClick: () => visible.set(!visible.value),
         },
         Icon({ icon: 'lucide:code-2', size: 'xs' }),
-        visible.map(v => (v ? 'Hide Code' : 'Show Code'))
+        visible.map((v): string => (v ? 'Hide Code' : 'Show Code'))
       )
     ),
     When(

@@ -18,8 +18,8 @@ export default function MaskInputPage() {
       const value = prop('')
       return MaskInput({
         value,
-        onChange: v => value.set(v),
-        onInput: v => value.set(v),
+        onChange: (v: string) => value.set(v),
+        onInput: (v: string) => value.set(v),
         mask: '(999) 999-9999',
         placeholder: '(___) ___-____',
         size: signals.size,

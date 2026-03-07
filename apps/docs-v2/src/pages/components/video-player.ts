@@ -1,5 +1,5 @@
 import { BaseVideoPlayer } from '@tempots/beatui'
-import { html, attr, on, prop, style } from '@tempots/dom'
+import { html, attr, on, prop, style, MapSignal } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -129,17 +129,17 @@ export default function VideoPlayerPage() {
               html.button(
                 attr.class('px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'),
                 on.click(() => playing.set(!playing.value)),
-                playing.map(p => p ? 'Pause' : 'Play')
+                playing.map((p): string => p ? 'Pause' : 'Play')
               ),
               html.button(
                 attr.class('px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'),
                 on.click(() => muted.set(!muted.value)),
-                muted.map(m => m ? 'Unmute' : 'Mute')
+                muted.map((m): string => m ? 'Unmute' : 'Mute')
               ),
               html.button(
                 attr.class('px-3 py-1.5 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'),
                 on.click(() => loop.set(!loop.value)),
-                loop.map(l => l ? 'No loop' : 'Loop')
+                loop.map((l): string => l ? 'No loop' : 'Loop')
               )
             ),
             html.div(
@@ -180,7 +180,7 @@ export default function VideoPlayerPage() {
                 ),
                 html.div(
                   attr.class('bg-gray-900 rounded-lg p-3 font-mono text-xs text-green-400 min-h-[80px]'),
-                  events.map(list =>
+                  MapSignal(events, list =>
                     list.length === 0
                       ? html.span(attr.class('text-gray-600'), 'Interact with the player to see events...')
                       : html.div(

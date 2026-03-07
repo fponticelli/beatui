@@ -8,7 +8,7 @@ import {
   SegmentedInput,
   Switch,
   TabsDirection,
-  ButtonVariant,
+  TabsVariant,
   InputWrapper,
 } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
@@ -16,12 +16,12 @@ import { DisabledSelector } from '../elements/disabled-selector'
 import { ControlsHeader } from '../elements/controls-header'
 import { ControlSizeSelector } from '../elements/control-size-selector'
 
-const allVariants: ButtonVariant[] = [
+const allVariants: TabsVariant[] = [
   'filled',
-  'light',
   'outline',
   'default',
-  'text',
+  'underline',
+  'pill',
 ]
 
 const allSizes: ControlSize[] = ['xs', 'sm', 'md', 'lg', 'xl']

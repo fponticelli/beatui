@@ -84,7 +84,7 @@ export default function PdfPreviewPage() {
               html.label(attr.class('text-sm text-gray-600 dark:text-gray-400'), 'Jump to page:'),
               html.input(
                 attr.type('number'),
-                attr.min('1'),
+                attr.min(1),
                 attr.value('1'),
                 attr.class('w-20 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'),
                 on.input((e: Event) => {

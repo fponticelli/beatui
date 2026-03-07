@@ -18,7 +18,7 @@ export default function AdvancedSliderPage() {
       const value = prop(50)
       return AdvancedSlider({
         value,
-        onChange: v => value.set(v),
+        onChange: (v: number) => value.set(v),
         min: 0,
         max: 100,
         step: 1,

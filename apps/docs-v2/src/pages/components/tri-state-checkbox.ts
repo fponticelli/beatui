@@ -19,7 +19,7 @@ export default function TriStateCheckboxPage() {
       const value = prop<CheckboxState>('unchecked')
       return TriStateCheckboxInput({
         value,
-        onChange: v => value.set(v),
+        onChange: (v: CheckboxState) => value.set(v),
         placeholder: 'Select all items',
         size: signals.size,
         disabled: signals.disabled,

@@ -31,7 +31,7 @@ export default function ActionCardPage() {
     sections: [
       ...AutoSections('ActionCard', props =>
         ActionCard({
-          ...(props as never),
+          ...props,
           icon: 'material-symbols:settings',
           title: 'Option',
           description: 'Option description.',

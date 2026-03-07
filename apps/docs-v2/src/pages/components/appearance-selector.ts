@@ -19,7 +19,7 @@ export default function AppearanceSelectorPage() {
       const value = prop<AppearancePreference>('system')
       return AppearanceSelector({
         value,
-        onChange: v => value.set(v),
+        onChange: (v: AppearancePreference) => value.set(v),
         disabled: signals.disabled,
       } as never)
     }),

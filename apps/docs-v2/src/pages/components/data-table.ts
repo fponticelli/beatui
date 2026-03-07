@@ -8,7 +8,7 @@ import {
   DataToolbar,
   createDataSource,
 } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { html, attr, prop, Value, MapSignal, Fragment } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -97,7 +97,7 @@ export default function DataTablePage() {
             id: 'role',
             header: 'Role',
             cell: row =>
-              row.map(r =>
+              MapSignal(row, r =>
                 Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)
               ),
             filter: {
@@ -114,7 +114,7 @@ export default function DataTablePage() {
             id: 'status',
             header: 'Status',
             cell: row =>
-              row.map(r =>
+              MapSignal(row, r =>
                 Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)
               ),
             filter: {
@@ -141,8 +141,8 @@ export default function DataTablePage() {
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
               { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map(r => r.role) },
-              { id: 'status', header: 'Status', cell: row => row.map(r => r.status) },
+              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
+              { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
             ],
           }),
         'A minimal DataTable with static data. No sorting, filtering, or pagination by default.'
@@ -159,7 +159,7 @@ export default function DataTablePage() {
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name), sortable: true },
               { id: 'email', header: 'Email', cell: row => row.map(r => r.email), sortable: true },
-              { id: 'role', header: 'Role', cell: row => row.map(r => r.role), sortable: true, value: r => r.role },
+              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role), sortable: true, value: r => r.role },
               { id: 'joined', header: 'Joined', cell: row => row.map(r => r.joined), sortable: true, value: r => r.joined },
             ],
           }),
@@ -180,7 +180,7 @@ export default function DataTablePage() {
               {
                 id: 'role',
                 header: 'Role',
-                cell: row => row.map(r => Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)),
+                cell: row => MapSignal(row, r => Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)),
                 value: r => r.role,
                 filter: {
                   type: 'select',
@@ -194,7 +194,7 @@ export default function DataTablePage() {
               {
                 id: 'status',
                 header: 'Status',
-                cell: row => row.map(r => Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)),
+                cell: row => MapSignal(row, r => Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)),
                 value: r => r.status,
                 filter: {
                   type: 'select',
@@ -224,8 +224,8 @@ export default function DataTablePage() {
               onSelectionChange: s => selected.set(new Set(s)),
               columns: [
                 { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-                { id: 'role', header: 'Role', cell: row => row.map(r => r.role) },
-                { id: 'status', header: 'Status', cell: row => row.map(r => r.status) },
+                { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
+                { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
               ],
             }),
             html.p(
@@ -252,7 +252,7 @@ export default function DataTablePage() {
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
               { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map(r => r.role) },
+              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
               { id: 'joined', header: 'Joined', cell: row => row.map(r => r.joined) },
             ],
           }),
@@ -269,7 +269,7 @@ export default function DataTablePage() {
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
               { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map(r => r.role) },
+              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
             ],
           }),
         'Striped rows improve readability for dense tables.'
@@ -298,14 +298,14 @@ export default function DataTablePage() {
                 )
               ),
               html.tbody(
-                ds.rows.map(rows =>
-                  rows.map(u =>
+                MapSignal(ds.rows, rows =>
+                  Fragment(...rows.map(u =>
                     html.tr(
                       html.td(attr.class('px-3 py-2 border-b'), u.name),
                       html.td(attr.class('px-3 py-2 border-b'), u.email),
                       html.td(attr.class('px-3 py-2 border-b'), u.role)
                     )
-                  )
+                  ))
                 )
               )
             )
@@ -339,8 +339,8 @@ export default function DataTablePage() {
                 )
               ),
               html.tbody(
-                ds.rows.map(rows =>
-                  rows.map(u => {
+                MapSignal(ds.rows, rows =>
+                  Fragment(...rows.map(u => {
                     const rowId = prop(u.id)
                     const isSelected = ds.selected.map(ids => ids.has(u.id))
                     return html.tr(
@@ -351,7 +351,7 @@ export default function DataTablePage() {
                       html.td(attr.class('px-3 py-2 border-b'), u.name),
                       html.td(attr.class('px-3 py-2 border-b'), u.role)
                     )
-                  })
+                  }))
                 )
               )
             )
@@ -399,8 +399,8 @@ export default function DataTablePage() {
                 )
               ),
               html.tbody(
-                ds.rows.map(rows =>
-                  rows.map(u => {
+                MapSignal(ds.rows, rows =>
+                  Fragment(...rows.map(u => {
                     const rowId = prop(u.id)
                     const isSelected = ds.selected.map(ids => ids.has(u.id))
                     return html.tr(
@@ -409,7 +409,7 @@ export default function DataTablePage() {
                       html.td(attr.class('px-3 py-2 border-b'), u.role),
                       html.td(attr.class('px-3 py-2 border-b'), u.status)
                     )
-                  })
+                  }))
                 )
               )
             )
@@ -449,7 +449,7 @@ export default function DataTablePage() {
                 id: 'role',
                 header: 'Role',
                 cell: row =>
-                  row.map(r =>
+                  MapSignal(row, r =>
                     Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)
                   ),
                 value: r => r.role,
@@ -467,7 +467,7 @@ export default function DataTablePage() {
                 id: 'status',
                 header: 'Status',
                 cell: row =>
-                  row.map(r =>
+                  MapSignal(row, r =>
                     Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)
                   ),
                 value: r => r.status,

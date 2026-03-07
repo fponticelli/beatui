@@ -1,5 +1,5 @@
 import { LazyNativeSelect, Option } from '@tempots/beatui'
-import { html, attr, on, prop } from '@tempots/dom'
+import { html, attr, on, prop, MapSignal } from '@tempots/dom'
 import type { SelectOption } from '@tempots/beatui'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -58,7 +58,6 @@ export default function LazyNativeSelectPage() {
           request,
           load: loadCountries,
           size: signals.size as never,
-          color: signals.color as never,
           disabled: signals.disabled as never,
           unselectedLabel: 'Select a country...',
           onChange: (v: string) => value.set(v),
@@ -87,7 +86,7 @@ export default function LazyNativeSelectPage() {
               unselectedLabel: 'Select a country...',
               onChange: (v: string) => value.set(v),
             }),
-            value.map(v => v
+            MapSignal(value, v => v
               ? html.p(attr.class('text-sm text-gray-600 dark:text-gray-400'), `Selected: ${v}`)
               : html.div()
             )

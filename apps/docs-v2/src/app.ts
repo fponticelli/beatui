@@ -1,4 +1,4 @@
-import { html } from '@tempots/dom'
+import { html, TNode } from '@tempots/dom'
 import { RootRouter } from '@tempots/ui'
 import { BeatUI } from '@tempots/beatui'
 import { Async } from '@tempots/dom'
@@ -13,7 +13,7 @@ export const App = () => {
     componentRoutes[`/components/${page.slug}`] = () =>
       Async(
         import(`./pages/components/${page.slug}.ts`),
-        ({ default: Page }: { default: () => unknown }) => Page()
+        ({ default: Page }: { default: () => TNode }) => Page()
       )
   }
 

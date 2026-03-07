@@ -28,7 +28,7 @@ export default function RadioGroupPage() {
         orientation: signals.orientation,
         options: sampleOptions,
         value,
-        onChange: v => value.set(v),
+        onChange: (v: string) => value.set(v),
       } as never)
     }),
     sections: [
@@ -46,7 +46,7 @@ export default function RadioGroupPage() {
           return RadioGroup({
             options: sampleOptions,
             value,
-            onChange: v => value.set(v),
+            onChange: (v: string) => value.set(v),
             orientation: 'horizontal',
           })
         },
@@ -76,7 +76,7 @@ export default function RadioGroupPage() {
               },
             ],
             value,
-            onChange: v => value.set(v),
+            onChange: (v: string) => value.set(v),
           })
         },
         'Options can include a description and individual disabled states.'
@@ -96,7 +96,7 @@ export default function RadioGroupPage() {
                     { value: 'dark', label: 'Dark' },
                   ],
                   value,
-                  onChange: v => value.set(v),
+                  onChange: (v: string) => value.set(v),
                   orientation: 'horizontal',
                   size,
                 })

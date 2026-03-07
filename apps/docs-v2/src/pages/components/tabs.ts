@@ -58,7 +58,7 @@ export default function TabsPage() {
           ariaLabel: signals.ariaLabel,
           items: sampleItems,
           value: active,
-          onChange: v => active.set(v),
+          onChange: (v: string) => active.set(v),
         } as never)
       )
     }),
@@ -86,7 +86,7 @@ export default function TabsPage() {
                 Tabs({
                   items: sampleItems,
                   value: active,
-                  onChange: v => active.set(v),
+                  onChange: (v: string) => active.set(v),
                   variant,
                   showContent: false,
                 })
@@ -110,7 +110,7 @@ export default function TabsPage() {
                 Tabs({
                   items: sampleItems,
                   value: active,
-                  onChange: v => active.set(v),
+                  onChange: (v: string) => active.set(v),
                   size,
                   showContent: false,
                 })
@@ -126,7 +126,7 @@ export default function TabsPage() {
           return Tabs({
             items: sampleItems,
             value: active,
-            onChange: v => active.set(v),
+            onChange: (v: string) => active.set(v),
             orientation: 'vertical',
           })
         },
@@ -147,7 +147,7 @@ export default function TabsPage() {
               },
             ],
             value: active,
-            onChange: v => active.set(v),
+            onChange: (v: string) => active.set(v),
           })
         },
         'Individual tabs can be disabled.'

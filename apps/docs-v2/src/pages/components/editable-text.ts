@@ -20,7 +20,7 @@ export default function EditableTextPage() {
         disabled: signals.disabled,
         startEditing: signals.startEditing,
         value,
-        onChange: v => value.set(v),
+        onChange: (v: string) => value.set(v),
         placeholder: 'Enter text...',
       } as never)
     }),
@@ -38,7 +38,7 @@ export default function EditableTextPage() {
           const value = prop('')
           return EditableText({
             value,
-            onChange: v => value.set(v),
+            onChange: (v: string) => value.set(v),
             placeholder: 'Click to add a title...',
           })
         },
@@ -55,7 +55,7 @@ export default function EditableTextPage() {
               { initial: '', placeholder: 'Add a note...' },
             ].map(({ initial, placeholder }) => {
               const value = prop(initial)
-              return EditableText({ value, onChange: v => value.set(v), placeholder })
+              return EditableText({ value, onChange: (v: string) => value.set(v), placeholder })
             })
           ),
         'Multiple independent editable text fields can coexist.'
@@ -79,7 +79,7 @@ export default function EditableTextPage() {
           const value = prop('Focused on mount')
           return EditableText({
             value,
-            onChange: v => value.set(v),
+            onChange: (v: string) => value.set(v),
             startEditing: true,
           })
         },

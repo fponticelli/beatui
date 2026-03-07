@@ -18,8 +18,8 @@ export default function ColorSwatchInputPage() {
       const value = prop('#3498db')
       return ColorSwatchInput({
         value,
-        onChange: v => value.set(v),
-        onInput: v => value.set(v),
+        onChange: (v: string) => value.set(v),
+        onInput: (v: string) => value.set(v),
         size: signals.size as never,
         disabled: signals.disabled,
         displayValue: signals.displayValue,
@@ -100,7 +100,7 @@ export default function ColorSwatchInputPage() {
                 ColorSwatchInput({
                   value: '#3498db',
                   onChange: () => {},
-                  size,
+                  size: size as never,
                 })
               )
             )

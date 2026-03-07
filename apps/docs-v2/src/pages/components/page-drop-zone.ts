@@ -1,5 +1,5 @@
 import { PageDropZone, Button, Icon } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, MapSignal } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -39,7 +39,7 @@ export default function PageDropZonePage() {
               attr.class('space-y-4'),
               html.div(
                 attr.class('border-2 border-dashed rounded-xl p-8 text-center transition-colors'),
-                attr.class(isDragging.map(d =>
+                attr.class(isDragging.map((d): string =>
                   d
                     ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/20'
                     : 'border-gray-300 dark:border-gray-600'
@@ -47,7 +47,7 @@ export default function PageDropZonePage() {
                 Icon({ icon: 'lucide:upload-cloud', size: 'xl' }),
                 html.p(
                   attr.class('mt-3 text-sm font-medium text-gray-700 dark:text-gray-300'),
-                  isDragging.map(d => (d ? 'Release to drop files' : 'Drag files anywhere on this page'))
+                  isDragging.map((d): string => (d ? 'Release to drop files' : 'Drag files anywhere on this page'))
                 ),
                 html.p(attr.class('mt-1 text-xs text-gray-400'), 'or'),
                 html.div(
@@ -59,7 +59,7 @@ export default function PageDropZonePage() {
                   )
                 )
               ),
-              files.map(fileList =>
+              MapSignal(files, fileList =>
                 fileList.length > 0
                   ? html.div(
                       attr.class('space-y-1'),
@@ -77,7 +77,7 @@ export default function PageDropZonePage() {
               )
             ),
         }),
-        lastAction.map(action =>
+        MapSignal(lastAction, action =>
           action != null
             ? html.div(
                 attr.class('mt-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded px-3 py-2 font-mono'),
@@ -103,7 +103,7 @@ export default function PageDropZonePage() {
                   Button({ variant: 'outline', onClick: selectFiles }, 'Select Files')
                 ),
             }),
-            files.map(list =>
+            MapSignal(files, list =>
               list.length > 0
                 ? html.p(attr.class('mt-2 text-xs text-gray-500'), `Selected: ${list.map(f => f.name).join(', ')}`)
                 : html.div()

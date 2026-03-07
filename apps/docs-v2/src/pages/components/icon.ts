@@ -67,8 +67,8 @@ export default function IconPage() {
             ),
             html.div(
               attr.class('flex flex-col items-center gap-1'),
-              Icon({ icon: 'lucide:star', size: '2xl' }),
-              html.span(attr.class('text-xs text-gray-500'), '2xl')
+              Icon({ icon: 'lucide:star', size: 'xl' }),
+              html.span(attr.class('text-xs text-gray-500'), 'xl')
             )
           ),
         'Icons scale from xs to 2xl to match surrounding text or UI elements.'

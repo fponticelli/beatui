@@ -25,7 +25,7 @@ export default function ToggleButtonPage() {
           roundedness: signals.roundedness,
           fullWidth: signals.fullWidth,
           pressed,
-          onToggle: v => pressed.set(v),
+          onToggle: (v: boolean) => pressed.set(v),
         } as never,
         'Toggle Me'
       )
@@ -42,7 +42,7 @@ export default function ToggleButtonPage() {
             ...(['primary', 'secondary', 'success', 'danger', 'warning', 'info'] as const).map(color => {
               const pressed = prop(false)
               return ToggleButton(
-                { pressed, onToggle: v => pressed.set(v), color },
+                { pressed, onToggle: (v: boolean) => pressed.set(v), color },
                 color
               )
             })
@@ -57,7 +57,7 @@ export default function ToggleButtonPage() {
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => {
               const pressed = prop(false)
               return ToggleButton(
-                { pressed, onToggle: v => pressed.set(v), size },
+                { pressed, onToggle: (v: boolean) => pressed.set(v), size },
                 size
               )
             })
@@ -72,7 +72,7 @@ export default function ToggleButtonPage() {
             ...(['filled', 'outline', 'light', 'default', 'text', 'dashed'] as const).map(variant => {
               const pressed = prop(false)
               return ToggleButton(
-                { pressed, onToggle: v => pressed.set(v), variant },
+                { pressed, onToggle: (v: boolean) => pressed.set(v), variant },
                 variant
               )
             })

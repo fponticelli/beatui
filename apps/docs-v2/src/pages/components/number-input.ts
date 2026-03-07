@@ -20,7 +20,7 @@ export default function NumberInputPage() {
         size: signals.size,
         disabled: signals.disabled,
         value,
-        onChange: v => value.set(v),
+        onChange: (v: number) => value.set(v),
       } as never)
     }),
     sections: [

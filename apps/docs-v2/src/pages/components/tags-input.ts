@@ -23,7 +23,7 @@ export default function TagsInputPage() {
         maxTags: signals.maxTags,
         hasError: signals.hasError,
         values,
-        onChange: v => values.set(v),
+        onChange: (v: string[]) => values.set(v),
       } as never)
     }),
     sections: [
@@ -41,7 +41,7 @@ export default function TagsInputPage() {
                 html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
                 TagInput({
                   values,
-                  onChange: v => values.set(v),
+                  onChange: (v: string[]) => values.set(v),
                   size,
                   placeholder: 'Add tag...',
                 })
@@ -56,7 +56,7 @@ export default function TagsInputPage() {
           const values = prop<string[]>(['One', 'Two', 'Three'])
           return TagInput({
             values,
-            onChange: v => values.set(v),
+            onChange: (v: string[]) => values.set(v),
             maxTags: 3,
             placeholder: 'Max 3 tags',
           })
@@ -88,7 +88,7 @@ export default function TagsInputPage() {
             attr.class('flex flex-col gap-2 max-w-sm'),
             SelectTagsInput({
               value: selected,
-              onChange: v => selected.set(v),
+              onChange: (v: string[]) => selected.set(v),
               options,
               placeholder: 'Select colors...',
             }),
@@ -117,7 +117,7 @@ export default function TagsInputPage() {
             attr.class('flex flex-col gap-2 max-w-sm'),
             ComboboxTagsInput({
               value: selected,
-              onChange: v => selected.set(v),
+              onChange: (v: string[]) => selected.set(v),
               options,
               placeholder: 'Choose languages...',
               searchPlaceholder: 'Search...',

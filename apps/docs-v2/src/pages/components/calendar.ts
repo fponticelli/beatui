@@ -29,7 +29,7 @@ export default function CalendarPage() {
           disabled: signals.disabled as never,
           weekStartsOn: signals.weekStartsOn as never,
           value: selectedDate as never,
-          onSelect: (d: never) => selectedDate.set(d),
+          onSelect: (d) => selectedDate.set(d as never),
         }),
         html.p(
           attr.class('text-sm text-gray-500'),
@@ -50,7 +50,7 @@ export default function CalendarPage() {
             attr.class('flex flex-col gap-3 items-start'),
             Calendar({
               value: selected as never,
-              onSelect: (d: never) => selected.set(d),
+              onSelect: (d) => selected.set(d as never),
             }),
             html.p(
               attr.class('text-sm text-gray-500'),
@@ -133,7 +133,7 @@ export default function CalendarPage() {
           const today = new Date()
           return Calendar({
             value: selected as never,
-            onSelect: (d: never) => selected.set(d),
+            onSelect: (d: { year: number; month: number; day: number }) => selected.set(d),
             isDateDisabled: (d: { year: number; month: number; day: number }) => {
               const date = new Date(d.year, d.month - 1, d.day)
               return date < today
@@ -159,7 +159,7 @@ export default function CalendarPage() {
             attr.class('flex flex-col gap-3 items-start'),
             RangeCalendar({
               value: range as never,
-              onChange: (r: never) => range.set(r),
+              onChange: (r) => range.set(r as never),
             }),
             html.p(
               attr.class('text-sm text-gray-500'),

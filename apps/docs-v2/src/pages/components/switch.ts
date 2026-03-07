@@ -24,7 +24,7 @@ export default function SwitchPage() {
         onLabel: signals.onLabel,
         matchInputHeight: signals.matchInputHeight,
         value: checked,
-        onChange: v => checked.set(v),
+        onChange: (v: boolean) => checked.set(v),
       } as never)
     }),
     sections: [

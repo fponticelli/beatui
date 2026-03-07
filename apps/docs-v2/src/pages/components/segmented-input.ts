@@ -29,7 +29,7 @@ export default function SegmentedInputPage() {
         color: signals.color,
         options: sampleOptions,
         value,
-        onChange: v => value.set(v as 'a' | 'b' | 'c'),
+        onChange: (v: string) => value.set(v as 'a' | 'b' | 'c'),
       } as never)
     }),
     sections: [
@@ -52,7 +52,7 @@ export default function SegmentedInputPage() {
                 SegmentedInput({
                   options: sampleOptions,
                   value,
-                  onChange: v => value.set(v as 'a' | 'b' | 'c'),
+                  onChange: (v: string) => value.set(v as 'a' | 'b' | 'c'),
                   size,
                 })
               )
@@ -67,7 +67,7 @@ export default function SegmentedInputPage() {
           return SegmentedInput({
             options: sampleOptions,
             value,
-            onChange: v => value.set(v as 'a' | 'b' | 'c'),
+            onChange: (v: string) => value.set(v as 'a' | 'b' | 'c'),
             variant: 'squared',
           })
         },
@@ -85,7 +85,7 @@ export default function SegmentedInputPage() {
                 SegmentedInput({
                   options: sampleOptions,
                   value,
-                  onChange: v => value.set(v as 'a' | 'b' | 'c'),
+                  onChange: (v: string) => value.set(v as 'a' | 'b' | 'c'),
                   color,
                 })
               )

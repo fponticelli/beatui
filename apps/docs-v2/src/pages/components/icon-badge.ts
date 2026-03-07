@@ -98,7 +98,7 @@ export default function IconBadgePage() {
         () =>
           html.div(
             attr.class('flex flex-wrap gap-6 items-center'),
-            ...(['sm', 'md', 'lg', 'xl', '2xl'] as const).map(size =>
+            ...(['sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
                 attr.class('flex flex-col items-center gap-1'),
                 IconBadge({ icon: 'lucide:bell', size, count: 3 }),

@@ -2,8 +2,8 @@ import {
   html,
   attr,
   prop,
+  Prop,
   TNode,
-  Signal,
   Value,
 } from '@tempots/dom'
 import {
@@ -20,7 +20,7 @@ import type { PropMeta, ComponentMeta } from './types'
 /**
  * A record of reactive signals for each controllable prop.
  */
-export type PropSignals = Record<string, Signal<unknown>>
+export type PropSignals = Record<string, Prop<unknown>>
 
 /**
  * Read the current values from all signals, returning a plain object snapshot.
@@ -56,8 +56,8 @@ function renderDescription(text: string): TNode {
 /**
  * Creates a control widget for a single prop based on its type metadata.
  */
-function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
-  const typedSignal = signal as Signal<string>
+function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
+  const typedSignal = signal as Prop<string>
   const description = meta.description ? renderDescription(meta.description) : undefined
 
   switch (meta.type) {
@@ -66,8 +66,8 @@ function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
         label: meta.name,
         description,
         content: Switch({
-          value: signal as Signal<boolean>,
-          onChange: v => (signal as Signal<boolean>).set(v),
+          value: signal as Prop<boolean>,
+          onChange: v => (signal as Prop<boolean>).set(v),
           size: 'xs',
         }),
       })
@@ -141,8 +141,8 @@ function PropControl(meta: PropMeta, signal: Signal<unknown>): TNode {
         label: meta.name,
         description,
         content: NumberInput({
-          value: signal as Signal<number>,
-          onChange: v => (signal as Signal<number>).set(v),
+          value: signal as Prop<number>,
+          onChange: v => (signal as Prop<number>).set(v),
           size: 'xs',
           ...(meta.numberStep != null ? { step: meta.numberStep } : {}),
           ...(meta.numberMin != null ? { min: meta.numberMin } : {}),

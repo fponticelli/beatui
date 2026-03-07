@@ -20,8 +20,8 @@ export default function ColorInputPage() {
         size: signals.size,
         disabled: signals.disabled,
         value,
-        onChange: v => value.set(v),
-        onInput: v => value.set(v),
+        onChange: (v: string) => value.set(v),
+        onInput: (v: string) => value.set(v),
       } as never)
     }),
     sections: [
@@ -39,7 +39,7 @@ export default function ColorInputPage() {
                 ColorInput({
                   value: prop('#3b82f6'),
                   onChange: () => {},
-                  size,
+                  size: size as never,
                 })
               )
             )

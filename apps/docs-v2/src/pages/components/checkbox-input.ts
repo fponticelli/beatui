@@ -20,7 +20,7 @@ export default function CheckboxInputPage() {
         size: signals.size,
         disabled: signals.disabled,
         value,
-        onChange: v => value.set(v),
+        onChange: (v: boolean) => value.set(v),
         placeholder: 'Check me',
       } as never)
     }),
