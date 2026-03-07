@@ -1,7 +1,7 @@
 import type { LexicalEditor } from 'lexical'
 import type { ContentFormatType } from '../types'
-import { exportToMarkdown } from './markdown-io'
-import { exportToHtml } from './html-io'
+import { exportToMarkdown, importFromMarkdown } from './markdown-io'
+import { exportToHtml, importFromHtml } from './html-io'
 
 /**
  * Export editor content to a downloadable file.
@@ -60,12 +60,10 @@ export async function importFileToEditor(
 
   switch (detectedFormat) {
     case 'markdown': {
-      const { importFromMarkdown } = await import('./markdown-io')
       await importFromMarkdown(editor, text)
       break
     }
     case 'html': {
-      const { importFromHtml } = await import('./html-io')
       await importFromHtml(editor, text)
       break
     }

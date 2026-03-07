@@ -47,6 +47,12 @@ export default function HomePage() {
               { href: '/guides/rtl-ltr', label: 'RTL & LTR' },
               { href: '/guides/data-source', label: 'DataSource' },
               { href: '/guides/authentication', label: 'Authentication' },
+              { href: '/guides/lexical-editor', label: 'Lexical Editor' },
+              { href: '/guides/monaco-editor', label: 'Monaco Editor' },
+              { href: '/guides/prosemirror-editor', label: 'ProseMirror' },
+              { href: '/guides/markdown-renderer', label: 'Markdown' },
+              { href: '/guides/json-schema-forms', label: 'JSON Schema Forms' },
+              { href: '/guides/json-structure-forms', label: 'JSON Structure Forms' },
             ].map(({ href, label }) =>
               Anchor(
                 { href, viewTransition: true },

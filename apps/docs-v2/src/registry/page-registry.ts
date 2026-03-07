@@ -166,6 +166,15 @@ export const pages: PageEntry[] = [
     "slug": "close-button"
   },
   {
+    "name": "CodeHighlight",
+    "category": "Data Display",
+    "component": "CodeHighlight",
+    "description": "Syntax-highlighted code block powered by Shiki. Ships as a separate entry point to keep the core bundle small.",
+    "icon": "lucide:code",
+    "order": 8,
+    "slug": "code-highlight"
+  },
+  {
     "name": "Collapse",
     "category": "Layout",
     "component": "Collapse",
@@ -1290,6 +1299,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:users",
         "order": 7,
         "slug": "avatar-group"
+      },
+      {
+        "name": "CodeHighlight",
+        "category": "Data Display",
+        "component": "CodeHighlight",
+        "description": "Syntax-highlighted code block powered by Shiki. Ships as a separate entry point to keep the core bundle small.",
+        "icon": "lucide:code",
+        "order": 8,
+        "slug": "code-highlight"
       },
       {
         "name": "Indicator",

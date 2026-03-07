@@ -47,7 +47,7 @@ export function CollapsibleSidebarGroup(
       ariaControls: contentId,
       right: html.span(
         attr.class('bc-sidebar-group-collapsible-indicator'),
-        Icon({ icon: 'lucide:chevron-down', color: 'base' })
+        Icon({ icon: 'lucide:chevron-down', color: 'base', size: 'xs' })
       ),
       content: header,
     }),

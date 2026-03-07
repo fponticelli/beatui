@@ -123,6 +123,7 @@ export default defineConfig({
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         prosemirror: resolve(__dirname, 'src/prosemirror/index.ts'),
         lexical: resolve(__dirname, 'src/lexical/index.ts'),
+        codehighlight: resolve(__dirname, 'src/codehighlight/index.ts'),
         'better-auth': resolve(__dirname, 'src/better-auth/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
         'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
@@ -142,6 +143,7 @@ export default defineConfig({
           entryName === 'markdown' ||
           entryName === 'prosemirror' ||
           entryName === 'lexical' ||
+          entryName === 'codehighlight' ||
           entryName === 'better-auth' ||
           entryName === 'tailwind'
         ) {

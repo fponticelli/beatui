@@ -10,6 +10,8 @@ import {
   buildElementStyleExportMap,
   buildStyleImportMap,
 } from './plugins/element-style'
+import { importFromMarkdown, exportToMarkdown } from './plugins/markdown-io'
+import { importFromHtml, exportToHtml } from './plugins/html-io'
 
 /**
  * Create a headless Lexical editor instance (no DOM mounting).
@@ -73,8 +75,6 @@ export async function markdownToLexicalJson(
   markdown: string
 ): Promise<SerializedEditorState> {
   const editor = await createHeadlessEditor()
-  const { importFromMarkdown } = await import('./plugins/markdown-io')
-
   await importFromMarkdown(editor, markdown)
   const json = editor.getEditorState().toJSON()
 
@@ -88,8 +88,6 @@ export async function lexicalJsonToMarkdown(
   json: SerializedEditorState
 ): Promise<string> {
   const editor = await createHeadlessEditor()
-  const { exportToMarkdown } = await import('./plugins/markdown-io')
-
   const state = editor.parseEditorState(JSON.stringify(json))
   editor.setEditorState(state)
 
@@ -105,8 +103,6 @@ export async function htmlToLexicalJson(
   html: string
 ): Promise<SerializedEditorState> {
   const editor = await createHeadlessEditor()
-  const { importFromHtml } = await import('./plugins/html-io')
-
   await importFromHtml(editor, html)
   const json = editor.getEditorState().toJSON()
 
@@ -120,8 +116,6 @@ export async function lexicalJsonToHtml(
   json: SerializedEditorState
 ): Promise<string> {
   const editor = await createHeadlessEditor()
-  const { exportToHtml } = await import('./plugins/html-io')
-
   const state = editor.parseEditorState(JSON.stringify(json))
   editor.setEditorState(state)
 

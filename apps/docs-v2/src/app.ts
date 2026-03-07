@@ -1,9 +1,10 @@
-import { html, TNode } from '@tempots/dom'
+import { TNode } from '@tempots/dom'
 import { RootRouter } from '@tempots/ui'
 import { BeatUI } from '@tempots/beatui'
 import { Async } from '@tempots/dom'
 import { AppLayout } from './app-layout'
 import { pages } from './registry/page-registry'
+import { NotFoundPage } from './pages/not-found'
 
 export const App = () => {
   // Build routes dynamically from page registry
@@ -63,12 +64,42 @@ export const App = () => {
             import('./pages/guides/authentication'),
             ({ default: Page }) => Page()
           ),
+        '/guides/lexical-editor': () =>
+          Async(
+            import('./pages/guides/lexical-editor'),
+            ({ default: Page }) => Page()
+          ),
+        '/guides/monaco-editor': () =>
+          Async(
+            import('./pages/guides/monaco-editor'),
+            ({ default: Page }) => Page()
+          ),
+        '/guides/prosemirror-editor': () =>
+          Async(
+            import('./pages/guides/prosemirror-editor'),
+            ({ default: Page }) => Page()
+          ),
+        '/guides/markdown-renderer': () =>
+          Async(
+            import('./pages/guides/markdown-renderer'),
+            ({ default: Page }) => Page()
+          ),
+        '/guides/json-schema-forms': () =>
+          Async(
+            import('./pages/guides/json-schema-forms'),
+            ({ default: Page }) => Page()
+          ),
+        '/guides/json-structure-forms': () =>
+          Async(
+            import('./pages/guides/json-structure-forms'),
+            ({ default: Page }) => Page()
+          ),
         ...componentRoutes,
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
             ApiRouter()
           ),
-        '/*': () => html.div('Not Found'),
+        '/*': () => NotFoundPage(),
       }),
     })
   )

@@ -33,6 +33,26 @@ export function SidebarMenu() {
         SidebarLink({ href: '/guides/data-source', content: 'DataSource' }),
         SidebarLink({ href: '/guides/authentication', content: 'Authentication' })
       ),
+      CollapsibleSidebarGroup(
+        {
+          icon: 'lucide:pen-tool',
+          header: 'Rich Editors',
+          startOpen: currentPath.startsWith('/guides/lexical') || currentPath.startsWith('/guides/monaco') || currentPath.startsWith('/guides/prosemirror') || currentPath.startsWith('/guides/markdown'),
+        },
+        SidebarLink({ href: '/guides/lexical-editor', content: 'Lexical Editor' }),
+        SidebarLink({ href: '/guides/monaco-editor', content: 'Monaco Editor' }),
+        SidebarLink({ href: '/guides/prosemirror-editor', content: 'ProseMirror Editor' }),
+        SidebarLink({ href: '/guides/markdown-renderer', content: 'Markdown Renderer' })
+      ),
+      CollapsibleSidebarGroup(
+        {
+          icon: 'lucide:file-json',
+          header: 'Schema Forms',
+          startOpen: currentPath.startsWith('/guides/json-'),
+        },
+        SidebarLink({ href: '/guides/json-schema-forms', content: 'JSON Schema Forms' }),
+        SidebarLink({ href: '/guides/json-structure-forms', content: 'JSON Structure Forms' })
+      ),
       ...categories.map(cat => {
         const containsCurrentPage = cat.pages.some(
           page => currentPath === `/components/${page.slug}`
