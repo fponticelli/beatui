@@ -1,5 +1,5 @@
 import { ToggleButton } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,7 +15,7 @@ export const meta: ComponentPageMeta = {
 export default function ToggleButtonPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('ToggleButton', signals => {
-      const pressed = prop(false)
+      const pressed = signals.pressed as Prop<boolean>
       return ToggleButton(
         {
           size: signals.size,

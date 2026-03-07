@@ -1,6 +1,6 @@
 import { AppearanceSelector, StandaloneAppearanceSelector } from '@tempots/beatui'
 import type { AppearancePreference } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -8,7 +8,8 @@ export const meta: ComponentPageMeta = {
   name: 'AppearanceSelector',
   category: 'Selection',
   component: 'AppearanceSelector',
-  description: 'A segmented input for selecting the application appearance: light, dark, or system. Connects to the theme provider or can be controlled manually.',
+  description:
+    'A segmented input for selecting the application appearance: light, dark, or system. Connects to the theme provider or can be controlled manually.',
   icon: 'lucide:sun-moon',
   order: 14,
 }
@@ -16,7 +17,7 @@ export const meta: ComponentPageMeta = {
 export default function AppearanceSelectorPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('AppearanceSelector', signals => {
-      const value = prop<AppearancePreference>('system')
+      const value = signals.value as Prop<AppearancePreference>
       return AppearanceSelector({
         value,
         onChange: (v: AppearancePreference) => value.set(v),

@@ -5,8 +5,15 @@ import { WithProviders } from '../helpers/test-providers'
 
 describe('Drawer', () => {
   let container: HTMLElement
+  let origResizeObserver: typeof ResizeObserver | undefined
 
   beforeEach(() => {
+    origResizeObserver = globalThis.ResizeObserver
+    globalThis.ResizeObserver = class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    } as unknown as typeof ResizeObserver
     container = document.createElement('div')
     document.body.appendChild(container)
   })
@@ -17,6 +24,11 @@ describe('Drawer', () => {
     overlays.forEach(overlay => overlay.remove())
     const drawers = document.querySelectorAll('.bc-drawer')
     drawers.forEach(drawer => drawer.remove())
+    if (origResizeObserver) {
+      globalThis.ResizeObserver = origResizeObserver
+    } else {
+      delete (globalThis as Record<string, unknown>).ResizeObserver
+    }
   })
 
   describe('basic functionality', () => {

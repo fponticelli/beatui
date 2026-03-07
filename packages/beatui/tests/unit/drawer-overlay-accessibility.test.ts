@@ -7,14 +7,26 @@ import { WithProviders } from '../helpers/test-providers'
 
 describe('Drawer and Overlay Accessibility', () => {
   let container: HTMLElement
+  let origResizeObserver: typeof ResizeObserver | undefined
 
   beforeEach(() => {
+    origResizeObserver = globalThis.ResizeObserver
+    globalThis.ResizeObserver = class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    } as unknown as typeof ResizeObserver
     container = document.createElement('div')
     document.body.appendChild(container)
   })
 
   afterEach(() => {
     document.body.removeChild(container)
+    if (origResizeObserver) {
+      globalThis.ResizeObserver = origResizeObserver
+    } else {
+      delete (globalThis as Record<string, unknown>).ResizeObserver
+    }
   })
 
   describe('Drawer Component', () => {

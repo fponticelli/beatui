@@ -1,5 +1,5 @@
 import { SegmentedInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -7,7 +7,8 @@ export const meta: ComponentPageMeta = {
   name: 'SegmentedInput',
   category: 'Selection',
   component: 'SegmentedInput',
-  description: 'A segmented control for selecting one option from a set, with an animated sliding indicator.',
+  description:
+    'A segmented control for selecting one option from a set, with an animated sliding indicator.',
   icon: 'lucide:layout-list',
   order: 6,
 }
@@ -21,7 +22,7 @@ const sampleOptions = {
 export default function SegmentedInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('SegmentedInput', signals => {
-      const value = prop<'a' | 'b' | 'c'>('a')
+      const value = signals.value as Prop<string>
       return SegmentedInput({
         size: signals.size,
         disabled: signals.disabled,
@@ -29,7 +30,7 @@ export default function SegmentedInputPage() {
         color: signals.color,
         options: sampleOptions,
         value,
-        onChange: (v: string) => value.set(v as 'a' | 'b' | 'c'),
+        onChange: (v: string) => value.set(v),
       } as never)
     }),
     sections: [

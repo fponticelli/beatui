@@ -1,5 +1,5 @@
 import { EditableText } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,7 +15,7 @@ export const meta: ComponentPageMeta = {
 export default function EditableTextPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('EditableText', signals => {
-      const value = prop('Click to edit')
+      const value = signals.value as Prop<string>
       return EditableText({
         disabled: signals.disabled,
         startEditing: signals.startEditing,

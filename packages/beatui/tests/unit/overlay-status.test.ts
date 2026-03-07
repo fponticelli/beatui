@@ -17,7 +17,7 @@ describe('Overlay data-status', () => {
   })
 
   it('should transition data-status away from closed when opened', async () => {
-    let openFn: ((options: any) => void) | undefined
+    let openFn: ((options: Record<string, unknown>) => void) | undefined
 
     render(
       WithProviders(() =>

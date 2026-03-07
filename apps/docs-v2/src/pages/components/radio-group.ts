@@ -1,5 +1,5 @@
 import { RadioGroup } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -7,7 +7,8 @@ export const meta: ComponentPageMeta = {
   name: 'RadioGroup',
   category: 'Selection',
   component: 'RadioGroup',
-  description: 'A group of radio buttons for selecting one option from a mutually exclusive list.',
+  description:
+    'A group of radio buttons for selecting one option from a mutually exclusive list.',
   icon: 'lucide:circle-dot',
   order: 8,
 }
@@ -21,7 +22,7 @@ const sampleOptions = [
 export default function RadioGroupPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('RadioGroup', signals => {
-      const value = prop('light')
+      const value = signals.value as Prop<string>
       return RadioGroup({
         size: signals.size,
         disabled: signals.disabled,

@@ -1,5 +1,5 @@
 import { Switch, Group } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,7 +15,7 @@ export const meta: ComponentPageMeta = {
 export default function SwitchPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Switch', signals => {
-      const checked = prop(false)
+      const value = signals.value as Prop<boolean>
       return Switch({
         size: signals.size,
         color: signals.color,
@@ -23,8 +23,8 @@ export default function SwitchPage() {
         offLabel: signals.offLabel,
         onLabel: signals.onLabel,
         matchInputHeight: signals.matchInputHeight,
-        value: checked,
-        onChange: (v: boolean) => checked.set(v),
+        value,
+        onChange: (v: boolean) => value.set(v),
       } as never)
     }),
     sections: [

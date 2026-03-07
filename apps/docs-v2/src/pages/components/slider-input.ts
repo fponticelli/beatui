@@ -1,5 +1,5 @@
 import { SliderInput, NullableSliderInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -7,7 +7,8 @@ export const meta: ComponentPageMeta = {
   name: 'SliderInput',
   category: 'Pickers',
   component: 'SliderInput',
-  description: 'A range slider input with configurable min, max, and step values for selecting a numeric value.',
+  description:
+    'A range slider input with configurable min, max, and step values for selecting a numeric value.',
   icon: 'lucide:sliders-horizontal',
   order: 14,
 }
@@ -15,7 +16,7 @@ export const meta: ComponentPageMeta = {
 export default function SliderInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('SliderInput', signals => {
-      const value = prop(50)
+      const value = signals.value as Prop<number>
       return html.div(
         attr.class('w-64'),
         SliderInput({
@@ -106,7 +107,7 @@ export default function SliderInputPage() {
             }),
             html.div(
               attr.class('text-xs text-gray-500'),
-              value.map(v => v == null ? 'Value: null (unset)' : `Value: ${v}`)
+              value.map(v => (v == null ? 'Value: null (unset)' : `Value: ${v}`))
             )
           )
         },

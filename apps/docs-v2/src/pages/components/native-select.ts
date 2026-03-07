@@ -1,5 +1,5 @@
 import { NativeSelect, Option } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import type { SelectOption } from '@tempots/beatui'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -8,7 +8,8 @@ export const meta: ComponentPageMeta = {
   name: 'NativeSelect',
   category: 'Selection',
   component: 'NativeSelect',
-  description: 'A native HTML select element with styled appearance, grouped options, and custom equality support.',
+  description:
+    'A native HTML select element with styled appearance, grouped options, and custom equality support.',
   icon: 'lucide:chevron-down',
   order: 16,
 }
@@ -24,7 +25,7 @@ const countryOptions: SelectOption<string>[] = [
 export default function NativeSelectPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('NativeSelect', signals => {
-      const value = prop('')
+      const value = signals.value as Prop<string>
       const options = prop(countryOptions)
       return html.div(
         attr.class('w-56'),
@@ -60,7 +61,7 @@ export default function NativeSelectPage() {
             })
           )
         },
-        'NativeSelect opens the browser\'s native picker, providing great mobile support and accessibility.'
+        "NativeSelect opens the browser's native picker, providing great mobile support and accessibility."
       ),
       Section(
         'Grouped Options',

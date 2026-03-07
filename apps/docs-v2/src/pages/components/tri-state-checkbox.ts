@@ -1,6 +1,6 @@
 import { TriStateCheckboxInput, Group } from '@tempots/beatui'
 import type { CheckboxState } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -16,7 +16,7 @@ export const meta: ComponentPageMeta = {
 export default function TriStateCheckboxPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TriStateCheckboxInput', signals => {
-      const value = prop<CheckboxState>('unchecked')
+      const value = signals.value as Prop<CheckboxState>
       return TriStateCheckboxInput({
         value,
         onChange: (v: CheckboxState) => value.set(v),

@@ -1,6 +1,6 @@
 import { RatingInput, NullableRatingInput } from '@tempots/beatui'
 import type { ThemeColorName } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { html, attr, prop, Value, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -8,7 +8,8 @@ export const meta: ComponentPageMeta = {
   name: 'RatingInput',
   category: 'Pickers',
   component: 'NullableRatingInput',
-  description: 'A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.',
+  description:
+    'A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.',
   icon: 'lucide:star',
   order: 15,
 }
@@ -16,7 +17,7 @@ export const meta: ComponentPageMeta = {
 export default function RatingInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('NullableRatingInput', signals => {
-      const value = prop<number | null>(null)
+      const value = signals.value as Prop<number | null>
       return NullableRatingInput({
         size: signals.size as Value<'xs' | 'sm' | 'md' | 'lg' | 'xl'>,
         disabled: signals.disabled as Value<boolean>,
@@ -56,8 +57,16 @@ export default function RatingInputPage() {
           const value = prop(2.5)
           return html.div(
             attr.class('flex flex-col gap-2'),
-            RatingInput({ value, onChange: (v: number) => value.set(v), max: 5, rounding: 0.5 }),
-            html.div(attr.class('text-xs text-gray-500'), value.map(v => `Value: ${v} (rounding: 0.5)`))
+            RatingInput({
+              value,
+              onChange: (v: number) => value.set(v),
+              max: 5,
+              rounding: 0.5,
+            }),
+            html.div(
+              attr.class('text-xs text-gray-500'),
+              value.map(v => `Value: ${v} (rounding: 0.5)`)
+            )
           )
         },
         'Set rounding to 0.5 for half-star precision or 0.25 for quarter-star precision.'
@@ -152,7 +161,7 @@ export default function RatingInputPage() {
             }),
             html.div(
               attr.class('text-xs text-gray-500'),
-              value.map(v => v == null ? 'Value: null (no rating)' : `Value: ${v}`)
+              value.map(v => (v == null ? 'Value: null (no rating)' : `Value: ${v}`))
             )
           )
         },

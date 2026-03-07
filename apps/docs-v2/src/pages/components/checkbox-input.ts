@@ -1,5 +1,5 @@
 import { CheckboxInput, Group } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -15,7 +15,7 @@ export const meta: ComponentPageMeta = {
 export default function CheckboxInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('CheckboxInput', signals => {
-      const value = prop(false)
+      const value = signals.value as Prop<boolean>
       return CheckboxInput({
         size: signals.size,
         disabled: signals.disabled,

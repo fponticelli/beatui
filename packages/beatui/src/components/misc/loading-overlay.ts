@@ -1,4 +1,4 @@
-import { TNode, Value, attr, html, When, Fragment } from '@tempots/dom'
+import { TNode, Value, attr, html, When, Empty } from '@tempots/dom'
 import { Icon } from '../data'
 import { ControlSize } from '../theme'
 
@@ -39,7 +39,7 @@ export function LoadingOverlay(options: LoadingOverlayOptions): TNode {
         Icon({ icon: 'line-md:loading-twotone-loop', size }),
         message != null
           ? html.span(attr.class('bc-loading-overlay__message'), message)
-          : Fragment()
+          : Empty
       )
     )
   )

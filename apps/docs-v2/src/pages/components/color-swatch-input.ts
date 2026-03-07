@@ -1,5 +1,5 @@
 import { ColorSwatchInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -7,7 +7,8 @@ export const meta: ComponentPageMeta = {
   name: 'ColorSwatchInput',
   category: 'Pickers',
   component: 'ColorSwatchInput',
-  description: 'A color picker that renders a unique organic SVG blob swatch for each color. Supports alpha channel control and multiple color format outputs.',
+  description:
+    'A color picker that renders a unique organic SVG blob swatch for each color. Supports alpha channel control and multiple color format outputs.',
   icon: 'lucide:droplets',
   order: 12,
 }
@@ -15,7 +16,7 @@ export const meta: ComponentPageMeta = {
 export default function ColorSwatchInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('ColorSwatchInput', signals => {
-      const value = prop('#3498db')
+      const value = signals.value as Prop<string>
       return ColorSwatchInput({
         value,
         onChange: (v: string) => value.set(v),

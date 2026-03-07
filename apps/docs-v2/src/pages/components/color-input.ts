@@ -1,5 +1,5 @@
 import { ColorInput } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
+import { html, attr, prop, type Prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -7,7 +7,8 @@ export const meta: ComponentPageMeta = {
   name: 'ColorInput',
   category: 'Pickers',
   component: 'ColorInput',
-  description: 'A color picker combining a text field and a clickable color swatch that opens the native color picker.',
+  description:
+    'A color picker combining a text field and a clickable color swatch that opens the native color picker.',
   icon: 'lucide:palette',
   order: 9,
 }
@@ -15,7 +16,7 @@ export const meta: ComponentPageMeta = {
 export default function ColorInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('ColorInput', signals => {
-      const value = prop('#3b82f6')
+      const value = signals.value as Prop<string>
       return ColorInput({
         size: signals.size,
         disabled: signals.disabled,

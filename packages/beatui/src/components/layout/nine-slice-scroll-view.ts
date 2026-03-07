@@ -842,18 +842,16 @@ export function NineSliceScrollView({
             hThumbFraction
           ),
           WithElement(el => {
+            Value.on(maxHorizontalScroll, max => {
+              el.setAttribute('aria-valuemax', String(max))
+            })
+            Value.on(horizontalScrollPosition, pos => {
+              el.setAttribute('aria-valuenow', String(pos))
+            })
             return Fragment(
               attr.role('scrollbar'),
               aria.orientation('horizontal'),
               aria.valuemin(0),
-              OnDispose(
-                Value.on(maxHorizontalScroll, max => {
-                  el.setAttribute('aria-valuemax', String(max))
-                }),
-                Value.on(horizontalScrollPosition, pos => {
-                  el.setAttribute('aria-valuenow', String(pos))
-                })
-              ),
               html.div(
                 attr.class('bc-nine-slice-scrollbar-track'),
                 html.div(
@@ -889,18 +887,16 @@ export function NineSliceScrollView({
             vThumbFraction
           ),
           WithElement(el => {
+            Value.on(maxVerticalScroll, max => {
+              el.setAttribute('aria-valuemax', String(max))
+            })
+            Value.on(verticalScrollPosition, pos => {
+              el.setAttribute('aria-valuenow', String(pos))
+            })
             return Fragment(
               attr.role('scrollbar'),
               aria.orientation('vertical'),
               aria.valuemin(0),
-              OnDispose(
-                Value.on(maxVerticalScroll, max => {
-                  el.setAttribute('aria-valuemax', String(max))
-                }),
-                Value.on(verticalScrollPosition, pos => {
-                  el.setAttribute('aria-valuenow', String(pos))
-                })
-              ),
               html.div(
                 attr.class('bc-nine-slice-scrollbar-track'),
                 html.div(
