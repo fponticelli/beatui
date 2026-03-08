@@ -1,6 +1,6 @@
 {
   "name": "@tempots/beatui",
-  "version": "0.95.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -226,48 +226,132 @@
     "shiki": "^3.0.0"
   },
   "peerDependenciesMeta": {
-    "ajv": { "optional": true },
-    "ajv-formats": { "optional": true },
-    "better-auth": { "optional": true },
-    "dashjs": { "optional": true },
-    "hls.js": { "optional": true },
-    "katex": { "optional": true },
-    "lexical": { "optional": true },
-    "@lexical/clipboard": { "optional": true },
-    "@lexical/code": { "optional": true },
-    "@lexical/dragon": { "optional": true },
-    "@lexical/file": { "optional": true },
-    "@lexical/hashtag": { "optional": true },
-    "@lexical/headless": { "optional": true },
-    "@lexical/history": { "optional": true },
-    "@lexical/html": { "optional": true },
-    "@lexical/link": { "optional": true },
-    "@lexical/list": { "optional": true },
-    "@lexical/mark": { "optional": true },
-    "@lexical/markdown": { "optional": true },
-    "@lexical/offset": { "optional": true },
-    "@lexical/overflow": { "optional": true },
-    "@lexical/plain-text": { "optional": true },
-    "@lexical/rich-text": { "optional": true },
-    "@lexical/selection": { "optional": true },
-    "@lexical/table": { "optional": true },
-    "@lexical/text": { "optional": true },
-    "@lexical/utils": { "optional": true },
-    "@lexical/yjs": { "optional": true },
-    "markdown-it": { "optional": true },
-    "micromark": { "optional": true },
-    "micromark-extension-gfm": { "optional": true },
-    "monaco-editor": { "optional": true },
-    "prosemirror-commands": { "optional": true },
-    "prosemirror-history": { "optional": true },
-    "prosemirror-keymap": { "optional": true },
-    "prosemirror-markdown": { "optional": true },
-    "prosemirror-model": { "optional": true },
-    "prosemirror-schema-basic": { "optional": true },
-    "prosemirror-schema-list": { "optional": true },
-    "prosemirror-state": { "optional": true },
-    "prosemirror-view": { "optional": true },
-    "shiki": { "optional": true }
+    "ajv": {
+      "optional": true
+    },
+    "ajv-formats": {
+      "optional": true
+    },
+    "better-auth": {
+      "optional": true
+    },
+    "dashjs": {
+      "optional": true
+    },
+    "hls.js": {
+      "optional": true
+    },
+    "katex": {
+      "optional": true
+    },
+    "lexical": {
+      "optional": true
+    },
+    "@lexical/clipboard": {
+      "optional": true
+    },
+    "@lexical/code": {
+      "optional": true
+    },
+    "@lexical/dragon": {
+      "optional": true
+    },
+    "@lexical/file": {
+      "optional": true
+    },
+    "@lexical/hashtag": {
+      "optional": true
+    },
+    "@lexical/headless": {
+      "optional": true
+    },
+    "@lexical/history": {
+      "optional": true
+    },
+    "@lexical/html": {
+      "optional": true
+    },
+    "@lexical/link": {
+      "optional": true
+    },
+    "@lexical/list": {
+      "optional": true
+    },
+    "@lexical/mark": {
+      "optional": true
+    },
+    "@lexical/markdown": {
+      "optional": true
+    },
+    "@lexical/offset": {
+      "optional": true
+    },
+    "@lexical/overflow": {
+      "optional": true
+    },
+    "@lexical/plain-text": {
+      "optional": true
+    },
+    "@lexical/rich-text": {
+      "optional": true
+    },
+    "@lexical/selection": {
+      "optional": true
+    },
+    "@lexical/table": {
+      "optional": true
+    },
+    "@lexical/text": {
+      "optional": true
+    },
+    "@lexical/utils": {
+      "optional": true
+    },
+    "@lexical/yjs": {
+      "optional": true
+    },
+    "markdown-it": {
+      "optional": true
+    },
+    "micromark": {
+      "optional": true
+    },
+    "micromark-extension-gfm": {
+      "optional": true
+    },
+    "monaco-editor": {
+      "optional": true
+    },
+    "prosemirror-commands": {
+      "optional": true
+    },
+    "prosemirror-history": {
+      "optional": true
+    },
+    "prosemirror-keymap": {
+      "optional": true
+    },
+    "prosemirror-markdown": {
+      "optional": true
+    },
+    "prosemirror-model": {
+      "optional": true
+    },
+    "prosemirror-schema-basic": {
+      "optional": true
+    },
+    "prosemirror-schema-list": {
+      "optional": true
+    },
+    "prosemirror-state": {
+      "optional": true
+    },
+    "prosemirror-view": {
+      "optional": true
+    },
+    "shiki": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
