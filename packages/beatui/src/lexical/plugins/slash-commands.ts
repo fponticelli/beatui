@@ -23,7 +23,7 @@ export interface SlashCommandState {
 export interface SlashCommandCallbacks {
   onTrigger?: (state: SlashCommandState, removeText: () => void) => void
   onUpdate?: (state: SlashCommandState, removeText: () => void) => void
-  onDismiss?: () => void
+  onClose?: () => void
   onExecute?: (commandId: string, removeText: () => void) => void
 }
 
@@ -146,7 +146,7 @@ export async function registerSlashCommandsPlugin(
     isActive = false
     slashNode = null
     slashOffset = 0
-    callbacks?.onDismiss?.()
+    callbacks?.onClose?.()
   }
 
   // Helper to remove the slash and filter text

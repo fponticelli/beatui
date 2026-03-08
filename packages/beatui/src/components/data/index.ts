@@ -1,6 +1,6 @@
 export * from './avatar'
 export * from './date-picker'
-export * from './range-date-picker'
+export * from './date-range-picker'
 export * from './avatar-group'
 export * from './badge'
 export * from './history-timeline'

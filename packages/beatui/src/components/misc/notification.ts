@@ -27,12 +27,12 @@ export type NotificationOptions = {
    * Whether to display a close button in the notification.
    * @default false
    */
-  withCloseButton?: Value<boolean>
+  showCloseButton?: Value<boolean>
   /**
    * Whether the notification displays a colored border.
    * @default false
    */
-  withBorder?: Value<boolean>
+  showBorder?: Value<boolean>
   /**
    * Theme color applied to the notification accent, icon, and close button.
    * @default 'primary'
@@ -42,7 +42,7 @@ export type NotificationOptions = {
    * Border radius applied to the notification container.
    * @default 'md'
    */
-  radius?: Value<RadiusName>
+  roundedness?: Value<RadiusName>
   /**
    * Optional title content rendered above the notification body.
    */
@@ -65,7 +65,7 @@ export type NotificationOptions = {
 /**
  * Builds the CSS class string for a Notification element based on its state flags.
  *
- * @param withBorder - Whether the bordered modifier class is applied.
+ * @param showBorder - Whether the bordered modifier class is applied.
  * @param hasIcon - Whether the has-icon modifier class is applied.
  * @param hasCloseButton - Whether the closable modifier class is applied.
  * @param loading - Whether the loading modifier class is applied.
@@ -73,7 +73,7 @@ export type NotificationOptions = {
  * @returns A space-separated class string for the notification root element.
  */
 export function generateNotificationClasses(
-  withBorder: boolean,
+  showBorder: boolean,
   hasIcon: boolean,
   hasCloseButton: boolean,
   loading: boolean,
@@ -81,7 +81,7 @@ export function generateNotificationClasses(
 ): string {
   const classes = ['bc-notification']
 
-  if (withBorder) classes.push('bc-notification--bordered')
+  if (showBorder) classes.push('bc-notification--bordered')
   if (hasIcon) classes.push('bc-notification--has-icon')
   if (hasCloseButton) classes.push('bc-notification--closable')
   if (loading) classes.push('bc-notification--loading')
@@ -95,16 +95,16 @@ export function generateNotificationClasses(
  * CSS custom properties for accent color and border radius.
  *
  * @param color - Theme color name used for the accent (maps to the 500 shade).
- * @param radius - Radius token name for the notification border radius.
+ * @param roundedness - Radius token name for the notification border radius.
  * @returns A semicolon-separated CSS variable declaration string.
  */
 export function generateNotificationStyles(
   color: ThemeColorName,
-  radius: RadiusName
+  roundedness: RadiusName
 ): string {
   return [
     `--notification-accent-color: ${getColorVar(color, 500)}`,
-    `--notification-radius: ${getRadiusVar(radius)}`,
+    `--notification-radius: ${getRadiusVar(roundedness)}`,
   ].join('; ')
 }
 
@@ -133,7 +133,7 @@ export function generateNotificationStyles(
  * Notification(
  *   {
  *     icon: 'material-symbols:info-outline',
- *     withCloseButton: true,
+ *     showCloseButton: true,
  *     onClose: () => console.log('closed'),
  *   },
  *   'A new version is available.'
@@ -149,10 +149,10 @@ export function generateNotificationStyles(
 export function Notification(
   {
     loading = false,
-    withCloseButton = false,
-    withBorder = false,
+    showCloseButton = false,
+    showBorder = false,
     color = 'primary',
-    radius = 'md',
+    roundedness = 'md',
     title,
     icon,
     onClose,
@@ -165,9 +165,9 @@ export function Notification(
   return html.section(
     attr.class(
       computedOf(
-        withBorder,
+        showBorder,
         hasIcon,
-        withCloseButton,
+        showCloseButton,
         loading,
         cls
       )((border, iconPresent, closable, loadingState, extra) =>
@@ -185,7 +185,7 @@ export function Notification(
     attr.style(
       computedOf(
         color,
-        radius
+        roundedness
       )((colorName, radiusName) =>
         generateNotificationStyles(colorName, radiusName)
       )
@@ -229,7 +229,7 @@ export function Notification(
         : null,
       html.div(attr.class('bc-notification__content'), ...children)
     ),
-    When(withCloseButton, () =>
+    When(showCloseButton, () =>
       html.div(
         attr.class('bc-notification__meta'),
         CloseButton({

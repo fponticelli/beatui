@@ -24,8 +24,8 @@ import { DropdownOption } from './option'
 import { Menu, MenuSeparator } from '../../navigation/menu'
 import { BeatUII18n } from '../../../beatui-i18n'
 import {
-  BaseControllerOptions,
-  ControllerOptions,
+  BaseControlOptions,
+  ControlOptions,
   BaseControl,
   Control,
 } from '../control'
@@ -44,7 +44,7 @@ import { Chips } from './select-tags-input'
  *
  * @typeParam T - The type of tag values.
  */
-export type ComboboxTagsOptions<T> = {
+export type ComboboxTagsInputOptions<T> = {
   /** The available dropdown options to choose from. */
   options: Value<DropdownOption<T>[]>
   /**
@@ -86,7 +86,7 @@ export type ComboboxTagsOptions<T> = {
  * })
  * ```
  */
-export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
+export function ComboboxTagsInput<T>(options: ComboboxTagsInputOptions<T>) {
   const {
     value,
     options: allOptions,
@@ -234,7 +234,7 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsOptions<T>) {
  * @returns A renderable form control component.
  */
 export function BaseComboboxTagsControl<T>(
-  options: BaseControllerOptions<T[], ComboboxTagsOptions<T>>
+  options: BaseControlOptions<T[], ComboboxTagsInputOptions<T>>
 ) {
   return BaseControl(ComboboxTagsInput<T>, options)
 }
@@ -247,7 +247,7 @@ export function BaseComboboxTagsControl<T>(
  * @returns A renderable form control component with wrapper.
  */
 export function ComboboxTagsControl<T>(
-  options: ControllerOptions<T[], ComboboxTagsOptions<T>>
+  options: ControlOptions<T[], ComboboxTagsInputOptions<T>>
 ) {
   return Control(ComboboxTagsInput<T>, options)
 }

@@ -82,7 +82,7 @@ export type NoticeOptions = {
    * Callback invoked when the notice is dismissed. If provided, the close
    * button is shown regardless of the `closable` setting.
    */
-  onDismiss?: () => void
+  onClose?: () => void
   /**
    * Additional CSS class name(s) to apply to the notice root element.
    */
@@ -139,7 +139,7 @@ function generateNoticeClasses(
  * that automatically adapt based on the variant.
  *
  * When dismissed, the notice is hidden from the DOM and the optional
- * `onDismiss` callback is invoked.
+ * `onClose` callback is invoked.
  *
  * @param options - Configuration options for the notice.
  * @param children - Content nodes rendered inside the notice body.
@@ -159,7 +159,7 @@ function generateNoticeClasses(
  *     variant: 'danger',
  *     title: 'Error',
  *     closable: true,
- *     onDismiss: () => console.log('dismissed'),
+ *     onClose: () => console.log('dismissed'),
  *   },
  *   'Something went wrong. Please try again.'
  * )
@@ -179,7 +179,7 @@ export function Notice(
     title,
     icon,
     closable = false,
-    onDismiss,
+    onClose,
     class: cls,
   }: NoticeOptions,
   ...children: TNode[]
@@ -190,7 +190,7 @@ export function Notice(
   return When(visible, () => {
     const isDismissible = Value.map(
       closable,
-      v => Boolean(v) || onDismiss != null
+      v => Boolean(v) || onClose != null
     )
     const currentVariant = Value.map(variant, v => v ?? 'info')
     const currentTone = Value.map(tone, v => v ?? 'subtle')
@@ -244,7 +244,7 @@ export function Notice(
             label: t.$.closeModal,
             onClick: () => {
               visible.set(false)
-              onDismiss?.()
+              onClose?.()
             },
           })
         )

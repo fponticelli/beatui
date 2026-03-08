@@ -81,6 +81,7 @@ export function ProseMirrorToolbar({
       const pmt = t.$.prosemirror
       const view = viewSignal as unknown as Signal<EditorView>
       return Toolbar(
+        {},
         // Text formatting group
         EditorToolbarGroup(
           { display: [features.$.bold, features.$.italic, features.$.code] },

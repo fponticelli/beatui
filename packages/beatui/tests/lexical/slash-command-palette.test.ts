@@ -50,7 +50,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 0, left: 0 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -61,7 +61,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -77,7 +77,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -88,7 +88,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -106,7 +106,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -117,7 +117,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -150,7 +150,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -161,7 +161,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -179,7 +179,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = prop('heading')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -190,7 +190,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -221,7 +221,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = prop('nonexistentcommand')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -232,7 +232,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -252,7 +252,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -263,7 +263,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -302,7 +302,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -313,7 +313,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -361,7 +361,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -372,7 +372,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -389,13 +389,13 @@ describe('SlashCommandPalette Component', () => {
     expect(onSelect).toHaveBeenCalledWith(testCommands[0])
   })
 
-  it('should call onDismiss on Escape', async () => {
+  it('should call onClose on Escape', async () => {
     const editorSignal = signal<LexicalEditor | null>(mockEditor as LexicalEditor)
     const isVisible = prop(true)
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -406,7 +406,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -420,7 +420,7 @@ describe('SlashCommandPalette Component', () => {
 
     await new Promise(resolve => setTimeout(resolve, 50))
 
-    expect(onDismiss).toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalled()
   })
 
   it('should update active index on mouse hover', async () => {
@@ -429,7 +429,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -440,7 +440,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container
@@ -479,7 +479,7 @@ describe('SlashCommandPalette Component', () => {
     const filterText = signal('')
     const position = signal({ top: 100, left: 200 })
     const onSelect = vi.fn()
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     render(
       WithProviders(() =>
@@ -490,7 +490,7 @@ describe('SlashCommandPalette Component', () => {
           filterText,
           position,
           onSelect,
-          onDismiss,
+          onClose,
         })
       ),
       container

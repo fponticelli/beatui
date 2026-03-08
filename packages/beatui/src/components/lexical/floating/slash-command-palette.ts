@@ -35,7 +35,7 @@ export interface SlashCommandPaletteOptions {
   filterText: Signal<string>
   position: Signal<{ top: number; left: number }>
   onSelect: (command: SlashCommandDefinition) => void
-  onDismiss: () => void
+  onClose: () => void
 }
 
 /**
@@ -178,7 +178,7 @@ export function SlashCommandPalette({
   filterText,
   position,
   onSelect,
-  onDismiss,
+  onClose,
 }: SlashCommandPaletteOptions) {
   // Active command index for keyboard navigation
   const activeIndex = prop(0)
@@ -236,7 +236,7 @@ export function SlashCommandPalette({
         break
       case 'Escape':
         e.preventDefault()
-        onDismiss()
+        onClose()
         break
     }
   }

@@ -49,7 +49,7 @@ export default function NotificationServicePage() {
                           title: html.strong('Success'),
                           color: 'success',
                           icon: 'lucide:check-circle',
-                          withCloseButton: true,
+                          showCloseButton: true,
                           dismissAfter: 4,
                         },
                         'Your changes have been saved successfully.'
@@ -67,7 +67,7 @@ export default function NotificationServicePage() {
                           title: html.strong('Error'),
                           color: 'danger',
                           icon: 'lucide:alert-circle',
-                          withCloseButton: true,
+                          showCloseButton: true,
                           dismissAfter: 5,
                         },
                         'Something went wrong. Please try again.'
@@ -102,7 +102,7 @@ export default function NotificationServicePage() {
                           title: html.strong('Warning'),
                           color: 'warning',
                           icon: 'lucide:alert-triangle',
-                          withCloseButton: true,
+                          showCloseButton: true,
                           dismissAfter: 5,
                         },
                         'Storage is almost full.'
@@ -159,7 +159,7 @@ export default function NotificationServicePage() {
                             title: html.strong('File saved'),
                             color: 'success',
                             icon: 'lucide:save',
-                            withCloseButton: true,
+                            showCloseButton: true,
                             dismissAfter: 3,
                           },
                           'document.pdf has been saved.'
@@ -194,8 +194,8 @@ export default function NotificationServicePage() {
                             title: html.strong('Connection lost'),
                             color: 'danger',
                             icon: 'lucide:wifi-off',
-                            withBorder: true,
-                            withCloseButton: true,
+                            showBorder: true,
+                            showCloseButton: true,
                           },
                           'Unable to reach server. Retrying...'
                         ),
@@ -234,7 +234,7 @@ export default function NotificationServicePage() {
                             {
                               color: 'primary',
                               icon: 'lucide:map-pin',
-                              withCloseButton: true,
+                              showCloseButton: true,
                               dismissAfter: 3,
                             },
                             `Notification at ${position}`

@@ -291,7 +291,7 @@ export default function SidebarPage() {
                 SidebarLink({
                   content: 'Inbox',
                   icon: 'lucide:inbox',
-                  right: html.span(
+                  after: html.span(
                     attr.class('text-xs font-medium bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300 rounded-full px-2 py-0.5'),
                     '12'
                   ),
@@ -300,7 +300,7 @@ export default function SidebarPage() {
                 SidebarLink({
                   content: 'Notifications',
                   icon: 'lucide:bell',
-                  right: html.span(
+                  after: html.span(
                     attr.class('text-xs font-medium bg-danger-100 text-danger-700 dark:bg-danger-900 dark:text-danger-300 rounded-full px-2 py-0.5'),
                     '3'
                   ),

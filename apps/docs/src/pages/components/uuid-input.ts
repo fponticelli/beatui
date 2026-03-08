@@ -1,23 +1,23 @@
-import { UUIDInput } from '@tempots/beatui'
+import { UuidInput } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
-  name: 'UUIDInput',
+  name: 'UuidInput',
   category: 'Text Inputs',
-  component: 'UUIDInput',
+  component: 'UuidInput',
   description:
     'A masked input for UUID values with automatic hyphen insertion and hex character validation.',
   icon: 'lucide:fingerprint',
   order: 8,
 }
 
-export default function UUIDInputPage() {
+export default function UuidInputPage() {
   return ComponentPage(meta, {
     playground: html.div(
       attr.class('max-w-md'),
-      UUIDInput({
+      UuidInput({
         value: prop(''),
         onInput: () => {},
       })
@@ -29,7 +29,7 @@ export default function UUIDInputPage() {
           const value = prop('')
           return html.div(
             attr.class('flex flex-col gap-2 max-w-md'),
-            UUIDInput({ value, onInput: (v: string) => value.set(v) }),
+            UuidInput({ value, onInput: (v: string) => value.set(v) }),
             html.p(
               attr.class('text-xs text-gray-500'),
               value.map(v => v ? `Value: ${v}` : 'Type hex characters — hyphens are inserted automatically.')
@@ -46,20 +46,20 @@ export default function UUIDInputPage() {
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
                 html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
-                UUIDInput({ value: '', size })
+                UuidInput({ value: '', size })
               )
             )
           ),
-        'UUIDInput is available in five sizes.'
+        'UuidInput is available in five sizes.'
       ),
       Section(
         'States',
         () =>
           html.div(
             attr.class('flex flex-col gap-3 max-w-md'),
-            UUIDInput({ value: '' }),
-            UUIDInput({ value: '', disabled: true }),
-            UUIDInput({ value: '550e8400-e29b-41d4-a716-44665544000', hasError: true })
+            UuidInput({ value: '' }),
+            UuidInput({ value: '', disabled: true }),
+            UuidInput({ value: '550e8400-e29b-41d4-a716-44665544000', hasError: true })
           ),
         'Supports disabled and error states.'
       ),

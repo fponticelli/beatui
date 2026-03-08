@@ -14,13 +14,13 @@ import { MaskInput } from './mask-input'
  *
  * @example
  * ```ts
- * UUIDInput({
+ * UuidInput({
  *   value: prop(''),
  *   onChange: uuid => console.log('UUID:', uuid),
  * })
  * ```
  */
-export const UUIDInput = (options: InputOptions<string>) => {
+export const UuidInput = (options: InputOptions<string>) => {
   const hex = {
     type: 'pattern' as const,
     pattern: /[0-9A-Fa-f]/,

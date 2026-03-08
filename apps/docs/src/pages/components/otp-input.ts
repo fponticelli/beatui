@@ -1,4 +1,4 @@
-import { OTPInput } from '@tempots/beatui'
+import { OtpInput } from '@tempots/beatui'
 import { html, attr, prop, type Prop } from '@tempots/dom'
 import {
   ComponentPage,
@@ -9,28 +9,28 @@ import {
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
-  name: 'OTPInput',
+  name: 'OtpInput',
   category: 'Text Inputs',
-  component: 'OTPInput',
+  component: 'OtpInput',
   description:
     'A one-time password input with individual cells, keyboard navigation, paste support, and masking.',
   icon: 'lucide:key-round',
   order: 10,
 }
 
-export default function OTPInputPage() {
+export default function OtpInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('OTPInput', signals => {
+    playground: manualPlayground('OtpInput', signals => {
       const value = signals.value as Prop<string>
-      return OTPInput({
+      return OtpInput({
         ...signals,
         value,
         onChange: (v: string) => value.set(v),
       } as never)
     }),
     sections: [
-      ...AutoSections('OTPInput', props =>
-        OTPInput({ ...props, value: '', onChange: () => {} } as never)
+      ...AutoSections('OtpInput', props =>
+        OtpInput({ ...props, value: '', onChange: () => {} } as never)
       ),
       Section(
         'Lengths',
@@ -43,16 +43,16 @@ export default function OTPInputPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-2'),
                   `length: ${length}`
                 ),
-                OTPInput({ value: '', onChange: () => {}, length })
+                OtpInput({ value: '', onChange: () => {}, length })
               )
             )
           ),
-        'OTPInput supports any number of input cells.'
+        'OtpInput supports any number of input cells.'
       ),
       Section(
         'Masked PIN',
         () =>
-          OTPInput({
+          OtpInput({
             value: '',
             onChange: () => {},
             length: 4,
@@ -64,14 +64,14 @@ export default function OTPInputPage() {
       Section(
         'Alphanumeric',
         () =>
-          OTPInput({
+          OtpInput({
             value: '',
             onChange: () => {},
             length: 6,
             type: 'alphanumeric',
             placeholder: '-',
           }),
-        'OTPInput can accept alphanumeric characters in addition to digits.'
+        'OtpInput can accept alphanumeric characters in addition to digits.'
       ),
       Section(
         'Sizes',
@@ -84,11 +84,11 @@ export default function OTPInputPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-2'),
                   size
                 ),
-                OTPInput({ value: '', onChange: () => {}, size, length: 6 })
+                OtpInput({ value: '', onChange: () => {}, size, length: 6 })
               )
             )
           ),
-        'OTPInput is available in five sizes.'
+        'OtpInput is available in five sizes.'
       ),
       Section(
         'Colors',
@@ -101,7 +101,7 @@ export default function OTPInputPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-2'),
                   color
                 ),
-                OTPInput({ value: '', onChange: () => {}, color, length: 6 })
+                OtpInput({ value: '', onChange: () => {}, color, length: 6 })
               )
             )
           ),

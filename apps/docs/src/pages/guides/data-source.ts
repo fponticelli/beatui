@@ -100,7 +100,7 @@ const PAGINATION_CODE = `import { Pagination } from '@tempots/beatui'
 Pagination({
   currentPage: ds.currentPage,
   totalPages: ds.totalPages,
-  onPageChange: page => ds.setPage(page),
+  onChange: page => ds.setPage(page),
   showPrevNext: true,
   showFirstLast: true,
   siblings: 1,

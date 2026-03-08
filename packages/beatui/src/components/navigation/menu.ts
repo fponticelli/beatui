@@ -102,15 +102,15 @@ export interface MenuItemOptions {
    */
   content: TNode
   /**
-   * Optional content displayed at the start (left side) of the menu item,
+   * Optional content displayed before the menu item label,
    * typically used for icons or selection indicators.
    */
-  startContent?: TNode
+  before?: TNode
   /**
-   * Optional content displayed at the end (right side) of the menu item,
+   * Optional content displayed after the menu item label,
    * typically used for keyboard shortcuts or badges.
    */
-  endContent?: TNode
+  after?: TNode
   /**
    * Whether the menu item is disabled. Disabled items are skipped by keyboard
    * navigation and cannot be activated.
@@ -463,8 +463,8 @@ export function Menu(options: MenuOptions): Renderable {
  * MenuItem({
  *   key: 'edit',
  *   content: 'Edit',
- *   startContent: Icon({ icon: 'edit', size: 'sm' }),
- *   endContent: html.span(attr.class('shortcut'), 'Ctrl+E'),
+ *   before: Icon({ icon: 'edit', size: 'sm' }),
+ *   after: html.span(attr.class('shortcut'), 'Ctrl+E'),
  *   onClick: () => console.log('edit clicked'),
  * })
  * ```
@@ -485,8 +485,8 @@ export function MenuItem(options: MenuItemOptions): Renderable {
   const {
     key,
     content,
-    startContent,
-    endContent,
+    before,
+    after,
     disabled = false,
     onClick,
     ariaLabel,
@@ -522,14 +522,14 @@ export function MenuItem(options: MenuItemOptions): Renderable {
       onClick?.()
     }),
 
-    // Start content
-    startContent && html.span(attr.class('bc-menu-item__start'), startContent),
+    // Before content
+    before && html.span(attr.class('bc-menu-item__start'), before),
 
     // Main content
     html.span(attr.class('bc-menu-item__content'), content),
 
-    // End content
-    endContent && html.span(attr.class('bc-menu-item__end'), endContent),
+    // After content
+    after && html.span(attr.class('bc-menu-item__end'), after),
 
     // Submenu (if present)
     hasSubmenu && submenu

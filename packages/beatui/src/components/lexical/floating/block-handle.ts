@@ -325,7 +325,7 @@ export function BlockHandle({
                     MenuItem({
                       key: cmd.id,
                       content: cmd.label,
-                      startContent: Icon({ icon: cmd.icon, size: 'sm' }),
+                      before: Icon({ icon: cmd.icon, size: 'sm' }),
                       onClick: () => {
                         const editor = ed.value
                         if (!editor) return

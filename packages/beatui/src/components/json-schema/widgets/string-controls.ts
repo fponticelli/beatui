@@ -15,7 +15,7 @@ import {
   NullablePasswordInput,
   NullableTextArea,
   NullableTextInput,
-  NullableUUIDInput,
+  NullableUuidInput,
   NullableDurationInput,
   ColorSwatchInput,
   NullableUrlInput,
@@ -169,7 +169,7 @@ export function StringControl({
         displayValue: true,
       })
     case 'uuid':
-      return Control(NullableUUIDInput, {
+      return Control(NullableUuidInput, {
         ...options,
         controller: getController(),
       })

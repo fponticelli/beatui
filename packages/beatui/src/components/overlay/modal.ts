@@ -308,17 +308,25 @@ export function Modal(
  * )
  * ```
  */
+/**
+ * Configuration options for the {@link ConfirmModal} component.
+ *
+ * Extends {@link ModalOptions} with confirmation-specific settings for
+ * custom button labels and confirm/cancel callbacks.
+ */
+export interface ConfirmModalOptions extends ModalOptions {
+  /** Custom label for the confirm button. Falls back to the i18n `confirm` string. */
+  confirmText?: Value<string>
+  /** Custom label for the cancel button. Falls back to the i18n `cancel` string. */
+  cancelText?: Value<string>
+  /** Callback invoked when the user clicks the confirm button. */
+  onConfirm?: () => void
+  /** Callback invoked when the user clicks the cancel button. */
+  onCancel?: () => void
+}
+
 export function ConfirmModal(
-  options: ModalOptions & {
-    /** Custom label for the confirm button. Falls back to the i18n `confirm` string. */
-    confirmText?: Value<string>
-    /** Custom label for the cancel button. Falls back to the i18n `cancel` string. */
-    cancelText?: Value<string>
-    /** Callback invoked when the user clicks the confirm button. */
-    onConfirm?: () => void
-    /** Callback invoked when the user clicks the cancel button. */
-    onCancel?: () => void
-  },
+  options: ConfirmModalOptions,
   fn: (open: (message: TNode) => void, close: () => void) => TNode
 ): Renderable {
   const { confirmText, cancelText, onConfirm, onCancel, ...modalOptions } =

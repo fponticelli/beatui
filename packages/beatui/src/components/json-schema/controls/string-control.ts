@@ -4,7 +4,7 @@ import {
   TextInput,
   EmailInput,
   PasswordInput,
-  UUIDInput,
+  UuidInput,
   TextArea,
   transformEmptyStringToUndefined,
   type Controller,
@@ -95,7 +95,7 @@ export function JSONSchemaString({
         controller: transformEmptyStringToUndefined(controller),
       })
     case 'uuid':
-      return Control(UUIDInput, {
+      return Control(UuidInput, {
         ...options,
         controller: transformEmptyStringToUndefined(controller),
       })

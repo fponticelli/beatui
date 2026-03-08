@@ -154,7 +154,7 @@ export function DataTable<T, C extends string = string>(
         Pagination({
           currentPage: ctx.effectiveCurrentPage,
           totalPages: ctx.effectiveTotalPages,
-          onPageChange: page => ctx.setEffectivePage(page),
+          onChange: page => ctx.setEffectivePage(page),
           siblings: Value.map(ctx.paginationConfig, p =>
             p === false ? 1 : (p.siblings ?? 1)
           ),

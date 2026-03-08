@@ -187,7 +187,7 @@ export function ConfirmationDialog(
 /**
  * Visual variant for the {@link AlertDialog}, controlling the default icon and color.
  */
-export type AlertDialogVariant = 'info' | 'success' | 'warning' | 'error'
+export type AlertDialogVariant = 'info' | 'success' | 'warning' | 'danger'
 
 const alertVariantDefaults: Record<
   AlertDialogVariant,
@@ -196,7 +196,7 @@ const alertVariantDefaults: Record<
   info: { icon: 'lucide:info', color: 'info' },
   success: { icon: 'lucide:check-circle', color: 'success' },
   warning: { icon: 'lucide:alert-triangle', color: 'warning' },
-  error: { icon: 'lucide:alert-circle', color: 'danger' },
+  danger: { icon: 'lucide:alert-circle', color: 'danger' },
 }
 
 /**
@@ -239,7 +239,7 @@ export interface AlertDialogOptions {
 /**
  * An alert dialog for displaying important messages to the user.
  *
- * Supports info, success, warning, and error variants with appropriate icons and colors.
+ * Supports info, success, warning, and danger variants with appropriate icons and colors.
  * Has a single acknowledge button. Built on top of {@link Modal}.
  *
  * @param options - Configuration options for the alert content

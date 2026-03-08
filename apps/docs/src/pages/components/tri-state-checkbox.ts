@@ -77,21 +77,21 @@ export default function TriStateCheckboxPage() {
             TriStateCheckboxInput({
               value: 'checked' as CheckboxState,
               onChange: () => {},
-              checkedIcon: 'mdi:checkbox-marked-circle',
-              uncheckedIcon: 'mdi:checkbox-blank-circle-outline',
+              activeIcon: 'mdi:checkbox-marked-circle',
+              inactiveIcon: 'mdi:checkbox-blank-circle-outline',
               indeterminateIcon: 'mdi:minus-circle-outline',
               placeholder: 'Custom circle icons',
             }),
             TriStateCheckboxInput({
               value: 'indeterminate' as CheckboxState,
               onChange: () => {},
-              checkedIcon: 'mdi:toggle-switch',
-              uncheckedIcon: 'mdi:toggle-switch-off-outline',
+              activeIcon: 'mdi:toggle-switch',
+              inactiveIcon: 'mdi:toggle-switch-off-outline',
               indeterminateIcon: 'mdi:toggle-switch-outline',
               placeholder: 'Indeterminate with custom icons',
             })
           ),
-        'Override the icons for each state using checkedIcon, uncheckedIcon, and indeterminateIcon.'
+        'Override the icons for each state using activeIcon, inactiveIcon, and indeterminateIcon.'
       ),
       Section(
         'Sizes',

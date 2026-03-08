@@ -20,7 +20,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(10),
-              onPageChange: v => page.set(v),
+              onChange: v => page.set(v),
             }),
             html.p(
               attr.class(
@@ -46,7 +46,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(20),
-              onPageChange: v => page.set(v),
+              onChange: v => page.set(v),
               showFirstLast: true,
             }),
             html.p(
@@ -74,7 +74,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(3),
               totalPages: prop(10),
-              onPageChange: () => {},
+              onChange: () => {},
               size: 'sm',
             })
           ),
@@ -84,7 +84,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(3),
               totalPages: prop(10),
-              onPageChange: () => {},
+              onChange: () => {},
               size: 'md',
             })
           ),
@@ -94,7 +94,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(3),
               totalPages: prop(10),
-              onPageChange: () => {},
+              onChange: () => {},
               size: 'lg',
             })
           )
@@ -110,7 +110,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(15),
-              onPageChange: v => page.set(v),
+              onChange: v => page.set(v),
               showFirstLast: true,
               justify: true,
             }),
@@ -142,7 +142,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: prop(50),
-              onPageChange: v => page.set(v),
+              onChange: v => page.set(v),
               responsive: true,
             }),
             html.p(
@@ -170,7 +170,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(2),
               totalPages: prop(5),
-              onPageChange: () => {},
+              onChange: () => {},
             })
           ),
           html.div(
@@ -179,7 +179,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(1),
               totalPages: prop(15),
-              onPageChange: () => {},
+              onChange: () => {},
               siblings: prop(1),
             })
           ),
@@ -189,7 +189,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(8),
               totalPages: prop(15),
-              onPageChange: () => {},
+              onChange: () => {},
               siblings: prop(1),
             })
           ),
@@ -199,7 +199,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: prop(15),
               totalPages: prop(15),
-              onPageChange: () => {},
+              onChange: () => {},
               siblings: prop(1),
             })
           )

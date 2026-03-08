@@ -29,7 +29,7 @@ export default function PaginationPage() {
         color: signals.color,
         currentPage,
         totalPages: 10,
-        onPageChange: (page: number) => currentPage.set(page),
+        onChange: (page: number) => currentPage.set(page),
       } as never)
     }),
     sections: [
@@ -49,7 +49,7 @@ export default function PaginationPage() {
                   Pagination({
                     currentPage: page,
                     totalPages: 10,
-                    onPageChange: p => page.set(p),
+                    onChange: p => page.set(p),
                     variant,
                   })
                 )
@@ -82,7 +82,7 @@ export default function PaginationPage() {
                 Pagination({
                   currentPage: page,
                   totalPages: 10,
-                  onPageChange: p => page.set(p),
+                  onChange: p => page.set(p),
                   color,
                 })
               )
@@ -106,7 +106,7 @@ export default function PaginationPage() {
                   Pagination({
                     currentPage: page,
                     totalPages: 10,
-                    onPageChange: p => page.set(p),
+                    onChange: p => page.set(p),
                     variant,
                     color: 'success',
                   })
@@ -131,7 +131,7 @@ export default function PaginationPage() {
                 Pagination({
                   currentPage: page,
                   totalPages: 10,
-                  onPageChange: p => page.set(p),
+                  onChange: p => page.set(p),
                   size,
                 })
               )
@@ -146,7 +146,7 @@ export default function PaginationPage() {
           return Pagination({
             currentPage: page,
             totalPages: 20,
-            onPageChange: p => page.set(p),
+            onChange: p => page.set(p),
             showFirstLast: true,
           })
         },
@@ -159,7 +159,7 @@ export default function PaginationPage() {
           return Pagination({
             currentPage: page,
             totalPages: 20,
-            onPageChange: p => page.set(p),
+            onChange: p => page.set(p),
             siblings: 2,
           })
         },
@@ -174,7 +174,7 @@ export default function PaginationPage() {
             Pagination({
               currentPage: page,
               totalPages: 10,
-              onPageChange: p => page.set(p),
+              onChange: p => page.set(p),
               justify: true,
             })
           )

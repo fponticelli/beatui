@@ -36,14 +36,17 @@ export const makeOnChangeHandler =
 /**
  * Base options type for any input component, derived from InputOptions.
  */
-export type BaseControlOptions =
+export type BaseControlInputOptions =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   InputOptions<any>
 
 /**
  * Options for a control that includes both input and wrapper options.
  */
-export type ControlOptions = Merge<BaseControlOptions, InputWrapperOptions>
+export type ControlInputOptions = Merge<
+  BaseControlInputOptions,
+  InputWrapperOptions
+>
 
 /**
  * Options for connecting a controller to an input component without a wrapper.
@@ -51,7 +54,7 @@ export type ControlOptions = Merge<BaseControlOptions, InputWrapperOptions>
  * @template T - The controller value type
  * @template O - The input component options type
  */
-export type BaseControllerOptions<T, O extends BaseControlOptions> = Merge<
+export type BaseControlOptions<T, O extends BaseControlInputOptions> = Merge<
   Omit<O, 'value'>,
   { controller: Controller<T>; triggerOn?: 'input' | 'change' }
 >
@@ -62,7 +65,7 @@ export type BaseControllerOptions<T, O extends BaseControlOptions> = Merge<
  * @template T - The controller value type
  * @template O - The input component options type
  */
-export type ControllerOptions<T, O extends BaseControlOptions> = Merge<
+export type ControlOptions<T, O extends BaseControlInputOptions> = Merge<
   Omit<InputWrapperOptions, 'content'>,
   Merge<
     Omit<O, 'value'>,
@@ -77,8 +80,12 @@ export type ControllerOptions<T, O extends BaseControlOptions> = Merge<
  * @template U - The input component value type
  * @template O - The input component options type
  */
-export type MappedControllerOptions<T, U, O extends BaseControlOptions> = Merge<
-  ControllerOptions<T, O>,
+export type MappedControlOptions<
+  T,
+  U,
+  O extends BaseControlInputOptions,
+> = Merge<
+  ControlOptions<T, O>,
   {
     /** Transforms controller value to input value. */
     toInput: (value: T) => U
@@ -113,9 +120,9 @@ export type MappedControllerOptions<T, U, O extends BaseControlOptions> = Merge<
  * })
  * ```
  */
-export function BaseControl<T, O extends BaseControlOptions>(
+export function BaseControl<T, O extends BaseControlInputOptions>(
   InputComponent: (options: O) => TNode,
-  options: BaseControllerOptions<T, O>
+  options: BaseControlOptions<T, O>
 ) {
   const { controller, onBlur, onChange, id, triggerOn, ...rest } = options
   return InputComponent({
@@ -166,9 +173,9 @@ export function BaseControl<T, O extends BaseControlOptions>(
  * })
  * ```
  */
-export function Control<T, O extends BaseControlOptions>(
+export function Control<T, O extends BaseControlInputOptions>(
   InputComponent: (options: O) => TNode,
-  { id: idArg, labelFor: labelForArg, ...options }: ControllerOptions<T, O>,
+  { id: idArg, labelFor: labelForArg, ...options }: ControlOptions<T, O>,
   ...children: TNode[]
 ) {
   const id: Value<string> =
@@ -183,7 +190,7 @@ export function Control<T, O extends BaseControlOptions>(
       labelFor,
       content: BaseControl(
         opts => InputComponent({ ...(opts as unknown as O), id }),
-        options as BaseControllerOptions<T, O>
+        options as BaseControlOptions<T, O>
       ),
     },
     ...children
@@ -218,14 +225,14 @@ export function Control<T, O extends BaseControlOptions>(
  * })
  * ```
  */
-export function BaseMappedControl<T, U, O extends BaseControlOptions>(
+export function BaseMappedControl<T, U, O extends BaseControlInputOptions>(
   InputComponent: (options: O) => TNode,
-  options: MappedControllerOptions<T, U, O>
+  options: MappedControlOptions<T, U, O>
 ) {
   const { toInput, fromInput, controller, ...rest } = options
   const mappedController = controller.transform(toInput, fromInput)
   return BaseControl(InputComponent, {
-    ...(rest as unknown as BaseControllerOptions<U, O>),
+    ...(rest as unknown as BaseControlOptions<U, O>),
     controller: mappedController,
   })
 }
@@ -260,13 +267,13 @@ export function BaseMappedControl<T, U, O extends BaseControlOptions>(
  * })
  * ```
  */
-export function MappedControl<T, U, O extends BaseControlOptions>(
+export function MappedControl<T, U, O extends BaseControlInputOptions>(
   InputComponent: (options: O) => TNode,
   {
     id: idArg,
     labelFor: labelForArg,
     ...options
-  }: MappedControllerOptions<T, U, O>,
+  }: MappedControlOptions<T, U, O>,
   ...children: TNode[]
 ) {
   const id: Value<string> =
@@ -280,7 +287,7 @@ export function MappedControl<T, U, O extends BaseControlOptions>(
       content: BaseMappedControl(InputComponent, {
         ...options,
         id,
-      } as MappedControllerOptions<T, U, O>),
+      } as MappedControlOptions<T, U, O>),
     },
     ...children
   )

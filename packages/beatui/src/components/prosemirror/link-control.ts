@@ -215,6 +215,7 @@ export function LinkControl({
   return Fragment(
     OnDispose(clear),
     ToolbarGroup(
+      {},
       EditorToolbarButton({
         display: signal(true),
         active: makeActiveMarkSignal(stateUpdate, view, 'link'),

@@ -17,8 +17,8 @@ import { Badge } from '../../data/badge'
 import { DropdownOption } from './option'
 import { Menu, MenuSeparator } from '../../navigation/menu'
 import {
-  BaseControllerOptions,
-  ControllerOptions,
+  BaseControlOptions,
+  ControlOptions,
   BaseControl,
   Control,
 } from '../control'
@@ -35,7 +35,7 @@ import {
  *
  * @typeParam T - The type of tag values.
  */
-export type SelectTagsOptions<T> = {
+export type SelectTagsInputOptions<T> = {
   /** The available dropdown options to choose from. */
   options: Value<DropdownOption<T>[]>
   /**
@@ -120,7 +120,7 @@ export function Chips<T>(opts: {
  * })
  * ```
  */
-export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
+export function SelectTagsInput<T>(options: SelectTagsInputOptions<T>) {
   const {
     value,
     options: allOptions,
@@ -237,7 +237,7 @@ export function SelectTagsInput<T>(options: SelectTagsOptions<T>) {
  * @returns A renderable form control component.
  */
 export function BaseSelectTagsControl<T>(
-  options: BaseControllerOptions<T[], SelectTagsOptions<T>>
+  options: BaseControlOptions<T[], SelectTagsInputOptions<T>>
 ) {
   return BaseControl(SelectTagsInput<T>, options)
 }
@@ -250,7 +250,7 @@ export function BaseSelectTagsControl<T>(
  * @returns A renderable form control component with wrapper.
  */
 export function SelectTagsControl<T>(
-  options: ControllerOptions<T[], SelectTagsOptions<T>>
+  options: ControlOptions<T[], SelectTagsInputOptions<T>>
 ) {
   return Control(SelectTagsInput<T>, options)
 }

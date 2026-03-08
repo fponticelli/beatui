@@ -22,17 +22,17 @@ import { ControlSize } from '../../theme/types'
  * Extends {@link InputOptions} for numeric values with properties to control the
  * maximum rating, icon appearance, theme colors, and rounding precision.
  */
-type RatingInputOptions = InputOptions<number> & {
+export type RatingInputOptions = InputOptions<number> & {
   /** Maximum number of rating icons (stars). @default 5 */
   max?: Value<number>
   /** Theme color for filled (active) icons. @default 'yellow' */
   fullColor?: Value<ThemeColorName>
   /** Theme color for empty (inactive) icons. @default 'neutral' */
   emptyColor?: Value<ThemeColorName>
-  /** Icon name for filled (active) rating icons. @default 'line-md:star-alt-filled' */
-  fullIcon?: Value<string>
-  /** Icon name for empty (inactive) rating icons. @default 'line-md:star-alt' */
-  emptyIcon?: Value<string>
+  /** Icon name for active (filled) rating icons. @default 'line-md:star-alt-filled' */
+  activeIcon?: Value<string>
+  /** Icon name for inactive (empty) rating icons. @default 'line-md:star-alt' */
+  inactiveIcon?: Value<string>
   /** Visual size of the rating icons. @default 'md' */
   size?: Value<ControlSize>
   /** Step size for rounding during keyboard interactions (e.g., 0.25 for quarter steps). @default 1 */
@@ -78,8 +78,8 @@ const DEFAULT_EMPTY_ICON = 'line-md:star-alt'
  *   value: prop(0),
  *   onChange: (v) => console.log('Rating:', v),
  *   max: 10,
- *   fullIcon: 'mdi:heart',
- *   emptyIcon: 'mdi:heart-outline',
+ *   activeIcon: 'mdi:heart',
+ *   inactiveIcon: 'mdi:heart-outline',
  *   fullColor: 'red',
  *   rounding: 0.25,
  *   size: 'lg',
@@ -95,8 +95,8 @@ export const RatingInput = (options: RatingInputOptions) => {
     max = 5,
     fullColor = 'yellow',
     emptyColor = 'neutral',
-    fullIcon = DEFAULT_FULL_ICON,
-    emptyIcon = DEFAULT_EMPTY_ICON,
+    activeIcon = DEFAULT_FULL_ICON,
+    inactiveIcon = DEFAULT_EMPTY_ICON,
     size = 'md',
     onBlur,
     rounding = 1,
@@ -163,7 +163,7 @@ export const RatingInput = (options: RatingInputOptions) => {
       attr.class(iconSize),
       Icon(
         {
-          icon: emptyIcon,
+          icon: inactiveIcon,
           size,
           color: emptyColor as Value<ThemeColorName>,
           tone: 'soft',
@@ -183,7 +183,7 @@ export const RatingInput = (options: RatingInputOptions) => {
         ),
         Icon(
           {
-            icon: fullIcon,
+            icon: activeIcon,
             size,
             color: fullColor as Value<ThemeColorName>,
             tone: 'soft',

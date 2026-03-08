@@ -77,14 +77,14 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             MenuItem({
               key: 'sort-asc',
               content: dt.map(d => d.menuSortAsc),
-              startContent: Icon({ icon: 'line-md:arrow-small-up', size }),
+              before: Icon({ icon: 'line-md:arrow-small-up', size }),
               disabled: direction?.map(d => d === 'asc'),
               onClick: () => dataSource.setSort([{ column, direction: 'asc' }]),
             }),
             MenuItem({
               key: 'sort-desc',
               content: dt.map(d => d.menuSortDesc),
-              startContent: Icon({ icon: 'line-md:arrow-small-down', size }),
+              before: Icon({ icon: 'line-md:arrow-small-down', size }),
               disabled: direction?.map(d => d === 'desc'),
               onClick: () =>
                 dataSource.setSort([{ column, direction: 'desc' }]),
@@ -95,7 +95,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
               MenuItem({
                 key: 'clear-sort',
                 content: dt.map(d => d.menuClearSort),
-                startContent: Icon({
+                before: Icon({
                   icon: 'line-md:arrows-vertical',
                   size,
                 }),
@@ -117,7 +117,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             MenuItem({
               key: 'filter',
               content: dt.map(d => d.menuFilter ?? 'Filter'),
-              startContent: Icon({ icon: 'lucide:filter', size }),
+              before: Icon({ icon: 'lucide:filter', size }),
               submenu: () => [
                 html.div(
                   on.click(e => e.stopPropagation()),
@@ -134,7 +134,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                 MenuItem({
                   key: 'clear-filter',
                   content: dt.map(d => d.clearFilter),
-                  startContent: Icon({ icon: 'lucide:filter-x', size }),
+                  before: Icon({ icon: 'lucide:filter-x', size }),
                   onClick: onClearFilter,
                 })
               )
@@ -149,7 +149,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             MenuItem({
               key: 'hide-column',
               content: dt.map(d => d.menuHideColumn),
-              startContent: Icon({ icon: 'lucide:eye-off', size }),
+              before: Icon({ icon: 'lucide:eye-off', size }),
               onClick: onHideColumn,
             }),
             MenuSeparator()
@@ -167,7 +167,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             MenuItem({
               key: 'choose-columns',
               content: dt.map(d => d.menuChooseColumns),
-              startContent: Icon({ icon: 'lucide:columns-3', size }),
+              before: Icon({ icon: 'lucide:columns-3', size }),
               submenu: () => [
                 html.div(
                   attr.class('bc-data-table__column-toggle-panel'),
@@ -207,7 +207,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                   MenuItem({
                     key: 'reset-columns',
                     content: dt.map(d => d.menuResetColumns),
-                    startContent: Icon({ icon: 'lucide:rotate-ccw', size }),
+                    before: Icon({ icon: 'lucide:rotate-ccw', size }),
                     onClick: onResetColumns,
                   })
               )

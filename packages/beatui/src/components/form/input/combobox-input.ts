@@ -24,8 +24,8 @@ import { InputOptions } from './input-options'
 import { BeatUII18n } from '../../../beatui-i18n'
 import { Icon } from '../../data'
 import {
-  BaseControllerOptions,
-  ControllerOptions,
+  BaseControlOptions,
+  ControlOptions,
   makeOnBlurHandler,
   makeOnChangeHandler,
 } from '../control'
@@ -42,7 +42,7 @@ import { DropdownBase } from './dropdown-base'
  *
  * @template T - The type of the selectable option values
  */
-export type ComboboxOptions<T> = Merge<
+export type ComboboxInputOptions<T> = Merge<
   InputOptions<T>,
   {
     /** Async function to fetch options dynamically based on the current search text */
@@ -207,7 +207,7 @@ const ComboboxOptionItem = <T>(
  * })
  * ```
  */
-export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
+export const ComboboxInput = <T>(options: ComboboxInputOptions<T>) => {
   const {
     value,
     loadOptions,
@@ -337,7 +337,7 @@ export const ComboboxInput = <T>(options: ComboboxOptions<T>) => {
  * @returns A controller-bound combobox input
  */
 export const BaseComboboxControl = <T>(
-  options: BaseControllerOptions<T, ComboboxOptions<T>>
+  options: BaseControlOptions<T, ComboboxInputOptions<T>>
 ) => {
   const { controller, onChange, onBlur, ...rest } = options
   return ComboboxInput({
@@ -359,7 +359,7 @@ export const BaseComboboxControl = <T>(
  * @returns A combobox input wrapped in a form field with label and error display
  */
 export const ComboboxControl = <T>(
-  options: ControllerOptions<T, ComboboxOptions<T>>
+  options: ControlOptions<T, ComboboxInputOptions<T>>
 ) => {
   return InputWrapper({
     ...options,

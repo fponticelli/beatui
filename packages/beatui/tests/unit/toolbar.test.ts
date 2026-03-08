@@ -25,7 +25,7 @@ describe('Toolbar Component System', () => {
 
   it('renders a basic toolbar with role and label', () => {
     render(
-      WithProviders(() => Toolbar(html.span('A'), html.span('B'))),
+      WithProviders(() => Toolbar({}, html.span('A'), html.span('B'))),
       container
     )
 
@@ -38,7 +38,8 @@ describe('Toolbar Component System', () => {
     render(
       WithProviders(() =>
         Toolbar(
-          ToolbarGroup(html.span('Group')),
+          {},
+          ToolbarGroup({}, html.span('Group')),
           ToolbarDivider(),
           ToolbarSpacer()
         )
@@ -54,7 +55,7 @@ describe('Toolbar Component System', () => {
   it('renders ToolbarButton and supports icon-only', () => {
     render(
       WithProviders(() =>
-        Toolbar(ToolbarButton({}, Icon({ icon: 'mdi:home', size: 'sm' })))
+        Toolbar({}, ToolbarButton({}, Icon({ icon: 'mdi:home', size: 'sm' })))
       ),
       container
     )
@@ -67,7 +68,7 @@ describe('Toolbar Component System', () => {
   it('wraps inputs and controls', () => {
     render(
       WithProviders(() =>
-        Toolbar(TextInput({ value: '' }), ToolbarButton({}, 'X'))
+        Toolbar({}, TextInput({ value: '' }), ToolbarButton({}, 'X'))
       ),
       container
     )
@@ -80,6 +81,7 @@ describe('Toolbar Component System', () => {
     render(
       WithProviders(() =>
         Toolbar(
+          {},
           ToolbarButton({}, 'A'),
           ToolbarButton({}, 'B'),
           html.button('C')

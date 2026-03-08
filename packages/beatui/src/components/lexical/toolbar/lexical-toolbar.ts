@@ -813,6 +813,7 @@ export function LexicalToolbar({
 
       // === Render from layout ===
       return Toolbar(
+        {},
         attr.class('bc-lexical-toolbar'),
         ...renderLayout(layout, registry, maxHeadingLevel, toolbar.customGroups)
       )

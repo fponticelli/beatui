@@ -26,20 +26,20 @@ export default function MenuPage() {
             MenuItem({
               key: 'edit',
               content: 'Edit',
-              startContent: Icon({ icon: 'lucide:pencil', size: 'sm' }),
+              before: Icon({ icon: 'lucide:pencil', size: 'sm' }),
               onClick: () => console.log('edit'),
             }),
             MenuItem({
               key: 'duplicate',
               content: 'Duplicate',
-              startContent: Icon({ icon: 'lucide:copy', size: 'sm' }),
+              before: Icon({ icon: 'lucide:copy', size: 'sm' }),
               onClick: () => console.log('duplicate'),
             }),
             MenuSeparator(),
             MenuItem({
               key: 'delete',
               content: 'Delete',
-              startContent: Icon({ icon: 'lucide:trash-2', size: 'sm' }),
+              before: Icon({ icon: 'lucide:trash-2', size: 'sm' }),
               onClick: () => console.log('delete'),
             }),
           ],
@@ -76,8 +76,8 @@ export default function MenuPage() {
                 MenuItem({
                   key: 'cut',
                   content: 'Cut',
-                  startContent: Icon({ icon: 'lucide:scissors', size: 'sm' }),
-                  endContent: html.span(
+                  before: Icon({ icon: 'lucide:scissors', size: 'sm' }),
+                  after: html.span(
                     attr.class('text-xs text-gray-400'),
                     'Ctrl+X'
                   ),
@@ -85,8 +85,8 @@ export default function MenuPage() {
                 MenuItem({
                   key: 'copy',
                   content: 'Copy',
-                  startContent: Icon({ icon: 'lucide:copy', size: 'sm' }),
-                  endContent: html.span(
+                  before: Icon({ icon: 'lucide:copy', size: 'sm' }),
+                  after: html.span(
                     attr.class('text-xs text-gray-400'),
                     'Ctrl+C'
                   ),
@@ -94,8 +94,8 @@ export default function MenuPage() {
                 MenuItem({
                   key: 'paste',
                   content: 'Paste',
-                  startContent: Icon({ icon: 'lucide:clipboard', size: 'sm' }),
-                  endContent: html.span(
+                  before: Icon({ icon: 'lucide:clipboard', size: 'sm' }),
+                  after: html.span(
                     attr.class('text-xs text-gray-400'),
                     'Ctrl+V'
                   ),
@@ -103,7 +103,7 @@ export default function MenuPage() {
               ],
             })
           ),
-        'Menu items support start and end content for icons and keyboard shortcuts.'
+        'Menu items support before and after content for icons and keyboard shortcuts.'
       ),
       Section(
         'With Separator and Disabled Items',
@@ -139,7 +139,7 @@ export default function MenuPage() {
                 MenuItem({
                   key: 'export-as',
                   content: 'Export as...',
-                  startContent: Icon({ icon: 'lucide:download', size: 'sm' }),
+                  before: Icon({ icon: 'lucide:download', size: 'sm' }),
                   submenu: () => [
                     MenuItem({ content: 'PDF', onClick: () => console.log('pdf') }),
                     MenuItem({ content: 'CSV', onClick: () => console.log('csv') }),
@@ -149,7 +149,7 @@ export default function MenuPage() {
                 MenuItem({
                   key: 'print',
                   content: 'Print',
-                  startContent: Icon({ icon: 'lucide:printer', size: 'sm' }),
+                  before: Icon({ icon: 'lucide:printer', size: 'sm' }),
                 }),
               ],
             })

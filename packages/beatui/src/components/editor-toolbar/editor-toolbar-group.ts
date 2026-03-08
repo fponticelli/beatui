@@ -16,6 +16,6 @@ export function EditorToolbarGroup(
 ) {
   return When(
     computedOf(...display)((...v) => v.some(Boolean)),
-    () => ToolbarGroup(...children)
+    () => ToolbarGroup({}, ...children)
   )
 }

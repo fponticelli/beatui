@@ -90,7 +90,7 @@ export default function AnnouncementBarPage() {
               {
                 color: 'primary',
                 closable: true,
-                onDismiss: () => console.log('bar dismissed'),
+                onClose: () => console.log('bar dismissed'),
               },
               'Click the close button to dismiss this announcement.'
             ),
@@ -99,7 +99,7 @@ export default function AnnouncementBarPage() {
                 color: 'info',
                 icon: 'lucide:megaphone',
                 closable: true,
-                onDismiss: () => console.log('dismissed'),
+                onClose: () => console.log('dismissed'),
               },
               'Big sale this weekend — up to 50% off all products!'
             )

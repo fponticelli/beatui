@@ -8,7 +8,7 @@ export const meta: ComponentPageMeta = {
   category: 'Feedback',
   component: 'Notification',
   description:
-    'A notification card with optional icon, title, body content, loading state, and close button. Supports theme colors and border radius customization.',
+    'A notification card with optional icon, title, body content, loading state, and close button. Supports theme colors and roundedness customization.',
   icon: 'lucide:bell',
   order: 1,
 }
@@ -66,7 +66,7 @@ export default function NotificationPage() {
                 color: 'info',
                 icon: 'lucide:info',
                 title: html.strong('With Border'),
-                withBorder: true,
+                showBorder: true,
               },
               'This notification has a colored left border.'
             ),
@@ -75,12 +75,12 @@ export default function NotificationPage() {
                 color: 'success',
                 icon: 'lucide:check-circle',
                 title: html.strong('No Border'),
-                withBorder: false,
+                showBorder: false,
               },
               'This notification has no border.'
             )
           ),
-        'Use withBorder to add a colored accent border to the notification.'
+        'Use showBorder to add a colored accent border to the notification.'
       ),
       Section(
         'With Close Button',
@@ -90,12 +90,12 @@ export default function NotificationPage() {
               color: 'warning',
               icon: 'lucide:alert-triangle',
               title: html.strong('Storage Warning'),
-              withCloseButton: true,
+              showCloseButton: true,
               onClose: () => console.log('notification closed'),
             },
             'You are running low on storage. Please free up space.'
           ),
-        'Enable withCloseButton to let users dismiss the notification.'
+        'Enable showCloseButton to let users dismiss the notification.'
       ),
       Section(
         'Loading State',
@@ -122,7 +122,7 @@ export default function NotificationPage() {
             Notification(
               {
                 color: 'danger',
-                withBorder: true,
+                showBorder: true,
                 title: html.strong('Error'),
               },
               'Something went wrong. Please try again.'
@@ -138,7 +138,7 @@ export default function NotificationPage() {
             Notification(
               {
                 color: 'info',
-                withBorder: true,
+                showBorder: true,
                 icon: 'lucide:info',
                 title: html.strong('Product update'),
               },
@@ -147,7 +147,7 @@ export default function NotificationPage() {
             Notification(
               {
                 color: 'success',
-                withCloseButton: true,
+                showCloseButton: true,
                 icon: 'lucide:check-circle',
                 title: html.strong('Backup complete'),
               },
@@ -165,8 +165,8 @@ export default function NotificationPage() {
               {
                 color: 'danger',
                 icon: 'lucide:alert-circle',
-                withBorder: true,
-                withCloseButton: true,
+                showBorder: true,
+                showCloseButton: true,
                 title: html.strong('Connection lost'),
               },
               html.span('Unable to reach the server. Check your connection.')

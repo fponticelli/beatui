@@ -109,8 +109,8 @@ describe('Menu Component', () => {
               items: () => [
                 MenuItem({
                   content: 'Edit',
-                  startContent: Icon({ icon: 'edit' }),
-                  endContent: html.span('⌘E'),
+                  before: Icon({ icon: 'edit' }),
+                  after: html.span('⌘E'),
                 }),
               ],
               showOn: 'click',
@@ -125,12 +125,12 @@ describe('Menu Component', () => {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       const menuItem = document.querySelector('.bc-menu-item')!
-      const startContent = menuItem.querySelector('.bc-menu-item__start')
-      const endContent = menuItem.querySelector('.bc-menu-item__end')
+      const beforeEl = menuItem.querySelector('.bc-menu-item__start')
+      const afterEl = menuItem.querySelector('.bc-menu-item__end')
 
-      expect(startContent).not.toBeNull()
-      expect(endContent).not.toBeNull()
-      expect(endContent!.textContent).toBe('⌘E')
+      expect(beforeEl).not.toBeNull()
+      expect(afterEl).not.toBeNull()
+      expect(afterEl!.textContent).toBe('⌘E')
     })
 
     it('should render menu separator', async () => {

@@ -161,7 +161,7 @@ export default function ConfirmationDialogsPage() {
               body: html.p(
                 'Unable to connect to the server. Please check your network and try again.'
               ),
-              variant: 'error',
+              variant: 'danger',
             },
             open =>
               Button(
@@ -171,7 +171,7 @@ export default function ConfirmationDialogsPage() {
                   size: 'sm',
                   onClick: open,
                 },
-                'Error alert'
+                'Danger alert'
               )
           )
         )

@@ -21,8 +21,8 @@ import { InputOptions } from './input-options'
 import { Expando } from '../../misc/expando'
 import { BeatUII18n } from '../../../beatui-i18n'
 import {
-  BaseControllerOptions,
-  ControllerOptions,
+  BaseControlOptions,
+  ControlOptions,
   makeOnBlurHandler,
   makeOnChangeHandler,
 } from '../control'
@@ -39,7 +39,7 @@ import { DropdownBase } from './dropdown-base'
  *
  * @template T - The type of the selectable option values
  */
-export type DropdownOptions<T> = Merge<
+export type DropdownInputOptions<T> = Merge<
   InputOptions<T>,
   {
     /** The list of selectable options, supporting value items, groups, and break separators */
@@ -206,7 +206,7 @@ const DropdownOptionItem = <T>(
  * })
  * ```
  */
-export const DropdownInput = <T>(options: DropdownOptions<T>) => {
+export const DropdownInput = <T>(options: DropdownInputOptions<T>) => {
   const {
     value,
     options: dropdownOptions,
@@ -272,7 +272,7 @@ export const DropdownInput = <T>(options: DropdownOptions<T>) => {
  * @returns A controller-bound dropdown input
  */
 export const BaseDropdownControl = <T>(
-  options: BaseControllerOptions<T, DropdownOptions<T>>
+  options: BaseControlOptions<T, DropdownInputOptions<T>>
 ) => {
   const { controller, onChange, onBlur, ...rest } = options
   return DropdownInput({
@@ -294,7 +294,7 @@ export const BaseDropdownControl = <T>(
  * @returns A dropdown input wrapped in a form field with label and error display
  */
 export const DropdownControl = <T>(
-  options: ControllerOptions<T, DropdownOptions<T>>
+  options: ControlOptions<T, DropdownInputOptions<T>>
 ) => {
   return InputWrapper({
     ...options,

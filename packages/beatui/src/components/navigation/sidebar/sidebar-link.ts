@@ -59,8 +59,8 @@ export type SidebarLinkOptions = {
   content: TNode
   /** Optional icon identifier displayed at the start of the link. */
   icon?: Value<string>
-  /** Optional content displayed at the right side of the link (e.g., badges, counts). */
-  right?: TNode
+  /** Optional content displayed after the link label (e.g., badges, counts). */
+  after?: TNode
   /**
    * Optional inline action button rendered at the end of the link.
    * Useful for quick actions like delete, settings, or expand/collapse toggles.
@@ -195,9 +195,9 @@ export function SidebarLink(options: SidebarLinkOptions) {
   children.push(
     html.span(attr.class('bc-sidebar-link__content'), options.content)
   )
-  if (options.right != null) {
+  if (options.after != null) {
     children.push(
-      html.span(attr.class('bc-sidebar-link__right'), options.right)
+      html.span(attr.class('bc-sidebar-link__right'), options.after)
     )
   }
   if (options.action != null) {

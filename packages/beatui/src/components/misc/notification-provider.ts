@@ -33,13 +33,13 @@ type NotificationEntry = {
   /** Reactive signal indicating whether the notification is in a loading state. */
   loading: Signal<boolean>
   /** Reactive signal controlling close button visibility. */
-  withCloseButton: Signal<boolean>
+  showCloseButton: Signal<boolean>
   /** Reactive signal controlling border visibility. */
-  withBorder: Signal<boolean>
+  showBorder: Signal<boolean>
   /** Reactive signal for the notification's theme color. */
   color: Signal<ThemeColorName>
   /** Reactive signal for the notification's border radius. */
-  radius: Signal<RadiusName>
+  roundedness: Signal<RadiusName>
   /** Title content rendered above the notification body. */
   title: TNode
   /** Reactive signal for the Iconify icon identifier. */
@@ -270,14 +270,14 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
         animation,
         class: Value.toSignal(options.class),
         loading: Value.toSignal(options.loading ?? false) as Signal<boolean>,
-        withCloseButton: Value.toSignal(
-          options.withCloseButton == null && dismissAfter == null
+        showCloseButton: Value.toSignal(
+          options.showCloseButton == null && dismissAfter == null
             ? true
-            : (options.withCloseButton ?? true)
+            : (options.showCloseButton ?? true)
         ),
-        withBorder: Value.toSignal(options.withBorder ?? false),
+        showBorder: Value.toSignal(options.showBorder ?? false),
         color: Value.toSignal(options.color ?? 'primary'),
-        radius: Value.toSignal(options.radius ?? 'md'),
+        roundedness: Value.toSignal(options.roundedness ?? 'md'),
         title: options.title ?? Empty,
         icon: Value.toSignal(options.icon),
         children,
@@ -374,10 +374,10 @@ export function NotificationViewport() {
                     {
                       class: entry.class,
                       loading: entry.loading,
-                      withCloseButton: entry.withCloseButton,
-                      withBorder: entry.withBorder,
+                      showCloseButton: entry.showCloseButton,
+                      showBorder: entry.showBorder,
                       color: entry.color,
-                      radius: entry.radius,
+                      roundedness: entry.roundedness,
                       title: entry.title,
                       icon: entry.icon,
                       onClose: close,

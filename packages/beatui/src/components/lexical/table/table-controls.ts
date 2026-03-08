@@ -228,7 +228,7 @@ export function TableControls({
                   MenuItem({
                     key: 'insert-row-above',
                     content: lex.map(l => l.insertRowAbove),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:arrow-up',
                       size: 'sm',
                     }),
@@ -238,7 +238,7 @@ export function TableControls({
                   MenuItem({
                     key: 'insert-row-below',
                     content: lex.map(l => l.insertRowBelow),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:arrow-down',
                       size: 'sm',
                     }),
@@ -248,7 +248,7 @@ export function TableControls({
                   MenuItem({
                     key: 'insert-column-left',
                     content: lex.map(l => l.insertColumnLeft),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:arrow-left',
                       size: 'sm',
                     }),
@@ -258,7 +258,7 @@ export function TableControls({
                   MenuItem({
                     key: 'insert-column-right',
                     content: lex.map(l => l.insertColumnRight),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:arrow-right',
                       size: 'sm',
                     }),
@@ -269,7 +269,7 @@ export function TableControls({
                   MenuItem({
                     key: 'delete-row',
                     content: lex.map(l => l.deleteRow),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:trash-2',
                       size: 'sm',
                     }),
@@ -279,7 +279,7 @@ export function TableControls({
                   MenuItem({
                     key: 'delete-column',
                     content: lex.map(l => l.deleteColumn),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:trash-2',
                       size: 'sm',
                     }),
@@ -289,7 +289,7 @@ export function TableControls({
                   MenuItem({
                     key: 'delete-table',
                     content: lex.map(l => l.deleteTable),
-                    startContent: Icon({
+                    before: Icon({
                       icon: 'lucide:trash-2',
                       size: 'sm',
                     }),

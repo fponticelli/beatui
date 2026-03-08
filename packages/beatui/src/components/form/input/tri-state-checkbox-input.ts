@@ -22,10 +22,10 @@ export type CheckboxState = 'checked' | 'unchecked' | 'indeterminate'
  * properties to customize the icons for each state and their size.
  */
 export type TriStateCheckboxInputOptions = InputOptions<CheckboxState> & {
-  /** Icon name to display when the checkbox is checked. @default 'ri:checkbox-fill' */
-  checkedIcon?: Value<string | undefined>
-  /** Icon name to display when the checkbox is unchecked. @default 'mdi:checkbox-blank-outline' */
-  uncheckedIcon?: Value<string | undefined>
+  /** Icon name to display when the checkbox is active (checked). @default 'ri:checkbox-fill' */
+  activeIcon?: Value<string | undefined>
+  /** Icon name to display when the checkbox is inactive (unchecked). @default 'mdi:checkbox-blank-outline' */
+  inactiveIcon?: Value<string | undefined>
   /** Icon name to display when the checkbox is in the indeterminate state. @default 'ri/checkbox-indeterminate-fill' */
   indeterminateIcon?: Value<string | undefined>
   /** Size of the checkbox icon. */
@@ -117,8 +117,8 @@ export const TriStateCheckboxInput = (
     placeholder,
     disabled,
     id,
-    checkedIcon,
-    uncheckedIcon,
+    activeIcon,
+    inactiveIcon,
     indeterminateIcon,
     size = 'md',
   } = options
@@ -163,22 +163,22 @@ export const TriStateCheckboxInput = (
   // Reactive icon based on current state and icon overrides
   const iconName = computedOf(
     value,
-    checkedIcon,
-    uncheckedIcon,
+    activeIcon,
+    inactiveIcon,
     indeterminateIcon
   )((
     state,
-    checkedIconName,
-    uncheckedIconName,
+    activeIconName,
+    inactiveIconName,
     indeterminateIconName
   ): string => {
     if (state === 'checked') {
-      return checkedIconName ?? 'ri:checkbox-fill'
+      return activeIconName ?? 'ri:checkbox-fill'
     }
     if (state === 'indeterminate') {
       return indeterminateIconName ?? 'mdi:checkbox-indeterminate-outline'
     }
-    return uncheckedIconName ?? 'mdi:checkbox-blank-outline'
+    return inactiveIconName ?? 'mdi:checkbox-blank-outline'
   })
 
   return InputContainer(

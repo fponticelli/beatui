@@ -8,7 +8,7 @@ export const meta: ComponentPageMeta = {
   category: 'Overlays',
   component: 'AlertDialog',
   description:
-    'An informational dialog for presenting important messages to the user with a single acknowledgement action. Supports info, success, warning, and error variants.',
+    'An informational dialog for presenting important messages to the user with a single acknowledgement action. Supports info, success, warning, and danger variants.',
   icon: 'lucide:alert-circle',
   order: 4,
 }
@@ -52,7 +52,7 @@ export default function AlertDialogPage() {
         () =>
           html.div(
             attr.class('flex flex-wrap gap-3'),
-            ...(['info', 'success', 'warning', 'error'] as const).map(variant =>
+            ...(['info', 'success', 'warning', 'danger'] as const).map(variant =>
               AlertDialog(
                 {
                   title: `${variant.charAt(0).toUpperCase() + variant.slice(1)} alert`,
@@ -79,7 +79,7 @@ export default function AlertDialogPage() {
               )
             )
           ),
-        'AlertDialog supports four visual variants: info, success, warning, and error. Each variant applies a different icon and color.'
+        'AlertDialog supports four visual variants: info, success, warning, and danger. Each variant applies a different icon and color.'
       ),
       Section(
         'Custom OK Text',
@@ -115,7 +115,7 @@ export default function AlertDialogPage() {
               body: html.p(
                 'A critical error has occurred. Please acknowledge to continue.'
               ),
-              variant: 'error',
+              variant: 'danger',
               dismissable: false,
               okText: 'Acknowledge',
               onOk: () => console.log('Error acknowledged'),

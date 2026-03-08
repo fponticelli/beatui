@@ -149,7 +149,7 @@ export function ToggleButtonGroup({
       return ToggleButton(
         {
           pressed: itemPressed,
-          onToggle: pressed => handleToggle(item.key, pressed),
+          onChange: pressed => handleToggle(item.key, pressed),
           disabled: itemDisabled,
           variant,
           size,

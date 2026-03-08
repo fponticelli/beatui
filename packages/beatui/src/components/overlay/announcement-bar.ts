@@ -36,7 +36,7 @@ export type AnnouncementBarOptions = {
    * Callback invoked when the user dismisses the announcement bar.
    * When provided and `closable` is not explicitly set, the bar is implicitly made dismissible.
    */
-  onDismiss?: () => void
+  onClose?: () => void
   /**
    * Additional CSS class names to apply to the announcement bar element.
    */
@@ -63,7 +63,7 @@ function generateAnnouncementBarStyles(color: ThemeColorName): string {
  * Displays a colored announcement bar, typically at the top of a page or container.
  *
  * Supports an optional leading icon, user-dismissible close button, and theme color
- * customization. When dismissed, the bar is removed from the DOM and the `onDismiss`
+ * customization. When dismissed, the bar is removed from the DOM and the `onClose`
  * callback is invoked.
  *
  * @param options - Configuration options controlling color, icon, closability, and styling
@@ -73,7 +73,7 @@ function generateAnnouncementBarStyles(color: ThemeColorName): string {
  * @example
  * ```typescript
  * AnnouncementBar(
- *   { color: 'warning', closable: true, onDismiss: () => console.log('dismissed') },
+ *   { color: 'warning', closable: true, onClose: () => console.log('dismissed') },
  *   "You're on our launch Free plan with unlimited resumes and redaction!"
  * )
  * ```
@@ -92,7 +92,7 @@ export function AnnouncementBar(
     color = 'primary',
     icon,
     closable = false,
-    onDismiss,
+    onClose,
     class: cls,
   }: AnnouncementBarOptions,
   ...children: TNode[]
@@ -101,7 +101,7 @@ export function AnnouncementBar(
   return When(visible, () => {
     const isDismissible = Value.map(
       closable,
-      v => Boolean(v) || onDismiss != null
+      v => Boolean(v) || onClose != null
     )
     return html.div(
       attr.class(
@@ -136,7 +136,7 @@ export function AnnouncementBar(
               color: 'white',
               onClick: () => {
                 visible.set(false)
-                onDismiss?.()
+                onClose?.()
               },
             })
           )

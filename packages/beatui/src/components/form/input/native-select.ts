@@ -21,8 +21,8 @@ import { CommonInputAttributes, InputOptions } from './input-options'
 import { emitOptionExpando, Expando } from '../../misc/expando'
 import { BeatUII18n } from '../../../beatui-i18n'
 import {
-  BaseControllerOptions,
-  ControllerOptions,
+  BaseControlOptions,
+  ControlOptions,
   makeOnBlurHandler,
   makeOnChangeHandler,
 } from '../control'
@@ -184,7 +184,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
  * @returns A renderable form control component.
  */
 export function BaseNativeSelectControl<T>(
-  options: BaseControllerOptions<T, NativeSelectOptions<T>>
+  options: BaseControlOptions<T, NativeSelectOptions<T>>
 ) {
   const { controller, onChange, onBlur, ...rest } = options
   return NativeSelect({
@@ -203,7 +203,7 @@ export function BaseNativeSelectControl<T>(
  * @returns A renderable form control component with wrapper.
  */
 export function NativeSelectControl<T>(
-  options: ControllerOptions<T, NativeSelectOptions<T>>
+  options: ControlOptions<T, NativeSelectOptions<T>>
 ) {
   return InputWrapper({
     ...options,

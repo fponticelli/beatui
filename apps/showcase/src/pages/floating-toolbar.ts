@@ -22,8 +22,10 @@ export default function FloatingToolbarPage() {
         html.div(
           attr.style('padding: 16px 0; display: flex; justify-content: center'),
           Toolbar(
+            {},
             attr.class('bc-toolbar--floating'),
             ToolbarGroup(
+              {},
               ToolbarButton({}, html.span(attr.style('font-weight: 700'), 'B')),
               ToolbarButton(
                 {},
@@ -40,6 +42,7 @@ export default function FloatingToolbarPage() {
             ),
             ToolbarDivider(),
             ToolbarGroup(
+              {},
               ToolbarButton(
                 {},
                 html.span(
@@ -51,6 +54,7 @@ export default function FloatingToolbarPage() {
             ),
             ToolbarDivider(),
             ToolbarGroup(
+              {},
               ToolbarButton(
                 {},
                 html.span(

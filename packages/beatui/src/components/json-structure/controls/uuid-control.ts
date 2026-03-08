@@ -1,13 +1,13 @@
 /**
  * UUID Control for JSON Structure
  *
- * Handles uuid type with UUIDInput
+ * Handles uuid type with UuidInput
  */
 
 import { Renderable } from '@tempots/dom'
 import {
   Control,
-  UUIDInput,
+  UuidInput,
   transformEmptyStringToUndefined,
   type Controller,
 } from '../../form'
@@ -41,8 +41,8 @@ export function StructureUuidControl({
 }): Renderable {
   const options = createInputOptions(ctx)
 
-  // Use UUIDInput with empty string to undefined transform
-  return Control(UUIDInput, {
+  // Use UuidInput with empty string to undefined transform
+  return Control(UuidInput, {
     ...options,
     controller: transformEmptyStringToUndefined(controller),
   })

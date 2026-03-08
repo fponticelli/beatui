@@ -13,10 +13,10 @@ import { IconSize } from '../../theme'
  * customize the checked/unchecked icons and their size.
  */
 export type CheckboxInputOptions = InputOptions<boolean> & {
-  /** Icon name to display when the checkbox is checked. @default 'ri:checkbox-fill' */
-  checkedIcon?: Value<string | undefined>
-  /** Icon name to display when the checkbox is unchecked. @default 'mdi:checkbox-blank-outline' */
-  uncheckedIcon?: Value<string | undefined>
+  /** Icon name to display when the checkbox is active (checked). @default 'ri:checkbox-fill' */
+  activeIcon?: Value<string | undefined>
+  /** Icon name to display when the checkbox is inactive (unchecked). @default 'mdi:checkbox-blank-outline' */
+  inactiveIcon?: Value<string | undefined>
   /** Size of the checkbox icon. @default 'lg' */
   iconSize?: Value<IconSize>
 }
@@ -52,8 +52,8 @@ export type CheckboxInputOptions = InputOptions<boolean> & {
  * CheckboxInput({
  *   value: prop(true),
  *   onChange: (v) => console.log('Checked:', v),
- *   checkedIcon: 'mdi:checkbox-marked',
- *   uncheckedIcon: 'mdi:checkbox-blank-outline',
+ *   activeIcon: 'mdi:checkbox-marked',
+ *   inactiveIcon: 'mdi:checkbox-blank-outline',
  * })
  * ```
  */
@@ -66,8 +66,8 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
     placeholder,
     disabled,
     id,
-    checkedIcon,
-    uncheckedIcon,
+    activeIcon,
+    inactiveIcon,
     size = 'md',
   } = options
 
@@ -130,12 +130,12 @@ export const CheckboxInput = (options: CheckboxInputOptions) => {
           Icon({
             icon: computedOf(
               value,
-              checkedIcon,
-              uncheckedIcon
-            )((isChecked, checkedIconName, uncheckedIconName): string =>
+              activeIcon,
+              inactiveIcon
+            )((isChecked, activeIconName, inactiveIconName): string =>
               isChecked
-                ? (checkedIconName ?? 'ri:checkbox-fill')
-                : (uncheckedIconName ?? 'mdi:checkbox-blank-outline')
+                ? (activeIconName ?? 'ri:checkbox-fill')
+                : (inactiveIconName ?? 'mdi:checkbox-blank-outline')
             ),
             accessibility: 'decorative',
             size: size,

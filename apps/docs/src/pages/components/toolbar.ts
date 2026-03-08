@@ -25,6 +25,7 @@ export default function ToolbarPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Toolbar', _signals =>
       Toolbar(
+        {},
         ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:bold', size: 'sm' })),
         ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:italic', size: 'sm' })),
         ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:underline', size: 'sm' })),
@@ -44,6 +45,7 @@ export default function ToolbarPage() {
         'Basic Toolbar',
         () =>
           Toolbar(
+            {},
             ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:home', size: 'sm' })),
             ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:search', size: 'sm' })),
             ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:settings', size: 'sm' }))
@@ -54,13 +56,16 @@ export default function ToolbarPage() {
         'With Groups and Dividers',
         () =>
           Toolbar(
+            {},
             ToolbarGroup(
+              {},
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:bold', size: 'sm' })),
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:italic', size: 'sm' })),
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:underline', size: 'sm' }))
             ),
             ToolbarDivider(),
             ToolbarGroup(
+              {},
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:align-left', size: 'sm' })),
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:align-center', size: 'sm' })),
               ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:align-right', size: 'sm' }))
@@ -72,6 +77,7 @@ export default function ToolbarPage() {
         'With Spacer and Action Button',
         () =>
           Toolbar(
+            {},
             ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:undo-2', size: 'sm' })),
             ToolbarButton({ size: 'sm' }, Icon({ icon: 'lucide:redo-2', size: 'sm' })),
             ToolbarSpacer(),
@@ -86,6 +92,7 @@ export default function ToolbarPage() {
         'Text Labels',
         () =>
           Toolbar(
+            {},
             ToolbarButton(
               { size: 'sm' },
               Icon({ icon: 'lucide:plus', size: 'sm' }),

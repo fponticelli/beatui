@@ -36,8 +36,8 @@ describe('RatingInput Component', () => {
           value,
           onChange: vi.fn(),
           fullColor: 'green',
-          fullIcon: 'full.svg',
-          emptyIcon: 'empty.svg',
+          activeIcon: 'full.svg',
+          inactiveIcon: 'empty.svg',
         })
       ),
       container

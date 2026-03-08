@@ -152,20 +152,20 @@ describe('Slash Commands Plugin', () => {
     expect(onUpdate).not.toHaveBeenCalled() // Not triggered yet
   })
 
-  it('should call onDismiss callback on deactivation', async () => {
+  it('should call onClose callback on deactivation', async () => {
     const { registerSlashCommandsPlugin } = await import(
       '../../../src/lexical/plugins/slash-commands'
     )
-    const onDismiss = vi.fn()
+    const onClose = vi.fn()
 
     const cleanup = await registerSlashCommandsPlugin(
       mockEditor as LexicalEditor,
       undefined,
-      { onDismiss }
+      { onClose }
     )
 
-    // Cleanup calls deactivate which should call onDismiss if active
-    // But since we never activated, onDismiss won't be called
+    // Cleanup calls deactivate which should call onClose if active
+    // But since we never activated, onClose won't be called
     cleanup()
     // The test should verify cleanup exists and doesn't throw
     expect(typeof cleanup).toBe('function')

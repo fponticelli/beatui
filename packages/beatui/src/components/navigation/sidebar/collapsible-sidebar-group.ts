@@ -45,7 +45,7 @@ export function CollapsibleSidebarGroup(
       // Add ARIA attributes for the toggle button
       ariaExpanded: open,
       ariaControls: contentId,
-      right: html.span(
+      after: html.span(
         attr.class('bc-sidebar-group-collapsible-indicator'),
         Icon({ icon: 'lucide:chevron-down', color: 'base', size: 'xs' })
       ),

@@ -17,9 +17,9 @@ import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, borderColorValue } from '../../theme/style-utils'
 
 /**
- * Configuration options for the {@link OTPInput} component.
+ * Configuration options for the {@link OtpInput} component.
  */
-export interface OTPInputOptions {
+export interface OtpInputOptions {
   /** Number of input digits/characters. @default 6 @min 1 @max 12 @step 1 */
   length?: Value<number>
   /** The current OTP value as a string. */
@@ -90,10 +90,10 @@ function isValidChar(char: string, type: 'numeric' | 'alphanumeric'): boolean {
  * @example
  * ```ts
  * import { prop } from '@tempots/dom'
- * import { OTPInput } from '@tempots/beatui'
+ * import { OtpInput } from '@tempots/beatui'
  *
  * const code = prop('')
- * OTPInput({
+ * OtpInput({
  *   value: code,
  *   onChange: code.set,
  *   onComplete: (v) => console.log('Code entered:', v),
@@ -104,7 +104,7 @@ function isValidChar(char: string, type: 'numeric' | 'alphanumeric'): boolean {
  * @example
  * ```ts
  * // Masked 4-digit PIN
- * OTPInput({
+ * OtpInput({
  *   value: prop(''),
  *   onChange: (v) => console.log(v),
  *   length: 4,
@@ -114,7 +114,7 @@ function isValidChar(char: string, type: 'numeric' | 'alphanumeric'): boolean {
  * })
  * ```
  */
-export function OTPInput({
+export function OtpInput({
   length = 6,
   value = '',
   onChange,
@@ -126,7 +126,7 @@ export function OTPInput({
   color = 'primary',
   placeholder = '',
   autoFocus = false,
-}: OTPInputOptions = {}) {
+}: OtpInputOptions = {}) {
   const otpId = sessionId('otp')
 
   // Internal state: array of individual cell values

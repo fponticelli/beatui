@@ -17,7 +17,7 @@ export interface ToggleButtonOptions {
   /** Whether the button is currently pressed/active. */
   pressed: Value<boolean>
   /** Callback invoked when the button is toggled. */
-  onToggle?: (pressed: boolean) => void
+  onChange?: (pressed: boolean) => void
   /** Whether the button is disabled. @default false */
   disabled?: Value<boolean>
   /** Visual style variant. @default 'outline' */
@@ -244,7 +244,7 @@ function generateToggleButtonStyles(
  *
  * const bold = prop(false)
  * ToggleButton(
- *   { pressed: bold, onToggle: bold.set, variant: 'outline' },
+ *   { pressed: bold, onChange: bold.set, variant: 'outline' },
  *   'B'
  * )
  * ```
@@ -254,7 +254,7 @@ function generateToggleButtonStyles(
  * // Icon toggle
  * const starred = prop(false)
  * ToggleButton(
- *   { pressed: starred, onToggle: starred.set, color: 'yellow' },
+ *   { pressed: starred, onChange: starred.set, color: 'yellow' },
  *   Icon({ icon: starred.map(s => s ? 'lucide:star' : 'lucide:star-off') })
  * )
  * ```
@@ -262,7 +262,7 @@ function generateToggleButtonStyles(
 export function ToggleButton(
   {
     pressed,
-    onToggle,
+    onChange,
     disabled = false,
     variant = 'outline',
     size = 'md',
@@ -292,7 +292,7 @@ export function ToggleButton(
       e.preventDefault()
       e.stopPropagation()
       if (!Value.get(disabled)) {
-        onToggle?.(!Value.get(pressed))
+        onChange?.(!Value.get(pressed))
       }
     }),
     ...children

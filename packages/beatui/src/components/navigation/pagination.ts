@@ -30,7 +30,7 @@ export interface PaginationOptions {
   /** Total number of pages available. */
   totalPages: Value<number>
   /** Callback invoked when a page is selected. */
-  onPageChange: (page: number) => void
+  onChange: (page: number) => void
   /** Number of page siblings to show around the current page. @default 1 */
   siblings?: Value<number>
   /** Whether to show Previous/Next navigation buttons. @default true */
@@ -191,7 +191,7 @@ export function generatePaginationStyles(
  * Pagination({
  *   currentPage,
  *   totalPages,
- *   onPageChange: (page) => {
+ *   onChange: (page) => {
  *     currentPage.set(page)
  *     // Load page data...
  *   },
@@ -205,7 +205,7 @@ export function generatePaginationStyles(
 export function Pagination({
   currentPage,
   totalPages,
-  onPageChange,
+  onChange,
   siblings = 1,
   showPrevNext = true,
   showFirstLast = false,
@@ -306,7 +306,7 @@ export function Pagination({
             e.preventDefault()
             const total = Value.get(totalPages)
             if (total > 1) {
-              onPageChange(1)
+              onChange(1)
             }
           }),
           '\u00AB' // «
@@ -328,7 +328,7 @@ export function Pagination({
             e.preventDefault()
             const current = Value.get(currentPage)
             if (current > 1) {
-              onPageChange(current - 1)
+              onChange(current - 1)
             }
           }),
           '\u2039' // ‹
@@ -376,7 +376,7 @@ export function Pagination({
                   e.preventDefault()
                   const item = Value.get(itemSignal)
                   if (item !== 'dots' && item !== Value.get(currentPage)) {
-                    onPageChange(item)
+                    onChange(item)
                   }
                 }),
                 itemSignal.map(item => String(item))
@@ -401,7 +401,7 @@ export function Pagination({
             const current = Value.get(currentPage)
             const total = Value.get(totalPages)
             if (current < total) {
-              onPageChange(current + 1)
+              onChange(current + 1)
             }
           }),
           '›'
@@ -423,7 +423,7 @@ export function Pagination({
             e.preventDefault()
             const total = Value.get(totalPages)
             if (total > 1) {
-              onPageChange(total)
+              onChange(total)
             }
           }),
           '\u00BB' // »

@@ -12,7 +12,7 @@ import {
 import { ElementRect } from '@tempots/ui'
 
 /** Configuration options for the {@link Collapse} component. */
-export type CollapseOption = {
+export type CollapseOptions = {
   /** Reactive boolean controlling whether the content is expanded or collapsed. */
   open: Value<boolean>
 }
@@ -43,7 +43,7 @@ export type CollapseOption = {
  * )
  * ```
  */
-export function Collapse({ open }: CollapseOption, ...children: TNode[]) {
+export function Collapse({ open }: CollapseOptions, ...children: TNode[]) {
   return WithElement(element => {
     const { status, setOpen, dispose } = useAnimatedElementToggle({
       initialStatus: Value.get(open) ? 'opened' : 'closed',

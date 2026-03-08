@@ -95,12 +95,12 @@ export default function NoticePage() {
                 variant: 'warning',
                 title: 'With dismiss callback',
                 closable: true,
-                onDismiss: () => console.log('Notice dismissed'),
+                onClose: () => console.log('Notice dismissed'),
               },
-              'Dismissing fires an onDismiss callback for custom handling.'
+              'Dismissing fires an onClose callback for custom handling.'
             )
           ),
-        'Set closable to true to show a dismiss button. An onDismiss callback fires when the user closes the notice.'
+        'Set closable to true to show a dismiss button. An onClose callback fires when the user closes the notice.'
       ),
       Section(
         'No Icon',

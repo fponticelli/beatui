@@ -17,7 +17,7 @@ import { BeatUII18n } from '../../beatui-i18n'
 /**
  * Configuration options for the {@link UnstyledDropZone} component.
  */
-export type DropZoneOptions = {
+export type UnstyledDropZoneOptions = {
   /**
    * Callback invoked when files are selected, either via drag-and-drop
    * or the file picker dialog. The `via` parameter indicates the selection method.
@@ -109,7 +109,7 @@ export function UnstyledDropZone({
   content,
   disabled = false,
   allowMultiple,
-}: DropZoneOptions) {
+}: UnstyledDropZoneOptions) {
   return Use(BeatUII18n, t => {
     const files = Value.deriveProp(value ?? [])
     const isDragOver = prop(false)

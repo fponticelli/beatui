@@ -26,9 +26,9 @@ export type SwitchOptions = {
   /** Whether the switch is disabled and cannot be toggled. @default false */
   disabled?: Value<boolean>
   /** Visual size of the switch. @default 'md' */
-  size?: ControlSize
+  size?: Value<ControlSize>
   /** Unique HTML id attribute for the switch element */
-  id?: string
+  id?: Value<string>
   /** Theme color for the switch track when on. @default 'primary' */
   color?: Value<ThemeColorName>
   /** Tab index for keyboard navigation order. @default 0 */
@@ -92,7 +92,7 @@ export const Switch = ({
   matchInputHeight = true,
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
-  const switchId = id ?? sessionId('switch')
+  const switchId: Value<string> = id ?? sessionId('switch')
 
   function generateSwitchClasses(disabled: boolean, size: ControlSize): string {
     const classes = [

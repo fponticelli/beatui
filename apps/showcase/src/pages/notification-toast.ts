@@ -20,7 +20,7 @@ export default function NotificationToastPage() {
   const colorStr = prop<string>('primary')
   const color =
     colorStr as unknown as import('@tempots/dom').Prop<ThemeColorName>
-  const withBorder = prop(false)
+  const showBorder = prop(false)
   const dismissAfterStr = prop('0')
   const dismissAfter = dismissAfterStr.map(v => {
     const n = Number(v)
@@ -63,8 +63,8 @@ export default function NotificationToastPage() {
       Stack(
         Label('With border'),
         CheckboxInput({
-          value: withBorder,
-          onChange: v => withBorder.set(v),
+          value: showBorder,
+          onChange: v => showBorder.set(v),
         })
       )
     ),
@@ -85,7 +85,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Success'),
                     icon: 'lucide:check-circle',
                     color: color.value,
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'Your action completed successfully.'
@@ -104,7 +104,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Warning'),
                     icon: 'lucide:alert-triangle',
                     color: 'warning',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'Please review the changes before proceeding.'
@@ -123,7 +123,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Error'),
                     icon: 'lucide:x-circle',
                     color: 'danger',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'Something went wrong. Please try again.'
@@ -142,7 +142,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Information'),
                     icon: 'lucide:info',
                     color: 'info',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'New features are now available in your dashboard.'
@@ -167,7 +167,7 @@ export default function NotificationToastPage() {
                   {
                     title: html.strong('Simple Notification'),
                     color: color.value,
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'This notification has no icon, showing a colored accent bar instead.'
@@ -183,7 +183,7 @@ export default function NotificationToastPage() {
                 NotificationService.show(
                   {
                     color: color.value,
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   'Notification without title or icon.'
@@ -211,7 +211,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Processing...'),
                     loading: true,
                     color: color.value,
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: loadingPromise,
                   },
                   'Your request is being processed.'
@@ -234,7 +234,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Uploading file...'),
                     loading: true,
                     color: 'secondary',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: loadingPromise,
                   },
                   'Please wait while we upload your file.'
@@ -261,7 +261,7 @@ export default function NotificationToastPage() {
                     title: html.strong('Update Available'),
                     icon: 'lucide:download',
                     color: 'success',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   html.div(
@@ -287,7 +287,7 @@ export default function NotificationToastPage() {
                     title: html.strong('New Message'),
                     icon: 'lucide:mail',
                     color: 'primary',
-                    withBorder: withBorder.value,
+                    showBorder: showBorder.value,
                     dismissAfter: dismissAfter.value,
                   },
                   html.div(
@@ -324,7 +324,7 @@ export default function NotificationToastPage() {
                       title: html.strong(`Notification ${i + 1}`),
                       icon: 'lucide:bell',
                       color: color.value,
-                      withBorder: withBorder.value,
+                      showBorder: showBorder.value,
                       dismissAfter: dismissAfter.value,
                     },
                     `This is notification number ${i + 1}`
@@ -367,7 +367,7 @@ export default function NotificationToastPage() {
                       title: html.strong('Default Position'),
                       icon: 'lucide:corner-down-right',
                       color: color.value,
-                      withBorder: withBorder.value,
+                      showBorder: showBorder.value,
                       dismissAfter: dismissAfter.value,
                     },
                     'This appears at bottom-end (default)'

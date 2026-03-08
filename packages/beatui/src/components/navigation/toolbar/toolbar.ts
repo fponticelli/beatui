@@ -47,12 +47,15 @@ export interface ToolbarOptions {
  * @example
  * ```typescript
  * Toolbar(
+ *   { ariaLabel: 'Text formatting' },
  *   ToolbarGroup(
+ *     {},
  *     ToolbarButton({ onClick: () => bold() }, Icon({ icon: 'bold' })),
  *     ToolbarButton({ onClick: () => italic() }, Icon({ icon: 'italic' })),
  *   ),
  *   ToolbarDivider(),
  *   ToolbarGroup(
+ *     {},
  *     ToolbarButton({ onClick: () => alignLeft() }, Icon({ icon: 'align-left' })),
  *     ToolbarButton({ onClick: () => alignCenter() }, Icon({ icon: 'align-center' })),
  *   ),
@@ -61,11 +64,13 @@ export interface ToolbarOptions {
  * )
  * ```
  */
-export function Toolbar(...children: TNode[]) {
+export function Toolbar(options: ToolbarOptions, ...children: TNode[]) {
+  const { ariaLabel } = options
   return html.div(
     attr.class('bc-toolbar'),
     attr.role('toolbar'),
     aria.orientation('horizontal'),
+    ariaLabel != null ? aria.label(ariaLabel) : null,
     // Keyboard navigation with roving tabindex among focusable children
     WithElement(container => {
       const setRoving = () => {
@@ -187,15 +192,27 @@ export interface ToolbarButtonOptions extends ButtonOptions {
  * )
  * ```
  */
-export function ToolbarButton(options: ButtonOptions, ...children: TNode[]) {
+export function ToolbarButton(
+  options: ToolbarButtonOptions,
+  ...children: TNode[]
+) {
+  const { iconOnly, ariaLabel, ...buttonOptions } = options
   return Button(
     {
       color: 'neutral',
       roundedness: 'md',
       variant: 'light',
-      ...options,
+      ...buttonOptions,
     },
     attr.class('bc-toolbar__button'),
+    iconOnly != null
+      ? attr.class(
+          Value.map(iconOnly, (v): string =>
+            v ? 'bc-toolbar__button--icon-only' : ''
+          )
+        )
+      : null,
+    ariaLabel != null ? aria.label(ariaLabel) : null,
     ...children
   )
 }
@@ -223,16 +240,22 @@ export interface ToolbarGroupOptions {
  * @example
  * ```typescript
  * ToolbarGroup(
+ *   { ariaLabel: 'Text style' },
  *   ToolbarButton({ onClick: () => bold() }, Icon({ icon: 'bold' })),
  *   ToolbarButton({ onClick: () => italic() }, Icon({ icon: 'italic' })),
  *   ToolbarButton({ onClick: () => underline() }, Icon({ icon: 'underline' })),
  * )
  * ```
  */
-export function ToolbarGroup(...children: TNode[]) {
+export function ToolbarGroup(
+  options: ToolbarGroupOptions,
+  ...children: TNode[]
+) {
+  const { ariaLabel } = options
   return html.div(
     attr.class('bc-toolbar__group'),
     attr.role('group'),
+    ariaLabel != null ? aria.label(ariaLabel) : null,
     ...children
   )
 }
@@ -247,9 +270,10 @@ export function ToolbarGroup(...children: TNode[]) {
  * @example
  * ```typescript
  * Toolbar(
- *   ToolbarGroup(boldBtn, italicBtn),
+ *   {},
+ *   ToolbarGroup({}, boldBtn, italicBtn),
  *   ToolbarDivider(),
- *   ToolbarGroup(alignLeftBtn, alignCenterBtn),
+ *   ToolbarGroup({}, alignLeftBtn, alignCenterBtn),
  * )
  * ```
  */
@@ -272,7 +296,8 @@ export function ToolbarDivider() {
  * @example
  * ```typescript
  * Toolbar(
- *   ToolbarGroup(editBtns),
+ *   {},
+ *   ToolbarGroup({}, editBtns),
  *   ToolbarSpacer(),
  *   ToolbarButton({ onClick: save }, 'Save'),
  * )

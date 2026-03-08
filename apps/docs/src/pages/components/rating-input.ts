@@ -90,8 +90,8 @@ export default function RatingInputPage() {
                 value: 3,
                 max: 5,
                 onChange: () => {},
-                fullIcon: 'mdi:heart',
-                emptyIcon: 'mdi:heart-outline',
+                activeIcon: 'mdi:heart',
+                inactiveIcon: 'mdi:heart-outline',
                 fullColor: 'red',
               })
             ),
@@ -101,13 +101,13 @@ export default function RatingInputPage() {
                 value: 4,
                 max: 5,
                 onChange: () => {},
-                fullIcon: 'mdi:thumb-up',
-                emptyIcon: 'mdi:thumb-up-outline',
+                activeIcon: 'mdi:thumb-up',
+                inactiveIcon: 'mdi:thumb-up-outline',
                 fullColor: 'blue',
               })
             )
           ),
-        'Customize the icons and colors using fullIcon, emptyIcon, fullColor, and emptyColor.'
+        'Customize the icons and colors using activeIcon, inactiveIcon, fullColor, and emptyColor props.'
       ),
       Section(
         'Sizes',

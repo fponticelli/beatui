@@ -19,10 +19,10 @@ export type NullableRatingInputOptions = InputOptions<number | null> & {
   fullColor?: Value<ThemeColorName>
   /** Color name for empty rating icons. */
   emptyColor?: Value<ThemeColorName>
-  /** Icon identifier for filled rating items. */
-  fullIcon?: Value<string>
-  /** Icon identifier for empty rating items. */
-  emptyIcon?: Value<string>
+  /** Icon identifier for active (filled) rating items. */
+  activeIcon?: Value<string>
+  /** Icon identifier for inactive (empty) rating items. */
+  inactiveIcon?: Value<string>
   /** Size of the rating icons. */
   size?: Value<ControlSize>
   /** Rounding precision for fractional ratings (e.g., `0.5` for half stars). */
