@@ -16,11 +16,11 @@ export default function NumberInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('NumberInput', signals => {
       const value = signals.value as Prop<number>
-      return NumberInput({ ...signals, value, onChange: (v: number) => value.set(v) } as never)
+      return NumberInput({ ...signals, value, onChange: (v: number) => value.set(v) })
     }),
     sections: [
       ...AutoSections('NumberInput', props =>
-        NumberInput({ ...props, value: 42 } as never)
+        NumberInput({ ...props, value: 42 })
       ),
       Section(
         'With Steppers',

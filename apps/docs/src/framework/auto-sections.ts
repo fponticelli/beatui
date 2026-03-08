@@ -17,7 +17,8 @@ const SHOWCASE_PROPS = new Set([
  */
 export function AutoSections(
   componentName: string,
-  renderFn: (props: Record<string, unknown>) => TNode
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderFn: (props: any) => TNode
 ): DocSection[] {
   const meta = componentMeta[componentName]
   if (!meta) return []

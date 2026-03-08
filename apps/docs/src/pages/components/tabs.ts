@@ -53,7 +53,7 @@ export default function TabsPage() {
           items: sampleItems,
           value,
           onChange: (v: string) => value.set(v),
-        } as never)
+        })
       )
     }),
     sections: [

@@ -31,7 +31,7 @@ export default function PopoverPage() {
               'This is the popover body. It can contain any content.'
             )
           ),
-        } as never)
+        })
       )
     ),
     sections: [

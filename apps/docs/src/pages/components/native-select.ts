@@ -34,14 +34,14 @@ export default function NativeSelectPage() {
           value,
           options,
           onChange: (v: string) => value.set(v),
-        } as never)
+        })
       )
     }),
     sections: [
       ...AutoSections('NativeSelect', props =>
         html.div(
           attr.class('w-48'),
-          NativeSelect({ ...props, value: 'us', options: prop(countryOptions) } as never)
+          NativeSelect({ ...props, value: 'us', options: prop(countryOptions) })
         )
       ),
       Section(

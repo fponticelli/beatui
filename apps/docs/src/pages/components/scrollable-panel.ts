@@ -30,7 +30,7 @@ export default function ScrollablePanelPage() {
       html.div(
         attr.class('h-64 border rounded-lg overflow-hidden border-gray-200 dark:border-gray-700'),
         ScrollablePanel({
-          shadowOnScroll: signals.shadowOnScroll as never,
+          shadowOnScroll: signals.shadowOnScroll,
           header: html.div(
             attr.class(
               'px-4 py-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-sm'

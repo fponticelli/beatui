@@ -30,9 +30,9 @@ export default function VideoPlayerPage() {
           BaseVideoPlayer({
             url,
             playing,
-            controls: signals.controls as never,
-            muted: signals.muted as never,
-            loop: signals.loop as never,
+            controls: signals.controls,
+            muted: signals.muted,
+            loop: signals.loop,
             width: '100%',
             height: '240',
           })

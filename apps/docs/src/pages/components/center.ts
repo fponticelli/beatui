@@ -19,7 +19,7 @@ export default function CenterPage() {
       html.div(
         attr.class('h-48 p-4 border rounded-lg border-gray-200 dark:border-gray-700'),
         Center(
-          props as never,
+          props,
           html.div(
             attr.class('text-sm font-medium text-gray-600 dark:text-gray-400'),
             'Centered Content'
@@ -32,7 +32,7 @@ export default function CenterPage() {
         html.div(
           attr.class('h-32 p-4 border rounded-lg border-gray-200 dark:border-gray-700'),
           Center(
-            props as never,
+            props,
             html.span(attr.class('text-sm text-gray-500'), 'Content')
           )
         )

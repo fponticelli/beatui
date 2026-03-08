@@ -20,7 +20,7 @@ export default function EditableTextPage() {
         ...signals,
         value,
         onChange: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('EditableText', props =>
@@ -28,7 +28,7 @@ export default function EditableTextPage() {
           ...props,
           value: 'Editable text',
           onChange: () => {},
-        } as never)
+        })
       ),
       Section(
         'With Placeholder',

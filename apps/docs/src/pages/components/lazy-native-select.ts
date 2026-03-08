@@ -66,7 +66,7 @@ export default function LazyNativeSelectPage() {
           load: loadCountries,
           unselectedLabel: 'Select a country...',
           onChange: (v: string) => value.set(v),
-        } as never),
+        }),
         html.div(
           attr.class('text-xs text-gray-500 dark:text-gray-400 font-mono'),
           'Selected: ',

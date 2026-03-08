@@ -28,12 +28,12 @@ export default function IconPage() {
         title: signals.title,
         accessibility: signals.accessibility,
         tone: signals.tone,
-      } as never),
+      }),
       { icon: 'lucide:star' }
     ),
     sections: [
       ...AutoSections('Icon', props =>
-        Icon({ ...props, icon: 'lucide:star' } as never)
+        Icon({ ...props, icon: 'lucide:star' })
       ),
       Section(
         'Sizes',

@@ -24,11 +24,11 @@ export default function TagsInputPage() {
         hasError: signals.hasError,
         values,
         onChange: (v: string[]) => values.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('TagInput', props =>
-        TagInput({ ...props, values: ['Tag A', 'Tag B'] } as never)
+        TagInput({ ...props, values: ['Tag A', 'Tag B'] })
       ),
       Section(
         'Sizes',

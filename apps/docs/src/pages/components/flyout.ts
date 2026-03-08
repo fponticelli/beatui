@@ -35,7 +35,7 @@ export default function FlyoutPage() {
                 'This floating panel is anchored to the trigger.'
               )
             ),
-        } as never)
+        })
       )
     ),
     sections: [

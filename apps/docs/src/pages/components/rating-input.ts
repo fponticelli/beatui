@@ -42,7 +42,7 @@ export default function RatingInputPage() {
     ),
     sections: [
       ...AutoSections('NullableRatingInput', props =>
-        RatingInput({ ...props, value: 3, max: 5 } as never)
+        RatingInput({ ...props, value: 3, max: 5 })
       ),
       Section(
         'Basic Rating',

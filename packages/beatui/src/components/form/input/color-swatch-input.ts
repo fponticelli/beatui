@@ -33,7 +33,7 @@ export type ColorSwatchInputOptions = InputOptions<string> & {
   /** When true, renders the formatted color value text next to the blob preview. @default false */
   displayValue?: Value<boolean>
   /** Size in pixels of the blob preview (square). @default 32 */
-  size?: Value<number>
+  swatchSize?: Value<number>
   /** Enable alpha channel support with a small opacity slider. @default false */
   withAlpha?: Value<boolean>
   /** Color space format for the displayed text label and emitted value. @default 'rgb' for display, 'hex' for emitted values */
@@ -113,7 +113,7 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
  *   value: color,
  *   onChange: color.set,
  *   displayValue: true,
- *   size: 40,
+ *   swatchSize: 40,
  * })
  * ```
  *
@@ -126,15 +126,15 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
  *   withAlpha: true,
  *   displayValue: true,
  *   colorTextFormat: 'hsl',
- *   size: 48,
+ *   swatchSize: 48,
  * })
  * ```
  */
 export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
-  const { value, onBlur, onChange, onInput, displayValue, size, withAlpha } =
+  const { value, onBlur, onChange, onInput, displayValue, swatchSize, withAlpha } =
     options
 
-  const blobSize = Value.map(size ?? 32, s => s)
+  const blobSize = Value.map(swatchSize ?? 32, s => s)
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
   const rgb = Value.map(
     rgba,
@@ -269,9 +269,10 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
     )
   )
 
+  const { swatchSize: _sz, displayValue: _dv, withAlpha: _wa, colorTextFormat: _ct, ...containerOptions } = options
   return InputContainer({
     baseContainer: true,
-    ...options,
+    ...containerOptions,
     // ensure our control does not try to grow
     growInput: false,
     input: Preview,

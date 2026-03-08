@@ -62,7 +62,7 @@ export default function TreeViewPage() {
           selectedId,
           onSelect: (id: string) => selectedId.set(id),
           size: signals.size,
-        } as never)
+        })
       )
     }),
     sections: [

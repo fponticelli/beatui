@@ -21,11 +21,11 @@ export default function BigintInputPage() {
         ...signals,
         value,
         onChange: (v: bigint) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('BigintInput', props =>
-        BigintInput({ ...props, value: 42n } as never)
+        BigintInput({ ...props, value: 42n })
       ),
       Section(
         'With Steppers',

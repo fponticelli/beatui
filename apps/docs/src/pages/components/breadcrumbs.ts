@@ -1,4 +1,4 @@
-import { Breadcrumbs, Icon } from '@tempots/beatui'
+import { Breadcrumbs, Icon, type BreadcrumbItem } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -13,7 +13,7 @@ export const meta: ComponentPageMeta = {
   order: 3,
 }
 
-const sampleItems = [
+const sampleItems: BreadcrumbItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Components', href: '/components' },
   { label: 'Breadcrumbs', current: true },
@@ -28,7 +28,7 @@ export default function BreadcrumbsPage() {
         separator: signals.separator,
         maxItems: signals.maxItems,
         items,
-      } as never)
+      })
     }),
     sections: [
       Section(

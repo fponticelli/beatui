@@ -17,7 +17,7 @@ export default function SinkPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Sink', props =>
       Sink(
-        props as never,
+        props,
         html.p(
           attr.class('text-sm text-gray-600 dark:text-gray-400'),
           'Content inside the sink container.'
@@ -27,7 +27,7 @@ export default function SinkPage() {
     sections: [
       ...AutoSections('Sink', props =>
         Sink(
-          props as never,
+          props,
           html.p(attr.class('text-sm text-gray-500'), 'Sink content')
         )
       ),

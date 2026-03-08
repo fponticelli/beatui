@@ -73,7 +73,7 @@ export default function DataTablePage() {
         filterable: signals.filterable as Value<boolean>,
         selectable: signals.selectable as Value<boolean>,
         hoverable: signals.hoverable as Value<boolean>,
-        size: signals.size as never,
+        size: signals.size,
         withStripedRows: signals.withStripedRows as Value<boolean>,
         withTableBorder: signals.withTableBorder as Value<boolean>,
         withColumnBorders: signals.withColumnBorders as Value<boolean>,
@@ -98,7 +98,7 @@ export default function DataTablePage() {
             header: 'Role',
             cell: row =>
               MapSignal(row, r =>
-                Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)
+                Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
               ),
             filter: {
               type: 'select',
@@ -115,7 +115,7 @@ export default function DataTablePage() {
             header: 'Status',
             cell: row =>
               MapSignal(row, r =>
-                Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)
+                Badge({ color: statusColor(r.status), size: 'sm' }, r.status)
               ),
             filter: {
               type: 'select',
@@ -180,7 +180,7 @@ export default function DataTablePage() {
               {
                 id: 'role',
                 header: 'Role',
-                cell: row => MapSignal(row, r => Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)),
+                cell: row => MapSignal(row, r => Badge({ color: roleColor(r.role), size: 'sm' }, r.role)),
                 value: r => r.role,
                 filter: {
                   type: 'select',
@@ -194,7 +194,7 @@ export default function DataTablePage() {
               {
                 id: 'status',
                 header: 'Status',
-                cell: row => MapSignal(row, r => Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)),
+                cell: row => MapSignal(row, r => Badge({ color: statusColor(r.status), size: 'sm' }, r.status)),
                 value: r => r.status,
                 filter: {
                   type: 'select',
@@ -450,7 +450,7 @@ export default function DataTablePage() {
                 header: 'Role',
                 cell: row =>
                   MapSignal(row, r =>
-                    Badge({ color: roleColor(r.role) as never, size: 'sm' }, r.role)
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
                   ),
                 value: r => r.role,
                 filter: {
@@ -468,7 +468,7 @@ export default function DataTablePage() {
                 header: 'Status',
                 cell: row =>
                   MapSignal(row, r =>
-                    Badge({ color: statusColor(r.status) as never, size: 'sm' }, r.status)
+                    Badge({ color: statusColor(r.status), size: 'sm' }, r.status)
                   ),
                 value: r => r.status,
                 filter: {

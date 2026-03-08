@@ -26,7 +26,7 @@ export default function PromptDialogPage() {
           dismissable: signals.dismissable,
           onConfirm: (value: string) => console.log('Confirmed:', value),
           onCancel: () => console.log('Cancelled'),
-        } as never,
+        },
         (open) =>
           Button(
             {

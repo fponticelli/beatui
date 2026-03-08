@@ -17,38 +17,38 @@ import { objectEntries } from '@tempots/std'
  * | Name         | Value | Use case                |
  * |--------------|-------|-------------------------|
  * | base         | 0     | Default stacking        |
- * | raised       | 10    | Slightly elevated items |
- * | navigation   | 20    | Nav bars, headers       |
- * | sidebar      | 20    | Side navigation         |
- * | overlay      | 50    | Backdrop overlays       |
- * | modal        | 60    | Modal dialogs           |
- * | tooltip      | 70    | Tooltip content         |
- * | popover      | 80    | Popover menus           |
- * | notification | 90    | Toast notifications     |
- * | maximum      | 100   | Highest priority        |
+ * | raised       | 100   | Slightly elevated items |
+ * | navigation   | 200   | Nav bars, headers       |
+ * | sidebar      | 200   | Side navigation         |
+ * | overlay      | 500   | Backdrop overlays       |
+ * | modal        | 600   | Modal dialogs           |
+ * | tooltip      | 700   | Tooltip content         |
+ * | popover      | 800   | Popover menus           |
+ * | notification | 900   | Toast notifications     |
+ * | maximum      | 1000  | Highest priority        |
  */
 export const zIndex = {
   // Base layers
   base: 0,
-  raised: 10,
+  raised: 100,
 
   // Navigation and layout
-  navigation: 20,
-  sidebar: 20,
+  navigation: 200,
+  sidebar: 200,
 
   // Overlays and modals
-  overlay: 50,
-  modal: 60,
+  overlay: 500,
+  modal: 600,
 
   // Tooltips and popovers
-  tooltip: 70,
-  popover: 80,
+  tooltip: 700,
+  popover: 800,
 
   // Notifications and alerts
-  notification: 90,
+  notification: 900,
 
   // Maximum priority
-  maximum: 100,
+  maximum: 1000,
 } as const
 
 /**

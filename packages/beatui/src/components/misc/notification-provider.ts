@@ -1,6 +1,7 @@
 import {
   Empty,
   OnDispose,
+  Portal,
   Provider,
   Signal,
   TNode,
@@ -352,43 +353,46 @@ export const NotificationProvider: Provider<NotificationProviderValue> = {
  */
 export function NotificationViewport() {
   return Use(NotificationProvider, ({ listenOnShow, position }) => {
-    return html.div(
-      attr.class('bc-notification-viewport'),
-      attr.class(`bc-notification-viewport--${position}`),
-      WithBrowserCtx(ctx =>
-        OnDispose(
-          listenOnShow(entry => {
-            const cleanup: Array<() => void> = []
-            const notification = html.div(
-              AnimatedToggle(
-                {
-                  animation: entry.animation,
-                  initialStatus: 'start-opening',
-                },
-                ({ close, listenOnClosed }) => {
-                  entry.delayedClose?.finally(close)
-                  listenOnClosed(() => {
-                    cleanup.forEach(fn => fn())
-                  })
-                  return Notification(
-                    {
-                      class: entry.class,
-                      loading: entry.loading,
-                      showCloseButton: entry.showCloseButton,
-                      showBorder: entry.showBorder,
-                      color: entry.color,
-                      roundedness: entry.roundedness,
-                      title: entry.title,
-                      icon: entry.icon,
-                      onClose: close,
-                    },
-                    ...entry.children
-                  )
-                }
+    return Portal(
+      'body',
+      html.div(
+        attr.class('bc-notification-viewport'),
+        attr.class(`bc-notification-viewport--${position}`),
+        WithBrowserCtx(ctx =>
+          OnDispose(
+            listenOnShow(entry => {
+              const cleanup: Array<() => void> = []
+              const notification = html.div(
+                AnimatedToggle(
+                  {
+                    animation: entry.animation,
+                    initialStatus: 'start-opening',
+                  },
+                  ({ close, listenOnClosed }) => {
+                    entry.delayedClose?.finally(close)
+                    listenOnClosed(() => {
+                      cleanup.forEach(fn => fn())
+                    })
+                    return Notification(
+                      {
+                        class: entry.class,
+                        loading: entry.loading,
+                        showCloseButton: entry.showCloseButton,
+                        showBorder: entry.showBorder,
+                        color: entry.color,
+                        roundedness: entry.roundedness,
+                        title: entry.title,
+                        icon: entry.icon,
+                        onClose: close,
+                      },
+                      ...entry.children
+                    )
+                  }
+                )
               )
-            )
-            cleanup.push(renderWithContext(notification, ctx))
-          })
+              cleanup.push(renderWithContext(notification, ctx))
+            })
+          )
         )
       )
     )

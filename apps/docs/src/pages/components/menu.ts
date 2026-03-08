@@ -44,7 +44,7 @@ export default function MenuPage() {
             }),
           ],
           onAction: (key: string) => console.log('Action:', key),
-        } as never)
+        })
       )
     ),
     sections: [

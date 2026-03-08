@@ -75,7 +75,8 @@ function playgroundLayout(
  */
 export function autoPlayground(
   componentName: string,
-  renderFn: (props: Record<string, Value<unknown>>) => TNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderFn: (props: any) => TNode,
   defaults?: Record<string, unknown>
 ): TNode {
   const meta = componentMeta[componentName]
@@ -133,7 +134,8 @@ export function autoPlayground(
  */
 export function manualPlayground(
   componentName: string,
-  renderFn: (signals: Record<string, Value<any>>) => TNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderFn: (signals: any) => TNode,
   defaults?: Record<string, unknown>
 ): Renderable {
   const meta = componentMeta[componentName]

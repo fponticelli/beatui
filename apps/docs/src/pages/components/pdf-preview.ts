@@ -28,9 +28,9 @@ export default function PdfPreviewPage() {
           style.height('480px'),
           NativePdfPreview({
             content: url,
-            toolbar: signals.toolbar as never,
-            page: signals.page as never,
-            zoom: signals.zoom as never,
+            toolbar: signals.toolbar,
+            page: signals.page,
+            zoom: signals.zoom,
           })
         ),
         html.p(

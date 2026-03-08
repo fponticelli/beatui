@@ -28,7 +28,7 @@ export default function RadioGroupPage() {
         options: sampleOptions,
         value,
         onChange: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('RadioGroup', props =>
@@ -36,7 +36,7 @@ export default function RadioGroupPage() {
           ...props,
           options: sampleOptions,
           value: 'light',
-        } as never)
+        })
       ),
       Section(
         'Horizontal Layout',

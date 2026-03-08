@@ -1,4 +1,4 @@
-import { PdfPageViewer, Button, Icon } from '@tempots/beatui'
+import { PdfPageViewer, Button, Icon, type ButtonVariant } from '@tempots/beatui'
 import { html, attr, prop, style } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -20,9 +20,9 @@ export default function PdfPageViewerPage() {
     playground: manualPlayground('PdfPageViewer', signals =>
       PdfPageViewer({
         source: SAMPLE_PDF_URL,
-        page: signals.page as never,
-        fit: signals.fit as never,
-        quality: signals.quality as never,
+        page: signals.page,
+        fit: signals.fit,
+        quality: signals.quality,
       })
     ),
     sections: [
@@ -86,7 +86,7 @@ export default function PdfPageViewerPage() {
                 Button(
                   {
                     size: 'sm',
-                    variant: rotation.map(v => v === r ? 'filled' : 'outline') as never,
+                    variant: rotation.map((v): ButtonVariant => v === r ? 'filled' : 'outline'),
                     color: 'primary',
                     onClick: () => rotation.set(r),
                   },

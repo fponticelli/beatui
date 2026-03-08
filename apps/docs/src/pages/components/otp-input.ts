@@ -26,11 +26,11 @@ export default function OtpInputPage() {
         ...signals,
         value,
         onChange: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('OtpInput', props =>
-        OtpInput({ ...props, value: '', onChange: () => {} } as never)
+        OtpInput({ ...props, value: '', onChange: () => {} })
       ),
       Section(
         'Lengths',

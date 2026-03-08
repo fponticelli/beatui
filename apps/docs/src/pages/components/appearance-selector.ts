@@ -25,7 +25,7 @@ export default function AppearanceSelectorPage() {
         ...signals,
         value,
         onChange: (v: AppearancePreference) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       Section(

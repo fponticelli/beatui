@@ -23,7 +23,7 @@ export default function Base64InputPage() {
           ...signals,
           value,
           onChange: (v: string | undefined) => value.set(v),
-        } as never)
+        })
       )
     }),
     sections: [

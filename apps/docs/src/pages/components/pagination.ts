@@ -30,7 +30,7 @@ export default function PaginationPage() {
         currentPage,
         totalPages: 10,
         onChange: (page: number) => currentPage.set(page),
-      } as never)
+      })
     }),
     sections: [
       Section(

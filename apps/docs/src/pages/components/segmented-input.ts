@@ -28,7 +28,7 @@ export default function SegmentedInputPage() {
         options: sampleOptions,
         value,
         onChange: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('SegmentedInput', props =>
@@ -36,7 +36,7 @@ export default function SegmentedInputPage() {
           ...props,
           options: sampleOptions,
           value: 'a',
-        } as never)
+        })
       ),
       Section(
         'Sizes',

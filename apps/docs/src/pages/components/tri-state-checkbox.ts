@@ -21,11 +21,11 @@ export default function TriStateCheckboxPage() {
         ...signals,
         value,
         onChange: (v: CheckboxState) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('TriStateCheckboxInput', props =>
-        TriStateCheckboxInput({ ...props, value: 'unchecked' as CheckboxState } as never)
+        TriStateCheckboxInput({ ...props, value: 'unchecked' as CheckboxState })
       ),
       Section(
         'All Three States',

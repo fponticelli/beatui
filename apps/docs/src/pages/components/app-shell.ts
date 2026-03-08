@@ -154,8 +154,8 @@ export default function AppShellPage() {
               Button({ variant: 'light', size: 'sm', color: 'base' }, 'Settings')
             ),
             height: 56,
-            shadow: signals.shadow as never,
-            color: signals.color as never,
+            shadow: signals.shadow,
+            color: signals.color,
           },
           menu: {
             content: html.nav(

@@ -29,14 +29,14 @@ export default function RibbonPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Ribbon', props =>
       CardWithRibbon(
-        Ribbon(props as never, 'New'),
+        Ribbon(props, 'New'),
         'Card content'
       )
     ),
     sections: [
       ...AutoSections('Ribbon', props =>
         CardWithRibbon(
-          Ribbon(props as never, 'New'),
+          Ribbon(props, 'New'),
           'Card'
         )
       ),

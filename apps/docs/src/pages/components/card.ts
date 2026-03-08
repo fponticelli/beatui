@@ -17,7 +17,7 @@ export default function CardPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Card', props =>
       Card(
-        props as never,
+        props,
         html.h3(attr.class('font-semibold mb-2'), 'Card Title'),
         html.p(
           attr.class('text-sm text-gray-500 dark:text-gray-400'),
@@ -28,7 +28,7 @@ export default function CardPage() {
     sections: [
       ...AutoSections('Card', props =>
         Card(
-          props as never,
+          props,
           html.p('Sample card content.')
         )
       ),

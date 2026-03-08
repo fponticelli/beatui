@@ -21,13 +21,13 @@ export default function ToggleButtonPage() {
           ...signals,
           pressed,
           onChange: (v: boolean) => pressed.set(v),
-        } as never,
+        },
         'Toggle Me'
       )
     }),
     sections: [
       ...AutoSections('ToggleButton', props =>
-        ToggleButton({ ...props, pressed: false } as never, 'Toggle')
+        ToggleButton({ ...props, pressed: false }, 'Toggle')
       ),
       Section(
         'Colors',

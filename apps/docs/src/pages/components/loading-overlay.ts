@@ -35,7 +35,7 @@ export default function LoadingOverlayPage() {
           LoadingOverlay({
             ...signals,
             visible,
-          } as never)
+          })
         ),
         Button(
           {

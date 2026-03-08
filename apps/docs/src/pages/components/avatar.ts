@@ -21,11 +21,11 @@ export const meta: ComponentPageMeta = {
 export default function AvatarPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Avatar', props =>
-      Avatar(props as never),
+      Avatar(props),
       { name: 'John Doe' }
     ),
     sections: [
-      ...AutoSections('Avatar', props => Avatar(props as never)),
+      ...AutoSections('Avatar', props => Avatar(props)),
       Section(
         'Initials Fallback',
         () =>

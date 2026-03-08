@@ -20,7 +20,7 @@ export default function ModalPage() {
         {
           ...signals,
           onClose: () => {},
-        } as never,
+        },
         (open, close) =>
           Button(
             {

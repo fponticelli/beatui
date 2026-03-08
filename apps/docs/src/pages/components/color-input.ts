@@ -22,29 +22,29 @@ export default function ColorInputPage() {
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('ColorInput', props =>
-        ColorInput({ ...props, value: '#3b82f6' } as never)
+        ColorInput({ ...props, value: '#3b82f6' })
       ),
       Section(
         'Sizes',
         () =>
           html.div(
             attr.class('flex flex-col gap-3 max-w-xs'),
-            ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
+            ...([20, 28, 36, 48, 64] as const).map(size =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
+                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), `${size}px`),
                 ColorInput({
                   value: prop('#3b82f6'),
                   onChange: () => {},
-                  size: size as never,
+                  swatchSize: size,
                 })
               )
             )
           ),
-        'ColorInput is available in five sizes.'
+        'The size prop controls the swatch preview size in pixels.'
       ),
       Section(
         'States',

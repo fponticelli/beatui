@@ -17,14 +17,14 @@ export default function ButtonLinkPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('ButtonLink', props =>
       ButtonLink(
-        props as never,
+        props,
         'Go somewhere'
       ),
       { href: '#' }
     ),
     sections: [
       ...AutoSections('ButtonLink', props =>
-        ButtonLink({ href: '#', ...props } as never, 'Example')
+        ButtonLink({ href: '#', ...props }, 'Example')
       ),
       Section(
         'Variants',

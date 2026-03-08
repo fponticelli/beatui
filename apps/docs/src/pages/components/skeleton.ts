@@ -15,7 +15,7 @@ export const meta: ComponentPageMeta = {
 export default function SkeletonPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Skeleton', props =>
-      html.div(attr.class('w-full max-w-sm'), Skeleton(props as never))
+      html.div(attr.class('w-full max-w-sm'), Skeleton(props))
     ),
     sections: [
       Section(

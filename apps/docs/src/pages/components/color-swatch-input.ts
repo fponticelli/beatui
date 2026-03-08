@@ -22,11 +22,11 @@ export default function ColorSwatchInputPage() {
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('ColorSwatchInput', props =>
-        ColorSwatchInput({ ...props, value: '#3498db' } as never)
+        ColorSwatchInput({ ...props, value: '#3498db' })
       ),
       Section(
         'Display Value',
@@ -97,7 +97,7 @@ export default function ColorSwatchInputPage() {
                 ColorSwatchInput({
                   value: '#3498db',
                   onChange: () => {},
-                  size: size as never,
+                  swatchSize: size,
                 })
               )
             )

@@ -21,7 +21,7 @@ import { InputContainer } from './input-container'
  */
 export type ColorInputOptions = InputOptions<string> & {
   /** Size in pixels of the color swatch preview (square). @default 32 */
-  size?: Value<number>
+  swatchSize?: Value<number>
 }
 
 /**
@@ -102,10 +102,10 @@ function Swatch({
  * ```
  */
 export function ColorInput(options: ColorInputOptions): Renderable {
-  const { value, onBlur, onChange, onInput } = options
+  const { value, onBlur, onChange, onInput, swatchSize: _swatchSize, ...containerOptions } = options
   return InputContainer(
     {
-      ...options,
+      ...containerOptions,
       input: input.text(
         CommonInputAttributes(options),
         attr.value(value),

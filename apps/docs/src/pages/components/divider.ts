@@ -15,11 +15,11 @@ export const meta: ComponentPageMeta = {
 export default function DividerPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Divider', props =>
-      html.div(attr.class('w-full'), Divider(props as never))
+      html.div(attr.class('w-full'), Divider(props))
     ),
     sections: [
       ...AutoSections('Divider', props =>
-        html.div(attr.class('w-full'), Divider(props as never))
+        html.div(attr.class('w-full'), Divider(props))
       ),
       Section(
         'With Label',

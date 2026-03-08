@@ -26,7 +26,7 @@ export default function EmptyStatePage() {
         title: signals.title,
         description: signals.description,
         size: signals.size,
-      } as never),
+      }),
       { title: 'Nothing here yet', icon: 'material-symbols:inbox-outline', description: 'Add some content to get started.' }
     ),
     sections: [
@@ -34,7 +34,7 @@ export default function EmptyStatePage() {
         EmptyState({
           ...props,
           title: 'Nothing here yet',
-        } as never)
+        })
       ),
       Section(
         'With Icon and Description',

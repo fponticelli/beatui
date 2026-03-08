@@ -21,10 +21,10 @@ export const meta: ComponentPageMeta = {
 export default function KbdPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Kbd', props =>
-      Kbd(props as never, 'Enter')
+      Kbd(props, 'Enter')
     ),
     sections: [
-      ...AutoSections('Kbd', props => Kbd(props as never, 'K')),
+      ...AutoSections('Kbd', props => Kbd(props, 'K')),
       Section(
         'Common Keys',
         () =>

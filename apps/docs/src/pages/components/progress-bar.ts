@@ -17,7 +17,7 @@ export default function ProgressBarPage() {
     playground: autoPlayground('ProgressBar', props =>
       html.div(
         attr.class('w-full max-w-md'),
-        ProgressBar(props as never)
+        ProgressBar(props)
       ),
       { value: 65 }
     ),
@@ -25,7 +25,7 @@ export default function ProgressBarPage() {
       ...AutoSections('ProgressBar', props =>
         html.div(
           attr.class('w-48'),
-          ProgressBar({ ...props, value: 65 } as never)
+          ProgressBar({ ...props, value: 65 })
         )
       ),
       Section(

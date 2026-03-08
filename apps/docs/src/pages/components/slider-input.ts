@@ -23,14 +23,14 @@ export default function SliderInputPage() {
           ...signals,
           value,
           onChange: (v: number) => value.set(v),
-        } as never)
+        })
       )
     }),
     sections: [
       ...AutoSections('SliderInput', props =>
         html.div(
           attr.class('w-48'),
-          SliderInput({ ...props, value: 50, min: 0, max: 100 } as never)
+          SliderInput({ ...props, value: 50, min: 0, max: 100 })
         )
       ),
       Section(

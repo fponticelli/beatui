@@ -17,7 +17,7 @@ export default function NotificationPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Notification', props =>
       Notification(
-        props as never,
+        props,
         'This is the notification body text.'
       ),
       { title: 'Notification Title' }
@@ -25,7 +25,7 @@ export default function NotificationPage() {
     sections: [
       ...AutoSections('Notification', props =>
         Notification(
-          { ...props } as never,
+          { ...props },
           'Notification body content.'
         )
       ),

@@ -22,14 +22,14 @@ export default function NoticePage() {
   return ComponentPage(meta, {
     playground: autoPlayground('Notice', props =>
       Notice(
-        props as never,
+        props,
         'This is an informational notice with important details.'
       )
     ),
     sections: [
       ...AutoSections('Notice', props =>
         Notice(
-          props as never,
+          props,
           'This notice demonstrates the current prop configuration.'
         )
       ),

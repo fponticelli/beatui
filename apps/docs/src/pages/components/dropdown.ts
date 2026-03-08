@@ -33,12 +33,11 @@ export default function DropdownPage() {
           value,
           options,
           size: signals.size,
-          color: signals.color,
           disabled: signals.disabled,
           searchable: signals.searchable,
           placeholder: 'Select a fruit...',
           onChange: (v: string) => value.set(v),
-        } as never)
+        })
       )
     }),
     sections: [

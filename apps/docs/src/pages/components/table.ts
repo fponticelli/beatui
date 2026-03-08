@@ -60,7 +60,7 @@ export default function TablePage() {
           withRowBorders: signals.withRowBorders,
           borderRadius: signals.borderRadius,
           fullWidth: true,
-        } as never,
+        },
         html.thead(
           html.tr(
             html.th('Name'),
@@ -74,7 +74,7 @@ export default function TablePage() {
     sections: [
       ...AutoSections('Table', props =>
         Table(
-          { ...props, fullWidth: true } as never,
+          { ...props, fullWidth: true },
           html.thead(
             html.tr(html.th('Name'), html.th('Role'), html.th('Status'))
           ),

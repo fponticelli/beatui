@@ -27,7 +27,7 @@ export default function ConfirmDialogPage() {
           dismissable: signals.dismissable,
           onConfirm: () => console.log('confirmed'),
           onCancel: () => console.log('cancelled'),
-        } as never,
+        },
         (open) =>
           Button(
             {

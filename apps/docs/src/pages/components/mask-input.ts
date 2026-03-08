@@ -27,7 +27,7 @@ export default function MaskInputPage() {
         value,
         onChange: (v: string) => value.set(v),
         onInput: (v: string) => value.set(v),
-      } as never)
+      })
     }),
     sections: [
       ...AutoSections('MaskInput', props =>

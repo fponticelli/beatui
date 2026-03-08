@@ -16,11 +16,11 @@ export default function TextInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TextInput', signals => {
       const value = signals.value as Prop<string>
-      return TextInput({ ...signals, value, onInput: (v: string) => value.set(v) } as never)
+      return TextInput({ ...signals, value, onInput: (v: string) => value.set(v) })
     }),
     sections: [
       ...AutoSections('TextInput', props =>
-        TextInput({ ...props, value: 'Sample text' } as never)
+        TextInput({ ...props, value: 'Sample text' })
       ),
       Section(
         'Sizes',

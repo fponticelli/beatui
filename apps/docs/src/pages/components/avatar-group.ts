@@ -22,7 +22,7 @@ export default function AvatarGroupPage() {
   return ComponentPage(meta, {
     playground: autoPlayground('AvatarGroup', props =>
       AvatarGroup(
-        props as never,
+        props,
         Avatar({ name: 'Alice Johnson', color: 'primary' }),
         Avatar({ name: 'Bob Smith', color: 'success' }),
         Avatar({ name: 'Carol White', color: 'warning' }),
@@ -33,7 +33,7 @@ export default function AvatarGroupPage() {
     sections: [
       ...AutoSections('AvatarGroup', props =>
         AvatarGroup(
-          props as never,
+          props,
           Avatar({ name: 'Alice Johnson', color: 'primary' }),
           Avatar({ name: 'Bob Smith', color: 'success' }),
           Avatar({ name: 'Carol White', color: 'warning' }),

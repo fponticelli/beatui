@@ -20,11 +20,10 @@ export default function FileInputPage() {
         attr.class('w-80'),
         FileInput({
           size: signals.size,
-          color: signals.color,
           disabled: signals.disabled,
           value,
           onChange: (f: File | undefined) => value.set(f),
-        } as never)
+        })
       )
     }),
     sections: [

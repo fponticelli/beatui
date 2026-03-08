@@ -1,4 +1,5 @@
-import { DatePicker, DateRangePicker } from '@tempots/beatui'
+import { DatePicker, DateRangePicker, type PlainDate } from '@tempots/beatui'
+import { Temporal } from '@js-temporal/polyfill'
 import { html, attr, prop } from '@tempots/dom'
 import {
   ComponentPage,
@@ -17,23 +18,25 @@ export const meta: ComponentPageMeta = {
   order: 9,
 }
 
+function formatDate(d: PlainDate): string {
+  return `${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`
+}
+
 export default function DatePickerPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('DatePicker', signals => {
-      const selectedDate = prop<{ year: number; month: number; day: number } | null>(null)
+      const selectedDate = prop<PlainDate | null>(null)
       return html.div(
         attr.class('flex flex-col gap-3 items-center'),
         DatePicker({
           ...signals,
-          value: selectedDate as never,
-          onSelect: (d: { year: number; month: number; day: number }) => selectedDate.set(d),
-        } as never),
+          value: selectedDate,
+          onSelect: (d: PlainDate) => selectedDate.set(d),
+        }),
         html.p(
           attr.class('text-sm text-gray-500'),
           selectedDate.map(d =>
-            d != null
-              ? `Selected: ${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`
-              : 'No date selected'
+            d != null ? `Selected: ${formatDate(d)}` : 'No date selected'
           )
         )
       )
@@ -42,19 +45,17 @@ export default function DatePickerPage() {
       Section(
         'Basic DatePicker',
         () => {
-          const selected = prop<{ year: number; month: number; day: number } | null>(null)
+          const selected = prop<PlainDate | null>(null)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
             DatePicker({
-              value: selected as never,
-              onSelect: (d) => selected.set(d as never),
+              value: selected,
+              onSelect: (d) => selected.set(d),
             }),
             html.p(
               attr.class('text-sm text-gray-500'),
               selected.map(d =>
-                d != null
-                  ? `Selected: ${d.year}-${String(d.month).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`
-                  : 'Click a date to select'
+                d != null ? `Selected: ${formatDate(d)}` : 'Click a date to select'
               )
             )
           )
@@ -104,16 +105,14 @@ export default function DatePickerPage() {
       Section(
         'Disabled Dates',
         () => {
-          const selected = prop<{ year: number; month: number; day: number } | null>(null)
-          const today = new Date()
+          const selected = prop<PlainDate | null>(null)
+          const today = Temporal.Now.plainDateISO()
           return DatePicker({
-            value: selected as never,
-            onSelect: (d: { year: number; month: number; day: number }) => selected.set(d),
-            isDateDisabled: (d: { year: number; month: number; day: number }) => {
-              const date = new Date(d.year, d.month - 1, d.day)
-              return date < today
-            },
-          } as never)
+            value: selected,
+            onSelect: (d: PlainDate) => selected.set(d),
+            isDateDisabled: (d: PlainDate) =>
+              Temporal.PlainDate.compare(d, today) < 0,
+          })
         },
         'Use isDateDisabled to prevent selecting past dates, weekends, or any custom range.'
       ),
@@ -121,7 +120,7 @@ export default function DatePickerPage() {
         'Disabled DatePicker',
         () =>
           DatePicker({
-            value: { year: 2025, month: 6, day: 15 } as never,
+            value: Temporal.PlainDate.from({ year: 2025, month: 6, day: 15 }),
             disabled: true,
           }),
         'A fully disabled date picker displays the selection but prevents all interaction.'
@@ -129,18 +128,18 @@ export default function DatePickerPage() {
       Section(
         'DateRangePicker',
         () => {
-          const range = prop<[{ year: number; month: number; day: number }, { year: number; month: number; day: number }] | null>(null)
+          const range = prop<[PlainDate, PlainDate] | null>(null)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
             DateRangePicker({
-              value: range as never,
-              onChange: (r) => range.set(r as never),
+              value: range,
+              onChange: (r) => range.set(r),
             }),
             html.p(
               attr.class('text-sm text-gray-500'),
               range.map(r =>
                 r != null
-                  ? `Range: ${r[0].year}-${String(r[0].month).padStart(2, '0')}-${String(r[0].day).padStart(2, '0')} to ${r[1].year}-${String(r[1].month).padStart(2, '0')}-${String(r[1].day).padStart(2, '0')}`
+                  ? `Range: ${formatDate(r[0])} to ${formatDate(r[1])}`
                   : 'Click a start date, then an end date'
               )
             )

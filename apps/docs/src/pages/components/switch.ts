@@ -16,11 +16,11 @@ export default function SwitchPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('Switch', signals => {
       const value = signals.value as Prop<boolean>
-      return Switch({ ...signals, value, onChange: (v: boolean) => value.set(v) } as never)
+      return Switch({ ...signals, value, onChange: (v: boolean) => value.set(v) })
     }),
     sections: [
       ...AutoSections('Switch', props =>
-        Switch({ ...props, value: true } as never)
+        Switch({ ...props, value: true })
       ),
       Section(
         'With Labels',

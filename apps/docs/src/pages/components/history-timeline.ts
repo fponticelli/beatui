@@ -1,4 +1,4 @@
-import { HistoryTimeline } from '@tempots/beatui'
+import { HistoryTimeline, type HistoryEntry } from '@tempots/beatui'
 import { html, attr, prop, on } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
@@ -13,7 +13,7 @@ export const meta: ComponentPageMeta = {
   order: 12,
 }
 
-const sampleEntries = [
+const sampleEntries: HistoryEntry[] = [
   {
     id: '1',
     action: 'CREATED',
@@ -93,14 +93,14 @@ export default function HistoryTimelinePage() {
   return ComponentPage(meta, {
     playground: html.div(
       attr.class('w-full'),
-      HistoryTimeline({ entries: sampleEntries as never })
+      HistoryTimeline({ entries: sampleEntries })
     ),
     sections: [
       Section(
         'Basic Timeline',
         () =>
           HistoryTimeline({
-            entries: sampleEntries.slice(0, 3) as never,
+            entries: sampleEntries.slice(0, 3),
           }),
         'A minimal HistoryTimeline with a few entries. Default filter chips are shown automatically.'
       ),
@@ -108,7 +108,7 @@ export default function HistoryTimelinePage() {
         'With Restore Actions',
         () =>
           HistoryTimeline({
-            entries: sampleEntries.filter(e => e.restorable) as never,
+            entries: sampleEntries.filter(e => e.restorable),
           }),
         'Entries with restorable: true and an onRestore callback show a Restore button.'
       ),
@@ -116,7 +116,7 @@ export default function HistoryTimelinePage() {
         'Custom Filter Chips',
         () =>
           HistoryTimeline({
-            entries: sampleEntries as never,
+            entries: sampleEntries,
             filters: [
               { value: 'all', label: 'All Changes' },
               { value: 'deletions', label: 'Deletions' },
@@ -132,7 +132,7 @@ export default function HistoryTimelinePage() {
           const entries = prop(sampleEntries.slice(0, 2))
           return html.div(
             attr.class('flex flex-col gap-3'),
-            HistoryTimeline({ entries: entries as never }),
+            HistoryTimeline({ entries: entries }),
             html.div(
               attr.class('flex gap-2'),
               html.button(

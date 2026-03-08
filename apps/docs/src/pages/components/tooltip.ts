@@ -27,7 +27,7 @@ export default function TooltipPage() {
           crossAxisOffset: signals.crossAxisOffset,
           showOn: signals.showOn,
           content: 'This is a tooltip',
-        } as never)
+        })
       )
     ),
     sections: [

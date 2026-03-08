@@ -5,7 +5,7 @@ import {
   Button,
   Group,
 } from '@tempots/beatui'
-import { html, attr, Provide } from '@tempots/dom'
+import { html, attr, Provide, Use } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -226,21 +226,23 @@ export default function NotificationServicePage() {
                 { position },
                 () =>
                   html.div(
-                    Button(
-                      {
-                        variant: 'outline',
-                        onClick: () =>
-                          NotificationService.show(
-                            {
-                              color: 'primary',
-                              icon: 'lucide:map-pin',
-                              showCloseButton: true,
-                              dismissAfter: 3,
-                            },
-                            `Notification at ${position}`
-                          ),
-                      },
-                      position
+                    Use(NotificationProvider, ({ show }) =>
+                      Button(
+                        {
+                          variant: 'outline',
+                          onClick: () =>
+                            show(
+                              {
+                                color: 'primary',
+                                icon: 'lucide:map-pin',
+                                showCloseButton: true,
+                                dismissAfter: 3,
+                              },
+                              `Notification at ${position}`
+                            ),
+                        },
+                        position
+                      )
                     ),
                     NotificationViewport()
                   )

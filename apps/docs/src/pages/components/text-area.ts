@@ -16,11 +16,11 @@ export default function TextAreaPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('TextArea', signals => {
       const value = signals.value as Prop<string>
-      return TextArea({ ...signals, value, onInput: (v: string) => value.set(v) } as never)
+      return TextArea({ ...signals, value, onInput: (v: string) => value.set(v) })
     }),
     sections: [
       ...AutoSections('TextArea', props =>
-        TextArea({ ...props, value: 'Sample text' } as never)
+        TextArea({ ...props, value: 'Sample text' })
       ),
       Section(
         'Row Sizes',

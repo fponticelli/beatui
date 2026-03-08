@@ -52,27 +52,27 @@ function slowSearch(query: string): Promise<DropdownOption<string>[]> {
 export default function ComboboxInputPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('ComboboxInput', signals => {
-      const value = prop<Fruit>(null as never)
+      const value = prop<Fruit | null>(null)
       return html.div(
         attr.class('w-64'),
-        ComboboxInput<Fruit>({
+        ComboboxInput<Fruit | null>({
           ...signals,
           value,
           loadOptions: searchFruits,
           renderOption: (fruitSignal: Signal<Fruit>) => fruitSignal.map(f => f.name),
           onChange: (f: Fruit) => value.set(f),
           equality: (a: Fruit, b: Fruit) => a.id === b.id,
-        } as never)
+        })
       )
     }),
     sections: [
       Section(
         'Basic Usage',
         () => {
-          const value = prop<Fruit>(null as never)
+          const value = prop<Fruit | null>(null)
           return html.div(
             attr.class('flex flex-col gap-2 w-64'),
-            ComboboxInput<Fruit>({
+            ComboboxInput<Fruit | null>({
               value,
               loadOptions: searchFruits,
               renderOption: fruitSignal => fruitSignal.map(f => f.name),
@@ -91,10 +91,10 @@ export default function ComboboxInputPage() {
       Section(
         'Custom Option Rendering',
         () => {
-          const value = prop<Fruit>(null as never)
+          const value = prop<Fruit | null>(null)
           return html.div(
             attr.class('w-64'),
-            ComboboxInput<Fruit>({
+            ComboboxInput<Fruit | null>({
               value,
               loadOptions: searchFruits,
               renderOption: fruitSignal =>
@@ -120,10 +120,10 @@ export default function ComboboxInputPage() {
       Section(
         'Debounce Delay',
         () => {
-          const value = prop<string>(null as never)
+          const value = prop<string | null>(null)
           return html.div(
             attr.class('w-64'),
-            ComboboxInput<string>({
+            ComboboxInput<string | null>({
               value,
               loadOptions: slowSearch,
               renderOption: s => s,
@@ -140,8 +140,8 @@ export default function ComboboxInputPage() {
         () =>
           html.div(
             attr.class('w-64'),
-            ComboboxInput<Fruit>({
-              value: prop<Fruit>(null as never),
+            ComboboxInput<Fruit | null>({
+              value: prop<Fruit | null>(null),
               loadOptions: searchFruits,
               renderOption: s => s.map(f => f.name),
               placeholder: 'Disabled combobox',

@@ -31,7 +31,7 @@ export default function AlertDialogPage() {
             dismissable: Value.get(signals.dismissable) ?? true,
             body: html.p('This is the alert message body content.'),
             onOk: () => console.log('Alert acknowledged'),
-          } as never,
+          },
           (open) =>
             Button(
               {
@@ -44,7 +44,7 @@ export default function AlertDialogPage() {
         )
       )
     },
-      { title: 'Alert', variant: 'info' }
+      { title: 'Alert', variant: 'info', icon: 'lucide:info' }
     ),
     sections: [
       Section(
