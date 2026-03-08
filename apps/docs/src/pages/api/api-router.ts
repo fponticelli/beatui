@@ -26,7 +26,7 @@ export function ApiRouter() {
             html.div(
               attr.class('p-6 text-red-600 dark:text-red-400'),
               'Failed to load API data. Run ',
-              html.code('pnpm --filter @beatui/docs-v2 run gen:api'),
+              html.code('pnpm --filter @beatui/docs run gen:api'),
               ' first.'
             ),
           then: project => {

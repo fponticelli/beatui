@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'apps/docs-v2/**'
+      - 'apps/docs/**'
       - 'packages/**'
       - '.github/workflows/deploy-docs.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - 'apps/docs-v2/**'
+      - 'apps/docs/**'
       - 'packages/**'
   workflow_dispatch:
 
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build documentation
         run: |
-          cd apps/docs-v2
+          cd apps/docs
           pnpm run build
 
       - name: Setup Pages
@@ -59,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './apps/docs-v2/dist'
+          path: './apps/docs/dist'
 
   deploy:
     environment:

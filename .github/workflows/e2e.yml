@@ -55,7 +55,7 @@ jobs:
         run: pnpm exec playwright install-deps ${{ matrix.browser }}
 
       - name: Run E2E tests
-        run: pnpm --filter @beatui/docs-v2 test:e2e --project=${{ matrix.browser }}
+        run: pnpm --filter @beatui/docs test:e2e --project=${{ matrix.browser }}
         env:
           CI: true
 
@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.browser }}
-          path: apps/docs-v2/test-results/
+          path: apps/docs/test-results/
           retention-days: 7
 
       - name: Upload Playwright report
@@ -72,5 +72,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ matrix.browser }}
-          path: apps/docs-v2/playwright-report/
+          path: apps/docs/playwright-report/
           retention-days: 7
