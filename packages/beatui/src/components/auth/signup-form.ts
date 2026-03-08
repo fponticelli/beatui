@@ -21,7 +21,7 @@ import {
 } from '@tempots/dom'
 import { Button } from '../button'
 import {
-  EmailInput,
+  NativeEmailInput,
   PasswordInput,
   TextInput,
   CheckboxInput,
@@ -159,7 +159,7 @@ export function SignUpForm({
         ),
 
         // Email field
-        Control(EmailInput, {
+        Control(NativeEmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),

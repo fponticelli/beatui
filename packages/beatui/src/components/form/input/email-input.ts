@@ -20,10 +20,10 @@ import { BeatUII18n } from '../../../beatui-i18n'
  * @example
  * ```ts
  * import { prop } from '@tempots/dom'
- * import { EmailInput } from '@tempots/beatui'
+ * import { NativeEmailInput } from '@tempots/beatui'
  *
  * const email = prop('')
- * EmailInput({
+ * NativeEmailInput({
  *   value: email,
  *   onChange: email.set,
  * })
@@ -32,7 +32,7 @@ import { BeatUII18n } from '../../../beatui-i18n'
  * @example
  * ```ts
  * // Override the default before icon
- * EmailInput({
+ * NativeEmailInput({
  *   value: prop(''),
  *   onChange: (v) => console.log('Email:', v),
  *   before: Icon({ icon: 'custom-email-icon' }),
@@ -40,7 +40,7 @@ import { BeatUII18n } from '../../../beatui-i18n'
  * })
  * ```
  */
-export const EmailInput = (options: InputOptions<string>) => {
+export const NativeEmailInput = (options: InputOptions<string>) => {
   const updatedOptions = {
     name: 'email',
     autocomplete: 'email',

@@ -18,13 +18,13 @@ export const nullToEmpty = (value: null | string) =>
  * Factory function to create nullable string input components.
  * Eliminates duplication across nullable text-based inputs.
  *
- * @param BaseInput - The base input component (e.g., TextInput, EmailInput, PasswordInput)
+ * @param BaseInput - The base input component (e.g., TextInput, NativeEmailInput, PasswordInput)
  * @returns A nullable version of the input component
  *
  * @example
  * ```ts
  * export const NullableTextInput = createNullableStringInput(TextInput)
- * export const NullableEmailInput = createNullableStringInput(EmailInput)
+ * export const NativeNullableEmailInput = createNullableStringInput(NativeEmailInput)
  * ```
  */
 export function createNullableStringInput(

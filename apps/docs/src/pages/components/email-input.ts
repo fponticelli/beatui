@@ -1,23 +1,23 @@
-import { EmailInput } from '@tempots/beatui'
+import { NativeEmailInput } from '@tempots/beatui'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
-  name: 'EmailInput',
+  name: 'NativeEmailInput',
   category: 'Text Inputs',
-  component: 'EmailInput',
+  component: 'NativeEmailInput',
   description:
     'An email input with a default email icon, browser-native email validation, and autocomplete support.',
   icon: 'lucide:mail',
   order: 6,
 }
 
-export default function EmailInputPage() {
+export default function NativeEmailInputPage() {
   return ComponentPage(meta, {
     playground: html.div(
       attr.class('max-w-sm'),
-      EmailInput({
+      NativeEmailInput({
         value: prop(''),
         onInput: () => {},
       })
@@ -28,10 +28,10 @@ export default function EmailInputPage() {
         () =>
           html.div(
             attr.class('flex flex-col gap-3 max-w-sm'),
-            EmailInput({ value: '' }),
-            EmailInput({ value: 'user@example.com' })
+            NativeEmailInput({ value: '' }),
+            NativeEmailInput({ value: 'user@example.com' })
           ),
-        'EmailInput renders an email icon in the before slot by default. The input type is set to "email" for browser-native validation.'
+        'NativeEmailInput renders an email icon in the before slot by default. The input type is set to "email" for browser-native validation.'
       ),
       Section(
         'Sizes',
@@ -41,20 +41,20 @@ export default function EmailInputPage() {
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
                 html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
-                EmailInput({ value: '', size })
+                NativeEmailInput({ value: '', size })
               )
             )
           ),
-        'EmailInput is available in five sizes.'
+        'NativeEmailInput is available in five sizes.'
       ),
       Section(
         'States',
         () =>
           html.div(
             attr.class('flex flex-col gap-3 max-w-sm'),
-            EmailInput({ value: '' }),
-            EmailInput({ value: '', disabled: true, placeholder: 'Disabled' }),
-            EmailInput({ value: 'invalid', hasError: true })
+            NativeEmailInput({ value: '' }),
+            NativeEmailInput({ value: '', disabled: true, placeholder: 'Disabled' }),
+            NativeEmailInput({ value: 'invalid', hasError: true })
           ),
         'Supports disabled and error states.'
       ),

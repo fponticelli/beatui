@@ -10,7 +10,7 @@ import {
   Ensure,
 } from '@tempots/dom'
 import { Button } from '../../components/button'
-import { EmailInput } from '../../components/form/input'
+import { NativeEmailInput } from '../../components/form/input'
 import { Stack } from '../../components/layout'
 import { Notice } from '../../components/misc'
 import { BetterAuthClient } from '../types'
@@ -75,7 +75,7 @@ export function MagicLinkForm({
               attr.class('bc-auth-form__description'),
               t.$.magicLinkDescription
             ),
-            EmailInput({
+            NativeEmailInput({
               value: email,
               onChange: v => email.set(v),
             }),
