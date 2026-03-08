@@ -103,6 +103,33 @@ export const pages: PageEntry[] = [
     "slug": "badge"
   },
   {
+    "name": "Base64Input",
+    "category": "Form Inputs",
+    "component": "Base64Input",
+    "description": "A single-file upload input that stores the file as a base64 string. Supports drag-and-drop, file type filtering, and size limits.",
+    "icon": "lucide:file-up",
+    "order": 20,
+    "slug": "base64-input"
+  },
+  {
+    "name": "BigintInput",
+    "category": "Text Inputs",
+    "component": "BigintInput",
+    "description": "A numeric input for arbitrarily large integers (bigint), with optional stepper buttons, min/max clamping, and digit-only masking.",
+    "icon": "lucide:sigma",
+    "order": 9,
+    "slug": "bigint-input"
+  },
+  {
+    "name": "BlockCommandPalette",
+    "category": "Overlays",
+    "component": "BlockCommandPalette",
+    "description": "An inline block-level command palette with search filtering and keyboard navigation. Designed for slash-command menus in editors.",
+    "icon": "lucide:terminal-square",
+    "order": 10,
+    "slug": "block-command-palette"
+  },
+  {
     "name": "Breadcrumbs",
     "category": "Navigation",
     "component": "Breadcrumbs",
@@ -238,6 +265,15 @@ export const pages: PageEntry[] = [
     "slug": "data-table"
   },
   {
+    "name": "DateInput",
+    "category": "Pickers",
+    "component": "DateInput",
+    "description": "A native date input (type=\"date\") that binds to a JavaScript Date object.",
+    "icon": "lucide:calendar",
+    "order": 13,
+    "slug": "date-input"
+  },
+  {
     "name": "DatePicker",
     "category": "Tables & Media",
     "component": "DatePicker",
@@ -245,6 +281,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:calendar",
     "order": 9,
     "slug": "date-picker"
+  },
+  {
+    "name": "DateTimeInput",
+    "category": "Pickers",
+    "component": "DateTimeInput",
+    "description": "A native datetime-local input that binds to a JavaScript Date object.",
+    "icon": "lucide:calendar-clock",
+    "order": 14,
+    "slug": "date-time-input"
   },
   {
     "name": "Divider",
@@ -281,6 +326,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:pencil-line",
     "order": 12,
     "slug": "editable-text"
+  },
+  {
+    "name": "EmailInput",
+    "category": "Text Inputs",
+    "component": "EmailInput",
+    "description": "An email input with a default email icon, browser-native email validation, and autocomplete support.",
+    "icon": "lucide:mail",
+    "order": 6,
+    "slug": "email-input"
   },
   {
     "name": "EmptyState",
@@ -355,6 +409,15 @@ export const pages: PageEntry[] = [
     "slug": "kbd"
   },
   {
+    "name": "Label",
+    "category": "Data Display",
+    "component": "Label",
+    "description": "Inline text labels with semantic styling variants for emphasis, muted, and danger states.",
+    "icon": "lucide:tag",
+    "order": 20,
+    "slug": "label"
+  },
+  {
     "name": "LazyNativeSelect",
     "category": "Selection",
     "component": "LazyNativeSelect",
@@ -380,6 +443,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:link",
     "order": 4,
     "slug": "link"
+  },
+  {
+    "name": "ListInput",
+    "category": "Form Inputs",
+    "component": "ListInput",
+    "description": "A dynamic list component for managing ordered arrays. Each item receives actions for removal and reordering (up, down, first, last).",
+    "icon": "lucide:list",
+    "order": 21,
+    "slug": "list-input"
   },
   {
     "name": "LoadingOverlay",
@@ -526,6 +598,24 @@ export const pages: PageEntry[] = [
     "slug": "pagination"
   },
   {
+    "name": "PasswordInput",
+    "category": "Text Inputs",
+    "component": "PasswordInput",
+    "description": "A password input with a built-in visibility toggle button, automatic autocomplete handling, and masked placeholder.",
+    "icon": "lucide:lock",
+    "order": 5,
+    "slug": "password-input"
+  },
+  {
+    "name": "PdfPageViewer",
+    "category": "Media",
+    "component": "PdfPageViewer",
+    "description": "A PDF.js-powered page viewer with fit modes, rotation, text selection layer, and annotation support. Renders a single page at a time.",
+    "icon": "lucide:file-text",
+    "order": 5,
+    "slug": "pdf-page-viewer"
+  },
+  {
     "name": "NativePdfPreview",
     "category": "Tables & Media",
     "component": "NativePdfPreview",
@@ -533,6 +623,15 @@ export const pages: PageEntry[] = [
     "icon": "lucide:file-text",
     "order": 10,
     "slug": "pdf-preview"
+  },
+  {
+    "name": "Temporal Inputs",
+    "category": "Pickers",
+    "component": "PlainDateInput",
+    "description": "A family of native date/time inputs that bind to Temporal API types (PlainDate, PlainDateTime, PlainTime, PlainYearMonth, PlainMonthDay). Requires the Temporal polyfill.",
+    "icon": "lucide:clock",
+    "order": 15,
+    "slug": "plain-date-input"
   },
   {
     "name": "Popover",
@@ -760,6 +859,24 @@ export const pages: PageEntry[] = [
     "slug": "tri-state-checkbox"
   },
   {
+    "name": "UrlInput",
+    "category": "Text Inputs",
+    "component": "UrlInput",
+    "description": "A URL input with browser-native URL validation via type=\"url\".",
+    "icon": "lucide:link",
+    "order": 7,
+    "slug": "url-input"
+  },
+  {
+    "name": "UUIDInput",
+    "category": "Text Inputs",
+    "component": "UUIDInput",
+    "description": "A masked input for UUID values with automatic hyphen insertion and hex character validation.",
+    "icon": "lucide:fingerprint",
+    "order": 8,
+    "slug": "uuid-input"
+  },
+  {
     "name": "BaseVideoPlayer",
     "category": "Tables & Media",
     "component": "BaseVideoPlayer",
@@ -944,6 +1061,24 @@ export const categories: CategoryEntry[] = [
         "slug": "color-swatch-input"
       },
       {
+        "name": "DateInput",
+        "category": "Pickers",
+        "component": "DateInput",
+        "description": "A native date input (type=\"date\") that binds to a JavaScript Date object.",
+        "icon": "lucide:calendar",
+        "order": 13,
+        "slug": "date-input"
+      },
+      {
+        "name": "DateTimeInput",
+        "category": "Pickers",
+        "component": "DateTimeInput",
+        "description": "A native datetime-local input that binds to a JavaScript Date object.",
+        "icon": "lucide:calendar-clock",
+        "order": 14,
+        "slug": "date-time-input"
+      },
+      {
         "name": "SliderInput",
         "category": "Pickers",
         "component": "SliderInput",
@@ -969,6 +1104,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:star",
         "order": 15,
         "slug": "rating-input"
+      },
+      {
+        "name": "Temporal Inputs",
+        "category": "Pickers",
+        "component": "PlainDateInput",
+        "description": "A family of native date/time inputs that bind to Temporal API types (PlainDate, PlainDateTime, PlainTime, PlainYearMonth, PlainMonthDay). Requires the Temporal polyfill.",
+        "icon": "lucide:clock",
+        "order": 15,
+        "slug": "plain-date-input"
       },
       {
         "name": "ComboboxInput",
@@ -1083,6 +1227,15 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:message-square-more",
         "order": 9,
         "slug": "popover"
+      },
+      {
+        "name": "BlockCommandPalette",
+        "category": "Overlays",
+        "component": "BlockCommandPalette",
+        "description": "An inline block-level command palette with search filtering and keyboard navigation. Designed for slash-command menus in editors.",
+        "icon": "lucide:terminal-square",
+        "order": 10,
+        "slug": "block-command-palette"
       }
     ]
   },
@@ -1317,6 +1470,144 @@ export const categories: CategoryEntry[] = [
         "icon": "lucide:bell-dot",
         "order": 10,
         "slug": "indicator"
+      },
+      {
+        "name": "Label",
+        "category": "Data Display",
+        "component": "Label",
+        "description": "Inline text labels with semantic styling variants for emphasis, muted, and danger states.",
+        "icon": "lucide:tag",
+        "order": 20,
+        "slug": "label"
+      }
+    ]
+  },
+  {
+    "name": "Form Inputs",
+    "icon": "lucide:clipboard-edit",
+    "pages": [
+      {
+        "name": "Base64Input",
+        "category": "Form Inputs",
+        "component": "Base64Input",
+        "description": "A single-file upload input that stores the file as a base64 string. Supports drag-and-drop, file type filtering, and size limits.",
+        "icon": "lucide:file-up",
+        "order": 20,
+        "slug": "base64-input"
+      },
+      {
+        "name": "ListInput",
+        "category": "Form Inputs",
+        "component": "ListInput",
+        "description": "A dynamic list component for managing ordered arrays. Each item receives actions for removal and reordering (up, down, first, last).",
+        "icon": "lucide:list",
+        "order": 21,
+        "slug": "list-input"
+      }
+    ]
+  },
+  {
+    "name": "Text Inputs",
+    "icon": "lucide:text-cursor-input",
+    "pages": [
+      {
+        "name": "TextInput",
+        "category": "Text Inputs",
+        "component": "TextInput",
+        "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
+        "icon": "lucide:type",
+        "order": 2,
+        "slug": "text-input"
+      },
+      {
+        "name": "NumberInput",
+        "category": "Text Inputs",
+        "component": "NumberInput",
+        "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
+        "icon": "lucide:hash",
+        "order": 3,
+        "slug": "number-input"
+      },
+      {
+        "name": "PasswordInput",
+        "category": "Text Inputs",
+        "component": "PasswordInput",
+        "description": "A password input with a built-in visibility toggle button, automatic autocomplete handling, and masked placeholder.",
+        "icon": "lucide:lock",
+        "order": 5,
+        "slug": "password-input"
+      },
+      {
+        "name": "EmailInput",
+        "category": "Text Inputs",
+        "component": "EmailInput",
+        "description": "An email input with a default email icon, browser-native email validation, and autocomplete support.",
+        "icon": "lucide:mail",
+        "order": 6,
+        "slug": "email-input"
+      },
+      {
+        "name": "UrlInput",
+        "category": "Text Inputs",
+        "component": "UrlInput",
+        "description": "A URL input with browser-native URL validation via type=\"url\".",
+        "icon": "lucide:link",
+        "order": 7,
+        "slug": "url-input"
+      },
+      {
+        "name": "UUIDInput",
+        "category": "Text Inputs",
+        "component": "UUIDInput",
+        "description": "A masked input for UUID values with automatic hyphen insertion and hex character validation.",
+        "icon": "lucide:fingerprint",
+        "order": 8,
+        "slug": "uuid-input"
+      },
+      {
+        "name": "BigintInput",
+        "category": "Text Inputs",
+        "component": "BigintInput",
+        "description": "A numeric input for arbitrarily large integers (bigint), with optional stepper buttons, min/max clamping, and digit-only masking.",
+        "icon": "lucide:sigma",
+        "order": 9,
+        "slug": "bigint-input"
+      },
+      {
+        "name": "OTPInput",
+        "category": "Text Inputs",
+        "component": "OTPInput",
+        "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
+        "icon": "lucide:key-round",
+        "order": 10,
+        "slug": "otp-input"
+      },
+      {
+        "name": "MaskInput",
+        "category": "Text Inputs",
+        "component": "MaskInput",
+        "description": "A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.",
+        "icon": "lucide:shield-check",
+        "order": 11,
+        "slug": "mask-input"
+      },
+      {
+        "name": "EditableText",
+        "category": "Text Inputs",
+        "component": "EditableText",
+        "description": "An inline editable text that toggles between display and input modes on click.",
+        "icon": "lucide:pencil-line",
+        "order": 12,
+        "slug": "editable-text"
+      },
+      {
+        "name": "TextArea",
+        "category": "Text Inputs",
+        "component": "TextArea",
+        "description": "A multi-line text input with configurable row count, placeholder, and all standard input states.",
+        "icon": "lucide:align-left",
+        "order": 13,
+        "slug": "text-area"
       }
     ]
   },
@@ -1546,62 +1837,17 @@ export const categories: CategoryEntry[] = [
     ]
   },
   {
-    "name": "Text Inputs",
-    "icon": "lucide:text-cursor-input",
+    "name": "Media",
+    "icon": "lucide:play",
     "pages": [
       {
-        "name": "TextInput",
-        "category": "Text Inputs",
-        "component": "TextInput",
-        "description": "A single-line text input with support for prefix, suffix, icons, and all standard input states.",
-        "icon": "lucide:type",
-        "order": 2,
-        "slug": "text-input"
-      },
-      {
-        "name": "NumberInput",
-        "category": "Text Inputs",
-        "component": "NumberInput",
-        "description": "A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.",
-        "icon": "lucide:hash",
-        "order": 3,
-        "slug": "number-input"
-      },
-      {
-        "name": "OTPInput",
-        "category": "Text Inputs",
-        "component": "OTPInput",
-        "description": "A one-time password input with individual cells, keyboard navigation, paste support, and masking.",
-        "icon": "lucide:key-round",
-        "order": 10,
-        "slug": "otp-input"
-      },
-      {
-        "name": "MaskInput",
-        "category": "Text Inputs",
-        "component": "MaskInput",
-        "description": "A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.",
-        "icon": "lucide:shield-check",
-        "order": 11,
-        "slug": "mask-input"
-      },
-      {
-        "name": "EditableText",
-        "category": "Text Inputs",
-        "component": "EditableText",
-        "description": "An inline editable text that toggles between display and input modes on click.",
-        "icon": "lucide:pencil-line",
-        "order": 12,
-        "slug": "editable-text"
-      },
-      {
-        "name": "TextArea",
-        "category": "Text Inputs",
-        "component": "TextArea",
-        "description": "A multi-line text input with configurable row count, placeholder, and all standard input states.",
-        "icon": "lucide:align-left",
-        "order": 13,
-        "slug": "text-area"
+        "name": "PdfPageViewer",
+        "category": "Media",
+        "component": "PdfPageViewer",
+        "description": "A PDF.js-powered page viewer with fit modes, rotation, text selection layer, and annotation support. Renders a single page at a time.",
+        "icon": "lucide:file-text",
+        "order": 5,
+        "slug": "pdf-page-viewer"
       }
     ]
   }
