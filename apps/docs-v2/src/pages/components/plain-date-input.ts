@@ -5,6 +5,7 @@ import {
   PlainYearMonthInput,
   PlainMonthDayInput,
 } from '@tempots/beatui'
+import { Temporal } from '@js-temporal/polyfill'
 import { html, attr, prop } from '@tempots/dom'
 import { ComponentPage, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'

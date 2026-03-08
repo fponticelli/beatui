@@ -53,6 +53,7 @@ export default function HomePage() {
               { href: '/guides/markdown-renderer', label: 'Markdown' },
               { href: '/guides/json-schema-forms', label: 'JSON Schema Forms' },
               { href: '/guides/json-structure-forms', label: 'JSON Structure Forms' },
+              { href: '/guides/json-schema-display', label: 'JSON Schema Display' },
             ].map(({ href, label }) =>
               Anchor(
                 { href, viewTransition: true },

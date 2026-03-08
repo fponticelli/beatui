@@ -7,7 +7,7 @@ A modern TypeScript UI component library with design tokens and layered CSS arch
 This monorepo contains the following packages:
 
 - **[`@tempots/beatui`](./packages/beatui/)** - The main UI component library
-- **[`@beatui/docs`](./apps/docs/)** - Documentation site built with custom Vite setup
+- **[`@beatui/docs-v2`](./apps/docs-v2/)** - Documentation site built with custom Vite setup
 
 ## 🚀 Getting Started
 
@@ -36,7 +36,7 @@ pnpm build
 # Run development servers
 pnpm dev                    # Run all dev servers
 pnpm --filter @tempots/beatui dev    # Run only BeatUI dev server
-pnpm --filter @beatui/docs dev  # Run only docs dev server
+pnpm --filter @beatui/docs-v2 dev  # Run only docs dev server
 
 # Run tests
 pnpm test
@@ -56,7 +56,7 @@ beatui/
 │       ├── tests/           # Unit tests
 │       └── package.json
 ├── apps/
-│   └── docs/                # Documentation site
+│   └── docs-v2/             # Documentation site
 │       ├── src/             # Documentation source
 │       ├── scripts/         # Build scripts
 │       └── package.json
@@ -77,7 +77,7 @@ beatui/
 
 ## 📚 Documentation
 
-Visit the [documentation site](./apps/docs/) for:
+Visit the [documentation site](./apps/docs-v2/) for:
 
 - Getting started guide
 - Component documentation
@@ -87,7 +87,7 @@ Visit the [documentation site](./apps/docs/) for:
 ### Local Development (Option A)
 
 - In one terminal: `pnpm --filter @tempots/beatui build:watch`
-- In another terminal: `pnpm --filter @beatui/docs dev`
+- In another terminal: `pnpm --filter @beatui/docs-v2 dev`
 
 The docs import the library like a consumer app (from `dist`), so no custom Vite aliasing is needed.
 

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Development
 - `pnpm dev` - Run all development servers (beatui lib + docs)
 - `pnpm dev:docs` - Build library then watch+run docs (recommended for docs development)
-- `pnpm --filter @beatui/docs dev` - Run only docs site dev server
+- `pnpm --filter @beatui/docs-v2 dev` - Run only docs site dev server
 
 ### Building
 - `pnpm build` - Build all packages using Turborepo
@@ -43,7 +43,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Monorepo Structure
 This is a Turborepo-managed monorepo with pnpm workspaces:
 - `packages/beatui/` - Main UI component library (`@tempots/beatui`)
-- `apps/docs/` - Documentation site (`@beatui/docs`)
+- `apps/docs-v2/` - Documentation site (`@beatui/docs-v2`)
 
 ### Core Dependencies
 BeatUI is built on the Tempo ecosystem:

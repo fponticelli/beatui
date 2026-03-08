@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'apps/docs/**'
+      - 'apps/docs-v2/**'
       - 'packages/**'
       - '.github/workflows/deploy-docs.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - 'apps/docs/**'
+      - 'apps/docs-v2/**'
       - 'packages/**'
   workflow_dispatch:
 
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build documentation
         run: |
-          cd apps/docs
+          cd apps/docs-v2
           pnpm run build
 
       - name: Setup Pages
@@ -59,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './apps/docs/dist'
+          path: './apps/docs-v2/dist'
 
   deploy:
     environment:

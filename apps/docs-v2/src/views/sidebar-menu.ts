@@ -51,7 +51,8 @@ export function SidebarMenu() {
           startOpen: currentPath.startsWith('/guides/json-'),
         },
         SidebarLink({ href: '/guides/json-schema-forms', content: 'JSON Schema Forms' }),
-        SidebarLink({ href: '/guides/json-structure-forms', content: 'JSON Structure Forms' })
+        SidebarLink({ href: '/guides/json-structure-forms', content: 'JSON Structure Forms' }),
+        SidebarLink({ href: '/guides/json-schema-display', content: 'JSON Schema Display' })
       ),
       ...categories.map(cat => {
         const containsCurrentPage = cat.pages.some(

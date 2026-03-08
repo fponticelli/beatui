@@ -94,6 +94,11 @@ export const App = () => {
             import('./pages/guides/json-structure-forms'),
             ({ default: Page }) => Page()
           ),
+        '/guides/json-schema-display': () =>
+          Async(
+            import('./pages/guides/json-schema-display'),
+            ({ default: Page }) => Page()
+          ),
         ...componentRoutes,
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
