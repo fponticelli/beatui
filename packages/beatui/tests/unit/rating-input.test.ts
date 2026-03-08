@@ -119,6 +119,43 @@ describe('RatingInput Component', () => {
     expect(onChange).toHaveBeenCalledWith(0)
   })
 
+  it('reactively updates clip widths when value signal changes', async () => {
+    const value = prop(0)
+
+    render(
+      WithProviders(() => RatingInput({ value, onChange: v => value.set(v) })),
+      container
+    )
+
+    const clippers = container.querySelectorAll(
+      '.bc-rating-input__icon-clipper'
+    ) as NodeListOf<HTMLElement>
+
+    // Initially all 0%
+    expect(clippers[0].style.width).toBe('0%')
+    expect(clippers[1].style.width).toBe('0%')
+    expect(clippers[2].style.width).toBe('0%')
+
+    // Update value to 3 and flush microtasks
+    value.set(3)
+    await new Promise(r => queueMicrotask(r))
+
+    // First 3 should be 100%, rest 0%
+    expect(clippers[0].style.width).toBe('100%')
+    expect(clippers[1].style.width).toBe('100%')
+    expect(clippers[2].style.width).toBe('100%')
+    expect(clippers[3].style.width).toBe('0%')
+    expect(clippers[4].style.width).toBe('0%')
+
+    // Update to fractional
+    value.set(2.5)
+    await new Promise(r => queueMicrotask(r))
+    expect(clippers[0].style.width).toBe('100%')
+    expect(clippers[1].style.width).toBe('100%')
+    expect(clippers[2].style.width).toBe('50%')
+    expect(clippers[3].style.width).toBe('0%')
+  })
+
   it('exposes proper ARIA slider attributes and onBlur', () => {
     const value = prop(0)
     const onBlur = vi.fn()

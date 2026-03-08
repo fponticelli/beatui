@@ -38,6 +38,8 @@ const SKIP_PROP_PATTERNS = [
   /^data$/, // DataTable data
   /^schema$/, // JSON schema
   /^ref$/, // Element refs
+  /^before$/, // TNode slot (InputOptions)
+  /^after$/, // TNode slot (InputOptions)
 ]
 
 /** Props that should NOT be skipped despite matching a skip pattern */
@@ -69,14 +71,14 @@ function analyzePropertyType(
   if (propType.isUnion()) {
     const members = propType.types
     const undefinedMembers = members.filter(
-      m => m.flags & ts.TypeFlags.Undefined
+      m => m.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Null)
     )
     const signalMembers = members.filter(m => {
       const sym = m.getSymbol() || m.aliasSymbol
       return sym?.getName() === 'Signal'
     })
     const valueMembers = members.filter(m => {
-      if (m.flags & ts.TypeFlags.Undefined) return false
+      if (m.flags & (ts.TypeFlags.Undefined | ts.TypeFlags.Null)) return false
       const sym = m.getSymbol() || m.aliasSymbol
       if (sym?.getName() === 'Signal') return false
       return true

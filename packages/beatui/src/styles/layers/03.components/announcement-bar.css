@@ -26,6 +26,11 @@
     max-width: min(90%, 800px);
   }
 
+  /* When portaled to body, use fixed positioning */
+  body > .bc-announcement-bar {
+    position: fixed;
+  }
+
   .bc-announcement-bar__content {
     display: flex;
     align-items: center;

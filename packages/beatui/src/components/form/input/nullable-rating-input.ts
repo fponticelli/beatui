@@ -15,17 +15,17 @@ export type NullableRatingInputOptions = InputOptions<number | null> & {
    * @default 5
    */
   max?: Value<number>
-  /** Color name for filled rating icons. */
+  /** Color name for filled rating icons. @default 'yellow' */
   fullColor?: Value<ThemeColorName>
-  /** Color name for empty rating icons. */
+  /** Color name for empty rating icons. @default 'neutral' */
   emptyColor?: Value<ThemeColorName>
-  /** Icon identifier for active (filled) rating items. */
+  /** Icon identifier for active (filled) rating items. @default 'line-md:star-alt-filled' */
   activeIcon?: Value<string>
-  /** Icon identifier for inactive (empty) rating items. */
+  /** Icon identifier for inactive (empty) rating items. @default 'line-md:star-alt' */
   inactiveIcon?: Value<string>
-  /** Size of the rating icons. */
+  /** Size of the rating icons. @default 'md' */
   size?: Value<ControlSize>
-  /** Rounding precision for fractional ratings (e.g., `0.5` for half stars). */
+  /** Rounding precision for fractional ratings (e.g., `0.5` for half stars). @default 1 */
   rounding?: Value<number>
 }
 

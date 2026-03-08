@@ -6,6 +6,7 @@ import {
   computedOf,
   When,
   prop,
+  Portal,
   Renderable,
 } from '@tempots/dom'
 import { Icon } from '../data'
@@ -41,6 +42,14 @@ export type AnnouncementBarOptions = {
    * Additional CSS class names to apply to the announcement bar element.
    */
   class?: Value<string>
+  /**
+   * Controls where the announcement bar is rendered in the DOM.
+   * - `true` (default) - Portals to the document body, fixed at the top of the viewport.
+   * - `false` - Renders inline as a child of the current parent element.
+   * - A CSS selector string - Portals to the element matching the selector.
+   * @default false
+   */
+  portal?: boolean | string
 }
 
 /** @internal Builds the CSS class string for the announcement bar based on its state. */
@@ -94,11 +103,12 @@ export function AnnouncementBar(
     closable = false,
     onClose,
     class: cls,
+    portal: portalTarget = false,
   }: AnnouncementBarOptions,
   ...children: TNode[]
 ): Renderable {
   const visible = prop(true)
-  return When(visible, () => {
+  const content = When(visible, () => {
     const isDismissible = Value.map(
       closable,
       v => Boolean(v) || onClose != null
@@ -144,4 +154,6 @@ export function AnnouncementBar(
       )
     )
   })
+  if (portalTarget === false) return content
+  return Portal(portalTarget === true ? 'body' : portalTarget, content)
 }

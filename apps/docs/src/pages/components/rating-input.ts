@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 export const meta: ComponentPageMeta = {
   name: 'RatingInput',
   category: 'Specialized Inputs',
-  component: 'NullableRatingInput',
+  component: 'RatingInput',
   description:
     'A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.',
   icon: 'lucide:star',
@@ -15,12 +15,20 @@ export const meta: ComponentPageMeta = {
 
 export default function RatingInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('NullableRatingInput', signals => {
-      const value = signals.value as Prop<number | null>
-      return NullableRatingInput({
-        ...signals,
+    playground: manualPlayground('RatingInput', signals => {
+      const value = signals.value as Prop<number>
+      return RatingInput({
         value,
-        onChange: (v: number | null) => value.set(v),
+        onChange: (v: number) => value.set(v),
+        onInput: (v: number) => value.set(v),
+        max: signals.max as Prop<number>,
+        fullColor: signals.fullColor,
+        emptyColor: signals.emptyColor,
+        activeIcon: signals.activeIcon,
+        inactiveIcon: signals.inactiveIcon,
+        size: signals.size,
+        rounding: signals.rounding as Prop<number>,
+        disabled: signals.disabled as Prop<boolean>,
       } as never)
     }),
     sections: [
