@@ -1,30 +1,46 @@
 import { AdvancedSlider } from '@tempots/beatui'
 import { html, attr, prop, type Prop } from '@tempots/dom'
-import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
+import {
+  ComponentPage,
+  manualPlayground,
+  AutoSections,
+  Section,
+} from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'AdvancedSlider',
   category: 'Specialized Inputs',
   component: 'AdvancedSlider',
-  description: 'An advanced slider supporting single value, range selection, and multi-point modes with tick marks, value labels, and customizable theme colors.',
+  description:
+    'An advanced slider supporting single value, range selection, and multi-point modes with tick marks, value labels, and customizable theme colors.',
   icon: 'lucide:sliders-vertical',
   order: 15,
 }
 
 export default function AdvancedSliderPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('AdvancedSlider', signals => {
-      const value = signals.value as Prop<number>
-      return AdvancedSlider({
-        ...signals,
-        value,
-        onChange: (v: number) => value.set(v),
-      } as never)
-    }),
+    playground: manualPlayground(
+      'AdvancedSlider',
+      signals => {
+        const value = signals.value as Prop<number>
+        return AdvancedSlider({
+          ...signals,
+          value,
+          onChange: (v: number) => value.set(v),
+        })
+      },
+      {
+        value: 50,
+        min: 0,
+        max: 100,
+        step: 1,
+        showValue: true,
+      }
+    ),
     sections: [
       ...AutoSections('AdvancedSlider', props =>
-        AdvancedSlider({ ...props, value: 50, onChange: () => {} } as never)
+        AdvancedSlider({ ...props, value: 50, onChange: () => {} })
       ),
       Section(
         'Single Value',
@@ -84,7 +100,10 @@ export default function AdvancedSliderPage() {
           html.div(
             attr.class('flex flex-col gap-6 w-full max-w-md'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-3'), 'Automatic ticks (ticks: true)'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-3'),
+                'Automatic ticks (ticks: true)'
+              ),
               AdvancedSlider({
                 value: 50,
                 onChange: () => {},
@@ -96,7 +115,10 @@ export default function AdvancedSliderPage() {
               })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-3'), 'Custom ticks with labels'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-3'),
+                'Custom ticks with labels'
+              ),
               AdvancedSlider({
                 value: 50,
                 onChange: () => {},
@@ -118,9 +140,14 @@ export default function AdvancedSliderPage() {
         () =>
           html.div(
             attr.class('flex flex-col gap-4 w-full max-w-md'),
-            ...(['primary', 'success', 'danger', 'warning', 'info'] as const).map(color =>
+            ...(
+              ['primary', 'success', 'danger', 'warning', 'info'] as const
+            ).map(color =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), color),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  color
+                ),
                 AdvancedSlider({
                   value: 60,
                   onChange: () => {},
@@ -141,7 +168,10 @@ export default function AdvancedSliderPage() {
             attr.class('flex flex-col gap-4 w-full max-w-md'),
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
-                html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), size),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  size
+                ),
                 AdvancedSlider({
                   value: 50,
                   onChange: () => {},
@@ -161,7 +191,10 @@ export default function AdvancedSliderPage() {
           html.div(
             attr.class('flex flex-col gap-4 w-full max-w-md'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Currency'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Currency'
+              ),
               AdvancedSlider({
                 value: 250,
                 onChange: () => {},
@@ -173,7 +206,10 @@ export default function AdvancedSliderPage() {
               })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Percentage'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Percentage'
+              ),
               AdvancedSlider({
                 value: 75,
                 onChange: () => {},

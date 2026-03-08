@@ -37,11 +37,11 @@ export interface SliderTick {
  */
 export interface AdvancedSliderOptions {
   /** Minimum value of the slider range */
-  min?: number
+  min?: Value<number>
   /** Maximum value of the slider range */
-  max?: number
+  max?: Value<number>
   /** Step increment between valid values. @default 1 */
-  step?: number
+  step?: Value<number>
   /** Whether the slider is disabled. @default false */
   disabled?: Value<boolean>
   /** Visual size of the slider. @default 'md' */
@@ -78,7 +78,7 @@ export interface AdvancedSliderOptions {
    * Tick marks along the slider track.
    * Can be `true` for automatic step-based ticks, or an array of custom tick definitions.
    */
-  ticks?: boolean | SliderTick[]
+  ticks?: Value<boolean | SliderTick[]>
 
   /**
    * Whether to show the current value label(s) above the thumb(s).
@@ -98,7 +98,7 @@ export interface AdvancedSliderOptions {
    * If fewer colors than segments are provided, remaining segments use the default color.
    * If not provided, a single fill spanning all thumbs is used (existing behavior).
    */
-  segmentColors?: ThemeColorName[]
+  segmentColors?: Value<ThemeColorName[]>
 
   /**
    * Custom renderer for the thumb element. When provided, replaces the default
@@ -199,9 +199,9 @@ function generateSliderStyles(color: ThemeColorName): string {
  * ```
  */
 export function AdvancedSlider({
-  min = 0,
-  max = 100,
-  step = 1,
+  min: minOpt = 0,
+  max: maxOpt = 100,
+  step: stepOpt = 1,
   disabled = false,
   size = 'md',
   color = 'primary',
@@ -224,16 +224,6 @@ export function AdvancedSlider({
   // Determine thumb count at creation time
   const thumbCount =
     mode === 'multi' ? Value.get(points!).length : mode === 'range' ? 2 : 1
-
-  // Build tick marks
-  const tickMarks: SliderTick[] = []
-  if (ticks === true) {
-    for (let v = min; v <= max; v += step) {
-      tickMarks.push({ value: v })
-    }
-  } else if (Array.isArray(ticks)) {
-    tickMarks.push(...ticks)
-  }
 
   // Internal reactive values representing all thumb positions
   const thumbValues: Value<number[]> = (() => {
@@ -267,10 +257,13 @@ export function AdvancedSlider({
     clientX: number,
     thumbIndex: number | null
   ) {
+    const mn = Value.get(minOpt)
+    const mx = Value.get(maxOpt)
+    const st = Value.get(stepOpt)
     const rect = trackEl.getBoundingClientRect()
     const pct = clamp((clientX - rect.left) / rect.width, 0, 1)
-    const rawValue = min + pct * (max - min)
-    const snapped = clamp(snapToStep(rawValue, min, step), min, max)
+    const rawValue = mn + pct * (mx - mn)
+    const snapped = clamp(snapToStep(rawValue, mn, st), mn, mx)
 
     const currentValues = Value.get(thumbValues)
 
@@ -298,16 +291,20 @@ export function AdvancedSlider({
 
   // Create a reactive value for each individual thumb position
   function thumbValueAt(index: number): Value<number> {
-    return Value.map(thumbValues, (vals: number[]) => vals[index] ?? min)
+    return computedOf(
+      thumbValues,
+      minOpt
+    )((vals: number[], mn: number) => vals[index] ?? mn)
   }
 
   // Build thumb elements statically based on thumbCount
   function createThumb(index: number, trackEl: HTMLElement) {
     const thumbVal = thumbValueAt(index)
-    const thumbPct = Value.map(
+    const thumbPct = computedOf(
       thumbVal,
-      (v: number) => `${pctOf(v, min, max)}%`
-    )
+      minOpt,
+      maxOpt
+    )((v: number, mn: number, mx: number) => `${pctOf(v, mn, mx)}%`)
 
     return html.div(
       attr.class('bc-advanced-slider__thumb-container'),
@@ -332,12 +329,15 @@ export function AdvancedSlider({
         ),
         attr.role('slider'),
         attr.tabindex(0),
-        aria.valuemin(min),
-        aria.valuemax(max),
+        aria.valuemin(minOpt),
+        aria.valuemax(maxOpt),
         aria.valuenow(thumbVal),
         aria.label(`Thumb ${index + 1}`),
         on.keydown((e: KeyboardEvent) => {
           if (Value.get(disabled)) return
+          const mn = Value.get(minOpt)
+          const mx = Value.get(maxOpt)
+          const st = Value.get(stepOpt)
           const currentVals = Value.get(thumbValues)
           const current = currentVals[index]!
           let newVal: number
@@ -346,20 +346,20 @@ export function AdvancedSlider({
             case 'ArrowRight':
             case 'ArrowUp':
               e.preventDefault()
-              newVal = clamp(roundToStep(current + step, step), min, max)
+              newVal = clamp(roundToStep(current + st, st), mn, mx)
               break
             case 'ArrowLeft':
             case 'ArrowDown':
               e.preventDefault()
-              newVal = clamp(roundToStep(current - step, step), min, max)
+              newVal = clamp(roundToStep(current - st, st), mn, mx)
               break
             case 'Home':
               e.preventDefault()
-              newVal = min
+              newVal = mn
               break
             case 'End':
               e.preventDefault()
-              newVal = max
+              newVal = mx
               break
             default:
               return
@@ -420,20 +420,24 @@ export function AdvancedSlider({
 
     const filledStyle = useSegments
       ? ''
-      : computedOf(thumbValues)((vals: number[]) => {
+      : computedOf(
+          thumbValues,
+          minOpt,
+          maxOpt
+        )((vals: number[], mn: number, mx: number) => {
           if (mode === 'range' && vals.length === 2) {
-            const lo = pctOf(Math.min(vals[0]!, vals[1]!), min, max)
-            const hi = pctOf(Math.max(vals[0]!, vals[1]!), min, max)
+            const lo = pctOf(Math.min(vals[0]!, vals[1]!), mn, mx)
+            const hi = pctOf(Math.max(vals[0]!, vals[1]!), mn, mx)
             return `left: ${lo}%; width: ${hi - lo}%`
           }
           if (mode === 'multi' && vals.length >= 2) {
             const sorted = [...vals].sort((a, b) => a - b)
-            const lo = pctOf(sorted[0]!, min, max)
-            const hi = pctOf(sorted[sorted.length - 1]!, min, max)
+            const lo = pctOf(sorted[0]!, mn, mx)
+            const hi = pctOf(sorted[sorted.length - 1]!, mn, mx)
             return `left: ${lo}%; width: ${hi - lo}%`
           }
           // Single: fill from left
-          const pct = pctOf(vals[0] ?? min, min, max)
+          const pct = pctOf(vals[0] ?? mn, mn, mx)
           return `left: 0%; width: ${pct}%`
         })
 
@@ -442,65 +446,33 @@ export function AdvancedSlider({
       createThumb(i, trackEl)
     )
 
-    return Fragment(
-      attr.class(computedOf(size, disabled)(generateSliderClasses)),
-      attr.style(Value.map(color, generateSliderStyles)),
-      attr.role('group'),
-      aria.label('Slider'),
-      on.pointerdown(onPointerDown),
-
-      // Track
-      html.div(
-        attr.class('bc-advanced-slider__track'),
-        // Filled portion - either single fill or multiple segments
-        useSegments
-          ? MapSignal(thumbValues, (vals: number[]) => {
-              const sorted = [...vals].sort((a, b) => a - b)
-              const segments: {
-                left: number
-                width: number
-                color: ThemeColorName
-              }[] = []
-
-              for (let i = 0; i < sorted.length - 1; i++) {
-                const leftVal = sorted[i]!
-                const rightVal = sorted[i + 1]!
-                const leftPct = pctOf(leftVal, min, max)
-                const rightPct = pctOf(rightVal, min, max)
-                const segmentColor =
-                  segmentColors![i] ?? Value.get(color) ?? 'primary'
-
-                segments.push({
-                  left: leftPct,
-                  width: rightPct - leftPct,
-                  color: segmentColor,
-                })
+    // Reactive tick marks
+    const tickContent = ticks
+      ? MapSignal(
+          computedOf(
+            ticks,
+            minOpt,
+            maxOpt,
+            stepOpt
+          )((t: boolean | SliderTick[], mn: number, mx: number, st: number) => {
+            if (t === true) {
+              const marks: SliderTick[] = []
+              for (let v = mn; v <= mx; v += st) {
+                marks.push({ value: v })
               }
-
-              return Fragment(
-                ...segments.map(seg => {
-                  const light = backgroundValue(seg.color, 'solid', 'light')
-                  const dark = backgroundValue(seg.color, 'solid', 'dark')
-                  const segmentStyle = `left: ${seg.left}%; width: ${seg.width}%; --slider-color: ${light.backgroundColor}; --slider-color-dark: ${dark.backgroundColor}`
-
-                  return html.div(
-                    attr.class('bc-advanced-slider__fill'),
-                    attr.style(segmentStyle)
-                  )
-                })
-              )
-            })
-          : html.div(
-              attr.class('bc-advanced-slider__fill'),
-              attr.style(filledStyle)
-            ),
-
-        // Tick marks
-        tickMarks.length > 0
-          ? html.div(
+              return { marks, mn, mx }
+            }
+            if (Array.isArray(t)) {
+              return { marks: t, mn, mx }
+            }
+            return { marks: [] as SliderTick[], mn, mx }
+          }),
+          ({ marks, mn, mx }) => {
+            if (marks.length === 0) return Empty
+            return html.div(
               attr.class('bc-advanced-slider__ticks'),
-              ...tickMarks.map(tick => {
-                const pct = pctOf(tick.value, min, max)
+              ...marks.map(tick => {
+                const pct = pctOf(tick.value, mn, mx)
                 return html.div(
                   attr.class('bc-advanced-slider__tick'),
                   style.left(`${pct}%`),
@@ -513,8 +485,72 @@ export function AdvancedSlider({
                 )
               })
             )
-          : Empty,
+          }
+        )
+      : Empty
 
+    // Reactive segment rendering
+    const segmentContent = useSegments
+      ? MapSignal(
+          computedOf(
+            thumbValues,
+            minOpt,
+            maxOpt
+          )((vals: number[], mn: number, mx: number) => ({ vals, mn, mx })),
+          ({ vals, mn, mx }) => {
+            const sorted = [...vals].sort((a, b) => a - b)
+            const segments: {
+              left: number
+              width: number
+              color: ThemeColorName
+            }[] = []
+
+            for (let i = 0; i < sorted.length - 1; i++) {
+              const leftVal = sorted[i]!
+              const rightVal = sorted[i + 1]!
+              const leftPct = pctOf(leftVal, mn, mx)
+              const rightPct = pctOf(rightVal, mn, mx)
+              const colors = Value.get(segmentColors!)
+              const segmentColor = colors[i] ?? Value.get(color) ?? 'primary'
+
+              segments.push({
+                left: leftPct,
+                width: rightPct - leftPct,
+                color: segmentColor,
+              })
+            }
+
+            return Fragment(
+              ...segments.map(seg => {
+                const light = backgroundValue(seg.color, 'solid', 'light')
+                const dark = backgroundValue(seg.color, 'solid', 'dark')
+                const segmentStyle = `left: ${seg.left}%; width: ${seg.width}%; --slider-color: ${light.backgroundColor}; --slider-color-dark: ${dark.backgroundColor}`
+
+                return html.div(
+                  attr.class('bc-advanced-slider__fill'),
+                  attr.style(segmentStyle)
+                )
+              })
+            )
+          }
+        )
+      : html.div(
+          attr.class('bc-advanced-slider__fill'),
+          attr.style(filledStyle)
+        )
+
+    return Fragment(
+      attr.class(computedOf(size, disabled)(generateSliderClasses)),
+      attr.style(Value.map(color, generateSliderStyles)),
+      attr.role('group'),
+      aria.label('Slider'),
+      on.pointerdown(onPointerDown),
+
+      // Track
+      html.div(
+        attr.class('bc-advanced-slider__track'),
+        segmentContent,
+        tickContent,
         // Thumbs (statically rendered, reactively positioned)
         ...thumbElements
       )

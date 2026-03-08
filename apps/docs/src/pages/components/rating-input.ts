@@ -1,6 +1,11 @@
 import { RatingInput, NullableRatingInput } from '@tempots/beatui'
 import { html, attr, prop, type Prop } from '@tempots/dom'
-import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
+import {
+  ComponentPage,
+  manualPlayground,
+  AutoSections,
+  Section,
+} from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -15,22 +20,26 @@ export const meta: ComponentPageMeta = {
 
 export default function RatingInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('RatingInput', signals => {
-      const value = signals.value as Prop<number>
-      return RatingInput({
-        value,
-        onChange: (v: number) => value.set(v),
-        onInput: (v: number) => value.set(v),
-        max: signals.max as Prop<number>,
-        fullColor: signals.fullColor,
-        emptyColor: signals.emptyColor,
-        activeIcon: signals.activeIcon,
-        inactiveIcon: signals.inactiveIcon,
-        size: signals.size,
-        rounding: signals.rounding as Prop<number>,
-        disabled: signals.disabled as Prop<boolean>,
-      } as never)
-    }),
+    playground: manualPlayground(
+      'RatingInput',
+      signals => {
+        const value = signals.value as Prop<number>
+        return RatingInput({
+          value,
+          onChange: (v: number) => value.set(v),
+          onInput: (v: number) => value.set(v),
+          max: signals.max as Prop<number>,
+          fullColor: signals.fullColor,
+          emptyColor: signals.emptyColor,
+          activeIcon: signals.activeIcon,
+          inactiveIcon: signals.inactiveIcon,
+          size: signals.size,
+          rounding: signals.rounding as Prop<number>,
+          disabled: signals.disabled as Prop<boolean>,
+        })
+      },
+      { value: 3 }
+    ),
     sections: [
       ...AutoSections('NullableRatingInput', props =>
         RatingInput({ ...props, value: 3, max: 5 } as never)
@@ -44,8 +53,15 @@ export default function RatingInputPage() {
               const value = prop<number>(v)
               return html.div(
                 attr.class('flex items-center gap-3'),
-                RatingInput({ value, onChange: (n: number) => value.set(n), max: 5 }),
-                html.span(attr.class('text-xs font-mono text-gray-500'), `${v} / 5`)
+                RatingInput({
+                  value,
+                  onChange: (n: number) => value.set(n),
+                  max: 5,
+                }),
+                html.span(
+                  attr.class('text-xs font-mono text-gray-500'),
+                  `${v} / 5`
+                )
               )
             })
           ),
@@ -77,11 +93,17 @@ export default function RatingInputPage() {
           html.div(
             attr.class('flex flex-col gap-3'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'max: 10'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'max: 10'
+              ),
               RatingInput({ value: 7, max: 10, onChange: () => {} })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'max: 3'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'max: 3'
+              ),
               RatingInput({ value: 2, max: 3, onChange: () => {} })
             )
           ),
@@ -93,7 +115,10 @@ export default function RatingInputPage() {
           html.div(
             attr.class('flex flex-col gap-3'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Hearts (mdi:heart)'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Hearts (mdi:heart)'
+              ),
               RatingInput({
                 value: 3,
                 max: 5,
@@ -104,7 +129,10 @@ export default function RatingInputPage() {
               })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Thumbs up'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Thumbs up'
+              ),
               RatingInput({
                 value: 4,
                 max: 5,
@@ -125,7 +153,10 @@ export default function RatingInputPage() {
             ...(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size =>
               html.div(
                 attr.class('flex items-center gap-3'),
-                html.div(attr.class('text-xs font-mono text-gray-500 w-6'), size),
+                html.div(
+                  attr.class('text-xs font-mono text-gray-500 w-6'),
+                  size
+                ),
                 RatingInput({ value: 3, max: 5, onChange: () => {}, size })
               )
             )
@@ -138,12 +169,23 @@ export default function RatingInputPage() {
           html.div(
             attr.class('flex flex-col gap-3'),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Default'),
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Default'
+              ),
               RatingInput({ value: 3, max: 5, onChange: () => {} })
             ),
             html.div(
-              html.div(attr.class('text-xs font-mono text-gray-500 mb-1'), 'Disabled'),
-              RatingInput({ value: 3, max: 5, onChange: () => {}, disabled: true })
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Disabled'
+              ),
+              RatingInput({
+                value: 3,
+                max: 5,
+                onChange: () => {},
+                disabled: true,
+              })
             )
           ),
         'RatingInput supports a disabled state which prevents interaction.'
@@ -161,7 +203,9 @@ export default function RatingInputPage() {
             }),
             html.div(
               attr.class('text-xs text-gray-500'),
-              value.map(v => (v == null ? 'Value: null (no rating)' : `Value: ${v}`))
+              value.map(v =>
+                v == null ? 'Value: null (no rating)' : `Value: ${v}`
+              )
             )
           )
         },

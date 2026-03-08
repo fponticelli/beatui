@@ -51,7 +51,7 @@ function slowSearch(query: string): Promise<DropdownOption<string>[]> {
 
 export default function ComboboxInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Combobox', signals => {
+    playground: manualPlayground('ComboboxInput', signals => {
       const value = prop<Fruit>(null as never)
       return html.div(
         attr.class('w-64'),
