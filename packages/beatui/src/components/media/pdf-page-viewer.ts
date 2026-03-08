@@ -105,7 +105,10 @@ export interface PdfPageViewerOptions {
   /** PDF source: URL string, Uint8Array, or ArrayBuffer */
   source: SplitValue<string | Uint8Array | ArrayBuffer>
 
-  /** Page number to display (1-based, default: 1) */
+  /**
+   * Page number to display (1-based)
+   * @default 1
+   */
   page?: Value<number>
 
   /**
@@ -115,27 +118,27 @@ export interface PdfPageViewerOptions {
    * - 'height': Fit to container height while maintaining aspect ratio
    * - 'contain': Fit entire page in container (like CSS object-fit: contain)
    * - 'cover': Fill container, may crop (like CSS object-fit: cover)
-   * Default: 'width'
+   * @default 'width'
    */
   fit?: Value<'none' | 'width' | 'height' | 'contain' | 'cover'>
 
   /**
    * Explicit scale factor when fit='none'
    * Ignored when fit is not 'none'
-   * Default: 1
+   * @default 1
    */
   scale?: Value<number>
 
   /**
    * Rotation angle in degrees (0, 90, 180, 270)
-   * Default: 0
+   * @default 0
    */
   rotation?: Value<0 | 90 | 180 | 270>
 
   /**
    * Rendering quality/pixel density multiplier
    * Higher values produce sharper images but use more memory
-   * Default: 2 (retina quality)
+   * @default 2
    */
   quality?: Value<number>
 
@@ -344,13 +347,13 @@ export function PdfPageViewer(
               rect
             )((src, pg, fitMode, sc, rot, qual, textLayer, annotLayer, r) => ({
               source: src,
-              page: pg,
-              fit: fitMode,
-              scale: sc,
-              rotation: rot,
-              quality: qual,
-              renderTextLayer: textLayer,
-              renderAnnotationLayer: annotLayer,
+              page: pg ?? 1,
+              fit: fitMode ?? 'width',
+              scale: Math.max(0.1, sc ?? 1),
+              rotation: rot ?? 0,
+              quality: Math.max(1, qual ?? 2),
+              renderTextLayer: textLayer ?? true,
+              renderAnnotationLayer: annotLayer ?? false,
               containerWidth: r.width,
               containerHeight: r.height,
             })),
@@ -617,18 +620,19 @@ export function PdfPageViewer(
             success: ({ value }) =>
               html.div(
                 attr.class(
-                  Value.map(fit, fitMode =>
-                    fitMode === 'none'
+                  Value.map(fit, fitMode => {
+                    const mode = fitMode ?? 'width'
+                    return mode === 'none'
                       ? 'bc-pdf-page-viewer'
-                      : `bc-pdf-page-viewer bc-pdf-page-viewer--fit-${fitMode}`
-                  )
+                      : `bc-pdf-page-viewer bc-pdf-page-viewer--fit-${mode}`
+                  })
                 ),
                 // Wrapper for canvas and layers (provides positioning context)
                 html.div(
                   attr.class('bc-pdf-page-viewer__content'),
                   // Only set fixed dimensions when fit is 'none'
                   When(
-                    Value.map(fit, fitMode => fitMode === 'none'),
+                    Value.map(fit, fitMode => (fitMode ?? 'width') === 'none'),
                     () =>
                       attr.style(
                         value.$.canvasWidth.map(

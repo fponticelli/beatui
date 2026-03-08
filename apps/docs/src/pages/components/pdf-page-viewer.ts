@@ -13,25 +13,18 @@ export const meta: ComponentPageMeta = {
   order: 5,
 }
 
-const SAMPLE_PDF_URL = 'https://www.w3.org/WAI/WCAG21/wcag21.pdf'
+const SAMPLE_PDF_URL = '/sample.pdf'
 
 export default function PdfPageViewerPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('PdfPageViewer', signals => {
-      return html.div(
-        attr.class('rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden'),
-        style.height('480px'),
-        PdfPageViewer({
-          source: SAMPLE_PDF_URL,
-          page: signals.page as never,
-          fit: signals.fit as never,
-          rotation: signals.rotation as never,
-          quality: signals.quality as never,
-          renderTextLayer: signals.renderTextLayer as never,
-          renderAnnotationLayer: signals.renderAnnotationLayer as never,
-        })
-      )
-    }),
+    playground: manualPlayground('PdfPageViewer', signals =>
+      PdfPageViewer({
+        source: SAMPLE_PDF_URL,
+        page: signals.page as never,
+        fit: signals.fit as never,
+        quality: signals.quality as never,
+      })
+    ),
     sections: [
       Section(
         'Fit Modes',

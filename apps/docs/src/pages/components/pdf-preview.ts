@@ -14,7 +14,7 @@ export const meta: ComponentPageMeta = {
 }
 
 // A public-domain PDF for demos
-const SAMPLE_PDF_URL = 'https://www.w3.org/WAI/WCAG21/wcag21.pdf'
+const SAMPLE_PDF_URL = '/sample.pdf'
 
 export default function PdfPreviewPage() {
   return ComponentPage(meta, {
