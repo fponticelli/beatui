@@ -43,7 +43,7 @@ export interface DateRangePickerOptions {
    * 0 = Sunday, 1 = Monday, etc.
    * @default 0
    */
-  weekStartsOn?: number
+  weekStartsOn?: Value<number>
 }
 
 function renderRangeDatePicker(
@@ -67,6 +67,8 @@ function renderRangeDatePicker(
     weekStartsOn
   )
 
+  const weekStartsOnSignal = Value.toSignal(weekStartsOn)
+
   // Range selection state
   const rangeStart = prop<PlainDate | null>(null)
   const hoveredDate = prop<PlainDate | null>(null)
@@ -84,8 +86,9 @@ function renderRangeDatePicker(
     nav.currentMonth,
     value,
     rangeStart,
-    hoveredDate
-  )((year, month, committedRange, start, hovered) => {
+    hoveredDate,
+    weekStartsOnSignal
+  )((year, month, committedRange, start, hovered, wso) => {
     // Determine effective range for highlighting
     let effectiveStart: PlainDate | null = null
     let effectiveEnd: PlainDate | null = null
@@ -105,7 +108,7 @@ function renderRangeDatePicker(
       T,
       year,
       month,
-      weekStartsOn,
+      wso,
       nav.today,
       isDateDisabled
     ).map(cell => {

@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'PageDropZone',
-  category: 'Media',
+  category: 'Specialized Inputs',
   component: 'PageDropZone',
   description:
     'A full-page drag-and-drop file zone that listens for file drag events anywhere on the document, showing an overlay while dragging and providing programmatic file picker access.',

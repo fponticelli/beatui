@@ -43,7 +43,7 @@ export interface DatePickerOptions {
    * 0 = Sunday, 1 = Monday, etc.
    * @default 0
    */
-  weekStartsOn?: number
+  weekStartsOn?: Value<number>
 }
 
 function renderDatePicker(
@@ -67,17 +67,20 @@ function renderDatePicker(
     weekStartsOn
   )
 
+  const weekStartsOnSignal = Value.toSignal(weekStartsOn)
+
   // Build the grid of day cells reactively
   const gridCells = computedOf(
     nav.currentYear,
     nav.currentMonth,
-    value
-  )((year, month, selectedDate) => {
+    value,
+    weekStartsOnSignal
+  )((year, month, selectedDate, wso) => {
     return buildDatePickerGrid(
       T,
       year,
       month,
-      weekStartsOn,
+      wso,
       nav.today,
       isDateDisabled
     ).map(cell => ({

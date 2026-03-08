@@ -148,7 +148,7 @@ export interface DatePickerNav {
   currentMonth: Prop<number>
   view: Prop<DatePickerView>
   yearPageStart: Prop<number>
-  shiftedDayNames: string[]
+  shiftedDayNames: Value<string[]>
   prevMonth: () => void
   nextMonth: () => void
   prevYear: () => void
@@ -167,7 +167,7 @@ export function createDatePickerNav(
   initialYear: number,
   initialMonth: number,
   disabled: Value<boolean>,
-  weekStartsOn: number
+  weekStartsOn: Value<number>
 ): DatePickerNav {
   const today = T.Now.plainDateISO()
   const currentYear = prop(initialYear)
@@ -177,10 +177,13 @@ export function createDatePickerNav(
     Math.floor(initialYear / YEARS_PER_PAGE) * YEARS_PER_PAGE
   )
 
-  const shiftedDayNames: string[] = []
-  for (let i = 0; i < DAYS_IN_WEEK; i++) {
-    shiftedDayNames.push(DAY_NAMES[(i + weekStartsOn) % DAYS_IN_WEEK]!)
-  }
+  const shiftedDayNames = Value.map(weekStartsOn, wso => {
+    const names: string[] = []
+    for (let i = 0; i < DAYS_IN_WEEK; i++) {
+      names.push(DAY_NAMES[(i + wso) % DAYS_IN_WEEK]!)
+    }
+    return names
+  })
 
   return {
     today,
@@ -439,8 +442,8 @@ export function renderDatePickerShell(
           attr.class('bc-date-picker__days-view'),
           html.div(
             attr.class('bc-date-picker__weekdays'),
-            ...nav.shiftedDayNames.map(name =>
-              html.div(attr.class('bc-date-picker__weekday'), name)
+            ForEach(nav.shiftedDayNames, nameSignal =>
+              html.div(attr.class('bc-date-picker__weekday'), nameSignal)
             )
           ),
           renderGrid()
