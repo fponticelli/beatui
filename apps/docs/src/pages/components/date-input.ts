@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NativeDateInput',
-  category: 'Pickers',
+  category: 'Date & Time',
   component: 'NativeDateInput',
   description:
     'A native date input (type="date") that binds to a JavaScript Date object.',

@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Dropdown',
-  category: 'Pickers',
+  category: 'Dropdowns',
   component: 'Dropdown',
   description:
     'A select dropdown with keyboard navigation, searchable filtering, grouped options, and rich content support.',

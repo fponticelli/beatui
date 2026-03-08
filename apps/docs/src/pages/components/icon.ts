@@ -14,7 +14,7 @@ export const meta: ComponentPageMeta = {
   component: 'Icon',
   description:
     'Renders an SVG icon from the Iconify library with lazy loading, caching, and theme color support.',
-  icon: 'lucide:star',
+  icon: 'lucide:sparkles',
   order: 3,
 }
 

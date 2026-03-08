@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'ToggleButtonGroup',
   description:
     'A group of connected toggle buttons supporting single or multiple selection with shared borders and coordinated styling.',
-  icon: 'lucide:layout-list',
+  icon: 'lucide:group',
   order: 8,
 }
 

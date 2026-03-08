@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'Modal',
   description:
     'A dialog overlay for focused interactions, with customizable size and position.',
-  icon: 'lucide:square',
+  icon: 'lucide:app-window',
   order: 1,
 }
 

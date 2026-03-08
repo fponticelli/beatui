@@ -6,11 +6,11 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'LazyNativeSelect',
-  category: 'Selection',
+  category: 'Dropdowns',
   component: 'LazyNativeSelect',
   description:
     'A native select input that loads its options asynchronously. Shows a loading spinner while fetching, then renders the populated select once options are ready.',
-  icon: 'lucide:loader',
+  icon: 'lucide:loader-pinwheel',
   order: 17,
 }
 

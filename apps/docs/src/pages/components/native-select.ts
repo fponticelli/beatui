@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NativeSelect',
-  category: 'Selection',
+  category: 'Dropdowns',
   component: 'NativeSelect',
   description:
     'A native HTML select element with styled appearance, grouped options, and custom equality support.',

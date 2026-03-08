@@ -5,11 +5,11 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'PageDropZone',
-  category: 'Tables & Media',
+  category: 'Media',
   component: 'PageDropZone',
   description:
     'A full-page drag-and-drop file zone that listens for file drag events anywhere on the document, showing an overlay while dragging and providing programmatic file picker access.',
-  icon: 'lucide:file-up',
+  icon: 'lucide:download',
   order: 8,
 }
 

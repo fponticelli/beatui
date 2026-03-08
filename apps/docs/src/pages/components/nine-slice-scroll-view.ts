@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'NineSliceScrollView',
   description:
     'A scrollable container divided into nine regions: a scrollable body with fixed header, footer, and sidebars that stay in place while the body scrolls in both axes.',
-  icon: 'lucide:layout-grid',
+  icon: 'lucide:grid-3x3',
   order: 6,
 }
 

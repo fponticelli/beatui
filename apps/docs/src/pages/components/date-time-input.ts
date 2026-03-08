@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DateTimeInput',
-  category: 'Pickers',
+  category: 'Date & Time',
   component: 'DateTimeInput',
   description:
     'A native datetime-local input that binds to a JavaScript Date object.',

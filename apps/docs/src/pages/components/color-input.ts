@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ColorInput',
-  category: 'Pickers',
+  category: 'Specialized Inputs',
   component: 'ColorInput',
   description:
     'A color picker combining a text field and a clickable color swatch that opens the native color picker.',

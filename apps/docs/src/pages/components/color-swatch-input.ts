@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ColorSwatchInput',
-  category: 'Pickers',
+  category: 'Dropdowns',
   component: 'ColorSwatchInput',
   description:
     'A color picker that renders a unique organic SVG blob swatch for each color. Supports alpha channel control and multiple color format outputs.',

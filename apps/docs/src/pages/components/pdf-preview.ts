@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NativePdfPreview',
-  category: 'Tables & Media',
+  category: 'Media',
   component: 'NativePdfPreview',
   description:
     'Renders a PDF using the browser native viewer via an iframe. Accepts a URL string, Blob, ArrayBuffer, or Uint8Array and manages blob URL lifecycle automatically.',

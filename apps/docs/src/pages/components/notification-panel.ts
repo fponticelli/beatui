@@ -10,7 +10,7 @@ export const meta: ComponentPageMeta = {
   component: 'NotificationPanel',
   description:
     'A panel for displaying a list of notifications with read/unread state, icons, and metadata.',
-  icon: 'lucide:bell',
+  icon: 'lucide:bell-plus',
   order: 3,
 }
 

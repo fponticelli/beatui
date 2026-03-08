@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'UrlInput',
   description:
     'A URL input with browser-native URL validation via type="url".',
-  icon: 'lucide:link',
+  icon: 'lucide:globe',
   order: 7,
 }
 

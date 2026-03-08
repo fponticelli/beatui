@@ -8,7 +8,7 @@ export const meta: ComponentPageMeta = {
   category: 'Navigation',
   component: 'Tabs',
   description: 'Tabbed navigation for switching between content panels.',
-  icon: 'lucide:layout-list',
+  icon: 'lucide:panel-top-dashed',
   order: 2,
 }
 

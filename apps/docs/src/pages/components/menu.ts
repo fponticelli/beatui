@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'Menu',
   description:
     'A dropdown action menu with keyboard navigation, submenus, disabled items, and accessible ARIA markup. Placed as a child of the trigger element.',
-  icon: 'lucide:list',
+  icon: 'lucide:ellipsis-vertical',
   order: 5,
 }
 

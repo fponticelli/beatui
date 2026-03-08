@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ComboboxInput',
-  category: 'Pickers',
+  category: 'Dropdowns',
   component: 'Combobox',
   description: 'A searchable combobox with async option loading, keyboard navigation, and custom option rendering.',
   icon: 'lucide:search',

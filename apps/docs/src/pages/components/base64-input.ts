@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Base64Input',
-  category: 'Form Inputs',
+  category: 'Specialized Inputs',
   component: 'Base64Input',
   description:
     'A single-file upload input that stores the file as a base64 string. Supports drag-and-drop, file type filtering, and size limits.',

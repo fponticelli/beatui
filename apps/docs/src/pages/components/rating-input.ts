@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'RatingInput',
-  category: 'Pickers',
+  category: 'Specialized Inputs',
   component: 'NullableRatingInput',
   description:
     'A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.',

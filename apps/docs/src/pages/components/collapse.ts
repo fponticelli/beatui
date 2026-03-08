@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'Collapse',
   description:
     'Animated collapsible container that smoothly expands and contracts content with CSS height transitions.',
-  icon: 'lucide:chevron-down',
+  icon: 'lucide:unfold-vertical',
   order: 2,
 }
 

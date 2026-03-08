@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TagInput',
-  category: 'Pickers',
+  category: 'Dropdowns',
   component: 'TagInput',
   description: 'A tag/chip input that lets users type and add multiple string values, with keyboard and backspace support.',
   icon: 'lucide:tags',

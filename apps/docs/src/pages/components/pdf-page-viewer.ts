@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'PdfPageViewer',
   description:
     'A PDF.js-powered page viewer with fit modes, rotation, text selection layer, and annotation support. Renders a single page at a time.',
-  icon: 'lucide:file-text',
+  icon: 'lucide:file-scan',
   order: 5,
 }
 

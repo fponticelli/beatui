@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'FileInput',
-  category: 'Pickers',
+  category: 'Specialized Inputs',
   component: 'FileInput',
   description: 'A drag-and-drop file input with click-to-select support, file type filtering, size limits, and multiple display modes.',
   icon: 'lucide:upload',

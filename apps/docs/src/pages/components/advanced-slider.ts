@@ -5,10 +5,10 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'AdvancedSlider',
-  category: 'Pickers',
+  category: 'Specialized Inputs',
   component: 'AdvancedSlider',
   description: 'An advanced slider supporting single value, range selection, and multi-point modes with tick marks, value labels, and customizable theme colors.',
-  icon: 'lucide:sliders-horizontal',
+  icon: 'lucide:sliders-vertical',
   order: 15,
 }
 

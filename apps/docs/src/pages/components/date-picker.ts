@@ -9,11 +9,11 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DatePicker',
-  category: 'Tables & Media',
+  category: 'Date & Time',
   component: 'DatePicker',
   description:
     'A date selection panel with month/year navigation. Uses Temporal PlainDate internally.',
-  icon: 'lucide:calendar',
+  icon: 'lucide:calendar-range',
   order: 9,
 }
 

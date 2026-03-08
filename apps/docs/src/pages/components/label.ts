@@ -9,7 +9,7 @@ export const meta: ComponentPageMeta = {
   component: 'Label',
   description:
     'Inline text labels with semantic styling variants for emphasis, muted, and danger states.',
-  icon: 'lucide:tag',
+  icon: 'lucide:text',
   order: 20,
 }
 

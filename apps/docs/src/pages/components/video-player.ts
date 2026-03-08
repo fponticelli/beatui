@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'BaseVideoPlayer',
-  category: 'Tables & Media',
+  category: 'Media',
   component: 'BaseVideoPlayer',
   description:
     'A unified video player supporting HTML5 video files, HLS streams, and YouTube URLs. Provides a consistent API across providers with reactive controls and playback callbacks.',

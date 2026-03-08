@@ -8,7 +8,7 @@ export const meta: ComponentPageMeta = {
   category: 'Buttons',
   component: 'ToggleButton',
   description: 'A button that toggles between pressed and unpressed states with full variant and color support.',
-  icon: 'lucide:toggle-left',
+  icon: 'lucide:toggle-right',
   order: 7,
 }
 
