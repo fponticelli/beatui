@@ -102,7 +102,14 @@ function Swatch({
  * ```
  */
 export function ColorInput(options: ColorInputOptions): Renderable {
-  const { value, onBlur, onChange, onInput, swatchSize: _swatchSize, ...containerOptions } = options
+  const {
+    value,
+    onBlur,
+    onChange,
+    onInput,
+    swatchSize: _swatchSize,
+    ...containerOptions
+  } = options
   return InputContainer(
     {
       ...containerOptions,

@@ -131,8 +131,15 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
  * ```
  */
 export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
-  const { value, onBlur, onChange, onInput, displayValue, swatchSize, withAlpha } =
-    options
+  const {
+    value,
+    onBlur,
+    onChange,
+    onInput,
+    displayValue,
+    swatchSize,
+    withAlpha,
+  } = options
 
   const blobSize = Value.map(swatchSize ?? 32, s => s)
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
@@ -269,7 +276,13 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
     )
   )
 
-  const { swatchSize: _sz, displayValue: _dv, withAlpha: _wa, colorTextFormat: _ct, ...containerOptions } = options
+  const {
+    swatchSize: _sz,
+    displayValue: _dv,
+    withAlpha: _wa,
+    colorTextFormat: _ct,
+    ...containerOptions
+  } = options
   return InputContainer({
     baseContainer: true,
     ...containerOptions,
