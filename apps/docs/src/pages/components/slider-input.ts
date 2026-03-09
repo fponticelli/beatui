@@ -15,17 +15,21 @@ export const meta: ComponentPageMeta = {
 
 export default function SliderInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('SliderInput', signals => {
-      const value = signals.value as Prop<number>
-      return html.div(
-        attr.class('w-64'),
-        SliderInput({
-          ...signals,
-          value,
-          onChange: (v: number) => value.set(v),
-        })
-      )
-    }),
+    playground: manualPlayground(
+      'SliderInput',
+      signals => {
+        const value = signals.value as Prop<number>
+        return html.div(
+          attr.class('w-64'),
+          SliderInput({
+            ...signals,
+            value,
+            onChange: (v: number) => value.set(v),
+          })
+        )
+      },
+      { value: 50 }
+    ),
     sections: [
       ...AutoSections('SliderInput', props =>
         html.div(

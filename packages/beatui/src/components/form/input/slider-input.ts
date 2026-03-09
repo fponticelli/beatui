@@ -13,11 +13,20 @@ import { NullableResetAfter } from './nullable-utils'
 export type SliderInputOptions = Merge<
   InputOptions<number>,
   {
-    /** Step increment between valid values on the slider */
+    /**
+     * Step increment between valid values on the slider.
+     * @default 1
+     */
     step?: Value<number>
-    /** Minimum value of the slider range */
+    /**
+     * Minimum value of the slider range.
+     * @default 0
+     */
     min?: Value<number>
-    /** Maximum value of the slider range */
+    /**
+     * Maximum value of the slider range.
+     * @default 100
+     */
     max?: Value<number>
   }
 >
@@ -92,11 +101,20 @@ export const SliderInput = (options: SliderInputOptions) => {
 export type NullableSliderInputOptions = Merge<
   InputOptions<number | null>,
   {
-    /** Step increment between valid values on the slider */
+    /**
+     * Step increment between valid values on the slider.
+     * @default 1
+     */
     step?: Value<number>
-    /** Minimum value of the slider range */
+    /**
+     * Minimum value of the slider range.
+     * @default 0
+     */
     min?: Value<number>
-    /** Maximum value of the slider range */
+    /**
+     * Maximum value of the slider range.
+     * @default 100
+     */
     max?: Value<number>
   }
 >
