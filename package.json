@@ -13,6 +13,7 @@
     "test:e2e:smoke": "pnpm --filter @beatui/docs test:e2e:smoke",
     "test:e2e:a11y": "pnpm --filter @beatui/docs test:e2e:a11y",
     "test:e2e:visual": "pnpm --filter @beatui/docs test:e2e:visual",
+    "test:e2e:component": "pnpm --filter @beatui/docs test:e2e:component",
     "test:e2e:ui": "pnpm --filter @beatui/docs test:e2e:ui",
     "test:e2e:update-snapshots": "pnpm --filter @beatui/docs test:e2e:update-snapshots",
     "lint": "turbo lint",

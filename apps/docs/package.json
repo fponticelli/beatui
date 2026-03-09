@@ -8,7 +8,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:all": "playwright test",
+    "test:e2e:smoke": "playwright test --grep @smoke --project=chromium",
+    "test:e2e:a11y": "playwright test --grep @a11y --project=chromium",
+    "test:e2e:visual": "playwright test --grep @visual --project=chromium",
+    "test:e2e:component": "playwright test --grep @component --project=chromium",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:update-snapshots": "playwright test --update-snapshots --project=chromium"
   },
   "keywords": [
     "documentation",
@@ -18,14 +26,16 @@
   "author": "Franco Ponticelli",
   "license": "MIT",
   "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
     "@tempots/beatui": "workspace:*",
     "@tempots/dom": "^37.2.0",
     "@tempots/std": "~0.27.0",
     "@tempots/ui": "^16.0.1",
-    "@js-temporal/polyfill": "^0.5.1",
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "25.2.3",
     "tailwindcss": "4.1.18",
