@@ -7,6 +7,8 @@ import {
   SelectAllCheckbox,
   DataToolbar,
   createDataSource,
+  type DataTablePaginationOptions,
+  type DataTableToolbarOptions,
 } from '@tempots/beatui'
 import { html, attr, prop, Value, MapSignal, Fragment } from '@tempots/dom'
 import {
@@ -66,19 +68,42 @@ export default function DataTablePage() {
   return ComponentPage(meta, {
     playground: manualPlayground('DataTable', signals => {
       const data = prop(sampleUsers)
+
+      // Convert boolean pagination signal → config object or false
+      const paginationConfig = Value.map(
+        signals.pagination as Value<boolean>,
+        (v): { pageSize: number } | boolean => (v ? { pageSize: 5 } : false)
+      ) as Value<{ pageSize: number } | boolean>
+
+      // Convert boolean toolbar signal → true or false
+      const toolbarConfig = Value.map(
+        signals.toolbar as Value<boolean>,
+        (v): boolean => !!v
+      ) as Value<boolean>
+
+      // groupBy signal (optional union → string | undefined)
+      const groupBySignal = signals.groupBy as Value<string | undefined>
+
       return DataTable<User>({
         data,
         rowId: u => u.id,
         sortable: signals.sortable,
         filterable: signals.filterable,
         selectable: signals.selectable,
+        reorderableColumns: signals.reorderableColumns as Value<boolean>,
         hoverable: signals.hoverable as Value<boolean>,
         size: signals.size,
         withStripedRows: signals.withStripedRows as Value<boolean>,
         withTableBorder: signals.withTableBorder as Value<boolean>,
         withColumnBorders: signals.withColumnBorders as Value<boolean>,
+        withRowBorders: signals.withRowBorders as Value<boolean>,
+        loading: signals.loading as Value<boolean>,
+        showFooter: signals.showFooter as Value<boolean>,
+        groupBy: groupBySignal,
+        groupCollapsible: Value.get(signals.groupCollapsible) as boolean,
         fullWidth: true,
-        pagination: { pageSize: 5 },
+        pagination: paginationConfig as unknown as Value<DataTablePaginationOptions | boolean>,
+        toolbar: toolbarConfig as unknown as Value<DataTableToolbarOptions | boolean>,
         columns: [
           {
             id: 'name',
@@ -86,6 +111,7 @@ export default function DataTablePage() {
             cell: row => row.map(r => r.name),
             sortable: true,
             filter: true,
+            footer: rows => rows.map(r => `${r.length} users`),
           },
           {
             id: 'email',

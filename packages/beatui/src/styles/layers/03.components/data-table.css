@@ -482,6 +482,11 @@
 }
 
 /* Column Reorder Drag */
+th[draggable='true'] {
+  background-color: var(--bg-surface);
+  cursor: grab;
+}
+
 th.bc-data-table__header--dragging {
   opacity: 0.5;
 }
