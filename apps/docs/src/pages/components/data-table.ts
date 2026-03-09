@@ -2,15 +2,10 @@ import {
   DataTable,
   Badge,
   Icon,
-  SortableHeader,
-  SelectionCheckbox,
-  SelectAllCheckbox,
-  DataToolbar,
-  createDataSource,
   type DataTablePaginationOptions,
   type DataTableToolbarOptions,
 } from '@tempots/beatui'
-import { html, attr, prop, Value, MapSignal, Fragment } from '@tempots/dom'
+import { html, attr, prop, Value, MapSignal } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -301,147 +296,30 @@ export default function DataTablePage() {
         'Striped rows improve readability for dense tables.'
       ),
       Section(
-        'SortableHeader',
-        () => {
-          const ds = createDataSource<User, 'name' | 'email' | 'role'>({
+        'Grouped Rows',
+        () =>
+          DataTable<User>({
             data: sampleUsers,
             rowId: u => u.id,
-            accessors: {
-              name: u => u.name,
-              email: u => u.email,
-              role: u => u.role,
-            },
-          })
-          return html.div(
-            attr.class('overflow-x-auto'),
-            html.table(
-              attr.class('w-full border-collapse text-sm'),
-              html.thead(
-                html.tr(
-                  SortableHeader({ dataSource: ds, column: 'name' }, 'Name'),
-                  SortableHeader({ dataSource: ds, column: 'email' }, 'Email'),
-                  SortableHeader({ dataSource: ds, column: 'role' }, 'Role')
-                )
-              ),
-              html.tbody(
-                MapSignal(ds.rows, rows =>
-                  Fragment(...rows.map(u =>
-                    html.tr(
-                      html.td(attr.class('px-3 py-2 border-b'), u.name),
-                      html.td(attr.class('px-3 py-2 border-b'), u.email),
-                      html.td(attr.class('px-3 py-2 border-b'), u.role)
-                    )
-                  ))
-                )
-              )
-            )
-          )
-        },
-        'SortableHeader is a standalone <th> component that wires click-to-sort into any DataSource. Clicking cycles through ascending, descending, and no-sort states.'
-      ),
-      Section(
-        'SelectionCheckbox and SelectAllCheckbox',
-        () => {
-          const ds = createDataSource<User, 'name' | 'role'>({
-            data: sampleUsers.slice(0, 5),
-            rowId: u => u.id,
-            accessors: {
-              name: u => u.name,
-              role: u => u.role,
-            },
-          })
-          return html.div(
-            attr.class('overflow-x-auto'),
-            html.table(
-              attr.class('w-full border-collapse text-sm'),
-              html.thead(
-                html.tr(
-                  html.th(
-                    attr.class('px-3 py-2 border-b text-left'),
-                    SelectAllCheckbox({ dataSource: ds })
+            fullWidth: true,
+            hoverable: true,
+            groupBy: 'role',
+            groupCollapsible: true,
+            columns: [
+              { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
+              { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
                   ),
-                  html.th(attr.class('px-3 py-2 border-b text-left'), 'Name'),
-                  html.th(attr.class('px-3 py-2 border-b text-left'), 'Role')
-                )
-              ),
-              html.tbody(
-                MapSignal(ds.rows, rows =>
-                  Fragment(...rows.map(u => {
-                    const rowId = prop(u.id)
-                    const isSelected = ds.selected.map(ids => ids.has(u.id))
-                    return html.tr(
-                      html.td(
-                        attr.class('px-3 py-2 border-b'),
-                        SelectionCheckbox({ dataSource: ds, rowId, isSelected })
-                      ),
-                      html.td(attr.class('px-3 py-2 border-b'), u.name),
-                      html.td(attr.class('px-3 py-2 border-b'), u.role)
-                    )
-                  }))
-                )
-              )
-            )
-          )
-        },
-        'SelectionCheckbox and SelectAllCheckbox wire row and header checkboxes into a DataSource. SelectAllCheckbox renders a tri-state checkbox that selects or deselects all visible rows.'
-      ),
-      Section(
-        'DataToolbar',
-        () => {
-          const ds = createDataSource<User, 'name' | 'role' | 'status'>({
-            data: sampleUsers,
-            rowId: u => u.id,
-            accessors: {
-              name: u => u.name,
-              role: u => u.role,
-              status: u => u.status,
-            },
-          })
-          return html.div(
-            attr.class('flex flex-col gap-3'),
-            DataToolbar({
-              dataSource: ds,
-              bulkActions: [
-                {
-                  label: 'Export',
-                  icon: 'lucide:download',
-                  onClick: sel => alert(`Exporting: ${[...sel].join(', ')}`),
-                },
-                {
-                  label: 'Delete',
-                  icon: 'lucide:trash-2',
-                  onClick: sel => alert(`Deleting: ${[...sel].join(', ')}`),
-                },
-              ],
-            }),
-            html.table(
-              attr.class('w-full border-collapse text-sm'),
-              html.thead(
-                html.tr(
-                  html.th(attr.class('px-3 py-2 border-b text-left'), SelectAllCheckbox({ dataSource: ds })),
-                  html.th(attr.class('px-3 py-2 border-b text-left'), 'Name'),
-                  html.th(attr.class('px-3 py-2 border-b text-left'), 'Role'),
-                  html.th(attr.class('px-3 py-2 border-b text-left'), 'Status')
-                )
-              ),
-              html.tbody(
-                MapSignal(ds.rows, rows =>
-                  Fragment(...rows.map(u => {
-                    const rowId = prop(u.id)
-                    const isSelected = ds.selected.map(ids => ids.has(u.id))
-                    return html.tr(
-                      html.td(attr.class('px-3 py-2 border-b'), SelectionCheckbox({ dataSource: ds, rowId, isSelected })),
-                      html.td(attr.class('px-3 py-2 border-b'), u.name),
-                      html.td(attr.class('px-3 py-2 border-b'), u.role),
-                      html.td(attr.class('px-3 py-2 border-b'), u.status)
-                    )
-                  }))
-                )
-              )
-            )
-          )
-        },
-        'DataToolbar displays active sort indicators, filter chips, and selection state for a DataSource. It integrates bulk action buttons that fire with the current selection set.'
+              },
+              { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
+            ],
+          }),
+        'Group rows by a column with groupBy. Collapsible group headers are shown by default when groupCollapsible is true.'
       ),
       Section(
         'Full Featured',
