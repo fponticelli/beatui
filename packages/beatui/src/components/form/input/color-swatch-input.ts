@@ -13,6 +13,7 @@ import {
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
+import type { ControlSize } from '../../theme'
 import {
   formatColor,
   hexToRgb,
@@ -141,7 +142,17 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
     withAlpha,
   } = options
 
-  const blobSize = Value.map(swatchSize ?? 32, s => s)
+  const sizeToPixels: Record<ControlSize, number> = {
+    xs: 20,
+    sm: 26,
+    md: 32,
+    lg: 40,
+    xl: 52,
+  }
+  const blobSize =
+    swatchSize != null
+      ? Value.map(swatchSize, s => Number(s))
+      : Value.map(options.size ?? ('md' as ControlSize), s => sizeToPixels[s] ?? 32)
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
   const rgb = Value.map(
     rgba,
@@ -192,7 +203,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
       )
     ),
     attr.style(
-      computedOf(blobSize)(s => `min-width:${s + 2}px;height:${s + 2}px`)
+      computedOf(blobSize)(s => `width:${s + 2}px;height:${s + 2}px`)
     ),
     // The SVG blob preview
     svg.svg(

@@ -2,7 +2,10 @@
 
 .bc-color-swatch-input__control {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
   border-radius: var(--radius-control, var(--radius-md));
   overflow: visible;
   cursor: pointer;
@@ -117,10 +120,3 @@
   outline: var(--outline-width-focus) solid var(--color-danger-400);
 }
 
-/* Responsive styles */
-@media (width >= var(--breakpoint-sm)) {
-  .bc-color-swatch-input__control {
-    width: calc(var(--spacing-base) * 11);
-    height: calc(var(--spacing-base) * 9);
-  }
-}

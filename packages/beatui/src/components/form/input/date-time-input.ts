@@ -32,10 +32,10 @@ const localDateToString = (date: Date) => {
  * @example
  * ```ts
  * import { prop } from '@tempots/dom'
- * import { DateTimeInput } from '@tempots/beatui'
+ * import { NativeDateTimeInput } from '@tempots/beatui'
  *
  * const appointment = prop(new Date())
- * DateTimeInput({
+ * NativeDateTimeInput({
  *   value: appointment,
  *   onChange: appointment.set,
  * })
@@ -44,7 +44,7 @@ const localDateToString = (date: Date) => {
  * @example
  * ```ts
  * // With label via InputWrapper
- * DateTimeInput({
+ * NativeDateTimeInput({
  *   value: prop(new Date()),
  *   onChange: (d) => console.log('Selected:', d.toISOString()),
  *   disabled: false,
@@ -52,7 +52,7 @@ const localDateToString = (date: Date) => {
  * })
  * ```
  */
-export const DateTimeInput = (options: InputOptions<Date>) => {
+export const NativeDateTimeInput = (options: InputOptions<Date>) => {
   const { value, onBlur, onChange } = options
 
   return InputContainer({

@@ -9,9 +9,9 @@ import { SchemaContext } from '../schema-context'
 import { Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
-  NativeNullableEmailInput,
+  NullableEmailInput,
   NativeNullableDateInput,
-  NullableDateTimeInput,
+  NativeNullableDateTimeInput,
   NullablePasswordInput,
   NullableTextArea,
   NullableTextInput,
@@ -44,7 +44,7 @@ export function StringControl({
 
   switch (format?.format) {
     case 'email':
-      return Control(NativeNullableEmailInput, {
+      return Control(NullableEmailInput, {
         ...options,
         controller: getController(),
       })
@@ -56,7 +56,7 @@ export function StringControl({
         fromInput: (v: Date | null) => v?.toISOString().split('T')[0] ?? null,
       })
     case 'date-time':
-      return MappedControl(NullableDateTimeInput, {
+      return MappedControl(NativeNullableDateTimeInput, {
         ...options,
         controller: getController(),
         toInput: v => (v == null ? null : new Date(v)),

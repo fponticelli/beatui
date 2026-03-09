@@ -2,7 +2,7 @@ import { Empty, Renderable } from '@tempots/dom'
 import {
   Control,
   TextInput,
-  NativeEmailInput,
+  EmailInput,
   PasswordInput,
   UuidInput,
   TextArea,
@@ -85,7 +85,7 @@ export function JSONSchemaString({
   // Otherwise, use regular text-based controls that map empty string to undefined
   switch (widget) {
     case 'email':
-      return Control(NativeEmailInput, {
+      return Control(EmailInput, {
         ...options,
         controller: transformEmptyStringToUndefined(controller),
       })

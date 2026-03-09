@@ -161,6 +161,12 @@ export const RatingInput = (options: RatingInputOptions) => {
     return html.span(
       attr.class('bc-rating-input__icon-container'),
       attr.class(iconSize),
+      on.click(
+        emit(e => handleClick(e as MouseEvent, counter), {
+          preventDefault: true,
+          stopPropagation: true,
+        })
+      ),
       Icon(
         {
           icon: inactiveIcon,
@@ -190,12 +196,6 @@ export const RatingInput = (options: RatingInputOptions) => {
           },
           attr.class('bc-rating-input__icon-full')
         )
-      ),
-      on.click(
-        emit(e => handleClick(e as MouseEvent, counter), {
-          preventDefault: true,
-          stopPropagation: true,
-        })
       )
     )
   }

@@ -86,7 +86,7 @@ export default function ColorSwatchInputPage() {
         'Enable withAlpha to show an opacity slider below the swatch for transparent color support.'
       ),
       Section(
-        'Sizes',
+        'Swatch Sizes (Pixels)',
         () =>
           html.div(
             attr.class('flex flex-wrap items-end gap-4'),
@@ -102,7 +102,7 @@ export default function ColorSwatchInputPage() {
               )
             )
           ),
-        'The size prop controls the width and height of the blob swatch in pixels.'
+        'Use swatchSize to set the blob swatch dimensions in pixels, independent of the control size.'
       ),
       Section(
         'States',

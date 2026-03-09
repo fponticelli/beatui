@@ -20,7 +20,7 @@ import {
   When,
 } from '@tempots/dom'
 import { Button } from '../button'
-import { NativeEmailInput, PasswordInput, CheckboxInput } from '../form/input'
+import { EmailInput, PasswordInput, CheckboxInput } from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm } from '../form/use-form'
 import { SignInFormOptions, requestToControllerValidation } from './index'
@@ -120,7 +120,7 @@ export function SignInForm({
         ),
 
         // Email field
-        Control(NativeEmailInput, {
+        Control(EmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         }),

@@ -36,13 +36,13 @@ const dateToString = (v: Date) => {
  *
  * @example
  * ```ts
- * NullableDateTimeInput({
+ * NativeNullableDateTimeInput({
  *   value: prop<Date | null>(new Date()),
  *   onChange: date => console.log('DateTime:', date),
  * })
  * ```
  */
-export const NullableDateTimeInput = (options: InputOptions<Date | null>) => {
+export const NativeNullableDateTimeInput = (options: InputOptions<Date | null>) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
   const date = Value.map(value, v => (v != null ? dateToString(v) : null))
 

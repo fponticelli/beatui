@@ -491,6 +491,28 @@ test.describe('RatingInput interactions @component', () => {
     await expect(slider).toHaveAttribute('aria-valuemax', '10')
   })
 
+  test('RatingInput: clicking a star updates the value', async ({ page }) => {
+    await openPlayground(page, 'rating-input')
+    const preview = previewArea(page)
+    const slider = preview.locator('[role="slider"]').first()
+    const stars = slider.locator('.bc-rating-input__icon-container')
+
+    // Initial value is 3
+    await expect(slider).toHaveAttribute('aria-valuenow', '3')
+
+    // Click on star 5 → value should become 5
+    await stars.nth(4).click()
+    await expect(slider).toHaveAttribute('aria-valuenow', '5')
+
+    // Click on star 1 → value should become 1
+    await stars.nth(0).click()
+    await expect(slider).toHaveAttribute('aria-valuenow', '1')
+
+    // Click on star 3 → value should become 3
+    await stars.nth(2).click()
+    await expect(slider).toHaveAttribute('aria-valuenow', '3')
+  })
+
   test('RatingInput: keyboard navigation updates the value', async ({
     page,
   }) => {

@@ -19,7 +19,7 @@ import {
   Use,
 } from '@tempots/dom'
 import { Button } from '../button'
-import { NativeEmailInput } from '../form/input'
+import { EmailInput } from '../form/input'
 import { Stack } from '../layout/stack'
 import { useForm, UseFormResult } from '../form/use-form'
 import {
@@ -117,7 +117,7 @@ export function ResetPasswordForm({
       Stack(
         attr.class('bc-auth-form__fields'),
         // Email field
-        Control(NativeEmailInput, {
+        Control(EmailInput, {
           controller: emailController,
           label: coalesce(labels?.emailLabel, t.$.emailLabel),
         })

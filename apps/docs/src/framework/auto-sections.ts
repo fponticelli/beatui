@@ -30,10 +30,13 @@ export function AutoSections(
     if (!propMeta.unionValues || propMeta.unionValues.length === 0) continue
     if (!SHOWCASE_PROPS.has(propMeta.name)) continue
 
-    // Build default props for all other union props
+    // Build default props for other union/boolean props only.
+    // Skip number/string defaults — those are handled internally by components
+    // and including them can override size-derived logic.
     const baseProps: Record<string, unknown> = {}
     for (const p of meta.props) {
       if (p.name === propMeta.name) continue
+      if (p.type !== 'union' && p.type !== 'boolean') continue
       const val = parseDefaultValue(p)
       if (val !== undefined) {
         baseProps[p.name] = val
@@ -86,5 +89,9 @@ function parseDefaultValue(meta: PropMeta): unknown {
   }
   if (d === 'true') return true
   if (d === 'false') return false
+  if (meta.type === 'number') {
+    const n = Number(d)
+    return Number.isNaN(n) ? undefined : n
+  }
   return d.replace(/^['"]|['"]$/g, '')
 }
