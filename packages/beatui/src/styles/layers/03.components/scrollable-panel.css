@@ -50,22 +50,27 @@
 .bc-scrollable-panel--header-shadow > div,
 .bc-scrollable-panel--footer-shadow > div {
   width: 100%;
-  height: var(--spacing-lgh);
+  height: 0;
   position: absolute;
+  left: 0;
   opacity: 0;
   transition: opacity
     var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  background: linear-gradient(var(--gradient-direction, to bottom), rgb(0 0 0 / 0.04), transparent);
+  pointer-events: none;
 }
 
 .bc-scrollable-panel--header-shadow > div {
-  bottom: 0;
-  box-shadow: var(--shadow-surface-elevated, var(--shadow-md));
+  --gradient-direction: to bottom;
+  top: 0;
+  height: 6px;
 }
 
 .bc-scrollable-panel--footer-shadow > div {
-  top: 0;
-  box-shadow: var(--shadow-top-md, 0 -2px 6px rgba(0, 0, 0, 0.08));
+  --gradient-direction: to top;
+  bottom: 0;
+  height: 6px;
 }
 
 /* Show header shadow when scrolled down */
