@@ -39,7 +39,7 @@ export interface DataTableContext<T, C extends string = string> {
   selectable: Value<boolean>
   selectableSignal: Signal<boolean>
   selectOnRowClickSignal: Signal<boolean>
-  selectionAfter: boolean
+  selectionAfter: Value<boolean>
 
   // Display config
   sortable: Value<boolean>
@@ -84,13 +84,9 @@ export function createDataTableContext<T, C extends string = string>(
     data,
     columns,
     rowId,
-    sortable = false,
-    multiSort = false,
-    filterable = false,
-    filterLayout = 'header',
-    selectable = false,
-    selectionPosition = 'before',
-    selectOnRowClick = false,
+    sortable: sortableOpt = false,
+    filterable: filterableOpt = false,
+    selectable: selectableOpt = false,
     reorderableColumns = false,
     onColumnOrderChange,
     pagination: paginationOpt,
@@ -112,6 +108,25 @@ export function createDataTableContext<T, C extends string = string>(
     hiddenColumns: hiddenColumnsOption = [],
     onDataSource,
   } = options
+
+  // Resolve sortable union → boolean + multiSort
+  const sortable: Value<boolean> = Value.map(sortableOpt, v => !!v)
+  const multiSort: Value<boolean> = Value.map(sortableOpt, v => v === 'multi')
+
+  // Resolve filterable union → boolean + filterLayout
+  const filterable: Value<boolean> = Value.map(filterableOpt, v => !!v)
+  const filterLayout: Value<'header' | 'row'> = Value.map(filterableOpt, v =>
+    v === 'row' ? 'row' : 'header'
+  )
+
+  // Resolve selectable union → boolean + options
+  const selectable: Value<boolean> = Value.map(selectableOpt, v => !!v)
+  const selectionAfter: Value<boolean> = Value.map(selectableOpt, v =>
+    typeof v === 'object' ? v.position === 'after' : false
+  )
+  const selectOnRowClick: Value<boolean> = Value.map(selectableOpt, v =>
+    typeof v === 'object' ? (v.selectOnRowClick ?? false) : false
+  )
 
   const hiddenColumns = Value.deriveProp(hiddenColumnsOption)
 
@@ -288,7 +303,6 @@ export function createDataTableContext<T, C extends string = string>(
     selectableSignal
   )((ids, sel) => ids.length + (sel ? 1 : 0))
 
-  const selectionAfter = selectionPosition === 'after'
   const dragState: { columnId: C | null } = { columnId: null }
 
   const dispose = () => {

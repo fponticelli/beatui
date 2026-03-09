@@ -69,10 +69,9 @@ export default function DataTablePage() {
       return DataTable<User>({
         data,
         rowId: u => u.id,
-        sortable: signals.sortable as Value<boolean>,
-        filterable: signals.filterable as Value<boolean>,
-        filterLayout: signals.filterLayout as Value<'header' | 'row'>,
-        selectable: signals.selectable as Value<boolean>,
+        sortable: signals.sortable,
+        filterable: signals.filterable,
+        selectable: signals.selectable,
         hoverable: signals.hoverable as Value<boolean>,
         size: signals.size,
         withStripedRows: signals.withStripedRows as Value<boolean>,

@@ -55,18 +55,24 @@ function renderDescription(text: string): TNode {
 /**
  * Creates a control widget for a single prop based on its type metadata.
  */
+let propControlCounter = 0
+
 function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
   const typedSignal = signal as Prop<string>
   const description = meta.description
     ? renderDescription(meta.description)
     : undefined
+  const controlId = `prop-ctrl-${++propControlCounter}`
 
   switch (meta.type) {
     case 'boolean':
       return InputWrapper({
         label: meta.name,
+        labelFor: controlId,
         description,
         content: Switch({
+          id: controlId,
+          ariaLabel: meta.name,
           value: signal as Prop<boolean>,
           onChange: v => (signal as Prop<boolean>).set(v),
           size: 'xs',
@@ -108,8 +114,11 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
       }
       return InputWrapper({
         label: meta.name,
+        labelFor: controlId,
         description,
         content: NativeSelect({
+          id: controlId,
+          ariaLabel: meta.name,
           options: selectOptions,
           value: meta.optional
             ? (Value.map(signal, v => (v as string) ?? '') as Value<string>)
@@ -128,8 +137,10 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
         const displayValue = Value.map(signal, v => (v as string) ?? '')
         return InputWrapper({
           label: meta.name,
+          labelFor: controlId,
           description,
           content: TextInput({
+            id: controlId,
             value: displayValue as Value<string>,
             onInput: v => signal.set(v === '' ? undefined : v),
             size: 'xs',
@@ -138,8 +149,10 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
       }
       return InputWrapper({
         label: meta.name,
+        labelFor: controlId,
         description,
         content: TextInput({
+          id: controlId,
           value: typedSignal,
           onInput: v => typedSignal.set(v),
           size: 'xs',
@@ -150,8 +163,10 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
     case 'number':
       return InputWrapper({
         label: meta.name,
+        labelFor: controlId,
         description,
         content: NumberInput({
+          id: controlId,
           value: signal as Prop<number>,
           onChange: v => (signal as Prop<number>).set(v),
           size: 'xs',
@@ -164,8 +179,10 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
     case 'bigint':
       return InputWrapper({
         label: meta.name,
+        labelFor: controlId,
         description,
         content: TextInput({
+          id: controlId,
           value: Value.map(signal, v =>
             v != null ? String(v) : ''
           ) as Value<string>,
@@ -213,8 +230,8 @@ function parseDefault(meta: PropMeta): unknown {
     }
   }
 
-  if (d === 'true') return true
-  if (d === 'false') return false
+  if (d === 'true') return meta.type === 'union' ? undefined : true
+  if (d === 'false') return meta.type === 'union' ? undefined : false
   if (meta.type === 'bigint') {
     try {
       return BigInt(d.replace(/n$/, ''))

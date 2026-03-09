@@ -56,6 +56,8 @@ export type CommonInputOptions = {
   required?: Value<boolean>
   /** Tab index for keyboard navigation order */
   tabIndex?: Value<number>
+  /** Accessible label for the input (applied as aria-label) */
+  ariaLabel?: Value<string>
   /**
    * Visual size of the control, aligned with Button sizes.
    * @default 'md'
@@ -167,6 +169,7 @@ export function mapInputOptions<Outer, Inner>(
  */
 export const CommonInputAttributes = ({
   autocomplete,
+  ariaLabel,
   autofocus,
   classes,
   disabled,
@@ -186,6 +189,7 @@ export const CommonInputAttributes = ({
     attr.placeholder(placeholder),
     attr.id(id),
     aria.required(required),
+    ariaLabel != null ? aria.label(ariaLabel) : null,
     attr.tabindex(tabIndex),
     hasError != null
       ? aria.invalid(

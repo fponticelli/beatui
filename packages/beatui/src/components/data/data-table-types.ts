@@ -109,6 +109,16 @@ export interface DataTableToolbarOptions {
 }
 
 /**
+ * Options for row selection behavior.
+ */
+export interface SelectionOptions {
+  /** Position of selection checkboxes. @default 'before' */
+  position?: 'before' | 'after'
+  /** Toggle row selection when clicking anywhere on the row. @default false */
+  selectOnRowClick?: boolean
+}
+
+/**
  * Configuration options for the {@link DataTable} component.
  *
  * @typeParam T - The type of data rows
@@ -123,25 +133,30 @@ export interface DataTableOptions<T, C extends string = string> {
   rowId: (row: T) => string
 
   // Feature toggles
-  /** Enable sorting (columns opt-in via `column.sortable`). @default false */
-  sortable?: Value<boolean>
-  /** Allow sorting by multiple columns. @default false */
-  multiSort?: Value<boolean>
-  /** Enable filtering (columns opt-in via `column.filter`). @default false */
-  filterable?: Value<boolean>
   /**
-   * Where to render filter controls.
-   * - `'header'`: all filters render inline in the header row as icon triggers
-   * - `'row'`: all filters render in a dedicated row below the header
-   * @default 'header'
+   * Enable sorting. Columns opt-in via `column.sortable`.
+   * - `false` — sorting disabled (default)
+   * - `true` or `'single'` — single-column sorting
+   * - `'multi'` — multi-column sorting
+   * @default false
    */
-  filterLayout?: Value<'header' | 'row'>
-  /** Show selection checkboxes. @default false */
-  selectable?: Value<boolean>
-  /** Position of selection checkboxes. @default 'before' */
-  selectionPosition?: 'before' | 'after'
-  /** Toggle row selection when clicking anywhere on the row. @default false */
-  selectOnRowClick?: Value<boolean>
+  sortable?: Value<false | true | 'single' | 'multi'>
+  /**
+   * Enable filtering. Columns opt-in via `column.filter`.
+   * - `false` — filtering disabled (default)
+   * - `true` or `'header'` — filters render inline in column header menus
+   * - `'row'` — filters render in a dedicated row below the header
+   * @default false
+   */
+  filterable?: Value<false | true | 'header' | 'row'>
+  /**
+   * Enable row selection with checkboxes.
+   * - `false` — selection disabled (default)
+   * - `true` — selection enabled with default options
+   * - `SelectionOptions` — selection enabled with custom options
+   * @default false
+   */
+  selectable?: Value<false | true | SelectionOptions>
   /** Enable drag-to-reorder columns. @default false */
   reorderableColumns?: Value<boolean>
   /** Called when column order changes via drag-and-drop */

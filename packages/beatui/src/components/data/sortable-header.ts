@@ -25,7 +25,7 @@ export interface SortableHeaderOptions<T, C extends string = string> {
   /** Hide the sort icon when no sort is active. @default false */
   hideInactiveIcon?: boolean
   /** Whether this header is draggable (for column reordering). @default false */
-  draggable?: boolean
+  draggable?: Value<boolean>
   /** Drag start handler */
   onDragStart?: (e: DragEvent) => void
   /** Drag over handler */
@@ -96,11 +96,13 @@ export function SortableHeader<T, C extends string = string>(
   return html.th(
     attr.class(classes),
     attr.role('columnheader'),
-    isDraggable ? attr.draggable('true') : null,
-    onDragStart ? on.dragstart(onDragStart) : null,
-    onDragOver ? on.dragover(onDragOver) : null,
-    onDrop ? on.drop(onDrop) : null,
-    onDragEnd ? on.dragend(onDragEnd) : null,
+    isDraggable != null
+      ? attr.draggable(Value.map(isDraggable, v => (v ? 'true' : undefined)))
+      : null,
+    onDragStart != null ? on.dragstart(onDragStart) : null,
+    onDragOver != null ? on.dragover(onDragOver) : null,
+    onDrop != null ? on.drop(onDrop) : null,
+    onDragEnd != null ? on.dragend(onDragEnd) : null,
     aria.sort(
       direction.map((d): 'none' | 'ascending' | 'descending' | 'other' => {
         if (d === 'asc') return 'ascending'

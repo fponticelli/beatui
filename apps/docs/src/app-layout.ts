@@ -31,6 +31,7 @@ export function AppLayout({ children }: { children: TNode }) {
           Use(Theme, ({ appearance }) =>
             html.img(
               attr.class('h-full'),
+              attr.alt('BeatUI'),
               attr.src(
                 appearance.map((a): string =>
                   a === 'dark' ? '/beatui-logo-dark.svg' : '/beatui-logo.svg'

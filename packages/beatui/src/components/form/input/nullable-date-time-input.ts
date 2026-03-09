@@ -42,7 +42,9 @@ const dateToString = (v: Date) => {
  * })
  * ```
  */
-export const NativeNullableDateTimeInput = (options: InputOptions<Date | null>) => {
+export const NativeNullableDateTimeInput = (
+  options: InputOptions<Date | null>
+) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
   const date = Value.map(value, v => (v != null ? dateToString(v) : null))
 

@@ -19,5 +19,4 @@ import { createNullableStringInput } from './create-nullable-string-input'
  * })
  * ```
  */
-export const NullableEmailInput =
-  createNullableStringInput(EmailInput)
+export const NullableEmailInput = createNullableStringInput(EmailInput)

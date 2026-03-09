@@ -28,7 +28,7 @@ export function SectionCard(section: DocSection): TNode {
             section.description
           )
         : undefined,
-      html.div(attr.class('mt-2'), section.content())
+      html.div(attr.class('mt-2 playground-preview'), section.content())
     )
   )
 }

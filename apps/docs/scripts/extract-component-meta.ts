@@ -108,6 +108,36 @@ function analyzePropertyType(
         return { type: 'boolean', reactive: isReactive }
       }
 
+      // Mixed boolean + string literals (e.g. false | true | 'single' | 'multi')
+      // Extract only the string literal values; boolean `false` makes it optional
+      const stringLiterals = valueMembers.filter(m => m.isStringLiteral())
+      const boolLiterals = valueMembers.filter(
+        m => m.flags & ts.TypeFlags.BooleanLiteral
+      )
+      if (
+        stringLiterals.length > 0 &&
+        stringLiterals.length + boolLiterals.length === valueMembers.length
+      ) {
+        return {
+          type: 'union',
+          unionValues: stringLiterals.map(
+            m => (m as ts.StringLiteralType).value
+          ),
+          reactive: isReactive,
+        }
+      }
+
+      // Boolean + object types (e.g. false | true | SelectionOptions) → boolean
+      const objectTypes = valueMembers.filter(
+        m =>
+          !m.isStringLiteral() &&
+          !(m.flags & ts.TypeFlags.BooleanLiteral) &&
+          m.getProperties().length > 0
+      )
+      if (boolLiterals.length > 0 && objectTypes.length > 0) {
+        return { type: 'boolean', reactive: isReactive }
+      }
+
       // Check for function types (callbacks) — skip these
       const hasFunction = valueMembers.some(m => m.getCallSignatures().length > 0)
       if (hasFunction) return null

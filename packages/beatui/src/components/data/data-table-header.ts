@@ -64,9 +64,7 @@ function buildColumnMenu<T, C extends string>(
     ? computedOf(includeFilter, hasActiveFilter)((inc, active) => inc && active)
     : false
   const filterContent = hasFilter ? buildFilterContent(col, ctx) : undefined
-  const menuIncludeFilter: Value<boolean> = hasFilter
-    ? includeFilter
-    : false
+  const menuIncludeFilter: Value<boolean> = hasFilter ? includeFilter : false
   const hasMenuOptions = computedOf(
     menuSortable,
     menuIncludeFilter
@@ -75,9 +73,7 @@ function buildColumnMenu<T, C extends string>(
     attr.class('bc-column-header-menu'),
     When(showFilterIcon, () =>
       html.span(
-        attr.class(
-          'bc-sortable-header__icon bc-sortable-header__icon--active'
-        ),
+        attr.class('bc-sortable-header__icon bc-sortable-header__icon--active'),
         on.click(e => e.stopPropagation()),
         Icon({ icon: 'lucide:filter', size: ctx.size }),
         Flyout({
@@ -143,10 +139,10 @@ function makeDragHandlers<T, C extends string>(
   colId: C,
   ctx: DataTableContext<T, C>
 ) {
-  if (!ctx.reorderableColumns) return {}
   return {
-    draggable: true as const,
+    reorderable: ctx.reorderableColumns,
     onDragStart: (e: DragEvent) => {
+      if (!Value.get(ctx.reorderableColumns)) return
       ctx.dragState.columnId = colId
       if (e.dataTransfer) {
         e.dataTransfer.effectAllowed = 'move'
@@ -156,6 +152,7 @@ function makeDragHandlers<T, C extends string>(
       th.classList.add('bc-data-table__header--dragging')
     },
     onDragOver: (e: DragEvent) => {
+      if (!Value.get(ctx.reorderableColumns)) return
       if (ctx.dragState.columnId == null || ctx.dragState.columnId === colId)
         return
       e.preventDefault()
@@ -164,6 +161,7 @@ function makeDragHandlers<T, C extends string>(
       th.classList.add('bc-data-table__header--drag-over')
     },
     onDrop: (e: DragEvent) => {
+      if (!Value.get(ctx.reorderableColumns)) return
       e.preventDefault()
       const th = e.currentTarget as HTMLElement
       th.classList.remove('bc-data-table__header--drag-over')
@@ -180,6 +178,7 @@ function makeDragHandlers<T, C extends string>(
       ctx.dragState.columnId = null
     },
     onDragEnd: (e: DragEvent) => {
+      if (!Value.get(ctx.reorderableColumns)) return
       ctx.dragState.columnId = null
       const th = e.currentTarget as HTMLElement
       th.classList.remove('bc-data-table__header--dragging')
@@ -223,17 +222,23 @@ function renderHeaderCell<T, C extends string>(
             column: col.id,
             size: ctx.size,
             menu,
-            ...drag,
+            draggable: drag.reorderable,
+            onDragStart: drag.onDragStart,
+            onDragOver: drag.onDragOver,
+            onDrop: drag.onDrop,
+            onDragEnd: drag.onDragEnd,
           },
           headerContent
         ),
       () =>
         html.th(
-          drag.draggable ? attr.draggable('true') : null,
-          drag.onDragStart ? on.dragstart(drag.onDragStart) : null,
-          drag.onDragOver ? on.dragover(drag.onDragOver) : null,
-          drag.onDrop ? on.drop(drag.onDrop) : null,
-          drag.onDragEnd ? on.dragend(drag.onDragEnd) : null,
+          attr.draggable(
+            Value.map(drag.reorderable, v => (v ? 'true' : undefined))
+          ),
+          on.dragstart(drag.onDragStart),
+          on.dragover(drag.onDragOver),
+          on.drop(drag.onDrop),
+          on.dragend(drag.onDragEnd),
           col.width != null ? style.width(col.width) : null,
           col.minWidth != null ? style.minWidth(col.minWidth) : null,
           col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
@@ -299,11 +304,14 @@ export function renderHeaderRow<T, C extends string>(
   ctx: DataTableContext<T, C>
 ): TNode {
   return html.tr(
-    !ctx.selectionAfter ? selectionHeaderCell(ctx) : null,
+    When(
+      Value.map(ctx.selectionAfter, v => !v),
+      () => selectionHeaderCell(ctx)
+    ),
     ForEach(ctx.visibleColumns, colIdSignal =>
       renderHeaderCell(colIdSignal, ctx)
     ),
-    ctx.selectionAfter ? selectionHeaderCell(ctx) : null
+    When(ctx.selectionAfter, () => selectionHeaderCell(ctx))
   )
 }
 
@@ -318,11 +326,14 @@ export function renderFilterRow<T, C extends string>(
   return When(showFilterRow, () =>
     html.tr(
       attr.class('bc-data-table__filter-row'),
-      !ctx.selectionAfter ? selectionEmptyCell(ctx) : null,
+      When(
+        Value.map(ctx.selectionAfter, v => !v),
+        () => selectionEmptyCell(ctx)
+      ),
       ForEach(ctx.visibleColumns, colIdSignal =>
         renderFilterCellItem(colIdSignal, ctx)
       ),
-      ctx.selectionAfter ? selectionEmptyCell(ctx) : null
+      When(ctx.selectionAfter, () => selectionEmptyCell(ctx))
     )
   )
 }

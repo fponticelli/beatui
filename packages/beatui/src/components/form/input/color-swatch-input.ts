@@ -152,7 +152,10 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
   const blobSize =
     swatchSize != null
       ? Value.map(swatchSize, s => Number(s))
-      : Value.map(options.size ?? ('md' as ControlSize), s => sizeToPixels[s] ?? 32)
+      : Value.map(
+          options.size ?? ('md' as ControlSize),
+          s => sizeToPixels[s] ?? 32
+        )
   const rgba = Value.map(value, v => parseAnyColor(v ?? '#000000'))
   const rgb = Value.map(
     rgba,
@@ -202,9 +205,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
         a ? 'bc-color-swatch-input__control--alpha' : ''
       )
     ),
-    attr.style(
-      computedOf(blobSize)(s => `width:${s + 2}px;height:${s + 2}px`)
-    ),
+    attr.style(computedOf(blobSize)(s => `width:${s + 2}px;height:${s + 2}px`)),
     // The SVG blob preview
     svg.svg(
       attr.class('bc-color-swatch-input__svg'),

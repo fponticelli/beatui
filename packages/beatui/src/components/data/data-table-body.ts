@@ -87,11 +87,14 @@ export function renderBody<T, C extends string>(
           }
           ctx.onRowClick?.(rowSignal.value)
         }),
-        !ctx.selectionAfter ? selectionCell() : null,
+        When(
+          Value.map(ctx.selectionAfter, v => !v),
+          () => selectionCell()
+        ),
         ForEach(ctx.visibleColumns, (colIdSignal, position) =>
           renderDataCell(colIdSignal, position.index, rowSignal, ctx)
         ),
-        ctx.selectionAfter ? selectionCell() : null
+        When(ctx.selectionAfter, () => selectionCell())
       )
     )
   })
@@ -145,11 +148,14 @@ function renderGroupRow<T, C extends string>(
         }
         ctx.onRowClick?.(row)
       }),
-      !ctx.selectionAfter ? selectionCell() : null,
+      When(
+        Value.map(ctx.selectionAfter, v => !v),
+        () => selectionCell()
+      ),
       ForEach(ctx.visibleColumns, (colIdSignal, position) =>
         renderDataCell(colIdSignal, position.index, rowSignal, ctx)
       ),
-      ctx.selectionAfter ? selectionCell() : null
+      When(ctx.selectionAfter, () => selectionCell())
     )
   )
 }

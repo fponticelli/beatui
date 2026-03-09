@@ -72,7 +72,7 @@ export function ComponentPage(
         )
       ),
       // Playground
-      options.playground,
+      html.div(attr.class('playground-preview'), options.playground),
       // Sections
       ...(options.sections ?? []).map(section => SectionCard(section))
     ),

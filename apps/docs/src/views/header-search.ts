@@ -86,12 +86,12 @@ export function HeaderSearch() {
           }),
           html.span(
             attr.class(
-              'text-gray-500 dark:text-gray-400 text-xs hidden sm:inline min-w-24 text-left'
+              'text-gray-600 dark:text-gray-400 text-xs hidden sm:inline min-w-24 text-left'
             ),
             'Search ...'
           ),
           html.span(
-            attr.class('hidden sm:inline'),
+            attr.class('hidden sm:inline [&_.bc-kbd]:text-gray-600'),
             Kbd({ size: 'xs' }, '\u2318K')
           )
         )

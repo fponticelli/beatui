@@ -35,6 +35,8 @@ export type SwitchOptions = {
   tabIndex?: Value<number>
   /** Whether to add vertical padding so the switch matches the height of text inputs at the same size. @default true */
   matchInputHeight?: boolean
+  /** Accessible label for the switch (applied as aria-label) */
+  ariaLabel?: Value<string>
 }
 
 /**
@@ -90,6 +92,7 @@ export const Switch = ({
   color = 'primary',
   tabIndex = 0,
   matchInputHeight = true,
+  ariaLabel,
 }: SwitchOptions) => {
   // Generate unique IDs for accessibility
   const switchId: Value<string> = id ?? sessionId('switch')
@@ -175,6 +178,7 @@ export const Switch = ({
     ),
     aria.checked(value as Value<boolean | 'mixed'>),
     aria.disabled(disabled),
+    ariaLabel != null ? aria.label(ariaLabel) : null,
     on.click(handleToggle),
     on.keydown(handleKeyDown),
     onBlur != null ? on.blur(onBlur) : null,

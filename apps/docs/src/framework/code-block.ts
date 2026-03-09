@@ -1,4 +1,4 @@
-import { html, attr, prop, TNode, When } from '@tempots/dom'
+import { html, aria, attr, prop, TNode, When } from '@tempots/dom'
 import { Button, Icon } from '@tempots/beatui'
 import { CodeHighlight } from '@tempots/beatui/codehighlight'
 
@@ -21,7 +21,7 @@ export function CodeBlock(code: string, language?: string): TNode {
     ),
     html.div(
       attr.class(
-        'absolute top-2 right-8 z-10 text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-wider select-none pointer-events-none'
+        'absolute top-2 right-8 z-10 text-[10px] font-mono text-gray-500 dark:text-gray-500 uppercase tracking-wider select-none pointer-events-none'
       ),
       language ?? 'typescript'
     ),
@@ -35,6 +35,7 @@ export function CodeBlock(code: string, language?: string): TNode {
           size: 'xs',
           onClick: handleCopy,
         },
+        aria.label('Copy code'),
         When(
           copied,
           () => Icon({ icon: 'lucide:check', size: 'xs' }),

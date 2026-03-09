@@ -1,4 +1,4 @@
-import { html, attr, prop, TNode, Value, When } from '@tempots/dom'
+import { html, aria, attr, prop, TNode, Value, When } from '@tempots/dom'
 import { Button, Icon } from '@tempots/beatui'
 
 /**
@@ -46,6 +46,7 @@ export function CodePreview(code: Value<string>): TNode {
                 size: 'xs',
                 onClick: handleCopy,
               },
+              aria.label('Copy code'),
               When(
                 copied,
                 () => Icon({ icon: 'lucide:check', size: 'xs' }),

@@ -81,6 +81,7 @@ export function LocaleSelector({
             title: t.$.locale as Value<string | undefined>,
           }),
           NativeSelect({
+            ariaLabel: t.$.locale,
             options: Value.map(locales, locales =>
               locales.map(l => {
                 let name = l.name

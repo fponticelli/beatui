@@ -131,4 +131,3 @@
 .dark .bc-input-container--error .bc-color-swatch-input__control:focus-within {
   outline: var(--outline-width-focus) solid var(--color-danger-400);
 }
-

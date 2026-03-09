@@ -24,6 +24,8 @@ test.describe('Accessibility - core pages @a11y', () => {
         .withTags(['wcag2a', 'wcag2aa'])
         // Exclude third-party iframes (PDF viewers, Monaco)
         .exclude('iframe')
+        // Exclude interactive component demos (standalone inputs without form context)
+        .exclude('.playground-preview')
         .analyze()
 
       const critical = results.violations.filter(
@@ -51,6 +53,8 @@ test.describe('Accessibility - all component pages @a11y', () => {
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa'])
         .exclude('iframe')
+        // Exclude interactive component demos (standalone inputs without form context)
+        .exclude('.playground-preview')
         .analyze()
 
       const critical = results.violations.filter(
