@@ -43,6 +43,7 @@ export interface DataTableContext<T, C extends string = string> {
 
   // Display config
   sortable: Value<boolean>
+  multiSort: Value<boolean>
   size: Value<ControlSize>
   onRowClick?: (row: T) => void
   filterLayout: Value<'header' | 'row'>
@@ -352,6 +353,7 @@ export function createDataTableContext<T, C extends string = string>(
     selectOnRowClickSignal,
     selectionAfter,
     sortable,
+    multiSort,
     size,
     onRowClick,
     filterLayout,

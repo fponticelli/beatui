@@ -24,6 +24,8 @@ export interface SortableHeaderOptions<T, C extends string = string> {
   menu?: TNode
   /** Hide the sort icon when no sort is active. @default false */
   hideInactiveIcon?: boolean
+  /** Whether multi-sort is enabled (shows "Hold Shift" hint). @default true */
+  multiSort?: Value<boolean>
   /** Whether this header is draggable (for column reordering). @default false */
   draggable?: Value<boolean>
   /** Drag start handler */
@@ -65,6 +67,7 @@ export function SortableHeader<T, C extends string = string>(
     actions,
     menu,
     hideInactiveIcon = false,
+    multiSort: multiSortEnabled = true,
     draggable: isDraggable,
     onDragStart,
     onDragOver,
@@ -127,11 +130,13 @@ export function SortableHeader<T, C extends string = string>(
                     'bc-sortable-header__icon bc-sortable-header__icon--active'
                   ),
                   Icon({ icon: iconName, size: size ?? 'md' }),
-                  Use(BeatUII18n, t =>
-                    Tooltip({
-                      content: t.$.dataTable.map(dt => dt.sortMultiHint),
-                      showDelay: 800,
-                    })
+                  When(multiSortEnabled, () =>
+                    Use(BeatUII18n, t =>
+                      Tooltip({
+                        content: t.$.dataTable.map(dt => dt.sortMultiHint),
+                        showDelay: 800,
+                      })
+                    )
                   )
                 )
             )
@@ -144,11 +149,13 @@ export function SortableHeader<T, C extends string = string>(
                 )
               ),
               Icon({ icon: iconName, size: size ?? 'md' }),
-              Use(BeatUII18n, t =>
-                Tooltip({
-                  content: t.$.dataTable.map(dt => dt.sortMultiHint),
-                  showDelay: 800,
-                })
+              When(multiSortEnabled, () =>
+                Use(BeatUII18n, t =>
+                  Tooltip({
+                    content: t.$.dataTable.map(dt => dt.sortMultiHint),
+                    showDelay: 800,
+                  })
+                )
               )
             ),
         actions ?? null,

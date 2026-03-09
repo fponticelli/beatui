@@ -1,4 +1,4 @@
-import { computedOf, prop, Signal, Value } from '@tempots/dom'
+import { computedOf, prop, Signal, untracked, Value } from '@tempots/dom'
 import {
   FilterBase,
   TextFilter,
@@ -510,11 +510,15 @@ export function createDataSource<T, C extends string = string>(
   const getSortDirection = (column: C): Signal<SortDirection | undefined> => {
     let cached = sortDirectionCache.get(column)
     if (!cached) {
-      cached = sortState.map(
-        sorts => sorts.find(s => s.column === column)?.direction
-      )
+      const dirProp = untracked(() => prop<SortDirection | undefined>(
+        sortState.value.find(s => s.column === column)?.direction
+      ))
+      const unsub = sortState.on(sorts => {
+        dirProp.set(sorts.find(s => s.column === column)?.direction)
+      }, { noAutoDispose: true })
+      cached = dirProp
       sortDirectionCache.set(column, cached)
-      disposables.push(() => cached!.dispose())
+      disposables.push(() => { unsub(); dirProp.dispose() })
     }
     return cached
   }
@@ -551,11 +555,15 @@ export function createDataSource<T, C extends string = string>(
   const getColumnFilters = (column: C): Signal<FilterBase<C>[]> => {
     let cached = columnFiltersCache.get(column)
     if (!cached) {
-      cached = filterState.map(filters =>
-        filters.filter(f => f.column === column)
-      )
+      const filterProp = untracked(() => prop<FilterBase<C>[]>(
+        filterState.value.filter(f => f.column === column)
+      ))
+      const unsub = filterState.on(filters => {
+        filterProp.set(filters.filter(f => f.column === column))
+      }, { noAutoDispose: true })
+      cached = filterProp
       columnFiltersCache.set(column, cached)
-      disposables.push(() => cached!.dispose())
+      disposables.push(() => { unsub(); filterProp.dispose() })
     }
     return cached
   }
@@ -563,14 +571,21 @@ export function createDataSource<T, C extends string = string>(
   const getTextFilterValue = (column: C): Signal<string> => {
     let cached = textFilterValueCache.get(column)
     if (!cached) {
-      cached = filterState.map(filters => {
-        const tf = filters.find(
+      const textProp = untracked(() => prop<string>((() => {
+        const tf = filterState.value.find(
           f => f.column === column && f.kind === 'text'
         ) as TextFilter<C> | undefined
         return tf?.value ?? ''
-      })
+      })()))
+      const unsub = filterState.on(filters => {
+        const tf = filters.find(
+          f => f.column === column && f.kind === 'text'
+        ) as TextFilter<C> | undefined
+        textProp.set(tf?.value ?? '')
+      }, { noAutoDispose: true })
+      cached = textProp
       textFilterValueCache.set(column, cached)
-      disposables.push(() => cached!.dispose())
+      disposables.push(() => { unsub(); textProp.dispose() })
     }
     return cached
   }

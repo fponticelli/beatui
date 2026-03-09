@@ -222,6 +222,7 @@ function renderHeaderCell<T, C extends string>(
             column: col.id,
             size: ctx.size,
             menu,
+            multiSort: ctx.multiSort,
             draggable: drag.reorderable,
             onDragStart: drag.onDragStart,
             onDragOver: drag.onDragOver,
