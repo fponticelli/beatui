@@ -10,8 +10,10 @@ import {
   on,
   style,
   Empty,
-  prop,
   emitValue,
+  NotEmpty,
+  ForEach,
+  prop,
 } from '@tempots/dom'
 import { Modal, ModalOptions } from './modal'
 import { Button } from '../button'
@@ -27,10 +29,12 @@ import { BeatUII18n } from '../../beatui-i18n'
 export interface ConfirmationDialogOptions {
   /**
    * Dialog title displayed next to the icon.
+   * @default 'Confirm action'
    */
   title: Value<string>
   /**
    * Descriptive body text explaining what the action does.
+   * @default 'Are you sure you want to proceed? This action cannot be undone.'
    */
   body: Value<string>
   /**
@@ -46,13 +50,15 @@ export interface ConfirmationDialogOptions {
   /**
    * Optional list of consequences displayed as bullet points.
    */
-  consequences?: string[]
+  consequences?: Value<string[]>
   /**
    * Custom label for the confirm button. Falls back to i18n `confirm` string.
+   * @default 'Confirm'
    */
   confirmText?: Value<string>
   /**
    * Custom label for the cancel button. Falls back to i18n `cancel` string.
+   * @default 'Cancel'
    */
   cancelText?: Value<string>
   /**
@@ -151,12 +157,12 @@ export function ConfirmationDialog(
           body: html.div(
             attr.class('bc-dialog__body'),
             html.p(attr.class('bc-dialog__description'), body),
-            consequences && consequences.length > 0
-              ? html.ul(
-                  attr.class('bc-dialog__consequences'),
-                  ...consequences.map(c => html.li(c))
-                )
-              : Empty
+            NotEmpty(consequences ?? [], list =>
+              html.ul(
+                attr.class('bc-dialog__consequences'),
+                ForEach(list, item => html.li(item))
+              )
+            )
           ),
           footer: Fragment(
             attr.class('bc-dialog__actions'),
@@ -331,6 +337,7 @@ export function AlertDialog(
 export interface PromptDialogOptions {
   /**
    * Dialog title displayed in the header.
+   * @default 'Enter a value'
    */
   title: Value<string>
   /**
@@ -339,19 +346,22 @@ export interface PromptDialogOptions {
   body?: TNode
   /**
    * Placeholder text for the input field.
+   * @default 'Type here...'
    */
   placeholder?: Value<string>
   /**
    * Default value pre-filled in the input field.
    * @default ''
    */
-  defaultValue?: string
+  defaultValue?: Value<string>
   /**
    * Custom label for the confirm button. Falls back to i18n `confirm` string.
+   * @default 'Save'
    */
   confirmText?: Value<string>
   /**
    * Custom label for the cancel button. Falls back to i18n `cancel` string.
+   * @default 'Cancel'
    */
   cancelText?: Value<string>
   /**
@@ -419,7 +429,7 @@ export function PromptDialog(
 
   return Use(BeatUII18n, t =>
     Modal(modalOptions, (openModal, close) => {
-      const inputValue = prop(defaultValue)
+      const inputValue = prop('')
 
       const handleConfirm = () => {
         onConfirm?.(inputValue.value)
@@ -432,7 +442,7 @@ export function PromptDialog(
       }
 
       const open = () => {
-        inputValue.set(defaultValue)
+        inputValue.set(Value.get(defaultValue))
         openModal({
           header: html.span(attr.class('bc-dialog__title'), title),
           body: html.div(
@@ -441,7 +451,7 @@ export function PromptDialog(
             html.input(
               attr.class('bc-dialog__input'),
               attr.type('text'),
-              attr.value(inputValue),
+              attr.value(defaultValue),
               attr.placeholder(placeholder ?? ''),
               on.input(emitValue(v => inputValue.set(v))),
               on.keydown(e => {

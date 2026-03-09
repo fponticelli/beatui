@@ -15,28 +15,30 @@ export const meta: ComponentPageMeta = {
 
 export default function PromptDialogPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('PromptDialog', signals =>
-      PromptDialog(
-        {
-          title: signals.title,
-          placeholder: signals.placeholder,
-          defaultValue: signals.defaultValue,
-          confirmText: signals.confirmText,
-          cancelText: signals.cancelText,
-          dismissable: signals.dismissable,
-          onConfirm: (value: string) => console.log('Confirmed:', value),
-          onCancel: () => console.log('Cancelled'),
-        },
-        (open) =>
-          Button(
-            {
-              variant: 'filled',
-              color: 'primary',
-              onClick: open,
-            },
-            'Open Prompt'
-          )
-      ),
+    playground: manualPlayground(
+      'PromptDialog',
+      signals =>
+        PromptDialog(
+          {
+            title: signals.title,
+            placeholder: signals.placeholder,
+            defaultValue: signals.defaultValue,
+            confirmText: signals.confirmText,
+            cancelText: signals.cancelText,
+            dismissable: signals.dismissable,
+            onConfirm: (value: string) => console.log('Confirmed:', value),
+            onCancel: () => console.log('Cancelled'),
+          },
+          open =>
+            Button(
+              {
+                variant: 'filled',
+                color: 'primary',
+                onClick: open,
+              },
+              'Open Prompt'
+            )
+        ),
       { title: 'Enter a value' }
     ),
     sections: [
@@ -53,13 +55,9 @@ export default function PromptDialogPage() {
               placeholder: 'File name',
               defaultValue: 'untitled.txt',
               confirmText: 'Rename',
-              onConfirm: (name) => console.log('Renamed to:', name),
+              onConfirm: name => console.log('Renamed to:', name),
             },
-            (open) =>
-              Button(
-                { variant: 'outline', onClick: open },
-                'Rename File'
-              )
+            open => Button({ variant: 'outline', onClick: open }, 'Rename File')
           ),
         'A basic prompt with a pre-filled default value and descriptive body text.'
       ),
@@ -72,9 +70,9 @@ export default function PromptDialogPage() {
               placeholder: 'Folder name',
               confirmText: 'Create',
               cancelText: 'Cancel',
-              onConfirm: (name) => console.log('Created folder:', name),
+              onConfirm: name => console.log('Created folder:', name),
             },
-            (open) =>
+            open =>
               Button(
                 { variant: 'light', color: 'primary', onClick: open },
                 'New Folder'
@@ -92,13 +90,9 @@ export default function PromptDialogPage() {
                 title: 'Add a tag',
                 placeholder: 'Tag name',
                 confirmText: 'Add tag',
-                onConfirm: (tag) => console.log('Tag added:', tag),
+                onConfirm: tag => console.log('Tag added:', tag),
               },
-              (open) =>
-                Button(
-                  { variant: 'light', onClick: open },
-                  'Add Tag'
-                )
+              open => Button({ variant: 'light', onClick: open }, 'Add Tag')
             ),
             PromptDialog(
               {
@@ -109,26 +103,19 @@ export default function PromptDialogPage() {
                 ),
                 placeholder: 'Write your comment...',
                 confirmText: 'Submit',
-                onConfirm: (comment) => console.log('Comment:', comment),
+                onConfirm: comment => console.log('Comment:', comment),
               },
-              (open) =>
-                Button(
-                  { variant: 'light', onClick: open },
-                  'Add Comment'
-                )
+              open => Button({ variant: 'light', onClick: open }, 'Add Comment')
             ),
             PromptDialog(
               {
                 title: 'Set a URL',
                 placeholder: 'https://example.com',
                 confirmText: 'Apply',
-                onConfirm: (url) => console.log('URL set:', url),
+                onConfirm: url => console.log('URL set:', url),
               },
-              (open) =>
-                Button(
-                  { variant: 'light', onClick: open },
-                  'Set Link URL'
-                )
+              open =>
+                Button({ variant: 'light', onClick: open }, 'Set Link URL')
             )
           ),
         'PromptDialog is suitable for a wide variety of inline data-entry scenarios.'
@@ -142,9 +129,9 @@ export default function PromptDialogPage() {
               placeholder: 'Password',
               confirmText: 'Confirm',
               dismissable: false,
-              onConfirm: (value) => console.log('Password entered:', value),
+              onConfirm: value => console.log('Password entered:', value),
             },
-            (open) =>
+            open =>
               Button(
                 { variant: 'filled', color: 'warning', onClick: open },
                 'Require Input'
