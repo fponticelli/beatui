@@ -174,6 +174,7 @@ export function renderGroupedBody<T, C extends string>(
     ctx.selectableSignal
   )((ids, sel) => {
     const firstTot = ids.findIndex(id => ctx.getCol(id).footer != null)
+    if (firstTot < 0) return ids.length + (sel ? 1 : 0)
     return firstTot + (sel ? 1 : 0)
   })
 
