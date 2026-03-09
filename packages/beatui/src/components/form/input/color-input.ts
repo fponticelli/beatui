@@ -6,9 +6,7 @@ import {
   input,
   on,
   Renderable,
-  style,
   Value,
-  WithElement,
 } from '@tempots/dom'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { InputContainer } from './input-container'
@@ -19,7 +17,9 @@ import { InputContainer } from './input-container'
  * Extends {@link InputOptions} for string color values with an optional size
  * property for the color swatch preview.
  */
-export type ColorInputOptions = InputOptions<string> & {
+export type ColorInputOptions = Omit<InputOptions<string>, 'value'> & {
+  /** The current color value as a CSS color string. @default '#000000' */
+  value?: Value<string>
   /** Size in pixels of the color swatch preview (square). @default 32 */
   swatchSize?: Value<number>
 }
@@ -44,20 +44,13 @@ function Swatch({
   onChange?: (value: string) => void
   onInput?: (value: string) => void
 }) {
-  let inputEl: HTMLInputElement | null = null
   return html.div(
     attr.class('bc-color-input__swatch-container'),
     html.span(
       attr.class('bc-color-input__swatch'),
-      on.click(() => inputEl?.showPicker()),
       input.color(
-        WithElement(el => {
-          inputEl = el as HTMLInputElement
-          return Empty
-        }),
+        attr.class('bc-color-input__swatch-native'),
         attr.value(value),
-        style.width('4px'),
-        style.height('4px'),
         onChange != null ? on.change(emitValue(onChange)) : Empty,
         onInput != null ? on.input(emitValue(onInput)) : Empty
       ),
@@ -103,7 +96,7 @@ function Swatch({
  */
 export function ColorInput(options: ColorInputOptions): Renderable {
   const {
-    value,
+    value = '#000000',
     onBlur,
     onChange,
     onInput,

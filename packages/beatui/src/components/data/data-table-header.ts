@@ -42,17 +42,13 @@ function buildFilterContent<T, C extends string>(
 /** Build the column header menu for a column. */
 function buildColumnMenu<T, C extends string>(
   col: DataColumnDef<T, C>,
-  includeFilter: boolean,
+  includeFilter: Value<boolean>,
   ctx: DataTableContext<T, C>
 ): TNode {
   const columnFilters = ctx.ds.getColumnFilters(col.id)
   const hasActiveFilter = columnFilters.map(f => f.length > 0)
-  const colSortable =
-    col.sortable != null
-      ? typeof col.sortable === 'boolean'
-        ? col.sortable
-        : col.sortable.value
-      : false
+  const colSortable: Value<boolean> =
+    col.sortable != null ? col.sortable : false
   const colHideable =
     col.hideable != null
       ? typeof col.hideable === 'boolean'
@@ -60,62 +56,85 @@ function buildColumnMenu<T, C extends string>(
         : col.hideable.value
       : false
   const hasFilter = colHasFilter(col)
+  const menuSortable = computedOf(
+    ctx.sortable,
+    colSortable
+  )((global, col) => !!global && !!col)
+  const showFilterIcon: Value<boolean> = hasFilter
+    ? computedOf(includeFilter, hasActiveFilter)((inc, active) => inc && active)
+    : false
+  const filterContent = hasFilter ? buildFilterContent(col, ctx) : undefined
+  const menuIncludeFilter: Value<boolean> = hasFilter
+    ? includeFilter
+    : false
+  const hasMenuOptions = computedOf(
+    menuSortable,
+    menuIncludeFilter
+  )((sortable, incFilter) => sortable || incFilter || colHideable)
   return html.span(
     attr.class('bc-column-header-menu'),
-    includeFilter && hasFilter
-      ? When(hasActiveFilter, () =>
-          html.span(
-            attr.class(
-              'bc-sortable-header__icon bc-sortable-header__icon--active'
+    When(showFilterIcon, () =>
+      html.span(
+        attr.class(
+          'bc-sortable-header__icon bc-sortable-header__icon--active'
+        ),
+        on.click(e => e.stopPropagation()),
+        Icon({ icon: 'lucide:filter', size: ctx.size }),
+        Flyout({
+          content: () =>
+            html.div(
+              attr.class('bc-column-filter-panel'),
+              on.click(e => e.stopPropagation()),
+              filterContent ?? null
             ),
-            on.click(e => e.stopPropagation()),
-            Icon({ icon: 'lucide:filter', size: ctx.size }),
-            Flyout({
-              content: () =>
-                html.div(
-                  attr.class('bc-column-filter-panel'),
-                  on.click(e => e.stopPropagation()),
-                  buildFilterContent(col, ctx) ?? null
-                ),
-              placement: 'bottom-end',
-              showOn: 'click',
-              showDelay: 0,
-              hideDelay: 0,
-            }),
-            Use(BeatUII18n, t => {
-              const trans = computedOf(
-                t.$.dataTable.$.describeFilter,
-                columnFilters
-              )((describe, filters) => {
-                return filters
-                  .map(v => describeFilterLocalized(v, describe))
-                  .join(', ')
-              })
-              return Tooltip({
-                content: trans,
-                showDelay: 300,
-              })
+          placement: 'bottom-end',
+          showOn: 'click',
+          showDelay: 0,
+          hideDelay: 0,
+        }),
+        Use(BeatUII18n, t => {
+          const trans = computedOf(
+            t.$.dataTable.$.describeFilter,
+            columnFilters
+          )((describe, filters) => {
+            return filters
+              .map(v => describeFilterLocalized(v, describe))
+              .join(', ')
+          })
+          return Tooltip({
+            content: trans,
+            showDelay: 300,
+          })
+        })
+      )
+    ),
+    When(hasMenuOptions, () =>
+      html.span(
+        attr.class('bc-sortable-header__menu'),
+        on.click(e => e.stopPropagation()),
+        Icon({ icon: 'lucide:ellipsis-vertical', size: ctx.size }),
+        MapSignal(
+          computedOf(menuSortable, menuIncludeFilter)((s, f) => ({ s, f })),
+          ({ s: sortable, f: incFilter }) =>
+            ColumnHeaderMenu({
+              dataSource: ctx.ds,
+              column: col.id,
+              sortable,
+              hideable: colHideable,
+              size: ctx.size,
+              onHideColumn: colHideable
+                ? () => ctx.toggleColumnVisibility(col.id)
+                : undefined,
+              filterContent: incFilter ? filterContent : undefined,
+              hasActiveFilter: incFilter ? hasActiveFilter : undefined,
+              onClearFilter:
+                incFilter && hasFilter
+                  ? () => ctx.ds.removeFilter(col.id)
+                  : undefined,
             })
-          )
         )
-      : null,
-    Icon({ icon: 'lucide:ellipsis-vertical', size: ctx.size }),
-    ColumnHeaderMenu({
-      dataSource: ctx.ds,
-      column: col.id,
-      sortable: !!(ctx.sortable && colSortable),
-      hideable: colHideable,
-      size: ctx.size,
-      onHideColumn: colHideable
-        ? () => ctx.toggleColumnVisibility(col.id)
-        : undefined,
-      filterContent: includeFilter ? buildFilterContent(col, ctx) : undefined,
-      hasActiveFilter: includeFilter ? hasActiveFilter : undefined,
-      onClearFilter:
-        includeFilter && hasFilter
-          ? () => ctx.ds.removeFilter(col.id)
-          : undefined,
-    })
+      )
+    )
   )
 }
 
@@ -180,55 +199,62 @@ function renderHeaderCell<T, C extends string>(
     const col = ctx.getCol(id)
     const headerContent =
       typeof col.header === 'string' ? col.header : col.header()
-    const menu = buildColumnMenu(col, ctx.filterLayout === 'header', ctx)
+    const includeFilter = computedOf(
+      ctx.hasFilters,
+      ctx.filterLayout
+    )((hasFilters, fl) => hasFilters && fl === 'header')
+    const menu = buildColumnMenu(col, includeFilter, ctx)
     const drag = makeDragHandlers(col.id, ctx)
 
-    const colSortable =
-      col.sortable != null
-        ? typeof col.sortable === 'boolean'
-          ? col.sortable
-          : col.sortable.value
-        : false
+    const colSortable: Value<boolean> =
+      col.sortable != null ? col.sortable : false
 
-    if (ctx.sortable && colSortable) {
-      return SortableHeader(
-        {
-          dataSource: ctx.ds,
-          column: col.id,
-          size: ctx.size,
-          menu,
-          hideInactiveIcon: ctx.filterLayout === 'header',
-          ...drag,
-        },
-        headerContent
-      )
-    }
-    return html.th(
-      drag.draggable ? attr.draggable('true') : null,
-      drag.onDragStart ? on.dragstart(drag.onDragStart) : null,
-      drag.onDragOver ? on.dragover(drag.onDragOver) : null,
-      drag.onDrop ? on.drop(drag.onDrop) : null,
-      drag.onDragEnd ? on.dragend(drag.onDragEnd) : null,
-      col.width != null ? style.width(col.width) : null,
-      col.minWidth != null ? style.minWidth(col.minWidth) : null,
-      col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
-      col.align != null
-        ? style.textAlign(Value.map(col.align, (a): string => a))
-        : null,
-      html.div(
-        attr.class('bc-sortable-header__content'),
-        html.span(attr.class('bc-sortable-header__label'), headerContent),
-        menu != null
-          ? html.span(
-              attr.class('bc-sortable-header__icons'),
-              html.span(
-                attr.class('bc-sortable-header__menu'),
-                on.click(e => e.stopPropagation()),
-                menu
-              )
-            )
-          : null
-      )
+    const isSortable = computedOf(
+      ctx.sortable,
+      colSortable
+    )((global, col) => !!global && !!col)
+
+    return When(
+      isSortable,
+      () =>
+        SortableHeader(
+          {
+            dataSource: ctx.ds,
+            column: col.id,
+            size: ctx.size,
+            menu,
+            ...drag,
+          },
+          headerContent
+        ),
+      () =>
+        html.th(
+          drag.draggable ? attr.draggable('true') : null,
+          drag.onDragStart ? on.dragstart(drag.onDragStart) : null,
+          drag.onDragOver ? on.dragover(drag.onDragOver) : null,
+          drag.onDrop ? on.drop(drag.onDrop) : null,
+          drag.onDragEnd ? on.dragend(drag.onDragEnd) : null,
+          col.width != null ? style.width(col.width) : null,
+          col.minWidth != null ? style.minWidth(col.minWidth) : null,
+          col.maxWidth != null ? style.maxWidth(col.maxWidth) : null,
+          col.align != null
+            ? style.textAlign(Value.map(col.align, (a): string => a))
+            : null,
+          html.div(
+            attr.class('bc-sortable-header__content'),
+            html.span(attr.class('bc-sortable-header__label'), headerContent),
+            menu != null
+              ? html.span(
+                  attr.class('bc-sortable-header__icons'),
+                  html.span(
+                    attr.class('bc-sortable-header__menu'),
+                    on.click(e => e.stopPropagation()),
+                    menu
+                  )
+                )
+              : null
+          )
+        )
     )
   })
 }
@@ -285,13 +311,18 @@ export function renderHeaderRow<T, C extends string>(
 export function renderFilterRow<T, C extends string>(
   ctx: DataTableContext<T, C>
 ): TNode {
-  if (!ctx.hasFilters || ctx.filterLayout === 'header') return null
-  return html.tr(
-    attr.class('bc-data-table__filter-row'),
-    !ctx.selectionAfter ? selectionEmptyCell(ctx) : null,
-    ForEach(ctx.visibleColumns, colIdSignal =>
-      renderFilterCellItem(colIdSignal, ctx)
-    ),
-    ctx.selectionAfter ? selectionEmptyCell(ctx) : null
+  const showFilterRow = computedOf(
+    ctx.hasFilters,
+    ctx.filterLayout
+  )((hasFilters, layout) => hasFilters && layout === 'row')
+  return When(showFilterRow, () =>
+    html.tr(
+      attr.class('bc-data-table__filter-row'),
+      !ctx.selectionAfter ? selectionEmptyCell(ctx) : null,
+      ForEach(ctx.visibleColumns, colIdSignal =>
+        renderFilterCellItem(colIdSignal, ctx)
+      ),
+      ctx.selectionAfter ? selectionEmptyCell(ctx) : null
+    )
   )
 }

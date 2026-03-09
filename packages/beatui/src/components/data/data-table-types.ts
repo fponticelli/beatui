@@ -135,7 +135,7 @@ export interface DataTableOptions<T, C extends string = string> {
    * - `'row'`: all filters render in a dedicated row below the header
    * @default 'header'
    */
-  filterLayout?: 'header' | 'row'
+  filterLayout?: Value<'header' | 'row'>
   /** Show selection checkboxes. @default false */
   selectable?: Value<boolean>
   /** Position of selection checkboxes. @default 'before' */

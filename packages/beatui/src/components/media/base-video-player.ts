@@ -5,7 +5,6 @@ import {
   attr,
   WithElement,
   prop,
-  When,
   on,
   style,
   OnDispose,
@@ -201,20 +200,8 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     } catch {}
     hlsInst = null
   }
-  // Track provider based on URL (after fileVideoEl is declared)
-  const cleanups = []
-  cleanups.push(
-    Value.on(url, u => {
-      if (typeof u === 'string' && u.length > 0 && isYouTubeUrl(u)) {
-        provider.value = 'youtube'
-      } else {
-        provider.value = 'file'
-        if (fileVideoEl) {
-          void attachFileSource()
-        }
-      }
-    })
-  )
+
+  const cleanups: (() => void)[] = []
 
   async function attachFileSource() {
     const v = fileVideoEl
@@ -499,18 +486,28 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
   const youTubeNode = html.div(
     WithElement(el => {
       ytContainerEl = el as HTMLElement
-      ensureYtPlayer()
-      onReady?.()
+      // Initialize YT player if URL is already a YouTube URL at mount time
+      if (provider.value === 'youtube') {
+        ensureYtPlayer()
+      }
     })
   )
 
-  // Apply reactive changes to providers
+  // Single URL watcher — determines provider and loads source
   cleanups.push(
-    Value.on(url, () => {
-      if (provider.value === 'youtube') ensureYtPlayer()
+    Value.on(url, u => {
+      const isYt = typeof u === 'string' && u.length > 0 && isYouTubeUrl(u)
+      const newProvider = isYt ? 'youtube' : 'file'
+      provider.set(newProvider)
+      if (isYt) {
+        ensureYtPlayer()
+      } else if (fileVideoEl) {
+        void attachFileSource()
+      }
     })
   )
 
+  // Reactive prop watchers
   cleanups.push(
     Value.on(playing, () => {
       if (provider.value === 'file' && fileVideoEl) {
@@ -598,6 +595,32 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
   )
 
   cleanups.push(
+    Value.on(controls, () => {
+      if (provider.value === 'file' && fileVideoEl) {
+        fileVideoEl.controls = !!Value.get(controls)
+      }
+    })
+  )
+
+  cleanups.push(
+    Value.on(loop, () => {
+      if (provider.value === 'file' && fileVideoEl) {
+        fileVideoEl.loop = !!Value.get(loop)
+      }
+    })
+  )
+
+  cleanups.push(
+    Value.on(playsinline, () => {
+      if (provider.value === 'file' && fileVideoEl) {
+        const pi = !!Value.get(playsinline)
+        if (pi) fileVideoEl.setAttribute('playsinline', '')
+        else fileVideoEl.removeAttribute('playsinline')
+      }
+    })
+  )
+
+  cleanups.push(
     Value.on(seekTo ?? null, () => {
       const s = Value.get(seekTo)
       if (s == null) return
@@ -613,7 +636,22 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     })
   )
 
-  // Dispose behavior
+  // Dispose progress timers
+  cleanups.push(() => {
+    clearFileProgress?.()
+    clearYtProgress?.()
+    destroyAdaptiveLoaders()
+    try {
+      ytPlayer?.destroy()
+    } catch {}
+  })
+
+  // Render both providers always — show/hide via CSS display.
+  // This avoids When() destroying/recreating nodes on provider switch,
+  // which would lose video element state, progress timers, and references.
+  const isFile = Value.map(provider, p => p === 'file')
+  const isYoutube = Value.map(provider, p => p === 'youtube')
+
   const container = html.div(
     attr.class('bc-base-video'),
     style.width(
@@ -622,10 +660,17 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     style.height(
       Value.map(height as Value<string | number | undefined>, cssSize)
     ),
-    When(
-      Value.map(provider, p => p === 'youtube'),
-      () => youTubeNode,
-      () => fileVideo
+    html.div(
+      style.display(
+        Value.map(isFile, v => (v ? 'block' : 'none')) as Value<string>
+      ),
+      fileVideo
+    ),
+    html.div(
+      style.display(
+        Value.map(isYoutube, v => (v ? 'block' : 'none')) as Value<string>
+      ),
+      youTubeNode
     )
   )
 

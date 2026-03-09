@@ -19,39 +19,45 @@ const SAMPLE_YOUTUBE_URL = 'https://www.youtube.com/watch?v=LXb3EKWsInQ'
 
 export default function VideoPlayerPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('BaseVideoPlayer', signals => {
-      const url = prop<string | null>(SAMPLE_VIDEO_URL)
-      const playing = prop(false)
+    playground: manualPlayground(
+      'BaseVideoPlayer',
+      signals => {
+        const url = prop<string | null>(SAMPLE_VIDEO_URL)
 
-      return html.div(
-        attr.class('w-full max-w-lg space-y-3'),
-        html.div(
-          attr.class('rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-black'),
-          BaseVideoPlayer({
-            url,
-            playing,
-            controls: signals.controls,
-            muted: signals.muted,
-            loop: signals.loop,
-            width: '100%',
-            height: '240',
-          })
-        ),
-        html.div(
-          attr.class('flex gap-2'),
-          html.button(
-            attr.class('px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'),
-            on.click(() => url.set(SAMPLE_VIDEO_URL)),
-            'MP4 file'
+        return html.div(
+          attr.class('w-full max-w-lg space-y-3'),
+          html.div(
+            attr.class(
+              'rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-black'
+            ),
+            BaseVideoPlayer({
+              ...signals,
+              url,
+              width: '100%',
+              height: '240',
+            })
           ),
-          html.button(
-            attr.class('px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'),
-            on.click(() => url.set(SAMPLE_YOUTUBE_URL)),
-            'YouTube'
+          html.div(
+            attr.class('flex gap-2'),
+            html.button(
+              attr.class(
+                'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ),
+              on.click(() => url.set(SAMPLE_VIDEO_URL)),
+              'MP4 file'
+            ),
+            html.button(
+              attr.class(
+                'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ),
+              on.click(() => url.set(SAMPLE_YOUTUBE_URL)),
+              'YouTube'
+            )
           )
         )
-      )
-    }),
+      },
+      { controls: true, muted: true }
+    ),
     sections: [
       Section(
         'HTML5 Video File',

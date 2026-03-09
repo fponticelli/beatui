@@ -20,15 +20,27 @@
 }
 
 .bc-input-container .bc-color-input__swatch {
+  position: relative;
   width: calc(var(--spacing-base) * 7.2);
   height: calc(var(--spacing-base) * 7.2);
   cursor: pointer;
   border: var(--border-width-thin) solid var(--color-neutral-300);
   border-radius: 100%;
+  overflow: hidden;
 }
 
-.bc-input-container .bc-color-input__swatch input {
+.bc-color-input__swatch-native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
   opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .bc-color-swatch-input__control--alpha {

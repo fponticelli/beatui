@@ -45,8 +45,8 @@ export interface DataTableContext<T, C extends string = string> {
   sortable: Value<boolean>
   size: Value<ControlSize>
   onRowClick?: (row: T) => void
-  filterLayout: 'header' | 'row'
-  hasFilters: boolean
+  filterLayout: Value<'header' | 'row'>
+  hasFilters: Value<boolean>
   loading: Value<boolean>
   showFooter: Value<boolean>
   emptyContent?: TNode
@@ -210,7 +210,10 @@ export function createDataTableContext<T, C extends string = string>(
     selectableSignal
   )((sorc, sel) => (sorc && sel) || onRowClick != null)
 
-  const hasFilters = filterable && columns.some(c => c.filter != null)
+  const columnsHaveFilters = columns.some(c => c.filter != null)
+  const hasFilters: Value<boolean> = columnsHaveFilters
+    ? Value.map(filterable, f => !!f)
+    : false
   const hasFooter = columns.some(c => c.footer != null)
 
   const paginationEnabledSignal = Value.toSignal(

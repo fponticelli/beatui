@@ -157,19 +157,17 @@ export function findBreakpoint<T extends Breakpoints>(
   sortedList: [number, keyof T][],
   width: number
 ) {
-  // Find the last breakpoint whose width is less than or equal to the current width
-  // This is the breakpoint that the width falls into
-  const index = sortedList.findIndex(item => item[0] > width) - 1
+  // Find the first breakpoint whose threshold is strictly greater than width
+  const found = sortedList.findIndex(item => item[0] > width)
 
-  if (index >= 0) {
-    // Found a breakpoint that the width falls into
-    return sortedList[index][1]
-  } else if (sortedList.length > 0 && width >= sortedList[0][0]) {
-    // Width is greater than or equal to the first breakpoint
+  if (found === -1) {
+    // Width is >= all breakpoints, return the last (largest) one
+    return sortedList[sortedList.length - 1][1]
+  } else if (found === 0) {
+    // Width is less than the first breakpoint, return the first one
     return sortedList[0][1]
   } else {
-    // Width is less than all breakpoints, return the first one
-    return sortedList[0][1]
+    return sortedList[found - 1][1]
   }
 }
 
@@ -236,14 +234,16 @@ export function WithBreakpoint<T extends Breakpoints>(
 
   const sizeCallback = (size: Signal<Size> | Signal<Rect>) => {
     const value = size.map(({ width }) => {
-      const index = sortedList.findIndex(item => item[0] > width) - 1
+      const found = sortedList.findIndex(item => item[0] > width)
 
-      if (index >= 0) {
-        return { width, breakpoint: sortedList[index][1] }
-      } else if (sortedList.length > 0 && width >= sortedList[0][0]) {
+      if (found === -1) {
+        // Width is >= all breakpoints, return the last (largest) one
+        return { width, breakpoint: sortedList[sortedList.length - 1][1] }
+      } else if (found === 0) {
+        // Width is less than the first breakpoint, return the first one
         return { width, breakpoint: sortedList[0][1] }
       } else {
-        return { width, breakpoint: sortedList[0][1] }
+        return { width, breakpoint: sortedList[found - 1][1] }
       }
     })
 

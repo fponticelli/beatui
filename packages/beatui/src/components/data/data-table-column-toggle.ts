@@ -10,7 +10,7 @@ import { Button } from '../button/button'
 export function renderColumnToggle<T, C extends string>(
   ctx: DataTableContext<T, C>
 ): TNode {
-  if (!ctx.hasColumnVisibility) return null
+  if (ctx.hideableColumns.length === 0) return null
   const hasHiddenColumns = ctx.hiddenColumns.map(h => h.length > 0)
   return Use(BeatUII18n, t =>
     html.div(

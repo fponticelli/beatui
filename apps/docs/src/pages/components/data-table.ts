@@ -71,6 +71,7 @@ export default function DataTablePage() {
         rowId: u => u.id,
         sortable: signals.sortable as Value<boolean>,
         filterable: signals.filterable as Value<boolean>,
+        filterLayout: signals.filterLayout as Value<'header' | 'row'>,
         selectable: signals.selectable as Value<boolean>,
         hoverable: signals.hoverable as Value<boolean>,
         size: signals.size,

@@ -68,6 +68,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
     disabled,
     autocomplete,
     placeholder,
+    size,
     ...rest
   } = options
   const updatedOptions = {
@@ -101,6 +102,7 @@ export const PasswordInput = (options: InputOptions<string>) => {
       before: before,
       disabled: disabled,
       hasError: hasError,
+      size: size,
       input: html.input(
         CommonInputAttributes({
           ...updatedOptions,

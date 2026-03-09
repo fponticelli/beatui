@@ -15,10 +15,11 @@ export const meta: ComponentPageMeta = {
 
 export default function ModalPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Modal', signals =>
+    playground: manualPlayground('Modal', ({ container: _container, ...signals }) =>
       Modal(
         {
           ...signals,
+          container: 'body',
           onClose: () => {},
         },
         (open, close) =>

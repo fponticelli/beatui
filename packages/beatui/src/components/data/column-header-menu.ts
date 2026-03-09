@@ -68,12 +68,12 @@ export function ColumnHeaderMenu<T, C extends string = string>(
     const dt = t.$.dataTable
     return Menu({
       items: () => {
-        const items: TNode[] = []
+        const sections: TNode[][] = []
         // Read current values at menu-open time
         const dir: SortDirection | undefined = direction?.value
 
         if (sortable) {
-          items.push(
+          const section: TNode[] = [
             MenuItem({
               key: 'sort-asc',
               content: dt.map(d => d.menuSortAsc),
@@ -88,10 +88,10 @@ export function ColumnHeaderMenu<T, C extends string = string>(
               disabled: direction?.map(d => d === 'desc'),
               onClick: () =>
                 dataSource.setSort([{ column, direction: 'desc' }]),
-            })
-          )
+            }),
+          ]
           if (dir != null) {
-            items.push(
+            section.push(
               MenuItem({
                 key: 'clear-sort',
                 content: dt.map(d => d.menuClearSort),
@@ -108,12 +108,12 @@ export function ColumnHeaderMenu<T, C extends string = string>(
               })
             )
           }
-          items.push(MenuSeparator())
+          sections.push(section)
         }
 
         // Filter submenu
         if (filterContent != null) {
-          items.push(
+          const section: TNode[] = [
             MenuItem({
               key: 'filter',
               content: dt.map(d => d.menuFilter ?? 'Filter'),
@@ -124,12 +124,12 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                   filterContent
                 ),
               ],
-            })
-          )
+            }),
+          ]
 
           // Clear filter — reactively shown when a filter is active
           if (onClearFilter && hasActiveFilter) {
-            items.push(
+            section.push(
               When(hasActiveFilter, () =>
                 MenuItem({
                   key: 'clear-filter',
@@ -141,19 +141,18 @@ export function ColumnHeaderMenu<T, C extends string = string>(
             )
           }
 
-          items.push(MenuSeparator())
+          sections.push(section)
         }
 
         if (hideable && onHideColumn) {
-          items.push(
+          sections.push([
             MenuItem({
               key: 'hide-column',
               content: dt.map(d => d.menuHideColumn),
               before: Icon({ icon: 'lucide:eye-off', size }),
               onClick: onHideColumn,
             }),
-            MenuSeparator()
-          )
+          ])
         }
 
         // Column chooser submenu
@@ -163,7 +162,7 @@ export function ColumnHeaderMenu<T, C extends string = string>(
           hiddenColumns &&
           onToggleColumn
         ) {
-          items.push(
+          const section: TNode[] = [
             MenuItem({
               key: 'choose-columns',
               content: dt.map(d => d.menuChooseColumns),
@@ -195,12 +194,12 @@ export function ColumnHeaderMenu<T, C extends string = string>(
                   )
                 ),
               ],
-            })
-          )
+            }),
+          ]
 
           // Reset columns — reactively shown when columns are hidden
           if (onResetColumns) {
-            items.push(
+            section.push(
               When(
                 hiddenColumns.map(h => h.size > 0),
                 () =>
@@ -213,8 +212,16 @@ export function ColumnHeaderMenu<T, C extends string = string>(
               )
             )
           }
+
+          sections.push(section)
         }
 
+        // Join sections with separators
+        const items: TNode[] = []
+        for (let i = 0; i < sections.length; i++) {
+          if (i > 0) items.push(MenuSeparator())
+          items.push(...sections[i])
+        }
         return items
       },
       placement: 'bottom-end',
