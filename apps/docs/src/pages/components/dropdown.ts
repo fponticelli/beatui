@@ -24,7 +24,7 @@ const fruitOptions: DropdownOption<string>[] = [
 
 export default function DropdownPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('Dropdown', signals => {
+    playground: manualPlayground('DropdownInput', signals => {
       const value = prop<string>('')
       const options = prop(fruitOptions)
       return html.div(

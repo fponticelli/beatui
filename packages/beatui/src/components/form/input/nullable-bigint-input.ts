@@ -23,11 +23,11 @@ import { NullableResetAfter } from './nullable-utils'
 export type NullableBigintInputOptions = Merge<
   InputOptions<bigint | null>,
   {
-    /** Step value for increment/decrement buttons. If provided, stepper buttons are shown. */
+    /** Step value for increment/decrement buttons. If provided, stepper buttons are shown. @default 1n */
     step?: Value<bigint>
-    /** Minimum allowed value. Values below this are clamped. */
+    /** Minimum allowed value. Values below this are clamped. @default 0n */
     min?: Value<bigint>
-    /** Maximum allowed value. Values above this are clamped. */
+    /** Maximum allowed value. Values above this are clamped. @default 100n */
     max?: Value<bigint>
   }
 >

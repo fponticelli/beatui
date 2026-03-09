@@ -15,14 +15,18 @@ export const meta: ComponentPageMeta = {
 
 export default function BigintInputPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('BigintInput', signals => {
-      const value = signals.value as Prop<bigint>
-      return BigintInput({
-        ...signals,
-        value,
-        onChange: (v: bigint) => value.set(v),
-      })
-    }),
+    playground: manualPlayground(
+      'BigintInput',
+      signals => {
+        const value = signals.value as Prop<bigint>
+        return BigintInput({
+          ...signals,
+          value,
+          onChange: (v: bigint) => value.set(v),
+        })
+      },
+      { value: 42n }
+    ),
     sections: [
       ...AutoSections('BigintInput', props =>
         BigintInput({ ...props, value: 42n })

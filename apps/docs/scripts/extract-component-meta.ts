@@ -5,7 +5,7 @@ import * as fs from 'fs'
 export interface PropMeta {
   name: string
   description: string
-  type: 'union' | 'boolean' | 'string' | 'number' | 'complex'
+  type: 'union' | 'boolean' | 'string' | 'number' | 'bigint' | 'complex'
   defaultValue?: string
   unionValues?: string[]
   reactive: boolean
@@ -128,6 +128,9 @@ function analyzePropertyType(
       ) {
         return { type: 'boolean', reactive: isReactive }
       }
+      if (single.flags & ts.TypeFlags.BigInt) {
+        return { type: 'bigint', reactive: isReactive }
+      }
     }
 
     // No value members but there's a signal — check signal type arg
@@ -145,6 +148,9 @@ function analyzePropertyType(
   }
   if (propType.flags & ts.TypeFlags.Number) {
     return { type: 'number', reactive: false }
+  }
+  if (propType.flags & ts.TypeFlags.BigInt) {
+    return { type: 'bigint', reactive: false }
   }
 
   return null // Complex type

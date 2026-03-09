@@ -9,7 +9,7 @@ export interface PropMeta {
   /** JSDoc description */
   description: string
   /** Simplified type category for control generation */
-  type: 'union' | 'boolean' | 'string' | 'number' | 'complex'
+  type: 'union' | 'boolean' | 'string' | 'number' | 'bigint' | 'complex'
   /** Default value from @default JSDoc tag */
   defaultValue?: string
   /** Available values for union types */

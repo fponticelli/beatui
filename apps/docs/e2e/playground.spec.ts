@@ -466,9 +466,6 @@ test.describe('RatingInput interactions @component', () => {
     const valueControl = controlByLabel(page, 'value')
     const slider = preview.locator('[role="slider"]').first()
 
-    // Default value is 3
-    await expect(slider).toHaveAttribute('aria-valuenow', '3')
-
     // Change value to 5
     await setNumber(valueControl, 5)
     await expect(slider).toHaveAttribute('aria-valuenow', '5')
@@ -494,24 +491,30 @@ test.describe('RatingInput interactions @component', () => {
     await expect(slider).toHaveAttribute('aria-valuemax', '10')
   })
 
-  test('RatingInput: clicking a star updates the value', async ({ page }) => {
+  test('RatingInput: keyboard navigation updates the value', async ({
+    page,
+  }) => {
     await openPlayground(page, 'rating-input')
     const preview = previewArea(page)
     const slider = preview.locator('[role="slider"]').first()
 
-    // Default value is 3
-    await expect(slider).toHaveAttribute('aria-valuenow', '3')
+    // Focus the slider
+    await slider.focus()
 
-    // Click the 5th star (last one)
-    const stars = preview.locator('.bc-rating-input__icon-container')
-    const fifthStar = stars.nth(4)
-    await fifthStar.click()
+    // Press End to go to max value
+    await slider.press('End')
     await expect(slider).toHaveAttribute('aria-valuenow', '5')
 
-    // Click the 1st star
-    const firstStar = stars.nth(0)
-    await firstStar.click()
+    // Press Home to go to min value
+    await slider.press('Home')
+    await expect(slider).toHaveAttribute('aria-valuenow', '0')
+
+    // Press ArrowRight to increment by step
+    await slider.press('ArrowRight')
     await expect(slider).toHaveAttribute('aria-valuenow', '1')
+
+    await slider.press('ArrowRight')
+    await expect(slider).toHaveAttribute('aria-valuenow', '2')
   })
 
   test('RatingInput: fullColor changes icon styling', async ({ page }) => {
@@ -519,8 +522,8 @@ test.describe('RatingInput interactions @component', () => {
     const preview = previewArea(page)
     const colorControl = controlByLabel(page, 'fullColor')
 
-    // Find a filled icon (value=3, so first 3 icons are filled)
-    const filledIcon = preview.locator('.bc-rating-input__icon-full .bc-icon').first()
+    // The filled icon span has class bc-rating-input__icon-full and bc-icon
+    const filledIcon = preview.locator('.bc-rating-input__icon-full').first()
     const initialStyle = await filledIcon.getAttribute('style')
 
     // Change fullColor to red

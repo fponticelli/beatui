@@ -40,6 +40,7 @@ function playgroundLayout(
         if (typeof value === 'string') return `  ${name}: '${value}'`
         if (typeof value === 'boolean') return value ? `  ${name}: true` : null
         if (typeof value === 'number') return `  ${name}: ${value}`
+        if (typeof value === 'bigint') return `  ${name}: ${value}n`
         return `  ${name}: ${JSON.stringify(value)}`
       })
       .filter(Boolean)

@@ -161,6 +161,26 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
         }),
       })
 
+    case 'bigint':
+      return InputWrapper({
+        label: meta.name,
+        description,
+        content: TextInput({
+          value: Value.map(signal, v =>
+            v != null ? String(v) : ''
+          ) as Value<string>,
+          onInput: v => {
+            try {
+              signal.set(v === '' ? undefined : BigInt(v))
+            } catch {
+              // ignore invalid bigint input
+            }
+          },
+          placeholder: 'bigint',
+          size: 'xs',
+        }),
+      })
+
     default:
       return html.span(`[${meta.type}] ${meta.name}`)
   }
@@ -180,6 +200,8 @@ function parseDefault(meta: PropMeta): unknown {
         return ''
       case 'number':
         return 0
+      case 'bigint':
+        return 0n
       case 'union':
         if (meta.optional) return undefined
         // Default size to 'md' when not specified (most components default to md)
@@ -193,6 +215,13 @@ function parseDefault(meta: PropMeta): unknown {
 
   if (d === 'true') return true
   if (d === 'false') return false
+  if (meta.type === 'bigint') {
+    try {
+      return BigInt(d.replace(/n$/, ''))
+    } catch {
+      return 0n
+    }
+  }
   const num = Number(d)
   if (!isNaN(num) && meta.type === 'number') return num
   const cleaned = d.replace(/^['"]|['"]$/g, '')
@@ -252,7 +281,8 @@ export function createOptionsPanel(
   // Ensure a `value` signal always exists for input-based components.
   // The metadata extractor skips `value` when the Options type is generic (e.g. NativeSelectOptions<T>).
   if (!signals.value) {
-    signals.value = prop<unknown>(undefined)
+    const fallback = defaults && 'value' in defaults ? defaults.value : undefined
+    signals.value = prop<unknown>(fallback)
     props.value = signals.value
   }
 
