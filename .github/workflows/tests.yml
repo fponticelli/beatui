@@ -60,6 +60,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build library
+        run: pnpm --filter @tempots/beatui build
+
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         id: playwright-cache
