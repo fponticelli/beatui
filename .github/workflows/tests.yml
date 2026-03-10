@@ -71,11 +71,11 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: pnpm --filter @beatui/docs exec playwright install --with-deps ${{ matrix.browser }}
 
       - name: Install Playwright system dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps ${{ matrix.browser }}
+        run: pnpm --filter @beatui/docs exec playwright install-deps ${{ matrix.browser }}
 
       - name: Run E2E tests
         run: pnpm --filter @beatui/docs test:e2e --project=${{ matrix.browser }}
