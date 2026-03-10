@@ -44,7 +44,7 @@ export interface BreadcrumbsOptions {
   /**
    * Maximum number of items to display. When exceeded, middle items
    * are collapsed into an ellipsis ("...").
-   * @default undefined (show all items)
+   * @default undefined
    */
   maxItems?: Value<number>
   /**
@@ -148,15 +148,15 @@ export function Breadcrumbs({
   size = 'md',
 }: BreadcrumbsOptions): TNode {
   // Compute the potentially collapsed items list
-  const displayItems = computedOf(
-    items,
-    maxItems
-  )((items, maxItems) => {
-    if (maxItems && maxItems > 0) {
-      return collapseItems(items, maxItems)
-    }
-    return items
-  })
+  const displayItems =
+    maxItems != null
+      ? computedOf(items, maxItems)((items, maxItems) => {
+          if (maxItems && maxItems > 0) {
+            return collapseItems(items, maxItems)
+          }
+          return items
+        })
+      : Value.map(items, items => items as (BreadcrumbItem | { isEllipsis: true })[])
 
   return Use(BeatUII18n, t =>
     html.nav(
