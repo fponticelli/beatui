@@ -208,8 +208,8 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
  */
 function parseDefault(meta: PropMeta): unknown {
   const d = meta.defaultValue
-  // Treat @default undefined as actual undefined (not the string "undefined")
-  if (d === undefined || d === 'undefined') {
+  // Treat @default undefined (with optional trailing description) as actual undefined
+  if (d === undefined || d === 'undefined' || d.startsWith('undefined ') || d.startsWith('undefined\t')) {
     switch (meta.type) {
       case 'boolean':
         return false
