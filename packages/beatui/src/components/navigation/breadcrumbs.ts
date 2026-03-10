@@ -150,13 +150,19 @@ export function Breadcrumbs({
   // Compute the potentially collapsed items list
   const displayItems =
     maxItems != null
-      ? computedOf(items, maxItems)((items, maxItems) => {
+      ? computedOf(
+          items,
+          maxItems
+        )((items, maxItems) => {
           if (maxItems && maxItems > 0) {
             return collapseItems(items, maxItems)
           }
           return items
         })
-      : Value.map(items, items => items as (BreadcrumbItem | { isEllipsis: true })[])
+      : Value.map(
+          items,
+          items => items as (BreadcrumbItem | { isEllipsis: true })[]
+        )
 
   return Use(BeatUII18n, t =>
     html.nav(

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { render, prop, html } from '@tempots/dom'
+import { render, prop, html, type Value } from '@tempots/dom'
 import { Breadcrumbs, type BreadcrumbItem } from '../../src/components/navigation/breadcrumbs'
+import type { ControlSize } from '../../src/components/theme/types'
 import { WithProviders } from '../helpers/test-providers'
 
 describe('Breadcrumbs Component', () => {
@@ -64,17 +65,17 @@ describe('Breadcrumbs Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     const items = prop(sampleItems)
-    const size = prop<string>('md')
-    const separator = prop<string>('›')
+    const size = prop<ControlSize>('md')
+    const separator = prop('›')
     const maxItems = prop<number>(0)
 
     render(
       WithProviders(() =>
         Breadcrumbs({
           items,
-          size: size as any,
-          separator: separator as any,
-          maxItems: maxItems as any,
+          size,
+          separator,
+          maxItems,
         })
       ),
       container
@@ -88,13 +89,13 @@ describe('Breadcrumbs Component', () => {
     const container = document.createElement('div')
     document.body.appendChild(container)
     const items = prop(sampleItems)
-    const maxItems = prop<any>('undefined (show all items)')
+    const maxItems = prop('undefined (show all items)') as unknown as Value<number>
 
     render(
       WithProviders(() =>
         Breadcrumbs({
           items,
-          maxItems: maxItems as any,
+          maxItems,
         })
       ),
       container
@@ -112,9 +113,9 @@ describe('Breadcrumbs Component', () => {
         html.div(
           Breadcrumbs({
             items: prop(sampleItems),
-            size: prop('md') as any,
-            separator: prop('›') as any,
-            maxItems: prop('undefined (show all items)') as any,
+            size: prop<ControlSize>('md'),
+            separator: prop('›'),
+            maxItems: prop('undefined (show all items)') as unknown as Value<number>,
           }),
           ...(['sm', 'md', 'lg'] as const).map(size =>
             Breadcrumbs({ items: sampleItems, size })
