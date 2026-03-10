@@ -28,7 +28,7 @@
       "outputs": []
     },
     "typecheck": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "build"]
     },
     "gen:api": {
       "dependsOn": ["^build"],
