@@ -77,6 +77,15 @@ export function generateCSSVariablesPlugin() {
           'src/styles/layers/02.base/variables.css'
         )
 
+        const buildRootOnlyCss = (variables: Record<string, string>) => {
+          let cssContent = ':root {\n'
+          Object.entries(variables).forEach(([name, value]) => {
+            cssContent += `  ${name}: ${value};\n`
+          })
+          cssContent += '}\n'
+          return cssContent
+        }
+
         const buildCssFromVariables = (variables: Record<string, string>) => {
           // Separate base tokens (literal values) from derived tokens (those
           // referencing other custom properties via var()).  Derived tokens are
@@ -124,7 +133,7 @@ export function generateCSSVariablesPlugin() {
         writeCss(coreOutput, buildCssFromVariables(generateCoreTokenVariables()))
         writeCss(
           semanticOutput,
-          buildCssFromVariables(generateSemanticTokenVariables())
+          buildRootOnlyCss(generateSemanticTokenVariables())
         )
         writeCss(
           shimOutput,
