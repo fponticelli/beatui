@@ -1,0 +1,6 @@
+/* UUID Input Component */
+.bc-uuid-input {
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--font-family-mono, ui-monospace, monospace);
+}

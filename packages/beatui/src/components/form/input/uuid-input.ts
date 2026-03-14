@@ -1,3 +1,4 @@
+import { Value } from '@tempots/dom'
 import { InputOptions } from './input-options'
 import { MaskInput } from './mask-input'
 
@@ -66,8 +67,13 @@ export const UuidInput = (options: InputOptions<string>) => {
     hex,
   ]
 
+  const rootClass = options.class
+    ? Value.map(options.class, c => `bc-uuid-input ${c}`)
+    : 'bc-uuid-input'
+
   return MaskInput({
     ...options,
+    class: rootClass,
     mask,
     // Sensible default placeholder; can be overridden via options.placeholder
     placeholder: options.placeholder ?? 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
