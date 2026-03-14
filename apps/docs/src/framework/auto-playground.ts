@@ -63,9 +63,14 @@ function playgroundLayout(
 
     // Build component call
     const children = childrenCode ?? '/* children */'
+    const isMultiLineChildren = children.includes('\n')
     let call: string
-    if (propEntries.length === 0) {
+    if (propEntries.length === 0 && !isMultiLineChildren) {
       call = `${componentName}({}, ${children})`
+    } else if (propEntries.length === 0 && isMultiLineChildren) {
+      call = `${componentName}({},${children}\n)`
+    } else if (isMultiLineChildren) {
+      call = `${componentName}({\n${propEntries.join(',\n')}\n},${children}\n)`
     } else {
       call = `${componentName}({\n${propEntries.join(',\n')}\n}, ${children})`
     }
