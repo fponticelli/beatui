@@ -1,13 +1,4 @@
-import {
-  attr,
-  Fragment,
-  html,
-  OnDispose,
-  prop,
-  Signal,
-  TNode,
-  Value,
-} from '@tempots/dom'
+import { attr, html, prop, Signal, TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { DataSource } from './data-source'
 import {
@@ -167,7 +158,10 @@ export function resolveFilterContent<T, C extends string>(
 
 /**
  * Create a writable prop synced with the data source's text filter value.
- * Returns the node from the custom input callback plus disposal logic.
+ *
+ * Note: prop() and .on() are auto-disposed by Tempo's scope system — both call
+ * sites (resolveFilterContent via MapSignal, resolveFilterCell via MapSignal)
+ * execute inside a render scope, so no manual OnDispose is needed.
  */
 function resolveCustomInput<T, C extends string>(
   config: { input: (value: Signal<string>, size: Value<ControlSize>) => TNode },
@@ -178,14 +172,14 @@ function resolveCustomInput<T, C extends string>(
   const readValue = ds.getTextFilterValue(colId)
   const value = prop(readValue.value)
   let syncing = false
-  const unsub1 = readValue.on(v => {
+  readValue.on(v => {
     if (!syncing && value.value !== v) {
       syncing = true
       value.set(v)
       syncing = false
     }
   })
-  const unsub2 = value.on(v => {
+  value.on(v => {
     if (!syncing && readValue.value !== v) {
       syncing = true
       if (v === '') ds.removeFilter(colId)
@@ -193,14 +187,7 @@ function resolveCustomInput<T, C extends string>(
       syncing = false
     }
   })
-  return Fragment(
-    OnDispose(() => {
-      unsub1()
-      unsub2()
-      value.dispose()
-    }),
-    config.input(value, size)
-  )
+  return config.input(value, size)
 }
 
 /**

@@ -46,18 +46,18 @@
 
 ## useForm
 
-- [ ] validation strategy
-  - [ ] validate on submit
-  - [ ] continuous validation
-  - [ ] validate touched and on submit
-- [ ] dirty
-- [ ] touched
+- [x] validation strategy
+  - [x] validate on submit
+  - [x] continuous validation
+  - [x] validate touched and on submit
+- [x] dirty
+- [x] touched
 
 ## Miscellaneous
 
-- [ ] Dark Logo
+- [x] Dark Logo
 - [ ] Draggable List Items
-- [ ] Divider (horizontal/vertical)
+- [x] Divider (horizontal/vertical)
 - [ ] Spacer
 - [ ] On iPhone/iPad the height of the Main panel of the AppShell should be limited to 100dhv minus header height or whatever
 - [ ] Styling of NativeSelect in Safari displays the default shaded style instead of the BeatUI skin.
