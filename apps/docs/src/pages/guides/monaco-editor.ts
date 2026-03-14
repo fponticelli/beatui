@@ -91,6 +91,7 @@ MonacoEditorInput({
 })`
 
 const REACTIVE_LANGUAGE_CODE = `import { MonacoEditorInput } from '@tempots/beatui/monaco'
+import { NativeSelect } from '@tempots/beatui'
 import { prop } from '@tempots/dom'
 
 type Language = 'typescript' | 'javascript' | 'json' | 'css'
@@ -99,13 +100,16 @@ const language = prop<Language>('typescript')
 const code = prop('')
 
 // Switcher
-html.select(
-  on.change(e => language.set((e.target as HTMLSelectElement).value as Language)),
-  html.option(attr.value('typescript'), 'TypeScript'),
-  html.option(attr.value('javascript'), 'JavaScript'),
-  html.option(attr.value('json'), 'JSON'),
-  html.option(attr.value('css'), 'CSS'),
-)
+NativeSelect<Language>({
+  value: language,
+  onChange: v => language.set(v),
+  options: [
+    { type: 'value', value: 'typescript', label: 'TypeScript' },
+    { type: 'value', value: 'javascript', label: 'JavaScript' },
+    { type: 'value', value: 'json', label: 'JSON' },
+    { type: 'value', value: 'css', label: 'CSS' },
+  ],
+})
 
 // Editor reacts to language changes automatically
 MonacoEditorInput({
