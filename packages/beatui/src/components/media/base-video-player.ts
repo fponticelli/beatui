@@ -353,12 +353,7 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
         }
       } catch {}
       setupFileProgress()
-      attachFileSource().then(() => {
-        if (Value.get(playing) && fileVideoEl) {
-          fileVideoEl.play?.().catch(() => {})
-          onStart?.()
-        }
-      })
+      attachFileSource()
     }),
     // size
     style.width(
@@ -378,6 +373,10 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
     on.canplay(() => {
       const d = fileVideoEl?.duration
       if (d != null && Number.isFinite(d)) onDuration?.(d)
+      // Autoplay once the browser has enough data to begin playback
+      if (Value.get(playing) && fileVideoEl && fileVideoEl.paused) {
+        fileVideoEl.play?.().catch(() => {})
+      }
     }),
     on.ended(() => onEnded?.()),
     on.error(e => {

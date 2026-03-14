@@ -1,0 +1,270 @@
+/* MultiSelect Component */
+
+.bc-multi-select {
+  cursor: pointer;
+}
+
+.bc-multi-select__tags {
+  position: relative;
+}
+
+.bc-multi-select__arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+/* Dropdown panel */
+.bc-multi-select__dropdown {
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow: hidden;
+  background: var(--color-white);
+  border: var(--border-width-thin) solid var(--color-base-300);
+  border-radius: var(--radius-md, 5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Search input */
+.bc-multi-select__search {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: 0;
+  background-color: var(--color-gray-50);
+  border-bottom: var(--border-width-thin) solid var(--color-gray-300);
+}
+
+.bc-multi-select__search::placeholder {
+  color: var(--color-base-400);
+}
+
+/* Actions bar */
+.bc-multi-select__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-bottom: var(--border-width-thin) solid var(--color-base-200);
+  font-size: var(--font-size-xs);
+}
+
+.bc-multi-select__action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary-600);
+  font-size: inherit;
+  font-family: inherit;
+  padding: var(--spacing-xs) var(--spacing-xs);
+  border-radius: var(--radius-sm, 3px);
+  transition: background-color 120ms ease;
+}
+
+.bc-multi-select__action:hover {
+  background-color: var(--color-primary-50);
+}
+
+.bc-multi-select__action-sep {
+  color: var(--color-base-300);
+}
+
+/* Loading */
+.bc-multi-select__loading {
+  padding: var(--spacing-md);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-500);
+}
+
+/* Listbox */
+.bc-multi-select__listbox {
+  overflow-y: auto;
+  flex: 1;
+  padding: var(--spacing-xs) 0;
+}
+
+/* Empty state */
+.bc-multi-select__empty {
+  padding: var(--spacing-md);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-400);
+}
+
+/* Option item */
+.bc-multi-select__option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-base-700);
+  transition: background-color 100ms ease;
+  user-select: none;
+}
+
+.bc-multi-select__option:hover {
+  background-color: var(--color-base-50);
+}
+
+.bc-multi-select__option--focused {
+  background-color: var(--color-primary-50);
+}
+
+.bc-multi-select__option--selected {
+  color: var(--color-primary-700);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.bc-multi-select__option--grouped {
+  padding-left: calc(var(--spacing-md) + var(--spacing-md));
+}
+
+.bc-multi-select__option[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Check icon container */
+.bc-multi-select__option-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: var(--border-width-thin) solid var(--color-base-300);
+  border-radius: var(--radius-xs, 2px);
+  background: var(--color-white);
+  transition:
+    border-color 100ms ease,
+    background-color 100ms ease;
+}
+
+.bc-multi-select__option--selected .bc-multi-select__option-check {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-50);
+}
+
+.bc-multi-select__option-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Group */
+.bc-multi-select__group {
+  padding: var(--spacing-xs) 0;
+}
+
+.bc-multi-select__group-label {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-base-500);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Separator */
+.bc-multi-select__separator {
+  height: 0;
+  margin: var(--spacing-xs) var(--spacing-md);
+  border-top: var(--border-width-thin) solid var(--color-base-200);
+}
+
+/* Footer count */
+.bc-multi-select__footer {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-top: var(--border-width-thin) solid var(--color-base-200);
+  font-size: var(--font-size-xs);
+  color: var(--color-base-500);
+  text-align: right;
+}
+
+/* Dark mode */
+.dark .bc-multi-select__dropdown {
+  background: var(--color-base-800);
+  border-color: var(--color-base-600);
+}
+
+.dark .bc-multi-select__search {
+  background-color: var(--color-base-700);
+  border-bottom-color: var(--color-base-600);
+  color: var(--color-base-100);
+}
+
+.dark .bc-multi-select__search::placeholder {
+  color: var(--color-base-400);
+}
+
+.dark .bc-multi-select__actions {
+  border-bottom-color: var(--color-base-600);
+}
+
+.dark .bc-multi-select__action {
+  color: var(--color-primary-400);
+}
+
+.dark .bc-multi-select__action:hover {
+  background-color: var(--color-base-700);
+}
+
+.dark .bc-multi-select__action-sep {
+  color: var(--color-base-600);
+}
+
+.dark .bc-multi-select__option {
+  color: var(--color-base-200);
+}
+
+.dark .bc-multi-select__option:hover {
+  background-color: var(--color-base-700);
+}
+
+.dark .bc-multi-select__option--focused {
+  background-color: var(--color-base-700);
+}
+
+.dark .bc-multi-select__option--selected {
+  color: var(--color-primary-300);
+}
+
+.dark .bc-multi-select__option-check {
+  border-color: var(--color-base-500);
+  background: var(--color-base-700);
+}
+
+.dark .bc-multi-select__option--selected .bc-multi-select__option-check {
+  border-color: var(--color-primary-400);
+  background-color: var(--color-primary-900);
+}
+
+.dark .bc-multi-select__group-label {
+  color: var(--color-base-400);
+}
+
+.dark .bc-multi-select__separator {
+  border-top-color: var(--color-base-600);
+}
+
+.dark .bc-multi-select__empty {
+  color: var(--color-base-500);
+}
+
+.dark .bc-multi-select__loading {
+  color: var(--color-base-400);
+}
+
+.dark .bc-multi-select__footer {
+  border-top-color: var(--color-base-600);
+  color: var(--color-base-400);
+}
