@@ -1,7 +1,12 @@
 /* UUID Input Component */
 .bc-uuid-input {
-  /* UUID is 36 chars (32 hex + 4 hyphens); use ch units so width scales with font-size */
-  width: 38ch;
+  width: fit-content;
   max-width: 100%;
   font-family: var(--font-family-mono, ui-monospace, monospace);
+}
+
+/* Size the input element itself so ch units respect the text-size class */
+.bc-uuid-input input,
+.bc-uuid-input .bc-input {
+  width: 36ch;
 }
