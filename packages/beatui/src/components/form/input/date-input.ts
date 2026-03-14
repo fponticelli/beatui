@@ -22,10 +22,10 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  * @example
  * ```ts
  * import { prop } from '@tempots/dom'
- * import { NativeDateInput } from '@tempots/beatui'
+ * import { DateInput } from '@tempots/beatui'
  *
  * const birthday = prop(new Date('1990-01-15'))
- * NativeDateInput({
+ * DateInput({
  *   value: birthday,
  *   onChange: birthday.set,
  * })
@@ -34,7 +34,7 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  * @example
  * ```ts
  * // With error state and disabled
- * NativeDateInput({
+ * DateInput({
  *   value: prop(new Date()),
  *   onChange: (d) => console.log('Selected:', d),
  *   hasError: prop(true),
@@ -42,7 +42,7 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  * })
  * ```
  */
-export const NativeDateInput = (options: InputOptions<Date>) => {
+export const DateInput = (options: InputOptions<Date>) => {
   const { value, onBlur, onChange } = options
 
   return InputContainer({

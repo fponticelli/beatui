@@ -23,13 +23,13 @@ import { NullableResetAfter } from './nullable-utils'
  *
  * @example
  * ```ts
- * NativeNullableDateInput({
+ * NullableDateInput({
  *   value: prop<Date | null>(null),
  *   onChange: date => console.log('Date:', date),
  * })
  * ```
  */
-export const NativeNullableDateInput = (options: InputOptions<Date | null>) => {
+export const NullableDateInput = (options: InputOptions<Date | null>) => {
   const { value, onBlur, onChange, onInput, after, disabled } = options
 
   const resetAfter = NullableResetAfter(value, disabled, onChange ?? onInput)

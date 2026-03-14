@@ -10,8 +10,8 @@ import { Renderable } from '@tempots/dom'
 import { stringFormatDetection } from './string-detection'
 import {
   NullableEmailInput,
-  NativeNullableDateInput,
-  NativeNullableDateTimeInput,
+  NullableDateInput,
+  NullableDateTimeInput,
   NullablePasswordInput,
   NullableTextArea,
   NullableTextInput,
@@ -49,14 +49,14 @@ export function StringControl({
         controller: getController(),
       })
     case 'date':
-      return MappedControl(NativeNullableDateInput, {
+      return MappedControl(NullableDateInput, {
         ...options,
         controller: getController(),
         toInput: v => (v == null ? null : new Date(v)),
         fromInput: (v: Date | null) => v?.toISOString().split('T')[0] ?? null,
       })
     case 'date-time':
-      return MappedControl(NativeNullableDateTimeInput, {
+      return MappedControl(NullableDateTimeInput, {
         ...options,
         controller: getController(),
         toInput: v => (v == null ? null : new Date(v)),

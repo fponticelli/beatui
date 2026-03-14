@@ -79,7 +79,7 @@ export function generateInputContainerInputClasses(
  * - Click-to-focus behavior (clicking the container focuses the input)
  * - Responsive sizing based on the `size` prop
  *
- * Used by most form inputs (TextInput, NumberInput, NativeDateInput, etc.) to ensure
+ * Used by most form inputs (TextInput, NumberInput, DateInput, etc.) to ensure
  * visual consistency across the component library.
  *
  * @param options - Container configuration options
