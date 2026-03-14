@@ -45,6 +45,14 @@ export function Footer() {
           ),
           attr.target('_blank'),
           'llms.txt'
+        ),
+        Anchor(
+          { href: '/llms-full.txt' },
+          attr.class(
+            'hover:text-gray-700 dark:hover:text-gray-300 transition-colors'
+          ),
+          attr.target('_blank'),
+          'llms-full.txt'
         )
       )
     )
