@@ -77,25 +77,23 @@ export function renderBody<T, C extends string>(
       if (clickable) cls += ' bc-data-table__row--clickable'
       return cls
     })
-    return Fragment(
-      OnDispose(() => rowClass.dispose()),
-      html.tr(
-        attr.class(rowClass),
-        on.click(() => {
-          if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
-            ctx.ds.toggleSelect(id.value)
-          }
-          ctx.onRowClick?.(rowSignal.value)
-        }),
-        When(
-          Value.map(ctx.selectionAfter, v => !v),
-          () => selectionCell()
-        ),
-        ForEach(ctx.visibleColumns, (colIdSignal, position) =>
-          renderDataCell(colIdSignal, position.index, rowSignal, ctx)
-        ),
-        When(ctx.selectionAfter, () => selectionCell())
-      )
+    // All signals (id, isSelected, rowClass) are auto-disposed by ForEach scope
+    return html.tr(
+      attr.class(rowClass),
+      on.click(() => {
+        if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
+          ctx.ds.toggleSelect(id.value)
+        }
+        ctx.onRowClick?.(rowSignal.value)
+      }),
+      When(
+        Value.map(ctx.selectionAfter, v => !v),
+        () => selectionCell()
+      ),
+      ForEach(ctx.visibleColumns, (colIdSignal, position) =>
+        renderDataCell(colIdSignal, position.index, rowSignal, ctx)
+      ),
+      When(ctx.selectionAfter, () => selectionCell())
     )
   })
 }
@@ -135,28 +133,23 @@ function renderGroupRow<T, C extends string>(
     if (clickable) cls += ' bc-data-table__row--clickable'
     return cls
   })
-  return Fragment(
-    OnDispose(() => {
-      rowClass.dispose()
-      rowSignal.dispose()
+  // All signals (isSelected, rowClass, rowSignal) auto-disposed by When scope
+  return html.tr(
+    attr.class(rowClass),
+    on.click(() => {
+      if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
+        ctx.ds.toggleSelect(id)
+      }
+      ctx.onRowClick?.(row)
     }),
-    html.tr(
-      attr.class(rowClass),
-      on.click(() => {
-        if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
-          ctx.ds.toggleSelect(id)
-        }
-        ctx.onRowClick?.(row)
-      }),
-      When(
-        Value.map(ctx.selectionAfter, v => !v),
-        () => selectionCell()
-      ),
-      ForEach(ctx.visibleColumns, (colIdSignal, position) =>
-        renderDataCell(colIdSignal, position.index, rowSignal, ctx)
-      ),
-      When(ctx.selectionAfter, () => selectionCell())
-    )
+    When(
+      Value.map(ctx.selectionAfter, v => !v),
+      () => selectionCell()
+    ),
+    ForEach(ctx.visibleColumns, (colIdSignal, position) =>
+      renderDataCell(colIdSignal, position.index, rowSignal, ctx)
+    ),
+    When(ctx.selectionAfter, () => selectionCell())
   )
 }
 
