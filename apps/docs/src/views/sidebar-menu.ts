@@ -29,6 +29,7 @@ export function SidebarMenu() {
         SidebarLink({ href: '/guides/customization', content: 'Customization' }),
         SidebarLink({ href: '/guides/css-variables', content: 'CSS Variables' }),
         SidebarLink({ href: '/guides/forms', content: 'Forms' }),
+        SidebarLink({ href: '/guides/localization', content: 'Localization' }),
         SidebarLink({ href: '/guides/rtl-ltr', content: 'RTL & LTR' }),
         SidebarLink({ href: '/guides/data-source', content: 'DataSource' }),
         SidebarLink({ href: '/guides/authentication', content: 'Authentication' })

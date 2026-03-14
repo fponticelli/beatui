@@ -49,6 +49,11 @@ export const App = () => {
             import('./pages/guides/forms'),
             ({ default: Page }) => Page()
           ),
+        '/guides/localization': () =>
+          Async(
+            import('./pages/guides/localization'),
+            ({ default: Page }) => Page()
+          ),
         '/guides/rtl-ltr': () =>
           Async(
             import('./pages/guides/rtl-ltr'),
