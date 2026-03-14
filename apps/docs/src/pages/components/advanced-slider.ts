@@ -31,11 +31,13 @@ export default function AdvancedSliderPage() {
         })
       },
       {
-        value: 50,
-        min: 0,
-        max: 100,
-        step: 1,
-        showValue: true,
+        defaults: {
+          value: 50,
+          min: 0,
+          max: 100,
+          step: 1,
+          showValue: true,
+        },
       }
     ),
     sections: [

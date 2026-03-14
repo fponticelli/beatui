@@ -38,7 +38,7 @@ export default function ConfirmDialogPage() {
             'Open Confirmation'
           )
       ),
-      { title: 'Confirm action' }
+      { defaults: { title: 'Confirm action' } }
     ),
     sections: [
       Section(

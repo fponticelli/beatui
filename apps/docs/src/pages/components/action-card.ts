@@ -26,7 +26,7 @@ export default function ActionCardPage() {
         iconColor: signals.iconColor,
         iconSize: signals.iconSize,
       }),
-      { icon: 'material-symbols:star', title: 'Feature Title', description: 'A short description of this feature or option.' }
+      { defaults: { icon: 'material-symbols:star', title: 'Feature Title', description: 'A short description of this feature or option.' } }
     ),
     sections: [
       ...AutoSections('ActionCard', props =>

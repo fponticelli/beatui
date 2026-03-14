@@ -27,7 +27,7 @@ export default function EmptyStatePage() {
         description: signals.description,
         size: signals.size,
       }),
-      { title: 'Nothing here yet', icon: 'material-symbols:inbox-outline', description: 'Add some content to get started.' }
+      { defaults: { title: 'Nothing here yet', icon: 'material-symbols:inbox-outline', description: 'Add some content to get started.' } }
     ),
     sections: [
       ...AutoSections('EmptyState', props =>

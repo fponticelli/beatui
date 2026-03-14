@@ -28,7 +28,7 @@ export default function SliderInputPage() {
           })
         )
       },
-      { value: 50 }
+      { defaults: { value: 50 } }
     ),
     sections: [
       ...AutoSections('SliderInput', props =>

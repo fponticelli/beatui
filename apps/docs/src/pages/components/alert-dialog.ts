@@ -44,7 +44,7 @@ export default function AlertDialogPage() {
         )
       )
     },
-      { title: 'Alert', variant: 'info', icon: 'lucide:info' }
+      { defaults: { title: 'Alert', variant: 'info', icon: 'lucide:info' } }
     ),
     sections: [
       Section(

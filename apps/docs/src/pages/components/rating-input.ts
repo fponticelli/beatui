@@ -38,7 +38,7 @@ export default function RatingInputPage() {
           disabled: signals.disabled as Prop<boolean>,
         })
       },
-      { value: 3 }
+      { defaults: { value: 3 } }
     ),
     sections: [
       ...AutoSections('NullableRatingInput', props =>

@@ -25,7 +25,7 @@ export default function BigintInputPage() {
           onChange: (v: bigint) => value.set(v),
         })
       },
-      { value: 42n }
+      { defaults: { value: 42n } }
     ),
     sections: [
       ...AutoSections('BigintInput', props =>

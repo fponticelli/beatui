@@ -29,7 +29,7 @@ export default function IconPage() {
         accessibility: signals.accessibility,
         tone: signals.tone,
       }),
-      { icon: 'lucide:star' }
+      { defaults: { icon: 'lucide:star' } }
     ),
     sections: [
       ...AutoSections('Icon', props =>

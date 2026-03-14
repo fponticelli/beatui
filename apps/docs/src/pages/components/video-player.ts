@@ -56,7 +56,7 @@ export default function VideoPlayerPage() {
           )
         )
       },
-      { controls: true, muted: true }
+      { defaults: { controls: true, muted: true } }
     ),
     sections: [
       Section(

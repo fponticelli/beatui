@@ -39,7 +39,7 @@ export default function PromptDialogPage() {
               'Open Prompt'
             )
         ),
-      { title: 'Enter a value' }
+      { defaults: { title: 'Enter a value' } }
     ),
     sections: [
       Section(
