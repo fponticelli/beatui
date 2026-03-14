@@ -189,6 +189,7 @@
 .bc-data-table__wrapper {
   position: relative;
   min-height: 120px;
+  height: 100%;
 }
 
 .bc-data-table__filter-row > th {
