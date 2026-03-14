@@ -236,21 +236,21 @@ export type BorderColorName =
  */
 export const borderColors = {
   light: {
-    subtle: ['base', 100],
+    subtle: ['base', 300],
     muted: ['base', 200],
     border: ['base', 200],
     divider: ['base', 300],
     input: ['base', 300],
-    strong: ['base', 400],
+    strong: ['base', 500],
     inverted: ['base', 100],
   },
   dark: {
-    subtle: ['base', 800],
-    muted: ['base', 700],
-    border: ['base', 700],
+    subtle: ['base', 700],
+    muted: ['base', 800],
+    border: ['base', 800],
     divider: ['base', 600],
-    input: ['base', 600],
-    strong: ['base', 500],
+    input: ['base', 700],
+    strong: ['base', 400],
     inverted: ['base', 900],
   },
 } as {
