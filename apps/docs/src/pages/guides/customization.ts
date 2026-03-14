@@ -8,7 +8,7 @@ import {
   TextInput,
   Notice,
 } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -50,7 +50,10 @@ const OVERRIDE_STYLES_CODE = `/* Make all cards have a blue left border */
   color: white;
 }`
 
-const COMPOSING_CODE = `function UserCard(user: { name: string; role: string }) {
+const COMPOSING_CODE = `import { html, attr, prop, type Value } from '@tempots/dom'
+import { Card, Stack, Badge } from '@tempots/beatui'
+
+function UserCard(user: { name: Value<string>; role: Value<string> }) {
   return Card(
     {},
     Stack(
@@ -59,7 +62,12 @@ const COMPOSING_CODE = `function UserCard(user: { name: string; role: string }) 
       Badge({ variant: 'light', color: 'primary' }, user.role)
     )
   )
-}`
+}
+
+// Usage with reactive signals — updates propagate automatically
+const name = prop('Jane Doe')
+const role = prop('Administrator')
+UserCard({ name, role })`
 
 const ENTRY_POINTS_CODE = `// Core components
 import { Button, Card, TextInput } from '@tempots/beatui'
@@ -316,22 +324,30 @@ export default function CustomizationPage() {
             '. Compose them freely inside your own functions — no class inheritance, no JSX transforms, and no framework-specific wrappers needed.'
           ),
           CodeBlock(COMPOSING_CODE, 'typescript'),
-          html.div(
-            attr.class('pt-1 max-w-xs'),
-            html.p(
-              attr.class('text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mb-2'),
-              'Composed example'
-            ),
-            Card(
-              {},
-              Stack(
-                attr.class('gap-2'),
-                html.h3(attr.class('font-semibold'), 'Jane Doe'),
-                Badge({ variant: 'light', color: 'primary' }, 'Administrator'),
-                TextInput({ value: '', placeholder: 'Search users...' })
+          (() => {
+            const userName = prop('Jane Doe')
+            const userRole = prop('Administrator')
+            return html.div(
+              attr.class('pt-1 space-y-3 max-w-xs'),
+              html.p(
+                attr.class('text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide'),
+                'Composed example — type to see reactive updates'
+              ),
+              html.div(
+                attr.class('flex gap-2'),
+                TextInput({ value: userName, placeholder: 'Name' }),
+                TextInput({ value: userRole, placeholder: 'Role' }),
+              ),
+              Card(
+                {},
+                Stack(
+                  attr.class('gap-2'),
+                  html.h3(attr.class('font-semibold'), userName),
+                  Badge({ variant: 'light', color: 'primary' }, userRole)
+                )
               )
             )
-          )
+          })()
         )
       ),
 
