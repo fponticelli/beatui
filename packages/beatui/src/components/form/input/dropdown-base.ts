@@ -115,15 +115,19 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
 
   let triggerElement: HTMLElement | undefined
   let listboxElement: HTMLElement | undefined
-  let flyoutHideFn: (() => void) | undefined
+
+  // Reset focus state whenever dropdown closes
+  isOpen.onChange(open => {
+    if (!open) {
+      focusedIndex.set(-1)
+      focusedValue.set(null)
+    }
+  })
 
   const wrappedOnChange = (selectedValue: T) => {
     onChange?.(selectedValue)
     onInput?.(selectedValue)
     isOpen.set(false)
-    focusedIndex.set(-1)
-    focusedValue.set(null)
-    flyoutHideFn?.()
     triggerElement?.focus()
   }
 
@@ -187,8 +191,6 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
         if (isOpen.value) {
           event.preventDefault()
           isOpen.set(false)
-          focusedIndex.set(-1)
-          focusedValue.set(null)
           triggerElement?.focus()
         }
         break
@@ -228,10 +230,34 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
       return Fragment(
         WithElement(el => {
           triggerElement = el
+          const handleClick = () => {
+            if (isOpen.value) {
+              isOpen.set(false)
+            } else {
+              onBeforeOpen?.()
+              const selectable = Option.getValues(Value.get(optionsSource))
+              isOpen.set(true)
+              if (selectable.length > 0) {
+                focusedIndex.set(0)
+                focusedValue.set(selectable[0])
+              }
+              // Defer until the flyout animation has started (start-opening)
+              // so the content is visible and focusable.
+              setTimeout(() => {
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    onAfterOpen?.()
+                  })
+                })
+              }, 0)
+            }
+          }
           el.addEventListener('keydown', handleKeyDown)
-          return OnDispose(() =>
+          el.addEventListener('click', handleClick)
+          return OnDispose(() => {
             el.removeEventListener('keydown', handleKeyDown)
-          )
+            el.removeEventListener('click', handleClick)
+          })
         }),
         CommonInputAttributes(options),
         attr.id(dropdownId),
@@ -250,13 +276,15 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
         ),
         onBlur != null
           ? on.blur(() => {
-              setTimeout(() => {
-                if (!listboxElement?.contains(document.activeElement)) {
+              requestAnimationFrame(() => {
+                if (
+                  !listboxElement?.contains(document.activeElement) &&
+                  !triggerElement?.contains(document.activeElement)
+                ) {
                   isOpen.set(false)
-                  focusedIndex.set(-1)
                   onBlur()
                 }
-              }, 100)
+              })
             })
           : Empty,
 
@@ -282,44 +310,8 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
           mainAxisOffset: 0,
           placement: 'bottom-start',
           hasPopup: 'listbox',
-          showOn: (flyoutShow, flyoutHide) => {
-            const originalHide = flyoutHide
-            flyoutHide = () => {
-              isOpen.set(false)
-              focusedIndex.set(-1)
-              focusedValue.set(null)
-              originalHide()
-            }
-            flyoutHideFn = flyoutHide
-
-            const handleClick = () => {
-              if (isOpen.value) {
-                flyoutHide()
-              } else {
-                onBeforeOpen?.()
-                const selectable = Option.getValues(Value.get(optionsSource))
-                isOpen.set(true)
-                if (selectable.length > 0) {
-                  focusedIndex.set(0)
-                  focusedValue.set(selectable[0])
-                }
-                flyoutShow()
-                // Defer until the flyout animation has started (start-opening)
-                // so the content is visible and focusable.
-                // The flyout opens in setTimeout(0) → rAF → start-opening,
-                // so we need setTimeout(0) → rAF → rAF to run after that.
-                setTimeout(() => {
-                  requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                      onAfterOpen?.()
-                    })
-                  })
-                }, 0)
-              }
-            }
-
-            return on.click(handleClick)
-          },
+          open: isOpen,
+          showOn: 'never',
           showDelay: 0,
           hideDelay: 0,
           closable: true,

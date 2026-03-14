@@ -175,8 +175,6 @@ export function BlockHandle({
       let activeBlockElement: HTMLElement | null = null
       let rootListenersAttached = false
       let hideTimeout: ReturnType<typeof setTimeout> | null = null
-      let menuHideFn: (() => void) | null = null
-
       const HANDLE_SIZE = 24
       const HANDLE_GAP = 4
       const HIDE_DELAY = 200
@@ -330,24 +328,12 @@ export function BlockHandle({
                         const editor = ed.value
                         if (!editor) return
                         cmd.handler(editor)
-                        menuHideFn?.()
                         editor.focus()
                       },
                     })
                   ),
                 placement: 'bottom-start',
-                showOn: (show, hide) => {
-                  menuHideFn = hide
-                  return on.click(() => {
-                    if (isMenuOpen.value) {
-                      hide()
-                    } else {
-                      show()
-                      // Set immediately for hover protection
-                      isMenuOpen.value = true
-                    }
-                  })
-                },
+                showOn: 'click',
                 showDelay: 0,
                 hideDelay: 0,
                 mainAxisOffset: 4,

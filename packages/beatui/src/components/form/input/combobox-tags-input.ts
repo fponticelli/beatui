@@ -159,13 +159,13 @@ export function ComboboxTagsInput<T>(options: ComboboxTagsInputOptions<T>) {
     // Open the menu when the search input gains focus
     // We intentionally do not auto-hide on blur here because the Menu
     // manages its own close behavior (outside click, Escape, etc.)
-    showOn: (flyoutShow, _flyoutHide) => {
+    showOn: open => {
       return WithElement(trigger => {
         const input = trigger.querySelector(
           '.bc-dropdown__search-input'
         ) as HTMLInputElement | null
         if (input) {
-          const onFocus = () => flyoutShow()
+          const onFocus = () => open.set(true)
           input.addEventListener('focus', onFocus)
           return OnDispose(() => {
             input.removeEventListener('focus', onFocus)

@@ -201,9 +201,18 @@ export function Menu(options: MenuOptions): Renderable {
   const menuId = sessionId('menu')
   const focusedItemIndex = prop<number>(-1)
   const menuItems = prop<HTMLElement[]>([])
+  const menuOpen = prop(false)
   let previouslyFocusedElement: HTMLElement | null = null
 
+  // Notify consumer when menu closes
+  menuOpen.onChange(open => {
+    if (!open) {
+      onClose?.()
+    }
+  })
+
   return Flyout({
+    open: menuOpen,
     content: () => {
       return WithElement(menuElement => {
         // Store previously focused element for restoration
@@ -272,13 +281,13 @@ export function Menu(options: MenuOptions): Renderable {
                   onAction(key)
                 }
                 menuItem.click()
-                onClose?.() // Close menu after activation
+                menuOpen.set(false) // Close menu after activation
               }
               break
 
             case 'Escape':
-              // Call the Menu's onClose callback first
-              onClose?.()
+              // Close via signal — onClose callback fires from the signal subscription
+              menuOpen.set(false)
               // Let the event propagate to the Flyout so it can also handle Escape
               // Don't prevent default or stop propagation
               break
@@ -320,7 +329,7 @@ export function Menu(options: MenuOptions): Renderable {
               event.stopPropagation()
               // Close current menu if it's a submenu (basic implementation)
               // This would need to be enhanced for proper submenu hierarchy
-              onClose?.()
+              menuOpen.set(false)
               break
           }
         }
@@ -411,6 +420,7 @@ export function Menu(options: MenuOptions): Renderable {
               if (key && onAction) {
                 onAction(key)
               }
+              menuOpen.set(false) // Close menu after item click
             }
           }),
 

@@ -48,8 +48,7 @@ export function TableControls({
   const isVisible = prop(false)
   const markerTop = prop(0)
   const markerRight = prop(0)
-  let showMenuFn: (() => void) | null = null
-  let hideMenuFn: (() => void) | null = null
+  let menuOpenSignal: { set(v: boolean): void; value: boolean } | null = null
   const isMenuOpen = prop(false)
 
   const findSelectedTableCell = (ed: LexicalEditor) => {
@@ -120,7 +119,7 @@ export function TableControls({
     const ed = editor.value
     if (!ed) return
     ed.update(op)
-    hideMenuFn?.()
+    menuOpenSignal?.set(false)
     ed.focus()
   }
 
@@ -168,7 +167,7 @@ export function TableControls({
 
           // Open menu after the marker is rendered
           delayedAnimationFrame(() => {
-            showMenuFn?.()
+            menuOpenSignal?.set(true)
           })
         }
       }
@@ -298,16 +297,10 @@ export function TableControls({
                   }),
                 ],
                 placement: 'bottom-end',
-                showOn: (show, hide) => {
-                  showMenuFn = show
-                  hideMenuFn = hide
+                showOn: open => {
+                  menuOpenSignal = open
                   return on.click(() => {
-                    if (isMenuOpen.value) {
-                      hide()
-                    } else {
-                      show()
-                      isMenuOpen.value = true
-                    }
+                    open.set(!open.value)
                   })
                 },
                 showDelay: 0,

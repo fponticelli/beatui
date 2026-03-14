@@ -10,6 +10,7 @@ import {
   OneOfValue,
   WithElement,
   prop,
+  Prop,
   SplitNValue,
   html,
 } from '@tempots/dom'
@@ -41,17 +42,13 @@ export type FlyoutTrigger =
 
 /**
  * Custom trigger function for the {@link Flyout} component.
- * Receives `show` and `hide` callbacks and returns trigger content that controls
+ * Receives the open state signal and returns trigger content that controls
  * when the flyout appears and disappears.
  *
- * @param show - Call to show the flyout
- * @param hide - Call to hide the flyout
+ * @param open - Writable signal representing the flyout's open state. Set to `true` to show, `false` to hide.
  * @returns A renderable node containing the trigger logic
  */
-export type FlyoutTriggerFunction = (
-  show: () => void,
-  hide: () => void
-) => TNode
+export type FlyoutTriggerFunction = (open: Prop<boolean>) => TNode
 
 /**
  * Positioning data for a popover arrow element, provided by the PopOver positioning engine.
@@ -136,6 +133,17 @@ export interface FlyoutOptions {
    * @default 'dialog'
    */
   hasPopup?: Value<boolean | 'dialog' | 'menu' | 'listbox' | 'tree' | 'grid'>
+  /**
+   * External signal controlling the flyout's open/closed state.
+   * When provided, this signal becomes the single source of truth:
+   * - Setting it to `true` opens the flyout (respecting `showDelay`)
+   * - Setting it to `false` closes the flyout (respecting `hideDelay`)
+   * - Internal close paths (click-outside, Escape) set this signal to `false`
+   * - Built-in and custom triggers toggle this signal
+   *
+   * When omitted, the flyout manages its own internal open state.
+   */
+  open?: Prop<boolean>
 }
 
 /** @internal Maps a PopOver placement to its corresponding animation configuration (slide direction + transform origin). */
@@ -215,9 +223,13 @@ export function Flyout(options: FlyoutOptions): Renderable {
     arrow,
     role,
     hasPopup = 'dialog',
+    open: externalOpen,
   } = options
 
-  return PopOver((open, close) => {
+  return PopOver((popOverOpen, popOverClose) => {
+    // Use external signal or create internal one
+    const openState = externalOpen ?? prop(false)
+
     // Create animated toggle for this PopOver instance
     const animatedToggle = useAnimatedElementToggle({
       initialStatus: 'closed',
@@ -225,7 +237,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
 
     // Generate unique IDs for accessibility
     const flyoutId = sessionId('flyout')
-    const triggerExpanded = prop<boolean | 'undefined'>(false)
 
     let handleKeyDown: ((event: KeyboardEvent) => void) | null = null
     let onClosedCleanup: (() => void) | null = null
@@ -263,7 +274,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
       }
 
       // Reset PopOver state
-      triggerExpanded.set(false)
       isPopOverOpen = false
     }
 
@@ -271,16 +281,15 @@ export function Flyout(options: FlyoutOptions): Renderable {
       if (Value.get(closable)) {
         handleKeyDown = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
-            hide()
+            openState.set(false)
           }
         }
         document.addEventListener('keydown', handleKeyDown)
       }
 
       isPopOverOpen = true // Mark PopOver as open
-      triggerExpanded.set(true)
 
-      open({
+      popOverOpen({
         placement: placement ?? 'top',
         mainAxisOffset,
         crossAxisOffset,
@@ -295,8 +304,8 @@ export function Flyout(options: FlyoutOptions): Renderable {
               ? null
               : (Value.get(showOn as Value<FlyoutTrigger>) as FlyoutTrigger)
           if (showOnValue === 'hover' || showOnValue === 'hover-focus') {
-            element.addEventListener('mouseenter', () => show())
-            element.addEventListener('mouseleave', () => hide())
+            element.addEventListener('mouseenter', () => openState.set(true))
+            element.addEventListener('mouseleave', () => openState.set(false))
           }
 
           // Start opening animation after ensuring initial state is rendered
@@ -306,17 +315,16 @@ export function Flyout(options: FlyoutOptions): Renderable {
           })
 
           // Add keyboard navigation for closable flyouts
-          const handleKeyDown = (event: KeyboardEvent) => {
+          const contentKeyDown = (event: KeyboardEvent) => {
             if (Value.get(closable) && event.key === 'Escape') {
               event.preventDefault()
               event.stopPropagation()
-              hide()
-              triggerExpanded.set(false)
+              openState.set(false)
             }
           }
 
           // Add keyboard event listener
-          document.addEventListener('keydown', handleKeyDown, true)
+          document.addEventListener('keydown', contentKeyDown, true)
 
           // Custom click-outside detection that checks both trigger and popup elements.
           // PopOver's built-in onClickOutside only checks the trigger element,
@@ -330,7 +338,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
                 !element.contains(target) &&
                 !triggerElement?.contains(target)
               ) {
-                hide()
+                openState.set(false)
               }
             }
             document.addEventListener('click', clickOutsideHandler)
@@ -343,7 +351,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
                 clickOutsideHandler = null
               }
               cleanup()
-              document.removeEventListener('keydown', handleKeyDown, true)
+              document.removeEventListener('keydown', contentKeyDown, true)
               // Don't dispose animatedToggle here - it should live for the entire Flyout lifetime
             }),
             attr.class('bc-flyout-container'),
@@ -412,6 +420,11 @@ export function Flyout(options: FlyoutOptions): Renderable {
 
     let hideTimeout: ReturnType<typeof setTimeout> | null = null
     function hide() {
+      // Don't hide if already closed
+      if (!isPopOverOpen && showTimeout == null) {
+        return
+      }
+
       // Clear any existing show timeout since we're hiding
       if (showTimeout != null) {
         clearTimeout(showTimeout)
@@ -424,8 +437,6 @@ export function Flyout(options: FlyoutOptions): Renderable {
         hideTimeout = null
       }
 
-      triggerExpanded.set(false)
-
       // Clear any pending delayed open callback
       if (delayedOpenCleanup) {
         delayedOpenCleanup()
@@ -433,7 +444,7 @@ export function Flyout(options: FlyoutOptions): Renderable {
 
         // If PopOver was opened but animation was canceled, close it immediately
         if (isPopOverOpen) {
-          close()
+          popOverClose()
           cleanup()
           return
         }
@@ -456,27 +467,32 @@ export function Flyout(options: FlyoutOptions): Renderable {
 
         // Wait for animation to complete before closing PopOver
         animatedToggle.listenOnClosed(() => {
-          close()
+          popOverClose()
           cleanup()
         })
       }, delay)
     }
 
+    // Subscribe to openState changes to drive show/hide
+    const unsubscribeOpen = openState.onChange(isOpen => {
+      if (isOpen) {
+        show()
+      } else {
+        hide()
+      }
+    })
+
+    // Handle initial state if signal starts as true
+    if (openState.value) {
+      show()
+    }
+
     // Add ARIA attributes to trigger element
     return WithElement(el => {
       triggerElement = el
-      const enhancedShow = () => {
-        show()
-        triggerExpanded.set(true)
-      }
-
-      const enhancedHide = () => {
-        hide()
-        triggerExpanded.set(false)
-      }
 
       const ariaAttributes = Fragment(
-        aria.expanded(triggerExpanded),
+        aria.expanded(openState as Value<boolean | 'undefined'>),
         aria.controls(flyoutId),
         aria.haspopup(
           hasPopup as SplitNValue<
@@ -495,53 +511,36 @@ export function Flyout(options: FlyoutOptions): Renderable {
       // Handle custom trigger config
       if (typeof showOn === 'function') {
         return Fragment(
+          OnDispose(unsubscribeOpen),
           ariaAttributes,
-          (showOn as FlyoutTriggerFunction)(enhancedShow, enhancedHide)
+          (showOn as FlyoutTriggerFunction)(openState)
         )
       }
 
       // Handle built-in trigger types
       const triggerValue = showOn as Value<FlyoutTrigger>
       return Fragment(
+        OnDispose(unsubscribeOpen),
         ariaAttributes,
         OneOfValue(triggerValue, {
           'hover-focus': () =>
             Fragment(
-              on.mouseenter(() => enhancedShow()),
-              on.mouseleave(() => enhancedHide()),
-              on.focus(() => enhancedShow()),
-              on.blur(() => enhancedHide())
+              on.mouseenter(() => openState.set(true)),
+              on.mouseleave(() => openState.set(false)),
+              on.focus(() => openState.set(true)),
+              on.blur(() => openState.set(false))
             ),
           hover: () =>
             Fragment(
-              on.mouseenter(() => enhancedShow()),
-              on.mouseleave(() => enhancedHide())
+              on.mouseenter(() => openState.set(true)),
+              on.mouseleave(() => openState.set(false))
             ),
           focus: () =>
             Fragment(
-              on.focus(() => enhancedShow()),
-              on.blur(() => enhancedHide())
+              on.focus(() => openState.set(true)),
+              on.blur(() => openState.set(false))
             ),
-          click: () => {
-            function clear() {
-              document.removeEventListener('click', documentClick)
-            }
-            function documentClick() {
-              clear()
-              enhancedHide()
-            }
-            return Fragment(
-              OnDispose(clear),
-              on.click(() => {
-                enhancedShow()
-                delayedAnimationFrame(() => {
-                  document.addEventListener('click', documentClick, {
-                    once: true,
-                  })
-                })
-              })
-            )
-          },
+          click: () => on.click(() => openState.set(!openState.value)),
           never: () => null,
         })
       )
