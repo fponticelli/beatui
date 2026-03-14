@@ -70,7 +70,7 @@ export function SignInForm({
     schema,
     onSubmit: requestToControllerValidation({
       task: onSignIn,
-      message: 'Reset password failed',
+      message: 'Sign in failed',
       onStart: () => {
         loading.set(true)
         form.controller.disable()

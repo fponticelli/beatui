@@ -55,6 +55,8 @@ export function createBetterAuthBridge(
     showPasswordStrength: options.showPasswordStrength,
     showNameField: options.showNameField,
     showConfirmPassword: options.showConfirmPassword,
+    showAcceptTermsAndConditions: options.showAcceptTermsAndConditions,
+    termsAndConditions: options.termsAndConditions,
     labels: options.labels
       ? {
           nameLabel: options.labels.nameLabel,
@@ -92,6 +94,8 @@ export function createBetterAuthBridge(
     showPasswordStrength: options.showPasswordStrength,
     showNameField: options.showNameField,
     showConfirmPassword: options.showConfirmPassword,
+    showAcceptTermsAndConditions: options.showAcceptTermsAndConditions,
+    termsAndConditions: options.termsAndConditions,
     labels: options.labels,
   }
 

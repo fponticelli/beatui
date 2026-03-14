@@ -55,15 +55,47 @@ SignInForm({
   onSignIn: async (data) => { /* ... */ return null },
 })
 
-// Sign-up form only
+// Sign-up form with all optional fields
 SignUpForm({
   showPasswordStrength: true,
+  showNameField: true,            // Show name field (default: true)
+  showConfirmPassword: true,      // Show confirm password (default: false)
+  showAcceptTermsAndConditions: true, // Show terms checkbox (default: false)
+  termsAndConditions: 'I agree to the Terms of Service',
   onSignUp: async (data) => { /* ... */ return null },
 })
 
 // Password reset form only
 ResetPasswordForm({
   onResetPassword: async (data) => { /* ... */ return null },
+})`
+
+const SIGNUP_CONFIG_CODE = `// Minimal sign-up form (email + password only)
+SignUpForm({
+  showNameField: false,
+  onSignUp: async (data) => { /* ... */ return null },
+})
+
+// Full sign-up form with all fields
+SignUpForm({
+  showNameField: true,
+  showConfirmPassword: true,
+  showAcceptTermsAndConditions: true,
+  showPasswordStrength: true,
+  termsAndConditions: html.span(
+    'I agree to the ',
+    html.a({ href: '/terms' }, 'Terms of Service')
+  ),
+  onSignUp: async (data) => { /* ... */ return null },
+})
+
+// These options also work on AuthContainer
+AuthContainer({
+  mode: 'signup',
+  showNameField: false,
+  showConfirmPassword: true,
+  showAcceptTermsAndConditions: true,
+  onSignUp: async (data) => { /* ... */ return null },
 })`
 
 const SOCIAL_LOGIN_CODE = `import { SocialLoginButton, socialProviderInfo, AuthProviderName } from '@tempots/beatui/auth'
@@ -325,6 +357,74 @@ export default function AuthenticationGuidePage() {
             'For more control over layout and flow you can use the individual form components directly. Each form is fully self-contained and accepts its own set of options and callback handlers.'
           ),
           CodeBlock(INDIVIDUAL_FORMS_CODE, 'typescript')
+        )
+      ),
+
+      // Section 4.5: Sign-Up Field Configuration
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-4'),
+          html.div(
+            attr.class('flex items-center gap-2'),
+            Icon({ icon: 'lucide:settings-2', size: 'sm' }),
+            html.h2(attr.class('text-xl font-semibold'), 'Sign-Up Field Configuration')
+          ),
+          html.p(
+            attr.class('text-sm text-gray-600 dark:text-gray-400'),
+            'The sign-up form supports optional fields that can be toggled on or off. These options work on both ',
+            html.code(
+              attr.class(
+                'font-mono text-xs bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded'
+              ),
+              'SignUpForm'
+            ),
+            ' and ',
+            html.code(
+              attr.class(
+                'font-mono text-xs bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded'
+              ),
+              'AuthContainer'
+            ),
+            '. Hidden fields are excluded from validation, so the form remains submittable.'
+          ),
+          html.table(
+            attr.class('w-full text-sm border-collapse'),
+            html.thead(
+              html.tr(
+                attr.class('border-b dark:border-gray-700'),
+                html.th(attr.class('text-left p-2 font-medium'), 'Option'),
+                html.th(attr.class('text-left p-2 font-medium'), 'Default'),
+                html.th(attr.class('text-left p-2 font-medium'), 'Description')
+              )
+            ),
+            html.tbody(
+              html.tr(
+                attr.class('border-b dark:border-gray-700'),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'showNameField')),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'true')),
+                html.td(attr.class('p-2 text-gray-600 dark:text-gray-400'), 'Show/hide the name text input')
+              ),
+              html.tr(
+                attr.class('border-b dark:border-gray-700'),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'showConfirmPassword')),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'false')),
+                html.td(attr.class('p-2 text-gray-600 dark:text-gray-400'), 'Show/hide the confirm password field')
+              ),
+              html.tr(
+                attr.class('border-b dark:border-gray-700'),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'showAcceptTermsAndConditions')),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'false')),
+                html.td(attr.class('p-2 text-gray-600 dark:text-gray-400'), 'Show/hide the terms acceptance checkbox')
+              ),
+              html.tr(
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'showPasswordStrength')),
+                html.td(attr.class('p-2'), html.code(attr.class('font-mono text-xs'), 'false')),
+                html.td(attr.class('p-2 text-gray-600 dark:text-gray-400'), 'Show/hide the password strength indicator')
+              )
+            )
+          ),
+          CodeBlock(SIGNUP_CONFIG_CODE, 'typescript')
         )
       ),
 

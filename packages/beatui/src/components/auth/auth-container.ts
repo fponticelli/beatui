@@ -82,6 +82,10 @@ export function AuthContainer(
     onModeChange,
     onSocialLogin,
     showContainer,
+    showNameField,
+    showConfirmPassword,
+    showAcceptTermsAndConditions,
+    termsAndConditions,
   }: AuthContainerOptions,
   ...children: TNode[]
 ) {
@@ -195,6 +199,10 @@ export function AuthContainer(
               onSignUp,
               passwordRules,
               showPasswordStrength,
+              showNameField,
+              showConfirmPassword,
+              showAcceptTermsAndConditions,
+              termsAndConditions,
             }),
             Stack(attr.class('bc-auth-form__footer'), HasAccountLink())
           ),

@@ -9,7 +9,7 @@
  * @module better-auth/types
  */
 
-import { Signal } from '@tempots/dom'
+import { Signal, TNode } from '@tempots/dom'
 import {
   AuthContainerLabels,
   AuthContainerOptions,
@@ -196,6 +196,10 @@ export interface BetterAuthBridgeOptions {
   showNameField?: boolean
   /** Whether to show the confirm password field on the sign-up form. */
   showConfirmPassword?: boolean
+  /** Whether to show the "accept terms and conditions" checkbox on the sign-up form. */
+  showAcceptTermsAndConditions?: boolean
+  /** Custom terms and conditions content to display next to the checkbox. */
+  termsAndConditions?: TNode
   /** Whether to show the password strength indicator on the sign-up form. */
   showPasswordStrength?: boolean
   /** Session polling interval in milliseconds. Set to `0` to disable. @default 0 */

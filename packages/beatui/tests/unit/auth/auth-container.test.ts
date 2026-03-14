@@ -276,6 +276,116 @@ describe('AuthContainer', () => {
       password: 'password123',
     })
   })
+  it('should forward showNameField=false to signup form', async () => {
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          mode: 'signup',
+          onSignUp: vi.fn(),
+          showNameField: false,
+        })
+      ),
+      container
+    )
+
+    // Name field should not be rendered
+    expect(container.textContent).not.toContain('Name')
+  })
+
+  it('should forward showConfirmPassword=true to signup form', async () => {
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          mode: 'signup',
+          onSignUp: vi.fn(),
+          showConfirmPassword: true,
+        })
+      ),
+      container
+    )
+
+    // Should have two password inputs
+    const passwordInputs = container.querySelectorAll('input[type="password"]')
+    expect(passwordInputs).toHaveLength(2)
+  })
+
+  it('should forward showAcceptTermsAndConditions=true to signup form', async () => {
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          mode: 'signup',
+          onSignUp: vi.fn(),
+          showAcceptTermsAndConditions: true,
+        })
+      ),
+      container
+    )
+
+    expect(container.querySelector('.bc-auth-form__terms')).toBeTruthy()
+  })
+
+  it('should not show confirm password or terms by default in signup mode', () => {
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          mode: 'signup',
+          onSignUp: vi.fn(),
+        })
+      ),
+      container
+    )
+
+    // Only one password input
+    const passwordInputs = container.querySelectorAll('input[type="password"]')
+    expect(passwordInputs).toHaveLength(1)
+
+    // No terms checkbox
+    expect(container.querySelector('.bc-auth-form__terms')).toBeFalsy()
+  })
+
+  it('should allow signup form submission without hidden optional fields', async () => {
+    const onSignUp = vi.fn().mockResolvedValue(null)
+
+    render(
+      WithProviders(() =>
+        AuthContainer({
+          mode: 'signup',
+          onSignUp,
+          showConfirmPassword: false,
+          showAcceptTermsAndConditions: false,
+        })
+      ),
+      container
+    )
+
+    const emailInput = container.querySelector(
+      'input[type="email"]'
+    ) as HTMLInputElement
+    const passwordInput = container.querySelector(
+      'input[type="password"]'
+    ) as HTMLInputElement
+    const nameInput = container.querySelector(
+      'input[type="text"]'
+    ) as HTMLInputElement
+
+    nameInput.value = 'Test User'
+    nameInput.dispatchEvent(new Event('change', { bubbles: true }))
+
+    emailInput.value = 'test@example.com'
+    emailInput.dispatchEvent(new Event('change', { bubbles: true }))
+
+    passwordInput.value = 'Password1'
+    passwordInput.dispatchEvent(new Event('change', { bubbles: true }))
+
+    const submitButton = container.querySelector(
+      'button[type="submit"]'
+    ) as HTMLButtonElement
+    submitButton.click()
+
+    await new Promise(resolve => setTimeout(resolve, 200))
+
+    expect(onSignUp).toHaveBeenCalled()
+  })
 })
 
 describe('AuthModal', () => {

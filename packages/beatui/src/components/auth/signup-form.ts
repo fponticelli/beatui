@@ -83,10 +83,23 @@ export function SignUpForm({
   const passwordRules_ = passwordRules || defaultPasswordRules
 
   // Initialize form
+  const resolvedShowConfirmPassword =
+    typeof showConfirmPassword === 'boolean'
+      ? showConfirmPassword
+      : showConfirmPassword != null
+        ? showConfirmPassword.value
+        : false
+  const resolvedShowAcceptTerms =
+    typeof showAcceptTermsAndConditions === 'boolean'
+      ? showAcceptTermsAndConditions
+      : showAcceptTermsAndConditions != null
+        ? showAcceptTermsAndConditions.value
+        : false
+
   const schema = createSignUpSchema(passwordRules_, {
     showNameField: showNameField !== false,
-    showConfirmPassword: showConfirmPassword !== false,
-    showAcceptTermsAndConditions: showAcceptTermsAndConditions !== false,
+    showConfirmPassword: resolvedShowConfirmPassword,
+    showAcceptTermsAndConditions: resolvedShowAcceptTerms,
   })
 
   const form: UseFormResult<SignUpFormData> = useForm({
@@ -102,7 +115,7 @@ export function SignUpForm({
                 acceptTerms: data.acceptTerms,
               })
           : undefined,
-      message: 'Reset password failed',
+      message: 'Sign up failed',
       onStart: () => {
         loading.set(true)
         form.controller.disable()
