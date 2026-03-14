@@ -1,5 +1,6 @@
-import { html, attr } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { DockedEditor, ContextualEditor } from '@tempots/beatui/lexical'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -202,6 +203,46 @@ export default function LexicalEditorPage() {
             '. Each preset adds its own toolbar configuration on top.'
           ),
           CodeBlock(PRESETS_CODE, 'typescript'),
+          // Live preview: DockedEditor
+          (() => {
+            const content = prop('# Hello\n\nTry editing this **rich text** with the toolbar above.')
+            return html.div(
+              attr.class('space-y-2 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview — DockedEditor')
+              ),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden'),
+                DockedEditor({
+                  value: content,
+                  format: 'markdown',
+                  onInput: v => content.set(v),
+                })
+              )
+            )
+          })(),
+          // Live preview: ContextualEditor
+          (() => {
+            const content2 = prop('Select some text to see the **floating toolbar** appear.')
+            return html.div(
+              attr.class('space-y-2 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview — ContextualEditor')
+              ),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden'),
+                ContextualEditor({
+                  value: content2,
+                  format: 'markdown',
+                  onInput: v => content2.set(v),
+                })
+              )
+            )
+          })(),
           html.div(
             attr.class('grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1'),
             ...[

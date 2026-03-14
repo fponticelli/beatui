@@ -1,5 +1,6 @@
-import { html, attr } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { html, attr, prop } from '@tempots/dom'
+import { ScrollablePanel, Stack, Card, Icon, Notice, Badge, TextArea } from '@tempots/beatui'
+import { Markdown } from '@tempots/beatui/markdown'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -185,11 +186,27 @@ export default function MarkdownRendererPage() {
             '. You can also pass a plain string for static content. When the signal updates, the rendered HTML is replaced in place without re-creating the surrounding DOM.'
           ),
           CodeBlock(BASIC_USAGE_CODE, 'typescript'),
-          html.p(
-            attr.class('text-sm text-gray-600 dark:text-gray-400 pt-1'),
-            'For reactive content that changes over time, the signal update is efficient — only the inner HTML of the output container is replaced:'
-          ),
-          CodeBlock(REACTIVE_CODE, 'typescript')
+          // Live preview
+          (() => {
+            const content = prop('# Hello\n\nSome **markdown** content.\n\nEdit the text below to see reactive updates:')
+            return html.div(
+              attr.class('space-y-3 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+              ),
+              TextArea({
+                value: content,
+                onInput: (v) => content.set(v),
+                class: 'font-mono text-sm',
+              }),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+                Markdown({ content, cssInjection: 'link' })
+              )
+            )
+          })()
         )
       ),
 
@@ -213,6 +230,23 @@ export default function MarkdownRendererPage() {
             ' to activate the GFM extension, which adds support for tables, strikethrough, task list checkboxes, and automatic URL linking.'
           ),
           CodeBlock(GFM_CODE, 'typescript'),
+          // GFM live preview
+          html.div(
+            attr.class('space-y-2 pt-2'),
+            html.div(
+              attr.class('flex items-center gap-2'),
+              Icon({ icon: 'lucide:eye', size: 'xs' }),
+              html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+            ),
+            html.div(
+              attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+              Markdown({
+                content: '# GFM Demo\n\n| Column A | Column B |\n|----------|----------|\n| Cell 1   | Cell 2   |\n\n~~Strikethrough~~ text\n\n- [x] Checked task\n- [ ] Unchecked task',
+                features: { gfm: true },
+                cssInjection: 'link',
+              })
+            )
+          ),
           html.div(
             attr.class('grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1'),
             ...[

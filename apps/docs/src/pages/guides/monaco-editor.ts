@@ -1,5 +1,6 @@
-import { html, attr } from '@tempots/dom'
-import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { html, attr, prop } from '@tempots/dom'
+import { ScrollablePanel, Stack, Card, Icon, Notice, Badge, NativeSelect } from '@tempots/beatui'
+import { MonacoEditorInput } from '@tempots/beatui/monaco'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -215,7 +216,31 @@ export default function MonacoEditorPage() {
             ),
             '. The editor auto-sizes to its container — wrap it in a sized element to control dimensions.'
           ),
-          CodeBlock(BASIC_USAGE_CODE, 'typescript')
+          CodeBlock(BASIC_USAGE_CODE, 'typescript'),
+          // Live preview
+          (() => {
+            const code = prop('const hello = "world"\n\nfunction greet(name: string) {\n  return `Hello, ${name}!`\n}')
+            return html.div(
+              attr.class('space-y-2 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+              ),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900'),
+                html.div(
+                  attr.class('h-[200px]'),
+                  MonacoEditorInput({
+                    value: code,
+                    onChange: v => code.set(v),
+                    language: 'typescript',
+                    cssInjection: 'link',
+                  })
+                )
+              )
+            )
+          })()
         )
       ),
 
@@ -317,7 +342,46 @@ export default function MonacoEditorPage() {
             ),
             ' signal, you can switch the editor language at runtime without remounting the editor. The content is preserved and the new language grammar is applied immediately.'
           ),
-          CodeBlock(REACTIVE_LANGUAGE_CODE, 'typescript')
+          CodeBlock(REACTIVE_LANGUAGE_CODE, 'typescript'),
+          // Live preview with language switching
+          (() => {
+            const language = prop('typescript')
+            const code = prop('const x = 42')
+            return html.div(
+              attr.class('space-y-2 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+              ),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden'),
+                html.div(
+                  attr.class('p-2 border-b border-gray-200 dark:border-gray-700'),
+                  NativeSelect({
+                    value: language,
+                    onChange: v => language.set(v),
+                    options: [
+                      { type: 'value', value: 'typescript', label: 'TypeScript' },
+                      { type: 'value', value: 'javascript', label: 'JavaScript' },
+                      { type: 'value', value: 'json', label: 'JSON' },
+                      { type: 'value', value: 'css', label: 'CSS' },
+                    ],
+                    size: 'sm',
+                  })
+                ),
+                html.div(
+                  attr.class('h-[150px]'),
+                  MonacoEditorInput({
+                    value: code,
+                    onChange: v => code.set(v),
+                    language,
+                    cssInjection: 'link',
+                  })
+                )
+              )
+            )
+          })()
         )
       )
     ),

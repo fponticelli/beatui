@@ -1,5 +1,6 @@
 import { html, attr } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { JSONSchemaDisplay } from '@tempots/beatui/json-schema-display'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -196,7 +197,34 @@ export default function JsonSchemaDisplayGuidePage() {
             ),
             ' as the label, with type-appropriate formatting for strings, numbers, booleans, arrays, and nested objects.'
           ),
-          CodeBlock(BASIC_USAGE_CODE, 'typescript')
+          CodeBlock(BASIC_USAGE_CODE, 'typescript'),
+          // Live preview
+          html.div(
+            attr.class('space-y-2 pt-2'),
+            html.div(
+              attr.class('flex items-center gap-2'),
+              Icon({ icon: 'lucide:eye', size: 'xs' }),
+              html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+            ),
+            html.div(
+              attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+              JSONSchemaDisplay({
+                schema: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', title: 'Full Name' },
+                    age: { type: 'integer', title: 'Age' },
+                    email: { type: 'string', format: 'email', title: 'Email' },
+                  },
+                },
+                value: {
+                  name: 'Jane Doe',
+                  age: 32,
+                  email: 'jane@example.com',
+                },
+              })
+            )
+          )
         )
       ),
 
@@ -221,7 +249,35 @@ export default function JsonSchemaDisplayGuidePage() {
             ),
             ' is enabled (default), the component compares each value against the schema and highlights type mismatches, missing required fields, and constraint violations. Mismatches are recomputed reactively whenever the value changes.'
           ),
-          CodeBlock(MISMATCH_CODE, 'typescript')
+          CodeBlock(MISMATCH_CODE, 'typescript'),
+          // Live preview with mismatches
+          html.div(
+            attr.class('space-y-2 pt-2'),
+            html.div(
+              attr.class('flex items-center gap-2'),
+              Icon({ icon: 'lucide:eye', size: 'xs' }),
+              html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview — Mismatched Data')
+            ),
+            html.div(
+              attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+              JSONSchemaDisplay({
+                schema: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', title: 'Full Name' },
+                    age: { type: 'integer', title: 'Age' },
+                    email: { type: 'string', format: 'email', title: 'Email' },
+                  },
+                },
+                value: {
+                  name: 42,
+                  age: 'not a number',
+                  email: 'jane@example.com',
+                },
+                showMismatches: true,
+              })
+            )
+          )
         )
       ),
 

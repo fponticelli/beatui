@@ -1,5 +1,6 @@
 import { html, attr } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { AuthContainer } from '@tempots/beatui/auth'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -229,7 +230,37 @@ export default function AuthenticationGuidePage() {
             ),
             ' to control which form is shown first. Users can navigate between modes via the built-in tab bar.'
           ),
-          CodeBlock(AUTH_CONTAINER_CODE, 'typescript')
+          CodeBlock(AUTH_CONTAINER_CODE, 'typescript'),
+          // Live preview
+          html.div(
+            attr.class('space-y-2 pt-2'),
+            html.div(
+              attr.class('flex items-center gap-2'),
+              Icon({ icon: 'lucide:eye', size: 'xs' }),
+              html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+            ),
+            html.div(
+              attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+              AuthContainer({
+                mode: 'signin',
+                socialProviders: [{ provider: 'google' }, { provider: 'github' }],
+                onSignIn: async () => {
+                  await new Promise(r => setTimeout(r, 1000))
+                  return 'Demo mode — sign-in is not connected to a backend.'
+                },
+                onSignUp: async () => {
+                  await new Promise(r => setTimeout(r, 1000))
+                  return 'Demo mode — sign-up is not connected to a backend.'
+                },
+                onResetPassword: async () => {
+                  await new Promise(r => setTimeout(r, 1000))
+                  return 'Demo mode — password reset is not connected to a backend.'
+                },
+                showRememberMe: true,
+                showPasswordStrength: true,
+              })
+            )
+          )
         )
       ),
 

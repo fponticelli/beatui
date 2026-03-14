@@ -1,5 +1,6 @@
-import { html, attr } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import { ScrollablePanel, Stack, Card, Icon, Notice, Badge } from '@tempots/beatui'
+import { ProseMirrorMarkdownInput } from '@tempots/beatui/prosemirror'
 import { CodeBlock } from '../../framework/code-block'
 
 export const meta = {
@@ -187,7 +188,29 @@ export default function ProseMirrorEditorPage() {
             ),
             ' with the serialized Markdown string on every edit.'
           ),
-          CodeBlock(BASIC_USAGE_CODE, 'typescript')
+          CodeBlock(BASIC_USAGE_CODE, 'typescript'),
+          // Live preview
+          (() => {
+            const markdown = prop('# Hello\n\n**Bold** and _italic_ text.\n\n- List item one\n- List item two')
+            return html.div(
+              attr.class('space-y-2 pt-2'),
+              html.div(
+                attr.class('flex items-center gap-2'),
+                Icon({ icon: 'lucide:eye', size: 'xs' }),
+                html.span(attr.class('text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'), 'Live Preview')
+              ),
+              html.div(
+                attr.class('rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900'),
+                ProseMirrorMarkdownInput({
+                  value: markdown,
+                  onInput: v => markdown.set(v),
+                  showToolbar: true,
+                  placeholder: 'Start typing...',
+                  cssInjection: 'link',
+                })
+              )
+            )
+          })()
         )
       ),
 
