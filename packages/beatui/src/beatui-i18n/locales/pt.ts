@@ -96,7 +96,12 @@ const pt: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Paginacao',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `Linhas ${from} a ${to} de ${filtered} de ${total}`
       : `Linhas ${from} a ${to} de ${filtered}`,

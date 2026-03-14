@@ -96,7 +96,12 @@ const ko: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: '페이지네이션',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `${total}개 중 ${filtered}개의 ${from}~${to}행`
       : `${filtered}개 중 ${from}~${to}행`,

@@ -1,5 +1,5 @@
 import { Table } from '@tempots/beatui'
-import { html, attr } from '@tempots/dom'
+import { html, attr, style } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -19,30 +19,14 @@ export const meta: ComponentPageMeta = {
 }
 
 const sampleHead = html.thead(
-  html.tr(
-    html.th('Name'),
-    html.th('Role'),
-    html.th('Status')
-  )
+  html.tr(html.th('Name'), html.th('Role'), html.th('Status'))
 )
 
 function sampleBody() {
   return html.tbody(
-    html.tr(
-      html.td('Alice Johnson'),
-      html.td('Admin'),
-      html.td('Active')
-    ),
-    html.tr(
-      html.td('Bob Smith'),
-      html.td('Editor'),
-      html.td('Active')
-    ),
-    html.tr(
-      html.td('Carol White'),
-      html.td('Viewer'),
-      html.td('Inactive')
-    )
+    html.tr(html.td('Alice Johnson'), html.td('Admin'), html.td('Active')),
+    html.tr(html.td('Bob Smith'), html.td('Editor'), html.td('Active')),
+    html.tr(html.td('Carol White'), html.td('Viewer'), html.td('Inactive'))
   )
 }
 
@@ -62,11 +46,7 @@ export default function TablePage() {
           fullWidth: true,
         },
         html.thead(
-          html.tr(
-            html.th('Name'),
-            html.th('Role'),
-            html.th('Status')
-          )
+          html.tr(html.th('Name'), html.th('Role'), html.th('Status'))
         ),
         sampleBody()
       )
@@ -154,6 +134,51 @@ export default function TablePage() {
         'Remove outer and row borders for a minimal, borderless layout.'
       ),
       Section(
+        'Sticky Header',
+        () =>
+          html.div(
+            style.height('300px'),
+            Table(
+              { stickyHeader: true, fullWidth: true, withStripedRows: true },
+              html.thead(
+                html.tr(
+                  html.th('Name'),
+                  html.th('Email'),
+                  html.th('Role'),
+                  html.th('Status')
+                )
+              ),
+              html.tbody(
+                ...[
+                  ['Alice Johnson', 'alice@example.com', 'Admin', 'Active'],
+                  ['Bob Smith', 'bob@example.com', 'Editor', 'Active'],
+                  ['Carol White', 'carol@example.com', 'Viewer', 'Inactive'],
+                  ['David Lee', 'david@example.com', 'Editor', 'Active'],
+                  ['Eve Martinez', 'eve@example.com', 'Viewer', 'Pending'],
+                  ['Frank Wilson', 'frank@example.com', 'Admin', 'Active'],
+                  ['Grace Chen', 'grace@example.com', 'Editor', 'Active'],
+                  ['Hank Brown', 'hank@example.com', 'Viewer', 'Inactive'],
+                  ['Iris Taylor', 'iris@example.com', 'Editor', 'Pending'],
+                  ['Jack Davis', 'jack@example.com', 'Viewer', 'Active'],
+                  ['Karen Moore', 'karen@example.com', 'Admin', 'Active'],
+                  ['Leo Garcia', 'leo@example.com', 'Viewer', 'Inactive'],
+                  ['Mia Hernandez', 'mia@example.com', 'Editor', 'Active'],
+                  ['Noah Kim', 'noah@example.com', 'Viewer', 'Active'],
+                  ['Olivia Patel', 'olivia@example.com', 'Admin', 'Active'],
+                ].map(([name, email, role, status]) =>
+                  html.tr(
+                    html.td(name),
+                    html.td(email),
+                    html.td(role),
+                    html.td(status)
+                  )
+                )
+              )
+            )
+          ),
+        'When stickyHeader is enabled, the header stays fixed while the body scrolls. The parent element must provide a height constraint.'
+      ),
+      Section(
         'Sizes',
         () =>
           html.div(
@@ -161,9 +186,7 @@ export default function TablePage() {
             html.p(attr.class('text-sm font-medium'), 'Small (sm)'),
             Table(
               { size: 'sm', fullWidth: true },
-              html.thead(
-                html.tr(html.th('Name'), html.th('Role'))
-              ),
+              html.thead(html.tr(html.th('Name'), html.th('Role'))),
               html.tbody(
                 html.tr(html.td('Alice'), html.td('Admin')),
                 html.tr(html.td('Bob'), html.td('Editor'))
@@ -172,9 +195,7 @@ export default function TablePage() {
             html.p(attr.class('text-sm font-medium'), 'Large (lg)'),
             Table(
               { size: 'lg', fullWidth: true },
-              html.thead(
-                html.tr(html.th('Name'), html.th('Role'))
-              ),
+              html.thead(html.tr(html.th('Name'), html.th('Role'))),
               html.tbody(
                 html.tr(html.td('Alice'), html.td('Admin')),
                 html.tr(html.td('Bob'), html.td('Editor'))

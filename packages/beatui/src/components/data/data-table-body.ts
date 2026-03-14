@@ -7,7 +7,6 @@ import {
   html,
   MapSignal,
   on,
-  OnDispose,
   Signal,
   style,
   TNode,

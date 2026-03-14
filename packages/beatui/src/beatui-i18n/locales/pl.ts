@@ -96,7 +96,12 @@ export const pl: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Paginacja',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `Wiersze ${from} do ${to} z ${filtered} z ${total}`
       : `Wiersze ${from} do ${to} z ${filtered}`,

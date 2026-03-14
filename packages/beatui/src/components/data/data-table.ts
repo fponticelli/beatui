@@ -5,6 +5,7 @@ import {
   html,
   MapSignal,
   OnDispose,
+  TNode,
   Use,
   Value,
   When,
@@ -33,6 +34,12 @@ import { renderColumnToggle } from './data-table-column-toggle'
  * Supports column-level sorting, filtering, row selection, pagination, bulk actions,
  * and server-side mode. Each feature is opt-in and configurable per column.
  *
+ * When `stickyHeader` is enabled, the DataTable renders inside a flex column
+ * container where the toolbar and pagination are pinned (top and bottom
+ * respectively) and only the table body scrolls. The container fills its
+ * parent's height — the parent must provide a height constraint (explicit
+ * height, flex layout, grid layout, etc.).
+ *
  * @typeParam T - The type of data rows
  * @param options - Full configuration for the data table
  * @returns A composed data table element
@@ -57,6 +64,7 @@ import { renderColumnToggle } from './data-table-column-toggle'
  *   selectable: { position: 'before', selectOnRowClick: true },
  *   pagination: { pageSize: 20 },
  *   toolbar: { bulkActions: [{ label: 'Delete', onClick: sel => deleteUsers(sel) }] },
+ *   stickyHeader: true,
  *   fullWidth: true,
  * })
  * ```
@@ -82,89 +90,102 @@ export function DataTable<T, C extends string = string>(
     ctx.ds.totalRows
   )((filtered, total) => ({ filtered, total }))
 
+  const columnToggle = renderColumnToggle(ctx)
+
+  const toolbar: TNode = MapSignal(ctx.toolbarConfig, tc => {
+    if (tc === false) return null
+    return DataToolbar({
+      dataSource: ctx.ds,
+      showSort: tc.showSort ?? true,
+      showFilters: tc.showFilters ?? true,
+      showSelection: tc.showSelection ?? true,
+      bulkActions: tc.bulkActions ?? [],
+    })
+  })
+
+  const tableWrapper = html.div(
+    attr.class('bc-data-table__wrapper'),
+    renderLoading(ctx),
+    Table(
+      {
+        size,
+        hoverable: ctx.effectiveHoverable,
+        stickyHeader,
+        fullWidth,
+        withStripedRows,
+        withTableBorder,
+        withColumnBorders,
+        withRowBorders,
+      },
+      html.thead(renderHeaderRow(ctx), renderFilterRow(ctx)),
+      html.tbody(
+        When(
+          ctx.ds.groupBy.map(g => g != null),
+          () => Fragment(renderGroupedBody(ctx), renderEmpty(ctx)),
+          () => Fragment(renderBody(ctx), renderEmpty(ctx))
+        )
+      ),
+      html.tfoot(renderFooter(ctx))
+    )
+  )
+
+  const pagination: TNode = When(ctx.showPagination, () =>
+    html.div(
+      attr.class('bc-data-table__pagination'),
+      Use(BeatUII18n, t =>
+        html.div(
+          attr.class('bc-data-table__row-count'),
+          computedOf(
+            ctx.pageSizeSignal,
+            ctx.effectiveCurrentPage,
+            rowCounts.$.filtered,
+            rowCounts.$.total
+          )((pageSize, page, filtered, total) => {
+            const from = (page - 1) * pageSize + 1
+            const to = Math.min(page * pageSize, filtered)
+            return t.value.paginationRange(from, to, filtered, total)
+          })
+        )
+      ),
+      Pagination({
+        currentPage: ctx.effectiveCurrentPage,
+        totalPages: ctx.effectiveTotalPages,
+        onChange: page => ctx.setEffectivePage(page),
+        siblings: Value.map(ctx.paginationConfig, p =>
+          p === false ? 1 : (p.siblings ?? 1)
+        ),
+        showFirstLast: Value.map(ctx.paginationConfig, p =>
+          p === false ? false : (p.showFirstLast ?? false)
+        ),
+        showPrevNext: true,
+        size,
+        responsive: Value.map(ctx.paginationConfig, p =>
+          p === false ? false : (p.responsive ?? false)
+        ),
+      })
+    )
+  )
+
+  const content = Fragment(columnToggle, toolbar, tableWrapper, pagination)
+
+  const sticky = Value.get(stickyHeader)
+
+  if (sticky) {
+    return html.div(
+      attr.class('bc-data-table'),
+      OnDispose(() => {
+        ctx.dispose()
+        rowCounts.dispose()
+      }),
+      content
+    )
+  }
+
   return Fragment(
     OnDispose(() => {
       ctx.dispose()
       rowCounts.dispose()
     }),
-
-    // Column visibility toggle
-    renderColumnToggle(ctx),
-
-    // Toolbar
-    MapSignal(ctx.toolbarConfig, tc => {
-      if (tc === false) return null
-      return DataToolbar({
-        dataSource: ctx.ds,
-        showSort: tc.showSort ?? true,
-        showFilters: tc.showFilters ?? true,
-        showSelection: tc.showSelection ?? true,
-        bulkActions: tc.bulkActions ?? [],
-      })
-    }),
-
-    // Table with loading overlay
-    html.div(
-      attr.class('bc-data-table__wrapper'),
-      renderLoading(ctx),
-      Table(
-        {
-          size,
-          hoverable: ctx.effectiveHoverable,
-          stickyHeader,
-          fullWidth,
-          withStripedRows,
-          withTableBorder,
-          withColumnBorders,
-          withRowBorders,
-        },
-        html.thead(renderHeaderRow(ctx), renderFilterRow(ctx)),
-        html.tbody(
-          When(
-            ctx.ds.groupBy.map(g => g != null),
-            () => Fragment(renderGroupedBody(ctx), renderEmpty(ctx)),
-            () => Fragment(renderBody(ctx), renderEmpty(ctx))
-          )
-        ),
-        html.tfoot(renderFooter(ctx))
-      )
-    ),
-
-    When(ctx.showPagination, () =>
-      html.div(
-        attr.class('bc-data-table__pagination'),
-        Use(BeatUII18n, t =>
-          html.div(
-            attr.class('bc-data-table__row-count'),
-            computedOf(
-              ctx.pageSizeSignal,
-              ctx.effectiveCurrentPage,
-              rowCounts.$.filtered,
-              rowCounts.$.total
-            )((pageSize, page, filtered, total) => {
-              const from = (page - 1) * pageSize + 1
-              const to = Math.min(page * pageSize, filtered)
-              return t.value.paginationRange(from, to, filtered, total)
-            })
-          )
-        ),
-        Pagination({
-          currentPage: ctx.effectiveCurrentPage,
-          totalPages: ctx.effectiveTotalPages,
-          onChange: page => ctx.setEffectivePage(page),
-          siblings: Value.map(ctx.paginationConfig, p =>
-            p === false ? 1 : (p.siblings ?? 1)
-          ),
-          showFirstLast: Value.map(ctx.paginationConfig, p =>
-            p === false ? false : (p.showFirstLast ?? false)
-          ),
-          showPrevNext: true,
-          size,
-          responsive: Value.map(ctx.paginationConfig, p =>
-            p === false ? false : (p.responsive ?? false)
-          ),
-        })
-      )
-    )
+    content
   )
 }

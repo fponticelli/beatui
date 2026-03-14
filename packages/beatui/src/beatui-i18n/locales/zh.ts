@@ -96,7 +96,12 @@ const zh: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: '分页',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `第 ${from} 至 ${to} 行，共 ${filtered} 条（总计 ${total} 条）`
       : `第 ${from} 至 ${to} 行，共 ${filtered} 条`,

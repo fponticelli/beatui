@@ -96,7 +96,12 @@ const ar: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'ترقيم الصفحات',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `الصفوف ${from} إلى ${to} من ${filtered} من أصل ${total}`
       : `الصفوف ${from} إلى ${to} من ${filtered}`,

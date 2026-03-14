@@ -5,12 +5,8 @@ import {
   type DataTablePaginationOptions,
   type DataTableToolbarOptions,
 } from '@tempots/beatui'
-import { html, attr, prop, Value, MapSignal } from '@tempots/dom'
-import {
-  ComponentPage,
-  manualPlayground,
-  Section,
-} from '../../framework'
+import { html, attr, prop, style, Value, MapSignal } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -33,18 +29,206 @@ interface User {
 }
 
 const sampleUsers: User[] = [
-  { id: '1', name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', status: 'Active', joined: '2023-01-15' },
-  { id: '2', name: 'Bob Smith', email: 'bob@example.com', role: 'Editor', status: 'Active', joined: '2023-03-22' },
-  { id: '3', name: 'Carol White', email: 'carol@example.com', role: 'Viewer', status: 'Inactive', joined: '2023-05-10' },
-  { id: '4', name: 'David Lee', email: 'david@example.com', role: 'Editor', status: 'Active', joined: '2023-07-01' },
-  { id: '5', name: 'Eve Martinez', email: 'eve@example.com', role: 'Viewer', status: 'Pending', joined: '2023-08-19' },
-  { id: '6', name: 'Frank Wilson', email: 'frank@example.com', role: 'Admin', status: 'Active', joined: '2022-11-30' },
-  { id: '7', name: 'Grace Chen', email: 'grace@example.com', role: 'Editor', status: 'Active', joined: '2024-01-05' },
-  { id: '8', name: 'Hank Brown', email: 'hank@example.com', role: 'Viewer', status: 'Inactive', joined: '2023-09-14' },
-  { id: '9', name: 'Iris Taylor', email: 'iris@example.com', role: 'Editor', status: 'Pending', joined: '2024-02-20' },
-  { id: '10', name: 'Jack Davis', email: 'jack@example.com', role: 'Viewer', status: 'Active', joined: '2022-06-08' },
-  { id: '11', name: 'Karen Moore', email: 'karen@example.com', role: 'Admin', status: 'Active', joined: '2023-12-01' },
-  { id: '12', name: 'Leo Garcia', email: 'leo@example.com', role: 'Viewer', status: 'Inactive', joined: '2023-04-17' },
+  {
+    id: '1',
+    name: 'Alice Johnson',
+    email: 'alice@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2023-01-15',
+  },
+  {
+    id: '2',
+    name: 'Bob Smith',
+    email: 'bob@example.com',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2023-03-22',
+  },
+  {
+    id: '3',
+    name: 'Carol White',
+    email: 'carol@example.com',
+    role: 'Viewer',
+    status: 'Inactive',
+    joined: '2023-05-10',
+  },
+  {
+    id: '4',
+    name: 'David Lee',
+    email: 'david@example.com',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2023-07-01',
+  },
+  {
+    id: '5',
+    name: 'Eve Martinez',
+    email: 'eve@example.com',
+    role: 'Viewer',
+    status: 'Pending',
+    joined: '2023-08-19',
+  },
+  {
+    id: '6',
+    name: 'Frank Wilson',
+    email: 'frank@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2022-11-30',
+  },
+  {
+    id: '7',
+    name: 'Grace Chen',
+    email: 'grace@example.com',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2024-01-05',
+  },
+  {
+    id: '8',
+    name: 'Hank Brown',
+    email: 'hank@example.com',
+    role: 'Viewer',
+    status: 'Inactive',
+    joined: '2023-09-14',
+  },
+  {
+    id: '9',
+    name: 'Iris Taylor',
+    email: 'iris@example.com',
+    role: 'Editor',
+    status: 'Pending',
+    joined: '2024-02-20',
+  },
+  {
+    id: '10',
+    name: 'Jack Davis',
+    email: 'jack@example.com',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2022-06-08',
+  },
+  {
+    id: '11',
+    name: 'Karen Moore',
+    email: 'karen@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2023-12-01',
+  },
+  {
+    id: '12',
+    name: 'Leo Garcia',
+    email: 'leo@example.com',
+    role: 'Viewer',
+    status: 'Inactive',
+    joined: '2023-04-17',
+  },
+  {
+    id: '13',
+    name: 'Mia Hernandez',
+    email: 'mia@example.com',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2024-03-10',
+  },
+  {
+    id: '14',
+    name: 'Noah Kim',
+    email: 'noah@example.com',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2023-10-25',
+  },
+  {
+    id: '15',
+    name: 'Olivia Patel',
+    email: 'olivia@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2022-08-14',
+  },
+  {
+    id: '16',
+    name: 'Paul Robinson',
+    email: 'paul@example.com',
+    role: 'Editor',
+    status: 'Inactive',
+    joined: '2023-06-30',
+  },
+  {
+    id: '17',
+    name: 'Quinn Foster',
+    email: 'quinn@example.com',
+    role: 'Viewer',
+    status: 'Pending',
+    joined: '2024-04-02',
+  },
+  {
+    id: '18',
+    name: 'Rachel Young',
+    email: 'rachel@example.com',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2023-11-18',
+  },
+  {
+    id: '19',
+    name: 'Sam Turner',
+    email: 'sam@example.com',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2022-12-05',
+  },
+  {
+    id: '20',
+    name: 'Tina Brooks',
+    email: 'tina@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2024-01-22',
+  },
+  {
+    id: '21',
+    name: 'Uma Vargas',
+    email: 'uma@example.com',
+    role: 'Editor',
+    status: 'Inactive',
+    joined: '2023-07-09',
+  },
+  {
+    id: '22',
+    name: 'Victor Nguyen',
+    email: 'victor@example.com',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2023-02-28',
+  },
+  {
+    id: '23',
+    name: 'Wendy Scott',
+    email: 'wendy@example.com',
+    role: 'Editor',
+    status: 'Pending',
+    joined: '2024-05-15',
+  },
+  {
+    id: '24',
+    name: 'Xavier Diaz',
+    email: 'xavier@example.com',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2022-09-20',
+  },
+  {
+    id: '25',
+    name: 'Yara Cooper',
+    email: 'yara@example.com',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2023-08-03',
+  },
 ]
 
 const statusColor = (status: string) => {
@@ -97,8 +281,12 @@ export default function DataTablePage() {
         groupBy: groupBySignal,
         groupCollapsible: Value.get(signals.groupCollapsible) as boolean,
         fullWidth: true,
-        pagination: paginationConfig as unknown as Value<DataTablePaginationOptions | boolean>,
-        toolbar: toolbarConfig as unknown as Value<DataTableToolbarOptions | boolean>,
+        pagination: paginationConfig as unknown as Value<
+          DataTablePaginationOptions | boolean
+        >,
+        toolbar: toolbarConfig as unknown as Value<
+          DataTableToolbarOptions | boolean
+        >,
         columns: [
           {
             id: 'name',
@@ -161,9 +349,21 @@ export default function DataTablePage() {
             fullWidth: true,
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
-              { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row => row.map((r): string => r.role),
+              },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row => row.map((r): string => r.status),
+              },
             ],
           }),
         'A minimal DataTable with static data. No sorting, filtering, or pagination by default.'
@@ -178,10 +378,32 @@ export default function DataTablePage() {
             fullWidth: true,
             hoverable: true,
             columns: [
-              { id: 'name', header: 'Name', cell: row => row.map(r => r.name), sortable: true },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email), sortable: true },
-              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role), sortable: true, value: r => r.role },
-              { id: 'joined', header: 'Joined', cell: row => row.map(r => r.joined), sortable: true, value: r => r.joined },
+              {
+                id: 'name',
+                header: 'Name',
+                cell: row => row.map(r => r.name),
+                sortable: true,
+              },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+                sortable: true,
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row => row.map((r): string => r.role),
+                sortable: true,
+                value: r => r.role,
+              },
+              {
+                id: 'joined',
+                header: 'Joined',
+                cell: row => row.map(r => r.joined),
+                sortable: true,
+                value: r => r.joined,
+              },
             ],
           }),
         'Enable sorting globally with sortable: true and per-column with column.sortable: true. Click column headers to sort.'
@@ -196,12 +418,27 @@ export default function DataTablePage() {
             filterable: true,
             fullWidth: true,
             columns: [
-              { id: 'name', header: 'Name', cell: row => row.map(r => r.name), sortable: true, filter: true },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email), sortable: true, filter: true },
+              {
+                id: 'name',
+                header: 'Name',
+                cell: row => row.map(r => r.name),
+                sortable: true,
+                filter: true,
+              },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+                sortable: true,
+                filter: true,
+              },
               {
                 id: 'role',
                 header: 'Role',
-                cell: row => MapSignal(row, r => Badge({ color: roleColor(r.role), size: 'sm' }, r.role)),
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                  ),
                 value: r => r.role,
                 filter: {
                   type: 'select',
@@ -215,7 +452,13 @@ export default function DataTablePage() {
               {
                 id: 'status',
                 header: 'Status',
-                cell: row => MapSignal(row, r => Badge({ color: statusColor(r.status), size: 'sm' }, r.status)),
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
+                  ),
                 value: r => r.status,
                 filter: {
                   type: 'select',
@@ -244,9 +487,21 @@ export default function DataTablePage() {
               fullWidth: true,
               onSelectionChange: s => selected.set(new Set(s)),
               columns: [
-                { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-                { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
-                { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
+                {
+                  id: 'name',
+                  header: 'Name',
+                  cell: row => row.map(r => r.name),
+                },
+                {
+                  id: 'role',
+                  header: 'Role',
+                  cell: row => row.map((r): string => r.role),
+                },
+                {
+                  id: 'status',
+                  header: 'Status',
+                  cell: row => row.map((r): string => r.status),
+                },
               ],
             }),
             html.p(
@@ -272,9 +527,21 @@ export default function DataTablePage() {
             pagination: { pageSize: 4, showFirstLast: true },
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
-              { id: 'joined', header: 'Joined', cell: row => row.map(r => r.joined) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row => row.map((r): string => r.role),
+              },
+              {
+                id: 'joined',
+                header: 'Joined',
+                cell: row => row.map(r => r.joined),
+              },
             ],
           }),
         'Enable client-side pagination with the pagination option. pageSize controls rows per page.'
@@ -289,8 +556,16 @@ export default function DataTablePage() {
             withStripedRows: true,
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
-              { id: 'role', header: 'Role', cell: row => row.map((r): string => r.role) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row => row.map((r): string => r.role),
+              },
             ],
           }),
         'Striped rows improve readability for dense tables.'
@@ -307,7 +582,11 @@ export default function DataTablePage() {
             groupCollapsible: true,
             columns: [
               { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
               {
                 id: 'role',
                 header: 'Role',
@@ -316,10 +595,117 @@ export default function DataTablePage() {
                     Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
                   ),
               },
-              { id: 'status', header: 'Status', cell: row => row.map((r): string => r.status) },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row => row.map((r): string => r.status),
+              },
             ],
           }),
         'Group rows by a column with groupBy. Collapsible group headers are shown by default when groupCollapsible is true.'
+      ),
+      Section(
+        'Sticky Header',
+        () =>
+          html.div(
+            style.height('400px'),
+            DataTable<User>({
+              data: sampleUsers,
+              rowId: u => u.id,
+              stickyHeader: true,
+              hoverable: true,
+              fullWidth: true,
+              sortable: true,
+              filterable: true,
+              toolbar: true,
+              columns: [
+                {
+                  id: 'name',
+                  header: 'Name',
+                  cell: row => row.map(r => r.name),
+                  sortable: true,
+                },
+                {
+                  id: 'email',
+                  header: 'Email',
+                  cell: row => row.map(r => r.email),
+                  sortable: true,
+                },
+                {
+                  id: 'role',
+                  header: 'Role',
+                  cell: row =>
+                    MapSignal(row, r =>
+                      Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                    ),
+                  value: r => r.role,
+                },
+                {
+                  id: 'status',
+                  header: 'Status',
+                  cell: row =>
+                    MapSignal(row, r =>
+                      Badge(
+                        { color: statusColor(r.status), size: 'sm' },
+                        r.status
+                      )
+                    ),
+                  value: r => r.status,
+                },
+              ],
+            })
+          ),
+        'When stickyHeader is enabled, the toolbar stays pinned at the top and the table header remains fixed while the body scrolls. The parent must provide a height constraint.'
+      ),
+      Section(
+        'Sticky Header with Pagination',
+        () =>
+          html.div(
+            style.height('400px'),
+            DataTable<User>({
+              data: sampleUsers,
+              rowId: u => u.id,
+              stickyHeader: true,
+              hoverable: true,
+              fullWidth: true,
+              withStripedRows: true,
+              pagination: { pageSize: 15 },
+              columns: [
+                {
+                  id: 'name',
+                  header: 'Name',
+                  cell: row => row.map(r => r.name),
+                },
+                {
+                  id: 'email',
+                  header: 'Email',
+                  cell: row => row.map(r => r.email),
+                },
+                {
+                  id: 'role',
+                  header: 'Role',
+                  cell: row =>
+                    MapSignal(row, r =>
+                      Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                    ),
+                  value: r => r.role,
+                },
+                {
+                  id: 'status',
+                  header: 'Status',
+                  cell: row =>
+                    MapSignal(row, r =>
+                      Badge(
+                        { color: statusColor(r.status), size: 'sm' },
+                        r.status
+                      )
+                    ),
+                  value: r => r.status,
+                },
+              ],
+            })
+          ),
+        'With pagination enabled, it sticks to the bottom of the container while the table body scrolls between the fixed header and pagination.'
       ),
       Section(
         'Full Featured',
@@ -348,7 +734,12 @@ export default function DataTablePage() {
                 sortable: true,
                 filter: true,
               },
-              { id: 'email', header: 'Email', cell: row => row.map(r => r.email), sortable: true },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+                sortable: true,
+              },
               {
                 id: 'role',
                 header: 'Role',
@@ -372,7 +763,10 @@ export default function DataTablePage() {
                 header: 'Status',
                 cell: row =>
                   MapSignal(row, r =>
-                    Badge({ color: statusColor(r.status), size: 'sm' }, r.status)
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
                   ),
                 value: r => r.status,
                 filter: {
@@ -384,7 +778,12 @@ export default function DataTablePage() {
                   ],
                 },
               },
-              { id: 'joined', header: 'Joined', cell: row => row.map(r => r.joined), sortable: true },
+              {
+                id: 'joined',
+                header: 'Joined',
+                cell: row => row.map(r => r.joined),
+                sortable: true,
+              },
             ],
           }),
         'A fully configured DataTable combining sorting, filtering, selection, striped rows, toolbar, and pagination.'

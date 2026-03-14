@@ -96,7 +96,12 @@ const de: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Seitennavigation',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `Zeilen ${from} bis ${to} von ${filtered} von ${total}`
       : `Zeilen ${from} bis ${to} von ${filtered}`,

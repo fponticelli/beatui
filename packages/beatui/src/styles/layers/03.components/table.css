@@ -22,6 +22,13 @@
   overflow: auto;
 }
 
+/* When inside a DataTable sticky container, the parent wrapper handles scrolling */
+.bc-data-table > .bc-data-table__wrapper > .bc-table-container--sticky {
+  max-height: none;
+  height: auto;
+  overflow: visible;
+}
+
 /* Full width container */
 .bc-table-container--full-width {
   display: block;

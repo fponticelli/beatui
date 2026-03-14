@@ -96,7 +96,12 @@ const he: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'עימוד',
-  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+  paginationRange: (
+    from: number,
+    to: number,
+    filtered: number,
+    total: number
+  ) =>
     total > filtered
       ? `שורות ${from} עד ${to} מתוך ${filtered} מתוך ${total}`
       : `שורות ${from} עד ${to} מתוך ${filtered}`,
