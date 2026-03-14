@@ -38,14 +38,19 @@ const sampleItems = [
 
 export default function AccordionPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Accordion', props =>
-      html.div(
-        attr.class('w-full max-w-xl'),
-        Accordion({
-          ...(props as Record<string, Value<unknown>>),
-          items: sampleItems,
-        })
-      )
+    playground: autoPlayground(
+      'Accordion',
+      props =>
+        html.div(
+          attr.class('w-full max-w-xl'),
+          Accordion({
+            ...(props as Record<string, Value<unknown>>),
+            items: sampleItems,
+          })
+        ),
+      {
+        childrenCode: `\n  items: [\n    { key: 'intro', header: 'Getting Started', body: html.p('Install with pnpm add @tempots/beatui') },\n    { key: 'features', header: 'Features', body: html.p('Reactive, accessible, themeable.') },\n  ]`,
+      }
     ),
     sections: [
       ...AutoSections('Accordion', props =>

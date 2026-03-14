@@ -20,11 +20,10 @@ export const meta: ComponentPageMeta = {
 
 export default function ButtonPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Button', props =>
-      Button(
-        props as Record<string, Value<unknown>>,
-        'Click Me'
-      )
+    playground: autoPlayground(
+      'Button',
+      props => Button(props as Record<string, Value<unknown>>, 'Click Me'),
+      { childrenCode: "'Click Me'" }
     ),
     sections: [
       ...AutoSections('Button', props => Button(props, 'Button')),

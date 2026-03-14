@@ -15,15 +15,21 @@ export const meta: ComponentPageMeta = {
 
 export default function CardPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Card', props =>
-      Card(
-        props,
-        html.h3(attr.class('font-semibold mb-2'), 'Card Title'),
-        html.p(
-          attr.class('text-sm text-gray-500 dark:text-gray-400'),
-          'This is the card body content. Cards are great for grouping related information.'
-        )
-      )
+    playground: autoPlayground(
+      'Card',
+      props =>
+        Card(
+          props,
+          html.h3(attr.class('font-semibold mb-2'), 'Card Title'),
+          html.p(
+            attr.class('text-sm text-gray-500 dark:text-gray-400'),
+            'This is the card body content. Cards are great for grouping related information.'
+          )
+        ),
+      {
+        childrenCode: `\n  html.h3(attr.class('font-semibold mb-2'), 'Card Title'),\n  html.p('Card body content goes here.')`,
+        extraImports: ['CardHeader', 'CardBody', 'CardFooter'],
+      }
     ),
     sections: [
       ...AutoSections('Card', props =>

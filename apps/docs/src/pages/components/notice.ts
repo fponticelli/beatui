@@ -20,11 +20,11 @@ export const meta: ComponentPageMeta = {
 
 export default function NoticePage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Notice', props =>
-      Notice(
-        props,
-        'This is an informational notice with important details.'
-      )
+    playground: autoPlayground(
+      'Notice',
+      props =>
+        Notice(props, 'This is an informational notice with important details.'),
+      { childrenCode: "'This is an informational notice with important details.'" }
     ),
     sections: [
       ...AutoSections('Notice', props =>

@@ -30,11 +30,14 @@ function demoContainer(...children: Parameters<typeof html.div>) {
 
 export default function AnnouncementBarPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('AnnouncementBar', props =>
-      AnnouncementBar(
-        { ...props, portal: false },
-        'New features are available! Check out our latest release.'
-      )
+    playground: autoPlayground(
+      'AnnouncementBar',
+      props =>
+        AnnouncementBar(
+          { ...props, portal: false },
+          'New features are available! Check out our latest release.'
+        ),
+      { childrenCode: "'New features are available! Check out our latest release.'" }
     ),
     sections: [
       Section(

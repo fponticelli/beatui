@@ -20,8 +20,10 @@ export const meta: ComponentPageMeta = {
 
 export default function KbdPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Kbd', props =>
-      Kbd(props, 'Enter')
+    playground: autoPlayground(
+      'Kbd',
+      props => Kbd(props, 'Enter'),
+      { childrenCode: "'Enter'" }
     ),
     sections: [
       ...AutoSections('Kbd', props => Kbd(props, 'K')),

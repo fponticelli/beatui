@@ -14,12 +14,14 @@ export const meta: ComponentPageMeta = {
 
 export default function ProgressBarPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('ProgressBar', props =>
-      html.div(
-        attr.class('w-full max-w-md'),
-        ProgressBar(props)
-      ),
-      { value: 65 }
+    playground: autoPlayground(
+      'ProgressBar',
+      props =>
+        html.div(
+          attr.class('w-full max-w-md'),
+          ProgressBar(props)
+        ),
+      { defaults: { value: 65 } }
     ),
     sections: [
       ...AutoSections('ProgressBar', props =>

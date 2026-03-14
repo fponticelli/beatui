@@ -11,6 +11,15 @@ import { componentMeta } from '../registry/component-meta'
 import { createOptionsPanel, type PropSignals } from './prop-panel'
 import { CodePreview } from './code-preview'
 
+export type PlaygroundCodeOptions = {
+  /** Override the default import source. @default '@tempots/beatui' */
+  importFrom?: string
+  /** Additional named imports to include (e.g. ['Icon', 'Group']). */
+  extraImports?: string[]
+  /** Code representation of children (e.g. "'Click Me'" or "html.p('Hello')"). */
+  childrenCode?: string
+}
+
 /**
  * Wraps a preview TNode with the standard playground layout (preview + controls + code).
  */
@@ -18,10 +27,13 @@ function playgroundLayout(
   componentName: string,
   preview: TNode,
   panel: TNode,
-  signals: PropSignals
+  signals: PropSignals,
+  codeOptions?: PlaygroundCodeOptions
 ): Renderable {
   const meta = componentMeta[componentName]
   const signalValues = Object.entries(signals)
+  const importFrom = codeOptions?.importFrom ?? '@tempots/beatui'
+  const childrenCode = codeOptions?.childrenCode
 
   const codeSignal = computedOf(
     ...signalValues.map(([, s]) => s as Value<unknown>)
@@ -45,11 +57,20 @@ function playgroundLayout(
       })
       .filter(Boolean)
 
+    // Build import line
+    const imports = [componentName, ...(codeOptions?.extraImports ?? [])]
+    const importLine = `import { ${imports.join(', ')} } from '${importFrom}'`
+
+    // Build component call
+    const children = childrenCode ?? '/* children */'
+    let call: string
     if (propEntries.length === 0) {
-      return `${componentName}({}, /* children */)`
+      call = `${componentName}({}, ${children})`
+    } else {
+      call = `${componentName}({\n${propEntries.join(',\n')}\n}, ${children})`
     }
 
-    return `${componentName}({\n${propEntries.join(',\n')}\n}, /* children */)`
+    return `${importLine}\n\n${call}`
   })
 
   return html.div(
@@ -78,7 +99,7 @@ export function autoPlayground(
   componentName: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderFn: (props: any) => TNode,
-  defaults?: Record<string, unknown>
+  options?: { defaults?: Record<string, unknown> } & PlaygroundCodeOptions
 ): TNode {
   const meta = componentMeta[componentName]
   if (!meta) {
@@ -90,7 +111,7 @@ export function autoPlayground(
 
   const { panel, signals, props, optionalKeys } = createOptionsPanel(
     meta,
-    defaults
+    options?.defaults
   )
 
   // If there are optional props that toggle between undefined/defined,
@@ -123,7 +144,7 @@ export function autoPlayground(
     preview = renderFn(props as Record<string, Value<unknown>>)
   }
 
-  return playgroundLayout(componentName, preview, panel, signals)
+  return playgroundLayout(componentName, preview, panel, signals, options)
 }
 
 /**
@@ -137,7 +158,7 @@ export function manualPlayground(
   componentName: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderFn: (signals: any) => TNode,
-  defaults?: Record<string, unknown>
+  options?: { defaults?: Record<string, unknown> } & PlaygroundCodeOptions
 ): Renderable {
   const meta = componentMeta[componentName]
   if (!meta) {
@@ -147,7 +168,7 @@ export function manualPlayground(
     )
   }
 
-  const { panel, signals } = createOptionsPanel(meta, defaults)
+  const { panel, signals } = createOptionsPanel(meta, options?.defaults)
   const preview = renderFn(signals as Record<string, Value<unknown>>)
-  return playgroundLayout(componentName, preview, panel, signals)
+  return playgroundLayout(componentName, preview, panel, signals, options)
 }

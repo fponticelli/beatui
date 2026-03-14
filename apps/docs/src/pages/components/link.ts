@@ -15,12 +15,10 @@ export const meta: ComponentPageMeta = {
 
 export default function LinkPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Link', props =>
-      Link(
-        props,
-        'Click this link'
-      ),
-      { href: '#' }
+    playground: autoPlayground(
+      'Link',
+      props => Link(props, 'Click this link'),
+      { defaults: { href: '#' }, childrenCode: "'Click this link'" }
     ),
     sections: [
       ...AutoSections('Link', props =>

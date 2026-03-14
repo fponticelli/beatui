@@ -19,8 +19,10 @@ export const meta: ComponentPageMeta = {
 
 export default function BadgePage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Badge', props =>
-      Badge(props as Record<string, Value<unknown>>, 'Badge')
+    playground: autoPlayground(
+      'Badge',
+      props => Badge(props as Record<string, Value<unknown>>, 'Badge'),
+      { childrenCode: "'Badge'" }
     ),
     sections: [
       ...AutoSections('Badge', props => Badge(props, 'Badge')),

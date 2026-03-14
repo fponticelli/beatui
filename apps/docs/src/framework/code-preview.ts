@@ -1,11 +1,15 @@
 import { html, aria, attr, prop, TNode, Value, When } from '@tempots/dom'
 import { Button, Icon } from '@tempots/beatui'
+import { CodeHighlight } from '@tempots/beatui/codehighlight'
 
 /**
  * A collapsible code preview panel with a "Show Code" / "Hide Code" toggle
- * and a copy-to-clipboard button.
+ * and a copy-to-clipboard button. Uses Shiki syntax highlighting.
  */
-export function CodePreview(code: Value<string>): TNode {
+export function CodePreview(
+  code: Value<string>,
+  language: Value<string> = 'typescript'
+): TNode {
   const visible = prop(false)
   const copied = prop(false)
 
@@ -35,10 +39,12 @@ export function CodePreview(code: Value<string>): TNode {
       visible,
       () =>
         html.div(
-          attr.class('relative group mt-1'),
+          attr.class(
+            'relative group mt-1 rounded-lg border border-gray-200 dark:border-gray-700/50 overflow-hidden'
+          ),
           html.div(
             attr.class(
-              'absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity'
+              'absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity'
             ),
             Button(
               {
@@ -54,12 +60,7 @@ export function CodePreview(code: Value<string>): TNode {
               )
             )
           ),
-          html.pre(
-            attr.class(
-              'p-3 rounded-lg bg-gray-900 dark:bg-gray-950 text-gray-100 text-sm font-mono overflow-x-auto leading-relaxed'
-            ),
-            html.code(code)
-          )
+          CodeHighlight({ code, language })
         )
     )
   )

@@ -27,11 +27,10 @@ function CardWithRibbon(...children: TNode[]) {
 
 export default function RibbonPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Ribbon', props =>
-      CardWithRibbon(
-        Ribbon(props, 'New'),
-        'Card content'
-      )
+    playground: autoPlayground(
+      'Ribbon',
+      props => CardWithRibbon(Ribbon(props, 'New'), 'Card content'),
+      { childrenCode: "'New'" }
     ),
     sections: [
       ...AutoSections('Ribbon', props =>

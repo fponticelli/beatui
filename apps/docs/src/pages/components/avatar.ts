@@ -20,9 +20,10 @@ export const meta: ComponentPageMeta = {
 
 export default function AvatarPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Avatar', props =>
-      Avatar(props),
-      { name: 'John Doe' }
+    playground: autoPlayground(
+      'Avatar',
+      props => Avatar(props),
+      { defaults: { name: 'John Doe' } }
     ),
     sections: [
       ...AutoSections('Avatar', props => Avatar(props)),

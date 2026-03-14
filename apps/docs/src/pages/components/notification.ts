@@ -15,12 +15,13 @@ export const meta: ComponentPageMeta = {
 
 export default function NotificationPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('Notification', props =>
-      Notification(
-        props,
-        'This is the notification body text.'
-      ),
-      { title: 'Notification Title' }
+    playground: autoPlayground(
+      'Notification',
+      props => Notification(props, 'This is the notification body text.'),
+      {
+        defaults: { title: 'Notification Title' },
+        childrenCode: "'This is the notification body text.'",
+      }
     ),
     sections: [
       ...AutoSections('Notification', props =>

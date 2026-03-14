@@ -20,15 +20,21 @@ export const meta: ComponentPageMeta = {
 
 export default function AvatarGroupPage() {
   return ComponentPage(meta, {
-    playground: autoPlayground('AvatarGroup', props =>
-      AvatarGroup(
-        props,
-        Avatar({ name: 'Alice Johnson', color: 'primary' }),
-        Avatar({ name: 'Bob Smith', color: 'success' }),
-        Avatar({ name: 'Carol White', color: 'warning' }),
-        Avatar({ name: 'David Lee', color: 'info' }),
-        AvatarGroupOverflow({ count: 3 })
-      )
+    playground: autoPlayground(
+      'AvatarGroup',
+      props =>
+        AvatarGroup(
+          props,
+          Avatar({ name: 'Alice Johnson', color: 'primary' }),
+          Avatar({ name: 'Bob Smith', color: 'success' }),
+          Avatar({ name: 'Carol White', color: 'warning' }),
+          Avatar({ name: 'David Lee', color: 'info' }),
+          AvatarGroupOverflow({ count: 3 })
+        ),
+      {
+        extraImports: ['Avatar', 'AvatarGroupOverflow'],
+        childrenCode: `\n  Avatar({ name: 'Alice Johnson', color: 'primary' }),\n  Avatar({ name: 'Bob Smith', color: 'success' }),\n  Avatar({ name: 'Carol White', color: 'warning' }),\n  AvatarGroupOverflow({ count: 3 })`,
+      }
     ),
     sections: [
       ...AutoSections('AvatarGroup', props =>
