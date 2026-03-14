@@ -5,9 +5,11 @@ import {
   html,
   MapSignal,
   OnDispose,
+  Use,
   Value,
   When,
 } from '@tempots/dom'
+import { BeatUII18n } from '../../beatui-i18n'
 import { DataTableOptions } from './data-table-types'
 import { Table } from './table'
 import { Pagination } from '../navigation/pagination'
@@ -131,24 +133,19 @@ export function DataTable<T, C extends string = string>(
     When(ctx.showPagination, () =>
       html.div(
         attr.class('bc-data-table__pagination'),
-        // TODO Translate
-        html.div(
-          attr.class('bc-data-table__row-count'),
-          'Rows ',
-          computedOf(
-            ctx.pageSizeSignal,
-            ctx.effectiveCurrentPage
-          )((s, e) => (e - 1) * s + 1),
-          ' to ',
-          computedOf(
-            ctx.pageSizeSignal,
-            ctx.effectiveCurrentPage,
-            rowCounts.$.filtered
-          )((s, e, t) => Math.min(e * s, t)),
-          ' of ',
-          rowCounts.$.filtered,
-          rowCounts.map(({ filtered, total }) =>
-            total > filtered ? ` of ${total}` : ''
+        Use(BeatUII18n, t =>
+          html.div(
+            attr.class('bc-data-table__row-count'),
+            computedOf(
+              ctx.pageSizeSignal,
+              ctx.effectiveCurrentPage,
+              rowCounts.$.filtered,
+              rowCounts.$.total
+            )((pageSize, page, filtered, total) => {
+              const from = (page - 1) * pageSize + 1
+              const to = Math.min(page * pageSize, filtered)
+              return t.value.paginationRange(from, to, filtered, total)
+            })
           )
         ),
         Pagination({

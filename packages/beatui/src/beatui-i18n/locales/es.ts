@@ -96,6 +96,10 @@ const es: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Paginación',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `Filas ${from} a ${to} de ${filtered} de ${total}`
+      : `Filas ${from} a ${to} de ${filtered}`,
   firstPage: 'Primera página',
   previousPage: 'Página anterior',
   nextPage: 'Página siguiente',

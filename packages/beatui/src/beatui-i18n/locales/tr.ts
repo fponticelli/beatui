@@ -96,6 +96,10 @@ const tr: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Sayfalama',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `${total} içinden ${filtered} sonucun ${from} - ${to} satırları`
+      : `${filtered} sonucun ${from} - ${to} satırları`,
   firstPage: 'İlk sayfa',
   previousPage: 'Önceki sayfa',
   nextPage: 'Sonraki sayfa',

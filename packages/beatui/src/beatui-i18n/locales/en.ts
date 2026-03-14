@@ -95,6 +95,10 @@ const en = {
   },
   // Pagination
   paginationLabel: 'Pagination',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `Rows ${from} to ${to} of ${filtered} of ${total}`
+      : `Rows ${from} to ${to} of ${filtered}`,
   firstPage: 'First page',
   previousPage: 'Previous page',
   nextPage: 'Next page',

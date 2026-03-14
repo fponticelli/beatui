@@ -96,6 +96,10 @@ export const ja: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'ページネーション',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `${total}件中${filtered}件の${from}〜${to}行`
+      : `${filtered}件中${from}〜${to}行`,
   firstPage: '最初のページ',
   previousPage: '前のページ',
   nextPage: '次のページ',

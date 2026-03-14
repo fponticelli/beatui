@@ -194,7 +194,6 @@ function resolveCustomInput<T, C extends string>(
     }
   })
   return Fragment(
-    // TODO are these disposals necessary?
     OnDispose(() => {
       unsub1()
       unsub2()

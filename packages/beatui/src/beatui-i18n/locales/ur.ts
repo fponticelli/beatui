@@ -96,6 +96,10 @@ const ur: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'صفحہ بندی',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `قطاریں ${from} سے ${to} تک، ${filtered} میں سے ${total} میں سے`
+      : `قطاریں ${from} سے ${to} تک، ${filtered} میں سے`,
   firstPage: 'پہلا صفحہ',
   previousPage: 'پچھلا صفحہ',
   nextPage: 'اگلا صفحہ',

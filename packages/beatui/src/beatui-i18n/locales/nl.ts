@@ -96,6 +96,10 @@ export const nl: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Paginering',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `Rijen ${from} tot ${to} van ${filtered} van ${total}`
+      : `Rijen ${from} tot ${to} van ${filtered}`,
   firstPage: 'Eerste pagina',
   previousPage: 'Vorige pagina',
   nextPage: 'Volgende pagina',

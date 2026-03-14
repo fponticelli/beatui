@@ -96,6 +96,10 @@ const vi: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Phân trang',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `Hàng ${from} đến ${to} trong ${filtered} trên ${total}`
+      : `Hàng ${from} đến ${to} trong ${filtered}`,
   firstPage: 'Trang đầu',
   previousPage: 'Trang trước',
   nextPage: 'Trang tiếp',

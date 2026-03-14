@@ -98,6 +98,10 @@ export const ru: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: 'Пагинация',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `Строки с ${from} по ${to} из ${filtered} из ${total}`
+      : `Строки с ${from} по ${to} из ${filtered}`,
   firstPage: 'Первая страница',
   previousPage: 'Предыдущая страница',
   nextPage: 'Следующая страница',

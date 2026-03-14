@@ -96,6 +96,10 @@ const ko: BeatUIMessages = {
   },
   // Pagination
   paginationLabel: '페이지네이션',
+  paginationRange: (from: number, to: number, filtered: number, total: number) =>
+    total > filtered
+      ? `${total}개 중 ${filtered}개의 ${from}~${to}행`
+      : `${filtered}개 중 ${from}~${to}행`,
   firstPage: '첫 페이지',
   previousPage: '이전 페이지',
   nextPage: '다음 페이지',
