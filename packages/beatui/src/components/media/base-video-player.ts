@@ -328,10 +328,6 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
         if (pi) fileVideoEl.setAttribute('playsinline', '')
         else fileVideoEl.removeAttribute('playsinline')
       }
-      if (Value.get(playing)) {
-        fileVideoEl.play?.().catch(() => {})
-        onStart?.()
-      }
       // initial PiP toggle (best-effort)
       try {
         const want = !!(Value.get(pip) ?? false)
@@ -357,7 +353,12 @@ export function BaseVideoPlayer(options: BaseVideoPlayerOptions): Renderable {
         }
       } catch {}
       setupFileProgress()
-      attachFileSource()
+      attachFileSource().then(() => {
+        if (Value.get(playing) && fileVideoEl) {
+          fileVideoEl.play?.().catch(() => {})
+          onStart?.()
+        }
+      })
     }),
     // size
     style.width(
