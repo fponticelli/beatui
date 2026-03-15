@@ -310,7 +310,7 @@ export function createCarousel(
     const slideOpacity = computedOf(
       isFade,
       currentIndex
-    )((fade, cur) => {
+    )((fade, cur): string => {
       if (!fade) return ''
       return cur === i ? '1' : '0'
     })

@@ -95,8 +95,8 @@ export default function NavigationProgressPage() {
               attr.class('flex items-center gap-4'),
               html.input(
                 attr.type('range'),
-                attr.min('0'),
-                attr.max('100'),
+                attr.min(0),
+                attr.max(100),
                 attr.value('0'),
                 attr.class('flex-1'),
                 on.input((e) => {

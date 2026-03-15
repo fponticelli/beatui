@@ -2,7 +2,7 @@ import {
   aria,
   attr,
   computedOf,
-  Fragment,
+  Empty,
   html,
   on,
   OnDispose,
@@ -365,10 +365,9 @@ export function OnboardingTour(
   const stepDescription = Value.map(currentStep, idx =>
     idx < steps.length ? (steps[idx].description ?? '') : ''
   )
-  const stepContent = Value.map(currentStep, idx =>
-    idx < steps.length ? steps[idx].content : undefined
+  const hasCustomContent = currentStep.map(idx =>
+    idx < steps.length ? steps[idx].content != null : false
   )
-  const hasCustomContent = Value.map(stepContent, c => c != null)
   const stepIndicatorText = Value.map(
     currentStep,
     idx => `Step ${idx + 1} of ${steps.length}`
@@ -449,7 +448,7 @@ export function OnboardingTour(
                 attr.class('bc-onboarding-tour__step-indicator'),
                 stepIndicatorText
               )
-            : Fragment(),
+            : Empty,
 
           // Title
           When(
@@ -499,13 +498,13 @@ export function OnboardingTour(
                     },
                     'Skip'
                   )
-                : Fragment()
+                : Empty
             ),
             html.div(
               attr.class('bc-onboarding-tour__nav-right'),
               When(
                 isFirstStep,
-                () => Fragment(),
+                () => Empty,
                 () =>
                   Button(
                     {
