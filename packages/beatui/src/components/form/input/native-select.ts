@@ -126,7 +126,7 @@ export const NativeSelect = <T>(options: NativeSelectOptions<T>) => {
       ...options,
       after: Fragment(
         InputIcon({
-          icon: 'ph:caret-down-bold',
+          icon: 'ph:caret-up-down-bold',
           color: 'neutral',
           size: 'sm',
         }),

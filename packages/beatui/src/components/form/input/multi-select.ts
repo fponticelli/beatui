@@ -448,18 +448,14 @@ export function MultiSelect<T>(options: MultiSelectOptions<T>): TNode {
   return InputContainer(
     {
       ...options,
-      before:
-        options.before ??
-        InputIcon({ icon: 'tabler:list-check', color: 'neutral' }),
-      input: Fragment(
-        html.div(attr.class('bc-multi-select__badge-container'), chips),
-        html.div(
-          attr.class('bc-multi-select__arrow-container'),
-          Icon(
-            { icon: 'ph:caret-up-down-bold', color: 'neutral', size: 'sm' },
-            attr.class('bc-multi-select__arrow')
-          )
-        )
+      input: html.div(attr.class('bc-multi-select__badge-container'), chips),
+      after: Fragment(
+        InputIcon({
+          icon: 'ph:caret-up-down-bold',
+          color: 'neutral',
+          size: 'sm',
+        }),
+        options.after
       ),
     },
     ElementRect(rect =>

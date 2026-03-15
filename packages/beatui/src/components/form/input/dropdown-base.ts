@@ -15,11 +15,10 @@ import {
   WithElement,
 } from '@tempots/dom'
 
-import { InputContainer } from './input-container'
+import { InputContainer, InputIcon } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Flyout } from '../../navigation/flyout'
 import { sessionId } from '../../../utils/session-id'
-import { Icon } from '../../data'
 import { Group } from '../../layout'
 import { DropdownOption, Option } from './option'
 import { ElementRect } from '@tempots/ui'
@@ -215,15 +214,15 @@ export const DropdownBase = <T>(options: DropdownBaseOptions<T>) => {
       ...options,
       input: Group(
         attr.class('bc-dropdown__trigger'),
-        html.span(attr.class('bc-dropdown__display'), display),
-        Icon(
-          {
-            icon: 'ph:caret-up-down-bold',
-            color: 'neutral',
-            size: 'xs',
-          },
-          attr.class('bc-dropdown__arrow')
-        )
+        html.span(attr.class('bc-dropdown__display'), display)
+      ),
+      after: Fragment(
+        InputIcon({
+          icon: 'ph:caret-up-down-bold',
+          color: 'neutral',
+          size: 'sm',
+        }),
+        options.after
       ),
     },
     ElementRect(rect => {

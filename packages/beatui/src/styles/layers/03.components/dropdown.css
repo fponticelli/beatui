@@ -22,18 +22,8 @@
 .bc-dropdown__display {
   flex: 1;
   text-align: left;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* Arrow indicator */
-.bc-dropdown__arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-inline-start: var(--spacing-xs);
 }
 
 /* Listbox (dropdown) */

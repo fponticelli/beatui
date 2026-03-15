@@ -88,7 +88,7 @@ export const LazyNativeSelect = <T, R>(
         disabled: true,
         after: Fragment(
           InputIcon({
-            icon: 'ph:caret-down-bold',
+            icon: 'ph:caret-up-down-bold',
             color: 'neutral',
             size: 'sm',
           }),

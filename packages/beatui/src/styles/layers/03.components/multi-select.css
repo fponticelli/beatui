@@ -16,17 +16,6 @@
   flex-wrap: wrap;
 }
 
-.bc-multi-select__arrow-container {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.bc-multi-select__arrow {
-  opacity: 0.5;
-}
-
 /* Dropdown panel */
 .bc-multi-select__dropdown {
   display: flex;
