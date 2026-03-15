@@ -1,14 +1,15 @@
 import {
   aria,
   attr,
+  Fragment,
   html,
   OnDispose,
+  Portal,
   prop,
   style,
   TNode,
   Value,
   When,
-  WithElement,
 } from '@tempots/dom'
 import { ThemeColorName } from '../../tokens'
 import { backgroundValue, ExtendedColor } from '../theme/style-utils'
@@ -236,48 +237,52 @@ export function NavigationProgress(
   )
 
   const node: TNode = When(isVisible, () =>
-    html.div(
-      attr.class(posClass),
-      attr.style(barStyle),
-      style.height(heightPx),
-      attr.role('progressbar'),
-      aria.valuemin(0),
-      aria.valuemax(100),
-      aria.valuenow(progress),
-
-      // Progress bar fill
+    Portal('body', Fragment(
+      // Progress bar
       html.div(
-        attr.class(
-          Value.map(isActive, a =>
-            `bc-navigation-progress__bar${a ? '' : ' bc-navigation-progress__bar--done'}`
-          )
-        ),
-        style.transform(translateX),
-        style.transition(transitionDur),
+        attr.class(posClass),
+        attr.style(barStyle),
+        style.height(heightPx),
+        attr.role('progressbar'),
+        aria.valuemin(0),
+        aria.valuemax(100),
+        aria.valuenow(progress),
 
-        // Peg (the glow at the leading edge)
-        html.div(attr.class('bc-navigation-progress__peg'))
+        // Progress bar fill
+        html.div(
+          attr.class(
+            Value.map(isActive, a =>
+              `bc-navigation-progress__bar${a ? '' : ' bc-navigation-progress__bar--done'}`
+            )
+          ),
+          style.transform(translateX),
+          style.transition(transitionDur),
+
+          // Peg (the glow at the leading edge)
+          html.div(attr.class('bc-navigation-progress__peg'))
+        )
       ),
 
-      // Optional spinner
+      // Optional spinner (outside the overflow:hidden bar container)
       When(
         showSpinner,
         () =>
           html.div(
-            attr.class('bc-navigation-progress__spinner'),
+            attr.class(Value.map(posClass, c =>
+              `bc-navigation-progress__spinner${c.includes('--bottom') ? ' bc-navigation-progress__spinner--bottom' : ''}`
+            )),
+            attr.style(barStyle),
             html.div(attr.class('bc-navigation-progress__spinner-icon'))
           ),
         () => undefined
       ),
 
       // Cleanup timers on dispose
-      WithElement(() =>
-        OnDispose(() => {
-          clearTrickle()
-          clearDoneTimeout()
-        })
-      )
-    )
+      OnDispose(() => {
+        clearTrickle()
+        clearDoneTimeout()
+      })
+    ))
   )
 
   return [node, controller]

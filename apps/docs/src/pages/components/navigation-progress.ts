@@ -1,6 +1,6 @@
 import { NavigationProgress, Button, Stack } from '@tempots/beatui'
 import type { NavigationProgressController } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { html, attr, on, prop, Value } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -38,7 +38,7 @@ function ControlButtons(ctrl: NavigationProgressController) {
       'Set 75%'
     ),
     Button(
-      { variant: 'ghost', color: 'danger', onClick: () => ctrl.reset() },
+      { variant: 'subtle', color: 'danger', onClick: () => ctrl.reset() },
       'Reset'
     )
   )
@@ -46,8 +46,8 @@ function ControlButtons(ctrl: NavigationProgressController) {
 
 export default function NavigationProgressPage() {
   return ComponentPage(meta, {
-    playground: manualPlayground('NavigationProgress', () => {
-      const [bar, ctrl] = NavigationProgress({})
+    playground: manualPlayground('NavigationProgress', (signals) => {
+      const [bar, ctrl] = NavigationProgress(signals)
       return html.div(
         attr.class('flex flex-col gap-4 w-full'),
         bar,
@@ -99,15 +99,11 @@ export default function NavigationProgressPage() {
                 attr.max('100'),
                 attr.value('0'),
                 attr.class('flex-1'),
-                {
-                  handleEvent: (el: HTMLInputElement) => {
-                    el.addEventListener('input', () => {
-                      const v = Number(el.value)
-                      currentValue.set(v)
-                      ctrl.set(v)
-                    })
-                  },
-                }
+                on.input((e) => {
+                  const v = Number((e.target as HTMLInputElement).value)
+                  currentValue.set(v)
+                  ctrl.set(v)
+                })
               ),
               html.span(
                 attr.class('text-sm font-mono w-12 text-right'),

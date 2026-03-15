@@ -56,11 +56,11 @@
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: var(--z-index-maximum, 1000);
+  z-index: calc(var(--z-index-maximum, 1000) + 1);
   pointer-events: none;
 }
 
-.bc-navigation-progress--bottom .bc-navigation-progress__spinner {
+.bc-navigation-progress__spinner--bottom {
   top: auto;
   bottom: 15px;
 }
