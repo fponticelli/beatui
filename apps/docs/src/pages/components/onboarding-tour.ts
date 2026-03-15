@@ -1,12 +1,12 @@
-import { OnboardingTour, Button, Stack } from '@tempots/beatui'
-import type { OnboardingTourController, TourStep } from '@tempots/beatui'
-import { html, attr, prop, Value } from '@tempots/dom'
+import { OnboardingTour, Button } from '@tempots/beatui'
+import type { TourStep } from '@tempots/beatui'
+import { html, attr } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'OnboardingTour',
-  category: 'Overlay',
+  category: 'Overlays',
   component: 'OnboardingTour',
   description:
     'A step-by-step guided tour overlay that highlights UI elements with a spotlight effect and tooltip navigation.',
@@ -14,29 +14,107 @@ export const meta: ComponentPageMeta = {
   order: 12,
 }
 
-function DemoTargets() {
+function DemoApp() {
   return html.div(
-    attr.class('flex flex-wrap gap-4 items-start'),
+    attr.class('w-full border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden'),
+
+    // Top bar
     html.div(
-      attr.id('tour-target-1'),
-      attr.class(
-        'px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium'
+      attr.class('flex items-center justify-between px-4 py-2 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700'),
+      html.div(
+        attr.id('tour-logo'),
+        attr.class('font-bold text-base text-blue-600 dark:text-blue-400'),
+        'Acme App'
       ),
-      'Feature A'
+      html.div(
+        attr.class('flex items-center gap-3'),
+        html.div(
+          attr.id('tour-search'),
+          attr.class('px-3 py-1 text-xs rounded-md bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 w-40'),
+          'Search...'
+        ),
+        html.div(
+          attr.id('tour-avatar'),
+          attr.class('w-7 h-7 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold'),
+          'JD'
+        )
+      )
     ),
+
+    // Body with sidebar + main
     html.div(
-      attr.id('tour-target-2'),
-      attr.class(
-        'px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 font-medium'
+      attr.class('flex'),
+
+      // Sidebar
+      html.div(
+        attr.class('w-36 border-r border-gray-200 dark:border-gray-700 p-3 flex flex-col gap-1 bg-gray-50/50 dark:bg-gray-800/50'),
+        ...['Dashboard', 'Projects', 'Tasks', 'Settings'].map((label, i) =>
+          html.div(
+            attr.id(i === 0 ? 'tour-nav' : ''),
+            attr.class(
+              `px-2 py-1.5 rounded text-sm cursor-default ${i === 0 ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium' : 'text-gray-600 dark:text-gray-400'}`
+            ),
+            label
+          )
+        )
       ),
-      'Feature B'
-    ),
-    html.div(
-      attr.id('tour-target-3'),
-      attr.class(
-        'px-4 py-2 rounded-lg bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-medium'
-      ),
-      'Feature C'
+
+      // Main content
+      html.div(
+        attr.class('flex-1 p-4 flex flex-col gap-3'),
+        html.div(
+          attr.class('flex items-center justify-between'),
+          html.h3(
+            attr.id('tour-heading'),
+            attr.class('text-base font-semibold'),
+            'Dashboard'
+          ),
+          html.div(
+            attr.id('tour-actions'),
+            attr.class('flex gap-2'),
+            html.div(
+              attr.class('px-2.5 py-1 text-xs rounded-md bg-blue-600 text-white font-medium'),
+              '+ New'
+            ),
+            html.div(
+              attr.class('px-2.5 py-1 text-xs rounded-md border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400'),
+              'Export'
+            )
+          )
+        ),
+
+        // Stat cards row
+        html.div(
+          attr.id('tour-stats'),
+          attr.class('grid grid-cols-3 gap-2'),
+          ...['12 Active', '5 Completed', '3 Overdue'].map(label =>
+            html.div(
+              attr.class('px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 text-center text-xs'),
+              label
+            )
+          )
+        ),
+
+        // Table-like area
+        html.div(
+          attr.id('tour-table'),
+          attr.class('border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden text-xs'),
+          html.div(
+            attr.class('grid grid-cols-3 gap-0 bg-gray-100 dark:bg-gray-800 px-3 py-1.5 font-medium text-gray-500 dark:text-gray-400'),
+            html.span('Name'),
+            html.span('Status'),
+            html.span('Due')
+          ),
+          ...['Alpha', 'Beta'].map(name =>
+            html.div(
+              attr.class('grid grid-cols-3 gap-0 px-3 py-1.5 border-t border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-400'),
+              html.span(name),
+              html.span('Active'),
+              html.span('Mar 20')
+            )
+          )
+        )
+      )
     )
   )
 }
@@ -46,19 +124,52 @@ export default function OnboardingTourPage() {
     playground: manualPlayground('OnboardingTour', () => {
       const steps: TourStep[] = [
         {
-          target: '#tour-target-1',
+          target: '#tour-logo',
           title: 'Welcome',
-          description: 'This is Feature A. It does something amazing.',
+          description: 'This is your app. Let us show you around the key areas.',
+          placement: 'bottom',
         },
         {
-          target: '#tour-target-2',
-          title: 'Next Up',
-          description: 'Feature B complements Feature A perfectly.',
+          target: '#tour-search',
+          title: 'Search',
+          description: 'Quickly find projects, tasks, or team members from anywhere.',
+          placement: 'bottom',
         },
         {
-          target: '#tour-target-3',
-          title: 'Finally',
-          description: 'Feature C ties everything together. You are all set!',
+          target: '#tour-nav',
+          title: 'Navigation',
+          description: 'Switch between different sections using the sidebar.',
+          placement: 'right',
+        },
+        {
+          target: '#tour-heading',
+          title: 'Page Header',
+          description: 'Each section has a header showing where you are.',
+          placement: 'bottom',
+        },
+        {
+          target: '#tour-actions',
+          title: 'Actions',
+          description: 'Create new items or export data using these buttons.',
+          placement: 'left',
+        },
+        {
+          target: '#tour-stats',
+          title: 'Overview Stats',
+          description: 'Get a quick summary of your project activity at a glance.',
+          placement: 'bottom',
+        },
+        {
+          target: '#tour-table',
+          title: 'Data Table',
+          description: 'View and manage all your items in a structured list.',
+          placement: 'top',
+        },
+        {
+          target: '#tour-avatar',
+          title: 'Your Profile',
+          description: 'Access your account settings and preferences. You are all set!',
+          placement: 'bottom',
         },
       ]
       const [tour, ctrl] = OnboardingTour({
@@ -68,7 +179,7 @@ export default function OnboardingTourPage() {
       })
       return html.div(
         attr.class('flex flex-col gap-4 w-full'),
-        DemoTargets(),
+        DemoApp(),
         tour,
         html.div(
           attr.class('flex gap-2'),

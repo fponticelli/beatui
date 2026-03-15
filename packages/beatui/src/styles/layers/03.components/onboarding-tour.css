@@ -5,6 +5,7 @@
   inset: 0;
   z-index: var(--z-index-modal, 600);
   pointer-events: none;
+  transition: opacity 0.2s var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 /* SVG backdrop with spotlight cutout */
@@ -167,6 +168,10 @@
 
 /* Accessibility: respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+  .bc-onboarding-tour {
+    transition: none;
+  }
+
   .bc-onboarding-tour__mask {
     transition: none;
   }

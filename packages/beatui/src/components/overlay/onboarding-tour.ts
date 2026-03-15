@@ -6,6 +6,7 @@ import {
   html,
   on,
   OnDispose,
+  Portal,
   prop,
   style,
   svg,
@@ -70,14 +71,21 @@ export interface OnboardingTourOptions {
   showStepIndicator?: boolean
   /** Whether to show the Skip button. @default true */
   showSkipButton?: boolean
-  /** Callback when the tour starts. */
+  /** Callback when the tour starts. @default undefined */
   onStart?: () => void
-  /** Callback when the current step changes. */
+  /** Callback when the current step changes. @default undefined */
   onStepChange?: (stepIndex: number) => void
-  /** Callback when the tour is completed (user clicks Finish on last step). */
+  /** Callback when the tour is completed (user clicks Finish on last step). @default undefined */
   onComplete?: () => void
-  /** Callback when the tour is skipped. */
+  /** Callback when the tour is skipped. @default undefined */
   onSkip?: () => void
+  /**
+   * Where to attach the overlay in the DOM.
+   * - `'body'` - Renders via a portal to the document body.
+   * - `'element'` - Renders as a child of the current element context.
+   * @default 'body'
+   */
+  container?: 'body' | 'element'
 }
 
 /**
@@ -212,9 +220,12 @@ export function OnboardingTour(
     onStepChange,
     onComplete,
     onSkip,
+    container = 'body',
   } = options
 
   const isActive = prop(false)
+  const isMounted = prop(false)
+  const opacity = prop(0)
   const currentStep = prop(0)
 
   // Spotlight position signals
@@ -232,6 +243,33 @@ export function OnboardingTour(
 
   let resizeHandler: (() => void) | null = null
 
+  /** Set spotlight and tooltip positions synchronously from the current step. */
+  function applyPositions() {
+    const stepIdx = currentStep.value
+    if (stepIdx < 0 || stepIdx >= steps.length) return
+    const step = steps[stepIdx]
+    const target = resolveTarget(step.target)
+    if (!target) return
+
+    const rect = getTargetRect(target, spotlightPadding)
+    spotTop.set(`${rect.top}px`)
+    spotLeft.set(`${rect.left}px`)
+    spotWidth.set(`${rect.width}px`)
+    spotHeight.set(`${rect.height}px`)
+
+    const tooltipW = 320
+    const tooltipH = 200
+    const pos = calculateTooltipPosition(
+      rect,
+      step.placement ?? 'auto',
+      tooltipW,
+      tooltipH
+    )
+    tooltipTop.set(pos.top)
+    tooltipLeft.set(pos.left)
+    tooltipPlacement.set(pos.actualPlacement)
+  }
+
   function updatePositions() {
     const stepIdx = currentStep.value
     if (stepIdx < 0 || stepIdx >= steps.length) return
@@ -242,36 +280,22 @@ export function OnboardingTour(
     // Scroll target into view if needed
     target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
-    // Wait a frame for scroll to settle
-    requestAnimationFrame(() => {
-      const rect = getTargetRect(target, spotlightPadding)
-      spotTop.set(`${rect.top}px`)
-      spotLeft.set(`${rect.left}px`)
-      spotWidth.set(`${rect.width}px`)
-      spotHeight.set(`${rect.height}px`)
-
-      // Estimate tooltip dimensions (will reposition after render)
-      const tooltipW = 320
-      const tooltipH = 200
-      const pos = calculateTooltipPosition(
-        rect,
-        step.placement ?? 'auto',
-        tooltipW,
-        tooltipH
-      )
-      tooltipTop.set(pos.top)
-      tooltipLeft.set(pos.left)
-      tooltipPlacement.set(pos.actualPlacement)
-    })
+    // Wait a frame for scroll to settle, then reapply
+    requestAnimationFrame(applyPositions)
   }
 
   function startTour() {
     if (steps.length === 0) return
     currentStep.set(0)
+    // Set positions synchronously before mounting so the spotlight
+    // is already at the target when the DOM appears
+    applyPositions()
     isActive.set(true)
+    isMounted.set(true)
     onStart?.()
     onStepChange?.(0)
-    requestAnimationFrame(updatePositions)
+    // Fade in on the next frame
+    requestAnimationFrame(() => opacity.set(1))
   }
 
   async function nextStep() {
@@ -311,9 +335,15 @@ export function OnboardingTour(
     onSkip?.()
   }
 
+  const FADE_DURATION = 200
+
   function endTour() {
     isActive.set(false)
-    currentStep.set(0)
+    opacity.set(0)
+    setTimeout(() => {
+      isMounted.set(false)
+      currentStep.set(0)
+    }, FADE_DURATION)
   }
 
   function goToStep(index: number) {
@@ -370,13 +400,14 @@ export function OnboardingTour(
     return `M0,0 H${window.innerWidth} V${window.innerHeight} H0 Z M${left + r},${top} H${left + width - r} Q${left + width},${top} ${left + width},${top + r} V${top + height - r} Q${left + width},${top + height} ${left + width - r},${top + height} H${left + r} Q${left},${top + height} ${left},${top + height - r} V${top + r} Q${left},${top} ${left + r},${top} Z`
   })
 
-  const node: TNode = When(isActive, () =>
+  const tourContent = () =>
     html.div(
       attr.class('bc-onboarding-tour'),
       attr.id(id),
       attr.role('dialog'),
       aria.modal(true),
       aria.label('Guided tour'),
+      style.opacity(opacity.map(String)),
 
       // SVG backdrop with spotlight cutout
       svg.svg(
@@ -549,6 +580,9 @@ export function OnboardingTour(
         })
       })
     )
+
+  const node: TNode = When(isMounted, () =>
+    container === 'body' ? Portal('body', tourContent()) : tourContent()
   )
 
   return [node, controller]
