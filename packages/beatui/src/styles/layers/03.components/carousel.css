@@ -1,0 +1,162 @@
+/* Carousel Component */
+.bc-carousel {
+  --carousel-arrow-size: 36px;
+  --carousel-arrow-bg: rgba(255, 255, 255, 0.85);
+  --carousel-arrow-bg-hover: rgba(255, 255, 255, 1);
+  --carousel-arrow-color: var(--color-neutral-800, #1f2937);
+  --carousel-arrow-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --carousel-dot-size: 8px;
+  --carousel-dot-gap: 6px;
+  --carousel-dot-color: var(--color-neutral-300, #d1d5db);
+  --carousel-dot-active-color: var(--color-primary-500, #6366f1);
+  --carousel-radius: var(--radius-lg, 12px);
+
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--carousel-radius);
+  outline: none;
+}
+
+.bc-carousel:focus-visible {
+  outline: 2px solid var(--color-primary-500, #6366f1);
+  outline-offset: 2px;
+}
+
+/* Viewport */
+.bc-carousel__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Track */
+.bc-carousel__track {
+  display: flex;
+  will-change: transform;
+  transition-property: transform;
+  transition-timing-function: var(
+    --motion-easing-standard,
+    cubic-bezier(0.2, 0, 0, 1)
+  );
+}
+
+/* Fade transition: stack slides */
+.bc-carousel--fade .bc-carousel__track {
+  transition-property: none;
+}
+
+.bc-carousel--fade .bc-carousel__slide {
+  opacity: 0;
+  transition: opacity var(--motion-transition-slow, 0.4s)
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.bc-carousel--fade .bc-carousel__slide--active {
+  opacity: 1;
+  position: relative;
+}
+
+/* Slides */
+.bc-carousel__slide {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Navigation arrows */
+.bc-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--carousel-arrow-size);
+  height: var(--carousel-arrow-size);
+  border-radius: 50%;
+  border: none;
+  background: var(--carousel-arrow-bg);
+  color: var(--carousel-arrow-color);
+  box-shadow: var(--carousel-arrow-shadow);
+  cursor: pointer;
+  padding: 0;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.bc-carousel__arrow:hover {
+  background: var(--carousel-arrow-bg-hover);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.bc-carousel__arrow:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.bc-carousel__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bc-carousel__arrow--prev {
+  left: 8px;
+}
+
+.bc-carousel__arrow--next {
+  right: 8px;
+}
+
+/* Dot indicators */
+.bc-carousel__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--carousel-dot-gap);
+  padding: 10px 0;
+}
+
+.bc-carousel__dot {
+  width: var(--carousel-dot-size);
+  height: var(--carousel-dot-size);
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--carousel-dot-color);
+  cursor: pointer;
+  transition: all
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.bc-carousel__dot:hover {
+  background: var(--color-neutral-400, #9ca3af);
+  transform: scale(1.3);
+}
+
+.bc-carousel__dot--active {
+  background: var(--carousel-dot-active-color);
+  transform: scale(1.25);
+}
+
+.bc-carousel__dot--active:hover {
+  background: var(--carousel-dot-active-color);
+}
+
+/* Dark mode */
+.dark .bc-carousel {
+  --carousel-arrow-bg: rgba(30, 30, 30, 0.85);
+  --carousel-arrow-bg-hover: rgba(40, 40, 40, 1);
+  --carousel-arrow-color: var(--color-neutral-200, #e5e7eb);
+  --carousel-arrow-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --carousel-dot-color: var(--color-neutral-600, #4b5563);
+  --carousel-dot-active-color: var(--color-primary-400, #818cf8);
+}
+
+.dark .bc-carousel__dot:hover {
+  background: var(--color-neutral-500, #6b7280);
+}
