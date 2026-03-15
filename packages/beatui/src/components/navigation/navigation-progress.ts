@@ -222,67 +222,76 @@ export function NavigationProgress(
     p => `bc-navigation-progress bc-navigation-progress--${p ?? 'top'}`
   )
 
-  const barStyle = Value.map(
-    color,
-    c => generateNavProgressStyles((c ?? 'primary') as ExtendedColor)
+  const barStyle = Value.map(color, c =>
+    generateNavProgressStyles((c ?? 'primary') as ExtendedColor)
   )
 
   const heightPx = Value.map(height, h => `${h ?? 3}px`)
 
-  const translateX = Value.map(progress, p => `translateX(${(-100 + p)}%)`)
+  const translateX = Value.map(progress, p => `translateX(${-100 + p}%)`)
 
   const transitionDur = Value.map(
     animationSpeed,
-    s => `transform ${s ?? 200}ms var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1))`
+    s =>
+      `transform ${s ?? 200}ms var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1))`
   )
 
   const node: TNode = When(isVisible, () =>
-    Portal('body', Fragment(
-      // Progress bar
-      html.div(
-        attr.class(posClass),
-        attr.style(barStyle),
-        style.height(heightPx),
-        attr.role('progressbar'),
-        aria.valuemin(0),
-        aria.valuemax(100),
-        aria.valuenow(progress),
-
-        // Progress bar fill
+    Portal(
+      'body',
+      Fragment(
+        // Progress bar
         html.div(
-          attr.class(
-            Value.map(isActive, a =>
-              `bc-navigation-progress__bar${a ? '' : ' bc-navigation-progress__bar--done'}`
-            )
-          ),
-          style.transform(translateX),
-          style.transition(transitionDur),
+          attr.class(posClass),
+          attr.style(barStyle),
+          style.height(heightPx),
+          attr.role('progressbar'),
+          aria.valuemin(0),
+          aria.valuemax(100),
+          aria.valuenow(progress),
 
-          // Peg (the glow at the leading edge)
-          html.div(attr.class('bc-navigation-progress__peg'))
-        )
-      ),
-
-      // Optional spinner (outside the overflow:hidden bar container)
-      When(
-        showSpinner,
-        () =>
+          // Progress bar fill
           html.div(
-            attr.class(Value.map(posClass, c =>
-              `bc-navigation-progress__spinner${c.includes('--bottom') ? ' bc-navigation-progress__spinner--bottom' : ''}`
-            )),
-            attr.style(barStyle),
-            html.div(attr.class('bc-navigation-progress__spinner-icon'))
-          ),
-        () => undefined
-      ),
+            attr.class(
+              Value.map(
+                isActive,
+                a =>
+                  `bc-navigation-progress__bar${a ? '' : ' bc-navigation-progress__bar--done'}`
+              )
+            ),
+            style.transform(translateX),
+            style.transition(transitionDur),
 
-      // Cleanup timers on dispose
-      OnDispose(() => {
-        clearTrickle()
-        clearDoneTimeout()
-      })
-    ))
+            // Peg (the glow at the leading edge)
+            html.div(attr.class('bc-navigation-progress__peg'))
+          )
+        ),
+
+        // Optional spinner (outside the overflow:hidden bar container)
+        When(
+          showSpinner,
+          () =>
+            html.div(
+              attr.class(
+                Value.map(
+                  posClass,
+                  c =>
+                    `bc-navigation-progress__spinner${c.includes('--bottom') ? ' bc-navigation-progress__spinner--bottom' : ''}`
+                )
+              ),
+              attr.style(barStyle),
+              html.div(attr.class('bc-navigation-progress__spinner-icon'))
+            ),
+          () => undefined
+        ),
+
+        // Cleanup timers on dispose
+        OnDispose(() => {
+          clearTrickle()
+          clearDoneTimeout()
+        })
+      )
+    )
   )
 
   return [node, controller]

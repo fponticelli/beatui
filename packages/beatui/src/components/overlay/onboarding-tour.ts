@@ -23,12 +23,7 @@ import { sessionId } from '../../utils/session-id'
 /**
  * Placement of the tour tooltip relative to the target element.
  */
-export type TourTooltipPlacement =
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'auto'
+export type TourTooltipPlacement = 'top' | 'bottom' | 'left' | 'right' | 'auto'
 
 /**
  * Behavior when the backdrop area (outside the highlighted element) is clicked.
@@ -412,8 +407,9 @@ export function OnboardingTour(
       // SVG backdrop with spotlight cutout
       svg.svg(
         attr.class(
-          computedOf(allowsInteraction)(i =>
-            `bc-onboarding-tour__backdrop${i ? ' bc-onboarding-tour__backdrop--interactive' : ''}`
+          computedOf(allowsInteraction)(
+            i =>
+              `bc-onboarding-tour__backdrop${i ? ' bc-onboarding-tour__backdrop--interactive' : ''}`
           )
         ),
         svgAttr.width('100%'),

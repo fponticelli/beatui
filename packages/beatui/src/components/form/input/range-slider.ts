@@ -427,7 +427,12 @@ export function RangeSlider({
           activeThumb.set(index)
 
           const onPointerMove = (moveEvt: PointerEvent) => {
-            handlePointerAction(trackEl, moveEvt.clientX, moveEvt.clientY, index)
+            handlePointerAction(
+              trackEl,
+              moveEvt.clientX,
+              moveEvt.clientY,
+              index
+            )
           }
 
           const onPointerUp = () => {
@@ -452,7 +457,12 @@ export function RangeSlider({
       handlePointerAction(trackEl, e.clientX, e.clientY, null)
 
       const onPointerMove = (moveEvt: PointerEvent) => {
-        handlePointerAction(trackEl, moveEvt.clientX, moveEvt.clientY, activeThumb.value)
+        handlePointerAction(
+          trackEl,
+          moveEvt.clientX,
+          moveEvt.clientY,
+          activeThumb.value
+        )
       }
 
       const onPointerUp = () => {
@@ -553,10 +563,7 @@ export function RangeSlider({
               )
             }
           )
-        : html.div(
-            attr.class('bc-range-slider__fill'),
-            attr.style(filledStyle)
-          )
+        : html.div(attr.class('bc-range-slider__fill'), attr.style(filledStyle))
 
     // Build thumb elements
     const thumbElements = Array.from({ length: thumbCount }, (_, i) =>

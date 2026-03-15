@@ -5,7 +5,8 @@
   inset: 0;
   z-index: var(--z-index-modal, 600);
   pointer-events: none;
-  transition: opacity 0.2s var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+  transition: opacity 0.2s
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 /* SVG backdrop with spotlight cutout */
@@ -34,7 +35,11 @@
   max-width: calc(100vw - 16px);
   background-color: var(--bg-surface, #fff);
   border-radius: var(--radius-lg, 12px);
-  box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1));
+  box-shadow: var(
+    --shadow-xl,
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1)
+  );
   pointer-events: all;
   z-index: 1;
   transition:
@@ -85,7 +90,10 @@
 
 /* Step indicator */
 .bc-onboarding-tour__step-indicator {
-  font-family: var(--font-family-default-ui, var(--font-ui, var(--font-body, var(--font-family-sans))));
+  font-family: var(
+    --font-family-default-ui,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
   font-size: var(--font-size-xs, 12px);
   color: var(--text-muted, #6b7280);
   font-weight: 500;
@@ -95,7 +103,10 @@
 
 /* Title */
 .bc-onboarding-tour__title {
-  font-family: var(--font-family-default-ui, var(--font-ui, var(--font-body, var(--font-family-sans))));
+  font-family: var(
+    --font-family-default-ui,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
   font-size: var(--font-size-lg, 18px);
   font-weight: 600;
   color: var(--text-default, #111827);
@@ -105,7 +116,10 @@
 
 /* Description */
 .bc-onboarding-tour__description {
-  font-family: var(--font-family-default-ui, var(--font-ui, var(--font-body, var(--font-family-sans))));
+  font-family: var(
+    --font-family-default-ui,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
   font-size: var(--font-size-sm, 14px);
   color: var(--text-muted, #6b7280);
   margin: 0;
@@ -143,7 +157,9 @@
 
 .dark .bc-onboarding-tour__tooltip {
   background-color: var(--bg-surface-dark, #1f2937);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
 .dark .bc-onboarding-tour__arrow {
