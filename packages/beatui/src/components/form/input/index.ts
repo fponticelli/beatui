@@ -53,6 +53,7 @@ export * from './nullable-rating-input'
 export * from './radio-group'
 export * from './slider-input'
 export * from './advanced-slider'
+export * from './range-slider'
 export * from './otp-input'
 
 // Temporal inputs
