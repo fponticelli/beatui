@@ -10,6 +10,7 @@
   --carousel-dot-color: var(--color-neutral-300, #d1d5db);
   --carousel-dot-active-color: var(--color-primary-500, #6366f1);
   --carousel-radius: var(--radius-lg, 12px);
+  --carousel-peek: 0px;
 
   position: relative;
   overflow: hidden;
@@ -26,6 +27,12 @@
 .bc-carousel__viewport {
   overflow: hidden;
   width: 100%;
+  cursor: grab;
+}
+
+.bc-carousel--dragging .bc-carousel__viewport,
+.bc-carousel__viewport:active {
+  cursor: grabbing;
 }
 
 /* Track */
@@ -39,30 +46,27 @@
   );
 }
 
-/* Fade transition: stack slides */
+/* Fade transition */
 .bc-carousel--fade .bc-carousel__track {
   transition-property: none;
 }
 
 .bc-carousel--fade .bc-carousel__slide {
-  opacity: 0;
   transition: opacity var(--motion-transition-slow, 0.4s)
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-
-.bc-carousel--fade .bc-carousel__slide--active {
-  opacity: 1;
-  position: relative;
 }
 
 /* Slides */
 .bc-carousel__slide {
   flex-shrink: 0;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.bc-carousel__slide img {
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 /* Navigation arrows */
@@ -88,27 +92,34 @@
     var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
-.bc-carousel__arrow:hover {
+.bc-carousel__arrow:hover:not(:disabled) {
   background: var(--carousel-arrow-bg-hover);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
   transform: translateY(-50%) scale(1.08);
 }
 
-.bc-carousel__arrow:active {
+.bc-carousel__arrow:active:not(:disabled) {
   transform: translateY(-50%) scale(0.96);
 }
 
-.bc-carousel__arrow svg {
-  width: 18px;
-  height: 18px;
+.bc-carousel__arrow .bc-icon {
+  pointer-events: none;
 }
 
 .bc-carousel__arrow--prev {
-  left: 8px;
+  left: calc(var(--carousel-peek) + 8px);
 }
 
 .bc-carousel__arrow--next {
-  right: 8px;
+  right: calc(var(--carousel-peek) + 8px);
+}
+
+/* Disabled arrow state */
+.bc-carousel__arrow--disabled,
+.bc-carousel__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
 }
 
 /* Dot indicators */
@@ -147,6 +158,33 @@
   background: var(--carousel-dot-active-color);
 }
 
+/* Progress bar indicator */
+.bc-carousel__progress {
+  height: 3px;
+  background: var(--carousel-dot-color);
+  border-radius: 2px;
+  margin: 10px 16px;
+  overflow: hidden;
+}
+
+.bc-carousel__progress-fill {
+  height: 100%;
+  background: var(--carousel-dot-active-color);
+  border-radius: 2px;
+  transition: width
+    var(--motion-transition-fast, var(--motion-duration-fast, 0.2s))
+    var(--motion-easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+/* Fraction indicator */
+.bc-carousel__fraction {
+  text-align: center;
+  padding: 8px 0;
+  font-size: 0.875rem;
+  color: var(--color-neutral-500, #6b7280);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Dark mode */
 .dark .bc-carousel {
   --carousel-arrow-bg: rgba(30, 30, 30, 0.85);
@@ -159,4 +197,25 @@
 
 .dark .bc-carousel__dot:hover {
   background: var(--color-neutral-500, #6b7280);
+}
+
+.dark .bc-carousel__fraction {
+  color: var(--color-neutral-400, #9ca3af);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-carousel__track {
+    transition-duration: 0.01ms !important;
+  }
+
+  .bc-carousel--fade .bc-carousel__slide {
+    transition: none !important;
+  }
+
+  .bc-carousel__arrow,
+  .bc-carousel__dot,
+  .bc-carousel__progress-fill {
+    transition: none !important;
+  }
 }

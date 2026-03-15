@@ -1,5 +1,6 @@
-import { Carousel } from '@tempots/beatui'
-import { html, attr, on, prop, style } from '@tempots/dom'
+import { Carousel, createCarousel } from '@tempots/beatui'
+import type { CarouselOptions } from '@tempots/beatui'
+import { html, attr, on, style, Value, prop } from '@tempots/dom'
 import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
@@ -8,7 +9,7 @@ export const meta: ComponentPageMeta = {
   category: 'Media',
   component: 'Carousel',
   description:
-    'A fully-featured carousel for cycling through slide content with auto-play, swipe support, and keyboard navigation.',
+    'A fully-featured carousel for cycling through slide content with auto-play, drag, swipe, and keyboard navigation.',
   icon: 'lucide:gallery-horizontal',
   order: 10,
 }
@@ -30,47 +31,46 @@ export default function CarouselPage() {
   return ComponentPage(meta, {
     playground: manualPlayground(
       'Carousel',
-      () => {
-        const autoPlay = prop(false)
-        const loop = prop(true)
+      (signals: CarouselOptions) => {
+        const [carousel, ctrl] = createCarousel(
+          signals,
+          SampleSlide('Slide 1', COLORS[0]),
+          SampleSlide('Slide 2', COLORS[1]),
+          SampleSlide('Slide 3', COLORS[2]),
+          SampleSlide('Slide 4', COLORS[3]),
+          SampleSlide('Slide 5', COLORS[4])
+        )
+
+        const btnClass =
+          'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
 
         return html.div(
           attr.class('w-full max-w-lg space-y-3'),
-          Carousel(
-            {
-              autoPlay,
-              loop,
-              interval: 2500,
-              showArrows: true,
-              showDots: true,
-              ariaLabel: 'Demo carousel',
-            },
-            SampleSlide('Slide 1', COLORS[0]),
-            SampleSlide('Slide 2', COLORS[1]),
-            SampleSlide('Slide 3', COLORS[2]),
-            SampleSlide('Slide 4', COLORS[3]),
-            SampleSlide('Slide 5', COLORS[4])
-          ),
+          carousel,
           html.div(
-            attr.class('flex gap-2'),
+            attr.class('flex flex-wrap gap-2'),
             html.button(
-              attr.class(
-                'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-              ),
-              on.click(() => autoPlay.set(!autoPlay.value)),
-              autoPlay.map((v): string => (v ? 'Stop Auto-Play' : 'Start Auto-Play'))
+              attr.class(btnClass),
+              on.click(() => {
+                if (Value.get(ctrl.isPlaying)) ctrl.pause()
+                else ctrl.play()
+              }),
+              ctrl.isPlaying.map((v): string => (v ? 'Pause' : 'Play'))
             ),
             html.button(
-              attr.class(
-                'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-              ),
-              on.click(() => loop.set(!loop.value)),
-              loop.map((v): string => (v ? 'Disable Loop' : 'Enable Loop'))
+              attr.class(btnClass),
+              on.click(() => ctrl.prev()),
+              'Prev'
+            ),
+            html.button(
+              attr.class(btnClass),
+              on.click(() => ctrl.next()),
+              'Next'
             )
           )
         )
       },
-      { defaults: {} }
+      { defaults: { loop: true } }
     ),
     sections: [
       Section(
@@ -85,7 +85,7 @@ export default function CarouselPage() {
               SampleSlide('Third', COLORS[2])
             )
           ),
-        'A simple carousel with default navigation arrows and dot indicators.'
+        'A simple carousel with default navigation arrows and dot indicators. Supports mouse drag and touch swipe.'
       ),
       Section(
         'Auto-Play',
@@ -109,6 +109,24 @@ export default function CarouselPage() {
         'Auto-play rotates slides at a configurable interval. Pauses on hover by default.'
       ),
       Section(
+        'Gap & Peek',
+        () =>
+          html.div(
+            attr.class('max-w-2xl'),
+            Carousel(
+              {
+                slidesPerView: 2,
+                gap: '16px',
+                peekAmount: '40px',
+                loop: true,
+                ariaLabel: 'Gap and peek carousel',
+              },
+              ...COLORS.map((c, i) => SampleSlide(`Card ${i + 1}`, c))
+            )
+          ),
+        'Use gap for spacing between slides and peekAmount to show partial next/prev slides at the edges.'
+      ),
+      Section(
         'Multiple Slides Per View',
         () =>
           html.div(
@@ -116,13 +134,100 @@ export default function CarouselPage() {
             Carousel(
               {
                 slidesPerView: 3,
-                showDots: false,
+                gap: '12px',
+                indicator: 'none',
                 ariaLabel: 'Multi-slide carousel',
               },
               ...COLORS.map((c, i) => SampleSlide(`${i + 1}`, c))
             )
           ),
         'Show multiple slides simultaneously by setting slidesPerView. Useful for card-based layouts.'
+      ),
+      Section(
+        'Indicator Types',
+        () =>
+          html.div(
+            attr.class('max-w-lg space-y-6'),
+            html.div(
+              html.p(
+                attr.class('text-sm text-gray-500 dark:text-gray-400 mb-2'),
+                'Progress bar:'
+              ),
+              Carousel(
+                {
+                  indicator: 'progress',
+                  ariaLabel: 'Progress indicator carousel',
+                },
+                SampleSlide('Slide 1', COLORS[0]),
+                SampleSlide('Slide 2', COLORS[1]),
+                SampleSlide('Slide 3', COLORS[2])
+              )
+            ),
+            html.div(
+              html.p(
+                attr.class('text-sm text-gray-500 dark:text-gray-400 mb-2'),
+                'Fraction:'
+              ),
+              Carousel(
+                {
+                  indicator: 'fraction',
+                  ariaLabel: 'Fraction indicator carousel',
+                },
+                SampleSlide('Slide 1', COLORS[3]),
+                SampleSlide('Slide 2', COLORS[4]),
+                SampleSlide('Slide 3', COLORS[0])
+              )
+            )
+          ),
+        'Choose between dots (default), progress bar, fraction text, or none.'
+      ),
+      Section(
+        'Controller API',
+        () => {
+          const [carousel, ctrl] = createCarousel(
+            {
+              showArrows: false,
+              indicator: 'fraction',
+              ariaLabel: 'Controller demo carousel',
+            },
+            SampleSlide('Slide 1', COLORS[0]),
+            SampleSlide('Slide 2', COLORS[1]),
+            SampleSlide('Slide 3', COLORS[2]),
+            SampleSlide('Slide 4', COLORS[3])
+          )
+
+          const btnClass =
+            'px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+
+          return html.div(
+            attr.class('max-w-lg space-y-3'),
+            carousel,
+            html.div(
+              attr.class('flex gap-2'),
+              html.button(
+                attr.class(btnClass),
+                on.click(() => ctrl.prev()),
+                'Prev'
+              ),
+              html.button(
+                attr.class(btnClass),
+                on.click(() => ctrl.next()),
+                'Next'
+              ),
+              html.button(
+                attr.class(btnClass),
+                on.click(() => ctrl.goTo(0)),
+                'Go to first'
+              ),
+              html.button(
+                attr.class(btnClass),
+                on.click(() => ctrl.goTo(ctrl.totalSlides - 1)),
+                'Go to last'
+              )
+            )
+          )
+        },
+        'Use createCarousel() to get a controller for programmatic navigation with goTo(), next(), prev(), play(), and pause().'
       ),
       Section(
         'Slide Change Callback',
