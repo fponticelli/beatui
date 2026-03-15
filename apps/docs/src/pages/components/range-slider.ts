@@ -1,5 +1,5 @@
 import { RangeSlider } from '@tempots/beatui'
-import { html, attr, prop, type Prop } from '@tempots/dom'
+import { html, attr, prop, MapSignal, Value, type Prop } from '@tempots/dom'
 import {
   ComponentPage,
   manualPlayground,
@@ -13,7 +13,7 @@ export const meta: ComponentPageMeta = {
   category: 'Specialized Inputs',
   component: 'RangeSlider',
   description:
-    'A range slider supporting single-value and dual-thumb range selection with vertical/horizontal orientation, customizable thumbs and segment styles, tick marks, and keyboard accessibility.',
+    'A range slider supporting single-value, dual-thumb range, and multi-point modes with customizable thumbs, segment styles, tick marks, and keyboard accessibility.',
   icon: 'lucide:git-commit-horizontal',
   order: 16,
 }
@@ -24,11 +24,21 @@ export default function RangeSliderPage() {
       'RangeSlider',
       signals => {
         const value = signals.value as Prop<number>
-        return RangeSlider({
-          ...signals,
-          value,
-          onChange: (v: number) => value.set(v),
-        })
+        const orientation = signals.orientation as Value<string>
+        // Re-mount component when orientation changes (it's read once at creation)
+        return MapSignal(orientation, (o: string) =>
+          html.div(
+            attr.style(
+              o === 'vertical' ? 'height: 250px' : 'width: 100%'
+            ),
+            RangeSlider({
+              ...signals,
+              value,
+              orientation: o as 'horizontal' | 'vertical',
+              onChange: (v: number) => value.set(v),
+            })
+          )
+        )
       },
       {
         defaults: {
@@ -37,6 +47,7 @@ export default function RangeSliderPage() {
           max: 100,
           step: 1,
           showValue: true,
+          orientation: 'horizontal',
         },
       }
     ),
@@ -77,6 +88,66 @@ export default function RangeSliderPage() {
           )
         },
         'Pass range and onRangeChange to render two thumbs for selecting a low and high value.'
+      ),
+      Section(
+        'Multi-Point Mode',
+        () => {
+          const points = prop([10, 40, 70])
+          return html.div(
+            attr.class('flex flex-col gap-2 w-full max-w-md'),
+            RangeSlider({
+              points,
+              onPointsChange: points.set,
+              min: 0,
+              max: 100,
+              showValue: true,
+              color: 'success',
+            })
+          )
+        },
+        'Pass points and onPointsChange to render an arbitrary number of thumbs. The thumb count is fixed at creation time.'
+      ),
+      Section(
+        'Vertical Orientation',
+        () => {
+          const value = prop(60)
+          const range = prop<[number, number]>([25, 75])
+          return html.div(
+            attr.class('flex gap-8 items-start'),
+            html.div(
+              attr.class('flex flex-col items-center gap-1'),
+              html.div(attr.class('text-xs font-mono text-gray-500'), 'Single'),
+              html.div(
+                attr.style('height: 250px'),
+                RangeSlider({
+                  value,
+                  onChange: value.set,
+                  min: 0,
+                  max: 100,
+                  showValue: true,
+                  orientation: 'vertical',
+                })
+              )
+            ),
+            html.div(
+              attr.class('flex flex-col items-center gap-1'),
+              html.div(attr.class('text-xs font-mono text-gray-500'), 'Range'),
+              html.div(
+                attr.style('height: 250px'),
+                RangeSlider({
+                  range,
+                  onRangeChange: range.set,
+                  min: 0,
+                  max: 100,
+                  showValue: true,
+                  orientation: 'vertical',
+                  color: 'success',
+                })
+              )
+            )
+          )
+        },
+        'Set orientation to "vertical" for a vertical slider. The container must have a defined height.'
       ),
       Section(
         'Custom Thumbs',
@@ -125,38 +196,26 @@ export default function RangeSliderPage() {
         'Use segmentStyles to customize the color and pattern of individual track segments. For range mode: before-low, between-thumbs, after-high.'
       ),
       Section(
-        'Vertical Orientation',
+        'Segment Styles (Multi-Point)',
         () => {
-          const value = prop(60)
-          const range = prop<[number, number]>([30, 70])
+          const points = prop([25, 60])
           return html.div(
-            attr.class('flex gap-8 items-start'),
-            html.div(
-              attr.style('height: 200px'),
-              RangeSlider({
-                value,
-                onChange: value.set,
-                orientation: 'vertical',
-                min: 0,
-                max: 100,
-                showValue: true,
-              })
-            ),
-            html.div(
-              attr.style('height: 200px'),
-              RangeSlider({
-                range,
-                onRangeChange: range.set,
-                orientation: 'vertical',
-                min: 0,
-                max: 100,
-                showValue: true,
-                color: 'success',
-              })
-            )
+            attr.class('flex flex-col gap-2 w-full max-w-md'),
+            RangeSlider({
+              points,
+              onPointsChange: points.set,
+              min: 0,
+              max: 100,
+              showValue: true,
+              segmentStyles: [
+                { color: 'danger' },
+                { color: 'success' },
+                { color: 'warning' },
+              ],
+            })
           )
         },
-        'Set orientation to "vertical" for a vertical slider. The container must have a defined height.'
+        'In multi-point mode, segmentStyles colors individual segments between the sorted thumb boundaries (including before-first and after-last).'
       ),
       Section(
         'Tick Marks',
@@ -198,6 +257,43 @@ export default function RangeSliderPage() {
             )
           ),
         'Use ticks: true for automatic step-based tick marks, or pass an array of RangeSliderTick objects for custom labels.'
+      ),
+      Section(
+        'Custom Value Format',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-4 w-full max-w-md'),
+            html.div(
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Currency'
+              ),
+              RangeSlider({
+                value: 250,
+                onChange: () => {},
+                min: 0,
+                max: 1000,
+                step: 10,
+                showValue: true,
+                formatValue: (v: number) => `$${v}`,
+              })
+            ),
+            html.div(
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-1'),
+                'Percentage'
+              ),
+              RangeSlider({
+                value: 75,
+                onChange: () => {},
+                min: 0,
+                max: 100,
+                showValue: true,
+                formatValue: (v: number) => `${v}%`,
+              })
+            )
+          ),
+        'Use formatValue to customize how the value label is displayed above each thumb.'
       ),
       Section(
         'Colors',

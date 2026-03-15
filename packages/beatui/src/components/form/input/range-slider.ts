@@ -4,6 +4,7 @@ import {
   html,
   on,
   prop,
+  style,
   Value,
   Empty,
   Fragment,
@@ -12,12 +13,16 @@ import {
   MapSignal,
   When,
   TNode,
-  OnDispose,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
 import { backgroundValue } from '../../theme/style-utils'
 import { roundToStep } from './step-utils'
+
+/**
+ * Orientation of the range slider.
+ */
+export type RangeSliderOrientation = 'horizontal' | 'vertical'
 
 /**
  * Definition of a tick mark on the range slider track.
@@ -35,23 +40,18 @@ export interface RangeSliderTick {
 export interface RangeSliderSegmentStyle {
   /** Theme color for this segment */
   color?: ThemeColorName
-  /** CSS height/width override for this segment's thickness (e.g. '6px', '0.5rem') */
+  /** CSS height override for this segment's thickness (e.g. '6px', '0.5rem') */
   thickness?: string
   /** CSS border-style pattern for this segment (e.g. 'solid', 'dashed', 'dotted') */
   pattern?: 'solid' | 'dashed' | 'dotted'
 }
 
 /**
- * Orientation of the range slider.
- */
-export type RangeSliderOrientation = 'horizontal' | 'vertical'
-
-/**
  * Configuration options for the {@link RangeSlider} component.
  *
- * Supports single-value and dual-thumb (range) modes with vertical/horizontal
- * orientations, customizable thumbs and segment styles, tick marks, and full
- * keyboard accessibility.
+ * Supports single-value, dual-thumb (range), and multi-point modes with
+ * customizable thumbs, segment styles, tick marks, and full keyboard
+ * accessibility.
  */
 export interface RangeSliderOptions {
   /** Minimum value of the slider range. @default 0 */
@@ -68,8 +68,6 @@ export interface RangeSliderOptions {
   size?: Value<ControlSize>
   /** Theme color for the filled track and thumbs. @default 'primary' */
   color?: Value<ThemeColorName>
-  /** Orientation of the slider. @default 'horizontal' */
-  orientation?: Value<RangeSliderOrientation>
 
   /**
    * Single-value mode: the current slider value.
@@ -86,6 +84,15 @@ export interface RangeSliderOptions {
   range?: Value<[number, number]>
   /** Callback for range mode changes */
   onRangeChange?: (range: [number, number]) => void
+
+  /**
+   * Multi-point mode: an array of values, each getting its own thumb.
+   * When provided, multiple thumbs are rendered at initialization time.
+   * The number of points is fixed after component creation.
+   */
+  points?: Value<number[]>
+  /** Callback for multi-point mode changes */
+  onPointsChange?: (points: number[]) => void
 
   /**
    * Tick marks along the slider track.
@@ -107,8 +114,11 @@ export interface RangeSliderOptions {
 
   /**
    * Custom styles for individual track segments.
+   *
    * For single-value mode: index 0 = filled segment, index 1 = unfilled segment.
    * For range mode: index 0 = before low, index 1 = between thumbs, index 2 = after high.
+   * For multi-point mode: segments between consecutive sorted thumbs, plus
+   * one before the first and one after the last.
    */
   segmentStyles?: Value<RangeSliderSegmentStyle[]>
 
@@ -123,6 +133,14 @@ export interface RangeSliderOptions {
    * @returns A TNode to render as the thumb
    */
   renderThumb?: (index: number, value: Value<number>) => TNode
+
+  /**
+   * Orientation of the slider. When 'vertical', the track runs top-to-bottom
+   * visually but min is at the bottom and max is at the top.
+   * The container element must have a defined height for vertical mode.
+   * @default 'horizontal'
+   */
+  orientation?: Value<RangeSliderOrientation>
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -144,13 +162,10 @@ function generateClasses(
   readonly: boolean,
   orientation: RangeSliderOrientation
 ): string {
-  const classes = [
-    'bc-range-slider',
-    `bc-range-slider--size-${size}`,
-    `bc-range-slider--${orientation}`,
-  ]
+  const classes = ['bc-range-slider', `bc-range-slider--size-${size}`]
   if (disabled) classes.push('bc-range-slider--disabled')
   if (readonly) classes.push('bc-range-slider--readonly')
+  if (orientation === 'vertical') classes.push('bc-range-slider--vertical')
   return classes.join(' ')
 }
 
@@ -161,13 +176,13 @@ function generateColorStyles(color: ThemeColorName): string {
 }
 
 /**
- * A range slider component supporting single-value and dual-thumb range
- * selection with vertical/horizontal orientation, customizable thumbs
- * and segment styles, tick marks, and keyboard accessibility.
+ * A range slider component supporting single-value, dual-thumb range,
+ * and multi-point modes with customizable thumbs, segment styles, tick
+ * marks, and keyboard accessibility.
  *
- * Integrates with BeatUI's existing slider ecosystem (see also
- * {@link SliderInput} for native HTML5 sliders and {@link AdvancedSlider}
- * for multi-point mode).
+ * - **Single mode**: Pass `value` and `onChange` for a standard single-thumb slider.
+ * - **Range mode**: Pass `range` and `onRangeChange` for a two-thumb range selector.
+ * - **Multi-point mode**: Pass `points` and `onPointsChange` for arbitrary number of thumbs.
  *
  * @param options - Configuration for the range slider
  * @returns A styled range slider element
@@ -197,12 +212,27 @@ function generateColorStyles(color: ThemeColorName): string {
  *
  * @example
  * ```ts
- * // Vertical orientation
+ * // Multi-point slider
+ * const pts = prop([10, 40, 70])
  * RangeSlider({
- *   value: prop(30), onChange: () => {},
- *   orientation: 'vertical',
+ *   points: pts, onPointsChange: pts.set,
  *   min: 0, max: 100,
+ *   showValue: true,
  * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Vertical slider (container must have a defined height)
+ * const vol = prop(50)
+ * html.div(
+ *   attr.style('height: 200px'),
+ *   RangeSlider({
+ *     value: vol, onChange: vol.set,
+ *     min: 0, max: 100,
+ *     orientation: 'vertical',
+ *   })
+ * )
  * ```
  */
 export function RangeSlider({
@@ -213,29 +243,46 @@ export function RangeSlider({
   readonly: readonlyOpt = false,
   size = 'md',
   color = 'primary',
-  orientation: orientationOpt = 'horizontal',
   value,
   onChange,
   range,
   onRangeChange,
+  points,
+  onPointsChange,
   ticks,
   showValue = false,
   formatValue = (v: number) => String(v),
   segmentStyles,
   renderThumb,
+  orientation: orientationOpt = 'horizontal',
 }: RangeSliderOptions) {
-  const mode: 'single' | 'range' = range != null ? 'range' : 'single'
-  const thumbCount = mode === 'range' ? 2 : 1
+  // Determine mode and number of thumbs
+  const mode: 'single' | 'range' | 'multi' =
+    points != null ? 'multi' : range != null ? 'range' : 'single'
 
-  const thumbValues: Value<number[]> =
-    mode === 'range'
-      ? Value.map(range!, (r: [number, number]) => [r[0], r[1]])
-      : Value.map(value ?? 0, (v: number) => [v])
+  const thumbCount =
+    mode === 'multi' ? Value.get(points!).length : mode === 'range' ? 2 : 1
+
+  // Read orientation once at creation time — not reactive
+  const isVertical = Value.get(orientationOpt) === 'vertical'
+
+  // Internal reactive values representing all thumb positions
+  const thumbValues: Value<number[]> = (() => {
+    if (mode === 'multi') {
+      return Value.map(points!, (pts: number[]) => [...pts])
+    }
+    if (mode === 'range') {
+      return Value.map(range!, (r: [number, number]) => [r[0], r[1]])
+    }
+    return Value.map(value ?? 0, (v: number) => [v])
+  })()
 
   const activeThumb = prop<number | null>(null)
 
   function emitChange(values: number[]) {
-    if (mode === 'range') {
+    if (mode === 'multi') {
+      onPointsChange?.(values)
+    } else if (mode === 'range') {
       const sorted = [values[0]!, values[1]!] as [number, number]
       if (sorted[0] > sorted[1]) sorted.reverse()
       onRangeChange?.(sorted)
@@ -257,12 +304,11 @@ export function RangeSlider({
     const mn = Value.get(minOpt)
     const mx = Value.get(maxOpt)
     const st = Value.get(stepOpt)
-    const orient = Value.get(orientationOpt)
     const rect = trackEl.getBoundingClientRect()
 
     let pct: number
-    if (orient === 'vertical') {
-      // For vertical: bottom = min, top = max
+    if (isVertical) {
+      // Invert: bottom = min, top = max
       pct = clamp(1 - (clientY - rect.top) / rect.height, 0, 1)
     } else {
       pct = clamp((clientX - rect.left) / rect.width, 0, 1)
@@ -270,6 +316,7 @@ export function RangeSlider({
 
     const rawValue = mn + pct * (mx - mn)
     const snapped = clamp(snapToStep(rawValue, mn, st), mn, mx)
+
     const currentValues = Value.get(thumbValues)
 
     if (thumbIndex != null) {
@@ -277,6 +324,7 @@ export function RangeSlider({
       newValues[thumbIndex] = snapped
       emitChange(newValues)
     } else {
+      // Find closest thumb
       let closest = 0
       let closestDist = Math.abs(currentValues[0]! - snapped)
       for (let i = 1; i < currentValues.length; i++) {
@@ -302,7 +350,6 @@ export function RangeSlider({
 
   function createThumb(index: number, trackEl: HTMLElement) {
     const thumbVal = thumbValueAt(index)
-    const orient = orientationOpt
     const thumbPct = computedOf(
       thumbVal,
       minOpt,
@@ -311,116 +358,89 @@ export function RangeSlider({
 
     return html.div(
       attr.class('bc-range-slider__thumb-container'),
-      // Position differs by orientation
-      WithElement(el => {
-        const unsub = Value.on(
-          computedOf(thumbPct, orient)((pct, o) => ({ pct, o })),
-          ({ pct, o }) => {
-            if (o === 'vertical') {
-              el.style.bottom = pct
-              el.style.left = ''
-            } else {
-              el.style.left = pct
-              el.style.bottom = ''
-            }
-          }
-        )
-        return Fragment(
-          // Value label
-          When(
-            showValue,
-            () =>
-              html.div(
-                attr.class('bc-range-slider__value-label'),
-                Value.map(thumbVal, (v: number) => formatValue(v))
-              ),
-            () => Empty
-          ),
+      isVertical ? style.bottom(thumbPct) : style.left(thumbPct),
 
+      // Value label
+      When(
+        showValue,
+        () =>
           html.div(
-            attr.class(
-              renderThumb
-                ? 'bc-range-slider__thumb-custom'
-                : 'bc-range-slider__thumb'
-            ),
-            attr.role('slider'),
-            attr.tabindex(0),
-            aria.valuemin(minOpt),
-            aria.valuemax(maxOpt),
-            aria.valuenow(thumbVal),
-            aria.label(`Thumb ${index + 1}`),
-            aria.orientation(orientationOpt as any),
-            on.keydown((e: KeyboardEvent) => {
-              if (!isInteractive()) return
-              const mn = Value.get(minOpt)
-              const mx = Value.get(maxOpt)
-              const st = Value.get(stepOpt)
-              const currentVals = Value.get(thumbValues)
-              const current = currentVals[index]!
-              const o = Value.get(orientationOpt)
-              let newVal: number
-
-              switch (e.key) {
-                case 'ArrowRight':
-                case 'ArrowUp':
-                  e.preventDefault()
-                  newVal = clamp(roundToStep(current + st, st), mn, mx)
-                  break
-                case 'ArrowLeft':
-                case 'ArrowDown':
-                  e.preventDefault()
-                  newVal = clamp(roundToStep(current - st, st), mn, mx)
-                  break
-                case 'Home':
-                  e.preventDefault()
-                  newVal = mn
-                  break
-                case 'End':
-                  e.preventDefault()
-                  newVal = mx
-                  break
-                default:
-                  return
-              }
-
-              // Swap direction for vertical: Up = increase, Down = decrease (already correct)
-              // For horizontal: Right = increase, Left = decrease (already correct)
-              void o // orientation handled naturally
-
-              const newValues = [...currentVals]
-              newValues[index] = newVal
-              emitChange(newValues)
-            }),
-            on.pointerdown((e: PointerEvent) => {
-              e.stopPropagation()
-              e.preventDefault()
-              if (!isInteractive()) return
-              activeThumb.set(index)
-
-              const onPointerMove = (moveEvt: PointerEvent) => {
-                handlePointerAction(
-                  trackEl,
-                  moveEvt.clientX,
-                  moveEvt.clientY,
-                  index
-                )
-              }
-
-              const onPointerUp = () => {
-                activeThumb.set(null)
-                window.removeEventListener('pointermove', onPointerMove)
-                window.removeEventListener('pointerup', onPointerUp)
-              }
-
-              window.addEventListener('pointermove', onPointerMove)
-              window.addEventListener('pointerup', onPointerUp)
-            }),
-            renderThumb ? renderThumb(index, thumbVal) : Empty
+            attr.class('bc-range-slider__value-label'),
+            Value.map(thumbVal, (v: number) => formatValue(v))
           ),
+        () => Empty
+      ),
 
-          OnDispose(unsub)
-        )
-      })
+      html.div(
+        attr.class(
+          renderThumb
+            ? 'bc-range-slider__thumb-custom'
+            : 'bc-range-slider__thumb'
+        ),
+        attr.role('slider'),
+        attr.tabindex(0),
+        aria.valuemin(minOpt),
+        aria.valuemax(maxOpt),
+        aria.valuenow(thumbVal),
+        aria.label(`Thumb ${index + 1}`),
+        isVertical ? aria.orientation('vertical') : Empty,
+        on.keydown((e: KeyboardEvent) => {
+          if (!isInteractive()) return
+          const mn = Value.get(minOpt)
+          const mx = Value.get(maxOpt)
+          const st = Value.get(stepOpt)
+          const currentVals = Value.get(thumbValues)
+          const current = currentVals[index]!
+          let newVal: number
+
+          switch (e.key) {
+            case 'ArrowRight':
+            case 'ArrowUp':
+              e.preventDefault()
+              newVal = clamp(roundToStep(current + st, st), mn, mx)
+              break
+            case 'ArrowLeft':
+            case 'ArrowDown':
+              e.preventDefault()
+              newVal = clamp(roundToStep(current - st, st), mn, mx)
+              break
+            case 'Home':
+              e.preventDefault()
+              newVal = mn
+              break
+            case 'End':
+              e.preventDefault()
+              newVal = mx
+              break
+            default:
+              return
+          }
+
+          const newValues = [...currentVals]
+          newValues[index] = newVal
+          emitChange(newValues)
+        }),
+        on.pointerdown((e: PointerEvent) => {
+          e.stopPropagation()
+          e.preventDefault()
+          if (!isInteractive()) return
+          activeThumb.set(index)
+
+          const onPointerMove = (moveEvt: PointerEvent) => {
+            handlePointerAction(trackEl, moveEvt.clientX, moveEvt.clientY, index)
+          }
+
+          const onPointerUp = () => {
+            activeThumb.set(null)
+            window.removeEventListener('pointermove', onPointerMove)
+            window.removeEventListener('pointerup', onPointerUp)
+          }
+
+          window.addEventListener('pointermove', onPointerMove)
+          window.addEventListener('pointerup', onPointerUp)
+        }),
+        renderThumb ? renderThumb(index, thumbVal) : Empty
+      )
     )
   }
 
@@ -428,15 +448,11 @@ export function RangeSlider({
     const onPointerDown = (e: PointerEvent) => {
       if (!isInteractive()) return
       e.preventDefault()
+
       handlePointerAction(trackEl, e.clientX, e.clientY, null)
 
       const onPointerMove = (moveEvt: PointerEvent) => {
-        handlePointerAction(
-          trackEl,
-          moveEvt.clientX,
-          moveEvt.clientY,
-          activeThumb.value
-        )
+        handlePointerAction(trackEl, moveEvt.clientX, moveEvt.clientY, activeThumb.value)
       }
 
       const onPointerUp = () => {
@@ -449,24 +465,32 @@ export function RangeSlider({
       window.addEventListener('pointerup', onPointerUp)
     }
 
-    // Build fill style
+    // Build fill style (used when no custom segment styles)
     const filledStyle = computedOf(
       thumbValues,
       minOpt,
-      maxOpt,
-      orientationOpt
-    )((vals: number[], mn: number, mx: number, orient: RangeSliderOrientation) => {
-      const prop = orient === 'vertical' ? 'bottom' : 'left'
-      const dim = orient === 'vertical' ? 'height' : 'width'
-
-      if (mode === 'range' && vals.length === 2) {
-        const lo = pctOf(Math.min(vals[0]!, vals[1]!), mn, mx)
-        const hi = pctOf(Math.max(vals[0]!, vals[1]!), mn, mx)
-        return `${prop}: ${lo}%; ${dim}: ${hi - lo}%`
+      maxOpt
+    )((vals: number[], mn: number, mx: number) => {
+      if (isVertical) {
+        if ((mode === 'range' || mode === 'multi') && vals.length >= 2) {
+          const sorted = [...vals].sort((a, b) => a - b)
+          const lo = pctOf(sorted[0]!, mn, mx)
+          const hi = pctOf(sorted[sorted.length - 1]!, mn, mx)
+          return `bottom: ${lo}%; height: ${hi - lo}%`
+        }
+        const pct = pctOf(vals[0] ?? mn, mn, mx)
+        return `bottom: 0%; height: ${pct}%`
+      } else {
+        if ((mode === 'range' || mode === 'multi') && vals.length >= 2) {
+          const sorted = [...vals].sort((a, b) => a - b)
+          const lo = pctOf(sorted[0]!, mn, mx)
+          const hi = pctOf(sorted[sorted.length - 1]!, mn, mx)
+          return `left: ${lo}%; width: ${hi - lo}%`
+        }
+        // Single: fill from left
+        const pct = pctOf(vals[0] ?? mn, mn, mx)
+        return `left: 0%; width: ${pct}%`
       }
-      // Single: fill from start
-      const pct = pctOf(vals[0] ?? mn, mn, mx)
-      return `${prop}: 0%; ${dim}: ${pct}%`
     })
 
     // Build segment elements if custom segment styles are provided
@@ -478,7 +502,6 @@ export function RangeSlider({
               minOpt,
               maxOpt,
               segmentStyles,
-              orientationOpt,
               color
             )(
               (
@@ -486,86 +509,44 @@ export function RangeSlider({
                 mn: number,
                 mx: number,
                 styles: RangeSliderSegmentStyle[],
-                orient: RangeSliderOrientation,
                 clr: ThemeColorName
-              ) => ({
-                vals,
-                mn,
-                mx,
-                styles,
-                orient,
-                clr,
-              })
+              ) => ({ vals, mn, mx, styles, clr })
             ),
-            ({ vals, mn, mx, styles, orient, clr }) => {
-              const posProp = orient === 'vertical' ? 'bottom' : 'left'
-              const dimProp = orient === 'vertical' ? 'height' : 'width'
+            ({ vals, mn, mx, styles, clr }) => {
+              // Build boundary points for segments
+              const sorted = [...vals].sort((a, b) => a - b)
+              const boundaries = [mn, ...sorted, mx]
 
-              if (mode === 'range' && vals.length === 2) {
-                const lo = Math.min(vals[0]!, vals[1]!)
-                const hi = Math.max(vals[0]!, vals[1]!)
-                // 3 segments: [min..lo], [lo..hi], [hi..max]
-                const segments = [
-                  { start: mn, end: lo, style: styles[0] },
-                  { start: lo, end: hi, style: styles[1] },
-                  { start: hi, end: mx, style: styles[2] },
-                ]
-                return Fragment(
-                  ...segments.map((seg, _i) => {
-                    const startPct = pctOf(seg.start, mn, mx)
-                    const endPct = pctOf(seg.end, mn, mx)
-                    const segColor = seg.style?.color ?? clr
-                    const light = backgroundValue(segColor, 'solid', 'light')
-                    const dark = backgroundValue(segColor, 'solid', 'dark')
-                    const thickness = seg.style?.thickness
-                    const pattern = seg.style?.pattern ?? 'solid'
-                    const thicknessVar = thickness
-                      ? orient === 'vertical'
-                        ? `width: ${thickness};`
-                        : `height: ${thickness};`
-                      : ''
-                    const patternStyle =
-                      pattern !== 'solid'
-                        ? `border-style: ${pattern}; background: none; border-color: ${light.backgroundColor};`
-                        : ''
-                    const inlineStyle = `${posProp}: ${startPct}%; ${dimProp}: ${endPct - startPct}%; --rs-color: ${light.backgroundColor}; --rs-color-dark: ${dark.backgroundColor}; ${thicknessVar} ${patternStyle}`
-
-                    return html.div(
-                      attr.class('bc-range-slider__fill bc-range-slider__segment'),
-                      attr.style(inlineStyle)
-                    )
-                  })
-                )
-              }
-
-              // Single mode: 2 segments [min..value], [value..max]
-              const v = vals[0] ?? mn
-              const segments = [
-                { start: mn, end: v, style: styles[0] },
-                { start: v, end: mx, style: styles[1] },
-              ]
               return Fragment(
-                ...segments.map(seg => {
-                  const startPct = pctOf(seg.start, mn, mx)
-                  const endPct = pctOf(seg.end, mn, mx)
-                  const segColor = seg.style?.color ?? clr
+                ...boundaries.slice(0, -1).map((start, i) => {
+                  const end = boundaries[i + 1]!
+                  const segStyle = styles[i]
+                  const startPct = pctOf(start, mn, mx)
+                  const endPct = pctOf(end, mn, mx)
+                  const segColor = segStyle?.color ?? clr
                   const light = backgroundValue(segColor, 'solid', 'light')
                   const dark = backgroundValue(segColor, 'solid', 'dark')
-                  const thickness = seg.style?.thickness
-                  const pattern = seg.style?.pattern ?? 'solid'
-                  const thicknessVar = thickness
-                    ? orient === 'vertical'
-                      ? `width: ${thickness};`
-                      : `height: ${thickness};`
-                    : ''
+                  const thickness = segStyle?.thickness
+                  const pattern = segStyle?.pattern ?? 'solid'
+                  const thicknessVar = thickness ? `height: ${thickness};` : ''
                   const patternStyle =
                     pattern !== 'solid'
                       ? `border-style: ${pattern}; background: none; border-color: ${light.backgroundColor};`
                       : ''
-                  const inlineStyle = `${posProp}: ${startPct}%; ${dimProp}: ${endPct - startPct}%; --rs-color: ${light.backgroundColor}; --rs-color-dark: ${dark.backgroundColor}; ${thicknessVar} ${patternStyle}`
+
+                  let positionStyle: string
+                  if (isVertical) {
+                    positionStyle = `bottom: ${startPct}%; height: ${endPct - startPct}%;`
+                  } else {
+                    positionStyle = `left: ${startPct}%; width: ${endPct - startPct}%;`
+                  }
+
+                  const inlineStyle = `${positionStyle} --rs-color: ${light.backgroundColor}; --rs-color-dark: ${dark.backgroundColor}; ${thicknessVar} ${patternStyle}`
 
                   return html.div(
-                    attr.class('bc-range-slider__fill bc-range-slider__segment'),
+                    attr.class(
+                      'bc-range-slider__fill bc-range-slider__segment'
+                    ),
                     attr.style(inlineStyle)
                   )
                 })
@@ -589,39 +570,36 @@ export function RangeSlider({
             ticks,
             minOpt,
             maxOpt,
-            stepOpt,
-            orientationOpt
+            stepOpt
           )(
             (
               t: boolean | RangeSliderTick[],
               mn: number,
               mx: number,
-              st: number,
-              orient: RangeSliderOrientation
+              st: number
             ) => {
               if (t === true) {
                 const marks: RangeSliderTick[] = []
                 for (let v = mn; v <= mx; v += st) {
                   marks.push({ value: v })
                 }
-                return { marks, mn, mx, orient }
+                return { marks, mn, mx }
               }
               if (Array.isArray(t)) {
-                return { marks: t, mn, mx, orient }
+                return { marks: t, mn, mx }
               }
-              return { marks: [] as RangeSliderTick[], mn, mx, orient }
+              return { marks: [] as RangeSliderTick[], mn, mx }
             }
           ),
-          ({ marks, mn, mx, orient }) => {
+          ({ marks, mn, mx }) => {
             if (marks.length === 0) return Empty
-            const posProp = orient === 'vertical' ? 'bottom' : 'left'
             return html.div(
               attr.class('bc-range-slider__ticks'),
               ...marks.map(tick => {
                 const pct = pctOf(tick.value, mn, mx)
                 return html.div(
                   attr.class('bc-range-slider__tick'),
-                  attr.style(`${posProp}: ${pct}%`),
+                  isVertical ? style.bottom(`${pct}%`) : style.left(`${pct}%`),
                   tick.label != null
                     ? html.span(
                         attr.class('bc-range-slider__tick-label'),
@@ -637,16 +615,17 @@ export function RangeSlider({
 
     return Fragment(
       attr.class(
-        computedOf(
-          size,
-          disabled,
-          readonlyOpt,
-          orientationOpt
-        )(generateClasses)
+        computedOf(size, disabled, readonlyOpt, orientationOpt)(generateClasses)
       ),
       attr.style(Value.map(color, generateColorStyles)),
       attr.role('group'),
-      aria.label(mode === 'range' ? 'Range slider' : 'Slider'),
+      aria.label(
+        mode === 'multi'
+          ? 'Multi-point slider'
+          : mode === 'range'
+            ? 'Range slider'
+            : 'Slider'
+      ),
       on.pointerdown(onPointerDown),
 
       // Track
