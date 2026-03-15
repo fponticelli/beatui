@@ -1,0 +1,124 @@
+/* NavigationProgress Component - Top/bottom viewport progress bar for navigation/loading */
+
+.bc-navigation-progress {
+  --nav-progress-fill: var(--color-primary-500);
+  --nav-progress-fill-dark: var(--color-primary-600);
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: var(--z-index-maximum, 1000);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bc-navigation-progress--top {
+  top: 0;
+}
+
+.bc-navigation-progress--bottom {
+  bottom: 0;
+}
+
+/* Progress bar fill */
+.bc-navigation-progress__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--nav-progress-fill);
+  will-change: transform;
+}
+
+.bc-navigation-progress__bar--done {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Peg - the glowing leading edge */
+.bc-navigation-progress__peg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  box-shadow:
+    0 0 10px var(--nav-progress-fill),
+    0 0 5px var(--nav-progress-fill);
+  opacity: 1;
+  transform: rotate(3deg) translateY(-4px);
+}
+
+/* Spinner */
+.bc-navigation-progress__spinner {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: var(--z-index-maximum, 1000);
+  pointer-events: none;
+}
+
+.bc-navigation-progress--bottom .bc-navigation-progress__spinner {
+  top: auto;
+  bottom: 15px;
+}
+
+.bc-navigation-progress__spinner-icon {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: var(--nav-progress-fill);
+  border-left-color: var(--nav-progress-fill);
+  border-radius: 50%;
+  animation: bc-nav-progress-spin 0.4s linear infinite;
+}
+
+@keyframes bc-nav-progress-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark mode */
+.dark .bc-navigation-progress__bar {
+  background-color: var(--nav-progress-fill-dark);
+}
+
+.dark .bc-navigation-progress__peg {
+  box-shadow:
+    0 0 10px var(--nav-progress-fill-dark),
+    0 0 5px var(--nav-progress-fill-dark);
+}
+
+.dark .bc-navigation-progress__spinner-icon {
+  border-top-color: var(--nav-progress-fill-dark);
+  border-left-color: var(--nav-progress-fill-dark);
+}
+
+/* Accessibility: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .bc-navigation-progress__bar {
+    transition: none !important;
+  }
+
+  .bc-navigation-progress__bar--done {
+    transition: none;
+  }
+
+  .bc-navigation-progress__spinner-icon {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .bc-navigation-progress__bar {
+    outline: var(--outline-width-default, 2px) solid currentColor;
+    outline-offset: calc(-1 * var(--outline-width-default, 2px));
+  }
+}
