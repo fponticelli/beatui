@@ -432,6 +432,7 @@ export function MultiSelect<T>(options: MultiSelectOptions<T>): TNode {
         Badge(
           {
             variant: 'light',
+            size: options.size,
             onClose: () => removeOne(item.value),
             disabled: options.disabled,
           },
@@ -441,7 +442,7 @@ export function MultiSelect<T>(options: MultiSelectOptions<T>): TNode {
           )((it, opts) => getLabelByValue(opts, it as T, equality))
         )
       ),
-    () => html.span(attr.class('bc-input-container__placeholder'), placeholder)
+    () => html.span(attr.class('bc-multi-select__placeholder'), placeholder)
   )
 
   return InputContainer(
@@ -451,11 +452,13 @@ export function MultiSelect<T>(options: MultiSelectOptions<T>): TNode {
         options.before ??
         InputIcon({ icon: 'tabler:list-check', color: 'neutral' }),
       input: Fragment(
-        attr.class('bc-input-container__tags bc-multi-select__tags'),
-        chips,
-        Icon(
-          { icon: 'ph:caret-up-down-bold', color: 'neutral', size: 'xs' },
-          attr.class('bc-multi-select__arrow')
+        html.div(attr.class('bc-multi-select__badge-container'), chips),
+        html.div(
+          attr.class('bc-multi-select__arrow-container'),
+          Icon(
+            { icon: 'ph:caret-up-down-bold', color: 'neutral', size: 'sm' },
+            attr.class('bc-multi-select__arrow')
+          )
         )
       ),
     },

@@ -4,13 +4,26 @@
   cursor: pointer;
 }
 
-.bc-multi-select__tags {
-  position: relative;
+/* Placeholder when no items selected */
+.bc-multi-select__placeholder {
+  color: var(--color-neutral-400);
+}
+
+.bc-multi-select__badge-container {
+  flex-grow: 1;
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.bc-multi-select__arrow-container {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bc-multi-select__arrow {
-  flex-shrink: 0;
-  margin-left: auto;
   opacity: 0.5;
 }
 
@@ -191,6 +204,10 @@
 }
 
 /* Dark mode */
+.dark .bc-multi-select__placeholder {
+  color: var(--color-neutral-500);
+}
+
 .dark .bc-multi-select__dropdown {
   background: var(--color-base-800);
   border-color: var(--color-base-600);
