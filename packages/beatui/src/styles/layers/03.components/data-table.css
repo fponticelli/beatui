@@ -622,36 +622,6 @@ th.bc-data-table__header--drag-over {
   background-color: var(--interactive-hover);
 }
 
-/* Tags Filter (inline checkbox list) */
-.bc-column-filter-tags {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.bc-column-filter-tags__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2xs);
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.bc-column-filter-tags__item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-2xs) var(--spacing-xs);
-  cursor: pointer;
-  border-radius: var(--radius-control-sm);
-  font-size: var(--font-size-sm);
-  user-select: none;
-}
-
-.bc-column-filter-tags__item:hover {
-  background-color: var(--interactive-hover);
-}
-
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bc-sortable-header,

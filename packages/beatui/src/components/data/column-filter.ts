@@ -1,15 +1,4 @@
-import {
-  attr,
-  computedOf,
-  ForEach,
-  Fragment,
-  html,
-  on,
-  OnDispose,
-  prop,
-  Use,
-  Value,
-} from '@tempots/dom'
+import { Fragment, OnDispose, prop, Use, Value } from '@tempots/dom'
 import { DataSource } from './data-source'
 import {
   Filter,
@@ -21,6 +10,7 @@ import {
 import { ControlSize } from '../theme'
 import { TextInput } from '../form/input/text-input'
 import { NativeSelect } from '../form/input/native-select'
+import { MultiSelect } from '../form/input/multi-select'
 import { Option, SelectOption } from '../form/input/option'
 import { NullableResetAfter } from '../form/input/nullable-utils'
 import { BeatUII18n } from '../../beatui-i18n'
@@ -184,64 +174,30 @@ export function ColumnFilter<T, C extends string = string>(
       selectedValues.set(extractSetValues(filters))
     })
 
-    const query = prop('')
-    const filteredOptions = query.map(q => {
-      if (q === '') return options
-      const lower = q.toLowerCase()
-      return options.filter(o => o.label.toLowerCase().includes(lower))
-    })
-
-    const toggle = (val: string) => {
-      const current = selectedValues.value
-      const next = current.includes(val)
-        ? current.filter(v => v !== val)
-        : [...current, val]
-      selectedValues.set(next)
-      if (next.length === 0) {
-        dataSource.removeFilter(column)
-      } else {
-        dataSource.setFilter(Filter.oneOf(column, next))
-      }
-    }
+    const multiSelectOptions = options.map(o => Option.value(o.value, o.label))
 
     return Fragment(
       OnDispose(() => {
         unsub()
         selectedValues.dispose()
-        query.dispose()
-        filteredOptions.dispose()
       }),
       Use(BeatUII18n, t =>
-        html.div(
-          attr.class('bc-column-filter-tags'),
-          html.input(
-            attr.type('text'),
-            attr.class('bc-column-filter'),
-            attr.placeholder(
-              placeholder ?? t.$.dataTable.map(dt => dt.filterTagsPlaceholder)
-            ),
-            attr.value(query),
-            on.input(e => query.set((e.target as HTMLInputElement).value))
-          ),
-          html.div(
-            attr.class('bc-column-filter-tags__list'),
-            ForEach(filteredOptions, optSignal => {
-              const isChecked = computedOf(
-                selectedValues,
-                optSignal
-              )((sel, opt) => sel.includes(opt.value))
-              return html.label(
-                attr.class('bc-column-filter-tags__item'),
-                html.input(
-                  attr.type('checkbox'),
-                  attr.checked(isChecked),
-                  on.change(() => toggle(Value.get(optSignal).value))
-                ),
-                html.span(Value.map(optSignal, o => o.label))
-              )
-            })
-          )
-        )
+        MultiSelect<string>({
+          value: selectedValues,
+          options: multiSelectOptions,
+          size,
+          placeholder:
+            placeholder ?? t.$.dataTable.map(dt => dt.filterTagsPlaceholder),
+          showActions: true,
+          onChange: (next: string[]) => {
+            selectedValues.set(next)
+            if (next.length === 0) {
+              dataSource.removeFilter(column)
+            } else {
+              dataSource.setFilter(Filter.oneOf(column, next))
+            }
+          },
+        })
       )
     )
   }

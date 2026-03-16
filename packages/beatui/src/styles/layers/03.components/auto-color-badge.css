@@ -12,7 +12,8 @@
   font-size: inherit;
   line-height: var(--line-height-none);
   border-radius: var(--radius-badge, var(--radius-control, var(--radius-md)));
-  transition: background-color var(--motion-transition-fast) var(--motion-easing-standard),
+  transition:
+    background-color var(--motion-transition-fast) var(--motion-easing-standard),
     color var(--motion-transition-fast) var(--motion-easing-standard);
   white-space: nowrap;
 }

@@ -310,7 +310,7 @@ export default function DataTablePage() {
                 Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
               ),
             filter: {
-              type: 'select',
+              type: 'tags',
               options: [
                 { value: 'Admin', label: 'Admin' },
                 { value: 'Editor', label: 'Editor' },
@@ -441,7 +441,7 @@ export default function DataTablePage() {
                   ),
                 value: r => r.role,
                 filter: {
-                  type: 'select',
+                  type: 'tags',
                   options: [
                     { value: 'Admin', label: 'Admin' },
                     { value: 'Editor', label: 'Editor' },
@@ -471,7 +471,7 @@ export default function DataTablePage() {
               },
             ],
           }),
-        'Enable filtering with filterable: true and per-column filter config. Text or select filters are supported.'
+        'Enable filtering with filterable: true and per-column filter config. Text, select, and tags (multi-select) filters are supported.'
       ),
       Section(
         'Row Selection',
