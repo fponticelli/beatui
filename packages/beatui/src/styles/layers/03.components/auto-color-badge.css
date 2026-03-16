@@ -1,0 +1,32 @@
+/* AutoColorBadge Component — reuses badge sizing/layout tokens */
+.bc-auto-color-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--badge-gap, var(--control-gap-md));
+  border: var(--border-width-default) solid transparent;
+  font-family: var(
+    --font-family-default-ui,
+    var(--font-ui, var(--font-body, var(--font-family-sans)))
+  );
+  font-size: inherit;
+  line-height: var(--line-height-none);
+  border-radius: var(--radius-badge, var(--radius-control, var(--radius-md)));
+  transition: background-color var(--motion-transition-fast) var(--motion-easing-standard),
+    color var(--motion-transition-fast) var(--motion-easing-standard);
+  white-space: nowrap;
+}
+
+/* Accessibility adjustments */
+@media (prefers-contrast: high) {
+  .bc-auto-color-badge {
+    border-width: var(--border-width-medium);
+    border-color: currentColor;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-auto-color-badge {
+    transition: none;
+  }
+}
