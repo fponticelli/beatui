@@ -682,6 +682,148 @@ describe('RangeSlider Component', () => {
     })
   })
 
+  // ── Markers ──
+
+  describe('markers', () => {
+    it('should render automatic markers from step when markers=true', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            step: 25,
+            markers: true,
+          })
+        ),
+        container
+      )
+
+      const markers = container.querySelectorAll('.bc-range-slider__marker')
+      expect(markers.length).toBe(5) // 0, 25, 50, 75, 100
+    })
+
+    it('should render custom markers with labels', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            markers: [
+              { value: 20, label: '20%' },
+              { value: 50, label: '50%' },
+              { value: 80, label: '80%' },
+            ],
+          })
+        ),
+        container
+      )
+
+      const markers = container.querySelectorAll('.bc-range-slider__marker')
+      expect(markers.length).toBe(3)
+
+      const labels = container.querySelectorAll('.bc-range-slider__marker-label')
+      expect(labels.length).toBe(3)
+      expect(labels[0]!.textContent).toBe('20%')
+      expect(labels[1]!.textContent).toBe('50%')
+      expect(labels[2]!.textContent).toBe('80%')
+    })
+
+    it('should render markers without labels', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            markers: [{ value: 25 }, { value: 75 }],
+          })
+        ),
+        container
+      )
+
+      const markers = container.querySelectorAll('.bc-range-slider__marker')
+      expect(markers.length).toBe(2)
+      const labels = container.querySelectorAll('.bc-range-slider__marker-label')
+      expect(labels.length).toBe(0)
+    })
+
+    it('should not render markers when option is not set', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({ value: 50, onChange: vi.fn() })
+        ),
+        container
+      )
+
+      const markers = container.querySelectorAll('.bc-range-slider__marker')
+      expect(markers.length).toBe(0)
+    })
+
+    it('should render markers and ticks together', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            step: 50,
+            ticks: true,
+            markers: [{ value: 25 }, { value: 75 }],
+          })
+        ),
+        container
+      )
+
+      const ticks = container.querySelectorAll('.bc-range-slider__tick')
+      const markers = container.querySelectorAll('.bc-range-slider__marker')
+      expect(ticks.length).toBe(3) // 0, 50, 100
+      expect(markers.length).toBe(2) // 25, 75
+    })
+
+    it('should position markers with style.left in horizontal mode', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            markers: [{ value: 40 }],
+          })
+        ),
+        container
+      )
+
+      const marker = container.querySelector('.bc-range-slider__marker') as HTMLElement
+      expect(marker.style.left).toBe('40%')
+    })
+
+    it('should position markers with style.bottom in vertical mode', () => {
+      render(
+        WithProviders(() =>
+          RangeSlider({
+            value: 50,
+            onChange: vi.fn(),
+            min: 0,
+            max: 100,
+            markers: [{ value: 60 }],
+            orientation: 'vertical',
+          })
+        ),
+        container
+      )
+
+      const marker = container.querySelector('.bc-range-slider__marker') as HTMLElement
+      expect(marker.style.bottom).toBe('60%')
+    })
+  })
+
   // ── Custom thumbs ──
 
   describe('custom thumbs', () => {

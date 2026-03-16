@@ -259,6 +259,69 @@ export default function RangeSliderPage() {
         'Use ticks: true for automatic step-based tick marks, or pass an array of RangeSliderTick objects for custom labels.'
       ),
       Section(
+        'Markers',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-6 w-full max-w-md'),
+            html.div(
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-3'),
+                'Automatic markers (markers: true)'
+              ),
+              RangeSlider({
+                value: 50,
+                onChange: () => {},
+                min: 0,
+                max: 100,
+                step: 20,
+                markers: true,
+                showValue: true,
+              })
+            ),
+            html.div(
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-3'),
+                'Custom markers with labels'
+              ),
+              RangeSlider({
+                value: 50,
+                onChange: () => {},
+                min: 0,
+                max: 100,
+                markers: [
+                  { value: 0, label: '0%' },
+                  { value: 20, label: '20%' },
+                  { value: 50, label: '50%' },
+                  { value: 80, label: '80%' },
+                  { value: 100, label: '100%' },
+                ],
+                showValue: true,
+              })
+            ),
+            html.div(
+              html.div(
+                attr.class('text-xs font-mono text-gray-500 mb-3'),
+                'Markers with ticks combined'
+              ),
+              RangeSlider({
+                value: 50,
+                onChange: () => {},
+                min: 0,
+                max: 100,
+                step: 25,
+                ticks: true,
+                markers: [
+                  { value: 0, label: '0%' },
+                  { value: 50, label: '50%' },
+                  { value: 100, label: '100%' },
+                ],
+                showValue: true,
+              })
+            )
+          ),
+        'Markers are small dots rendered on the track surface. Use markers: true for automatic step-based dots, or pass an array of RangeSliderMarker objects with optional labels. Markers can be combined with ticks.'
+      ),
+      Section(
         'Custom Value Format',
         () =>
           html.div(

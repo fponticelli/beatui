@@ -151,6 +151,45 @@
   color: var(--text-muted);
 }
 
+/* Markers container */
+.bc-range-slider__markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Individual marker dot */
+.bc-range-slider__marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bc-range-slider__marker::before {
+  content: '';
+  display: block;
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+}
+
+/* Marker label */
+.bc-range-slider__marker-label {
+  position: absolute;
+  top: calc(100% + var(--spacing-sm));
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
 /* ── Size variants ── */
 
 /* xs */
@@ -158,7 +197,7 @@
   padding: var(--spacing-lg) var(--spacing-smh) var(--spacing-md);
 }
 .bc-range-slider--size-xs .bc-range-slider__track {
-  height: var(--spacing-xs);
+  height: var(--spacing-smh);
 }
 .bc-range-slider--size-xs .bc-range-slider__thumb {
   width: calc(var(--spacing-base) * 2.5);
@@ -184,7 +223,7 @@
   padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
 }
 .bc-range-slider--size-sm .bc-range-slider__track {
-  height: calc(var(--spacing-base) * 0.75);
+  height: var(--spacing-sm);
 }
 .bc-range-slider--size-sm .bc-range-slider__thumb {
   width: calc(var(--spacing-base) * 3.5);
@@ -210,7 +249,7 @@
   padding: var(--spacing-2xl) calc(var(--spacing-base) * 2.5) var(--spacing-xl);
 }
 .bc-range-slider--size-md .bc-range-slider__track {
-  height: var(--spacing-sm);
+  height: var(--spacing-smh);
 }
 .bc-range-slider--size-md .bc-range-slider__thumb {
   width: calc(var(--spacing-base) * 4.5);
@@ -236,7 +275,7 @@
   padding: var(--spacing-3xl) var(--spacing-mdh) var(--spacing-2xl);
 }
 .bc-range-slider--size-lg .bc-range-slider__track {
-  height: var(--spacing-smh);
+  height: var(--spacing-md);
 }
 .bc-range-slider--size-lg .bc-range-slider__thumb {
   width: calc(var(--spacing-base) * 5.5);
@@ -262,7 +301,7 @@
   padding: var(--spacing-4xl) calc(var(--spacing-base) * 3.5) var(--spacing-3xl);
 }
 .bc-range-slider--size-xl .bc-range-slider__track {
-  height: var(--spacing-md);
+  height: var(--spacing-mdh);
 }
 .bc-range-slider--size-xl .bc-range-slider__thumb {
   width: calc(var(--spacing-base) * 6.5);
@@ -280,6 +319,36 @@
 }
 .bc-range-slider--size-xl .bc-range-slider__tick-label {
   top: calc(var(--spacing-base) * 6.5);
+  font-size: var(--font-size-md);
+}
+
+/* Marker size overrides per size */
+.bc-range-slider--size-xs .bc-range-slider__marker::before {
+  width: var(--spacing-xs);
+  height: var(--spacing-xs);
+}
+.bc-range-slider--size-xs .bc-range-slider__marker-label {
+  font-size: var(--font-size-2xs);
+}
+.bc-range-slider--size-sm .bc-range-slider__marker::before {
+  width: var(--spacing-xs);
+  height: var(--spacing-xs);
+}
+.bc-range-slider--size-sm .bc-range-slider__marker-label {
+  font-size: var(--font-size-2xs);
+}
+.bc-range-slider--size-lg .bc-range-slider__marker::before {
+  width: var(--spacing-smh);
+  height: var(--spacing-smh);
+}
+.bc-range-slider--size-lg .bc-range-slider__marker-label {
+  font-size: var(--font-size-sm);
+}
+.bc-range-slider--size-xl .bc-range-slider__marker::before {
+  width: var(--spacing-md);
+  height: var(--spacing-md);
+}
+.bc-range-slider--size-xl .bc-range-slider__marker-label {
   font-size: var(--font-size-md);
 }
 
@@ -355,6 +424,19 @@
   left: calc(100% + var(--spacing-sm));
 }
 
+/* Markers: vertical positioning */
+.bc-range-slider--vertical .bc-range-slider__marker {
+  left: 50%;
+  top: auto;
+  transform: translate(-50%, 50%);
+  flex-direction: row;
+}
+
+.bc-range-slider--vertical .bc-range-slider__marker-label {
+  top: auto;
+  left: calc(100% + var(--spacing-sm));
+}
+
 /* Vertical size variants — swap track width/height, adjust padding */
 
 /* xs vertical */
@@ -418,6 +500,14 @@
 
 .dark .bc-range-slider__value-label {
   background-color: var(--rs-color-dark);
+}
+
+.dark .bc-range-slider__marker::before {
+  background-color: var(--color-gray-400);
+}
+
+.dark .bc-range-slider__marker-label {
+  color: var(--text-muted);
 }
 
 .dark .bc-range-slider__tick::before {

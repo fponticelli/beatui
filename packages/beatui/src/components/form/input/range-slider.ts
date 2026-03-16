@@ -35,6 +35,18 @@ export interface RangeSliderTick {
 }
 
 /**
+ * Definition of a marker dot on the range slider track.
+ * Markers are small circles rendered directly on the track,
+ * unlike ticks which extend outward from the track.
+ */
+export interface RangeSliderMarker {
+  /** The numeric value where this marker appears */
+  value: number
+  /** Optional label displayed below (horizontal) or beside (vertical) the marker */
+  label?: string
+}
+
+/**
  * Style configuration for an individual track segment.
  */
 export interface RangeSliderSegmentStyle {
@@ -95,10 +107,17 @@ export interface RangeSliderOptions {
   onPointsChange?: (points: number[]) => void
 
   /**
-   * Tick marks along the slider track.
+   * Tick marks along the slider track (extend outward from the track).
    * Can be `true` for automatic step-based ticks, or an array of custom tick definitions.
    */
   ticks?: Value<boolean | RangeSliderTick[]>
+
+  /**
+   * Marker dots rendered directly on the track surface.
+   * Can be `true` for automatic step-based markers, or an array of custom marker definitions.
+   * Unlike ticks, markers are small circles that sit on the track itself.
+   */
+  markers?: Value<boolean | RangeSliderMarker[]>
 
   /**
    * Whether to show the current value label(s) above the thumb(s).
@@ -250,6 +269,7 @@ export function RangeSlider({
   points,
   onPointsChange,
   ticks,
+  markers,
   showValue = false,
   formatValue = (v: number) => String(v),
   segmentStyles,
@@ -620,6 +640,56 @@ export function RangeSlider({
         )
       : Empty
 
+    // Marker dots on the track
+    const markerContent = markers
+      ? MapSignal(
+          computedOf(
+            markers,
+            minOpt,
+            maxOpt,
+            stepOpt
+          )(
+            (
+              m: boolean | RangeSliderMarker[],
+              mn: number,
+              mx: number,
+              st: number
+            ) => {
+              if (m === true) {
+                const dots: RangeSliderMarker[] = []
+                for (let v = mn; v <= mx; v += st) {
+                  dots.push({ value: v })
+                }
+                return { dots, mn, mx }
+              }
+              if (Array.isArray(m)) {
+                return { dots: m, mn, mx }
+              }
+              return { dots: [] as RangeSliderMarker[], mn, mx }
+            }
+          ),
+          ({ dots, mn, mx }) => {
+            if (dots.length === 0) return Empty
+            return html.div(
+              attr.class('bc-range-slider__markers'),
+              ...dots.map(marker => {
+                const pct = pctOf(marker.value, mn, mx)
+                return html.div(
+                  attr.class('bc-range-slider__marker'),
+                  isVertical ? style.bottom(`${pct}%`) : style.left(`${pct}%`),
+                  marker.label != null
+                    ? html.span(
+                        attr.class('bc-range-slider__marker-label'),
+                        marker.label
+                      )
+                    : Empty
+                )
+              })
+            )
+          }
+        )
+      : Empty
+
     return Fragment(
       attr.class(
         computedOf(size, disabled, readonlyOpt, orientationOpt)(generateClasses)
@@ -639,6 +709,7 @@ export function RangeSlider({
       html.div(
         attr.class('bc-range-slider__track'),
         segmentContent,
+        markerContent,
         tickContent,
         ...thumbElements
       )
