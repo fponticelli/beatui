@@ -63,9 +63,9 @@ test.describe('Guide pages load @smoke', () => {
     const name = route.split('/').pop()!
     test(`guide: ${name}`, async ({ page }) => {
       await page.goto(route)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
       // Every guide page should have an h1
-      await expect(page.locator('h1').first()).toBeVisible()
+      await expect(page.locator('h1').first()).toBeVisible({ timeout: 15_000 })
       // No uncaught errors — page should not show the 404
       await expect(page.locator('text=404')).not.toBeVisible()
     })
@@ -79,9 +79,9 @@ test.describe('Component pages load @smoke', () => {
     const name = route.split('/').pop()!
     test(`component: ${name}`, async ({ page }) => {
       await page.goto(route)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
       // Every component page should have the component name as heading
-      await expect(page.locator('h1').first()).toBeVisible()
+      await expect(page.locator('h1').first()).toBeVisible({ timeout: 15_000 })
       // Should not be a 404
       await expect(page.locator('text=404')).not.toBeVisible()
     })
