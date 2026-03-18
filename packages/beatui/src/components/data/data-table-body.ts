@@ -19,6 +19,7 @@ import { DataTableContext } from './data-table-context'
 import { SelectionCheckbox } from './selection-checkbox'
 import { LoadingOverlay } from '../misc/loading-overlay'
 import { Icon } from './icon'
+import { renderToggleCell, renderDetailRow } from './data-table-row-details'
 
 /** Render a single data cell. */
 function renderDataCell<T, C extends string>(
@@ -76,23 +77,28 @@ export function renderBody<T, C extends string>(
       if (clickable) cls += ' bc-data-table__row--clickable'
       return cls
     })
+    const rowIdStr = ctx.rowId(rowSignal.value)
     // All signals (id, isSelected, rowClass) are auto-disposed by ForEach scope
-    return html.tr(
-      attr.class(rowClass),
-      on.click(() => {
-        if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
-          ctx.ds.toggleSelect(id.value)
-        }
-        ctx.onRowClick?.(rowSignal.value)
-      }),
-      When(
-        Value.map(ctx.selectionAfter, v => !v),
-        () => selectionCell()
+    return Fragment(
+      html.tr(
+        attr.class(rowClass),
+        on.click(() => {
+          if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
+            ctx.ds.toggleSelect(id.value)
+          }
+          ctx.onRowClick?.(rowSignal.value)
+        }),
+        renderToggleCell(rowSignal, rowIdStr, ctx),
+        When(
+          Value.map(ctx.selectionAfter, v => !v),
+          () => selectionCell()
+        ),
+        ForEach(ctx.visibleColumns, (colIdSignal, position) =>
+          renderDataCell(colIdSignal, position.index, rowSignal, ctx)
+        ),
+        When(ctx.selectionAfter, () => selectionCell())
       ),
-      ForEach(ctx.visibleColumns, (colIdSignal, position) =>
-        renderDataCell(colIdSignal, position.index, rowSignal, ctx)
-      ),
-      When(ctx.selectionAfter, () => selectionCell())
+      renderDetailRow(rowSignal, rowIdStr, ctx)
     )
   })
 }
@@ -133,22 +139,26 @@ function renderGroupRow<T, C extends string>(
     return cls
   })
   // All signals (isSelected, rowClass, rowSignal) auto-disposed by When scope
-  return html.tr(
-    attr.class(rowClass),
-    on.click(() => {
-      if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
-        ctx.ds.toggleSelect(id)
-      }
-      ctx.onRowClick?.(row)
-    }),
-    When(
-      Value.map(ctx.selectionAfter, v => !v),
-      () => selectionCell()
+  return Fragment(
+    html.tr(
+      attr.class(rowClass),
+      on.click(() => {
+        if (ctx.selectOnRowClickSignal.value && ctx.selectableSignal.value) {
+          ctx.ds.toggleSelect(id)
+        }
+        ctx.onRowClick?.(row)
+      }),
+      renderToggleCell(rowSignal, id, ctx),
+      When(
+        Value.map(ctx.selectionAfter, v => !v),
+        () => selectionCell()
+      ),
+      ForEach(ctx.visibleColumns, (colIdSignal, position) =>
+        renderDataCell(colIdSignal, position.index, rowSignal, ctx)
+      ),
+      When(ctx.selectionAfter, () => selectionCell())
     ),
-    ForEach(ctx.visibleColumns, (colIdSignal, position) =>
-      renderDataCell(colIdSignal, position.index, rowSignal, ctx)
-    ),
-    When(ctx.selectionAfter, () => selectionCell())
+    renderDetailRow(rowSignal, id, ctx)
   )
 }
 
@@ -159,15 +169,16 @@ export function renderGroupedBody<T, C extends string>(
   const groupColSpan = computedOf(
     ctx.visibleColumns,
     ctx.selectableSignal
-  )((ids, sel) => ids.length + (sel ? 1 : 0))
+  )((ids, sel) => ids.length + (sel ? 1 : 0) + (ctx.hasToggleColumn ? 1 : 0))
 
   const collapsedGroupColSpan = computedOf(
     ctx.visibleColumns,
     ctx.selectableSignal
   )((ids, sel) => {
     const firstTot = ids.findIndex(id => ctx.getCol(id).footer != null)
-    if (firstTot < 0) return ids.length + (sel ? 1 : 0)
-    return firstTot + (sel ? 1 : 0)
+    if (firstTot < 0)
+      return ids.length + (sel ? 1 : 0) + (ctx.hasToggleColumn ? 1 : 0)
+    return firstTot + (sel ? 1 : 0) + (ctx.hasToggleColumn ? 1 : 0)
   })
 
   const hasFooter = ctx.hasFooter
@@ -292,6 +303,7 @@ export function renderGroupedBody<T, C extends string>(
                         attr.class(
                           'bc-data-table__footer-row bc-data-table__group-footer-row'
                         ),
+                        ctx.hasToggleColumn ? html.td() : null,
                         When(ctx.selectable, () => html.td()),
                         ForEach(ctx.visibleColumns, colIdSignal =>
                           MapSignal(colIdSignal, id => {
@@ -359,6 +371,7 @@ export function renderFooter<T, C extends string>(
   return When(ctx.showFooter, () =>
     html.tr(
       attr.class('bc-data-table__footer-row'),
+      ctx.hasToggleColumn ? html.td() : null,
       When(ctx.selectable, () => html.td()),
       ForEach(ctx.visibleColumns, colIdSignal =>
         MapSignal(colIdSignal, id => {

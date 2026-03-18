@@ -22,6 +22,10 @@ import {
   resolveFilterCell,
 } from './data-table-resolve'
 import { SortableHeader } from './sortable-header'
+import {
+  renderToggleHeaderCell,
+  renderToggleFilterCell,
+} from './data-table-row-details'
 import { ColumnHeaderMenu } from './column-header-menu'
 import { SelectAllCheckbox } from './selection-checkbox'
 import { Flyout } from '../navigation/flyout'
@@ -305,6 +309,7 @@ export function renderHeaderRow<T, C extends string>(
   ctx: DataTableContext<T, C>
 ): TNode {
   return html.tr(
+    renderToggleHeaderCell(ctx),
     When(
       Value.map(ctx.selectionAfter, v => !v),
       () => selectionHeaderCell(ctx)
@@ -327,6 +332,7 @@ export function renderFilterRow<T, C extends string>(
   return When(showFilterRow, () =>
     html.tr(
       attr.class('bc-data-table__filter-row'),
+      renderToggleFilterCell(ctx),
       When(
         Value.map(ctx.selectionAfter, v => !v),
         () => selectionEmptyCell(ctx)

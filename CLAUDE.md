@@ -137,6 +137,7 @@ The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates C
 - N/A (client-side editor state only) (003-lexical-editor-integration)
 - TypeScript 5.9+ (ES2020 target) + `@tempots/dom` ^35.1.0, `@tempots/ui` ^14.1.0, `@tempots/std` ~0.25.2 (004-fieldset-field-layout)
 - N/A (client-side UI components only) (004-fieldset-field-layout)
+- N/A (client-side UI component only) (005-datatable-row-details)
 
 ## Recent Changes
 - 001-json-structure-forms: Added TypeScript 5.9+ (ES2020 target)
