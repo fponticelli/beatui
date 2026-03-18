@@ -1,0 +1,8 @@
+/* Format Components - Locale-aware data formatting display */
+
+/* Tabular figures for numeric format components */
+.bc-format-number,
+.bc-format-bigint,
+.bc-format-file-size {
+  font-variant-numeric: tabular-nums;
+}

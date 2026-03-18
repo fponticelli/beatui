@@ -28,6 +28,7 @@
 @import './editable-text.css';
 @import './empty-state.css';
 @import './file-input.css';
+@import './format.css';
 @import './flyout.css';
 @import './group.css';
 @import './history-timeline.css';
@@ -35,7 +36,8 @@
 @import './indicator.css';
 @import './input-adornment.css';
 @import './input-container.css';
-@import './input-wrapper.css';
+@import './field.css';
+@import './fieldset.css';
 @import './json-schema.css';
 @import './json-schema-display.css';
 @import './json-structure.css';
