@@ -279,7 +279,9 @@ describe('Fieldset', () => {
       const content = container.querySelector(
         '.bc-fieldset__content'
       ) as HTMLElement
-      expect(content.style.cssText).toContain('--fieldset-columns: 3')
+      expect(content.style.cssText).toContain(
+        'grid-template-columns: repeat(3, minmax(0, 1fr))'
+      )
     })
 
     it('does not set fieldset-columns when columns is 1', () => {
@@ -288,7 +290,7 @@ describe('Fieldset', () => {
       const content = container.querySelector(
         '.bc-fieldset__content'
       ) as HTMLElement
-      expect(content.style.cssText).not.toContain('--fieldset-columns')
+      expect(content.style.cssText).not.toContain('grid-template-columns')
     })
 
     it('sets fieldset-min-field-width when provided', () => {
@@ -298,7 +300,7 @@ describe('Fieldset', () => {
         '.bc-fieldset__content'
       ) as HTMLElement
       expect(content.style.cssText).toContain(
-        '--fieldset-min-field-width: 300px'
+        'grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))'
       )
     })
   })
