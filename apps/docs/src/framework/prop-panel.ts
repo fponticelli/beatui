@@ -168,7 +168,10 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
         content: NumberInput({
           id: controlId,
           value: signal as Prop<number>,
-          onChange: v => (signal as Prop<number>).set(v),
+          onChange: v =>
+            meta.optional && (v == null || isNaN(v))
+              ? signal.set(undefined as unknown)
+              : (signal as Prop<number>).set(v),
           size: 'xs',
           ...(meta.numberStep != null ? { step: meta.numberStep } : {}),
           ...(meta.numberMin != null ? { min: meta.numberMin } : {}),
@@ -214,11 +217,11 @@ function parseDefault(meta: PropMeta): unknown {
       case 'boolean':
         return false
       case 'string':
-        return ''
+        return meta.optional ? undefined : ''
       case 'number':
-        return 0
+        return meta.optional ? undefined : 0
       case 'bigint':
-        return 0n
+        return meta.optional ? undefined : 0n
       case 'union':
         if (meta.optional) return undefined
         // Default size to 'md' when not specified (most components default to md)
@@ -226,7 +229,7 @@ function parseDefault(meta: PropMeta): unknown {
           return 'md'
         return meta.unionValues?.[0] ?? ''
       default:
-        return ''
+        return meta.optional ? undefined : ''
     }
   }
 
@@ -283,11 +286,16 @@ export function createOptionsPanel(
     const signal = prop(defaultVal)
     signals[propMeta.name] = signal
 
-    // For optional string/union props, wrap in a computed that maps '' → undefined
+    // For optional props, wrap in a computed that maps empty values → undefined
     // so components checking `prop != null` see undefined instead of a truthy signal
     if (propMeta.optional && (propMeta.type === 'string' || propMeta.type === 'union')) {
       props[propMeta.name] = Value.map(signal, v =>
         v === undefined || v === '' ? undefined : v
+      )
+      optionalKeys.push(propMeta.name)
+    } else if (propMeta.optional && (propMeta.type === 'number' || propMeta.type === 'bigint')) {
+      props[propMeta.name] = Value.map(signal, v =>
+        v == null || (typeof v === 'number' && isNaN(v)) ? undefined : v
       )
       optionalKeys.push(propMeta.name)
     } else {
