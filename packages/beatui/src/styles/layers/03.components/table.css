@@ -133,6 +133,11 @@
   background-color: var(--table-stripe-bg);
 }
 
+/* Detail rows inherit the parent row's background instead of zebra striping */
+.bc-table--with-striped-rows > tbody > tr.bc-data-table__detail-row {
+  background-color: inherit;
+}
+
 /* Hoverable striped rows - darker stripe on hover */
 .bc-table--hoverable.bc-table--with-striped-rows
   > tbody

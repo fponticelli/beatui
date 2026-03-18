@@ -6,6 +6,7 @@ import {
   DataTableOptions,
   DataTablePaginationOptions,
   DataTableToolbarOptions,
+  RowDetailsConfig,
 } from './data-table-types'
 import {
   resolveToolbarOptions,
@@ -74,6 +75,16 @@ export interface DataTableContext<T, C extends string = string> {
   setEffectivePage: (page: number) => void
   showPagination: Signal<boolean>
 
+  // Row details
+  rowDetails?: RowDetailsConfig<T>
+  hasToggleColumn: boolean
+  expandedRows?: {
+    toggledIds: Prop<Set<string>>
+    renderedOnce: Set<string>
+    isExpanded: (rowId: string) => boolean
+    toggle: (rowId: string) => void
+  }
+
   // Cleanup
   dispose: () => void
 }
@@ -108,6 +119,7 @@ export function createDataTableContext<T, C extends string = string>(
     emptyContent,
     hiddenColumns: hiddenColumnsOption = [],
     onDataSource,
+    rowDetails,
   } = options
 
   // Resolve sortable union → boolean + multiSort
@@ -299,10 +311,38 @@ export function createDataTableContext<T, C extends string = string>(
     effectiveTotalPages
   )((pag, tp) => pag && tp > 1)
 
+  const hasToggleColumn =
+    rowDetails != null &&
+    (rowDetails.defaultState ?? 'collapsed') !== 'always-visible'
+
+  const expandedRows =
+    rowDetails != null && hasToggleColumn
+      ? (() => {
+          const defaultState = rowDetails.defaultState ?? 'collapsed'
+          const toggledIds = prop<Set<string>>(new Set())
+          const renderedOnce = new Set<string>()
+          const isExpanded = (rowId: string): boolean => {
+            const inSet = toggledIds.value.has(rowId)
+            return defaultState === 'expanded' ? !inSet : inSet
+          }
+          const toggle = (rowId: string) => {
+            const next = new Set(toggledIds.value)
+            if (next.has(rowId)) {
+              next.delete(rowId)
+            } else {
+              next.add(rowId)
+            }
+            toggledIds.set(next)
+            rowDetails.onExpandedChange?.(next)
+          }
+          return { toggledIds, renderedOnce, isExpanded, toggle }
+        })()
+      : undefined
+
   const totalColSpan = computedOf(
     visibleColumns,
     selectableSignal
-  )((ids, sel) => ids.length + (sel ? 1 : 0))
+  )((ids, sel) => ids.length + (sel ? 1 : 0) + (hasToggleColumn ? 1 : 0))
 
   const dragState: { columnId: C | null } = { columnId: null }
 
@@ -330,6 +370,7 @@ export function createDataTableContext<T, C extends string = string>(
     effectiveCurrentPage.dispose()
     showPagination.dispose()
     toolbarConfig.dispose()
+    expandedRows?.toggledIds.dispose()
   }
 
   return {
@@ -377,6 +418,9 @@ export function createDataTableContext<T, C extends string = string>(
     effectiveCurrentPage,
     setEffectivePage,
     showPagination,
+    rowDetails,
+    hasToggleColumn,
+    expandedRows,
     dispose,
   }
 }

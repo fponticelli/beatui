@@ -87,10 +87,9 @@ export function LocaleSelector({
               t
             )((locales, messages) =>
               locales.map(l => {
-                const translatedName =
-                  (messages as Record<string, unknown>)[l.code] as
-                    | string
-                    | undefined
+                const translatedName = (messages as Record<string, unknown>)[
+                  l.code
+                ] as string | undefined
                 let name = translatedName ?? l.name
                 if (l.nativeName != null && l.nativeName !== name) {
                   name += ` (${l.nativeName})`

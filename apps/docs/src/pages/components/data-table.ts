@@ -605,6 +605,248 @@ export default function DataTablePage() {
         'Group rows by a column with groupBy. Collapsible group headers are shown by default when groupCollapsible is true.'
       ),
       Section(
+        'Row Details (Collapsible)',
+        () =>
+          DataTable<User>({
+            data: sampleUsers.slice(0, 6),
+            rowId: u => u.id,
+            fullWidth: true,
+            hoverable: true,
+            columns: [
+              { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                  ),
+              },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
+                  ),
+              },
+            ],
+            rowDetails: {
+              render: row =>
+                html.div(
+                  attr.class('flex flex-col gap-1 p-3 text-sm'),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.email)
+                    )
+                  ),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Role:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.role)
+                    )
+                  )
+                ),
+            },
+          }),
+        'Row details panels expand below each row with a smooth animation. Click the chevron to toggle.'
+      ),
+      Section(
+        'Row Details with Grouping & Selection',
+        () =>
+          DataTable<User>({
+            data: sampleUsers.slice(0, 12),
+            rowId: u => u.id,
+            fullWidth: true,
+            hoverable: true,
+            selectable: true,
+            groupBy: 'role',
+            groupCollapsible: true,
+            withStripedRows: true,
+            columns: [
+              { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                  ),
+                value: r => r.role,
+              },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
+                  ),
+              },
+            ],
+            rowDetails: {
+              render: row =>
+                html.div(
+                  attr.class('flex flex-col gap-1 p-3 text-sm'),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.email)
+                    )
+                  ),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(
+                      attr.class('font-medium text-gray-500'),
+                      'Joined:'
+                    ),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.joined)
+                    )
+                  )
+                ),
+            },
+          }),
+        'Row details work alongside grouping, selection, and striped rows. The toggle column appears before the selection checkbox.'
+      ),
+      Section(
+        'Row Details (Always Visible)',
+        () =>
+          DataTable<User>({
+            data: sampleUsers.slice(0, 6),
+            rowId: u => u.id,
+            fullWidth: true,
+            hoverable: true,
+            columns: [
+              { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                  ),
+              },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
+                  ),
+              },
+            ],
+            rowDetails: {
+              defaultState: 'always-visible',
+              render: row =>
+                html.div(
+                  attr.class('flex flex-col gap-1 p-3 text-sm'),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.email)
+                    )
+                  ),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Role:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.role)
+                    )
+                  )
+                ),
+            },
+          }),
+        'When set to always-visible, detail panels are always shown with no toggle column.'
+      ),
+      Section(
+        'Row Details (Conditional)',
+        () =>
+          DataTable<User>({
+            data: sampleUsers.slice(0, 8),
+            rowId: u => u.id,
+            fullWidth: true,
+            hoverable: true,
+            columns: [
+              { id: 'name', header: 'Name', cell: row => row.map(r => r.name) },
+              {
+                id: 'email',
+                header: 'Email',
+                cell: row => row.map(r => r.email),
+              },
+              {
+                id: 'role',
+                header: 'Role',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                  ),
+              },
+              {
+                id: 'status',
+                header: 'Status',
+                cell: row =>
+                  MapSignal(row, r =>
+                    Badge(
+                      { color: statusColor(r.status), size: 'sm' },
+                      r.status
+                    )
+                  ),
+              },
+            ],
+            rowDetails: {
+              hasDetails: row => Value.get(row).role === 'Admin',
+              render: row =>
+                html.div(
+                  attr.class('flex flex-col gap-1 p-3 text-sm'),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.email)
+                    )
+                  ),
+                  html.div(
+                    attr.class('flex gap-2'),
+                    html.span(attr.class('font-medium text-gray-500'), 'Role:'),
+                    MapSignal(row, r =>
+                      html.span(attr.class('text-gray-800'), r.role)
+                    )
+                  )
+                ),
+            },
+          }),
+        'Use hasDetails to control which rows have expandable details. Only Admin users have details in this example.'
+      ),
+      Section(
         'Sticky Header',
         () =>
           html.div(

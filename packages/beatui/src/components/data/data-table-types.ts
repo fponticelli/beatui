@@ -224,4 +224,29 @@ export interface DataTableOptions<T, C extends string = string> {
 
   /** Callback to receive the internal DataSource for external integration */
   onDataSource?: (ds: DataSource<T, C>) => void
+
+  /** Row detail panel configuration. When set, renders expandable detail rows. */
+  rowDetails?: RowDetailsConfig<T>
+}
+
+/**
+ * Configuration for row detail panels in {@link DataTable}.
+ *
+ * @typeParam T - The type of data rows
+ */
+export interface RowDetailsConfig<T> {
+  /** Render function for detail content. Called lazily on first expand. */
+  render: (row: Signal<T>) => TNode
+  /**
+   * Initial visibility state of detail panels.
+   * - `'collapsed'` — panels start closed, toggle column shown (default)
+   * - `'expanded'` — panels start open, toggle column shown
+   * - `'always-visible'` — panels always open, no toggle column
+   * @default 'collapsed'
+   */
+  defaultState?: 'expanded' | 'collapsed' | 'always-visible'
+  /** Predicate controlling which rows have a detail panel. When omitted, all rows have details. */
+  hasDetails?: (row: Signal<T>) => boolean
+  /** Callback invoked with the updated set of toggled row IDs when a panel is toggled. */
+  onExpandedChange?: (toggledIds: Set<string>) => void
 }

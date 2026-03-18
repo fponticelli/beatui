@@ -622,6 +622,59 @@ th.bc-data-table__header--drag-over {
   background-color: var(--interactive-hover);
 }
 
+/* Row Details: Toggle column */
+.bc-data-table__toggle-header {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+  padding: 0 !important;
+}
+
+.bc-table > tbody > tr > td.bc-data-table__toggle-cell {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+  padding: 0 !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.bc-data-table__toggle-cell > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition:
+    color var(--motion-transition-fast) var(--motion-easing-standard),
+    background-color var(--motion-transition-fast) var(--motion-easing-standard);
+}
+
+.bc-data-table__toggle-cell > button:hover {
+  background-color: var(--interactive-hover);
+  color: var(--text-normal);
+}
+
+/* Row Details: Detail row */
+.bc-data-table__detail-row > td {
+  padding: 0 !important;
+  border-top: none !important;
+}
+
+.bc-data-table__detail-cell {
+  padding: 0 !important;
+}
+
+.bc-data-table__detail-cell > div {
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bc-sortable-header,
@@ -632,7 +685,8 @@ th.bc-data-table__header--drag-over {
   .bc-data-toolbar__action,
   .bc-data-toolbar__reset,
   .bc-data-table__column-toggle-btn,
-  .bc-data-table__group-toggle {
+  .bc-data-table__group-toggle,
+  .bc-data-table__toggle-cell > button {
     transition: none;
   }
 }
