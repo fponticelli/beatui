@@ -7,7 +7,7 @@ test.describe('Smoke tests @smoke', () => {
     const heading = page.getByRole('heading', { name: 'BeatUI Components' })
     await expect(heading).toBeVisible({ timeout: 15_000 })
     // Has category cards
-    await expect(page.getByRole('heading', { name: 'Layout' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Layout', exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Guides' })).toBeVisible()
   })
 
