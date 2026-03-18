@@ -135,6 +135,8 @@ The build uses a custom Vite plugin (`scripts/vite-plugins.ts`) that generates C
 - File-based (visual baselines in repository, test artifacts in CI) (002-e2e-best-practices)
 - TypeScript 5.9+ (ES2020 target) + `lexical` v0.40+, `@lexical/*` packages, `@tempots/dom` ^35.1.0, `@tempots/ui` ^14.1.0, `@tempots/std` ~0.25.2 (003-lexical-editor-integration)
 - N/A (client-side editor state only) (003-lexical-editor-integration)
+- TypeScript 5.9+ (ES2020 target) + `@tempots/dom` ^35.1.0, `@tempots/ui` ^14.1.0, `@tempots/std` ~0.25.2 (004-fieldset-field-layout)
+- N/A (client-side UI components only) (004-fieldset-field-layout)
 
 ## Recent Changes
 - 001-json-structure-forms: Added TypeScript 5.9+ (ES2020 target)
