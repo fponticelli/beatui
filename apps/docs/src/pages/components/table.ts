@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Table',
-  category: 'Tables',
+  category: 'Data Display',
   component: 'Table',
   description:
     'A styled HTML table wrapper with configurable borders, striped rows, hover effects, and sticky headers.',

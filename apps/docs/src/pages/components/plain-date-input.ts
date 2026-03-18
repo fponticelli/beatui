@@ -12,7 +12,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Temporal Inputs',
-  category: 'Date & Time',
+  category: 'Specialized Inputs',
   component: 'PlainDateInput',
   description:
     'A family of native date/time inputs that bind to Temporal API types (PlainDate, PlainDateTime, PlainTime, PlainYearMonth, PlainMonthDay). Requires the Temporal polyfill.',

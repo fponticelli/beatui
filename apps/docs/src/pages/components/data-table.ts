@@ -11,7 +11,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DataTable',
-  category: 'Tables',
+  category: 'Data Display',
   component: 'DataTable',
   description:
     'A full-featured data table with sorting, filtering, row selection, pagination, and bulk actions. Each feature is opt-in and configurable per column.',

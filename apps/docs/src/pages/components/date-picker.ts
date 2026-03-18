@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DatePicker',
-  category: 'Date & Time',
+  category: 'Specialized Inputs',
   component: 'DatePicker',
   description:
     'A date selection panel with month/year navigation. Uses Temporal PlainDate internally.',

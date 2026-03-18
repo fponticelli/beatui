@@ -13,7 +13,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Fieldset',
-  category: 'Form Layout',
+  category: 'Layout',
   component: 'Fieldset',
   description:
     'Groups form fields with a legend, cascading layout configuration, multi-column grid, and optional collapsible content.',
