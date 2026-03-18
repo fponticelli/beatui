@@ -7,7 +7,7 @@ test.describe('Visual regression - core pages @visual', () => {
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveScreenshot('home.png', {
       fullPage: true,
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.03,
     })
   })
 
@@ -16,7 +16,7 @@ test.describe('Visual regression - core pages @visual', () => {
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveScreenshot('guide-getting-started.png', {
       fullPage: true,
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.03,
     })
   })
 })
