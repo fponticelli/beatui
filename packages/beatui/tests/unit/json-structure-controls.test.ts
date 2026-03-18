@@ -194,7 +194,7 @@ describe('JSON Structure Controls', () => {
       )
 
       // Required indicator varies by implementation, but there should be some indicator
-      const wrapper = container.querySelector('.bc-input-wrapper')
+      const wrapper = container.querySelector('.bc-field')
       expect(wrapper).not.toBeNull()
     })
   })

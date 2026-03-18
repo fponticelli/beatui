@@ -8,7 +8,7 @@ import {
 import { Label, MutedLabel } from '../../typography'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   tryResolveCustomWidget,
 } from './shared-utils'
 import { resolveWidget } from '../widgets/utils'
@@ -73,7 +73,7 @@ export function JSONSchemaEnum({
         : controller
 
     return NativeSelectControl({
-      ...definitionToInputWrapperOptions({ ctx }),
+      ...definitionToFieldOptions({ ctx }),
       options,
       controller: effectiveController as Controller<unknown>,
       // Custom equality to handle null/undefined comparison

@@ -26,7 +26,7 @@ import {
   makeOnBlurHandler,
   makeOnChangeHandler,
 } from '../control'
-import { InputWrapper } from './input-wrapper'
+import { Field } from './field'
 import { DropdownOption } from './option'
 import { DropdownBase } from './dropdown-base'
 
@@ -286,7 +286,7 @@ export const BaseDropdownControl = <T>(
 /**
  * A complete dropdown form control with label, description, error message, and validation.
  *
- * Combines {@link BaseDropdownControl} with an {@link InputWrapper} to provide a
+ * Combines {@link BaseDropdownControl} with a {@link Field} to provide a
  * full-featured form field with label, optional description, and validation error display.
  *
  * @template T - The type of the selectable option values
@@ -296,7 +296,7 @@ export const BaseDropdownControl = <T>(
 export const DropdownControl = <T>(
   options: ControlOptions<T, DropdownInputOptions<T>>
 ) => {
-  return InputWrapper({
+  return Field({
     ...options,
     content: BaseDropdownControl(options),
   })

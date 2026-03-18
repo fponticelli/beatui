@@ -4,7 +4,7 @@ import { NullableResetAfter } from '../../form/input/nullable-utils'
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { resolveWidget } from '../widgets/utils'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   shouldHideWriteOnly,
   shouldDisableControl,
   tryResolveCustomWidget,
@@ -38,7 +38,7 @@ export function JSONSchemaBoolean({
   }
 
   const baseOptions = {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...definitionToFieldOptions({ ctx }),
     disabled: shouldDisableControl(ctx),
   }
 

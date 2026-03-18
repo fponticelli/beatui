@@ -23,10 +23,12 @@ const CATEGORY_ICONS: Record<string, string> = {
   Tables: 'lucide:table',
   Media: 'lucide:play',
   Feedback: 'lucide:message-circle',
+  Formatting: 'lucide:languages',
   'Rich Editors': 'lucide:pen-line',
   'Schema Forms': 'lucide:braces',
   Authentication: 'lucide:shield',
   Utilities: 'lucide:wrench',
+  'Form Layout': 'lucide:layout-panel-left',
 }
 
 interface PageMeta {

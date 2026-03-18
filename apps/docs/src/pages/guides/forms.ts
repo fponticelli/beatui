@@ -415,7 +415,7 @@ export default function FormsGuidePage() {
               attr.class(
                 'font-mono text-xs bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded'
               ),
-              'InputWrapper'
+              'Field'
             ),
             ' that provides label, description, and reactive validation error display. It automatically wires the ',
             html.code(

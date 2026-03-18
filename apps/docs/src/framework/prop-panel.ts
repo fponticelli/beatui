@@ -5,7 +5,7 @@ import {
   TextInput,
   NumberInput,
   NativeSelect,
-  InputWrapper,
+  Field,
 } from '@tempots/beatui'
 import type { SelectOption } from '@tempots/beatui'
 import type { PropMeta, ComponentMeta } from './types'
@@ -66,7 +66,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
 
   switch (meta.type) {
     case 'boolean':
-      return InputWrapper({
+      return Field({
         label: meta.name,
         labelFor: controlId,
         description,
@@ -87,7 +87,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
         for (const v of values) {
           options[v] = v
         }
-        return InputWrapper({
+        return Field({
           label: meta.name,
           description,
           content: SegmentedInput({
@@ -112,7 +112,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
           label: '(none)',
         })
       }
-      return InputWrapper({
+      return Field({
         label: meta.name,
         labelFor: controlId,
         description,
@@ -135,7 +135,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
       // so components using Ensure/null checks work correctly
       if (meta.optional) {
         const displayValue = Value.map(signal, v => (v as string) ?? '')
-        return InputWrapper({
+        return Field({
           label: meta.name,
           labelFor: controlId,
           description,
@@ -147,7 +147,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
           }),
         })
       }
-      return InputWrapper({
+      return Field({
         label: meta.name,
         labelFor: controlId,
         description,
@@ -161,7 +161,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
     }
 
     case 'number':
-      return InputWrapper({
+      return Field({
         label: meta.name,
         labelFor: controlId,
         description,
@@ -177,7 +177,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
       })
 
     case 'bigint':
-      return InputWrapper({
+      return Field({
         label: meta.name,
         labelFor: controlId,
         description,

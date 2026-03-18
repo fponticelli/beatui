@@ -1,10 +1,5 @@
 import { html, attr, prop, Value } from '@tempots/dom'
-import {
-  RadioGroup,
-  SegmentedInput,
-  InputWrapper,
-  ControlSize,
-} from '@tempots/beatui'
+import { RadioGroup, SegmentedInput, Field, ControlSize } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
 import { ControlsHeader } from '../views/controls-header'
 import { ControlSwitch } from '../views/control-helpers'
@@ -127,7 +122,7 @@ export default function RadioGroupsPage() {
           attr.class('space-y-4'),
           (() => {
             const seg = prop<'daily' | 'weekly' | 'monthly'>('daily')
-            return InputWrapper({
+            return Field({
               label: 'Frequency',
               content: SegmentedInput({
                 options: {
@@ -144,7 +139,7 @@ export default function RadioGroupsPage() {
           })(),
           (() => {
             const view = prop<'list' | 'grid' | 'kanban'>('grid')
-            return InputWrapper({
+            return Field({
               label: 'View Mode',
               content: SegmentedInput({
                 options: { list: 'List', grid: 'Grid', kanban: 'Kanban' },

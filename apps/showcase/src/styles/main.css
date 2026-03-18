@@ -185,11 +185,11 @@
 }
 
 /* Compact controls within header */
-.sc-controls-header .bc-input-wrapper {
+.sc-controls-header .bc-field {
   gap: 2px;
 }
 
-.sc-controls-header .bc-input-wrapper__label {
+.sc-controls-header .bc-field__label {
   font-size: 10px;
   color: #9ca3af;
   font-weight: 500;
@@ -271,6 +271,6 @@
   color: #6b7280;
 }
 
-.dark .sc-controls-header .bc-input-wrapper__label {
+.dark .sc-controls-header .bc-field__label {
   color: #6b7280;
 }

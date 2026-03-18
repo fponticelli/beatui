@@ -11,7 +11,7 @@ import {
 } from '@tempots/dom'
 import {
   ObjectController,
-  InputWrapper,
+  Field,
   EditableText,
   type Controller,
 } from '../../form'
@@ -130,7 +130,7 @@ export function renderAdditionalEntry(
   return html.div(
     attr.class('bc-object-helpers__row'),
     style.gridTemplateColumns('2fr 3fr min-content'),
-    InputWrapper({
+    Field({
       content: EditableText({
         value: keySignal,
         onChange: handleRename,
@@ -264,7 +264,7 @@ export function renderUnevaluatedEntry(
   return html.div(
     attr.class('bc-object-helpers__row'),
     style.gridTemplateColumns('2fr 3fr min-content'),
-    InputWrapper({
+    Field({
       content: EditableText({
         value: keySignal,
         onChange: handleRename,

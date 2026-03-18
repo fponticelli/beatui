@@ -43,7 +43,7 @@ const localDateToString = (date: Date) => {
  *
  * @example
  * ```ts
- * // With label via InputWrapper
+ * // With label via Field
  * DateTimeInput({
  *   value: prop(new Date()),
  *   onChange: (d) => console.log('Selected:', d.toISOString()),

@@ -6,7 +6,7 @@ import type {
   JSONSchemaDefinition,
 } from '../schema-context'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   makePlaceholder,
   tryResolveCustomWidget,
 } from './shared-utils'
@@ -245,7 +245,7 @@ export function JSONSchemaArray({
     : null
 
   const listControl = ListControl({
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...definitionToFieldOptions({ ctx }),
     createItem: () => {
       const currentLength = controller.signal.value?.length ?? 0
 

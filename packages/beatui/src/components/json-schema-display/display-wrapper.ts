@@ -30,7 +30,7 @@ function MismatchIndicators(mismatches: Mismatch[]): Renderable {
  * Display wrapper component.
  * Renders label (from ctx.widgetLabel), required indicator, deprecated badge,
  * description, and mismatch indicators around content.
- * Analog of InputWrapper + WithSchemaIssues for display mode.
+ * Analog of Field + WithSchemaIssues for display mode.
  */
 export function DisplayWrapper({
   ctx,

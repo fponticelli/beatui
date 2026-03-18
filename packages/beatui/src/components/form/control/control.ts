@@ -1,7 +1,7 @@
 import { Merge, Primitive, TextNode, TNode, Value } from '@tempots/dom'
 import { InputOptions } from '../input/input-options'
 import { Controller } from '../controller'
-import { InputWrapper, InputWrapperOptions } from '../input'
+import { Field, FieldOptions } from '../input'
 import { sessionId } from '../../../utils'
 
 /**
@@ -43,10 +43,7 @@ export type BaseControlInputOptions =
 /**
  * Options for a control that includes both input and wrapper options.
  */
-export type ControlInputOptions = Merge<
-  BaseControlInputOptions,
-  InputWrapperOptions
->
+export type ControlInputOptions = Merge<BaseControlInputOptions, FieldOptions>
 
 /**
  * Options for connecting a controller to an input component without a wrapper.
@@ -66,7 +63,7 @@ export type BaseControlOptions<T, O extends BaseControlInputOptions> = Merge<
  * @template O - The input component options type
  */
 export type ControlOptions<T, O extends BaseControlInputOptions> = Merge<
-  Omit<InputWrapperOptions, 'content'>,
+  Omit<FieldOptions, 'content'>,
   Merge<
     Omit<O, 'value'>,
     { controller: Controller<T>; triggerOn?: 'input' | 'change' }
@@ -181,7 +178,7 @@ export function Control<T, O extends BaseControlInputOptions>(
   const id: Value<string> =
     idArg ?? options.controller.name ?? sessionId('control')
   const labelFor: Value<string> = labelForArg ?? id
-  return InputWrapper(
+  return Field(
     {
       ...options,
       hasError: options.controller.errorVisible,
@@ -280,7 +277,7 @@ export function MappedControl<T, U, O extends BaseControlInputOptions>(
     idArg ?? options.controller.name ?? sessionId('control')
   const labelFor: Value<string> = labelForArg ?? id
 
-  return InputWrapper(
+  return Field(
     {
       ...options,
       labelFor,

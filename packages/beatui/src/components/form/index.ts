@@ -1,5 +1,6 @@
 export * from './control'
 export * from './controller'
+export * from './fieldset'
 export * from './input'
 export * from './schema'
 export * from './use-form'

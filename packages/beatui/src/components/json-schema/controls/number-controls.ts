@@ -15,7 +15,7 @@ import {
 import type { SchemaContext, JSONSchema } from '../schema-context'
 import { resolveWidget } from '../widgets/utils'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   makePlaceholder,
   integerMultipleOf,
   shouldHideWriteOnly,
@@ -92,7 +92,7 @@ export function JSONSchemaNumber({
   }
 
   const baseOptions = {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...definitionToFieldOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
     min: def.minimum,
     max: def.maximum,

@@ -1,5 +1,5 @@
 import type { JSONSchema } from '../schema-context'
-import type { InputWrapperOptions, Controller } from '../../form'
+import type { FieldOptions, Controller } from '../../form'
 import type { Renderable } from '@tempots/dom'
 import { globalWidgetRegistry } from '../widgets/widget-customization'
 import type { ResolvedWidget } from '../widgets/utils'
@@ -7,11 +7,11 @@ import type { ResolvedWidget } from '../widgets/utils'
 /**
  * Convert schema definition to input wrapper options
  */
-export function definitionToInputWrapperOptions({
+export function definitionToFieldOptions({
   ctx,
 }: {
   ctx: import('../schema-context').SchemaContext
-}): Partial<InputWrapperOptions> {
+}): Partial<FieldOptions> {
   const { examples, default: defaultValue } = ctx
   let { description } = ctx
   if (description == null && examples != null && defaultValue != null) {
