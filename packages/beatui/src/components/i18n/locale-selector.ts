@@ -1,6 +1,6 @@
 import { Locale } from './'
 import { Field, NativeSelect } from '../form'
-import { attr, Use, Value } from '@tempots/dom'
+import { attr, computedOf, Use, Value } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
 import { Group } from '../layout'
 import { Icon } from '../data'
@@ -82,10 +82,17 @@ export function LocaleSelector({
           }),
           NativeSelect({
             ariaLabel: t.$.locale,
-            options: Value.map(locales, locales =>
+            options: computedOf(
+              locales,
+              t
+            )((locales, messages) =>
               locales.map(l => {
-                let name = l.name
-                if (l.nativeName != null && l.nativeName !== l.name) {
+                const translatedName =
+                  (messages as Record<string, unknown>)[l.code] as
+                    | string
+                    | undefined
+                let name = translatedName ?? l.name
+                if (l.nativeName != null && l.nativeName !== name) {
                   name += ` (${l.nativeName})`
                 }
                 return Option.value(l.code, name) as SelectOption<string>
