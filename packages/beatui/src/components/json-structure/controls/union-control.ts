@@ -10,7 +10,7 @@ import {
   type UnionBranch,
   UnionController,
   NativeSelect,
-  InputWrapper,
+  Field,
 } from '../../form'
 import { upperCaseFirst } from '@tempots/std'
 import type { StructureContext } from '../structure-context'
@@ -314,7 +314,7 @@ function WithSelectorLayout({
       : inner
   }
 
-  return InputWrapper({
+  return Field({
     ...createInputOptions(ctx),
     content: showSelector
       ? Stack(

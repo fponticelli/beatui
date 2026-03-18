@@ -13,7 +13,7 @@ import {
   Fragment,
   Empty,
 } from '@tempots/dom'
-import { ObjectController, InputWrapper } from '../../form'
+import { ObjectController, Field } from '../../form'
 import { Button } from '../../button'
 import { objectEntries } from '@tempots/std'
 import type { StructureContext } from '../structure-context'
@@ -212,9 +212,9 @@ export function StructureObjectControl({
     content
   )
 
-  // Wrap with InputWrapper if label should be shown
+  // Wrap with Field if label should be shown
   if (!ctx.suppressLabel && ctx.name) {
-    return InputWrapper({
+    return Field({
       ...createInputOptions(ctx),
       content: wrappedContent,
     })

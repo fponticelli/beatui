@@ -18,7 +18,7 @@ import {
   html,
 } from '@tempots/dom'
 import type { StructureContext } from '../structure-context'
-import { NativeSelect, InputWrapper, type Controller } from '../../form'
+import { NativeSelect, Field, type Controller } from '../../form'
 import { Controller as ControllerClass } from '../../form/controller/controller'
 import { Stack } from '../../layout'
 import type { ChoiceTypeDefinition, TypeDefinition } from '../structure-types'
@@ -73,7 +73,7 @@ function ChoiceLayout({
     return content
   }
 
-  return InputWrapper({
+  return Field({
     label: ctx.suppressLabel ? undefined : ctx.label,
     description: ctx.description,
     required: ctx.isRequired,

@@ -1,5 +1,5 @@
 import { Locale } from './'
-import { InputWrapper, NativeSelect } from '../form'
+import { Field, NativeSelect } from '../form'
 import { attr, Use, Value } from '@tempots/dom'
 import { BeatUII18n } from '../../beatui-i18n'
 import { Group } from '../layout'
@@ -36,7 +36,7 @@ export type LocaleSelectorOptions = {
 /**
  * A dropdown component for selecting the application locale.
  *
- * Renders a native `<select>` element wrapped in an `InputWrapper` with a language icon.
+ * Renders a native `<select>` element wrapped in a `Field` with a language icon.
  * The component reads the current locale from the `Locale` provider and optionally updates it
  * when the user makes a selection.
  *
@@ -70,7 +70,7 @@ export function LocaleSelector({
 }: LocaleSelectorOptions) {
   return Use(BeatUII18n, t =>
     Use(Locale, ({ locale, setLocale }) => {
-      return InputWrapper({
+      return Field({
         layout: 'horizontal',
         content: Group(
           attr.class('bc-group--align-center bc-group--gap-2'),

@@ -13,7 +13,7 @@ import type { SchemaContext, JSONSchema } from '../schema-context'
 import { StringControl } from '../widgets/string-controls'
 import { resolveWidget } from '../widgets/utils'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   makePlaceholder,
   shouldHideWriteOnly,
   shouldDisableControl,
@@ -50,7 +50,7 @@ export function JSONSchemaString({
   }
 
   const options = {
-    ...definitionToInputWrapperOptions({ ctx }),
+    ...definitionToFieldOptions({ ctx }),
     placeholder: makePlaceholder(ctx.definition as JSONSchema, String),
     disabled: shouldDisableControl(ctx),
   }

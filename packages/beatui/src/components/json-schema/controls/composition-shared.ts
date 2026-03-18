@@ -1,9 +1,9 @@
 import { attr, Renderable, Value } from '@tempots/dom'
 import { Stack } from '../../layout'
-import { NativeSelect, InputWrapper } from '../../form'
+import { NativeSelect, Field } from '../../form'
 import { SegmentedInput } from '../../form/input/segmented-input'
 import type { SchemaContext } from '../schema-context'
-import { definitionToInputWrapperOptions } from './shared-utils'
+import { definitionToFieldOptions } from './shared-utils'
 
 export type ChoiceMode = 'auto' | 'segmented' | 'select'
 
@@ -79,7 +79,7 @@ export interface WithSelectorLayoutParams {
 /**
  * Wrap inner control with selector and layout based on context.
  * - At root: show selector + inner in a vertical Stack when showSelector is true
- * - Non-root: wrap content in InputWrapper and include selector when needed
+ * - Non-root: wrap content in Field and include selector when needed
  */
 export function WithSelectorLayout({
   ctx,
@@ -92,8 +92,8 @@ export function WithSelectorLayout({
       ? Stack(attr.class('bc-stack--gap-2'), selector, inner)
       : inner
   }
-  return InputWrapper({
-    ...definitionToInputWrapperOptions({ ctx }),
+  return Field({
+    ...definitionToFieldOptions({ ctx }),
     content: showSelector
       ? Stack(
           attr.class('bc-stack--gap-2 bc-stack--align-start'),

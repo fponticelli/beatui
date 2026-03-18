@@ -7,7 +7,7 @@ import {
   Fragment,
   Empty,
 } from '@tempots/dom'
-import { ObjectController, InputWrapper } from '../../form'
+import { ObjectController, Field } from '../../form'
 import { Button } from '../../button'
 import { objectEntries } from '@tempots/std'
 import { BeatUII18n } from '../../../beatui-i18n'
@@ -15,7 +15,7 @@ import { renderAdditionalEntry, renderUnevaluatedEntry } from './object-helpers'
 import { JSONSchemaGenericControl } from './generic-control'
 import {
   makePlaceholder,
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   tryResolveCustomWidget,
 } from './shared-utils'
 import { resolveWidget } from '../widgets/utils'
@@ -323,9 +323,9 @@ function createAddPropertyButton({
 }
 
 /**
- * Wrap content with InputWrapper if needed.
+ * Wrap content with Field if needed.
  */
-function wrapWithInputWrapper({
+function wrapWithField({
   ctx,
   containerLayout,
   content,
@@ -342,8 +342,8 @@ function wrapWithInputWrapper({
 
   if (!shouldWrap) return content
 
-  return InputWrapper({
-    ...definitionToInputWrapperOptions({ ctx }),
+  return Field({
+    ...definitionToFieldOptions({ ctx }),
     content,
   })
 }
@@ -449,7 +449,7 @@ function renderStaticObject({
     knownPropertyNames
   )
 
-  return wrapWithInputWrapper({ ctx, containerLayout, content })
+  return wrapWithField({ ctx, containerLayout, content })
 }
 
 /**
@@ -612,7 +612,7 @@ function renderDynamicObject({
       allPropertyNames
     )
 
-    return wrapWithInputWrapper({ ctx: effCtx, containerLayout, content })
+    return wrapWithField({ ctx: effCtx, containerLayout, content })
   })
 }
 

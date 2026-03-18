@@ -2,7 +2,7 @@ import { html, attr, prop } from '@tempots/dom'
 import {
   CheckboxInput,
   Switch,
-  InputWrapper,
+  Field,
   RadioGroup,
   RadioOption,
 } from '@tempots/beatui'
@@ -39,7 +39,7 @@ export default function CheckboxesPage() {
         html.div(attr.class('sc-section-header'), 'Checkboxes'),
         html.div(
           attr.style('display: flex; flex-direction: column; gap: 10px'),
-          InputWrapper({
+          Field({
             content: CheckboxInput({
               value: check1,
               onChange: v => check1.set(v),
@@ -47,7 +47,7 @@ export default function CheckboxesPage() {
             label: 'Checked option',
             layout: 'horizontal-label-right',
           }),
-          InputWrapper({
+          Field({
             content: CheckboxInput({
               value: check2,
               onChange: v => check2.set(v),
@@ -55,7 +55,7 @@ export default function CheckboxesPage() {
             label: 'Unchecked option',
             layout: 'horizontal-label-right',
           }),
-          InputWrapper({
+          Field({
             content: CheckboxInput({
               value: check3,
               onChange: v => check3.set(v),
@@ -63,13 +63,13 @@ export default function CheckboxesPage() {
             label: 'Another option',
             layout: 'horizontal-label-right',
           }),
-          InputWrapper({
+          Field({
             content: CheckboxInput({ value: prop(true), disabled: true }),
             label: 'Disabled checked',
             layout: 'horizontal-label-right',
             disabled: true,
           }),
-          InputWrapper({
+          Field({
             content: CheckboxInput({ value: prop(false), disabled: true }),
             label: 'Disabled unchecked',
             layout: 'horizontal-label-right',
@@ -96,17 +96,17 @@ export default function CheckboxesPage() {
         html.div(attr.class('sc-section-header'), 'Toggle Switches'),
         html.div(
           attr.style('display: flex; flex-direction: column; gap: 10px'),
-          InputWrapper({
+          Field({
             content: Switch({ value: switch1, onChange: v => switch1.set(v) }),
             label: 'Notifications',
             layout: 'horizontal-label-right',
           }),
-          InputWrapper({
+          Field({
             content: Switch({ value: switch2, onChange: v => switch2.set(v) }),
             label: 'Dark mode',
             layout: 'horizontal-label-right',
           }),
-          InputWrapper({
+          Field({
             content: Switch({ value: switch3, onChange: v => switch3.set(v) }),
             label: 'Auto-save',
             layout: 'horizontal-label-right',

@@ -39,14 +39,14 @@ describe('Control Components Horizontal Layout', () => {
         container
       )
 
-      const wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      const wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         true
       )
 
       // Should have description under label
       const descriptionUnderLabel = container.querySelector(
-        '.bc-input-wrapper__description--under-label'
+        '.bc-field__description--under-label'
       )
       expect(descriptionUnderLabel).not.toBeNull()
       expect(descriptionUnderLabel?.textContent).toBe('This is a description')
@@ -71,14 +71,14 @@ describe('Control Components Horizontal Layout', () => {
         container
       )
 
-      const wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      const wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         false
       )
 
       // Should have description at bottom
       const bottomDescription = container.querySelector(
-        '.bc-input-wrapper__description:not(.bc-input-wrapper__description--under-label)'
+        '.bc-field__description:not(.bc-field__description--under-label)'
       )
       expect(bottomDescription).not.toBeNull()
       expect(bottomDescription?.textContent).toBe('This is a description')
@@ -111,8 +111,8 @@ describe('Control Components Horizontal Layout', () => {
       )
 
       // Initially vertical
-      let wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      let wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         false
       )
 
@@ -120,14 +120,14 @@ describe('Control Components Horizontal Layout', () => {
       layout.set('horizontal')
       await new Promise(resolve => setTimeout(resolve, 10))
 
-      wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         true
       )
 
       // Should have description under label
       const descriptionUnderLabel = container.querySelector(
-        '.bc-input-wrapper__description--under-label'
+        '.bc-field__description--under-label'
       )
       expect(descriptionUnderLabel).not.toBeNull()
     })

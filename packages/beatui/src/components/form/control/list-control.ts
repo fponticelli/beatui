@@ -20,7 +20,7 @@ import { Button } from '../../button'
 import { Icon } from '../../data'
 import { Group } from '../../layout/group'
 import { BeatUII18n } from '../../../beatui-i18n'
-import { InputWrapper, InputWrapperOptions } from '../input'
+import { Field, FieldOptions } from '../input'
 import { ListItemControls, ListControlsLayout } from './list-item-controls'
 
 /**
@@ -32,7 +32,7 @@ export type ListControllerPayload<T> = ListInputPayload<T>
 export type { MoveDirection, MovableDirection }
 
 /**
- * Base configuration options for {@link BaseListControl} (without InputWrapper).
+ * Base configuration options for {@link BaseListControl} (without Field).
  *
  * @typeParam T - The type of each item in the list
  */
@@ -74,20 +74,20 @@ export type BaseListControlOptions<T> = {
 }
 
 /**
- * Configuration options for {@link ListControl}, combining InputWrapper options with list control options.
+ * Configuration options for {@link ListControl}, combining Field options with list control options.
  *
- * Inherits all properties from {@link InputWrapperOptions} (except `content`, which is generated)
+ * Inherits all properties from {@link FieldOptions} (except `content`, which is generated)
  * and {@link BaseListControlOptions}.
  *
  * @typeParam T - The type of each item in the list
  */
 export type ListControlOptions<T> = Merge<
-  Omit<InputWrapperOptions, 'content'>,
+  Omit<FieldOptions, 'content'>,
   BaseListControlOptions<T>
 >
 
 /**
- * Renders a list of items with move, remove, and add controls -- without an InputWrapper.
+ * Renders a list of items with move, remove, and add controls -- without an Field.
  *
  * Each item is rendered using the `element` callback and can optionally include
  * move up/down buttons, a remove button, and an "Add" button at the bottom.
@@ -187,15 +187,15 @@ export const BaseListControl = <T>(options: BaseListControlOptions<T>) => {
 }
 
 /**
- * Renders a list of items with move, remove, and add controls inside an InputWrapper.
+ * Renders a list of items with move, remove, and add controls inside an Field.
  *
- * Combines {@link BaseListControl} with {@link InputWrapper} to provide a complete
+ * Combines {@link BaseListControl} with {@link Field} to provide a complete
  * form field for managing a list of values, including label, description, and error display.
  *
  * @typeParam T - The type of each item in the list
  *
- * @param options - Configuration options combining InputWrapper and list control settings
- * @param children - Additional child nodes to render inside the InputWrapper
+ * @param options - Configuration options combining Field and list control settings
+ * @param children - Additional child nodes to render inside the Field
  *
  * @returns A renderable TNode representing the wrapped list control
  *
@@ -235,7 +235,7 @@ export const ListControl = <T>(
     ...inputWrapperOptions
   } = options
 
-  return InputWrapper(
+  return Field(
     {
       ...inputWrapperOptions,
       content: BaseListControl({

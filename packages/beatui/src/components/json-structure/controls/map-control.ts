@@ -13,7 +13,7 @@ import {
   Fragment,
   Empty,
 } from '@tempots/dom'
-import { ObjectController, InputWrapper } from '../../form'
+import { ObjectController, Field } from '../../form'
 import { Button } from '../../button'
 import type { StructureContext } from '../structure-context'
 import type { MapTypeDefinition } from '../structure-types'
@@ -145,9 +145,9 @@ export function StructureMapControl({
   // Wrap with visual hierarchy
   const wrappedContent = html.div(attr.class('bc-json-structure-map'), content)
 
-  // Wrap with InputWrapper if label should be shown
+  // Wrap with Field if label should be shown
   if (!ctx.suppressLabel && ctx.name) {
-    return InputWrapper({
+    return Field({
       ...createInputOptions(ctx),
       content: wrappedContent,
     })

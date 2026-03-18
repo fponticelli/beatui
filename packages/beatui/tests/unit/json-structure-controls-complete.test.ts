@@ -888,7 +888,7 @@ describe('JSON Structure Controls - Complete Coverage', () => {
       )
 
       // Label wrapper should be present
-      expect(container.querySelector('.bc-input-wrapper')).not.toBeNull()
+      expect(container.querySelector('.bc-field')).not.toBeNull()
     })
 
     it('should generate unique key when base already exists', () => {
@@ -1108,8 +1108,8 @@ describe('JSON Structure Controls - Complete Coverage', () => {
         container
       )
 
-      // InputWrapper should not be present when label is suppressed
-      expect(container.querySelector('.bc-input-wrapper')).toBeNull()
+      // Field should not be present when label is suppressed
+      expect(container.querySelector('.bc-field')).toBeNull()
     })
   })
 

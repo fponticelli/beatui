@@ -26,7 +26,7 @@ import {
   makeOnBlurHandler,
   makeOnChangeHandler,
 } from '../control'
-import { InputWrapper } from './input-wrapper'
+import { Field } from './field'
 import { SelectOption } from './option'
 
 /**
@@ -205,7 +205,7 @@ export function BaseNativeSelectControl<T>(
 export function NativeSelectControl<T>(
   options: ControlOptions<T, NativeSelectOptions<T>>
 ) {
-  return InputWrapper({
+  return Field({
     ...options,
     content: BaseNativeSelectControl(options),
   })

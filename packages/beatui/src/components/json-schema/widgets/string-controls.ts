@@ -1,6 +1,6 @@
 import {
   Controller,
-  InputWrapperOptions,
+  FieldOptions,
   transformNullToUndefined,
   Control,
   MappedControl,
@@ -29,7 +29,7 @@ export function StringControl({
   controller,
 }: {
   ctx: SchemaContext
-  options: Partial<InputWrapperOptions>
+  options: Partial<FieldOptions>
   controller: Controller<string | undefined>
 }): Renderable {
   const format = stringFormatDetection(ctx)

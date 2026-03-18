@@ -1,7 +1,7 @@
 import { html, attr, Prop, prop, TNode } from '@tempots/dom'
 import {
   DropdownInput,
-  InputWrapper,
+  Field,
   Switch,
   SegmentedInput,
   Option,
@@ -16,7 +16,7 @@ export function ControlSelect<T extends string>(
   const dropdownOptions = prop<DropdownOption<T>[]>(
     options.map(o => Option.value(o, o))
   )
-  return InputWrapper({
+  return Field({
     label,
     content: DropdownInput<T>({
       value,
@@ -32,7 +32,7 @@ export function ControlSegmented<T extends string>(
   value: Prop<T>,
   options: Record<T, string>
 ): TNode {
-  return InputWrapper({
+  return Field({
     label,
     content: SegmentedInput({
       size: 'sm',
@@ -44,7 +44,7 @@ export function ControlSegmented<T extends string>(
 }
 
 export function ControlSwitch(label: string, value: Prop<boolean>): TNode {
-  return InputWrapper({
+  return Field({
     label,
     content: Switch({
       value,
@@ -58,7 +58,7 @@ export function ControlNumber(
   value: Prop<number>,
   opts: { min?: number; max?: number; step?: number } = {}
 ): TNode {
-  return InputWrapper({
+  return Field({
     label,
     content: html.input(
       attr.type('number'),

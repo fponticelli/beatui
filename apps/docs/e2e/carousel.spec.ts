@@ -26,8 +26,8 @@ function previewArea(page: Page): Locator {
 
 function controlByLabel(page: Page, label: string): Locator {
   const panel = optionsPanel(page)
-  return panel.locator('.bc-input-wrapper').filter({
-    has: page.locator('.bc-input-wrapper__label-text', { hasText: label }),
+  return panel.locator('.bc-field').filter({
+    has: page.locator('.bc-field__label-text', { hasText: label }),
   })
 }
 

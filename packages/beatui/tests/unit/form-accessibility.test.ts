@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render } from '@tempots/dom'
-import { InputWrapper } from '../../src/components/form/input/input-wrapper'
+import { Field } from '../../src/components/form/input/field'
 import { TextInput } from '../../src/components/form/input/text-input'
 import { TextArea } from '../../src/components/form/input/text-area'
 import { CheckboxInput } from '../../src/components/form/input/checkbox-input'
@@ -19,13 +19,13 @@ describe('Form Input Accessibility', () => {
     document.body.removeChild(container)
   })
 
-  describe('InputWrapper', () => {
+  describe('Field', () => {
     it('should generate unique IDs for description and error elements', async () => {
       const value = prop('')
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Test Input',
             description: 'This is a description',
             error: 'This is an error',
@@ -40,9 +40,9 @@ describe('Form Input Accessibility', () => {
       )
 
       const description = container.querySelector(
-        '.bc-input-wrapper__description'
+        '.bc-field__description'
       )
-      const error = container.querySelector('.bc-input-wrapper__error')
+      const error = container.querySelector('.bc-field__error')
 
       expect(description).not.toBeNull()
       expect(error).not.toBeNull()
@@ -57,7 +57,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Test Input',
             error: 'This is an error',
             content: TextInput({
@@ -70,7 +70,7 @@ describe('Form Input Accessibility', () => {
         container
       )
 
-      const error = container.querySelector('.bc-input-wrapper__error')
+      const error = container.querySelector('.bc-field__error')
 
       expect(error?.getAttribute('aria-live')).toBe('polite')
       expect(error?.getAttribute('role')).toBe('alert')
@@ -83,7 +83,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Test Input',
             description: 'This is a description',
             error: 'This is an error',
@@ -114,7 +114,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Test TextArea',
             description: 'This is a description',
             required: true,
@@ -176,7 +176,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Test Checkbox',
             description: 'This is a description',
             error: 'This is an error',
@@ -207,7 +207,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Required Input',
             required: true,
             content: TextInput({
@@ -221,7 +221,7 @@ describe('Form Input Accessibility', () => {
       )
 
       const requiredSymbol = container.querySelector(
-        '.bc-input-wrapper__required'
+        '.bc-field__required'
       )
       expect(requiredSymbol).not.toBeNull()
     })
@@ -231,7 +231,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Optional Input',
             required: false,
             content: TextInput({
@@ -245,7 +245,7 @@ describe('Form Input Accessibility', () => {
       )
 
       const requiredSymbol = container.querySelector(
-        '.bc-input-wrapper__required'
+        '.bc-field__required'
       )
       expect(requiredSymbol).toBeNull()
     })
@@ -257,7 +257,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Horizontal Input',
             layout: 'horizontal',
             content: TextInput({
@@ -270,8 +270,8 @@ describe('Form Input Accessibility', () => {
         container
       )
 
-      const wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      const wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         true
       )
     })
@@ -281,7 +281,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Vertical Input',
             layout: 'vertical',
             content: TextInput({
@@ -294,8 +294,8 @@ describe('Form Input Accessibility', () => {
         container
       )
 
-      const wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      const wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         false
       )
     })
@@ -305,7 +305,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Default Input',
             content: TextInput({
               value,
@@ -317,8 +317,8 @@ describe('Form Input Accessibility', () => {
         container
       )
 
-      const wrapper = container.querySelector('.bc-input-wrapper')
-      expect(wrapper?.classList.contains('bc-input-wrapper--horizontal')).toBe(
+      const wrapper = container.querySelector('.bc-field')
+      expect(wrapper?.classList.contains('bc-field--horizontal')).toBe(
         false
       )
     })
@@ -328,7 +328,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Horizontal Input',
             description: 'This is a description',
             layout: 'horizontal',
@@ -344,14 +344,14 @@ describe('Form Input Accessibility', () => {
 
       // Should have description under label
       const descriptionUnderLabel = container.querySelector(
-        '.bc-input-wrapper__description--under-label'
+        '.bc-field__description--under-label'
       )
       expect(descriptionUnderLabel).not.toBeNull()
       expect(descriptionUnderLabel?.textContent).toBe('This is a description')
 
       // Should not have description at bottom
       const bottomDescription = container.querySelector(
-        '.bc-input-wrapper__description:not(.bc-input-wrapper__description--under-label)'
+        '.bc-field__description:not(.bc-field__description--under-label)'
       )
       expect(bottomDescription).toBeNull()
     })
@@ -361,7 +361,7 @@ describe('Form Input Accessibility', () => {
 
       render(
         WithProviders(() =>
-          InputWrapper({
+          Field({
             label: 'Vertical Input',
             description: 'This is a description',
             layout: 'vertical',
@@ -377,13 +377,13 @@ describe('Form Input Accessibility', () => {
 
       // Should not have description under label
       const descriptionUnderLabel = container.querySelector(
-        '.bc-input-wrapper__description--under-label'
+        '.bc-field__description--under-label'
       )
       expect(descriptionUnderLabel).toBeNull()
 
       // Should have description at bottom
       const bottomDescription = container.querySelector(
-        '.bc-input-wrapper__description:not(.bc-input-wrapper__description--under-label)'
+        '.bc-field__description:not(.bc-field__description--under-label)'
       )
       expect(bottomDescription).not.toBeNull()
       expect(bottomDescription?.textContent).toBe('This is a description')

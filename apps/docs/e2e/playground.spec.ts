@@ -31,12 +31,12 @@ function previewArea(page: Page): Locator {
 
 /**
  * Find a control in the options panel by its label text.
- * InputWrapper renders: .bc-input-wrapper > .bc-input-wrapper__header > label > span with label text
+ * Field renders: .bc-field > .bc-field__header > label > span with label text
  */
 function controlByLabel(page: Page, label: string): Locator {
   const panel = optionsPanel(page)
-  return panel.locator('.bc-input-wrapper').filter({
-    has: page.locator(`.bc-input-wrapper__label-text`, { hasText: label }),
+  return panel.locator('.bc-field').filter({
+    has: page.locator(`.bc-field__label-text`, { hasText: label }),
   })
 }
 

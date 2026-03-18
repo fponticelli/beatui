@@ -17,7 +17,7 @@ import {
   getXUI,
 } from './type-utils'
 import {
-  definitionToInputWrapperOptions,
+  definitionToFieldOptions,
   integerMultipleOf,
   tryResolveCustomWidget,
 } from './shared-utils'
@@ -121,7 +121,7 @@ export function JSONSchemaUnion<T>({
       const d = def as JSONSchema
       return Control(NullableNumberInput, {
         // Suppress inner labels only when union is nested (non-root)
-        ...definitionToInputWrapperOptions({
+        ...definitionToFieldOptions({
           ctx: ctx.with({ suppressLabel: !ctx.isRoot }),
         }),
         controller: branchController as unknown as Controller<number | null>,
@@ -191,7 +191,7 @@ export function JSONSchemaUnion<T>({
       default:
         // Fallback: render nothing for unknown types
         return Control(NullableNumberInput, {
-          ...definitionToInputWrapperOptions({ ctx: nextCtx }),
+          ...definitionToFieldOptions({ ctx: nextCtx }),
           controller: branchController as unknown as Controller<number | null>,
         })
     }
