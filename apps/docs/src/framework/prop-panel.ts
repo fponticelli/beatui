@@ -123,8 +123,7 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
           value: meta.optional
             ? (Value.map(signal, v => (v as string) ?? '') as Value<string>)
             : typedSignal,
-          onChange: v =>
-            signal.set(meta.optional && v === '' ? undefined : v),
+          onChange: v => signal.set(meta.optional && v === '' ? undefined : v),
           size: 'xs',
         }),
       })
@@ -212,12 +211,17 @@ function PropControl(meta: PropMeta, signal: Prop<unknown>): TNode {
 function parseDefault(meta: PropMeta): unknown {
   const d = meta.defaultValue
   // Treat @default undefined (with optional trailing description) as actual undefined
-  if (d === undefined || d === 'undefined' || d.startsWith('undefined ') || d.startsWith('undefined\t')) {
+  if (
+    d === undefined ||
+    d === 'undefined' ||
+    d.startsWith('undefined ') ||
+    d.startsWith('undefined\t')
+  ) {
     switch (meta.type) {
       case 'boolean':
         return false
       case 'string':
-        return meta.optional ? undefined : ''
+        return ''
       case 'number':
         return meta.optional ? undefined : 0
       case 'bigint':
@@ -229,7 +233,7 @@ function parseDefault(meta: PropMeta): unknown {
           return 'md'
         return meta.unionValues?.[0] ?? ''
       default:
-        return meta.optional ? undefined : ''
+        return ''
     }
   }
 
@@ -288,12 +292,18 @@ export function createOptionsPanel(
 
     // For optional props, wrap in a computed that maps empty values → undefined
     // so components checking `prop != null` see undefined instead of a truthy signal
-    if (propMeta.optional && (propMeta.type === 'string' || propMeta.type === 'union')) {
+    if (
+      propMeta.optional &&
+      (propMeta.type === 'string' || propMeta.type === 'union')
+    ) {
       props[propMeta.name] = Value.map(signal, v =>
         v === undefined || v === '' ? undefined : v
       )
       optionalKeys.push(propMeta.name)
-    } else if (propMeta.optional && (propMeta.type === 'number' || propMeta.type === 'bigint')) {
+    } else if (
+      propMeta.optional &&
+      (propMeta.type === 'number' || propMeta.type === 'bigint')
+    ) {
       props[propMeta.name] = Value.map(signal, v =>
         v == null || (typeof v === 'number' && isNaN(v)) ? undefined : v
       )
@@ -306,7 +316,8 @@ export function createOptionsPanel(
   // Ensure a `value` signal always exists for input-based components.
   // The metadata extractor skips `value` when the Options type is generic (e.g. NativeSelectOptions<T>).
   if (!signals.value) {
-    const fallback = defaults && 'value' in defaults ? defaults.value : undefined
+    const fallback =
+      defaults && 'value' in defaults ? defaults.value : undefined
     signals.value = prop<unknown>(fallback)
     props.value = signals.value
   }
