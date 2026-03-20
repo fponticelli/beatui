@@ -1,0 +1,48 @@
+/* Date Range Select */
+.bc-date-range-select {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Panel shown in the flyout */
+.bc-date-range-select__panel {
+  background-color: var(--color-white);
+  border: var(--border-width-default) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-md);
+}
+
+/* Side-by-side pickers container */
+.bc-date-range-select__pickers {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+/* Individual picker wrapper */
+.bc-date-range-select__picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Label above each picker */
+.bc-date-range-select__picker-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  padding: 0 var(--spacing-xs);
+}
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 640px) {
+  .bc-date-range-select__pickers {
+    flex-direction: column;
+  }
+}
+
+/* Dark mode */
+.dark .bc-date-range-select__panel {
+  background-color: var(--bg-surface);
+  border-color: var(--border-default);
+}
