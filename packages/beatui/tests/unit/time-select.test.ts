@@ -34,7 +34,8 @@ describe('TimeSelect', () => {
     render(BeatUI({}, TimeSelect({ value: time })), container)
 
     const triggerText = container.querySelector('.bc-dropdown__trigger')
-    expect(triggerText?.textContent).toContain('14:30')
+    // Locale-aware: could be "14:30" (24h) or "2:30 PM" (12h)
+    expect(triggerText?.textContent).toMatch(/14:30|2:30\sPM/)
   })
 
   it('should use custom formatTime', () => {
@@ -100,11 +101,11 @@ describe('TimeSelect', () => {
     render(BeatUI({}, TimeSelect({ value: time })), container)
 
     const triggerText = container.querySelector('.bc-dropdown__trigger')
-    expect(triggerText?.textContent).toContain('14:30')
+    expect(triggerText?.textContent).toMatch(/14:30|2:30\sPM/)
 
     time.set(Temporal.PlainTime.from('09:15'))
     await vi.waitFor(() => {
-      expect(triggerText?.textContent).toContain('09:15')
+      expect(triggerText?.textContent).toMatch(/09:15|9:15\sAM/)
     })
   })
 
@@ -160,7 +161,7 @@ describe('NullableTimeSelect', () => {
     render(BeatUI({}, NullableTimeSelect({ value: time })), container)
 
     const triggerText = container.querySelector('.bc-dropdown__trigger')
-    expect(triggerText?.textContent).toContain('14:30')
+    expect(triggerText?.textContent).toMatch(/14:30|2:30\sPM/)
   })
 
   it('should show custom placeholder', () => {
@@ -227,7 +228,7 @@ describe('NullableTimeSelect', () => {
 
     time.set(Temporal.PlainTime.from('09:15'))
     await vi.waitFor(() => {
-      expect(triggerText?.textContent).toContain('09:15')
+      expect(triggerText?.textContent).toMatch(/09:15|9:15\sAM/)
     })
 
     time.set(null)

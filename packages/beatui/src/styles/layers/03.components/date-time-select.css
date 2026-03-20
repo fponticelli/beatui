@@ -1,0 +1,53 @@
+/* DateTimeSelect — fit-content sizing */
+.bc-date-time-select {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.bc-date-time-select__trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Panel shown in the flyout */
+.bc-date-time-select__panel {
+  background-color: var(--color-white);
+  border: var(--border-width-default) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-md);
+}
+
+/* Side-by-side date + time pickers */
+.bc-date-time-select__pickers {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+}
+
+/* Vertical divider between date and time pickers */
+.bc-date-time-select__separator {
+  width: var(--border-width-default);
+  align-self: stretch;
+  background-color: var(--border-default);
+  flex-shrink: 0;
+}
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 640px) {
+  .bc-date-time-select__pickers {
+    flex-direction: column;
+  }
+
+  .bc-date-time-select__separator {
+    width: auto;
+    height: var(--border-width-default);
+    align-self: stretch;
+  }
+}
+
+/* Dark mode */
+.dark .bc-date-time-select__panel {
+  background-color: var(--bg-surface);
+  border-color: var(--border-default);
+}

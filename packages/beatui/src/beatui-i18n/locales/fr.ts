@@ -344,7 +344,7 @@ const fr: BeatUIMessages = {
   },
   // Time picker
   timePicker: {
-    label: 'Sélecteur d\'heure',
+    label: "Sélecteur d'heure",
     hoursLabel: 'HH',
     minutesLabel: 'MM',
     secondsLabel: 'SS',
@@ -355,7 +355,8 @@ const fr: BeatUIMessages = {
     nowLabel: 'Maintenant',
   },
   // Time select
-  timeSelectTime: 'Sélectionner l\'heure',
+  timeSelectTime: "Sélectionner l'heure",
+  dateTimeSelectDateTime: "Sélectionner la date et l'heure",
   // OTP input
   otpInputLabel: 'Saisie de mot de passe à usage unique',
   otpDigitLabel: (index: number, total: number) =>

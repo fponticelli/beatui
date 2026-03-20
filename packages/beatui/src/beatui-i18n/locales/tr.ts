@@ -353,6 +353,7 @@ const tr: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Saat seç',
+  dateTimeSelectDateTime: 'Tarih ve saat seç',
   // OTP input
   otpInputLabel: 'Tek kullanımlık şifre girişi',
   otpDigitLabel: (index: number, total: number) => `Rakam ${index} / ${total}`,

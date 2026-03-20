@@ -353,6 +353,7 @@ const vi: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Chọn thời gian',
+  dateTimeSelectDateTime: 'Chọn ngày và giờ',
   // OTP input
   otpInputLabel: 'Nhập mật khẩu một lần',
   otpDigitLabel: (index: number, total: number) =>

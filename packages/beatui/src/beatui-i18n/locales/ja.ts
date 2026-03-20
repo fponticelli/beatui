@@ -355,6 +355,7 @@ export const ja: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: '時刻を選択',
+  dateTimeSelectDateTime: '日時を選択',
   // OTP input
   otpInputLabel: 'ワンタイムパスワード入力',
   otpDigitLabel: (index: number, total: number) => `${total}桁中${index}桁目`,

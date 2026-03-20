@@ -356,6 +356,7 @@ export const ru: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Выбрать время',
+  dateTimeSelectDateTime: 'Выбрать дату и время',
   // OTP input
   otpInputLabel: 'Ввод одноразового пароля',
   otpDigitLabel: (index: number, total: number) => `Цифра ${index} из ${total}`,

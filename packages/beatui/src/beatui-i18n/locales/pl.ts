@@ -352,6 +352,7 @@ export const pl: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Wybierz czas',
+  dateTimeSelectDateTime: 'Wybierz datę i czas',
   // OTP input
   otpInputLabel: 'Pole jednorazowego hasła',
   otpDigitLabel: (index: number, total: number) => `Cyfra ${index} z ${total}`,

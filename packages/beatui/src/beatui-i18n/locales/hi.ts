@@ -351,6 +351,7 @@ const hi: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'समय चुनें',
+  dateTimeSelectDateTime: 'तारीख और समय चुनें',
   // OTP input
   otpInputLabel: 'वन-टाइम पासवर्ड इनपुट',
   otpDigitLabel: (index: number, total: number) =>

@@ -19,10 +19,10 @@ import { sessionId } from '../../../utils/session-id'
 import { ElementRect } from '@tempots/ui'
 
 /**
- * Internal base options for the time select shell (trigger + flyout).
+ * Internal base options for the date-time select shell (trigger + flyout).
  * The actual picker content is provided via `panelContent`.
  */
-export interface TimeSelectShellOptions extends CommonInputOptions {
+export interface DateTimeSelectShellOptions extends CommonInputOptions {
   /** The display text shown in the trigger. */
   displayText: Value<string>
   /** The content to render inside the flyout panel. */
@@ -36,15 +36,17 @@ export interface TimeSelectShellOptions extends CommonInputOptions {
 }
 
 /**
- * Shared shell for time selectors: trigger button + flyout panel.
- * Used by both TimeSelect and NullableTimeSelect.
+ * Shared shell for date-time selectors: trigger button + flyout panel.
+ * Used by both DateTimeSelect and NullableDateTimeSelect.
  */
-export function TimeSelectShell(options: TimeSelectShellOptions): TNode {
+export function DateTimeSelectShell(
+  options: DateTimeSelectShellOptions
+): TNode {
   const { displayText, panelContent, onBlur, disabled = false } = options
 
   const isOpen = prop(false)
-  const triggerId = sessionId('time-select')
-  const panelId = sessionId('time-select-panel')
+  const triggerId = sessionId('date-time-select')
+  const panelId = sessionId('date-time-panel')
 
   let triggerElement: HTMLElement | undefined
   let panelElement: HTMLElement | undefined
@@ -69,8 +71,8 @@ export function TimeSelectShell(options: TimeSelectShellOptions): TNode {
   }
 
   const rootClass = options.class
-    ? Value.map(options.class, c => `bc-time-select ${c}`)
-    : 'bc-time-select'
+    ? Value.map(options.class, c => `bc-date-time-select ${c}`)
+    : 'bc-date-time-select'
 
   return InputContainer(
     {
@@ -79,7 +81,7 @@ export function TimeSelectShell(options: TimeSelectShellOptions): TNode {
       input: html.span(attr.class('bc-dropdown__trigger'), displayText),
       after: Fragment(
         InputIcon({
-          icon: 'lucide:clock',
+          icon: 'lucide:calendar-clock',
           color: 'neutral',
           size: 'sm',
         }),
@@ -106,7 +108,7 @@ export function TimeSelectShell(options: TimeSelectShellOptions): TNode {
         attr.tabindex(0),
         aria.controls(panelId),
         aria.expanded(isOpen as Value<boolean | 'undefined'>),
-        attr.class('bc-dropdown bc-time-select__trigger'),
+        attr.class('bc-dropdown bc-date-time-select__trigger'),
         attr.role('combobox'),
         onBlur != null
           ? on.blur(() => {
@@ -128,7 +130,7 @@ export function TimeSelectShell(options: TimeSelectShellOptions): TNode {
                 panelElement = el
               }),
               style.minWidth(rect.$.width.map(w => `${w}px`)),
-              attr.class('bc-time-select__panel'),
+              attr.class('bc-date-time-select__panel'),
               attr.id(panelId),
               on.keydown(e => {
                 if (e.key === 'Escape') {

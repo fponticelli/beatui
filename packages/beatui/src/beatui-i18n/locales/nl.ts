@@ -353,6 +353,7 @@ export const nl: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Tijd selecteren',
+  dateTimeSelectDateTime: 'Datum en tijd selecteren',
   // OTP input
   otpInputLabel: 'Eenmalig wachtwoord invoer',
   otpDigitLabel: (index: number, total: number) =>

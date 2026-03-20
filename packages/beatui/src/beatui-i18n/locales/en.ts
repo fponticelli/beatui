@@ -355,6 +355,8 @@ const en = {
   },
   // Time select
   timeSelectTime: 'Select time',
+  // Date time select
+  dateTimeSelectDateTime: 'Select date and time',
   // OTP input
   otpInputLabel: 'One-time password input',
   otpDigitLabel: (index: number, total: number) => `Digit ${index} of ${total}`,

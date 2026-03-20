@@ -350,6 +350,7 @@ const he: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'בחר שעה',
+  dateTimeSelectDateTime: 'בחר תאריך ושעה',
   // OTP input
   otpInputLabel: 'הזנת סיסמה חד-פעמית',
   otpDigitLabel: (index: number, total: number) =>

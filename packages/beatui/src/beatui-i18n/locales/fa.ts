@@ -351,6 +351,7 @@ const fa: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'انتخاب زمان',
+  dateTimeSelectDateTime: 'انتخاب تاریخ و زمان',
   // OTP input
   otpInputLabel: 'ورودی رمز یک‌بار مصرف',
   otpDigitLabel: (index: number, total: number) => `رقم ${index} از ${total}`,

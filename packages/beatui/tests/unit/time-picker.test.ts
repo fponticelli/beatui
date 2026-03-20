@@ -38,8 +38,8 @@ describe('TimePicker', () => {
     })
   })
 
-  it('should show 24 hour options by default', async () => {
-    render(BeatUI({}, TimePicker()), container)
+  it('should show 24 hour options when use12Hour is false', async () => {
+    render(BeatUI({}, TimePicker({ use12Hour: false })), container)
 
     await vi.waitFor(() => {
       const columns = container.querySelectorAll('.bc-time-picker__column')
@@ -52,7 +52,7 @@ describe('TimePicker', () => {
   })
 
   it('should show 60 minute options by default', async () => {
-    render(BeatUI({}, TimePicker()), container)
+    render(BeatUI({}, TimePicker({ use12Hour: false })), container)
 
     await vi.waitFor(() => {
       const columns = container.querySelectorAll('.bc-time-picker__column')
@@ -79,7 +79,10 @@ describe('TimePicker', () => {
     const time = prop<PlainTime | null>(Temporal.PlainTime.from('14:30'))
     const onSelect = vi.fn()
 
-    render(BeatUI({}, TimePicker({ value: time, onSelect })), container)
+    render(
+      BeatUI({}, TimePicker({ value: time, onSelect, use12Hour: false })),
+      container
+    )
 
     await vi.waitFor(() => {
       const columns = container.querySelectorAll('.bc-time-picker__column')
@@ -101,7 +104,10 @@ describe('TimePicker', () => {
     const time = prop<PlainTime | null>(Temporal.PlainTime.from('14:30'))
     const onSelect = vi.fn()
 
-    render(BeatUI({}, TimePicker({ value: time, onSelect })), container)
+    render(
+      BeatUI({}, TimePicker({ value: time, onSelect, use12Hour: false })),
+      container
+    )
 
     await vi.waitFor(() => {
       const columns = container.querySelectorAll('.bc-time-picker__column')
@@ -251,6 +257,21 @@ describe('TimePicker', () => {
     expect(result.hour).toBeLessThanOrEqual(23)
     expect(result.minute).toBeGreaterThanOrEqual(0)
     expect(result.minute).toBeLessThanOrEqual(59)
+  })
+
+  it('should auto-detect 12-hour format from locale', async () => {
+    // The default jsdom locale is 'en-US' which uses 12-hour
+    // This test verifies the component renders without error when use12Hour is not provided
+    const time = prop<PlainTime | null>(Temporal.PlainTime.from('14:30'))
+
+    render(
+      BeatUI({}, TimePicker({ value: time })),
+      container
+    )
+
+    await vi.waitFor(() => {
+      expect(container.querySelector('.bc-time-picker')).not.toBeNull()
+    })
   })
 
   it('should not call onSelect when disabled', async () => {

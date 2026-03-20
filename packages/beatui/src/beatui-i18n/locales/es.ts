@@ -354,6 +354,7 @@ const es: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Seleccionar hora',
+  dateTimeSelectDateTime: 'Seleccionar fecha y hora',
   // OTP input
   otpInputLabel: 'Entrada de contraseña de un solo uso',
   otpDigitLabel: (index: number, total: number) =>

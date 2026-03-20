@@ -351,6 +351,7 @@ const ko: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: '시간 선택',
+  dateTimeSelectDateTime: '날짜와 시간 선택',
   // OTP input
   otpInputLabel: '일회용 비밀번호 입력',
   otpDigitLabel: (index: number, total: number) =>

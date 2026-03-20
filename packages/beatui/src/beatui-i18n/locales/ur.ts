@@ -355,6 +355,7 @@ const ur: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'وقت منتخب کریں',
+  dateTimeSelectDateTime: 'تاریخ اور وقت منتخب کریں',
   // OTP input
   otpInputLabel: 'ایک بار کا پاس ورڈ درج کریں',
   otpDigitLabel: (index: number, total: number) => `ہندسہ ${index} از ${total}`,

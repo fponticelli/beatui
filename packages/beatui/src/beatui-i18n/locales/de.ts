@@ -353,6 +353,7 @@ const de: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'Zeit auswählen',
+  dateTimeSelectDateTime: 'Datum und Uhrzeit auswählen',
   // OTP input
   otpInputLabel: 'Einmalpasswort-Eingabe',
   otpDigitLabel: (index: number, total: number) =>

@@ -352,6 +352,7 @@ const ar: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: 'اختر الوقت',
+  dateTimeSelectDateTime: 'اختر التاريخ والوقت',
   // OTP input
   otpInputLabel: 'إدخال كلمة مرور لمرة واحدة',
   otpDigitLabel: (index: number, total: number) => `الرقم ${index} من ${total}`,

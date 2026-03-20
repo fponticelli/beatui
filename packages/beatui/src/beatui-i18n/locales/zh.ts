@@ -350,6 +350,7 @@ const zh: BeatUIMessages = {
   },
   // Time select
   timeSelectTime: '选择时间',
+  dateTimeSelectDateTime: '选择日期和时间',
   // OTP input
   otpInputLabel: '一次性密码输入',
   otpDigitLabel: (index: number, total: number) =>
