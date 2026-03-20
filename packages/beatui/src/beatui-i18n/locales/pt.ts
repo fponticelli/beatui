@@ -62,6 +62,11 @@ const pt: BeatUIMessages = {
   clearAllFiles: 'Limpar todos os arquivos',
   // inputs reset
   clearValue: 'Limpar valor',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Tipo desconhecido',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -282,6 +287,76 @@ const pt: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Carrossel',
+    previousSlide: 'Slide anterior',
+    nextSlide: 'Próximo slide',
+    slideNavigation: 'Navegação de slides',
+    slideOfTotal: (index: number, total: number) =>
+      `Slide ${index} de ${total}`,
+    goToSlide: (index: number) => `Ir para o slide ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Seletor de data',
+    previousYear: 'Ano anterior',
+    previousMonth: 'Mês anterior',
+    selectMonth: 'Selecionar mês',
+    selectYear: 'Selecionar ano',
+    nextMonth: 'Próximo mês',
+    nextYear: 'Próximo ano',
+    previousYears: (count: number) => `${count} anos anteriores`,
+    nextYears: (count: number) => `Próximos ${count} anos`,
+    dateRangePickerLabel: 'Seletor de intervalo de datas',
+    monthNames: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ],
+    shortMonthNames: [
+      'Jan',
+      'Fev',
+      'Mar',
+      'Abr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Set',
+      'Out',
+      'Nov',
+      'Dez',
+    ],
+    dayNames: ['Do', 'Se', 'Te', 'Qu', 'Qi', 'Se', 'Sá'],
+  },
+  // OTP input
+  otpInputLabel: 'Entrada de senha de uso único',
+  otpDigitLabel: (index: number, total: number) =>
+    `Dígito ${index} de ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Visualização de grade rolável',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Tour guiado',
+    stepIndicator: (current: number, total: number) =>
+      `Passo ${current} de ${total}`,
+    skip: 'Pular',
+    previous: 'Anterior',
+    next: 'Próximo',
+    finish: 'Concluir',
+  },
+  // Combobox
+  searchPlaceholder: 'Pesquisar',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Carregando PDF...',

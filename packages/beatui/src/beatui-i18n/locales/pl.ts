@@ -62,6 +62,11 @@ export const pl: BeatUIMessages = {
   clearAllFiles: 'Usuń wszystkie pliki',
   // inputs reset
   clearValue: 'Wyczyść wartość',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Nieznany typ',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -282,6 +287,74 @@ export const pl: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Karuzela',
+    previousSlide: 'Poprzedni slajd',
+    nextSlide: 'Następny slajd',
+    slideNavigation: 'Nawigacja slajdów',
+    slideOfTotal: (index: number, total: number) => `Slajd ${index} z ${total}`,
+    goToSlide: (index: number) => `Przejdź do slajdu ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Wybór daty',
+    previousYear: 'Poprzedni rok',
+    previousMonth: 'Poprzedni miesiąc',
+    selectMonth: 'Wybierz miesiąc',
+    selectYear: 'Wybierz rok',
+    nextMonth: 'Następny miesiąc',
+    nextYear: 'Następny rok',
+    previousYears: (count: number) => `Poprzednie ${count} lat`,
+    nextYears: (count: number) => `Następne ${count} lat`,
+    dateRangePickerLabel: 'Wybór zakresu dat',
+    monthNames: [
+      'Styczeń',
+      'Luty',
+      'Marzec',
+      'Kwiecień',
+      'Maj',
+      'Czerwiec',
+      'Lipiec',
+      'Sierpień',
+      'Wrzesień',
+      'Październik',
+      'Listopad',
+      'Grudzień',
+    ],
+    shortMonthNames: [
+      'Sty',
+      'Lut',
+      'Mar',
+      'Kwi',
+      'Maj',
+      'Cze',
+      'Lip',
+      'Sie',
+      'Wrz',
+      'Paź',
+      'Lis',
+      'Gru',
+    ],
+    dayNames: ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+  },
+  // OTP input
+  otpInputLabel: 'Pole jednorazowego hasła',
+  otpDigitLabel: (index: number, total: number) => `Cyfra ${index} z ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Przewijalny widok siatki',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Przewodnik',
+    stepIndicator: (current: number, total: number) =>
+      `Krok ${current} z ${total}`,
+    skip: 'Pomiń',
+    previous: 'Wstecz',
+    next: 'Dalej',
+    finish: 'Zakończ',
+  },
+  // Combobox
+  searchPlaceholder: 'Szukaj',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Ładowanie PDF...',

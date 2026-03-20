@@ -62,6 +62,11 @@ export const ru: BeatUIMessages = {
   clearAllFiles: 'Очистить все файлы',
   // inputs reset
   clearValue: 'Очистить значение',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Неизвестный тип',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -285,6 +290,75 @@ export const ru: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Карусель',
+    previousSlide: 'Предыдущий слайд',
+    nextSlide: 'Следующий слайд',
+    slideNavigation: 'Навигация по слайдам',
+    slideOfTotal: (index: number, total: number) =>
+      `Слайд ${index} из ${total}`,
+    goToSlide: (index: number) => `Перейти к слайду ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Выбор даты',
+    previousYear: 'Предыдущий год',
+    previousMonth: 'Предыдущий месяц',
+    selectMonth: 'Выбрать месяц',
+    selectYear: 'Выбрать год',
+    nextMonth: 'Следующий месяц',
+    nextYear: 'Следующий год',
+    previousYears: (count: number) => `Предыдущие ${count} лет`,
+    nextYears: (count: number) => `Следующие ${count} лет`,
+    dateRangePickerLabel: 'Выбор диапазона дат',
+    monthNames: [
+      'Январь',
+      'Февраль',
+      'Март',
+      'Апрель',
+      'Май',
+      'Июнь',
+      'Июль',
+      'Август',
+      'Сентябрь',
+      'Октябрь',
+      'Ноябрь',
+      'Декабрь',
+    ],
+    shortMonthNames: [
+      'Янв',
+      'Фев',
+      'Мар',
+      'Апр',
+      'Май',
+      'Июн',
+      'Июл',
+      'Авг',
+      'Сен',
+      'Окт',
+      'Ноя',
+      'Дек',
+    ],
+    dayNames: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+  },
+  // OTP input
+  otpInputLabel: 'Ввод одноразового пароля',
+  otpDigitLabel: (index: number, total: number) => `Цифра ${index} из ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Прокручиваемый вид сетки',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Обзорная экскурсия',
+    stepIndicator: (current: number, total: number) =>
+      `Шаг ${current} из ${total}`,
+    skip: 'Пропустить',
+    previous: 'Назад',
+    next: 'Далее',
+    finish: 'Завершить',
+  },
+  // Combobox
+  searchPlaceholder: 'Поиск',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Загрузка PDF...',

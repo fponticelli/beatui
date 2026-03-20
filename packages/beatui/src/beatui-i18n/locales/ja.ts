@@ -62,6 +62,11 @@ export const ja: BeatUIMessages = {
   clearAllFiles: 'すべてのファイルを削除',
   // inputs reset
   clearValue: 'リセット',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: '不明なタイプ',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -284,6 +289,75 @@ export const ja: BeatUIMessages = {
     horizontalRule: '水平線',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'カルーセル',
+    previousSlide: '前のスライド',
+    nextSlide: '次のスライド',
+    slideNavigation: 'スライドナビゲーション',
+    slideOfTotal: (index: number, total: number) =>
+      `スライド ${index} / ${total}`,
+    goToSlide: (index: number) => `スライド ${index} へ移動`,
+  },
+  // Date picker
+  datePicker: {
+    label: '日付選択',
+    previousYear: '前の年',
+    previousMonth: '前の月',
+    selectMonth: '月を選択',
+    selectYear: '年を選択',
+    nextMonth: '次の月',
+    nextYear: '次の年',
+    previousYears: (count: number) => `前の${count}年`,
+    nextYears: (count: number) => `次の${count}年`,
+    dateRangePickerLabel: '日付範囲選択',
+    monthNames: [
+      '1月',
+      '2月',
+      '3月',
+      '4月',
+      '5月',
+      '6月',
+      '7月',
+      '8月',
+      '9月',
+      '10月',
+      '11月',
+      '12月',
+    ],
+    shortMonthNames: [
+      '1月',
+      '2月',
+      '3月',
+      '4月',
+      '5月',
+      '6月',
+      '7月',
+      '8月',
+      '9月',
+      '10月',
+      '11月',
+      '12月',
+    ],
+    dayNames: ['日', '月', '火', '水', '木', '金', '土'],
+  },
+  // OTP input
+  otpInputLabel: 'ワンタイムパスワード入力',
+  otpDigitLabel: (index: number, total: number) => `${total}桁中${index}桁目`,
+  // Nine-slice scroll view
+  scrollableGridView: 'スクロール可能なグリッドビュー',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'ガイドツアー',
+    stepIndicator: (current: number, total: number) =>
+      `ステップ ${current} / ${total}`,
+    skip: 'スキップ',
+    previous: '前へ',
+    next: '次へ',
+    finish: '完了',
+  },
+  // Combobox
+  searchPlaceholder: '検索',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'PDFを読み込み中...',

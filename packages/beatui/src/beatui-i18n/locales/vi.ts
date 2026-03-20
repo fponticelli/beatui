@@ -62,6 +62,11 @@ const vi: BeatUIMessages = {
   clearAllFiles: 'Xóa tất cả tệp',
   // inputs reset
   clearValue: 'Xóa giá trị',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Loại không xác định',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -282,6 +287,76 @@ const vi: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Băng chuyền',
+    previousSlide: 'Slide trước',
+    nextSlide: 'Slide tiếp theo',
+    slideNavigation: 'Điều hướng slide',
+    slideOfTotal: (index: number, total: number) =>
+      `Slide ${index} trên ${total}`,
+    goToSlide: (index: number) => `Đến slide ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Chọn ngày',
+    previousYear: 'Năm trước',
+    previousMonth: 'Tháng trước',
+    selectMonth: 'Chọn tháng',
+    selectYear: 'Chọn năm',
+    nextMonth: 'Tháng sau',
+    nextYear: 'Năm sau',
+    previousYears: (count: number) => `${count} năm trước`,
+    nextYears: (count: number) => `${count} năm sau`,
+    dateRangePickerLabel: 'Chọn khoảng ngày',
+    monthNames: [
+      'Tháng 1',
+      'Tháng 2',
+      'Tháng 3',
+      'Tháng 4',
+      'Tháng 5',
+      'Tháng 6',
+      'Tháng 7',
+      'Tháng 8',
+      'Tháng 9',
+      'Tháng 10',
+      'Tháng 11',
+      'Tháng 12',
+    ],
+    shortMonthNames: [
+      'Th1',
+      'Th2',
+      'Th3',
+      'Th4',
+      'Th5',
+      'Th6',
+      'Th7',
+      'Th8',
+      'Th9',
+      'Th10',
+      'Th11',
+      'Th12',
+    ],
+    dayNames: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+  },
+  // OTP input
+  otpInputLabel: 'Nhập mật khẩu một lần',
+  otpDigitLabel: (index: number, total: number) =>
+    `Chữ số ${index} trên ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Chế độ xem lưới có thể cuộn',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Tour hướng dẫn',
+    stepIndicator: (current: number, total: number) =>
+      `Bước ${current} trên ${total}`,
+    skip: 'Bỏ qua',
+    previous: 'Trước',
+    next: 'Tiếp',
+    finish: 'Hoàn thành',
+  },
+  // Combobox
+  searchPlaceholder: 'Tìm kiếm',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Đang tải PDF...',

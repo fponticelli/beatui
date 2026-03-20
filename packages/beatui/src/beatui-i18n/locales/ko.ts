@@ -62,6 +62,11 @@ const ko: BeatUIMessages = {
   clearAllFiles: '모든 파일 지우기',
   // inputs reset
   clearValue: '값 지우기',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: '알 수 없는 형식',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -280,6 +285,76 @@ const ko: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: '캐러셀',
+    previousSlide: '이전 슬라이드',
+    nextSlide: '다음 슬라이드',
+    slideNavigation: '슬라이드 탐색',
+    slideOfTotal: (index: number, total: number) =>
+      `슬라이드 ${index} / ${total}`,
+    goToSlide: (index: number) => `슬라이드 ${index}(으)로 이동`,
+  },
+  // Date picker
+  datePicker: {
+    label: '날짜 선택기',
+    previousYear: '이전 연도',
+    previousMonth: '이전 월',
+    selectMonth: '월 선택',
+    selectYear: '연도 선택',
+    nextMonth: '다음 월',
+    nextYear: '다음 연도',
+    previousYears: (count: number) => `이전 ${count}년`,
+    nextYears: (count: number) => `다음 ${count}년`,
+    dateRangePickerLabel: '날짜 범위 선택기',
+    monthNames: [
+      '1월',
+      '2월',
+      '3월',
+      '4월',
+      '5월',
+      '6월',
+      '7월',
+      '8월',
+      '9월',
+      '10월',
+      '11월',
+      '12월',
+    ],
+    shortMonthNames: [
+      '1월',
+      '2월',
+      '3월',
+      '4월',
+      '5월',
+      '6월',
+      '7월',
+      '8월',
+      '9월',
+      '10월',
+      '11월',
+      '12월',
+    ],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+  },
+  // OTP input
+  otpInputLabel: '일회용 비밀번호 입력',
+  otpDigitLabel: (index: number, total: number) =>
+    `${total}자리 중 ${index}번째`,
+  // Nine-slice scroll view
+  scrollableGridView: '스크롤 가능한 그리드 보기',
+  // Onboarding tour
+  onboardingTour: {
+    label: '가이드 투어',
+    stepIndicator: (current: number, total: number) =>
+      `단계 ${current} / ${total}`,
+    skip: '건너뛰기',
+    previous: '이전',
+    next: '다음',
+    finish: '완료',
+  },
+  // Combobox
+  searchPlaceholder: '검색',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'PDF 로딩 중...',

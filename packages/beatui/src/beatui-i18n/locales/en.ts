@@ -61,6 +61,11 @@ const en = {
   clearAllFiles: 'Clear all files',
   // inputs reset
   clearValue: 'Reset',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Unknown type',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -284,6 +289,75 @@ const en = {
     horizontalRule: 'Horizontal rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Carousel',
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
+    slideNavigation: 'Slide navigation',
+    slideOfTotal: (index: number, total: number) =>
+      `Slide ${index} of ${total}`,
+    goToSlide: (index: number) => `Go to slide ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Date picker',
+    previousYear: 'Previous year',
+    previousMonth: 'Previous month',
+    selectMonth: 'Select month',
+    selectYear: 'Select year',
+    nextMonth: 'Next month',
+    nextYear: 'Next year',
+    previousYears: (count: number) => `Previous ${count} years`,
+    nextYears: (count: number) => `Next ${count} years`,
+    dateRangePickerLabel: 'Date range picker',
+    monthNames: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    shortMonthNames: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ],
+    dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  },
+  // OTP input
+  otpInputLabel: 'One-time password input',
+  otpDigitLabel: (index: number, total: number) => `Digit ${index} of ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Scrollable grid view',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Guided tour',
+    stepIndicator: (current: number, total: number) =>
+      `Step ${current} of ${total}`,
+    skip: 'Skip',
+    previous: 'Previous',
+    next: 'Next',
+    finish: 'Finish',
+  },
+  // Combobox
+  searchPlaceholder: 'Search',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

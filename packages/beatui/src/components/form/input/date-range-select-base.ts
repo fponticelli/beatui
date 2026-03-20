@@ -70,9 +70,14 @@ export function DateRangeSelectShell(
     }
   }
 
+  const rootClass = options.class
+    ? Value.map(options.class, c => `bc-date-select ${c}`)
+    : 'bc-date-select'
+
   return InputContainer(
     {
       ...options,
+      class: rootClass,
       input: html.span(attr.class('bc-dropdown__trigger'), displayText),
       after: Fragment(
         InputIcon({
@@ -124,7 +129,7 @@ export function DateRangeSelectShell(
               WithElement(el => {
                 panelElement = el
               }),
-              style.minWidth(rect.$.width.map(w => `${Math.max(w, 300)}px`)),
+              style.minWidth(rect.$.width.map(w => `${w}px`)),
               attr.class('bc-date-range-select__panel'),
               attr.id(panelId),
               on.keydown(e => {

@@ -62,6 +62,11 @@ export const nl: BeatUIMessages = {
   clearAllFiles: 'Alle bestanden wissen',
   // inputs reset
   clearValue: 'Waarde wissen',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Onbekend type',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -283,6 +288,75 @@ export const nl: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Carrousel',
+    previousSlide: 'Vorige dia',
+    nextSlide: 'Volgende dia',
+    slideNavigation: 'Dia-navigatie',
+    slideOfTotal: (index: number, total: number) => `Dia ${index} van ${total}`,
+    goToSlide: (index: number) => `Ga naar dia ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Datumkiezer',
+    previousYear: 'Vorig jaar',
+    previousMonth: 'Vorige maand',
+    selectMonth: 'Maand selecteren',
+    selectYear: 'Jaar selecteren',
+    nextMonth: 'Volgende maand',
+    nextYear: 'Volgend jaar',
+    previousYears: (count: number) => `Vorige ${count} jaar`,
+    nextYears: (count: number) => `Volgende ${count} jaar`,
+    dateRangePickerLabel: 'Datumbereikkiezer',
+    monthNames: [
+      'Januari',
+      'Februari',
+      'Maart',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Augustus',
+      'September',
+      'Oktober',
+      'November',
+      'December',
+    ],
+    shortMonthNames: [
+      'Jan',
+      'Feb',
+      'Mrt',
+      'Apr',
+      'Mei',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Okt',
+      'Nov',
+      'Dec',
+    ],
+    dayNames: ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'],
+  },
+  // OTP input
+  otpInputLabel: 'Eenmalig wachtwoord invoer',
+  otpDigitLabel: (index: number, total: number) =>
+    `Cijfer ${index} van ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Scrollbaar rasteroverzicht',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Begeleide rondleiding',
+    stepIndicator: (current: number, total: number) =>
+      `Stap ${current} van ${total}`,
+    skip: 'Overslaan',
+    previous: 'Vorige',
+    next: 'Volgende',
+    finish: 'Voltooien',
+  },
+  // Combobox
+  searchPlaceholder: 'Zoeken',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'PDF laden...',

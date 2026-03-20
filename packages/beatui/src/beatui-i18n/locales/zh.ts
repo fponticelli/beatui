@@ -62,6 +62,11 @@ const zh: BeatUIMessages = {
   clearAllFiles: '清除所有文件',
   // inputs reset
   clearValue: '清除值',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: '未知类型',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -279,6 +284,76 @@ const zh: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: '轮播',
+    previousSlide: '上一张幻灯片',
+    nextSlide: '下一张幻灯片',
+    slideNavigation: '幻灯片导航',
+    slideOfTotal: (index: number, total: number) =>
+      `幻灯片 ${index} / ${total}`,
+    goToSlide: (index: number) => `前往幻灯片 ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: '日期选择器',
+    previousYear: '上一年',
+    previousMonth: '上个月',
+    selectMonth: '选择月份',
+    selectYear: '选择年份',
+    nextMonth: '下个月',
+    nextYear: '下一年',
+    previousYears: (count: number) => `前 ${count} 年`,
+    nextYears: (count: number) => `后 ${count} 年`,
+    dateRangePickerLabel: '日期范围选择器',
+    monthNames: [
+      '一月',
+      '二月',
+      '三月',
+      '四月',
+      '五月',
+      '六月',
+      '七月',
+      '八月',
+      '九月',
+      '十月',
+      '十一月',
+      '十二月',
+    ],
+    shortMonthNames: [
+      '1月',
+      '2月',
+      '3月',
+      '4月',
+      '5月',
+      '6月',
+      '7月',
+      '8月',
+      '9月',
+      '10月',
+      '11月',
+      '12月',
+    ],
+    dayNames: ['日', '一', '二', '三', '四', '五', '六'],
+  },
+  // OTP input
+  otpInputLabel: '一次性密码输入',
+  otpDigitLabel: (index: number, total: number) =>
+    `第 ${index} 位，共 ${total} 位`,
+  // Nine-slice scroll view
+  scrollableGridView: '可滚动网格视图',
+  // Onboarding tour
+  onboardingTour: {
+    label: '引导教程',
+    stepIndicator: (current: number, total: number) =>
+      `步骤 ${current} / ${total}`,
+    skip: '跳过',
+    previous: '上一步',
+    next: '下一步',
+    finish: '完成',
+  },
+  // Combobox
+  searchPlaceholder: '搜索',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: '正在加载PDF...',

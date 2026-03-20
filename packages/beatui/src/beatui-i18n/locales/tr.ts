@@ -62,6 +62,11 @@ const tr: BeatUIMessages = {
   clearAllFiles: 'Tüm dosyaları temizle',
   // inputs reset
   clearValue: 'Değeri temizle',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'Bilinmeyen tür',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -283,6 +288,74 @@ const tr: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Döngü',
+    previousSlide: 'Önceki slayt',
+    nextSlide: 'Sonraki slayt',
+    slideNavigation: 'Slayt navigasyonu',
+    slideOfTotal: (index: number, total: number) => `Slayt ${index} / ${total}`,
+    goToSlide: (index: number) => `Slayt ${index}'e git`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Tarih seçici',
+    previousYear: 'Önceki yıl',
+    previousMonth: 'Önceki ay',
+    selectMonth: 'Ay seç',
+    selectYear: 'Yıl seç',
+    nextMonth: 'Sonraki ay',
+    nextYear: 'Sonraki yıl',
+    previousYears: (count: number) => `Önceki ${count} yıl`,
+    nextYears: (count: number) => `Sonraki ${count} yıl`,
+    dateRangePickerLabel: 'Tarih aralığı seçici',
+    monthNames: [
+      'Ocak',
+      'Şubat',
+      'Mart',
+      'Nisan',
+      'Mayıs',
+      'Haziran',
+      'Temmuz',
+      'Ağustos',
+      'Eylül',
+      'Ekim',
+      'Kasım',
+      'Aralık',
+    ],
+    shortMonthNames: [
+      'Oca',
+      'Şub',
+      'Mar',
+      'Nis',
+      'May',
+      'Haz',
+      'Tem',
+      'Ağu',
+      'Eyl',
+      'Eki',
+      'Kas',
+      'Ara',
+    ],
+    dayNames: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
+  },
+  // OTP input
+  otpInputLabel: 'Tek kullanımlık şifre girişi',
+  otpDigitLabel: (index: number, total: number) => `Rakam ${index} / ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Kaydırılabilir ızgara görünümü',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Rehberli tur',
+    stepIndicator: (current: number, total: number) =>
+      `Adım ${current} / ${total}`,
+    skip: 'Atla',
+    previous: 'Önceki',
+    next: 'Sonraki',
+    finish: 'Bitir',
+  },
+  // Combobox
+  searchPlaceholder: 'Ara',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'PDF yükleniyor...',

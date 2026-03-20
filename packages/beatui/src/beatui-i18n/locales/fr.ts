@@ -62,6 +62,11 @@ const fr: BeatUIMessages = {
   clearAllFiles: 'Effacer tous les fichiers',
   // inputs reset
   clearValue: 'Réinitialiser',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
 
   unknownType: 'Type inconnu',
   filesInputInstructions: (
@@ -285,6 +290,76 @@ const fr: BeatUIMessages = {
     horizontalRule: 'Ligne horizontale',
     linkUrlPlaceholder: 'https://exemple.com',
   },
+  // Carousel
+  carousel: {
+    label: 'Carrousel',
+    previousSlide: 'Diapositive précédente',
+    nextSlide: 'Diapositive suivante',
+    slideNavigation: 'Navigation des diapositives',
+    slideOfTotal: (index: number, total: number) =>
+      `Diapositive ${index} sur ${total}`,
+    goToSlide: (index: number) => `Aller à la diapositive ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'Sélecteur de date',
+    previousYear: 'Année précédente',
+    previousMonth: 'Mois précédent',
+    selectMonth: 'Sélectionner le mois',
+    selectYear: "Sélectionner l'année",
+    nextMonth: 'Mois suivant',
+    nextYear: 'Année suivante',
+    previousYears: (count: number) => `${count} années précédentes`,
+    nextYears: (count: number) => `${count} années suivantes`,
+    dateRangePickerLabel: 'Sélecteur de plage de dates',
+    monthNames: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'Octobre',
+      'Novembre',
+      'Décembre',
+    ],
+    shortMonthNames: [
+      'Jan',
+      'Fév',
+      'Mar',
+      'Avr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Aoû',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Déc',
+    ],
+    dayNames: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+  },
+  // OTP input
+  otpInputLabel: 'Saisie de mot de passe à usage unique',
+  otpDigitLabel: (index: number, total: number) =>
+    `Chiffre ${index} sur ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'Vue grille défilable',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'Visite guidée',
+    stepIndicator: (current: number, total: number) =>
+      `Étape ${current} sur ${total}`,
+    skip: 'Passer',
+    previous: 'Précédent',
+    next: 'Suivant',
+    finish: 'Terminer',
+  },
+  // Combobox
+  searchPlaceholder: 'Rechercher',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Chargement du PDF...',

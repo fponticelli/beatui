@@ -276,50 +276,53 @@ export const ComboboxInput = <T>(options: ComboboxInputOptions<T>) => {
       }
     },
     buildListboxContent: ({ focusedValue, handleKeyDown, onSelect }) =>
-      Fragment(
-        // Search input at the top
-        html.div(
-          attr.class('bc-dropdown__search'),
-          html.input(
-            attr.type('text'),
-            attr.class('bc-dropdown__search-input'),
-            attr.placeholder(
-              computedOf(
-                searchPlaceholder,
-                placeholder
-              )((sph, ph) => sph ?? ph ?? 'Search')
-            ),
-            attr.value(searchText),
-            WithElement(el => {
-              searchInputElement = el as HTMLInputElement
-              return Empty
-            }),
-            on.input(e => {
-              const target = e.target as HTMLInputElement
-              searchText.set(target.value)
-              requestLoad(target.value)
-            }),
-            on.keydown(handleKeyDown)
-          )
-        ),
-        When(
-          loading,
-          () =>
-            html.div(
-              attr.class('bc-dropdown__loading'),
-              Icon({ icon: 'ph:spinner-bold', color: 'neutral' })
-            ),
-          () =>
-            ForEach(internalOptions, option =>
-              ComboboxOptionItem(
-                option,
-                equality,
-                currentValue,
-                onSelect,
-                focusedValue,
-                renderOption
-              )
+      Use(BeatUII18n, t =>
+        Fragment(
+          // Search input at the top
+          html.div(
+            attr.class('bc-dropdown__search'),
+            html.input(
+              attr.type('text'),
+              attr.class('bc-dropdown__search-input'),
+              attr.placeholder(
+                computedOf(
+                  searchPlaceholder,
+                  placeholder,
+                  t.$.searchPlaceholder
+                )((sph, ph, defaultSearch) => sph ?? ph ?? defaultSearch)
+              ),
+              attr.value(searchText),
+              WithElement(el => {
+                searchInputElement = el as HTMLInputElement
+                return Empty
+              }),
+              on.input(e => {
+                const target = e.target as HTMLInputElement
+                searchText.set(target.value)
+                requestLoad(target.value)
+              }),
+              on.keydown(handleKeyDown)
             )
+          ),
+          When(
+            loading,
+            () =>
+              html.div(
+                attr.class('bc-dropdown__loading'),
+                Icon({ icon: 'ph:spinner-bold', color: 'neutral' })
+              ),
+            () =>
+              ForEach(internalOptions, option =>
+                ComboboxOptionItem(
+                  option,
+                  equality,
+                  currentValue,
+                  onSelect,
+                  focusedValue,
+                  renderOption
+                )
+              )
+          )
         )
       ),
   })

@@ -8,6 +8,7 @@ import {
   aria,
   ForEach,
   OneOfValue,
+  Use,
   type Prop,
   type TNode,
 } from '@tempots/dom'
@@ -15,41 +16,10 @@ import { ControlSize } from '../theme'
 import { ThemeColorName } from '../../tokens'
 import { backgroundValue } from '../theme/style-utils'
 import type { BeatUITemporal, PlainDate } from '../../temporal/types'
+import { BeatUII18n } from '../../beatui-i18n'
 
 export const YEARS_PER_PAGE = 20
 export const DAYS_IN_WEEK = 7
-
-export const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
-
-export const SHORT_MONTH_NAMES = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
-
-export const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
 export type DatePickerView = 'days' | 'months' | 'years'
 
@@ -167,7 +137,8 @@ export function createDatePickerNav(
   initialYear: number,
   initialMonth: number,
   disabled: Value<boolean>,
-  weekStartsOn: Value<number>
+  weekStartsOn: Value<number>,
+  dayNames: Value<string[]>
 ): DatePickerNav {
   const today = T.Now.plainDateISO()
   const currentYear = prop(initialYear)
@@ -177,12 +148,15 @@ export function createDatePickerNav(
     Math.floor(initialYear / YEARS_PER_PAGE) * YEARS_PER_PAGE
   )
 
-  const shiftedDayNames = Value.map(weekStartsOn, wso => {
-    const names: string[] = []
+  const shiftedDayNames = computedOf(
+    weekStartsOn,
+    dayNames
+  )((wso, names) => {
+    const shifted: string[] = []
     for (let i = 0; i < DAYS_IN_WEEK; i++) {
-      names.push(DAY_NAMES[(i + wso) % DAYS_IN_WEEK]!)
+      shifted.push(names[(i + wso) % DAYS_IN_WEEK]!)
     }
-    return names
+    return shifted
   })
 
   return {
@@ -257,7 +231,7 @@ export interface DatePickerShellOptions {
   size: Value<ControlSize>
   disabled: Value<boolean>
   color: Value<ThemeColorName>
-  ariaLabel: string
+  ariaLabel: Value<string>
 }
 
 /**
@@ -289,234 +263,241 @@ export function renderDatePickerShell(
     selectYear,
   } = nav
 
-  return html.div(
-    attr.class(computedOf(size, disabled)(generateDatePickerClasses)),
-    attr.style(Value.map(color, generateDatePickerStyles)),
-    attr.role('grid'),
-    aria.label(ariaLabel),
+  return Use(BeatUII18n, t => {
+    const dp = t.$.datePicker
 
-    // Navigation header
-    OneOfValue(view, {
-      days: () =>
-        html.div(
-          attr.class('bc-date-picker__nav'),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Previous year'),
-            on.click(e => {
-              e.preventDefault()
-              prevYear()
-            }),
-            '\u00AB'
-          ),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Previous month'),
-            on.click(e => {
-              e.preventDefault()
-              prevMonth()
-            }),
-            '\u2039'
-          ),
+    return html.div(
+      attr.class(computedOf(size, disabled)(generateDatePickerClasses)),
+      attr.style(Value.map(color, generateDatePickerStyles)),
+      attr.role('grid'),
+      aria.label(ariaLabel),
+
+      // Navigation header
+      OneOfValue(view, {
+        days: () =>
           html.div(
-            attr.class('bc-date-picker__title'),
+            attr.class('bc-date-picker__nav'),
             html.button(
               attr.type('button'),
-              attr.class('bc-date-picker__title-btn'),
+              attr.class('bc-date-picker__nav-btn'),
               attr.disabled(disabled),
-              aria.label('Select month'),
+              aria.label(dp.$.previousYear),
               on.click(e => {
                 e.preventDefault()
-                switchToMonthsView()
+                prevYear()
               }),
-              Value.map(currentMonth, m => MONTH_NAMES[m - 1]!)
+              '\u00AB'
             ),
             html.button(
               attr.type('button'),
-              attr.class('bc-date-picker__title-btn'),
+              attr.class('bc-date-picker__nav-btn'),
               attr.disabled(disabled),
-              aria.label('Select year'),
+              aria.label(dp.$.previousMonth),
               on.click(e => {
                 e.preventDefault()
-                switchToYearsView()
+                prevMonth()
               }),
-              Value.map(currentYear, String)
-            )
-          ),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Next month'),
-            on.click(e => {
-              e.preventDefault()
-              nextMonth()
-            }),
-            '›'
-          ),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Next year'),
-            on.click(e => {
-              e.preventDefault()
-              nextYear()
-            }),
-            '\u00BB'
-          )
-        ),
-      months: () =>
-        html.div(
-          attr.class('bc-date-picker__nav'),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Previous year'),
-            on.click(e => {
-              e.preventDefault()
-              prevYear()
-            }),
-            '\u00AB'
-          ),
-          html.span(
-            attr.class('bc-date-picker__title'),
-            Value.map(currentYear, String)
-          ),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label('Next year'),
-            on.click(e => {
-              e.preventDefault()
-              nextYear()
-            }),
-            '\u00BB'
-          )
-        ),
-      years: () =>
-        html.div(
-          attr.class('bc-date-picker__nav'),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label(`Previous ${YEARS_PER_PAGE} years`),
-            on.click(e => {
-              e.preventDefault()
-              prevYearPage()
-            }),
-            '\u00AB'
-          ),
-          html.span(
-            attr.class('bc-date-picker__title'),
-            Value.map(
-              yearPageStart,
-              start => `${start} \u2013 ${start + YEARS_PER_PAGE - 1}`
-            )
-          ),
-          html.button(
-            attr.type('button'),
-            attr.class('bc-date-picker__nav-btn'),
-            attr.disabled(disabled),
-            aria.label(`Next ${YEARS_PER_PAGE} years`),
-            on.click(e => {
-              e.preventDefault()
-              nextYearPage()
-            }),
-            '\u00BB'
-          )
-        ),
-    }),
-
-    // Content area
-    OneOfValue(view, {
-      days: () =>
-        html.div(
-          attr.class('bc-date-picker__days-view'),
-          html.div(
-            attr.class('bc-date-picker__weekdays'),
-            ForEach(nav.shiftedDayNames, nameSignal =>
-              html.div(attr.class('bc-date-picker__weekday'), nameSignal)
-            )
-          ),
-          renderGrid()
-        ),
-      months: () =>
-        html.div(
-          attr.class(
-            'bc-date-picker__picker-grid bc-date-picker__picker-grid--months'
-          ),
-          ...SHORT_MONTH_NAMES.map((monthName, monthIndex) => {
-            const month1 = monthIndex + 1
-            return html.button(
-              attr.type('button'),
-              attr.class(
+              '\u2039'
+            ),
+            html.div(
+              attr.class('bc-date-picker__title'),
+              html.button(
+                attr.type('button'),
+                attr.class('bc-date-picker__title-btn'),
+                attr.disabled(disabled),
+                aria.label(dp.$.selectMonth),
+                on.click(e => {
+                  e.preventDefault()
+                  switchToMonthsView()
+                }),
                 computedOf(
                   currentMonth,
-                  currentYear
-                )((m, y) => {
-                  const cls = ['bc-date-picker__month-cell']
-                  if (m === month1)
-                    cls.push('bc-date-picker__month-cell--current')
-                  if (today.month === month1 && today.year === y)
-                    cls.push('bc-date-picker__month-cell--active')
-                  return cls.join(' ')
-                })
+                  dp.$.monthNames
+                )((m, names) => names[m - 1]!)
               ),
+              html.button(
+                attr.type('button'),
+                attr.class('bc-date-picker__title-btn'),
+                attr.disabled(disabled),
+                aria.label(dp.$.selectYear),
+                on.click(e => {
+                  e.preventDefault()
+                  switchToYearsView()
+                }),
+                Value.map(currentYear, String)
+              )
+            ),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
               attr.disabled(disabled),
+              aria.label(dp.$.nextMonth),
               on.click(e => {
                 e.preventDefault()
-                selectMonth(month1)
+                nextMonth()
               }),
-              monthName
+              '\u203A'
+            ),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
+              attr.disabled(disabled),
+              aria.label(dp.$.nextYear),
+              on.click(e => {
+                e.preventDefault()
+                nextYear()
+              }),
+              '\u00BB'
             )
-          })
-        ),
-      years: () =>
-        html.div(
-          attr.class(
-            'bc-date-picker__picker-grid bc-date-picker__picker-grid--years'
           ),
-          ForEach(
-            Value.map(yearPageStart, start => {
-              const years: number[] = []
-              for (let i = 0; i < YEARS_PER_PAGE; i++) {
-                years.push(start + i)
-              }
-              return years
-            }),
-            yearSignal =>
-              html.button(
+        months: () =>
+          html.div(
+            attr.class('bc-date-picker__nav'),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
+              attr.disabled(disabled),
+              aria.label(dp.$.previousYear),
+              on.click(e => {
+                e.preventDefault()
+                prevYear()
+              }),
+              '\u00AB'
+            ),
+            html.span(
+              attr.class('bc-date-picker__title'),
+              Value.map(currentYear, String)
+            ),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
+              attr.disabled(disabled),
+              aria.label(dp.$.nextYear),
+              on.click(e => {
+                e.preventDefault()
+                nextYear()
+              }),
+              '\u00BB'
+            )
+          ),
+        years: () =>
+          html.div(
+            attr.class('bc-date-picker__nav'),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
+              attr.disabled(disabled),
+              aria.label(dp.$.previousYears.map(fn => fn(YEARS_PER_PAGE))),
+              on.click(e => {
+                e.preventDefault()
+                prevYearPage()
+              }),
+              '\u00AB'
+            ),
+            html.span(
+              attr.class('bc-date-picker__title'),
+              Value.map(
+                yearPageStart,
+                start => `${start} \u2013 ${start + YEARS_PER_PAGE - 1}`
+              )
+            ),
+            html.button(
+              attr.type('button'),
+              attr.class('bc-date-picker__nav-btn'),
+              attr.disabled(disabled),
+              aria.label(dp.$.nextYears.map(fn => fn(YEARS_PER_PAGE))),
+              on.click(e => {
+                e.preventDefault()
+                nextYearPage()
+              }),
+              '\u00BB'
+            )
+          ),
+      }),
+
+      // Content area
+      OneOfValue(view, {
+        days: () =>
+          html.div(
+            attr.class('bc-date-picker__days-view'),
+            html.div(
+              attr.class('bc-date-picker__weekdays'),
+              ForEach(nav.shiftedDayNames, nameSignal =>
+                html.div(attr.class('bc-date-picker__weekday'), nameSignal)
+              )
+            ),
+            renderGrid()
+          ),
+        months: () =>
+          html.div(
+            attr.class(
+              'bc-date-picker__picker-grid bc-date-picker__picker-grid--months'
+            ),
+            ...Array.from({ length: 12 }, (_, monthIndex) => {
+              const month1 = monthIndex + 1
+              return html.button(
                 attr.type('button'),
                 attr.class(
                   computedOf(
-                    currentYear,
-                    yearSignal
-                  )((cy, year) => {
-                    const cls = ['bc-date-picker__year-cell']
-                    if (cy === year)
-                      cls.push('bc-date-picker__year-cell--current')
-                    if (today.year === year)
-                      cls.push('bc-date-picker__year-cell--active')
+                    currentMonth,
+                    currentYear
+                  )((m, y) => {
+                    const cls = ['bc-date-picker__month-cell']
+                    if (m === month1)
+                      cls.push('bc-date-picker__month-cell--current')
+                    if (today.month === month1 && today.year === y)
+                      cls.push('bc-date-picker__month-cell--active')
                     return cls.join(' ')
                   })
                 ),
                 attr.disabled(disabled),
                 on.click(e => {
                   e.preventDefault()
-                  selectYear(Value.get(yearSignal))
+                  selectMonth(month1)
                 }),
-                Value.map(yearSignal, String)
+                dp.$.shortMonthNames.map(names => names[monthIndex]!)
               )
-          )
-        ),
-    })
-  )
+            })
+          ),
+        years: () =>
+          html.div(
+            attr.class(
+              'bc-date-picker__picker-grid bc-date-picker__picker-grid--years'
+            ),
+            ForEach(
+              Value.map(yearPageStart, start => {
+                const years: number[] = []
+                for (let i = 0; i < YEARS_PER_PAGE; i++) {
+                  years.push(start + i)
+                }
+                return years
+              }),
+              yearSignal =>
+                html.button(
+                  attr.type('button'),
+                  attr.class(
+                    computedOf(
+                      currentYear,
+                      yearSignal
+                    )((cy, year) => {
+                      const cls = ['bc-date-picker__year-cell']
+                      if (cy === year)
+                        cls.push('bc-date-picker__year-cell--current')
+                      if (today.year === year)
+                        cls.push('bc-date-picker__year-cell--active')
+                      return cls.join(' ')
+                    })
+                  ),
+                  attr.disabled(disabled),
+                  on.click(e => {
+                    e.preventDefault()
+                    selectYear(Value.get(yearSignal))
+                  }),
+                  Value.map(yearSignal, String)
+                )
+            )
+          ),
+      })
+    )
+  })
 }

@@ -62,6 +62,11 @@ const ur: BeatUIMessages = {
   clearAllFiles: 'تمام فائلیں صاف کریں',
   // inputs reset
   clearValue: 'قدر صاف کریں',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'نامعلوم قسم',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -284,6 +289,75 @@ const ur: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'کیروسیل',
+    previousSlide: 'پچھلی سلائیڈ',
+    nextSlide: 'اگلی سلائیڈ',
+    slideNavigation: 'سلائیڈ نیویگیشن',
+    slideOfTotal: (index: number, total: number) =>
+      `سلائیڈ ${index} از ${total}`,
+    goToSlide: (index: number) => `سلائیڈ ${index} پر جائیں`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'تاریخ منتخب کریں',
+    previousYear: 'پچھلا سال',
+    previousMonth: 'پچھلا مہینہ',
+    selectMonth: 'مہینہ منتخب کریں',
+    selectYear: 'سال منتخب کریں',
+    nextMonth: 'اگلا مہینہ',
+    nextYear: 'اگلا سال',
+    previousYears: (count: number) => `پچھلے ${count} سال`,
+    nextYears: (count: number) => `اگلے ${count} سال`,
+    dateRangePickerLabel: 'تاریخ کی حد منتخب کریں',
+    monthNames: [
+      'جنوری',
+      'فروری',
+      'مارچ',
+      'اپریل',
+      'مئی',
+      'جون',
+      'جولائی',
+      'اگست',
+      'ستمبر',
+      'اکتوبر',
+      'نومبر',
+      'دسمبر',
+    ],
+    shortMonthNames: [
+      'جنو',
+      'فرو',
+      'مار',
+      'اپر',
+      'مئی',
+      'جون',
+      'جول',
+      'اگس',
+      'ستم',
+      'اکت',
+      'نوم',
+      'دسم',
+    ],
+    dayNames: ['اتو', 'پیر', 'منگ', 'بدھ', 'جمع', 'جمعہ', 'ہفت'],
+  },
+  // OTP input
+  otpInputLabel: 'ایک بار کا پاس ورڈ درج کریں',
+  otpDigitLabel: (index: number, total: number) => `ہندسہ ${index} از ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'سکرول ایبل گرڈ ویو',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'رہنمائی ٹور',
+    stepIndicator: (current: number, total: number) =>
+      `مرحلہ ${current} از ${total}`,
+    skip: 'چھوڑیں',
+    previous: 'پچھلا',
+    next: 'اگلا',
+    finish: 'مکمل',
+  },
+  // Combobox
+  searchPlaceholder: 'تلاش کریں',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

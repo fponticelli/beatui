@@ -2,6 +2,8 @@ import {
   DataTable,
   Badge,
   Icon,
+  OpenDateRangeSelect,
+  type OpenDateRange,
   type DataTablePaginationOptions,
   type DataTableToolbarOptions,
 } from '@tempots/beatui'
@@ -948,6 +950,97 @@ export default function DataTablePage() {
             })
           ),
         'With pagination enabled, it sticks to the bottom of the container while the table body scrolls between the fixed header and pagination.'
+      ),
+      Section(
+        'Date Range Filter (Custom render)',
+        () => {
+          // A DataTable with an OpenDateRangeSelect used as a custom column filter.
+          // The { render } filter type gives access to the DataSource so we can
+          // call setFilter / removeFilter directly.
+          // ISO date strings compare lexicographically, so Filter.between works
+          // correctly for date range filtering on the 'joined' column.
+          const range = prop<OpenDateRange>([null, null])
+
+          return html.div(
+            attr.class('flex flex-col gap-4'),
+            html.div(
+              attr.class('flex items-center gap-3 flex-wrap'),
+              html.span(
+                attr.class(
+                  'text-sm font-medium text-gray-600 dark:text-gray-300'
+                ),
+                'Filter by joined date:'
+              ),
+              html.div(
+                attr.class('min-w-64'),
+                OpenDateRangeSelect({
+                  value: range,
+                  onChange: range.set,
+                })
+              )
+            ),
+            DataTable<User>({
+              data: prop(sampleUsers),
+              rowId: u => u.id,
+              sortable: true,
+              filterable: true,
+              fullWidth: true,
+              hoverable: true,
+              columns: [
+                {
+                  id: 'name',
+                  header: 'Name',
+                  cell: row => row.map(r => r.name),
+                  sortable: true,
+                  filter: true,
+                },
+                {
+                  id: 'role',
+                  header: 'Role',
+                  cell: row =>
+                    MapSignal(row, r =>
+                      Badge({ color: roleColor(r.role), size: 'sm' }, r.role)
+                    ),
+                  value: r => r.role,
+                },
+                {
+                  id: 'joined',
+                  header: 'Joined',
+                  cell: row => row.map(r => r.joined),
+                  sortable: true,
+                  value: r => r.joined,
+                  filter: {
+                    render: ({ dataSource, column }) => {
+                      // React to range changes and apply a string-range filter.
+                      // ISO date strings (YYYY-MM-DD) sort lexicographically,
+                      // so Filter.between works correctly for date ranges.
+                      range.onChange(([start, end]) => {
+                        if (start == null && end == null) {
+                          dataSource.removeFilter(column)
+                        } else {
+                          // ISO date strings compare lexicographically, so a
+                          // string range filter works correctly for date columns.
+                          // Cast to FilterBase since RangeFilter is not exported.
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          dataSource.setFilter({
+                            kind: 'range',
+                            column,
+                            valueType: 'string',
+                            ...(start != null ? { min: start.toString() } : {}),
+                            ...(end != null ? { max: end.toString() } : {}),
+                          } as any)
+                        }
+                      })
+                      // Filter UI is rendered externally above — return empty span
+                      return html.span()
+                    },
+                  },
+                },
+              ],
+            })
+          )
+        },
+        'Use the { render } filter type to integrate a custom OpenDateRangeSelect filter. The render function receives the DataSource and calls setFilter / removeFilter to apply date-range constraints. ISO date strings compare lexicographically so string-range filters work without conversion.'
       ),
       Section(
         'Full Featured',

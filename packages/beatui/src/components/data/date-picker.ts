@@ -3,6 +3,7 @@ import {
   computedOf,
   html,
   on,
+  Use,
   Value,
   ForEach,
   type Renderable,
@@ -17,6 +18,7 @@ import {
   createDatePickerNav,
   renderDatePickerShell,
 } from './date-picker-shared'
+import { BeatUII18n } from '../../beatui-i18n'
 
 /**
  * Configuration options for the {@link DatePicker} component.
@@ -58,81 +60,84 @@ function renderDatePicker(
     weekStartsOn = 0,
   }: DatePickerOptions
 ): TNode {
-  const initialDate = value != null ? Value.get(value) : null
-  const nav = createDatePickerNav(
-    T,
-    initialDate?.year ?? T.Now.plainDateISO().year,
-    initialDate?.month ?? T.Now.plainDateISO().month,
-    disabled,
-    weekStartsOn
-  )
-
-  const weekStartsOnSignal = Value.toSignal(weekStartsOn)
-
-  // Build the grid of day cells reactively
-  const gridCells = computedOf(
-    nav.currentYear,
-    nav.currentMonth,
-    value,
-    weekStartsOnSignal
-  )((year, month, selectedDate, wso) => {
-    return buildDatePickerGrid(
+  return Use(BeatUII18n, t => {
+    const initialDate = value != null ? Value.get(value) : null
+    const nav = createDatePickerNav(
       T,
-      year,
-      month,
-      wso,
-      nav.today,
-      isDateDisabled
-    ).map(cell => ({
-      ...cell,
-      isSelected: selectedDate != null && cell.date.equals(selectedDate),
-    }))
-  })
+      initialDate?.year ?? T.Now.plainDateISO().year,
+      initialDate?.month ?? T.Now.plainDateISO().month,
+      disabled,
+      weekStartsOn,
+      t.$.datePicker.$.dayNames
+    )
 
-  return renderDatePickerShell(
-    nav,
-    { size, disabled, color, ariaLabel: 'Date picker' },
-    () =>
-      html.div(
-        attr.class('bc-date-picker__grid'),
-        ForEach(gridCells, cellSignal => {
-          const classes = cellSignal.map(cell => {
-            const cls = ['bc-date-picker__day']
-            if (!cell.inMonth) cls.push('bc-date-picker__day--outside')
-            if (cell.isToday) cls.push('bc-date-picker__day--today')
-            if (cell.isSelected) cls.push('bc-date-picker__day--selected')
-            if (cell.isDisabled) cls.push('bc-date-picker__day--disabled')
-            return cls.join(' ')
-          })
+    const weekStartsOnSignal = Value.toSignal(weekStartsOn)
 
-          const isDisabled = cellSignal.map(cell => cell.isDisabled)
-          const day = cellSignal.map(cell => String(cell.day))
+    // Build the grid of day cells reactively
+    const gridCells = computedOf(
+      nav.currentYear,
+      nav.currentMonth,
+      value,
+      weekStartsOnSignal
+    )((year, month, selectedDate, wso) => {
+      return buildDatePickerGrid(
+        T,
+        year,
+        month,
+        wso,
+        nav.today,
+        isDateDisabled
+      ).map(cell => ({
+        ...cell,
+        isSelected: selectedDate != null && cell.date.equals(selectedDate),
+      }))
+    })
 
-          return html.button(
-            attr.type('button'),
-            attr.class(classes),
-            attr.disabled(
-              computedOf(
-                isDisabled,
-                disabled
-              )((cDisabled, gDisabled) => cDisabled || gDisabled)
-            ),
-            on.click(e => {
-              e.preventDefault()
-              const cell = Value.get(cellSignal)
-              if (!cell.isDisabled && !Value.get(disabled)) {
-                if (!cell.inMonth) {
-                  nav.currentYear.set(cell.date.year)
-                  nav.currentMonth.set(cell.date.month)
+    return renderDatePickerShell(
+      nav,
+      { size, disabled, color, ariaLabel: t.$.datePicker.$.label },
+      () =>
+        html.div(
+          attr.class('bc-date-picker__grid'),
+          ForEach(gridCells, cellSignal => {
+            const classes = cellSignal.map(cell => {
+              const cls = ['bc-date-picker__day']
+              if (!cell.inMonth) cls.push('bc-date-picker__day--outside')
+              if (cell.isToday) cls.push('bc-date-picker__day--today')
+              if (cell.isSelected) cls.push('bc-date-picker__day--selected')
+              if (cell.isDisabled) cls.push('bc-date-picker__day--disabled')
+              return cls.join(' ')
+            })
+
+            const isDisabled = cellSignal.map(cell => cell.isDisabled)
+            const day = cellSignal.map(cell => String(cell.day))
+
+            return html.button(
+              attr.type('button'),
+              attr.class(classes),
+              attr.disabled(
+                computedOf(
+                  isDisabled,
+                  disabled
+                )((cDisabled, gDisabled) => cDisabled || gDisabled)
+              ),
+              on.click(e => {
+                e.preventDefault()
+                const cell = Value.get(cellSignal)
+                if (!cell.isDisabled && !Value.get(disabled)) {
+                  if (!cell.inMonth) {
+                    nav.currentYear.set(cell.date.year)
+                    nav.currentMonth.set(cell.date.month)
+                  }
+                  onSelect?.(cell.date)
                 }
-                onSelect?.(cell.date)
-              }
-            }),
-            day
-          )
-        })
-      )
-  )
+              }),
+              day
+            )
+          })
+        )
+    )
+  })
 }
 
 /**

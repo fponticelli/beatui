@@ -62,6 +62,11 @@ const hi: BeatUIMessages = {
   clearAllFiles: 'सभी फ़ाइलें हटाएं',
   // inputs reset
   clearValue: 'वृद्धि मान',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'अज्ञात प्रकार',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -280,6 +285,76 @@ const hi: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'कैरोसेल',
+    previousSlide: 'पिछली स्लाइड',
+    nextSlide: 'अगली स्लाइड',
+    slideNavigation: 'स्लाइड नेविगेशन',
+    slideOfTotal: (index: number, total: number) =>
+      `स्लाइड ${index} में से ${total}`,
+    goToSlide: (index: number) => `स्लाइड ${index} पर जाएं`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'तिथि चयनकर्ता',
+    previousYear: 'पिछला वर्ष',
+    previousMonth: 'पिछला महीना',
+    selectMonth: 'महीना चुनें',
+    selectYear: 'वर्ष चुनें',
+    nextMonth: 'अगला महीना',
+    nextYear: 'अगला वर्ष',
+    previousYears: (count: number) => `पिछले ${count} वर्ष`,
+    nextYears: (count: number) => `अगले ${count} वर्ष`,
+    dateRangePickerLabel: 'तिथि सीमा चयनकर्ता',
+    monthNames: [
+      'जनवरी',
+      'फरवरी',
+      'मार्च',
+      'अप्रैल',
+      'मई',
+      'जून',
+      'जुलाई',
+      'अगस्त',
+      'सितंबर',
+      'अक्टूबर',
+      'नवंबर',
+      'दिसंबर',
+    ],
+    shortMonthNames: [
+      'जन',
+      'फर',
+      'मार्च',
+      'अप्रै',
+      'मई',
+      'जून',
+      'जुल',
+      'अग',
+      'सित',
+      'अक्टू',
+      'नव',
+      'दिस',
+    ],
+    dayNames: ['र', 'सो', 'मं', 'बु', 'गु', 'शु', 'श'],
+  },
+  // OTP input
+  otpInputLabel: 'वन-टाइम पासवर्ड इनपुट',
+  otpDigitLabel: (index: number, total: number) =>
+    `अंक ${index} में से ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'स्क्रॉल करने योग्य ग्रिड दृश्य',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'गाइडेड टूर',
+    stepIndicator: (current: number, total: number) =>
+      `चरण ${current} में से ${total}`,
+    skip: 'छोड़ें',
+    previous: 'पिछला',
+    next: 'अगला',
+    finish: 'समाप्त',
+  },
+  // Combobox
+  searchPlaceholder: 'खोजें',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

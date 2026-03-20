@@ -1,4 +1,9 @@
-/* Date Range Select */
+/* Date Select / Date Range Select — fit-content sizing like UUID input */
+.bc-date-select {
+  width: fit-content;
+  max-width: 100%;
+}
+
 .bc-date-range-select {
   cursor: pointer;
   user-select: none;
@@ -26,12 +31,40 @@
   gap: var(--spacing-xs);
 }
 
+/* Header row: label + optional clear button */
+.bc-date-range-select__picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+}
+
 /* Label above each picker */
 .bc-date-range-select__picker-label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--text-muted);
   padding: 0 var(--spacing-xs);
+}
+
+/* Clear button inside picker header */
+.bc-date-range-select__clear-btn {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xxs) var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--motion-transition-fast) var(--motion-easing-standard),
+    background-color var(--motion-transition-fast) var(--motion-easing-standard);
+  white-space: nowrap;
+}
+
+.bc-date-range-select__clear-btn:hover {
+  color: var(--color-danger-600);
+  background-color: var(--color-danger-50);
 }
 
 /* Responsive: stack vertically on narrow screens */
@@ -45,4 +78,9 @@
 .dark .bc-date-range-select__panel {
   background-color: var(--bg-surface);
   border-color: var(--border-default);
+}
+
+.dark .bc-date-range-select__clear-btn:hover {
+  color: var(--color-danger-400);
+  background-color: var(--color-danger-950);
 }

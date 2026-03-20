@@ -5,12 +5,15 @@ import {
   computedOf,
   html,
   attr,
+  on,
+  When,
 } from '@tempots/dom'
 import { CommonInputOptions } from './input-options'
 import { DateRangeSelectShell } from './date-range-select-base'
 import { DatePicker } from '../../data/date-picker'
 import type { PlainDate } from '../../../temporal/types'
 import { ThemeColorName } from '../../../tokens'
+import { defaultMessages } from '../../../beatui-i18n'
 
 /**
  * An open date range where either or both dates may be null/undefined.
@@ -43,11 +46,11 @@ export type OpenDateRangeSelectOptions = Merge<
     weekStartsOn?: Value<number>
     /** Format a PlainDate for display. Defaults to ISO string. */
     formatDate?: (date: PlainDate) => string
-    /** Label for the start picker. @default 'Start' */
+    /** Label for the start picker. @default i18n dateRangeStart */
     startLabel?: string
-    /** Label for the end picker. @default 'End' */
+    /** Label for the end picker. @default i18n dateRangeEnd */
     endLabel?: string
-    /** Placeholder when no date is selected. @default '—' */
+    /** Placeholder when no date is selected. @default i18n dateRangeNoLimit */
     emptyPlaceholder?: string
     /** Content to render before the display text. */
     before?: TNode
@@ -97,9 +100,9 @@ export function OpenDateRangeSelect(
     color = 'primary',
     weekStartsOn = 0,
     formatDate = (d: PlainDate) => d.toString(),
-    startLabel = 'Start',
-    endLabel = 'End',
-    emptyPlaceholder = '—',
+    startLabel = defaultMessages.dateRangeStart,
+    endLabel = defaultMessages.dateRangeEnd,
+    emptyPlaceholder = defaultMessages.dateRangeNoLimit,
     ...rest
   } = options
 
@@ -112,6 +115,8 @@ export function OpenDateRangeSelect(
   const startValue = Value.map(value, (v): PlainDate | null => v[0] ?? null)
   const endValue = Value.map(value, (v): PlainDate | null => v[1] ?? null)
 
+  const clearLabel = defaultMessages.clearValue
+
   return DateRangeSelectShell({
     ...rest,
     displayText,
@@ -119,7 +124,29 @@ export function OpenDateRangeSelect(
       attr.class('bc-date-range-select__pickers'),
       html.div(
         attr.class('bc-date-range-select__picker'),
-        html.div(attr.class('bc-date-range-select__picker-label'), startLabel),
+        html.div(
+          attr.class('bc-date-range-select__picker-header'),
+          html.span(
+            attr.class('bc-date-range-select__picker-label'),
+            startLabel
+          ),
+          When(
+            Value.map(startValue, s => s != null),
+            () =>
+              html.button(
+                attr.type('button'),
+                attr.class('bc-date-range-select__clear-btn'),
+                attr.title(clearLabel),
+                on.click((e: Event) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  const current = Value.get(value)
+                  onChange?.([null, current[1]])
+                }),
+                clearLabel
+              )
+          )
+        ),
         DatePicker({
           value: startValue as Value<PlainDate | null>,
           onSelect: date => {
@@ -135,7 +162,26 @@ export function OpenDateRangeSelect(
       ),
       html.div(
         attr.class('bc-date-range-select__picker'),
-        html.div(attr.class('bc-date-range-select__picker-label'), endLabel),
+        html.div(
+          attr.class('bc-date-range-select__picker-header'),
+          html.span(attr.class('bc-date-range-select__picker-label'), endLabel),
+          When(
+            Value.map(endValue, e => e != null),
+            () =>
+              html.button(
+                attr.type('button'),
+                attr.class('bc-date-range-select__clear-btn'),
+                attr.title(clearLabel),
+                on.click((e: Event) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  const current = Value.get(value)
+                  onChange?.([current[0], null])
+                }),
+                clearLabel
+              )
+          )
+        ),
         DatePicker({
           value: endValue as Value<PlainDate | null>,
           onSelect: date => {

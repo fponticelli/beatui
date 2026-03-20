@@ -7,6 +7,7 @@ import {
   Value,
   Empty,
   aria,
+  Use,
   WithElement,
   Repeat,
 } from '@tempots/dom'
@@ -15,6 +16,7 @@ import { ControlSize } from '../../theme'
 import { sessionId } from '../../../utils/session-id'
 import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, borderColorValue } from '../../theme/style-utils'
+import { BeatUII18n } from '../../../beatui-i18n'
 
 /**
  * Configuration options for the {@link OtpInput} component.
@@ -246,79 +248,79 @@ export function OtpInput({
     handleInput(index, pastedText)
   }
 
-  return html.div(
-    attr.class(computedOf(size, disabled)(generateOTPClasses)),
-    attr.style(Value.map(color, generateOTPStyles)),
-    attr.role('group'),
-    aria.label('One-time password input'),
+  return Use(BeatUII18n, t =>
+    html.div(
+      attr.class(computedOf(size, disabled)(generateOTPClasses)),
+      attr.style(Value.map(color, generateOTPStyles)),
+      attr.role('group'),
+      aria.label(t.$.otpInputLabel),
 
-    Repeat(length, pos => {
-      const i = pos.index
-      const cellId = `${otpId}-cell-${i}`
+      Repeat(length, pos => {
+        const i = pos.index
+        const cellId = `${otpId}-cell-${i}`
 
-      return html.input(
-        WithElement((el: HTMLElement) => {
-          // Store ref to this input element
-          inputRefs[i] = el as HTMLInputElement
-          if (autoFocus && i === 0) {
-            delayedAnimationFrame(() => (el as HTMLInputElement).focus())
-          }
-          return Empty
-        }),
-        attr.id(cellId),
-        attr.type(
-          Value.map(mask, (mask): string => (mask ? 'password' : 'text'))
-        ),
-        attr.inputmode(
-          Value.map(
-            type,
-            (
-              t
-            ):
-              | 'text'
-              | 'none'
-              | 'search'
-              | 'decimal'
-              | 'numeric'
-              | 'tel'
-              | 'email'
-              | 'url' => (t === 'numeric' ? 'numeric' : 'text')
-          )
-        ),
-        attr.maxlength(1),
-        attr.autocomplete('one-time-code'),
-        attr.class('bc-otp-input__cell'),
-        attr.class(
-          focusedIndex.map((fi): string =>
-            fi === i ? 'bc-otp-input__cell--focused' : ''
-          )
-        ),
-        attr.placeholder(placeholder),
-        attr.disabled(disabled),
-        aria.label(`Digit ${i + 1} of ${length}`),
-        attr.value(cells.map(c => c[i] ?? '')),
+        return html.input(
+          WithElement((el: HTMLElement) => {
+            // Store ref to this input element
+            inputRefs[i] = el as HTMLInputElement
+            if (autoFocus && i === 0) {
+              delayedAnimationFrame(() => (el as HTMLInputElement).focus())
+            }
+            return Empty
+          }),
+          attr.id(cellId),
+          attr.type(
+            Value.map(mask, (mask): string => (mask ? 'password' : 'text'))
+          ),
+          attr.inputmode(
+            Value.map(
+              type,
+              (
+                tp
+              ):
+                | 'text'
+                | 'none'
+                | 'search'
+                | 'decimal'
+                | 'numeric'
+                | 'tel'
+                | 'email'
+                | 'url' => (tp === 'numeric' ? 'numeric' : 'text')
+            )
+          ),
+          attr.maxlength(1),
+          attr.autocomplete('one-time-code'),
+          attr.class('bc-otp-input__cell'),
+          attr.class(
+            focusedIndex.map((fi): string =>
+              fi === i ? 'bc-otp-input__cell--focused' : ''
+            )
+          ),
+          attr.placeholder(placeholder),
+          attr.disabled(disabled),
+          aria.label(t.$.otpDigitLabel.map(fn => fn(i + 1, Value.get(length)))),
+          attr.value(cells.map(c => c[i] ?? '')),
 
-        on.focus(() => {
-          focusedIndex.set(i)
-          const inputEl = inputRefs[i]
-          if (inputEl != null) inputEl.select()
-        }),
+          on.focus(() => {
+            focusedIndex.set(i)
+            const inputEl = inputRefs[i]
+            if (inputEl != null) inputEl.select()
+          }),
 
-        on.blur(() => {
-          focusedIndex.set(null)
-        }),
+          on.blur(() => {
+            focusedIndex.set(null)
+          }),
 
-        on.input((e: Event) => {
-          const target = e.target as HTMLInputElement
-          handleInput(i, target.value)
-          // Reset the input value to single char
-          // target.value = cells.value[i] ?? ''
-        }),
+          on.input((e: Event) => {
+            const target = e.target as HTMLInputElement
+            handleInput(i, target.value)
+          }),
 
-        on.keydown((e: KeyboardEvent) => handleKeyDown(i, e)),
+          on.keydown((e: KeyboardEvent) => handleKeyDown(i, e)),
 
-        on.paste((e: ClipboardEvent) => handlePaste(i, e))
-      )
-    })
+          on.paste((e: ClipboardEvent) => handlePaste(i, e))
+        )
+      })
+    )
   )
 }

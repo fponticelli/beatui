@@ -62,6 +62,11 @@ const he: BeatUIMessages = {
   clearAllFiles: 'נקה את כל הקבצים',
   // inputs reset
   clearValue: 'נקה ערך',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'סוג לא ידוע',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -279,6 +284,76 @@ const he: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'קרוסלה',
+    previousSlide: 'שקופית קודמת',
+    nextSlide: 'שקופית הבאה',
+    slideNavigation: 'ניווט שקופיות',
+    slideOfTotal: (index: number, total: number) =>
+      `שקופית ${index} מתוך ${total}`,
+    goToSlide: (index: number) => `עבור לשקופית ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'בורר תאריך',
+    previousYear: 'שנה קודמת',
+    previousMonth: 'חודש קודם',
+    selectMonth: 'בחר חודש',
+    selectYear: 'בחר שנה',
+    nextMonth: 'חודש הבא',
+    nextYear: 'שנה הבאה',
+    previousYears: (count: number) => `${count} שנים קודמות`,
+    nextYears: (count: number) => `${count} שנים הבאות`,
+    dateRangePickerLabel: 'בורר טווח תאריכים',
+    monthNames: [
+      'ינואר',
+      'פברואר',
+      'מרץ',
+      'אפריל',
+      'מאי',
+      'יוני',
+      'יולי',
+      'אוגוסט',
+      'ספטמבר',
+      'אוקטובר',
+      'נובמבר',
+      'דצמבר',
+    ],
+    shortMonthNames: [
+      'ינו',
+      'פבר',
+      'מרץ',
+      'אפר',
+      'מאי',
+      'יונ',
+      'יול',
+      'אוג',
+      'ספט',
+      'אוק',
+      'נוב',
+      'דצמ',
+    ],
+    dayNames: ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'],
+  },
+  // OTP input
+  otpInputLabel: 'הזנת סיסמה חד-פעמית',
+  otpDigitLabel: (index: number, total: number) =>
+    `ספרה ${index} מתוך ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'תצוגת רשת ניתנת לגלילה',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'סיור מודרך',
+    stepIndicator: (current: number, total: number) =>
+      `שלב ${current} מתוך ${total}`,
+    skip: 'דלג',
+    previous: 'הקודם',
+    next: 'הבא',
+    finish: 'סיום',
+  },
+  // Combobox
+  searchPlaceholder: 'חיפוש',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

@@ -62,6 +62,11 @@ const ar: BeatUIMessages = {
   clearAllFiles: 'مسح كل الملفات',
   // inputs reset
   clearValue: 'مسح القيمة',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'نوع غير معروف',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -281,6 +286,75 @@ const ar: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'عرض دائري',
+    previousSlide: 'الشريحة السابقة',
+    nextSlide: 'الشريحة التالية',
+    slideNavigation: 'التنقل بين الشرائح',
+    slideOfTotal: (index: number, total: number) =>
+      `شريحة ${index} من ${total}`,
+    goToSlide: (index: number) => `انتقل إلى الشريحة ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'منتقي التاريخ',
+    previousYear: 'السنة السابقة',
+    previousMonth: 'الشهر السابق',
+    selectMonth: 'اختر الشهر',
+    selectYear: 'اختر السنة',
+    nextMonth: 'الشهر التالي',
+    nextYear: 'السنة التالية',
+    previousYears: (count: number) => `${count} سنوات سابقة`,
+    nextYears: (count: number) => `${count} سنوات تالية`,
+    dateRangePickerLabel: 'منتقي نطاق التاريخ',
+    monthNames: [
+      'يناير',
+      'فبراير',
+      'مارس',
+      'أبريل',
+      'مايو',
+      'يونيو',
+      'يوليو',
+      'أغسطس',
+      'سبتمبر',
+      'أكتوبر',
+      'نوفمبر',
+      'ديسمبر',
+    ],
+    shortMonthNames: [
+      'ينا',
+      'فبر',
+      'مار',
+      'أبر',
+      'ماي',
+      'يون',
+      'يول',
+      'أغس',
+      'سبت',
+      'أكت',
+      'نوف',
+      'ديس',
+    ],
+    dayNames: ['أح', 'إث', 'ثل', 'أر', 'خم', 'جم', 'سب'],
+  },
+  // OTP input
+  otpInputLabel: 'إدخال كلمة مرور لمرة واحدة',
+  otpDigitLabel: (index: number, total: number) => `الرقم ${index} من ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'عرض شبكة قابل للتمرير',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'جولة إرشادية',
+    stepIndicator: (current: number, total: number) =>
+      `الخطوة ${current} من ${total}`,
+    skip: 'تخطي',
+    previous: 'السابق',
+    next: 'التالي',
+    finish: 'إنهاء',
+  },
+  // Combobox
+  searchPlaceholder: 'بحث',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

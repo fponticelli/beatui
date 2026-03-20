@@ -221,16 +221,10 @@ export function renderGroupedBody<T, C extends string>(
                           )
                         ),
                         aria.label(
-                          isCollapsed.map((c): string => {
-                            const dt = t.value.dataTable as Record<
-                              string,
-                              unknown
-                            >
-                            return c
-                              ? ((dt.expandGroup as string) ?? 'Expand group')
-                              : ((dt.collapseGroup as string) ??
-                                  'Collapse group')
-                          })
+                          computedOf(
+                            isCollapsed,
+                            t.$.dataTable
+                          )((c, dt) => (c ? dt.expandGroup : dt.collapseGroup))
                         ),
                         Icon({ icon: 'lucide:chevron-down', size: 'sm' })
                       )

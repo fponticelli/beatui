@@ -62,6 +62,11 @@ const fa: BeatUIMessages = {
   clearAllFiles: 'حذف همه فایل‌ها',
   // inputs reset
   clearValue: 'حذف مقدار',
+  // Date range select
+  dateRangeStart: 'Start',
+  dateRangeEnd: 'End',
+  dateRangeNoLimit: 'No limit',
+  dateRangeSelectDate: 'Select date',
   unknownType: 'نوع ناشناخته',
   filesInputInstructions: (
     maxFiles: number | undefined,
@@ -280,6 +285,75 @@ const fa: BeatUIMessages = {
     horizontalRule: 'Horizontal Rule',
     linkUrlPlaceholder: 'https://example.com',
   },
+  // Carousel
+  carousel: {
+    label: 'چرخ‌فلک',
+    previousSlide: 'اسلاید قبلی',
+    nextSlide: 'اسلاید بعدی',
+    slideNavigation: 'ناوبری اسلایدها',
+    slideOfTotal: (index: number, total: number) =>
+      `اسلاید ${index} از ${total}`,
+    goToSlide: (index: number) => `رفتن به اسلاید ${index}`,
+  },
+  // Date picker
+  datePicker: {
+    label: 'انتخاب تاریخ',
+    previousYear: 'سال قبل',
+    previousMonth: 'ماه قبل',
+    selectMonth: 'انتخاب ماه',
+    selectYear: 'انتخاب سال',
+    nextMonth: 'ماه بعد',
+    nextYear: 'سال بعد',
+    previousYears: (count: number) => `${count} سال قبل`,
+    nextYears: (count: number) => `${count} سال بعد`,
+    dateRangePickerLabel: 'انتخاب بازه تاریخ',
+    monthNames: [
+      'ژانویه',
+      'فوریه',
+      'مارس',
+      'آوریل',
+      'مه',
+      'ژوئن',
+      'ژوئیه',
+      'اوت',
+      'سپتامبر',
+      'اکتبر',
+      'نوامبر',
+      'دسامبر',
+    ],
+    shortMonthNames: [
+      'ژان',
+      'فور',
+      'مار',
+      'آور',
+      'مه',
+      'ژوئ',
+      'ژوئ',
+      'اوت',
+      'سپت',
+      'اکت',
+      'نوا',
+      'دسا',
+    ],
+    dayNames: ['یک', 'دو', 'سه', 'چه', 'پن', 'جم', 'شن'],
+  },
+  // OTP input
+  otpInputLabel: 'ورودی رمز یک‌بار مصرف',
+  otpDigitLabel: (index: number, total: number) => `رقم ${index} از ${total}`,
+  // Nine-slice scroll view
+  scrollableGridView: 'نمای شبکه قابل پیمایش',
+  // Onboarding tour
+  onboardingTour: {
+    label: 'تور راهنما',
+    stepIndicator: (current: number, total: number) =>
+      `مرحله ${current} از ${total}`,
+    skip: 'رد شدن',
+    previous: 'قبلی',
+    next: 'بعدی',
+    finish: 'پایان',
+  },
+  // Combobox
+  searchPlaceholder: 'جستجو',
   // PDF Page Viewer
   pdfPageViewer: {
     loading: 'Loading PDF...',

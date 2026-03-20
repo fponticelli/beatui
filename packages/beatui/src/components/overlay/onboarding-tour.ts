@@ -12,6 +12,7 @@ import {
   svg,
   svgAttr,
   TNode,
+  Use,
   Value,
   When,
   WithElement,
@@ -19,6 +20,7 @@ import {
 import { Button } from '../button'
 import { FocusTrap } from '../../utils/focus-trap'
 import { sessionId } from '../../utils/session-id'
+import { BeatUII18n } from '../../beatui-i18n'
 
 /**
  * Placement of the tour tooltip relative to the target element.
@@ -368,10 +370,7 @@ export function OnboardingTour(
   const hasCustomContent = currentStep.map(idx =>
     idx < steps.length ? steps[idx].content != null : false
   )
-  const stepIndicatorText = Value.map(
-    currentStep,
-    idx => `Step ${idx + 1} of ${steps.length}`
-  )
+  // stepIndicatorText is now computed inside Use(BeatUII18n)
   const isFirstStep = Value.map(currentStep, idx => idx === 0)
   const isLastStep = Value.map(currentStep, idx => idx >= steps.length - 1)
   const allowsInteraction = Value.map(currentStep, idx =>
@@ -395,186 +394,194 @@ export function OnboardingTour(
   })
 
   const tourContent = () =>
-    html.div(
-      attr.class('bc-onboarding-tour'),
-      attr.id(id),
-      attr.role('dialog'),
-      aria.modal(true),
-      aria.label('Guided tour'),
-      style.opacity(opacity.map(String)),
+    Use(BeatUII18n, t => {
+      const stepIndicatorText = computedOf(
+        currentStep,
+        t.$.onboardingTour.$.stepIndicator
+      )((idx, fn) => fn(idx + 1, steps.length))
 
-      // SVG backdrop with spotlight cutout
-      svg.svg(
-        attr.class(
-          computedOf(allowsInteraction)(
-            i =>
-              `bc-onboarding-tour__backdrop${i ? ' bc-onboarding-tour__backdrop--interactive' : ''}`
+      return html.div(
+        attr.class('bc-onboarding-tour'),
+        attr.id(id),
+        attr.role('dialog'),
+        aria.modal(true),
+        aria.label(t.$.onboardingTour.$.label),
+        style.opacity(opacity.map(String)),
+
+        // SVG backdrop with spotlight cutout
+        svg.svg(
+          attr.class(
+            computedOf(allowsInteraction)(
+              i =>
+                `bc-onboarding-tour__backdrop${i ? ' bc-onboarding-tour__backdrop--interactive' : ''}`
+            )
+          ),
+          svgAttr.width('100%'),
+          svgAttr.height('100%'),
+          on.click(() => {
+            if (backdropAction === 'close') skipTour()
+            else if (backdropAction === 'advance') nextStep()
+          }),
+          svg.path(
+            svgAttr.d(spotlightMask),
+            svgAttr['fill-rule']('evenodd'),
+            attr.class('bc-onboarding-tour__mask')
           )
         ),
-        svgAttr.width('100%'),
-        svgAttr.height('100%'),
-        on.click(() => {
-          if (backdropAction === 'close') skipTour()
-          else if (backdropAction === 'advance') nextStep()
-        }),
-        svg.path(
-          svgAttr.d(spotlightMask),
-          svgAttr['fill-rule']('evenodd'),
-          attr.class('bc-onboarding-tour__mask')
-        )
-      ),
 
-      // Tooltip
-      html.div(
-        attr.class(
-          Value.map(
-            tooltipPlacement,
-            p => `bc-onboarding-tour__tooltip bc-onboarding-tour__tooltip--${p}`
-          )
-        ),
-        style.top(tooltipTop),
-        style.left(tooltipLeft),
-
-        // Arrow
-        html.div(attr.class('bc-onboarding-tour__arrow')),
-
-        // Content
+        // Tooltip
         html.div(
-          attr.class('bc-onboarding-tour__content'),
-
-          // Step indicator
-          showStepIndicator
-            ? html.div(
-                attr.class('bc-onboarding-tour__step-indicator'),
-                stepIndicatorText
-              )
-            : Empty,
-
-          // Title
-          When(
-            Value.map(stepTitle, t => t.length > 0),
-            () =>
-              html.h3(
-                attr.class('bc-onboarding-tour__title'),
-                attr.id(`${id}-title`),
-                stepTitle
-              ),
-            () => undefined
+          attr.class(
+            Value.map(
+              tooltipPlacement,
+              p =>
+                `bc-onboarding-tour__tooltip bc-onboarding-tour__tooltip--${p}`
+            )
           ),
+          style.top(tooltipTop),
+          style.left(tooltipLeft),
 
-          // Description or custom content
-          When(
-            hasCustomContent,
-            () => {
-              const idx = currentStep.value
-              return html.div(
-                attr.class('bc-onboarding-tour__body'),
-                idx < steps.length ? steps[idx].content : undefined
-              )
-            },
-            () =>
-              When(
-                Value.map(stepDescription, d => d.length > 0),
-                () =>
-                  html.p(
-                    attr.class('bc-onboarding-tour__description'),
-                    stepDescription
-                  ),
-                () => undefined
-              )
-          ),
+          // Arrow
+          html.div(attr.class('bc-onboarding-tour__arrow')),
 
-          // Navigation buttons
+          // Content
           html.div(
-            attr.class('bc-onboarding-tour__nav'),
-            html.div(
-              attr.class('bc-onboarding-tour__nav-left'),
-              showSkipButton
-                ? Button(
-                    {
-                      variant: 'default',
-                      size: 'sm',
-                      onClick: skipTour,
-                    },
-                    'Skip'
-                  )
-                : Empty
+            attr.class('bc-onboarding-tour__content'),
+
+            // Step indicator
+            showStepIndicator
+              ? html.div(
+                  attr.class('bc-onboarding-tour__step-indicator'),
+                  stepIndicatorText
+                )
+              : Empty,
+
+            // Title
+            When(
+              Value.map(stepTitle, tt => tt.length > 0),
+              () =>
+                html.h3(
+                  attr.class('bc-onboarding-tour__title'),
+                  attr.id(`${id}-title`),
+                  stepTitle
+                ),
+              () => undefined
             ),
+
+            // Description or custom content
+            When(
+              hasCustomContent,
+              () => {
+                const idx = currentStep.value
+                return html.div(
+                  attr.class('bc-onboarding-tour__body'),
+                  idx < steps.length ? steps[idx].content : undefined
+                )
+              },
+              () =>
+                When(
+                  Value.map(stepDescription, d => d.length > 0),
+                  () =>
+                    html.p(
+                      attr.class('bc-onboarding-tour__description'),
+                      stepDescription
+                    ),
+                  () => undefined
+                )
+            ),
+
+            // Navigation buttons
             html.div(
-              attr.class('bc-onboarding-tour__nav-right'),
-              When(
-                isFirstStep,
-                () => Empty,
-                () =>
-                  Button(
-                    {
-                      variant: 'outline',
-                      size: 'sm',
-                      onClick: prevStep,
-                    },
-                    'Previous'
-                  )
+              attr.class('bc-onboarding-tour__nav'),
+              html.div(
+                attr.class('bc-onboarding-tour__nav-left'),
+                showSkipButton
+                  ? Button(
+                      {
+                        variant: 'default',
+                        size: 'sm',
+                        onClick: skipTour,
+                      },
+                      t.$.onboardingTour.$.skip
+                    )
+                  : Empty
               ),
-              When(
-                isLastStep,
-                () =>
-                  Button(
-                    {
-                      variant: 'filled',
-                      color: 'primary',
-                      size: 'sm',
-                      onClick: () => nextStep(),
-                    },
-                    'Finish'
-                  ),
-                () =>
-                  Button(
-                    {
-                      variant: 'filled',
-                      color: 'primary',
-                      size: 'sm',
-                      onClick: () => nextStep(),
-                    },
-                    'Next'
-                  )
+              html.div(
+                attr.class('bc-onboarding-tour__nav-right'),
+                When(
+                  isFirstStep,
+                  () => Empty,
+                  () =>
+                    Button(
+                      {
+                        variant: 'outline',
+                        size: 'sm',
+                        onClick: prevStep,
+                      },
+                      t.$.onboardingTour.$.previous
+                    )
+                ),
+                When(
+                  isLastStep,
+                  () =>
+                    Button(
+                      {
+                        variant: 'filled',
+                        color: 'primary',
+                        size: 'sm',
+                        onClick: () => nextStep(),
+                      },
+                      t.$.onboardingTour.$.finish
+                    ),
+                  () =>
+                    Button(
+                      {
+                        variant: 'filled',
+                        color: 'primary',
+                        size: 'sm',
+                        onClick: () => nextStep(),
+                      },
+                      t.$.onboardingTour.$.next
+                    )
+                )
               )
             )
-          )
+          ),
+
+          // Focus trap and keyboard handling
+          FocusTrap({
+            escapeDeactivates: true,
+            onEscape: skipTour,
+          })
         ),
 
-        // Focus trap and keyboard handling
-        FocusTrap({
-          escapeDeactivates: true,
-          onEscape: skipTour,
-        })
-      ),
-
-      // Keyboard navigation and resize handling
-      WithElement(() => {
-        const handleKeydown = (e: KeyboardEvent) => {
-          if (e.key === 'ArrowRight') {
-            e.preventDefault()
-            nextStep()
-          } else if (e.key === 'ArrowLeft') {
-            e.preventDefault()
-            prevStep()
+        // Keyboard navigation and resize handling
+        WithElement(() => {
+          const handleKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowRight') {
+              e.preventDefault()
+              nextStep()
+            } else if (e.key === 'ArrowLeft') {
+              e.preventDefault()
+              prevStep()
+            }
           }
-        }
 
-        resizeHandler = () => updatePositions()
+          resizeHandler = () => updatePositions()
 
-        document.addEventListener('keydown', handleKeydown)
-        window.addEventListener('resize', resizeHandler)
+          document.addEventListener('keydown', handleKeydown)
+          window.addEventListener('resize', resizeHandler)
 
-        return OnDispose(() => {
-          document.removeEventListener('keydown', handleKeydown)
-          if (resizeHandler) {
-            window.removeEventListener('resize', resizeHandler)
-            resizeHandler = null
-          }
+          return OnDispose(() => {
+            document.removeEventListener('keydown', handleKeydown)
+            if (resizeHandler) {
+              window.removeEventListener('resize', resizeHandler)
+              resizeHandler = null
+            }
+          })
         })
-      })
-    )
+      )
+    })
 
   const node: TNode = When(isMounted, () =>
     container === 'body' ? Portal('body', tourContent()) : tourContent()
