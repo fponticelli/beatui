@@ -7,7 +7,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TimePicker',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'TimePicker',
   description:
     'A time selection panel with scrollable hour and minute columns. Uses Temporal PlainTime internally.',

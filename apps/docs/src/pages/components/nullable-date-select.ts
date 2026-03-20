@@ -12,7 +12,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NullableDateSelect',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'NullableDateSelect',
   description:
     'A dropdown date selector where the value may be null. Includes a clear button to reset back to null. Use DateSelect when a date is always required.',

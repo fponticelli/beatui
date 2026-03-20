@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'UuidInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'UuidInput',
   description:
     'A masked input for UUID values with automatic hyphen insertion and hex character validation.',

@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'RatingInput',
-  category: 'Specialized Inputs',
+  category: 'Inputs',
   component: 'RatingInput',
   description:
     'A star rating input with fractional precision, keyboard navigation, and customizable icons and colors.',

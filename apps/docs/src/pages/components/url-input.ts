@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'UrlInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'UrlInput',
   description:
     'A URL input with browser-native URL validation via type="url".',

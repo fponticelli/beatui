@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Skeleton',
-  category: 'Data Display',
+  category: 'Tables & Data',
   component: 'Skeleton',
   description: 'Placeholder loading indicators for content that is still loading.',
   icon: 'lucide:layout',

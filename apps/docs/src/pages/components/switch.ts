@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'Switch',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'Switch',
   description: 'A toggle switch for boolean on/off states.',
   icon: 'lucide:toggle-left',

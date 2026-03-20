@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TriStateCheckboxInput',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'TriStateCheckboxInput',
   description: 'A checkbox with three states: checked, unchecked, and indeterminate. Cycles through states on click with full ARIA semantics.',
   icon: 'lucide:check-square-2',

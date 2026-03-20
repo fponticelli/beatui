@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'HistoryTimeline',
-  category: 'Data Display',
+  category: 'Tables & Data',
   component: 'HistoryTimeline',
   description:
     'A chronological audit log timeline with filter chips, colored action labels, and optional restore actions.',

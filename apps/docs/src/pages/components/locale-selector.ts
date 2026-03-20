@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'LocaleSelector',
-  category: 'Navigation',
+  category: 'Dropdowns',
   component: 'LocaleSelector',
   description:
     'A dropdown for selecting the application locale. Reads the current locale from the Locale provider and optionally updates it when the user makes a selection.',

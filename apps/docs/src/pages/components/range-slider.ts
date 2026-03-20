@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'RangeSlider',
-  category: 'Specialized Inputs',
+  category: 'Inputs',
   component: 'RangeSlider',
   description:
     'A range slider supporting single-value, dual-thumb range, and multi-point modes with customizable thumbs, segment styles, tick marks, and keyboard accessibility.',

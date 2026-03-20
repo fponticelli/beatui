@@ -9,7 +9,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'AppearanceSelector',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'AppearanceSelector',
   description:
     'A segmented input for selecting the application appearance: light, dark, or system. Connects to the theme provider or can be controlled manually.',

@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'EmailInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'EmailInput',
   description:
     'An email input with a default email icon, browser-native email validation, and autocomplete support.',

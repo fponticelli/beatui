@@ -10,7 +10,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'MaskInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'MaskInput',
   description:
     'A text input with configurable input masking. Supports static and dynamic masks, custom token definitions, cursor behavior, completion detection, and unmask strategies.',

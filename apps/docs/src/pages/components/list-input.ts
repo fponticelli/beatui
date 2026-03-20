@@ -13,7 +13,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ListInput',
-  category: 'Specialized Inputs',
+  category: 'Files',
   component: 'ListInput',
   description:
     'A dynamic list component for managing ordered arrays. Each item receives actions for removal and reordering (up, down, first, last).',

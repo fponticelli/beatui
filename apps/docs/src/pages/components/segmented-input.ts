@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'SegmentedInput',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'SegmentedInput',
   description:
     'A segmented control for selecting one option from a set, with an animated sliding indicator.',

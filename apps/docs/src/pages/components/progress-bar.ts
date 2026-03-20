@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'ProgressBar',
-  category: 'Data Display',
+  category: 'Tables & Data',
   component: 'ProgressBar',
   description: 'A horizontal bar indicating progress or loading state.',
   icon: 'lucide:loader',

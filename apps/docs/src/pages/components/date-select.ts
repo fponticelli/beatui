@@ -12,7 +12,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DateSelect',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'DateSelect',
   description:
     'A dropdown date selector that opens a calendar picker. The selected date is always required — use NullableDateSelect when null is allowed.',

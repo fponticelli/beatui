@@ -13,7 +13,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'DateRangeSelect',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'DateRangeSelect',
   description:
     'A dropdown date range selector with a single calendar showing range highlighting. Both start and end dates are required.',

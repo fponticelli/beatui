@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TextArea',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'TextArea',
   description: 'A multi-line text input with configurable row count, placeholder, and all standard input states.',
   icon: 'lucide:align-left',

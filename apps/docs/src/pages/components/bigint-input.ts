@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'BigintInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'BigintInput',
   description:
     'A numeric input for arbitrarily large integers (bigint), with optional stepper buttons, min/max clamping, and digit-only masking.',

@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'EditableText',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'EditableText',
   description: 'An inline editable text that toggles between display and input modes on click.',
   icon: 'lucide:pencil-line',

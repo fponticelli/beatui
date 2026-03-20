@@ -12,7 +12,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TimeSelect',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'TimeSelect',
   description:
     'A dropdown time selector that opens a time picker panel. The selected time is always required — use NullableTimeSelect when null is allowed.',

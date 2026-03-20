@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TextInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'TextInput',
   description: 'A single-line text input with support for prefix, suffix, icons, and all standard input states.',
   icon: 'lucide:type',

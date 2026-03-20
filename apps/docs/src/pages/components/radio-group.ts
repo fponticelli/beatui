@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'RadioGroup',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'RadioGroup',
   description:
     'A group of radio buttons for selecting one option from a mutually exclusive list.',

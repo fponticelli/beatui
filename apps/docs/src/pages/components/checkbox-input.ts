@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'CheckboxInput',
-  category: 'Selection',
+  category: 'Inputs',
   component: 'CheckboxInput',
   description: 'A custom icon-based checkbox with ARIA semantics, keyboard support, and optional text label.',
   icon: 'lucide:square-check',

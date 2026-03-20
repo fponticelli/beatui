@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'NumberInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'NumberInput',
   description: 'A numeric input with optional stepper buttons, min/max constraints, and scroll-to-step support.',
   icon: 'lucide:hash',

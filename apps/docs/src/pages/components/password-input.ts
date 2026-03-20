@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'PasswordInput',
-  category: 'Text Inputs',
+  category: 'Inputs',
   component: 'PasswordInput',
   description:
     'A password input with a built-in visibility toggle button, automatic autocomplete handling, and masked placeholder.',

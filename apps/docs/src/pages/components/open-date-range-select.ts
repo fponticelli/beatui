@@ -13,7 +13,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'OpenDateRangeSelect',
-  category: 'Specialized Inputs',
+  category: 'Pickers',
   component: 'OpenDateRangeSelect',
   description:
     'A dropdown date range selector where either or both dates can be null, allowing open-ended ranges.',

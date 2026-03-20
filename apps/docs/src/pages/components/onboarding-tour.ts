@@ -6,7 +6,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'OnboardingTour',
-  category: 'Overlays',
+  category: 'Feedback',
   component: 'OnboardingTour',
   description:
     'A step-by-step guided tour overlay that highlights UI elements with a spotlight effect and tooltip navigation.',

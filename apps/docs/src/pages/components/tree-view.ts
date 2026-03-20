@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'TreeView',
-  category: 'Navigation',
+  category: 'Tables & Data',
   component: 'TreeView',
   description:
     'Hierarchical tree navigation with expand/collapse, icon support, badges, and both controlled and uncontrolled expansion modes.',

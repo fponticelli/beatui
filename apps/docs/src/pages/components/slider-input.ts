@@ -5,7 +5,7 @@ import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
   name: 'SliderInput',
-  category: 'Specialized Inputs',
+  category: 'Inputs',
   component: 'SliderInput',
   description:
     'A range slider input with configurable min, max, and step values for selecting a numeric value.',
