@@ -1,0 +1,152 @@
+/* NumberStepper Component */
+.bc-number-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  user-select: none;
+}
+
+.bc-number-stepper--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Vertical orientation */
+.bc-number-stepper--vertical {
+  flex-direction: column;
+}
+
+/* Value display */
+.bc-number-stepper__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  text-align: center;
+  color: var(--text-normal);
+  min-width: 2em;
+  line-height: 1;
+}
+
+/* Compact buttons — not full Button, just icon buttons */
+.bc-number-stepper__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: var(--border-width-thin) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-normal);
+  padding: var(--spacing-xs);
+  line-height: 1;
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
+  flex-shrink: 0;
+}
+
+.bc-number-stepper__button:hover:not(:disabled) {
+  background-color: var(--bg-subtle);
+  border-color: var(--color-neutral-400);
+}
+
+.bc-number-stepper__button:active:not(:disabled) {
+  background-color: var(--color-neutral-200);
+}
+
+.bc-number-stepper__button:focus-visible {
+  outline: var(--outline-width-focus) solid var(--color-primary-500);
+  outline-offset: calc(-1 * var(--outline-width-focus));
+}
+
+.bc-number-stepper__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Size variants */
+.bc-number-stepper--size-xs {
+  gap: var(--spacing-2xs);
+}
+.bc-number-stepper--size-xs .bc-number-stepper__value {
+  font-size: var(--font-size-xs);
+  min-width: 1.5em;
+}
+.bc-number-stepper--size-xs .bc-number-stepper__button {
+  padding: var(--spacing-2xs);
+}
+
+.bc-number-stepper--size-sm {
+  gap: var(--spacing-2xs);
+}
+.bc-number-stepper--size-sm .bc-number-stepper__value {
+  font-size: var(--font-size-sm);
+  min-width: 1.8em;
+}
+.bc-number-stepper--size-sm .bc-number-stepper__button {
+  padding: 3px;
+}
+
+.bc-number-stepper--size-md .bc-number-stepper__button {
+  padding: var(--spacing-xs);
+}
+
+.bc-number-stepper--size-lg {
+  gap: var(--spacing-sm);
+}
+.bc-number-stepper--size-lg .bc-number-stepper__value {
+  font-size: var(--font-size-lg);
+  min-width: 2.5em;
+}
+.bc-number-stepper--size-lg .bc-number-stepper__button {
+  padding: var(--spacing-xs);
+}
+
+.bc-number-stepper--size-xl {
+  gap: var(--spacing-sm);
+}
+.bc-number-stepper--size-xl .bc-number-stepper__value {
+  font-size: var(--font-size-xl);
+  min-width: 3em;
+}
+.bc-number-stepper--size-xl .bc-number-stepper__button {
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+}
+
+/* Vertical: increment on top, value middle, decrement on bottom */
+.bc-number-stepper--vertical .bc-number-stepper__button {
+  width: 100%;
+}
+
+.bc-number-stepper--vertical .bc-number-stepper__button--increment {
+  order: -1;
+}
+
+.bc-number-stepper--vertical .bc-number-stepper__button--decrement {
+  order: 1;
+}
+
+.bc-number-stepper--vertical .bc-number-stepper__value {
+  order: 0;
+}
+
+/* Dark mode */
+.dark .bc-number-stepper__button {
+  border-color: var(--border-default);
+  color: var(--text-normal);
+}
+
+.dark .bc-number-stepper__button:hover:not(:disabled) {
+  background-color: var(--bg-subtle);
+  border-color: var(--color-neutral-500);
+}
+
+.dark .bc-number-stepper__button:active:not(:disabled) {
+  background-color: var(--color-neutral-700);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-number-stepper__button {
+    transition: none;
+  }
+}
