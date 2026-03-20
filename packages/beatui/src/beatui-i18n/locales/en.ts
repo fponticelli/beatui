@@ -341,6 +341,20 @@ const en = {
     ],
     dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Time picker',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Select hours',
+    selectMinutes: 'Select minutes',
+    selectSeconds: 'Select seconds',
+    selectPeriod: 'Select AM/PM',
+    nowLabel: 'Now',
+  },
+  // Time select
+  timeSelectTime: 'Select time',
   // OTP input
   otpInputLabel: 'One-time password input',
   otpDigitLabel: (index: number, total: number) => `Digit ${index} of ${total}`,

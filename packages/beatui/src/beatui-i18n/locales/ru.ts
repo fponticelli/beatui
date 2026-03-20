@@ -342,6 +342,20 @@ export const ru: BeatUIMessages = {
     ],
     dayNames: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Выбор времени',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Выбрать часы',
+    selectMinutes: 'Выбрать минуты',
+    selectSeconds: 'Выбрать секунды',
+    selectPeriod: 'Выбрать AM/PM',
+    nowLabel: 'Сейчас',
+  },
+  // Time select
+  timeSelectTime: 'Выбрать время',
   // OTP input
   otpInputLabel: 'Ввод одноразового пароля',
   otpDigitLabel: (index: number, total: number) => `Цифра ${index} из ${total}`,

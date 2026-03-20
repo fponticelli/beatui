@@ -1,0 +1,25 @@
+/* Time Select — fit-content sizing like date-select */
+.bc-time-select {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.bc-time-select__trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Panel shown in the flyout */
+.bc-time-select__panel {
+  background-color: var(--color-white);
+  border: var(--border-width-default) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-md);
+}
+
+/* Dark mode */
+.dark .bc-time-select__panel {
+  background-color: var(--bg-surface);
+  border-color: var(--border-default);
+}

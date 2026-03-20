@@ -339,6 +339,20 @@ const tr: BeatUIMessages = {
     ],
     dayNames: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Saat seçici',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Saat seç',
+    selectMinutes: 'Dakika seç',
+    selectSeconds: 'Saniye seç',
+    selectPeriod: 'ÖÖ/ÖS seç',
+    nowLabel: 'Şimdi',
+  },
+  // Time select
+  timeSelectTime: 'Saat seç',
   // OTP input
   otpInputLabel: 'Tek kullanımlık şifre girişi',
   otpDigitLabel: (index: number, total: number) => `Rakam ${index} / ${total}`,

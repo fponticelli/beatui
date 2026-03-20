@@ -339,6 +339,20 @@ const it: BeatUIMessages = {
     ],
     dayNames: ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Selettore orario',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Seleziona ore',
+    selectMinutes: 'Seleziona minuti',
+    selectSeconds: 'Seleziona secondi',
+    selectPeriod: 'Seleziona AM/PM',
+    nowLabel: 'Adesso',
+  },
+  // Time select
+  timeSelectTime: 'Seleziona orario',
   // OTP input
   otpInputLabel: 'Inserimento password monouso',
   otpDigitLabel: (index: number, total: number) => `Cifra ${index} di ${total}`,

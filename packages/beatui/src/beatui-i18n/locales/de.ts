@@ -339,6 +339,20 @@ const de: BeatUIMessages = {
     ],
     dayNames: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Zeitauswahl',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Stunden auswählen',
+    selectMinutes: 'Minuten auswählen',
+    selectSeconds: 'Sekunden auswählen',
+    selectPeriod: 'AM/PM auswählen',
+    nowLabel: 'Jetzt',
+  },
+  // Time select
+  timeSelectTime: 'Zeit auswählen',
   // OTP input
   otpInputLabel: 'Einmalpasswort-Eingabe',
   otpDigitLabel: (index: number, total: number) =>

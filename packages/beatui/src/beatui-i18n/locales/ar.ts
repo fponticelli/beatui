@@ -338,6 +338,20 @@ const ar: BeatUIMessages = {
     ],
     dayNames: ['أح', 'إث', 'ثل', 'أر', 'خم', 'جم', 'سب'],
   },
+  // Time picker
+  timePicker: {
+    label: 'منتقي الوقت',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'اختيار الساعات',
+    selectMinutes: 'اختيار الدقائق',
+    selectSeconds: 'اختيار الثواني',
+    selectPeriod: 'اختيار ص/م',
+    nowLabel: 'الآن',
+  },
+  // Time select
+  timeSelectTime: 'اختر الوقت',
   // OTP input
   otpInputLabel: 'إدخال كلمة مرور لمرة واحدة',
   otpDigitLabel: (index: number, total: number) => `الرقم ${index} من ${total}`,

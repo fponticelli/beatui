@@ -341,6 +341,20 @@ export const ja: BeatUIMessages = {
     ],
     dayNames: ['日', '月', '火', '水', '木', '金', '土'],
   },
+  // Time picker
+  timePicker: {
+    label: '時刻選択',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: '時間を選択',
+    selectMinutes: '分を選択',
+    selectSeconds: '秒を選択',
+    selectPeriod: '午前/午後を選択',
+    nowLabel: '現在',
+  },
+  // Time select
+  timeSelectTime: '時刻を選択',
   // OTP input
   otpInputLabel: 'ワンタイムパスワード入力',
   otpDigitLabel: (index: number, total: number) => `${total}桁中${index}桁目`,

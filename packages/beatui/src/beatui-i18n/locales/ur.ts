@@ -341,6 +341,20 @@ const ur: BeatUIMessages = {
     ],
     dayNames: ['اتو', 'پیر', 'منگ', 'بدھ', 'جمع', 'جمعہ', 'ہفت'],
   },
+  // Time picker
+  timePicker: {
+    label: 'وقت منتخب کنندہ',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'گھنٹے منتخب کریں',
+    selectMinutes: 'منٹ منتخب کریں',
+    selectSeconds: 'سیکنڈ منتخب کریں',
+    selectPeriod: 'AM/PM منتخب کریں',
+    nowLabel: 'ابھی',
+  },
+  // Time select
+  timeSelectTime: 'وقت منتخب کریں',
   // OTP input
   otpInputLabel: 'ایک بار کا پاس ورڈ درج کریں',
   otpDigitLabel: (index: number, total: number) => `ہندسہ ${index} از ${total}`,

@@ -337,6 +337,20 @@ const fa: BeatUIMessages = {
     ],
     dayNames: ['یک', 'دو', 'سه', 'چه', 'پن', 'جم', 'شن'],
   },
+  // Time picker
+  timePicker: {
+    label: 'انتخابگر زمان',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'انتخاب ساعت',
+    selectMinutes: 'انتخاب دقیقه',
+    selectSeconds: 'انتخاب ثانیه',
+    selectPeriod: 'انتخاب ق.ظ/ب.ظ',
+    nowLabel: 'اکنون',
+  },
+  // Time select
+  timeSelectTime: 'انتخاب زمان',
   // OTP input
   otpInputLabel: 'ورودی رمز یک‌بار مصرف',
   otpDigitLabel: (index: number, total: number) => `رقم ${index} از ${total}`,

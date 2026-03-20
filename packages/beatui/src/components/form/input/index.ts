@@ -61,6 +61,10 @@ export * from './slider-input'
 export * from './range-slider'
 export * from './otp-input'
 
+export * from './time-select'
+export * from './time-select-base'
+export * from './nullable-time-select'
+
 // Temporal inputs
 export * from './plain-date-input'
 export * from './nullable-plain-date-input'

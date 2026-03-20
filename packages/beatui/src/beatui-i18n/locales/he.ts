@@ -336,6 +336,20 @@ const he: BeatUIMessages = {
     ],
     dayNames: ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש'],
   },
+  // Time picker
+  timePicker: {
+    label: 'בורר שעה',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'בחירת שעות',
+    selectMinutes: 'בחירת דקות',
+    selectSeconds: 'בחירת שניות',
+    selectPeriod: 'בחירת לפנה"צ/אחה"צ',
+    nowLabel: 'עכשיו',
+  },
+  // Time select
+  timeSelectTime: 'בחר שעה',
   // OTP input
   otpInputLabel: 'הזנת סיסמה חד-פעמית',
   otpDigitLabel: (index: number, total: number) =>

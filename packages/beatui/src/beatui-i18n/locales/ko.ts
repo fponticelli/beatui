@@ -337,6 +337,20 @@ const ko: BeatUIMessages = {
     ],
     dayNames: ['일', '월', '화', '수', '목', '금', '토'],
   },
+  // Time picker
+  timePicker: {
+    label: '시간 선택기',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: '시간 선택',
+    selectMinutes: '분 선택',
+    selectSeconds: '초 선택',
+    selectPeriod: '오전/오후 선택',
+    nowLabel: '지금',
+  },
+  // Time select
+  timeSelectTime: '시간 선택',
   // OTP input
   otpInputLabel: '일회용 비밀번호 입력',
   otpDigitLabel: (index: number, total: number) =>

@@ -336,6 +336,20 @@ const zh: BeatUIMessages = {
     ],
     dayNames: ['日', '一', '二', '三', '四', '五', '六'],
   },
+  // Time picker
+  timePicker: {
+    label: '时间选择器',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: '选择小时',
+    selectMinutes: '选择分钟',
+    selectSeconds: '选择秒',
+    selectPeriod: '选择上午/下午',
+    nowLabel: '现在',
+  },
+  // Time select
+  timeSelectTime: '选择时间',
   // OTP input
   otpInputLabel: '一次性密码输入',
   otpDigitLabel: (index: number, total: number) =>

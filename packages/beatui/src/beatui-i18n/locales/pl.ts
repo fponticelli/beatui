@@ -338,6 +338,20 @@ export const pl: BeatUIMessages = {
     ],
     dayNames: ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Wybór czasu',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Wybierz godziny',
+    selectMinutes: 'Wybierz minuty',
+    selectSeconds: 'Wybierz sekundy',
+    selectPeriod: 'Wybierz AM/PM',
+    nowLabel: 'Teraz',
+  },
+  // Time select
+  timeSelectTime: 'Wybierz czas',
   // OTP input
   otpInputLabel: 'Pole jednorazowego hasła',
   otpDigitLabel: (index: number, total: number) => `Cyfra ${index} z ${total}`,

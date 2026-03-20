@@ -339,6 +339,20 @@ const vi: BeatUIMessages = {
     ],
     dayNames: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Bộ chọn thời gian',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Chọn giờ',
+    selectMinutes: 'Chọn phút',
+    selectSeconds: 'Chọn giây',
+    selectPeriod: 'Chọn SA/CH',
+    nowLabel: 'Bây giờ',
+  },
+  // Time select
+  timeSelectTime: 'Chọn thời gian',
   // OTP input
   otpInputLabel: 'Nhập mật khẩu một lần',
   otpDigitLabel: (index: number, total: number) =>

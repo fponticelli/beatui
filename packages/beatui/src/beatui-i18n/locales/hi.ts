@@ -337,6 +337,20 @@ const hi: BeatUIMessages = {
     ],
     dayNames: ['र', 'सो', 'मं', 'बु', 'गु', 'शु', 'श'],
   },
+  // Time picker
+  timePicker: {
+    label: 'समय चयनकर्ता',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'घंटे चुनें',
+    selectMinutes: 'मिनट चुनें',
+    selectSeconds: 'सेकंड चुनें',
+    selectPeriod: 'AM/PM चुनें',
+    nowLabel: 'अभी',
+  },
+  // Time select
+  timeSelectTime: 'समय चुनें',
   // OTP input
   otpInputLabel: 'वन-टाइम पासवर्ड इनपुट',
   otpDigitLabel: (index: number, total: number) =>

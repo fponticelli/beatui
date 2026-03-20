@@ -339,6 +339,20 @@ export const nl: BeatUIMessages = {
     ],
     dayNames: ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'],
   },
+  // Time picker
+  timePicker: {
+    label: 'Tijdkiezer',
+    hoursLabel: 'HH',
+    minutesLabel: 'MM',
+    secondsLabel: 'SS',
+    selectHours: 'Uren selecteren',
+    selectMinutes: 'Minuten selecteren',
+    selectSeconds: 'Seconden selecteren',
+    selectPeriod: 'AM/PM selecteren',
+    nowLabel: 'Nu',
+  },
+  // Time select
+  timeSelectTime: 'Tijd selecteren',
   // OTP input
   otpInputLabel: 'Eenmalig wachtwoord invoer',
   otpDigitLabel: (index: number, total: number) =>
