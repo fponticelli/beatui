@@ -14,6 +14,48 @@
   -moz-appearance: textfield;
 }
 
+/* Number Input Unit Label */
+.bc-number-input-unit {
+  display: flex;
+  align-items: center;
+  padding-inline-start: 0;
+  margin-left: calc(-1 * var(--spacing-md));
+  padding-inline-end: var(--spacing-md);
+  color: var(--color-neutral-500);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.bc-control--padding-xs .bc-number-input-unit {
+  margin-left: calc(-1 * var(--spacing-xs));
+  padding-inline-end: var(--spacing-xs);
+}
+
+.bc-control--padding-sm .bc-number-input-unit {
+  margin-left: calc(-1 * var(--spacing-sm));
+  padding-inline-end: var(--spacing-sm);
+}
+
+.bc-control--padding-md .bc-number-input-unit {
+  margin-left: calc(-1 * var(--spacing-md));
+  padding-inline-end: var(--spacing-md);
+}
+
+.bc-control--padding-lg .bc-number-input-unit {
+  margin-left: calc(-1 * var(--spacing-lg));
+  padding-inline-end: var(--spacing-lg);
+}
+
+.bc-control--padding-xl .bc-number-input-unit {
+  margin-left: calc(-1 * var(--spacing-xl));
+  padding-inline-end: var(--spacing-xl);
+}
+
+.dark .bc-number-input-unit {
+  color: var(--color-neutral-400);
+}
+
 /* Number Input Steppers */
 .bc-number-input-steppers {
   display: flex;

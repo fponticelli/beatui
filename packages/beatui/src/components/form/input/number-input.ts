@@ -11,6 +11,7 @@ import {
   Use,
   html,
   Fragment,
+  TNode,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
@@ -36,6 +37,8 @@ export type NumberInputOptions = Merge<
     min?: Value<number>
     /** Maximum allowed value. Disables increment when reached. @default 10 */
     max?: Value<number>
+    /** Unit of measurement label displayed after the input (e.g., "kg", "px", "%"). Rendered before stepper buttons. */
+    unit?: Value<string>
   }
 >
 
@@ -79,7 +82,8 @@ export type NumberInputOptions = Merge<
  * ```
  */
 export const NumberInput = (options: NumberInputOptions) => {
-  const { value, step, min, max, onBlur, onChange, onInput, after } = options
+  const { value, step, min, max, onBlur, onChange, onInput, after, unit } =
+    options
 
   // Helper function to clamp value within min/max bounds
   const clampValue = (val: number): number => {
@@ -200,10 +204,20 @@ export const NumberInput = (options: NumberInputOptions) => {
         })
       : null
 
+  const unitLabel =
+    unit != null
+      ? html.span(attr.class('bc-number-input-unit'), Value.map(unit, u => u))
+      : null
+
+  const afterParts = [unitLabel, stepperButtons, after].filter(
+    (p): p is TNode => p != null
+  )
   const afterContent =
-    after != null && stepperButtons != null
-      ? Fragment(stepperButtons, after)
-      : (after ?? stepperButtons)
+    afterParts.length > 1
+      ? Fragment(...afterParts)
+      : afterParts.length === 1
+        ? afterParts[0]
+        : undefined
 
   return InputContainer({
     ...options,

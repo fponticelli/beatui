@@ -47,6 +47,49 @@ export default function NumberInputPage() {
         'When a step is provided, increment/decrement buttons appear. Hold Shift for a 10x multiplier.'
       ),
       Section(
+        'With Unit',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-3 max-w-xs'),
+            NumberInput({
+              value: prop(75),
+              onChange: () => {},
+              step: 1,
+              min: 0,
+              max: 100,
+              unit: 'kg',
+              placeholder: 'Weight',
+            }),
+            NumberInput({
+              value: prop(1920),
+              onChange: () => {},
+              step: 1,
+              min: 1,
+              unit: 'px',
+              placeholder: 'Width',
+            }),
+            NumberInput({
+              value: prop(50),
+              onChange: () => {},
+              step: 5,
+              min: 0,
+              max: 100,
+              unit: '%',
+              placeholder: 'Opacity',
+            }),
+            NumberInput({
+              value: prop(22.5),
+              onChange: () => {},
+              step: 0.5,
+              min: -40,
+              max: 60,
+              unit: '°C',
+              placeholder: 'Temperature',
+            })
+          ),
+        'Use the `unit` option to display a unit of measurement label next to the input, before the stepper buttons.'
+      ),
+      Section(
         'Sizes',
         () =>
           html.div(
