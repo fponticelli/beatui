@@ -90,6 +90,36 @@ export default function NumberInputPage() {
         'Use the `unit` option to display a unit of measurement label next to the input, before the stepper buttons.'
       ),
       Section(
+        'Formatted',
+        () =>
+          html.div(
+            attr.class('flex flex-col gap-3 max-w-xs'),
+            NumberInput({
+              value: prop(1234567.89),
+              onChange: () => {},
+              step: 0.01,
+              formatted: true,
+              placeholder: 'Currency',
+              unit: '$',
+            }),
+            NumberInput({
+              value: prop(50000),
+              onChange: () => {},
+              step: 1,
+              formatted: true,
+              placeholder: 'Population',
+            }),
+            NumberInput({
+              value: prop(3.14159),
+              onChange: () => {},
+              step: 0.001,
+              formatted: true,
+              placeholder: 'Precision',
+            })
+          ),
+        'When `formatted` is true, the value is displayed with locale-aware grouping and decimal formatting when the input is not focused. Click to edit the raw value.'
+      ),
+      Section(
         'Sizes',
         () =>
           html.div(

@@ -12,12 +12,15 @@ import {
   html,
   Fragment,
   TNode,
+  prop,
+  When,
 } from '@tempots/dom'
 import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import { Merge } from '@tempots/std'
 import { Icon } from '../../data/icon'
 import { BeatUII18n } from '../../../beatui-i18n'
+import { Locale } from '../../i18n'
 import { Stack } from '../../layout'
 import { roundToStep } from './step-utils'
 
@@ -39,6 +42,8 @@ export type NumberInputOptions = Merge<
     max?: Value<number>
     /** Unit of measurement label displayed after the input (e.g., "kg", "px", "%"). Rendered before stepper buttons. */
     unit?: Value<string>
+    /** When true, displays the value formatted with locale-aware grouping and decimals (derived from step) when the input is not focused. @default false */
+    formatted?: Value<boolean>
   }
 >
 
@@ -81,9 +86,30 @@ export type NumberInputOptions = Merge<
  * })
  * ```
  */
+/**
+ * Derives the number of fraction digits from a step value.
+ * e.g., step=1 → 0, step=0.1 → 1, step=0.01 → 2, step=0.5 → 1
+ */
+function fractionDigitsFromStep(step: number): number {
+  if (step >= 1) return 0
+  const str = step.toString()
+  const dotIndex = str.indexOf('.')
+  return dotIndex === -1 ? 0 : str.length - dotIndex - 1
+}
+
 export const NumberInput = (options: NumberInputOptions) => {
-  const { value, step, min, max, onBlur, onChange, onInput, after, unit } =
-    options
+  const {
+    value,
+    step,
+    min,
+    max,
+    onBlur,
+    onChange,
+    onInput,
+    after,
+    unit,
+    formatted,
+  } = options
 
   // Helper function to clamp value within min/max bounds
   const clampValue = (val: number): number => {
@@ -219,38 +245,97 @@ export const NumberInput = (options: NumberInputOptions) => {
         ? afterParts[0]
         : undefined
 
-  return InputContainer({
-    ...options,
-    input: input.number(
-      min != null ? attr.min(min) : Empty,
-      max != null ? attr.max(max) : Empty,
-      CommonInputAttributes(options),
-      attr.valueAsNumber(value),
-      attr.step(step),
-      attr.class('bc-input bc-number-input'),
-      onBlur != null ? on.blur(emitValue(onBlur)) : Empty,
-      onChange != null ? on.change(emitValueAsNumber(onChange)) : Empty,
-      onInput != null ? on.input(emitValueAsNumber(onInput)) : Empty,
-      // Add wheel event support when step is defined
-      step != null
-        ? on.wheel(event => {
-            event.preventDefault()
-            const current = Value.get(value) ?? 0
-            const stepVal = Value.get(step)
-            // Apply 10x multiplier when shift key is held
-            const multiplier = event.shiftKey ? 10 : 1
-            const delta =
-              event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
-            const newValue = clampValue(roundToStep(current + delta, stepVal))
+  const useFormatted = formatted != null && Value.get(formatted)
+  const focused = useFormatted ? prop(false) : null
 
-            // Only update if value actually changes
-            if (newValue !== current) {
-              onChange?.(newValue)
-              onInput?.(newValue)
+  const numberInput = input.number(
+    min != null ? attr.min(min) : Empty,
+    max != null ? attr.max(max) : Empty,
+    CommonInputAttributes(options),
+    attr.valueAsNumber(value),
+    attr.step(step),
+    attr.class('bc-input bc-number-input'),
+    focused != null
+      ? attr.class(
+          computedOf(
+            focused,
+            formatted ?? false
+          )((f, fmt) => (fmt && !f ? 'bc-number-input--hidden' : ''))
+        )
+      : Empty,
+    on.focus(() => focused?.set(true)),
+    on.blur(() => {
+      focused?.set(false)
+      onBlur?.()
+    }),
+    onBlur != null && focused == null ? on.blur(emitValue(onBlur)) : Empty,
+    onChange != null ? on.change(emitValueAsNumber(onChange)) : Empty,
+    onInput != null ? on.input(emitValueAsNumber(onInput)) : Empty,
+    // Add wheel event support when step is defined
+    step != null
+      ? on.wheel(event => {
+          event.preventDefault()
+          const current = Value.get(value) ?? 0
+          const stepVal = Value.get(step)
+          // Apply 10x multiplier when shift key is held
+          const multiplier = event.shiftKey ? 10 : 1
+          const delta =
+            event.deltaY < 0 ? stepVal * multiplier : -stepVal * multiplier
+          const newValue = clampValue(roundToStep(current + delta, stepVal))
+
+          // Only update if value actually changes
+          if (newValue !== current) {
+            onChange?.(newValue)
+            onInput?.(newValue)
+          }
+        })
+      : Empty
+  )
+
+  const formattedOverlay =
+    focused != null
+      ? Use(Locale, ({ locale }) => {
+          const showOverlay = computedOf(
+            focused,
+            formatted ?? false
+          )((f, fmt) => fmt && !f)
+
+          const formattedText = computedOf(
+            value,
+            locale,
+            step
+          )((val, loc, s) => {
+            if (val == null || isNaN(val)) return ''
+            const digits = s != null ? fractionDigitsFromStep(s) : undefined
+            try {
+              return new Intl.NumberFormat(loc, {
+                minimumFractionDigits: digits,
+                maximumFractionDigits: digits,
+              }).format(val)
+            } catch {
+              return String(val)
             }
           })
-        : Empty
-    ),
+
+          return When(
+            showOverlay,
+            () =>
+              html.span(
+                attr.class('bc-number-input-formatted'),
+                formattedText
+              )
+          )
+        })
+      : null
+
+  const inputContent =
+    formattedOverlay != null
+      ? Fragment(numberInput, formattedOverlay)
+      : numberInput
+
+  return InputContainer({
+    ...options,
+    input: inputContent,
     after: afterContent,
   })
 }
