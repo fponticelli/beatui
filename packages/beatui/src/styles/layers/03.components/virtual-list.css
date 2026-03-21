@@ -1,0 +1,19 @@
+.bc-virtual-list {
+  position: relative;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.bc-virtual-list__spacer {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+}
+
+.bc-virtual-list__viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}
