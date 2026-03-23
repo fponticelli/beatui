@@ -10,7 +10,6 @@ import {
   Value,
   ForEach,
   When,
-  Empty,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'

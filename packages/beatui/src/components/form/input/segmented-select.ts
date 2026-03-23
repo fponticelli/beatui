@@ -7,7 +7,6 @@ import {
   style,
   prop,
   computedOf,
-  WithElement,
   OnDispose,
   ForEach,
 } from '@tempots/dom'
@@ -16,7 +15,7 @@ import { ThemeColorName } from '../../../tokens'
 import { backgroundValue, ExtendedColor } from '../../theme/style-utils'
 import { delayedAnimationFrame } from '@tempots/std'
 import { ElementRect } from '@tempots/ui'
-import { SelectOption, Option, ValueOption } from './option'
+import { SelectOption, ValueOption } from './option'
 
 function arrEquality<T>(a: T[], b: T[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])

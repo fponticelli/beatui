@@ -18,6 +18,9 @@ import { ControlSize } from '../../theme'
 import { Icon } from '../../data/icon'
 import { BeatUII18n } from '../../../beatui-i18n'
 
+/** Visual variant for the sortable list items. */
+export type SortableListVariant = 'bordered' | 'card' | 'plain'
+
 /** Configuration options for the {@link SortableList} component. */
 export interface SortableListOptions<T> {
   /** The ordered list of items. */
@@ -37,14 +40,40 @@ export interface SortableListOptions<T> {
   disabled?: Value<boolean>
   /** Size variant. @default 'md' */
   size?: Value<ControlSize>
+  /** Additional CSS class(es) applied to the list container. */
+  class?: Value<string>
+  /**
+   * Visual variant for items.
+   * - `'bordered'` — border around each item (default)
+   * - `'card'` — elevated card with shadow, no border
+   * - `'plain'` — no border, no background — items blend into the page
+   * @default 'bordered'
+   */
+  variant?: Value<SortableListVariant>
+  /** Gap between items. Mapped to CSS spacing tokens. @default 'md' */
+  gap?: Value<ControlSize>
+  /**
+   * Iconify icon identifier for the drag handle.
+   * @default 'lucide:grip-vertical'
+   */
+  handleIcon?: Value<string>
 }
 
 function generateSortableListClasses(
   size: ControlSize,
-  disabled: boolean
+  disabled: boolean,
+  variant: SortableListVariant,
+  gap: ControlSize,
+  extraClass: string
 ): string {
-  const cls = ['bc-sortable-list', `bc-sortable-list--size-${size}`]
+  const cls = [
+    'bc-sortable-list',
+    `bc-sortable-list--size-${size}`,
+    `bc-sortable-list--variant-${variant}`,
+    `bc-sortable-list--gap-${gap}`,
+  ]
   if (disabled) cls.push('bc-sortable-list--disabled')
+  if (extraClass) cls.push(extraClass)
   return cls.join(' ')
 }
 
@@ -82,6 +111,10 @@ export function SortableList<T>(options: SortableListOptions<T>): TNode {
     keyOf,
     disabled = false,
     size = 'md',
+    class: extraClass = '',
+    variant = 'bordered',
+    gap = 'md',
+    handleIcon = 'lucide:grip-vertical',
   } = options
 
   const dragFromIndex = prop<number | null>(null)
@@ -115,7 +148,15 @@ export function SortableList<T>(options: SortableListOptions<T>): TNode {
 
   return Use(BeatUII18n, t => {
     return html.div(
-      attr.class(computedOf(size, disabled)(generateSortableListClasses)),
+      attr.class(
+        computedOf(
+          size,
+          disabled,
+          variant,
+          gap,
+          extraClass
+        )(generateSortableListClasses)
+      ),
       attr.role('list'),
       aria.label(t.$.sortableList.$.dragHandle),
       WithElement(el => {
@@ -158,7 +199,10 @@ export function SortableList<T>(options: SortableListOptions<T>): TNode {
                 e.stopPropagation()
                 handleArmedIndex.set(index)
               }),
-              Icon({ icon: 'lucide:grip-vertical', size: 'sm' })
+              Icon({
+                icon: handleIcon,
+                size: 'sm',
+              })
             )
 
             return html.div(

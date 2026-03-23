@@ -551,6 +551,136 @@ describe('SortableList', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
+  it('should apply variant class', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+          variant: 'card',
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(
+      list?.classList.contains('bc-sortable-list--variant-card')
+    ).toBe(true)
+  })
+
+  it('should default to bordered variant', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(
+      list?.classList.contains('bc-sortable-list--variant-bordered')
+    ).toBe(true)
+  })
+
+  it('should apply plain variant class', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+          variant: 'plain',
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(
+      list?.classList.contains('bc-sortable-list--variant-plain')
+    ).toBe(true)
+  })
+
+  it('should apply gap class', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+          gap: 'lg',
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(list?.classList.contains('bc-sortable-list--gap-lg')).toBe(true)
+  })
+
+  it('should default to md gap', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(list?.classList.contains('bc-sortable-list--gap-md')).toBe(true)
+  })
+
+  it('should apply custom class', () => {
+    const items = prop(['A'])
+
+    render(
+      BeatUI(
+        {},
+        SortableList({
+          items,
+          onChange: () => {},
+          renderItem: (item, handle) => html.div(handle, item),
+          keyOf: item => item,
+          class: 'my-custom-class',
+        })
+      ),
+      container
+    )
+
+    const list = container.querySelector('.bc-sortable-list')
+    expect(list?.classList.contains('my-custom-class')).toBe(true)
+  })
+
   it('should set data-key attribute on items', () => {
     const items = prop([
       { id: 'x', name: 'X' },

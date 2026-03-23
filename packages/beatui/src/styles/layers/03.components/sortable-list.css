@@ -2,7 +2,6 @@
 .bc-sortable-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xs);
 }
 
 .bc-sortable-list--disabled {
@@ -10,13 +9,28 @@
   pointer-events: none;
 }
 
-/* Items */
+/* Gap variants */
+.bc-sortable-list--gap-xs {
+  gap: var(--spacing-2xs);
+}
+.bc-sortable-list--gap-sm {
+  gap: var(--spacing-xs);
+}
+.bc-sortable-list--gap-md {
+  gap: var(--spacing-sm);
+}
+.bc-sortable-list--gap-lg {
+  gap: var(--spacing-md);
+}
+.bc-sortable-list--gap-xl {
+  gap: var(--spacing-lg);
+}
+
+/* Items — base */
 .bc-sortable-list__item {
   display: flex;
   align-items: center;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: var(--bg-background);
-  border: var(--border-width-thin) solid var(--border-default);
   border-radius: var(--radius-sm);
   transition: all var(--motion-transition-fast) var(--motion-easing-standard);
 }
@@ -30,12 +44,42 @@
   box-shadow: 0 -2px 0 0 var(--color-primary-500);
 }
 
+/* Variant: bordered (default) */
+.bc-sortable-list--variant-bordered .bc-sortable-list__item {
+  background-color: white;
+  border: var(--border-width-thin) solid var(--border-default);
+}
+
+/* Variant: card */
+.bc-sortable-list--variant-card .bc-sortable-list__item {
+  background-color: var(--bg-background);
+  border: var(--border-width-thin) solid var(--border-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.bc-sortable-list--variant-card .bc-sortable-list__item--drop-target {
+  border-color: var(--color-primary-400);
+  box-shadow:
+    var(--shadow-sm),
+    0 -2px 0 0 var(--color-primary-500);
+}
+
+/* Variant: plain */
+.bc-sortable-list--variant-plain .bc-sortable-list__item {
+  background-color: transparent;
+  border: var(--border-width-thin) solid transparent;
+}
+
+.bc-sortable-list--variant-plain .bc-sortable-list__item:hover {
+  background-color: var(--bg-muted);
+}
+
 /* Handle */
 .bc-sortable-list__handle {
   display: flex;
   align-items: center;
   cursor: grab;
-  color: var(--text-muted);
+  color: var(--color-base-300);
   flex-shrink: 0;
   margin-right: var(--spacing-xs);
 }
@@ -63,14 +107,32 @@
 }
 
 /* Dark mode */
-.dark .bc-sortable-list__item {
-  background-color: var(--bg-background);
+.dark .bc-sortable-list--variant-bordered .bc-sortable-list__item {
+  background-color: var(--color-neutral-900);
   border-color: var(--border-default);
+}
+
+.dark .bc-sortable-list--variant-card .bc-sortable-list__item {
+  background-color: var(--bg-background);
+}
+
+.dark .bc-sortable-list--variant-plain .bc-sortable-list__item:hover {
+  background-color: var(--bg-muted);
+}
+
+.dark .bc-sortable-list__handle {
+  color: var(--color-base-600);
 }
 
 .dark .bc-sortable-list__item--drop-target {
   border-color: var(--color-primary-400);
   box-shadow: 0 -2px 0 0 var(--color-primary-400);
+}
+
+.dark .bc-sortable-list--variant-card .bc-sortable-list__item--drop-target {
+  box-shadow:
+    var(--shadow-sm),
+    0 -2px 0 0 var(--color-primary-400);
 }
 
 /* Reduced motion */
