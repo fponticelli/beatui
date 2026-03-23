@@ -487,8 +487,11 @@ export function getSemanticFontVar(name: SemanticFontName): string {
 export function generateTypographyVariables(): Record<string, string> {
   const variables: Record<string, string> = {}
 
-  // Base font size
-  variables[getBaseFontSizeVarName()] = baseFontSize
+  // Base font size with scale support
+  variables['--font-size-base-raw'] = baseFontSize
+  variables['--font-size-scale'] = '1'
+  variables[getBaseFontSizeVarName()] =
+    'calc(var(--font-size-base-raw) * var(--font-size-scale))'
 
   // Font sizes and their paired line heights
   Object.entries(fontSize).forEach(([key, value]) => {

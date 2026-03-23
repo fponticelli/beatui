@@ -107,10 +107,19 @@ export function getSpacingVar(size: SpacingName): string {
  * ```
  */
 export function generateSpacingVariables(): Record<string, string> {
-  const variables: Record<string, string> = {}
+  const variables: Record<string, string> = {
+    '--spacing-base-raw': baseSpacing,
+    '--spacing-scale': '1',
+  }
 
   objectEntries(spacing).forEach(([size, value]) => {
-    variables[getSpacingVarName(size as SpacingName)] = value
+    // --spacing-base is derived from raw * scale
+    if (size === 'base') {
+      variables[getSpacingVarName(size)] =
+        'calc(var(--spacing-base-raw) * var(--spacing-scale))'
+    } else {
+      variables[getSpacingVarName(size as SpacingName)] = value
+    }
   })
 
   return variables

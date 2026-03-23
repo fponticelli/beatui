@@ -21,9 +21,9 @@
   "license": "MIT",
   "dependencies": {
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "^37.2.0",
-    "@tempots/std": "~0.27.0",
-    "@tempots/ui": "^16.0.0"
+    "@tempots/dom": "^37.4.3",
+    "@tempots/std": "~0.29.0",
+    "@tempots/ui": "^16.0.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",
