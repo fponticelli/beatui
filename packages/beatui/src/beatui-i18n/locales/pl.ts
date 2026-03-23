@@ -391,7 +391,6 @@ export const pl: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Przeciągnij, aby zmienić kolejność',
-    dropIndicator: 'Upuść tutaj',
   },
   // Transfer list
   transferList: {
@@ -401,8 +400,8 @@ export const pl: BeatUIMessages = {
     moveLeft: 'Przenieś do dostępnych',
     moveAllRight: 'Przenieś wszystko do wybranych',
     moveAllLeft: 'Przenieś wszystko do dostępnych',
-    searchAvailable: 'Szukaj dostępnych',
-    searchSelected: 'Szukaj wybranych',
+    searchAvailable: 'Szukaj dostępnych elementów…',
+    searchSelected: 'Szukaj wybranych elementów…',
   },
   // Copy button
   copyButton: {

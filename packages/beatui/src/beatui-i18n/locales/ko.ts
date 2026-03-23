@@ -390,7 +390,6 @@ const ko: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: '드래그하여 재정렬',
-    dropIndicator: '여기에 놓기',
   },
   // Transfer list
   transferList: {
@@ -400,8 +399,8 @@ const ko: BeatUIMessages = {
     moveLeft: '사용 가능으로 이동',
     moveAllRight: '모두 선택됨으로 이동',
     moveAllLeft: '모두 사용 가능으로 이동',
-    searchAvailable: '사용 가능 검색',
-    searchSelected: '선택됨 검색',
+    searchAvailable: '사용 가능한 항목 검색…',
+    searchSelected: '선택된 항목 검색…',
   },
   // Copy button
   copyButton: {

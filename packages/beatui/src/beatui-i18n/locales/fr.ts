@@ -395,7 +395,6 @@ const fr: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Glisser pour réorganiser',
-    dropIndicator: 'Déposer ici',
   },
   // Transfer list
   transferList: {
@@ -405,8 +404,8 @@ const fr: BeatUIMessages = {
     moveLeft: 'Déplacer vers disponible',
     moveAllRight: 'Tout déplacer vers sélectionné',
     moveAllLeft: 'Tout déplacer vers disponible',
-    searchAvailable: 'Rechercher disponible',
-    searchSelected: 'Rechercher sélectionné',
+    searchAvailable: 'Rechercher les éléments disponibles…',
+    searchSelected: 'Rechercher les éléments sélectionnés…',
   },
   // Copy button
   copyButton: {

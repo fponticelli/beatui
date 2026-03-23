@@ -389,7 +389,6 @@ const zh: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: '拖动以重新排序',
-    dropIndicator: '放置到此处',
   },
   // Transfer list
   transferList: {
@@ -399,8 +398,8 @@ const zh: BeatUIMessages = {
     moveLeft: '移至可用',
     moveAllRight: '全部移至已选',
     moveAllLeft: '全部移至可用',
-    searchAvailable: '搜索可用',
-    searchSelected: '搜索已选',
+    searchAvailable: '搜索可用项目…',
+    searchSelected: '搜索已选项目…',
   },
   // Copy button
   copyButton: {

@@ -392,7 +392,6 @@ const tr: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Yeniden sıralamak için sürükleyin',
-    dropIndicator: 'Buraya bırakın',
   },
   // Transfer list
   transferList: {
@@ -402,8 +401,8 @@ const tr: BeatUIMessages = {
     moveLeft: 'Mevcut olanlara taşı',
     moveAllRight: 'Tümünü seçilenlere taşı',
     moveAllLeft: 'Tümünü mevcut olanlara taşı',
-    searchAvailable: 'Mevcut olanları ara',
-    searchSelected: 'Seçilenleri ara',
+    searchAvailable: 'Mevcut öğeleri ara…',
+    searchSelected: 'Seçili öğeleri ara…',
   },
   // Copy button
   copyButton: {

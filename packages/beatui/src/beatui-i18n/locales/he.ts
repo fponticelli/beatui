@@ -389,7 +389,6 @@ const he: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'גרור לסידור מחדש',
-    dropIndicator: 'שחרר כאן',
   },
   // Transfer list
   transferList: {
@@ -399,8 +398,8 @@ const he: BeatUIMessages = {
     moveLeft: 'העבר לזמינים',
     moveAllRight: 'העבר הכל לנבחרים',
     moveAllLeft: 'העבר הכל לזמינים',
-    searchAvailable: 'חפש בזמינים',
-    searchSelected: 'חפש בנבחרים',
+    searchAvailable: 'חפש בפריטים הזמינים…',
+    searchSelected: 'חפש בפריטים הנבחרים…',
   },
   // Copy button
   copyButton: {

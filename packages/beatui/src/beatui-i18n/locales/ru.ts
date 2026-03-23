@@ -395,7 +395,6 @@ export const ru: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Перетащите для изменения порядка',
-    dropIndicator: 'Отпустите здесь',
   },
   // Transfer list
   transferList: {
@@ -405,8 +404,8 @@ export const ru: BeatUIMessages = {
     moveLeft: 'Переместить в доступные',
     moveAllRight: 'Переместить все в выбранные',
     moveAllLeft: 'Переместить все в доступные',
-    searchAvailable: 'Поиск доступных',
-    searchSelected: 'Поиск выбранных',
+    searchAvailable: 'Поиск доступных элементов…',
+    searchSelected: 'Поиск выбранных элементов…',
   },
   // Copy button
   copyButton: {

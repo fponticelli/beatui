@@ -394,7 +394,6 @@ const ur: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'ترتیب بدلنے کے لیے گھسیٹیں',
-    dropIndicator: 'یہاں چھوڑیں',
   },
   // Transfer list
   transferList: {
@@ -404,8 +403,8 @@ const ur: BeatUIMessages = {
     moveLeft: 'دستیاب میں منتقل کریں',
     moveAllRight: 'سب منتخب میں منتقل کریں',
     moveAllLeft: 'سب دستیاب میں منتقل کریں',
-    searchAvailable: 'دستیاب تلاش کریں',
-    searchSelected: 'منتخب تلاش کریں',
+    searchAvailable: 'دستیاب آئٹمز تلاش کریں…',
+    searchSelected: 'منتخب آئٹمز تلاش کریں…',
   },
   // Copy button
   copyButton: {

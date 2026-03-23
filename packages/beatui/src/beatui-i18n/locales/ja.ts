@@ -394,7 +394,6 @@ export const ja: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'ドラッグして並べ替え',
-    dropIndicator: 'ここにドロップ',
   },
   // Transfer list
   transferList: {
@@ -404,8 +403,8 @@ export const ja: BeatUIMessages = {
     moveLeft: '利用可能に移動',
     moveAllRight: 'すべて選択済みに移動',
     moveAllLeft: 'すべて利用可能に移動',
-    searchAvailable: '利用可能を検索',
-    searchSelected: '選択済みを検索',
+    searchAvailable: '利用可能な項目を検索…',
+    searchSelected: '選択済みの項目を検索…',
   },
   // Copy button
   copyButton: {

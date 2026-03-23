@@ -392,7 +392,6 @@ export const nl: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Sleep om te herordenen',
-    dropIndicator: 'Hier neerzetten',
   },
   // Transfer list
   transferList: {
@@ -402,8 +401,8 @@ export const nl: BeatUIMessages = {
     moveLeft: 'Naar beschikbaar verplaatsen',
     moveAllRight: 'Alles naar geselecteerd',
     moveAllLeft: 'Alles naar beschikbaar',
-    searchAvailable: 'Beschikbare doorzoeken',
-    searchSelected: 'Geselecteerde doorzoeken',
+    searchAvailable: 'Beschikbare items doorzoeken…',
+    searchSelected: 'Geselecteerde items doorzoeken…',
   },
   // Copy button
   copyButton: {

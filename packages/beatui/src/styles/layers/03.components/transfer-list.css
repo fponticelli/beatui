@@ -1,0 +1,188 @@
+/* TransferList Component */
+.bc-transfer-list {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-sm);
+}
+
+.bc-transfer-list--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Panels */
+.bc-transfer-list__panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-width-thin) solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-background);
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.bc-transfer-list__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-bottom: var(--border-width-thin) solid var(--border-default);
+  background-color: var(--bg-subtle);
+}
+
+.bc-transfer-list__panel-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Search */
+.bc-transfer-list__search {
+  padding: var(--spacing-xs);
+  border-bottom: var(--border-width-thin) solid var(--border-default);
+}
+
+/* Items list */
+.bc-transfer-list__items {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 240px;
+  scrollbar-width: thin;
+}
+
+/* Individual item */
+.bc-transfer-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-2xs) var(--spacing-sm);
+  cursor: pointer;
+  transition: background-color var(--motion-transition-fast)
+    var(--motion-easing-standard);
+}
+
+.bc-transfer-list__item:hover {
+  background-color: var(--bg-subtle);
+}
+
+.bc-transfer-list__item--selected {
+  background-color: var(--color-primary-50);
+}
+
+.bc-transfer-list__item-check {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.bc-transfer-list__item--selected .bc-transfer-list__item-check {
+  color: var(--color-primary-500);
+}
+
+.bc-transfer-list__item-content {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--text-normal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Action buttons column */
+.bc-transfer-list__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs);
+}
+
+/* Size variants */
+.bc-transfer-list--size-xs .bc-transfer-list__items {
+  max-height: 160px;
+}
+.bc-transfer-list--size-xs .bc-transfer-list__item {
+  padding: 1px var(--spacing-xs);
+}
+.bc-transfer-list--size-xs .bc-transfer-list__item-content {
+  font-size: var(--font-size-xs);
+}
+.bc-transfer-list--size-xs .bc-transfer-list__panel {
+  min-width: 140px;
+}
+
+.bc-transfer-list--size-sm .bc-transfer-list__items {
+  max-height: 200px;
+}
+.bc-transfer-list--size-sm .bc-transfer-list__item-content {
+  font-size: var(--font-size-xs);
+}
+.bc-transfer-list--size-sm .bc-transfer-list__panel {
+  min-width: 160px;
+}
+
+.bc-transfer-list--size-lg .bc-transfer-list__items {
+  max-height: 320px;
+}
+.bc-transfer-list--size-lg .bc-transfer-list__item {
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+.bc-transfer-list--size-lg .bc-transfer-list__item-content {
+  font-size: var(--font-size-md);
+}
+
+.bc-transfer-list--size-xl .bc-transfer-list__items {
+  max-height: 400px;
+}
+.bc-transfer-list--size-xl .bc-transfer-list__item {
+  padding: var(--spacing-sm) var(--spacing-lg);
+}
+.bc-transfer-list--size-xl .bc-transfer-list__item-content {
+  font-size: var(--font-size-lg);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .bc-transfer-list {
+    flex-direction: column;
+  }
+
+  .bc-transfer-list__actions {
+    flex-direction: row;
+  }
+
+  .bc-transfer-list__panel {
+    min-width: 0;
+  }
+}
+
+/* Dark mode */
+.dark .bc-transfer-list__panel {
+  background-color: var(--bg-background);
+  border-color: var(--border-default);
+}
+
+.dark .bc-transfer-list__panel-header {
+  background-color: var(--bg-subtle);
+  border-bottom-color: var(--border-default);
+}
+
+.dark .bc-transfer-list__item:hover {
+  background-color: var(--bg-subtle);
+}
+
+.dark .bc-transfer-list__item--selected {
+  background-color: var(--color-primary-950);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-transfer-list__item {
+    transition: none;
+  }
+}

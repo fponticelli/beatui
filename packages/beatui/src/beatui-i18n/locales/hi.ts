@@ -390,7 +390,6 @@ const hi: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'क्रम बदलने के लिए खींचें',
-    dropIndicator: 'यहाँ छोड़ें',
   },
   // Transfer list
   transferList: {
@@ -400,8 +399,8 @@ const hi: BeatUIMessages = {
     moveLeft: 'उपलब्ध में ले जाएँ',
     moveAllRight: 'सभी चयनित में ले जाएँ',
     moveAllLeft: 'सभी उपलब्ध में ले जाएँ',
-    searchAvailable: 'उपलब्ध खोजें',
-    searchSelected: 'चयनित खोजें',
+    searchAvailable: 'उपलब्ध आइटम खोजें…',
+    searchSelected: 'चयनित आइटम खोजें…',
   },
   // Copy button
   copyButton: {

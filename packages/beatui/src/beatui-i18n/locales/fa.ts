@@ -390,7 +390,6 @@ const fa: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'بکشید برای مرتب‌سازی',
-    dropIndicator: 'اینجا رها کنید',
   },
   // Transfer list
   transferList: {
@@ -400,8 +399,8 @@ const fa: BeatUIMessages = {
     moveLeft: 'انتقال به موجود',
     moveAllRight: 'انتقال همه به انتخاب شده',
     moveAllLeft: 'انتقال همه به موجود',
-    searchAvailable: 'جستجوی موجود',
-    searchSelected: 'جستجوی انتخاب شده',
+    searchAvailable: 'جستجوی موارد موجود…',
+    searchSelected: 'جستجوی موارد انتخاب شده…',
   },
   // Copy button
   copyButton: {

@@ -392,7 +392,6 @@ const vi: BeatUIMessages = {
   // Sortable list
   sortableList: {
     dragHandle: 'Kéo để sắp xếp lại',
-    dropIndicator: 'Thả vào đây',
   },
   // Transfer list
   transferList: {
@@ -402,8 +401,8 @@ const vi: BeatUIMessages = {
     moveLeft: 'Chuyển sang có sẵn',
     moveAllRight: 'Chuyển tất cả sang đã chọn',
     moveAllLeft: 'Chuyển tất cả sang có sẵn',
-    searchAvailable: 'Tìm có sẵn',
-    searchSelected: 'Tìm đã chọn',
+    searchAvailable: 'Tìm mục có sẵn…',
+    searchSelected: 'Tìm mục đã chọn…',
   },
   // Copy button
   copyButton: {

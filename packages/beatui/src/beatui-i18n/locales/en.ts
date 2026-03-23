@@ -395,7 +395,6 @@ const en = {
   // Sortable list
   sortableList: {
     dragHandle: 'Drag to reorder',
-    dropIndicator: 'Drop here',
   },
   // Transfer list
   transferList: {
@@ -405,8 +404,8 @@ const en = {
     moveLeft: 'Move to available',
     moveAllRight: 'Move all to selected',
     moveAllLeft: 'Move all to available',
-    searchAvailable: 'Search available',
-    searchSelected: 'Search selected',
+    searchAvailable: 'Search available items…',
+    searchSelected: 'Search selected items…',
   },
   // Copy button
   copyButton: {
