@@ -17,7 +17,7 @@ export default function SegmentedSelectPage() {
   return ComponentPage(meta, {
     playground: manualPlayground('SegmentedSelect', signals => {
       const value = prop('list')
-      return SegmentedSelect({
+      return SegmentedSelect<string>({
         ...signals,
         options: [
           Option.value('list', 'List'),
