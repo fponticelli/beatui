@@ -1,0 +1,217 @@
+/* Stepper Component */
+.bc-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.bc-stepper--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Indicators row */
+.bc-stepper__indicators {
+  display: flex;
+  align-items: center;
+}
+
+.bc-stepper--vertical .bc-stepper__indicators {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+/* Individual step */
+.bc-stepper__step {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  padding-right: var(--spacing-md);
+}
+
+.bc-stepper__step:focus-visible {
+  outline: var(--outline-width-focus) solid
+    var(--stepper-color, var(--color-primary-500));
+  outline-offset: var(--spacing-2xs);
+  border-radius: var(--radius-sm);
+}
+
+/* Step circle */
+.bc-stepper__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: var(--border-width-default) solid var(--border-default);
+  background-color: var(--bg-background);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
+  flex-shrink: 0;
+}
+
+.bc-stepper__step--active .bc-stepper__circle {
+  border-color: var(--stepper-color, var(--color-primary-500));
+  background-color: var(--stepper-color, var(--color-primary-500));
+  color: var(--color-white);
+}
+
+.bc-stepper__step--completed .bc-stepper__circle {
+  border-color: var(--stepper-color, var(--color-primary-500));
+  background-color: var(--stepper-color, var(--color-primary-500));
+  color: var(--color-white);
+}
+
+.bc-stepper__step--error .bc-stepper__circle {
+  border-color: var(--color-danger-500);
+  background-color: var(--color-danger-500);
+  color: var(--color-white);
+}
+
+/* Step label */
+.bc-stepper__label {
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-stepper__label-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-normal);
+}
+
+.bc-stepper__step--pending .bc-stepper__label-text {
+  color: var(--text-muted);
+}
+
+.bc-stepper__label-description {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Connector line */
+.bc-stepper__connector {
+  flex: 1;
+  height: 2px;
+  min-width: var(--spacing-lg);
+  background-color: var(--border-default);
+  transition: background-color var(--motion-transition-fast)
+    var(--motion-easing-standard);
+}
+
+.bc-stepper__connector--completed {
+  background-color: var(--stepper-color, var(--color-primary-500));
+}
+
+.bc-stepper--vertical .bc-stepper__connector {
+  width: 2px;
+  height: var(--spacing-lg);
+  min-width: 0;
+  margin-left: 15px; /* center under the 32px circle */
+  flex: 0;
+}
+
+/* Content area */
+.bc-stepper__content {
+  min-height: 0;
+}
+
+/* Navigation buttons */
+.bc-stepper__navigation {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.bc-stepper__spacer {
+  flex: 1;
+}
+
+/* Size variants */
+.bc-stepper--size-xs .bc-stepper__circle {
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-size-xs);
+}
+.bc-stepper--size-xs .bc-stepper__label-text {
+  font-size: var(--font-size-xs);
+}
+.bc-stepper--size-xs .bc-stepper__label-description {
+  font-size: var(--font-size-2xs);
+}
+.bc-stepper--size-xs.bc-stepper--vertical .bc-stepper__connector {
+  margin-left: 11px;
+}
+
+.bc-stepper--size-sm .bc-stepper__circle {
+  width: 28px;
+  height: 28px;
+  font-size: var(--font-size-xs);
+}
+.bc-stepper--size-sm .bc-stepper__label-text {
+  font-size: var(--font-size-xs);
+}
+
+.bc-stepper--size-lg .bc-stepper__circle {
+  width: 40px;
+  height: 40px;
+  font-size: var(--font-size-md);
+}
+.bc-stepper--size-lg .bc-stepper__label-text {
+  font-size: var(--font-size-md);
+}
+
+.bc-stepper--size-xl .bc-stepper__circle {
+  width: 48px;
+  height: 48px;
+  font-size: var(--font-size-lg);
+}
+.bc-stepper--size-xl .bc-stepper__label-text {
+  font-size: var(--font-size-lg);
+}
+
+/* Compact variant */
+.bc-stepper--compact .bc-stepper__label {
+  display: none;
+}
+
+/* Dark mode */
+.dark .bc-stepper__circle {
+  background-color: var(--bg-background);
+  border-color: var(--border-default);
+  color: var(--text-muted);
+}
+
+.dark .bc-stepper__step--active .bc-stepper__circle {
+  border-color: var(--stepper-color-dark, var(--color-primary-400));
+  background-color: var(--stepper-color-dark, var(--color-primary-400));
+}
+
+.dark .bc-stepper__step--completed .bc-stepper__circle {
+  border-color: var(--stepper-color-dark, var(--color-primary-400));
+  background-color: var(--stepper-color-dark, var(--color-primary-400));
+}
+
+.dark .bc-stepper__step--error .bc-stepper__circle {
+  border-color: var(--color-danger-400);
+  background-color: var(--color-danger-400);
+}
+
+.dark .bc-stepper__connector--completed {
+  background-color: var(--stepper-color-dark, var(--color-primary-400));
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-stepper__circle,
+  .bc-stepper__connector {
+    transition: none;
+  }
+}
