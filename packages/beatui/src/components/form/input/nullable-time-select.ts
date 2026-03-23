@@ -99,18 +99,19 @@ export function NullableTimeSelect(options: NullableTimeSelectOptions): TNode {
   const afterContent =
     rest.after != null ? Fragment(resetAfter, rest.after) : resetAfter
 
-  const pickerNode = TimePicker({
-    value,
-    onSelect: time => onChange?.(time),
-    color,
-    size: options.size,
-    disabled,
-    showSeconds,
-    use12Hour,
-    minuteStep,
-    secondStep,
-    showNow,
-  })
+  const makePickerNode = () =>
+    TimePicker({
+      value,
+      onSelect: time => onChange?.(time),
+      color,
+      size: options.size,
+      disabled,
+      showSeconds,
+      use12Hour,
+      minuteStep,
+      secondStep,
+      showNow,
+    })
 
   // When a custom formatTime is provided, use it directly
   if (formatTime != null) {
@@ -123,7 +124,7 @@ export function NullableTimeSelect(options: NullableTimeSelectOptions): TNode {
       disabled,
       displayText,
       after: afterContent,
-      panelContent: pickerNode,
+      panelContent: makePickerNode(),
     })
   }
 
@@ -148,7 +149,7 @@ export function NullableTimeSelect(options: NullableTimeSelectOptions): TNode {
       disabled,
       displayText,
       after: afterContent,
-      panelContent: pickerNode,
+      panelContent: makePickerNode(),
     })
   })
 }

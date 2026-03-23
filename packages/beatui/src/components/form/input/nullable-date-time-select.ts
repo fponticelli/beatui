@@ -120,10 +120,8 @@ export function NullableDateTimeSelect(
     rest.after != null ? Fragment(resetAfter, rest.after) : resetAfter
 
   return WithTemporal(T => {
-    const now = T.Now.plainDateTimeISO()
-
     const handleDateSelect = (date: PlainDate) => {
-      const current = Value.get(value) ?? now
+      const current = Value.get(value) ?? T.Now.plainDateTimeISO()
       const updated = T.PlainDateTime.from({
         year: date.year,
         month: date.month,
@@ -135,12 +133,8 @@ export function NullableDateTimeSelect(
       onChange?.(updated)
     }
 
-    const handleTimeSelect = (time: {
-      hour: number
-      minute: number
-      second: number
-    }) => {
-      const current = Value.get(value) ?? now
+    const handleTimeSelect = (time: PlainTime) => {
+      const current = Value.get(value) ?? T.Now.plainDateTimeISO()
       const updated = T.PlainDateTime.from({
         year: current.year,
         month: current.month,
@@ -181,7 +175,7 @@ export function NullableDateTimeSelect(
       html.div(attr.class('bc-date-time-select__separator')),
       TimePicker({
         value: timeValue,
-        onSelect: handleTimeSelect as (time: unknown) => void,
+        onSelect: handleTimeSelect,
         color,
         size: options.size,
         disabled,

@@ -41,7 +41,7 @@ export type NumberInputOptions = Merge<
     /** Maximum allowed value. Disables increment when reached. @default 10 */
     max?: Value<number>
     /** Unit of measurement label displayed after the input (e.g., "kg", "px", "%"). Rendered before stepper buttons. */
-    unit?: Value<string>
+    unit?: TNode
     /** When true, displays the value formatted with locale-aware grouping and decimals (derived from step) when the input is not focused. @default false */
     formatted?: Value<boolean>
   }
@@ -231,9 +231,7 @@ export const NumberInput = (options: NumberInputOptions) => {
       : null
 
   const unitLabel =
-    unit != null
-      ? html.span(attr.class('bc-number-input-unit'), Value.map(unit, u => u))
-      : null
+    unit != null ? html.span(attr.class('bc-number-input-unit'), unit) : null
 
   const afterParts = [unitLabel, stepperButtons, after].filter(
     (p): p is TNode => p != null
@@ -260,7 +258,7 @@ export const NumberInput = (options: NumberInputOptions) => {
           computedOf(
             focused,
             formatted ?? false
-          )((f, fmt) => (fmt && !f ? 'bc-number-input--hidden' : ''))
+          )((f, fmt): string => (fmt && !f ? 'bc-number-input--hidden' : ''))
         )
       : Empty,
     on.focus(() => focused?.set(true)),
@@ -317,13 +315,8 @@ export const NumberInput = (options: NumberInputOptions) => {
             }
           })
 
-          return When(
-            showOverlay,
-            () =>
-              html.span(
-                attr.class('bc-number-input-formatted'),
-                formattedText
-              )
+          return When(showOverlay, () =>
+            html.span(attr.class('bc-number-input-formatted'), formattedText)
           )
         })
       : null

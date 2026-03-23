@@ -120,11 +120,7 @@ export function DateTimeSelect(options: DateTimeSelectOptions): TNode {
       onChange?.(updated)
     }
 
-    const handleTimeSelect = (time: {
-      hour: number
-      minute: number
-      second: number
-    }) => {
+    const handleTimeSelect = (time: PlainTime) => {
       const current = Value.get(value)
       const updated = T.PlainDateTime.from({
         year: current.year,
@@ -158,7 +154,7 @@ export function DateTimeSelect(options: DateTimeSelectOptions): TNode {
       html.div(attr.class('bc-date-time-select__separator')),
       TimePicker({
         value: timeValue,
-        onSelect: handleTimeSelect as (time: unknown) => void,
+        onSelect: handleTimeSelect,
         color,
         size: options.size,
         disabled: options.disabled,

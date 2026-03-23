@@ -61,7 +61,13 @@ export function localeUses12Hour(locale: string): boolean {
   try {
     const resolved = new Intl.DateTimeFormat(locale, {
       hour: 'numeric',
-    }).resolvedOptions()
+    }).resolvedOptions() as Intl.ResolvedDateTimeFormatOptions & {
+      hourCycle?: string
+    }
+    // h11 and h12 are 12-hour cycles; h23 and h24 are 24-hour
+    if (resolved.hourCycle) {
+      return resolved.hourCycle === 'h11' || resolved.hourCycle === 'h12'
+    }
     return resolved.hour12 === true
   } catch {
     return false
