@@ -1,0 +1,37 @@
+/* CopyButton Component */
+.bc-copy-button {
+  display: inline-flex;
+  position: relative;
+}
+
+.bc-copy-button--copied .bc-button {
+  color: var(--color-success-600);
+}
+
+.dark .bc-copy-button--copied .bc-button {
+  color: var(--color-success-400);
+}
+
+/* Brief scale animation on copy */
+@keyframes bc-copy-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bc-copy-button--copied .bc-button {
+  animation: bc-copy-pulse var(--motion-duration-fast)
+    var(--motion-easing-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-copy-button--copied .bc-button {
+    animation: none;
+  }
+}
