@@ -37,7 +37,7 @@ const localDateToString = (date: Date) => {
  * const appointment = prop(new Date())
  * DateTimeInput({
  *   value: appointment,
- *   onChange: appointment.set,
+ *   onChange: v => appointment.set(v),
  * })
  * ```
  *

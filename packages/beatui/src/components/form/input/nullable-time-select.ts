@@ -74,7 +74,7 @@ export type NullableTimeSelectOptions = Merge<
  * const time = prop<PlainTime | null>(null)
  * NullableTimeSelect({
  *   value: time,
- *   onChange: time.set,
+ *   onChange: v => time.set(v),
  *   placeholder: 'Select a time',
  * })
  * ```

@@ -244,7 +244,7 @@ function generateToggleButtonStyles(
  *
  * const bold = prop(false)
  * ToggleButton(
- *   { pressed: bold, onChange: bold.set, variant: 'outline' },
+ *   { pressed: bold, onChange: v => bold.set(v), variant: 'outline' },
  *   'B'
  * )
  * ```
@@ -254,7 +254,7 @@ function generateToggleButtonStyles(
  * // Icon toggle
  * const starred = prop(false)
  * ToggleButton(
- *   { pressed: starred, onChange: starred.set, color: 'yellow' },
+ *   { pressed: starred, onChange: v => starred.set(v), color: 'yellow' },
  *   Icon({ icon: starred.map(s => s ? 'lucide:star' : 'lucide:star-off') })
  * )
  * ```

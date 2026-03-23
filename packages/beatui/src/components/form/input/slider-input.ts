@@ -49,7 +49,7 @@ export type SliderInputOptions = Merge<
  * const volume = prop(50)
  * SliderInput({
  *   value: volume,
- *   onChange: volume.set,
+ *   onChange: v => volume.set(v),
  *   min: 0,
  *   max: 100,
  *   step: 1,
@@ -138,7 +138,7 @@ export type NullableSliderInputOptions = Merge<
  * const brightness = prop<number | null>(null)
  * NullableSliderInput({
  *   value: brightness,
- *   onChange: brightness.set,
+ *   onChange: v => brightness.set(v),
  *   min: 0,
  *   max: 100,
  *   step: 5,

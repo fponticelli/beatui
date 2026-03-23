@@ -76,7 +76,7 @@ function cycleState(current: CheckboxState): CheckboxState {
  * const state = prop<CheckboxState>('unchecked')
  * TriStateCheckboxInput({
  *   value: state,
- *   onChange: state.set,
+ *   onChange: v => state.set(v),
  *   placeholder: 'Select all',
  * })
  * ```

@@ -97,7 +97,7 @@ export default function DateTimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-md'),
             DateTimeSelect({
               value: dt,
-              onChange: dt.set,
+              onChange: v => dt.set(v),
               showSeconds: true,
               showNow: true,
               formatDateTime: d =>
@@ -119,7 +119,7 @@ export default function DateTimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-md'),
             NullableDateTimeSelect({
               value: dt,
-              onChange: dt.set,
+              onChange: v => dt.set(v),
               showNow: true,
             }),
             html.p(
@@ -140,7 +140,7 @@ export default function DateTimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-md'),
             DateTimeSelect({
               value: dt,
-              onChange: dt.set,
+              onChange: v => dt.set(v),
               formatDateTime: d =>
                 `${String(d.day).padStart(2, '0')}/${String(d.month).padStart(2, '0')}/${d.year} ${d.hour % 12 || 12}:${String(d.minute).padStart(2, '0')} ${d.hour >= 12 ? 'PM' : 'AM'}`,
             }),
@@ -177,7 +177,7 @@ export default function DateTimeSelectPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-1'),
                   size
                 ),
-                DateTimeSelect({ value: dt, onChange: dt.set, size })
+                DateTimeSelect({ value: dt, onChange: v => dt.set(v), size })
               )
             })
           )

@@ -40,7 +40,7 @@ import { BeatUII18n } from '../../../beatui-i18n'
  * const password = prop('')
  * PasswordInput({
  *   value: password,
- *   onChange: password.set,
+ *   onChange: v => password.set(v),
  *   placeholder: 'Enter password',
  * })
  * ```

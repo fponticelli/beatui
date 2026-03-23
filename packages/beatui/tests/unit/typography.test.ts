@@ -32,9 +32,13 @@ describe('Typography Tokens', () => {
     expect(overrides['--font-sans']).toBe('Inter, system-ui')
   })
 
-  it('emits --font-size-base variable', () => {
+  it('emits --font-size-base variable with scale support', () => {
     const variables = generateTypographyVariables()
-    expect(variables[getBaseFontSizeVarName()]).toBe(baseFontSize)
+    expect(variables['--font-size-base-raw']).toBe(baseFontSize)
+    expect(variables['--font-size-scale']).toBe('1')
+    expect(variables[getBaseFontSizeVarName()]).toBe(
+      'calc(var(--font-size-base-raw) * var(--font-size-scale))'
+    )
   })
 
   it('font size variables reference --font-size-base', () => {

@@ -63,7 +63,7 @@ export type TimeSelectOptions = Merge<
  * const time = prop(Temporal.PlainTime.from('14:30'))
  * TimeSelect({
  *   value: time,
- *   onChange: time.set,
+ *   onChange: v => time.set(v),
  * })
  * ```
  */

@@ -38,7 +38,7 @@ export type TextInputOptions = Merge<
  * const name = prop('John')
  * TextInput({
  *   value: name,
- *   onChange: name.set,
+ *   onChange: v => name.set(v),
  *   placeholder: 'Enter your name',
  *   size: 'md',
  * })

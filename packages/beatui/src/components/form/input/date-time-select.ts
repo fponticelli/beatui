@@ -86,7 +86,7 @@ function formatDate(dt: PlainDateTime): string {
  * const dt = prop(Temporal.Now.plainDateTimeISO())
  * DateTimeSelect({
  *   value: dt,
- *   onChange: dt.set,
+ *   onChange: v => dt.set(v),
  * })
  * ```
  */

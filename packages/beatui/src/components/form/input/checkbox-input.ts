@@ -41,7 +41,7 @@ export type CheckboxInputOptions = InputOptions<boolean> & {
  * const agreed = prop(false)
  * CheckboxInput({
  *   value: agreed,
- *   onChange: agreed.set,
+ *   onChange: v => agreed.set(v),
  *   placeholder: 'I agree to the terms and conditions',
  * })
  * ```

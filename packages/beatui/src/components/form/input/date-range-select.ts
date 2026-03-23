@@ -65,7 +65,7 @@ export type DateRangeSelectOptions = Merge<
  * ])
  * DateRangeSelect({
  *   value: range,
- *   onChange: range.set,
+ *   onChange: v => range.set(v),
  * })
  * ```
  */

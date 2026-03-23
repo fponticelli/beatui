@@ -233,7 +233,7 @@ function renderRangeDatePicker(
  * const range = prop<[PlainDate, PlainDate] | null>(null)
  * DateRangePicker({
  *   value: range,
- *   onChange: range.set,
+ *   onChange: v => range.set(v),
  * })
  * ```
  */

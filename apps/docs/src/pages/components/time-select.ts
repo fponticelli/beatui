@@ -100,7 +100,7 @@ export default function TimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             TimeSelect({
               value: t,
-              onChange: t.set,
+              onChange: v => t.set(v),
               formatTime: time =>
                 `${time.hour % 12 || 12}:${String(time.minute).padStart(2, '0')} ${time.hour >= 12 ? 'PM' : 'AM'}`,
             }),
@@ -120,7 +120,7 @@ export default function TimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             TimeSelect({
               value: t,
-              onChange: t.set,
+              onChange: v => t.set(v),
               showSeconds: true,
               formatTime: time => time.toString(),
             }),
@@ -140,7 +140,7 @@ export default function TimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             TimeSelect({
               value: t,
-              onChange: t.set,
+              onChange: v => t.set(v),
               showNow: true,
             }),
             html.p(
@@ -159,7 +159,7 @@ export default function TimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             TimeSelect({
               value: t,
-              onChange: t.set,
+              onChange: v => t.set(v),
               minuteStep: 15,
             }),
             html.p(
@@ -178,7 +178,7 @@ export default function TimeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             NullableTimeSelect({
               value: t,
-              onChange: t.set,
+              onChange: v => t.set(v),
               placeholder: 'Pick a time',
               showNow: true,
             }),
@@ -217,7 +217,7 @@ export default function TimeSelectPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-1'),
                   size
                 ),
-                TimeSelect({ value: t, onChange: t.set, size })
+                TimeSelect({ value: t, onChange: v => t.set(v), size })
               )
             })
           )

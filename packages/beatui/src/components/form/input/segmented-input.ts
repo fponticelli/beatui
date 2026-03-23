@@ -9,6 +9,8 @@ import {
   computedOf,
   WithElement,
   OnDispose,
+  ForEach,
+  MapSignal,
 } from '@tempots/dom'
 import { ControlSize } from '../../theme'
 import { ThemeColorName } from '../../../tokens'
@@ -50,6 +52,10 @@ export interface SegmentedInputOptions<
    * When not set, uses the default white indicator with primary-tinted active text.
    */
   color?: Value<ThemeColorName>
+  /**
+   * Subset of keys to display. If not provided, all keys are displayed.
+   */
+  subset?: Value<K[]>
 }
 
 function generateSegmentedInputClasses(
@@ -117,7 +123,7 @@ function generateSegmentedInputStyles(
  *     table: 'Table',
  *   },
  *   value: view,
- *   onChange: view.set,
+ *   onChange: v => view.set(v),
  *   size: 'md',
  * })
  * ```
@@ -144,6 +150,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
     disabled = false,
     variant = 'pill',
     color,
+    subset,
   }: SegmentedInputOptions<T, keyof T>,
   ...children: TNode[]
 ) {
@@ -151,6 +158,10 @@ export function SegmentedInput<T extends Record<string, TNode>>(
     key,
     label,
   }))
+
+  const subsetList: Value<(keyof T)[]> = subset
+    ? subset
+    : optionsList.map(item => item.key)
 
   return WithElement(() => {
     const indexes = Object.fromEntries(
@@ -203,21 +214,27 @@ export function SegmentedInput<T extends Record<string, TNode>>(
           )
         ),
         // clickable buttons
-        optionsList.map(({ label, key }, index) => {
+        ForEach(subsetList, (key, { index }) => {
+          const label = key.map(
+            k => optionsList.find(item => item.key === k)?.label
+          )
           return html.button(
             attr.type('button'),
             on.click(e => {
               e.preventDefault()
               const isDisabled = Value.get(disabled)
               if (!isDisabled) {
-                onChange?.(key as keyof T)
+                onChange?.(key.value)
               }
             }),
             attr.disabled(disabled),
             attr.class('bc-segmented-input__segment'),
             attr.class(
-              Value.map(value, (v): string => {
-                return v === key
+              computedOf(
+                value,
+                key
+              )((v, k): string => {
+                return v === k
                   ? 'bc-segmented-input__segment--active'
                   : 'bc-segmented-input__segment--inactive'
               })
@@ -236,7 +253,7 @@ export function SegmentedInput<T extends Record<string, TNode>>(
               const cancel = delayedAnimationFrame(updateRect)
               return OnDispose(cancel, rect.on(updateRect))
             }),
-            label
+            MapSignal(label, v => v)
           )
         })
       ),

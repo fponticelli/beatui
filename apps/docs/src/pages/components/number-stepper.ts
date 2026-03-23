@@ -1,6 +1,11 @@
 import { NumberStepper, Field } from '@tempots/beatui'
 import { html, attr, prop, Value, type Prop } from '@tempots/dom'
-import { ComponentPage, manualPlayground, AutoSections, Section } from '../../framework'
+import {
+  ComponentPage,
+  manualPlayground,
+  AutoSections,
+  Section,
+} from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
 
 export const meta: ComponentPageMeta = {
@@ -48,7 +53,12 @@ export default function NumberStepperPage() {
           const v = prop(5)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
-            NumberStepper({ value: v, onChange: v.set, min: 0, max: 10 }),
+            NumberStepper({
+              value: v,
+              onChange: x => v.set(x),
+              min: 0,
+              max: 10,
+            }),
             html.p(
               attr.class('text-sm text-gray-500 font-mono'),
               Value.map(v, n => `Value: ${n} (min: 0, max: 10)`)
@@ -63,7 +73,7 @@ export default function NumberStepperPage() {
           const v = prop(0)
           return html.div(
             attr.class('flex flex-col gap-3 items-start'),
-            NumberStepper({ value: v, onChange: v.set, step: 5 }),
+            NumberStepper({ value: v, onChange: x => v.set(x), step: 5 }),
             html.p(
               attr.class('text-sm text-gray-500 font-mono'),
               Value.map(v, n => `Value: ${n} (step: 5)`)
@@ -80,7 +90,7 @@ export default function NumberStepperPage() {
             attr.class('flex flex-col gap-3 items-start'),
             NumberStepper({
               value: v,
-              onChange: v.set,
+              onChange: x => v.set(x),
               orientation: 'vertical',
               min: 0,
               max: 10,
@@ -102,11 +112,8 @@ export default function NumberStepperPage() {
               const v = prop(3)
               return html.div(
                 attr.class('flex flex-col items-center gap-1'),
-                NumberStepper({ value: v, onChange: v.set, size }),
-                html.span(
-                  attr.class('text-xs font-mono text-gray-500'),
-                  size
-                )
+                NumberStepper({ value: v, onChange: x => v.set(x), size }),
+                html.span(attr.class('text-xs font-mono text-gray-500'), size)
               )
             })
           ),
@@ -133,7 +140,7 @@ export default function NumberStepperPage() {
               description: 'Select how many items',
               content: NumberStepper({
                 value: v,
-                onChange: v.set,
+                onChange: x => v.set(x),
                 min: 1,
                 max: 99,
               }),

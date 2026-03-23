@@ -67,7 +67,7 @@ export type NumberInputOptions = Merge<
  * const quantity = prop(1)
  * NumberInput({
  *   value: quantity,
- *   onChange: quantity.set,
+ *   onChange: v => quantity.set(v),
  *   min: 0,
  *   max: 100,
  *   step: 1,

@@ -36,7 +36,7 @@ export default function AppearanceSelectorPage() {
             attr.class('flex flex-col gap-4 items-start'),
             AppearanceSelector({
               value: pref,
-              onChange: pref.set,
+              onChange: v => pref.set(v),
             })
           )
         },

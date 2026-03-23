@@ -85,7 +85,7 @@ export type OpenDateRangeSelectOptions = Merge<
  * ])
  * OpenDateRangeSelect({
  *   value: range,
- *   onChange: range.set,
+ *   onChange: v => range.set(v),
  *   emptyPlaceholder: 'No limit',
  * })
  * ```

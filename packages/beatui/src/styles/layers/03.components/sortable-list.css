@@ -1,0 +1,81 @@
+/* SortableList Component */
+.bc-sortable-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.bc-sortable-list--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Items */
+.bc-sortable-list__item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--bg-background);
+  border: var(--border-width-thin) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  transition: all var(--motion-transition-fast) var(--motion-easing-standard);
+}
+
+.bc-sortable-list__item--dragging {
+  opacity: 0.4;
+}
+
+.bc-sortable-list__item--drop-target {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 -2px 0 0 var(--color-primary-500);
+}
+
+/* Handle */
+.bc-sortable-list__handle {
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-right: var(--spacing-xs);
+}
+
+.bc-sortable-list__handle:active {
+  cursor: grabbing;
+}
+
+/* Size variants */
+.bc-sortable-list--size-xs .bc-sortable-list__item {
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+.bc-sortable-list--size-sm .bc-sortable-list__item {
+  padding: var(--spacing-2xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+.bc-sortable-list--size-lg .bc-sortable-list__item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+.bc-sortable-list--size-xl .bc-sortable-list__item {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-xl);
+}
+
+/* Dark mode */
+.dark .bc-sortable-list__item {
+  background-color: var(--bg-background);
+  border-color: var(--border-default);
+}
+
+.dark .bc-sortable-list__item--drop-target {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 -2px 0 0 var(--color-primary-400);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bc-sortable-list__item {
+    transition: none;
+  }
+}

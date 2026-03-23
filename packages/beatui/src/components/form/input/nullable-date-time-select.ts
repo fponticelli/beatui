@@ -90,7 +90,7 @@ function formatDatePart(dt: PlainDateTime): string {
  * const dt = prop<PlainDateTime | null>(null)
  * NullableDateTimeSelect({
  *   value: dt,
- *   onChange: dt.set,
+ *   onChange: v => dt.set(v),
  *   placeholder: 'Select date and time',
  * })
  * ```

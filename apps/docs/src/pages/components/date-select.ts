@@ -130,7 +130,7 @@ export default function DateSelectPage() {
             attr.class('flex flex-col gap-3 max-w-xs'),
             DateSelect({
               value: d,
-              onChange: d.set,
+              onChange: v => d.set(v),
               formatDate: date =>
                 `${String(date.day).padStart(2, '0')}/${String(date.month).padStart(2, '0')}/${date.year}`,
             }),
@@ -164,7 +164,7 @@ export default function DateSelectPage() {
                   attr.class('text-xs font-mono text-gray-500 mb-1'),
                   size
                 ),
-                DateSelect({ value: d, onChange: d.set, size })
+                DateSelect({ value: d, onChange: v => d.set(v), size })
               )
             })
           )

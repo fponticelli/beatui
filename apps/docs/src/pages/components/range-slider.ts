@@ -28,9 +28,7 @@ export default function RangeSliderPage() {
         // Re-mount component when orientation changes (it's read once at creation)
         return MapSignal(orientation, (o: string) =>
           html.div(
-            attr.style(
-              o === 'vertical' ? 'height: 250px' : 'width: 100%'
-            ),
+            attr.style(o === 'vertical' ? 'height: 250px' : 'width: 100%'),
             RangeSlider({
               ...signals,
               value,
@@ -63,7 +61,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               value,
-              onChange: value.set,
+              onChange: v => value.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -80,7 +78,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               range,
-              onRangeChange: range.set,
+              onRangeChange: v => range.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -97,7 +95,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               points,
-              onPointsChange: points.set,
+              onPointsChange: v => points.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -121,7 +119,7 @@ export default function RangeSliderPage() {
                 attr.style('height: 250px'),
                 RangeSlider({
                   value,
-                  onChange: value.set,
+                  onChange: v => value.set(v),
                   min: 0,
                   max: 100,
                   showValue: true,
@@ -136,7 +134,7 @@ export default function RangeSliderPage() {
                 attr.style('height: 250px'),
                 RangeSlider({
                   range,
-                  onRangeChange: range.set,
+                  onRangeChange: v => range.set(v),
                   min: 0,
                   max: 100,
                   showValue: true,
@@ -157,7 +155,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               range,
-              onRangeChange: range.set,
+              onRangeChange: v => range.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -181,7 +179,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               range,
-              onRangeChange: range.set,
+              onRangeChange: v => range.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -203,7 +201,7 @@ export default function RangeSliderPage() {
             attr.class('flex flex-col gap-2 w-full max-w-md'),
             RangeSlider({
               points,
-              onPointsChange: points.set,
+              onPointsChange: v => points.set(v),
               min: 0,
               max: 100,
               showValue: true,
@@ -363,22 +361,23 @@ export default function RangeSliderPage() {
         () =>
           html.div(
             attr.class('flex flex-col gap-4 w-full max-w-md'),
-            ...(['primary', 'success', 'danger', 'warning', 'info'] as const).map(
-              color =>
+            ...(
+              ['primary', 'success', 'danger', 'warning', 'info'] as const
+            ).map(color =>
+              html.div(
                 html.div(
-                  html.div(
-                    attr.class('text-xs font-mono text-gray-500 mb-1'),
-                    color
-                  ),
-                  RangeSlider({
-                    value: 60,
-                    onChange: () => {},
-                    min: 0,
-                    max: 100,
-                    color,
-                    showValue: true,
-                  })
-                )
+                  attr.class('text-xs font-mono text-gray-500 mb-1'),
+                  color
+                ),
+                RangeSlider({
+                  value: 60,
+                  onChange: () => {},
+                  min: 0,
+                  max: 100,
+                  color,
+                  showValue: true,
+                })
+              )
             )
           ),
         'The color prop controls the filled track and thumb color.'

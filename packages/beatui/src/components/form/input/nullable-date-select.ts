@@ -56,7 +56,7 @@ export type NullableDateSelectOptions = Merge<
  * const date = prop<PlainDate | null>(null)
  * NullableDateSelect({
  *   value: date,
- *   onChange: date.set,
+ *   onChange: v => date.set(v),
  *   placeholder: 'Select a date',
  * })
  * ```

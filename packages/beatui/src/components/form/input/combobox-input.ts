@@ -196,7 +196,7 @@ const ComboboxOptionItem = <T>(
  * const user = prop<User | null>(null)
  * ComboboxInput({
  *   value: user,
- *   onChange: user.set,
+ *   onChange: v => user.set(v),
  *   loadOptions: async (search) => {
  *     const users = await fetchUsers(search)
  *     return users.map(u => Option.value(u, u.name))

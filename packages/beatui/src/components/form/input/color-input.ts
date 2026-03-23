@@ -78,7 +78,7 @@ function Swatch({
  * const color = prop('#ff6600')
  * ColorInput({
  *   value: color,
- *   onChange: color.set,
+ *   onChange: v => color.set(v),
  *   placeholder: '#rrggbb',
  * })
  * ```

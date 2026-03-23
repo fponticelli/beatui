@@ -27,7 +27,7 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  * const birthday = prop(new Date('1990-01-15'))
  * DateInput({
  *   value: birthday,
- *   onChange: birthday.set,
+ *   onChange: v => birthday.set(v),
  * })
  * ```
  *

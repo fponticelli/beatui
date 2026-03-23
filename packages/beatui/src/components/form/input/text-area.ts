@@ -36,7 +36,7 @@ export type TextAreaOptions = Merge<
  * const bio = prop('')
  * TextArea({
  *   value: bio,
- *   onChange: bio.set,
+ *   onChange: v => bio.set(v),
  *   placeholder: 'Tell us about yourself...',
  *   rows: 5,
  *   size: 'md',

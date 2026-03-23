@@ -20,9 +20,7 @@ describe('RangeSlider Component', () => {
   describe('rendering', () => {
     it('should render track element', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -32,9 +30,7 @@ describe('RangeSlider Component', () => {
 
     it('should render one thumb in single mode', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -74,9 +70,7 @@ describe('RangeSlider Component', () => {
 
     it('should render fill element', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -92,7 +86,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const fill = container.querySelector('.bc-range-slider__fill') as HTMLElement
+      const fill = container.querySelector(
+        '.bc-range-slider__fill'
+      ) as HTMLElement
       expect(fill.style.left).toBe('0%')
       expect(fill.style.width).toBe('50%')
     })
@@ -169,9 +165,7 @@ describe('RangeSlider Component', () => {
 
     it('should have tabindex=0 on thumbs for keyboard focus', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -416,7 +410,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const thumbs = container.querySelectorAll('[role="slider"]') as NodeListOf<HTMLElement>
+      const thumbs = container.querySelectorAll(
+        '[role="slider"]'
+      ) as NodeListOf<HTMLElement>
       thumbs[0]!.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
       )
@@ -438,7 +434,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const thumbs = container.querySelectorAll('[role="slider"]') as NodeListOf<HTMLElement>
+      const thumbs = container.querySelectorAll(
+        '[role="slider"]'
+      ) as NodeListOf<HTMLElement>
       thumbs[1]!.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true })
       )
@@ -460,7 +458,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const thumbs = container.querySelectorAll('[role="slider"]') as NodeListOf<HTMLElement>
+      const thumbs = container.querySelectorAll(
+        '[role="slider"]'
+      ) as NodeListOf<HTMLElement>
       thumbs[0]!.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
       )
@@ -487,7 +487,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const thumbs = container.querySelectorAll('[role="slider"]') as NodeListOf<HTMLElement>
+      const thumbs = container.querySelectorAll(
+        '[role="slider"]'
+      ) as NodeListOf<HTMLElement>
       thumbs[1]!.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })
       )
@@ -508,7 +510,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const thumbs = container.querySelectorAll('[role="slider"]') as NodeListOf<HTMLElement>
+      const thumbs = container.querySelectorAll(
+        '[role="slider"]'
+      ) as NodeListOf<HTMLElement>
       thumbs[0]!.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Home', bubbles: true })
       )
@@ -671,9 +675,7 @@ describe('RangeSlider Component', () => {
 
     it('should not render ticks when option is not set', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -725,7 +727,9 @@ describe('RangeSlider Component', () => {
       const markers = container.querySelectorAll('.bc-range-slider__marker')
       expect(markers.length).toBe(3)
 
-      const labels = container.querySelectorAll('.bc-range-slider__marker-label')
+      const labels = container.querySelectorAll(
+        '.bc-range-slider__marker-label'
+      )
       expect(labels.length).toBe(3)
       expect(labels[0]!.textContent).toBe('20%')
       expect(labels[1]!.textContent).toBe('50%')
@@ -748,15 +752,15 @@ describe('RangeSlider Component', () => {
 
       const markers = container.querySelectorAll('.bc-range-slider__marker')
       expect(markers.length).toBe(2)
-      const labels = container.querySelectorAll('.bc-range-slider__marker-label')
+      const labels = container.querySelectorAll(
+        '.bc-range-slider__marker-label'
+      )
       expect(labels.length).toBe(0)
     })
 
     it('should not render markers when option is not set', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -800,7 +804,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const marker = container.querySelector('.bc-range-slider__marker') as HTMLElement
+      const marker = container.querySelector(
+        '.bc-range-slider__marker'
+      ) as HTMLElement
       expect(marker.style.left).toBe('40%')
     })
 
@@ -819,7 +825,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const marker = container.querySelector('.bc-range-slider__marker') as HTMLElement
+      const marker = container.querySelector(
+        '.bc-range-slider__marker'
+      ) as HTMLElement
       expect(marker.style.bottom).toBe('60%')
     })
   })
@@ -839,7 +847,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const customThumb = container.querySelector('.bc-range-slider__thumb-custom')
+      const customThumb = container.querySelector(
+        '.bc-range-slider__thumb-custom'
+      )
       expect(customThumb).not.toBeNull()
 
       const defaultThumb = container.querySelector('.bc-range-slider__thumb')
@@ -848,16 +858,16 @@ describe('RangeSlider Component', () => {
 
     it('should use default thumb class when renderThumb is not provided', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
       const defaultThumb = container.querySelector('.bc-range-slider__thumb')
       expect(defaultThumb).not.toBeNull()
 
-      const customThumb = container.querySelector('.bc-range-slider__thumb-custom')
+      const customThumb = container.querySelector(
+        '.bc-range-slider__thumb-custom'
+      )
       expect(customThumb).toBeNull()
     })
   })
@@ -895,10 +905,7 @@ describe('RangeSlider Component', () => {
             onChange: vi.fn(),
             min: 0,
             max: 100,
-            segmentStyles: [
-              { color: 'success' },
-              { color: 'danger' },
-            ],
+            segmentStyles: [{ color: 'success' }, { color: 'danger' }],
           })
         ),
         container
@@ -933,9 +940,7 @@ describe('RangeSlider Component', () => {
 
     it('should render plain fill when segmentStyles is not provided', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -978,7 +983,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const segment = container.querySelector('.bc-range-slider__segment') as HTMLElement
+      const segment = container.querySelector(
+        '.bc-range-slider__segment'
+      ) as HTMLElement
       expect(segment.style.borderStyle).toBe('dotted')
     })
 
@@ -996,7 +1003,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const segment = container.querySelector('.bc-range-slider__segment') as HTMLElement
+      const segment = container.querySelector(
+        '.bc-range-slider__segment'
+      ) as HTMLElement
       expect(segment.style.height).toBe('8px')
     })
   })
@@ -1008,7 +1017,7 @@ describe('RangeSlider Component', () => {
       const value = prop(50)
       render(
         WithProviders(() =>
-          RangeSlider({ value, onChange: value.set, min: 0, max: 100 })
+          RangeSlider({ value, onChange: v => value.set(v), min: 0, max: 100 })
         ),
         container
       )
@@ -1027,12 +1036,14 @@ describe('RangeSlider Component', () => {
       const value = prop(50)
       render(
         WithProviders(() =>
-          RangeSlider({ value, onChange: value.set, min: 0, max: 100 })
+          RangeSlider({ value, onChange: v => value.set(v), min: 0, max: 100 })
         ),
         container
       )
 
-      const fill = container.querySelector('.bc-range-slider__fill') as HTMLElement
+      const fill = container.querySelector(
+        '.bc-range-slider__fill'
+      ) as HTMLElement
       expect(fill.style.width).toBe('50%')
 
       value.set(80)
@@ -1044,7 +1055,7 @@ describe('RangeSlider Component', () => {
       const value = prop(50)
       render(
         WithProviders(() =>
-          RangeSlider({ value, onChange: value.set, showValue: true })
+          RangeSlider({ value, onChange: v => value.set(v), showValue: true })
         ),
         container
       )
@@ -1061,12 +1072,19 @@ describe('RangeSlider Component', () => {
       const range = prop<[number, number]>([20, 80])
       render(
         WithProviders(() =>
-          RangeSlider({ range, onRangeChange: range.set, min: 0, max: 100 })
+          RangeSlider({
+            range,
+            onRangeChange: v => range.set(v),
+            min: 0,
+            max: 100,
+          })
         ),
         container
       )
 
-      const fill = container.querySelector('.bc-range-slider__fill') as HTMLElement
+      const fill = container.querySelector(
+        '.bc-range-slider__fill'
+      ) as HTMLElement
       expect(fill.style.left).toBe('20%')
       expect(fill.style.width).toBe('60%')
 
@@ -1082,9 +1100,7 @@ describe('RangeSlider Component', () => {
   describe('default values', () => {
     it('should use default min=0 and max=100', () => {
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange: vi.fn() })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange: vi.fn() })),
         container
       )
 
@@ -1096,9 +1112,7 @@ describe('RangeSlider Component', () => {
     it('should use default step=1', () => {
       const onChange = vi.fn()
       render(
-        WithProviders(() =>
-          RangeSlider({ value: 50, onChange })
-        ),
+        WithProviders(() => RangeSlider({ value: 50, onChange })),
         container
       )
 
@@ -1162,7 +1176,9 @@ describe('RangeSlider Component', () => {
       )
 
       // WithElement applies attr.class to its root element (wrapper)
-      expect(wrapper.classList.contains('bc-range-slider--vertical')).toBe(false)
+      expect(wrapper.classList.contains('bc-range-slider--vertical')).toBe(
+        false
+      )
     })
 
     it('positions thumb with style.bottom in vertical mode', () => {
@@ -1200,7 +1216,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const fill = container.querySelector('.bc-range-slider__fill') as HTMLElement
+      const fill = container.querySelector(
+        '.bc-range-slider__fill'
+      ) as HTMLElement
       expect(fill.style.bottom).toBe('0%')
       expect(fill.style.height).toBe('25%')
       expect(fill.style.left).toBe('')
@@ -1221,7 +1239,9 @@ describe('RangeSlider Component', () => {
         container
       )
 
-      const fill = container.querySelector('.bc-range-slider__fill') as HTMLElement
+      const fill = container.querySelector(
+        '.bc-range-slider__fill'
+      ) as HTMLElement
       expect(fill.style.bottom).toBe('25%')
       expect(fill.style.height).toBe('50%')
     })
@@ -1358,18 +1378,16 @@ describe('RangeSlider Component', () => {
             onChange: vi.fn(),
             min: 0,
             max: 100,
-            ticks: [
-              { value: 0 },
-              { value: 50 },
-              { value: 100 },
-            ],
+            ticks: [{ value: 0 }, { value: 50 }, { value: 100 }],
             orientation: 'vertical',
           })
         ),
         container
       )
 
-      const ticks = container.querySelectorAll('.bc-range-slider__tick') as NodeListOf<HTMLElement>
+      const ticks = container.querySelectorAll(
+        '.bc-range-slider__tick'
+      ) as NodeListOf<HTMLElement>
       expect(ticks.length).toBe(3)
       // tick at value=0 should be at bottom: 0%
       expect(ticks[0]!.style.bottom).toBe('0%')
@@ -1386,7 +1404,7 @@ describe('RangeSlider Component', () => {
         WithProviders(() =>
           RangeSlider({
             value,
-            onChange: value.set,
+            onChange: v => value.set(v),
             min: 0,
             max: 100,
             orientation: 'vertical',

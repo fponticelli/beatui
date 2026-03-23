@@ -65,7 +65,7 @@ const DEFAULT_EMPTY_ICON = 'line-md:star-alt'
  * const rating = prop(3.5)
  * RatingInput({
  *   value: rating,
- *   onChange: rating.set,
+ *   onChange: v => rating.set(v),
  *   max: 5,
  *   rounding: 0.5,
  * })

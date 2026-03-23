@@ -162,7 +162,7 @@ function renderDatePicker(
  * const date = prop<PlainDate | null>(null)
  * DatePicker({
  *   value: date,
- *   onSelect: date.set,
+ *   onSelect: v => date.set(v),
  * })
  * ```
  */

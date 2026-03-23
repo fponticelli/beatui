@@ -211,7 +211,7 @@ function generateColorStyles(color: ThemeColorName): string {
  * // Simple single-value slider
  * const vol = prop(50)
  * RangeSlider({
- *   value: vol, onChange: vol.set,
+ *   value: vol, onChange: v => vol.set(v),
  *   min: 0, max: 100,
  *   showValue: true,
  * })
@@ -222,7 +222,7 @@ function generateColorStyles(color: ThemeColorName): string {
  * // Dual-thumb range selector
  * const priceRange = prop<[number, number]>([20, 80])
  * RangeSlider({
- *   range: priceRange, onRangeChange: priceRange.set,
+ *   range: priceRange, onRangeChange: v => priceRange.set(v),
  *   min: 0, max: 100,
  *   showValue: true,
  *   formatValue: v => `$${v}`,
@@ -234,7 +234,7 @@ function generateColorStyles(color: ThemeColorName): string {
  * // Multi-point slider
  * const pts = prop([10, 40, 70])
  * RangeSlider({
- *   points: pts, onPointsChange: pts.set,
+ *   points: pts, onPointsChange: v => pts.set(v),
  *   min: 0, max: 100,
  *   showValue: true,
  * })
@@ -247,7 +247,7 @@ function generateColorStyles(color: ThemeColorName): string {
  * html.div(
  *   attr.style('height: 200px'),
  *   RangeSlider({
- *     value: vol, onChange: vol.set,
+ *     value: vol, onChange: v => vol.set(v),
  *     min: 0, max: 100,
  *     orientation: 'vertical',
  *   })

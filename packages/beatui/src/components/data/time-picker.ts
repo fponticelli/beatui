@@ -403,7 +403,7 @@ function renderColumn(options: ColumnOptions): TNode {
  * const time = prop<PlainTime | null>(Temporal.PlainTime.from('14:30'))
  * TimePicker({
  *   value: time,
- *   onSelect: time.set,
+ *   onSelect: v => time.set(v),
  * })
  * ```
  */

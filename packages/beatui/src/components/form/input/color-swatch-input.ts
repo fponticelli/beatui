@@ -181,7 +181,7 @@ function generateBlobPath(rgb: [number, number, number], r: number): string {
  * const color = prop('#3498db')
  * ColorSwatchInput({
  *   value: color,
- *   onChange: color.set,
+ *   onChange: v => color.set(v),
  *   displayValue: true,
  *   swatchSize: 40,
  * })

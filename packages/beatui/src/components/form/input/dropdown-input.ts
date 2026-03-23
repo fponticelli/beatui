@@ -176,7 +176,7 @@ const DropdownOptionItem = <T>(
  * const color = prop('red')
  * DropdownInput({
  *   value: color,
- *   onChange: color.set,
+ *   onChange: v => color.set(v),
  *   options: [
  *     Option.value('red', 'Red'),
  *     Option.value('green', 'Green'),

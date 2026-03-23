@@ -52,7 +52,7 @@ export type DateSelectOptions = Merge<
  * const date = prop(Temporal.Now.plainDateISO())
  * DateSelect({
  *   value: date,
- *   onChange: date.set,
+ *   onChange: v => date.set(v),
  * })
  * ```
  */

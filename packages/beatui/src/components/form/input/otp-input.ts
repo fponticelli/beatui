@@ -97,7 +97,7 @@ function isValidChar(char: string, type: 'numeric' | 'alphanumeric'): boolean {
  * const code = prop('')
  * OtpInput({
  *   value: code,
- *   onChange: code.set,
+ *   onChange: v => code.set(v),
  *   onComplete: (v) => console.log('Code entered:', v),
  *   length: 6,
  * })

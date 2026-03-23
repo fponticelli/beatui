@@ -72,7 +72,7 @@ function generateNumberStepperClasses(
  * const qty = prop(1)
  * NumberStepper({
  *   value: qty,
- *   onChange: qty.set,
+ *   onChange: v => qty.set(v),
  *   min: 0,
  *   max: 99,
  * })

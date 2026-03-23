@@ -200,7 +200,7 @@ export default function ColorPickerPage() {
     //         attr.class('flex flex-col gap-3'),
     //         ColorPicker({
     //           value: c,
-    //           onChange: c.set,
+    //           onChange: v => c.set(v),
     //           withAlpha: true,
     //           formats: ['rgb', 'hsl'],
     //         }),
@@ -217,7 +217,7 @@ export default function ColorPickerPage() {
     //         attr.class('flex flex-col gap-3'),
     //         ColorPicker({
     //           value: c,
-    //           onChange: c.set,
+    //           onChange: v => c.set(v),
     //           formats: ['hex', 'rgb'],
     //         }),
     //         pickerPreview('', c)
@@ -233,7 +233,7 @@ export default function ColorPickerPage() {
     //         attr.class('flex flex-col gap-3'),
     //         ColorPicker({
     //           value: c,
-    //           onChange: c.set,
+    //           onChange: v => c.set(v),
     //           swatches: [
     //             '#ef4444', '#f97316', '#eab308', '#22c55e',
     //             '#3b82f6', '#8b5cf6', '#ec4899', '#000000',

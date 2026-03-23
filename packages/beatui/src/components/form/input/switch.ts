@@ -60,7 +60,7 @@ export type SwitchOptions = {
  * const enabled = prop(false)
  * Switch({
  *   value: enabled,
- *   onChange: enabled.set,
+ *   onChange: v => enabled.set(v),
  *   size: 'md',
  *   color: 'primary',
  * })

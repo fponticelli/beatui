@@ -20,7 +20,7 @@ import { CommonInputAttributes, InputOptions } from './input-options'
  * const website = prop('https://')
  * UrlInput({
  *   value: website,
- *   onChange: website.set,
+ *   onChange: v => website.set(v),
  *   placeholder: 'https://example.com',
  * })
  * ```

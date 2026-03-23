@@ -647,7 +647,10 @@ export default function DataTablePage() {
                   attr.class('flex flex-col gap-1 p-3 text-sm'),
                   html.div(
                     attr.class('flex gap-2'),
-                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    html.span(
+                      attr.class('font-medium text-gray-500'),
+                      'Email:'
+                    ),
                     MapSignal(row, r =>
                       html.span(attr.class('text-gray-800'), r.email)
                     )
@@ -710,7 +713,10 @@ export default function DataTablePage() {
                   attr.class('flex flex-col gap-1 p-3 text-sm'),
                   html.div(
                     attr.class('flex gap-2'),
-                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    html.span(
+                      attr.class('font-medium text-gray-500'),
+                      'Email:'
+                    ),
                     MapSignal(row, r =>
                       html.span(attr.class('text-gray-800'), r.email)
                     )
@@ -772,7 +778,10 @@ export default function DataTablePage() {
                   attr.class('flex flex-col gap-1 p-3 text-sm'),
                   html.div(
                     attr.class('flex gap-2'),
-                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    html.span(
+                      attr.class('font-medium text-gray-500'),
+                      'Email:'
+                    ),
                     MapSignal(row, r =>
                       html.span(attr.class('text-gray-800'), r.email)
                     )
@@ -831,7 +840,10 @@ export default function DataTablePage() {
                   attr.class('flex flex-col gap-1 p-3 text-sm'),
                   html.div(
                     attr.class('flex gap-2'),
-                    html.span(attr.class('font-medium text-gray-500'), 'Email:'),
+                    html.span(
+                      attr.class('font-medium text-gray-500'),
+                      'Email:'
+                    ),
                     MapSignal(row, r =>
                       html.span(attr.class('text-gray-800'), r.email)
                     )
@@ -975,7 +987,7 @@ export default function DataTablePage() {
                 attr.class('min-w-64'),
                 OpenDateRangeSelect({
                   value: range,
-                  onChange: range.set,
+                  onChange: v => range.set(v),
                 })
               )
             ),

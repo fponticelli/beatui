@@ -86,7 +86,7 @@ function generateGroupClasses(
  *     { key: 'right', label: 'Right' },
  *   ],
  *   value: alignment,
- *   onChange: alignment.set,
+ *   onChange: v => alignment.set(v),
  * })
  * ```
  *
@@ -101,7 +101,7 @@ function generateGroupClasses(
  *     { key: 'underline', label: 'U' },
  *   ],
  *   value: formats,
- *   onChange: formats.set,
+ *   onChange: v => formats.set(v),
  *   multiple: true,
  *   variant: 'outline',
  * })

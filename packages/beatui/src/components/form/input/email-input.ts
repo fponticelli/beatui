@@ -25,7 +25,7 @@ import { BeatUII18n } from '../../../beatui-i18n'
  * const email = prop('')
  * EmailInput({
  *   value: email,
- *   onChange: email.set,
+ *   onChange: v => email.set(v),
  * })
  * ```
  *

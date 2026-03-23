@@ -106,7 +106,7 @@ function generateRadioItemClasses(
  *     { value: 'dark', label: 'Dark Mode' },
  *   ],
  *   value: theme,
- *   onChange: theme.set,
+ *   onChange: v => theme.set(v),
  *   orientation: 'horizontal'
  * })
  * ```

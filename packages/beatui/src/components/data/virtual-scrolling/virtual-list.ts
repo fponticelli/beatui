@@ -185,39 +185,52 @@ export function VirtualList<T>({
 
   // Reactive state
   const scrollTop = prop(0)
-  // We store the rendered container height as a number for calculations.
-  // We use 400 as a reasonable default; it will be updated by scroll events.
-  const renderedContainerHeight = prop(400)
+  // Initialize from containerHeight when it's a number, otherwise use 400 as fallback.
+  // ResizeObserver will correct this once the element is laid out.
+  const initialHeight = Value.get(containerHeight)
+  const renderedContainerHeight = prop(
+    typeof initialHeight === 'number' ? initialHeight : 400
+  )
+
+  // Derive item count so cumulative heights only rebuild when length changes,
+  // not on every item data mutation.
+  const itemCount = computedOf(items)((list: T[]) => list.length)
 
   // Total height of all items (spacer size)
-  const totalHeight = computedOf(items)((itemList: T[]) => {
+  const totalHeight = computedOf(itemCount)((count: number) => {
     if (isFixedHeight) {
-      return itemList.length * (itemHeight as number)
+      return count * (itemHeight as number)
     }
     const heightFn = itemHeight as (index: number) => number
     let total = 0
-    for (let i = 0; i < itemList.length; i++) {
+    for (let i = 0; i < count; i++) {
       total += heightFn(i)
     }
     return total
   })
 
-  // Cumulative heights for variable-height mode (only computed when needed)
+  // Cumulative heights for variable-height mode (only computed when needed).
+  // Depends on itemCount, not items, since heightFn only takes index.
   const cumulativeHeights = isFixedHeight
     ? null
-    : computedOf(items)((itemList: T[]) =>
+    : computedOf(itemCount)((count: number) =>
         buildCumulativeHeights(
-          itemList.length,
+          count,
           itemHeight as (i: number) => number
         )
       )
 
   // Equality check: only re-render when the visible index range actually changes
-  const rangeEqual = (a: VisibleRange | undefined, b: VisibleRange | undefined): boolean => {
+  const rangeEqual = (
+    a: VisibleRange | undefined,
+    b: VisibleRange | undefined
+  ): boolean => {
     if (a == null || b == null) return a === b
-    return a.startIndex === b.startIndex &&
+    return (
+      a.startIndex === b.startIndex &&
       a.endIndex === b.endIndex &&
       a.offset === b.offset
+    )
   }
 
   // Compute visible range and offset
@@ -225,13 +238,13 @@ export function VirtualList<T>({
     ? computedOf(
         scrollTop,
         renderedContainerHeight,
-        items
+        itemCount
       )(
-        (st, ch, itemList) =>
+        (st, ch, count) =>
           computeFixedRange(
             st,
             ch,
-            itemList.length,
+            count,
             itemHeight as number,
             overscan
           ),
@@ -240,11 +253,11 @@ export function VirtualList<T>({
     : computedOf(
         scrollTop,
         renderedContainerHeight,
-        items,
+        itemCount,
         cumulativeHeights!
       )(
-        (st, ch, itemList, cumulative) =>
-          computeVariableRange(st, ch, itemList.length, cumulative, overscan),
+        (st, ch, count, cumulative) =>
+          computeVariableRange(st, ch, count, cumulative, overscan),
         rangeEqual
       )
 
@@ -283,28 +296,42 @@ export function VirtualList<T>({
       aria.label(t.$.virtualList.$.listLabel),
       attr.role('list'),
 
-      // Attach scroll listener and resize observer using WithElement
+      // Attach scroll listener, resize observer, and scroll clamping
       WithElement((el: HTMLElement) => {
         const handleScroll = () => {
           scrollTop.set(el.scrollTop)
         }
 
         // Capture initial dimensions
-        renderedContainerHeight.set(el.clientHeight || 400)
+        renderedContainerHeight.set(el.clientHeight || renderedContainerHeight.value)
 
         el.addEventListener('scroll', handleScroll, { passive: true })
 
         // Observe container size changes so height stays accurate
         const resizeObserver = new ResizeObserver(entries => {
           for (const entry of entries) {
-            renderedContainerHeight.set(entry.contentRect.height || 400)
+            renderedContainerHeight.set(
+              entry.contentRect.height || renderedContainerHeight.value
+            )
           }
         })
         resizeObserver.observe(el)
 
+        // Clamp scroll position when total height shrinks (e.g. items removed).
+        // After the DOM updates, el.scrollTop will be clamped by the browser;
+        // we sync our signal to match.
+        const disposeScrollClamp = Value.on(totalHeight, () => {
+          requestAnimationFrame(() => {
+            if (el.scrollTop !== scrollTop.value) {
+              scrollTop.set(el.scrollTop)
+            }
+          })
+        })
+
         return OnDispose(() => {
           el.removeEventListener('scroll', handleScroll)
           resizeObserver.disconnect()
+          disposeScrollClamp()
         })
       }),
 
@@ -321,7 +348,12 @@ export function VirtualList<T>({
 
         MapSignal(visibleItemsSignal, visibleItems =>
           Fragment(
-            ...visibleItems.map(({ item, index }) => renderItem(item, index))
+            ...visibleItems.map(({ item, index }) =>
+              html.div(
+                attr.role('listitem'),
+                renderItem(item, index)
+              )
+            )
           )
         )
       )

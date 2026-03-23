@@ -128,7 +128,7 @@ export default function OpenDateRangeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-sm'),
             OpenDateRangeSelect({
               value: r,
-              onChange: r.set,
+              onChange: v => r.set(v),
               emptyPlaceholder: 'No limit',
             }),
             html.p(
@@ -147,7 +147,7 @@ export default function OpenDateRangeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-sm'),
             OpenDateRangeSelect({
               value: r,
-              onChange: r.set,
+              onChange: v => r.set(v),
               emptyPlaceholder: 'Ongoing',
             }),
             html.p(
@@ -166,7 +166,7 @@ export default function OpenDateRangeSelectPage() {
             attr.class('flex flex-col gap-3 max-w-sm'),
             OpenDateRangeSelect({
               value: r,
-              onChange: r.set,
+              onChange: v => r.set(v),
               emptyPlaceholder: 'Any',
             }),
             html.p(
