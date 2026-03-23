@@ -54,9 +54,7 @@ export const App = () => {
             Page()
           ),
         '/spotlight': () =>
-          Async(import('./pages/spotlight'), ({ default: Page }) =>
-            Page()
-          ),
+          Async(import('./pages/spotlight'), ({ default: Page }) => Page()),
         '/block-command-palette': () =>
           Async(import('./pages/block-command-palette'), ({ default: Page }) =>
             Page()

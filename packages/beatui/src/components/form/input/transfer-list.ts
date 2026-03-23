@@ -190,18 +190,16 @@ export function TransferList<T>(options: TransferListOptions<T>): TNode {
           attr.class('bc-transfer-list__panel-header'),
           html.span(attr.class('bc-transfer-list__panel-title'), label)
         ),
-        When(
-          searchable,
-          () =>
-            html.div(
-              attr.class('bc-transfer-list__search'),
-              TextInput({
-                value: search,
-                onInput: v => search.set(v),
-                placeholder: searchPlaceholder,
-                size: 'xs',
-              })
-            )
+        When(searchable, () =>
+          html.div(
+            attr.class('bc-transfer-list__search'),
+            TextInput({
+              value: search,
+              onInput: v => search.set(v),
+              placeholder: searchPlaceholder,
+              size: 'xs',
+            })
+          )
         ),
         html.div(
           attr.class('bc-transfer-list__items'),

@@ -91,10 +91,7 @@ export default function SpotlightPage() {
         html.div(
           attr.style('padding: 20px 0; display: flex; justify-content: center'),
           Spotlight({ items: sampleCommands, size: 'md' }, ctrl =>
-            Button(
-              { variant: 'filled', onClick: ctrl.open },
-              'Open Spotlight'
-            )
+            Button({ variant: 'filled', onClick: ctrl.open }, 'Open Spotlight')
           )
         )
       )

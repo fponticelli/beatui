@@ -215,10 +215,7 @@ export function VirtualList<T>({
   const cumulativeHeights = isFixedHeight
     ? null
     : computedOf(itemCount)((count: number) =>
-        buildCumulativeHeights(
-          count,
-          itemHeight as (i: number) => number
-        )
+        buildCumulativeHeights(count, itemHeight as (i: number) => number)
       )
 
   // Equality check: only re-render when the visible index range actually changes
@@ -243,13 +240,7 @@ export function VirtualList<T>({
         overscan
       )(
         (st, ch, count, os) =>
-          computeFixedRange(
-            st,
-            ch,
-            count,
-            itemHeight as number,
-            os
-          ),
+          computeFixedRange(st, ch, count, itemHeight as number, os),
         rangeEqual
       )
     : computedOf(
@@ -306,7 +297,9 @@ export function VirtualList<T>({
         }
 
         // Capture initial dimensions
-        renderedContainerHeight.set(el.clientHeight || renderedContainerHeight.value)
+        renderedContainerHeight.set(
+          el.clientHeight || renderedContainerHeight.value
+        )
 
         el.addEventListener('scroll', handleScroll, { passive: true })
 
@@ -352,10 +345,7 @@ export function VirtualList<T>({
         MapSignal(visibleItemsSignal, visibleItems =>
           Fragment(
             ...visibleItems.map(({ item, index }) =>
-              html.div(
-                attr.role('listitem'),
-                renderItem(item, index)
-              )
+              html.div(attr.role('listitem'), renderItem(item, index))
             )
           )
         )
