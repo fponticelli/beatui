@@ -9,7 +9,7 @@ export function NotFoundPage() {
       attr.class('h-full items-center justify-center gap-4 p-8'),
       Icon({ icon: 'lucide:search-x', size: 'xl' }),
       html.h1(
-        attr.class('text-7xl font-extrabold bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent'),
+        attr.class('not-found-title text-7xl font-extrabold bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent'),
         '404'
       ),
       html.p(

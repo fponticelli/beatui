@@ -23,7 +23,7 @@ export function ComponentPage(
   const cm = componentMeta[meta.component]
   // Build the API link — most components are in the "main" module
   const apiModule = meta.apiModule ?? 'main'
-  const apiSymbol = meta.component + 'Options'
+  const apiSymbol = meta.component
 
   return ScrollablePanel({
     body: Stack(

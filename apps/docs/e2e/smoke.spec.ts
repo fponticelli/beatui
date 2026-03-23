@@ -49,7 +49,7 @@ test.describe('Smoke tests @smoke', () => {
 
   test('404 page renders for unknown routes', async ({ page }) => {
     await page.goto('/this-does-not-exist')
-    await expect(page.locator('text=404')).toBeVisible()
+    await expect(page.locator('.not-found-title')).toBeVisible()
   })
 
   test('breadcrumbs update on navigation', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe('Guide pages load @smoke', () => {
       // Every guide page should have an h1
       await expect(page.locator('h1').first()).toBeVisible({ timeout: 15_000 })
       // No uncaught errors — page should not show the 404
-      await expect(page.locator('text=404')).not.toBeVisible()
+      await expect(page.locator('.not-found-title')).not.toBeVisible()
     })
   }
 })
@@ -83,7 +83,7 @@ test.describe('Component pages load @smoke', () => {
       // Every component page should have the component name as heading
       await expect(page.locator('h1').first()).toBeVisible({ timeout: 15_000 })
       // Should not be a 404
-      await expect(page.locator('text=404')).not.toBeVisible()
+      await expect(page.locator('.not-found-title')).not.toBeVisible()
     })
   }
 })

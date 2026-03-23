@@ -1,0 +1,25 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "../../packages/beatui/src/index.ts",
+    "../../packages/beatui/src/auth/index.ts",
+    "../../packages/beatui/src/better-auth/index.ts",
+    "../../packages/beatui/src/json-schema/index.ts",
+    "../../packages/beatui/src/json-schema-display/index.ts",
+    "../../packages/beatui/src/json-structure/index.ts",
+    "../../packages/beatui/src/monaco/index.ts",
+    "../../packages/beatui/src/markdown/index.ts",
+    "../../packages/beatui/src/prosemirror/index.ts",
+    "../../packages/beatui/src/lexical/index.ts",
+    "../../packages/beatui/src/tailwind/index.ts"
+  ],
+  "entryPointStrategy": "resolve",
+  "json": "./public/api.json",
+  "pretty": false,
+  "skipErrorChecking": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "tsconfig": "../../packages/beatui/tsconfig.json",
+  "gitRevision": "main",
+  "sourceLinkTemplate": "https://github.com/fponticelli/beatui/blob/{gitRevision}/{path}#L{line}"
+}
