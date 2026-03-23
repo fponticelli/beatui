@@ -12,7 +12,7 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { AlphaChannelPicker, ChannelPicker, ColorField } from './channel-picker'
-import { drawHueCanvas } from './canvas-draw'
+import { drawHueCanvas, drawCheckerboard } from './canvas-draw'
 import { withColor } from '@tempots/std/color-channel'
 import { Color, colorToString, type HSLA } from '@tempots/std/color'
 import { roundTo } from '@tempots/std'
@@ -217,15 +217,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
                 if (width === 0 || height === 0) return
 
                 if (color.value.alpha < 1) {
-                  for (let y = 0; y < height; y += checkerPatternSize) {
-                    for (let x = 0; x < width; x += checkerPatternSize) {
-                      ctx.fillStyle =
-                        (x + y) % (checkerPatternSize * 2) < checkerPatternSize
-                          ? '#ccc'
-                          : '#fff'
-                      ctx.fillRect(x, y, checkerPatternSize, checkerPatternSize)
-                    }
-                  }
+                  drawCheckerboard(ctx, width, height, checkerPatternSize)
                 }
 
                 ctx.fillStyle = colorToString(color.value)

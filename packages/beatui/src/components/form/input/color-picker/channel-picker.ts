@@ -1,5 +1,4 @@
 import {
-  and,
   attr,
   Renderable,
   Value,
@@ -13,7 +12,6 @@ import {
   Prop,
   Fragment,
   on,
-  not,
   When,
   effectOf,
   Ensure,
@@ -23,6 +21,7 @@ import { NumberInput } from '../number-input'
 import { ElementRect } from '@tempots/ui'
 import { Label } from '../../../typography'
 import { Color, colorToString, withColor } from '@tempots/std'
+import { drawCheckerboard } from './canvas-draw'
 
 export interface RenderOptions {
   canvas: HTMLCanvasElement
@@ -89,7 +88,7 @@ export function ChannelPicker(options: ChannelPickerOptions): Renderable {
   const mouseDown = prop(false)
   let canvasElement: HTMLCanvasElement | null = null
 
-  function handleMouseEvent(e: MouseEvent, force?: boolean) {
+  function handlePointerEvent(e: PointerEvent, force?: boolean) {
     if ((!Value.get(mouseDown) && !force) || Value.get(disabled)) return
     const rect = canvasElement?.getBoundingClientRect()
     if (!rect) return
@@ -115,16 +114,18 @@ export function ChannelPicker(options: ChannelPickerOptions): Renderable {
         attr.class('bc-color-picker__canvas'),
         attr.width(Value.map(stripSize.$.w, String)),
         attr.height(Value.map(stripSize.$.h, String)),
-        on.mousedown(e => {
-          handleMouseEvent(e, true)
+        on.pointerdown(e => {
+          const ev = e as unknown as PointerEvent
+          ;(ev.target as HTMLElement).setPointerCapture(ev.pointerId)
           mouseDown.set(true)
+          handlePointerEvent(ev, true)
         }),
-        When(mouseDown, () =>
-          Fragment(
-            on.document.mouseup(() => mouseDown.set(false)),
-            on.document.mousemove(e => handleMouseEvent(e))
-          )
-        ),
+        on.pointerup(e => {
+          const ev = e as unknown as PointerEvent
+          ;(ev.target as HTMLElement).releasePointerCapture(ev.pointerId)
+          mouseDown.set(false)
+        }),
+        on.pointermove(e => handlePointerEvent(e as unknown as PointerEvent)),
         WithElement((canvas: HTMLCanvasElement) => {
           canvasElement = canvas
           const ctx = canvas.getContext('2d')
@@ -213,17 +214,7 @@ export function AlphaChannelPicker(
     onChange: emitOn(onChange),
     onInput: emitOn(onInput),
     draw: ({ ctx, width, height }) => {
-      // draw checkerboard
-      const checkerboardSize = height / 2
-      for (let y = 0; y < height; y += checkerboardSize) {
-        for (let x = 0; x < width; x += checkerboardSize) {
-          ctx.fillStyle =
-            (x + y) % (checkerboardSize * 2) < checkerboardSize
-              ? '#ccc'
-              : '#fff'
-          ctx.fillRect(x, y, checkerboardSize, checkerboardSize)
-        }
-      }
+      drawCheckerboard(ctx, width, height, height / 2)
       const grad = ctx.createLinearGradient(0, 0, width, 0)
       const start = colorToString(withColor(color.value, { alpha: 0 }))
       const end = colorToString(withColor(color.value, { alpha: 1 }))
@@ -266,7 +257,7 @@ export function ColorField(options: ColorFieldOptions): Renderable {
   const deps = [...(dependencies ?? []), size]
   let canvasElement: HTMLCanvasElement | null = null
 
-  function handleMouseEvent(e: MouseEvent, force?: boolean) {
+  function handlePointerEvent(e: PointerEvent, force?: boolean) {
     if ((!Value.get(mouseDown) && !force) || Value.get(disabled)) return
     const rect = canvasElement?.getBoundingClientRect()
     if (!rect) return
@@ -292,16 +283,18 @@ export function ColorField(options: ColorFieldOptions): Renderable {
       }),
       Ensure(handlePosition as NillifyValue<{ x: number; y: number }>, () =>
         Fragment(
-          on.mousedown(e => {
+          on.pointerdown(e => {
+            const ev = e as unknown as PointerEvent
+            ;(ev.target as HTMLElement).setPointerCapture(ev.pointerId)
             mouseDown.set(true)
-            handleMouseEvent(e, true)
+            handlePointerEvent(ev, true)
           }),
-          When(and(mouseDown, not(disabled)), () =>
-            Fragment(
-              on.document.mouseup(() => mouseDown.set(false)),
-              on.document.mousemove(e => handleMouseEvent(e))
-            )
-          )
+          on.pointerup(e => {
+            const ev = e as unknown as PointerEvent
+            ;(ev.target as HTMLElement).releasePointerCapture(ev.pointerId)
+            mouseDown.set(false)
+          }),
+          on.pointermove(e => handlePointerEvent(e as unknown as PointerEvent))
         )
       ),
       WithElement((canvas: HTMLCanvasElement) => {
