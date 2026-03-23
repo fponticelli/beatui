@@ -2,7 +2,6 @@ import {
   aria,
   attr,
   computedOf,
-  Empty,
   html,
   on,
   TNode,
@@ -19,7 +18,7 @@ export type NumberStepperOrientation = 'horizontal' | 'vertical'
 
 /** Configuration options for the {@link NumberStepper} component. */
 export interface NumberStepperOptions {
-  /** The current numeric value. */
+  /** The current numeric value.  @default 1*/
   value: Value<number>
   /** Callback invoked when the value changes. */
   onChange: (value: number) => void
@@ -93,21 +92,21 @@ export function NumberStepper(options: NumberStepperOptions): TNode {
 
   return Use(BeatUII18n, t => {
     const canDecrement = computedOf(
+      min,
       value,
       disabled
-    )((v, dis) => {
+    )((minVal, v, dis) => {
       if (dis) return false
-      const minVal = min != null ? Value.get(min) : undefined
       if (minVal != null) return v > minVal
       return true
     })
 
     const canIncrement = computedOf(
+      max,
       value,
       disabled
-    )((v, dis) => {
+    )((maxVal, v, dis) => {
       if (dis) return false
-      const maxVal = max != null ? Value.get(max) : undefined
       if (maxVal != null) return v < maxVal
       return true
     })
@@ -159,7 +158,9 @@ export function NumberStepper(options: NumberStepperOptions): TNode {
     ) =>
       html.button(
         attr.type('button'),
-        attr.class(`bc-number-stepper__button bc-number-stepper__button--${modifier}`),
+        attr.class(
+          `bc-number-stepper__button bc-number-stepper__button--${modifier}`
+        ),
         attr.disabled(Value.map(canAct, c => !c)),
         aria.label(label),
         on.click(e => {
@@ -175,8 +176,8 @@ export function NumberStepper(options: NumberStepperOptions): TNode {
       ),
       attr.role('group'),
       aria.label(t.$.numberStepper.$.value),
-      min != null ? aria.valuemin(min) : Empty,
-      max != null ? aria.valuemax(max) : Empty,
+      aria.valuemin(min),
+      aria.valuemax(max),
       aria.valuenow(value),
       // Decrement button
       makeButton(
