@@ -195,6 +195,8 @@ export interface AlphaChannelPickerOptions {
   dependencies?: (Signal<any> | Prop<never>)[]
   /** Whether disabled. @default false */
   disabled?: Value<boolean>
+  /** Label for the alpha channel. @default 'Alpha' */
+  label?: Value<string>
 }
 
 const emitOn = (fn?: (value: number) => void) => {
@@ -207,9 +209,9 @@ const emitOn = (fn?: (value: number) => void) => {
 export function AlphaChannelPicker(
   options: AlphaChannelPickerOptions
 ): Renderable {
-  const { value, color, onChange, onInput, dependencies, disabled } = options
+  const { value, color, onChange, onInput, dependencies, disabled, label = 'Alpha' } = options
   return ChannelPicker({
-    label: 'Alpha',
+    label,
     value,
     onChange: emitOn(onChange),
     onInput: emitOn(onInput),

@@ -1,6 +1,7 @@
 import {
   attr,
   Renderable,
+  Use,
   Value,
   html,
   When,
@@ -16,6 +17,7 @@ import { drawHueCanvas, drawCheckerboard } from './canvas-draw'
 import { withColor } from '@tempots/std/color-channel'
 import { Color, colorToString, type HSLA } from '@tempots/std/color'
 import { roundTo } from '@tempots/std'
+import { BeatUII18n } from '../../../../beatui-i18n'
 
 export interface HslColorPickerOptions {
   value: Value<HSLA>
@@ -68,7 +70,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
     }
   }
 
-  return html.div(
+  return Use(BeatUII18n, t => html.div(
     attr.class('bc-color-picker__container'),
 
     ColorField({
@@ -122,7 +124,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           attr.class('bc-color-picker__channels'),
           // Hue channel
           ChannelPicker({
-            label: 'Hue',
+            label: t.$.colorPicker.$.hue,
             value: hue,
 
             onChange: emitOn('h', onChange),
@@ -136,7 +138,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           }),
           // Saturation channel
           ChannelPicker({
-            label: 'Saturation',
+            label: t.$.colorPicker.$.saturation,
             value: sat,
             onChange: emitOn('s', onChange, fromPercent),
             onInput: emitOn('s', onInput, fromPercent),
@@ -158,7 +160,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           }),
           // Lightness channel
           ChannelPicker({
-            label: 'Lightness',
+            label: t.$.colorPicker.$.lightness,
             value: lig,
             onChange: emitOn('l', onChange, fromPercent),
             onInput: emitOn('l', onInput, fromPercent),
@@ -182,6 +184,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           }),
           When(withAlpha, () =>
             AlphaChannelPicker({
+              label: t.$.colorPicker.$.alpha,
               value: alpha,
               color: color as Signal<Color>,
               onChange: emitOn('alpha', onChange, fromPercent),
@@ -228,5 +231,5 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
         )
       })
     )
-  )
+  ))
 }

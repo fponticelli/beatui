@@ -39,16 +39,6 @@
   cursor: crosshair;
 }
 
-/* Saturation/Lightness area */
-.bc-color-picker__saturation-wrap {
-  position: relative;
-  width: 260px;
-  height: 160px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  cursor: crosshair;
-}
-
 .bc-color-picker__cursor {
   position: absolute;
   width: 13px;
@@ -64,12 +54,11 @@
   position: relative;
   width: 100%;
   height: var(--spacing-lg);
-  border-radius: var(--radius-full);
   cursor: pointer;
 }
 
 .bc-color-picker__strip-wrap .bc-color-picker__canvas {
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
 }
 
 /* Handle on strips */
@@ -173,6 +162,7 @@
 
 .bc-color-picker__label {
   text-align: right;
+  font-size: var(--font-size-sm);
 }
 
 /* Channel strips (used by format-specific panels) */
@@ -234,22 +224,6 @@
 .bc-color-picker__inputs {
   display: flex;
   gap: var(--spacing-xs);
-}
-
-.bc-color-picker__input-num,
-.bc-color-picker__input-text {
-  width: 100%;
-  border: var(--border-width-thin) solid var(--border-default);
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-2xs) var(--spacing-xs);
-  font-size: var(--font-size-xs);
-  font-family: inherit;
-  font-variant-numeric: tabular-nums;
-  text-align: center;
-  background-color: var(--bg-background);
-  color: var(--text-normal);
-  outline: none;
-  box-sizing: border-box;
 }
 
 .bc-color-picker__input-num:focus,
