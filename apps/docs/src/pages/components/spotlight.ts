@@ -1,21 +1,20 @@
-import { Spotlight } from '@tempots/beatui'
+import { Spotlight, Button, Icon } from '@tempots/beatui'
 import type { SpotlightItem } from '@tempots/beatui'
-import { html, attr, prop } from '@tempots/dom'
-import { ComponentPage, Section } from '../../framework'
+import { html, attr, Value } from '@tempots/dom'
+import { ComponentPage, manualPlayground, Section } from '../../framework'
 import type { ComponentPageMeta } from '../../framework/types'
-import { Button, Icon } from '@tempots/beatui'
 
 export const meta: ComponentPageMeta = {
   name: 'Spotlight',
   category: 'Overlays',
   component: 'Spotlight',
   description:
-    'A unified search and command palette overlay with fuzzy search, section grouping, recent items, and a global hotkey (Mod+K).',
+    'A searchable command/search overlay with fuzzy search, keyboard navigation, section grouping, recent items, and a global hotkey.',
   icon: 'lucide:search',
-  order: 13,
+  order: 7,
 }
 
-const sampleItems: SpotlightItem[] = [
+const sampleCommands: SpotlightItem[] = [
   {
     id: 'new-file',
     label: 'New File',
@@ -23,7 +22,6 @@ const sampleItems: SpotlightItem[] = [
     icon: 'lucide:file-plus',
     section: 'File',
     shortcut: ['Ctrl', 'N'],
-    keywords: ['create', 'blank', 'new'],
     onSelect: () => console.log('new file'),
   },
   {
@@ -69,48 +67,35 @@ const sampleItems: SpotlightItem[] = [
     section: 'Application',
     onSelect: () => console.log('theme'),
   },
-  {
-    id: 'docs',
-    label: 'Documentation',
-    description: 'View component documentation',
-    icon: 'lucide:book-open',
-    section: 'Help',
-    keywords: ['help', 'guide', 'reference'],
-    onSelect: () => console.log('docs'),
-  },
 ]
-
-const recentItems: SpotlightItem[] = [sampleItems[4], sampleItems[0]]
 
 export default function SpotlightPage() {
   return ComponentPage(meta, {
-    playground: Spotlight(
-      {
-        items: sampleItems,
-        recentItems: prop(recentItems),
-        hotkey: 'mod+k',
-      },
-      ctrl =>
-        Button(
-          {
-            variant: 'outline',
-            onClick: ctrl.open,
-          },
-          Icon({ icon: 'lucide:search', size: 'sm' }),
-          'Open Spotlight',
-          html.span(
-            attr.class('ml-auto pl-4 flex gap-1'),
-            html.kbd(attr.class('bc-kbd bc-kbd--size-xs'), 'Ctrl'),
-            html.kbd(attr.class('bc-kbd bc-kbd--size-xs'), 'K')
+    playground: manualPlayground('Spotlight', signals =>
+      Spotlight(
+        {
+          items: sampleCommands,
+          placeholder: signals.placeholder as Value<string>,
+          emptyMessage: signals.emptyMessage as Value<string>,
+          size: signals.size as Value<'sm' | 'md' | 'lg'>,
+        },
+        ctrl =>
+          Button(
+            {
+              variant: 'outline',
+              onClick: ctrl.open,
+            },
+            Icon({ icon: 'lucide:search', size: 'sm' }),
+            'Open Spotlight'
           )
-        )
+      )
     ),
     sections: [
       Section(
         'Basic Usage',
         () =>
           Spotlight(
-            { items: sampleItems },
+            { items: sampleCommands },
             ctrl =>
               Button(
                 {
@@ -118,27 +103,11 @@ export default function SpotlightPage() {
                   color: 'primary',
                   onClick: ctrl.open,
                 },
-                Icon({ icon: 'lucide:search', size: 'sm' }),
+                Icon({ icon: 'lucide:terminal', size: 'sm' }),
                 'Open Spotlight'
               )
           ),
         'Click the button or press Ctrl+K to open the spotlight. Type to fuzzy-search commands.'
-      ),
-      Section(
-        'With Recent Items',
-        () =>
-          Spotlight(
-            {
-              items: sampleItems,
-              recentItems: prop(recentItems),
-            },
-            ctrl =>
-              Button(
-                { variant: 'outline', onClick: ctrl.open },
-                'Open with Recent Items'
-              )
-          ),
-        'When the search query is empty, a "Recent" section is shown at the top with the provided recentItems.'
       ),
       Section(
         'Sizes',
@@ -147,49 +116,36 @@ export default function SpotlightPage() {
             attr.class('flex flex-wrap gap-3'),
             ...(['sm', 'md', 'lg'] as const).map(size =>
               Spotlight(
-                { items: sampleItems, size },
+                { items: sampleCommands, size },
                 ctrl =>
                   Button(
-                    { variant: 'outline', size, onClick: ctrl.open },
+                    {
+                      variant: 'outline',
+                      size,
+                      onClick: ctrl.open,
+                    },
                     `${size.toUpperCase()} spotlight`
                   )
               )
             )
           ),
-        'The spotlight comes in three sizes: sm, md (default), and lg.'
+        'The spotlight comes in three sizes.'
       ),
       Section(
         'Custom Placeholder',
         () =>
           Spotlight(
-            {
-              items: sampleItems,
-              placeholder: 'Search actions, files, and more...',
-              emptyMessage: 'Nothing matched your search.',
-            },
+            { items: sampleCommands, placeholder: 'Search actions...' },
             ctrl =>
               Button(
-                { variant: 'light', onClick: ctrl.open },
+                {
+                  variant: 'light',
+                  onClick: ctrl.open,
+                },
                 'Custom Placeholder'
               )
           ),
-        'Customize the search input placeholder and the empty state message.'
-      ),
-      Section(
-        'With Keywords (Fuzzy Search)',
-        () =>
-          Spotlight(
-            {
-              items: sampleItems,
-              placeholder: 'Try searching "help" or "crt"...',
-            },
-            ctrl =>
-              Button(
-                { variant: 'subtle', onClick: ctrl.open },
-                'Fuzzy Search Demo'
-              )
-          ),
-        'Items are matched using fuzzy search across label, description, and keywords. Try typing "help" to find Documentation (matched via keyword), or "crt" to find items with those letters in order.'
+        'Customize the search input placeholder text.'
       ),
     ],
   })

@@ -114,10 +114,10 @@ export const widgets: WidgetMeta[] = [
 
   // Dialogs
   {
-    id: 'command-palette',
-    label: 'Command Palette',
+    id: 'spotlight',
+    label: 'Spotlight',
     category: 'Dialogs',
-    route: '/command-palette',
+    route: '/spotlight',
   },
   {
     id: 'notification-panel',

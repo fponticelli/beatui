@@ -36,7 +36,9 @@ export interface SpotlightItem {
 export interface SpotlightOptions {
   items: Value<SpotlightItem[]>
   onSelect?: (item: SpotlightItem) => void
+  /** @default 'Search' */
   placeholder?: Value<string>
+  /** @default 'No results' */
   emptyMessage?: Value<string>
   /** @default 'md' */
   size?: Value<'sm' | 'md' | 'lg'>
@@ -45,6 +47,8 @@ export interface SpotlightOptions {
   hotkey?: string
   /** @default 'body' */
   container?: 'body' | 'element'
+  /** Overlay backdrop effect. @default 'opaque' */
+  overlayEffect?: 'opaque' | 'transparent'
 }
 
 export interface SpotlightController {
@@ -197,6 +201,7 @@ export function createSpotlight(
     recentItems,
     hotkey = 'mod+k',
     container = 'body',
+    overlayEffect = 'opaque',
   } = options
 
   const isOpen = prop(false)
@@ -432,7 +437,7 @@ export function createSpotlight(
 
         openOverlay({
           mode: 'capturing',
-          effect: 'opaque',
+          effect: overlayEffect,
           container,
           content,
           onClickOutside: () => {

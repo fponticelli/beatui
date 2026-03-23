@@ -265,6 +265,27 @@ describe('Spotlight', () => {
       expect(node).toBeDefined()
     })
 
+    it('should accept overlayEffect option', () => {
+      const items = prop(sampleItems)
+      const [node] = createSpotlight(
+        { items, overlayEffect: 'transparent' },
+        () => 'trigger'
+      )
+
+      render(BeatUI({}, node), container)
+
+      expect(node).toBeDefined()
+    })
+
+    it('should default overlayEffect to opaque', () => {
+      const items = prop(sampleItems)
+      const [node] = createSpotlight({ items }, () => 'trigger')
+
+      render(BeatUI({}, node), container)
+
+      expect(node).toBeDefined()
+    })
+
     it('should call onSelect callback when item is selected', () => {
       const onSelect = vi.fn()
       const items = prop(sampleItems)

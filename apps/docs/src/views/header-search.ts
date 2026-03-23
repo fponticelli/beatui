@@ -1,11 +1,11 @@
-import { html, attr, OnDispose } from '@tempots/dom'
+import { html, attr, prop } from '@tempots/dom'
 import {
-  CommandPalette,
-  CommandPaletteItem,
+  Spotlight,
   Kbd,
   Button,
   Icon,
 } from '@tempots/beatui'
+import type { SpotlightItem } from '@tempots/beatui'
 import { NavigationService } from '@tempots/ui'
 import { loadSearchIndex } from '../search/search-index'
 import type { SearchEntry } from '../search/search-index'
@@ -34,68 +34,63 @@ function iconForEntry(entry: SearchEntry): string {
   return API_ICON[entry.icon] ?? 'lucide:code-2'
 }
 
-let cachedItems: CommandPaletteItem[] | null = null
+const items = prop<SpotlightItem[]>([])
+let loaded = false
 
-async function buildItems(): Promise<CommandPaletteItem[]> {
-  if (cachedItems) return cachedItems
-  const index = await loadSearchIndex()
-  cachedItems = index.map(entry => ({
-    id: `${entry.type}:${entry.url}`,
-    label: entry.name,
-    description: entry.description,
-    section: entry.category,
-    icon: iconForEntry(entry),
-    onSelect: () => {
-      NavigationService.navigate(entry.url, {
-        viewTransition: true,
-      })
-    },
-  }))
-  return cachedItems
+function ensureItems() {
+  if (loaded) return
+  loaded = true
+  loadSearchIndex().then(index => {
+    items.set(
+      index.map(entry => ({
+        id: `${entry.type}:${entry.url}`,
+        label: entry.name,
+        description: entry.description,
+        section: entry.category,
+        icon: iconForEntry(entry),
+        onSelect: () => {
+          NavigationService.navigate(entry.url, {
+            viewTransition: true,
+          })
+        },
+      }))
+    )
+  })
 }
 
 export function HeaderSearch() {
-  return CommandPalette(
-    { placeholder: 'Search components & API...', size: 'lg' },
-    open => {
-      const trigger = () => {
-        buildItems().then(items => open(items))
-      }
+  ensureItems()
 
-      const handleKeydown = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-          e.preventDefault()
-          trigger()
-        }
-      }
-      document.addEventListener('keydown', handleKeydown)
-
-      return html.div(
-        OnDispose(() => document.removeEventListener('keydown', handleKeydown)),
-        Button(
-          {
-            variant: 'default',
-            size: 'md',
-            onClick: trigger,
-          },
-          attr.class('gap-2'),
-          Icon({
-            icon: 'mdi:magnify',
-            size: 'sm',
-            accessibility: 'decorative',
-          }),
-          html.span(
-            attr.class(
-              'text-gray-600 dark:text-gray-400 text-xs hidden sm:inline min-w-24 text-left'
-            ),
-            'Search ...'
+  return Spotlight(
+    {
+      items,
+      placeholder: 'Search components & API...',
+      size: 'lg',
+      hotkey: 'mod+k',
+    },
+    ctrl =>
+      Button(
+        {
+          variant: 'default',
+          size: 'md',
+          onClick: ctrl.open,
+        },
+        attr.class('gap-2'),
+        Icon({
+          icon: 'mdi:magnify',
+          size: 'sm',
+          accessibility: 'decorative',
+        }),
+        html.span(
+          attr.class(
+            'text-gray-600 dark:text-gray-400 text-xs hidden sm:inline min-w-24 text-left'
           ),
-          html.span(
-            attr.class('hidden sm:inline [&_.bc-kbd]:text-gray-600'),
-            Kbd({ size: 'xs' }, '\u2318K')
-          )
+          'Search ...'
+        ),
+        html.span(
+          attr.class('hidden sm:inline [&_.bc-kbd]:text-gray-600'),
+          Kbd({ size: 'xs' }, '\u2318K')
         )
       )
-    }
   )
 }

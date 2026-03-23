@@ -53,8 +53,8 @@ export const App = () => {
           Async(import('./pages/floating-toolbar'), ({ default: Page }) =>
             Page()
           ),
-        '/command-palette': () =>
-          Async(import('./pages/command-palette'), ({ default: Page }) =>
+        '/spotlight': () =>
+          Async(import('./pages/spotlight'), ({ default: Page }) =>
             Page()
           ),
         '/block-command-palette': () =>

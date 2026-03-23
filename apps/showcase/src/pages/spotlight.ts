@@ -1,9 +1,10 @@
 import { html, attr } from '@tempots/dom'
-import { CommandPalette, CommandPaletteItem, Button } from '@tempots/beatui'
+import { Spotlight, Button } from '@tempots/beatui'
+import type { SpotlightItem } from '@tempots/beatui'
 import { WidgetPage } from '../views/widget-page'
 import { SectionBlock } from '../views/section'
 
-const sampleCommands: CommandPaletteItem[] = [
+const sampleCommands: SpotlightItem[] = [
   {
     id: 'new-file',
     label: 'New File',
@@ -78,21 +79,21 @@ const sampleCommands: CommandPaletteItem[] = [
   },
 ]
 
-export default function CommandPalettePage() {
+export default function SpotlightPage() {
   return WidgetPage({
-    id: 'command-palette',
-    title: 'Command Palette',
-    description: 'Searchable command palette for quick actions.',
+    id: 'spotlight',
+    title: 'Spotlight',
+    description: 'Searchable spotlight for quick actions with fuzzy search.',
     body: html.div(
       attr.style('display: flex; flex-direction: column; gap: 4px'),
       SectionBlock(
         'Default',
         html.div(
           attr.style('padding: 20px 0; display: flex; justify-content: center'),
-          CommandPalette({ size: 'md' }, (open, _close) =>
+          Spotlight({ items: sampleCommands, size: 'md' }, ctrl =>
             Button(
-              { variant: 'filled', onClick: () => open(sampleCommands) },
-              'Open Command Palette'
+              { variant: 'filled', onClick: ctrl.open },
+              'Open Spotlight'
             )
           )
         )
