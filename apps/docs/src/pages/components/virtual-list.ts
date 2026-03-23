@@ -236,7 +236,7 @@ export default function VirtualListPage() {
                 ),
             })
           ),
-        'Overscan is set at mount time (not reactive). Higher values reduce blank flicker during fast scrolling at the cost of more DOM nodes.'
+        'Higher overscan values reduce blank flicker during fast scrolling at the cost of more DOM nodes.'
       ),
     ],
   })

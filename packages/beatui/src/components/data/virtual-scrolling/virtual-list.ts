@@ -50,7 +50,7 @@ export interface VirtualListOptions<T> {
    *
    * @default 5
    */
-  overscan?: number
+  overscan?: Value<number>
   /**
    * The height of the scroll container. Can be a pixel number (e.g. 400) or
    * a CSS string (e.g. '100%', '50vh').
@@ -177,11 +177,12 @@ export function VirtualList<T>({
   items,
   renderItem,
   itemHeight,
-  overscan = 5,
+  overscan: overscanOpt = 5,
   containerHeight,
   class: className,
 }: VirtualListOptions<T>): TNode {
   const isFixedHeight = typeof itemHeight === 'number'
+  const overscan: Value<number> = overscanOpt
 
   // Reactive state
   const scrollTop = prop(0)
@@ -238,15 +239,16 @@ export function VirtualList<T>({
     ? computedOf(
         scrollTop,
         renderedContainerHeight,
-        itemCount
+        itemCount,
+        overscan
       )(
-        (st, ch, count) =>
+        (st, ch, count, os) =>
           computeFixedRange(
             st,
             ch,
             count,
             itemHeight as number,
-            overscan
+            os
           ),
         rangeEqual
       )
@@ -254,10 +256,11 @@ export function VirtualList<T>({
         scrollTop,
         renderedContainerHeight,
         itemCount,
-        cumulativeHeights!
+        cumulativeHeights!,
+        overscan
       )(
-        (st, ch, count, cumulative) =>
-          computeVariableRange(st, ch, count, cumulative, overscan),
+        (st, ch, count, cumulative, os) =>
+          computeVariableRange(st, ch, count, cumulative, os),
         rangeEqual
       )
 
