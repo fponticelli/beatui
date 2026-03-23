@@ -1,4 +1,3 @@
-export * from './color'
 export * from './delay-signal'
 export * from './download'
 export * from './focus-trap'

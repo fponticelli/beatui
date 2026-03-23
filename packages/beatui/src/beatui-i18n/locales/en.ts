@@ -357,6 +357,74 @@ const en = {
   timeSelectTime: 'Select time',
   // Date time select
   dateTimeSelectDateTime: 'Select date and time',
+  // Color picker
+  colorPicker: {
+    hue: 'Hue',
+    saturation: 'Saturation',
+    lightness: 'Lightness',
+    alpha: 'Alpha',
+    red: 'Red',
+    green: 'Green',
+    blue: 'Blue',
+    hex: 'Hex',
+    whiteness: 'Whiteness',
+    blackness: 'Blackness',
+    chroma: 'Chroma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Search...',
+    noResults: 'No results found',
+    recentItems: 'Recent',
+    close: 'Close',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Scrollable list',
+  },
+  // Stepper
+  stepper: {
+    step: 'Step',
+    stepOfTotal: (current: number, total: number) =>
+      `Step ${current} of ${total}`,
+    completed: 'Completed',
+    next: 'Next',
+    previous: 'Previous',
+    complete: 'Complete',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Drag to reorder',
+    dropIndicator: 'Drop here',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Available',
+    selected: 'Selected',
+    moveRight: 'Move to selected',
+    moveLeft: 'Move to available',
+    moveAllRight: 'Move all to selected',
+    moveAllLeft: 'Move all to available',
+    searchAvailable: 'Search available',
+    searchSelected: 'Search selected',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Copied!',
+    copyToClipboard: 'Copy to clipboard',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Increment',
+    decrement: 'Decrement',
+    value: 'Value',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Trending up',
+    trendDown: 'Trending down',
+    trendFlat: 'No change',
+  },
   // OTP input
   otpInputLabel: 'One-time password input',
   otpDigitLabel: (index: number, total: number) => `Digit ${index} of ${total}`,

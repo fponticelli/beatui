@@ -354,6 +354,74 @@ const tr: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Saat seç',
   dateTimeSelectDateTime: 'Tarih ve saat seç',
+  // Color picker
+  colorPicker: {
+    hue: 'Ton',
+    saturation: 'Doygunluk',
+    lightness: 'Parlaklık',
+    alpha: 'Alfa',
+    red: 'Kırmızı',
+    green: 'Yeşil',
+    blue: 'Mavi',
+    hex: 'Hex',
+    whiteness: 'Beyazlık',
+    blackness: 'Siyahlık',
+    chroma: 'Kroma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Ara...',
+    noResults: 'Sonuç bulunamadı',
+    recentItems: 'Son kullanılanlar',
+    close: 'Kapat',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Kaydırılabilir liste',
+  },
+  // Stepper
+  stepper: {
+    step: 'Adım',
+    stepOfTotal: (current: number, total: number) =>
+      `Adım ${current} / ${total}`,
+    completed: 'Tamamlandı',
+    next: 'İleri',
+    previous: 'Geri',
+    complete: 'Tamamla',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Yeniden sıralamak için sürükleyin',
+    dropIndicator: 'Buraya bırakın',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Mevcut',
+    selected: 'Seçili',
+    moveRight: 'Seçilenlere taşı',
+    moveLeft: 'Mevcut olanlara taşı',
+    moveAllRight: 'Tümünü seçilenlere taşı',
+    moveAllLeft: 'Tümünü mevcut olanlara taşı',
+    searchAvailable: 'Mevcut olanları ara',
+    searchSelected: 'Seçilenleri ara',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Kopyalandı!',
+    copyToClipboard: 'Panoya kopyala',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Artır',
+    decrement: 'Azalt',
+    value: 'Değer',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Yükseliş eğilimi',
+    trendDown: 'Düşüş eğilimi',
+    trendFlat: 'Değişiklik yok',
+  },
   // OTP input
   otpInputLabel: 'Tek kullanımlık şifre girişi',
   otpDigitLabel: (index: number, total: number) => `Rakam ${index} / ${total}`,

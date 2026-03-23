@@ -354,6 +354,74 @@ export const nl: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Tijd selecteren',
   dateTimeSelectDateTime: 'Datum en tijd selecteren',
+  // Color picker
+  colorPicker: {
+    hue: 'Tint',
+    saturation: 'Verzadiging',
+    lightness: 'Helderheid',
+    alpha: 'Alpha',
+    red: 'Rood',
+    green: 'Groen',
+    blue: 'Blauw',
+    hex: 'Hex',
+    whiteness: 'Witheid',
+    blackness: 'Zwartheid',
+    chroma: 'Chroma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Zoeken...',
+    noResults: 'Geen resultaten gevonden',
+    recentItems: 'Recent',
+    close: 'Sluiten',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Scrollbare lijst',
+  },
+  // Stepper
+  stepper: {
+    step: 'Stap',
+    stepOfTotal: (current: number, total: number) =>
+      `Stap ${current} van ${total}`,
+    completed: 'Voltooid',
+    next: 'Volgende',
+    previous: 'Vorige',
+    complete: 'Voltooien',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Sleep om te herordenen',
+    dropIndicator: 'Hier neerzetten',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Beschikbaar',
+    selected: 'Geselecteerd',
+    moveRight: 'Naar geselecteerd verplaatsen',
+    moveLeft: 'Naar beschikbaar verplaatsen',
+    moveAllRight: 'Alles naar geselecteerd',
+    moveAllLeft: 'Alles naar beschikbaar',
+    searchAvailable: 'Beschikbare doorzoeken',
+    searchSelected: 'Geselecteerde doorzoeken',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Gekopieerd!',
+    copyToClipboard: 'Kopiëren naar klembord',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Verhogen',
+    decrement: 'Verlagen',
+    value: 'Waarde',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Stijgend',
+    trendDown: 'Dalend',
+    trendFlat: 'Geen verandering',
+  },
   // OTP input
   otpInputLabel: 'Eenmalig wachtwoord invoer',
   otpDigitLabel: (index: number, total: number) =>

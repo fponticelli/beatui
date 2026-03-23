@@ -354,6 +354,74 @@ const vi: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Chọn thời gian',
   dateTimeSelectDateTime: 'Chọn ngày và giờ',
+  // Color picker
+  colorPicker: {
+    hue: 'Sắc độ',
+    saturation: 'Độ bão hòa',
+    lightness: 'Độ sáng',
+    alpha: 'Alpha',
+    red: 'Đỏ',
+    green: 'Xanh lá',
+    blue: 'Xanh dương',
+    hex: 'Hex',
+    whiteness: 'Độ trắng',
+    blackness: 'Độ đen',
+    chroma: 'Sắc độ(C)',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Tìm kiếm...',
+    noResults: 'Không tìm thấy kết quả',
+    recentItems: 'Gần đây',
+    close: 'Đóng',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Danh sách cuộn được',
+  },
+  // Stepper
+  stepper: {
+    step: 'Bước',
+    stepOfTotal: (current: number, total: number) =>
+      `Bước ${current} trên ${total}`,
+    completed: 'Hoàn thành',
+    next: 'Tiếp theo',
+    previous: 'Trước',
+    complete: 'Hoàn tất',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Kéo để sắp xếp lại',
+    dropIndicator: 'Thả vào đây',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Có sẵn',
+    selected: 'Đã chọn',
+    moveRight: 'Chuyển sang đã chọn',
+    moveLeft: 'Chuyển sang có sẵn',
+    moveAllRight: 'Chuyển tất cả sang đã chọn',
+    moveAllLeft: 'Chuyển tất cả sang có sẵn',
+    searchAvailable: 'Tìm có sẵn',
+    searchSelected: 'Tìm đã chọn',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Đã sao chép!',
+    copyToClipboard: 'Sao chép vào bộ nhớ tạm',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Tăng',
+    decrement: 'Giảm',
+    value: 'Giá trị',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Xu hướng tăng',
+    trendDown: 'Xu hướng giảm',
+    trendFlat: 'Không thay đổi',
+  },
   // OTP input
   otpInputLabel: 'Nhập mật khẩu một lần',
   otpDigitLabel: (index: number, total: number) =>

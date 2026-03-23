@@ -357,6 +357,74 @@ const fr: BeatUIMessages = {
   // Time select
   timeSelectTime: "Sélectionner l'heure",
   dateTimeSelectDateTime: "Sélectionner la date et l'heure",
+  // Color picker
+  colorPicker: {
+    hue: 'Teinte',
+    saturation: 'Saturation',
+    lightness: 'Luminosité',
+    alpha: 'Alpha',
+    red: 'Rouge',
+    green: 'Vert',
+    blue: 'Bleu',
+    hex: 'Hex',
+    whiteness: 'Blancheur',
+    blackness: 'Noirceur',
+    chroma: 'Chroma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Rechercher...',
+    noResults: 'Aucun résultat trouvé',
+    recentItems: 'Récents',
+    close: 'Fermer',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Liste défilante',
+  },
+  // Stepper
+  stepper: {
+    step: 'Étape',
+    stepOfTotal: (current: number, total: number) =>
+      `Étape ${current} sur ${total}`,
+    completed: 'Terminé',
+    next: 'Suivant',
+    previous: 'Précédent',
+    complete: 'Terminer',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Glisser pour réorganiser',
+    dropIndicator: 'Déposer ici',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Disponible',
+    selected: 'Sélectionné',
+    moveRight: 'Déplacer vers sélectionné',
+    moveLeft: 'Déplacer vers disponible',
+    moveAllRight: 'Tout déplacer vers sélectionné',
+    moveAllLeft: 'Tout déplacer vers disponible',
+    searchAvailable: 'Rechercher disponible',
+    searchSelected: 'Rechercher sélectionné',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Copié !',
+    copyToClipboard: 'Copier dans le presse-papiers',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Augmenter',
+    decrement: 'Diminuer',
+    value: 'Valeur',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'En hausse',
+    trendDown: 'En baisse',
+    trendFlat: 'Aucun changement',
+  },
   // OTP input
   otpInputLabel: 'Saisie de mot de passe à usage unique',
   otpDigitLabel: (index: number, total: number) =>

@@ -356,6 +356,74 @@ const ur: BeatUIMessages = {
   // Time select
   timeSelectTime: 'وقت منتخب کریں',
   dateTimeSelectDateTime: 'تاریخ اور وقت منتخب کریں',
+  // Color picker
+  colorPicker: {
+    hue: 'رنگت',
+    saturation: 'سنترپشن',
+    lightness: 'چمک',
+    alpha: 'الفا',
+    red: 'سرخ',
+    green: 'سبز',
+    blue: 'نیلا',
+    hex: 'Hex',
+    whiteness: 'سفیدی',
+    blackness: 'سیاہی',
+    chroma: 'کروما',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'تلاش کریں...',
+    noResults: 'کوئی نتائج نہیں ملے',
+    recentItems: 'حالیہ',
+    close: 'بند کریں',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'سکرول کے قابل فہرست',
+  },
+  // Stepper
+  stepper: {
+    step: 'مرحلہ',
+    stepOfTotal: (current: number, total: number) =>
+      `مرحلہ ${current} از ${total}`,
+    completed: 'مکمل',
+    next: 'اگلا',
+    previous: 'پچھلا',
+    complete: 'مکمل کریں',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'ترتیب بدلنے کے لیے گھسیٹیں',
+    dropIndicator: 'یہاں چھوڑیں',
+  },
+  // Transfer list
+  transferList: {
+    available: 'دستیاب',
+    selected: 'منتخب',
+    moveRight: 'منتخب میں منتقل کریں',
+    moveLeft: 'دستیاب میں منتقل کریں',
+    moveAllRight: 'سب منتخب میں منتقل کریں',
+    moveAllLeft: 'سب دستیاب میں منتقل کریں',
+    searchAvailable: 'دستیاب تلاش کریں',
+    searchSelected: 'منتخب تلاش کریں',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'کاپی ہو گیا!',
+    copyToClipboard: 'کلپ بورڈ پر کاپی کریں',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'بڑھائیں',
+    decrement: 'گھٹائیں',
+    value: 'قدر',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'بڑھتا رجحان',
+    trendDown: 'گرتا رجحان',
+    trendFlat: 'کوئی تبدیلی نہیں',
+  },
   // OTP input
   otpInputLabel: 'ایک بار کا پاس ورڈ درج کریں',
   otpDigitLabel: (index: number, total: number) => `ہندسہ ${index} از ${total}`,

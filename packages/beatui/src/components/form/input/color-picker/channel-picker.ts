@@ -22,6 +22,7 @@ import { ElementRect } from '@tempots/ui'
 import { Label } from '../../../typography'
 import { Color, colorToString, withColor } from '@tempots/std'
 import { drawCheckerboard } from './canvas-draw'
+import { Tooltip } from '../../../overlay'
 
 export interface RenderOptions {
   canvas: HTMLCanvasElement
@@ -158,7 +159,10 @@ export function ChannelPicker(options: ChannelPickerOptions): Renderable {
             attr.class('bc-color-picker__compact'),
             Label(
               attr.class('bc-color-picker__label'),
-              Value.map(label, l => l.slice(0, 1))
+              Value.map(label, l => l.slice(0, 1)),
+              Tooltip({
+                content: label,
+              })
             )
           )
       )
@@ -209,7 +213,15 @@ const emitOn = (fn?: (value: number) => void) => {
 export function AlphaChannelPicker(
   options: AlphaChannelPickerOptions
 ): Renderable {
-  const { value, color, onChange, onInput, dependencies, disabled, label = 'Alpha' } = options
+  const {
+    value,
+    color,
+    onChange,
+    onInput,
+    dependencies,
+    disabled,
+    label = 'Alpha',
+  } = options
   return ChannelPicker({
     label,
     value,

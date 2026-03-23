@@ -357,6 +357,74 @@ export const ru: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Выбрать время',
   dateTimeSelectDateTime: 'Выбрать дату и время',
+  // Color picker
+  colorPicker: {
+    hue: 'Оттенок',
+    saturation: 'Насыщенность',
+    lightness: 'Яркость',
+    alpha: 'Альфа',
+    red: 'Красный',
+    green: 'Зелёный',
+    blue: 'Синий',
+    hex: 'Hex',
+    whiteness: 'Белизна',
+    blackness: 'Чернота',
+    chroma: 'Хрома',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Поиск...',
+    noResults: 'Результатов не найдено',
+    recentItems: 'Недавние',
+    close: 'Закрыть',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Прокручиваемый список',
+  },
+  // Stepper
+  stepper: {
+    step: 'Шаг',
+    stepOfTotal: (current: number, total: number) =>
+      `Шаг ${current} из ${total}`,
+    completed: 'Завершено',
+    next: 'Далее',
+    previous: 'Назад',
+    complete: 'Завершить',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Перетащите для изменения порядка',
+    dropIndicator: 'Отпустите здесь',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Доступные',
+    selected: 'Выбранные',
+    moveRight: 'Переместить в выбранные',
+    moveLeft: 'Переместить в доступные',
+    moveAllRight: 'Переместить все в выбранные',
+    moveAllLeft: 'Переместить все в доступные',
+    searchAvailable: 'Поиск доступных',
+    searchSelected: 'Поиск выбранных',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Скопировано!',
+    copyToClipboard: 'Копировать в буфер обмена',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Увеличить',
+    decrement: 'Уменьшить',
+    value: 'Значение',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Рост',
+    trendDown: 'Падение',
+    trendFlat: 'Без изменений',
+  },
   // OTP input
   otpInputLabel: 'Ввод одноразового пароля',
   otpDigitLabel: (index: number, total: number) => `Цифра ${index} из ${total}`,

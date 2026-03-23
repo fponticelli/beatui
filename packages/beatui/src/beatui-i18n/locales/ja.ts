@@ -356,6 +356,74 @@ export const ja: BeatUIMessages = {
   // Time select
   timeSelectTime: '時刻を選択',
   dateTimeSelectDateTime: '日時を選択',
+  // Color picker
+  colorPicker: {
+    hue: '色相',
+    saturation: '彩度',
+    lightness: '明度',
+    alpha: 'アルファ',
+    red: '赤',
+    green: '緑',
+    blue: '青',
+    hex: 'Hex',
+    whiteness: '白色度',
+    blackness: '黒色度',
+    chroma: '彩度(C)',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: '検索...',
+    noResults: '結果が見つかりません',
+    recentItems: '最近',
+    close: '閉じる',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'スクロール可能なリスト',
+  },
+  // Stepper
+  stepper: {
+    step: 'ステップ',
+    stepOfTotal: (current: number, total: number) =>
+      `ステップ ${current} / ${total}`,
+    completed: '完了',
+    next: '次へ',
+    previous: '前へ',
+    complete: '完了する',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'ドラッグして並べ替え',
+    dropIndicator: 'ここにドロップ',
+  },
+  // Transfer list
+  transferList: {
+    available: '利用可能',
+    selected: '選択済み',
+    moveRight: '選択済みに移動',
+    moveLeft: '利用可能に移動',
+    moveAllRight: 'すべて選択済みに移動',
+    moveAllLeft: 'すべて利用可能に移動',
+    searchAvailable: '利用可能を検索',
+    searchSelected: '選択済みを検索',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'コピーしました！',
+    copyToClipboard: 'クリップボードにコピー',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: '増加',
+    decrement: '減少',
+    value: '値',
+  },
+  // Stat card
+  statCard: {
+    trendUp: '上昇傾向',
+    trendDown: '下降傾向',
+    trendFlat: '変化なし',
+  },
   // OTP input
   otpInputLabel: 'ワンタイムパスワード入力',
   otpDigitLabel: (index: number, total: number) => `${total}桁中${index}桁目`,

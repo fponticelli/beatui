@@ -13,16 +13,16 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { AlphaChannelPicker, ChannelPicker, ColorField } from './channel-picker'
-import { drawHueCanvas, drawCheckerboard } from './canvas-draw'
+import { drawCheckerboard } from './canvas-draw'
 import { withColor } from '@tempots/std/color-channel'
-import { Color, colorToString, type HSLA } from '@tempots/std/color'
+import { Color, colorToString, type RGBA } from '@tempots/std/color'
 import { roundTo } from '@tempots/std'
 import { BeatUII18n } from '../../../../beatui-i18n'
 
-export interface HslColorPickerOptions {
-  value: Value<HSLA>
-  onChange?: (value: HSLA) => void
-  onInput?: (value: HSLA) => void
+export interface RgbColorPickerOptions {
+  value: Value<RGBA>
+  onChange?: (value: RGBA) => void
+  onInput?: (value: RGBA) => void
   withAlpha?: Value<boolean>
   disabled?: Value<boolean>
   displayColorSwatch?: Value<boolean>
@@ -33,13 +33,16 @@ function toPercent(v: number) {
 }
 
 function fromPercent(v: number) {
-  return roundTo(v / 100, 4)
+  return Math.round(v * 100) / 10000
 }
 
 /**
- * The HSL format input panel.
+ * Standalone RGB color picker with color field, R/G/B channel strips,
+ * optional alpha, and color swatch preview.
+ *
+ * RGBA channels are 0–1 internally. Displayed as 0–100% in the inputs.
  */
-export function HslColorPicker(options: HslColorPickerOptions): Renderable {
+export function RgbColorPicker(options: RgbColorPickerOptions): Renderable {
   const {
     value,
     onChange,
@@ -50,17 +53,17 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
   } = options
 
   const color = Value.toSignal(value)
-  const hue = color.$.h as Signal<number>
-  const sat = color.$.s.map(toPercent) as Signal<number>
-  const lig = color.$.l.map(toPercent) as Signal<number>
+  const red = color.$.r.map(toPercent) as Signal<number>
+  const green = color.$.g.map(toPercent) as Signal<number>
+  const blue = color.$.b.map(toPercent) as Signal<number>
   const alpha = color.$.alpha.map(toPercent) as Signal<number>
   const colorNoAlpha = color
     .map(c => withColor(c, { alpha: 1 }))
     .map(colorToString)
 
   const emitOn = (
-    c: 'h' | 's' | 'l' | 'alpha',
-    fn?: (value: HSLA) => void,
+    c: 'r' | 'g' | 'b' | 'alpha',
+    fn?: (value: RGBA) => void,
     convert?: (v: number) => number
   ) => {
     if (fn == null) return undefined
@@ -76,46 +79,46 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
 
       ColorField({
         handlePosition: color.map(v => ({
-          x: v.s,
-          y: 1 - v.l,
+          x: v.r,
+          y: 1 - v.g,
         })),
         disabled,
         onChange: pos => {
-          onChange?.(withColor(color.value, { s: pos.x, l: 1 - pos.y }))
+          onChange?.(
+            withColor(color.value, {
+              r: Math.round(pos.x * 10000) / 10000,
+              g: Math.round((1 - pos.y) * 10000) / 10000,
+            })
+          )
         },
         onInput: pos => {
-          onInput?.(withColor(color.value, { s: pos.x, l: 1 - pos.y }))
+          onInput?.(
+            withColor(color.value, {
+              r: Math.round(pos.x * 10000) / 10000,
+              g: Math.round((1 - pos.y) * 10000) / 10000,
+            })
+          )
         },
         handleColor: colorNoAlpha,
         render: ({ ctx, width, height }) => {
-          // Base: S axis locked at L=50%
-          const satGradient = ctx.createLinearGradient(0, 0, width, 0)
-          satGradient.addColorStop(
-            0,
-            colorToString(withColor(color.value, { s: 0, l: 0.5 }))
-          )
-          satGradient.addColorStop(
-            1,
-            colorToString(withColor(color.value, { s: 1, l: 0.5 }))
-          )
-          ctx.fillStyle = satGradient
-          ctx.fillRect(0, 0, width, height)
-
-          // White fades in toward top (L → 100%)
-          const whiteGradient = ctx.createLinearGradient(0, 0, 0, height)
-          whiteGradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
-          whiteGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0)')
-          ctx.fillStyle = whiteGradient
-          ctx.fillRect(0, 0, width, height)
-
-          // Black fades in toward bottom (L → 0%)
-          const blackGradient = ctx.createLinearGradient(0, 0, 0, height)
-          blackGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)')
-          blackGradient.addColorStop(1, 'rgba(0, 0, 0, 1)')
-          ctx.fillStyle = blackGradient
-          ctx.fillRect(0, 0, width, height)
+          // X axis: red (0→1), Y axis: green (1→0, top=high green)
+          // Blue is fixed by the blue channel strip
+          for (let yi = 0; yi < height; yi++) {
+            const g = 1 - yi / (height - 1)
+            const grad = ctx.createLinearGradient(0, 0, width, 0)
+            grad.addColorStop(
+              0,
+              colorToString(withColor(color.value, { r: 0, g }))
+            )
+            grad.addColorStop(
+              1,
+              colorToString(withColor(color.value, { r: 1, g }))
+            )
+            ctx.fillStyle = grad
+            ctx.fillRect(0, yi, width, 1)
+          }
         },
-        dependencies: [hue],
+        dependencies: [blue],
       }),
       html.div(
         attr.class('bc-color-picker__controls'),
@@ -123,60 +126,78 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           attr.class('bc-color-picker__channels-container'),
           html.div(
             attr.class('bc-color-picker__channels'),
-            // Hue channel
+            // Red channel (displayed as 0-100%)
             ChannelPicker({
-              label: t.$.colorPicker.$.hue,
-              value: hue,
-
-              onChange: emitOn('h', onChange),
-              onInput: emitOn('h', onInput),
-              draw: drawHueCanvas,
-              min: 0,
-              max: 360,
-              handleColor: colorNoAlpha,
-              unit: '°',
-              disabled,
-            }),
-            // Saturation channel
-            ChannelPicker({
-              label: t.$.colorPicker.$.saturation,
-              value: sat,
-              onChange: emitOn('s', onChange, fromPercent),
-              onInput: emitOn('s', onInput, fromPercent),
+              label: t.$.colorPicker.$.red,
+              value: red,
+              onChange: emitOn('r', onChange, fromPercent),
+              onInput: emitOn('r', onInput, fromPercent),
               draw: ({ ctx, width, height }) => {
                 const grad = ctx.createLinearGradient(0, 0, width, 0)
-                const start = colorToString(withColor(color.value, { s: 0 }))
-                const end = colorToString(withColor(color.value, { s: 1 }))
-                grad.addColorStop(0, start)
-                grad.addColorStop(1, end)
+                grad.addColorStop(
+                  0,
+                  colorToString(withColor(color.value, { r: 0 }))
+                )
+                grad.addColorStop(
+                  1,
+                  colorToString(withColor(color.value, { r: 1 }))
+                )
                 ctx.fillStyle = grad
                 ctx.fillRect(0, 0, width, height)
               },
-              dependencies: [hue, lig],
+              dependencies: [green, blue],
               handleColor: colorNoAlpha,
               min: 0,
               max: 100,
               unit: '%',
               disabled,
             }),
-            // Lightness channel
+            // Green channel (displayed as 0-100%)
             ChannelPicker({
-              label: t.$.colorPicker.$.lightness,
-              value: lig,
-              onChange: emitOn('l', onChange, fromPercent),
-              onInput: emitOn('l', onInput, fromPercent),
+              label: t.$.colorPicker.$.green,
+              value: green,
+              onChange: emitOn('g', onChange, fromPercent),
+              onInput: emitOn('g', onInput, fromPercent),
               draw: ({ ctx, width, height }) => {
                 const grad = ctx.createLinearGradient(0, 0, width, 0)
-                const start = colorToString(withColor(color.value, { l: 0 }))
-                const mid = colorToString(withColor(color.value, { l: 0.5 }))
-                const end = colorToString(withColor(color.value, { l: 1 }))
-                grad.addColorStop(0, start)
-                grad.addColorStop(0.5, mid)
-                grad.addColorStop(1, end)
+                grad.addColorStop(
+                  0,
+                  colorToString(withColor(color.value, { g: 0 }))
+                )
+                grad.addColorStop(
+                  1,
+                  colorToString(withColor(color.value, { g: 1 }))
+                )
                 ctx.fillStyle = grad
                 ctx.fillRect(0, 0, width, height)
               },
-              dependencies: [hue, sat],
+              dependencies: [red, blue],
+              handleColor: colorNoAlpha,
+              min: 0,
+              max: 100,
+              unit: '%',
+              disabled,
+            }),
+            // Blue channel (displayed as 0-100%)
+            ChannelPicker({
+              label: t.$.colorPicker.$.blue,
+              value: blue,
+              onChange: emitOn('b', onChange, fromPercent),
+              onInput: emitOn('b', onInput, fromPercent),
+              draw: ({ ctx, width, height }) => {
+                const grad = ctx.createLinearGradient(0, 0, width, 0)
+                grad.addColorStop(
+                  0,
+                  colorToString(withColor(color.value, { b: 0 }))
+                )
+                grad.addColorStop(
+                  1,
+                  colorToString(withColor(color.value, { b: 1 }))
+                )
+                ctx.fillStyle = grad
+                ctx.fillRect(0, 0, width, height)
+              },
+              dependencies: [red, green],
               handleColor: colorNoAlpha,
               min: 0,
               max: 100,
@@ -190,7 +211,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
                 color: color as Signal<Color>,
                 onChange: emitOn('alpha', onChange, fromPercent),
                 onInput: emitOn('alpha', onInput, fromPercent),
-                dependencies: [hue, sat, lig],
+                dependencies: [red, green, blue],
                 disabled,
               })
             )

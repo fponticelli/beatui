@@ -13,16 +13,16 @@ import {
 } from '@tempots/dom'
 import { ElementRect } from '@tempots/ui'
 import { AlphaChannelPicker, ChannelPicker, ColorField } from './channel-picker'
-import { drawHueCanvas, drawCheckerboard } from './canvas-draw'
+import { drawCheckerboard } from './canvas-draw'
 import { withColor } from '@tempots/std/color-channel'
-import { Color, colorToString, type HSLA } from '@tempots/std/color'
+import { Color, colorToString, type OKLCHA } from '@tempots/std/color'
 import { roundTo } from '@tempots/std'
 import { BeatUII18n } from '../../../../beatui-i18n'
 
-export interface HslColorPickerOptions {
-  value: Value<HSLA>
-  onChange?: (value: HSLA) => void
-  onInput?: (value: HSLA) => void
+export interface OklchColorPickerOptions {
+  value: Value<OKLCHA>
+  onChange?: (value: OKLCHA) => void
+  onInput?: (value: OKLCHA) => void
   withAlpha?: Value<boolean>
   disabled?: Value<boolean>
   displayColorSwatch?: Value<boolean>
@@ -37,9 +37,10 @@ function fromPercent(v: number) {
 }
 
 /**
- * The HSL format input panel.
+ * Standalone OKLCH color picker with color field, L/C/H channel strips,
+ * optional alpha, and color swatch preview.
  */
-export function HslColorPicker(options: HslColorPickerOptions): Renderable {
+export function OklchColorPicker(options: OklchColorPickerOptions): Renderable {
   const {
     value,
     onChange,
@@ -50,17 +51,17 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
   } = options
 
   const color = Value.toSignal(value)
-  const hue = color.$.h as Signal<number>
-  const sat = color.$.s.map(toPercent) as Signal<number>
   const lig = color.$.l.map(toPercent) as Signal<number>
+  const chroma = color.$.c as Signal<number>
+  const hue = color.$.h as Signal<number>
   const alpha = color.$.alpha.map(toPercent) as Signal<number>
   const colorNoAlpha = color
     .map(c => withColor(c, { alpha: 1 }))
     .map(colorToString)
 
   const emitOn = (
-    c: 'h' | 's' | 'l' | 'alpha',
-    fn?: (value: HSLA) => void,
+    c: 'l' | 'c' | 'h' | 'alpha',
+    fn?: (value: OKLCHA) => void,
     convert?: (v: number) => number
   ) => {
     if (fn == null) return undefined
@@ -76,44 +77,43 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
 
       ColorField({
         handlePosition: color.map(v => ({
-          x: v.s,
-          y: 1 - v.l,
+          x: v.c / 0.4, // chroma normalized to 0-1
+          y: 1 - v.l, // lightness inverted (bright at top)
         })),
         disabled,
         onChange: pos => {
-          onChange?.(withColor(color.value, { s: pos.x, l: 1 - pos.y }))
+          onChange?.(
+            withColor(color.value, {
+              c: Math.round(pos.x * 0.4 * 10000) / 10000,
+              l: Math.round((1 - pos.y) * 10000) / 10000,
+            })
+          )
         },
         onInput: pos => {
-          onInput?.(withColor(color.value, { s: pos.x, l: 1 - pos.y }))
+          onInput?.(
+            withColor(color.value, {
+              c: Math.round(pos.x * 0.4 * 10000) / 10000,
+              l: Math.round((1 - pos.y) * 10000) / 10000,
+            })
+          )
         },
         handleColor: colorNoAlpha,
         render: ({ ctx, width, height }) => {
-          // Base: S axis locked at L=50%
-          const satGradient = ctx.createLinearGradient(0, 0, width, 0)
-          satGradient.addColorStop(
-            0,
-            colorToString(withColor(color.value, { s: 0, l: 0.5 }))
-          )
-          satGradient.addColorStop(
-            1,
-            colorToString(withColor(color.value, { s: 1, l: 0.5 }))
-          )
-          ctx.fillStyle = satGradient
-          ctx.fillRect(0, 0, width, height)
-
-          // White fades in toward top (L → 100%)
-          const whiteGradient = ctx.createLinearGradient(0, 0, 0, height)
-          whiteGradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
-          whiteGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0)')
-          ctx.fillStyle = whiteGradient
-          ctx.fillRect(0, 0, width, height)
-
-          // Black fades in toward bottom (L → 0%)
-          const blackGradient = ctx.createLinearGradient(0, 0, 0, height)
-          blackGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)')
-          blackGradient.addColorStop(1, 'rgba(0, 0, 0, 1)')
-          ctx.fillStyle = blackGradient
-          ctx.fillRect(0, 0, width, height)
+          // X axis: chroma (0→0.4), Y axis: lightness (1→0, top=bright)
+          // Draw one vertical gradient per column — browser gamut-maps
+          // the oklch() colors smoothly instead of hard-clipping to sRGB
+          const h = color.value.h
+          const stops = 5 // lightness gradient stops per column
+          for (let xi = 0; xi < width; xi++) {
+            const c = (xi / (width - 1)) * 0.4
+            const grad = ctx.createLinearGradient(0, 0, 0, height)
+            for (let si = 0; si <= stops; si++) {
+              const l = 1 - si / stops
+              grad.addColorStop(si / stops, `oklch(${l} ${c} ${h})`)
+            }
+            ctx.fillStyle = grad
+            ctx.fillRect(xi, 0, 1, height)
+          }
         },
         dependencies: [hue],
       }),
@@ -123,42 +123,6 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
           attr.class('bc-color-picker__channels-container'),
           html.div(
             attr.class('bc-color-picker__channels'),
-            // Hue channel
-            ChannelPicker({
-              label: t.$.colorPicker.$.hue,
-              value: hue,
-
-              onChange: emitOn('h', onChange),
-              onInput: emitOn('h', onInput),
-              draw: drawHueCanvas,
-              min: 0,
-              max: 360,
-              handleColor: colorNoAlpha,
-              unit: '°',
-              disabled,
-            }),
-            // Saturation channel
-            ChannelPicker({
-              label: t.$.colorPicker.$.saturation,
-              value: sat,
-              onChange: emitOn('s', onChange, fromPercent),
-              onInput: emitOn('s', onInput, fromPercent),
-              draw: ({ ctx, width, height }) => {
-                const grad = ctx.createLinearGradient(0, 0, width, 0)
-                const start = colorToString(withColor(color.value, { s: 0 }))
-                const end = colorToString(withColor(color.value, { s: 1 }))
-                grad.addColorStop(0, start)
-                grad.addColorStop(1, end)
-                ctx.fillStyle = grad
-                ctx.fillRect(0, 0, width, height)
-              },
-              dependencies: [hue, lig],
-              handleColor: colorNoAlpha,
-              min: 0,
-              max: 100,
-              unit: '%',
-              disabled,
-            }),
             // Lightness channel
             ChannelPicker({
               label: t.$.colorPicker.$.lightness,
@@ -166,21 +130,64 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
               onChange: emitOn('l', onChange, fromPercent),
               onInput: emitOn('l', onInput, fromPercent),
               draw: ({ ctx, width, height }) => {
-                const grad = ctx.createLinearGradient(0, 0, width, 0)
-                const start = colorToString(withColor(color.value, { l: 0 }))
-                const mid = colorToString(withColor(color.value, { l: 0.5 }))
-                const end = colorToString(withColor(color.value, { l: 1 }))
-                grad.addColorStop(0, start)
-                grad.addColorStop(0.5, mid)
-                grad.addColorStop(1, end)
-                ctx.fillStyle = grad
-                ctx.fillRect(0, 0, width, height)
+                const { c: cv, h: hv } = color.value
+                for (let x = 0; x < width; x++) {
+                  const l = x / (width - 1)
+                  ctx.fillStyle = `oklch(${l} ${cv} ${hv})`
+                  ctx.fillRect(x, 0, 1, height)
+                }
               },
-              dependencies: [hue, sat],
+              dependencies: [chroma, hue],
               handleColor: colorNoAlpha,
               min: 0,
               max: 100,
+
               unit: '%',
+              disabled,
+            }),
+            // Chroma channel
+            ChannelPicker({
+              label: t.$.colorPicker.$.chroma,
+              value: chroma.map(c => roundTo(c * 1000, 0)) as Signal<number>,
+              onChange: emitOn('c', onChange, v => v / 1000),
+              onInput: emitOn('c', onInput, v => v / 1000),
+              draw: ({ ctx, width, height }) => {
+                const { l: lv, h: hv } = color.value
+                for (let x = 0; x < width; x++) {
+                  const c = (x / (width - 1)) * 0.4
+                  ctx.fillStyle = `oklch(${lv} ${c} ${hv})`
+                  ctx.fillRect(x, 0, 1, height)
+                }
+              },
+              dependencies: [lig, hue],
+              handleColor: colorNoAlpha,
+              min: 0,
+              max: 400,
+              step: 1,
+              disabled,
+            }),
+            // Hue channel — handle shows pure hue color
+            ChannelPicker({
+              label: t.$.colorPicker.$.hue,
+              value: hue,
+              onChange: emitOn('h', onChange),
+              onInput: emitOn('h', onInput),
+              draw: ({ ctx, width, height }) => {
+                const { l: lv, c: cv } = color.value
+                for (let x = 0; x < width; x++) {
+                  const h = (x / (width - 1)) * 360
+                  ctx.fillStyle = `oklch(${lv} ${cv} ${h})`
+                  ctx.fillRect(x, 0, 1, height)
+                }
+              },
+              dependencies: [lig, chroma],
+              handleColor: hue.map(_h =>
+                colorToString(withColor(color.value, { l: 0.7, c: 0.3 }))
+              ),
+              min: 0,
+              max: 360,
+
+              unit: '°',
               disabled,
             }),
             When(withAlpha, () =>
@@ -190,7 +197,7 @@ export function HslColorPicker(options: HslColorPickerOptions): Renderable {
                 color: color as Signal<Color>,
                 onChange: emitOn('alpha', onChange, fromPercent),
                 onInput: emitOn('alpha', onInput, fromPercent),
-                dependencies: [hue, sat, lig],
+                dependencies: [lig, chroma, hue],
                 disabled,
               })
             )

@@ -351,6 +351,74 @@ const he: BeatUIMessages = {
   // Time select
   timeSelectTime: 'בחר שעה',
   dateTimeSelectDateTime: 'בחר תאריך ושעה',
+  // Color picker
+  colorPicker: {
+    hue: 'גוון',
+    saturation: 'רוויה',
+    lightness: 'בהירות',
+    alpha: 'אלפא',
+    red: 'אדום',
+    green: 'ירוק',
+    blue: 'כחול',
+    hex: 'Hex',
+    whiteness: 'לובן',
+    blackness: 'שחור',
+    chroma: 'כרומה',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'חיפוש...',
+    noResults: 'לא נמצאו תוצאות',
+    recentItems: 'אחרונים',
+    close: 'סגור',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'רשימה נגללת',
+  },
+  // Stepper
+  stepper: {
+    step: 'שלב',
+    stepOfTotal: (current: number, total: number) =>
+      `שלב ${current} מתוך ${total}`,
+    completed: 'הושלם',
+    next: 'הבא',
+    previous: 'הקודם',
+    complete: 'השלם',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'גרור לסידור מחדש',
+    dropIndicator: 'שחרר כאן',
+  },
+  // Transfer list
+  transferList: {
+    available: 'זמין',
+    selected: 'נבחר',
+    moveRight: 'העבר לנבחרים',
+    moveLeft: 'העבר לזמינים',
+    moveAllRight: 'העבר הכל לנבחרים',
+    moveAllLeft: 'העבר הכל לזמינים',
+    searchAvailable: 'חפש בזמינים',
+    searchSelected: 'חפש בנבחרים',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'הועתק!',
+    copyToClipboard: 'העתק ללוח',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'הגדל',
+    decrement: 'הקטן',
+    value: 'ערך',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'מגמת עלייה',
+    trendDown: 'מגמת ירידה',
+    trendFlat: 'ללא שינוי',
+  },
   // OTP input
   otpInputLabel: 'הזנת סיסמה חד-פעמית',
   otpDigitLabel: (index: number, total: number) =>

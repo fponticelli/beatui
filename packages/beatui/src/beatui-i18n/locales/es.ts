@@ -355,6 +355,74 @@ const es: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Seleccionar hora',
   dateTimeSelectDateTime: 'Seleccionar fecha y hora',
+  // Color picker
+  colorPicker: {
+    hue: 'Tono',
+    saturation: 'Saturación',
+    lightness: 'Luminosidad',
+    alpha: 'Alfa',
+    red: 'Rojo',
+    green: 'Verde',
+    blue: 'Azul',
+    hex: 'Hex',
+    whiteness: 'Blancura',
+    blackness: 'Negrura',
+    chroma: 'Croma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Buscar...',
+    noResults: 'No se encontraron resultados',
+    recentItems: 'Recientes',
+    close: 'Cerrar',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Lista desplazable',
+  },
+  // Stepper
+  stepper: {
+    step: 'Paso',
+    stepOfTotal: (current: number, total: number) =>
+      `Paso ${current} de ${total}`,
+    completed: 'Completado',
+    next: 'Siguiente',
+    previous: 'Anterior',
+    complete: 'Completar',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Arrastrar para reordenar',
+    dropIndicator: 'Soltar aquí',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Disponible',
+    selected: 'Seleccionado',
+    moveRight: 'Mover a seleccionado',
+    moveLeft: 'Mover a disponible',
+    moveAllRight: 'Mover todo a seleccionado',
+    moveAllLeft: 'Mover todo a disponible',
+    searchAvailable: 'Buscar disponible',
+    searchSelected: 'Buscar seleccionado',
+  },
+  // Copy button
+  copyButton: {
+    copied: '¡Copiado!',
+    copyToClipboard: 'Copiar al portapapeles',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Incrementar',
+    decrement: 'Decrementar',
+    value: 'Valor',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Tendencia al alza',
+    trendDown: 'Tendencia a la baja',
+    trendFlat: 'Sin cambios',
+  },
   // OTP input
   otpInputLabel: 'Entrada de contraseña de un solo uso',
   otpDigitLabel: (index: number, total: number) =>

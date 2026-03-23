@@ -354,6 +354,74 @@ const de: BeatUIMessages = {
   // Time select
   timeSelectTime: 'Zeit auswählen',
   dateTimeSelectDateTime: 'Datum und Uhrzeit auswählen',
+  // Color picker
+  colorPicker: {
+    hue: 'Farbton',
+    saturation: 'Sättigung',
+    lightness: 'Helligkeit',
+    alpha: 'Alpha',
+    red: 'Rot',
+    green: 'Grün',
+    blue: 'Blau',
+    hex: 'Hex',
+    whiteness: 'Weißanteil',
+    blackness: 'Schwarzanteil',
+    chroma: 'Chroma',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'Suchen...',
+    noResults: 'Keine Ergebnisse gefunden',
+    recentItems: 'Zuletzt verwendet',
+    close: 'Schließen',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'Scrollbare Liste',
+  },
+  // Stepper
+  stepper: {
+    step: 'Schritt',
+    stepOfTotal: (current: number, total: number) =>
+      `Schritt ${current} von ${total}`,
+    completed: 'Abgeschlossen',
+    next: 'Weiter',
+    previous: 'Zurück',
+    complete: 'Abschließen',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'Zum Neuordnen ziehen',
+    dropIndicator: 'Hier ablegen',
+  },
+  // Transfer list
+  transferList: {
+    available: 'Verfügbar',
+    selected: 'Ausgewählt',
+    moveRight: 'Zu ausgewählt verschieben',
+    moveLeft: 'Zu verfügbar verschieben',
+    moveAllRight: 'Alle zu ausgewählt',
+    moveAllLeft: 'Alle zu verfügbar',
+    searchAvailable: 'Verfügbare durchsuchen',
+    searchSelected: 'Ausgewählte durchsuchen',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'Kopiert!',
+    copyToClipboard: 'In Zwischenablage kopieren',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'Erhöhen',
+    decrement: 'Verringern',
+    value: 'Wert',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'Steigend',
+    trendDown: 'Fallend',
+    trendFlat: 'Keine Änderung',
+  },
   // OTP input
   otpInputLabel: 'Einmalpasswort-Eingabe',
   otpDigitLabel: (index: number, total: number) =>

@@ -352,6 +352,74 @@ const fa: BeatUIMessages = {
   // Time select
   timeSelectTime: 'انتخاب زمان',
   dateTimeSelectDateTime: 'انتخاب تاریخ و زمان',
+  // Color picker
+  colorPicker: {
+    hue: 'فام',
+    saturation: 'اشباع',
+    lightness: 'روشنایی',
+    alpha: 'آلفا',
+    red: 'قرمز',
+    green: 'سبز',
+    blue: 'آبی',
+    hex: 'Hex',
+    whiteness: 'سفیدی',
+    blackness: 'سیاهی',
+    chroma: 'کروما',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'جستجو...',
+    noResults: 'نتیجه‌ای یافت نشد',
+    recentItems: 'اخیر',
+    close: 'بستن',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'فهرست قابل پیمایش',
+  },
+  // Stepper
+  stepper: {
+    step: 'مرحله',
+    stepOfTotal: (current: number, total: number) =>
+      `مرحله ${current} از ${total}`,
+    completed: 'تکمیل شده',
+    next: 'بعدی',
+    previous: 'قبلی',
+    complete: 'تکمیل',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'بکشید برای مرتب‌سازی',
+    dropIndicator: 'اینجا رها کنید',
+  },
+  // Transfer list
+  transferList: {
+    available: 'موجود',
+    selected: 'انتخاب شده',
+    moveRight: 'انتقال به انتخاب شده',
+    moveLeft: 'انتقال به موجود',
+    moveAllRight: 'انتقال همه به انتخاب شده',
+    moveAllLeft: 'انتقال همه به موجود',
+    searchAvailable: 'جستجوی موجود',
+    searchSelected: 'جستجوی انتخاب شده',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'کپی شد!',
+    copyToClipboard: 'کپی به کلیپ‌بورد',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'افزایش',
+    decrement: 'کاهش',
+    value: 'مقدار',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'روند صعودی',
+    trendDown: 'روند نزولی',
+    trendFlat: 'بدون تغییر',
+  },
   // OTP input
   otpInputLabel: 'ورودی رمز یک‌بار مصرف',
   otpDigitLabel: (index: number, total: number) => `رقم ${index} از ${total}`,

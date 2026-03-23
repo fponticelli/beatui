@@ -1,9 +1,27 @@
 import { Controller } from './controller'
 import {
-  isValidColor,
-  isValidHexColor,
-  normalizeHexColor,
-} from '../../../utils/color'
+  canParseColor,
+  detectColorSpace,
+  parseColor,
+  colorToString,
+} from '@tempots/std/color'
+
+function isValidColor(s: string): boolean {
+  return canParseColor(s)
+}
+
+function isValidHexColor(s: string): boolean {
+  return detectColorSpace(s) === 'rgb8'
+}
+
+function normalizeHexColor(s: string): string | null {
+  try {
+    if (!isValidHexColor(s)) return null
+    return colorToString(parseColor(s))
+  } catch {
+    return null
+  }
+}
 import { Signal } from '@tempots/dom'
 import { Path } from './path'
 import { ControllerValidation } from './controller-validation'

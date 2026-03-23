@@ -15,14 +15,83 @@ import { InputContainer } from './input-container'
 import { CommonInputAttributes, InputOptions } from './input-options'
 import type { ControlSize } from '../../theme'
 import {
-  formatColor,
-  hexToRgb,
-  mulberry32,
-  parseAnyColor,
-  resolveEffectiveFormat,
-  rgbToHex,
-  toRgbaString,
-} from '../../../utils'
+  parseColor,
+  convertColor,
+  colorToString,
+  rgb8a,
+  type RGB8A,
+  type Color,
+} from '@tempots/std/color'
+/** Seeded PRNG (Mulberry32) for deterministic blob shape generation. */
+function mulberry32(seed: number) {
+  let t = seed + 0x6d2b79f5
+  return function () {
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function parseAnyColor(v: string): [number, number, number, number] {
+  try {
+    const c = convertColor(parseColor(v), 'rgb8') as RGB8A
+    return [c.r, c.g, c.b, c.alpha]
+  } catch {
+    return [0, 0, 0, 1]
+  }
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return colorToString(rgb8a(r, g, b))
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  try {
+    const c = convertColor(parseColor(hex), 'rgb8') as RGB8A
+    return { r: c.r, g: c.g, b: c.b }
+  } catch {
+    return null
+  }
+}
+
+function toRgbaString(r: number, g: number, b: number, a: number): string {
+  return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${Math.max(0, Math.min(1, Math.round(a * 100) / 100))})`
+}
+
+function formatColor(
+  r: number,
+  g: number,
+  b: number,
+  a: number,
+  fmt: string
+): string {
+  // Convert 0-255 RGB to a Color and format
+  const c = rgb8a(Math.round(r), Math.round(g), Math.round(b), a)
+  const space =
+    fmt === 'hex'
+      ? 'rgb8'
+      : fmt === 'rgba'
+        ? 'rgb'
+        : fmt === 'hsla'
+          ? 'hsl'
+          : fmt === 'rgb'
+            ? 'rgb'
+            : (fmt as 'hsl' | 'hwb' | 'oklch')
+  const converted = convertColor(c as Color, space)
+  return colorToString(converted)
+}
+
+function resolveEffectiveFormat(fmt: string, alphaEnabled: boolean): string {
+  if (alphaEnabled) {
+    if (fmt === 'rgb') return 'rgba'
+    if (fmt === 'hsl') return 'hsla'
+    return fmt
+  } else {
+    if (fmt === 'rgba') return 'rgb'
+    if (fmt === 'hsla') return 'hsl'
+    return fmt
+  }
+}
 
 /**
  * Configuration options for the {@link ColorSwatchInput} component.
@@ -176,7 +245,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
     displayFormatSignal,
     alphaEnabled
   )(([r, g, b], a, fmt, ae) =>
-    formatColor(r, g, b, a ?? 1, resolveEffectiveFormat(fmt, ae), ae)
+    formatColor(r, g, b, a ?? 1, resolveEffectiveFormat(fmt, ae))
   )
 
   // Format for emitted value. Default to 'hex' to keep backward compatibility
@@ -232,7 +301,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
               Value.get(emitFormatSignal),
               Value.get(alphaEnabled)
             )
-            const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+            const out = formatColor(r, g, b, a, fmt)
             onChange(out)
           })
         : Empty,
@@ -246,7 +315,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
               Value.get(emitFormatSignal),
               Value.get(alphaEnabled)
             )
-            const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+            const out = formatColor(r, g, b, a, fmt)
             onInput(out)
           })
         : Empty
@@ -271,7 +340,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
           Value.get(emitFormatSignal),
           Value.get(alphaEnabled)
         )
-        const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+        const out = formatColor(r, g, b, a, fmt)
         onInput?.(out)
       }),
       on.change(e => {
@@ -282,7 +351,7 @@ export const ColorSwatchInput = (options: ColorSwatchInputOptions) => {
           Value.get(emitFormatSignal),
           Value.get(alphaEnabled)
         )
-        const out = formatColor(r, g, b, a, fmt, Value.get(alphaEnabled))
+        const out = formatColor(r, g, b, a, fmt)
         onChange?.(out)
       })
     )

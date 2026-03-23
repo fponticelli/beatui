@@ -353,6 +353,74 @@ const ar: BeatUIMessages = {
   // Time select
   timeSelectTime: 'اختر الوقت',
   dateTimeSelectDateTime: 'اختر التاريخ والوقت',
+  // Color picker
+  colorPicker: {
+    hue: 'درجة اللون',
+    saturation: 'التشبع',
+    lightness: 'الإضاءة',
+    alpha: 'الشفافية',
+    red: 'أحمر',
+    green: 'أخضر',
+    blue: 'أزرق',
+    hex: 'Hex',
+    whiteness: 'البياض',
+    blackness: 'السواد',
+    chroma: 'الكروما',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: 'بحث...',
+    noResults: 'لم يتم العثور على نتائج',
+    recentItems: 'الأخيرة',
+    close: 'إغلاق',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: 'قائمة قابلة للتمرير',
+  },
+  // Stepper
+  stepper: {
+    step: 'خطوة',
+    stepOfTotal: (current: number, total: number) =>
+      `الخطوة ${current} من ${total}`,
+    completed: 'مكتمل',
+    next: 'التالي',
+    previous: 'السابق',
+    complete: 'إكمال',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: 'اسحب لإعادة الترتيب',
+    dropIndicator: 'أفلت هنا',
+  },
+  // Transfer list
+  transferList: {
+    available: 'متاح',
+    selected: 'محدد',
+    moveRight: 'نقل إلى المحدد',
+    moveLeft: 'نقل إلى المتاح',
+    moveAllRight: 'نقل الكل إلى المحدد',
+    moveAllLeft: 'نقل الكل إلى المتاح',
+    searchAvailable: 'بحث في المتاح',
+    searchSelected: 'بحث في المحدد',
+  },
+  // Copy button
+  copyButton: {
+    copied: 'تم النسخ!',
+    copyToClipboard: 'نسخ إلى الحافظة',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: 'زيادة',
+    decrement: 'إنقاص',
+    value: 'القيمة',
+  },
+  // Stat card
+  statCard: {
+    trendUp: 'اتجاه صاعد',
+    trendDown: 'اتجاه هابط',
+    trendFlat: 'بدون تغيير',
+  },
   // OTP input
   otpInputLabel: 'إدخال كلمة مرور لمرة واحدة',
   otpDigitLabel: (index: number, total: number) => `الرقم ${index} من ${total}`,

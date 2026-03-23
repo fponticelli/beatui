@@ -352,6 +352,74 @@ const ko: BeatUIMessages = {
   // Time select
   timeSelectTime: '시간 선택',
   dateTimeSelectDateTime: '날짜와 시간 선택',
+  // Color picker
+  colorPicker: {
+    hue: '색조',
+    saturation: '채도',
+    lightness: '밝기',
+    alpha: '알파',
+    red: '빨강',
+    green: '초록',
+    blue: '파랑',
+    hex: 'Hex',
+    whiteness: '백색도',
+    blackness: '흑색도',
+    chroma: '채도(C)',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: '검색...',
+    noResults: '결과를 찾을 수 없습니다',
+    recentItems: '최근',
+    close: '닫기',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: '스크롤 가능한 목록',
+  },
+  // Stepper
+  stepper: {
+    step: '단계',
+    stepOfTotal: (current: number, total: number) =>
+      `${total}단계 중 ${current}단계`,
+    completed: '완료됨',
+    next: '다음',
+    previous: '이전',
+    complete: '완료',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: '드래그하여 재정렬',
+    dropIndicator: '여기에 놓기',
+  },
+  // Transfer list
+  transferList: {
+    available: '사용 가능',
+    selected: '선택됨',
+    moveRight: '선택됨으로 이동',
+    moveLeft: '사용 가능으로 이동',
+    moveAllRight: '모두 선택됨으로 이동',
+    moveAllLeft: '모두 사용 가능으로 이동',
+    searchAvailable: '사용 가능 검색',
+    searchSelected: '선택됨 검색',
+  },
+  // Copy button
+  copyButton: {
+    copied: '복사됨!',
+    copyToClipboard: '클립보드에 복사',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: '증가',
+    decrement: '감소',
+    value: '값',
+  },
+  // Stat card
+  statCard: {
+    trendUp: '상승 추세',
+    trendDown: '하락 추세',
+    trendFlat: '변동 없음',
+  },
   // OTP input
   otpInputLabel: '일회용 비밀번호 입력',
   otpDigitLabel: (index: number, total: number) =>

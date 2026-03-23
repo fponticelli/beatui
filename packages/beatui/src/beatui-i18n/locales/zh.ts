@@ -351,6 +351,74 @@ const zh: BeatUIMessages = {
   // Time select
   timeSelectTime: '选择时间',
   dateTimeSelectDateTime: '选择日期和时间',
+  // Color picker
+  colorPicker: {
+    hue: '色相',
+    saturation: '饱和度',
+    lightness: '亮度',
+    alpha: '透明度',
+    red: '红',
+    green: '绿',
+    blue: '蓝',
+    hex: 'Hex',
+    whiteness: '白度',
+    blackness: '黑度',
+    chroma: '色度',
+  },
+  // Spotlight
+  spotlight: {
+    placeholder: '搜索...',
+    noResults: '未找到结果',
+    recentItems: '最近',
+    close: '关闭',
+  },
+  // Virtual list
+  virtualList: {
+    listLabel: '可滚动列表',
+  },
+  // Stepper
+  stepper: {
+    step: '步骤',
+    stepOfTotal: (current: number, total: number) =>
+      `第 ${current} 步，共 ${total} 步`,
+    completed: '已完成',
+    next: '下一步',
+    previous: '上一步',
+    complete: '完成',
+  },
+  // Sortable list
+  sortableList: {
+    dragHandle: '拖动以重新排序',
+    dropIndicator: '放置到此处',
+  },
+  // Transfer list
+  transferList: {
+    available: '可用',
+    selected: '已选',
+    moveRight: '移至已选',
+    moveLeft: '移至可用',
+    moveAllRight: '全部移至已选',
+    moveAllLeft: '全部移至可用',
+    searchAvailable: '搜索可用',
+    searchSelected: '搜索已选',
+  },
+  // Copy button
+  copyButton: {
+    copied: '已复制！',
+    copyToClipboard: '复制到剪贴板',
+  },
+  // Number stepper
+  numberStepper: {
+    increment: '增加',
+    decrement: '减少',
+    value: '值',
+  },
+  // Stat card
+  statCard: {
+    trendUp: '上升趋势',
+    trendDown: '下降趋势',
+    trendFlat: '无变化',
+  },
   // OTP input
   otpInputLabel: '一次性密码输入',
   otpDigitLabel: (index: number, total: number) =>
