@@ -1,0 +1,138 @@
+/* StatCard Component */
+.bc-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background-color: var(--color-white);
+  border: var(--border-width-thin) solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+/* Variants */
+.bc-stat-card--elevated {
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+.bc-stat-card--outlined {
+  background-color: transparent;
+  border: var(--border-width-default) solid var(--border-default);
+}
+
+/* Padding + font sizes */
+.bc-stat-card--padding-xs {
+  padding: var(--spacing-xs);
+  gap: var(--spacing-xs);
+}
+.bc-stat-card--padding-xs .bc-stat-card__value {
+  font-size: var(--font-size-lg);
+}
+.bc-stat-card--padding-xs .bc-stat-card__label,
+.bc-stat-card--padding-xs .bc-stat-card__trend {
+  font-size: var(--font-size-xs);
+}
+
+.bc-stat-card--padding-sm {
+  padding: var(--spacing-sm);
+  gap: var(--spacing-xs);
+}
+.bc-stat-card--padding-sm .bc-stat-card__value {
+  font-size: var(--font-size-xl);
+}
+.bc-stat-card--padding-sm .bc-stat-card__label,
+.bc-stat-card--padding-sm .bc-stat-card__trend {
+  font-size: var(--font-size-xs);
+}
+
+.bc-stat-card--padding-lg {
+  padding: var(--spacing-xl);
+  gap: var(--spacing-md);
+}
+.bc-stat-card--padding-lg .bc-stat-card__value {
+  font-size: var(--font-size-3xl);
+}
+.bc-stat-card--padding-lg .bc-stat-card__label,
+.bc-stat-card--padding-lg .bc-stat-card__trend {
+  font-size: var(--font-size-md);
+}
+
+.bc-stat-card--padding-xl {
+  padding: var(--spacing-2xl);
+  gap: var(--spacing-lg);
+}
+.bc-stat-card--padding-xl .bc-stat-card__value {
+  font-size: var(--font-size-4xl);
+}
+.bc-stat-card--padding-xl .bc-stat-card__label,
+.bc-stat-card--padding-xl .bc-stat-card__trend {
+  font-size: var(--font-size-lg);
+}
+
+/* Value */
+.bc-stat-card__value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-normal);
+  line-height: var(--line-height-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Label */
+.bc-stat-card__label {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Trend */
+.bc-stat-card__trend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--stat-card-trend-color, var(--text-muted));
+}
+
+.bc-stat-card__trend-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Icon */
+.bc-stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stat-card-accent, var(--color-primary-500));
+}
+
+/* Sparkline slot */
+.bc-stat-card__sparkline {
+  margin-top: var(--spacing-sm);
+  min-height: 32px;
+  border-top: var(--border-width-thin) solid
+    var(--border-subtle, var(--border-default));
+  padding-top: var(--spacing-sm);
+}
+
+/* Dark mode */
+.dark .bc-stat-card {
+  background-color: var(--bg-surface);
+}
+
+.dark .bc-stat-card--outlined {
+  background-color: transparent;
+}
+
+.dark .bc-stat-card--elevated {
+  box-shadow: var(--shadow-lg);
+}
+
+.dark .bc-stat-card__trend {
+  color: var(--stat-card-trend-color-dark, var(--text-muted));
+}
+
+.dark .bc-stat-card__icon {
+  color: var(--stat-card-accent, var(--color-primary-400));
+}
