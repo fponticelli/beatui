@@ -73,6 +73,8 @@ export interface DataSourceOptions<T, C extends string = string> {
   multiSort?: Value<boolean>
   /** When true, skips client-side sort/filter/paginate (caller drives rows externally). @default false */
   serverSide?: Value<boolean>
+  /** Total row count for server-side pagination. When provided (and serverSide is true), overrides the client-side row count for pagination calculations. */
+  totalRows?: Value<number>
   /** Column to group rows by. `undefined` disables grouping. */
   groupBy?: Value<C | undefined>
   /** Called whenever sort state changes */
@@ -246,6 +248,7 @@ export function createDataSource<T, C extends string = string>(
     pageSize: pageSizeValue,
     multiSort = false,
     serverSide = false,
+    totalRows: totalRowsValue,
     groupBy: groupByValue,
     onSortChange,
     onFilterChange,
@@ -299,7 +302,10 @@ export function createDataSource<T, C extends string = string>(
   disposables.push(() => sourceData.dispose())
 
   // Total rows
-  const totalRows = sourceData.map(d => d.length)
+  const totalRows =
+    serverSide && totalRowsValue != null
+      ? Value.toSignal(totalRowsValue)
+      : sourceData.map(d => d.length)
   disposables.push(() => totalRows.dispose())
 
   // Pipeline: source → manual reorder → filter → sort → paginate
@@ -355,7 +361,10 @@ export function createDataSource<T, C extends string = string>(
       })
   if (!serverSide) disposables.push(() => filteredData.dispose())
 
-  const totalFilteredRows = filteredData.map(d => d.length)
+  const totalFilteredRows =
+    serverSide && totalRowsValue != null
+      ? Value.toSignal(totalRowsValue)
+      : filteredData.map(d => d.length)
   disposables.push(() => totalFilteredRows.dispose())
 
   // Step 3: Sort
