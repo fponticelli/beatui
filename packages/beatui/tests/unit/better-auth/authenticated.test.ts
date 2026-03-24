@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { prop } from '@tempots/dom'
-import type { BetterAuthBridge } from '../../../src/better-auth/types'
+import type { BetterAuthBridge, AuthContainerOptions, SignInFormOptions, SignUpFormOptions, ResetPasswordFormOptions } from '../../../src/better-auth/types'
 import { Authenticated, Unauthenticated } from '../../../src/better-auth/components/authenticated'
 
 function createMockBridge(overrides: {
@@ -12,10 +12,10 @@ function createMockBridge(overrides: {
     isPending: prop(overrides.isPending ?? false),
     user: prop(null),
     isAuthenticated: prop(overrides.isAuthenticated ?? false),
-    containerOptions: {} as any,
-    signInOptions: {} as any,
-    signUpOptions: {} as any,
-    resetOptions: {} as any,
+    containerOptions: {} as unknown as AuthContainerOptions,
+    signInOptions: {} as unknown as SignInFormOptions,
+    signUpOptions: {} as unknown as SignUpFormOptions,
+    resetOptions: {} as unknown as ResetPasswordFormOptions,
     socialProviders: [],
     signOut: vi.fn(),
     refreshSession: vi.fn(),

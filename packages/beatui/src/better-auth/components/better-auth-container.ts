@@ -17,10 +17,7 @@ export function BetterAuthContainer(
     () => import('../../auth-i18n/translations'),
     ({ AuthI18n }) =>
       Provide(AuthI18n, {}, () =>
-        AuthContainer(
-          { ...auth.containerOptions, ...overrides },
-          ...children
-        )
+        AuthContainer({ ...auth.containerOptions, ...overrides }, ...children)
       )
   )
 }

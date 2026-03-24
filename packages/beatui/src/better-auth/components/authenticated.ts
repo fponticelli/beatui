@@ -17,11 +17,12 @@ export interface AuthGuardOptions {
  * While the session is pending (initial fetch), renders the `loading` fallback
  * or nothing (`Empty`) by default.
  */
-export function Authenticated(auth: BetterAuthBridge, options: AuthGuardOptions) {
-  return When(
-    auth.isPending,
-    options.loading ?? (() => Empty),
-    () => When(auth.isAuthenticated, options.children)
+export function Authenticated(
+  auth: BetterAuthBridge,
+  options: AuthGuardOptions
+) {
+  return When(auth.isPending, options.loading ?? (() => Empty), () =>
+    When(auth.isAuthenticated, options.children)
   )
 }
 
@@ -35,10 +36,11 @@ export function Authenticated(auth: BetterAuthBridge, options: AuthGuardOptions)
  * Note: The default behavior causes a brief flash of unauthenticated content
  * if the user is actually authenticated. Use `loading` to avoid this.
  */
-export function Unauthenticated(auth: BetterAuthBridge, options: AuthGuardOptions) {
-  return When(
-    auth.isPending,
-    options.loading ?? options.children,
-    () => Unless(auth.isAuthenticated, options.children)
+export function Unauthenticated(
+  auth: BetterAuthBridge,
+  options: AuthGuardOptions
+) {
+  return When(auth.isPending, options.loading ?? options.children, () =>
+    Unless(auth.isAuthenticated, options.children)
   )
 }

@@ -1,8 +1,5 @@
 import { prop, Signal, Value } from '@tempots/dom'
-import {
-  makeQueryResource,
-  type QueryResourceLoadOptions,
-} from '@tempots/ui'
+import { makeQueryResource, type QueryResourceLoadOptions } from '@tempots/ui'
 import type { AsyncResult } from '@tempots/std'
 
 /**

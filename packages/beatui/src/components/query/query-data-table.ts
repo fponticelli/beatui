@@ -79,12 +79,9 @@ export type QueryDataTableOptions<
  * })
  * ```
  */
-export function QueryDataTable<
-  Req,
-  T,
-  C extends string = string,
-  E = unknown,
->(options: QueryDataTableOptions<Req, T, C, E>): TNode {
+export function QueryDataTable<Req, T, C extends string = string, E = unknown>(
+  options: QueryDataTableOptions<Req, T, C, E>
+): TNode {
   const {
     request,
     load,
