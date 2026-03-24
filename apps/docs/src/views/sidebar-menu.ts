@@ -47,6 +47,14 @@ export function SidebarMenu() {
       ),
       CollapsibleSidebarGroup(
         {
+          icon: 'lucide:sparkles',
+          header: 'Generative UI',
+          startOpen: currentPath.startsWith('/guides/openui'),
+        },
+        SidebarLink({ href: '/guides/openui-playground', content: 'OpenUI Playground' })
+      ),
+      CollapsibleSidebarGroup(
+        {
           icon: 'lucide:file-json',
           header: 'Schema Forms',
           startOpen: currentPath.startsWith('/guides/json-'),

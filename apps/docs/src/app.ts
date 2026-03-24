@@ -104,6 +104,11 @@ export const App = () => {
             import('./pages/guides/json-schema-display'),
             ({ default: Page }) => Page()
           ),
+        '/guides/openui-playground': () =>
+          Async(
+            import('./pages/guides/openui-playground'),
+            ({ default: Page }) => Page()
+          ),
         ...componentRoutes,
         '/api/*': () =>
           Async(import('./pages/api/api-router'), ({ ApiRouter }) =>
