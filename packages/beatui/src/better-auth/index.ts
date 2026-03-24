@@ -22,6 +22,8 @@ export type {
   TwoFactorClient,
   PasskeyClient,
   PasskeyInfo,
+  AuthFieldError,
+  AuthError,
 } from './types'
 
 export { createBetterAuthBridge } from './bridge'
