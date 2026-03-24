@@ -5,29 +5,26 @@
  * user's email address across sessions. Used by the "remember me" checkbox
  * in sign-in and reset password forms.
  *
+ * SSR-safe: returns a plain in-memory prop when `window` is not available.
+ *
  * @module auth/auth-email-prop
  */
 
-import { localStorageProp } from '@tempots/dom'
+import { localStorageProp, prop } from '@tempots/dom'
+import { isBrowser } from './utils'
 
 /**
- * Creates a reactive `localStorage`-backed property for persisting the user's email.
+ * Creates a reactive property for persisting the user's email.
  *
- * When the "remember me" checkbox is checked, the email is stored under the key
- * `'bui_auth_email'`. When unchecked, the value is set to `null`, removing it
- * from storage.
+ * In browser environments, backed by `localStorage` (key `'bui_auth_email'`).
+ * In SSR environments, returns a plain in-memory `Prop<string | null>`.
  *
- * @returns A reactive `Prop<string | null>` backed by `localStorage`.
- *
- * @example
- * ```ts
- * const emailProp = useAuthEmailProp()
- * emailProp.value = 'user@example.com' // persists to localStorage
- * emailProp.value = null               // removes from localStorage
- * ```
+ * @returns A reactive `Prop<string | null>`.
  */
 export const useAuthEmailProp = () =>
-  localStorageProp<string | null>({
-    key: 'bui_auth_email',
-    defaultValue: null,
-  })
+  isBrowser()
+    ? localStorageProp<string | null>({
+        key: 'bui_auth_email',
+        defaultValue: null,
+      })
+    : prop<string | null>(null)
