@@ -3,6 +3,7 @@ import { ScrollablePanel, Stack, Button, Badge } from '@tempots/beatui'
 import {
   beatuiLibrary,
   createParser,
+  OpenUIRenderer,
 } from '@tempots/beatui/openui'
 
 export const meta = {
@@ -118,16 +119,30 @@ export default function OpenUIPlaygroundPage() {
           ),
         ),
 
-        // Right: parsed output (text for now)
+        // Right: live preview + AST
         html.div(
           attr.class('flex flex-col gap-2'),
           html.label(
             attr.class('text-sm font-medium text-gray-700 dark:text-gray-300'),
+            'Live Preview'
+          ),
+          html.div(
+            attr.class(
+              'flex-1 min-h-[200px] p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 overflow-auto'
+            ),
+            OpenUIRenderer({
+              library: beatuiLibrary,
+              response: code,
+              debug: true,
+            }),
+          ),
+          html.label(
+            attr.class('text-sm font-medium text-gray-500 dark:text-gray-500 mt-2'),
             'Parsed AST'
           ),
           html.pre(
             attr.class(
-              'flex-1 min-h-[400px] p-4 font-mono text-xs rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-auto whitespace-pre-wrap'
+              'max-h-[150px] p-3 font-mono text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 overflow-auto whitespace-pre-wrap'
             ),
             parsedOutput,
           ),

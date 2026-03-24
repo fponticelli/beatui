@@ -155,22 +155,20 @@ export const dataComponents = [
     name: 'ProgressBar',
     props: z.object({
       value: z.number().optional(),
-      max: z.number().optional(),
       size: z.enum(['sm', 'md', 'lg']).optional(),
       color: colorSchema.optional(),
-      indeterminate: z.boolean().optional(),
+      max: z.number().optional(),
       showLabel: z.boolean().optional(),
     }),
     description:
-      'A horizontal progress bar component that shows completion status.',
+      'Horizontal progress bar. ProgressBar(75, "md") shows 75% progress.',
     renderer: props =>
       ProgressBar({
         value: props.value,
         max: props.max,
         size: props.size,
         color: props.color as any,
-        indeterminate: props.indeterminate,
-        showLabel: props.showLabel,
+        showLabel: props.showLabel ?? true,
       }),
   }),
 

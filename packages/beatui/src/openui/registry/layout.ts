@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { html } from '@tempots/dom'
+import { html, attr } from '@tempots/dom'
+import type { TNode } from '@tempots/dom'
 import { defineComponent } from '../library/define-component'
 import { Stack } from '../../components/layout/stack'
 import { Group } from '../../components/layout/group'
@@ -33,16 +34,22 @@ export const layoutComponents = [
   defineComponent({
     name: 'Card',
     props: z.object({
+      title: z.string().optional(),
+      content: z.string().optional(),
       variant: z
         .enum(['default', 'elevated', 'outlined', 'flat'])
         .optional(),
-      size: z.enum(['xs', 'sm', 'md', 'lg', 'xl']).optional(),
       children: z.array(z.any()).optional(),
     }),
     description:
-      'A container component that groups content with visual separation using elevation, borders, or background.',
-    renderer: props =>
-      Card({ variant: props.variant, size: props.size }, ...(props.children ?? [])),
+      'A container with optional title and content text. Card("My Title", "Description text")',
+    renderer: (props) => {
+      const inner: TNode[] = []
+      if (props.title) inner.push(html.h3(attr.class('font-semibold text-lg'), props.title))
+      if (props.content) inner.push(html.p(attr.class('text-gray-600 dark:text-gray-400'), props.content))
+      if (props.children) inner.push(...(props.children as TNode[]))
+      return Card({ variant: props.variant as any }, ...inner)
+    },
   }),
 
   defineComponent({

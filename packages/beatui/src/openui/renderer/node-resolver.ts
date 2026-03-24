@@ -64,14 +64,23 @@ export function resolveNode(
         propsObj[schemaKeys[i]] = extractValue(arg)
       }
 
-      // Validate props with Zod safeParse
-      const parseResult = component.props.safeParse(propsObj)
-      const validatedProps = parseResult.success ? parseResult.data : propsObj
-
-      // Resolve children
-      const resolvedChildren: Renderable[] = childrenNodes.map(child =>
-        resolveNode(child, library, debug) as Renderable
+      // Resolve children into TNodes
+      const resolvedChildren: TNode[] = childrenNodes.map(child =>
+        resolveNode(child, library, debug)
       )
+
+      // If schema has a 'children' key, put resolved children into props
+      if (schemaKeys.includes('children') && resolvedChildren.length > 0) {
+        propsObj['children'] = resolvedChildren
+      }
+
+      // Validate props — skip children field since it contains TNodes, not serializable values
+      const propsForValidation = { ...propsObj }
+      delete propsForValidation['children']
+      const parseResult = component.props.safeParse(propsForValidation)
+      const validatedProps = parseResult.success
+        ? { ...parseResult.data, ...(propsObj['children'] != null ? { children: propsObj['children'] } : {}) }
+        : propsObj
 
       return component.renderer(
         validatedProps as Record<string, unknown>,
