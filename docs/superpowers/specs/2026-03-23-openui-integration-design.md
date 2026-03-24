@@ -249,12 +249,12 @@ function OpenUIRenderer(options: OpenUIRendererOptions): Renderable
 
 ### Rendering pipeline
 
-1. **Parse** — Creates a streaming parser internally. On each `response` change, calls `push(newChunk)` for an updated `ParseResult`.
+1. **Parse** — Creates a streaming parser internally. Uses `Value.on(response, cb)` to react to changes — this is a no-op for static strings (parsed once synchronously) and reactive for `Signal<string>` (computes the delta of new chars since the last push and calls `push(delta)` on the streaming parser). The current `ParseResult` is held in a `Prop<ParseResult>`.
 2. **Resolve** — Walks the AST. For each `component` node, looks up the `DefinedComponent`, validates positional args against Zod schema, calls the `renderer` with parsed props.
-3. **Forward references** — The resolver maintains a `Map<string, Signal<Renderable>>` for all references. Unresolved references start as `Skeleton` placeholders. Each reference slot is rendered via `MapSignal(slot, identity)` inside an `html.div` wrapper (never at root — per Tempo convention). When the defining statement arrives, the signal is `.set()` to the resolved component, and `MapSignal` swaps the skeleton for the real content.
-4. **Reactivity** — The initial implementation re-renders the full tree on each `ParseResult` update. This is acceptable for streaming UI generation where the tree is built incrementally and parse results arrive at LLM token speed (~60 tokens/sec). Future optimization: per-statement signals that only update changed subtrees.
-5. **Disposal** — Rendered components can rely on Tempo's `OnDispose` for cleanup. When a `MapSignal` updates (e.g., forward ref resolution), the previous `Renderable` is automatically disposed by Tempo. When the `OpenUIRenderer` itself unmounts, all child components are disposed.
-6. **Completion** — When `isStreaming` transitions to `false`, any still-unresolved forward references are replaced with an `EmptyState` (or removed) and `onComplete` fires. Permanently unresolved references indicate an incomplete LLM response.
+3. **Forward references** — The resolver maintains a `Map<string, Prop<ASTNode | null>>` for all references. Unresolved references start as `null` (rendered as `Skeleton`). Each reference slot is rendered via `MapSignal(refSlot, (node) => node !== null ? resolveNode(node, library) : Skeleton({}))` inside an `html.div` wrapper (never at root — per Tempo convention). When the defining statement arrives, the prop is `.set()` to the resolved `ASTNode`, and `MapSignal` swaps the skeleton for the real content.
+4. **Reactivity** — `OpenUIRenderer` returns `html.div(attr.class(options.className), MapSignal(parseResultSignal, (result) => ...))` — the outer `html.div` ensures `MapSignal` is never the root `Renderable`. The initial implementation re-renders the full tree on each `ParseResult` update. This is acceptable for streaming UI generation where the tree is built incrementally and parse results arrive at LLM token speed (~60 tokens/sec). Future optimization: per-statement signals that only update changed subtrees.
+5. **Disposal** — Rendered components can rely on Tempo's `OnDispose` for cleanup. When a `MapSignal` updates (e.g., forward ref resolution), the previous TNode is automatically disposed by Tempo. When the `OpenUIRenderer` itself unmounts, all child components are disposed.
+6. **Completion** — When `isStreaming` transitions to `false` (detected via `Value.on()`), any still-unresolved forward references are replaced with an `EmptyState` (or removed) and `onComplete` fires. Permanently unresolved references indicate an incomplete LLM response.
 
 ### Action dispatch
 
@@ -282,7 +282,34 @@ interface ActionContext {
 }
 ```
 
-Provided to all rendered components via a Tempo provider. Buttons with `actionType` and form submissions dispatch through this context — both the callback fires and the signal updates.
+### ActionContext provider
+
+The `ActionContext` is distributed via Tempo's `Provider` pattern:
+
+```ts
+const ActionContextProvider: Provider<ActionContext, { onAction?: (e: ActionEvent) => void }> = {
+  mark: makeProviderMark<ActionContext>('OpenUI:ActionContext'),
+  create: (options) => {
+    const actions = prop<ActionEvent[]>([])
+    const ctx: ActionContext = {
+      onAction: options?.onAction,
+      actions,
+    }
+    return { value: ctx, dispose: () => actions.dispose() }
+  },
+}
+```
+
+The renderer wraps its children with `Provide(ActionContextProvider, { onAction }, ...)`. Component renderers access it via `Use(ActionContextProvider, (ctx) => ...)` to dispatch actions.
+
+Since `ActionEvent` uses a `kind` discriminant, consumers can use Tempo's `OneOfKind` for type-safe handling:
+
+```ts
+OneOfKind(actionSignal, {
+  button: (a) => /* handle button action */,
+  form: (a) => /* handle form submission */,
+})
+```
 
 ### Error handling
 
@@ -292,7 +319,9 @@ Provided to all rendered components via a Tempo provider. Buttons with `actionTy
 
 ## Layer 5: Streaming Adapters
 
-Optional helpers producing `Signal<string>` from common streaming sources. Adapters return `Signal<string>` (mutable reactive), which is assignable to `Value<string>` (the supertype accepted by `OpenUIRenderer`). This means the renderer also accepts static strings for non-streaming use (e.g., cached responses).
+Optional helpers producing `Signal<string>` from common streaming sources. Adapters return `Signal<string>` (mutable reactive via `prop()`), which is assignable to `Value<string>` (the supertype accepted by `OpenUIRenderer`). This means the renderer also accepts static strings for non-streaming use (e.g., cached responses).
+
+**Disposal**: Because these signals are created outside any Tempo component tree, they are NOT auto-disposed. The `abort()`/`close()` functions must dispose the internal `prop()` signals. Callers must call `abort()`/`close()` when done to prevent memory leaks.
 
 ```ts
 interface StreamOptions {
@@ -304,19 +333,19 @@ interface StreamOptions {
 function fromSSE(url: string, options?: StreamOptions & EventSourceInit): {
   response: Signal<string>
   isStreaming: Signal<boolean>
-  abort: () => void
+  abort: () => void           // closes EventSource + disposes response & isStreaming signals
 }
 
 function fromFetch(input: RequestInfo, init?: RequestInit, options?: StreamOptions): {
   response: Signal<string>
   isStreaming: Signal<boolean>
-  abort: () => void
+  abort: () => void           // aborts fetch + disposes response & isStreaming signals
 }
 
 function fromWebSocket(url: string, options?: StreamOptions & { protocols?: string[] }): {
   response: Signal<string>
   isStreaming: Signal<boolean>
-  close: () => void
+  close: () => void           // closes WebSocket + disposes response & isStreaming signals
   send: (data: string) => void
 }
 ```
@@ -338,8 +367,8 @@ export type { DefinedComponent, Library, ComponentGroup, PromptOptions }
 export { beatuiLibrary }
 
 // Renderer
-export { OpenUIRenderer }
-export type { OpenUIRendererOptions, ActionEvent, ActionContext }
+export { OpenUIRenderer, ActionContextProvider }
+export type { OpenUIRendererOptions, ActionEvent, ButtonAction, FormSubmitAction, ActionContext }
 
 // Streaming adapters
 export { fromSSE, fromFetch, fromWebSocket }
