@@ -50,7 +50,7 @@ describe('QueryDataTable', () => {
       convertError: String,
       columns,
       rowId,
-      errorContent: (error, reload) => 'Custom error',
+      errorContent: (_error, _reload) => 'Custom error',
     })
     expect(node).toBeDefined()
   })
