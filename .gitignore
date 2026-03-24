@@ -47,3 +47,4 @@ coverage
 *.tsbuildinfo
 
 .turbo
+.claude/worktrees/
