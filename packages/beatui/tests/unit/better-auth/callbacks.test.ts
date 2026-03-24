@@ -84,6 +84,36 @@ describe('createSignInCallback', () => {
       expect.objectContaining({ callbackURL: '/dashboard' })
     )
   })
+
+  it('calls onAuthSuccess with user after successful sign-in', async () => {
+    const client = createMockBetterAuthClient()
+    const onSuccess = vi.fn()
+    const onAuthSuccess = vi.fn()
+    const callback = createSignInCallback(client, {}, onSuccess, onAuthSuccess)
+
+    await callback({ email: 'test@example.com', password: 'password123' })
+
+    expect(onAuthSuccess).toHaveBeenCalledWith({
+      id: 'user-1',
+      name: 'Test User',
+      email: 'test@example.com',
+    })
+  })
+
+  it('does not call onAuthSuccess on failure', async () => {
+    const client = createMockBetterAuthClient({
+      signIn: {
+        email: vi.fn().mockResolvedValue(failure('Invalid credentials')),
+        social: vi.fn(),
+      },
+    })
+    const onAuthSuccess = vi.fn()
+    const callback = createSignInCallback(client, {}, vi.fn(), onAuthSuccess)
+
+    await callback({ email: 'test@example.com', password: 'wrong' })
+
+    expect(onAuthSuccess).not.toHaveBeenCalled()
+  })
 })
 
 describe('createSignUpCallback', () => {
@@ -128,6 +158,26 @@ describe('createSignUpCallback', () => {
 
     expect(result).toBe('Email already exists')
     expect(onSuccess).not.toHaveBeenCalled()
+  })
+
+  it('calls onAuthSuccess with user after successful sign-up', async () => {
+    const client = createMockBetterAuthClient()
+    const onSuccess = vi.fn()
+    const onAuthSuccess = vi.fn()
+    const callback = createSignUpCallback(client, {}, onSuccess, onAuthSuccess)
+
+    await callback({
+      name: 'Test',
+      email: 'test@example.com',
+      password: 'password123',
+      acceptTerms: true,
+    })
+
+    expect(onAuthSuccess).toHaveBeenCalledWith({
+      id: 'user-1',
+      name: 'Test User',
+      email: 'test@example.com',
+    })
   })
 })
 
@@ -193,5 +243,49 @@ describe('createSocialLoginHandler', () => {
       message: 'Provider error',
       status: 500,
     })
+  })
+})
+
+describe('handleResult with structured errors', () => {
+  it('returns AuthFieldError array when error contains fieldErrors', async () => {
+    const client = createMockBetterAuthClient({
+      signUp: {
+        email: vi.fn().mockResolvedValue({
+          data: null,
+          error: {
+            message: 'Validation failed',
+            status: 422,
+            statusText: 'Unprocessable Entity',
+            fieldErrors: { email: 'Domain not allowed' },
+          },
+        }),
+      },
+    })
+    const callback = createSignUpCallback(client, {}, vi.fn())
+
+    const result = await callback({
+      email: 'user@blocked.com',
+      password: 'password123',
+      acceptTerms: true,
+    })
+
+    expect(result).toEqual([{ field: 'email', message: 'Domain not allowed' }])
+  })
+
+  it('returns plain string for non-structured errors', async () => {
+    const client = createMockBetterAuthClient({
+      signIn: {
+        email: vi.fn().mockResolvedValue(failure('Invalid credentials')),
+        social: vi.fn(),
+      },
+    })
+    const callback = createSignInCallback(client, {}, vi.fn())
+
+    const result = await callback({
+      email: 'test@example.com',
+      password: 'wrong',
+    })
+
+    expect(result).toBe('Invalid credentials')
   })
 })
