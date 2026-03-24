@@ -98,6 +98,7 @@ export default defineConfig({
         'src/lexical/**',
         'src/better-auth/**',
         'src/markdown/**',
+        'src/openui/**',
       ],
       thresholds: {
         // Set baseline thresholds - can be increased over time
@@ -125,6 +126,7 @@ export default defineConfig({
         lexical: resolve(__dirname, 'src/lexical/index.ts'),
         codehighlight: resolve(__dirname, 'src/codehighlight/index.ts'),
         'better-auth': resolve(__dirname, 'src/better-auth/index.ts'),
+        openui: resolve(__dirname, 'src/openui/index.ts'),
         tailwind: resolve(__dirname, 'src/tailwind/index.ts'),
         'tailwind/preset': resolve(__dirname, 'src/tailwind/preset.ts'),
         'tailwind/vite-plugin': resolve(
@@ -145,6 +147,7 @@ export default defineConfig({
           entryName === 'lexical' ||
           entryName === 'codehighlight' ||
           entryName === 'better-auth' ||
+          entryName === 'openui' ||
           entryName === 'tailwind'
         ) {
           return `${entryName}/index.${format}.js`
@@ -196,6 +199,7 @@ export default defineConfig({
         if (id === 'dashjs' || id.startsWith('dashjs/')) return true
         if (id === 'ajv' || id.startsWith('ajv/')) return true
         if (id === 'ajv-formats' || id.startsWith('ajv-formats/')) return true
+        if (id === 'zod' || id.startsWith('zod/')) return true
         if (id === 'monaco-editor' || id.startsWith('monaco-editor/')) return true
         if (id === 'katex' || id.startsWith('katex/')) return true
         if (id === 'markdown-it' || id.startsWith('markdown-it/')) return true
