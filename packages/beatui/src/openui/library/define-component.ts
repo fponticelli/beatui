@@ -1,12 +1,12 @@
 import type { z } from 'zod'
-import type { Renderable } from '@tempots/dom'
+import type { TNode } from '@tempots/dom'
 import type { DefinedComponent } from './types.js'
 
 export interface DefineComponentConfig<T extends z.ZodObject<any>> {
   name: string
   props: T
   description: string
-  renderer: (props: z.infer<T>, children: Renderable[]) => Renderable
+  renderer: (props: z.infer<T>, children: TNode[]) => TNode
 }
 
 /**

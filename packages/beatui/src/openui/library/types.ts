@@ -1,5 +1,5 @@
 import type { z } from 'zod'
-import type { Renderable } from '@tempots/dom'
+import type { TNode } from '@tempots/dom'
 
 export interface ComponentNameChecker {
   has(name: string): boolean
@@ -9,7 +9,7 @@ export interface DefinedComponent<T extends z.ZodObject<any> = z.ZodObject<any>>
   name: string
   props: T
   description: string
-  renderer: (props: z.infer<T>, children: Renderable[]) => Renderable
+  renderer: (props: z.infer<T>, children: TNode[]) => TNode
 }
 
 export interface PromptOptions {
