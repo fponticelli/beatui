@@ -1,19 +1,19 @@
 # Better-Auth Integration Gaps — Design Spec
 
-Addresses 6 gaps identified during integration of `@tempots/beatui@1.5.0` better-auth components into a downstream app.
+Addresses 6 gaps identified during integration of `@tempots/beatui@1.5.0` better-auth components into a downstream app. All file paths are relative to `packages/beatui/`.
+
+**Versioning**: These changes include breaking API changes (Gap 2) and require a **minor version bump** (pre-1.0 semver — breaking changes are expected). No deprecation adapters needed since the user confirmed breaking backward compatibility is acceptable.
 
 ## Gap 1: Auto-provide AuthI18n in BetterAuthContainer
 
 **Problem**: `BetterAuthContainer` crashes with `Provider not found: AuthI18n` unless the app is wrapped in `BeatUI({ includeAuthI18n: true })`.
 
-**Solution**: `BetterAuthContainer` will lazily import and provide `AuthI18n` itself, making it self-contained.
+**Solution**: `BetterAuthContainer` will lazily import and provide `AuthI18n` itself, making it self-contained. The `AuthContainer` must be constructed inside the `Task` callback so that `Use(AuthI18n)` calls resolve against the newly provided context.
 
 **File**: `src/better-auth/components/better-auth-container.ts`
 
 ```ts
-import { TNode } from '@tempots/dom'
-import { Task } from '@tempots/dom'
-import { Provide } from '@tempots/dom'
+import { TNode, Task, Provide } from '@tempots/dom'
 import { AuthContainer, AuthContainerOptions } from '../../components/auth'
 import { BetterAuthBridge } from '../types'
 
@@ -22,11 +22,11 @@ export function BetterAuthContainer(
   overrides?: Partial<AuthContainerOptions>,
   ...children: TNode[]
 ) {
-  const content = AuthContainer({ ...auth.containerOptions, ...overrides }, ...children)
-
   return Task(
     () => import('../../auth-i18n/translations'),
-    ({ AuthI18n }) => Provide(AuthI18n, {}, () => content)
+    ({ AuthI18n }) => Provide(AuthI18n, {}, () =>
+      AuthContainer({ ...auth.containerOptions, ...overrides }, ...children)
+    )
   )
 }
 ```
@@ -37,7 +37,9 @@ Unconditionally wrapping in `Provide(AuthI18n)` is safe — if already provided 
 
 **Problem**: Neither component handles `bridge.isPending`, leaving a blank screen during initial session fetch.
 
-**Solution**: Add options bag with optional `loading` parameter. `Unauthenticated` defaults to rendering children while pending.
+**Solution**: Add options bag with optional `loading` parameter. `Unauthenticated` defaults to rendering children while pending (showing the sign-in form during loading is a reasonable default).
+
+**Tradeoff**: The default `Unauthenticated` behavior causes a brief flash of unauthenticated content if the user is actually authenticated but the session fetch hasn't completed. Consumers who want to avoid this flash should provide a `loading` fallback.
 
 **File**: `src/better-auth/components/authenticated.ts`
 
@@ -95,14 +97,22 @@ No changes to `createBetterAuthBridge` for baseURL — that is the consumer's re
 
 **Files**: `src/better-auth/provider.ts`, `src/better-auth/types.ts`
 
-Before:
+Before (actual code from provider.ts):
 ```ts
-Provide(BetterAuth, { client }, Use(BetterAuth, bridge => ...))
+Provide(BetterAuth, { client: authClient, socialProviders: ['google'] },
+  Use(BetterAuth, (bridge) =>
+    AuthContainer(bridge.containerOptions)
+  )
+)
 ```
 
 After:
 ```ts
-Provide(BetterAuth, { client }, () => Use(BetterAuth, bridge => ...))
+Provide(BetterAuth, { client: authClient, socialProviders: ['google'] }, () =>
+  Use(BetterAuth, (bridge) =>
+    AuthContainer(bridge.containerOptions)
+  )
+)
 ```
 
 ## Gap 5: Post-auth navigation hook
@@ -117,9 +127,32 @@ Provide(BetterAuth, { client }, () => Use(BetterAuth, bridge => ...))
 onAuthSuccess?: (user: BetterAuthUser) => void
 ```
 
-**File**: `src/better-auth/callbacks.ts` — after successful session refresh in `createSignInCallback` and `createSignUpCallback`, resolve the user from the session and call `onAuthSuccess`.
+**File**: `src/better-auth/callbacks.ts` — `createSignInCallback` and `createSignUpCallback` accept `onAuthSuccess` as a parameter. After `refreshSession()` succeeds, call `client.getSession()` to obtain the user and invoke `onAuthSuccess(user)`. The callback is only invoked when sign-in/sign-up succeeds (no error from `handleResult`).
 
-**File**: `src/better-auth/bridge.ts` — pass `options.onAuthSuccess` through to the callback factories.
+```ts
+export function createSignInCallback(
+  client: BetterAuthClient,
+  opts: BetterAuthBridgeOptions,
+  onSuccess: () => Promise<void>,
+  onAuthSuccess?: (user: BetterAuthUser) => void
+): (data: SignInData) => Promise<string | null> {
+  return async (data: SignInData) => {
+    const result = await client.signIn.email({ ... })
+    const error = handleResult(result, opts)
+    if (error) return error
+    await onSuccess()
+    if (onAuthSuccess) {
+      const sessionResult = await client.getSession()
+      if (sessionResult.data?.user) {
+        onAuthSuccess(sessionResult.data.user)
+      }
+    }
+    return null
+  }
+}
+```
+
+**File**: `src/better-auth/bridge.ts` — pass `options.onAuthSuccess` to `createSignInCallback` and `createSignUpCallback`.
 
 ## Gap 6: Structured signup errors
 
@@ -135,30 +168,47 @@ export interface AuthFieldError {
   message: string
 }
 
-export type AuthError = string | AuthFieldError | AuthFieldError[]
+export type AuthError = string | AuthFieldError[]
 ```
 
-**File**: `src/better-auth/callbacks.ts` — `handleResult` attempts to extract structured field errors from the better-auth response error object. If the error body contains field-level details, returns `AuthFieldError[]` instead of a plain string.
+Note: `AuthError` is `string | AuthFieldError[]` (no singular `AuthFieldError` — a single field error is always wrapped in an array to simplify consumer code).
 
-**File**: `src/components/auth/utils.ts` — `requestToControllerValidation` maps `AuthFieldError` objects to path-based `Validation.invalid()` entries, enabling per-field highlighting in forms. Falls back to root-level error for plain strings (current behavior).
+**Cascading type changes**:
+- `handleResult` return type: `string | null` → `AuthError | null`
+- `createSignInCallback` return type: `(data) => Promise<string | null>` → `(data) => Promise<AuthError | null>`
+- `createSignUpCallback` return type: same change
+- `SignInFormOptions.onSignIn` type: same change
+- `SignUpFormOptions.onSignUp` type: same change
+- `requestToControllerValidation` task parameter: `(value: T) => Promise<string | null>` → `(value: T) => Promise<AuthError | null>`
+
+**File**: `src/better-auth/callbacks.ts` — `handleResult` inspects the error response. If the error body contains field-level details (e.g., `{ fieldErrors: { email: "..." } }`), returns `AuthFieldError[]`. Otherwise returns the error message string.
+
+**File**: `src/components/auth/utils.ts` — `requestToControllerValidation` checks the task result type:
+- `string` → current behavior (`Validation.invalid({ message })` at `['root']` path)
+- `AuthFieldError[]` → maps each to `Validation.invalid({ message })` at `[field]` path, enabling per-field highlighting
 
 ## Files Changed Summary
 
 | File | Change |
 |------|--------|
-| `src/better-auth/components/better-auth-container.ts` | Auto-provide AuthI18n |
-| `src/better-auth/components/authenticated.ts` | Options bag with loading fallback |
-| `src/components/auth/auth-email-prop.ts` | isBrowser() guard |
+| `src/better-auth/components/better-auth-container.ts` | Auto-provide AuthI18n via lazy import |
+| `src/better-auth/components/authenticated.ts` | Options bag with loading fallback, export `AuthGuardOptions` |
+| `src/components/auth/auth-email-prop.ts` | `isBrowser()` guard for SSR safety |
 | `src/better-auth/provider.ts` | Fix TSDoc examples |
-| `src/better-auth/types.ts` | Fix TSDoc, add `onAuthSuccess`, add `AuthFieldError` |
-| `src/better-auth/callbacks.ts` | Wire `onAuthSuccess`, structured errors |
-| `src/better-auth/bridge.ts` | Pass `onAuthSuccess` to callbacks |
-| `src/components/auth/utils.ts` | Map `AuthFieldError` to validation paths |
+| `src/better-auth/types.ts` | Fix TSDoc, add `onAuthSuccess`, add `AuthFieldError`/`AuthError` |
+| `src/better-auth/callbacks.ts` | Wire `onAuthSuccess`, structured errors in `handleResult` |
+| `src/better-auth/bridge.ts` | Pass `onAuthSuccess` to callback factories |
+| `src/components/auth/utils.ts` | Handle `AuthError` union in `requestToControllerValidation` |
+| `src/components/auth/types.ts` | Update `onSignIn`/`onSignUp` return types to `AuthError \| null` |
 
 ## Testing Strategy
 
-- Unit tests for `Authenticated`/`Unauthenticated` with pending/resolved states
+- Unit tests for `Authenticated`/`Unauthenticated` with pending → resolved state transitions
+- Unit tests verifying `Authenticated` renders nothing (Empty) during pending by default
+- Unit tests verifying `Unauthenticated` renders children during pending by default
+- Unit tests verifying custom `loading` fallback renders during pending for both components
 - Unit test for `useAuthEmailProp` SSR behavior (mock `window` as undefined)
-- Unit tests for `handleResult` with structured error responses
-- Unit tests for `onAuthSuccess` callback invocation in sign-in/sign-up flows
-- Integration test for `BetterAuthContainer` providing AuthI18n automatically
+- Unit tests for `handleResult` with plain string errors and structured field error responses
+- Unit tests for `onAuthSuccess` callback — invoked on success, NOT invoked on failure
+- Unit tests for `requestToControllerValidation` handling both `string` and `AuthFieldError[]`
+- Integration test for `BetterAuthContainer` providing AuthI18n automatically (no crash without BeatUI root wrapper)
