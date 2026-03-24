@@ -106,7 +106,10 @@ export const App = () => {
           ),
         '/guides/openui-playground': () =>
           Async(
-            import('./pages/guides/openui-playground'),
+            import('./pages/guides/openui-playground').catch(e => {
+              console.error('OpenUI playground import failed:', e)
+              throw e
+            }),
             ({ default: Page }) => Page()
           ),
         ...componentRoutes,
