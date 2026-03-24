@@ -222,6 +222,47 @@ describe('createBetterAuthBridge', () => {
     bridge.dispose()
   })
 
+  it('calls onAuthSuccess after successful sign-in', async () => {
+    const client = createMockBetterAuthClient()
+    const onAuthSuccess = vi.fn()
+    const bridge = createBetterAuthBridge(client, { onAuthSuccess })
+    await vi.runAllTimersAsync()
+
+    await bridge.containerOptions.onSignIn!({
+      email: 'test@example.com',
+      password: 'password123',
+    })
+
+    expect(onAuthSuccess).toHaveBeenCalledWith({
+      id: 'user-1',
+      name: 'Test User',
+      email: 'test@example.com',
+    })
+
+    bridge.dispose()
+  })
+
+  it('calls onAuthSuccess after successful sign-up', async () => {
+    const client = createMockBetterAuthClient()
+    const onAuthSuccess = vi.fn()
+    const bridge = createBetterAuthBridge(client, { onAuthSuccess })
+    await vi.runAllTimersAsync()
+
+    await bridge.containerOptions.onSignUp!({
+      email: 'new@example.com',
+      password: 'password123',
+      acceptTerms: true,
+    })
+
+    expect(onAuthSuccess).toHaveBeenCalledWith({
+      id: 'user-1',
+      name: 'Test User',
+      email: 'test@example.com',
+    })
+
+    bridge.dispose()
+  })
+
   it('dispose cleans up session manager', async () => {
     const client = createMockBetterAuthClient()
     const bridge = createBetterAuthBridge(client, {
