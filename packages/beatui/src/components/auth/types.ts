@@ -13,6 +13,7 @@ import { TNode, Value } from '@tempots/dom'
 import { ControlSize } from '../theme'
 import { ThemeColorName } from '../../tokens'
 import { AuthProviderInfo } from './social-login-button'
+import type { AuthError } from '../../better-auth/types'
 
 /**
  * Supported social authentication provider names.
@@ -273,19 +274,19 @@ export interface AuthContainerOptions {
    * @param data - The sign-in form data.
    * @returns An error message string to display, or `null` on success.
    */
-  onSignIn?: (data: SignInData) => Promise<string | null>
+  onSignIn?: (data: SignInData) => Promise<AuthError | null>
   /**
    * Callback invoked when the sign-up form is submitted.
    * @param data - The sign-up form data.
    * @returns An error message string to display, or `null` on success.
    */
-  onSignUp?: (data: SignUpData) => Promise<string | null>
+  onSignUp?: (data: SignUpData) => Promise<AuthError | null>
   /**
    * Callback invoked when the reset password form is submitted.
    * @param data - The reset password form data.
    * @returns An error message string to display, or `null` on success.
    */
-  onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
+  onResetPassword?: (data: ResetPasswordData) => Promise<AuthError | null>
   /**
    * Callback invoked when the user switches between auth modes.
    * @param mode - The new authentication mode.
@@ -352,7 +353,7 @@ export interface SignInFormOptions {
    * @param data - The sign-in form data.
    * @returns An error message string to display, or `null` on success.
    */
-  onSignIn?: (data: SignInData) => Promise<string | null>
+  onSignIn?: (data: SignInData) => Promise<AuthError | null>
   /** Password validation rules for the password field. */
   passwordRules?: PasswordRules
   /** Custom label overrides for form text. */
@@ -398,7 +399,7 @@ export interface SignUpFormOptions {
    * @param data - The sign-up form data (without confirmPassword).
    * @returns An error message string to display, or `null` on success.
    */
-  onSignUp?: (data: SignUpData) => Promise<string | null>
+  onSignUp?: (data: SignUpData) => Promise<AuthError | null>
   /** Whether to show the password strength indicator. */
   showPasswordStrength?: Value<boolean>
   /** Whether to show the "already have an account?" link. */
@@ -436,7 +437,7 @@ export interface ResetPasswordFormOptions {
    * @param data - The reset password form data containing the email.
    * @returns An error message string to display, or `null` on success.
    */
-  onResetPassword?: (data: ResetPasswordData) => Promise<string | null>
+  onResetPassword?: (data: ResetPasswordData) => Promise<AuthError | null>
   /** Custom label overrides for form text. */
   labels?: ResetPasswordFormLabels
 }

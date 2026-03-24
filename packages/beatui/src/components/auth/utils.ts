@@ -9,8 +9,9 @@
  */
 
 import { AuthProviderName, PasswordRules } from './types'
-import { taskToValidation } from '../form'
+import { taskToValidation, ControllerValidation } from '../form'
 import { Validation } from '@tempots/std'
+import type { AuthError, AuthFieldError } from '../../better-auth/types'
 
 /**
  * Mapping of every supported social provider name to its display metadata.
@@ -449,7 +450,7 @@ export function requestToControllerValidation<T>({
   onStart,
   onEnd,
 }: {
-  task: undefined | ((value: T) => Promise<string | null>)
+  task: undefined | ((value: T) => Promise<AuthError | null>)
   message: string
   onStart?: () => void
   onEnd?: () => void
@@ -461,10 +462,18 @@ export function requestToControllerValidation<T>({
       errorMessage: message,
       errorPath: ['root'],
       validation: result => {
-        if (result != null) {
+        if (result == null) {
+          return Validation.valid
+        }
+        if (typeof result === 'string') {
           return Validation.invalid({ message: result })
         }
-        return Validation.valid
+        // AuthFieldError[] — map to field-level validation errors
+        const fields: Record<string, string> = {}
+        for (const err of result as AuthFieldError[]) {
+          fields[err.field] = err.message
+        }
+        return ControllerValidation.invalidFields(fields)
       },
     })
     onEnd?.()
