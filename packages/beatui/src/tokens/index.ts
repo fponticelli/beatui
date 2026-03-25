@@ -110,9 +110,7 @@ function isSemanticTokenOverrideOptions<C extends string = never>(
 }
 
 export function generateSemanticTokenVariables<C extends string = never>(
-  overrides?:
-    | SemanticColorOverrides<C>
-    | SemanticTokenOverrideOptions<C>
+  overrides?: SemanticColorOverrides<C> | SemanticTokenOverrideOptions<C>
 ): Record<string, string> {
   let colorOverrides: SemanticColorOverrides<C> | undefined
   let fontOverrides: SemanticFontOverrides | undefined
