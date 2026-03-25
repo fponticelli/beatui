@@ -7,7 +7,6 @@ import {
   OnDispose,
   Fragment,
   Empty,
-  Signal,
   Value,
   computedOf,
 } from '@tempots/dom'
@@ -32,15 +31,17 @@ export interface OpenUIRendererOptions {
 }
 
 export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
-  const { library, response, isStreaming, onAction, onError, onComplete, debug } = options
+  const {
+    library,
+    response,
+    isStreaming,
+    onAction,
+    onError,
+    onComplete,
+    debug,
+  } = options
 
   const streamingParser = createStreamingParser(library)
-
-  const emptyResult: ParseResult = {
-    root: null,
-    statements: new Map(),
-    meta: { incomplete: true, unresolved: [], statementCount: 0, errors: [] },
-  }
 
   // Track forward references: name -> prop that will be updated when resolved
   const refProps = new Map<string, Prop<ASTNode | null>>()
@@ -99,7 +100,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
       }
 
       return html.div(
-        MapSignal(refProp, (resolved) =>
+        MapSignal(refProp, resolved =>
           resolved ? resolveNode(resolved, library, debug) : OpenUISkeleton()
         )
       )
@@ -107,7 +108,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
 
     if (node.type === 'component') {
       // Resolve any reference args before passing to resolveNode
-      const resolvedArgs = node.args.map((arg) => {
+      const resolvedArgs = node.args.map(arg => {
         if (arg.type === 'reference') {
           const statement = result.statements.get(arg.name)
           if (statement) return statement.value
@@ -115,7 +116,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         if (arg.type === 'array') {
           return {
             ...arg,
-            items: arg.items.map((item) => {
+            items: arg.items.map(item => {
               if (item.type === 'reference') {
                 const statement = result.statements.get(item.name)
                 if (statement) return statement.value
@@ -135,15 +136,18 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
 
   // Create the parse result signal from the response
   const responseSignal = Value.toSignal(response)
-  const parseResultProp = computedOf(responseSignal)<ParseResult>((text) => {
-    return pushResponse(text)
-  }, () => false) // never equal — always update
+  const parseResultProp = computedOf(responseSignal)<ParseResult>(
+    text => {
+      return pushResponse(text)
+    },
+    () => false
+  ) // never equal — always update
 
   // Handle isStreaming transitions
   const disposeHandlers: Array<() => void> = []
 
   if (isStreaming !== undefined) {
-    const disposeStreaming = Value.on(isStreaming, (streaming) => {
+    const disposeStreaming = Value.on(isStreaming, streaming => {
       if (!streaming) {
         // Streaming ended — replace unresolved refs with empty
         for (const [, refProp] of refProps) {

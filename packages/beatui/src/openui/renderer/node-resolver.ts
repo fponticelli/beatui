@@ -1,5 +1,5 @@
 import { Empty, Fragment } from '@tempots/dom'
-import type { TNode, Renderable } from '@tempots/dom'
+import type { TNode } from '@tempots/dom'
 import type { ASTNode } from '../parser/types'
 import type { Library } from '../library/types'
 import { OpenUISkeleton } from './skeleton'
@@ -53,7 +53,9 @@ export function resolveNode(
 
       // If the last arg is an array node, treat it as children
       if (args.length > 0 && args[args.length - 1].type === 'array') {
-        childrenNodes = (args[args.length - 1] as { type: 'array'; items: ASTNode[] }).items
+        childrenNodes = (
+          args[args.length - 1] as { type: 'array'; items: ASTNode[] }
+        ).items
         propArgs = args.slice(0, -1)
       }
 
@@ -79,7 +81,12 @@ export function resolveNode(
       delete propsForValidation['children']
       const parseResult = component.props.safeParse(propsForValidation)
       const validatedProps = parseResult.success
-        ? { ...parseResult.data, ...(propsObj['children'] != null ? { children: propsObj['children'] } : {}) }
+        ? {
+            ...parseResult.data,
+            ...(propsObj['children'] != null
+              ? { children: propsObj['children'] }
+              : {}),
+          }
         : propsObj
 
       return component.renderer(
