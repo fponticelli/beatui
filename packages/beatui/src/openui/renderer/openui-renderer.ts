@@ -89,10 +89,10 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         }
         return arg
       })
-      return resolveNode({ ...node, args: resolvedArgs }, library, debug)
+      return resolveNode({ ...node, args: resolvedArgs }, library, debug, result.statements)
     }
 
-    return resolveNode(node, library, debug)
+    return resolveNode(node, library, debug, result.statements)
   }
 
   // Static string — parse once, no reactivity needed

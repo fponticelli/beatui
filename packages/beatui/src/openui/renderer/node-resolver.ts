@@ -1,6 +1,6 @@
 import { Empty, Fragment } from '@tempots/dom'
 import type { TNode } from '@tempots/dom'
-import type { ASTNode } from '../parser/types'
+import type { ASTNode, Statement } from '../parser/types'
 import type { Library, DefinedComponent } from '../library/types'
 import { OpenUISkeleton } from './skeleton'
 
@@ -9,10 +9,16 @@ function getSchemaKeys(component: DefinedComponent): string[] {
   return Object.keys(component.props.shape)
 }
 
+/**
+ * Recursively resolve an ASTNode into a TNode.
+ * The optional `statements` map enables reference resolution —
+ * without it, references render as skeleton placeholders.
+ */
 export function resolveNode(
   node: ASTNode,
   library: Library,
-  debug?: boolean
+  debug?: boolean,
+  statements?: ReadonlyMap<string, Statement>
 ): TNode {
   switch (node.type) {
     case 'string':
@@ -29,16 +35,21 @@ export function resolveNode(
 
     case 'array':
       return Fragment(
-        ...node.items.map(item => resolveNode(item, library, debug))
+        ...node.items.map(item => resolveNode(item, library, debug, statements))
       )
 
     case 'object':
       // Objects are used as component props, not rendered directly
       return Empty
 
-    case 'reference':
-      // Return a skeleton placeholder; actual reference resolution is handled elsewhere
+    case 'reference': {
+      // Resolve from statements map if available
+      if (statements) {
+        const stmt = statements.get(node.name)
+        if (stmt) return resolveNode(stmt.value, library, debug, statements)
+      }
       return OpenUISkeleton()
+    }
 
     case 'component': {
       const component = library.get(node.name)
@@ -72,7 +83,7 @@ export function resolveNode(
 
       // Resolve children into TNodes
       const resolvedChildren: TNode[] = childrenNodes.map(child =>
-        resolveNode(child, library, debug)
+        resolveNode(child, library, debug, statements)
       )
 
       // If schema has a 'children' key, put resolved children into props
