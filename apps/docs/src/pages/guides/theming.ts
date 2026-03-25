@@ -15,7 +15,7 @@ import { CodeBlock } from '../../framework/code-block'
 export const meta = {
   title: 'Theming',
   description:
-    'Configure light/dark mode, customize semantic color tokens, fonts, and access theme state programmatically.',
+    'Configure light/dark mode, customize semantic color tokens, register custom color palettes, fonts, and access theme state programmatically.',
 }
 
 export default function ThemingPage() {
@@ -370,7 +370,138 @@ export default {
         )
       ),
 
-      // Section 4: Custom Fonts
+      // Section 4: Custom Color Palettes
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-4'),
+          html.div(
+            attr.class('flex items-center gap-2'),
+            Icon({ icon: 'lucide:paintbrush', size: 'sm' }),
+            html.h2(
+              attr.class('text-xl font-semibold'),
+              'Custom Color Palettes'
+            )
+          ),
+          html.p(
+            attr.class('text-gray-600 dark:text-gray-400'),
+            "Beyond the built-in palettes, you can register entirely new color palettes. Define 11 shades (50\u2013950) in OKLCH (or any CSS color format) and use them in semantic mappings and component ",
+            html.code(
+              attr.class(
+                'px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-sm'
+              ),
+              'color'
+            ),
+            ' props.'
+          ),
+          CodeBlock(
+            `import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind'
+
+// vite.config.ts
+export default {
+  plugins: [
+    beatuiTailwindPlugin({
+      customColors: {
+        rust: {
+          50:  'oklch(0.97 0.02 50)',
+          100: 'oklch(0.93 0.04 48)',
+          200: 'oklch(0.87 0.07 46)',
+          300: 'oklch(0.78 0.12 44)',
+          400: 'oklch(0.68 0.17 42)',
+          500: 'oklch(0.58 0.20 40)',
+          600: 'oklch(0.50 0.18 38)',
+          700: 'oklch(0.42 0.15 36)',
+          800: 'oklch(0.35 0.12 34)',
+          900: 'oklch(0.28 0.09 32)',
+          950: 'oklch(0.22 0.07 30)',
+        },
+      },
+      // Map semantic roles to your custom palette
+      semanticColors: {
+        primary: 'rust',
+      },
+    }),
+  ],
+}`,
+            'typescript'
+          ),
+          html.div(
+            attr.class('space-y-3'),
+            html.h3(
+              attr.class(
+                'text-sm font-semibold text-gray-700 dark:text-gray-300'
+              ),
+              'Type safety'
+            ),
+            html.p(
+              attr.class('text-sm text-gray-600 dark:text-gray-400'),
+              'The plugin automatically generates a ',
+              html.code(
+                attr.class(
+                  'px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'
+                ),
+                'beatui-custom-colors.d.ts'
+              ),
+              ' file in your project root. This registers your custom color names with TypeScript so they work in component ',
+              html.code(
+                attr.class(
+                  'px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'
+                ),
+                'color'
+              ),
+              ' props with full autocomplete.'
+            ),
+            CodeBlock(
+              `// Components accept custom color names with full type safety
+Button({ color: 'rust' }, 'Save')
+Badge({ color: 'rust', variant: 'light' }, 'Custom')
+
+// Tailwind utilities also work
+// <div class="bg-rust-500 text-rust-100">`,
+              'typescript'
+            ),
+          ),
+          html.div(
+            attr.class('space-y-3'),
+            html.h3(
+              attr.class(
+                'text-sm font-semibold text-gray-700 dark:text-gray-300'
+              ),
+              'Validation'
+            ),
+            html.p(
+              attr.class('text-sm text-gray-600 dark:text-gray-400'),
+              'The plugin validates your custom color configuration at build time:'
+            ),
+            html.ul(
+              attr.class(
+                'list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1'
+              ),
+              html.li(
+                html.strong('Name collision'),
+                ' \u2014 errors if a custom name matches a built-in palette (e.g. ',
+                html.code(
+                  attr.class('font-mono text-xs'),
+                  'blue'
+                ),
+                ')'
+              ),
+              html.li(
+                html.strong('Missing shades'),
+                ' \u2014 warns if any of the 11 shades (50\u2013950) are missing'
+              ),
+              html.li(
+                html.strong('Dangling references'),
+                ' \u2014 warns if ',
+                html.code(attr.class('font-mono text-xs'), 'semanticColors'),
+                ' references a name that doesn\u2019t exist in built-in or custom palettes'
+              )
+            )
+          )
+        )
+      ),
+
+      // Section 5: Custom Fonts
       Card(
         {},
         html.div(
@@ -445,7 +576,7 @@ export default {
         )
       ),
 
-      // Section 5: CSS Architecture
+      // Section 6: CSS Architecture
       Card(
         {},
         html.div(
@@ -529,7 +660,7 @@ export default {
         )
       ),
 
-      // Section 6: Programmatic Theme Access
+      // Section 7: Programmatic Theme Access
       Card(
         {},
         html.div(

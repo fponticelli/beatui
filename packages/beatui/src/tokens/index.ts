@@ -17,7 +17,8 @@ export * from './text-shadows'
 import {
   generateCoreColorVariables,
   generateSemanticColorVariables,
-  SemanticColorOverrides,
+  type ColorShadeMap,
+  type SemanticColorOverrides,
 } from './colors'
 import { generateSpacingVariables } from './spacing'
 import {
@@ -58,9 +59,11 @@ import {
 import { generateControlTokenVariables } from './controls'
 
 // Generate all CSS variables
-export function generateCoreTokenVariables(): Record<string, string> {
+export function generateCoreTokenVariables<C extends string = never>(
+  customColors?: Record<C, ColorShadeMap>
+): Record<string, string> {
   return {
-    ...generateCoreColorVariables(),
+    ...generateCoreColorVariables(customColors),
     ...generateSpacingVariables(),
     ...generateTypographyVariables(),
     ...generateBreakpointVariables(),
@@ -75,8 +78,9 @@ export function generateCoreTokenVariables(): Record<string, string> {
   }
 }
 
-export interface SemanticTokenOverrideOptions {
-  colors?: SemanticColorOverrides
+export interface SemanticTokenOverrideOptions<C extends string = never> {
+  colors?: SemanticColorOverrides<C>
+  customColors?: Record<C, ColorShadeMap>
   fonts?: SemanticFontOverrides
   radii?: SemanticRadiusOverrides
   shadows?: SemanticShadowOverrides
@@ -85,13 +89,17 @@ export interface SemanticTokenOverrideOptions {
   textShadows?: SemanticTextShadowOverrides
 }
 
-function isSemanticTokenOverrideOptions(
-  overrides: SemanticColorOverrides | SemanticTokenOverrideOptions | undefined
-): overrides is SemanticTokenOverrideOptions {
+function isSemanticTokenOverrideOptions<C extends string = never>(
+  overrides:
+    | SemanticColorOverrides<C>
+    | SemanticTokenOverrideOptions<C>
+    | undefined
+): overrides is SemanticTokenOverrideOptions<C> {
   return (
     typeof overrides === 'object' &&
     overrides !== null &&
     ('colors' in overrides ||
+      'customColors' in overrides ||
       'fonts' in overrides ||
       'radii' in overrides ||
       'shadows' in overrides ||
@@ -101,10 +109,12 @@ function isSemanticTokenOverrideOptions(
   )
 }
 
-export function generateSemanticTokenVariables(
-  overrides?: SemanticColorOverrides | SemanticTokenOverrideOptions
+export function generateSemanticTokenVariables<C extends string = never>(
+  overrides?:
+    | SemanticColorOverrides<C>
+    | SemanticTokenOverrideOptions<C>
 ): Record<string, string> {
-  let colorOverrides: SemanticColorOverrides | undefined
+  let colorOverrides: SemanticColorOverrides<C> | undefined
   let fontOverrides: SemanticFontOverrides | undefined
   let radiusOverrides: SemanticRadiusOverrides | undefined
   let shadowOverrides: SemanticShadowOverrides | undefined
@@ -135,9 +145,11 @@ export function generateSemanticTokenVariables(
   }
 }
 
-export function generateAllTokenVariables(): Record<string, string> {
+export function generateAllTokenVariables<C extends string = never>(
+  customColors?: Record<C, ColorShadeMap>
+): Record<string, string> {
   return {
-    ...generateCoreTokenVariables(),
+    ...generateCoreTokenVariables(customColors),
     ...generateSemanticTokenVariables(),
   }
 }

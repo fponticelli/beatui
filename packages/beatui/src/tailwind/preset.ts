@@ -16,6 +16,7 @@ import {
 import {
   colorShades,
   semanticColorNames,
+  type ColorShadeMap,
   type SemanticColorOverrides,
 } from '../tokens/colors'
 import type {
@@ -46,11 +47,32 @@ import type { SemanticTextShadowOverrides } from '../tokens/text-shadows'
  * })
  * ```
  */
-export interface BeatuiPresetOptions {
+export interface BeatuiPresetOptions<C extends string = never> {
+  /**
+   * Register custom color palettes. Each key is a color name and the value
+   * defines all 11 shades (50–950). Custom color names can be referenced in
+   * `semanticColors` and in component `color` props (after type registration).
+   *
+   * The BeatUI Vite plugin automatically generates a `.d.ts` file that
+   * registers these names with the type system. When using the preset directly
+   * (without the Vite plugin), augment {@link CustomColorRegistry} manually.
+   *
+   * @example
+   * ```ts
+   * createBeatuiPreset({
+   *   customColors: {
+   *     rust: { 50: 'oklch(...)', 100: '...', ..., 950: '...' },
+   *   },
+   *   semanticColors: { primary: 'rust' },
+   * })
+   * ```
+   */
+  customColors?: Record<C, ColorShadeMap>
   /**
    * Override the semantic color mapping BeatUI uses (e.g. map `primary` to `emerald`).
+   * When `customColors` is provided, custom color names are also accepted.
    */
-  semanticColors?: SemanticColorOverrides
+  semanticColors?: SemanticColorOverrides<C>
   /**
    * Override semantic font aliases (e.g. map `heading` to `var(--font-family-serif)`).
    */
@@ -124,20 +146,23 @@ export interface BeatuiPresetOptions {
 }
 
 /**
- * Builds a Tailwind color theme object mapping each semantic color name to
- * its CSS variable shades (e.g. `primary.500` -> `var(--color-primary-500)`).
+ * Builds a Tailwind color theme object mapping each semantic color name (and
+ * any custom color names) to their CSS variable shades
+ * (e.g. `primary.500` -> `var(--color-primary-500)`).
  *
+ * @param customColorNames - Optional array of custom color names to include
  * @returns An object suitable for `theme.extend.colors`.
  */
-function buildSemanticColorTheme() {
+function buildSemanticColorTheme(customColorNames?: string[]) {
+  const names: string[] = [...semanticColorNames]
+  if (customColorNames) {
+    names.push(...customColorNames)
+  }
   return Object.fromEntries(
-    semanticColorNames.map(semanticName => [
-      semanticName,
+    names.map(name => [
+      name,
       Object.fromEntries(
-        colorShades.map(shade => [
-          shade,
-          `var(--color-${semanticName}-${shade})`,
-        ])
+        colorShades.map(shade => [shade, `var(--color-${name}-${shade})`])
       ),
     ])
   )
@@ -150,12 +175,14 @@ function buildSemanticColorTheme() {
  * @param options - Preset options controlling which tokens to generate.
  * @returns An object mapping CSS selectors to variable declarations.
  */
-function buildBaseDeclarations(options: BeatuiPresetOptions) {
+function buildBaseDeclarations<C extends string>(
+  options: BeatuiPresetOptions<C>
+) {
   const { includeCoreTokens = true, includeSemanticTokens = true } = options
   const base: Record<string, Record<string, string>> = {}
 
   if (includeCoreTokens) {
-    const coreVars = generateCoreTokenVariables()
+    const coreVars = generateCoreTokenVariables(options.customColors)
     if (options.baseSpacing) {
       coreVars[getSpacingVarName('base')] = options.baseSpacing
     }
@@ -293,18 +320,21 @@ const tailwindPluginFactory: TailwindPluginFactory = Object.assign(
  * }
  * ```
  */
-export function createBeatuiPreset(
-  options: BeatuiPresetOptions = {}
+export function createBeatuiPreset<C extends string = never>(
+  options: BeatuiPresetOptions<C> = {}
 ): TailwindPreset {
   const baseDeclarations = buildBaseDeclarations(options)
   const extendTheme = options.extendTheme ?? true
+  const customColorNames = options.customColors
+    ? Object.keys(options.customColors)
+    : undefined
 
   const preset: TailwindPreset = {
     darkMode: 'class',
     theme: {
       extend: extendTheme
         ? {
-            colors: buildSemanticColorTheme(),
+            colors: buildSemanticColorTheme(customColorNames),
           }
         : {},
     },
