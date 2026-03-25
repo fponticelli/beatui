@@ -47,17 +47,20 @@ export function resolveNode(
       }
 
       const schemaKeys = getSchemaKeys(component)
+      const hasChildrenKey = schemaKeys.includes('children')
 
-      // Separate children (last arg if it's an array node) from regular args
+      // Only split off the last array arg as "children" if the schema
+      // explicitly has a `children` key. Otherwise all args are positional.
       const args = node.args
       let childrenNodes: ASTNode[] = []
       let propArgs: ASTNode[] = args
 
-      // If the last arg is an array node, treat it as children
-      const lastArg = args[args.length - 1]
-      if (args.length > 0 && lastArg.type === 'array') {
-        childrenNodes = lastArg.items
-        propArgs = args.slice(0, -1)
+      if (hasChildrenKey) {
+        const lastArg = args[args.length - 1]
+        if (args.length > 0 && lastArg.type === 'array') {
+          childrenNodes = lastArg.items
+          propArgs = args.slice(0, -1)
+        }
       }
 
       // Zip positional args with schema keys to build props object
