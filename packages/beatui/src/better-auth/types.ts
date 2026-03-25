@@ -216,6 +216,12 @@ export interface BetterAuthBridgeOptions {
   onError?: (error: { message: string; status: number }) => void
   /** Custom label overrides for all auth form text. */
   labels?: AuthContainerLabels
+  /**
+   * Callback invoked after successful sign-in or sign-up.
+   * Use this to trigger navigation (e.g., redirect to dashboard).
+   * @param user - The authenticated user.
+   */
+  onAuthSuccess?: (user: BetterAuthUser) => void
 }
 
 /**
@@ -230,6 +236,24 @@ export interface BetterAuthSession {
   /** Additional session properties from the backend. */
   [key: string]: unknown
 }
+
+/**
+ * Describes an error associated with a specific form field.
+ */
+export interface AuthFieldError {
+  /** The form field name this error applies to (e.g., 'email', 'password'). */
+  field: string
+  /** The human-readable error message. */
+  message: string
+}
+
+/**
+ * Error returned by auth callbacks.
+ *
+ * - `string` — a generic error message displayed at the form root
+ * - `AuthFieldError[]` — field-specific errors for per-field highlighting
+ */
+export type AuthError = string | AuthFieldError[]
 
 /**
  * The bridge object returned by {@link createBetterAuthBridge}.

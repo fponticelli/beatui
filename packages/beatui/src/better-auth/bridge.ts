@@ -24,8 +24,18 @@ export function createBetterAuthBridge(
 
   const refreshSession = () => sessionManager.refresh()
 
-  const onSignIn = createSignInCallback(client, options, refreshSession)
-  const onSignUp = createSignUpCallback(client, options, refreshSession)
+  const onSignIn = createSignInCallback(
+    client,
+    options,
+    refreshSession,
+    options.onAuthSuccess
+  )
+  const onSignUp = createSignUpCallback(
+    client,
+    options,
+    refreshSession,
+    options.onAuthSuccess
+  )
   const onResetPassword = createResetPasswordCallback(client, options)
   const onSocialLogin = createSocialLoginHandler(client, options)
 

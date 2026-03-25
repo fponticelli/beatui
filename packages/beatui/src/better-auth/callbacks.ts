@@ -3,17 +3,37 @@ import {
   BetterAuthClient,
   BetterAuthBridgeOptions,
   BetterAuthResult,
+  BetterAuthUser,
+  AuthError,
+  AuthFieldError,
 } from './types'
 
 function handleResult(
   result: BetterAuthResult<unknown>,
   opts: BetterAuthBridgeOptions
-): string | null {
+): AuthError | null {
   if (result.error) {
     opts.onError?.({
       message: result.error.message,
       status: result.error.status,
     })
+
+    // Check for structured field errors
+    const err = result.error as Record<string, unknown>
+    if (err.fieldErrors && typeof err.fieldErrors === 'object') {
+      const fieldErrors: AuthFieldError[] = []
+      for (const [field, message] of Object.entries(
+        err.fieldErrors as Record<string, string>
+      )) {
+        if (typeof message === 'string') {
+          fieldErrors.push({ field, message })
+        }
+      }
+      if (fieldErrors.length > 0) {
+        return fieldErrors
+      }
+    }
+
     return result.error.message
   }
   return null
@@ -22,8 +42,9 @@ function handleResult(
 export function createSignInCallback(
   client: BetterAuthClient,
   opts: BetterAuthBridgeOptions,
-  onSuccess: () => Promise<void>
-): (data: SignInData) => Promise<string | null> {
+  onSuccess: () => Promise<void>,
+  onAuthSuccess?: (user: BetterAuthUser) => void
+): (data: SignInData) => Promise<AuthError | null> {
   return async (data: SignInData) => {
     const result = await client.signIn.email({
       email: data.email,
@@ -33,6 +54,12 @@ export function createSignInCallback(
     const error = handleResult(result, opts)
     if (error) return error
     await onSuccess()
+    if (onAuthSuccess) {
+      const sessionResult = await client.getSession()
+      if (sessionResult.data?.user) {
+        onAuthSuccess(sessionResult.data.user)
+      }
+    }
     return null
   }
 }
@@ -40,8 +67,9 @@ export function createSignInCallback(
 export function createSignUpCallback(
   client: BetterAuthClient,
   opts: BetterAuthBridgeOptions,
-  onSuccess: () => Promise<void>
-): (data: SignUpData) => Promise<string | null> {
+  onSuccess: () => Promise<void>,
+  onAuthSuccess?: (user: BetterAuthUser) => void
+): (data: SignUpData) => Promise<AuthError | null> {
   return async (data: SignUpData) => {
     const result = await client.signUp.email({
       name: data.name,
@@ -52,6 +80,12 @@ export function createSignUpCallback(
     const error = handleResult(result, opts)
     if (error) return error
     await onSuccess()
+    if (onAuthSuccess) {
+      const sessionResult = await client.getSession()
+      if (sessionResult.data?.user) {
+        onAuthSuccess(sessionResult.data.user)
+      }
+    }
     return null
   }
 }
@@ -59,7 +93,7 @@ export function createSignUpCallback(
 export function createResetPasswordCallback(
   client: BetterAuthClient,
   opts: BetterAuthBridgeOptions
-): (data: ResetPasswordData) => Promise<string | null> {
+): (data: ResetPasswordData) => Promise<AuthError | null> {
   return async (data: ResetPasswordData) => {
     const result = await client.requestPasswordReset({
       email: data.email,

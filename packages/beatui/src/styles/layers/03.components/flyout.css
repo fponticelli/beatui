@@ -39,6 +39,34 @@
   pointer-events: auto;
 }
 
+/*
+ * On mobile, .bc-menu uses position:fixed for a bottom-sheet layout.
+ * Any transform on an ancestor (even identity matrix) changes the containing
+ * block for position:fixed from the viewport to that ancestor (CSS spec).
+ * The animation system sets transform on .bc-flyout-container for slide/scale,
+ * which breaks the menu's fixed positioning and causes it to size relative to
+ * the 0-width flyout container instead of the viewport.
+ *
+ * Fix: disable transform on mobile when containing a menu. The opacity fade
+ * animation still works. Slide/scale aren't meaningful for a bottom sheet.
+ */
+@media (max-width: 640px) {
+  .bc-flyout-container:has(.bc-menu) {
+    transform: none !important;
+    transition-property: opacity !important;
+  }
+
+  /* Dark backdrop behind the bottom-sheet menu on mobile */
+  .bc-flyout-container:has(.bc-menu)::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
 /* Dark mode */
 .dark .bc-flyout {
   background-color: var(--color-base-800);

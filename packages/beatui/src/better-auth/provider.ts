@@ -37,7 +37,7 @@ export interface BetterAuthProviderOptions extends BetterAuthBridgeOptions {
  * import { Provide, Use } from '@tempots/dom'
  * import { BetterAuth } from '@tempots/beatui/auth'
  *
- * Provide(BetterAuth, { client: authClient, socialProviders: ['google'] },
+ * Provide(BetterAuth, { client: authClient, socialProviders: ['google'] }, () =>
  *   Use(BetterAuth, (bridge) =>
  *     AuthContainer(bridge.containerOptions)
  *   )

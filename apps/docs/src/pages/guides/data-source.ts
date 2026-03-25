@@ -126,6 +126,49 @@ html.tbody(
   )
 )`
 
+const QUERY_DATA_SOURCE_CODE = `import { createQueryDataSource, DataTable } from '@tempots/beatui'
+import { prop, OnDispose } from '@tempots/dom'
+
+const search = prop({ query: '' })
+
+const qds = createQueryDataSource({
+  request: search,
+  load: async ({ request, abortSignal }) => {
+    const res = await fetch(\`/api/users?q=\${request.query}\`, { signal: abortSignal })
+    return res.json()
+  },
+  convertError: String,
+})
+
+// DataTable creates its own DataSource from the stable signal.
+// Sort/filter/selection state persists across reloads.
+DataTable({
+  data: qds.data,
+  loading: qds.loading,
+  columns: [...],
+  rowId: u => u.id,
+})
+
+OnDispose(() => qds.dispose())`
+
+const QUERY_DATA_TABLE_CODE = `import { QueryDataTable } from '@tempots/beatui'
+
+QueryDataTable({
+  request: searchParams,
+  load: async ({ request, abortSignal }) => {
+    const res = await fetch(\`/api/users?q=\${request.query}\`, { signal: abortSignal })
+    return res.json()
+  },
+  convertError: String,
+  columns: [
+    { id: 'name', header: 'Name', cell: row => row.map(r => r.name), sortable: true },
+    { id: 'email', header: 'Email', cell: row => row.map(r => r.email) },
+  ],
+  rowId: u => u.id,
+  sortable: true,
+  pagination: { pageSize: 20 },
+})`
+
 const API_ROWS: Array<{ name: string; description: string; type: 'signal' | 'method' }> = [
   { name: 'ds.rows', description: 'Current page rows', type: 'signal' },
   { name: 'ds.sort', description: 'Current sort state', type: 'signal' },
@@ -487,6 +530,89 @@ export default function DataSourceGuidePage() {
                 )
               )
             )
+          )
+        )
+      ),
+
+      // Section 9: Async Data Loading
+      Card(
+        {},
+        html.div(
+          attr.class('space-y-4'),
+          html.div(
+            attr.class('flex items-center gap-2'),
+            Icon({ icon: 'lucide:cloud-download', size: 'sm' }),
+            html.h2(attr.class('text-xl font-semibold'), 'Async Data Loading')
+          ),
+          html.p(
+            attr.class('text-gray-600 dark:text-gray-400'),
+            html.code(
+              attr.class('px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-sm'),
+              'createQueryDataSource'
+            ),
+            ' bridges async data fetching with DataTable. It watches a reactive request signal, debounces changes, and calls your ',
+            html.code(
+              attr.class('px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-sm'),
+              'load'
+            ),
+            ' function with an abort signal for automatic cancellation. ',
+            html.code(
+              attr.class('px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-sm'),
+              'QueryDataTable'
+            ),
+            ' is the convenience wrapper that combines query data sourcing with the full DataTable UI in a single call.'
+          ),
+
+          // Headless usage
+          html.div(
+            attr.class('space-y-3'),
+            html.h3(
+              attr.class('text-sm font-semibold text-gray-700 dark:text-gray-300'),
+              'createQueryDataSource (headless)'
+            ),
+            html.p(
+              attr.class('text-sm text-gray-600 dark:text-gray-400'),
+              'Use ',
+              html.code(
+                attr.class('px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'),
+                'createQueryDataSource'
+              ),
+              ' when you need full control over the table layout. It returns reactive ',
+              html.code(
+                attr.class('px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'),
+                'data'
+              ),
+              ' and ',
+              html.code(
+                attr.class('px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'),
+                'loading'
+              ),
+              ' signals that you wire into DataTable or your own components.'
+            ),
+            CodeBlock(QUERY_DATA_SOURCE_CODE, 'typescript')
+          ),
+
+          // Convenience wrapper
+          html.div(
+            attr.class('space-y-3'),
+            html.h3(
+              attr.class('text-sm font-semibold text-gray-700 dark:text-gray-300'),
+              'QueryDataTable (convenience)'
+            ),
+            html.p(
+              attr.class('text-sm text-gray-600 dark:text-gray-400'),
+              html.code(
+                attr.class('px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'),
+                'QueryDataTable'
+              ),
+              ' combines the query data source with DataTable in a single component. Pass your ',
+              html.code(
+                attr.class('px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono text-xs'),
+                'load'
+              ),
+              ' function alongside the standard DataTable options.'
+            ),
+            CodeBlock(QUERY_DATA_TABLE_CODE, 'typescript')
           )
         )
       )

@@ -22,6 +22,8 @@ export type {
   TwoFactorClient,
   PasskeyClient,
   PasskeyInfo,
+  AuthFieldError,
+  AuthError,
 } from './types'
 
 export { createBetterAuthBridge } from './bridge'
@@ -35,6 +37,7 @@ export type { BetterAuthProviderOptions } from './provider'
 export { BetterAuthContainer } from './components/better-auth-container'
 export { BetterAuthModal } from './components/better-auth-modal'
 export { Authenticated, Unauthenticated } from './components/authenticated'
+export type { AuthGuardOptions } from './components/authenticated'
 
 // Plugin components
 export { TwoFactorSetup } from './components/two-factor-setup'
