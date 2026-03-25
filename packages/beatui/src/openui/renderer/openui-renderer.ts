@@ -1,14 +1,15 @@
 import {
   html,
   attr,
-  MapSignal,
   Provide,
   OnDispose,
-  Fragment,
   Empty,
   Value,
+  WithCtx,
+  renderableOfTNode,
+  renderWithContext,
 } from '@tempots/dom'
-import type { TNode, Renderable } from '@tempots/dom'
+import type { TNode, Renderable, Clear, DOMContext } from '@tempots/dom'
 import type { ASTNode, ParseResult, ParseError } from '../parser/types'
 import type { Library } from '../library/types'
 import { createParser } from '../parser/parser'
@@ -38,18 +39,12 @@ export interface OpenUIRendererOptions {
  * Parses OpenUI Lang text and renders the result as live BeatUI components.
  *
  * Accepts both static strings and reactive signals. When `response` is a
- * signal, the output re-renders on each update via `MapSignal`.
+ * signal, the renderer re-parses and re-renders on each update using
+ * `WithCtx` + `renderWithContext` to preserve the full provider chain
+ * (Theme, Locale, BeatUII18n, etc.).
  */
 export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
-  const {
-    library,
-    response,
-    isStreaming,
-    onAction,
-    onError,
-    onComplete,
-    debug,
-  } = options
+  const { library, response, isStreaming, onAction, onError, onComplete, debug } = options
 
   function parseAndRender(text: string): TNode {
     if (!text) return Empty
@@ -71,12 +66,10 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
       if (statement) {
         return renderNode(statement.value, result)
       }
-      // Unresolved reference — render nothing (incomplete input)
       return Empty
     }
 
     if (node.type === 'component') {
-      // Resolve reference args inline before passing to resolveNode
       const resolvedArgs = node.args.map((arg): ASTNode => {
         if (arg.type === 'reference') {
           const stmt = result.statements.get(arg.name)
@@ -112,28 +105,53 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
     )
   }
 
-  // Signal — re-render via MapSignal when response changes
-  const disposeHandlers: Array<() => void> = []
-
-  if (isStreaming !== undefined) {
-    disposeHandlers.push(
-      Value.on(isStreaming, streaming => {
-        if (!streaming && onComplete) {
-          onComplete()
-        }
-      })
-    )
-  }
-
+  // Signal — use WithCtx to capture DOMContext, then imperatively
+  // render/clear on each signal change via renderWithContext.
+  // This preserves the full provider chain (BeatUII18n, Theme, etc.)
+  // unlike MapSignal which may lose context during re-renders.
   return html.div(
     attr.class(options.className ?? ''),
     Provide(ActionContextProvider, { onAction }, () =>
-      Fragment(
-        MapSignal(response, text => parseAndRender(text)),
-        OnDispose(() => {
-          for (const fn of disposeHandlers) fn()
+      WithCtx((ctx: DOMContext) => {
+        let currentClear: Clear | null = null
+
+        // Render initial value
+        const initialText = Value.get(response)
+        if (initialText) {
+          const renderable = renderableOfTNode(parseAndRender(initialText))
+          currentClear = renderWithContext(renderable, ctx)
+        }
+
+        // Watch for changes
+        const disposeWatcher = Value.on(response, (text) => {
+          // Clear previous render
+          if (currentClear) {
+            currentClear(true)
+            currentClear = null
+          }
+          // Render new content
+          if (text) {
+            const renderable = renderableOfTNode(parseAndRender(text))
+            currentClear = renderWithContext(renderable, ctx)
+          }
         })
-      )
+
+        // Handle streaming completion
+        let disposeStreaming: (() => void) | null = null
+        if (isStreaming !== undefined) {
+          disposeStreaming = Value.on(isStreaming, (streaming) => {
+            if (!streaming && onComplete) {
+              onComplete()
+            }
+          })
+        }
+
+        return OnDispose(() => {
+          disposeWatcher()
+          if (disposeStreaming) disposeStreaming()
+          if (currentClear) currentClear(true)
+        })
+      })
     )
   )
 }
