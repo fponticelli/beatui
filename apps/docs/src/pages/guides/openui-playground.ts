@@ -12,19 +12,69 @@ export const meta = {
 }
 
 const EXAMPLES: Record<string, string> = {
-  Dashboard: `root = Stack([stat1, stat2, progress])
-stat1 = StatCard("Revenue", "$12,400", "up")
-stat2 = StatCard("Users", "1,892", "flat")
-progress = ProgressBar(75, "md")`,
+  Dashboard: `root = Stack([header, stats, divider, progress, actions])
+header = Card("Monthly Overview", "Key metrics for March 2026")
+stats = Group([stat1, stat2, stat3])
+stat1 = StatCard("Revenue", "$48,200", "up")
+stat2 = StatCard("Active Users", "3,891", "up")
+stat3 = StatCard("Churn Rate", "2.4%", "down")
+divider = Divider()
+progress = ProgressBar(72, "md")
+actions = Group([btn1, btn2])
+btn1 = Button("Export Report", "filled", "md", "primary")
+btn2 = Button("View Details", "outline", "md")`,
 
-  'Card Layout': `root = Stack([card1, card2])
-card1 = Card("Getting Started", "Install BeatUI and build your first component in minutes.")
-card2 = Card("Documentation", "Explore the full API reference and component catalog.")`,
+  'Tabbed UI': `root = Tabs([{key: "overview", label: "Overview", content: "Project status and key metrics at a glance."}, {key: "team", label: "Team", content: "5 engineers, 2 designers, 1 PM — all fully allocated."}, {key: "timeline", label: "Timeline", content: "On track for Q2 delivery. Next milestone: April 15."}])`,
+
+  FAQ: `root = Accordion([{key: "q1", header: "What is OpenUI Lang?", body: "A compact DSL designed for LLMs to generate user interfaces. It uses positional arguments and references for composition."}, {key: "q2", header: "How does it work?", body: "You provide a system prompt describing available components, the LLM generates OpenUI Lang, and the renderer turns it into live UI.", defaultOpen: true}, {key: "q3", header: "Can I add custom components?", body: "Yes — use defineComponent() to register your own, then extend beatuiLibrary with them."}])`,
+
+  'Contact Form': `root = Stack([heading, nameInput, emailInput, bio, divider, switches, submitBtn])
+heading = Label("Contact Form")
+nameInput = TextInput("", "Your full name")
+emailInput = EmailInput("", "you@example.com")
+bio = TextArea("", "Tell us about your project")
+divider = Divider()
+switches = Group([newsletter, terms])
+newsletter = Switch(false, "Subscribe to newsletter")
+terms = CheckboxInput(false, "I agree to the terms")
+submitBtn = Button("Send Message", "filled", "md", "primary")`,
+
+  'User Profile': `root = Stack([header, divider, info, divider2, badges])
+header = Group([avatar, nameSection])
+avatar = Avatar("Alice Johnson", "lg")
+nameSection = Stack([name, role])
+name = Label("Alice Johnson")
+role = Badge("Senior Engineer", "light", "primary")
+divider = Divider()
+info = Stack([email, rating])
+email = Card("Contact", "alice.johnson@example.com")
+rating = Group([ratingLabel, stars])
+ratingLabel = Label("Peer Rating")
+stars = RatingInput(4)
+divider2 = Divider()
+badges = Group([b1, b2, b3, b4])
+b1 = Badge("TypeScript", "filled", "primary")
+b2 = Badge("React", "light", "secondary")
+b3 = Badge("Tempo", "outline", "success")
+b4 = Badge("OpenUI", "filled", "info")`,
+
+  'Wizard Steps': `root = Stack([stepper, divider, content, nav])
+stepper = Stepper([{label: "Account", description: "Create your account"}, {label: "Profile", description: "Set up your profile"}, {label: "Review", description: "Confirm details"}], 1)
+divider = Divider()
+content = Card("Set Up Your Profile", "Choose a display name and avatar for your account.")
+nav = Group([backBtn, nextBtn])
+backBtn = Button("Back", "outline", "md")
+nextBtn = Button("Continue", "filled", "md", "primary")`,
+
+  Breadcrumbs: `root = Stack([nav, card, pagination])
+nav = Breadcrumbs(["Home", "Products", "Electronics", "Laptops"])
+card = Card("MacBook Pro 16-inch", "The most powerful MacBook ever. M4 Max chip, 48GB unified memory, 1TB SSD.")
+pagination = Pagination(5, 12)`,
 
   Simple: `root = "Hello from OpenUI Lang!"`,
 }
 
-const DEFAULT_EXAMPLE = 'Simple'
+const DEFAULT_EXAMPLE = 'Dashboard'
 
 export default function OpenUIPlaygroundPage() {
   const code = prop(EXAMPLES[DEFAULT_EXAMPLE])
