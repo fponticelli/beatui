@@ -21,7 +21,7 @@ interface ZodDef {
 }
 
 function getZodDef(field: unknown): ZodDef {
-  return ((field as { _def?: ZodDef })?._def) ?? {}
+  return (field as { _def?: ZodDef })?._def ?? {}
 }
 
 function buildMap(
@@ -34,10 +34,15 @@ function buildMap(
   return map
 }
 
-function componentToJSONSchema(comp: DefinedComponent): Record<string, unknown> {
+function componentToJSONSchema(
+  comp: DefinedComponent
+): Record<string, unknown> {
   // Use Zod v4's built-in toJSONSchema if available
   try {
-    return z.toJSONSchema(comp.props as unknown as z.ZodType) as Record<string, unknown>
+    return z.toJSONSchema(comp.props as unknown as z.ZodType) as Record<
+      string,
+      unknown
+    >
   } catch {
     // Fall back to manual conversion
     const properties: Record<string, unknown> = {}

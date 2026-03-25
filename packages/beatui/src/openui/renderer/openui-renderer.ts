@@ -41,7 +41,15 @@ export interface OpenUIRendererOptions {
  * signal, the output re-renders on each update via `MapSignal`.
  */
 export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
-  const { library, response, isStreaming, onAction, onError, onComplete, debug } = options
+  const {
+    library,
+    response,
+    isStreaming,
+    onAction,
+    onError,
+    onComplete,
+    debug,
+  } = options
 
   function parseAndRender(text: string): TNode {
     if (!text) return Empty
@@ -109,7 +117,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
 
   if (isStreaming !== undefined) {
     disposeHandlers.push(
-      Value.on(isStreaming, (streaming) => {
+      Value.on(isStreaming, streaming => {
         if (!streaming && onComplete) {
           onComplete()
         }
@@ -121,7 +129,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
     attr.class(options.className ?? ''),
     Provide(ActionContextProvider, { onAction }, () =>
       Fragment(
-        MapSignal(response, (text) => parseAndRender(text)),
+        MapSignal(response, text => parseAndRender(text)),
         OnDispose(() => {
           for (const fn of disposeHandlers) fn()
         })

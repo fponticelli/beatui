@@ -26,7 +26,10 @@ interface ActionContextOptions {
   onAction?: (event: ActionEvent) => void
 }
 
-export const ActionContextProvider: Provider<ActionContext, ActionContextOptions> = {
+export const ActionContextProvider: Provider<
+  ActionContext,
+  ActionContextOptions
+> = {
   mark: makeProviderMark<ActionContext>('OpenUI:ActionContext'),
   create: (options: ActionContextOptions = {}) => {
     const actions = prop<ActionEvent[]>([])

@@ -5,7 +5,11 @@ export function fromFetch(
   input: RequestInfo,
   init?: RequestInit,
   options?: StreamOptions
-): { response: Signal<string>; isStreaming: Signal<boolean>; abort: () => void } {
+): {
+  response: Signal<string>
+  isStreaming: Signal<boolean>
+  abort: () => void
+} {
   const response = prop('')
   const isStreaming = prop(true)
   const abortController = new AbortController()

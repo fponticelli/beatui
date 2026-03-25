@@ -4,12 +4,18 @@ import { StreamOptions } from './types'
 export function fromSSE(
   url: string,
   options?: StreamOptions & EventSourceInit
-): { response: Signal<string>; isStreaming: Signal<boolean>; abort: () => void } {
+): {
+  response: Signal<string>
+  isStreaming: Signal<boolean>
+  abort: () => void
+} {
   const response = prop('')
   const isStreaming = prop(true)
 
   const { onComplete, onError, extractContent, withCredentials } = options ?? {}
-  const eventSource = new EventSource(url, { withCredentials: withCredentials ?? false })
+  const eventSource = new EventSource(url, {
+    withCredentials: withCredentials ?? false,
+  })
 
   let accumulated = ''
 
@@ -27,7 +33,7 @@ export function fromSSE(
     response.set(accumulated)
   })
 
-  eventSource.addEventListener('error', (event) => {
+  eventSource.addEventListener('error', event => {
     if (eventSource.readyState === EventSource.CLOSED) {
       isStreaming.set(false)
       onComplete?.()
