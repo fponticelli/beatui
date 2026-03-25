@@ -67,7 +67,7 @@ backBtn = Button("Back", "outline", "md")
 nextBtn = Button("Continue", "filled", "md", "primary")`,
 
   Breadcrumbs: `root = Stack([nav, card, pagination])
-nav = Breadcrumbs(["Home", "Products", "Electronics", "Laptops"])
+nav = Breadcrumbs([{label: "Home", href: "/"}, {label: "Products", href: "/products"}, {label: "Electronics", href: "/products/electronics"}, {label: "Laptops", current: true}])
 card = Card("MacBook Pro 16-inch", "The most powerful MacBook ever. M4 Max chip, 48GB unified memory, 1TB SSD.")
 pagination = Pagination(5, 12)`,
 
