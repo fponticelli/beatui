@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { html, attr } from '@tempots/dom'
 import type { TNode } from '@tempots/dom'
+import type { CenterGap } from '../../components/theme'
 import { defineComponent } from '../library/define-component'
 import { Stack } from '../../components/layout/stack'
 import { Group } from '../../components/layout/group'
@@ -51,7 +52,7 @@ export const layoutComponents = [
           html.p(attr.class('text-gray-600 dark:text-gray-400'), props.content)
         )
       if (props.children) inner.push(...(props.children as TNode[]))
-      return Card({ variant: props.variant as any }, ...inner)
+      return Card({ variant: props.variant }, ...inner)
     },
   }),
 
@@ -117,7 +118,7 @@ export const layoutComponents = [
     description:
       'Centers its children both horizontally and vertically within a container.',
     renderer: props =>
-      Center({ gap: props.gap as any }, ...(props.children ?? [])),
+      Center({ gap: props.gap as CenterGap }, ...(props.children ?? [])),
   }),
 
   defineComponent({

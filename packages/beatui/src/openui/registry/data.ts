@@ -20,6 +20,7 @@ import { Indicator } from '../../components/data/indicator'
 import { HistoryTimeline } from '../../components/data/history-timeline'
 import { Icon } from '../../components/data/icon'
 import { prop } from '@tempots/dom'
+import type { IconSize } from '../../components/theme'
 
 const sizeSchema = z.enum(['xs', 'sm', 'md', 'lg', 'xl'])
 const colorSchema = z.enum([
@@ -50,9 +51,9 @@ export const dataComponents = [
     renderer: props =>
       StatCard(
         {
-          variant: props.variant as any,
-          size: props.size as any,
-          color: props.color as any,
+          variant: props.variant,
+          size: props.size,
+          color: props.color,
         },
         StatCardValue({}, props.value),
         StatCardLabel({}, props.label),
@@ -91,9 +92,9 @@ export const dataComponents = [
     renderer: props =>
       Badge(
         {
-          variant: props.variant as any,
-          size: props.size as any,
-          color: props.color as any,
+          variant: props.variant,
+          size: props.size,
+          color: props.color,
           circle: props.circle,
         },
         props.label
@@ -111,7 +112,7 @@ export const dataComponents = [
     renderer: props =>
       AutoColorBadge(
         {
-          size: props.size as any,
+          size: props.size,
         },
         props.label
       ),
@@ -135,9 +136,9 @@ export const dataComponents = [
         name: props.name,
         src: props.src,
         icon: props.icon,
-        size: props.size as any,
+        size: props.size,
         variant: props.variant,
-        color: props.color as any,
+        color: props.color,
         bordered: props.bordered,
       }),
   }),
@@ -154,13 +155,13 @@ export const dataComponents = [
       'Renders a container for grouping multiple Avatar components with overlapping or spaced layout.',
     renderer: props =>
       AvatarGroup(
-        { size: props.size as any, spacing: props.spacing },
-        ...props.names.map(name => Avatar({ name, size: props.size as any })),
+        { size: props.size, spacing: props.spacing },
+        ...props.names.map(name => Avatar({ name, size: props.size })),
         ...(props.overflow != null
           ? [
               AvatarGroupOverflow({
                 count: props.overflow,
-                size: props.size as any,
+                size: props.size,
               }),
             ]
           : [])
@@ -183,7 +184,7 @@ export const dataComponents = [
         value: props.value,
         max: props.max,
         size: props.size,
-        color: props.color as any,
+        color: props.color,
         showLabel: props.showLabel ?? true,
       }),
   }),
@@ -231,9 +232,9 @@ export const dataComponents = [
         {
           show: props.show,
           count: props.count,
-          color: props.color as any,
+          color: props.color,
           placement: props.placement,
-          size: props.size as any,
+          size: props.size,
         },
         ...(props.children ?? [])
       ),
@@ -278,8 +279,8 @@ export const dataComponents = [
     renderer: props =>
       Icon({
         icon: props.icon,
-        size: props.size as any,
-        color: props.color as any,
+        size: props.size as IconSize,
+        color: props.color,
         title: props.title,
       }),
   }),

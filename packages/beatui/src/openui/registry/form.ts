@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { prop } from '@tempots/dom'
 import { defineComponent } from '../library/define-component'
+import type { SelectOption } from '../../components/form/input/option'
 import { TextInput } from '../../components/form/input/text-input'
 import { NumberInput } from '../../components/form/input/number-input'
 import { PasswordInput } from '../../components/form/input/password-input'
@@ -40,7 +41,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -64,7 +65,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
         min: props.min,
         max: props.max,
         step: props.step,
@@ -88,7 +89,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -109,7 +110,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -131,7 +132,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
         rows: props.rows,
       })
     },
@@ -154,7 +155,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -186,8 +187,8 @@ export const formComponents = [
         value,
         onChange: v => value.set(v),
         disabled: props.disabled,
-        size: props.size as any,
-        color: props.color as any,
+        size: props.size,
+        color: props.color,
       })
     },
   }),
@@ -217,7 +218,7 @@ export const formComponents = [
         value,
         onChange: v => value.set(v),
         orientation: props.orientation,
-        size: props.size as any,
+        size: props.size,
         disabled: props.disabled,
       })
     },
@@ -241,19 +242,18 @@ export const formComponents = [
     renderer: props => {
       const value = prop(props.value ?? props.options[0]?.value ?? '')
       return NativeSelect<string>({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        options: prop(
-          props.options.map((o: any) => ({
+        options: prop<SelectOption<string>[]>(
+          props.options.map(o => ({
             type: 'value' as const,
             value: o.value,
             label: o.label,
           }))
-        ) as any,
+        ),
         value,
         onChange: v => value.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -275,7 +275,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         max: props.max,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -300,7 +300,7 @@ export const formComponents = [
         max: props.max,
         step: props.step,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -319,7 +319,7 @@ export const formComponents = [
         value,
         onChange: v => value.set(v),
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -340,7 +340,7 @@ export const formComponents = [
         onChange: v => values.set(v),
         placeholder: props.placeholder,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -361,7 +361,7 @@ export const formComponents = [
         onChange: v => value.set(v),
         length: props.length,
         disabled: props.disabled,
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
@@ -382,9 +382,9 @@ export const formComponents = [
       const value = prop<string>(props.value ?? keys[0] ?? '')
       return SegmentedInput<Record<string, string>>({
         options: props.options,
-        value: value as any,
+        value,
         onChange: v => value.set(v as string),
-        size: props.size as any,
+        size: props.size,
         disabled: props.disabled,
         variant: props.variant,
       })

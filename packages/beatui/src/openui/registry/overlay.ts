@@ -116,7 +116,7 @@ export const overlayComponents = [
         props.triggerLabel,
         Tooltip({
           content: props.content,
-          placement: props.placement as any,
+          placement: props.placement,
         })
       ),
   }),
@@ -147,7 +147,7 @@ export const overlayComponents = [
         props.triggerLabel,
         Popover({
           content: html.div(html.p(props.content)),
-          placement: props.placement as any,
+          placement: props.placement,
         })
       ),
   }),

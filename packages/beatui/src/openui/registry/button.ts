@@ -47,9 +47,9 @@ export const buttonComponents = [
     renderer: props =>
       Button(
         {
-          variant: props.variant as any,
-          size: props.size as any,
-          color: props.color as any,
+          variant: props.variant,
+          size: props.size,
+          color: props.color,
           disabled: props.disabled,
           loading: props.loading,
           fullWidth: props.fullWidth,
@@ -76,9 +76,9 @@ export const buttonComponents = [
         {
           pressed,
           onChange: v => pressed.set(v),
-          variant: props.variant as any,
-          size: props.size as any,
-          color: props.color as any,
+          variant: props.variant,
+          size: props.size,
+          color: props.color,
           disabled: props.disabled,
         },
         props.label
@@ -99,9 +99,9 @@ export const buttonComponents = [
     renderer: props =>
       CopyButton({
         text: props.text,
-        variant: props.variant as any,
-        size: props.size as any,
-        color: props.color as any,
+        variant: props.variant,
+        size: props.size,
+        color: props.color,
       }),
   }),
 
@@ -116,8 +116,8 @@ export const buttonComponents = [
       'A small icon-only button for dismissing modals, drawers, notifications, and tags.',
     renderer: props =>
       CloseButton({
-        size: props.size as any,
-        color: props.color as any,
+        size: props.size,
+        color: props.color,
         icon: props.icon,
       }),
   }),
@@ -148,9 +148,9 @@ export const buttonComponents = [
         value,
         onChange: v => value.set(v),
         multiple: props.multiple,
-        variant: props.variant as any,
-        size: props.size as any,
-        color: props.color as any,
+        variant: props.variant,
+        size: props.size,
+        color: props.color,
         orientation: props.orientation,
       })
     },

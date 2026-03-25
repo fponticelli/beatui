@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { html, prop } from '@tempots/dom'
+import type { PaginationVariant } from '../../components/theme'
 import { defineComponent } from '../library/define-component'
 import { Tabs } from '../../components/navigation/tabs/tabs'
 import { Breadcrumbs } from '../../components/navigation/breadcrumbs'
@@ -56,9 +57,9 @@ export const navigationComponents = [
         })),
         value,
         onChange: k => value.set(k),
-        size: props.size as any,
+        size: props.size,
         variant: props.variant,
-        color: props.color as any,
+        color: props.color,
         orientation: props.orientation,
       })
     },
@@ -86,7 +87,7 @@ export const navigationComponents = [
         items: prop(props.items),
         separator: props.separator,
         maxItems: props.maxItems,
-        size: props.size as any,
+        size: props.size,
       }),
   }),
 
@@ -113,9 +114,9 @@ export const navigationComponents = [
         siblings: props.siblings,
         showPrevNext: props.showPrevNext,
         showFirstLast: props.showFirstLast,
-        size: props.size as any,
-        variant: props.variant as any,
-        color: props.color as any,
+        size: props.size,
+        variant: props.variant as PaginationVariant,
+        color: props.color,
       })
     },
   }),
@@ -151,8 +152,8 @@ export const navigationComponents = [
         onChange: i => value.set(i),
         orientation: props.orientation,
         variant: props.variant,
-        size: props.size as any,
-        color: props.color as any,
+        size: props.size,
+        color: props.color,
         showNavigation: props.showNavigation,
       })
     },
@@ -189,7 +190,7 @@ export const navigationComponents = [
         items: prop(props.items),
         selectedId,
         onSelect: id => selectedId.set(id),
-        size: props.size as any,
+        size: props.size,
       })
     },
   }),
