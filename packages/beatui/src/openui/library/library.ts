@@ -1,8 +1,32 @@
 import { z } from 'zod'
-import type { DefinedComponent, ComponentGroup, Library, PromptOptions } from './types.js'
+import type {
+  DefinedComponent,
+  ComponentGroup,
+  Library,
+  PromptOptions,
+} from './types.js'
 import { generatePrompt } from './prompt-generator.js'
 
-function buildMap(components: DefinedComponent[]): Map<string, DefinedComponent> {
+/**
+ * Internal Zod v4 _def shape for schema introspection.
+ */
+interface ZodDef {
+  type?: string
+  entries?: Record<string, string>
+  value?: unknown
+  innerType?: z.ZodType
+  element?: z.ZodType
+  options?: z.ZodType[]
+  shape?: Record<string, z.ZodType>
+}
+
+function getZodDef(field: unknown): ZodDef {
+  return ((field as { _def?: ZodDef })?._def) ?? {}
+}
+
+function buildMap(
+  components: DefinedComponent[]
+): Map<string, DefinedComponent> {
   const map = new Map<string, DefinedComponent>()
   for (const comp of components) {
     map.set(comp.name, comp)
@@ -10,28 +34,24 @@ function buildMap(components: DefinedComponent[]): Map<string, DefinedComponent>
   return map
 }
 
-function componentToJSONSchema(comp: DefinedComponent): object {
+function componentToJSONSchema(comp: DefinedComponent): Record<string, unknown> {
   // Use Zod v4's built-in toJSONSchema if available
   try {
-    const result = z.toJSONSchema(comp.props as unknown as z.ZodType)
-    return result as object
+    return z.toJSONSchema(comp.props as unknown as z.ZodType) as Record<string, unknown>
   } catch {
     // Fall back to manual conversion
     const properties: Record<string, unknown> = {}
     const required: string[] = []
 
     for (const [key, field] of Object.entries(comp.props.shape)) {
-      const fieldAny = field as any
-      const fieldDef = fieldAny._def
-      const isOptional =
-        fieldDef?.type === 'optional' ||
-        fieldAny._zod?.optin === 'optional'
+      const def = getZodDef(field)
+      const isOptional = def.type === 'optional'
 
       if (!isOptional) {
         required.push(key)
       }
 
-      const innerField = isOptional ? fieldDef?.innerType ?? field : field
+      const innerField = isOptional && def.innerType ? def.innerType : field
       properties[key] = fieldToJSONSchemaProperty(innerField)
     }
 
@@ -46,14 +66,11 @@ function componentToJSONSchema(comp: DefinedComponent): object {
   }
 }
 
-function fieldToJSONSchemaProperty(field: unknown): object {
-  const fieldAny = field as any
-  const def = fieldAny?._def
-  if (!def) return {}
+function fieldToJSONSchemaProperty(field: unknown): Record<string, unknown> {
+  const def = getZodDef(field)
+  if (!def.type) return {}
 
-  const type: string = def.type ?? 'unknown'
-
-  switch (type) {
+  switch (def.type) {
     case 'string':
       return { type: 'string' }
     case 'number':
@@ -65,13 +82,11 @@ function fieldToJSONSchemaProperty(field: unknown): object {
       return { type: 'integer' }
     case 'null':
       return { type: 'null' }
-    case 'array': {
-      const element = def.element
+    case 'array':
       return {
         type: 'array',
-        items: element ? fieldToJSONSchemaProperty(element) : {},
+        items: def.element ? fieldToJSONSchemaProperty(def.element) : {},
       }
-    }
     case 'object': {
       const properties: Record<string, unknown> = {}
       if (def.shape) {
@@ -82,30 +97,20 @@ function fieldToJSONSchemaProperty(field: unknown): object {
       return { type: 'object', properties }
     }
     case 'enum': {
-      const entries = def.entries
-      if (entries && typeof entries === 'object') {
-        const values = Object.values(entries)
-        return { enum: values }
+      if (def.entries && typeof def.entries === 'object') {
+        return { enum: Object.values(def.entries) }
       }
       return { type: 'string' }
     }
-    case 'literal': {
+    case 'literal':
       return { const: def.value }
-    }
     case 'optional':
-    case 'nullable': {
-      if (def.innerType) {
-        return fieldToJSONSchemaProperty(def.innerType)
-      }
-      return {}
-    }
-    case 'union': {
-      const options = def.options
-      if (Array.isArray(options)) {
-        return { oneOf: options.map(fieldToJSONSchemaProperty) }
-      }
-      return {}
-    }
+    case 'nullable':
+      return def.innerType ? fieldToJSONSchemaProperty(def.innerType) : {}
+    case 'union':
+      return Array.isArray(def.options)
+        ? { oneOf: def.options.map(fieldToJSONSchemaProperty) }
+        : {}
     default:
       return {}
   }
@@ -140,31 +145,31 @@ export function createLibrary(config: CreateLibraryConfig): Library {
     },
 
     prompt(options?: PromptOptions): string {
-      // Merge stored groups with option groups (option groups take precedence)
       const mergedGroups = options?.groups ?? groups
       return generatePrompt(map, mergedGroups, options)
     },
 
-    toJSONSchema(): object {
-      const result: Record<string, object> = {}
+    toJSONSchema(): Record<string, unknown> {
+      const result: Record<string, unknown> = {}
       for (const [name, comp] of map) {
         result[name] = componentToJSONSchema(comp)
       }
       return result
     },
 
-    extend(extConfig: { components?: DefinedComponent[]; root?: string }): Library {
-      // Merge components: existing ones first, new ones override on name collision
+    extend(extConfig: {
+      components?: DefinedComponent[]
+      root?: string
+    }): Library {
       const merged = new Map(map)
       if (extConfig.components) {
         for (const comp of extConfig.components) {
           merged.set(comp.name, comp)
         }
       }
-      const newRoot = extConfig.root ?? root
       return createLibrary({
         components: [...merged.values()],
-        root: newRoot,
+        root: extConfig.root ?? root,
         groups,
       })
     },

@@ -10,7 +10,10 @@ import {
 import { Badge } from '../../components/data/badge'
 import { AutoColorBadge } from '../../components/data/auto-color-badge'
 import { Avatar } from '../../components/data/avatar'
-import { AvatarGroup, AvatarGroupOverflow } from '../../components/data/avatar-group'
+import {
+  AvatarGroup,
+  AvatarGroupOverflow,
+} from '../../components/data/avatar-group'
 import { ProgressBar } from '../../components/data/progress-bar'
 import { Skeleton } from '../../components/data/skeleton'
 import { Indicator } from '../../components/data/indicator'
@@ -69,7 +72,15 @@ export const dataComponents = [
     props: z.object({
       label: z.string(),
       variant: z
-        .enum(['filled', 'light', 'outline', 'dashed', 'default', 'subtle', 'text'])
+        .enum([
+          'filled',
+          'light',
+          'outline',
+          'dashed',
+          'default',
+          'subtle',
+          'text',
+        ])
         .optional(),
       size: sizeSchema.optional(),
       color: colorSchema.optional(),
@@ -146,7 +157,12 @@ export const dataComponents = [
         { size: props.size as any, spacing: props.spacing },
         ...props.names.map(name => Avatar({ name, size: props.size as any })),
         ...(props.overflow != null
-          ? [AvatarGroupOverflow({ count: props.overflow, size: props.size as any })]
+          ? [
+              AvatarGroupOverflow({
+                count: props.overflow,
+                size: props.size as any,
+              }),
+            ]
           : [])
       ),
   }),

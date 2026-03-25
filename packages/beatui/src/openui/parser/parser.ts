@@ -44,7 +44,11 @@ function parseInput(
     // Advance physicalLineIndex until we find the start of logicalLine.
     const firstPhysical = logicalLine.split('\n')[0].trim()
     while (physicalLineIndex < physicalLines.length) {
-      if (physicalLines[physicalLineIndex].trim().startsWith(firstPhysical.slice(0, 20))) {
+      if (
+        physicalLines[physicalLineIndex]
+          .trim()
+          .startsWith(firstPhysical.slice(0, 20))
+      ) {
         break
       }
       physicalLineIndex++
@@ -78,7 +82,13 @@ function parseInput(
 
     let node: ASTNode
     try {
-      node = parseExpression(exprStr, referencedNames, errors, lineNumber, checker)
+      node = parseExpression(
+        exprStr,
+        referencedNames,
+        errors,
+        lineNumber,
+        checker
+      )
     } catch {
       errors.push({
         line: lineNumber,
@@ -313,7 +323,13 @@ function parseObject(
     }
     const key = part.slice(0, colonIdx).trim()
     const val = part.slice(colonIdx + 1).trim()
-    entries[key] = parseExpression(val, referencedNames, errors, lineNumber, checker)
+    entries[key] = parseExpression(
+      val,
+      referencedNames,
+      errors,
+      lineNumber,
+      checker
+    )
   }
 
   return { type: 'object', entries }

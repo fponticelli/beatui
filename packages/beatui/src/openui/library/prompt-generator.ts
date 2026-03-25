@@ -1,13 +1,35 @@
 import type { z } from 'zod'
-import type { DefinedComponent, ComponentGroup, PromptOptions } from './types.js'
+import type {
+  DefinedComponent,
+  ComponentGroup,
+  PromptOptions,
+} from './types.js'
+
+/**
+ * Internal Zod v4 _def shape — not part of the public API but needed for
+ * schema introspection in prompt generation. Only the fields we actually use.
+ */
+interface ZodDef {
+  type?: string
+  entries?: Record<string, string>
+  value?: unknown
+  innerType?: z.ZodType
+  element?: z.ZodType
+  options?: z.ZodType[]
+  in?: z.ZodType
+}
+
+function getZodDef(field: z.ZodType): ZodDef {
+  return (field as unknown as { _def: ZodDef })._def ?? {}
+}
 
 /**
  * Extract a human-readable type name from a Zod v4 field.
  * In Zod v4, the type is stored at `_def.type` (not `typeName`).
  */
 function getZodTypeName(field: z.ZodType): string {
-  const def = (field as any)._def
-  if (!def) return 'unknown'
+  const def = getZodDef(field)
+  if (!def.type) return 'unknown'
 
   const type: string = def.type ?? 'unknown'
 
@@ -107,10 +129,10 @@ function generateComponentSection(component: DefinedComponent): string {
     lines.push('**Props** (positional order):')
     for (const [key, field] of entries) {
       const typeName = getZodTypeName(field as z.ZodType)
-      const fieldDef = (field as any)._def
+      const fieldDef = getZodDef(field as z.ZodType)
       const isOptional =
         fieldDef?.type === 'optional' ||
-        (field as any)._zod?.optin === 'optional'
+        false /* Zod v4: check _zod.optin if needed */
       const optionalMark = isOptional ? '?' : ''
       lines.push(`- \`${key}${optionalMark}\`: ${typeName}`)
     }

@@ -48,7 +48,10 @@ export const overlayComponents = [
                   header: props.title ? html.h2(props.title) : undefined,
                   body: html.p(props.body),
                   footer: props.footerLabel
-                    ? Button({ variant: 'filled', onClick: close }, props.footerLabel)
+                    ? Button(
+                        { variant: 'filled', onClick: close },
+                        props.footerLabel
+                      )
                     : undefined,
                 }),
             },
@@ -143,9 +146,7 @@ export const overlayComponents = [
         { stopPropagation: false },
         props.triggerLabel,
         Popover({
-          content: html.div(
-            html.p(props.content)
-          ),
+          content: html.div(html.p(props.content)),
           placement: props.placement as any,
         })
       ),

@@ -5,7 +5,9 @@ export interface ComponentNameChecker {
   has(name: string): boolean
 }
 
-export interface DefinedComponent<T extends z.ZodObject<any> = z.ZodObject<any>> {
+export interface DefinedComponent<
+  T extends z.ZodObject<any> = z.ZodObject<any>,
+> {
   name: string
   props: T
   description: string
@@ -30,6 +32,6 @@ export interface Library extends ComponentNameChecker {
   get(name: string): DefinedComponent | undefined
   has(name: string): boolean
   prompt(options?: PromptOptions): string
-  toJSONSchema(): object
+  toJSONSchema(): Record<string, unknown>
   extend(config: { components?: DefinedComponent[]; root?: string }): Library
 }

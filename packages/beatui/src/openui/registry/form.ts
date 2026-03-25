@@ -211,7 +211,7 @@ export const formComponents = [
     description:
       'A group of radio buttons allowing the user to select one option from a mutually exclusive list.',
     renderer: props => {
-      const value = prop(props.value ?? (props.options[0]?.value ?? ''))
+      const value = prop(props.value ?? props.options[0]?.value ?? '')
       return RadioGroup({
         options: prop(props.options),
         value,
@@ -239,10 +239,16 @@ export const formComponents = [
     }),
     description: 'A native HTML select dropdown input component.',
     renderer: props => {
-      const value = prop(props.value ?? (props.options[0]?.value ?? ''))
+      const value = prop(props.value ?? props.options[0]?.value ?? '')
       return NativeSelect<string>({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        options: prop(props.options.map((o: any) => ({ type: 'value' as const, value: o.value, label: o.label }))) as any,
+        options: prop(
+          props.options.map((o: any) => ({
+            type: 'value' as const,
+            value: o.value,
+            label: o.label,
+          }))
+        ) as any,
         value,
         onChange: v => value.set(v),
         placeholder: props.placeholder,
@@ -286,7 +292,7 @@ export const formComponents = [
     }),
     description: 'A range slider input component.',
     renderer: props => {
-      const value = prop(props.value ?? (props.min ?? 0))
+      const value = prop(props.value ?? props.min ?? 0)
       return SliderInput({
         value,
         onChange: v => value.set(v),
@@ -373,7 +379,7 @@ export const formComponents = [
       'A segmented control for selecting one option from a set, similar to a tab bar or radio group.',
     renderer: props => {
       const keys = Object.keys(props.options)
-      const value = prop<string>(props.value ?? (keys[0] ?? ''))
+      const value = prop<string>(props.value ?? keys[0] ?? '')
       return SegmentedInput<Record<string, string>>({
         options: props.options,
         value: value as any,

@@ -1,7 +1,12 @@
 import { z } from 'zod'
 import { defineComponent } from '../library/define-component'
 import { Kbd } from '../../components/typography/kbd'
-import { Label, EmphasisLabel, MutedLabel, DangerLabel } from '../../components/typography/label'
+import {
+  Label,
+  EmphasisLabel,
+  MutedLabel,
+  DangerLabel,
+} from '../../components/typography/label'
 
 export const typographyComponents = [
   defineComponent({

@@ -1,8 +1,13 @@
 import { Empty, Fragment } from '@tempots/dom'
 import type { TNode } from '@tempots/dom'
 import type { ASTNode } from '../parser/types'
-import type { Library } from '../library/types'
+import type { Library, DefinedComponent } from '../library/types'
 import { OpenUISkeleton } from './skeleton'
+
+/** Extract the Zod schema shape keys in insertion order. */
+function getSchemaKeys(component: DefinedComponent): string[] {
+  return Object.keys(component.props.shape)
+}
 
 export function resolveNode(
   node: ASTNode,
@@ -41,10 +46,7 @@ export function resolveNode(
         return Empty
       }
 
-      // Get the schema keys in order
-      const schemaKeys = Object.keys(
-        (component.props as { shape: Record<string, unknown> }).shape
-      )
+      const schemaKeys = getSchemaKeys(component)
 
       // Separate children (last arg if it's an array node) from regular args
       const args = node.args
@@ -52,10 +54,9 @@ export function resolveNode(
       let propArgs: ASTNode[] = args
 
       // If the last arg is an array node, treat it as children
-      if (args.length > 0 && args[args.length - 1].type === 'array') {
-        childrenNodes = (
-          args[args.length - 1] as { type: 'array'; items: ASTNode[] }
-        ).items
+      const lastArg = args[args.length - 1]
+      if (args.length > 0 && lastArg.type === 'array') {
+        childrenNodes = lastArg.items
         propArgs = args.slice(0, -1)
       }
 
@@ -89,10 +90,7 @@ export function resolveNode(
           }
         : propsObj
 
-      return component.renderer(
-        validatedProps as Record<string, unknown>,
-        resolvedChildren
-      ) as TNode
+      return component.renderer(validatedProps, resolvedChildren)
     }
   }
 }

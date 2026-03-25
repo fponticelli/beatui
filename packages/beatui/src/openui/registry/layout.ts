@@ -9,6 +9,7 @@ import { Divider } from '../../components/layout/divider'
 import { Accordion } from '../../components/layout/accordion'
 import { Center } from '../../components/layout/center'
 import { Collapse } from '../../components/layout/collapse'
+import { Gap } from '../../components/layout'
 
 export const layoutComponents = [
   defineComponent({
@@ -18,7 +19,7 @@ export const layoutComponents = [
     }),
     description:
       'Vertical stack layout that arranges children in a column with consistent spacing.',
-    renderer: props => Stack(...(props.children ?? [])),
+    renderer: props => Stack(Gap('md'), ...(props.children ?? [])),
   }),
 
   defineComponent({
@@ -28,7 +29,7 @@ export const layoutComponents = [
     }),
     description:
       'Horizontal group layout that arranges children in a row with consistent spacing.',
-    renderer: props => Group(...(props.children ?? [])),
+    renderer: props => Group(Gap('md'), ...(props.children ?? [])),
   }),
 
   defineComponent({
@@ -36,17 +37,19 @@ export const layoutComponents = [
     props: z.object({
       title: z.string().optional(),
       content: z.string().optional(),
-      variant: z
-        .enum(['default', 'elevated', 'outlined', 'flat'])
-        .optional(),
+      variant: z.enum(['default', 'elevated', 'outlined', 'flat']).optional(),
       children: z.array(z.any()).optional(),
     }),
     description:
       'A container with optional title and content text. Card("My Title", "Description text")',
-    renderer: (props) => {
+    renderer: props => {
       const inner: TNode[] = []
-      if (props.title) inner.push(html.h3(attr.class('font-semibold text-lg'), props.title))
-      if (props.content) inner.push(html.p(attr.class('text-gray-600 dark:text-gray-400'), props.content))
+      if (props.title)
+        inner.push(html.h3(attr.class('font-semibold text-lg'), props.title))
+      if (props.content)
+        inner.push(
+          html.p(attr.class('text-gray-600 dark:text-gray-400'), props.content)
+        )
       if (props.children) inner.push(...(props.children as TNode[]))
       return Card({ variant: props.variant as any }, ...inner)
     },
