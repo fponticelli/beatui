@@ -23,7 +23,7 @@
     "@tempots/beatui": "workspace:*",
     "@tempots/dom": "^37.4.3",
     "@tempots/std": "~0.29.0",
-    "@tempots/ui": "^16.0.3"
+    "@tempots/ui": "^16.0.10"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",

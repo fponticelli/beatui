@@ -202,8 +202,10 @@ export const overlayWidth = {
   md: 'min(37.5rem, 90vw)',
   lg: 'min(50rem, 90vw)',
   xl: 'min(62.5rem, 90vw)',
-  'min-width': '12rem',
 } as const
+
+/** Minimum width for overlay components (menus, dropdowns, popovers). */
+export const overlayMinWidth = '12rem'
 
 export type OverlayWidthName = keyof typeof overlayWidth
 
@@ -220,6 +222,7 @@ export function generateOverlayWidthVariables(): Record<string, string> {
   objectEntries(overlayWidth).forEach(([size, value]) => {
     variables[getOverlayWidthVarName(size as OverlayWidthName)] = value
   })
+  variables['--overlay-min-width'] = overlayMinWidth
   return variables
 }
 

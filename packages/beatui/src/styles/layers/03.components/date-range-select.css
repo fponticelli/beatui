@@ -54,7 +54,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: var(--spacing-xxs) var(--spacing-xs);
+  padding: var(--spacing-2xs) var(--spacing-xs);
   border-radius: var(--radius-sm);
   transition:
     color var(--motion-transition-fast) var(--motion-easing-standard),

@@ -8,8 +8,8 @@
 
 .bc-lightbox__close {
   position: absolute;
-  top: var(--spacing-2, 16px);
-  right: var(--spacing-2, 16px);
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
   z-index: calc(var(--z-index-overlay, 1000) + 1);
   border-radius: 100%;
   padding: var(--spacing-base, 4px);

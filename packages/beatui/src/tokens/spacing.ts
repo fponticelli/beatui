@@ -27,6 +27,7 @@ export const baseSpacing = '0.25rem'
  * | none | 0                                | 0      |
  * | px   | 1px                              | 1px    |
  * | base | 0.25rem                          | 4px    |
+ * | 2xs  | base / 4                         | 1px    |
  * | xs   | base / 2                         | 2px    |
  * | sm   | base                             | 4px    |
  * | smh  | base * 1.5                       | 6px    |
@@ -45,6 +46,7 @@ export const spacing = {
   none: '0',
   px: '1px',
   base: baseSpacing,
+  '2xs': 'calc(var(--spacing-base) / 4)',
   xs: 'calc(var(--spacing-base) / 2)',
   sm: 'var(--spacing-base)',
   smh: 'calc(var(--spacing-base) * 1.5)',
