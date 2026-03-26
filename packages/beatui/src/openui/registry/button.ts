@@ -39,23 +39,36 @@ export const buttonComponents = [
       size: sizeSchema.optional(),
       color: colorSchema.optional(),
       disabled: z.boolean().optional(),
-      loading: z.boolean().optional(),
-      fullWidth: z.boolean().optional(),
+      actionType: z.string().optional(),
+      actionParams: z.record(z.string(), z.unknown()).optional(),
     }),
     description:
-      'An interactive button component with theme-aware styling, loading state, and accessibility support.',
-    renderer: props =>
-      Button(
+      'Clickable button. Set actionType to dispatch an action on click. Button("Click Me", "filled", "md", "primary", false, "submit_form", {key: "value"})',
+    renderer: (props) => {
+      // __onAction is injected by the node-resolver when ActionContext is available
+      const onAction = (props as Record<string, unknown>).__onAction as
+        | ((event: Record<string, unknown>) => void)
+        | undefined
+      return Button(
         {
           variant: props.variant,
           size: props.size,
           color: props.color,
           disabled: props.disabled,
-          loading: props.loading,
-          fullWidth: props.fullWidth,
+          onClick: props.actionType
+            ? () => {
+                onAction?.({
+                  kind: 'button',
+                  type: props.actionType!,
+                  params: props.actionParams ?? {},
+                  humanFriendlyMessage: `Clicked: ${props.label}`,
+                })
+              }
+            : undefined,
         },
         props.label
-      ),
+      )
+    },
   }),
 
   defineComponent({

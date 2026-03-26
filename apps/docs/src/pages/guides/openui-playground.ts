@@ -1,4 +1,5 @@
-import { html, attr, prop, on, MapSignal } from '@tempots/dom'
+import { html, attr, prop, on, ForEach } from '@tempots/dom'
+import type { ActionEvent } from '@tempots/beatui/openui'
 import { ScrollablePanel, Stack, Button, Badge } from '@tempots/beatui'
 import {
   beatuiLibrary,
@@ -66,6 +67,14 @@ nav = Group([backBtn, nextBtn])
 backBtn = Button("Back", "outline", "md")
 nextBtn = Button("Continue", "filled", "md", "primary")`,
 
+  Interactive: `root = Stack([heading, card, actions])
+heading = Label("Action Demo")
+card = Card("Click a button below to dispatch an action event.")
+actions = Group([likeBtn, shareBtn, deleteBtn])
+likeBtn = Button("Like", "filled", "md", "success", false, "like", {postId: 42})
+shareBtn = Button("Share", "outline", "md", "primary", false, "share", {url: "/post/42"})
+deleteBtn = Button("Delete", "outline", "md", "danger", false, "delete", {postId: 42})`,
+
   Breadcrumbs: `root = Stack([nav, card, pagination])
 nav = Breadcrumbs([{label: "Home", href: "/"}, {label: "Products", href: "/products"}, {label: "Electronics", href: "/products/electronics"}, {label: "Laptops", current: true}])
 card = Card("MacBook Pro 16-inch", "The most powerful MacBook ever. M4 Max chip, 48GB unified memory, 1TB SSD.")
@@ -80,6 +89,7 @@ export default function OpenUIPlaygroundPage() {
   const code = prop(EXAMPLES[DEFAULT_EXAMPLE])
   const activeExample = prop(DEFAULT_EXAMPLE)
   const parsedOutput = prop('')
+  const actionLog = prop<ActionEvent[]>([])
 
   // Parse and show AST as text for debugging
   function updatePreview(text: string) {
@@ -184,6 +194,9 @@ export default function OpenUIPlaygroundPage() {
               library: beatuiLibrary,
               response: code,
               debug: true,
+              onAction: (event) => {
+                actionLog.update((prev) => [...prev, event])
+              },
             }),
           ),
           html.label(
@@ -195,6 +208,35 @@ export default function OpenUIPlaygroundPage() {
               'max-h-[150px] p-3 font-mono text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 overflow-auto whitespace-pre-wrap'
             ),
             parsedOutput,
+          ),
+          // Action log
+          html.label(
+            attr.class('text-sm font-medium text-gray-500 dark:text-gray-500 mt-2'),
+            'Action Log',
+          ),
+          html.div(
+            attr.class(
+              'max-h-[120px] p-3 font-mono text-xs rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 overflow-auto'
+            ),
+            ForEach(actionLog, (event) =>
+              html.div(
+                attr.class('py-1 border-b border-gray-200 dark:border-gray-700 last:border-0'),
+                html.span(attr.class('text-blue-600 dark:text-blue-400 font-semibold'), event.map(e => e.kind)),
+                ' ',
+                html.span(attr.class('text-green-600 dark:text-green-400'), event.map(e => e.type)),
+                ' ',
+                html.span(event.map(e => e.humanFriendlyMessage)),
+                ' ',
+                html.span(
+                  attr.class('text-gray-400'),
+                  event.map(e => e.kind === 'button' ? JSON.stringify(e.params) : ''),
+                ),
+              )
+            ),
+            html.div(
+              attr.class('text-gray-400 italic'),
+              actionLog.map(log => log.length === 0 ? 'No actions yet. Try the "Interactive" example.' : ''),
+            ),
           ),
         ),
       ),

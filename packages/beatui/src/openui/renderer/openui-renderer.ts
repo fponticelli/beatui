@@ -46,6 +46,10 @@ export interface OpenUIRendererOptions {
 export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
   const { library, response, isStreaming, onAction, onError, onComplete, debug } = options
 
+  const actionDispatch = onAction
+    ? (event: Record<string, unknown>) => onAction(event as unknown as ActionEvent)
+    : undefined
+
   function parseAndRender(text: string): TNode {
     if (!text) return Empty
 
@@ -89,10 +93,10 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         }
         return arg
       })
-      return resolveNode({ ...node, args: resolvedArgs }, library, debug, result.statements)
+      return resolveNode({ ...node, args: resolvedArgs }, library, debug, result.statements, actionDispatch)
     }
 
-    return resolveNode(node, library, debug, result.statements)
+    return resolveNode(node, library, debug, result.statements, actionDispatch)
   }
 
   // Static string — parse once, no reactivity needed

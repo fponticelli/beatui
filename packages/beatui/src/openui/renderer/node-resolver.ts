@@ -18,7 +18,8 @@ export function resolveNode(
   node: ASTNode,
   library: Library,
   debug?: boolean,
-  statements?: ReadonlyMap<string, Statement>
+  statements?: ReadonlyMap<string, Statement>,
+  onAction?: (event: Record<string, unknown>) => void
 ): TNode {
   switch (node.type) {
     case 'string':
@@ -35,7 +36,7 @@ export function resolveNode(
 
     case 'array':
       return Fragment(
-        ...node.items.map(item => resolveNode(item, library, debug, statements))
+        ...node.items.map(item => resolveNode(item, library, debug, statements, onAction))
       )
 
     case 'object':
@@ -46,7 +47,7 @@ export function resolveNode(
       // Resolve from statements map if available
       if (statements) {
         const stmt = statements.get(node.name)
-        if (stmt) return resolveNode(stmt.value, library, debug, statements)
+        if (stmt) return resolveNode(stmt.value, library, debug, statements, onAction)
       }
       return OpenUISkeleton()
     }
@@ -83,7 +84,7 @@ export function resolveNode(
 
       // Resolve children into TNodes
       const resolvedChildren: TNode[] = childrenNodes.map(child =>
-        resolveNode(child, library, debug, statements)
+        resolveNode(child, library, debug, statements, onAction)
       )
 
       // If schema has a 'children' key, put resolved children into props
@@ -103,6 +104,11 @@ export function resolveNode(
               : {}),
           }
         : propsObj
+
+      // Inject action handler for components that support actionType
+      if (onAction && propsObj['actionType']) {
+        ;(validatedProps as Record<string, unknown>).__onAction = onAction
+      }
 
       return component.renderer(validatedProps, resolvedChildren)
     }
