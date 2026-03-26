@@ -124,21 +124,21 @@ describe('Stepper', () => {
     expect(beforeNext).toHaveBeenCalledTimes(1)
   })
 
-  it('should show navigation buttons', () => {
+  it('should hide navigation buttons by default', () => {
     render(BeatUI({}, Stepper({ steps: basicSteps })), container)
 
     const nav = container.querySelector('.bc-stepper__navigation')
-    expect(nav).not.toBeNull()
+    expect(nav).toBeNull()
   })
 
-  it('should hide navigation when showNavigation is false', () => {
+  it('should show navigation when showNavigation is true', () => {
     render(
-      BeatUI({}, Stepper({ steps: basicSteps, showNavigation: false })),
+      BeatUI({}, Stepper({ steps: basicSteps, showNavigation: true })),
       container
     )
 
     const nav = container.querySelector('.bc-stepper__navigation')
-    expect(nav).toBeNull()
+    expect(nav).not.toBeNull()
   })
 
   it('should apply orientation class', () => {

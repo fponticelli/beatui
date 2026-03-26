@@ -24,13 +24,14 @@ export default function StepperPage() {
         { label: 'Profile', description: 'Set up your profile', content: () => html.div(attr.class('p-4'), 'Fill in profile info') },
         { label: 'Review', description: 'Confirm details', content: () => html.div(attr.class('p-4'), 'Review and submit') },
       ]
-      return Stepper({ steps })
+      return Stepper({ steps, showNavigation: true })
     })(),
     sections: [
       Section(
         'Basic',
         () =>
           Stepper({
+            showNavigation: true,
             steps: [
               { label: 'Account', content: () => html.p('Create your account') },
               { label: 'Profile', content: () => html.p('Set up your profile') },
@@ -43,6 +44,7 @@ export default function StepperPage() {
         'With Descriptions',
         () =>
           Stepper({
+            showNavigation: true,
             steps: [
               { label: 'Shipping', description: 'Enter address', content: () => html.p('Shipping form') },
               { label: 'Payment', description: 'Card details', content: () => html.p('Payment form') },
@@ -55,6 +57,7 @@ export default function StepperPage() {
         'Vertical',
         () =>
           Stepper({
+            showNavigation: true,
             orientation: 'vertical',
             steps: [
               { label: 'Step 1', content: () => html.p('First step content') },
@@ -73,7 +76,6 @@ export default function StepperPage() {
               { label: 'Two', content: () => html.p('Content 2') },
               { label: 'Three', content: () => html.p('Content 3') },
             ],
-            showNavigation: false,
           })
 
           return html.div(
@@ -106,6 +108,7 @@ export default function StepperPage() {
         () =>
           Stepper({
             variant: 'compact',
+            showNavigation: true,
             steps: [
               { label: 'S1', content: () => html.p('Step 1') },
               { label: 'S2', content: () => html.p('Step 2') },
@@ -124,7 +127,6 @@ export default function StepperPage() {
                 html.div(attr.class('text-xs font-mono text-gray-500 mb-2'), size),
                 Stepper({
                   size,
-                  showNavigation: false,
                   value: 1,
                   steps: [{ label: 'Account' }, { label: 'Profile' }, { label: 'Review' }],
                 })
@@ -143,7 +145,6 @@ export default function StepperPage() {
                 html.div(attr.class('text-xs font-mono text-gray-500 mb-2'), color),
                 Stepper({
                   color,
-                  showNavigation: false,
                   value: 1,
                   steps: [{ label: 'Step 1' }, { label: 'Step 2' }, { label: 'Step 3' }],
                 })
