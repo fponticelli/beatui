@@ -38,8 +38,8 @@ export const dataComponents = [
   defineComponent({
     name: 'StatCard',
     props: z.object({
+      title: z.string(),
       value: z.string(),
-      label: z.string(),
       trend: z.string().optional(),
       trendDirection: z.enum(['up', 'down', 'flat']).optional(),
       variant: z.enum(['default', 'elevated', 'outlined']).optional(),
@@ -47,7 +47,7 @@ export const dataComponents = [
       color: colorSchema.optional(),
     }),
     description:
-      'A dashboard metric card that displays a statistic with optional label and trend indicator.',
+      'Dashboard metric card. StatCard({title: "Revenue", value: "$12k", trend: "+8%", trendDirection: "up"})',
     renderer: props =>
       StatCard(
         {
@@ -55,12 +55,12 @@ export const dataComponents = [
           size: props.size,
           color: props.color,
         },
+        StatCardLabel({}, props.title),
         StatCardValue({}, props.value),
-        StatCardLabel({}, props.label),
-        ...(props.trend != null && props.trendDirection != null
+        ...(props.trendDirection != null
           ? [
               StatCardTrend({
-                value: props.trend,
+                value: props.trend ?? '',
                 direction: props.trendDirection,
               }),
             ]
