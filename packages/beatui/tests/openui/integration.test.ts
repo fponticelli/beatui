@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { z } from 'zod'
-import { html, render, prop } from '@tempots/dom'
+import { html, render } from '@tempots/dom'
 import {
   beatuiLibrary,
   OpenUIRenderer,

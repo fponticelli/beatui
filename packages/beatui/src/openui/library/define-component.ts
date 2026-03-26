@@ -2,6 +2,7 @@ import type { z } from 'zod'
 import type { TNode } from '@tempots/dom'
 import type { DefinedComponent } from './types.js'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Zod ZodObject requires `any`
 export interface DefineComponentConfig<T extends z.ZodObject<any>> {
   name: string
   props: T
@@ -14,6 +15,7 @@ export interface DefineComponentConfig<T extends z.ZodObject<any>> {
  *
  * Zod schema key order = positional arg order (this is an explicit contract).
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Zod ZodObject requires `any`
 export function defineComponent<T extends z.ZodObject<any>>(
   config: DefineComponentConfig<T>
 ): DefinedComponent<T> {

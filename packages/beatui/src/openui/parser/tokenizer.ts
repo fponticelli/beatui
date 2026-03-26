@@ -10,7 +10,6 @@ export function tokenizeLines(input: string): string[] {
   const physicalLines = input.split('\n')
   const logicalLines: string[] = []
   let buffer = ''
-  let depth = 0
 
   for (const raw of physicalLines) {
     const line = raw.trimEnd()
@@ -27,7 +26,7 @@ export function tokenizeLines(input: string): string[] {
     }
 
     // Count unbalanced open delimiters outside strings
-    depth = countOpenDepth(buffer)
+    const depth = countOpenDepth(buffer)
 
     if (depth <= 0) {
       const trimmed = buffer.trim()
@@ -35,7 +34,6 @@ export function tokenizeLines(input: string): string[] {
         logicalLines.push(trimmed)
       }
       buffer = ''
-      depth = 0
     }
   }
 

@@ -5,9 +5,11 @@ export interface ComponentNameChecker {
   has(name: string): boolean
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any -- Zod uses `any` in ZodObject type param */
 export interface DefinedComponent<
   T extends z.ZodObject<any> = z.ZodObject<any>,
 > {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   name: string
   props: T
   description: string

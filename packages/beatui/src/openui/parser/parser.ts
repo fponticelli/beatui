@@ -207,7 +207,7 @@ function parseString(expr: string): ASTNode {
   const inner = expr.slice(1, -1)
   // Process JSON-style escape sequences
   const value = inner.replace(
-    /\\(["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,
+    /\\(["\\/bfnrt]|u[0-9a-fA-F]{4})/g,
     (_, esc: string) => {
       switch (esc[0]) {
         case '"':

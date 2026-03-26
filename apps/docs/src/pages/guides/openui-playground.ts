@@ -1,5 +1,6 @@
 import { html, attr, prop, on, ForEach } from '@tempots/dom'
 import type { ActionEvent } from '@tempots/beatui/openui'
+import type { ButtonVariant } from '@tempots/beatui'
 import { ScrollablePanel, Stack, Button, Badge } from '@tempots/beatui'
 import {
   beatuiLibrary,
@@ -139,7 +140,7 @@ export default function OpenUIPlaygroundPage() {
         ...Object.keys(EXAMPLES).map((name) =>
           Button(
             {
-              variant: activeExample.map((a) =>
+              variant: activeExample.map((a): ButtonVariant =>
                 a === name ? 'filled' : 'outline'
               ),
               size: 'sm',
@@ -221,21 +222,21 @@ export default function OpenUIPlaygroundPage() {
             ForEach(actionLog, (event) =>
               html.div(
                 attr.class('py-1 border-b border-gray-200 dark:border-gray-700 last:border-0'),
-                html.span(attr.class('text-blue-600 dark:text-blue-400 font-semibold'), event.map(e => e.kind)),
+                html.span(attr.class('text-blue-600 dark:text-blue-400 font-semibold'), event.map((e): string => e.kind)),
                 ' ',
-                html.span(attr.class('text-green-600 dark:text-green-400'), event.map(e => e.type)),
+                html.span(attr.class('text-green-600 dark:text-green-400'), event.map((e): string => e.type)),
                 ' ',
-                html.span(event.map(e => e.humanFriendlyMessage)),
+                html.span(event.map((e): string => e.humanFriendlyMessage)),
                 ' ',
                 html.span(
                   attr.class('text-gray-400'),
-                  event.map(e => e.kind === 'button' ? JSON.stringify(e.params) : ''),
+                  event.map((e): string => e.kind === 'button' ? JSON.stringify(e.params) : ''),
                 ),
               )
             ),
             html.div(
               attr.class('text-gray-400 italic'),
-              actionLog.map(log => log.length === 0 ? 'No actions yet. Try the "Interactive" example.' : ''),
+              actionLog.map((log): string => log.length === 0 ? 'No actions yet. Try the "Interactive" example.' : ''),
             ),
           ),
         ),

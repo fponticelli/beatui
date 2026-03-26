@@ -5,7 +5,6 @@ import {
   StatCardValue,
   StatCardLabel,
   StatCardTrend,
-  StatCardIcon,
 } from '../../components/data/stat-card'
 import { Badge } from '../../components/data/badge'
 import { AutoColorBadge } from '../../components/data/auto-color-badge'

@@ -33,7 +33,7 @@ export function fromSSE(
     response.set(accumulated)
   })
 
-  eventSource.addEventListener('error', event => {
+  eventSource.addEventListener('error', () => {
     if (eventSource.readyState === EventSource.CLOSED) {
       isStreaming.set(false)
       onComplete?.()

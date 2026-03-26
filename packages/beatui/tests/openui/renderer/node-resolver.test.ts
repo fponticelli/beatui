@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { z } from 'zod'
-import { html, render, Empty } from '@tempots/dom'
+import { html, render } from '@tempots/dom'
 import { defineComponent } from '../../../src/openui/library/define-component'
 import { createLibrary } from '../../../src/openui/library/library'
 import { resolveNode } from '../../../src/openui/renderer/node-resolver'

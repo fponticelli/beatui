@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { html, prop } from '@tempots/dom'
+import { html } from '@tempots/dom'
 import { defineComponent } from '../library/define-component'
 import { Modal } from '../../components/overlay/modal'
 import { Drawer } from '../../components/overlay/drawer'
@@ -74,7 +74,7 @@ export const overlayComponents = [
     description:
       'A slide-out panel component that anchors to any side of the viewport. Renders a trigger button.',
     renderer: props =>
-      Drawer((open, close) =>
+      Drawer((open, _close) =>
         Button(
           {
             onClick: () =>

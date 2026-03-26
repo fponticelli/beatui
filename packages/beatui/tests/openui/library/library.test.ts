@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest'
 import { z } from 'zod'
 import { defineComponent } from '../../../src/openui/library/define-component'
