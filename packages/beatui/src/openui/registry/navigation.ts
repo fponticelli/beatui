@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { html, prop } from '@tempots/dom'
+import { html, prop, style } from '@tempots/dom'
 import type { PaginationVariant } from '../../components/theme'
 import { defineComponent } from '../library/define-component'
 import { Tabs } from '../../components/navigation/tabs/tabs'
@@ -52,13 +52,13 @@ export const navigationComponents = [
         items: props.items.map(item => ({
           key: item.key,
           label: item.label,
-          content: () => html.div(item.content ?? ''),
+          content: () => html.div(style.padding('1rem 0'), item.content ?? ''),
           disabled: item.disabled,
         })),
         value,
         onChange: k => value.set(k),
         size: props.size,
-        variant: props.variant,
+        variant: props.variant ?? 'underline',
         color: props.color,
         orientation: props.orientation,
       })

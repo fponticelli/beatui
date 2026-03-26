@@ -22,8 +22,6 @@ import type {
   FontFamilyOverrides,
   SemanticFontOverrides,
 } from '../tokens/typography'
-import { getBaseFontSizeVarName } from '../tokens/typography'
-import { getSpacingVarName } from '../tokens/spacing'
 import { getMotionDurationVarName } from '../tokens/motion'
 import type { SemanticRadiusOverrides } from '../tokens/radius'
 import type { SemanticShadowOverrides } from '../tokens/shadows'
@@ -157,10 +155,10 @@ function buildBaseDeclarations(options: BeatuiPresetOptions) {
   if (includeCoreTokens) {
     const coreVars = generateCoreTokenVariables()
     if (options.baseSpacing) {
-      coreVars[getSpacingVarName('base')] = options.baseSpacing
+      coreVars['--spacing-base-raw'] = options.baseSpacing
     }
     if (options.baseFontSize) {
-      coreVars[getBaseFontSizeVarName()] = options.baseFontSize
+      coreVars['--font-size-base-raw'] = options.baseFontSize
     }
     if (options.baseMotionDuration) {
       coreVars[getMotionDurationVarName('base')] = options.baseMotionDuration

@@ -5,8 +5,6 @@ import type { HtmlTagDescriptor, Plugin, ViteDevServer } from 'vite'
 import {
   generateSemanticTokenVariables,
   generateFontFamilyOverrideVariables,
-  getBaseFontSizeVarName,
-  getSpacingVarName,
   getMotionDurationVarName,
 } from '../tokens'
 import type { SemanticColorOverrides } from '../tokens/colors'
@@ -265,10 +263,10 @@ export function beatuiTailwindPlugin(
     : ''
   const baseTokenOverrides: Record<string, string> = {}
   if (options.baseSpacing) {
-    baseTokenOverrides[getSpacingVarName('base')] = options.baseSpacing
+    baseTokenOverrides['--spacing-base-raw'] = options.baseSpacing
   }
   if (options.baseFontSize) {
-    baseTokenOverrides[getBaseFontSizeVarName()] = options.baseFontSize
+    baseTokenOverrides['--font-size-base-raw'] = options.baseFontSize
   }
   if (options.baseMotionDuration) {
     baseTokenOverrides[getMotionDurationVarName('base')] =

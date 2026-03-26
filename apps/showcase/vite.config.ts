@@ -16,8 +16,8 @@ const beatuiPlugin = beatuiTailwindPlugin({
     primary: 'sky',
     secondary: 'cyan',
   },
-  baseFontSize: '14px',
-  baseSpacing: '3px',
+  baseFontSize: '13px',
+  baseSpacing: '2.5px',
   // --spacing-base
   // semanticSpacing: {
   //   'stack-2xs': '0.25rem',
