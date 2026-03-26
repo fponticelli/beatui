@@ -60,7 +60,7 @@ describe('ColorSwatchInput Component', () => {
 
     // formatColor with default emit format 'hex' -> converts to 'rgb8' space
     // -> colorToString returns rgb() format
-    expect(changedValue).toBe('rgb(0, 255, 0)')
+    expect(changedValue).toBe('rgb(0 255 0)')
   })
 
   it('should handle input events', () => {
@@ -87,7 +87,7 @@ describe('ColorSwatchInput Component', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }))
 
     // formatColor with default emit format 'hex' -> rgb() format
-    expect(inputValue).toBe('rgb(0, 0, 255)')
+    expect(inputValue).toBe('rgb(0 0 255)')
   })
 
   it('should handle blur events', () => {

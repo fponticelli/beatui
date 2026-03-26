@@ -71,10 +71,10 @@ describe('Color Validation Utilities', () => {
 
   describe('colorToString', () => {
     it('should serialize RGB8A colors to rgb() format', () => {
-      expect(colorToString(rgb8a(255, 0, 0))).toBe('rgb(255, 0, 0)')
-      expect(colorToString(rgb8a(0, 255, 0))).toBe('rgb(0, 255, 0)')
-      expect(colorToString(rgb8a(0, 0, 255))).toBe('rgb(0, 0, 255)')
-      expect(colorToString(rgb8a(255, 255, 255))).toBe('rgb(255, 255, 255)')
+      expect(colorToString(rgb8a(255, 0, 0))).toBe('rgb(255 0 0)')
+      expect(colorToString(rgb8a(0, 255, 0))).toBe('rgb(0 255 0)')
+      expect(colorToString(rgb8a(0, 0, 255))).toBe('rgb(0 0 255)')
+      expect(colorToString(rgb8a(255, 255, 255))).toBe('rgb(255 255 255)')
     })
   })
 

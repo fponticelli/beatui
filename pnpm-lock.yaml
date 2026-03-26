@@ -45,11 +45,11 @@ importers:
         specifier: ^37.4.3
         version: 37.4.3
       '@tempots/std':
-        specifier: ~0.29.0
-        version: 0.29.0
+        specifier: ~0.29.1
+        version: 0.29.1
       '@tempots/ui':
-        specifier: ^16.0.10
-        version: 16.0.10(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.0)
+        specifier: ^16.1.0
+        version: 16.1.0(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.1)
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -91,11 +91,11 @@ importers:
         specifier: ^37.4.3
         version: 37.4.3
       '@tempots/std':
-        specifier: ~0.29.0
-        version: 0.29.0
+        specifier: ~0.29.1
+        version: 0.29.1
       '@tempots/ui':
-        specifier: ^16.0.10
-        version: 16.0.10(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.0)
+        specifier: ^16.1.0
+        version: 16.1.0(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.1)
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.18
@@ -216,14 +216,14 @@ importers:
         specifier: 0.13.1
         version: 0.13.1(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
       '@tempots/render':
-        specifier: ^0.0.6
-        version: 0.0.6
+        specifier: ^0.0.8
+        version: 0.0.8
       '@tempots/std':
-        specifier: ~0.29.0
-        version: 0.29.0
+        specifier: ~0.29.1
+        version: 0.29.1
       '@tempots/ui':
-        specifier: ^16.0.10
-        version: 16.0.10(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.0)
+        specifier: ^16.1.0
+        version: 16.1.0(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.1)
       '@testing-library/dom':
         specifier: 10.4.1
         version: 10.4.1
@@ -1172,17 +1172,14 @@ packages:
     peerDependencies:
       eslint: ^8.0.0 || ^9.0.0 || ^10.0.0
 
-  '@tempots/render@0.0.6':
-    resolution: {integrity: sha512-lkhdVJoPnsnRx3XnyOj1YPpPGSayyC+VBU8nMpwKob43/QkDs6+6M5uublArYqECHDbWajxRJIe48joX14JoRA==}
-
   '@tempots/render@0.0.8':
     resolution: {integrity: sha512-+Rx1pzHR7pH6l97252EEC/zXj0SyV5Nf5/4lPiCBZNxJ/Agb6V2L9+Z5fPTAcPVhEVkDrxIanlaeM3R5j/d1AQ==}
 
-  '@tempots/std@0.29.0':
-    resolution: {integrity: sha512-PB3lo+uS3J6rGVWIu+ypJC/2dPkU2yyJQy5R8MgrWP6O4jh8V1HzSHy/t7oT+et1URwZVX+wbXGy4w6e5sy5lQ==}
+  '@tempots/std@0.29.1':
+    resolution: {integrity: sha512-S+DUR8QmpS0n88OgkEl8slopvydkIbre0qPZ3XXDnBYJY5RYDVDD3uqRP/SPocfpAwbnqy/EET0u8G3ysAAOKQ==}
 
-  '@tempots/ui@16.0.10':
-    resolution: {integrity: sha512-a0RsXJiEK/Kh4mV9H/2zULDahiyZcJs684bVhqfXXJegOri8JAmxKGcpVq/5cr+x1O4JuS70GuJm2ERzafH7kg==}
+  '@tempots/ui@16.1.0':
+    resolution: {integrity: sha512-fx1qZLRrlmq7U55MgWywIzLuzGOj1aoxwUSffclzyZK3sjWBq/9VB3IkKqL4260LYtoffuRP3SnBGQrTdl6ATg==}
     peerDependencies:
       '@floating-ui/dom': ^1.7.1
       '@tempots/dom': ^37.4.3
@@ -3423,21 +3420,17 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tempots/render@0.0.6':
-    dependencies:
-      '@tempots/core': 3.2.1
-
   '@tempots/render@0.0.8':
     dependencies:
       '@tempots/core': 3.2.1
 
-  '@tempots/std@0.29.0': {}
+  '@tempots/std@0.29.1': {}
 
-  '@tempots/ui@16.0.10(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.0)':
+  '@tempots/ui@16.1.0(@floating-ui/dom@1.7.5)(@tempots/dom@37.4.3)(@tempots/std@0.29.1)':
     dependencies:
       '@floating-ui/dom': 1.7.5
       '@tempots/dom': 37.4.3
-      '@tempots/std': 0.29.0
+      '@tempots/std': 0.29.1
 
   '@testing-library/dom@10.4.1':
     dependencies:

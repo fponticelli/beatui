@@ -66,10 +66,10 @@ describe('ColorController', () => {
     it('should normalize hex colors via colorToString (returns rgb format)', () => {
       const controller = createTestColorController('#f00')
       // normalizeHexColor uses colorToString(parseColor(s)) which returns rgb() format
-      expect(controller.normalizedHex.value).toBe('rgb(255, 0, 0)')
+      expect(controller.normalizedHex.value).toBe('rgb(255 0 0)')
 
       controller.change('#ABCDEF')
-      expect(controller.normalizedHex.value).toBe('rgb(171, 205, 239)')
+      expect(controller.normalizedHex.value).toBe('rgb(171 205 239)')
     })
 
     it('should return original value for invalid hex', () => {
@@ -84,10 +84,10 @@ describe('ColorController', () => {
 
       controller.setColor('#f00')
       // normalizeHexColor returns rgb() format via colorToString
-      expect(controller.signal.value).toBe('rgb(255, 0, 0)')
+      expect(controller.signal.value).toBe('rgb(255 0 0)')
 
       controller.setColor('#ABCDEF')
-      expect(controller.signal.value).toBe('rgb(171, 205, 239)')
+      expect(controller.signal.value).toBe('rgb(171 205 239)')
     })
 
     it('should set non-hex colors as-is', () => {
@@ -95,7 +95,7 @@ describe('ColorController', () => {
 
       controller.setColor('rgb(255, 0, 0)')
       // rgb() is detected as rgb8, so it goes through normalization too
-      expect(controller.signal.value).toBe('rgb(255, 0, 0)')
+      expect(controller.signal.value).toBe('rgb(255 0 0)')
     })
   })
 
@@ -105,11 +105,11 @@ describe('ColorController', () => {
 
       controller.setHex('#f00')
       // normalizeHexColor returns rgb() format
-      expect(controller.signal.value).toBe('rgb(255, 0, 0)')
+      expect(controller.signal.value).toBe('rgb(255 0 0)')
 
       // With # prefix, hex is recognized and normalized
       controller.setHex('#ABCDEF')
-      expect(controller.signal.value).toBe('rgb(171, 205, 239)')
+      expect(controller.signal.value).toBe('rgb(171 205 239)')
     })
 
     it('should ignore hex without # prefix (not detected as hex)', () => {
@@ -171,7 +171,7 @@ describe('ColorController', () => {
       const hexController = controller.withFormat('hex')
 
       // withFormat('hex') calls normalizeHexColor which returns rgb() format
-      expect(hexController.signal.value).toBe('rgb(255, 0, 0)')
+      expect(hexController.signal.value).toBe('rgb(255 0 0)')
     })
 
     it('should create a controller with RGB format transformation', () => {
@@ -227,7 +227,7 @@ describe('colorInputOptionsFromController', () => {
     expect(options).toHaveProperty('onInput')
 
     // normalizedHex uses colorToString which returns rgb() format
-    expect(options.value.value).toBe('rgb(255, 0, 0)')
+    expect(options.value.value).toBe('rgb(255 0 0)')
   })
 
   it('should use normalized hex for value (returns rgb format)', () => {
@@ -235,6 +235,6 @@ describe('colorInputOptionsFromController', () => {
     const options = colorInputOptionsFromController(controller)
 
     // normalizedHex returns rgb() format via colorToString
-    expect(options.value.value).toBe('rgb(255, 0, 0)')
+    expect(options.value.value).toBe('rgb(255 0 0)')
   })
 })
