@@ -26,13 +26,13 @@ export type StepState = 'completed' | 'active' | 'pending' | 'error'
  */
 export interface StepDefinition {
   /** Display label for the step indicator. */
-  label: string
+  label: TNode
   /** Optional description shown below the label. */
-  description?: string
+  description?: TNode
   /** Optional Iconify icon shown in the step circle. */
   icon?: string
   /** Content rendered when this step is active. */
-  content?: () => TNode
+  content?: (controller: StepperController) => TNode
   /**
    * Async validation before advancing past this step.
    * Return `true` to allow, `false` to block.
@@ -58,7 +58,7 @@ export interface StepperOptions {
   color?: Value<ThemeColorName>
   /** Whether the stepper is disabled. @default false */
   disabled?: Value<boolean>
-  /** Whether to show navigation buttons. @default true */
+  /** Whether to show navigation buttons. @default false */
   showNavigation?: Value<boolean>
 }
 
@@ -127,7 +127,7 @@ export function createStepper(
     size = 'md',
     color = 'primary',
     disabled = false,
-    showNavigation = true,
+    showNavigation = false,
   } = options
 
   const currentStep = prop(Value.get(value))
@@ -308,8 +308,7 @@ export function createStepper(
                 attr.tabindex(0),
                 aria.label(
                   computedOf(t.$.stepper.$.stepOfTotal)(
-                    (fn): string =>
-                      `${step.label} - ${fn(index + 1, steps.length)}`
+                    (fn): string => fn(index + 1, steps.length)
                   )
                 ),
                 on.keydown(e => {
@@ -341,7 +340,7 @@ export function createStepper(
           step.content
             ? When(
                 Value.map(currentStep, c => c === index),
-                step.content,
+                () => step.content!(controller),
                 () => null
               )
             : null
