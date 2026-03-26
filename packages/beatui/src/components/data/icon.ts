@@ -254,6 +254,7 @@ export function Icon(
           request: icon,
           load: ({ request }) => loadIconSvg(request),
           convertError: String,
+          keepOnReload: true,
           success: ({ value: svg }) =>
             html.span(
               style.width('100%'),

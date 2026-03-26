@@ -66,6 +66,7 @@ export const LazyNativeSelect = <T, R>(
     request: options.request,
     load: options.load,
     convertError: String,
+    keepOnReload: true,
     success: ({ value: list }) => {
       const selectOptions = list.map(ls =>
         ls.map(item => {

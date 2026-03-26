@@ -335,6 +335,7 @@ export function PdfPageViewer(
         )
         return Ensure(rect, rect =>
           Query<PdfRenderRequest, PdfRenderResult, string>({
+            keepOnReload: true,
             request: computedOf(
               source,
               page,
