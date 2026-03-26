@@ -60,26 +60,39 @@ export function resolveNode(
 
       const schemaKeys = getSchemaKeys(component)
       const hasChildrenKey = schemaKeys.includes('children')
-
-      // Only split off the last array arg as "children" if the schema
-      // explicitly has a `children` key. Otherwise all args are positional.
       const args = node.args
+
+      // Build props from args — two modes:
+      // 1. Named: first arg is an object → use as named props directly
+      // 2. Positional: args are primitives → zip with schema key order
+      let propsObj: Record<string, unknown> = {}
       let childrenNodes: ASTNode[] = []
-      let propArgs: ASTNode[] = args
 
-      if (hasChildrenKey) {
+      if (args.length === 1 && args[0].type === 'object') {
+        // Named props mode: Button({label: "Hi", variant: "filled"})
+        propsObj = extractValue(args[0]) as Record<string, unknown>
+      } else if (args.length >= 1 && args[0].type === 'object' && hasChildrenKey) {
+        // Named props + children: Stack({gap: "lg"}, [child1, child2])
+        propsObj = extractValue(args[0]) as Record<string, unknown>
         const lastArg = args[args.length - 1]
-        if (args.length > 0 && lastArg.type === 'array') {
+        if (args.length > 1 && lastArg.type === 'array') {
           childrenNodes = lastArg.items
-          propArgs = args.slice(0, -1)
         }
-      }
+      } else {
+        // Positional mode: Button("Hi", "filled", "md")
+        let propArgs: ASTNode[] = args
 
-      // Zip positional args with schema keys to build props object
-      const propsObj: Record<string, unknown> = {}
-      for (let i = 0; i < propArgs.length && i < schemaKeys.length; i++) {
-        const arg = propArgs[i]
-        propsObj[schemaKeys[i]] = extractValue(arg)
+        if (hasChildrenKey) {
+          const lastArg = args[args.length - 1]
+          if (args.length > 0 && lastArg.type === 'array') {
+            childrenNodes = lastArg.items
+            propArgs = args.slice(0, -1)
+          }
+        }
+
+        for (let i = 0; i < propArgs.length && i < schemaKeys.length; i++) {
+          propsObj[schemaKeys[i]] = extractValue(propArgs[i])
+        }
       }
 
       // Resolve children into TNodes

@@ -166,6 +166,16 @@ export function generatePrompt(
   lines.push('```')
   lines.push('')
   lines.push(
+    'Components accept named props as an object. Only include the props you need — all are optional unless noted:'
+  )
+  lines.push('')
+  lines.push('```')
+  lines.push('btn = Button({label: "Click Me", variant: "filled", color: "primary"})')
+  lines.push('card = Card({title: "Hello", content: "World"})')
+  lines.push('layout = Stack([child1, child2])  // children array for layout components')
+  lines.push('```')
+  lines.push('')
+  lines.push(
     'Components are instantiated by name with positional arguments matching their prop order.'
   )
   lines.push(
