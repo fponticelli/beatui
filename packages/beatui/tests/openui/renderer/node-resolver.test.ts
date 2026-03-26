@@ -65,10 +65,10 @@ describe('resolveNode', () => {
     clear(true)
   })
 
-  it('resolves component nodes with positional args', () => {
+  it('resolves component nodes with named props', () => {
     const node: ASTNode = {
       type: 'component', name: 'Button',
-      args: [{ type: 'string', value: 'Click me' }],
+      args: [{ type: 'object', entries: { label: { type: 'string', value: 'Click me' } } }],
     }
     const resolved = resolveNode(node, lib)
     const clear = render(html.div(resolved), document.body)

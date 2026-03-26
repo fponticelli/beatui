@@ -58,41 +58,25 @@ export function resolveNode(
         return Empty
       }
 
-      const schemaKeys = getSchemaKeys(component)
-      const hasChildrenKey = schemaKeys.includes('children')
+      const hasChildrenKey = getSchemaKeys(component).includes('children')
       const args = node.args
 
-      // Build props from args — two modes:
-      // 1. Named: first arg is an object → use as named props directly
-      // 2. Positional: args are primitives → zip with schema key order
+      // Props are always passed as a named object: Component({key: value})
+      // Children arrays are passed directly: Stack([child1, child2])
       let propsObj: Record<string, unknown> = {}
       let childrenNodes: ASTNode[] = []
 
-      if (args.length === 1 && args[0].type === 'object') {
-        // Named props mode: Button({label: "Hi", variant: "filled"})
+      if (args.length >= 1 && args[0].type === 'object') {
+        // Named props: Button({label: "Hi", variant: "filled"})
         propsObj = extractValue(args[0]) as Record<string, unknown>
-      } else if (args.length >= 1 && args[0].type === 'object' && hasChildrenKey) {
-        // Named props + children: Stack({gap: "lg"}, [child1, child2])
-        propsObj = extractValue(args[0]) as Record<string, unknown>
+        // Optional children array as second arg
         const lastArg = args[args.length - 1]
-        if (args.length > 1 && lastArg.type === 'array') {
+        if (args.length > 1 && lastArg.type === 'array' && hasChildrenKey) {
           childrenNodes = lastArg.items
         }
-      } else {
-        // Positional mode: Button("Hi", "filled", "md")
-        let propArgs: ASTNode[] = args
-
-        if (hasChildrenKey) {
-          const lastArg = args[args.length - 1]
-          if (args.length > 0 && lastArg.type === 'array') {
-            childrenNodes = lastArg.items
-            propArgs = args.slice(0, -1)
-          }
-        }
-
-        for (let i = 0; i < propArgs.length && i < schemaKeys.length; i++) {
-          propsObj[schemaKeys[i]] = extractValue(propArgs[i])
-        }
+      } else if (args.length >= 1 && args[0].type === 'array' && hasChildrenKey) {
+        // Children-only: Stack([child1, child2])
+        childrenNodes = args[0].items
       }
 
       // Resolve children into TNodes
@@ -101,7 +85,7 @@ export function resolveNode(
       )
 
       // If schema has a 'children' key, put resolved children into props
-      if (schemaKeys.includes('children') && resolvedChildren.length > 0) {
+      if (hasChildrenKey && resolvedChildren.length > 0) {
         propsObj['children'] = resolvedChildren
       }
 

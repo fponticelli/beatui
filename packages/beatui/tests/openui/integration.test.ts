@@ -36,7 +36,7 @@ describe('OpenUI integration', () => {
     })
     const simpleLib = beatuiLibrary.extend({ components: [SimpleButton] })
 
-    const input = 'root = SimpleButton("Hello")'
+    const input = 'root = SimpleButton({label: "Hello"})'
     const tree = OpenUIRenderer({
       library: simpleLib,
       response: input,
@@ -75,7 +75,7 @@ describe('OpenUI integration', () => {
 
   it('synchronous parser works with beatuiLibrary', () => {
     const parse = createParser(beatuiLibrary)
-    const result = parse('root = Button("Test")')
+    const result = parse('root = Button({label: "Test"})')
     expect(result.root).not.toBeNull()
     expect(result.root?.type).toBe('component')
     expect(result.meta.errors.filter(e => e.code === 'unknown-component')).toEqual([])

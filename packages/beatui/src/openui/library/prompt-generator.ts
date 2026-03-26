@@ -126,7 +126,7 @@ function generateComponentSection(component: DefinedComponent): string {
   const entries = Object.entries(shape)
 
   if (entries.length > 0) {
-    lines.push('**Props** (positional order):')
+    lines.push('**Props** (named, all optional unless marked):')
     for (const [key, field] of entries) {
       const typeName = getZodTypeName(field as z.ZodType)
       const fieldDef = getZodDef(field as z.ZodType)
@@ -227,9 +227,10 @@ export function generatePrompt(
 
   lines.push('## Rules')
   lines.push('')
-  lines.push('- Always use component names exactly as documented.')
-  lines.push('- Provide props in the documented positional order.')
-  lines.push('- Optional props may be omitted or passed as `undefined`.')
+  lines.push('- Always pass props as a named object: `Component({key: value, ...})`')
+  lines.push('- Only include the props you need — omit optional ones for defaults.')
+  lines.push('- Layout components take children as an array: `Stack([child1, child2])`')
+  lines.push('- Use references for composition: `root = Stack([header, content])`')
   lines.push('- Do not invent component names not listed above.')
 
   if (options?.additionalRules && options.additionalRules.length > 0) {

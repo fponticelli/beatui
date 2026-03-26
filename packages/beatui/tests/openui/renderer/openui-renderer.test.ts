@@ -27,7 +27,7 @@ function flush(): Promise<void> {
 
 describe('OpenUIRenderer', () => {
   it('renders a static response', async () => {
-    const tree = OpenUIRenderer({ library: lib, response: 'root = Button("Hello")' })
+    const tree = OpenUIRenderer({ library: lib, response: 'root = Button({label: "Hello"})' })
     const clear = render(tree, document.body)
     await flush()
     expect(document.body.textContent).toContain('Hello')
@@ -37,7 +37,7 @@ describe('OpenUIRenderer', () => {
   it('renders with forward references', async () => {
     const tree = OpenUIRenderer({
       library: lib,
-      response: 'root = Stack([btn])\nbtn = Button("World")',
+      response: 'root = Stack([btn])\nbtn = Button({label: "World"})',
     })
     const clear = render(tree, document.body)
     await flush()
@@ -49,7 +49,7 @@ describe('OpenUIRenderer', () => {
     const response = prop('')
     const tree = OpenUIRenderer({ library: lib, response })
     const clear = render(tree, document.body)
-    response.set('root = Button("First")')
+    response.set('root = Button({label: "First"})')
     await flush()
     expect(document.body.textContent).toContain('First')
     clear(true)
@@ -64,7 +64,7 @@ describe('OpenUIRenderer', () => {
       onComplete: () => { completed = true },
     })
     const clear = render(tree, document.body)
-    response.set('root = Button("Done")')
+    response.set('root = Button({label: "Done"})')
     await flush()
     isStreaming.set(false)
     expect(completed).toBe(true)
@@ -75,7 +75,7 @@ describe('OpenUIRenderer', () => {
     const actions: unknown[] = []
     const tree = OpenUIRenderer({
       library: lib,
-      response: 'root = Button("Test")',
+      response: 'root = Button({label: "Test"})',
       onAction: (e) => actions.push(e),
     })
     const clear = render(tree, document.body)
