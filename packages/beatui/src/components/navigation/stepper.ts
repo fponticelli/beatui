@@ -307,8 +307,8 @@ export function createStepper(
                 attr.role('button'),
                 attr.tabindex(0),
                 aria.label(
-                  computedOf(t.$.stepper.$.stepOfTotal)(
-                    (fn): string => fn(index + 1, steps.length)
+                  computedOf(t.$.stepper.$.stepOfTotal)((fn): string =>
+                    fn(index + 1, steps.length)
                   )
                 ),
                 on.keydown(e => {
