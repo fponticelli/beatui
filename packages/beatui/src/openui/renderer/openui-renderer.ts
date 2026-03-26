@@ -44,10 +44,19 @@ export interface OpenUIRendererOptions {
  * (Theme, Locale, BeatUII18n, etc.).
  */
 export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
-  const { library, response, isStreaming, onAction, onError, onComplete, debug } = options
+  const {
+    library,
+    response,
+    isStreaming,
+    onAction,
+    onError,
+    onComplete,
+    debug,
+  } = options
 
   const actionDispatch = onAction
-    ? (event: Record<string, unknown>) => onAction(event as unknown as ActionEvent)
+    ? (event: Record<string, unknown>) =>
+        onAction(event as unknown as ActionEvent)
     : undefined
 
   function parseAndRender(text: string): TNode {
@@ -93,7 +102,13 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         }
         return arg
       })
-      return resolveNode({ ...node, args: resolvedArgs }, library, debug, result.statements, actionDispatch)
+      return resolveNode(
+        { ...node, args: resolvedArgs },
+        library,
+        debug,
+        result.statements,
+        actionDispatch
+      )
     }
 
     return resolveNode(node, library, debug, result.statements, actionDispatch)
@@ -127,7 +142,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         }
 
         // Watch for changes
-        const disposeWatcher = Value.on(response, (text) => {
+        const disposeWatcher = Value.on(response, text => {
           // Clear previous render
           if (currentClear) {
             currentClear(true)
@@ -143,7 +158,7 @@ export function OpenUIRenderer(options: OpenUIRendererOptions): Renderable {
         // Handle streaming completion
         let disposeStreaming: (() => void) | null = null
         if (isStreaming !== undefined) {
-          disposeStreaming = Value.on(isStreaming, (streaming) => {
+          disposeStreaming = Value.on(isStreaming, streaming => {
             if (!streaming && onComplete) {
               onComplete()
             }

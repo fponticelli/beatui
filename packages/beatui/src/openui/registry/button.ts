@@ -44,7 +44,7 @@ export const buttonComponents = [
     }),
     description:
       'Clickable button. Set actionType to dispatch an action on click. Button("Click Me", "filled", "md", "primary", false, "submit_form", {key: "value"})',
-    renderer: (props) => {
+    renderer: props => {
       // __onAction is injected by the node-resolver when ActionContext is available
       const onAction = (props as Record<string, unknown>).__onAction as
         | ((event: Record<string, unknown>) => void)

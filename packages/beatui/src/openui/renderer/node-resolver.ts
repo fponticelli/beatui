@@ -36,7 +36,9 @@ export function resolveNode(
 
     case 'array':
       return Fragment(
-        ...node.items.map(item => resolveNode(item, library, debug, statements, onAction))
+        ...node.items.map(item =>
+          resolveNode(item, library, debug, statements, onAction)
+        )
       )
 
     case 'object':
@@ -47,7 +49,8 @@ export function resolveNode(
       // Resolve from statements map if available
       if (statements) {
         const stmt = statements.get(node.name)
-        if (stmt) return resolveNode(stmt.value, library, debug, statements, onAction)
+        if (stmt)
+          return resolveNode(stmt.value, library, debug, statements, onAction)
       }
       return OpenUISkeleton()
     }
@@ -74,7 +77,11 @@ export function resolveNode(
         if (args.length > 1 && lastArg.type === 'array' && hasChildrenKey) {
           childrenNodes = lastArg.items
         }
-      } else if (args.length >= 1 && args[0].type === 'array' && hasChildrenKey) {
+      } else if (
+        args.length >= 1 &&
+        args[0].type === 'array' &&
+        hasChildrenKey
+      ) {
         // Children-only: Stack([child1, child2])
         childrenNodes = args[0].items
       }

@@ -170,9 +170,13 @@ export function generatePrompt(
   )
   lines.push('')
   lines.push('```')
-  lines.push('btn = Button({label: "Click Me", variant: "filled", color: "primary"})')
+  lines.push(
+    'btn = Button({label: "Click Me", variant: "filled", color: "primary"})'
+  )
   lines.push('card = Card({title: "Hello", content: "World"})')
-  lines.push('layout = Stack([child1, child2])  // children array for layout components')
+  lines.push(
+    'layout = Stack([child1, child2])  // children array for layout components'
+  )
   lines.push('```')
   lines.push('')
   lines.push(
@@ -227,10 +231,18 @@ export function generatePrompt(
 
   lines.push('## Rules')
   lines.push('')
-  lines.push('- Always pass props as a named object: `Component({key: value, ...})`')
-  lines.push('- Only include the props you need — omit optional ones for defaults.')
-  lines.push('- Layout components take children as an array: `Stack([child1, child2])`')
-  lines.push('- Use references for composition: `root = Stack([header, content])`')
+  lines.push(
+    '- Always pass props as a named object: `Component({key: value, ...})`'
+  )
+  lines.push(
+    '- Only include the props you need — omit optional ones for defaults.'
+  )
+  lines.push(
+    '- Layout components take children as an array: `Stack([child1, child2])`'
+  )
+  lines.push(
+    '- Use references for composition: `root = Stack([header, content])`'
+  )
   lines.push('- Do not invent component names not listed above.')
 
   if (options?.additionalRules && options.additionalRules.length > 0) {
