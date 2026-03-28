@@ -29,9 +29,9 @@
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
     "@tempots/beatui": "workspace:*",
-    "@tempots/dom": "^37.4.3",
+    "@tempots/dom": "^37.5.0",
     "@tempots/std": "~0.29.1",
-    "@tempots/ui": "^16.1.0",
+    "@tempots/ui": "^16.1.1",
     "zod": "4.3.6"
   },
   "devDependencies": {
