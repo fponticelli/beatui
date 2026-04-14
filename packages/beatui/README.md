@@ -74,26 +74,28 @@ If your project already ships Tailwind v4, pull in the slimmer Tailwind bundle a
 
 > **Tailwind Compatibility:** The BeatUI preset and Vite plugin are tested with Tailwind CSS 4.x (developed against 4.1.x). Any 4.x version should work—there's no strict peer dependency enforced.
 
+Tailwind v4 is configured in CSS and via Vite — there is no `tailwind.config.ts`. Import Tailwind and BeatUI's slim bundle from your stylesheet:
+
 ```css
 /* apps/main.css */
+@import 'tailwindcss';
 @import '@tempots/beatui/tailwind.css';
 ```
 
+Then register the BeatUI Tailwind Vite plugin alongside `@tailwindcss/vite`:
+
 ```ts
-// tailwind.config.ts
-import { defineConfig } from 'tailwindcss'
+// vite.config.ts
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
-import { createBeatuiPreset } from '@tempots/beatui/tailwind/preset'
 
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     beatuiTailwindPlugin({
       darkClass: 'dark',
       rtlAttribute: 'dir',
-    }),
-  ],
-  presets: [
-    createBeatuiPreset({
       semanticColors: {
         primary: 'emerald',
         secondary: 'slate',

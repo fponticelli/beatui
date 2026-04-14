@@ -317,11 +317,14 @@ BeatUI(
             'With the Tailwind plugin, you map semantic color roles to any Tailwind color palette. BeatUI generates all the required CSS custom properties and dark-mode variants automatically.'
           ),
           CodeBlock(
-            `import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind'
+            `import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
-// tailwind.config.ts
-export default {
+// vite.config.ts
+export default defineConfig({
   plugins: [
+    tailwindcss(),
     beatuiTailwindPlugin({
       semanticColors: {
         primary: 'sky',       // or 'blue', 'indigo', 'emerald', etc.
@@ -333,7 +336,7 @@ export default {
       },
     }),
   ],
-}`,
+})`,
             'typescript'
           ),
           html.div(
@@ -395,11 +398,14 @@ export default {
             ' props.'
           ),
           CodeBlock(
-            `import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind'
+            `import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
 // vite.config.ts
-export default {
+export default defineConfig({
   plugins: [
+    tailwindcss(),
     beatuiTailwindPlugin({
       customColors: {
         rust: {
@@ -422,7 +428,7 @@ export default {
       },
     }),
   ],
-}`,
+})`,
             'typescript'
           ),
           html.div(
@@ -544,11 +550,14 @@ Badge({ color: 'rust', variant: 'light' }, 'Custom')
             ' CSS variables used throughout BeatUI.'
           ),
           CodeBlock(
-            `import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind'
+            `import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 
-// tailwind.config.ts
-export default {
+// vite.config.ts
+export default defineConfig({
   plugins: [
+    tailwindcss(),
     beatuiTailwindPlugin({
       googleFonts: [
         { family: 'Inter', weights: [400, 500, 600, 700] },
@@ -559,7 +568,7 @@ export default {
       },
     }),
   ],
-}`,
+})`,
             'typescript'
           ),
           html.p(

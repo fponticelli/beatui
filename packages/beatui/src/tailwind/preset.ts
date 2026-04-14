@@ -304,19 +304,14 @@ const tailwindPluginFactory: TailwindPluginFactory = Object.assign(
  * - Extends Tailwind's color palette with semantic aliases (e.g. `bg-primary-500`).
  * - Adds convenience variants: `beatui-light`, `beatui-rtl`, `beatui-ltr`.
  *
+ * @remarks
+ * This preset targets the legacy Tailwind v3 config format (`tailwind.config.ts`
+ * with `presets: [...]`). BeatUI's docs target Tailwind v4, which is configured
+ * via CSS and the `beatuiTailwindPlugin` Vite plugin — prefer that integration
+ * path for new projects.
+ *
  * @param options - Optional overrides for semantic tokens and feature flags.
- * @returns A Tailwind preset object to include in `tailwind.config.ts`.
- *
- * @example
- * ```ts
- * // tailwind.config.ts
- * import { createBeatuiPreset } from '@tempots/beatui/tailwind'
- *
- * export default {
- *   presets: [createBeatuiPreset({ semanticColors: { primary: 'emerald' } })],
- *   content: ['./src/** /*.tsx'],
- * }
- * ```
+ * @returns A Tailwind preset object.
  */
 export function createBeatuiPreset<C extends string = never>(
   options: BeatuiPresetOptions<C> = {}
@@ -357,16 +352,9 @@ export function createBeatuiPreset<C extends string = never>(
 /**
  * A ready-to-use BeatUI Tailwind preset with all default options.
  *
- * @example
- * ```ts
- * // tailwind.config.ts
- * import { beatuiPreset } from '@tempots/beatui/tailwind'
- *
- * export default {
- *   presets: [beatuiPreset],
- *   content: ['./src/** /*.tsx'],
- * }
- * ```
+ * @remarks
+ * Legacy Tailwind v3 preset. For Tailwind v4, use `beatuiTailwindPlugin` from
+ * `@tempots/beatui/tailwind/vite-plugin` instead.
  */
 export const beatuiPreset = createBeatuiPreset()
 

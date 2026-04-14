@@ -219,12 +219,12 @@ export function NineSliceScrollView({
         const needsHorizontalScroll = computedOf(
           contentWidth,
           viewportWidth
-        )((cw, vw) => cw > BigInt(Math.max(0, vw)))
+        )((cw, vw) => cw > BigInt(Math.max(0, Math.floor(vw))))
 
         const needsVerticalScroll = computedOf(
           contentHeight,
           viewportHeight
-        )((ch, vh) => ch > BigInt(Math.max(0, vh)))
+        )((ch, vh) => ch > BigInt(Math.max(0, Math.floor(vh))))
 
         const visibleAreaWidth = computedOf(
           viewportWidth,
@@ -247,14 +247,14 @@ export function NineSliceScrollView({
           contentHeight,
           visibleAreaHeight
         )((content, visible) =>
-          biMax(0n, content - BigInt(Math.max(1, visible)))
+          biMax(0n, content - BigInt(Math.max(1, Math.floor(visible))))
         )
 
         const maxHorizontalScroll = computedOf(
           contentWidth,
           visibleAreaWidth
         )((content, visible) =>
-          biMax(0n, content - BigInt(Math.max(1, visible)))
+          biMax(0n, content - BigInt(Math.max(1, Math.floor(visible))))
         )
 
         // Anchor mode computations

@@ -90,8 +90,8 @@ import { LexicalEditor } from '@tempots/beatui/lexical'
 // JSON Schema auto-forms
 import { SchemaForm } from '@tempots/beatui/json-schema'
 
-// Tailwind preset and Vite plugin
-import beatuiPreset from '@tempots/beatui/tailwind'`
+// Tailwind v4 Vite plugin
+import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'`
 
 export default function CustomizationPage() {
   return ScrollablePanel({
