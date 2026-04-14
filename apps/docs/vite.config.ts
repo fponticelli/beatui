@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import type { Plugin, PluginOption } from 'vite'
 import { resolve, dirname } from 'path'
 import { copyFileSync, existsSync } from 'fs'
+import { execFileSync } from 'child_process'
 import { fileURLToPath } from 'url'
 import { beatuiTailwindPlugin } from '@tempots/beatui/tailwind/vite-plugin'
 import { componentMetaPlugin } from './scripts/vite-plugin-component-meta'
@@ -11,6 +12,15 @@ import { searchIndexPlugin } from './scripts/vite-plugin-search-index'
 import { llmsTxtPlugin } from './scripts/vite-plugin-llms-txt'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const apiJsonPath = resolve(__dirname, 'public/api.json')
+if (!existsSync(apiJsonPath)) {
+  console.log('[docs] public/api.json missing — generating via TypeDoc...')
+  execFileSync('npx', ['typedoc', '--options', 'typedoc.json'], {
+    cwd: __dirname,
+    stdio: 'inherit',
+  })
+}
 
 const beatuiPlugin = beatuiTailwindPlugin({
   googleFonts: [
