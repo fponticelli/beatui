@@ -601,7 +601,7 @@ export function beatuiTailwindPlugin<C extends string = never>(
             const buffer = fs.readFileSync(asset.localPath)
             const refId = this.emitFile({
               type: 'asset',
-              name: `assets/${asset.fileName}`,
+              name: asset.fileName,
               source: buffer,
             })
             placeholderToBuildRef.set(asset.placeholder, refId)
