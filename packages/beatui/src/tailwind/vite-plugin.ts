@@ -631,10 +631,12 @@ export function beatuiTailwindPlugin<C extends string = never>(
       ) {
         return
       }
+      const cssDir = path.posix.dirname(cssFileName)
       let updated = asset.source
       for (const [placeholder, refId] of placeholderToBuildRef) {
-        const fileName = this.getFileName(refId)
-        updated = updated.split(placeholder).join(fileName)
+        const fontFileName = this.getFileName(refId)
+        const relativeUrl = path.posix.relative(cssDir, fontFileName)
+        updated = updated.split(placeholder).join(relativeUrl)
       }
       asset.source = updated
     },
