@@ -592,7 +592,7 @@ export function beatuiTailwindPlugin<C extends string = never>(
       }
       tailwindCssAssetRef = this.emitFile({
         type: 'asset',
-        fileName: CSS_ASSET_FILENAME,
+        fileName: `assets/${CSS_ASSET_FILENAME}`,
         source: cssSource,
       })
       if (googleFontAssets.length > 0) {
@@ -642,10 +642,13 @@ export function beatuiTailwindPlugin<C extends string = never>(
       const tags: HtmlTagDescriptor[] = []
 
       if (injectCss && tailwindCssPath) {
+        const cssRelativePath = isBuildCommand
+          ? `assets/${CSS_ASSET_FILENAME}`
+          : CSS_ASSET_FILENAME
         const cssHref =
           publicBasePath === '/'
-            ? `/${CSS_ASSET_FILENAME}`
-            : `${publicBasePath}${CSS_ASSET_FILENAME}`
+            ? `/${cssRelativePath}`
+            : `${publicBasePath}${cssRelativePath}`
         tags.push({
           tag: 'link',
           attrs: {
